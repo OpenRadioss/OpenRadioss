@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I20STO                        source/interfaces/intsort/i20sto.F
-Chd|-- called by -----------
-Chd|        I20TRI                        source/interfaces/intsort/i20tri.F
-Chd|-- calls ---------------
-Chd|        I20COR3T                      source/interfaces/int20/i20cor3t.F
-Chd|        I7PEN3                        source/interfaces/intsort/i7pen3.F
-Chd|        BITGET                        source/interfaces/intsort/i20sto.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20sto     ../engine/source/interfaces/intsort/i20sto.F
+      !||--- called by ------------------------------------------------------
+      !||    i20tri     ../engine/source/interfaces/intsort/i20tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    bitget     ../engine/source/interfaces/intsort/i20sto.F
+      !||    i20cor3t   ../engine/source/interfaces/int20/i20cor3t.F
+      !||    i7pen3     ../engine/source/interfaces/intsort/i7pen3.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box    ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20STO(
      1      J_STOK,IRECT  ,XA    ,NSV   ,II_STOK,
      2      CAND_N,CAND_E ,MULNSN,NOINT ,MARGE  ,
@@ -197,13 +198,13 @@ C-----------------------------------------------
 C-----------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  I20STO_EDGE                   source/interfaces/intsort/i20sto.F
-Chd|-- called by -----------
-Chd|        I20TRI_EDGE                   source/interfaces/intsort/i20tri.F
-Chd|-- calls ---------------
-Chd|        I20PEN3_EDGE                  source/interfaces/intsort/i20sto.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i20sto_edge    ../engine/source/interfaces/intsort/i20sto.F
+      !||--- called by ------------------------------------------------------
+      !||    i20tri_edge    ../engine/source/interfaces/intsort/i20tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    i20pen3_edge   ../engine/source/interfaces/intsort/i20sto.F
+      !||====================================================================
       SUBROUTINE I20STO_EDGE(
      1      J_STOK,IXLINS,IXLINM,XA    ,II_STOKE,
      2      CAND_S,CAND_M,NSN4  ,NOINT ,TZINF ,
@@ -300,13 +301,13 @@ C
 C-----------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  I20PEN3_EDGE                  source/interfaces/intsort/i20sto.F
-Chd|-- called by -----------
-Chd|        I20STO_EDGE                   source/interfaces/intsort/i20sto.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20pen3_edge   ../engine/source/interfaces/intsort/i20sto.F
+      !||--- called by ------------------------------------------------------
+      !||    i20sto_edge    ../engine/source/interfaces/intsort/i20sto.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box        ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20PEN3_EDGE(JLT   ,CAND_N,CAND_E,GAP   ,XA    ,
      .                        IXLINS,IXLINM,PENE  ,NLINSA,NIN   )
 C-----------------------------------------------
@@ -547,24 +548,23 @@ C
       END
 C===============================================================================
 
-Chd|====================================================================
-Chd|  BITGET                        source/interfaces/intsort/i20sto.F
-Chd|-- called by -----------
-Chd|        I11FOR3                       source/interfaces/int11/i11for3.F
-Chd|        I20DST3                       source/interfaces/int20/i20dst3.F
-Chd|        I20STO                        source/interfaces/intsort/i20sto.F
-Chd|        I24DST3E                      source/interfaces/int24/i24dst3e.F
-Chd|        I24EDGT                       source/interfaces/intsort/i24sto.F
-Chd|        I24FOR3                       source/interfaces/int24/i24for3.F
-Chd|        I24S1S2                       source/interfaces/intsort/i24sto.F
-Chd|        I25FOR3                       source/interfaces/int25/i25for3.F
-Chd|        I25FOR3E                      source/interfaces/int25/i25for3e.F
-Chd|        I25FOR3_E2S                   source/interfaces/int25/i25for3_e2s.F
-Chd|        I25S1S2                       source/interfaces/intsort/i25sto.F
-Chd|        I25TRIVOX_EDG                 source/interfaces/intsort/i25trivox_edg.F
-Chd|        I7FOR3                        source/interfaces/int07/i7for3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    bitget          ../engine/source/interfaces/intsort/i20sto.F
+      !||--- called by ------------------------------------------------------
+      !||    i11for3         ../engine/source/interfaces/int11/i11for3.F
+      !||    i20dst3         ../engine/source/interfaces/int20/i20dst3.F
+      !||    i20sto          ../engine/source/interfaces/intsort/i20sto.F
+      !||    i24dst3e        ../engine/source/interfaces/int24/i24dst3e.F
+      !||    i24edgt         ../engine/source/interfaces/intsort/i24sto.F
+      !||    i24for3         ../engine/source/interfaces/int24/i24for3.F
+      !||    i24s1s2         ../engine/source/interfaces/intsort/i24sto.F
+      !||    i25for3         ../engine/source/interfaces/int25/i25for3.F
+      !||    i25for3_e2s     ../engine/source/interfaces/int25/i25for3_e2s.F
+      !||    i25for3e        ../engine/source/interfaces/int25/i25for3e.F
+      !||    i25s1s2         ../engine/source/interfaces/intsort/i25sto.F
+      !||    i25trivox_edg   ../engine/source/interfaces/intsort/i25trivox_edg.F
+      !||    i7for3          ../engine/source/interfaces/int07/i7for3.F
+      !||====================================================================
       INTEGER FUNCTION BITGET(I,N)
       INTEGER I,N
       INTEGER S,I2P(0:12)! limite a 23 (cast reel pour spmd)

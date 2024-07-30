@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_ALLREDUCE_DB             source/mpi/generic/spmd_allreduce_db.F
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        SENSOR_DIST_SURF0             source/tools/sensor/sensor_dist_surf0.F
-Chd|        SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
-Chd|        SENSOR_TEMP0                  source/tools/sensor/sensor_temp0.F
-Chd|        SPMD_BOX_LIMIT_REDUCTION      source/mpi/interfaces/spmd_box_limit_reduction.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_allreduce_db          ../engine/source/mpi/generic/spmd_allreduce_db.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2                   ../engine/source/engine/radioss2.F
+      !||    sensor_dist_surf0          ../engine/source/tools/sensor/sensor_dist_surf0.F
+      !||    sensor_spmd                ../engine/source/tools/sensor/sensor_spmd.F
+      !||    sensor_temp0               ../engine/source/tools/sensor/sensor_temp0.F
+      !||    spmd_box_limit_reduction   ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
         SUBROUTINE SPMD_ALLREDUCE_DB(VALUE,RES,MY_SIZE,MY_OPERATION)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -79,12 +79,13 @@ C-----------------------------------------------
 !       ----------------------------------------
 
 
-Chd|====================================================================
-Chd|  SPMD_ALLREDUCE_INT            source/mpi/generic/spmd_allreduce_db.F
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_allreduce_int   ../engine/source/mpi/generic/spmd_allreduce_db.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2             ../engine/source/engine/radioss2.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_mpi_operator     ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
         SUBROUTINE SPMD_ALLREDUCE_INT(VALUE,RES,MY_SIZE,MY_OPERATION)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

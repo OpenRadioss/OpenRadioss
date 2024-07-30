@@ -20,31 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TABLE4D_MOD                   modules/table4d_mod.F         
-Chd|-- called by -----------
-Chd|        FAIL_PARAM_MOD                common_source/modules/mat_elem/fail_param_mod.F
-Chd|        MATPARAM_DEF_MOD              common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        VISC_PARAM_MOD                common_source/modules/mat_elem/visc_param_mod.F
-Chd|        LAW70_TABLE                   starter/source/materials/mat/mat070/law70_table.F
-Chd|        TABLE_MAT_VINTERP             starter/source/materials/tools/table_mat_vinterp.F
-Chd|        TABLE_SLOPE                   starter/source/materials/tools/table_slope.F
-Chd|        WRITE_MAT_TABLE               starter/source/materials/tools/write_mat_table.F
-Chd|        ASSO_PLAS76                   engine/source/materials/mat/mat076/asso_plas76.F
-Chd|        ASSO_QPLAS76C                 engine/source/materials/mat/mat076/asso_qplas76c.F
-Chd|        CONDAMAGE                     engine/source/materials/mat/mat190/condamage.F
-Chd|        CONVERSION                    engine/source/materials/mat/mat190/conversion.F
-Chd|        NO_ASSO_LPLAS76C              engine/source/materials/mat/mat076/no_asso_lplas76c.F
-Chd|        NO_ASSO_PLAS76                engine/source/materials/mat/mat076/no_asso_plas76.F
-Chd|        NO_ASSO_QPLAS76C              engine/source/materials/mat/mat076/no_asso_qplas76c.F
-Chd|        READ_MAT_TABLE                engine/source/materials/tools/read_mat_table.F
-Chd|        TABLE_MAT_VINTERP             engine/source/materials/tools/table_mat_vinterp.F
-Chd|        TABLE_RRESTI_MAT              engine/source/materials/tools/table_rresti_mat.F
-Chd|        WRITE_MAT_TABLE               engine/source/materials/tools/write_mat_table.F
-Chd|-- calls ---------------
-Chd|        TABLE_MOD                     starter/share/modules1/table_mod.F
-Chd|        TABLE_MOD                     engine/share/modules/table_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    table4d_mod         ../common_source/modules/table4d_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    asso_plas76         ../engine/source/materials/mat/mat076/asso_plas76.F
+      !||    asso_qplas76c       ../engine/source/materials/mat/mat076/asso_qplas76c.F
+      !||    condamage           ../engine/source/materials/mat/mat190/condamage.F
+      !||    conversion          ../engine/source/materials/mat/mat190/conversion.F
+      !||    fail_param_mod      ../common_source/modules/mat_elem/fail_param_mod.F90
+      !||    law50_table         ../starter/source/materials/mat/mat050/law50_table.F90
+      !||    law70_table         ../starter/source/materials/mat/mat070/law70_table.F
+      !||    matparam_def_mod    ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    no_asso_lplas76c    ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
+      !||    no_asso_plas76      ../engine/source/materials/mat/mat076/no_asso_plas76.F
+      !||    no_asso_qplas76c    ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
+      !||    read_mat_table      ../engine/source/materials/tools/read_mat_table.F
+      !||    table_mat_vinterp   ../engine/source/materials/tools/table_mat_vinterp.F
+      !||    table_rresti_mat    ../engine/source/materials/tools/table_rresti_mat.F
+      !||    table_slope         ../starter/source/materials/tools/table_slope.F
+      !||    visc_param_mod      ../common_source/modules/mat_elem/visc_param_mod.F90
+      !||    write_mat_table     ../engine/source/materials/tools/write_mat_table.F
+      !||--- uses       -----------------------------------------------------
+      !||    table_mod           ../engine/share/modules/table_mod.F
+      !||====================================================================
       MODULE TABLE4D_MOD
 c
       USE TABLE_MOD

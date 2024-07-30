@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SENSOR_LOGICAL                source/tools/sensor/sensor_logical.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        SENSOR_INIT                   source/tools/sensor/sensor_init.F
-Chd|-- calls ---------------
-Chd|        SENSOR_AND                    source/tools/sensor/sensor_and.F
-Chd|        SENSOR_NOT                    source/tools/sensor/sensor_not.F
-Chd|        SENSOR_OR                     source/tools/sensor/sensor_or.F
-Chd|        SENSOR_SENS                   source/tools/sensor/sensor_sens.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sensor_logical   ../engine/source/tools/sensor/sensor_logical.F
+      !||--- called by ------------------------------------------------------
+      !||    resol            ../engine/source/engine/resol.F
+      !||    sensor_init      ../engine/source/tools/sensor/sensor_init.F
+      !||--- calls      -----------------------------------------------------
+      !||    sensor_and       ../engine/source/tools/sensor/sensor_and.F
+      !||    sensor_not       ../engine/source/tools/sensor/sensor_not.F
+      !||    sensor_or        ../engine/source/tools/sensor/sensor_or.F
+      !||    sensor_sens      ../engine/source/tools/sensor/sensor_sens.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../engine/share/message_module/message_mod.F
+      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SENSOR_LOGICAL(NSENSOR,SENSOR_TAB)
 C-----------------------------------------------
 C   M a c r o s 

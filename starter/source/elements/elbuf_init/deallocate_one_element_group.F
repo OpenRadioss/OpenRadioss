@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DEALLOCATE_ONE_ELEMENT_GROUP  source/elements/elbuf_init/deallocate_one_element_group.F
-Chd|-- called by -----------
-Chd|        DEALLOCATE_ELBUF              source/elements/elbuf_init/deallocate_buffer.F
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    deallocate_one_element_group   ../starter/source/elements/elbuf_init/deallocate_one_element_group.F
+      !||--- called by ------------------------------------------------------
+      !||    deallocate_elbuf               ../starter/source/elements/elbuf_init/deallocate_buffer.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE DEALLOCATE_ONE_ELEMENT_GROUP(
      .                         ELBUF_TAB,NLAY,NPTR,NPTS  ,NPTT, NINTLAY,
      .                         NEL      ,NPT ,NG  ,NGROUP,ITY,  IGTYP)

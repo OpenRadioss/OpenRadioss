@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I21XSAVE                      source/interfaces/int21/i21xsave.F
-Chd|-- called by -----------
-Chd|        I21MAIN_TRI                   source/interfaces/intsort/i21main_tri.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i21xsave      ../engine/source/interfaces/int21/i21xsave.F
+      !||--- called by ------------------------------------------------------
+      !||    i21main_tri   ../engine/source/interfaces/intsort/i21main_tri.F
+      !||====================================================================
        SUBROUTINE I21XSAVE(
      1       X     ,NSV  ,NSN   ,ITASK ,XSAV ,
      2       DD    ,IROT ,ROT   ,BRACKET)

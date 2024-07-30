@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PARSOR                        source/output/anim/parsor.F   
-Chd|-- called by -----------
-Chd|        DD_ANI                        source/output/anim/dd_ani.F   
-Chd|-- calls ---------------
-Chd|        FACNOR                        source/output/anim/facnor.F   
-Chd|        FACNOR2                       source/output/anim/facnor.F   
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    parsor      ../starter/source/output/anim/parsor.F
+      !||--- called by ------------------------------------------------------
+      !||    dd_ani      ../starter/source/output/anim/dd_ani.F
+      !||--- calls      -----------------------------------------------------
+      !||    facnor      ../starter/source/output/anim/facnor.F
+      !||    facnor2     ../starter/source/output/anim/facnor.F
+      !||====================================================================
       SUBROUTINE PARSOR(X    ,D    ,XNORM ,IADD ,CDG  ,
      .                  BUFEL,IPARG,IXS   ,IXQ  ,IXC  ,
      .                  IXTG ,IXT  ,IXP   ,IXR  ,INVERT,

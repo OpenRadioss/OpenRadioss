@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UPDATE_WEIGHT_RBE3            source/spmd/domain_decomposition/update_weight_rbe3.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        INTER_CAND_MOD                share/modules1/inter_cand_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    update_weight_rbe3   ../starter/source/spmd/domain_decomposition/update_weight_rbe3.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||    inter_cand_mod       ../starter/share/modules1/inter_cand_mod.F
+      !||====================================================================
         SUBROUTINE UPDATE_WEIGHT_RBE3(NELEMINT,IFIEND,S_LRBE3,NRBE3L,NRBE3,
      .                                LRBE3,IRBE3,INTER_CAND)
         USE INTER_CAND_MOD

@@ -20,16 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CM35IN3                       source/materials/mat/mat035/cm35in3.F
-Chd|-- called by -----------
-Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
-Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
-Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    cm35in3        ../starter/source/materials/mat/mat035/cm35in3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3init3        ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3       ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cdkinit3       ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||    cinit3         ../starter/source/elements/shell/coque/cinit3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE CM35IN3(ELBUF_STR,THK ,AREA,NEL,NLAY,
      .                   NPTR,NPTS,NPTT,IGTYP)
 C-----------------------------------------------

@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SORTHO31                      source/output/anim/sortho31.F 
-Chd|-- called by -----------
-Chd|        SROTA6                        source/output/anim/srota6.F   
-Chd|        SROTA6_M1                     source/output/anim/srota6_M1.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sortho31    ../starter/source/output/anim/sortho31.F
+      !||--- called by ------------------------------------------------------
+      !||    srota6      ../starter/source/output/anim/srota6.F
+      !||    srota6_m1   ../starter/source/output/anim/srota6_M1.F
+      !||====================================================================
       SUBROUTINE SORTHO31(                                              
      .   X1, X2, X3, X4, X5, X6, X7, X8,                                
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,                                

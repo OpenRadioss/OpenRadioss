@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SORT_MID_PID                  source/system/sort_mid_pid.F  
-Chd|-- called by -----------
-Chd|        GRPSPLIT                      source/engine/resol_init.F    
-Chd|-- calls ---------------
-Chd|        MID_PID_MOD                   share/modules/mid_pid_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    sort_mid_pid   ../engine/source/system/sort_mid_pid.F
+      !||--- called by ------------------------------------------------------
+      !||    grpsplit       ../engine/source/engine/resol_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    mid_pid_mod    ../engine/share/modules/mid_pid_mod.F
+      !||====================================================================
        SUBROUTINE SORT_MID_PID(N_SHELL,IGROUC_SHELL,
      1                         POIN_GROUP_MID_SHELL,POIN_GROUP_PID_SHELL,
      2                         MID_SHELL,TAB_LOC,TAB_SHELL_LOC,TAB_MAT)

@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C-------------------------------------------------------------------------
-Chd|====================================================================
-Chd|  M24IN3                        source/materials/mat/mat024/m24in3.F
-Chd|-- called by -----------
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m24in3   ../starter/source/materials/mat/mat024/m24in3.F
+      !||--- called by ------------------------------------------------------
+      !||    matini   ../starter/source/materials/mat_share/matini.F
+      !||====================================================================
       SUBROUTINE M24IN3(PM,IX,ANG,SF,VK0,ROB,NEL)
 C
 C-----------------------------------------------

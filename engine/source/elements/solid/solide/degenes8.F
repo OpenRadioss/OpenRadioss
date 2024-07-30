@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DEGENES8                      source/elements/solid/solide/degenes8.F
-Chd|-- called by -----------
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SDLEN_DEGE                    source/elements/solid/solide/sdlen_dege.F
-Chd|        SDLEN_SMS                     source/elements/solid/solidez/sdlen_sms.F
-Chd|-- calls ---------------
-Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    degenes8     ../engine/source/elements/solid/solide/degenes8.F
+      !||--- called by ------------------------------------------------------
+      !||    s8cforc3     ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8sforc3     ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||    s8zforc3     ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    sdlen_dege   ../engine/source/elements/solid/solide/sdlen_dege.F
+      !||    sdlen_sms    ../engine/source/elements/solid/solidez/sdlen_sms.F
+      !||--- calls      -----------------------------------------------------
+      !||    intab        ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE DEGENES8(
      1   IXS,     IDEGE,   NEL)
 C-----------------------------------------------

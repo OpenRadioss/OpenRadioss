@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  F_NODLOC2                     source/restart/ddsplit/f_nodloc2.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    f_nodloc2   ../starter/source/restart/ddsplit/f_nodloc2.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal      ../starter/source/spmd/node/ddtools.F
+      !||====================================================================
       SUBROUTINE F_NODLOC2(NUMNOD,P  ,NODGLOB,NODLOCAL,IGEO ,
      2                     IPARG,IXS   ,IXQ,IXC    ,IXTG    ,
      3                     IXT  ,IXP   ,IXR,GEO    ,NUMNOD_L)

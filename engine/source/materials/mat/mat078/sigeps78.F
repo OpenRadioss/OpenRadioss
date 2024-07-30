@@ -23,12 +23,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C=======================================================================
 C      Yoshida-Uemori law - two surface plasticity
 C=======================================================================
-Chd|====================================================================
-Chd|  SIGEPS78                      source/materials/mat/mat078/sigeps78.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps78   ../engine/source/materials/mat/mat078/sigeps78.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw      ../engine/source/materials/mat_share/mulaw.F90
+      !||--- calls      -----------------------------------------------------
+      !||    finter     ../engine/source/tools/curve/finter.F
+      !||====================================================================
       SUBROUTINE SIGEPS78 (
      1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,NPF      ,
      2     TF       ,TIME     ,TIMESTEP ,UPARAM   ,RHO0     ,RHO      ,

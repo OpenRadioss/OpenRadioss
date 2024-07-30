@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_CELL_SIZE_POST_RCV       source/mpi/interfaces/spmd_cell_size_post_rcv.F
-Chd|-- called by -----------
-Chd|        SPMD_CELL_LIST_EXCHANGE       source/mpi/interfaces/spmd_cell_list_exchange.F
-Chd|-- calls ---------------
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_cell_size_post_rcv   ../engine/source/mpi/interfaces/spmd_cell_size_post_rcv.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_cell_list_exchange   ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    inter_sorting_mod         ../engine/share/modules/inter_sorting_mod.F
+      !||    tri7box                   ../engine/share/modules/tri7box.F
+      !||====================================================================
         SUBROUTINE SPMD_CELL_SIZE_POST_RCV(IRCVFROM,ISENDTO,NIN,SORT_COMM,ITIED)
 !$COMMENT
 !       SPMD_CELL_SIZE_POST_RCV description :

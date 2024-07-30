@@ -20,18 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SET_USER_WINDOW_NODES         source/user_interface/user_windows_tools.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        USERWIS_FRONT                 source/user_interface/user_windows_tools.F
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|        USER_INTERFACE_MOD            share/modules1/user_interface_mod.F
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    set_user_window_nodes   ../starter/source/user_interface/user_windows_tools.F
+      !||--- calls      -----------------------------------------------------
+      !||    userwis_front           ../starter/source/user_interface/user_windows_tools.F
+      !||    usr2sys                 ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||    restmod                 ../starter/share/modules1/restart_mod.F
+      !||    user_interface_mod      ../starter/share/modules1/user_interface_mod.F
+      !||====================================================================
       SUBROUTINE SET_USER_WINDOW_NODES(USERNODS,NUMBER_USERNODS)
 !$COMMENT
    ! -----------------------------------------------
@@ -114,13 +112,14 @@ C-----------------------------------------------
       DEALLOCATE(USER_NDS)
 
       END
-Chd|====================================================================
-Chd|  USERWIS_FRONT                 source/user_interface/user_windows_tools.F
-Chd|-- called by -----------
-Chd|        SET_USER_WINDOW_NODES         source/user_interface/user_windows_tools.F
-Chd|-- calls ---------------
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    userwis_front           ../starter/source/user_interface/user_windows_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    set_user_window_nodes   ../starter/source/user_interface/user_windows_tools.F
+      !||--- calls      -----------------------------------------------------
+      !||    ifrontplus              ../starter/source/spmd/node/frontplus.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE USERWIS_FRONT(USERNODS,NUSERNODS)
 !$COMMENT
    ! -----------------------------------------------
@@ -166,18 +165,16 @@ C======================================================================|
       ENDDO
       
       END
-Chd|====================================================================
-Chd|  SPMD_USERWI_REST              source/user_interface/user_windows_tools.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_userwi_rest   ../starter/source/user_interface/user_windows_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit            ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal             ../starter/source/spmd/node/ddtools.F
+      !||    plist_ifront       ../starter/source/spmd/node/ddtools.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_USERWI_REST(USER_WINDOWS,NODLOCAL,NUMNOD,NUMNOD_L,
      *                             P,NSPMD)
 !$COMMENT

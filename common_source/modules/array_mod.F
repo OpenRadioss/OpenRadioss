@@ -20,23 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ARRAY_MOD                     modules/array_mod.F           
-Chd|-- called by -----------
-Chd|        ALE_BOX_COLORATION            starter/source/initial_conditions/inivol/ale_box_coloration.F
-Chd|        DOMAIN_DECOMPOSITION_PCYL     starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
-Chd|        IGRSURF_SPLIT                 starter/source/spmd/igrsurf_split.F
-Chd|        INITIA                        starter/source/elements/initia/initia.F
-Chd|        CHECK_REMOTE_SURFACE_STATE    engine/source/interfaces/interf/check_remote_surface_state.F
-Chd|        I18MAIN_KINE_1                engine/source/interfaces/int18/i18main_kine.F
-Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
-Chd|        INT18_ALLOC                   engine/source/interfaces/int18/int18_alloc.F
-Chd|        INTFOP2                       engine/source/interfaces/interf/intfop2.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
-Chd|        SPMD_EXCH_INTER_18            engine/source/mpi/interfaces/spmd_exch_inter_18.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    array_mod                                ../common_source/modules/array_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    ale_box_coloration                       ../starter/source/initial_conditions/inivol/ale_box_coloration.F
+      !||    check_remote_surface_state               ../engine/source/interfaces/interf/check_remote_surface_state.F
+      !||    domain_decomposition_pcyl                ../starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
+      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    i18main_kine_1                           ../engine/source/interfaces/int18/i18main_kine.F
+      !||    igrsurf_split                            ../starter/source/spmd/igrsurf_split.F
+      !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
+      !||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+      !||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
+      !||    initia                                   ../starter/source/elements/initia/initia.F
+      !||    int18_alloc                              ../engine/source/interfaces/int18/int18_alloc.F
+      !||    intfop2                                  ../engine/source/interfaces/interf/intfop2.F
+      !||    resol                                    ../engine/source/engine/resol.F
+      !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+      !||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+      !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
+      !||====================================================================
         MODULE ARRAY_MOD
 #include "my_real.inc"
 !$COMMENT
@@ -77,15 +82,15 @@ Chd|====================================================================
 
         CONTAINS
             ! ----------------------------
-Chd|====================================================================
-Chd|  ALLOC_1D_ARRAY                modules/array_mod.F           
-Chd|-- called by -----------
-Chd|        DOMAIN_DECOMPOSITION_PCYL     starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
-Chd|        IGRSURF_SPLIT                 starter/source/spmd/igrsurf_split.F
-Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
-Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    alloc_1d_array                ../common_source/modules/array_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    domain_decomposition_pcyl     ../starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
+      !||    igrsurf_split                 ../starter/source/spmd/igrsurf_split.F
+      !||    init_inivol                   ../starter/source/initial_conditions/inivol/init_inivol.F90
+      !||    init_nodal_state              ../engine/source/interfaces/interf/init_nodal_state.F
+      !||    spmd_exch_deleted_surf_edge   ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+      !||====================================================================
             SUBROUTINE ALLOC_1D_ARRAY(THIS)
             IMPLICIT NONE
 
@@ -96,12 +101,11 @@ Chd|====================================================================
             RETURN
             END SUBROUTINE 
             ! ----------------------------
-Chd|====================================================================
-Chd|  ALLOC_2D_ARRAY                modules/array_mod.F           
-Chd|-- called by -----------
-Chd|        CHECK_REMOTE_SURFACE_STATE    engine/source/interfaces/interf/check_remote_surface_state.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    alloc_2d_array               ../common_source/modules/array_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
+      !||====================================================================
             SUBROUTINE ALLOC_2D_ARRAY(THIS)
             IMPLICIT NONE
 
@@ -112,12 +116,11 @@ Chd|====================================================================
             RETURN
             END SUBROUTINE 
             ! ----------------------------
-Chd|====================================================================
-Chd|  ALLOC_3D_ARRAY                modules/array_mod.F           
-Chd|-- called by -----------
-Chd|        ALE_BOX_COLORATION            starter/source/initial_conditions/inivol/ale_box_coloration.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    alloc_3d_array       ../common_source/modules/array_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    ale_box_coloration   ../starter/source/initial_conditions/inivol/ale_box_coloration.F
+      !||====================================================================
             SUBROUTINE ALLOC_3D_ARRAY(THIS)
             IMPLICIT NONE
 
@@ -130,15 +133,15 @@ Chd|====================================================================
             RETURN
             END SUBROUTINE 
             ! ----------------------------   
-Chd|====================================================================
-Chd|  DEALLOC_1D_ARRAY              modules/array_mod.F           
-Chd|-- called by -----------
-Chd|        DOMAIN_DECOMPOSITION_PCYL     starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
-Chd|        IGRSURF_SPLIT                 starter/source/spmd/igrsurf_split.F
-Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
-Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dealloc_1d_array              ../common_source/modules/array_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    domain_decomposition_pcyl     ../starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
+      !||    igrsurf_split                 ../starter/source/spmd/igrsurf_split.F
+      !||    init_inivol                   ../starter/source/initial_conditions/inivol/init_inivol.F90
+      !||    init_nodal_state              ../engine/source/interfaces/interf/init_nodal_state.F
+      !||    spmd_exch_deleted_surf_edge   ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+      !||====================================================================
             SUBROUTINE DEALLOC_1D_ARRAY(THIS)
             IMPLICIT NONE
 
@@ -149,12 +152,11 @@ Chd|====================================================================
             RETURN
             END SUBROUTINE 
             ! ----------------------------
-Chd|====================================================================
-Chd|  DEALLOC_2D_ARRAY              modules/array_mod.F           
-Chd|-- called by -----------
-Chd|        CHECK_REMOTE_SURFACE_STATE    engine/source/interfaces/interf/check_remote_surface_state.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dealloc_2d_array             ../common_source/modules/array_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
+      !||====================================================================
             SUBROUTINE DEALLOC_2D_ARRAY(THIS)
             IMPLICIT NONE
 
@@ -165,11 +167,11 @@ Chd|====================================================================
             RETURN
             END SUBROUTINE 
             ! ----------------------------
-Chd|====================================================================
-Chd|  DEALLOC_3D_ARRAY              modules/array_mod.F           
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dealloc_3d_array   ../common_source/modules/array_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    init_inivol        ../starter/source/initial_conditions/inivol/init_inivol.F90
+      !||====================================================================
             SUBROUTINE DEALLOC_3D_ARRAY(THIS)
             IMPLICIT NONE
 
@@ -180,12 +182,14 @@ Chd|====================================================================
             RETURN
             END SUBROUTINE 
             ! ----------------------------
-Chd|====================================================================
-Chd|  ALLOC_MY_REAL_1D_ARRAY        modules/array_mod.F           
-Chd|-- called by -----------
-Chd|        SPMD_EXCH_INTER_18            engine/source/mpi/interfaces/spmd_exch_inter_18.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    alloc_my_real_1d_array                   ../common_source/modules/array_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+      !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||====================================================================
             SUBROUTINE ALLOC_MY_REAL_1D_ARRAY(THIS)
 #include "implicit_f.inc"
 
@@ -197,12 +201,13 @@ Chd|====================================================================
             END SUBROUTINE ALLOC_MY_REAL_1D_ARRAY
             ! ----------------------------
             ! ----------------------------
-Chd|====================================================================
-Chd|  DEALLOC_MY_REAL_1D_ARRAY      modules/array_mod.F           
-Chd|-- called by -----------
-Chd|        SPMD_EXCH_INTER_18            engine/source/mpi/interfaces/spmd_exch_inter_18.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dealloc_my_real_1d_array                 ../common_source/modules/array_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+      !||====================================================================
             SUBROUTINE DEALLOC_MY_REAL_1D_ARRAY(THIS)
 #include "implicit_f.inc"
 

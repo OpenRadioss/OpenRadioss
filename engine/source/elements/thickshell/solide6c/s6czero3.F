@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S6CZERO3                      source/elements/thickshell/solide6c/s6czero3.F
-Chd|-- called by -----------
-Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s6czero3   ../engine/source/elements/thickshell/solide6c/s6czero3.F
+      !||--- called by ------------------------------------------------------
+      !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||====================================================================
       SUBROUTINE S6CZERO3(
      1   FX1,     FY1,     FZ1,     FX2,
      2   FY2,     FZ2,     FX3,     FY3,

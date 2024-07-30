@@ -20,39 +20,37 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STATE_MOD                     modules/state_mod.F           
-Chd|-- called by -----------
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
-Chd|        DYNAIN_C_STRAG                engine/source/output/dynain/dynain_c_strag.F
-Chd|        DYNAIN_C_STRSG                engine/source/output/dynain/dynain_c_strsg.F
-Chd|        DYNAIN_NODE                   engine/source/output/dynain/dynain_node.F
-Chd|        DYNAIN_SHEL_MP                engine/source/output/dynain/dynain_shel_mp.F
-Chd|        DYNAIN_SHEL_SPMD              engine/source/output/dynain/dynain_shel_spmd.F
-Chd|        DYNAIN_SIZE_C                 engine/source/output/dynain/dynain_size.F
-Chd|        ECRIT                         engine/source/output/ecrit.F  
-Chd|        FREDYNAIN                     engine/source/input/fredynain.F
-Chd|        FREFORM                       engine/source/input/freform.F 
-Chd|        GENDYNAIN                     engine/source/output/dynain/gendynain.F
-Chd|        LECINP                        engine/source/input/lecinp.F  
-Chd|        LECTUR                        engine/source/input/lectur.F  
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
-Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
-Chd|        RDCOMR                        engine/source/output/restart/rdcomm.F
-Chd|        RDRESA                        engine/source/output/restart/rdresa.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        READ_DYNAIN                   engine/source/output/dynain/read_dynain.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
-Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
-Chd|        STOP_SENSOR                   engine/source/tools/sensor/stop_sensor.F
-Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
-Chd|        WRCOMR                        engine/source/output/restart/wrcomm.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    state_mod          ../common_source/modules/state_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit            ../starter/source/restart/ddsplit/ddsplit.F
+      !||    dynain_c_strag     ../engine/source/output/dynain/dynain_c_strag.F
+      !||    dynain_c_strsg     ../engine/source/output/dynain/dynain_c_strsg.F
+      !||    dynain_node        ../engine/source/output/dynain/dynain_node.F
+      !||    dynain_shel_mp     ../engine/source/output/dynain/dynain_shel_mp.F
+      !||    dynain_shel_spmd   ../engine/source/output/dynain/dynain_shel_spmd.F
+      !||    dynain_size_c      ../engine/source/output/dynain/dynain_size.F
+      !||    ecrit              ../engine/source/output/ecrit.F
+      !||    fredynain          ../engine/source/input/fredynain.F
+      !||    freform            ../engine/source/input/freform.F
+      !||    gendynain          ../engine/source/output/dynain/gendynain.F
+      !||    lecinp             ../engine/source/input/lecinp.F
+      !||    lectur             ../engine/source/input/lectur.F
+      !||    radioss2           ../engine/source/engine/radioss2.F
+      !||    rdcomi             ../engine/source/output/restart/rdcomm.F
+      !||    rdcomr             ../engine/source/output/restart/rdcomm.F
+      !||    rdresa             ../engine/source/output/restart/rdresa.F
+      !||    rdresb             ../engine/source/output/restart/rdresb.F
+      !||    read_dynain        ../engine/source/output/dynain/read_dynain.F
+      !||    resol              ../engine/source/engine/resol.F
+      !||    resol_head         ../engine/source/engine/resol_head.F
+      !||    sortie_main        ../engine/source/output/sortie_main.F
+      !||    stop_sensor        ../engine/source/tools/sensor/stop_sensor.F
+      !||    wrcomi             ../engine/source/output/restart/wrcomm.F
+      !||    wrcomip            ../starter/source/restart/ddsplit/wrcommp.F
+      !||    wrcomr             ../engine/source/output/restart/wrcomm.F
+      !||    wrrestp            ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
         MODULE STATE_MOD
 C-----------------------------------------------
 C   m y _ r e a l

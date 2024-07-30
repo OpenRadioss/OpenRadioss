@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CONVECOFF                     source/constraints/thermic/convecoff.F
-Chd|-- called by -----------
-Chd|        DESACTI                       source/elements/desacti.F     
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    convecoff      ../engine/source/constraints/thermic/convecoff.F
+      !||--- called by ------------------------------------------------------
+      !||    desacti        ../engine/source/elements/desacti.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE CONVECOFF(IBCV, FCONV, IPARG, IGROUPS, IXS, ELBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ST_QAPRINT_SEATBELTS          source/output/qaprint/st_qaprint_seatbelts.F
-Chd|-- called by -----------
-Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
-Chd|-- calls ---------------
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    st_qaprint_seatbelts   ../starter/source/output/qaprint/st_qaprint_seatbelts.F
+      !||--- called by ------------------------------------------------------
+      !||    st_qaprint_driver      ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE ST_QAPRINT_SEATBELTS(ITAB)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_IALLREDUCE_INT_COMM      source/mpi/generic/spmd_iallreduce_int_comm.F
-Chd|-- called by -----------
-Chd|        SPMD_GET_INACTI_GLOBAL        source/mpi/interfaces/spmd_get_inacti_global.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_iallreduce_int_comm   ../engine/source/mpi/generic/spmd_iallreduce_int_comm.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_get_inacti_global     ../engine/source/mpi/interfaces/spmd_get_inacti_global.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
         SUBROUTINE SPMD_IALLREDUCE_INT_COMM(VALUE,RES,MY_SIZE,MY_OPERATION,MY_COMM,MY_REQUEST)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

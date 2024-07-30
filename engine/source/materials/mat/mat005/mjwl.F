@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MJWL                          source/materials/mat/mat005/mjwl.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mjwl    ../engine/source/materials/mat/mat005/mjwl.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain   ../engine/source/materials/mat_share/mmain.F90
+      !||====================================================================
       SUBROUTINE MJWL(PM    ,MAT  ,OFF   ,SIG   ,EINT ,
      1                PSH   ,P0   ,QOLD  ,VOL   ,BFRAC,
      2                VOLN  ,QNEW ,SOLD1 ,SOLD2 ,SOLD3,

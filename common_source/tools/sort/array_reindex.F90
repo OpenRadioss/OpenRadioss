@@ -29,6 +29,11 @@
 !! \details      result will be  (/ 440 330 220 110/)
 
 
+      !||====================================================================
+      !||    integer_array_reindex      ../common_source/tools/sort/array_reindex.F90
+      !||--- called by ------------------------------------------------------
+      !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
+      !||====================================================================
           subroutine integer_array_reindex(array, index, n)
             implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -58,6 +63,9 @@
 !! \details      Example array = (/ 110.1 220.1 330.1 440.1/)
 !! \details              index = (/4 3 2 1/)
 !! \details      result will be  (/ 440.1 330.1 220.1 110.1/)
+      !||====================================================================
+      !||    real_array_reindex   ../common_source/tools/sort/array_reindex.F90
+      !||====================================================================
           subroutine real_array_reindex(array, index, n)
             implicit none
 #include "my_real.inc"
@@ -88,6 +96,13 @@
 !! \details      Example array = (/ P1 P2 P3 P4/)
 !! \details              index = (/4 3 2 1/)
 !! \details      result will be  (/ P4 P3 P2 P1 /)
+      !||====================================================================
+      !||    points_array_reindex       ../common_source/tools/sort/array_reindex.F90
+      !||--- called by ------------------------------------------------------
+      !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    polygon_clipping_mod       ../common_source/tools/clipping/polygon_clipping_mod.F90
+      !||====================================================================
           subroutine points_array_reindex(array, index, n)
             use polygon_clipping_mod , only : polygon_point_
             implicit none

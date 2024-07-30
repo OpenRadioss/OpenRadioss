@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CHECKPARA                     source/model/box/rdbox.F      
-Chd|-- called by -----------
-Chd|        BOXTAGE                       source/model/box/bigbox.F     
-Chd|        BOXTAGN                       source/model/box/bigbox.F     
-Chd|        BOX_SURF_SH                   source/model/box/bigbox.F     
-Chd|        ELSTAGBOX                     source/model/box/bigbox.F     
-Chd|        SIMPLE_ELT_BOX                source/model/sets/simpl_elt_box.F
-Chd|        SIMPLE_NODE_BOX               source/model/sets/simple_node_box.F
-Chd|        SIMPLE_RBODY_BOX              source/model/sets/simple_rbody_box.F
-Chd|-- calls ---------------
-Chd|        INSIDE_PARALLELEPIPED         source/model/box/rdbox.F      
-Chd|        PROJSKEW                      source/model/box/rdbox.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    checkpara               ../starter/source/model/box/rdbox.F
+      !||--- called by ------------------------------------------------------
+      !||    box_surf_sh             ../starter/source/model/box/bigbox.F
+      !||    boxtage                 ../starter/source/model/box/bigbox.F
+      !||    boxtagn                 ../starter/source/model/box/bigbox.F
+      !||    elstagbox               ../starter/source/model/box/bigbox.F
+      !||    simple_elt_box          ../starter/source/model/sets/simpl_elt_box.F
+      !||    simple_node_box         ../starter/source/model/sets/simple_node_box.F
+      !||    simple_rbody_box        ../starter/source/model/sets/simple_rbody_box.F
+      !||--- calls      -----------------------------------------------------
+      !||    inside_parallelepiped   ../starter/source/model/box/rdbox.F
+      !||    projskew                ../starter/source/model/box/rdbox.F
+      !||====================================================================
       SUBROUTINE CHECKPARA(XP1,YP1,ZP1,XP2,YP2,ZP2,
      .                     ISK,NODIN,SKEW,OK)
 C-----------------------------------------------
@@ -85,12 +85,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  PROJSKEW                      source/model/box/rdbox.F      
-Chd|-- called by -----------
-Chd|        CHECKPARA                     source/model/box/rdbox.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    projskew    ../starter/source/model/box/rdbox.F
+      !||--- called by ------------------------------------------------------
+      !||    checkpara   ../starter/source/model/box/rdbox.F
+      !||====================================================================
       SUBROUTINE PROJSKEW(PO,SK,ISK)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -136,12 +135,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  INSIDE_PARALLELEPIPED         source/model/box/rdbox.F      
-Chd|-- called by -----------
-Chd|        CHECKPARA                     source/model/box/rdbox.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inside_parallelepiped   ../starter/source/model/box/rdbox.F
+      !||--- called by ------------------------------------------------------
+      !||    checkpara               ../starter/source/model/box/rdbox.F
+      !||====================================================================
       SUBROUTINE INSIDE_PARALLELEPIPED(P1, P2, P3, P4, P, OK)
 C  nodes inside parallelepiped in 3D.
 C
@@ -213,19 +211,19 @@ C---
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  CHECKCYL                      source/model/box/rdbox.F      
-Chd|-- called by -----------
-Chd|        BOXTAGE                       source/model/box/bigbox.F     
-Chd|        BOXTAGN                       source/model/box/bigbox.F     
-Chd|        BOX_SURF_SH                   source/model/box/bigbox.F     
-Chd|        ELSTAGBOX                     source/model/box/bigbox.F     
-Chd|        SIMPLE_ELT_BOX                source/model/sets/simpl_elt_box.F
-Chd|        SIMPLE_NODE_BOX               source/model/sets/simple_node_box.F
-Chd|        SIMPLE_RBODY_BOX              source/model/sets/simple_rbody_box.F
-Chd|-- calls ---------------
-Chd|        INSIDE_CYLINDER               source/model/box/rdbox.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    checkcyl           ../starter/source/model/box/rdbox.F
+      !||--- called by ------------------------------------------------------
+      !||    box_surf_sh        ../starter/source/model/box/bigbox.F
+      !||    boxtage            ../starter/source/model/box/bigbox.F
+      !||    boxtagn            ../starter/source/model/box/bigbox.F
+      !||    elstagbox          ../starter/source/model/box/bigbox.F
+      !||    simple_elt_box     ../starter/source/model/sets/simpl_elt_box.F
+      !||    simple_node_box    ../starter/source/model/sets/simple_node_box.F
+      !||    simple_rbody_box   ../starter/source/model/sets/simple_rbody_box.F
+      !||--- calls      -----------------------------------------------------
+      !||    inside_cylinder    ../starter/source/model/box/rdbox.F
+      !||====================================================================
       SUBROUTINE CHECKCYL(XP1, YP1, ZP1, XP2, YP2, ZP2,
      .                    NODIN, D, OK )
 C-----------------------------------------------
@@ -258,12 +256,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  INSIDE_CYLINDER               source/model/box/rdbox.F      
-Chd|-- called by -----------
-Chd|        CHECKCYL                      source/model/box/rdbox.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inside_cylinder   ../starter/source/model/box/rdbox.F
+      !||--- called by ------------------------------------------------------
+      !||    checkcyl          ../starter/source/model/box/rdbox.F
+      !||--- calls      -----------------------------------------------------
+      !||    vec_length        ../starter/source/model/box/rdbox.F
+      !||====================================================================
       SUBROUTINE INSIDE_CYLINDER(P1, P2, P, D, OK)
 C-----------------------------------------------
 C    The surface and interior of a (finite) cylinder in 3D is defined
@@ -312,6 +311,11 @@ C
       RETURN
       END
 C-----------------
+      !||====================================================================
+      !||    vec_length        ../starter/source/model/box/rdbox.F
+      !||--- called by ------------------------------------------------------
+      !||    inside_cylinder   ../starter/source/model/box/rdbox.F
+      !||====================================================================
       FUNCTION VEC_LENGTH(DIMENS,X)
 C-----------------
 C  VEC_LENGTH returns the Euclidean length of a vector.
@@ -326,19 +330,19 @@ C-------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CHECKSPHERE                   source/model/box/rdbox.F      
-Chd|-- called by -----------
-Chd|        BOXTAGE                       source/model/box/bigbox.F     
-Chd|        BOXTAGN                       source/model/box/bigbox.F     
-Chd|        BOX_SURF_SH                   source/model/box/bigbox.F     
-Chd|        ELSTAGBOX                     source/model/box/bigbox.F     
-Chd|        SIMPLE_ELT_BOX                source/model/sets/simpl_elt_box.F
-Chd|        SIMPLE_NODE_BOX               source/model/sets/simple_node_box.F
-Chd|        SIMPLE_RBODY_BOX              source/model/sets/simple_rbody_box.F
-Chd|-- calls ---------------
-Chd|        INSIDE_SPHERE                 source/model/box/rdbox.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    checksphere        ../starter/source/model/box/rdbox.F
+      !||--- called by ------------------------------------------------------
+      !||    box_surf_sh        ../starter/source/model/box/bigbox.F
+      !||    boxtage            ../starter/source/model/box/bigbox.F
+      !||    boxtagn            ../starter/source/model/box/bigbox.F
+      !||    elstagbox          ../starter/source/model/box/bigbox.F
+      !||    simple_elt_box     ../starter/source/model/sets/simpl_elt_box.F
+      !||    simple_node_box    ../starter/source/model/sets/simple_node_box.F
+      !||    simple_rbody_box   ../starter/source/model/sets/simple_rbody_box.F
+      !||--- calls      -----------------------------------------------------
+      !||    inside_sphere      ../starter/source/model/box/rdbox.F
+      !||====================================================================
       SUBROUTINE CHECKSPHERE(XP, YP, ZP, NODIN, D, OK)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -364,12 +368,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  INSIDE_SPHERE                 source/model/box/rdbox.F      
-Chd|-- called by -----------
-Chd|        CHECKSPHERE                   source/model/box/rdbox.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inside_sphere   ../starter/source/model/box/rdbox.F
+      !||--- called by ------------------------------------------------------
+      !||    checksphere     ../starter/source/model/box/rdbox.F
+      !||====================================================================
       SUBROUTINE INSIDE_SPHERE(PC, P, D, OK)
 C-----------------------------------------------
 C    Implicit sphere equation:

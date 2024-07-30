@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TIME_HISTORY_MOD              modules/output/time_history_mod.F
-Chd|-- called by -----------
-Chd|        WRITE_TH_BUFFER               starter/source/restart/ddsplit/write_th_buffer.F
-Chd|        INIT_TH0                      engine/source/output/th/init_th0.F
-Chd|        READ_TH_RESTART               engine/source/output/th/read_th_restart.F
-Chd|        WRITE_TH_RESTART              engine/source/output/th/write_th_restart.F
-Chd|-- calls ---------------
-Chd|        TH_SURF_MOD                   modules/interfaces/th_surf_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    time_history_mod   ../common_source/modules/output/time_history_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    init_th0           ../engine/source/output/th/init_th0.F
+      !||    output_mod         ../common_source/modules/output/output_mod.F90
+      !||    read_th_restart    ../engine/source/output/th/read_th_restart.F
+      !||    write_th_buffer    ../starter/source/restart/ddsplit/write_th_buffer.F
+      !||    write_th_restart   ../engine/source/output/th/write_th_restart.F
+      !||--- uses       -----------------------------------------------------
+      !||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
+      !||====================================================================
       MODULE TIME_HISTORY_MOD
        USE TH_SURF_MOD
 #include "my_real.inc" 
@@ -91,14 +92,13 @@ C
 
          CONTAINS
 
-Chd|====================================================================
-Chd|  TH_ALLOC                      modules/output/time_history_mod.F
-Chd|-- called by -----------
-Chd|        READ_TH_RESTART               engine/source/output/th/read_th_restart.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
-Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    th_alloc          ../common_source/modules/output/time_history_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    read_th_restart   ../engine/source/output/th/read_th_restart.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE TH_ALLOC(TH,
      .                       SITHGRP,  SITHBUF ,
      .                       SITHGRPA, SITHBUFA,
@@ -166,13 +166,12 @@ C-----------------------------------------------
          END SUBROUTINE TH_ALLOC
 
 
-Chd|====================================================================
-Chd|  TH_CLEAN                      modules/output/time_history_mod.F
-Chd|-- called by -----------
-Chd|        STARTER0                      starter/source/starter/starter0.F
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    th_clean   ../common_source/modules/output/time_history_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2   ../engine/source/engine/radioss2.F
+      !||    starter0   ../starter/source/starter/starter0.F
+      !||====================================================================
       SUBROUTINE TH_CLEAN(TH )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

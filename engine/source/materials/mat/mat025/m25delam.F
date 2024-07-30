@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M25DELAM                      source/materials/mat/mat025/m25delam.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m25delam        ../engine/source/materials/mat/mat025/m25delam.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc          ../engine/source/materials/mat_share/mulawc.F
+      !||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
+      !||====================================================================
       SUBROUTINE M25DELAM(JFT,JLT,PM,GSTR,DAMDL,MAT,NGL,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S16BILAN                      source/elements/thickshell/solide16/s16bilan.F
-Chd|-- called by -----------
-Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
-Chd|-- calls ---------------
-Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F 
-Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s16bilan              ../engine/source/elements/thickshell/solide16/s16bilan.F
+      !||--- called by ------------------------------------------------------
+      !||    s16forc3              ../engine/source/elements/thickshell/solide16/s16forc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
+      !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+      !||====================================================================
       SUBROUTINE S16BILAN(PARTSAV,EINTG,RHOG ,VOLG  ,VOL0G  ,
      .                    VX     ,VY   ,VZ   ,IPARTS,GRESAV ,
      .                    GRTH   ,IGRTH,IEXPAN,EINTTH,FILL  ,

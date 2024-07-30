@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  INVOI3                        source/interfaces/inter3d1/invoi3.F
-Chd|-- called by -----------
-Chd|        INIEND                        source/interfaces/inter3d1/iniend.F
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        NEAREST_SEG                   ../common_source/interf/nearest_seg.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    invoi3        ../starter/source/interfaces/inter3d1/invoi3.F
+      !||--- called by ------------------------------------------------------
+      !||    iniend        ../starter/source/interfaces/inter3d1/iniend.F
+      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INVOI3(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,NSEG,NSN,NMN,ITAB,ID,TITR,NRT)
       USE MESSAGE_MOD
 C-----------------------------------------------------------------------

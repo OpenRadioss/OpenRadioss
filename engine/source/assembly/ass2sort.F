@@ -20,15 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASS2SORT                      source/assembly/ass2sort.F    
-Chd|-- called by -----------
-Chd|        ASSPAR2                       source/assembly/asspar2.F     
-Chd|        ASSPAR4                       source/assembly/asspar4.F     
-Chd|        I17LLL_ASS                    source/interfaces/int17/i17for3.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ass2sort      ../engine/source/assembly/ass2sort.F
+      !||--- called by ------------------------------------------------------
+      !||    asspar2       ../engine/source/assembly/asspar2.F
+      !||    asspar4       ../engine/source/assembly/asspar4.F
+      !||    i17lll_ass    ../engine/source/interfaces/int17/i17for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    stlsort       ../common_source/tools/sort/cppsort.cpp
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ASS2SORT(FSKYI,JJ1,JJ2,FSKYT,NFSK)
 C  FSKYI : IN/OUT : TABLEAU DE FORCES A TRIER EN ENTREE,
 C                   TABLEAU DE FORCES TRIE EN SORTIE
@@ -74,13 +76,15 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ASS2SORT_PXFEM                source/assembly/ass2sort.F    
-Chd|-- called by -----------
-Chd|        ASSPAR4                       source/assembly/asspar4.F     
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ass2sort_pxfem   ../engine/source/assembly/ass2sort.F
+      !||--- called by ------------------------------------------------------
+      !||    asspar4          ../engine/source/assembly/asspar4.F
+      !||--- calls      -----------------------------------------------------
+      !||    stlsort          ../common_source/tools/sort/cppsort.cpp
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ASS2SORT_PXFEM(FSKYI,JJ1,JJ2,FSKYT,NFSK)
 C  FSKYI : IN/OUT : TABLEAU DE FORCES A TRIER EN ENTREE,
 C                   TABLEAU DE FORCES TRIE EN SORTIE

@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCORTHO3                      source/elements/thickshell/solidec/scortho3.F
-Chd|-- called by -----------
-Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
-Chd|        SRCOORK                       source/elements/solid/solide8z/srcoork.F
-Chd|        SREP2GLO                      source/elements/sph/srep2glo.F
-Chd|        TSH_DIR2                      source/output/h3d/h3d_results/h3d_skin_tensor.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    scortho3   ../engine/source/elements/thickshell/solidec/scortho3.F
+      !||--- called by ------------------------------------------------------
+      !||    srcoor3    ../engine/source/elements/solid/solide/srcoor3.F
+      !||    srcoork    ../engine/source/elements/solid/solide8z/srcoork.F
+      !||    srep2glo   ../engine/source/elements/sph/srep2glo.F
+      !||    tsh_dir2   ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+      !||====================================================================
       SUBROUTINE SCORTHO3(
      1   RX,      RY,      RZ,      SX,
      2   SY,      SZ,      TX,      TY,

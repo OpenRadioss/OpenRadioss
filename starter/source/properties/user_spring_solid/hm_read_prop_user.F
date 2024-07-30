@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_PROP_USER             source/properties/user_spring_solid/hm_read_prop_user.F
-Chd|-- called by -----------
-Chd|        HM_READ_PROP_GENERIC          source/properties/hm_read_prop_generic.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_STRING_INDEX           source/devtools/hm_reader/hm_get_string_index.F
-Chd|        ST_USERLIB_LECGUSER           source/user_interface/dyn_userlib.c
-Chd|        USER_OUTPUT                   source/user_interface/user_output.F
-Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_prop_user      ../starter/source/properties/user_spring_solid/hm_read_prop_user.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_prop_generic   ../starter/source/properties/hm_read_prop_generic.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    arret                  ../starter/source/system/arret.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_get_string_index    ../starter/source/devtools/hm_reader/hm_get_string_index.F
+      !||    user_output            ../starter/source/user_interface/user_output.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_PROP_USER(IOUT ,NUVAR ,PARGEO   ,UNITAB,IGTYP,
      .                             IG   ,TITLE ,LSUBMODEL,IUNIT ,ISKN ,
      .                             KEY  ,PROP_TAG)

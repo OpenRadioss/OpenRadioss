@@ -20,12 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  XFORC29                       source/elements/xelem/xforc29.F
-Chd|-- called by -----------
-Chd|        XFORC3                        source/elements/xelem/xforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    xforc29      ../engine/source/elements/xelem/xforc29.F
+      !||--- called by ------------------------------------------------------
+      !||    xforc3       ../engine/source/elements/xelem/xforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_u_func   ../engine/source/user_interface/ufunc.F
+      !||    get_u_mid    ../engine/source/user_interface/upidmid.F
+      !||    get_u_mnu    ../engine/source/user_interface/upidmid.F
+      !||    get_u_pid    ../engine/source/user_interface/upidmid.F
+      !||    get_u_pnu    ../engine/source/user_interface/upidmid.F
+      !||====================================================================
       SUBROUTINE XFORC29(NX     ,
      2             XEL     ,VEL     ,VREL   ,UIX    ,UID    ,
      3             IOUT    ,IPROP   ,IMAT   ,OFF    ,KEINT  ,

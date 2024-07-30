@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I24_SAVE_SUB                  source/interfaces/int24/i24_save_sub.F
-Chd|-- called by -----------
-Chd|        I24FOR3                       source/interfaces/int24/i24for3.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i24_save_sub   ../engine/source/interfaces/int24/i24_save_sub.F
+      !||--- called by ------------------------------------------------------
+      !||    i24for3        ../engine/source/interfaces/int24/i24for3.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box        ../engine/share/modules/tri7box.F
+      !||====================================================================
        SUBROUTINE I24_SAVE_SUB(NUMNOD,MVSIZ,NISUB,S_ADDSUBM,S_LISUBM,S_TYPSUB,NISUBMAX,I_STOK,
      *                         IE,ITYPSUB,NIN,I,NN,NFT,
      *                         ADDSUBM,LISUBM,TYPSUB,

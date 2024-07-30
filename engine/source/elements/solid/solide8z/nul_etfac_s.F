@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NUL_ETFAC_S                   source/elements/solid/solide8z/nul_etfac_s.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        IKTMAT_INI                    source/implicit/imp_init.F    
-Chd|        IMP_KTAN                      share/modules/impbufdef_mod.F 
-Chd|        IMP_KTAN_DEF                  share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    nul_etfac_s    ../engine/source/elements/solid/solide8z/nul_etfac_s.F
+      !||--- calls      -----------------------------------------------------
+      !||    iktmat_ini     ../engine/source/implicit/imp_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
+      !||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE NUL_ETFAC_S(NEL,MTN)
 C-----------------------------------------------
 C   M o d u l e s

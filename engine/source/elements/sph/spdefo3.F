@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPDEFO3                       source/elements/sph/spdefo3.F 
-Chd|-- called by -----------
-Chd|        SPSTRES                       source/elements/sph/spstres.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spdefo3   ../engine/source/elements/sph/spdefo3.F
+      !||--- called by ------------------------------------------------------
+      !||    spstres   ../engine/source/elements/sph/spstres.F
+      !||====================================================================
       SUBROUTINE SPDEFO3(
      1   DXX,     DXY,     DXZ,     DYX,
      2   DYY,     DYZ,     DZX,     DZY,

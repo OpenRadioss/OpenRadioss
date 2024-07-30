@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  DT16LAW                       source/materials/time_step/dt16law.F
-Chd|-- called by -----------
-Chd|        DTMAIN                        source/materials/time_step/dtmain.F
-Chd|-- calls ---------------
-Chd|        DTEL                          source/materials/time_step/dtel.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dt16law   ../starter/source/materials/time_step/dt16law.F
+      !||--- called by ------------------------------------------------------
+      !||    dtmain    ../starter/source/materials/time_step/dtmain.F
+      !||--- calls      -----------------------------------------------------
+      !||    dtel      ../starter/source/materials/time_step/dtel.F
+      !||====================================================================
       SUBROUTINE DT16LAW(PM,GEO,PID,MAT, DELTAX, AIRE, VOL, DTX)
 C
 C     CALCUL DES DT ELEM. LOI NO 16 TYPE JOHNSON - COOK - GRAY

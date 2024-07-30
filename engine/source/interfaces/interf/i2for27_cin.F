@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2FOR27_CIN                   source/interfaces/interf/i2for27_cin.F
-Chd|-- called by -----------
-Chd|        I2FOR27                       source/interfaces/interf/i2for27.F
-Chd|-- calls ---------------
-Chd|        I2CIN_ROT27                   ../common_source/interf/i2cin_rot27.F
-Chd|        I2FORCES                      source/interfaces/interf/i2forces.F
-Chd|        I2LOCEQ_27                    ../common_source/interf/i2loceq.F
-Chd|        I2REP                         ../common_source/interf/i2rep.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i2for27_cin   ../engine/source/interfaces/interf/i2for27_cin.F
+      !||--- called by ------------------------------------------------------
+      !||    i2for27       ../engine/source/interfaces/interf/i2for27.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2cin_rot27   ../common_source/interf/i2cin_rot27.F
+      !||    i2forces      ../engine/source/interfaces/interf/i2forces.F
+      !||    i2loceq_27    ../common_source/interf/i2loceq.F
+      !||    i2rep         ../common_source/interf/i2rep.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod       ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I2FOR27_CIN(NSN    ,NMN    ,A      ,IRECT  ,CRST   ,
      2                   MSR    ,NSV    ,IRTL   ,MS     ,WEIGHT ,
      3                   STIFN  ,MMASS  ,IDEL2  ,SMASS  ,X      ,

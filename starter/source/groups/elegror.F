@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ELEGROR                       source/groups/elegror.F       
-Chd|-- called by -----------
-Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
-Chd|        LECSEC4BOLT                   source/tools/sect/lecsec4bolt.F
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    elegror        ../starter/source/groups/elegror.F
+      !||--- called by ------------------------------------------------------
+      !||    lecsec42       ../starter/source/tools/sect/hm_read_sect.F
+      !||    lecsec4bolt    ../starter/source/tools/sect/lecsec4bolt.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       INTEGER FUNCTION ELEGROR(IGU,IGRELE,NGRELE,MOT,
      .                  IBUF,NIB,MESS,NFRAM,TAGELEMS,ISTYP,
      .                  ID,TITR)

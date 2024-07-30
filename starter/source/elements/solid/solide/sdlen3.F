@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SDLEN3                        source/elements/solid/solide/sdlen3.F
-Chd|-- called by -----------
-Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
-Chd|        INIVOID                       source/elements/initia/inivoid.F
-Chd|        MULTIFLUID_INIT3              source/multifluid/multifluid_init3.F
-Chd|        SCINIT3                       source/elements/thickshell/solidec/scinit3.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|        SUINIT3                       source/elements/elbuf_init/suinit3.F
-Chd|-- calls ---------------
-Chd|        SLEN                          source/elements/solid/solide/slen.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sdlen3             ../starter/source/elements/solid/solide/sdlen3.F
+      !||--- called by ------------------------------------------------------
+      !||    inirig_mat         ../starter/source/elements/initia/inirig_mat.F
+      !||    inivoid            ../starter/source/elements/initia/inivoid.F
+      !||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
+      !||    scinit3            ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||    sinit3             ../starter/source/elements/solid/solide/sinit3.F
+      !||    suinit3            ../starter/source/elements/elbuf_init/suinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    slen               ../starter/source/elements/solid/solide/slen.F
+      !||====================================================================
       SUBROUTINE SDLEN3(
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .              Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,

@@ -20,21 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THSOL                         source/output/th/thsol.F      
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        SCOOR431                      source/elements/solid/sconnect/scoor431.F
-Chd|        SCORTHO31                     source/elements/thickshell/solidec/scortho31.F
-Chd|        SORTHO31                      source/elements/solid/solide/sortho31.F
-Chd|        SROTA6                        source/output/anim/generate/srota6.F
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    thsol           ../engine/source/output/th/thsol.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2           ../engine/source/output/th/hist2.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf         ../engine/share/resol/initbuf.F
+      !||    nvar            ../engine/source/input/nvar.F
+      !||    scoor431        ../engine/source/elements/solid/sconnect/scoor431.F
+      !||    scortho31       ../engine/source/elements/thickshell/solidec/scortho31.F
+      !||    sortho31        ../engine/source/elements/solid/solide/sortho31.F
+      !||    srota6          ../engine/source/output/anim/generate/srota6.F
+      !||--- uses       -----------------------------------------------------
+      !||    alefvm_mod      ../common_source/modules/ale/alefvm_mod.F
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod     ../engine/share/resol/initbuf.F
+      !||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F
+      !||====================================================================
       SUBROUTINE THSOL(ELBUF_TAB, NTHGRP2, ITHGRP ,
      .                 IPARG    , ITHBUF , WA     ,
      .                 IXS      , X      , IPM    , PM    , IGEO,

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8ETOTSH10                    source/elements/solid/solide8e/s8etotsh10.F
-Chd|-- called by -----------
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8etotsh10   ../engine/source/elements/solid/solide8e/s8etotsh10.F
+      !||--- called by ------------------------------------------------------
+      !||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||====================================================================
       SUBROUTINE S8ETOTSH10(
      1   MB,      BXX,     BYY,     BZZ,
      2   BXY,     BYZ,     BXZ,     NEL)

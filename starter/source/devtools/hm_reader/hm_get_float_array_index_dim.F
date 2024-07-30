@@ -20,28 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_GET_FLOAT_ARRAY_INDEX_DIM  source/devtools/hm_reader/hm_get_float_array_index_dim.F
-Chd|-- called by -----------
-Chd|        HM_READ_BEM                   source/loads/bem/hm_read_bem.F
-Chd|        HM_READ_FAIL_INIEVO           source/materials/fail/inievo/hm_read_fail_inievo.F
-Chd|        HM_READ_INJECT1               source/properties/injector/hm_read_inject1.F
-Chd|        HM_READ_MAT36                 source/materials/mat/mat036/hm_read_mat36.F
-Chd|        HM_READ_MAT51                 source/materials/mat/mat051/hm_read_mat51.F
-Chd|        HM_READ_MAT57                 source/materials/mat/mat057/hm_read_mat57.F
-Chd|        HM_READ_MAT59                 source/materials/mat/mat059/hm_read_mat59.F
-Chd|        HM_READ_MAT66                 source/materials/mat/mat066/hm_read_mat66.F
-Chd|        HM_READ_MAT70                 source/materials/mat/mat070/hm_read_mat70.F
-Chd|        HM_READ_MAT87                 source/materials/mat/mat087/hm_read_mat87.F
-Chd|        HM_READ_MAT88                 source/materials/mat/mat088/hm_read_mat88.F
-Chd|        HM_READ_MAT90                 source/materials/mat/mat090/hm_read_mat90.F
-Chd|        HM_READ_MONVOL_TYPE4          source/airbag/hm_read_monvol_type4.F
-Chd|        HM_READ_MONVOL_TYPE7          source/airbag/hm_read_monvol_type7.F
-Chd|        HM_READ_PROP26                source/properties/spring/hm_read_prop26.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_get_float_array_index_dim   ../starter/source/devtools/hm_reader/hm_get_float_array_index_dim.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_bem                    ../starter/source/loads/bem/hm_read_bem.F
+      !||    hm_read_fail_inievo            ../starter/source/materials/fail/inievo/hm_read_fail_inievo.F
+      !||    hm_read_inject1                ../starter/source/properties/injector/hm_read_inject1.F
+      !||    hm_read_mat36                  ../starter/source/materials/mat/mat036/hm_read_mat36.F
+      !||    hm_read_mat51                  ../starter/source/materials/mat/mat051/hm_read_mat51.F
+      !||    hm_read_mat57                  ../starter/source/materials/mat/mat057/hm_read_mat57.F
+      !||    hm_read_mat59                  ../starter/source/materials/mat/mat059/hm_read_mat59.F
+      !||    hm_read_mat66                  ../starter/source/materials/mat/mat066/hm_read_mat66.F
+      !||    hm_read_mat70                  ../starter/source/materials/mat/mat070/hm_read_mat70.F
+      !||    hm_read_mat87                  ../starter/source/materials/mat/mat087/hm_read_mat87.F
+      !||    hm_read_mat88                  ../starter/source/materials/mat/mat088/hm_read_mat88.F
+      !||    hm_read_mat90                  ../starter/source/materials/mat/mat090/hm_read_mat90.F
+      !||    hm_read_monvol_type4           ../starter/source/airbag/hm_read_monvol_type4.F
+      !||    hm_read_monvol_type7           ../starter/source/airbag/hm_read_monvol_type7.F
+      !||    hm_read_prop26                 ../starter/source/properties/spring/hm_read_prop26.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                    ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_GET_FLOAT_ARRAY_INDEX_DIM(NAME,DIM_FAC,INDEX,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

@@ -23,13 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C     REAL
 #include "my_real.inc"
       my_real
-Chd|====================================================================
-Chd|  RSTR                          source/tools/univ/rstr.F      
-Chd|-- called by -----------
-Chd|        REDSQR                        source/output/tools/redsqr.F  
-Chd|        REDSQRDP                      source/output/tools/redsqr.F  
-Chd|-- calls ---------------
-Chd|====================================================================
      .   FUNCTION RSTR(STR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

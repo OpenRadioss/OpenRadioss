@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  COPY_INTBUF_TAB               interf/copy_intbuf_tab.F      
-Chd|-- called by -----------
-Chd|        CP_IMPBUF                     engine/source/implicit/produt_v.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    copy_intbuf_tab   ../common_source/interf/copy_intbuf_tab.F
+      !||--- called by ------------------------------------------------------
+      !||    cp_impbuf         ../engine/source/implicit/produt_v.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE COPY_INTBUF_TAB(INTBUF_TAB, INTBUF_TAB_C)  
 C-----------------------------------------------
 C   M o d u l e s
@@ -1059,12 +1059,12 @@ C-----
 
       END SUBROUTINE COPY_INTBUF_TAB
 
-Chd|====================================================================
-Chd|  INTBUF_TAB_C_INI              interf/copy_intbuf_tab.F      
-Chd|-- called by -----------
-Chd|        DIM_INT7                      engine/source/implicit/ind_glob_k.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    intbuf_tab_c_ini   ../common_source/interf/copy_intbuf_tab.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_int7           ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INTBUF_TAB_C_INI(INTBUF_TAB, INTBUF_TAB_C)  
 C-----------------------------------------------
 C   M o d u l e s

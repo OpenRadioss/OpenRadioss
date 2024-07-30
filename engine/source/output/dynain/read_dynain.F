@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ_DYNAIN                   source/output/dynain/read_dynain.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/input/lectur.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        SPMD_GATHERV_INT              source/mpi/generic/spmd_gatherv_int.F
-Chd|        SPMD_GATHER_INT               source/mpi/generic/spmd_gather_int.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    read_dynain        ../engine/source/output/dynain/read_dynain.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur             ../engine/source/input/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../engine/source/output/message/message.F
+      !||    arret              ../engine/source/system/arret.F
+      !||    my_orders          ../common_source/tools/sort/my_orders.c
+      !||    spmd_gather_int    ../engine/source/mpi/generic/spmd_gather_int.F
+      !||    spmd_gatherv_int   ../engine/source/mpi/generic/spmd_gatherv_int.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    state_mod          ../common_source/modules/state_mod.F
+      !||====================================================================
       SUBROUTINE READ_DYNAIN(IPART,DYNAIN_DATA,IPARTC,IPARTTG,IXC,IXTG)
 C-----------------------------------------------
 C   M o d u l e s

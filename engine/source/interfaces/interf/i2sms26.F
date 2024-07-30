@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2SMS26                       source/interfaces/interf/i2sms26.F
-Chd|-- called by -----------
-Chd|        I2FOR26                       source/interfaces/interf/i2for26.F
-Chd|        I2FOR26P                      source/interfaces/interf/i2for26p.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i2sms26       ../engine/source/interfaces/interf/i2sms26.F
+      !||--- called by ------------------------------------------------------
+      !||    i2for26       ../engine/source/interfaces/interf/i2for26.F
+      !||    i2for26p      ../engine/source/interfaces/interf/i2for26p.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I2SMS26(JLT   ,IX1   ,IX2   ,IX3   ,IX4    ,
      .                   NSVG  ,STIF  ,NOINT ,
      .                   DMINT2,NODNX_SMS ,VIS   ,DTI)

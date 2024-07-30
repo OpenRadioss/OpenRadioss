@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_I18KINE_COM_MS           source/mpi/interfaces/spmd_i18kine_com_ms.F
-Chd|-- called by -----------
-Chd|        I18MAIN_KINE_1                source/interfaces/int18/i18main_kine.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_i18kine_com_ms   ../engine/source/mpi/interfaces/spmd_i18kine_com_ms.F
+      !||--- called by ------------------------------------------------------
+      !||    i18main_kine_1        ../engine/source/interfaces/int18/i18main_kine.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    tri7box               ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_I18KINE_COM_MS(IPARI,INTBUF_TAB,
      *                MTF,MS,ITAB)
 C-----------------------------------------------

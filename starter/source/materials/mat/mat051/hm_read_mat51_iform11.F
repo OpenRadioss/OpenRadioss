@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_MAT51_IFORM11         source/materials/mat/mat051/hm_read_mat51_iform11.F
-Chd|-- called by -----------
-Chd|        HM_READ_MAT51                 source/materials/mat/mat051/hm_read_mat51.F
-Chd|-- calls ---------------
-Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_mat51_iform11      ../starter/source/materials/mat/mat051/hm_read_mat51_iform11.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_mat51              ../starter/source/materials/mat/mat051/hm_read_mat51.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+      !||    hm_get_floatv              ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_int_array_index     ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||--- uses       -----------------------------------------------------
+      !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_MAT51_IFORM11(
      .    AV,     RHO0_,     E0,       PM,     C0 ,
      .    C1,     C2,        C3,       C4,     C5 ,

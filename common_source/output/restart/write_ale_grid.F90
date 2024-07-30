@@ -26,6 +26,16 @@
 !! \brief Save buffer for restart file.
 !! \details  necessary buffer specific to family of options /ALE/GRID/...
 !
+      !||====================================================================
+      !||    write_ale_grid   ../common_source/output/restart/write_ale_grid.F90
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
+      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db         ../common_source/tools/input_output/write_db.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod          ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
       subroutine write_ale_grid()
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

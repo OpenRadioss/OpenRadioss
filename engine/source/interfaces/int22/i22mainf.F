@@ -20,26 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I22MAINF                      source/interfaces/int22/i22mainf.F
-Chd|-- called by -----------
-Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I22COR3                       source/interfaces/int22/i22cor3.F
-Chd|        I22FOR3                       source/interfaces/int22/i22for3.F
-Chd|        I22WETSURF                    source/interfaces/int22/i22wetsurf.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        SUM_6_FLOAT_SENS              source/system/parit.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i22mainf           ../engine/source/interfaces/int22/i22mainf.F
+      !||--- called by ------------------------------------------------------
+      !||    intfop2            ../engine/source/interfaces/interf/intfop2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../engine/source/output/message/message.F
+      !||    arret              ../engine/source/system/arret.F
+      !||    i22cor3            ../engine/source/interfaces/int22/i22cor3.F
+      !||    i22for3            ../engine/source/interfaces/int22/i22for3.F
+      !||    i22wetsurf         ../engine/source/interfaces/int22/i22wetsurf.F
+      !||    my_barrier         ../engine/source/system/machine.F
+      !||    startime           ../engine/source/system/timer.F
+      !||    stoptime           ../engine/source/system/timer.F
+      !||    sum_6_float_sens   ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
+      !||    h3d_mod            ../engine/share/modules/h3d_mod.F
+      !||    i22tri_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I22MAINF(
      1                   IPARI     ,INTBUF_TAB ,X          ,A      ,
      2                   ICODT     ,FSAV       ,V          ,MS        ,DT2T     ,  

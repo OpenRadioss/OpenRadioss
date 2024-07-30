@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FSDCOD                        source/system/fsdcod.F        
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        INIGUSER                      source/system/iniguser.F      
-Chd|        NINTRI                        source/system/nintrr.F        
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        INTSTAMP_MOD                  share/modules1/intstamp_mod.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    fsdcod         ../starter/source/system/fsdcod.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur         ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../starter/source/output/message/message.F
+      !||    fretitl2       ../starter/source/starter/freform.F
+      !||    iniguser       ../starter/source/system/iniguser.F
+      !||    nintri         ../starter/source/system/nintrr.F
+      !||    usr2sys        ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    intstamp_mod   ../starter/share/modules1/intstamp_mod.F
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    sensor_mod     ../starter/share/modules1/sensor_mod.F
+      !||    table_mod      ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE FSDCOD(BUFMAT    ,PM        ,GEO       ,IBCL      ,IPRES   ,
      .                  IBFV      ,ISKEW     ,ISKN      ,SENSORS   ,
      .                  ITABM1    ,SKEW      ,LACCELM   ,INSEL     ,BUFGEO  ,
@@ -1950,18 +1951,18 @@ C Traitement des id matriau (Mdet) dans lecdet.F avec le check des user flags
 C-----
       END
 C
-Chd|====================================================================
-Chd|  M20DCOD                       source/system/fsdcod.F        
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    m20dcod        ../starter/source/system/fsdcod.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur         ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../starter/source/output/message/message.F
+      !||    arret          ../starter/source/system/arret.F
+      !||    fretitl2       ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbuftag_mod   ../starter/share/modules1/elbuftag_mod.F
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE M20DCOD(MLAW_TAG, IPM  ,PM)
       USE MESSAGE_MOD
 C     SOUS PROGRAMME DE DECODAGE DES SOUS-MATERIAUX (LOI 20 et LOI 151)

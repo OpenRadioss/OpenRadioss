@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IPARTI                        src/init1/iparti.F            
-Chd|-- called by -----------
-Chd|        TRIRAP                        src/init1/trirap.F            
-Chd|-- calls ---------------
-Chd|        ECHANG                        src/init1/echang.F            
-Chd|        ICOMPC                        src/init1/icompc.F            
-Chd|====================================================================
+      !||====================================================================
+      !||    iparti   ../common_source/tools/sort/iparti.F
+      !||--- called by ------------------------------------------------------
+      !||    trirap   ../common_source/tools/sort/trirap.F
+      !||--- calls      -----------------------------------------------------
+      !||    echang   ../common_source/tools/sort/echang.F
+      !||    icompc   ../common_source/tools/sort/icompc.F
+      !||====================================================================
       INTEGER FUNCTION IPARTI(I,J,TAB,N2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

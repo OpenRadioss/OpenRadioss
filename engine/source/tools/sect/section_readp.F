@@ -20,24 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SECTION_READP                 source/tools/sect/section_readp.F
-Chd|-- called by -----------
-Chd|        SECTION_FIO                   source/tools/sect/section_fio.F
-Chd|        SECTION_IO                    source/tools/sect/section_io.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
-Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
-Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        READ_R_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
-Chd|        SPMD_SD_CUT                   source/mpi/sections/spmd_section.F
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    section_readp   ../engine/source/tools/sect/section_readp.F
+      !||--- called by ------------------------------------------------------
+      !||    section_fio     ../engine/source/tools/sect/section_fio.F
+      !||    section_io      ../engine/source/tools/sect/section_io.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||    close_c         ../common_source/tools/input_output/write_routtines.c
+      !||    cur_fil_c       ../common_source/tools/input_output/write_routtines.c
+      !||    open_c          ../common_source/tools/input_output/write_routtines.c
+      !||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||    read_r_c        ../common_source/tools/input_output/write_routtines.c
+      !||    spmd_rbcast     ../engine/source/mpi/generic/spmd_rbcast.F
+      !||    spmd_sd_cut     ../engine/source/mpi/sections/spmd_section.F
+      !||--- uses       -----------------------------------------------------
+      !||    inoutfile_mod   ../common_source/modules/inoutfile_mod.F
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SECTION_READP(TTT,NSTRF,SECBUF,NNODT,IAD_CUT,FR_CUT)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,33 +20,35 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALETHE                        source/ale/alethe.F           
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|-- calls ---------------
-Chd|        ACONVE                        source/ale/aconve.F           
-Chd|        AETURB                        source/ale/turbulence/aeturb.F
-Chd|        AFLUX0                        source/ale/aflux0.F           
-Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
-Chd|        AGRAD0                        source/ale/agrad0.F           
-Chd|        AKTURB                        source/ale/turbulence/akturb.F
-Chd|        ALE51_FINISH                  source/ale/ale51/ale51_finish.F
-Chd|        ALE51_GRADIENT_RECONSTRUCTION source/ale/alemuscl/ale51_gradient_reconstruction.F
-Chd|        ALE51_GRADIENT_RECONSTRUCTION2source/ale/alemuscl/ale51_gradient_reconstruction2.F
-Chd|        ALE51_INIT                    source/ale/ale51/ale51_init.F 
-Chd|        AREZON                        source/ale/arezon.F           
-Chd|        ATHERM                        source/ale/atherm.F           
-Chd|        BHOL2                         source/ale/ale2d/bhol2.F      
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_XVOIS                    source/mpi/fluid/spmd_cfd.F   
-Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    alethe                           ../engine/source/ale/alethe.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain                          ../engine/source/ale/alemain.F
+      !||--- calls      -----------------------------------------------------
+      !||    aconve                           ../engine/source/ale/aconve.F
+      !||    aeturb                           ../engine/source/ale/turbulence/aeturb.F
+      !||    aflux0                           ../engine/source/ale/aflux0.F
+      !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+      !||    agrad0                           ../engine/source/ale/agrad0.F
+      !||    akturb                           ../engine/source/ale/turbulence/akturb.F
+      !||    ale51_finish                     ../engine/source/ale/ale51/ale51_finish.F
+      !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+      !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+      !||    ale51_init                       ../engine/source/ale/ale51/ale51_init.F
+      !||    arezon                           ../engine/source/ale/arezon.F
+      !||    atherm                           ../engine/source/ale/atherm.F
+      !||    bhol2                            ../engine/source/ale/ale2d/bhol2.F
+      !||    my_barrier                       ../engine/source/system/machine.F
+      !||    nvar                             ../engine/source/input/nvar.F
+      !||    spmd_xvois                       ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    ale_mod                          ../common_source/modules/ale/ale_mod.F
+      !||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
+      !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    i22tri_mod                       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    segvar_mod                       ../engine/share/modules/segvar_mod.F
+      !||====================================================================
       SUBROUTINE ALETHE(
      1   IPARG,      ELBUF_TAB,  FLUX,       VAL2,
      2   PHI,        ALE_CONNECT,IXS,        IXQ,

@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ_ENGINE_DTMIN             source/general_controls/damping/read_engine_dtmin.F
-Chd|-- called by -----------
-Chd|        DAMPDTNODA                    source/general_controls/damping/dampdtnoda.F
-Chd|-- calls ---------------
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    read_engine_dtmin   ../starter/source/general_controls/damping/read_engine_dtmin.F
+      !||--- called by ------------------------------------------------------
+      !||    dampdtnoda          ../starter/source/general_controls/damping/dampdtnoda.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod         ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE READ_ENGINE_DTMIN(DTMIN)
 C-----------------------------------------------
 C   M o d u l e s

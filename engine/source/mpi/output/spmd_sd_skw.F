@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_SD_SKW                   source/mpi/output/spmd_sd_skw.F
-Chd|-- called by -----------
-Chd|        NEWSKW                        source/tools/skew/newskw.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sd_skw      ../engine/source/mpi/output/spmd_sd_skw.F
+      !||--- called by ------------------------------------------------------
+      !||    newskw           ../engine/source/tools/skew/newskw.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_SD_SKW(SKEW,ISKWP_L_SEND,NUMSKW_L_SEND,RECVCOUNT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -151,12 +151,12 @@ C
       RETURN
       END SUBROUTINE SPMD_SD_SKW
 C
-Chd|====================================================================
-Chd|  SPMD_SD_SKW_ANIM              source/mpi/output/spmd_sd_skw.F
-Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sd_skw_anim   ../engine/source/mpi/output/spmd_sd_skw.F
+      !||--- called by ------------------------------------------------------
+      !||    sortie_main        ../engine/source/output/sortie_main.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_SD_SKW_ANIM(SKEW,ISKWP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

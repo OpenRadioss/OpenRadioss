@@ -20,37 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALEMUSCL_MOD                  modules/ale/alemuscl_mod.F    
-Chd|-- called by -----------
-Chd|        CONTRL                        starter/source/starter/contrl.F
-Chd|        HM_READ_ALE_MUSCL             starter/source/general_controls/ale_cfd/hm_read_ale_muscl.F
-Chd|        HM_READ_MAT37                 starter/source/materials/mat/mat037/hm_read_mat37.F
-Chd|        HM_READ_MAT51                 starter/source/materials/mat/mat051/hm_read_mat51.F
-Chd|        STARTER0                      starter/source/starter/starter0.F
-Chd|        ST_QAPRINT_ALE_OPTIONS_DRIVER starter/source/output/qaprint/st_qaprint_ale_options_driver.F
-Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
-Chd|        AFLUXT                        engine/source/ale/ale51/afluxt.F
-Chd|        ALE51_GRADIENT_RECONSTRUCTION engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
-Chd|        ALEMUSCL_DEALLOCATE           engine/source/ale/alemuscl/alemuscl_deallocate.F
-Chd|        ALEMUSCL_UPWIND               engine/source/ale/alemuscl/alemuscl_upwind.F
-Chd|        ALEMUSCL_UPWIND2              engine/source/ale/alemuscl/alemuscl_upwind2.F
-Chd|        ALETHE                        engine/source/ale/alethe.F    
-Chd|        FREFORM                       engine/source/input/freform.F 
-Chd|        GRADIENT_LIMITATION           engine/source/ale/alemuscl/gradient_limitation.F
-Chd|        GRADIENT_LIMITATION2          engine/source/ale/alemuscl/gradient_limitation2.F
-Chd|        GRADIENT_RECONSTRUCTION       engine/source/ale/alemuscl/gradient_reconstruction.F
-Chd|        GRADIENT_RECONSTRUCTION2      engine/source/ale/alemuscl/gradient_reconstruction2.F
-Chd|        LECTUR                        engine/source/input/lectur.F  
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
-Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESOL_INIT                    engine/source/engine/resol_init.F
-Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
-Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
-Chd|        ALE51_GRADIENT_RECONSTRUCTION2engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+      !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+      !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+      !||    alemuscl_deallocate              ../engine/source/ale/alemuscl/alemuscl_deallocate.F
+      !||    alemuscl_upwind                  ../engine/source/ale/alemuscl/alemuscl_upwind.F
+      !||    alemuscl_upwind2                 ../engine/source/ale/alemuscl/alemuscl_upwind2.F
+      !||    alethe                           ../engine/source/ale/alethe.F
+      !||    contrl                           ../starter/source/starter/contrl.F
+      !||    freform                          ../engine/source/input/freform.F
+      !||    gradient_limitation              ../engine/source/ale/alemuscl/gradient_limitation.F
+      !||    gradient_limitation2             ../engine/source/ale/alemuscl/gradient_limitation2.F
+      !||    gradient_reconstruction          ../engine/source/ale/alemuscl/gradient_reconstruction.F
+      !||    gradient_reconstruction2         ../engine/source/ale/alemuscl/gradient_reconstruction2.F
+      !||    hm_read_ale_muscl                ../starter/source/general_controls/ale_cfd/hm_read_ale_muscl.F
+      !||    hm_read_mat37                    ../starter/source/materials/mat/mat037/hm_read_mat37.F
+      !||    hm_read_mat51                    ../starter/source/materials/mat/mat051/hm_read_mat51.F
+      !||    lectur                           ../engine/source/input/lectur.F
+      !||    radioss2                         ../engine/source/engine/radioss2.F
+      !||    rdcomi                           ../engine/source/output/restart/rdcomm.F
+      !||    resol                            ../engine/source/engine/resol.F
+      !||    resol_init                       ../engine/source/engine/resol_init.F
+      !||    restalloc                        ../engine/source/output/restart/arralloc.F
+      !||    st_qaprint_ale_options_driver    ../starter/source/output/qaprint/st_qaprint_ale_options_driver.F
+      !||    starter0                         ../starter/source/starter/starter0.F
+      !||    wrcomi                           ../engine/source/output/restart/wrcomm.F
+      !||    wrcomip                          ../starter/source/restart/ddsplit/wrcommp.F
+      !||====================================================================
       MODULE ALEMUSCL_MOD
 C-----------------------------------------------
         IMPLICIT NONE

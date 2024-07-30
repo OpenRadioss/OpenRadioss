@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  --New-- Hill model + MMC failure model
-Chd|====================================================================
-Chd|  SIGEPS72                      source/materials/mat/mat072/sigeps72.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps72   ../engine/source/materials/mat/mat072/sigeps72.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw      ../engine/source/materials/mat_share/mulaw.F90
+      !||====================================================================
       SUBROUTINE SIGEPS72(
      1     NEL      ,NUPARAM  ,NUVAR    ,
      2     TIME     ,TIMESTEP ,UPARAM   ,RHO0     ,RHO      ,

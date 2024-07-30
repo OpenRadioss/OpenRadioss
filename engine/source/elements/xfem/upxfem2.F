@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UPXFEM2                       source/elements/xfem/upxfem2.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SPMD_EXCH_IEDGE               source/mpi/elements/spmd_xfem.F
-Chd|        SPMD_EXCH_NODENR              source/mpi/elements/spmd_xfem.F
-Chd|        SPMD_EXCH_REDGE               source/mpi/elements/spmd_xfem.F
-Chd|        SPMD_MAX_XFE_I                source/mpi/elements/spmd_xfem.F
-Chd|        STARTIMEG                     source/system/timer.F         
-Chd|        STOPTIMEG                     source/system/timer.F         
-Chd|        UPENRIC_LAST                  source/elements/xfem/upenric_last.F
-Chd|        UPENRITG_LAST                 source/elements/xfem/upenritg_last.F
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    upxfem2            ../engine/source/elements/xfem/upxfem2.F
+      !||--- called by ------------------------------------------------------
+      !||    resol              ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_exch_iedge    ../engine/source/mpi/elements/spmd_xfem.F
+      !||    spmd_exch_nodenr   ../engine/source/mpi/elements/spmd_xfem.F
+      !||    spmd_exch_redge    ../engine/source/mpi/elements/spmd_xfem.F
+      !||    spmd_max_xfe_i     ../engine/source/mpi/elements/spmd_xfem.F
+      !||    startimeg          ../engine/source/system/timer.F
+      !||    stoptimeg          ../engine/source/system/timer.F
+      !||    upenric_last       ../engine/source/elements/xfem/upenric_last.F
+      !||    upenritg_last      ../engine/source/elements/xfem/upenritg_last.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod      ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE UPXFEM2(IPARG    ,IXC    ,NGROUC  ,IGROUC ,IADC_CRK ,
      .                   IEL_CRK  ,ELCUTC ,IXTG    ,ENRTAG ,INOD_CRK ,
      .                   IAD_ELEM ,FR_ELEM,IAD_EDGE,FR_EDGE,FR_NBEDGE,

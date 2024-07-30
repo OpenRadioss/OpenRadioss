@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NEW_LINK                      source/coupling/rad2rad/new_link.F
-Chd|-- called by -----------
-Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
-Chd|-- calls ---------------
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    new_link    ../starter/source/coupling/rad2rad/new_link.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_group   ../starter/source/coupling/rad2rad/r2r_group.F
+      !||--- uses       -----------------------------------------------------
+      !||    r2r_mod     ../starter/share/modules1/r2r_mod.F
+      !||    restmod     ../starter/share/modules1/restart_mod.F
+      !||====================================================================
       SUBROUTINE NEW_LINK(NUM,N,K)
 C-----------------------------------------------
 C   M o d u l e s

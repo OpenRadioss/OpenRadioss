@@ -20,29 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DOMDEC2                       source/spmd/domdec2.F         
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        CHECK_SKEW                    source/spmd/domain_decomposition/check_skew.F
-Chd|        C_DOMS10                      source/spmd/domdec2.F         
-Chd|        DOMAIN_DECOMPOSITION_PCYL     source/loads/general/load_pcyl/domain_decomposition_pcyl.F
-Chd|        FRONTPLUS_RM                  source/spmd/node/frontplus.F  
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|        SPLIT_JOINT                   source/constraints/general/cyl_joint/split_joint.F
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    domdec2                     ../starter/source/spmd/domdec2.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                      ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                      ../starter/source/output/message/message.F
+      !||    c_doms10                    ../starter/source/spmd/domdec2.F
+      !||    check_skew                  ../starter/source/spmd/domain_decomposition/check_skew.F
+      !||    domain_decomposition_pcyl   ../starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
+      !||    frontplus_rm                ../starter/source/spmd/node/frontplus.F
+      !||    ifrontplus                  ../starter/source/spmd/node/frontplus.F
+      !||    nlocal                      ../starter/source/spmd/node/ddtools.F
+      !||    split_joint                 ../starter/source/constraints/general/cyl_joint/split_joint.F
+      !||--- uses       -----------------------------------------------------
+      !||    front_mod                   ../starter/share/modules1/front_mod.F
+      !||    message_mod                 ../starter/share/message_module/message_mod.F
+      !||    monvol_struct_mod           ../starter/share/modules1/monvol_struct_mod.F
+      !||    sensor_mod                  ../starter/share/modules1/sensor_mod.F
+      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE DOMDEC2(
      1   DD_IAD ,IPARI  ,IB     ,NPBY  ,
      2   LPBY   ,IXRI   ,IBVEL  ,LBVEL ,
@@ -2013,19 +2010,15 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  FILLCNE                       source/spmd/domdec2.F         
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fillcne             ../starter/source/spmd/domdec2.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur              ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal              ../starter/source/spmd/node/ddtools.F
+      !||--- uses       -----------------------------------------------------
+      !||    monvol_struct_mod   ../starter/share/modules1/monvol_struct_mod.F
+      !||====================================================================
       SUBROUTINE FILLCNE(
      1   CNE    ,LCNE   ,IXS  ,IXS10  ,IXS20  ,
      2   IXS16  ,IXQ    ,IXC  ,IXT    ,IXP    ,
@@ -2804,12 +2797,12 @@ C-----------------------------------------------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  FILLCNI2                      source/spmd/domdec2.F         
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fillcni2        ../starter/source/spmd/domdec2.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur          ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE FILLCNI2(
      1   CNI2  ,LCNI2 ,ADDCNI2, IPARI, INTBUF_TAB)
 C-----------------------------------------------
@@ -2882,12 +2875,11 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  DDPRINT                       source/spmd/domdec2.F         
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ddprint   ../starter/source/spmd/domdec2.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur    ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE  DDPRINT(DDSTAT,  MEMFLOW)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3182,14 +3174,14 @@ C
       DEALLOCATE( DEVIATION ) 
       RETURN
       END
-Chd|====================================================================
-Chd|  C_DOMS10                      source/spmd/domdec2.F         
-Chd|-- called by -----------
-Chd|        DOMDEC2                       source/spmd/domdec2.F         
-Chd|-- calls ---------------
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    c_doms10     ../starter/source/spmd/domdec2.F
+      !||--- called by ------------------------------------------------------
+      !||    domdec2      ../starter/source/spmd/domdec2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ifrontplus   ../starter/source/spmd/node/frontplus.F
+      !||    nlocal       ../starter/source/spmd/node/ddtools.F
+      !||====================================================================
       SUBROUTINE C_DOMS10(ICNDS10,ITAGND,IPLUS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

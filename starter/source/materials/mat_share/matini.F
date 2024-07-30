@@ -20,57 +20,56 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MATINI                        source/materials/mat_share/matini.F
-Chd|-- called by -----------
-Chd|        BINIT2                        source/ale/bimat/binit2.F     
-Chd|        IG3DINIT3                     source/elements/ige3d/ig3dinit3.F
-Chd|        MULTIFLUID_INIT2              source/multifluid/multifluid_init2.F
-Chd|        MULTIFLUID_INIT2T             source/multifluid/multifluid_init2t.F
-Chd|        MULTIFLUID_INIT3              source/multifluid/multifluid_init3.F
-Chd|        MULTIFLUID_INIT3T             source/multifluid/multifluid_init3t.F
-Chd|        Q4INIT2                       source/elements/solid_2d/quad4/q4init2.F
-Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
-Chd|        S10INIT3                      source/elements/solid/solide10/s10init3.F
-Chd|        S16INIT3                      source/elements/thickshell/solide16/s16init3.F
-Chd|        S20INIT3                      source/elements/solid/solide20/s20init3.F
-Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
-Chd|        S6CINIT3                      source/elements/thickshell/solide6c/s6cinit3.F
-Chd|        S8CINIT3                      source/elements/thickshell/solide8c/s8cinit3.F
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|        SCINIT3                       source/elements/thickshell/solidec/scinit3.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|        SPINIT3                       source/elements/sph/spinit3.F 
-Chd|        SUINIT3                       source/elements/elbuf_init/suinit3.F
-Chd|-- calls ---------------
-Chd|        AGRAD2                        source/ale/ale2d/agrad2.F     
-Chd|        AGRAD3                        source/ale/ale3d/agrad3.F     
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        ATHLEN                        source/ale/athlen.F           
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        M105INIT                      source/materials/mat/mat105/m105init.F
-Chd|        M24IN2                        source/materials/mat/mat024/m24in2.F
-Chd|        M24IN3                        source/materials/mat/mat024/m24in3.F
-Chd|        M24INSPH                      source/elements/sph/m24insph.F
-Chd|        M37INIT                       source/materials/mat/mat037/m37init.F
-Chd|        M38INIT                       source/materials/mat/mat038/m38init.F
-Chd|        M51INIT                       source/materials/mat/mat051/m51init.F
-Chd|        M5IN2                         source/initial_conditions/detonation/m5in2.F
-Chd|        M5IN3                         source/initial_conditions/detonation/m5in3.F
-Chd|        M6IN                          source/materials/mat/mat006/m6in.F
-Chd|        M70INIT                       source/materials/mat/mat070/m70init.F
-Chd|        M75INIT                       source/materials/mat/mat075/m75init.F
-Chd|        M77INIT                       source/materials/mat/mat077/m77init.F
-Chd|        M95INIT                       source/materials/mat/mat095/m95init.F
-Chd|        M97INIT                       source/materials/mat/mat097/m97init.F
-Chd|        MAT11CHECK                    source/materials/mat/mat011/mat11check.F
-Chd|        MATING                        source/materials/mat_share/mating.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    matini                 ../starter/source/materials/mat_share/matini.F
+      !||--- called by ------------------------------------------------------
+      !||    binit2                 ../starter/source/ale/bimat/binit2.F
+      !||    ig3dinit3              ../starter/source/elements/ige3d/ig3dinit3.F
+      !||    multifluid_init2       ../starter/source/multifluid/multifluid_init2.F
+      !||    multifluid_init2t      ../starter/source/multifluid/multifluid_init2t.F
+      !||    multifluid_init3       ../starter/source/multifluid/multifluid_init3.F
+      !||    multifluid_init3t      ../starter/source/multifluid/multifluid_init3t.F
+      !||    q4init2                ../starter/source/elements/solid_2d/quad4/q4init2.F
+      !||    qinit2                 ../starter/source/elements/solid_2d/quad/qinit2.F
+      !||    s10init3               ../starter/source/elements/solid/solide10/s10init3.F
+      !||    s16init3               ../starter/source/elements/thickshell/solide16/s16init3.F
+      !||    s20init3               ../starter/source/elements/solid/solide20/s20init3.F
+      !||    s4init3                ../starter/source/elements/solid/solide4/s4init3.F
+      !||    s6cinit3               ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+      !||    s8cinit3               ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+      !||    s8zinit3               ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||    scinit3                ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||    sinit3                 ../starter/source/elements/solid/solide/sinit3.F
+      !||    spinit3                ../starter/source/elements/sph/spinit3.F
+      !||    suinit3                ../starter/source/elements/elbuf_init/suinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    agrad2                 ../starter/source/ale/ale2d/agrad2.F
+      !||    agrad3                 ../starter/source/ale/ale3d/agrad3.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    arret                  ../starter/source/system/arret.F
+      !||    athlen                 ../starter/source/ale/athlen.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    m105init               ../starter/source/materials/mat/mat105/m105init.F
+      !||    m24in2                 ../starter/source/materials/mat/mat024/m24in2.F
+      !||    m24in3                 ../starter/source/materials/mat/mat024/m24in3.F
+      !||    m24insph               ../starter/source/elements/sph/m24insph.F
+      !||    m37init                ../starter/source/materials/mat/mat037/m37init.F
+      !||    m38init                ../starter/source/materials/mat/mat038/m38init.F
+      !||    m51init                ../starter/source/materials/mat/mat051/m51init.F
+      !||    m5in2                  ../starter/source/initial_conditions/detonation/m5in2.F
+      !||    m5in3                  ../starter/source/initial_conditions/detonation/m5in3.F
+      !||    m6in                   ../starter/source/materials/mat/mat006/m6in.F
+      !||    m70init                ../starter/source/materials/mat/mat070/m70init.F
+      !||    m75init                ../starter/source/materials/mat/mat075/m75init.F
+      !||    m77init                ../starter/source/materials/mat/mat077/m77init.F
+      !||    m95init                ../starter/source/materials/mat/mat095/m95init.F
+      !||    m97init                ../starter/source/materials/mat/mat097/m97init.F
+      !||    mat11check             ../starter/source/materials/mat/mat011/mat11check.F
+      !||    mating                 ../starter/source/materials/mat_share/mating.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE MATINI(PM       ,IX               ,NIX         ,X         ,
      .                  GEO      ,ALE_CONNECTIVITY ,DETONATORS  ,IPARG     ,
      .                  SIGI     ,NEL              ,SKEW        ,IGEO      ,

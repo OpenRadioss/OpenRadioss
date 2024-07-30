@@ -22,6 +22,19 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !===================================================================================================
 
+      !||====================================================================
+      !||    random_walk_def_mod        ../common_source/modules/random_walk_def_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    c3init3                    ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3                   ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cinit3                     ../starter/source/elements/shell/coque/cinit3.F
+      !||    fractal_dmg_init           ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
+      !||    fractal_element_neighbor   ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
+      !||    initia                     ../starter/source/elements/initia/initia.F
+      !||    lectur                     ../engine/source/input/lectur.F
+      !||    random_walk_dmg            ../starter/source/materials/fail/fractal/random_walk_dmg.F90
+      !||    updfail                    ../starter/source/materials/updfail.F90
+      !||====================================================================
       module random_walk_def_mod
 
 ! ======================================================================================================================

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SMS_RGWALL_IMPACT             source/ams/sms_rgwall.F       
-Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_rgwall_impact   ../engine/source/ams/sms_rgwall.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_rgwal_0         ../engine/source/ams/sms_rgwal0.F
+      !||====================================================================
       SUBROUTINE SMS_RGWALL_IMPACT
      1                 (X     ,A     ,V     ,RWL    ,NSW   ,
      2                  NSN   ,ITIED ,MSR    ,MS     ,WEIGHT ,
@@ -143,12 +142,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  SMS_RGWALL_FRIC               source/ams/sms_rgwall.F       
-Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_rgwall_fric   ../engine/source/ams/sms_rgwall.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_rgwal_0       ../engine/source/ams/sms_rgwal0.F
+      !||====================================================================
       SUBROUTINE SMS_RGWALL_FRIC
      1                 (X     ,A     ,V     ,RWL    ,NSW   ,
      2                  NSN   ,ITIED ,MSR    ,MS     ,WEIGHT ,
@@ -328,12 +326,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  SMS_RGWALL_BCS_0              source/ams/sms_rgwall.F       
-Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_rgwall_bcs_0   ../engine/source/ams/sms_rgwall.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_rgwal_0        ../engine/source/ams/sms_rgwal0.F
+      !||====================================================================
       SUBROUTINE SMS_RGWALL_BCS_0
      1                 (X     ,A     ,V     ,RWL      ,NSW     ,
      2                  NSN   ,ITIED ,MSR    ,DIAG_SMS,WEIGHT  ,
@@ -439,12 +436,11 @@ C adherence
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  SMS_RGWALL_BCS_1              source/ams/sms_rgwall.F       
-Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_rgwall_bcs_1   ../engine/source/ams/sms_rgwall.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_rgwal_0        ../engine/source/ams/sms_rgwal0.F
+      !||====================================================================
       SUBROUTINE SMS_RGWALL_BCS_1
      1                 (X     ,A     ,V     ,RWL    ,NSW   ,
      2                  NSN   ,ITIED ,MSR    ,MS     ,WEIGHT ,
@@ -529,13 +525,13 @@ C glissement
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  SMS_RGWALL_BILAN              source/ams/sms_rgwall.F       
-Chd|-- called by -----------
-Chd|        SMS_RGWAL_0                   source/ams/sms_rgwal0.F       
-Chd|-- calls ---------------
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_rgwall_bilan   ../engine/source/ams/sms_rgwall.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_rgwal_0        ../engine/source/ams/sms_rgwal0.F
+      !||--- calls      -----------------------------------------------------
+      !||    sum_6_float        ../engine/source/system/parit.F
+      !||====================================================================
       SUBROUTINE SMS_RGWALL_BILAN
      1                 (X     ,FREA  ,V     ,RWL    ,NSW   ,
      2                  NSN   ,ITIED ,MSR    ,MS     ,WEIGHT ,

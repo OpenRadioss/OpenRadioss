@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_I24_PREPARE              source/interfaces/int24/i24_prepare.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_i24_prepare   ../engine/source/interfaces/int24/i24_prepare.F
+      !||--- called by ------------------------------------------------------
+      !||    resol              ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    tri7box            ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_I24_PREPARE(MODE,IPARI, INTBUF_TAB,
      *                         IAD_ELEM, FR_ELEM,INTLIST,NBINTC,
      *                         IAD_I24 , SFR_I24, FR_I24,I24MAXNSNE)

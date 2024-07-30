@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_FVB_SCAT_NUM_NODA        source/mpi/anim/spmd_fvb_scat_num_noda.F
-Chd|-- called by -----------
-Chd|        ALEVFLU                       source/output/anim/generate/genani.F
-Chd|        ANIMBALE                      source/output/anim/generate/genani.F
-Chd|-- calls ---------------
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fvb_scat_num_noda   ../engine/source/mpi/anim/spmd_fvb_scat_num_noda.F
+      !||--- called by ------------------------------------------------------
+      !||    alevflu                  ../engine/source/output/anim/generate/genani.F
+      !||    animbale                 ../engine/source/output/anim/generate/genani.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_FVB_SCAT_NUM_NODA(IFV,VECTOR,LEN)
 C-----------------------------------------------
 C   M o d u l e s

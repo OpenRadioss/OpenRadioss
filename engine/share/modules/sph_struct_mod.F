@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPH_STRUCT_MOD                share/modules/sph_struct_mod.F
-Chd|-- called by -----------
-Chd|        SPBUC3                        source/elements/sph/spbuc3.F  
-Chd|        SPCLASV                       source/elements/sph/spclasv.F 
-Chd|        SPHPREP                       source/elements/sph/sphprep.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sph_struct_mod   ../engine/share/modules/sph_struct_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    spbuc3           ../engine/source/elements/sph/spbuc3.F
+      !||    spclasv          ../engine/source/elements/sph/spclasv.F
+      !||    sphprep          ../engine/source/elements/sph/sphprep.F
+      !||====================================================================
       MODULE SPH_STRUCT_MOD
 #include "my_real.inc"
 

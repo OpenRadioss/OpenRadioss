@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BIQUAD_COEFFICIENTS           source/materials/fail/biquad/biquad_coefficients.F
-Chd|-- called by -----------
-Chd|        CFAILINI                      source/elements/shell/coque/cfailini.F
-Chd|        CFAILINI4                     source/elements/shell/coque/cfailini.F
-Chd|        FAILINI                       source/elements/solid/solide/failini.F
-Chd|        HM_READ_FAIL_BIQUAD           source/materials/fail/biquad/hm_read_fail_biquad.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    biquad_coefficients   ../starter/source/materials/fail/biquad/biquad_coefficients.F
+      !||--- called by ------------------------------------------------------
+      !||    cfailini              ../starter/source/elements/shell/coque/cfailini.F
+      !||    cfailini4             ../starter/source/elements/shell/coque/cfailini.F
+      !||    failini               ../starter/source/elements/solid/solide/failini.F
+      !||    hm_read_fail_biquad   ../starter/source/materials/fail/biquad/hm_read_fail_biquad.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE BIQUAD_COEFFICIENTS(
      .           C1    ,C2    ,C3    ,C4    ,C5    ,L     ,
      .           X_1   ,X_2   ,E1    ,E2    ,E3    ,E4    )

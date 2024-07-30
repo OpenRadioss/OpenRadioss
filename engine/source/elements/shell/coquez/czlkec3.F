@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CZLKEC3                       source/elements/shell/coquez/czlkec3.F
-Chd|-- called by -----------
-Chd|        CZKE3                         source/elements/shell/coquez/czke3.F
-Chd|        CZKEL3                        source/elements/shell/coquez/czkel3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czlkec3   ../engine/source/elements/shell/coquez/czlkec3.F
+      !||--- called by ------------------------------------------------------
+      !||    czke3     ../engine/source/elements/shell/coquez/czke3.F
+      !||    czkel3    ../engine/source/elements/shell/coquez/czkel3.F
+      !||====================================================================
         SUBROUTINE CZLKEC3(JFT ,JLT   ,VOL  ,THK0 ,THK2 ,
      2                     HM  ,HF    ,HZ   ,A_I  ,Z1   ,
      3                    PX1  ,PX2  ,PY1   ,PY2  ,NPLAT,
@@ -630,13 +629,12 @@ C------ renforce positive  ----------
 C
        RETURN
        END
-Chd|====================================================================
-Chd|  CZLKECR3                      source/elements/shell/coquez/czlkec3.F
-Chd|-- called by -----------
-Chd|        CZKE3                         source/elements/shell/coquez/czke3.F
-Chd|        CZKEL3                        source/elements/shell/coquez/czkel3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czlkecr3   ../engine/source/elements/shell/coquez/czlkec3.F
+      !||--- called by ------------------------------------------------------
+      !||    czke3      ../engine/source/elements/shell/coquez/czke3.F
+      !||    czkel3     ../engine/source/elements/shell/coquez/czkel3.F
+      !||====================================================================
         SUBROUTINE CZLKECR3(JFT ,JLT   ,VOL  ,THK0 ,THK2 ,
      2                     HM  ,HF    ,HZ   ,A_I  ,Z1   ,
      3                     PX1  ,PX2  ,PY1   ,PY2  ,

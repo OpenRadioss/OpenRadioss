@@ -20,31 +20,32 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ININTR2                       source/interfaces/inter3d1/inintr2.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        I20STA                        source/interfaces/inter3d1/inintr2.F
-Chd|        I24SURF_PXFEM                 source/interfaces/inter3d1/inintr2.F
-Chd|        I2_DTN                        source/interfaces/inter3d1/i2_dtn.F
-Chd|        I2_DTN_27                     source/interfaces/inter3d1/i2_dtn_27.F
-Chd|        I2_DTN_28                     source/interfaces/inter3d1/i2_dtn_28.F
-Chd|        INIEND                        source/interfaces/inter3d1/iniend.F
-Chd|        INIEND2D                      source/interfaces/inter3d1/iniend.F
-Chd|        INT2CY_CHK                    source/constraints/general/bcs/lecbcscyc.F
-Chd|        INT2MODIF_ND                  source/elements/solid/solide10/dim_s10edg.F
-Chd|        ITAGSL12                      source/interfaces/inter3d1/inintr2.F
-Chd|        ITAGSL2                       source/interfaces/inter3d1/itagsl2.F
-Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
-Chd|        REMN_I2_EDGOP                 source/interfaces/inter3d1/i7remnode.F
-Chd|        REMN_SELF24                   source/interfaces/inter3d1/remn_self24.F
-Chd|        RI2_INT24P_INI                source/interfaces/inter3d1/i7remnode.F
-Chd|        INTBUFSCRATCH_MOD             source/interfaces/interf1/intbufscratch_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inintr2             ../starter/source/interfaces/inter3d1/inintr2.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur              ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg              ../starter/source/output/message/message.F
+      !||    fretitl2            ../starter/source/starter/freform.F
+      !||    i20sta              ../starter/source/interfaces/inter3d1/inintr2.F
+      !||    i24surf_pxfem       ../starter/source/interfaces/inter3d1/inintr2.F
+      !||    i2_dtn              ../starter/source/interfaces/inter3d1/i2_dtn.F
+      !||    i2_dtn_27           ../starter/source/interfaces/inter3d1/i2_dtn_27.F
+      !||    i2_dtn_28           ../starter/source/interfaces/inter3d1/i2_dtn_28.F
+      !||    iniend              ../starter/source/interfaces/inter3d1/iniend.F
+      !||    iniend2d            ../starter/source/interfaces/inter3d1/iniend.F
+      !||    int2cy_chk          ../starter/source/constraints/general/bcs/lecbcscyc.F
+      !||    int2modif_nd        ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    itagsl12            ../starter/source/interfaces/inter3d1/inintr2.F
+      !||    itagsl2             ../starter/source/interfaces/inter3d1/itagsl2.F
+      !||    remn_i2_edgop       ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    remn_i2op           ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    remn_self24         ../starter/source/interfaces/inter3d1/remn_self24.F
+      !||    ri2_int24p_ini      ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- uses       -----------------------------------------------------
+      !||    intbufscratch_mod   ../starter/source/interfaces/interf1/intbufscratch_mod.F
+      !||    message_mod         ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ININTR2(IPARI   ,INSCR   ,X     ,
      .                   IXS     ,IXQ    ,IXC   ,PM      ,GEO   ,
      .                   INTC    ,ITAB   ,MS    ,NPBY    ,LPBY  ,
@@ -250,14 +251,15 @@ C-----------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  ITAGSL12                      source/interfaces/inter3d1/inintr2.F
-Chd|-- called by -----------
-Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
-Chd|-- calls ---------------
-Chd|        KINSET                        source/constraints/general/kinset.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    itagsl12        ../starter/source/interfaces/inter3d1/inintr2.F
+      !||--- called by ------------------------------------------------------
+      !||    inintr2         ../starter/source/interfaces/inter3d1/inintr2.F
+      !||--- calls      -----------------------------------------------------
+      !||    kinset          ../starter/source/constraints/general/kinset.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ITAGSL12(IPARI,ITAB,IKINE,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -354,13 +356,14 @@ C-----------------------------------------------------------------------
  2010 FORMAT(' NO PROBLEM FOUND IN INTERFACE',I10,/)
 C----------------------------------------------------------------------- 
       END
-Chd|====================================================================
-Chd|  I20STA                        source/interfaces/inter3d1/inintr2.F
-Chd|-- called by -----------
-Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
-Chd|-- calls ---------------
-Chd|        I20STAB                       source/interfaces/inter3d1/inintr2.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i20sta          ../starter/source/interfaces/inter3d1/inintr2.F
+      !||--- called by ------------------------------------------------------
+      !||    inintr2         ../starter/source/interfaces/inter3d1/inintr2.F
+      !||--- calls      -----------------------------------------------------
+      !||    i20stab         ../starter/source/interfaces/inter3d1/inintr2.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I20STA(IPARI,STIFN,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -390,12 +393,11 @@ C
       RETURN
 C----------------------------------------------------------------------- 
       END
-Chd|====================================================================
-Chd|  I20STAB                       source/interfaces/inter3d1/inintr2.F
-Chd|-- called by -----------
-Chd|        I20STA                        source/interfaces/inter3d1/inintr2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i20stab   ../starter/source/interfaces/inter3d1/inintr2.F
+      !||--- called by ------------------------------------------------------
+      !||    i20sta    ../starter/source/interfaces/inter3d1/inintr2.F
+      !||====================================================================
       SUBROUTINE I20STAB(NLN,NLG,STFA,STIFN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -424,13 +426,15 @@ C-----------
       RETURN
 C----------------------------------------------------------------------- 
       END
-Chd|====================================================================
-Chd|  I24SURF_PXFEM                 source/interfaces/inter3d1/inintr2.F
-Chd|-- called by -----------
-Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i24surf_pxfem   ../starter/source/interfaces/inter3d1/inintr2.F
+      !||--- called by ------------------------------------------------------
+      !||    inintr2         ../starter/source/interfaces/inter3d1/inintr2.F
+      !||--- calls      -----------------------------------------------------
+      !||    usr2sys         ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I24SURF_PXFEM(NRTM  ,IRECT,INOD_PXFEM,INTPLY,
      .                         NVOISIN, MSEGTYP ,MS_PLY , ISEG_PXFEM,
      .                         ISEG_PLY)

@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    split_rwall_mod   ../starter/source/constraints/general/rwall/split_rwall.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur            ../starter/source/starter/lectur.F
+      !||====================================================================
       module split_rwall_mod
       contains
 ! ======================================================================================================================
@@ -27,6 +32,15 @@
 ! ======================================================================================================================
 !! \brief Here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
+      !||====================================================================
+      !||    split_rwall      ../starter/source/constraints/general/rwall/split_rwall.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur           ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    plist_ifront     ../starter/source/spmd/node/ddtools.F
+      !||--- uses       -----------------------------------------------------
+      !||    constraint_mod   ../starter/source/modules/constaint_mod.F90
+      !||====================================================================
         subroutine split_rwall(nrwall,nspmd,nnprw ,slprw,nprw,lprw,constraint_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

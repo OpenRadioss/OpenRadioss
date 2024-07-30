@@ -20,24 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_EOS_SESAME            source/materials/eos/hm_read_eos_sesame.F
-Chd|-- called by -----------
-Chd|        HM_READ_EOS                   source/materials/eos/hm_read_eos.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_GET_STRING                 source/devtools/hm_reader/hm_get_string.F
-Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
-Chd|        MINTP_RE                      ../common_source/eos/mintp_re.F
-Chd|        MINTP_RT                      ../common_source/eos/mintp_rt.F
-Chd|        MRDSE2                        source/materials/mat/mat026/mrdse2.F
-Chd|        TB2SI1                        source/materials/eos/sesame_tools.F
-Chd|        TBUSR1                        source/materials/eos/sesame_tools.F
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_eos_sesame       ../starter/source/materials/eos/hm_read_eos_sesame.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../starter/source/output/message/message.F
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_string            ../starter/source/devtools/hm_reader/hm_get_string.F
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||    mrdse2                   ../starter/source/materials/mat/mat026/mrdse2.F
+      !||    tb2si1                   ../starter/source/materials/eos/sesame_tools.F
+      !||    tbusr1                   ../starter/source/materials/eos/sesame_tools.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_EOS_SESAME(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,IMID,TITR,BUFMAT,MFI,IDF)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R4EVEC3                       source/elements/spring/r4evec3.F
-Chd|-- called by -----------
-Chd|        R23LAW113                     source/elements/spring/r23law113.F
-Chd|        R23LAW114                     source/elements/spring/r23law114.F
-Chd|        RFORC3                        source/elements/spring/rforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    r4evec3     ../engine/source/elements/spring/r4evec3.F
+      !||--- called by ------------------------------------------------------
+      !||    r23law113   ../engine/source/elements/spring/r23law113.F
+      !||    r23law114   ../engine/source/elements/spring/r23law114.F
+      !||    rforc3      ../engine/source/elements/spring/rforc3.F
+      !||====================================================================
       SUBROUTINE R4EVEC3(
      1   RLOC,    V,       EXX2,    EYX2,
      2   EZX2,    EXY2,    EYY2,    EZY2,

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M32ELAS                       source/materials/mat/mat032/m32elas.F
-Chd|-- called by -----------
-Chd|        SIGEPS32C                     source/materials/mat/mat032/sigeps32c.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m32elas     ../engine/source/materials/mat/mat032/m32elas.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps32c   ../engine/source/materials/mat/mat032/sigeps32c.F
+      !||====================================================================
       SUBROUTINE M32ELAS(JFT    ,JLT    ,PM     ,IMAT   ,GS     ,
      .                   SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,
      .                   SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX ,

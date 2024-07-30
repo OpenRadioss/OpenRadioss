@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALEFVM_ACCELE                 source/ale/alefvm/alefvm_accele.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    alefvm_accele   ../engine/source/ale/alefvm/alefvm_accele.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE ALEFVM_ACCELE(
      1                  A       ,AR    ,V    ,VR      ,IN   ,
      2                  NODFT   ,NODLT ,ITAB ,MSNF    ,MS   ,

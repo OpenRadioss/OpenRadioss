@@ -21,13 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  I11COQ                        source/interfaces/inter3d1/i11coq.F
-Chd|-- called by -----------
-Chd|        I11STI3                       source/interfaces/inter3d1/i11sti3.F
-Chd|        I20STI3E                      source/interfaces/inter3d1/i20sti3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i11coq     ../starter/source/interfaces/inter3d1/i11coq.F
+      !||--- called by ------------------------------------------------------
+      !||    i11sti3    ../starter/source/interfaces/inter3d1/i11sti3.F
+      !||    i20sti3e   ../starter/source/interfaces/inter3d1/i20sti3.F
+      !||====================================================================
       SUBROUTINE I11COQ(IRECT,IXC,IXTG,NINT,NEL,
      .                  NELTG,IS ,GEO,PM,THK,IGEO,
      .                  KNOD2ELC,KNOD2ELTG,NOD2ELC,NOD2ELTG,
@@ -154,13 +153,12 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I11FIL                        source/interfaces/inter3d1/i11coq.F
-Chd|-- called by -----------
-Chd|        I11STI3                       source/interfaces/inter3d1/i11sti3.F
-Chd|        I20STI3E                      source/interfaces/inter3d1/i20sti3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i11fil     ../starter/source/interfaces/inter3d1/i11coq.F
+      !||--- called by ------------------------------------------------------
+      !||    i11sti3    ../starter/source/interfaces/inter3d1/i11sti3.F
+      !||    i20sti3e   ../starter/source/interfaces/inter3d1/i20sti3.F
+      !||====================================================================
       SUBROUTINE I11FIL(IRECT,IXT,IXP,IXR,NINT,NELT,
      .                  NELP,NELR,NELX,IS,NOD2EL1D,
      .                  KNOD2EL1D,KXX,IXX)

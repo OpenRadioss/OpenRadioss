@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FDERI3                        source/elements/solid/solide/fderi3.F
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|        SCHKJAB3                      source/elements/solid/solide/schkjab3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fderi3     ../engine/source/elements/solid/solide/fderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    sforc3     ../engine/source/elements/solid/solide/sforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    schkjab3   ../engine/source/elements/solid/solide/schkjab3.F
+      !||====================================================================
       SUBROUTINE FDERI3(
      1   OFF,     DET,     NGL,     X1,
      2   X2,      X3,      X4,      X5,

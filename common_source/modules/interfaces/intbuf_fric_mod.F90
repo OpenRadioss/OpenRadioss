@@ -38,6 +38,46 @@
 !hd|        intbuffric_mod                share/modules/restart_mod.f
 !hd|-- calls ---------------
 !hd|====================================================================
+      !||====================================================================
+      !||    intbuf_fric_mod                 ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit                         ../starter/source/restart/ddsplit/ddsplit.F
+      !||    hm_read_friction_models         ../starter/source/interfaces/friction/reader/hm_read_friction_models.F
+      !||    hm_read_friction_orientations   ../starter/source/interfaces/friction/reader/hm_read_friction_orientations.F
+      !||    hm_read_inter_struct            ../starter/source/interfaces/reader/hm_read_inter_struct.F
+      !||    hm_read_inter_type07            ../starter/source/interfaces/int07/hm_read_inter_type07.F
+      !||    hm_read_inter_type11            ../starter/source/interfaces/int11/hm_read_inter_type11.F
+      !||    hm_read_inter_type24            ../starter/source/interfaces/int24/hm_read_inter_type24.F
+      !||    hm_read_inter_type25            ../starter/source/interfaces/int25/hm_read_inter_type25.F
+      !||    hm_read_interfaces              ../starter/source/interfaces/reader/hm_read_interfaces.F
+      !||    i11mainf                        ../engine/source/interfaces/int11/i11mainf.F
+      !||    i11sti3                         ../starter/source/interfaces/inter3d1/i11sti3.F
+      !||    i24gapm                         ../starter/source/interfaces/inter3d1/i24sti3.F
+      !||    i24mainf                        ../engine/source/interfaces/int24/i24main.F
+      !||    i24sti3                         ../starter/source/interfaces/inter3d1/i24sti3.F
+      !||    i25gapm                         ../starter/source/interfaces/inter3d1/i25sti3.F
+      !||    i25mainf                        ../engine/source/interfaces/int25/i25mainf.F
+      !||    i25sti3                         ../starter/source/interfaces/inter3d1/i25sti3.F
+      !||    i25sti_edg                      ../starter/source/interfaces/inter3d1/i25sti_edg.F
+      !||    i7mainf                         ../engine/source/interfaces/int07/i7mainf.F
+      !||    i7sti3                          ../starter/source/interfaces/inter3d1/i7sti3.F
+      !||    inint3                          ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inintr                          ../starter/source/interfaces/interf1/inintr.F
+      !||    inintr_orthdirfric              ../starter/source/interfaces/interf1/inintr_orthdirfric.F
+      !||    intbuf_fric_copy                ../starter/source/interfaces/interf1/intbuf_fric_copy.F
+      !||    intbuf_fric_ini_starter         ../starter/source/interfaces/intbuf/intbufFric_ini_starter.F
+      !||    intbuf_ini_starter              ../starter/source/interfaces/intbuf/intbuf_ini_starter.F
+      !||    inter_dcod_friction             ../starter/source/interfaces/reader/inter_dcod_friction.F
+      !||    intfop2                         ../engine/source/interfaces/interf/intfop2.F
+      !||    lecint                          ../starter/source/interfaces/interf1/lecint.F
+      !||    lectur                          ../engine/source/input/lectur.F
+      !||    resol_head                      ../engine/source/engine/resol_head.F
+      !||    split_interfaces                ../starter/source/restart/ddsplit/split_interfaces.F
+      !||    st_qaprint_driver               ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||    st_qaprint_friction             ../starter/source/output/qaprint/st_qaprint_friction.F
+      !||    triintfric                      ../starter/source/interfaces/interf1/trintfric.F
+      !||    wrrestp                         ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
       module intbuf_fric_mod
 !-----------------------------------------------
 !   m o d u l e s
@@ -75,6 +115,14 @@
 !hd|        write_i_c                     ../common_source/tools/input_output/write_routtines.c
 !hd|        intbuf_fric_mod               share/modules/intbuf_fric_mod.f
 !hd|====================================================================
+      !||====================================================================
+      !||    intfric_wresti    ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit           ../starter/source/restart/ddsplit/ddsplit.F
+      !||    wrrestp           ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
         subroutine intfric_wresti(intbuf_fric_tab,ninterfric)
 !-----------------------------------------------
 !   i m p l i c i t   t y p e s
@@ -134,6 +182,15 @@
 !hd|        write_db                      source/output/tools/write_db.f
 !hd|        intbuf_fric_mod               share/modules/intbuf_fric_mod.f
 !hd|====================================================================
+      !||====================================================================
+      !||    intfric_wrestr   ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
+      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db         ../common_source/tools/input_output/write_db.F
+      !||    write_db_array   ../common_source/tools/input_output/write_db.F
+      !||====================================================================
         subroutine intfric_wrestr(intbuf_fric_tab,ninterfric)
 !-----------------------------------------------
 !   i m p l i c i t   t y p e s
@@ -181,6 +238,13 @@
 !hd|        read_i_c                      ../common_source/tools/input_output/write_routtines.c
 !hd|        intbuf_fric_mod               share/modules/intbuf_fric_mod.f
 !hd|====================================================================
+      !||====================================================================
+      !||    intfric_rresti   ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    rdresb           ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
         subroutine intfric_rresti(intbuf_fric_tab,ninterfric)
 !-----------------------------------------------
 !   i m p l i c i t   t y p e s
@@ -256,6 +320,14 @@
 !hd|        read_db                       source/output/tools/read_db.f
 !hd|        intbuf_fric_mod               share/modules/intbuf_fric_mod.f
 !hd|====================================================================
+      !||====================================================================
+      !||    intfric_rrestr   ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    rdresb           ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db          ../common_source/tools/input_output/read_db.F
+      !||    read_db_array    ../common_source/tools/input_output/read_db.F
+      !||====================================================================
         subroutine intfric_rrestr(intbuf_fric_tab,ninterfric)
 !-----------------------------------------------
 !   i m p l i c i t   t y p e s

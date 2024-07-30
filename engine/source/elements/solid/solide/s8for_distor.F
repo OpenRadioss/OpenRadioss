@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8FOR_DISTOR                  source/elements/solid/solide/s8for_distor.F
-Chd|-- called by -----------
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        SFOR_N2S4                     source/elements/solid/solide/sfor_n2s4.F
-Chd|        SFOR_VISN8                    source/elements/solid/solide/sfor_visn8.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8for_distor   ../engine/source/elements/solid/solide/s8for_distor.F
+      !||--- called by ------------------------------------------------------
+      !||    s8eforc3       ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    sforc3         ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3        ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    sfor_n2s4      ../engine/source/elements/solid/solide/sfor_n2s4.F
+      !||    sfor_visn8     ../engine/source/elements/solid/solide/sfor_visn8.F
+      !||====================================================================
       SUBROUTINE S8FOR_DISTOR(
      .   X1,      X2,      X3,      X4,      
      .   X5,      X6,      X7,      X8,      

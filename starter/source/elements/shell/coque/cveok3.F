@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  CVEOK3                        source/elements/shell/coque/cveok3.F
-Chd|-- called by -----------
-Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
-Chd|        INIVOID                       source/elements/initia/inivoid.F
-Chd|-- calls ---------------
-Chd|        CCOLI3                        source/elements/shell/coque/ccoli3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    cveok3       ../starter/source/elements/shell/coque/cveok3.F
+      !||--- called by ------------------------------------------------------
+      !||    cbainit3     ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cinit3       ../starter/source/elements/shell/coque/cinit3.F
+      !||    inirig_mat   ../starter/source/elements/initia/inirig_mat.F
+      !||    inivoid      ../starter/source/elements/initia/inivoid.F
+      !||--- calls      -----------------------------------------------------
+      !||    ccoli3       ../starter/source/elements/shell/coque/ccoli3.F
+      !||====================================================================
       SUBROUTINE CVEOK3(NVC ,NOD ,IX1,IX2,IX3,IX4)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

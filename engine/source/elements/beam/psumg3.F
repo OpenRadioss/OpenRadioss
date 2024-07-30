@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PSUMG3                        source/elements/beam/psumg3.F 
-Chd|-- called by -----------
-Chd|        PKE3                          source/elements/beam/pke3.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    psumg3   ../engine/source/elements/beam/psumg3.F
+      !||--- called by ------------------------------------------------------
+      !||    pke3     ../engine/source/elements/beam/pke3.F
+      !||====================================================================
       SUBROUTINE PSUMG3(JFT    ,JLT    ,YM      ,G      ,AREA   ,
      2                  B1     ,B2     ,B3      ,AL     ,ALI    ,
      3                  SH1    ,SH2    ,R11     ,R12    ,R13    ,

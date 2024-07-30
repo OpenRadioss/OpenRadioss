@@ -20,12 +20,10 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CREATE_IPARTM1                source/model/sets/ipartm1.F   
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|====================================================================
+      !||====================================================================
+      !||    create_ipartm1   ../starter/source/model/sets/ipartm1.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE CREATE_IPARTM1 (NPART,IPART,IPARTM1 )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -64,11 +62,9 @@ C-----------------------------------------------
       ENDDO
 
       END
-Chd|====================================================================
-Chd|  PART_USRTOS                   source/model/sets/ipartm1.F   
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    part_usrtos   ../starter/source/model/sets/ipartm1.F
+      !||====================================================================
       INTEGER FUNCTION PART_USRTOS(IU,IPARTM1,NPART)
 C      IDENTIQUE A USR2SYS, SANS GENERER D'ERREUR
 C      FONCTION DONNE N0 SYSTEME DU NOEUD USER IU
@@ -110,22 +106,24 @@ C     >CAS IU>TABM
       END
 C
 C-----------------------------------------------
-Chd|====================================================================
-Chd|  SET_USRTOS                    source/model/sets/ipartm1.F   
-Chd|-- called by -----------
-Chd|        CREATE_ELT_LIST               source/model/sets/create_element_clause.F
-Chd|        CREATE_NODE_LIST              source/model/sets/create_node_clause.F
-Chd|        CREATE_PART_LIST              source/model/sets/create_part_clause.F
-Chd|        CREATE_RBODY_LIST             source/model/sets/create_rbody_clause.F
-Chd|        CREATE_SEG_CLAUSE             source/model/sets/create_seg_clause.F
-Chd|        CREATE_SET_LIST               source/model/sets/create_set_clause.F
-Chd|        CREATE_SUBM_LIST              source/model/sets/create_subm_clause.F
-Chd|        CREATE_SUBS_LIST              source/model/sets/create_subs_clause.F
-Chd|        HM_READ_THGRNE                source/output/th/hm_read_thgrne.F
-Chd|        HM_TAGPART2                   source/groups/hm_tagpart2.F   
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    set_usrtos             ../starter/source/model/sets/ipartm1.F
+      !||--- called by ------------------------------------------------------
+      !||    create_elt_list        ../starter/source/model/sets/create_element_clause.F
+      !||    create_node_list       ../starter/source/model/sets/create_node_clause.F
+      !||    create_nodens_clause   ../starter/source/model/sets/create_nodens_clause.F90
+      !||    create_part_list       ../starter/source/model/sets/create_part_clause.F
+      !||    create_rbody_list      ../starter/source/model/sets/create_rbody_clause.F
+      !||    create_seg_clause      ../starter/source/model/sets/create_seg_clause.F
+      !||    create_set_list        ../starter/source/model/sets/create_set_clause.F
+      !||    create_setcol_list     ../starter/source/model/sets/create_setcol_clause.F
+      !||    create_subm_list       ../starter/source/model/sets/create_subm_clause.F
+      !||    create_subs_list       ../starter/source/model/sets/create_subs_clause.F
+      !||    hm_read_inistate_d00   ../starter/source/elements/initia/hm_read_inistate_d00.F
+      !||    hm_read_thgrne         ../starter/source/output/th/hm_read_thgrne.F
+      !||    hm_tagpart2            ../starter/source/groups/hm_tagpart2.F
+      !||    lectur                 ../starter/source/starter/lectur.F
+      !||====================================================================
       INTEGER FUNCTION SET_USRTOS(IU,IPARTM1,NPART)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -183,19 +181,18 @@ C     >CAS IU>TABM
       GO TO 10
       END
 C
-Chd|====================================================================
-Chd|  SET_USRTOS_NEAREST            source/model/sets/ipartm1.F   
-Chd|-- called by -----------
-Chd|        CREATE_ELT_LIST_G             source/model/sets/create_element_clause.F
-Chd|        CREATE_NODE_LIST_G            source/model/sets/create_node_clause.F
-Chd|        CREATE_PART_LIST_G            source/model/sets/create_part_clause.F
-Chd|        CREATE_RBODY_LIST_G           source/model/sets/create_rbody_clause.F
-Chd|        CREATE_SETCOL_LIST_G          source/model/sets/create_setcol_clause.F
-Chd|        CREATE_SET_LIST_G             source/model/sets/create_set_clause.F
-Chd|        CREATE_SUBM_LIST_G            source/model/sets/create_subm_clause.F
-Chd|        CREATE_SUBS_LIST_G            source/model/sets/create_subs_clause.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    set_usrtos_nearest     ../starter/source/model/sets/ipartm1.F
+      !||--- called by ------------------------------------------------------
+      !||    create_elt_list_g      ../starter/source/model/sets/create_element_clause.F
+      !||    create_node_list_g     ../starter/source/model/sets/create_node_clause.F
+      !||    create_part_list_g     ../starter/source/model/sets/create_part_clause.F
+      !||    create_rbody_list_g    ../starter/source/model/sets/create_rbody_clause.F
+      !||    create_set_list_g      ../starter/source/model/sets/create_set_clause.F
+      !||    create_setcol_list_g   ../starter/source/model/sets/create_setcol_clause.F
+      !||    create_subm_list_g     ../starter/source/model/sets/create_subm_clause.F
+      !||    create_subs_list_g     ../starter/source/model/sets/create_subs_clause.F
+      !||====================================================================
       INTEGER FUNCTION SET_USRTOS_NEAREST(UI,MAP,SZ,UPLOW)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -279,11 +276,9 @@ C     >CAS IU>TABM
       END
 C
 
-Chd|====================================================================
-Chd|  PRINT_IPARTM1                 source/model/sets/ipartm1.F   
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    print_ipartm1   ../starter/source/model/sets/ipartm1.F
+      !||====================================================================
       SUBROUTINE PRINT_IPARTM1(NPART,IPARTM1 )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

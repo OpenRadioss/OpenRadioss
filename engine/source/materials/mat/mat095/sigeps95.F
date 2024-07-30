@@ -21,20 +21,22 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C BERGSTROM BOYCE
-Chd|====================================================================
-Chd|  SIGEPS95                      source/materials/mat/mat095/sigeps95.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        CALCMATB                      source/materials/mat/mat100/calcmatb.F
-Chd|        KMATINV3                      source/materials/tools/kmatinv.F
-Chd|        POLYSTRESS2                   source/materials/mat/mat100/sigpoly.F
-Chd|        POLYSTREST2                   source/materials/mat/mat100/sigpoly.F
-Chd|        PRODAAT                       source/materials/tools/prodAAT.F
-Chd|        PRODMAT                       source/materials/tools/prodmat.F
-Chd|        ROTTOGLOB                     source/materials/mat/mat095/sigeps95.F
-Chd|        ROTTOLOC                      source/materials/mat/mat095/sigeps95.F
-Chd|        VISCBB                        source/materials/mat/mat100/viscbb.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps95      ../engine/source/materials/mat/mat095/sigeps95.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw         ../engine/source/materials/mat_share/mulaw.F90
+      !||--- calls      -----------------------------------------------------
+      !||    calcmatb      ../engine/source/materials/mat/mat100/calcmatb.F
+      !||    finter        ../engine/source/tools/curve/finter.F
+      !||    kmatinv3      ../engine/source/materials/tools/kmatinv.F
+      !||    polystress2   ../engine/source/materials/mat/mat100/sigpoly.F
+      !||    polystrest2   ../engine/source/materials/mat/mat100/sigpoly.F
+      !||    prodaat       ../engine/source/materials/tools/prodAAT.F
+      !||    prodmat       ../engine/source/materials/tools/prodmat.F
+      !||    rottoglob     ../engine/source/materials/mat/mat095/sigeps95.F
+      !||    rottoloc      ../engine/source/materials/mat/mat095/sigeps95.F
+      !||    viscbb        ../engine/source/materials/mat/mat100/viscbb.F
+      !||====================================================================
        SUBROUTINE SIGEPS95(
      1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC , 
      2      NPF    ,TF      , TIME    , TIMESTEP, UPARAM, 
@@ -421,13 +423,12 @@ C
 C   
       RETURN
       END
-Chd|====================================================================
-Chd|  ROTTOLOC                      source/materials/mat/mat095/sigeps95.F
-Chd|-- called by -----------
-Chd|        SIGEPS100                     source/materials/mat/mat100/sigeps100.F
-Chd|        SIGEPS95                      source/materials/mat/mat095/sigeps95.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rottoloc    ../engine/source/materials/mat/mat095/sigeps95.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F
+      !||    sigeps95    ../engine/source/materials/mat/mat095/sigeps95.F
+      !||====================================================================
       SUBROUTINE ROTTOLOC(NEL,FP,
      .                         R1X, R1Y, R1Z,R2X,R2Y,R2Z,R3X,R3Y,R3Z)
 C-----------------------------------------------
@@ -482,13 +483,12 @@ C-----------------------------------------------
 C-----------
       RETURN
       END SUBROUTINE ROTTOLOC
-Chd|====================================================================
-Chd|  ROTTOGLOB                     source/materials/mat/mat095/sigeps95.F
-Chd|-- called by -----------
-Chd|        SIGEPS100                     source/materials/mat/mat100/sigeps100.F
-Chd|        SIGEPS95                      source/materials/mat/mat095/sigeps95.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rottoglob   ../engine/source/materials/mat/mat095/sigeps95.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F
+      !||    sigeps95    ../engine/source/materials/mat/mat095/sigeps95.F
+      !||====================================================================
       SUBROUTINE ROTTOGLOB(NEL,FP,
      .                         R1X, R1Y, R1Z,R2X,R2Y,R2Z,R3X,R3Y,R3Z)
 C-----------------------------------------------

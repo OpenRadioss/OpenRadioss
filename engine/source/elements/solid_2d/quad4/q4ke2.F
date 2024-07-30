@@ -20,27 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
-Chd|-- called by -----------
-Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|        ASSEM_Q4                      source/implicit/assem_q4.F    
-Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
-Chd|        MMAT_H1                       source/elements/solid/solide8z/mmat_h1.F
-Chd|        MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
-Chd|        Q4DERI2                       source/elements/solid_2d/quad4/q4deri2.F
-Chd|        Q4DERIC2                      source/elements/solid_2d/quad4/q4deric2.F
-Chd|        Q4KEGA2                       source/elements/solid_2d/quad4/q4kega2.F
-Chd|        Q4KEL2                        source/elements/solid_2d/quad4/q4kel2.F
-Chd|        Q4KEP2                        source/elements/solid_2d/quad4/q4kep2.F
-Chd|        Q4KEROT2                      source/elements/solid_2d/quad4/q4kerot2.F
-Chd|        QCOOR2                        source/elements/solid_2d/quad/qcoor2.F
-Chd|        QRCOOR2                       source/elements/solid_2d/quad/qrcoor2.F
-Chd|        QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
-Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zsigp3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    q4ke2          ../engine/source/elements/solid_2d/quad4/q4ke2.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_q4       ../engine/source/implicit/assem_q4.F
+      !||    mmat_h1        ../engine/source/elements/solid/solide8z/mmat_h1.F
+      !||    mmats          ../engine/source/elements/solid/solide8z/mmats.F
+      !||    mmstifs        ../engine/source/elements/solid/solide8z/mmstifs.F
+      !||    q4deri2        ../engine/source/elements/solid_2d/quad4/q4deri2.F
+      !||    q4deric2       ../engine/source/elements/solid_2d/quad4/q4deric2.F
+      !||    q4kega2        ../engine/source/elements/solid_2d/quad4/q4kega2.F
+      !||    q4kel2         ../engine/source/elements/solid_2d/quad4/q4kel2.F
+      !||    q4kep2         ../engine/source/elements/solid_2d/quad4/q4kep2.F
+      !||    q4kerot2       ../engine/source/elements/solid_2d/quad4/q4kerot2.F
+      !||    qcoor2         ../engine/source/elements/solid_2d/quad/qcoor2.F
+      !||    qrcoor2        ../engine/source/elements/solid_2d/quad/qrcoor2.F
+      !||    qvolu2         ../engine/source/elements/solid_2d/quad/qvolu2.F
+      !||    s8zsigp3       ../engine/source/elements/solid/solide8z/s8zsigp3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE Q4KE2(
      1   PM,       GEO,      IXQ,      X,
      2   ELBUF_STR,NEL,      LIAD,     ICP,

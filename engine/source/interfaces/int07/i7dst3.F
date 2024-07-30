@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7DST3                        source/interfaces/int07/i7dst3.F
-Chd|-- called by -----------
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|        I7MAIN_LMULT                  source/interfaces/int07/i7main_lmult.F
-Chd|-- calls ---------------
-Chd|        I7CMAJ                        source/interfaces/int07/i7curv.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i7dst3         ../engine/source/interfaces/int07/i7dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i7main_lmult   ../engine/source/interfaces/int07/i7main_lmult.F
+      !||    i7mainf        ../engine/source/interfaces/int07/i7mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    i7cmaj         ../engine/source/interfaces/int07/i7curv.F
+      !||====================================================================
       SUBROUTINE I7DST3(
      1                  JLT    ,CAND_N ,CAND_E ,CN_LOC ,CE_LOC ,
      2                  X1     ,X2     ,X3     ,X4     ,Y1     ,

@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_CELL_LIST_EXCHANGE       source/mpi/interfaces/spmd_cell_list_exchange.F
-Chd|-- called by -----------
-Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
-Chd|-- calls ---------------
-Chd|        SPMD_CELL_SIZE_EXCHANGE       source/mpi/interfaces/spmd_cell_size_exchange.F
-Chd|        SPMD_CELL_SIZE_EXCHANGE_INIT  source/mpi/interfaces/spmd_cell_size_exchange_init.F
-Chd|        SPMD_CELL_SIZE_POST_RCV       source/mpi/interfaces/spmd_cell_size_post_rcv.F
-Chd|        SPMD_IALLTOALLV_INT           source/mpi/generic/spmd_ialltoallv_int.F
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_cell_list_exchange        ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
+      !||--- called by ------------------------------------------------------
+      !||    inter_prepare_sort             ../engine/source/interfaces/generic/inter_prepare_sort.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_cell_size_exchange        ../engine/source/mpi/interfaces/spmd_cell_size_exchange.F
+      !||    spmd_cell_size_exchange_init   ../engine/source/mpi/interfaces/spmd_cell_size_exchange_init.F
+      !||    spmd_cell_size_post_rcv        ../engine/source/mpi/interfaces/spmd_cell_size_post_rcv.F
+      !||    spmd_ialltoallv_int            ../engine/source/mpi/generic/spmd_ialltoallv_int.F
+      !||--- uses       -----------------------------------------------------
+      !||    inter_sorting_mod              ../engine/share/modules/inter_sorting_mod.F
+      !||    inter_struct_mod               ../engine/share/modules/inter_struct_mod.F
+      !||    tri7box                        ../engine/share/modules/tri7box.F
+      !||====================================================================
         SUBROUTINE SPMD_CELL_LIST_EXCHANGE(IRCVFROM,ISENDTO,MODE,WEIGHT,IAD_ELEM,
      .             FR_ELEM,X,V,MS,TEMP,
      .             KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,

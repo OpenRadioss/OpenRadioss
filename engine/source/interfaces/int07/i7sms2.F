@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7SMS2                        source/interfaces/int07/i7sms2.F
-Chd|-- called by -----------
-Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
-Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
-Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7sms2        ../engine/source/interfaces/int07/i7sms2.F
+      !||--- called by ------------------------------------------------------
+      !||    i20for3       ../engine/source/interfaces/int20/i20for3.F
+      !||    i23for3       ../engine/source/interfaces/int23/i23for3.F
+      !||    i7ass33       ../engine/source/interfaces/int07/i7ass3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I7SMS2(JLT   ,IX1   ,IX2  ,IX3  ,IX4   ,
      2                  NSVG  ,H1    ,H2   ,H3   ,H4    ,STIF   ,
      3                  NIN   ,NOINT ,MSKYI_SMS ,ISKYI_SMS,NSMS ,

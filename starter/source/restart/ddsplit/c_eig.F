@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C_EIG                         source/restart/ddsplit/c_eig.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c_eig     ../starter/source/restart/ddsplit/c_eig.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit   ../starter/source/restart/ddsplit/ddsplit.F
+      !||====================================================================
       SUBROUTINE C_EIG(EIGIPM   , EIGIBUF, EIGRPM, NODLOCAL, EIGIPM_L,
      .                 EIGIBUF_L, LEIBUF_L)
 C-----------------------------------------------

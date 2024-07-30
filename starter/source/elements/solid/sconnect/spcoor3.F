@@ -20,14 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPCOOR3                       source/elements/solid/sconnect/spcoor3.F
-Chd|-- called by -----------
-Chd|        SUINIT3                       source/elements/elbuf_init/suinit3.F
-Chd|-- calls ---------------
-Chd|        CLSKEW3                       source/elements/shell/coque/clskew.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spcoor3          ../starter/source/elements/solid/sconnect/spcoor3.F
+      !||--- called by ------------------------------------------------------
+      !||    suinit3          ../starter/source/elements/elbuf_init/suinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    checkvolume_8n   ../starter/source/elements/solid/solide/checksvolume.F
+      !||    clskew3          ../starter/source/elements/shell/coque/clskew.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SPCOOR3(
      .         X    ,IXS  ,GEO  ,NEL  ,MXT  ,PID  ,NGL  ,
      .         IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8 ,

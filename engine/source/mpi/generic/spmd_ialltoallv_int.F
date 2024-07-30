@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_IALLTOALLV_INT           source/mpi/generic/spmd_ialltoallv_int.F
-Chd|-- called by -----------
-Chd|        SPMD_CELL_LIST_EXCHANGE       source/mpi/interfaces/spmd_cell_list_exchange.F
-Chd|        SPMD_COARSE_CELL_EXCHANGE     source/mpi/interfaces/spmd_coarse_cell_exchange.F
-Chd|        SPMD_SPHGAT                   source/mpi/sph/spmd_sphgat.F  
-Chd|        SPMD_SPHGETV                  source/mpi/sph/spmd_sphgetv.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_ialltoallv_int         ../engine/source/mpi/generic/spmd_ialltoallv_int.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_cell_list_exchange     ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
+      !||    spmd_coarse_cell_exchange   ../engine/source/mpi/interfaces/spmd_coarse_cell_exchange.F
+      !||    spmd_sphgat                 ../engine/source/mpi/sph/spmd_sphgat.F
+      !||    spmd_sphgetv                ../engine/source/mpi/sph/spmd_sphgetv.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
         SUBROUTINE SPMD_IALLTOALLV_INT(SENDBUF,RECVBUF,SEND_SIZE,TOTAL_SEND_SIZE,SDISPLS,
      .                             TOTAL_RCV_SIZE,RCV_SIZE,RDISPLS,
      .                             REQUEST,COMM,NB_PROC)

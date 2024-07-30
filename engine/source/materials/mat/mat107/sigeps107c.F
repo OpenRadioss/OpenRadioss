@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS107C                    source/materials/mat/mat107/sigeps107c.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|-- calls ---------------
-Chd|        MAT107C_NEWTON                source/materials/mat/mat107/mat107c_newton.F
-Chd|        MAT107C_NICE                  source/materials/mat/mat107/mat107c_nice.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps107c            ../engine/source/materials/mat/mat107/sigeps107c.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc                ../engine/source/materials/mat_share/mulawc.F
+      !||--- calls      -----------------------------------------------------
+      !||    mat107c_newton        ../engine/source/materials/mat/mat107/mat107c_newton.F
+      !||    mat107c_nice          ../engine/source/materials/mat/mat107/mat107c_nice.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    table_mod             ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE SIGEPS107C(
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,NPF     ,
      2     TF      ,TIMESTEP,TIME    ,UPARAM  ,UVAR    ,JTHE    ,RHO     ,

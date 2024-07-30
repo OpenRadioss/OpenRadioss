@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_EXCH_V                   source/mpi/generic/spmd_exch_v.F
-Chd|-- called by -----------
-Chd|        GPS_SOLID                     source/output/outmaxsubr.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_v   ../engine/source/mpi/generic/spmd_exch_v.F
+      !||--- called by ------------------------------------------------------
+      !||    gps_solid     ../engine/source/output/outmaxsubr.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_V(XNORM,NSIZ,IAD_ELEM,FR_ELEM,LENR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

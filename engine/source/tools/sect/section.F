@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SECTION                       source/tools/sect/section.F   
-Chd|-- called by -----------
-Chd|        SECTION_IO                    source/tools/sect/section_io.F
-Chd|-- calls ---------------
-Chd|        SECTION_SKEW                  source/tools/sect/section_skew.F
-Chd|        SECTION_SKEWP                 source/tools/sect/section_skewp.F
-Chd|====================================================================
+      !||====================================================================
+      !||    section         ../engine/source/tools/sect/section.F
+      !||--- called by ------------------------------------------------------
+      !||    section_io      ../engine/source/tools/sect/section_io.F
+      !||--- calls      -----------------------------------------------------
+      !||    section_skew    ../engine/source/tools/sect/section_skew.F
+      !||    section_skewp   ../engine/source/tools/sect/section_skewp.F
+      !||====================================================================
       SUBROUTINE SECTION(NNOD,N1  ,N2   ,N3   ,NSTRF  ,X  ,
      2                   V   ,VR  ,FSAV ,FOPTA,SECFCUM,MS ,
      3                   IN  ,IFRAM,XSEC)

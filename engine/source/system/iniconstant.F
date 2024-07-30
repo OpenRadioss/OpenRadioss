@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INICONSTANT                   source/system/iniconstant.F   
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    iniconstant   ../engine/source/system/iniconstant.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2      ../engine/source/engine/radioss2.F
+      !||====================================================================
       SUBROUTINE INICONSTANT
 #include "implicit_f.inc"   
 C--------------------------------------

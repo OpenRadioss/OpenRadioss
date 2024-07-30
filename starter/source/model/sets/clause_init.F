@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CLAUSE_INIT                   source/model/sets/clause_init.F
-Chd|-- called by -----------
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    clause_init   ../starter/source/model/sets/clause_init.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_set        ../starter/source/model/sets/hm_set.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE CLAUSE_INIT(CLAUSE)
 C-----------------------------------------------
 C   M o d u l e s

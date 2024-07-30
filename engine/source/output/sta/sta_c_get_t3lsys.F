@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GET_T3LSYS                    source/output/sta/sta_c_get_t3lsys.F
-Chd|-- called by -----------
-Chd|        STAT_C_STRSFG                 source/output/sta/stat_c_strsfg.F
-Chd|-- calls ---------------
-Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
-Chd|        CORTDIR3                      source/elements/shell/coque/cortdir3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_t3lsys      ../engine/source/output/sta/sta_c_get_t3lsys.F
+      !||--- called by ------------------------------------------------------
+      !||    stat_c_strsfg   ../engine/source/output/sta/stat_c_strsfg.F
+      !||--- calls      -----------------------------------------------------
+      !||    clskew3         ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+      !||    cortdir3        ../engine/source/elements/shell/coque/cortdir3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
         SUBROUTINE GET_T3LSYS(JFT    ,JLT    ,IXTG    ,X    ,OFFG   ,
      .                        IREL   ,VQ     ,NLAY   ,IREP  ,NEL    ,
      .                        DIR_A  ,DIR_B,ELBUF_STR)

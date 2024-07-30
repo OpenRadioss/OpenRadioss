@@ -20,12 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M21LAW                        source/materials/mat/mat021/m21law.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    m21law   ../engine/source/materials/mat/mat021/m21law.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain    ../engine/source/materials/mat_share/mmain.F90
+      !||--- calls      -----------------------------------------------------
+      !||    finter   ../engine/source/tools/curve/finter.F
+      !||====================================================================
       SUBROUTINE M21LAW (PM ,OFF ,SIG     ,EINT    ,RHO     ,
      2           EPX     ,EPSEQ   ,VOL     ,MAT    ,SSP     ,
      3           DVOL    ,VNEW    ,D1      ,D2     ,D3      ,

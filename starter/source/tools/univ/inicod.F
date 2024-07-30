@@ -22,12 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 C------------------------------------------------------------------
-Chd|====================================================================
-Chd|  INICOD                        source/tools/univ/inicod.F    
-Chd|-- called by -----------
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inicod     ../starter/source/tools/univ/inicod.F
+      !||--- called by ------------------------------------------------------
+      !||    starter0   ../starter/source/starter/starter0.F
+      !||====================================================================
       SUBROUTINE INICOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

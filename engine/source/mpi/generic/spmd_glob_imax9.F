@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_GLOB_IMAX9               source/mpi/generic/spmd_glob_imax9.F
-Chd|-- called by -----------
-Chd|        FIND_DT_FOR_TARGETED_ADDED_MASSsource/time_step/find_dt_for_targeted_added_mass.F
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|        SMS_INI_KIN_1                 source/ams/sms_init.F         
-Chd|        SMS_INI_KIN_2                 source/ams/sms_init.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_glob_imax9                   ../engine/source/mpi/generic/spmd_glob_imax9.F
+      !||--- called by ------------------------------------------------------
+      !||    find_dt_for_targeted_added_mass   ../engine/source/time_step/find_dt_for_targeted_added_mass.F
+      !||    genani                            ../engine/source/output/anim/generate/genani.F
+      !||    sms_ini_kin_1                     ../engine/source/ams/sms_init.F
+      !||    sms_ini_kin_2                     ../engine/source/ams/sms_init.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_GLOB_IMAX9(V,LEN)
 C gather tableau V de taille LEN de type integer
 C-----------------------------------------------

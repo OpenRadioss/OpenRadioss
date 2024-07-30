@@ -20,16 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THCOQ                         source/output/th/thcoq.F      
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    thcoq              ../engine/source/output/th/thcoq.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2              ../engine/source/output/th/hist2.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar               ../engine/source/input/nvar.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    pinchtype_mod      ../common_source/modules/pinchtype_mod.F
+      !||    stack_mod          ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE THCOQ(ELBUF_TAB,MATPARAM_TAB,NTHGRP2 , ITHGRP , 
      .                 IPARG    ,ITHBUF  ,WA      ,
      .                 IPM      ,IGEO  ,IXC    ,IXTG   ,PM     ,

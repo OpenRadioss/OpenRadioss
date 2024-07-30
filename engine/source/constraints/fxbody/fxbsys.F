@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FXBSYS                        source/constraints/fxbody/fxbsys.F
-Chd|-- called by -----------
-Chd|        FXBODVP1                      source/constraints/fxbody/fxbodvp.F
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    fxbsys     ../engine/source/constraints/fxbody/fxbsys.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbodvp1   ../engine/source/constraints/fxbody/fxbodvp.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret      ../engine/source/system/arret.F
+      !||====================================================================
       SUBROUTINE FXBSYS(MT, ST, N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

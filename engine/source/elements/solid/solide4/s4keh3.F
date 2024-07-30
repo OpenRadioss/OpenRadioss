@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4KEH3                        source/elements/solid/solide4/s4keh3.F
-Chd|-- called by -----------
-Chd|        S10KGEO3                      source/elements/solid/solide10/s10kgeo3.F
-Chd|        S20KGEO3                      source/elements/solid/solide20/s20kgeo3.F
-Chd|        S4KGEO3                       source/elements/solid/solide4/s4kgeo3.F
-Chd|-- calls ---------------
-Chd|        S8ZKEH3                       source/elements/solid/solide8z/s8zkeh3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s4keh3     ../engine/source/elements/solid/solide4/s4keh3.F
+      !||--- called by ------------------------------------------------------
+      !||    s10kgeo3   ../engine/source/elements/solid/solide10/s10kgeo3.F
+      !||    s20kgeo3   ../engine/source/elements/solid/solide20/s20kgeo3.F
+      !||    s4kgeo3    ../engine/source/elements/solid/solide4/s4kgeo3.F
+      !||--- calls      -----------------------------------------------------
+      !||    s8zkeh3    ../engine/source/elements/solid/solide8z/s8zkeh3.F
+      !||====================================================================
       SUBROUTINE S4KEH3(LFT,LLT,
      .   PXI, PYI ,PZI ,PXJ, PYJ, PZJ, 
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,KIJ )

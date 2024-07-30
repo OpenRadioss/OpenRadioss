@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2FOR25                       source/interfaces/interf/i2for25.F
-Chd|-- called by -----------
-Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
-Chd|-- calls ---------------
-Chd|        I2LOCEQ                       ../common_source/interf/i2loceq.F
-Chd|        I2PEN_ROT                     ../common_source/interf/i2pen_rot.F
-Chd|        I2REP                         ../common_source/interf/i2rep.F
-Chd|        I2SMS25                       source/interfaces/interf/i2sms25.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i2for25     ../engine/source/interfaces/interf/i2for25.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2f     ../engine/source/interfaces/interf/intti2f.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2loceq     ../common_source/interf/i2loceq.F
+      !||    i2pen_rot   ../common_source/interf/i2pen_rot.F
+      !||    i2rep       ../common_source/interf/i2rep.F
+      !||    i2sms25     ../engine/source/interfaces/interf/i2sms25.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod     ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I2FOR25(X       ,V       ,VR      ,A       ,AR      ,
      .                   MS      ,STIFN   ,STIFR   ,WEIGHT  ,IRECT   ,
      .                   NSV     ,IRTL    ,CRST    ,SKEW    ,XINI    ,

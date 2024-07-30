@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SZHOUR_CTL                    source/elements/solid/solidez/szhour_ctl.F
-Chd|-- called by -----------
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        SZSTRAINHG                    source/elements/solid/solidez/szstrainhg.F
-Chd|====================================================================
+      !||====================================================================
+      !||    szhour_ctl   ../engine/source/elements/solid/solidez/szhour_ctl.F
+      !||--- called by ------------------------------------------------------
+      !||    szforc3      ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    szstrainhg   ../engine/source/elements/solid/solidez/szstrainhg.F
+      !||====================================================================
       SUBROUTINE SZHOUR_CTL(
      .   PM,      RHO,     OFF,     VX1,
      .   VX2,     VX3,     VX4,     VX5,

@@ -21,18 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C available just with ply/xfem formulation 
-Chd|====================================================================
-Chd|  TENSORC_PLY                   source/output/anim/generate/tensorc_ply.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|-- calls ---------------
-Chd|        SIGROTA                       source/output/anim/generate/sigrota.F
-Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    tensorc_ply        ../engine/source/output/anim/generate/tensorc_ply.F
+      !||--- called by ------------------------------------------------------
+      !||    genani             ../engine/source/output/anim/generate/genani.F
+      !||--- calls      -----------------------------------------------------
+      !||    sigrota            ../engine/source/output/anim/generate/sigrota.F
+      !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
+      !||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    plyxfem_mod        ../engine/share/modules/plyxfem_mod.F
+      !||    stack_mod          ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE TENSORC_PLY(IPLY,  NEL_PLY, ELBUF_TAB, IPARG,
      1                       ITENS, INVERT,  EL2FA, NBF,
      2                       TENS,  EPSDOT,  IADP,  NBF_L,

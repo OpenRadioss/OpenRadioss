@@ -21,17 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  I4GMX3                        source/interfaces/inter3d1/i4gmx3.F
-Chd|-- called by -----------
-Chd|        I20STI3                       source/interfaces/inter3d1/i20sti3.F
-Chd|        I21GAP3                       source/interfaces/inter3d1/i21gap3.F
-Chd|        I23GAP3                       source/interfaces/inter3d1/i23gap3.F
-Chd|        I24GAPM                       source/interfaces/inter3d1/i24sti3.F
-Chd|        I25GAPM                       source/interfaces/inter3d1/i25sti3.F
-Chd|        I7STI3                        source/interfaces/inter3d1/i7sti3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i4gmx3    ../starter/source/interfaces/inter3d1/i4gmx3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20sti3   ../starter/source/interfaces/inter3d1/i20sti3.F
+      !||    i21gap3   ../starter/source/interfaces/inter3d1/i21gap3.F
+      !||    i23gap3   ../starter/source/interfaces/inter3d1/i23gap3.F
+      !||    i24gapm   ../starter/source/interfaces/inter3d1/i24sti3.F
+      !||    i25gapm   ../starter/source/interfaces/inter3d1/i25sti3.F
+      !||    i7sti3    ../starter/source/interfaces/inter3d1/i7sti3.F
+      !||====================================================================
       SUBROUTINE I4GMX3(X,IRECT,I,GAPMAX)
 C
 C-----------------------------------------------

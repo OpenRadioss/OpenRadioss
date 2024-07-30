@@ -20,37 +20,34 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DEBUG_MOD                     share/modules/debug_mod.F     
-Chd|-- called by -----------
-Chd|        CHECK_NAN_ACC                 source/output/outfile/check_nan_acc.F
-Chd|        I24ASS2                       source/interfaces/int24/i24for3.F
-Chd|        I24COR3                       source/interfaces/int24/i24cor3.F
-Chd|        I24ISPT2_INI_OPTTRI           source/interfaces/int24/i24cor3.F
-Chd|        I24OPTCD                      source/interfaces/intsort/i24optcd.F
-Chd|        I25COR3_E2S                   source/interfaces/int25/i25cor3_e2s.F
-Chd|        I25FREE_BOUND                 source/interfaces/int25/i25free_bound.F
-Chd|        I25NORMP                      source/interfaces/int25/i25norm.F
-Chd|        I25OPTCD_E2S                  source/interfaces/intsort/i25optcd_e2s.F
-Chd|        I25TRIVOX_EDG                 source/interfaces/intsort/i25trivox_edg.F
-Chd|        PREPARE_DEBUG                 share/modules/debug_mod.F     
-Chd|        SPMD_COLLECT_MULTI_FVM        source/mpi/output/spmd_collect_multi_fvm.F
-Chd|        SPMD_COLLECT_NLOCAL           source/mpi/output/spmd_collect_nlocal.F
-Chd|        SPMD_FIADD25E_POFF            source/mpi/interfaces/spmd_fiadd25e_poff.F
-Chd|        SPMD_FIADD25E_PON             source/mpi/interfaces/spmd_fiadd25e_pon.F
-Chd|        UPDATE_FAILWAVE               source/materials/fail/failwave/update_failwave.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    debug_mod                ../engine/share/modules/debug_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    check_nan_acc            ../engine/source/output/outfile/check_nan_acc.F
+      !||    i24ass2                  ../engine/source/interfaces/int24/i24for3.F
+      !||    i24cor3                  ../engine/source/interfaces/int24/i24cor3.F
+      !||    i24ispt2_ini_opttri      ../engine/source/interfaces/int24/i24cor3.F
+      !||    i24optcd                 ../engine/source/interfaces/intsort/i24optcd.F
+      !||    i25cor3_e2s              ../engine/source/interfaces/int25/i25cor3_e2s.F
+      !||    i25free_bound            ../engine/source/interfaces/int25/i25free_bound.F
+      !||    i25normp                 ../engine/source/interfaces/int25/i25norm.F
+      !||    i25optcd_e2s             ../engine/source/interfaces/intsort/i25optcd_e2s.F
+      !||    i25trivox_edg            ../engine/source/interfaces/intsort/i25trivox_edg.F
+      !||    prepare_debug            ../engine/share/modules/debug_mod.F
+      !||    spmd_collect_multi_fvm   ../engine/source/mpi/output/spmd_collect_multi_fvm.F
+      !||    spmd_collect_nlocal      ../engine/source/mpi/output/spmd_collect_nlocal.F
+      !||    spmd_fiadd25e_poff       ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
+      !||    spmd_fiadd25e_pon        ../engine/source/mpi/interfaces/spmd_fiadd25e_pon.F
+      !||    update_failwave          ../engine/source/materials/fail/failwave/update_failwave.F
+      !||====================================================================
       MODULE DEBUG_MOD
 
         INTEGER, DIMENSION(:),ALLOCATABLE :: ITAB_DEBUG
 
         CONTAINS
-Chd|====================================================================
-Chd|  SP_CHECKSUM                   share/modules/debug_mod.F     
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sp_checksum   ../engine/share/modules/debug_mod.F
+      !||====================================================================
       PURE FUNCTION SP_CHECKSUM(A,SIZ1,SIZ2)  RESULT(CHECKSUM)
 C Prints Adler 32 checksum of A(1:SIZ2,1:SIZ1) in *1.out file 
 C-----------------------------------------------
@@ -101,11 +98,9 @@ C     (s2 << 16) | s1
       CHECKSUM = IOR(S2 * TWO_POWER_16,S1)
       DEALLOCATE(TMP)
       END FUNCTION
-Chd|====================================================================
-Chd|  DP_CHECKSUM                   share/modules/debug_mod.F     
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dp_checksum   ../engine/share/modules/debug_mod.F
+      !||====================================================================
       PURE FUNCTION DP_CHECKSUM(A,SIZ1,SIZ2) RESULT(CHECKSUM)
 C Prints Adler 32 checksum of A(1:SIZ2,1:SIZ1) in *1.out file 
 C-----------------------------------------------
@@ -155,14 +150,13 @@ C     (s2 << 16) | s1
       CHECKSUM = IOR(S2 * TWO_POWER_16,S1)
       DEALLOCATE(TMP)
       END FUNCTION
-Chd|====================================================================
-Chd|  INT_CHECKSUM                  share/modules/debug_mod.F     
-Chd|-- called by -----------
-Chd|        I25COR3_E2S                   source/interfaces/int25/i25cor3_e2s.F
-Chd|        I25OPTCD_E2S                  source/interfaces/intsort/i25optcd_e2s.F
-Chd|        I25TRIVOX_EDG                 source/interfaces/intsort/i25trivox_edg.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    int_checksum    ../engine/share/modules/debug_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    i25cor3_e2s     ../engine/source/interfaces/int25/i25cor3_e2s.F
+      !||    i25optcd_e2s    ../engine/source/interfaces/intsort/i25optcd_e2s.F
+      !||    i25trivox_edg   ../engine/source/interfaces/intsort/i25trivox_edg.F
+      !||====================================================================
       PURE FUNCTION INT_CHECKSUM(A,SIZ1,SIZ2) RESULT(CHECKSUM)
 C Prints Adler 32 checksum of A(1:SIZ2,1:SIZ1) in *1.out file 
 C-----------------------------------------------
@@ -215,15 +209,15 @@ C     (s2 << 16) | s1
       END MODULE DEBUG_MOD
 
 
-Chd|====================================================================
-Chd|  PREPARE_DEBUG                 share/modules/debug_mod.F     
-Chd|-- called by -----------
-Chd|        CHECK_NAN_ACC                 source/output/outfile/check_nan_acc.F
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
-Chd|        RESTMOD                       share/modules/restart_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    prepare_debug   ../engine/share/modules/debug_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    check_nan_acc   ../engine/source/output/outfile/check_nan_acc.F
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    debug_mod       ../engine/share/modules/debug_mod.F
+      !||    restmod         ../engine/share/modules/restart_mod.F
+      !||====================================================================
       SUBROUTINE PREPARE_DEBUG()
 
         USE RESTMOD

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4FILLOPT                     source/elements/solid/solide4/s4fillopt.F
-Chd|-- called by -----------
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s4fillopt   ../engine/source/elements/solid/solide4/s4fillopt.F
+      !||--- called by ------------------------------------------------------
+      !||    s4forc3     ../engine/source/elements/solid/solide4/s4forc3.F
+      !||====================================================================
       SUBROUTINE S4FILLOPT(
      1   FILL,    STI,     F11,     F21,
      2   F31,     F12,     F22,     F32,

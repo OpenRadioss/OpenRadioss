@@ -21,14 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  ATURI3                        source/ale/ale3d/aturi3.F     
-Chd|-- called by -----------
-Chd|        MULTIFLUID_INIT3              source/multifluid/multifluid_init3.F
-Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    aturi3             ../starter/source/ale/ale3d/aturi3.F
+      !||--- called by ------------------------------------------------------
+      !||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
+      !||    s4init3            ../starter/source/elements/solid/solide4/s4init3.F
+      !||    sinit3             ../starter/source/elements/solid/solide/sinit3.F
+      !||====================================================================
       SUBROUTINE ATURI3(IPARG,RHO,PM,IX,X,RK,RE,VOLU)
 C-----------------------------------------------
 C   D e s c r i p t i o n

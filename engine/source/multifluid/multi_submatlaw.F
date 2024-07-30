@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MULTI_SUBMATLAW               source/multifluid/multi_submatlaw.F
-Chd|-- called by -----------
-Chd|        COMPUTE_PRESSURE              source/multifluid/multi_muscl_fluxes_computation.F
-Chd|        MULTI_INLET_EBCS              source/multifluid/multi_inlet_ebcs.F
-Chd|        MULTI_NRF_EBCS                source/multifluid/multi_nrf_ebcs.F
-Chd|        MULTI_PRESSURE_EQUILIBRIUM    source/multifluid/multi_pressure_equilibrium.F
-Chd|        SOLVE_EINT                    source/multifluid/multi_inlet_ebcs.F
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
-Chd|====================================================================
+      !||====================================================================
+      !||    multi_submatlaw              ../engine/source/multifluid/multi_submatlaw.F
+      !||--- called by ------------------------------------------------------
+      !||    compute_pressure             ../engine/source/multifluid/multi_muscl_fluxes_computation.F
+      !||    multi_inlet_ebcs             ../engine/source/multifluid/multi_inlet_ebcs.F
+      !||    multi_nrf_ebcs               ../engine/source/multifluid/multi_nrf_ebcs.F
+      !||    multi_pressure_equilibrium   ../engine/source/multifluid/multi_pressure_equilibrium.F
+      !||    solve_eint                   ../engine/source/multifluid/multi_inlet_ebcs.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret                        ../engine/source/system/arret.F
+      !||    eosmain                      ../common_source/eos/eosmain.F
+      !||====================================================================
       SUBROUTINE MULTI_SUBMATLAW(
      1   IFLAG,       MATLAW,      LOCAL_MATID, NEL,
      2   EINT,        PRES,        RHO,         SSP,

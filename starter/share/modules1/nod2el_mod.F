@@ -20,20 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NOD2EL_MOD                    share/modules1/nod2el_mod.F   
-Chd|-- called by -----------
-Chd|        I2TID3                        source/interfaces/inter3d1/i2tid3.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        MERGE_NODE                    source/elements/nodes/merge_node.F
-Chd|        R2R_CHECK_SEG                 source/coupling/rad2rad/routines_r2r.F
-Chd|        R2R_COUNT                     source/coupling/rad2rad/r2r_count.F
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
-Chd|        R2R_SPLIT                     source/coupling/rad2rad/r2r_split.F
-Chd|        TAG_ELEM_VOID_R2R             source/coupling/rad2rad/tagelem_r2r.F
-Chd|        TAG_ELEM_VOID_R2R_LIN         source/coupling/rad2rad/tagelem_r2r.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    nod2el_mod              ../starter/share/modules1/nod2el_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    i2tid3                  ../starter/source/interfaces/inter3d1/i2tid3.F
+      !||    lectur                  ../starter/source/starter/lectur.F
+      !||    merge_node              ../starter/source/elements/nodes/merge_node.F
+      !||    r2r_check_seg           ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    r2r_count               ../starter/source/coupling/rad2rad/r2r_count.F
+      !||    r2r_prelec              ../starter/source/coupling/rad2rad/r2r_prelec.F
+      !||    r2r_split               ../starter/source/coupling/rad2rad/r2r_split.F
+      !||    tag_elem_void_r2r       ../starter/source/coupling/rad2rad/tagelem_r2r.F
+      !||    tag_elem_void_r2r_lin   ../starter/source/coupling/rad2rad/tagelem_r2r.F
+      !||====================================================================
       MODULE NOD2EL_MOD
 C-----------------------------------------------
 C   m y _ r e a l

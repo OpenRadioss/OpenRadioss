@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RMATACCE                      source/materials/mat/mat013/rmatacce.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rmatacce   ../engine/source/materials/mat/mat013/rmatacce.F
+      !||--- called by ------------------------------------------------------
+      !||    resol      ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE RMATACCE(RBYM ,ARBYM ,ARRBYM ,VRBYM,VRRBYM,
      2                    IRBYM,LNRBYM,X      ,A    ,AR    ,
      3                    V    ,VR    ,KIND   )

@@ -20,26 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIGRAV_LOAD                  source/initial_conditions/inigrav/inigrav_load.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        CHECK_IS_ON_SEGMENT           source/initial_conditions/inigrav/inigrav_load.F
-Chd|        INIGRAV_EOS                   source/initial_conditions/inigrav/inigrav_eos.F
-Chd|        INIGRAV_M37                   source/initial_conditions/inigrav/inigrav_m37.F
-Chd|        INIGRAV_M51                   source/initial_conditions/inigrav/inigrav_m51.F
-Chd|        INIGRAV_PART_LIST             source/initial_conditions/inigrav/inigrav_part_list.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INIGRAV                       share/modules1/inigrav_mod.F  
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inigrav_load           ../starter/source/initial_conditions/inigrav/inigrav_load.F
+      !||--- called by ------------------------------------------------------
+      !||    initia                 ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    check_is_on_segment    ../starter/source/initial_conditions/inigrav/inigrav_load.F
+      !||    inigrav_eos            ../starter/source/initial_conditions/inigrav/inigrav_eos.F
+      !||    inigrav_m37            ../starter/source/initial_conditions/inigrav/inigrav_m37.F
+      !||    inigrav_m51            ../starter/source/initial_conditions/inigrav/inigrav_m51.F
+      !||    inigrav_part_list      ../starter/source/initial_conditions/inigrav/inigrav_part_list.F
+      !||--- uses       -----------------------------------------------------
+      !||    inigrav                ../starter/share/modules1/inigrav_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INIGRAV_LOAD(ELBUF_TAB ,IPART  ,IGRPART ,IPARG  ,IPARTTG  ,
      1                        IPARTS    ,IPARTQ ,X       ,IXS    ,IXQ      ,
      2                        IXTG      ,PM     ,IPM     ,BUFMAT ,MULTI_FVM,
@@ -548,12 +543,11 @@ C-----------------------------------------------
 
 
 
-Chd|====================================================================
-Chd|  CHECK_IS_ON_SEGMENT           source/initial_conditions/inigrav/inigrav_load.F
-Chd|-- called by -----------
-Chd|        INIGRAV_LOAD                  source/initial_conditions/inigrav/inigrav_load.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    check_is_on_segment   ../starter/source/initial_conditions/inigrav/inigrav_load.F
+      !||--- called by ------------------------------------------------------
+      !||    inigrav_load          ../starter/source/initial_conditions/inigrav/inigrav_load.F
+      !||====================================================================
       SUBROUTINE CHECK_IS_ON_SEGMENT(P,Z,H,lTRIA,lTEST)
 C-----------------------------------------------
 C   Description

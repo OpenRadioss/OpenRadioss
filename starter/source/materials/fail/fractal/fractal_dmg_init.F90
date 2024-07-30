@@ -28,6 +28,13 @@
 !Chd|        cbainit3                        source/elements/shell/coque/cbainit3.F
 !Chd|-- calls ---------------
 !Chd|====================================================================
+      !||====================================================================
+      !||    fractal_dmg_init_mod   ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
+      !||--- called by ------------------------------------------------------
+      !||    c3init3                ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3               ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
+      !||====================================================================
       module fractal_dmg_init_mod
       contains
 ! ========================================================================================
@@ -36,6 +43,14 @@
 
 ! ========================================================================================
 
+      !||====================================================================
+      !||    fractal_dmg_init      ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
+      !||--- called by ------------------------------------------------------
+      !||    c3init3               ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3              ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cinit3                ../starter/source/elements/shell/coque/cinit3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       subroutine fractal_dmg_init(elbuf_str,mat_param,fail_fractal,nummat,nshell,nel,nft,ngl,ity)
 
 !-----------------------------------------------

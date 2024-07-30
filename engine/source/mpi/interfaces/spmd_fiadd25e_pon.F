@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_FIADD25E_PON             source/mpi/interfaces/spmd_fiadd25e_pon.F
-Chd|-- called by -----------
-Chd|        SPMD_I7FCOM_PON               source/mpi/forces/spmd_i7fcom_pon.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        IBCOFF                        source/interfaces/interf/ibcoff.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fiadd25e_pon   ../engine/source/mpi/interfaces/spmd_fiadd25e_pon.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_i7fcom_pon     ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg              ../engine/source/output/message/message.F
+      !||    arret               ../engine/source/system/arret.F
+      !||    ibcoff              ../engine/source/interfaces/interf/ibcoff.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod            ../common_source/modules/output/anim_mod.F
+      !||    debug_mod           ../engine/share/modules/debug_mod.F
+      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
+      !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_FIADD25E_PON(
      1       NB     ,LEN    ,BUFR   ,NSV     ,FSKYI,
      2       ISKY   ,IBC    ,ISECIN ,NOINT   ,IBAG ,

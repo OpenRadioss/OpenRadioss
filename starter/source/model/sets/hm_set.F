@@ -20,57 +20,58 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_SET                        source/model/sets/hm_set.F    
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        CLAUSE_INIT                   source/model/sets/clause_init.F
-Chd|        CREATE_BOX_CLAUSE             source/model/sets/create_box_clause.F
-Chd|        CREATE_ELEMENT_FROM_PART      source/model/sets/create_element_from_part.F
-Chd|        CREATE_ELEM_ALL_CLAUSE        source/model/sets/create_elem_all_clause.F
-Chd|        CREATE_ELLIPSE_CLAUSE         source/model/sets/create_ellipse_clause.F
-Chd|        CREATE_ELT_CLAUSE             source/model/sets/create_element_clause.F
-Chd|        CREATE_LINE_FROM_ELEMENT      source/model/sets/create_line_from_element.F
-Chd|        CREATE_LINE_FROM_SURFACE      source/model/sets/create_line_from_surface.F
-Chd|        CREATE_NODE_ALL_CLAUSE        source/model/sets/create_node_all_clause.F
-Chd|        CREATE_NODE_CLAUSE            source/model/sets/create_node_clause.F
-Chd|        CREATE_NODE_FROM_ELEMENT      source/model/sets/create_node_from_element.F
-Chd|        CREATE_NODE_FROM_RBODY        source/model/sets/create_node_from_rbody.F
-Chd|        CREATE_NODE_FROM_SEG          source/model/sets/create_node_from_seg.F
-Chd|        CREATE_PART_ALL_CLAUSE        source/model/sets/create_part_all_clause.F
-Chd|        CREATE_PART_CLAUSE            source/model/sets/create_part_clause.F
-Chd|        CREATE_RBODY_CLAUSE           source/model/sets/create_rbody_clause.F
-Chd|        CREATE_SEG_CLAUSE             source/model/sets/create_seg_clause.F
-Chd|        CREATE_SETCOL_ARRAY           source/model/sets/create_setcol_clause.F
-Chd|        CREATE_SET_ARRAY              source/model/sets/create_set_clause.F
-Chd|        CREATE_SET_CLAUSE             source/model/sets/create_set_clause.F
-Chd|        CREATE_SET_COLLECT            source/model/sets/create_setcol_clause.F
-Chd|        CREATE_SUBM_CLAUSE            source/model/sets/create_subm_clause.F
-Chd|        CREATE_SUBS_CLAUSE            source/model/sets/create_subs_clause.F
-Chd|        CREATE_SURFACE_FROM_ELEMENT   source/model/sets/create_surface_from_element.F
-Chd|        FILL_IGR                      source/model/sets/fill_igr.F  
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_GET_STRING                 source/devtools/hm_reader/hm_get_string.F
-Chd|        HM_GET_STRING_INDEX           source/devtools/hm_reader/hm_get_string_index.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START_LIST          source/devtools/hm_reader/hm_option_start.F
-Chd|        INSERT_CLAUSE_IN_SET          source/model/sets/insert_clause_in_set.F
-Chd|        SET_INIT                      source/model/sets/set_init.F  
-Chd|        SET_OPERATOR                  source/model/sets/set_operator.F
-Chd|        SORT_SET                      source/model/sets/sort_sets.F 
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        INVERTED_GROUP_MOD            share/modules1/inverted_group_mod.F
-Chd|        MAPPING_OPTION_MOD            share/modules1/dichotomy_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SET_SCRATCH_MOD               ../common_source/modules/setdef_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_set                        ../starter/source/model/sets/hm_set.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                        ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                        ../starter/source/output/message/message.F
+      !||    clause_init                   ../starter/source/model/sets/clause_init.F
+      !||    create_box_clause             ../starter/source/model/sets/create_box_clause.F
+      !||    create_elem_all_clause        ../starter/source/model/sets/create_elem_all_clause.F
+      !||    create_element_from_part      ../starter/source/model/sets/create_element_from_part.F
+      !||    create_ellipse_clause         ../starter/source/model/sets/create_ellipse_clause.F
+      !||    create_elt_clause             ../starter/source/model/sets/create_element_clause.F
+      !||    create_line_from_element      ../starter/source/model/sets/create_line_from_element.F
+      !||    create_line_from_surface      ../starter/source/model/sets/create_line_from_surface.F
+      !||    create_node_all_clause        ../starter/source/model/sets/create_node_all_clause.F
+      !||    create_node_clause            ../starter/source/model/sets/create_node_clause.F
+      !||    create_node_from_element      ../starter/source/model/sets/create_node_from_element.F
+      !||    create_node_from_rbody        ../starter/source/model/sets/create_node_from_rbody.F
+      !||    create_node_from_seg          ../starter/source/model/sets/create_node_from_seg.F
+      !||    create_nodens_clause          ../starter/source/model/sets/create_nodens_clause.F90
+      !||    create_part_all_clause        ../starter/source/model/sets/create_part_all_clause.F
+      !||    create_part_clause            ../starter/source/model/sets/create_part_clause.F
+      !||    create_plane_clause           ../starter/source/model/sets/create_plane_clause.F90
+      !||    create_rbody_clause           ../starter/source/model/sets/create_rbody_clause.F
+      !||    create_seg_clause             ../starter/source/model/sets/create_seg_clause.F
+      !||    create_set_array              ../starter/source/model/sets/create_set_clause.F
+      !||    create_set_clause             ../starter/source/model/sets/create_set_clause.F
+      !||    create_set_collect            ../starter/source/model/sets/create_setcol_clause.F
+      !||    create_setcol_array           ../starter/source/model/sets/create_setcol_clause.F
+      !||    create_subm_clause            ../starter/source/model/sets/create_subm_clause.F
+      !||    create_subs_clause            ../starter/source/model/sets/create_subs_clause.F
+      !||    create_surface_from_element   ../starter/source/model/sets/create_surface_from_element.F
+      !||    fill_igr                      ../starter/source/model/sets/fill_igr.F
+      !||    hm_get_int_array_index        ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    hm_get_intv                   ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_get_string                 ../starter/source/devtools/hm_reader/hm_get_string.F
+      !||    hm_get_string_index           ../starter/source/devtools/hm_reader/hm_get_string_index.F
+      !||    hm_option_read_key            ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start_list          ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    insert_clause_in_set          ../starter/source/model/sets/insert_clause_in_set.F
+      !||    set_init                      ../starter/source/model/sets/set_init.F
+      !||    set_operator                  ../starter/source/model/sets/set_operator.F
+      !||    sort_set                      ../starter/source/model/sets/sort_sets.F
+      !||--- uses       -----------------------------------------------------
+      !||    create_nodens_clause_mod      ../starter/source/model/sets/create_nodens_clause.F90
+      !||    create_plane_clause_mod       ../starter/source/model/sets/create_plane_clause.F90
+      !||    hm_option_read_mod            ../starter/share/modules1/hm_option_read_mod.F
+      !||    inverted_group_mod            ../starter/share/modules1/inverted_group_mod.F
+      !||    mapping_option_mod            ../starter/share/modules1/dichotomy_mod.F
+      !||    message_mod                   ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_SET(SET      ,LSUBMODEL ,INV_GROUP ,MAP_TABLES,IPART     ,
      .                  IGRSURF  ,IGRNOD    ,IGRSLIN   ,IGRPART  ,IGRBRIC   , 
      .                  IGRQUAD  ,IGRSH4N   ,IGRSH3N   ,IGRTRUSS ,IGRBEAM   ,

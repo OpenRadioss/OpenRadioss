@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BSIGINI                       source/elements/beam/bsigini.F
-Chd|-- called by -----------
-Chd|        PINIT3                        source/elements/beam/pinit3.F 
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    bsigini        ../starter/source/elements/beam/bsigini.F
+      !||--- called by ------------------------------------------------------
+      !||    pinit3         ../starter/source/elements/beam/pinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../starter/source/output/message/message.F
+      !||    fretitl2       ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE BSIGINI(ELBUF_STR,
      .                   IGTYP    ,NEL    ,NSIGBEAM  ,SIGBEAM   ,PTBEAM,
      .                   IXP      ,IGEO   )

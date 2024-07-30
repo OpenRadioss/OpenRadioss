@@ -20,14 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRITE_TH                      source/output/th/write_th.F   
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|        WRTDES                        source/output/th/wrtdes.F     
-Chd|        TH_MOD                        share/modules/th_mod.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    write_th   ../engine/source/output/th/write_th.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2      ../engine/source/output/th/hist2.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar       ../engine/source/input/nvar.F
+      !||    wrtdes     ../engine/source/output/th/wrtdes.F
+      !||--- uses       -----------------------------------------------------
+      !||    th_mod     ../engine/share/modules/th_mod.F
+      !||====================================================================
         SUBROUTINE WRITE_TH(N,NSPMD,NN,NVAR,ITTYP,
      1                      ELTYPE_STRUCT,WA_ELTYPE_P0)
         USE TH_MOD

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SOLID_SURFACE_BUFFER          source/model/sets/solid_surface_buffer.F
-Chd|-- called by -----------
-Chd|        SURFACE_BUFFER                source/model/sets/surface_buffer.F
-Chd|-- calls ---------------
-Chd|        SURF_SEGMENT                  source/model/sets/solid_surface_buffer.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    solid_surface_buffer   ../starter/source/model/sets/solid_surface_buffer.F
+      !||--- called by ------------------------------------------------------
+      !||    surface_buffer         ../starter/source/model/sets/surface_buffer.F
+      !||--- calls      -----------------------------------------------------
+      !||    surf_segment           ../starter/source/model/sets/solid_surface_buffer.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SOLID_SURFACE_BUFFER(
      .                        IXS      ,IXS10    ,IXC      ,IXTG      ,CLAUSE   ,
      .                        KNOD2ELS ,NOD2ELS  ,KNOD2ELC ,NOD2ELC   ,KNOD2ELTG,
@@ -413,13 +413,12 @@ C---
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  SURF_SEGMENT                  source/model/sets/solid_surface_buffer.F
-Chd|-- called by -----------
-Chd|        QUAD_SURFACE_BUFFER           source/model/sets/quad_surface_buffer.F
-Chd|        SOLID_SURFACE_BUFFER          source/model/sets/solid_surface_buffer.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    surf_segment           ../starter/source/model/sets/solid_surface_buffer.F
+      !||--- called by ------------------------------------------------------
+      !||    quad_surface_buffer    ../starter/source/model/sets/quad_surface_buffer.F
+      !||    solid_surface_buffer   ../starter/source/model/sets/solid_surface_buffer.F
+      !||====================================================================
       SUBROUTINE SURF_SEGMENT(N1         ,N2       ,N3      ,N4      ,ELEM,
      .                        BUFTMPSURF ,IAD_SURF ,ELTYP  )
 C-----------------------------------------------

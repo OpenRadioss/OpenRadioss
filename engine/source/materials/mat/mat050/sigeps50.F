@@ -20,15 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS50                      source/materials/mat/mat050/sigeps50.F
-Chd|-- called by -----------
-Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
-Chd|-- calls ---------------
-Chd|        TABLE_MAT_VINTERP             source/materials/tools/table_mat_vinterp.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        TABLE_MAT_VINTERP_MOD         source/materials/tools/table_mat_vinterp.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps50                ../engine/source/materials/mat/mat050/sigeps50.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8                  ../engine/source/materials/mat_share/mulaw8.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                  ../engine/source/tools/curve/finter.F
+      !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+      !||--- uses       -----------------------------------------------------
+      !||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+      !||====================================================================
       SUBROUTINE SIGEPS50 (
      1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NPF    ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,

@@ -20,20 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MAPPING_OPTION_MOD            share/modules1/dichotomy_mod.F
-Chd|-- called by -----------
-Chd|        CREATE_MAP_TABLES             source/model/sets/map_tables.F
-Chd|        HM_READ_INISTATE_D00          source/elements/initia/hm_read_inistate_d00.F
-Chd|        HM_READ_LINES                 source/groups/hm_read_lines.F 
-Chd|        HM_READ_SURF                  source/groups/hm_read_surf.F  
-Chd|        HM_READ_THGROU                source/output/th/hm_read_thgrou.F
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        LEC_INISTATE                  source/elements/initia/lec_inistate.F
-Chd|        SORT_SET                      source/model/sets/sort_sets.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mapping_option_mod     ../starter/share/modules1/dichotomy_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    create_map_tables      ../starter/source/model/sets/map_tables.F
+      !||    hm_read_inistate_d00   ../starter/source/elements/initia/hm_read_inistate_d00.F
+      !||    hm_read_lines          ../starter/source/groups/hm_read_lines.F
+      !||    hm_read_surf           ../starter/source/groups/hm_read_surf.F
+      !||    hm_read_thgrou         ../starter/source/output/th/hm_read_thgrou.F
+      !||    hm_set                 ../starter/source/model/sets/hm_set.F
+      !||    lec_inistate           ../starter/source/elements/initia/lec_inistate.F
+      !||    lectur                 ../starter/source/starter/lectur.F
+      !||    sort_set               ../starter/source/model/sets/sort_sets.F
+      !||====================================================================
       MODULE MAPPING_OPTION_MOD
 !$COMMENT
 C-----------------------------------------------

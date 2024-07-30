@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TABLE_RRESTI_MAT              source/materials/tools/table_rresti_mat.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    table_rresti_mat   ../engine/source/materials/tools/table_rresti_mat.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    table4d_mod        ../common_source/modules/table4d_mod.F
+      !||====================================================================
       SUBROUTINE TABLE_RRESTI_MAT(TABLE, NUMTABL)
 C-----------------------------------------------
       USE TABLE4D_MOD

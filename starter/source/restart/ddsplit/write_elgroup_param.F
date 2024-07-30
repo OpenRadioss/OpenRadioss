@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRITE_ELGROUP_PARAM           source/restart/ddsplit/write_elgroup_param.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    write_elgroup_param   ../starter/source/restart/ddsplit/write_elgroup_param.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit               ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE WRITE_ELGROUP_PARAM(GROUP_PARAM_TAB,IPARG,PROC,NGROUP_L,LEN)
 C-----------------------------------------------
 C   M o d u l e s

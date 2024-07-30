@@ -20,29 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_PROP_GENERIC          source/properties/hm_read_prop_generic.F
-Chd|-- called by -----------
-Chd|        HM_READ_PROPERTIES            source/properties/hm_read_properties.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        HM_READ_PROP28                source/properties/xelem/hm_read_prop28.F
-Chd|        HM_READ_PROP32                source/properties/spring/hm_read_prop32.F
-Chd|        HM_READ_PROP33                source/properties/spring/hm_read_prop33.F
-Chd|        HM_READ_PROP34                source/properties/sph/hm_read_prop34.F
-Chd|        HM_READ_PROP35                source/properties/spring/hm_read_prop35.F
-Chd|        HM_READ_PROP36                source/properties/spring/hm_read_prop36.F
-Chd|        HM_READ_PROP43                source/properties/solid/hm_read_prop43.F
-Chd|        HM_READ_PROP44                source/properties/spring/hm_read_prop44.F
-Chd|        HM_READ_PROP45                source/properties/spring/hm_read_prop45.F
-Chd|        HM_READ_PROP46                source/properties/spring/hm_read_prop46.F
-Chd|        HM_READ_PROP_USER             source/properties/user_spring_solid/hm_read_prop_user.F
-Chd|        HM_READ_PROP_USER4            source/properties/user_spring_solid/hm_read_prop_user4.F
-Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_prop_generic   ../starter/source/properties/hm_read_prop_generic.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_properties     ../starter/source/properties/hm_read_properties.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    hm_read_prop28         ../starter/source/properties/xelem/hm_read_prop28.F
+      !||    hm_read_prop32         ../starter/source/properties/spring/hm_read_prop32.F
+      !||    hm_read_prop33         ../starter/source/properties/spring/hm_read_prop33.F
+      !||    hm_read_prop34         ../starter/source/properties/sph/hm_read_prop34.F
+      !||    hm_read_prop35         ../starter/source/properties/spring/hm_read_prop35.F
+      !||    hm_read_prop36         ../starter/source/properties/spring/hm_read_prop36.F
+      !||    hm_read_prop43         ../starter/source/properties/solid/hm_read_prop43.F
+      !||    hm_read_prop44         ../starter/source/properties/spring/hm_read_prop44.F
+      !||    hm_read_prop45         ../starter/source/properties/spring/hm_read_prop45.F
+      !||    hm_read_prop46         ../starter/source/properties/spring/hm_read_prop46.F
+      !||    hm_read_prop_user      ../starter/source/properties/user_spring_solid/hm_read_prop_user.F
+      !||    hm_read_prop_user4     ../starter/source/properties/user_spring_solid/hm_read_prop_user4.F
+      !||--- uses       -----------------------------------------------------
+      !||    defaults_mod           ../starter/source/modules/defaults_mod.F90
+      !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_PROP_GENERIC(
      1                    IGTYP  ,IG      ,IDTITL  ,KEYTYPE  ,GEO      ,
      2                    IGEO   ,LBUFGEO ,BUFGEO  ,IADBUF   ,UNITAB   ,

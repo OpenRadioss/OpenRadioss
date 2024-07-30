@@ -20,20 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_SHELL_VECTOR_1            source/output/h3d/h3d_results/h3d_shell_vector_1.F
-Chd|-- called by -----------
-Chd|        H3D_SHELL_VECTOR              source/output/h3d/h3d_results/h3d_shell_vector.F
-Chd|-- calls ---------------
-Chd|        H3D_WRITE_VECTOR              source/output/h3d/h3d_results/h3d_write_vector.F
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_shell_vector_1     ../engine/source/output/h3d/h3d_results/h3d_shell_vector_1.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_shell_vector       ../engine/source/output/h3d/h3d_results/h3d_shell_vector.F
+      !||--- calls      -----------------------------------------------------
+      !||    h3d_write_vector       ../engine/source/output/h3d/h3d_results/h3d_write_vector.F
+      !||    initbuf                ../engine/share/resol/initbuf.F
+      !||--- uses       -----------------------------------------------------
+      !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    schlieren_mod          ../engine/share/modules/schlieren_mod.F
+      !||    stack_mod              ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE H3D_SHELL_VECTOR_1(
      .                  ELBUF_TAB   ,SHELL_VECTOR,IFUNC   ,IPARG       ,GEO        ,
      .                  IXQ         ,IXC       ,IXTG      ,PM         ,

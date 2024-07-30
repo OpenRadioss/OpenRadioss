@@ -21,19 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_CHKW                     source/mpi/generic/spmd_chkw.F
-Chd|-- called by -----------
-Chd|        FVSTATS                       source/airbag/fvstats.F       
-Chd|        FXBYPID                       source/constraints/fxbody/fxbypid.F
-Chd|        LECTUR                        source/input/lectur.F         
-Chd|        RBYPID                        source/constraints/general/rbody/rbypid.F
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        SZ_PRINT                      source/output/restart/arralloc.F
-Chd|-- calls ---------------
-Chd|        IO_MOD                        share/modules/io_mod.F        
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_chkw     ../engine/source/mpi/generic/spmd_chkw.F
+      !||--- called by ------------------------------------------------------
+      !||    fvstats       ../engine/source/airbag/fvstats.F
+      !||    fxbypid       ../engine/source/constraints/fxbody/fxbypid.F
+      !||    lectur        ../engine/source/input/lectur.F
+      !||    rbypid        ../engine/source/constraints/general/rbody/rbypid.F
+      !||    resol         ../engine/source/engine/resol.F
+      !||    sz_print      ../engine/source/output/restart/arralloc.F
+      !||--- uses       -----------------------------------------------------
+      !||    io_mod        ../engine/share/modules/io_mod.F
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_CHKW(IWIOUT,IOUT)
       USE MESSAGE_MOD 
             USE IO_MOD

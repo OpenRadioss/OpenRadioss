@@ -21,31 +21,32 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       
-Chd|====================================================================
-Chd|  SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
-Chd|-- called by -----------
-Chd|        C3BILAN                       source/elements/sh3n/coque3n/c3bilan.F
-Chd|        CBILAN                        source/elements/shell/coque/cbilan.F
-Chd|        IGE3DBILAN                    source/elements/ige3d/ige3dbilan.F
-Chd|        PBILAN                        source/elements/beam/pbilan.F 
-Chd|        QBILAN                        source/elements/solid_2d/quad/qbilan.F
-Chd|        R3BILAN                       source/elements/spring/r3bilan.F
-Chd|        R5BILAN                       source/elements/spring/r5bilan.F
-Chd|        RBILAN                        source/elements/spring/rbilan.F
-Chd|        S10BILAN                      source/elements/solid/solide10/s10bilan.F
-Chd|        S16BILAN                      source/elements/thickshell/solide16/s16bilan.F
-Chd|        S20BILAN                      source/elements/solid/solide20/s20bilan.F
-Chd|        S4BILAN                       source/elements/solid/solide4/s4bilan.F
-Chd|        S6CBILAN                      source/elements/thickshell/solide6c/s6cbilan.F
-Chd|        S8BILAN                       source/elements/solid/solide8/s8bilan.F
-Chd|        SBILAN                        source/elements/solid/solide/sbilan.F
-Chd|        SR8BILAN                      source/elements/solid/solide8/sr8bilan.F
-Chd|        SRBILAN                       source/elements/solid/solide/srbilan.F
-Chd|        TBILAN                        source/elements/truss/tbilan.F
-Chd|-- calls ---------------
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+      !||--- called by ------------------------------------------------------
+      !||    c3bilan               ../engine/source/elements/sh3n/coque3n/c3bilan.F
+      !||    cbilan                ../engine/source/elements/shell/coque/cbilan.F
+      !||    ige3dbilan            ../engine/source/elements/ige3d/ige3dbilan.F
+      !||    pbilan                ../engine/source/elements/beam/pbilan.F
+      !||    qbilan                ../engine/source/elements/solid_2d/quad/qbilan.F
+      !||    r3bilan               ../engine/source/elements/spring/r3bilan.F
+      !||    r5bilan               ../engine/source/elements/spring/r5bilan.F
+      !||    rbilan                ../engine/source/elements/spring/rbilan.F
+      !||    s10bilan              ../engine/source/elements/solid/solide10/s10bilan.F
+      !||    s16bilan              ../engine/source/elements/thickshell/solide16/s16bilan.F
+      !||    s20bilan              ../engine/source/elements/solid/solide20/s20bilan.F
+      !||    s4bilan               ../engine/source/elements/solid/solide4/s4bilan.F
+      !||    s6cbilan              ../engine/source/elements/thickshell/solide6c/s6cbilan.F
+      !||    s8bilan               ../engine/source/elements/solid/solide8/s8bilan.F
+      !||    sbilan                ../engine/source/elements/solid/solide/sbilan.F
+      !||    sr8bilan              ../engine/source/elements/solid/solide8/sr8bilan.F
+      !||    srbilan               ../engine/source/elements/solid/solide/srbilan.F
+      !||    tbilan                ../engine/source/elements/truss/tbilan.F
+      !||--- calls      -----------------------------------------------------
+      !||    sum_6_float           ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SENSOR_ENERGY_BILAN(JFT,JLT,EI,EK,OFF,IPART,ITASK)
       USE SENSOR_MOD
 C-----------------------------------------------

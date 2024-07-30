@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DIFFUSION_MOD                 share/modules/diffusion_mod.F 
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|-- calls ---------------
-Chd|        LINEAR_SOLVER_MOD             share/modules/linear_solver_mod.F
-Chd|        MATRIX_MOD                    ../common_source/linearalgebra/matrix_mod.F
-Chd|        VECTOR_MOD                    ../common_source/linearalgebra/vector_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    diffusion_mod       ../engine/share/modules/diffusion_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain             ../engine/source/ale/alemain.F
+      !||    ns_fvm_diffusion    ../engine/source/multifluid/ns_fvm_diffusion.F
+      !||    radioss2            ../engine/source/engine/radioss2.F
+      !||    resol               ../engine/source/engine/resol.F
+      !||    resol_head          ../engine/source/engine/resol_head.F
+      !||--- uses       -----------------------------------------------------
+      !||    linear_solver_mod   ../engine/share/modules/linear_solver_mod.F
+      !||    matrix_mod          ../common_source/linearalgebra/matrix_mod.F
+      !||    vector_mod          ../common_source/linearalgebra/vector_mod.F
+      !||====================================================================
       MODULE DIFFUSION_MOD
       USE LINEAR_SOLVER_MOD
       USE MATRIX_MOD
@@ -69,13 +70,13 @@ Chd|====================================================================
 !     |_____________________________|   !
 
       CONTAINS
-Chd|====================================================================
-Chd|  INIT_DIFFUSION                share/modules/diffusion_mod.F 
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        LINEAR_SOLVER_MOD             share/modules/linear_solver_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    init_diffusion         ../engine/share/modules/diffusion_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    linear_solver_mod      ../engine/share/modules/linear_solver_mod.F
+      !||====================================================================
       SUBROUTINE INIT_DIFFUSION(this, LINSOL, NRHS, IPARG, ALE_CONNECT)
       USE LINEAR_SOLVER_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -173,11 +174,11 @@ C-----------------------------------------------
 
       END SUBROUTINE INIT_DIFFUSION
 
-Chd|====================================================================
-Chd|  SOLVE_DIFFUSION               share/modules/diffusion_mod.F 
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    solve_diffusion   ../engine/share/modules/diffusion_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_global_dim    ../engine/share/modules/linear_solver_mod.F
+      !||====================================================================
       SUBROUTINE SOLVE_DIFFUSION(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -191,11 +192,11 @@ C-----------------------------------------------
       
       END SUBROUTINE SOLVE_DIFFUSION
 
-Chd|====================================================================
-Chd|  GET_SOLUTION                  share/modules/diffusion_mod.F 
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    get_solution     ../engine/share/modules/diffusion_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_global_dim   ../engine/share/modules/linear_solver_mod.F
+      !||====================================================================
       SUBROUTINE GET_SOLUTION(this, SOL, GLOB_DIM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -209,11 +210,9 @@ C-----------------------------------------------
       GLOB_DIM = this%LINEAR_SOLVER%GET_GLOBAL_DIM()
       END SUBROUTINE GET_SOLUTION
 
-Chd|====================================================================
-Chd|  TERMINATE_DIFFUSION           share/modules/diffusion_mod.F 
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    terminate_diffusion   ../engine/share/modules/diffusion_mod.F
+      !||====================================================================
       SUBROUTINE TERMINATE_DIFFUSION(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

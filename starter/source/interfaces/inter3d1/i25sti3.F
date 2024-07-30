@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25STI3                       source/interfaces/inter3d1/i25sti3.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRICTION_PARTS_SEARCH         source/interfaces/inter3d1/i7sti3.F
-Chd|        I24NORMNS                     source/interfaces/inter3d1/i24sti3.F
-Chd|        I25BORD                       source/interfaces/inter3d1/i25sti3.F
-Chd|        I25GAPM                       source/interfaces/inter3d1/i25sti3.F
-Chd|        INSOL3ET                      source/interfaces/inter3d1/i24sti3.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i25sti3                 ../starter/source/interfaces/inter3d1/i25sti3.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3                  ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                  ../starter/source/output/message/message.F
+      !||    friction_parts_search   ../starter/source/interfaces/inter3d1/i7sti3.F
+      !||    i24normns               ../starter/source/interfaces/inter3d1/i24sti3.F
+      !||    i25bord                 ../starter/source/interfaces/inter3d1/i25sti3.F
+      !||    i25gapm                 ../starter/source/interfaces/inter3d1/i25sti3.F
+      !||    insol3et                ../starter/source/interfaces/inter3d1/i24sti3.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I25STI3(
      1 X         ,IRECT      ,STF       ,IXS       ,PM         ,
      2 GEO       ,NRT        ,IXC       ,NINT      ,STFAC      ,
@@ -695,19 +696,20 @@ C
  2001 FORMAT(2X,'Maximum distance for radiation computation = ',
      .                                                    1PG20.13)
       END
-Chd|====================================================================
-Chd|  I25GAPM                       source/interfaces/inter3d1/i25sti3.F
-Chd|-- called by -----------
-Chd|        I25STI3                       source/interfaces/inter3d1/i25sti3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRICTION_PARTS_SEARCH         source/interfaces/inter3d1/i7sti3.F
-Chd|        I4GMX3                        source/interfaces/inter3d1/i4gmx3.F
-Chd|        INCOQ3                        source/interfaces/inter3d1/incoq3.F
-Chd|        INSOL3D                       source/interfaces/inter3d1/insol3.F
-Chd|        VOLINT                        source/interfaces/inter3d1/volint.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i25gapm                 ../starter/source/interfaces/inter3d1/i25sti3.F
+      !||--- called by ------------------------------------------------------
+      !||    i25sti3                 ../starter/source/interfaces/inter3d1/i25sti3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                  ../starter/source/output/message/message.F
+      !||    friction_parts_search   ../starter/source/interfaces/inter3d1/i7sti3.F
+      !||    i4gmx3                  ../starter/source/interfaces/inter3d1/i4gmx3.F
+      !||    incoq3                  ../starter/source/interfaces/inter3d1/incoq3.F
+      !||    insol3d                 ../starter/source/interfaces/inter3d1/insol3.F
+      !||    volint                  ../starter/source/interfaces/inter3d1/volint.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I25GAPM(
      1 X     ,IRECT ,STF   ,IXS   ,PM    ,
      2 GEO   ,NRT   ,IXC   ,NINT  ,STFAC ,
@@ -1179,13 +1181,12 @@ C-----------------------------------------------
  1400 FORMAT(I10,' MAIN SEGMENTS',' OF INTERFACE',I10,
      +                      ' ARE REVERSED THE NORMAL DIRECTION')
       END
-Chd|====================================================================
-Chd|  I25BORD                       source/interfaces/inter3d1/i25sti3.F
-Chd|-- called by -----------
-Chd|        I25STI3                       source/interfaces/inter3d1/i25sti3.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|====================================================================
+      !||====================================================================
+      !||    i25bord     ../starter/source/interfaces/inter3d1/i25sti3.F
+      !||--- called by ------------------------------------------------------
+      !||    i25sti3     ../starter/source/interfaces/inter3d1/i25sti3.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I25BORD(NRTM   ,IRECT ,TAGB    )
 C============================================================================
 C-----------------------------------------------

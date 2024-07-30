@@ -20,23 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R2R_GETDATA                   source/coupling/rad2rad/r2r_getdata.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        GET_DISPL_C                   source/coupling/rad2rad/rad2rad_c.c
-Chd|        GET_DISPL_SPMD                source/coupling/rad2rad/r2r_getdata.F
-Chd|        GET_FORCE_C                   source/coupling/rad2rad/rad2rad_c.c
-Chd|        GET_FORCE_NL_C                source/coupling/rad2rad/rad2rad_c.c
-Chd|        GET_FORCE_SPMD                source/coupling/rad2rad/r2r_getdata.F
-Chd|        SPMD_EXCH_R2R_2               source/mpi/r2r/spmd_r2r.F     
-Chd|        SPMD_EXCH_R2R_NL              source/mpi/r2r/spmd_exch_r2r_nl.F
-Chd|        SPMD_EXCH_WORK                source/mpi/r2r/spmd_r2r.F     
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        RAD2R_MOD                     share/modules/rad2r.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_getdata        ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||--- called by ------------------------------------------------------
+      !||    resol              ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_displ_c        ../engine/source/coupling/rad2rad/rad2rad_c.c
+      !||    get_displ_spmd     ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||    get_force_c        ../engine/source/coupling/rad2rad/rad2rad_c.c
+      !||    get_force_nl_c     ../engine/source/coupling/rad2rad/rad2rad_c.c
+      !||    get_force_spmd     ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||    spmd_exch_r2r_2    ../engine/source/mpi/r2r/spmd_r2r.F
+      !||    spmd_exch_r2r_nl   ../engine/source/mpi/r2r/spmd_exch_r2r_nl.F
+      !||    spmd_exch_work     ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
+      !||    nlocal_reg_mod     ../common_source/modules/nlocal_reg_mod.F
+      !||    rad2r_mod          ../engine/share/modules/rad2r.F
+      !||====================================================================
       SUBROUTINE R2R_GETDATA(
      .               IEXLNK  ,IGRNOD  ,X       ,V       ,
      .               VR      ,A       ,AR      ,MS      ,IN      ,
@@ -204,15 +205,15 @@ C-----------------------------------------------------------------
         RETURN
       END SUBROUTINE R2R_GETDATA
 C
-Chd|====================================================================
-Chd|  GET_FORCE_SPMD                source/coupling/rad2rad/r2r_getdata.F
-Chd|-- called by -----------
-Chd|        R2R_GETDATA                   source/coupling/rad2rad/r2r_getdata.F
-Chd|-- calls ---------------
-Chd|        GET_FORCE_SPMD_C              source/coupling/rad2rad/rad2rad_c.c
-Chd|        SPMD_R2R_RSET3                source/mpi/r2r/spmd_r2r.F     
-Chd|        SPMD_R2R_RSET3B               source/mpi/r2r/spmd_r2r.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    get_force_spmd     ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_getdata        ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_force_spmd_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
+      !||    spmd_r2r_rset3     ../engine/source/mpi/r2r/spmd_r2r.F
+      !||    spmd_r2r_rset3b    ../engine/source/mpi/r2r/spmd_r2r.F
+      !||====================================================================
       SUBROUTINE GET_FORCE_SPMD(
      1   IDP    ,NNG     ,GRNOD  ,WF    ,WM    ,
      2   WF2    ,WM2     ,V      ,VR    ,A     ,
@@ -284,14 +285,14 @@ C-----------------------------------------------------------------
         RETURN
       END SUBROUTINE GET_FORCE_SPMD
 C
-Chd|====================================================================
-Chd|  GET_DISPL_SPMD                source/coupling/rad2rad/r2r_getdata.F
-Chd|-- called by -----------
-Chd|        R2R_GETDATA                   source/coupling/rad2rad/r2r_getdata.F
-Chd|-- calls ---------------
-Chd|        GET_DISPL_SPMD_C              source/coupling/rad2rad/rad2rad_c.c
-Chd|        SPMD_R2R_RSET3                source/mpi/r2r/spmd_r2r.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    get_displ_spmd     ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_getdata        ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_displ_spmd_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
+      !||    spmd_r2r_rset3     ../engine/source/mpi/r2r/spmd_r2r.F
+      !||====================================================================
       SUBROUTINE GET_DISPL_SPMD(
      1   IDP  ,NNG   ,GRNOD ,X      ,DD_R2R ,
      4   NGLOB,WEIGHT,IAD_ELEM,FR_ELEM,IEX        )
@@ -330,15 +331,16 @@ C-----------------------------------------------------------------
         RETURN
       END SUBROUTINE GET_DISPL_SPMD
 C
-Chd|====================================================================
-Chd|  R2R_SENDKINE                  source/coupling/rad2rad/r2r_getdata.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SEND_MASS_KINE_C              source/coupling/rad2rad/rad2rad_c.c
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        RAD2R_MOD                     share/modules/rad2r.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_sendkine       ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||--- called by ------------------------------------------------------
+      !||    resol              ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    send_mass_kine_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
+      !||    rad2r_mod          ../engine/share/modules/rad2r.F
+      !||====================================================================
       SUBROUTINE R2R_SENDKINE(
      .               IEXLNK  ,IGRNOD ,MS      ,IN)
 C-----------------------------------------------

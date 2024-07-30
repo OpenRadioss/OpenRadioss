@@ -20,32 +20,33 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        ALLOCATE_COMM_STRUCT          share/modules/mpi_comm_mod.F  
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        DEALLOCATE_COMM_STRUCT        share/modules/mpi_comm_mod.F  
-Chd|        I25COMP_1                     source/interfaces/int25/i25comp_1.F
-Chd|        I25PREP_ADD                   source/interfaces/int25/i25slid.F
-Chd|        I25PREP_NINDEX                source/interfaces/int25/i25slid.F
-Chd|        I25PREP_SEND                  source/interfaces/int25/i25slid.F
-Chd|        I25PREP_SIZBUFS               source/interfaces/int25/i25slid.F
-Chd|        I25PREP_SLID_2                source/interfaces/int25/i25slid.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_I25_SLIDE_EXCH           source/mpi/interfaces/spmd_i25slide.F
-Chd|        SPMD_I25_SLIDE_GAT            source/mpi/interfaces/spmd_i25slide.F
-Chd|        UPGRADE_CAND_OPT              ../common_source/interf/upgrade_multimp.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MPI_COMMOD                    share/modules/mpi_comm_mod.F  
-Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25main_slid             ../engine/source/interfaces/int25/i25main_slid.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri                   ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    allocate_comm_struct     ../engine/share/modules/mpi_comm_mod.F
+      !||    ancmsg                   ../engine/source/output/message/message.F
+      !||    arret                    ../engine/source/system/arret.F
+      !||    deallocate_comm_struct   ../engine/share/modules/mpi_comm_mod.F
+      !||    i25comp_1                ../engine/source/interfaces/int25/i25comp_1.F
+      !||    i25prep_add              ../engine/source/interfaces/int25/i25slid.F
+      !||    i25prep_nindex           ../engine/source/interfaces/int25/i25slid.F
+      !||    i25prep_send             ../engine/source/interfaces/int25/i25slid.F
+      !||    i25prep_sizbufs          ../engine/source/interfaces/int25/i25slid.F
+      !||    i25prep_slid_2           ../engine/source/interfaces/int25/i25slid.F
+      !||    my_barrier               ../engine/source/system/machine.F
+      !||    spmd_i25_slide_exch      ../engine/source/mpi/interfaces/spmd_i25slide.F
+      !||    spmd_i25_slide_gat       ../engine/source/mpi/interfaces/spmd_i25slide.F
+      !||    upgrade_cand_opt         ../common_source/interf/upgrade_multimp.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
+      !||    message_mod              ../engine/share/message_module/message_mod.F
+      !||    mpi_commod               ../engine/share/modules/mpi_comm_mod.F
+      !||    parameters_mod           ../common_source/modules/interfaces/parameters_mod.F
+      !||    sensor_mod               ../engine/share/modules/sensor_mod.F
+      !||    tri7box                  ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25MAIN_SLID(
      1       IPARI    ,IAD_ELEM ,FR_ELEM  ,ITAB     ,SENSOR_TAB,
      2       NSENSOR  ,INTLIST25,INTBUF_TAB ,IAD_FRNOR,FR_NOR ,

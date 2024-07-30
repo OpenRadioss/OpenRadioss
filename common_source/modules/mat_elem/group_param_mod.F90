@@ -42,6 +42,25 @@
 !Chd|-- calls ---------------
 !Chd|====================================================================
 
+      !||====================================================================
+      !||    group_param_mod       ../common_source/modules/mat_elem/group_param_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    c3derii               ../starter/source/elements/sh3n/coque3n/c3derii.F
+      !||    c3init3               ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3              ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cdkderii              ../starter/source/elements/sh3n/coquedk/cdkderii.F
+      !||    cdkinit3              ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||    cdleni                ../starter/source/elements/shell/coque/cdleni.F
+      !||    cinit3                ../starter/source/elements/shell/coque/cinit3.F
+      !||    cmain3pinch           ../engine/source/elements/shell/coqueba/cmain3pinch.F
+      !||    cndleni               ../starter/source/elements/shell/coqueba/cndleni.F
+      !||    inirig_mat            ../starter/source/elements/initia/inirig_mat.F
+      !||    initia                ../starter/source/elements/initia/initia.F
+      !||    mat_elem_mod          ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    outpart5              ../starter/source/elements/initia/initia.F
+      !||    set_elgroup_param     ../starter/source/elements/shell/coque/set_elgroup_param.F
+      !||    write_elgroup_param   ../engine/source/output/restart/write_elgroup_param.F
+      !||====================================================================
       module group_param_mod
 
 ! ======================================================================================================================

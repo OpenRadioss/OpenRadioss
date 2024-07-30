@@ -21,17 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  HORD                          source/output/th/hord.F       
-Chd|-- called by -----------
-Chd|        HM_READ_THGRKI                source/output/th/hm_read_thgrki.F
-Chd|        HM_READ_THGRKI_RBODY          source/output/th/hm_read_thgrki_rbody.F
-Chd|        HM_READ_THGRSENS              source/output/th/hm_read_thgrsens.F
-Chd|        HM_READ_THGRSURF              source/output/th/hm_read_thgrsurf.F
-Chd|        HM_THGRKI_VENT                source/output/th/hm_thgrki_vent.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|====================================================================
+      !||====================================================================
+      !||    hord                   ../starter/source/output/th/hord.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_thgrki         ../starter/source/output/th/hm_read_thgrki.F
+      !||    hm_read_thgrki_rbody   ../starter/source/output/th/hm_read_thgrki_rbody.F
+      !||    hm_read_thgrsens       ../starter/source/output/th/hm_read_thgrsens.F
+      !||    hm_read_thgrsurf       ../starter/source/output/th/hm_read_thgrsurf.F
+      !||    hm_thgrki_vent         ../starter/source/output/th/hm_thgrki_vent.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
         SUBROUTINE HORD(NEL,NSEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -21,13 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  ZERORE                        source/system/zerore.F        
-Chd|-- called by -----------
-Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
-Chd|        LECSEC4BOLT                   source/tools/sect/lecsec4bolt.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    zerore        ../starter/source/system/zerore.F
+      !||--- called by ------------------------------------------------------
+      !||    lecsec42      ../starter/source/tools/sect/hm_read_sect.F
+      !||    lecsec4bolt   ../starter/source/tools/sect/lecsec4bolt.F
+      !||====================================================================
       SUBROUTINE ZERORE(N1,N2,AM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

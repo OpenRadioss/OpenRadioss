@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SMS_THBCS                     source/ams/sms_thbcs.F        
-Chd|-- called by -----------
-Chd|        SMS_MASS_SCALE_2              source/ams/sms_mass_scale_2.F 
-Chd|-- calls ---------------
-Chd|        SMS_BCS1TH                    source/ams/sms_bcs1th.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_thbcs          ../engine/source/ams/sms_thbcs.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+      !||--- calls      -----------------------------------------------------
+      !||    sms_bcs1th         ../engine/source/ams/sms_bcs1th.F
+      !||====================================================================
       SUBROUTINE SMS_THBCS(NODFT ,NODLAST,INDX1   ,ICODT  ,ICODR   ,
      2                     ISKEW ,SKEW  ,A       ,AR      ,FTHREAC ,
      3                     NODREAC,CPTREAC)

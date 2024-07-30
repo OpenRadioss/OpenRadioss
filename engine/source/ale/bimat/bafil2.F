@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BAFIL2                        source/ale/bimat/bafil2.F     
-Chd|-- called by -----------
-Chd|        BFORC2                        source/ale/bimat/bforc2.F     
-Chd|-- calls ---------------
-Chd|        IDP_FREE                      source/system/machine.F       
-Chd|        IDP_LOCK                      source/system/machine.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    bafil2     ../engine/source/ale/bimat/bafil2.F
+      !||--- called by ------------------------------------------------------
+      !||    bforc2     ../engine/source/ale/bimat/bforc2.F
+      !||--- calls      -----------------------------------------------------
+      !||    idp_free   ../engine/source/system/machine.F
+      !||    idp_lock   ../engine/source/system/machine.F
+      !||====================================================================
       SUBROUTINE BAFIL2(PM,V,W,FILL,DFILL,IMS,X,ALPH1,ALPH2, 
      .     AIRE, PY1, PY2, PZ1, PZ2, DALPH1, DALPH2, 
      .     MAT, NC1, NC2, NC3, NC4)

@@ -20,19 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NODAL_SCHLIEREN               source/output/anim/generate/nodal_schlieren.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|        H3D_NODAL_SCALAR              source/output/h3d/h3d_results/h3d_nodal_scalar.F
-Chd|-- calls ---------------
-Chd|        AGRAD3                        source/ale/ale3d/agrad3.F     
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    nodal_schlieren        ../engine/source/output/anim/generate/nodal_schlieren.F
+      !||--- called by ------------------------------------------------------
+      !||    genani                 ../engine/source/output/anim/generate/genani.F
+      !||    h3d_nodal_scalar       ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
+      !||--- calls      -----------------------------------------------------
+      !||    agrad3                 ../engine/source/ale/ale3d/agrad3.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22edge_mod            ../common_source/modules/interfaces/cut-cell-buffer_mod.F
+      !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE NODAL_SCHLIEREN(WA4, X,IXS, IXQ, ITAB,IPARG ,IBID,ELBUF_TAB,ALE_CONNECTIVITY)
 C-----------------------------------------------
 C   D e s c r i p t i o n

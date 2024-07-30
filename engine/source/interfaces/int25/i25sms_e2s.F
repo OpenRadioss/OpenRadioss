@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25SMS_E2S                    source/interfaces/int25/i25sms_e2s.F
-Chd|-- called by -----------
-Chd|        I25FOR3_E2S                   source/interfaces/int25/i25for3_e2s.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25sms_e2s    ../engine/source/interfaces/int25/i25sms_e2s.F
+      !||--- called by ------------------------------------------------------
+      !||    i25for3_e2s   ../engine/source/interfaces/int25/i25for3_e2s.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25SMS_E2S(JLT   ,CS_LOC ,N1    ,N2     ,M1     ,
      2                    M2    ,HS1    ,HS2   ,HM1    ,HM2    ,
      3               STIF  ,NIN    ,NOINT ,MSKYI_SMS ,ISKYI_SMS,

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBAPROJ                       source/elements/shell/coqueba/cbaproj.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cbaproj    ../engine/source/elements/shell/coqueba/cbaproj.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||====================================================================
       SUBROUTINE CBAPROJ(
      1            JFT    ,JLT    ,VQN    ,VQ     ,VF    ,
      2            VM     ,NPLAT   ,IPLAT   ,

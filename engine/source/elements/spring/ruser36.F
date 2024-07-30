@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RUSER36                       source/elements/spring/ruser36.F
-Chd|-- called by -----------
-Chd|        RFORC3                        source/elements/spring/rforc3.F
-Chd|-- calls ---------------
-Chd|        GET_U_FUNC                    source/user_interface/ufunc.F 
-Chd|        GET_U_GEO                     source/user_interface/upidmid.F
-Chd|        GET_U_MAT                     source/user_interface/upidmid.F
-Chd|        GET_U_MNU                     source/user_interface/upidmid.F
-Chd|        GET_U_PNU                     source/user_interface/upidmid.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ruser36      ../engine/source/elements/spring/ruser36.F
+      !||--- called by ------------------------------------------------------
+      !||    rforc3       ../engine/source/elements/spring/rforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_u_func   ../engine/source/user_interface/ufunc.F
+      !||    get_u_mid    ../engine/source/user_interface/upidmid.F
+      !||    get_u_mnu    ../engine/source/user_interface/upidmid.F
+      !||    get_u_pid    ../engine/source/user_interface/upidmid.F
+      !||    get_u_pnu    ../engine/source/user_interface/upidmid.F
+      !||====================================================================
       SUBROUTINE RUSER36(
      1             NEL     ,IPROP   ,UVAR   ,NUVAR  ,FR_WAVE,
      2             FX      ,FY      ,FZ     ,XMOM   ,YMOM   ,

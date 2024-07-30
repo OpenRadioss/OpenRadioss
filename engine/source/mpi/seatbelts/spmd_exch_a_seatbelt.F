@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_EXCH_A_SEATBELT          source/mpi/seatbelts/spmd_exch_a_seatbelt.F
-Chd|-- called by -----------
-Chd|        KINE_SEATBELT_FORCE           source/tools/seatbelts/kine_seatbelt_force.F
-Chd|-- calls ---------------
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_a_seatbelt   ../engine/source/mpi/seatbelts/spmd_exch_a_seatbelt.F
+      !||--- called by ------------------------------------------------------
+      !||    kine_seatbelt_force    ../engine/source/tools/seatbelts/kine_seatbelt_force.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    seatbelt_mod           ../common_source/modules/seatbelt_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_A_SEATBELT(A,STIFN,BUF_EXCH)
 C-----------------------------------------------
 C   M o d u l e s

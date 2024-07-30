@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8ZFINTP3                     source/elements/solid/solide8z/s8zfintp3.F
-Chd|-- called by -----------
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8zfintp3   ../engine/source/elements/solid/solide8z/s8zfintp3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8cforc3    ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3    ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8sforc3    ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||    s8zforc3    ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||====================================================================
       SUBROUTINE S8ZFINTP3(
      1   PX1,     PX2,     PX3,     PX4,
      2   PY1,     PY2,     PY3,     PY4,

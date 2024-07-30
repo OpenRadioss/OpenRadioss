@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ANI_TXT                       source/output/anim/ani_txt.F  
-Chd|-- called by -----------
-Chd|        GENANI1                       source/output/anim/genani1.F  
-Chd|-- calls ---------------
-Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    ani_txt     ../starter/source/output/anim/ani_txt.F
+      !||--- called by ------------------------------------------------------
+      !||    genani1     ../starter/source/output/anim/genani1.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE ANI_TXT(TEXT,LEN) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -52,13 +51,12 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  ANI_TXT50                     source/output/anim/ani_txt.F  
-Chd|-- called by -----------
-Chd|        GENANI1                       source/output/anim/genani1.F  
-Chd|-- calls ---------------
-Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    ani_txt50   ../starter/source/output/anim/ani_txt.F
+      !||--- called by ------------------------------------------------------
+      !||    genani1     ../starter/source/output/anim/genani1.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE ANI_TXT50(TEXT,LEN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

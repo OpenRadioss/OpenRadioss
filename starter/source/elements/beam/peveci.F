@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PEVECI                        source/elements/beam/peveci.F 
-Chd|-- called by -----------
-Chd|        PINIT3                        source/elements/beam/pinit3.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    peveci   ../starter/source/elements/beam/peveci.F
+      !||--- called by ------------------------------------------------------
+      !||    pinit3   ../starter/source/elements/beam/pinit3.F
+      !||====================================================================
       SUBROUTINE PEVECI(RLOC, X1,X3, Y1,Y3, Z1,Z3,X2,Y2,Z2,NC2,NC3) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

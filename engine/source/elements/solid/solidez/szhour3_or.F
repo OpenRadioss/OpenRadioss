@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SZHOUR3_OR                    source/elements/solid/solidez/szhour3_or.F
-Chd|-- called by -----------
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        GFHOUR_OR                     source/elements/solid/solidez/gfhour_or.F
-Chd|        MDAMA24                       source/elements/solid/solidez/mdama24.F
-Chd|        MMODUL                        source/elements/solid/solidez/mmodul.F
-Chd|        MMOD_NORM                     source/elements/solid/solidez/mmod_norm.F
-Chd|        SZETFAC                       source/elements/solid/solidez/szetfac.F
-Chd|        SZSTRAINHG                    source/elements/solid/solidez/szstrainhg.F
-Chd|        SZSVM_OR                      source/elements/solid/solidez/szsvm_or.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    szhour3_or     ../engine/source/elements/solid/solidez/szhour3_or.F
+      !||--- called by ------------------------------------------------------
+      !||    szforc3        ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    gfhour_or      ../engine/source/elements/solid/solidez/gfhour_or.F
+      !||    mdama24        ../engine/source/elements/solid/solidez/mdama24.F
+      !||    mmod_norm      ../engine/source/elements/solid/solidez/mmod_norm.F
+      !||    mmodul         ../engine/source/elements/solid/solidez/mmodul.F
+      !||    szetfac        ../engine/source/elements/solid/solidez/szetfac.F
+      !||    szstrainhg     ../engine/source/elements/solid/solidez/szstrainhg.F
+      !||    szsvm_or       ../engine/source/elements/solid/solidez/szsvm_or.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE SZHOUR3_OR(
      1   ELBUF_STR,PM,       RHO,      OFF,
      2   VX1,      VX2,      VX3,      VX4,

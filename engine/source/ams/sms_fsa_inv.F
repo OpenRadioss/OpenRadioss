@@ -20,6 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    mod_sms_fsa   ../engine/source/ams/sms_fsa_inv.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_check     ../engine/source/ams/sms_fsa_inv.F
+      !||====================================================================
       module MOD_SMS_FSA
 #include      "my_real.inc"
 C-----
@@ -31,25 +36,27 @@ C-----
      .                                      DIAG_INV
       INTEGER NNDFT0, NNDFT1, NNZM
       END MODULE MOD_SMS_FSA
-Chd|====================================================================
-Chd|  SMS_CHECK                     source/ams/sms_fsa_inv.F      
-Chd|-- called by -----------
-Chd|        SMS_PCG                       source/ams/sms_pcg.F          
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        FLOATMIN                      ../common_source/tools/math/precision.c
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SMS_FSA_INVH                  source/ams/sms_fsa_inv.F      
-Chd|        SPMD_EXCHM_SMS                source/mpi/ams/spmd_sms.F     
-Chd|        SPMD_GLOB_LMIN                source/mpi/ams/spmd_sms.F     
-Chd|        SPMD_MAX_S                    source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_NNDFT_SMS                source/mpi/ams/spmd_sms.F     
-Chd|        SPMD_NNZ_SMS                  source/mpi/ams/spmd_sms.F     
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_check        ../engine/source/ams/sms_fsa_inv.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_pcg          ../engine/source/ams/sms_pcg.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg           ../engine/source/output/message/message.F
+      !||    arret            ../engine/source/system/arret.F
+      !||    floatmin         ../common_source/tools/math/precision.c
+      !||    my_barrier       ../engine/source/system/machine.F
+      !||    sms_fsa_invh     ../engine/source/ams/sms_fsa_inv.F
+      !||    spmd_exchm_sms   ../engine/source/mpi/ams/spmd_sms.F
+      !||    spmd_glob_lmin   ../engine/source/mpi/ams/spmd_sms.F
+      !||    spmd_max_s       ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_nndft_sms   ../engine/source/mpi/ams/spmd_sms.F
+      !||    spmd_nnz_sms     ../engine/source/mpi/ams/spmd_sms.F
+      !||    startime         ../engine/source/system/timer.F
+      !||    stoptime         ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../engine/share/message_module/message_mod.F
+      !||    mod_sms_fsa      ../engine/source/ams/sms_fsa_inv.F
+      !||====================================================================
       SUBROUTINE SMS_CHECK(NODFT ,NODLT ,IADK  ,JDIK  ,DIAG_K ,  
      2                     LT_K  ,IADI  , JDII ,LT_I  ,ITASK  ,
      3                     ITAB  ,IAD_ELEM,FR_ELEM,FR_SMS,FR_RMS,
@@ -328,19 +335,20 @@ C--------------------------------------------
       RETURN
       END
 C--------factorized sparse approximate inverse version hybrid------- 
-Chd|====================================================================
-Chd|  SMS_FSA_INVH                  source/ams/sms_fsa_inv.F      
-Chd|-- called by -----------
-Chd|        SMS_CHECK                     source/ams/sms_fsa_inv.F      
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        GET_SUBSP_SMS                 source/ams/sms_fsa_inv.F      
-Chd|        IMP_FSAI                      source/implicit/imp_fsa_inv.F 
-Chd|        SMS_PCG1                      source/ams/sms_fsa_inv.F      
-Chd|        SP_STAT0                      source/implicit/imp_fsa_inv.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_fsa_invh    ../engine/source/ams/sms_fsa_inv.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_check       ../engine/source/ams/sms_fsa_inv.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||    get_subsp_sms   ../engine/source/ams/sms_fsa_inv.F
+      !||    imp_fsai        ../engine/source/implicit/imp_fsa_inv.F
+      !||    sms_pcg1        ../engine/source/ams/sms_fsa_inv.F
+      !||    sp_stat0        ../engine/source/implicit/imp_fsa_inv.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SMS_FSA_INVH(NNZM   ,IADM  ,JDIM  , DIAG_M, LT_M, 
      1                  NNDFT0 ,NNDFT1,ITASK ,DIAG_INV)
 C-----------------------------------------------
@@ -427,14 +435,14 @@ C
       RETURN
       END
 C----------version spmd---set submatrix A(N,N) Format m.c.c.s. for FSAI ----
-Chd|====================================================================
-Chd|  GET_SUBSP_SMS                 source/ams/sms_fsa_inv.F      
-Chd|-- called by -----------
-Chd|        SMS_FSA_INVH                  source/ams/sms_fsa_inv.F      
-Chd|-- calls ---------------
-Chd|        IND_LT2LN                     source/implicit/imp_fsa_inv.F 
-Chd|        INTAB0                        source/implicit/imp_fsa_inv.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    get_subsp_sms   ../engine/source/ams/sms_fsa_inv.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_fsa_invh    ../engine/source/ams/sms_fsa_inv.F
+      !||--- calls      -----------------------------------------------------
+      !||    ind_lt2ln       ../engine/source/implicit/imp_fsa_inv.F
+      !||    intab0          ../engine/source/implicit/imp_fsa_inv.F
+      !||====================================================================
       SUBROUTINE GET_SUBSP_SMS(IADM  ,JDIM  ,DIAG_M ,LT_M  ,NC    ,
      .                         IADA  ,JDIA  ,DIAG_A ,LT_A  ,JM    ,   
      .                         NNDFT0,NNDFT1 )
@@ -483,14 +491,14 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  SMS_PCG1                      source/ams/sms_fsa_inv.F      
-Chd|-- called by -----------
-Chd|        SMS_FSA_INVH                  source/ams/sms_fsa_inv.F      
-Chd|-- calls ---------------
-Chd|        MAV_LT                        source/implicit/produt_v.F    
-Chd|        PRODUT_V0                     source/implicit/produt_v.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_pcg1       ../engine/source/ams/sms_fsa_inv.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_fsa_invh   ../engine/source/ams/sms_fsa_inv.F
+      !||--- calls      -----------------------------------------------------
+      !||    mav_lt         ../engine/source/implicit/produt_v.F
+      !||    produt_v0      ../engine/source/implicit/produt_v.F
+      !||====================================================================
       SUBROUTINE SMS_PCG1( 
      1                    NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,   
      2                    R     ,ISP   )

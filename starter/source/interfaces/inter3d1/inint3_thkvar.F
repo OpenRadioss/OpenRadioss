@@ -20,23 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ININT3_THKVAR                 source/interfaces/inter3d1/inint3_thkvar.F
-Chd|-- called by -----------
-Chd|        ININTR_THKVAR                 source/interfaces/interf1/inintr_thkvar.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        I21BUC1                       source/interfaces/inter3d1/i21buc3.F
-Chd|        I21DST3                       source/interfaces/inter3d1/i21dst3.F
-Chd|        I21GAP3                       source/interfaces/inter3d1/i21gap3.F
-Chd|        I21NORM3                      source/interfaces/inter3d1/i21norm3.F
-Chd|        I21PWR3                       source/interfaces/inter3d1/i21pwr3.F
-Chd|        I21RCURV                      source/interfaces/inter3d1/i21norm3.F
-Chd|        I21RESET                      source/interfaces/inter3d1/i21reset.F
-Chd|        I21ROT                        source/interfaces/inter3d1/i21rot.F
-Chd|        INTSTAMP_MOD                  share/modules1/intstamp_mod.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inint3_thkvar   ../starter/source/interfaces/inter3d1/inint3_thkvar.F
+      !||--- called by ------------------------------------------------------
+      !||    inintr_thkvar   ../starter/source/interfaces/interf1/inintr_thkvar.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../starter/source/output/message/message.F
+      !||    i21buc1         ../starter/source/interfaces/inter3d1/i21buc3.F
+      !||    i21dst3         ../starter/source/interfaces/inter3d1/i21dst3.F
+      !||    i21gap3         ../starter/source/interfaces/inter3d1/i21gap3.F
+      !||    i21norm3        ../starter/source/interfaces/inter3d1/i21norm3.F
+      !||    i21pwr3         ../starter/source/interfaces/inter3d1/i21pwr3.F
+      !||    i21rcurv        ../starter/source/interfaces/inter3d1/i21norm3.F
+      !||    i21reset        ../starter/source/interfaces/inter3d1/i21reset.F
+      !||    i21rot          ../starter/source/interfaces/inter3d1/i21rot.F
+      !||--- uses       -----------------------------------------------------
+      !||    intstamp_mod    ../starter/share/modules1/intstamp_mod.F
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ININT3_THKVAR(
      1               INTBUF_TAB  ,INSCR      ,X    ,IXS     ,
      2               IXC    ,IXTG   ,PM      ,GEO  ,IPARI   ,

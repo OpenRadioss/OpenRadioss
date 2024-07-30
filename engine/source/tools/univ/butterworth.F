@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BUTTERWORTH                   source/tools/univ/butterworth.F
-Chd|-- called by -----------
-Chd|        E_PERIOD                      source/general_controls/damping/static.F
-Chd|        SENSOR_CONTACT                source/tools/sensor/sensor_contact.F
-Chd|        SENSOR_VEL                    source/tools/sensor/sensor_vel.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    butterworth      ../engine/source/tools/univ/butterworth.F
+      !||--- called by ------------------------------------------------------
+      !||    e_period         ../engine/source/general_controls/damping/static.F
+      !||    sensor_contact   ../engine/source/tools/sensor/sensor_contact.F
+      !||    sensor_vel       ../engine/source/tools/sensor/sensor_vel.F
+      !||====================================================================
       SUBROUTINE BUTTERWORTH (DT,FREQ,X2,X1,X,FX2,FX1,FX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

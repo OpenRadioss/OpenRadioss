@@ -23,12 +23,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C  
 C   Centroids definition for secnd side of Interface Type18 and colocated scheme.
 C   Input for secnd side is a GRBRIC. 
-Chd|====================================================================
-Chd|  INGRBRIC_CENTROIDS            source/interfaces/interf1/ingrbric_centroids.F
-Chd|-- called by -----------
-Chd|        LECINS                        source/interfaces/interf1/lecins.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ingrbric_centroids   ../starter/source/interfaces/interf1/ingrbric_centroids.F
+      !||--- called by ------------------------------------------------------
+      !||    lecins               ../starter/source/interfaces/interf1/lecins.F
+      !||====================================================================
       SUBROUTINE INGRBRIC_CENTROIDS(IBUFSSG,MSV, IXS, NBRIC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SRCOOR12                      source/elements/solid/solide/srcoor12.F
-Chd|-- called by -----------
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|        SORTHO12                      source/elements/solid/solide/sortho12.F
-Chd|        SREPISO12                     source/elements/solid/solide/srepiso12.F
-Chd|====================================================================
+      !||====================================================================
+      !||    srcoor12    ../engine/source/elements/solid/solide/srcoor12.F
+      !||--- called by ------------------------------------------------------
+      !||    s8eforc3    ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    sforc3      ../engine/source/elements/solid/solide/sforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    sortho12    ../engine/source/elements/solid/solide/sortho12.F
+      !||    srepiso12   ../engine/source/elements/solid/solide/srepiso12.F
+      !||====================================================================
       SUBROUTINE SRCOOR12(
      1   OFF,     X,       XDP,     NC1,
      2   NC2,     NC3,     NC4,     NC5,

@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MESHSURFIG3D_MOD              source/elements/ige3d/meshsurfig3d_mod.F
-Chd|-- called by -----------
-Chd|        LECIG3D                       source/elements/ige3d/lecig3d.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        NBADIGEMESH                   source/elements/ige3d/nbadigemesh.F
-Chd|        PRERAFIG3D                    source/elements/ige3d/prerafig3d.F
-Chd|        RAFIG3D                       source/elements/ige3d/rafig3d.F
-Chd|        REBUILD_IG3D                  source/elements/ige3d/rebuild_ig3d.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    meshsurfig3d_mod   ../starter/source/elements/ige3d/meshsurfig3d_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    lecig3d            ../starter/source/elements/ige3d/lecig3d.F
+      !||    lectur             ../starter/source/starter/lectur.F
+      !||    nbadigemesh        ../starter/source/elements/ige3d/nbadigemesh.F
+      !||    prerafig3d         ../starter/source/elements/ige3d/prerafig3d.F
+      !||    rafig3d            ../starter/source/elements/ige3d/rafig3d.F
+      !||    rebuild_ig3d       ../starter/source/elements/ige3d/rebuild_ig3d.F
+      !||====================================================================
       MODULE MESHSURFIG3D_MOD
 C----------------------------------------------------------------------
 C   DEFINITION DES STRUCTURES DERIVEES PERMETTANT LE RAFFINEMENT DES 

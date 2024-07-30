@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  weighting_Cell_Nodes          source/interfaces/int22/weighting_cell_nodes.F
-Chd|-- called by -----------
-Chd|        SINIT22_FVM                   source/interfaces/int22/sinit22_fvm.F
-Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    weighting_cell_nodes   ../engine/source/interfaces/int22/weighting_cell_nodes.F
+      !||--- called by ------------------------------------------------------
+      !||    sinit22_fvm            ../engine/source/interfaces/int22/sinit22_fvm.F
+      !||--- uses       -----------------------------------------------------
+      !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||====================================================================
       SUBROUTINE weighting_Cell_Nodes (
      .                    NIN,   IB,   ICELL , IRES, IDEMERGE)
 C-----------------------------------------------

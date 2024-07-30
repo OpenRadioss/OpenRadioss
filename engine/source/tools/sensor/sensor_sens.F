@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SENSOR_SENS                   source/tools/sensor/sensor_sens.F
-Chd|-- called by -----------
-Chd|        SENSOR_LOGICAL                source/tools/sensor/sensor_logical.F
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sensor_sens      ../engine/source/tools/sensor/sensor_sens.F
+      !||--- called by ------------------------------------------------------
+      !||    sensor_logical   ../engine/source/tools/sensor/sensor_logical.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SENSOR_SENS(NSENSOR,SENSOR_TAB,SENS)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

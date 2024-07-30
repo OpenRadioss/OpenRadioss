@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_SET_INTV                   source/devtools/hm_reader/hm_set_intv.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_set_intv    ../starter/source/devtools/hm_reader/hm_set_intv.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    submodel_mod   ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_SET_INTV(NAME,IVAL)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

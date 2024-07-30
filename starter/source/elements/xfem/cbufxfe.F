@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBUFXFE                       source/elements/xfem/cbufxfe.F
-Chd|-- called by -----------
-Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
-Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|-- calls ---------------
-Chd|        LAYINI_XFE                    source/elements/xfem/cbufxfe.F
-Chd|        THICK_ILEV                    source/elements/xfem/thick_ilev.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    cbufxfe        ../starter/source/elements/xfem/cbufxfe.F
+      !||--- called by ------------------------------------------------------
+      !||    c3init3        ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3       ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cinit3         ../starter/source/elements/shell/coque/cinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    layini_xfe     ../starter/source/elements/xfem/cbufxfe.F
+      !||    thick_ilev     ../starter/source/elements/xfem/thick_ilev.F
+      !||--- uses       -----------------------------------------------------
+      !||    stack_mod      ../starter/share/modules1/stack_mod.F
+      !||====================================================================
       SUBROUTINE CBUFXFE(ELBUF_STR,XFEM_STR,ISUBSTACK,STACK   ,
      .                   IGEO     ,GEO ,LFT  ,LLT ,MAT,
      .                   PID      ,NPT ,NPTT ,NLAY,IR ,
@@ -122,14 +122,13 @@ c
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  LAYINI_XFE                    source/elements/xfem/cbufxfe.F
-Chd|-- called by -----------
-Chd|        CBUFXFE                       source/elements/xfem/cbufxfe.F
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    layini_xfe     ../starter/source/elements/xfem/cbufxfe.F
+      !||--- called by ------------------------------------------------------
+      !||    cbufxfe        ../starter/source/elements/xfem/cbufxfe.F
+      !||--- uses       -----------------------------------------------------
+      !||    stack_mod      ../starter/share/modules1/stack_mod.F
+      !||====================================================================
       SUBROUTINE LAYINI_XFE(ELBUF_STR     ,ISUBSTACK,STACK   ,
      .                      LFT   ,LLT    ,NPT      ,GEO     ,IGEO    ,
      .                      MAT   ,PID    ,THKLY    ,MATLY   ,POSLY   ,

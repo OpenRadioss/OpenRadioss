@@ -20,18 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THQUAD                        source/output/th/thquad.F     
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        QROTA3                        source/output/anim/generate/qrota3.F
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    thquad          ../engine/source/output/th/thquad.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2           ../engine/source/output/th/hist2.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf         ../engine/share/resol/initbuf.F
+      !||    nvar            ../engine/source/input/nvar.F
+      !||    qrota3          ../engine/source/output/anim/generate/qrota3.F
+      !||--- uses       -----------------------------------------------------
+      !||    alefvm_mod      ../common_source/modules/ale/alefvm_mod.F
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod     ../engine/share/resol/initbuf.F
+      !||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F
+      !||====================================================================
       SUBROUTINE THQUAD(ELBUF_TAB,NTHGRP2 , ITHGRP , 
      1                  IPARG    ,ITHBUF   ,WA     ,
      2                  IPM      ,IXQ      ,IXTG   ,

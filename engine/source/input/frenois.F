@@ -20,18 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FRENOIS                       source/input/frenois.F        
-Chd|-- called by -----------
-Chd|        FREFORM                       source/input/freform.F        
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        READ10                        source/input/read10.F         
-Chd|        WRIUSC2                       source/input/wriusc2.F        
-Chd|        NVAR                          source/input/nvar.F           
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    frenois                ../engine/source/input/frenois.F
+      !||--- called by ------------------------------------------------------
+      !||    freform                ../engine/source/input/freform.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||    nvar                   ../engine/source/input/nvar.F
+      !||    read10                 ../engine/source/input/read10.F
+      !||    wriusc2                ../engine/source/input/wriusc2.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE FRENOIS(IKAD,KEY0,KNOISE)
 C-----------------------------------------------
 C   M o d u l e s

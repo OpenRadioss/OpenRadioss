@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIT_TH0                      source/output/th/init_th0.F   
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|        INIT_TH                       source/output/th/init_th.F    
-Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        TH_MOD                        share/modules/th_mod.F        
-Chd|        TIME_HISTORY_MOD              ../common_source/modules/output/time_history_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    init_th0           ../engine/source/output/th/init_th0.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2           ../engine/source/engine/radioss2.F
+      !||--- calls      -----------------------------------------------------
+      !||    init_th            ../engine/source/output/th/init_th.F
+      !||--- uses       -----------------------------------------------------
+      !||    cluster_mod        ../engine/share/modules/cluster_mod.F
+      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
+      !||    stack_mod          ../engine/share/modules/stack_mod.F
+      !||    th_mod             ../engine/share/modules/th_mod.F
+      !||    time_history_mod   ../common_source/modules/output/time_history_mod.F
+      !||====================================================================
         SUBROUTINE INIT_TH0( IPARG,ELBUF_TAB,IGEO,IXR,TH,
      .                       WEIGHT)
 C-----------------------------------------------

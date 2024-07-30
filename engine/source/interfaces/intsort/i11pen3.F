@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I11PEN3_VOX                   source/interfaces/intsort/i11pen3.F
-Chd|-- called by -----------
-Chd|        I11STO_VOX                    source/interfaces/intsort/i11sto.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i11pen3_vox   ../engine/source/interfaces/intsort/i11pen3.F
+      !||--- called by ------------------------------------------------------
+      !||    i11sto_vox    ../engine/source/interfaces/intsort/i11sto.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I11PEN3_VOX(JLT   ,CAND_S,CAND_M,GAPMIN,DRAD,
      .                    MARGE  ,GAP_S ,GAP_M   ,GAP_S_L,GAP_M_L ,
      .                    IGAP   ,X     ,IRECTS ,IRECTM  ,PENE   ,
@@ -216,13 +216,13 @@ C
       RETURN
       END
 C===============================================================================
-Chd|====================================================================
-Chd|  I11PEN3                       source/interfaces/intsort/i11pen3.F
-Chd|-- called by -----------
-Chd|        I11STO                        source/interfaces/intsort/i11sto.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i11pen3   ../engine/source/interfaces/intsort/i11pen3.F
+      !||--- called by ------------------------------------------------------
+      !||    i11sto    ../engine/source/interfaces/intsort/i11sto.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box   ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I11PEN3(JLT   ,CAND_S,CAND_M,GAP   ,X     ,
      .                   IRECTS,IRECTM,PENE  ,NRTS )
 C-----------------------------------------------

@@ -21,19 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_TRI20BOX                 source/mpi/interfaces/spmd_tri20box.F
-Chd|-- called by -----------
-Chd|        I20MAIN_TRI                   source/interfaces/intsort/i20main_tri.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        CONVERSION7                   source/mpi/interfaces/spmd_i7tool.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_tri20box   ../engine/source/mpi/interfaces/spmd_tri20box.F
+      !||--- called by ------------------------------------------------------
+      !||    i20main_tri     ../engine/source/interfaces/intsort/i20main_tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||    conversion7     ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    startime        ../engine/source/system/timer.F
+      !||    stoptime        ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_TRI20BOX(NSV     ,NSN     ,XA     ,VA   ,MS      ,
      2                         BMINMAL ,WEIGHT  ,STFA   ,NIN  ,ISENDTO ,
      3                         IRCVFROM,IAD_ELEM,FR_ELEM,NSNR ,IGAP    ,

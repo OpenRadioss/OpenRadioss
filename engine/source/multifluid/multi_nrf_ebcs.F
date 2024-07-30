@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MULTI_NRF_EBCS                source/multifluid/multi_nrf_ebcs.F
-Chd|-- called by -----------
-Chd|        MULTI_EBCS                    source/multifluid/multi_ebcs.F
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MULTI_SUBMATLAW               source/multifluid/multi_submatlaw.F
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    multi_nrf_ebcs    ../engine/source/multifluid/multi_nrf_ebcs.F
+      !||--- called by ------------------------------------------------------
+      !||    multi_ebcs        ../engine/source/multifluid/multi_ebcs.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret             ../engine/source/system/arret.F
+      !||    multi_submatlaw   ../engine/source/multifluid/multi_submatlaw.F
+      !||--- uses       -----------------------------------------------------
+      !||    ebcs_mod          ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||    multi_fvm_mod     ../common_source/modules/ale/multi_fvm_mod.F
+      !||    th_surf_mod       ../common_source/modules/interfaces/th_surf_mod.F
+      !||====================================================================
       SUBROUTINE MULTI_NRF_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
      .                          FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
      .                          EBCS,NPF,TF,FSAVSURF,TIMESTEP)

@@ -28,6 +28,15 @@
 !Chd|        ply_param_mod                 modules/mat_elem/ply_param_mod.f
 !Chd|====================================================================
 
+      !||====================================================================
+      !||    prop_param_mod         ../common_source/modules/mat_elem/prop_param_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    mulaw                  ../engine/source/materials/mat_share/mulaw.F90
+      !||--- uses       -----------------------------------------------------
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    ply_param_mod          ../common_source/modules/mat_elem/ply_param_mod.F90
+      !||====================================================================
       module prop_param_mod
 
 !=======================================================================================      

@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS120_TAB_VM              source/materials/mat/mat120/sigeps120_tab_vm.F
-Chd|-- called by -----------
-Chd|        SIGEPS120                     source/materials/mat/mat120/sigeps120.F
-Chd|-- calls ---------------
-Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps120_tab_vm      ../engine/source/materials/mat/mat120/sigeps120_tab_vm.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps120             ../engine/source/materials/mat/mat120/sigeps120.F
+      !||--- calls      -----------------------------------------------------
+      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    table_mod             ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE SIGEPS120_TAB_VM(
      1      NEL     ,NGL     ,NUPARAM ,NUVAR   ,TIME    ,TIMESTEP,
      2      UPARAM  ,UVAR    ,OFF     ,PLA     ,EPSD    ,SOUNDSP ,

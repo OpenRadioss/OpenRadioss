@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SNORM3                        source/multifluid/snorm3.F    
-Chd|-- called by -----------
-Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem.F
-Chd|        MULTI_FVM2FEM                 source/multifluid/multi_fvm2fem.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    snorm3                 ../engine/source/multifluid/snorm3.F
+      !||--- called by ------------------------------------------------------
+      !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
+      !||    multi_fvm2fem          ../engine/source/multifluid/multi_fvm2fem.F
+      !||====================================================================
       SUBROUTINE SNORM3 (NEL, NFT, JALE, IXS, XGRID, WGRID, 
      .     NORM, WFAC, SURF)
 C-----------------------------------------------

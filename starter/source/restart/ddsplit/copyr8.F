@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  COPYR8                        source/restart/ddsplit/copyr8.F
-Chd|-- called by -----------
-Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    copyr8             ../starter/source/restart/ddsplit/copyr8.F
+      !||--- called by ------------------------------------------------------
+      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+      !||====================================================================
       SUBROUTINE  COPYR8(R8_L,R8,N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

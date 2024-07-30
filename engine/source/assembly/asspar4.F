@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASSPAR4                       source/assembly/asspar4.F     
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ASS2SORT                      source/assembly/ass2sort.F    
-Chd|        ASS2SORT_PXFEM                source/assembly/ass2sort.F    
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        ORDER_V                       source/assembly/asspar2.F     
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    asspar4          ../engine/source/assembly/asspar4.F
+      !||--- called by ------------------------------------------------------
+      !||    resol            ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ass2sort         ../engine/source/assembly/ass2sort.F
+      !||    ass2sort_pxfem   ../engine/source/assembly/ass2sort.F
+      !||    my_barrier       ../engine/source/system/machine.F
+      !||    order_v          ../engine/source/assembly/asspar2.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod          ../common_source/modules/ale/ale_mod.F
+      !||    plyxfem_mod      ../engine/share/modules/plyxfem_mod.F
+      !||====================================================================
       SUBROUTINE ASSPAR4(
      1  A       ,AR      ,STIFN  ,STIFR  ,MS      ,
      2  FSKY    ,FSKYV   ,ADDCNE ,INDSKY ,FSKYM   ,
@@ -1475,12 +1476,11 @@ C
 
       RETURN
       END SUBROUTINE ASSPAR4
-Chd|====================================================================
-Chd|  ASSPARI2                      source/assembly/asspar4.F     
-Chd|-- called by -----------
-Chd|        INTTI1                        source/interfaces/interf/intti1.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    asspari2   ../engine/source/assembly/asspar4.F
+      !||--- called by ------------------------------------------------------
+      !||    intti1     ../engine/source/interfaces/interf/intti1.F
+      !||====================================================================
       SUBROUTINE ASSPARI2(
      1  A    ,AR    ,STIFN  ,STIFR  ,MS  ,
      2  IN   ,FSKYI2,I2SIZE ,ADDCNI2,INDSKY,

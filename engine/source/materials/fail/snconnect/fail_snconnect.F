@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_SNCONNECT                source/materials/fail/snconnect/fail_snconnect.F
-Chd|-- called by -----------
-Chd|        SUSER43                       source/elements/solid/sconnect/suser43.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_snconnect   ../engine/source/materials/fail/snconnect/fail_snconnect.F
+      !||--- called by ------------------------------------------------------
+      !||    suser43          ../engine/source/elements/solid/sconnect/suser43.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter           ../engine/source/tools/curve/finter.F
+      !||====================================================================
       SUBROUTINE FAIL_SNCONNECT (
      1           NEL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,
      2           NPF     ,TF      ,TIME    ,TIMESTEP,UPARAM  ,

@@ -20,21 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    mod_spgrhead   ../starter/source/elements/sph/spgrhead.F
+      !||--- called by ------------------------------------------------------
+      !||    spgrhead       ../starter/source/elements/sph/spgrhead.F
+      !||    spgrtails      ../starter/source/elements/sph/spgrtails.F
+      !||====================================================================
       module MOD_SPGRHEAD
       implicit none
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IXSPS
       END MODULE MOD_SPGRHEAD
-Chd|====================================================================
-Chd|  SPGRHEAD                      source/elements/sph/spgrhead.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        GET_U_GEO                     source/user_interface/uaccess.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spgrhead           ../starter/source/elements/sph/spgrhead.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur             ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../starter/source/output/message/message.F
+      !||    get_u_geo          ../starter/source/user_interface/uaccess.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||    mod_spgrhead       ../starter/source/elements/sph/spgrhead.F
+      !||====================================================================
       SUBROUTINE SPGRHEAD(KXSP    ,IXSP    ,IPARG     ,PM  ,IPART,
      2                    IPARTSP ,EADD    ,CEPSP     ,ND  ,IPM  ,
      3                    IGEO    ,SPBUF   ,SPH2SOL   ,

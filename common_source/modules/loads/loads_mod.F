@@ -22,46 +22,45 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #include "my_real.inc"
 c-----------------------------------------------------------------------
-Chd|====================================================================
-Chd|  LOADS_MOD                     modules/loads/loads_mod.F     
-Chd|-- called by -----------
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        DOMAIN_DECOMPOSITION_PCYL     starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
-Chd|        DOMDEC2                       starter/source/spmd/domdec2.F 
-Chd|        FILLCNE                       starter/source/spmd/domdec2.F 
-Chd|        HM_READ_CLOAD                 starter/source/loads/general/cload/hm_read_cload.F
-Chd|        HM_READ_PCYL                  starter/source/loads/general/load_pcyl/hm_read_pcyl.F
-Chd|        HM_READ_PLOAD                 starter/source/loads/general/pload/hm_read_pload.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        SPLIT_PCYL                    starter/source/loads/general/load_pcyl/split_pcyl.F
-Chd|        W_PON                         starter/source/restart/ddsplit/w_pon.F
-Chd|        GENH3D                        engine/source/output/h3d/h3d_results/genh3d.F
-Chd|        H3D_PRE_SKIN_IXSKIN           engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        H3D_PRE_SKIN_SCALAR           engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
-Chd|        H3D_SKIN_DIM                  engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        H3D_SKIN_IXSKIN               engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        H3D_SKIN_PRE_DIM              engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        H3D_SKIN_PRE_MAP              engine/source/output/h3d/h3d_results/h3d_skin_pre_map.F
-Chd|        H3D_SKIN_SCALAR               engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
-Chd|        H3D_SKIN_VECTOR               engine/source/output/h3d/h3d_results/h3d_skin_vector.F
-Chd|        LECH3D                        engine/source/output/h3d/h3d_build_fortran/lech3d.F
-Chd|        LECTUR                        engine/source/input/lectur.F  
-Chd|        PRESSURE_CYL                  engine/source/loads/general/load_pcyl/pressure_cyl.F
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
-Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
-Chd|        RDRESA                        engine/source/output/restart/rdresa.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        READ_PCYL                     engine/source/output/restart/read_pcyl.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
-Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
-Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
-Chd|        WRITE_PCYL                    engine/source/output/restart/write_pcyl.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        DOMDEC_LOAD_MOD               modules/loads/domdec_load_mod.F
-Chd|        PLOAD_CYL_MOD                 modules/loads/pload_cyl_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    loads_mod                   ../common_source/modules/loads/loads_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit                     ../starter/source/restart/ddsplit/ddsplit.F
+      !||    domain_decomposition_pcyl   ../starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
+      !||    domdec2                     ../starter/source/spmd/domdec2.F
+      !||    fillcne                     ../starter/source/spmd/domdec2.F
+      !||    genh3d                      ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||    h3d_pre_skin_ixskin         ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||    h3d_pre_skin_scalar         ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+      !||    h3d_skin_dim                ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||    h3d_skin_ixskin             ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||    h3d_skin_pre_dim            ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||    h3d_skin_pre_map            ../engine/source/output/h3d/h3d_results/h3d_skin_pre_map.F
+      !||    h3d_skin_scalar             ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+      !||    h3d_skin_vector             ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
+      !||    hm_read_cload               ../starter/source/loads/general/cload/hm_read_cload.F
+      !||    hm_read_pcyl                ../starter/source/loads/general/load_pcyl/hm_read_pcyl.F
+      !||    hm_read_pload               ../starter/source/loads/general/pload/hm_read_pload.F
+      !||    lech3d                      ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
+      !||    lectur                      ../engine/source/input/lectur.F
+      !||    pressure_cyl                ../engine/source/loads/general/load_pcyl/pressure_cyl.F
+      !||    radioss2                    ../engine/source/engine/radioss2.F
+      !||    rdcomi                      ../engine/source/output/restart/rdcomm.F
+      !||    rdresa                      ../engine/source/output/restart/rdresa.F
+      !||    rdresb                      ../engine/source/output/restart/rdresb.F
+      !||    read_pcyl                   ../engine/source/output/restart/read_pcyl.F
+      !||    resol                       ../engine/source/engine/resol.F
+      !||    resol_head                  ../engine/source/engine/resol_head.F
+      !||    sortie_main                 ../engine/source/output/sortie_main.F
+      !||    split_pcyl                  ../starter/source/loads/general/load_pcyl/split_pcyl.F
+      !||    w_pon                       ../starter/source/restart/ddsplit/w_pon.F
+      !||    wrcomi                      ../engine/source/output/restart/wrcomm.F
+      !||    write_pcyl                  ../engine/source/output/restart/write_pcyl.F
+      !||    wrrestp                     ../engine/source/output/restart/wrrestp.F
+      !||--- uses       -----------------------------------------------------
+      !||    domdec_load_mod             ../common_source/modules/loads/domdec_load_mod.F
+      !||    pload_cyl_mod               ../common_source/modules/loads/pload_cyl_mod.F
+      !||====================================================================
       MODULE LOADS_MOD
 c-----------------------------------------------------------------------
       USE PLOAD_CYL_MOD

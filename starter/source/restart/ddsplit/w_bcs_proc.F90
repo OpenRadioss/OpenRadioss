@@ -26,6 +26,13 @@
 !! \brief Data pre-treatment before saving in RESTART FILE
 !! \details  necessary buffer specific to option /BCS/WALL/...
 !
+      !||====================================================================
+      !||    w_bcs_proc       ../starter/source/restart/ddsplit/w_bcs_proc.F90
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       subroutine w_bcs_proc(bcs_per_proc,cel,scel,len_ia,len_am)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

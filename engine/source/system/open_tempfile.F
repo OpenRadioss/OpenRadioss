@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  OPEN_F_SCRATCH_FILE           source/system/open_tempfile.F 
-Chd|-- called by -----------
-Chd|        FREFORM                       source/input/freform.F        
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|        MY_GETPID                     source/system/pid.c           
-Chd|        TMPENVF                       source/system/tmpenv_c.c      
-Chd|====================================================================
+      !||====================================================================
+      !||    open_f_scratch_file   ../engine/source/system/open_tempfile.F
+      !||--- called by ------------------------------------------------------
+      !||    freform               ../engine/source/input/freform.F
+      !||    radioss2              ../engine/source/engine/radioss2.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_getpid             ../engine/source/system/pid.c
+      !||    tmpenvf               ../engine/source/system/tmpenv_c.c
+      !||====================================================================
       SUBROUTINE OPEN_F_SCRATCH_FILE(FD,ACCES_TYPE,ROOTN,LENROOTN,FILN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

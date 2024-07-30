@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CDKDERIC3                     source/elements/sh3n/coquedk/cdkderi3.F
-Chd|-- called by -----------
-Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cdkderic3   ../engine/source/elements/sh3n/coquedk/cdkderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    cdkforc3    ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+      !||====================================================================
       SUBROUTINE CDKDERIC3(JFT ,JLT, X2,Y2,X3,Y3,AREA2,ALPE,ALDT,
      1                    PX2,PY2,PX3,PY3,PX,PY,PXY,PYY,VOL,VOLG,
      2                    NU,THK2)
@@ -103,12 +102,11 @@ C---------------------------------------------------------
       RETURN
 C
       END
-Chd|====================================================================
-Chd|  CDKDERI3                      source/elements/sh3n/coquedk/cdkderi3.F
-Chd|-- called by -----------
-Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cdkderi3   ../engine/source/elements/sh3n/coquedk/cdkderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    cdkforc3   ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+      !||====================================================================
       SUBROUTINE CDKDERI3(JFT ,JLT,PX2,PY2,PX3,PY3,PX,PY,PXY,PYY,  
      1                    BZ1,BZ2,BZ3,BRX1,BRX2,BRX3,
      2                    BRY1,BRY2,BRY3,KSI,ETA)

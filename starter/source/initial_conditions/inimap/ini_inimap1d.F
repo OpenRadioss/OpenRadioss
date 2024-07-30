@@ -20,21 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INI_INIMAP1D                  source/initial_conditions/inimap/ini_inimap1d.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        SOLVE_EINT                    source/initial_conditions/inimap/ini_inimap1d.F
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ini_inimap1d       ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+      !||--- called by ------------------------------------------------------
+      !||    initia             ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../starter/source/output/message/message.F
+      !||    solve_eint         ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+      !||--- uses       -----------------------------------------------------
+      !||    inimap1d_mod       ../starter/share/modules1/inimap1d_mod.F
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INI_INIMAP1D(INIMAP1D ,ELBUF_TAB ,IPART  ,IPARG   ,IPARTS   ,
      .                        IPARTQ   ,XGRID     ,VEL    ,IXS     ,IXQ      ,
      .                        IXTG     ,PM        ,IPM    ,BUFMAT  ,MULTI_FVM, 
@@ -932,14 +928,13 @@ C     ===================
 
       END SUBROUTINE INI_INIMAP1D
 
-Chd|====================================================================
-Chd|  SOLVE_EINT                    source/initial_conditions/inimap/ini_inimap1d.F
-Chd|-- called by -----------
-Chd|        INI_INIMAP1D                  source/initial_conditions/inimap/ini_inimap1d.F
-Chd|-- calls ---------------
-Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    solve_eint         ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+      !||--- called by ------------------------------------------------------
+      !||    ini_inimap1d       ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SOLVE_EINT(MATID, NFT,    NEL, PRESIN, EINT, RHO,   IFIRST, ILAST, ELEM_LIST, IPM, 
      .                      PM   , BUFMAT, MLW, NG,     IMAT, THETA, NPC,    TF, VAREOS, NVAREOS,
      .                      MAT_PARAM)

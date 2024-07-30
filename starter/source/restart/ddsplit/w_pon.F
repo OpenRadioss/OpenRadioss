@@ -21,17 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  W_PON                         source/restart/ddsplit/w_pon.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    w_pon           ../starter/source/restart/ddsplit/w_pon.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit         ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal          ../starter/source/spmd/node/ddtools.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE W_PON(
      1      ADDCNE   ,CNE      ,LCNE      ,NUMNOD_L  ,NODGLOB   ,
      2      LCNE_L   ,CEP      ,CEL       ,IXS       ,IXS10     ,

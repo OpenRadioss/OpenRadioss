@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IPARI_L_INI                   source/restart/ddsplit/ipari_l_ini.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ipari_l_ini               ../starter/source/restart/ddsplit/ipari_l_ini.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit                   ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal                    ../starter/source/spmd/node/ddtools.F
+      !||    secnd_surface_on_domain   ../starter/source/interfaces/inter3d1/i24setnodes.F
+      !||--- uses       -----------------------------------------------------
+      !||    front_mod                 ../starter/share/modules1/front_mod.F
+      !||====================================================================
       SUBROUTINE IPARI_L_INI(IPARI ,PROC   ,NUMNOD_L,
      +                NBDDI2M  ,I2NSN_L,PROBINT,IMAXIMP_L,NBI18_L ,
      +                NSKYI18_L,NSNT_L ,NMNT_L ,NSNT2_L  ,NMNT2_L ,

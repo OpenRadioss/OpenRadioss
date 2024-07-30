@@ -20,26 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_THVARC                     source/output/th/hm_read_thvarc.F
-Chd|-- called by -----------
-Chd|        HM_READ_THGRKI                source/output/th/hm_read_thgrki.F
-Chd|        HM_READ_THGRKI_RBODY          source/output/th/hm_read_thgrki_rbody.F
-Chd|        HM_READ_THGRNE                source/output/th/hm_read_thgrne.F
-Chd|        HM_READ_THGRNS                source/output/th/hm_read_thgrns.F
-Chd|        HM_READ_THGRPA                source/output/th/hm_read_thgrpa.F
-Chd|        HM_READ_THGRPA_SUB            source/output/th/hm_read_thgrpa.F
-Chd|        HM_READ_THGRSENS              source/output/th/hm_read_thgrsens.F
-Chd|        HM_READ_THGRSURF              source/output/th/hm_read_thgrsurf.F
-Chd|        HM_THGRKI_VENT                source/output/th/hm_thgrki_vent.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_STRING_INDEX           source/devtools/hm_reader/hm_get_string_index.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_thvarc              ../starter/source/output/th/hm_read_thvarc.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_thgrki         ../starter/source/output/th/hm_read_thgrki.F
+      !||    hm_read_thgrki_rbody   ../starter/source/output/th/hm_read_thgrki_rbody.F
+      !||    hm_read_thgrne         ../starter/source/output/th/hm_read_thgrne.F
+      !||    hm_read_thgrns         ../starter/source/output/th/hm_read_thgrns.F
+      !||    hm_read_thgrpa         ../starter/source/output/th/hm_read_thgrpa.F
+      !||    hm_read_thgrpa_sub     ../starter/source/output/th/hm_read_thgrpa.F
+      !||    hm_read_thgrsens       ../starter/source/output/th/hm_read_thgrsens.F
+      !||    hm_read_thgrsurf       ../starter/source/output/th/hm_read_thgrsurf.F
+      !||    hm_thgrki_vent         ../starter/source/output/th/hm_thgrki_vent.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_get_string_index    ../starter/source/devtools/hm_reader/hm_get_string_index.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       INTEGER FUNCTION HM_THVARC(VARE,NV,IVAR,VARG,NVG,IVARG,NV0,ID,TITR,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s 

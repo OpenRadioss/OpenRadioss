@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_CONSTIT                   source/output/h3d/h3d_build_fortran/h3d_constit.F
-Chd|-- called by -----------
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_constit   ../engine/source/output/h3d/h3d_build_fortran/h3d_constit.F
+      !||--- called by ------------------------------------------------------
+      !||    genh3d        ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_orders     ../common_source/tools/sort/my_orders.c
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE H3D_CONSTIT(ITAB,ITABM1,NUMNOD)
       USE MESSAGE_MOD
 C

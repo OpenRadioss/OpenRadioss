@@ -20,27 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_PROP33                source/properties/spring/hm_read_prop33.F
-Chd|-- called by -----------
-Chd|        HM_READ_PROP_GENERIC          source/properties/hm_read_prop_generic.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
-Chd|        HM_READ_PROP33_CYL_JNT        source/properties/spring/hm_read_prop33_cyl_jnt.F
-Chd|        HM_READ_PROP33_FIX_JNT        source/properties/spring/hm_read_prop33_fix_jnt.F
-Chd|        HM_READ_PROP33_FREE_JNT       source/properties/spring/hm_read_prop33_free_jnt.F
-Chd|        HM_READ_PROP33_OLD_JNT        source/properties/spring/hm_read_prop33_old_jnt.F
-Chd|        HM_READ_PROP33_PLAN_JNT       source/properties/spring/hm_read_prop33_plan_jnt.F
-Chd|        HM_READ_PROP33_REV_JNT        source/properties/spring/hm_read_prop33_rev_jnt.F
-Chd|        HM_READ_PROP33_SPH_JNT        source/properties/spring/hm_read_prop33_sph_jnt.F
-Chd|        HM_READ_PROP33_TRANS_JNT      source/properties/spring/hm_read_prop33_trans_jnt.F
-Chd|        HM_READ_PROP33_UNIV_JNT       source/properties/spring/hm_read_prop33_univ_jnt.F
-Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_prop33             ../starter/source/properties/spring/hm_read_prop33.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_prop_generic       ../starter/source/properties/hm_read_prop_generic.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                     ../starter/source/output/message/message.F
+      !||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_is_encrypted     ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||    hm_read_prop33_cyl_jnt     ../starter/source/properties/spring/hm_read_prop33_cyl_jnt.F
+      !||    hm_read_prop33_fix_jnt     ../starter/source/properties/spring/hm_read_prop33_fix_jnt.F
+      !||    hm_read_prop33_free_jnt    ../starter/source/properties/spring/hm_read_prop33_free_jnt.F
+      !||    hm_read_prop33_old_jnt     ../starter/source/properties/spring/hm_read_prop33_old_jnt.F
+      !||    hm_read_prop33_plan_jnt    ../starter/source/properties/spring/hm_read_prop33_plan_jnt.F
+      !||    hm_read_prop33_rev_jnt     ../starter/source/properties/spring/hm_read_prop33_rev_jnt.F
+      !||    hm_read_prop33_sph_jnt     ../starter/source/properties/spring/hm_read_prop33_sph_jnt.F
+      !||    hm_read_prop33_trans_jnt   ../starter/source/properties/spring/hm_read_prop33_trans_jnt.F
+      !||    hm_read_prop33_univ_jnt    ../starter/source/properties/spring/hm_read_prop33_univ_jnt.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbuftag_mod               ../starter/share/modules1/elbuftag_mod.F
+      !||    message_mod                ../starter/share/message_module/message_mod.F
+      !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_PROP33(IOUT ,NUVAR ,PARGEO ,UNITAB,
      .                  IUNIT,ID    ,TITR   ,PROP_TAG,
      .                  IGTYP,LSUBMODEL)

@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_EXCH_STIF_SCND           source/mpi/elements/spmd_exch_stif_scnd.F
-Chd|-- called by -----------
-Chd|        S10STFE_POFF                  source/elements/solid/solide10/s10cndf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_stif_scnd   ../engine/source/mpi/elements/spmd_exch_stif_scnd.F
+      !||--- called by ------------------------------------------------------
+      !||    s10stfe_poff          ../engine/source/elements/solid/solide10/s10cndf.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_STIF_SCND(
      1            STIFND,FR_CDNS,IAD_CDNS, LCOMM)
 C-----------------------------------------------

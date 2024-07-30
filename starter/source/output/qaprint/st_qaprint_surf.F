@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ST_QAPRINT_SURF               source/output/qaprint/st_qaprint_surf.F
-Chd|-- called by -----------
-Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
-Chd|-- calls ---------------
-Chd|        QA_PRINT_SURF                 source/output/qaprint/st_qaprint_surf.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    st_qaprint_surf     ../starter/source/output/qaprint/st_qaprint_surf.F
+      !||--- called by ------------------------------------------------------
+      !||    st_qaprint_driver   ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||--- calls      -----------------------------------------------------
+      !||    qa_print_surf       ../starter/source/output/qaprint/st_qaprint_surf.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE ST_QAPRINT_SURF(IGRSURF,IGRSLIN, BUFSF, SBUFSF)
 C-----------------------------------------------
 C   M o d u l e s
@@ -88,13 +88,13 @@ C-----------------------------------------------
       END
 
 
-Chd|====================================================================
-Chd|  QA_PRINT_SURF                 source/output/qaprint/st_qaprint_surf.F
-Chd|-- called by -----------
-Chd|        ST_QAPRINT_SURF               source/output/qaprint/st_qaprint_surf.F
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    qa_print_surf     ../starter/source/output/qaprint/st_qaprint_surf.F
+      !||--- called by ------------------------------------------------------
+      !||    st_qaprint_surf   ../starter/source/output/qaprint/st_qaprint_surf.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE QA_PRINT_SURF(PTR_IGRSURF, GROUP_NAME, BUFSF, SBUFSF, IAD_PREV, NNOD)
 C-----------------------------------------------
 C   M o d u l e s

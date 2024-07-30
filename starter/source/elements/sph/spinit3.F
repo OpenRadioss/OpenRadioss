@@ -20,20 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPINIT3                       source/elements/sph/spinit3.F 
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        DTMAIN                        source/materials/time_step/dtmain.F
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|        SPORTH3                       source/elements/sph/sporth3.F 
-Chd|        SPPART3                       source/elements/sph/sppart3.F 
-Chd|        GET_U_GEO                     source/user_interface/uaccess.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spinit3                ../starter/source/elements/sph/spinit3.F
+      !||--- called by ------------------------------------------------------
+      !||    initia                 ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    dtmain                 ../starter/source/materials/time_step/dtmain.F
+      !||    get_u_func             ../starter/source/user_interface/uaccess.F
+      !||    get_u_geo              ../starter/source/user_interface/uaccess.F
+      !||    get_u_mat              ../starter/source/user_interface/uaccess.F
+      !||    get_u_mid              ../starter/source/user_interface/uaccess.F
+      !||    get_u_mnu              ../starter/source/user_interface/uaccess.F
+      !||    get_u_pid              ../starter/source/user_interface/uaccess.F
+      !||    get_u_pnu              ../starter/source/user_interface/uaccess.F
+      !||    matini                 ../starter/source/materials/mat_share/matini.F
+      !||    sporth3                ../starter/source/elements/sph/sporth3.F
+      !||    sppart3                ../starter/source/elements/sph/sppart3.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+      !||====================================================================
       SUBROUTINE SPINIT3(IGRTYP  ,SPBUF    ,KXSP   ,X     ,GEO    ,
      .                   XMAS    ,NPC      ,PLD    ,XIN   ,SKEW   ,
      .                   DTELEM  ,NEL      ,STIFN  ,STIFR ,IGEO   ,

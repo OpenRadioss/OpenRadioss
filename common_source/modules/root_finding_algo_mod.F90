@@ -21,6 +21,12 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
+      !||====================================================================
+      !||    root_finding_algo_mod   ../common_source/modules/root_finding_algo_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    mixture_equilibrium     ../engine/source/materials/mat/mat041/sigeps41.F
+      !||    sigeps41                ../engine/source/materials/mat/mat041/sigeps41.F
+      !||====================================================================
       module root_finding_algo_mod
       contains
 ! ======================================================================================================================
@@ -28,6 +34,11 @@
 ! ======================================================================================================================
 !! \brief root finding algo based on Brent's algo
 !! \details
+      !||====================================================================
+      !||    brent_algo     ../common_source/modules/root_finding_algo_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod   ../common_source/modules/constant_mod.F
+      !||====================================================================
         function brent_algo( a,b,tolerance,funct,funct_parameter_size,funct_parameter)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

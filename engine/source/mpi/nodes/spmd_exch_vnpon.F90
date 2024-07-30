@@ -20,11 +20,24 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    spmd_exch_vnpon_mod   ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
+      !||--- called by ------------------------------------------------------
+      !||    inter_sh_offset_ini   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
+      !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
+      !||====================================================================
     module spmd_exch_vnpon_mod
         contains
 !=======================================================================================================================
 !!\brief This subroutine do nodal exchange vn6 in P/ON; ndim1=6*3,ndim2=numnod for vn6->nodal normal
 !=======================================================================================================================
+      !||====================================================================
+      !||    spmd_exch_vnpon       ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
+      !||--- called by ------------------------------------------------------
+      !||    inter_sh_offset_ini   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
+      !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       subroutine spmd_exch_vnpon(ndim1,ndim2,vn6,iad_elem,fr_elem,nspmd,lenr )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

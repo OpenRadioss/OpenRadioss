@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WPOR                          source/ale/grid/wpor.F        
-Chd|-- called by -----------
-Chd|        ALEWDX                        source/ale/grid/alewdx.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    wpor     ../engine/source/ale/grid/wpor.F
+      !||--- called by ------------------------------------------------------
+      !||    alewdx   ../engine/source/ale/grid/alewdx.F
+      !||====================================================================
        SUBROUTINE WPOR(
      1    GEO,NODPOR,X   ,V      ,VR     ,
      2    W  ,RBY   ,NALE,NPORGEO        )

@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CNCOEF3B                      source/elements/sh3n/coquedk/cncoef3.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cncoef3b      ../engine/source/elements/sh3n/coquedk/cncoef3.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
+      !||====================================================================
       SUBROUTINE CNCOEF3B(JFT    ,JLT     ,PM     ,MAT    ,GEO    ,
      2                    PID    ,AREA    ,SHF    ,THK0   ,
      3                    THK02  ,NU      ,G      ,YM     ,
@@ -286,14 +285,13 @@ c-----------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  CNCOEF3                       source/elements/sh3n/coquedk/cncoef3.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|        CDK6FORC3                     source/elements/sh3n/coquedk6/cdk6forc3.F
-Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cncoef3     ../engine/source/elements/sh3n/coquedk/cncoef3.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3    ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||    cdk6forc3   ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+      !||    cdkforc3    ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+      !||====================================================================
       SUBROUTINE CNCOEF3(JFT     ,JLT     ,PM      ,MAT     ,GEO     ,
      2                   PID     ,OFF     ,AREA    ,SHF     ,THK0    ,
      3                   THK02   ,NU      ,G       ,YM      ,
@@ -460,13 +458,12 @@ c
 c-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  C3COEFRZ3                     source/elements/sh3n/coquedk/cncoef3.F
-Chd|-- called by -----------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c3coefrz3     ../engine/source/elements/sh3n/coquedk/cncoef3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
+      !||====================================================================
       SUBROUTINE C3COEFRZ3(JFT    ,JLT     ,G  ,KRZ   ,AREA   ,THK   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -501,20 +498,21 @@ C
 
       RETURN
       END
-Chd|====================================================================
-Chd|  CNCOEFORT                     source/elements/sh3n/coquedk/cncoef3.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|        CCTOGLOB                      source/elements/shell/coqueba/cmatc3.F
-Chd|        GEPM_LC                       source/elements/shell/coqueba/cmatc3.F
-Chd|        LAYINI                        source/elements/shell/coque/layini.F
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    cncoefort      ../engine/source/elements/sh3n/coquedk/cncoef3.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3        ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk    ../engine/source/elements/xfem/czforc3_crk.F
+      !||--- calls      -----------------------------------------------------
+      !||    cctoglob       ../engine/source/elements/shell/coqueba/cmatc3.F
+      !||    gepm_lc        ../engine/source/elements/shell/coqueba/cmatc3.F
+      !||    layini         ../engine/source/elements/shell/coque/layini.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod      ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    mat_elem_mod   ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    stack_mod      ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE CNCOEFORT(JFT    ,JLT     ,PM        ,MAT     ,GEO    ,
      1                     PID    ,MTN     ,NPT       ,HM      ,HF     ,
      2                     HC     ,HMFOR   ,IORTH     ,DIR     ,IGEO   ,

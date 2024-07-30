@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C3BE3                         source/elements/sh3n/coque3n/c3be3.F
-Chd|-- called by -----------
-Chd|        C3KE3                         source/elements/sh3n/coque3n/c3ke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c3be3   ../engine/source/elements/sh3n/coque3n/c3be3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3ke3   ../engine/source/elements/sh3n/coque3n/c3ke3.F
+      !||====================================================================
       SUBROUTINE C3BE3(JFT,JLT,PX1,PY1,PY2 ,
      1                   X2 ,X3 , Y3 , AREA)
 C-----------------------------------------------

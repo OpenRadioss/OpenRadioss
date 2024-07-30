@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SBOLTINI                      source/loads/bolt/sboltini.F  
-Chd|-- called by -----------
-Chd|        S10INIT3                      source/elements/solid/solide10/s10init3.F
-Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sboltini   ../starter/source/loads/bolt/sboltini.F
+      !||--- called by ------------------------------------------------------
+      !||    s10init3   ../starter/source/elements/solid/solide10/s10init3.F
+      !||    s4init3    ../starter/source/elements/solid/solide4/s4init3.F
+      !||    s8zinit3   ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||    sinit3     ../starter/source/elements/solid/solide/sinit3.F
+      !||====================================================================
       SUBROUTINE SBOLTINI(E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .                    BPRELD     ,NEL  ,IX   ,NIX  ,VPRELOAD, IFLAG_BPRELOAD)  
 C-----------------------------------------------

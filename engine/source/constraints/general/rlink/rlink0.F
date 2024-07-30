@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RLINK0                        source/constraints/general/rlink/rlink0.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/input/lectur.F         
-Chd|-- calls ---------------
-Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    rlink0          ../engine/source/constraints/general/rlink/rlink0.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur          ../engine/source/input/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+      !||    sum_6_float     ../engine/source/system/parit.F
+      !||====================================================================
       SUBROUTINE RLINK0(V    ,VR    ,MS    ,IN  ,NLIK ,
      2                  IDIR ,IDROT ,NOD   ,NSN ,IC   ,
      3                  ICR  ,ISKW  ,ISK   ,SKEW,ISKWN,

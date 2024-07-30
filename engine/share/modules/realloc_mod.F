@@ -20,19 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  REALLOC_MOD                   share/modules/realloc_mod.F   
-Chd|-- called by -----------
-Chd|        I11TRIVOX                     source/interfaces/intsort/i11trivox.F
-Chd|        I22GET_PREV_DATA              source/interfaces/int22/i22get_prev_data.F
-Chd|        I22INTERSECT                  source/interfaces/int22/i22intersect.F
-Chd|        I22TRIVOX                     source/interfaces/intsort/i22trivox.F
-Chd|        I25TRIVOX_EDG                 source/interfaces/intsort/i25trivox_edg.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    realloc_mod        ../engine/share/modules/realloc_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    i11trivox          ../engine/source/interfaces/intsort/i11trivox.F
+      !||    i22get_prev_data   ../engine/source/interfaces/int22/i22get_prev_data.F
+      !||    i22intersect       ../engine/source/interfaces/int22/i22intersect.F
+      !||    i22trivox          ../engine/source/interfaces/intsort/i22trivox.F
+      !||    i25trivox_edg      ../engine/source/interfaces/intsort/i25trivox_edg.F
+      !||====================================================================
       MODULE REALLOC_MOD
       CONTAINS
         
+      !||====================================================================
+      !||    ireallocate     ../engine/share/modules/realloc_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    i11trivox       ../engine/source/interfaces/intsort/i11trivox.F
+      !||    i22trivox       ../engine/source/interfaces/intsort/i22trivox.F
+      !||    i25trivox_edg   ../engine/source/interfaces/intsort/i25trivox_edg.F
+      !||====================================================================
       FUNCTION IREALLOCATE(ptr, new_size)
 !reallocate INTEGER ARRAY
 C-----------------------------------------------
@@ -68,6 +74,9 @@ C-----------------------------------------------
 
 
 
+      !||====================================================================
+      !||    jreallocate   ../engine/share/modules/realloc_mod.F
+      !||====================================================================
       FUNCTION JREALLOCATE(ptr, new_size)
 !reallocate MY_REAL ARRAY
 C-----------------------------------------------

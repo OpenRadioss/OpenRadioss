@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SRROTA3                       source/elements/solid/solide/srrota3.F
-Chd|-- called by -----------
-Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    srrota3    ../starter/source/elements/solid/solide/srrota3.F
+      !||--- called by ------------------------------------------------------
+      !||    srefsta3   ../starter/source/elements/solid/solide/srefsta3.F
+      !||====================================================================
       SUBROUTINE SRROTA3(
      .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
      .   X1, X2, X3, X4, X5, X6, X7, X8,

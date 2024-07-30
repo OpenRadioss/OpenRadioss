@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_THGRPA                source/output/th/hm_read_thgrpa.F
-Chd|-- called by -----------
-Chd|        HM_READ_THGROU                source/output/th/hm_read_thgrou.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_THVARC                     source/output/th/hm_read_thvarc.F
-Chd|        R2R_EXIST                     source/coupling/rad2rad/routines_r2r.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_thgrpa           ../starter/source/output/th/hm_read_thgrpa.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_thgrou           ../starter/source/output/th/hm_read_thgrou.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../starter/source/output/message/message.F
+      !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key       ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_thvarc                ../starter/source/output/th/hm_read_thvarc.F
+      !||    r2r_exist                ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_THGRPA(
      .           IPASU    ,NPASU    ,ITHBUF   ,IAD      ,IFI      ,
      .           VARPA    ,NVARPA   ,VARG     ,NVARG    ,NUMTHPART,
@@ -133,22 +134,22 @@ c
 c-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  HM_READ_THGRPA_SUB            source/output/th/hm_read_thgrpa.F
-Chd|-- called by -----------
-Chd|        HM_READ_THGROU                source/output/th/hm_read_thgrou.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_THVARC                     source/output/th/hm_read_thvarc.F
-Chd|        R2R_EXIST                     source/coupling/rad2rad/routines_r2r.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_thgrpa_sub       ../starter/source/output/th/hm_read_thgrpa.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_thgrou           ../starter/source/output/th/hm_read_thgrou.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../starter/source/output/message/message.F
+      !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key       ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_thvarc                ../starter/source/output/th/hm_read_thvarc.F
+      !||    r2r_exist                ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_THGRPA_SUB(
      1      IAD      ,IFI      ,ITHBUF   ,NVARPA   ,VARPA    ,
      2      VARG     ,NVARG    ,IVARPAG  ,PATHID   ,

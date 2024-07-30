@@ -20,11 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MATVPV                        source/elements/thickshell/solide6c/matvpv.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    matvpv   ../engine/source/elements/thickshell/solide6c/matvpv.F
+      !||====================================================================
       SUBROUTINE MATVPV(JFT   ,JLT    ,P  ,VL ,ND )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"

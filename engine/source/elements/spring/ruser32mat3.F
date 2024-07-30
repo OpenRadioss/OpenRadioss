@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RUSER32MAT3                   source/elements/spring/ruser32mat3.F
-Chd|-- called by -----------
-Chd|        RUSER32KE3                    source/elements/spring/ruser32ke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ruser32mat3   ../engine/source/elements/spring/ruser32mat3.F
+      !||--- called by ------------------------------------------------------
+      !||    ruser32ke3    ../engine/source/elements/spring/ruser32ke3.F
+      !||====================================================================
       SUBROUTINE RUSER32MAT3(KX, JFT, JLT, UVAR, NUVAR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  A4MASS3                       source/elements/solid/solide4/a4mass3.F
-Chd|-- called by -----------
-Chd|        MULTI_FVM2FEM                 source/multifluid/multi_fvm2fem.F
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    a4mass3         ../engine/source/elements/solid/solide4/a4mass3.F
+      !||--- called by ------------------------------------------------------
+      !||    multi_fvm2fem   ../engine/source/multifluid/multi_fvm2fem.F
+      !||    s4forc3         ../engine/source/elements/solid/solide4/s4forc3.F
+      !||====================================================================
       SUBROUTINE A4MASS3(
      1   MS,      RHO,     VOLU,    NC1,
      2   NC2,     NC3,     NC4,     MSNF,

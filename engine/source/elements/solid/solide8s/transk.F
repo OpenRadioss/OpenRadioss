@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       
-Chd|====================================================================
-Chd|  TRANSK                        source/elements/solid/solide8s/transk.F
-Chd|-- called by -----------
-Chd|        S8SKE3                        source/elements/solid/solide8s/s8ske3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    transk   ../engine/source/elements/solid/solide8s/transk.F
+      !||--- called by ------------------------------------------------------
+      !||    s8ske3   ../engine/source/elements/solid/solide8s/s8ske3.F
+      !||====================================================================
       SUBROUTINE TRANSK(
      1   KL,      TRM,     NEL)
 C-----------------------------------------------

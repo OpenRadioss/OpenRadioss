@@ -21,16 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  FVWRESTP                      source/restart/ddsplit/fvwrestp.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
-Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fvwrestp                 ../starter/source/restart/ddsplit/fvwrestp.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit                  ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod                ../starter/share/modules1/fvbag_mod.F
+      !||====================================================================
             SUBROUTINE FVWRESTP(PROC)
 C-----------------------------------------------
 C   M o d u l e s 

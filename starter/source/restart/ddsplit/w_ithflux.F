@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  W_ITHFLUX                     source/restart/ddsplit/w_ithflux.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    w_ithflux   ../starter/source/restart/ddsplit/w_ithflux.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE W_ITHFLUX(IBFFLUX,CEP,PROC,NODLOCAL,NFXFLUX_L,LEN_IA,CEL,IXS)
 
 C-----------------------------------------------
@@ -87,12 +86,11 @@ C
 
 
 
-Chd|====================================================================
-Chd|  APPLYSORT2FLUX                source/restart/ddsplit/w_ithflux.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    applysort2flux   ../starter/source/restart/ddsplit/w_ithflux.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur           ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE APPLYSORT2FLUX(IBFFLUX,SIZ1,SIZ2,PERMUTATIONS)
 C Apply the new numbering (given in permutations) to the elements IBFFLUX
 C-----------------------------------------------

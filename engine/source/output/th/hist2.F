@@ -20,55 +20,57 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HIST2                         source/output/th/hist2.F      
-Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|-- calls ---------------
-Chd|        BUFMONV                       source/output/th/hist2.F      
-Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        FLU_FIL_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        FSEEK_C_RD                    ../common_source/tools/input_output/write_routtines.c
-Chd|        SPMD_COLLECT_SEATBELT         source/mpi/output/spmd_collect_seatbelt.F
-Chd|        SPMD_GATHERV                  source/mpi/generic/spmd_gatherv.F
-Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
-Chd|        SPMD_GLOB_RSUM_POFF           source/mpi/generic/spmd_glob_rsum_poff.F
-Chd|        SPMD_SD_ACC                   source/mpi/output/spmd_sd_acc.F
-Chd|        SPMD_SD_GAU                   source/mpi/output/spmd_sd_gau.F
-Chd|        SURF_AREA                     source/output/th/surf_area.F  
-Chd|        SURF_MASS_MONV                source/output/th/surf_mass.F  
-Chd|        THCLUSTER                     source/output/th/thcluster.F  
-Chd|        THCOQ                         source/output/th/thcoq.F      
-Chd|        THFXMOD                       source/output/th/thfxmod.F    
-Chd|        THKIN                         source/output/th/thkin.F      
-Chd|        THMONV                        source/output/th/thmonv.F     
-Chd|        THNOD                         source/output/th/thnod.F      
-Chd|        THNST                         source/output/th/thnst.F      
-Chd|        THPOUT                        source/output/th/thpout.F     
-Chd|        THQUAD                        source/output/th/thquad.F     
-Chd|        THRES                         source/output/th/thres.F      
-Chd|        THRNUR                        source/output/th/thrnur.F     
-Chd|        THSENS                        source/output/th/thsens.F     
-Chd|        THSOL                         source/output/th/thsol.F      
-Chd|        THSPH                         source/output/th/thsph.F      
-Chd|        THSURF                        source/output/th/thsurf.F     
-Chd|        THTRUS                        source/output/th/thtrus.F     
-Chd|        WRITE_TH                      source/output/th/write_th.F   
-Chd|        WRTDES                        source/output/th/wrtdes.F     
-Chd|        WRTDES0                       source/output/th/wrtdes0.F    
-Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        TH_MOD                        share/modules/th_mod.F        
-Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    hist2                   ../engine/source/output/th/hist2.F
+      !||--- called by ------------------------------------------------------
+      !||    sortie_main             ../engine/source/output/sortie_main.F
+      !||--- calls      -----------------------------------------------------
+      !||    bufmonv                 ../engine/source/output/th/hist2.F
+      !||    cur_fil_c               ../common_source/tools/input_output/write_routtines.c
+      !||    flu_fil_c               ../common_source/tools/input_output/write_routtines.c
+      !||    fseek_c_rd              ../common_source/tools/input_output/write_routtines.c
+      !||    nvar                    ../engine/source/input/nvar.F
+      !||    spmd_collect_seatbelt   ../engine/source/mpi/output/spmd_collect_seatbelt.F
+      !||    spmd_gatherv            ../engine/source/mpi/generic/spmd_gatherv.F
+      !||    spmd_glob_dsum9         ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_glob_rsum_poff     ../engine/source/mpi/generic/spmd_glob_rsum_poff.F
+      !||    spmd_sd_acc             ../engine/source/mpi/output/spmd_sd_acc.F
+      !||    spmd_sd_gau             ../engine/source/mpi/output/spmd_sd_gau.F
+      !||    surf_area               ../engine/source/output/th/surf_area.F
+      !||    surf_mass_monv          ../engine/source/output/th/surf_mass.F
+      !||    thcluster               ../engine/source/output/th/thcluster.F
+      !||    thcoq                   ../engine/source/output/th/thcoq.F
+      !||    thfxmod                 ../engine/source/output/th/thfxmod.F
+      !||    thkin                   ../engine/source/output/th/thkin.F
+      !||    thmonv                  ../engine/source/output/th/thmonv.F
+      !||    thnod                   ../engine/source/output/th/thnod.F
+      !||    thnst                   ../engine/source/output/th/thnst.F
+      !||    thpout                  ../engine/source/output/th/thpout.F
+      !||    thquad                  ../engine/source/output/th/thquad.F
+      !||    thres                   ../engine/source/output/th/thres.F
+      !||    thrnur                  ../engine/source/output/th/thrnur.F
+      !||    thsens                  ../engine/source/output/th/thsens.F
+      !||    thsol                   ../engine/source/output/th/thsol.F
+      !||    thsph                   ../engine/source/output/th/thsph.F
+      !||    thsurf                  ../engine/source/output/th/thsurf.F
+      !||    thtrus                  ../engine/source/output/th/thtrus.F
+      !||    write_th                ../engine/source/output/th/write_th.F
+      !||    wrtdes                  ../engine/source/output/th/wrtdes.F
+      !||    wrtdes0                 ../engine/source/output/th/wrtdes0.F
+      !||--- uses       -----------------------------------------------------
+      !||    cluster_mod             ../engine/share/modules/cluster_mod.F
+      !||    ebcs_mod                ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod            ../common_source/modules/groupdef_mod.F
+      !||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F
+      !||    pinchtype_mod           ../common_source/modules/pinchtype_mod.F
+      !||    seatbelt_mod            ../common_source/modules/seatbelt_mod.F
+      !||    sensor_mod              ../engine/share/modules/sensor_mod.F
+      !||    stack_mod               ../engine/share/modules/stack_mod.F
+      !||    th_mod                  ../engine/share/modules/th_mod.F
+      !||    th_surf_mod             ../common_source/modules/interfaces/th_surf_mod.F
+      !||====================================================================
       SUBROUTINE HIST2(PM      ,D         ,X        ,V           ,A         ,
      2                 IXS     ,BUFEL     ,WA       ,IPARG       ,SENSOR_TAB,
      4                 FSAV    ,FLSW      ,SKEW     ,ELBUF_TAB   ,CLUSTER   ,
@@ -1428,12 +1430,11 @@ C-----------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  BUFMONV                       source/output/th/hist2.F      
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    bufmonv   ../engine/source/output/th/hist2.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2     ../engine/source/output/th/hist2.F
+      !||====================================================================
       SUBROUTINE BUFMONV(FSAVVENT,IVOLU,RBAGHOL,FR_MV)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

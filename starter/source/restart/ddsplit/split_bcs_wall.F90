@@ -26,6 +26,12 @@
 !! \brief Data structure must be updated after domain decomposition
 !! \details  after domain decomposition the global data scruture must be split to keep relevant local data on each domain
 !
+      !||====================================================================
+      !||    split_bcs_wall   ../starter/source/restart/ddsplit/split_bcs_wall.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur           ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       subroutine split_bcs_wall(bcs_per_proc, cep, scep, nspmd)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

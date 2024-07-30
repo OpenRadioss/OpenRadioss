@@ -21,14 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  W_ING2LOC                     source/restart/ddsplit/w_ing2loc.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    w_ing2loc              ../starter/source/restart/ddsplit/w_ing2loc.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE W_ING2LOC(
      .  ALE_CONNECTIVITY,ELEMID_L,NUMNOD,NODGLOB,NODLOCAL,NUMNOD_L,LEN_IA,NWALE)
       USE ALE_CONNECTIVITY_MOD

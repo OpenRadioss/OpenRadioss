@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LGMINI_GJ                     source/tools/lagmul/lgmini_gj.F
-Chd|-- called by -----------
-Chd|        LAGM_INI                      source/tools/lagmul/lagm_ini.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        INI_DIFF                      source/tools/lagmul/ini_diff.F
-Chd|        INI_GEAR                      source/tools/lagmul/ini_gear.F
-Chd|        INI_RACK                      source/tools/lagmul/ini_rack.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lgmini_gj     ../starter/source/tools/lagmul/lgmini_gj.F
+      !||--- called by ------------------------------------------------------
+      !||    lagm_ini      ../starter/source/tools/lagmul/lagm_ini.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    fretitl2      ../starter/source/starter/freform.F
+      !||    ini_diff      ../starter/source/tools/lagmul/ini_diff.F
+      !||    ini_gear      ../starter/source/tools/lagmul/ini_gear.F
+      !||    ini_rack      ../starter/source/tools/lagmul/ini_rack.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE LGMINI_GJ(IADLL  ,JLL   ,LLL   ,GJBUFI ,NC, MASS,
      .                      INER,ITAB    ,NOM_OPT)
       USE MESSAGE_MOD

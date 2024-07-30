@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    dim_shell_offsetp_mod   ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
+      !||--- called by ------------------------------------------------------
+      !||    shell_offsetp           ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
+      !||====================================================================
       module dim_shell_offsetp_mod
 
       contains
@@ -30,6 +35,12 @@
 !=======================================================================================================================
 !!\brief This subroutine do the dimensioning of shell offset projection
 !=======================================================================================================================
+      !||====================================================================
+      !||    dim_shell_offsetp   ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
+      !||--- called by ------------------------------------------------------
+      !||    shell_offsetp       ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine dim_shell_offsetp(                                          &
                        ngroup,    nparg,      iparg,        npropg,            &
                        numgeo,      geo,     numelc,          nixc,            &

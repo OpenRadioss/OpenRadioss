@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  XYZNOD                        source/output/anim/generate/xyznod.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|-- calls ---------------
-Chd|        SPMD_WRT_XYZNOD               source/mpi/anim/spmd_wrt_xyznod.F
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    xyznod            ../engine/source/output/anim/generate/xyznod.F
+      !||--- called by ------------------------------------------------------
+      !||    genani            ../engine/source/output/anim/generate/genani.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wrt_xyznod   ../engine/source/mpi/anim/spmd_wrt_xyznod.F
+      !||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE XYZNOD(X,X_TEMP,NODGLOB,WEIGHT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

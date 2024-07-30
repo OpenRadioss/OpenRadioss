@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCHKJABT3                     source/elements/solid/solide4/schkjabt3.F
-Chd|-- called by -----------
-Chd|        S4DERI3                       source/elements/solid/solide4/s4deri3.F
-Chd|        S8EDERIC3                     source/elements/solid/solide8e/s8ederic3.F
-Chd|        S8ZDERIC3                     source/elements/solid/solide8z/s8zderic3.F
-Chd|        SDERI3                        source/elements/solid/solide/sderi3.F
-Chd|        SZDERI3                       source/elements/solid/solidez/szderi3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    schkjabt3     ../engine/source/elements/solid/solide4/schkjabt3.F
+      !||--- called by ------------------------------------------------------
+      !||    s4deri3       ../engine/source/elements/solid/solide4/s4deri3.F
+      !||    s8ederic3     ../engine/source/elements/solid/solide8e/s8ederic3.F
+      !||    s8zderic3     ../engine/source/elements/solid/solide8z/s8zderic3.F
+      !||    sderi3        ../engine/source/elements/solid/solide/sderi3.F
+      !||    szderi3       ../engine/source/elements/solid/solidez/szderi3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SCHKJABT3(
      1   OFF,     DET,     NGL,     OFFG,
      2   NNEGA,   INDEX,   NEL,     ISMSTR,

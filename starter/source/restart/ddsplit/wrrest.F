@@ -20,17 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FXBWRESTP                     source/restart/ddsplit/wrrest.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        DELETE_USER_FILE              source/user_interface/dyn_userlib.c
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    fxbwrestp          ../starter/source/restart/ddsplit/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit            ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    wrtsqi             ../starter/source/output/tools/wrtsqi.F
+      !||    wrtsqr             ../starter/source/output/tools/wrtsqr.F
+      !||====================================================================
       SUBROUTINE FXBWRESTP(
      .   FXBIPM_L , FXBRPM   , FXBNOD_L , FXBMOD_L, FXBGLM_L,
      .   FXBCPM_L , FXBCPS_L , FXBLM_L  , FXBFLS_L, FXBDLS_L,
@@ -196,15 +193,12 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  EIGWREST                      source/restart/ddsplit/wrrest.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    eigwrest    ../starter/source/restart/ddsplit/wrrest.F
+      !||--- calls      -----------------------------------------------------
+      !||    wrtsqi      ../starter/source/output/tools/wrtsqi.F
+      !||    wrtsqr      ../starter/source/output/tools/wrtsqr.F
+      !||====================================================================
       SUBROUTINE EIGWREST(EIGIPM, EIGIBUF, EIGRPM)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -268,14 +262,12 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  EIGWRESTP                     source/restart/ddsplit/wrrest.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    eigwrestp   ../starter/source/restart/ddsplit/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE EIGWRESTP(EIGIPM, EIGIBUF, EIGRPM, LEIBUF_L,LEN_AM)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -309,16 +301,14 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  DSWREST                       source/restart/ddsplit/wrrest.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|        DSGRAPH_MOD                   share/modules1/dsgraph_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    dswrest       ../starter/source/restart/ddsplit/wrrest.F
+      !||--- calls      -----------------------------------------------------
+      !||    wrtsqi        ../starter/source/output/tools/wrtsqi.F
+      !||    wrtsqr        ../starter/source/output/tools/wrtsqr.F
+      !||--- uses       -----------------------------------------------------
+      !||    dsgraph_mod   ../starter/share/modules1/dsgraph_mod.F
+      !||====================================================================
       SUBROUTINE DSWREST(GRAPHE)
 C-----------------------------------------------
 C   M o d u l e s
@@ -434,14 +424,12 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  DSWRESTP                      source/restart/ddsplit/wrrest.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        DSGRAPH_MOD                   share/modules1/dsgraph_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    dswrestp      ../starter/source/restart/ddsplit/wrrest.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    dsgraph_mod   ../starter/share/modules1/dsgraph_mod.F
+      !||====================================================================
       SUBROUTINE DSWRESTP(PGRAPH,LEN_IA,LEN_AM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -527,15 +515,12 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  NFWREST                       source/restart/ddsplit/wrrest.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    nfwrest     ../starter/source/restart/ddsplit/wrrest.F
+      !||--- calls      -----------------------------------------------------
+      !||    wrtsqi      ../starter/source/output/tools/wrtsqi.F
+      !||    wrtsqr      ../starter/source/output/tools/wrtsqr.F
+      !||====================================================================
       SUBROUTINE NFWREST(IFLOW, RFLOW)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -574,14 +559,12 @@ C--------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  NFWRESTP                      source/restart/ddsplit/wrrest.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    nfwrestp    ../starter/source/restart/ddsplit/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE NFWRESTP(IFLOW, RFLOW,LEN_IA,LEN_AM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -616,13 +599,11 @@ C
 C
 
 C for shell heat transfer
-Chd|====================================================================
-Chd|  THCWREST                      source/restart/ddsplit/wrrest.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    thcwrest   ../starter/source/restart/ddsplit/wrrest.F
+      !||--- calls      -----------------------------------------------------
+      !||    wrtsqr     ../starter/source/output/tools/wrtsqr.F
+      !||====================================================================
       SUBROUTINE THCWREST(MCP,TEMP)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -655,15 +636,12 @@ C--------------------------------------
       END
 
 C convection flux 
-Chd|====================================================================
-Chd|  CONVWREST                     source/restart/ddsplit/wrrest.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    convwrest   ../starter/source/restart/ddsplit/wrrest.F
+      !||--- calls      -----------------------------------------------------
+      !||    wrtsqi      ../starter/source/output/tools/wrtsqi.F
+      !||    wrtsqr      ../starter/source/output/tools/wrtsqr.F
+      !||====================================================================
       SUBROUTINE CONVWREST(IBCV,FCONV)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -697,15 +675,12 @@ C--------------------------------------
       RETURN
       END
 C fixed temperature 
-Chd|====================================================================
-Chd|  FXTEMPWREST                   source/restart/ddsplit/wrrest.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    fxtempwrest   ../starter/source/restart/ddsplit/wrrest.F
+      !||--- calls      -----------------------------------------------------
+      !||    wrtsqi        ../starter/source/output/tools/wrtsqi.F
+      !||    wrtsqr        ../starter/source/output/tools/wrtsqr.F
+      !||====================================================================
       SUBROUTINE FXTEMPWREST(IBFT,FBFT)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -740,15 +715,12 @@ C--------------------------------------
       END
 
 C for rigid_ material     
-Chd|====================================================================
-Chd|  RIGMATWREST                   source/restart/ddsplit/wrrest.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    rigmatwrest   ../starter/source/restart/ddsplit/wrrest.F
+      !||--- calls      -----------------------------------------------------
+      !||    wrtsqi        ../starter/source/output/tools/wrtsqi.F
+      !||    wrtsqr        ../starter/source/output/tools/wrtsqr.F
+      !||====================================================================
       SUBROUTINE RIGMATWREST(RBYM  ,IRBYM    ,LCRBYM, WEIGHT)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -787,15 +759,12 @@ C--------------------------------------
       END
 
 C for shell composite xfem 
-Chd|====================================================================
-Chd|  PLYXFEM_WREST                 source/restart/ddsplit/wrrest.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    plyxfem_wrest   ../starter/source/restart/ddsplit/wrrest.F
+      !||--- calls      -----------------------------------------------------
+      !||    wrtsqi          ../starter/source/output/tools/wrtsqi.F
+      !||    wrtsqr          ../starter/source/output/tools/wrtsqr.F
+      !||====================================================================
       SUBROUTINE PLYXFEM_WREST(MS_PLY,ZI_PLY,IEL,INOD,ICODE,ISKEW)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

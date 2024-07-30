@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPONFV                        source/elements/sph/sponfv.F  
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SPMD_SPHGETA                  source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETD                  source/mpi/elements/spmd_sph.F
-Chd|        WEIGHT0                       source/elements/sph/weight.F  
-Chd|        WEIGHT1                       source/elements/sph/weight.F  
-Chd|        MOD_SPLISSV                   source/elements/sph/splissv.F 
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    sponfv         ../engine/source/elements/sph/sponfv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_sphgeta   ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetd   ../engine/source/mpi/elements/spmd_sph.F
+      !||    weight0        ../engine/source/elements/sph/weight.F
+      !||    weight1        ../engine/source/elements/sph/weight.F
+      !||--- uses       -----------------------------------------------------
+      !||    mod_splissv    ../engine/source/elements/sph/splissv.F
+      !||    sphbox         ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPONFV(X ,V        ,A       ,D       ,MS      ,
      2             SPBUF   ,ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,
      3             NPC     ,PLD     ,ISPHIO  ,VSPHIO  ,IPART   ,

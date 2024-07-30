@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C_FVBAG                       source/airbag/c_fvbag.F       
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    c_fvbag     ../starter/source/airbag/c_fvbag.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal      ../starter/source/spmd/node/ddtools.F
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod   ../starter/share/modules1/fvbag_mod.F
+      !||====================================================================
       SUBROUTINE C_FVBAG(
      .    MONVOL,   NODLOCAL,  IXS     , PROC, NB_NODE, FVMAIN)
 C-----------------------------------------------

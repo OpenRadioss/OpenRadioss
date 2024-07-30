@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THICK_ILEV                    source/elements/xfem/thick_ilev.F
-Chd|-- called by -----------
-Chd|        CBUFXFE                       source/elements/xfem/cbufxfe.F
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    thick_ilev     ../starter/source/elements/xfem/thick_ilev.F
+      !||--- called by ------------------------------------------------------
+      !||    cbufxfe        ../starter/source/elements/xfem/cbufxfe.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE THICK_ILEV(ELBUF_STR,XFEM_STR,
      .                      LFT      ,LLT  ,NLAY  ,IR  ,IS  ,
      .                      NPTT     ,IXFEM,THKLY ,POSLY,IREP,IXEL)

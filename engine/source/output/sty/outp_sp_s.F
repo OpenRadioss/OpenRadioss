@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  OUTP_SP_S                     source/output/sty/outp_sp_s.F 
-Chd|-- called by -----------
-Chd|        GENOUTP                       source/output/sty/genoutp.F   
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        SPMD_RGATHER9_1COMM           source/mpi/interfaces/spmd_outp.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    outp_sp_s             ../engine/source/output/sty/outp_sp_s.F
+      !||--- called by ------------------------------------------------------
+      !||    genoutp               ../engine/source/output/sty/genoutp.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf               ../engine/share/resol/initbuf.F
+      !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod           ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE OUTP_SP_S(NBX  ,KEY   ,TEXT,ELBUF_TAB,IPARG,
      2                     EANI,DD_IAD,KXSP,IPM ,
      3                     SPBUF,SIZLOC,SIZP0,SIZ_WR)
@@ -243,13 +244,12 @@ c---
 c-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  COUNT_ARSZ_SPS                source/output/sty/outp_sp_s.F 
-Chd|-- called by -----------
-Chd|        GENOUTP                       source/output/sty/genoutp.F   
-Chd|        OUTP_ARSZ_SPS                 source/mpi/interfaces/spmd_outp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    count_arsz_sps   ../engine/source/output/sty/outp_sp_s.F
+      !||--- called by ------------------------------------------------------
+      !||    genoutp          ../engine/source/output/sty/genoutp.F
+      !||    outp_arsz_sps    ../engine/source/mpi/interfaces/spmd_outp.F
+      !||====================================================================
       SUBROUTINE COUNT_ARSZ_SPS(IPARG,DD_IAD,WASZ,SIZ_WRITE_LOC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

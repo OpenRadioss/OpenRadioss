@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R13MAT3                       source/elements/spring/r13mat3.F
-Chd|-- called by -----------
-Chd|        R13KE3                        source/elements/spring/r13ke3.F
-Chd|        R8KE3                         source/elements/spring/r8ke3.F
-Chd|-- calls ---------------
-Chd|        RKENONL                       source/elements/spring/r4mat3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    r13mat3   ../engine/source/elements/spring/r13mat3.F
+      !||--- called by ------------------------------------------------------
+      !||    r13ke3    ../engine/source/elements/spring/r13ke3.F
+      !||    r8ke3     ../engine/source/elements/spring/r8ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    rkenonl   ../engine/source/elements/spring/r4mat3.F
+      !||====================================================================
       SUBROUTINE R13MAT3(JFT    ,JLT    ,GEO    ,KX      ,KY     ,
      1                   KZ     ,MX     ,MY     ,MZ      ,MGN    ,
      2                   AL0    ,FX     ,FY     ,FZ      ,DX     ,

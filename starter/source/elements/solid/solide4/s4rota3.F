@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4ROTA3                       source/elements/solid/solide4/s4rota3.F
-Chd|-- called by -----------
-Chd|        S4REFSTA3                     source/elements/solid/solide4/s4refsta3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s4rota3     ../starter/source/elements/solid/solide4/s4rota3.F
+      !||--- called by ------------------------------------------------------
+      !||    s4refsta3   ../starter/source/elements/solid/solide4/s4refsta3.F
+      !||====================================================================
       SUBROUTINE S4ROTA3(
      .   R11 ,R12 ,R13 ,R21 ,R22 ,R23 ,R31 ,R32 ,R33 ,
      .   X1  ,X2  ,X3  , X4 ,Y1  ,Y2  ,Y3  ,Y4  ,
@@ -88,12 +87,11 @@ C     X=RX' <=> X'=t(R)X chgt de base.
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  S4ROTAT3                      source/elements/solid/solide4/s4rota3.F
-Chd|-- called by -----------
-Chd|        S4REFSTA3                     source/elements/solid/solide4/s4refsta3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s4rotat3    ../starter/source/elements/solid/solide4/s4rota3.F
+      !||--- called by ------------------------------------------------------
+      !||    s4refsta3   ../starter/source/elements/solid/solide4/s4refsta3.F
+      !||====================================================================
       SUBROUTINE S4ROTAT3(
      .   R11 ,R12 ,R13 ,R21 ,R22 ,R23 ,R31 ,R32 ,R33 ,
      .   X1  ,X2  ,X3  , X4 ,Y1  ,Y2  ,Y3  ,Y4  ,

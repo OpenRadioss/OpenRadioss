@@ -20,25 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTER7_CANDIDATE_PAIRS_MOD    source/interfaces/intsort/inter7_candidate_pairs.F
-Chd|-- called by -----------
-Chd|        INTER7_COLLISION_DETECTION    source/interfaces/inter7_collision_detection.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inter7_candidate_pairs_mod   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||--- called by ------------------------------------------------------
+      !||    inter7_collision_detection   ../engine/source/interfaces/inter7_collision_detection.F
+      !||    main                         ../engine/unit_test/unit_test1.F
+      !||====================================================================
       MODULE INTER7_CANDIDATE_PAIRS_MOD
       CONTAINS
 
 !! \brief get the list of candidates for all segment
 
-Chd|====================================================================
-Chd|  INTER7_CANDIDATE_PAIRS        source/interfaces/intsort/inter7_candidate_pairs.F
-Chd|-- called by -----------
-Chd|        INTER7_COLLISION_DETECTION    source/interfaces/inter7_collision_detection.F
-Chd|-- calls ---------------
-Chd|        COLLISION_MOD                 source/interfaces/intsort/collision_mod.F
-Chd|        INTER7_FILTER_CAND_MOD        source/interfaces/intsort/inter7_filter_cand.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inter7_candidate_pairs       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||--- called by ------------------------------------------------------
+      !||    inter7_collision_detection   ../engine/source/interfaces/inter7_collision_detection.F
+      !||    test_candidates              ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||--- calls      -----------------------------------------------------
+      !||    inter7_filter_cand           ../engine/source/interfaces/intsort/inter7_filter_cand.F
+      !||--- uses       -----------------------------------------------------
+      !||    collision_mod                ../engine/source/interfaces/intsort/collision_mod.F
+      !||    constant_mod                 ../common_source/modules/constant_mod.F
+      !||    inter7_filter_cand_mod       ../engine/source/interfaces/intsort/inter7_filter_cand.F
+      !||====================================================================
         SUBROUTINE INTER7_CANDIDATE_PAIRS(
      &                                    nsn          ,
      &                                    oldnum       ,
@@ -616,11 +620,10 @@ C#endif
         end
 
 !! \brief write the data to a file
-Chd|====================================================================
-Chd|  INTER7_SERIALIZE              source/interfaces/intsort/inter7_candidate_pairs.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inter7_serialize   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
         SUBROUTINE INTER7_SERIALIZE(      filename     , 
      &                                    nsn          ,
      &                                    oldnum       ,
@@ -819,11 +822,11 @@ C-----------------------------------------------
           close(unitNum)
         end subroutine
 !! \brief write the data to a file
-Chd|====================================================================
-Chd|  INTER7_DESERIALIZE            source/interfaces/intsort/inter7_candidate_pairs.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inter7_deserialize   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||--- called by ------------------------------------------------------
+      !||    test_candidates      ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||====================================================================
         SUBROUTINE INTER7_DESERIALIZE(    filename     , 
      &                                    nsn          ,
      &                                    oldnum       ,
@@ -1045,6 +1048,16 @@ C-----------------------------------------------
 
         !!\brief compare the couple cand_n(i) cand_e(i) with the couple cand_n_ref/cand_e_ref
         !!\details check if there exist i and j such as cand_n(i)=cand_n_ref(j) and cand_e(i)=cand_e_ref(j)
+      !||====================================================================
+      !||    test_candidates          ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||--- called by ------------------------------------------------------
+      !||    main                     ../engine/unit_test/unit_test1.F
+      !||--- calls      -----------------------------------------------------
+      !||    compare_cand             ../engine/source/interfaces/intsort/compare_cand.cpp
+      !||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||    inter7_deserialize       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine test_candidates(filename)
           use iso_c_binding , only : c_int
           implicit none

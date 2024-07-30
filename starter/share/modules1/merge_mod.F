@@ -20,11 +20,10 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MERGEMOD                      share/modules1/merge_mod.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mergemod        ../starter/share/modules1/merge_mod.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       MODULE MERGEMOD
       USE INTBUFDEF_MOD
 #include "my_real.inc"

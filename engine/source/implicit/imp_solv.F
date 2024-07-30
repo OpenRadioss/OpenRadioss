@@ -20,120 +20,122 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        BFGS_INI                      source/implicit/imp_bfgs.F    
-Chd|        CFIELD_IMP                    source/loads/general/load_centri/cfield_imp.F
-Chd|        CONDENS_B                     source/implicit/upd_glob_k.F  
-Chd|        CP_IMPBUF                     source/implicit/produt_v.F    
-Chd|        CP_INT_HP                     source/implicit/produt_v.F    
-Chd|        CP_REAL_HP                    source/implicit/produt_v.F    
-Chd|        CRIT_LLIM                     source/implicit/imp_solv.F    
-Chd|        DEALLOCM                      source/implicit/imp_solv.F    
-Chd|        DIM_INT_K                     source/implicit/ind_glob_k.F  
-Chd|        DIS_CP                        source/implicit/imp_solv.F    
-Chd|        DU_INI_HP                     source/implicit/imp_solv.F    
-Chd|        DYNA_CPK0                     source/implicit/imp_dyna.F    
-Chd|        DYNA_CPR0                     source/implicit/imp_dyna.F    
-Chd|        DYNA_INA                      source/implicit/imp_dyna.F    
-Chd|        DYNA_WEX                      source/implicit/imp_dyna.F    
-Chd|        ETFAC_INI                     source/implicit/imp_init.F    
-Chd|        FIL_SPAN1                     source/implicit/ind_glob_k.F  
-Chd|        FORCE_IMP                     source/loads/general/force_imp.F
-Chd|        FVBC_IMPL1                    source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_DD0                        source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_FINT0                      source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_IMP                        source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_IMP1                       source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_RW                         source/constraints/general/impvel/fv_imp0.F
-Chd|        GETNDDLI_G                    source/mpi/implicit/imp_fri.F 
-Chd|        GET_FEXT                      source/implicit/imp_solv.F    
-Chd|        GET_NSPC                      source/constraints/general/bcs/bc_imp0.F
-Chd|        GRAVIT_IMP                    source/loads/general/grav/gravit_imp.F
-Chd|        IDDL2NOD                      source/implicit/recudis.F     
-Chd|        IDEL_INT                      source/implicit/ind_glob_k.F  
-Chd|        IMP_B2A                       source/implicit/imp_solv.F    
-Chd|        IMP_CHECK                     source/implicit/imp_solv.F    
-Chd|        IMP_CHECM                     source/implicit/imp_solv.F    
-Chd|        IMP_DTKIN                     source/implicit/imp_int_k.F   
-Chd|        IMP_DTN                       source/implicit/imp_dt.F      
-Chd|        IMP_DYKV                      source/implicit/imp_dyna.F    
-Chd|        IMP_DYKV0                     source/implicit/imp_dyna.F    
-Chd|        IMP_DYNAM                     source/implicit/imp_dyna.F    
-Chd|        IMP_FR7I                      source/mpi/implicit/imp_fri.F 
-Chd|        IMP_GLOB_KHP                  source/implicit/imp_glob_k.F  
-Chd|        IMP_INTFR                     source/implicit/imp_solv.F    
-Chd|        IMP_INTTD0                    source/implicit/imp_int_k.F   
-Chd|        IMP_INT_K                     source/implicit/imp_int_k.F   
-Chd|        IMP_KPRES                     source/implicit/imp_glob_k.F  
-Chd|        IMP_MUMPS1                    source/implicit/imp_mumps.F   
-Chd|        IMP_QIFAM                     source/implicit/imp_dyna.F    
-Chd|        IMP_SETB                      source/implicit/imp_setb.F    
-Chd|        IMP_STOP                      source/implicit/imp_solv.F    
-Chd|        IND_FRKD                      source/mpi/implicit/imp_fri.F 
-Chd|        IND_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|        IND_INT_K                     source/implicit/ind_glob_k.F  
-Chd|        INI_BMINMA_IMP                source/implicit/imp_solv.F    
-Chd|        INI_K0H                       source/implicit/imp_solv.F    
-Chd|        INI_KIC                       source/implicit/imp_solv.F    
-Chd|        INI_KIF                       source/implicit/imp_solv.F    
-Chd|        INT5_DIVERG                   source/implicit/imp_solv.F    
-Chd|        INTEGRATOR1_HP                source/implicit/integrator.F  
-Chd|        INTEGRATORL_HP                source/implicit/integrator.F  
-Chd|        INTEGRATOR_HP                 source/implicit/integrator.F  
-Chd|        KIN_KNL                       source/implicit/imp_int_k.F   
-Chd|        K_BAND                        source/implicit/imp_solv.F    
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
-Chd|        MONV_IMP                      source/airbag/monv_imp0.F     
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        M_LNZ                         source/implicit/imp_solv.F    
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
-Chd|        PRODUT_HP                     source/implicit/produt_v.F    
-Chd|        PRODUT_UHP0                   source/implicit/produt_v.F    
-Chd|        PR_INFOK                      source/implicit/imp_solv.F    
-Chd|        PR_SOLNFO                     source/implicit/imp_solv.F    
-Chd|        PUT_NSPC                      source/constraints/general/bcs/bc_imp0.F
-Chd|        QSTAT_INI                     source/implicit/imp_dyna.F    
-Chd|        RECUKIN                       source/implicit/recudis.F     
-Chd|        RER02                         source/implicit/upd_glob_k.F  
-Chd|        RGWAL0_IMP                    source/constraints/general/rwall/rgwal0.F
-Chd|        SAVE_KIF                      source/implicit/imp_solv.F    
-Chd|        SAV_INTTD                     source/implicit/imp_int_k.F   
-Chd|        SPBRM_PRE                     source/implicit/imp_solv.F    
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
-Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_MIN_I                    source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_MIN_S                    source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_SUMF_A                   source/mpi/implicit/imp_spmd.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        UPD_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F  
-Chd|        UPD_RHS                       source/implicit/upd_glob_k.F  
-Chd|        VAXPY_HP                      source/implicit/produt_v.F    
-Chd|        VSCALY_HP                     source/implicit/produt_v.F    
-Chd|        WEIGHTDDL                     source/implicit/recudis.F     
-Chd|        ZERO1                         source/system/zero.F          
-Chd|        ZEROR_HP                      source/implicit/produt_v.F    
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
-Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F 
-Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
-Chd|        IMP_WORKI                     share/modules/impbufdef_mod.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_solv         ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol            ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret            ../engine/source/system/arret.F
+      !||    bfgs_ini         ../engine/source/implicit/imp_bfgs.F
+      !||    cfield_imp       ../engine/source/loads/general/load_centri/cfield_imp.F
+      !||    condens_b        ../engine/source/implicit/upd_glob_k.F
+      !||    cp_impbuf        ../engine/source/implicit/produt_v.F
+      !||    cp_int_hp        ../engine/source/implicit/produt_v.F
+      !||    cp_real_hp       ../engine/source/implicit/produt_v.F
+      !||    crit_llim        ../engine/source/implicit/imp_solv.F
+      !||    deallocm         ../engine/source/implicit/imp_solv.F
+      !||    dim_int_k        ../engine/source/implicit/ind_glob_k.F
+      !||    dis_cp           ../engine/source/implicit/imp_solv.F
+      !||    du_ini_hp        ../engine/source/implicit/imp_solv.F
+      !||    dyna_cpk0        ../engine/source/implicit/imp_dyna.F
+      !||    dyna_cpr0        ../engine/source/implicit/imp_dyna.F
+      !||    dyna_ina         ../engine/source/implicit/imp_dyna.F
+      !||    dyna_wex         ../engine/source/implicit/imp_dyna.F
+      !||    etfac_ini        ../engine/source/implicit/imp_init.F
+      !||    fil_span1        ../engine/source/implicit/ind_glob_k.F
+      !||    force_imp        ../engine/source/loads/general/force_imp.F
+      !||    fv_dd0           ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fv_fint0         ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fv_imp           ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fv_imp1          ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fv_rw            ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fvbc_impl1       ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    get_fext         ../engine/source/implicit/imp_solv.F
+      !||    get_nspc         ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    getnddli_g       ../engine/source/mpi/implicit/imp_fri.F
+      !||    gravit_imp       ../engine/source/loads/general/grav/gravit_imp.F
+      !||    iddl2nod         ../engine/source/implicit/recudis.F
+      !||    idel_int         ../engine/source/implicit/ind_glob_k.F
+      !||    imp_b2a          ../engine/source/implicit/imp_solv.F
+      !||    imp_check        ../engine/source/implicit/imp_solv.F
+      !||    imp_checm        ../engine/source/implicit/imp_solv.F
+      !||    imp_dtkin        ../engine/source/implicit/imp_int_k.F
+      !||    imp_dtn          ../engine/source/implicit/imp_dt.F
+      !||    imp_dykv         ../engine/source/implicit/imp_dyna.F
+      !||    imp_dykv0        ../engine/source/implicit/imp_dyna.F
+      !||    imp_dynam        ../engine/source/implicit/imp_dyna.F
+      !||    imp_fr7i         ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_glob_khp     ../engine/source/implicit/imp_glob_k.F
+      !||    imp_int_k        ../engine/source/implicit/imp_int_k.F
+      !||    imp_intfr        ../engine/source/implicit/imp_solv.F
+      !||    imp_inttd0       ../engine/source/implicit/imp_int_k.F
+      !||    imp_kpres        ../engine/source/implicit/imp_glob_k.F
+      !||    imp_mumps1       ../engine/source/implicit/imp_mumps.F
+      !||    imp_qifam        ../engine/source/implicit/imp_dyna.F
+      !||    imp_setb         ../engine/source/implicit/imp_setb.F
+      !||    imp_stop         ../engine/source/implicit/imp_solv.F
+      !||    ind_frkd         ../engine/source/mpi/implicit/imp_fri.F
+      !||    ind_glob_k       ../engine/source/implicit/ind_glob_k.F
+      !||    ind_int_k        ../engine/source/implicit/ind_glob_k.F
+      !||    ini_bminma_imp   ../engine/source/implicit/imp_solv.F
+      !||    ini_k0h          ../engine/source/implicit/imp_solv.F
+      !||    ini_kic          ../engine/source/implicit/imp_solv.F
+      !||    ini_kif          ../engine/source/implicit/imp_solv.F
+      !||    int5_diverg      ../engine/source/implicit/imp_solv.F
+      !||    integrator1_hp   ../engine/source/implicit/integrator.F
+      !||    integrator_hp    ../engine/source/implicit/integrator.F
+      !||    integratorl_hp   ../engine/source/implicit/integrator.F
+      !||    k_band           ../engine/source/implicit/imp_solv.F
+      !||    kin_knl          ../engine/source/implicit/imp_int_k.F
+      !||    lin_solv         ../engine/source/implicit/lin_solv.F
+      !||    m_lnz            ../engine/source/implicit/imp_solv.F
+      !||    monv_imp         ../engine/source/airbag/monv_imp0.F
+      !||    my_barrier       ../engine/source/system/machine.F
+      !||    nl_solv          ../engine/source/implicit/nl_solv.F
+      !||    pr_infok         ../engine/source/implicit/imp_solv.F
+      !||    pr_solnfo        ../engine/source/implicit/imp_solv.F
+      !||    produt_hp        ../engine/source/implicit/produt_v.F
+      !||    produt_uhp0      ../engine/source/implicit/produt_v.F
+      !||    put_nspc         ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    qstat_ini        ../engine/source/implicit/imp_dyna.F
+      !||    recukin          ../engine/source/implicit/recudis.F
+      !||    rer02            ../engine/source/implicit/upd_glob_k.F
+      !||    rgwal0_imp       ../engine/source/constraints/general/rwall/rgwal0.F
+      !||    sav_inttd        ../engine/source/implicit/imp_int_k.F
+      !||    save_kif         ../engine/source/implicit/imp_solv.F
+      !||    spb_rm_rig       ../engine/source/implicit/imp_solv.F
+      !||    spbrm_pre        ../engine/source/implicit/imp_solv.F
+      !||    spmd_max_i       ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_min_i       ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_min_s       ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_sumf_a      ../engine/source/mpi/implicit/imp_spmd.F
+      !||    startime         ../engine/source/system/timer.F
+      !||    stoptime         ../engine/source/system/timer.F
+      !||    upd_fr_k         ../engine/source/mpi/implicit/imp_fri.F
+      !||    upd_glob_k       ../engine/source/implicit/upd_glob_k.F
+      !||    upd_rhs          ../engine/source/implicit/upd_glob_k.F
+      !||    vaxpy_hp         ../engine/source/implicit/produt_v.F
+      !||    vscaly_hp        ../engine/source/implicit/produt_v.F
+      !||    weightddl        ../engine/source/implicit/recudis.F
+      !||    zero1            ../engine/source/system/zero.F
+      !||    zeror_hp         ../engine/source/implicit/produt_v.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod        ../engine/share/modules/drape_mod.F
+      !||    dsgraph_mod      ../engine/share/modules/dsgraph_mod.F
+      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod     ../common_source/modules/groupdef_mod.F
+      !||    h3d_mod          ../engine/share/modules/h3d_mod.F
+      !||    imp_lintf        ../engine/share/modules/impbufdef_mod.F
+      !||    imp_pcg_proj     ../engine/share/modules/impbufdef_mod.F
+      !||    imp_worki        ../engine/share/modules/impbufdef_mod.F
+      !||    impbufdef_mod    ../engine/share/modules/impbufdef_mod.F
+      !||    message_mod      ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F
+      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    skew_mod         ../common_source/modules/skew_mod.F90
+      !||    stack_mod        ../engine/share/modules/stack_mod.F
+      !||    th_surf_mod      ../common_source/modules/interfaces/th_surf_mod.F
+      !||====================================================================
       SUBROUTINE IMP_SOLV(
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
@@ -1974,20 +1976,21 @@ c
 C endif MUMPS defined
 #endif
       END
-Chd|====================================================================
-Chd|  IMP_STOP                      source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_CHECK                     source/implicit/imp_solv.F    
-Chd|        IMP_ERRMUMPS                  source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|        M36ITER_IMP                   source/materials/mat/mat036/m36iter_imp.F
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MY_FLUSH                      source/system/machine.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_stop       ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_check      ../engine/source/implicit/imp_solv.F
+      !||    imp_errmumps   ../engine/source/implicit/imp_solv.F
+      !||    imp_solv       ../engine/source/implicit/imp_solv.F
+      !||    m36iter_imp    ../engine/source/materials/mat/mat036/m36iter_imp.F
+      !||    nl_solv        ../engine/source/implicit/nl_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../engine/source/output/message/message.F
+      !||    arret          ../engine/source/system/arret.F
+      !||    my_flush       ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE IMP_STOP(ISTOP)
 C-----------------------------------------------
 C   M o d u l e s
@@ -2033,13 +2036,13 @@ C------------------------------------------
         RETURN
       END
 C------------------------------------------
-Chd|====================================================================
-Chd|  IMP_CHECK                     source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        IMP_STOP                      source/implicit/imp_solv.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_check   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv    ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    imp_stop    ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE IMP_CHECK(ITAB  ,NDDL  ,IDDL  ,DIAG_K  ,NDOF  ,
      .                     IKC   ,INLOC ,NDDL0 )
 C-----------------------------------------------
@@ -2127,15 +2130,15 @@ C
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  PR_INFOK                      source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_K_EIG                     stub/imp_k_eig.F              
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        SPMD_INF_G                    source/mpi/implicit/imp_spmd.F
-Chd|====================================================================
+      !||====================================================================
+      !||    pr_infok     ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_chkm     ../engine/source/implicit/imp_solv.F
+      !||    imp_k_eig    ../engine/stub/imp_k_eig.F
+      !||    imp_solv     ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_inf_g   ../engine/source/mpi/implicit/imp_spmd.F
+      !||====================================================================
       SUBROUTINE PR_INFOK(NDDL0,NNZK0,NDDL,NNZK,NNMAX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2238,15 +2241,14 @@ C          IF (L_LIM==0) L_LIM=NDDLG
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  K_BAND                        source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|        IND_SPA2                      source/implicit/ind_glob_k.F  
-Chd|        IND_SPAN                      source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    k_band     ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_chkm   ../engine/source/implicit/imp_solv.F
+      !||    imp_solv   ../engine/source/implicit/imp_solv.F
+      !||    ind_spa2   ../engine/source/implicit/ind_glob_k.F
+      !||    ind_span   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE K_BAND(NDDL,IADK,JDIK,NDMAX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2277,15 +2279,15 @@ C
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  M_LNZ                         source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        DIM_SUBNZ                     source/implicit/imp_solv.F    
-Chd|        SP_STAT0                      source/implicit/imp_fsa_inv.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    m_lnz       ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_chkm    ../engine/source/implicit/imp_solv.F
+      !||    imp_solv    ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    dim_subnz   ../engine/source/implicit/imp_solv.F
+      !||    sp_stat0    ../engine/source/implicit/imp_fsa_inv.F
+      !||====================================================================
       SUBROUTINE M_LNZ(NDDL,IADK,JDIK,NDMAX,NLMAX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2309,13 +2311,13 @@ C------------------------------------------
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  DIM_SUBNZ                     source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        M_LNZ                         source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        INTAB0                        source/implicit/imp_fsa_inv.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_subnz   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    m_lnz       ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    intab0      ../engine/source/implicit/imp_fsa_inv.F
+      !||====================================================================
       SUBROUTINE DIM_SUBNZ(IADK  ,JDIK  ,NC    ,JM    , NNZA  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2348,12 +2350,11 @@ C--------------------------------------------
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  IMP_CHECM                     source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_checm   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv    ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE IMP_CHECM(ITAB  ,NDDL  ,IDDL  ,DIAG_M  ,NDOF  ,
      .                     IKC   ,INLOC ,NDDL0 )
 C-----------------------------------------------
@@ -2434,12 +2435,11 @@ C
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  IMP_B2A                       source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_b2a    ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv   ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE IMP_B2A(F     ,M      ,IDDL   ,NDOF  ,B  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2474,13 +2474,13 @@ C------------------------------------------
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  INI_KIF                       source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    ini_kif     ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv    ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_lintf   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE INI_KIF
 C-----------------------------------------------
 C   M o d u l e s
@@ -2498,15 +2498,16 @@ C-----------------------------------------------
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  SAVE_KIF                      source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        CP_INT                        source/implicit/produt_v.F    
-Chd|        CP_REAL                       source/implicit/produt_v.F    
-Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    save_kif    ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv    ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    cp_int      ../engine/source/implicit/produt_v.F
+      !||    cp_real     ../engine/source/implicit/produt_v.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_lintf   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE SAVE_KIF(NDDL  ,IADK  ,JDIK  ,DIAG_K,LT_K   ,
      1                    ITOK  ,NDDLG)
 C-----------------------------------------------
@@ -2611,13 +2612,13 @@ C
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  DIAG_KIF                      source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
-Chd|-- calls ---------------
-Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    diag_kif    ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    lin_solv    ../engine/source/implicit/lin_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_lintf   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE DIAG_KIF(DIAG_K)
 C-----------------------------------------------
 C   M o d u l e s
@@ -2646,16 +2647,16 @@ C-----------------------------
 C-----------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  MATV_KIF                      source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        MAV_LT2                       source/implicit/produt_v.F    
-Chd|        MAV_LTH                       source/implicit/produt_v.F    
-Chd|        MAV_LTH0                      source/implicit/produt_v.F    
-Chd|        MAV_LTP                       source/implicit/produt_v.F    
-Chd|-- calls ---------------
-Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    matv_kif    ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    mav_lt2     ../engine/source/implicit/produt_v.F
+      !||    mav_lth     ../engine/source/implicit/produt_v.F
+      !||    mav_lth0    ../engine/source/implicit/produt_v.F
+      !||    mav_ltp     ../engine/source/implicit/produt_v.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_lintf   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE MATV_KIF(V,W)
 C-----------------------------------------------
 C   M o d u l e s
@@ -2693,13 +2694,12 @@ c        W(II) = W(II) +DIAG_IF(I)*V(II)
 C-----------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  IMP_CPRE                      source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        BUF_DIM                       source/implicit/produt_v.F    
-Chd|        CP_REAL                       source/implicit/produt_v.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_cpre   ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    buf_dim    ../engine/source/implicit/produt_v.F
+      !||    cp_real    ../engine/source/implicit/produt_v.F
+      !||====================================================================
       SUBROUTINE IMP_CPRE(IFLAG,NNDL   ,
      1  ELBUF  ,ELBUF_C,BUFMAT ,FSAV   ,VOLMON  ,BUFMAT_C,X     ,X_C   ,
      2  PARTSAV,R_IMP  )
@@ -2749,16 +2749,16 @@ C--------------Iflag= 1->copy; 2 ->restore---------------
 C-----------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  IMP_CHECK0                    source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_SEND_VR                  source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_SUM_S                    source/mpi/implicit/imp_spmd.F
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_check0     ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_chkm       ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_max_i     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_send_vr   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_sum_s     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_sumf_v    ../engine/source/mpi/implicit/imp_spmd.F
+      !||====================================================================
       SUBROUTINE IMP_CHECK0(ITAB  ,NDDL  ,IDDL  ,DIAG_K  ,DIAG_M  ,
      .                      NDOF  ,IKC   ,INLOC ,NDDL0   ,NIR     ,
      .                      NDDLI ,ITOK  ,DIAG_I,IWAR    ,IERR    )
@@ -2902,16 +2902,16 @@ C------------------------------------------
  1001   FORMAT(' NODE NUM. =',I10,5X,'TRA_DIR = ',1A,5X,'VAL.= ',G14.7)
  1002   FORMAT(' NODE NUM. =',I10,5X,'ROT_DIR = ',1A,5X,'VAL.= ',G14.7)
       END
-Chd|====================================================================
-Chd|  IMP_CHECM0                    source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        FR_DLFT                       source/mpi/implicit/imp_fri.F 
-Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_SEND_VR                  source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_SUM_S                    source/mpi/implicit/imp_spmd.F
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_checm0     ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_chkm       ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    fr_dlft        ../engine/source/mpi/implicit/imp_fri.F
+      !||    spmd_max_i     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_send_vr   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_sum_s     ../engine/source/mpi/implicit/imp_spmd.F
+      !||====================================================================
       SUBROUTINE IMP_CHECM0(ITAB  ,NDDL  ,IDDL  ,DIAG_M  ,NDOF  ,
      .                      IKC   ,INLOC ,NDDL0 ,IWAR    ,IERR  )
 C-----------------------------------------------
@@ -3054,61 +3054,63 @@ C------------------------------------------
  1002   FORMAT(' NODE NUM. =',I10,5X,'ROT_DIR = ',1A,5X,'VAL.= ',G14.7)
  1003   FORMAT(/,' LOOK AT CONNECTIVITY FOR NODE NUM. =',I10)
       END
-Chd|====================================================================
-Chd|  IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        CFIELD_IMP                    source/loads/general/load_centri/cfield_imp.F
-Chd|        DIM_INT_K                     source/implicit/ind_glob_k.F  
-Chd|        FORCE_IMP                     source/loads/general/force_imp.F
-Chd|        FV_IMP                        source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_IMP1                       source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_RW                         source/constraints/general/impvel/fv_imp0.F
-Chd|        GRAVIT_IMP                    source/loads/general/grav/gravit_imp.F
-Chd|        IDEL_INT                      source/implicit/ind_glob_k.F  
-Chd|        IMP_CHECK0                    source/implicit/imp_solv.F    
-Chd|        IMP_CHECM0                    source/implicit/imp_solv.F    
-Chd|        IMP_COMPAB                    source/implicit/imp_solv.F    
-Chd|        IMP_COMPABP                   source/implicit/imp_solv.F    
-Chd|        IMP_DYNAM                     source/implicit/imp_dyna.F    
-Chd|        IMP_FR7I                      source/mpi/implicit/imp_fri.F 
-Chd|        IMP_FRFV                      source/mpi/implicit/imp_fri.F 
-Chd|        IMP_FRI                       source/mpi/implicit/imp_fri.F 
-Chd|        IMP_GLOB_KHP                  source/implicit/imp_glob_k.F  
-Chd|        IMP_INT_K                     source/implicit/imp_int_k.F   
-Chd|        IMP_SETB                      source/implicit/imp_setb.F    
-Chd|        IND_INT_K                     source/implicit/ind_glob_k.F  
-Chd|        INI_K0H                       source/implicit/imp_solv.F    
-Chd|        K_BAND                        source/implicit/imp_solv.F    
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        M_LNZ                         source/implicit/imp_solv.F    
-Chd|        PRODUT_W                      source/implicit/produt_v.F    
-Chd|        PR_INFOK                      source/implicit/imp_solv.F    
-Chd|        PVP_K                         source/implicit/imp_solv.F    
-Chd|        RGWAL0_IMP                    source/constraints/general/rwall/rgwal0.F
-Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_MIN_S                    source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_SUMF_A                   source/mpi/implicit/imp_spmd.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        UPD_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F  
-Chd|        UPD_RHS                       source/implicit/upd_glob_k.F  
-Chd|        WEIGHTDDL                     source/implicit/recudis.F     
-Chd|        ZERO1                         source/system/zero.F          
-Chd|        ZEROR                         source/system/zero.F          
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
-Chd|        IMP_WORKI                     share/modules/impbufdef_mod.F 
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    cfield_imp      ../engine/source/loads/general/load_centri/cfield_imp.F
+      !||    dim_int_k       ../engine/source/implicit/ind_glob_k.F
+      !||    force_imp       ../engine/source/loads/general/force_imp.F
+      !||    fv_imp          ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fv_imp1         ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fv_rw           ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    gravit_imp      ../engine/source/loads/general/grav/gravit_imp.F
+      !||    idel_int        ../engine/source/implicit/ind_glob_k.F
+      !||    imp_check0      ../engine/source/implicit/imp_solv.F
+      !||    imp_checm0      ../engine/source/implicit/imp_solv.F
+      !||    imp_compab      ../engine/source/implicit/imp_solv.F
+      !||    imp_compabp     ../engine/source/implicit/imp_solv.F
+      !||    imp_dynam       ../engine/source/implicit/imp_dyna.F
+      !||    imp_fr7i        ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_frfv        ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_fri         ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_glob_khp    ../engine/source/implicit/imp_glob_k.F
+      !||    imp_int_k       ../engine/source/implicit/imp_int_k.F
+      !||    imp_setb        ../engine/source/implicit/imp_setb.F
+      !||    ind_int_k       ../engine/source/implicit/ind_glob_k.F
+      !||    ini_k0h         ../engine/source/implicit/imp_solv.F
+      !||    k_band          ../engine/source/implicit/imp_solv.F
+      !||    lin_solv        ../engine/source/implicit/lin_solv.F
+      !||    m_lnz           ../engine/source/implicit/imp_solv.F
+      !||    my_barrier      ../engine/source/system/machine.F
+      !||    pr_infok        ../engine/source/implicit/imp_solv.F
+      !||    produt_w        ../engine/source/implicit/produt_v.F
+      !||    pvp_k           ../engine/source/implicit/imp_solv.F
+      !||    rgwal0_imp      ../engine/source/constraints/general/rwall/rgwal0.F
+      !||    spmd_max_i      ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_min_s      ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_sumf_a     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    startime        ../engine/source/system/timer.F
+      !||    stoptime        ../engine/source/system/timer.F
+      !||    upd_fr_k        ../engine/source/mpi/implicit/imp_fri.F
+      !||    upd_glob_k      ../engine/source/implicit/upd_glob_k.F
+      !||    upd_rhs         ../engine/source/implicit/upd_glob_k.F
+      !||    weightddl       ../engine/source/implicit/recudis.F
+      !||    zero1           ../engine/source/system/zero.F
+      !||    zeror           ../engine/source/system/zero.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod       ../engine/share/modules/drape_mod.F
+      !||    dsgraph_mod     ../engine/share/modules/dsgraph_mod.F
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||    imp_worki       ../engine/share/modules/impbufdef_mod.F
+      !||    impbufdef_mod   ../engine/share/modules/impbufdef_mod.F
+      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||    skew_mod        ../common_source/modules/skew_mod.F90
+      !||    stack_mod       ../engine/share/modules/stack_mod.F
+      !||    th_surf_mod     ../common_source/modules/interfaces/th_surf_mod.F
+      !||====================================================================
       SUBROUTINE IMP_CHKM(
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
@@ -3722,13 +3724,13 @@ C    /---------------/
         RETURN
 #endif
       END
-Chd|====================================================================
-Chd|  IMP_COMPAB                    source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_compab      ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE IMP_COMPAB(
      1    ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
      2    TF        ,VEL       ,NSENSOR   ,SENSOR_TAB,XFRAME    ,
@@ -4114,16 +4116,17 @@ C--------rwall---------
      .          ' INCOMPABLE OPTIONS**'/)
 #endif
       END
-Chd|====================================================================
-Chd|  IMP_COMPABP                   source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_SEND_VI                  source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_SUM_S                    source/mpi/implicit/imp_spmd.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_compabp     ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_max_i      ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_send_vi    ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_sum_s      ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE IMP_COMPABP(
      1    ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
      2    TF        ,VEL       ,NSENSOR   ,SENSOR_TAB,XFRAME    ,
@@ -4652,14 +4655,14 @@ C endif MUMPS defined
 #endif
       END
 
-Chd|====================================================================
-Chd|  IMP_FOUT                      source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_fout        ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||    impbufdef_mod   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE IMP_FOUT(
      1          FANI     ,A        ,AR       ,NFIA      ,NFEA       ,
      2          NODFT    ,NODLT    ,H3D_DATA ,IMPBUF_TAB)
@@ -4711,13 +4714,13 @@ C-------------mis  zero Fint des noeuds dependants------------
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  IMP_FANII                     source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_fanii   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol       ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod     ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE IMP_FANII(
      1          FANI     ,FINT     ,NFIA      ,NODFT    ,NODLT    ,
      2          H3D_DATA )
@@ -4758,13 +4761,13 @@ C---
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  IMP_FANIE                     source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_fanie   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol       ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod     ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE IMP_FANIE(
      1          FANI   ,FEXT   ,NFIA   ,NFEA     ,NODFT    ,NODLT    ,
      2          H3D_DATA )
@@ -4812,14 +4815,14 @@ C---
         ENDIF
         RETURN
       END
-Chd|====================================================================
-Chd|  INI_KIC                       source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    ini_kic    ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_buck   ../engine/source/implicit/imp_buck.F
+      !||    imp_solv   ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm   ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE INI_KIC
 C-----------------------------------------------
 C   M o d u l e s
@@ -4839,13 +4842,13 @@ C-----------------------------------------------
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  DEALLOCM                      source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        IMP_KNON                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    deallocm   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv   ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_knon   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE DEALLOCM
 C-----------------------------------------------
 C   M o d u l e s
@@ -4877,21 +4880,22 @@ C------------------------------------------
         RETURN
       END
 
-Chd|====================================================================
-Chd|  DEALLOCM_IMP                  source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        FVBC_DEALLO                   source/constraints/general/impvel/fv_imp0.F
-Chd|        SPMD_MUMPS_DEAL               source/mpi/implicit/imp_spmd.F
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
-Chd|        IMP_KBCS                      share/modules/impbufdef_mod.F 
-Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
-Chd|        IMP_QSTAT                     share/modules/impbufdef_mod.F 
-Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
-Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    deallocm_imp      ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol             ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    fvbc_deallo       ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    spmd_mumps_deal   ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs          ../engine/share/modules/impbufdef_mod.F
+      !||    imp_dyna          ../engine/share/modules/impbufdef_mod.F
+      !||    imp_kbcs          ../engine/share/modules/impbufdef_mod.F
+      !||    imp_pcg_proj      ../engine/share/modules/impbufdef_mod.F
+      !||    imp_qstat         ../engine/share/modules/impbufdef_mod.F
+      !||    imp_spbrm         ../engine/share/modules/impbufdef_mod.F
+      !||    imp_workh         ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE DEALLOCM_IMP(MUMPS_PAR)
 C-----------------------------------------------
 C   M o d u l e s
@@ -4996,12 +5000,11 @@ C------------------------------------------
         RETURN
 #endif
       END
-Chd|====================================================================
-Chd|  CRIT_LLIM                     source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    crit_llim   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv    ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE CRIT_LLIM(NDDL,NNZK)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -5040,19 +5043,20 @@ C--------take into account to parallel capacities of PCG---
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  INI_K0H                       source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        DIM_SPAN                      source/implicit/ind_glob_k.F  
-Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
-Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ini_k0h        ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_chkm       ../engine/source/implicit/imp_solv.F
+      !||    imp_solv       ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../engine/source/output/message/message.F
+      !||    arret          ../engine/source/system/arret.F
+      !||    dim_span       ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_pcg_proj   ../engine/share/modules/impbufdef_mod.F
+      !||    imp_workh      ../engine/share/modules/impbufdef_mod.F
+      !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INI_K0H(NDDL,NNZ,NNZM,IADK,JDIK)
 C-----------------------------------------------
 C   M o d u l e s
@@ -5121,16 +5125,15 @@ C
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  SET_KSYM                      source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
-Chd|        LIN_SOLVH0                    source/implicit/lin_solv.F    
-Chd|        LIN_SOLVH1                    source/implicit/lin_solv.F    
-Chd|        LIN_SOLVHM                    source/implicit/lin_solv.F    
-Chd|        LIN_SOLVIH2                   source/implicit/lin_solv.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    set_ksym      ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    lin_solv      ../engine/source/implicit/lin_solv.F
+      !||    lin_solvh0    ../engine/source/implicit/lin_solv.F
+      !||    lin_solvh1    ../engine/source/implicit/lin_solv.F
+      !||    lin_solvhm    ../engine/source/implicit/lin_solv.F
+      !||    lin_solvih2   ../engine/source/implicit/lin_solv.F
+      !||====================================================================
       SUBROUTINE SET_KSYM(NDDL,IADK,JDIK,LT_K,IADK0,JDIK0,LT_K0)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -5174,16 +5177,16 @@ C
         RETURN
       END
 
-Chd|====================================================================
-Chd|  GET_FEXT                      source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        CONDENS_B                     source/implicit/upd_glob_k.F  
-Chd|        IMP_SETBA                     source/implicit/imp_setb.F    
-Chd|        IMP_SETBP                     source/implicit/imp_setb.F    
-Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_fext      ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv      ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    condens_b     ../engine/source/implicit/upd_glob_k.F
+      !||    imp_setba     ../engine/source/implicit/imp_setb.F
+      !||    imp_setbp     ../engine/source/implicit/imp_setb.F
+      !||    spmd_sumf_v   ../engine/source/mpi/implicit/imp_spmd.F
+      !||====================================================================
       SUBROUTINE GET_FEXT(NDDL0 ,NDDL   ,IDDL   ,NDOF   ,IKC   ,
      1                    INLOC ,LB     ,FEXT   ,AC     ,ACR   )
 C-----------------------------------------------
@@ -5234,12 +5237,11 @@ C -------------------------------
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  RE2INT5                       source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    re2int5   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol     ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE RE2INT5(NT_IMP,NUMIMP,NS_IMP,NE_IMP,NUMIMPL,
      1                   IPARI ,NT_IMP0)
 C-----------------------------------------------
@@ -5330,13 +5332,13 @@ C
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  RE2INT7                       source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        IMP_STIF24                    source/implicit/imp_solv.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    re2int7      ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol        ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    imp_stif24   ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE RE2INT7(NT_IMP,NUMIMP,NS_IMP,NE_IMP,IND_IMP,
      1                   NUMIMPL,IPARI,NT_IMP0)
 C-----------------------------------------------
@@ -5430,12 +5432,11 @@ C-------int24, Istif=6
         CALL IMP_STIF24(NUMIMP  ,IPARI   )
         RETURN
       END
-Chd|====================================================================
-Chd|  DU_INI                        source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    du_ini     ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_dyna   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE DU_INI(NODFT ,NODLT  ,DN     ,DNR    ,DD    ,
      1                  DDR   ,IDIV   ,ICONT0 )
 C-----------------------------------------------
@@ -5520,13 +5521,12 @@ C
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  PR_DEB                        source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        IMP_FRK                       share/modules/impbufdef_mod.F 
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    pr_deb     ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_frk    ../engine/share/modules/impbufdef_mod.F
+      !||    imp_intm   ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE PR_DEB(NDDL  ,IDDL  ,NDOF   ,IKC   ,ITAB   ,
      1                  DIAG_K,DIAG_M,INLOC  ,FR_ELEM,IAD_ELEM,
      2                  IADK  ,JDIK  ,LT_K   ,LT_M   ,NDDLI  ,
@@ -5783,12 +5783,11 @@ c          ND=ND+1
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  PR_MATRIX                     source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        IMP_FRK                       share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    pr_matrix   ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_frk     ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE PR_MATRIX(NDDL  ,IDDL  ,NDOF   ,IKC   ,ITAB   ,
      1                     DIAG_K,DIAG_M,INLOC  ,FR_ELEM,IAD_ELEM,
      2                     IADK  ,JDIK  ,LT_K   ,LT_M   ,NDDLI  ,
@@ -5917,15 +5916,16 @@ c          ND=ND+1
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  PR_SOLNFO                     source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        SPMD_MAX_F                    source/mpi/implicit/imp_spmd.F
-Chd|        IMP_FRK                       share/modules/impbufdef_mod.F 
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    pr_solnfo    ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv     ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_max_f   ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_frk      ../engine/share/modules/impbufdef_mod.F
+      !||    imp_intm     ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE PR_SOLNFO(NDDL  ,IDDL  ,NDOF   ,IKC   ,ITAB   ,
      1                  DIAG_K,DIAG_M,INLOC  ,FR_ELEM,IAD_ELEM,
      2                  IADK  ,JDIK  ,LT_K   ,LT_M   ,NDDLI  ,
@@ -6322,12 +6322,11 @@ C------------------------------------------
         RETURN
       END
 
-Chd|====================================================================
-Chd|  WRITE_TPL_FILE                source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    write_tpl_file   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2         ../engine/source/engine/radioss2.F
+      !||====================================================================
       SUBROUTINE WRITE_TPL_FILE(FILNAM,IOFF1,IOFF2,IOFF3)
 C-----------------------------------------------
 C   M o d u l e s
@@ -6769,12 +6768,11 @@ C------------------------------------------
         RETURN
       END
 c
-Chd|====================================================================
-Chd|  INT5_DIVERG                   source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    int5_diverg   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv      ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE INT5_DIVERG(IPARI )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -6816,14 +6814,15 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  DIS_CP                        source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        CP_REAL                       source/implicit/produt_v.F    
-Chd|        IMP_QSTAT                     share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    dis_cp      ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv    ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    cp_real     ../engine/source/implicit/produt_v.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_qstat   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE DIS_CP(N     ,D      ,DR   ,IFLAG   )
 C-----------------------------------------------
 C   M o d u l e s
@@ -6859,29 +6858,28 @@ C------------------------------------------
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  IMP_SMPINI                    source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        B_CORRECT_HP                  source/implicit/nl_solv.F     
-Chd|        CP_INT_HP                     source/implicit/produt_v.F    
-Chd|        CP_REAL_HP                    source/implicit/produt_v.F    
-Chd|        DU_INI_HP                     source/implicit/imp_solv.F    
-Chd|        FRAC_DD_HP                    source/implicit/integrator.F  
-Chd|        FRAC_D_HP                     source/implicit/integrator.F  
-Chd|        INTEGRATOR1_HP                source/implicit/integrator.F  
-Chd|        INTEGRATOR2_HP                source/implicit/integrator.F  
-Chd|        INTEGRATORL_HP                source/implicit/integrator.F  
-Chd|        INTEGRATOR_HP                 source/implicit/integrator.F  
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
-Chd|        MUMPSLB_HP                    source/implicit/lin_solv.F    
-Chd|        PRODUT_HP                     source/implicit/produt_v.F    
-Chd|        PRODUT_UHP0                   source/implicit/produt_v.F    
-Chd|        VAXPY_HP                      source/implicit/produt_v.F    
-Chd|        VSCALY_HP                     source/implicit/produt_v.F    
-Chd|        VSCAL_HP                      source/implicit/produt_v.F    
-Chd|        ZEROR_HP                      source/implicit/produt_v.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_smpini       ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    b_correct_hp     ../engine/source/implicit/nl_solv.F
+      !||    cp_int_hp        ../engine/source/implicit/produt_v.F
+      !||    cp_real_hp       ../engine/source/implicit/produt_v.F
+      !||    du_ini_hp        ../engine/source/implicit/imp_solv.F
+      !||    frac_d_hp        ../engine/source/implicit/integrator.F
+      !||    frac_dd_hp       ../engine/source/implicit/integrator.F
+      !||    integrator1_hp   ../engine/source/implicit/integrator.F
+      !||    integrator2_hp   ../engine/source/implicit/integrator.F
+      !||    integrator_hp    ../engine/source/implicit/integrator.F
+      !||    integratorl_hp   ../engine/source/implicit/integrator.F
+      !||    lin_solv         ../engine/source/implicit/lin_solv.F
+      !||    mumpslb_hp       ../engine/source/implicit/lin_solv.F
+      !||    produt_hp        ../engine/source/implicit/produt_v.F
+      !||    produt_uhp0      ../engine/source/implicit/produt_v.F
+      !||    vaxpy_hp         ../engine/source/implicit/produt_v.F
+      !||    vscal_hp         ../engine/source/implicit/produt_v.F
+      !||    vscaly_hp        ../engine/source/implicit/produt_v.F
+      !||    zeror_hp         ../engine/source/implicit/produt_v.F
+      !||====================================================================
       SUBROUTINE IMP_SMPINI(
      1   ITSK   ,N1FTSK ,N1LTSK ,N1   )
 C-----------------------------------------------
@@ -6913,14 +6911,15 @@ C
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  DU_INI_HP                     source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        IMP_SMPINI                    source/implicit/imp_solv.F    
-Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    du_ini_hp    ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv     ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    imp_smpini   ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_dyna     ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE DU_INI_HP(DN     ,DNR    ,DD    ,
      1                     DDR   ,IDIV   ,ICONT0 )
 C-----------------------------------------------
@@ -7010,12 +7009,11 @@ C
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  PRINT_STIF                    source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    print_stif      ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE PRINT_STIF(IPARI,INTBUF_TAB,IFLAG,NN     ,JG    )
 C-----------------------------------------------
 C   M o d u l e s
@@ -7073,15 +7071,16 @@ c      end if
         END IF !(NSPMD==1) THEN
         RETURN
       END
-Chd|====================================================================
-Chd|  IMP_STIF24                    source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        RE2INT7                       source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        SPMD_ALLGLOB_ISUM9            source/mpi/generic/spmd_allglob_isum9.F
-Chd|        IMP_I7CP                      share/modules/imp_intm.F      
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_stif24           ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    re2int7              ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_i7cp             ../engine/share/modules/imp_intm.F
+      !||    tri7box              ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE IMP_STIF24(NUMIMP  ,IPARI   )
 C-----------------------------------------------
         USE TRI7BOX
@@ -7169,20 +7168,21 @@ C---------negative :rebound active
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  UPD_RHS_FR                    source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_INTFR                     source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        EXT_RHS                       source/implicit/upd_glob_k.F  
-Chd|        I2_IMPR1                      source/interfaces/interf/i2_imp1.F
-Chd|        I2_IMPR2                      source/interfaces/interf/i2_imp1.F
-Chd|        RBE2_IMPR1                    source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE3_IMPR1                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBE3_IMPR2                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBY_IMPR1                     source/constraints/general/rbody/rby_imp0.F
-Chd|        RBY_IMPR2                     source/constraints/general/rbody/rby_imp0.F
-Chd|====================================================================
+      !||====================================================================
+      !||    upd_rhs_fr      ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_intfr       ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    ext_rhs         ../engine/source/implicit/upd_glob_k.F
+      !||    i2_impr1        ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2_impr2        ../engine/source/interfaces/interf/i2_imp1.F
+      !||    rbe2_impr1      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe3_impr1      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3_impr2      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rby_impr1       ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||    rby_impr2       ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE UPD_RHS_FR(ICODT ,ICODR ,ISKEW ,IBFV    ,XFRAME ,
      1                   RBY   ,X     ,SKEW   ,LPBY   ,NPBY   ,
      2                   NRBYAC,IRBYAC,NINT2  ,IINT2  ,IPARI  ,
@@ -7275,17 +7275,18 @@ C-------------
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  IMP_INTFR                     source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        CP_REAL_HP                    source/implicit/produt_v.F    
-Chd|        IMP_FRFV                      source/mpi/implicit/imp_fri.F 
-Chd|        IMP_FRI                       source/mpi/implicit/imp_fri.F 
-Chd|        IMP_SETBA                     source/implicit/imp_setb.F    
-Chd|        UPD_RHS_FR                    source/implicit/imp_solv.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_intfr       ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv        ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    cp_real_hp      ../engine/source/implicit/produt_v.F
+      !||    imp_frfv        ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_fri         ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_setba       ../engine/source/implicit/imp_setb.F
+      !||    upd_rhs_fr      ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE IMP_INTFR(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,IPARI     ,INTBUF_TAB,
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
@@ -7398,12 +7399,12 @@ C------LB0 condensed -> LB0 original
 C----6---------------------------------------------------------------7---------8
         RETURN
       END
-Chd|====================================================================
-Chd|  INI_BMINMA_IMP                source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ini_bminma_imp   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv         ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INI_BMINMA_IMP(INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -7435,21 +7436,22 @@ C-----------------------------------------------
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  SPBRM_PRE                     source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        CGSHELL3                      source/implicit/cgshell.F     
-Chd|        CGSHELL4                      source/implicit/cgshell.F     
-Chd|        SPB_REFSH3ID                  source/implicit/imp_solv.F    
-Chd|        SPB_REFSH4ID                  source/implicit/imp_solv.F    
-Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_MIN_S                    source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_SUM_S                    source/mpi/implicit/imp_spmd.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    spbrm_pre      ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv       ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    cgshell3       ../engine/source/implicit/cgshell.F
+      !||    cgshell4       ../engine/source/implicit/cgshell.F
+      !||    spb_refsh3id   ../engine/source/implicit/imp_solv.F
+      !||    spb_refsh4id   ../engine/source/implicit/imp_solv.F
+      !||    spmd_max_i     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_min_s     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_sum_s     ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    imp_spbrm      ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE SPBRM_PRE(ITAB ,
      1    X         ,IPARG     ,IXC       ,IXTG      ,PARTSAV   ,
      2    ELBUF_TAB ,PM        ,NDOF      ,IDDL      ,IKC       )
@@ -7723,12 +7725,11 @@ C-------to get unique ref-element
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  SPB_REFSH4ID                  source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        SPBRM_PRE                     source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spb_refsh4id   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    spbrm_pre      ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE SPB_REFSH4ID(JFT,JLT,NEL,IXC,X,XC,YC,ZC,IE,
      +                        XMIN0,YMIN0,ZMIN0,DMIN)
 C-----------------------------------------------
@@ -7822,12 +7823,11 @@ c       END IF
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  SPB_REFSH3ID                  source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        SPBRM_PRE                     source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spb_refsh3id   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    spbrm_pre      ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE SPB_REFSH3ID(JFT,JLT,NEL,IXTG,X,XC,YC,ZC,IE,
      +                        XMIN0,YMIN0,ZMIN0,DMIN)
 C-----------------------------------------------
@@ -7921,23 +7921,24 @@ c       END IF
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  SPB_RM_RIG                    source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        GETIKCE                       source/implicit/imp_solv.F    
-Chd|        SPB_IEREF3                    source/implicit/imp_solv.F    
-Chd|        SPB_IEREF_BC                  source/implicit/imp_solv.F    
-Chd|        SPB_REF_NDS                   source/implicit/imp_solv.F    
-Chd|        SPB_RGMOD                     source/implicit/imp_solv.F    
-Chd|        SPMD_E_REF                    source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_N_REF                    source/mpi/implicit/imp_spmd.F
-Chd|        TRANSVG2L                     source/implicit/imp_solv.F    
-Chd|        TRANSVL2G                     source/implicit/imp_solv.F    
-Chd|        VELROT                        source/constraints/general/rbe2/rbe2v.F
-Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    spb_rm_rig     ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv       ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    getikce        ../engine/source/implicit/imp_solv.F
+      !||    spb_ieref3     ../engine/source/implicit/imp_solv.F
+      !||    spb_ieref_bc   ../engine/source/implicit/imp_solv.F
+      !||    spb_ref_nds    ../engine/source/implicit/imp_solv.F
+      !||    spb_rgmod      ../engine/source/implicit/imp_solv.F
+      !||    spmd_e_ref     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_n_ref     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    transvg2l      ../engine/source/implicit/imp_solv.F
+      !||    transvl2g      ../engine/source/implicit/imp_solv.F
+      !||    velrot         ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_spbrm      ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE SPB_RM_RIG(
      1    X         ,IXC       ,IXTG      ,NDOF      ,IDDL      ,
      2    IKC       ,D_IMP     ,DR_IMP    ,ICODT     ,ICODR     ,
@@ -8144,14 +8145,15 @@ c      END IF
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  SPB_IEREF_BC                  source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        SPMD_MIN_S                    source/mpi/implicit/imp_spmd.F
-Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    spb_ieref_bc   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    spb_rm_rig     ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_min_s     ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_spbrm      ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE SPB_IEREF_BC(
      1    X         ,IXC       ,IXTG      ,D_IMP     ,DMIN    ,
      2    NDOF      ,IDDL      ,IKC       )
@@ -8286,12 +8288,11 @@ C-------Ncycle>1
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  SPB_RGMOD                     source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spb_rgmod    ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    spb_rm_rig   ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE SPB_RGMOD(N_SEG,X_REF ,D_REF ,X  ,D  ,
      1                     X0  ,Y0  ,Z0  ,DTRA  ,DROT  )
 C-----------------------------------------------
@@ -8402,14 +8403,15 @@ C         NJ=IRECT(J)
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  SPB_IEREF3                    source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        SPMD_MIN_S                    source/mpi/implicit/imp_spmd.F
-Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    spb_ieref3   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    spb_rm_rig   ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_min_s   ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_spbrm    ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE SPB_IEREF3(
      1    X         ,IXC       ,IXTG      ,NDOF      ,IDDL      ,
      2    IKC       ,D_IMP     ,DR_IMP    ,DMIN )
@@ -8524,12 +8526,12 @@ C---- Ncycle>1
 C------------------------------------------
         RETURN
       END
-Chd|====================================================================
-Chd|  IMP_INTBUF_INI                source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        DIM_INT7                      source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_intbuf_ini   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_int7         ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE IMP_INTBUF_INI(IMP_INTBUF_TAB,NIMP)
 C-----------------------------------------------
 C   M o d u l e s
@@ -8594,13 +8596,13 @@ C-----
         RETURN
 
       END SUBROUTINE IMP_INTBUF_INI
-Chd|====================================================================
-Chd|  IMP_ERRMUMPS                  source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        SPMD_MUMPS_EXEC               source/mpi/implicit/imp_spmd.F
-Chd|-- calls ---------------
-Chd|        IMP_STOP                      source/implicit/imp_solv.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_errmumps      ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_mumps_exec   ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- calls      -----------------------------------------------------
+      !||    imp_stop          ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE IMP_ERRMUMPS(IERR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -8652,15 +8654,16 @@ C
 
 
 
-Chd|====================================================================
-Chd|  PVP_K                         source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        JACOBIEN                      source/implicit/imp_glob_k.F  
-Chd|        MINV_K                        source/implicit/imp_solv.F    
-Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    pvp_k      ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_chkm   ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    jacobien   ../engine/source/implicit/imp_glob_k.F
+      !||    minv_k     ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    ecnd_mod   ../engine/share/modules/ecdn_mod.F
+      !||====================================================================
       SUBROUTINE PVP_K(ND  ,IADK,JDIK,IDDL ,INLOC,
      .                 NDOF,ITAB,K_DIAG,K_LT ,LAMDA, NODE,MS  )
 C----6---------------------------------------------------------------7---------8
@@ -8750,13 +8753,13 @@ C---Node:N direction:J
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  MINV_K                        source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        PVP_K                         source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        JACOBIEN                      source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    minv_k     ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    pvp_k      ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    jacobien   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE MINV_K(ND  ,ICNDS10,IDDL ,INLOC,NDOF,
      .                  MS  ,TOL ,KE   )
 C----6---------------------------------------------------------------7---------8
@@ -8867,13 +8870,12 @@ C-------[K]-> [EV]^t*[K]*[EV]
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  GETIKCE                       source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        SPB_REF_NDS                   source/implicit/imp_solv.F    
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    getikce       ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    spb_ref_nds   ../engine/source/implicit/imp_solv.F
+      !||    spb_rm_rig    ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE GETIKCE(ICT ,ICR,K,IFIX )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -8938,12 +8940,11 @@ C
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  TRANSVG2L                     source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    transvg2l    ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    spb_rm_rig   ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE TRANSVG2L(SKEW  ,VG  ,VL  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -8965,12 +8966,11 @@ C----------------------------------------
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  TRANSVL2G                     source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    transvl2g    ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    spb_rm_rig   ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE TRANSVL2G(SKEW  ,VL  ,VG  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -8992,14 +8992,15 @@ C----------------------------------------
 C
         RETURN
       END
-Chd|====================================================================
-Chd|  SPB_REF_NDS                   source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        GETIKCE                       source/implicit/imp_solv.F    
-Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    spb_ref_nds   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    spb_rm_rig    ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    getikce       ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_spbrm     ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE SPB_REF_NDS(
      1    X         ,D_IMP     ,NDOF      ,IDDL      ,IKC       ,
      2    ICODT     ,ICODR     ,ISKEW     ,SKEW      )
@@ -9051,13 +9052,13 @@ C------------------------------------------
         RETURN
       END
 C
-Chd|====================================================================
-Chd|  DEALLOC_IMPBUF                source/implicit/imp_solv.F    
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    dealloc_impbuf   ../engine/source/implicit/imp_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol            ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    impbufdef_mod    ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE DEALLOC_IMPBUF(IMPBUF_TAB)
 C-----------------------------------------------
         USE IMPBUFDEF_MOD

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I12VIT3                       source/interfaces/interf/i12vit3.F
-Chd|-- called by -----------
-Chd|        INTTI12V                      source/interfaces/interf/intti12.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i12vit3    ../engine/source/interfaces/interf/i12vit3.F
+      !||--- called by ------------------------------------------------------
+      !||    intti12v   ../engine/source/interfaces/interf/intti12.F
+      !||====================================================================
       SUBROUTINE I12VIT3(NSN   , NMN,
      2 A     ,IRECT ,
      3 CRST  ,MSR   , NSV   , IRTL,

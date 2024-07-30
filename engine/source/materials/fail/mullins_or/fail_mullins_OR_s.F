@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_MULLINS_OR_S             source/materials/fail/mullins_or/fail_mullins_OR_s.F
-Chd|-- called by -----------
-Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
-Chd|-- calls ---------------
-Chd|        MULLINS_OR                    source/materials/fail/mullins_or/fail_mullins_OR_s.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_mullins_or_s   ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw               ../engine/source/materials/mat_share/mulaw.F90
+      !||    usermat_solid       ../engine/source/materials/mat_share/usermat_solid.F
+      !||--- calls      -----------------------------------------------------
+      !||    mullins_or          ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F
+      !||====================================================================
       SUBROUTINE FAIL_MULLINS_OR_S(
      1     NEL    ,NUPARAM  ,NUVAR   ,
      2     TIME   ,TIMESTEP ,UPARAM  ,NGL    ,  
@@ -114,16 +115,15 @@ c-----------------------------------------------
 c-----------           
       RETURN
       END
-Chd|====================================================================
-Chd|  MULLINS_OR                    source/materials/fail/mullins_or/fail_mullins_OR_s.F
-Chd|-- called by -----------
-Chd|        FAIL_MULLINS_OR_S             source/materials/fail/mullins_or/fail_mullins_OR_s.F
-Chd|        NEO_HOOK_T                    source/materials/mat/mat100/neo_hook_t.F
-Chd|        POLYSTRESS2                   source/materials/mat/mat100/sigpoly.F
-Chd|        POLYSTREST2                   source/materials/mat/mat100/sigpoly.F
-Chd|        SIGABOYCE                     source/materials/mat/mat100/sigaboyce.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mullins_or          ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F
+      !||--- called by ------------------------------------------------------
+      !||    fail_mullins_or_s   ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F
+      !||    neo_hook_t          ../engine/source/materials/mat/mat100/neo_hook_t.F
+      !||    polystress2         ../engine/source/materials/mat/mat100/sigpoly.F
+      !||    polystrest2         ../engine/source/materials/mat/mat100/sigpoly.F
+      !||    sigaboyce           ../engine/source/materials/mat/mat100/sigaboyce.F
+      !||====================================================================
       SUBROUTINE MULLINS_OR(
      1                NEL ,NUVAR,  COEFR,BETAF ,
      2                COEFM, WW  , UVAR, ETA )

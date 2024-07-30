@@ -20,20 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRITE_MATPARAM                source/materials/mat/write_matparam.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_FAILPARAM               source/materials/fail/write_failparam.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_MAT_TABLE               source/materials/tools/write_mat_table.F
-Chd|        WRITE_VISCPARAM               source/materials/mat/write_viscparam.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    write_matparam         ../starter/source/materials/mat/write_matparam.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_failparam        ../starter/source/materials/fail/write_failparam.F
+      !||    write_mat_table        ../starter/source/materials/tools/write_mat_table.F
+      !||    write_viscparam        ../starter/source/materials/mat/write_viscparam.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE WRITE_MATPARAM(MAT_ELEM,LEN)
 C-----------------------------------------------
 C   M o d u l e s

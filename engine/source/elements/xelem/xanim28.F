@@ -20,15 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  XANIM28                       source/elements/xelem/xanim28.F
-Chd|-- called by -----------
-Chd|        ANIMX                         source/output/anim/generate/animx.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    xanim28       ../engine/source/elements/xelem/xanim28.F
+      !||--- called by ------------------------------------------------------
+      !||    animx         ../engine/source/output/anim/generate/animx.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||    get_u_mid     ../engine/source/user_interface/upidmid.F
+      !||    get_u_mnu     ../engine/source/user_interface/upidmid.F
+      !||    get_u_pid     ../engine/source/user_interface/upidmid.F
+      !||    get_u_pnu     ../engine/source/user_interface/upidmid.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE XANIM28(NX ,UIX     ,UID     ,XEL     ,
      2              IOUT    ,IPROP   ,IMAT    ,
      3              OFF     ,MASSELE ,EINTELE ,

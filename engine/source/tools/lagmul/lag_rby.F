@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAG_RBY                       source/tools/lagmul/lag_rby.F 
-Chd|-- called by -----------
-Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
-Chd|-- calls ---------------
-Chd|        LAG_RBY_COND                  source/tools/lagmul/lag_rby_cond.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_rby        ../engine/source/tools/lagmul/lag_rby.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_mult       ../engine/source/tools/lagmul/lag_mult.F
+      !||--- calls      -----------------------------------------------------
+      !||    lag_rby_cond   ../engine/source/tools/lagmul/lag_rby_cond.F
+      !||====================================================================
       SUBROUTINE LAG_RBY(RBYL   ,NPBYL  ,LPBYL  ,MASS   ,INER   ,
      2                   IADLL  ,LLL    ,JLL    ,SLL    ,XLL    ,
      3                   COMNTAG,V      ,VR     ,A      ,AR     ,

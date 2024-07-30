@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ININTMASS                     source/interfaces/inter3d1/inintmass.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inintmass       ../starter/source/interfaces/inter3d1/inintmass.F
+      !||--- called by ------------------------------------------------------
+      !||    initia          ../starter/source/elements/initia/initia.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ININTMASS( IPARI, INTBUF_TAB, MS  ,ISTIF_DT)
 C-----------------------------------------------
 C   M o d u l e s

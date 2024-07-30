@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MATING                        source/materials/mat_share/mating.F
-Chd|-- called by -----------
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mating   ../starter/source/materials/mat_share/mating.F
+      !||--- called by ------------------------------------------------------
+      !||    matini   ../starter/source/materials/mat_share/matini.F
+      !||====================================================================
       SUBROUTINE MATING(PM   ,VOL ,OFF    ,EINT  ,RHO ,
      .                  SIG  ,IX  ,NIX    ,SIGI  ,EPSP,
      .                  NSIG ,MAT ,NUMS   ,PT    ,NEL ,

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GJNT_DIFF                     source/tools/lagmul/gjnt_diff.F
-Chd|-- called by -----------
-Chd|        LAG_GJNT                      source/tools/lagmul/lag_gjnt.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    gjnt_diff   ../engine/source/tools/lagmul/gjnt_diff.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_gjnt    ../engine/source/tools/lagmul/lag_gjnt.F
+      !||====================================================================
       SUBROUTINE GJNT_DIFF(SK     ,L1     ,L2     ,L3     ,ALPHA  ,
      2                     IADLL  ,LLL    ,JLL    ,SLL    ,XLL    ,
      3                     X      ,N0     ,N1     ,N2     ,N3     ,

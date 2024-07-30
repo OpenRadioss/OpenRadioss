@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ_ARRAY                    comm/read_array.F             
-Chd|-- called by -----------
-Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    read_array   ../common_source/comm/read_array.F
+      !||--- called by ------------------------------------------------------
+      !||    rdcomi       ../engine/source/output/restart/rdcomm.F
+      !||====================================================================
       SUBROUTINE READ_ARRAY(ARRAY,TABVINT, LVARINT, M_CHECK)
 C-----------------------------------------------
 C   Description

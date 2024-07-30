@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SOLTOSPHA                     source/elements/sph/soltospha.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        STARTIMEG                     source/system/timer.F         
-Chd|        STOPTIMEG                     source/system/timer.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SOLTOSPH_MOD                  share/modules/soltosph_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    soltospha      ../engine/source/elements/sph/soltospha.F
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../engine/source/output/message/message.F
+      !||    arret          ../engine/source/system/arret.F
+      !||    my_barrier     ../engine/source/system/machine.F
+      !||    startimeg      ../engine/source/system/timer.F
+      !||    stoptimeg      ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||    soltosph_mod   ../engine/share/modules/soltosph_mod.F
+      !||====================================================================
       SUBROUTINE SOLTOSPHA(
      1   ITASK   ,V       ,A        ,MS      ,PM      ,
      2   IPART   ,IXS     ,IPARTS   ,KXSP    ,IPARTSP ,

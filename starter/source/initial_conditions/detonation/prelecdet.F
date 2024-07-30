@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PRELECDET                     source/initial_conditions/detonation/prelecdet.F
-Chd|-- called by -----------
-Chd|        READ_DETONATORS               source/initial_conditions/detonation/read_detonators.F
-Chd|-- calls ---------------
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        NGR2USRN                      source/system/nintrr.F        
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    prelecdet            ../starter/source/initial_conditions/detonation/prelecdet.F
+      !||--- called by ------------------------------------------------------
+      !||    read_detonators      ../starter/source/initial_conditions/detonation/read_detonators.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    ngr2usrn             ../starter/source/system/nintrr.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod       ../starter/share/modules1/detonators_mod.F
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE PRELECDET(IGRNOD, LSUBMODEL, DETONATORS)
 C-----------------------------------------------
 C   M o d u l e s

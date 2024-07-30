@@ -20,14 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MERGE_CNOD_CNOD               source/model/submodel/merge_cnod_cnod.F
-Chd|-- called by -----------
-Chd|        MERGE                         source/model/submodel/merge.F 
-Chd|-- calls ---------------
-Chd|        USRTOSC                       source/model/submodel/merge.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    merge_cnod_cnod   ../starter/source/model/submodel/merge_cnod_cnod.F
+      !||--- called by ------------------------------------------------------
+      !||    merge             ../starter/source/model/submodel/merge.F
+      !||--- calls      -----------------------------------------------------
+      !||    usrtos            ../starter/source/system/sysfus.F
+      !||    usrtosc           ../starter/source/model/submodel/merge.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE MERGE_CNOD_CNOD(X      ,ITAB     ,ITABM1 ,CMERGE ,IMERGE,
      .                           IMERGE2,IADMERGE2,IMERGE0,NMERGE_TOT)
       USE MESSAGE_MOD

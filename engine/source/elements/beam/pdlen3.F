@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PDLEN3                        source/elements/beam/pdlen3.F 
-Chd|-- called by -----------
-Chd|        PFORC3                        source/elements/beam/pforc3.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pdlen3   ../engine/source/elements/beam/pdlen3.F
+      !||--- called by ------------------------------------------------------
+      !||    pforc3   ../engine/source/elements/beam/pforc3.F
+      !||====================================================================
       SUBROUTINE PDLEN3(
      1   JFT,     JLT,     PM,      GEO,
      2   OFFG,    DT2T,    NELTST,  ITYPTST,

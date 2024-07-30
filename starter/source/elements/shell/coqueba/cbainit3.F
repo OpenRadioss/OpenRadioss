@@ -20,46 +20,45 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        C1BUF3                        source/elements/shell/coque/c1buf3.F
-Chd|        CBUFXFE                       source/elements/xfem/cbufxfe.F
-Chd|        CCOORI                        source/elements/shell/coque/ccoori.F
-Chd|        CDERII                        source/elements/shell/coque/cderii.F
-Chd|        CEPSCHK                       source/elements/shell/coque/cepsini.F
-Chd|        CFAILINI                      source/elements/shell/coque/cfailini.F
-Chd|        CFAILINI4                     source/elements/shell/coque/cfailini.F
-Chd|        CINMAS                        source/elements/shell/coque/cinmas.F
-Chd|        CM35IN3                       source/materials/mat/mat035/cm35in3.F
-Chd|        CMAINI3                       source/elements/sh3n/coquedk/cmaini3.F
-Chd|        CMATINI                       source/materials/mat_share/cmatini.F
-Chd|        CMATINI4                      source/materials/mat_share/cmatini4.F
-Chd|        CNDLENI                       source/elements/shell/coqueba/cndleni.F
-Chd|        CNEPSINI                      source/elements/shell/coqueba/cnepsini.F
-Chd|        CNEVECI                       source/elements/shell/coqueba/cneveci.F
-Chd|        CORTH3                        source/elements/shell/coque/corth3.F
-Chd|        CSIGINI4                      source/elements/shell/coqueba/scigini4.F
-Chd|        CSMS11_INI                    source/elements/shell/coque/cinit3.F
-Chd|        CSTRAINI4                     source/elements/shell/coqueba/cstraini4.F
-Chd|        CUSERINI                      source/elements/shell/coque/cuserini.F
-Chd|        CUSERINI4                     source/elements/shell/coqueba/cuserini4.F
-Chd|        CVEOK3                        source/elements/shell/coque/cveok3.F
-Chd|        FAIL_WINDSHIELD_INIT          source/materials/fail/windshield_alter/fail_windshield_init.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        LAYINI1                       source/elements/shell/coqueba/layini1.F
-Chd|        THICKINI                      source/elements/shell/coqueba/thickini.F
-Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    cbainit3               ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||--- called by ------------------------------------------------------
+      !||    initia                 ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    c1buf3                 ../starter/source/elements/shell/coque/c1buf3.F
+      !||    cbufxfe                ../starter/source/elements/xfem/cbufxfe.F
+      !||    ccoori                 ../starter/source/elements/shell/coque/ccoori.F
+      !||    cderii                 ../starter/source/elements/shell/coque/cderii.F
+      !||    cepschk                ../starter/source/elements/shell/coque/cepsini.F
+      !||    cfailini               ../starter/source/elements/shell/coque/cfailini.F
+      !||    cfailini4              ../starter/source/elements/shell/coque/cfailini.F
+      !||    cinmas                 ../starter/source/elements/shell/coque/cinmas.F
+      !||    cm35in3                ../starter/source/materials/mat/mat035/cm35in3.F
+      !||    cmaini3                ../starter/source/elements/sh3n/coquedk/cmaini3.F
+      !||    cmatini                ../starter/source/materials/mat_share/cmatini.F
+      !||    cmatini4               ../starter/source/materials/mat_share/cmatini4.F
+      !||    cndleni                ../starter/source/elements/shell/coqueba/cndleni.F
+      !||    cnepsini               ../starter/source/elements/shell/coqueba/cnepsini.F
+      !||    cneveci                ../starter/source/elements/shell/coqueba/cneveci.F
+      !||    corth3                 ../starter/source/elements/shell/coque/corth3.F
+      !||    csigini4               ../starter/source/elements/shell/coqueba/scigini4.F
+      !||    csms11_ini             ../starter/source/elements/shell/coque/cinit3.F
+      !||    cstraini4              ../starter/source/elements/shell/coqueba/cstraini4.F
+      !||    cuserini               ../starter/source/elements/shell/coque/cuserini.F
+      !||    cuserini4              ../starter/source/elements/shell/coqueba/cuserini4.F
+      !||    cveok3                 ../starter/source/elements/shell/coque/cveok3.F
+      !||    fail_windshield_init   ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
+      !||    fractal_dmg_init       ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    layini1                ../starter/source/elements/shell/coqueba/layini1.F
+      !||    thickini               ../starter/source/elements/shell/coqueba/thickini.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod              ../starter/share/modules1/drape_mod.F
+      !||    fractal_dmg_init_mod   ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    stack_mod              ../starter/share/modules1/stack_mod.F
+      !||====================================================================
       SUBROUTINE CBAINIT3(
      1           ELBUF_STR,IXC      ,PM       ,X       ,GEO     ,
      2           XMAS     ,IN       ,NVC      ,DTELEM  ,IGRSH4N ,

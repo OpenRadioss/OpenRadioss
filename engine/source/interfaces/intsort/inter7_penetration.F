@@ -21,13 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  INTER7_PENETRATION_MOD        source/interfaces/intsort/inter7_penetration.F
-Chd|-- called by -----------
-Chd|        INTER7_FILTER_CAND            source/interfaces/intsort/inter7_filter_cand.F
-Chd|-- calls ---------------
-Chd|        COLLISION_MOD                 source/interfaces/intsort/collision_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inter7_penetration_mod   ../engine/source/interfaces/intsort/inter7_penetration.F
+      !||--- called by ------------------------------------------------------
+      !||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F
+      !||====================================================================
       MODULE INTER7_PENETRATION_MOD
       contains
 !! \brief computes the penetration between a chuck of secondary nodes and a main surface/segment
@@ -35,6 +33,14 @@ Chd|====================================================================
 !! the couple is the result of the broad phase collision detection, keeping all possible penetration
 !! for the given timestep, and also the possible penetration for the few next timesteps, until
 !! a secondary node has moved more than the margin (relatively to the main surface/segment)
+      !||====================================================================
+      !||    inter7_penetration   ../engine/source/interfaces/intsort/inter7_penetration.F
+      !||--- called by ------------------------------------------------------
+      !||    inter7_filter_cand   ../engine/source/interfaces/intsort/inter7_filter_cand.F
+      !||--- uses       -----------------------------------------------------
+      !||    collision_mod        ../engine/source/interfaces/intsort/collision_mod.F
+      !||    constant_mod         ../common_source/modules/constant_mod.F
+      !||====================================================================
         subroutine inter7_penetration(jlt   ,margin ,x1    ,x2     ,x3   ,
      .                    x4    ,y1    ,y2    ,y3     ,y4   ,
      .                    z1    ,z2    ,z3    ,z4     ,xi   ,

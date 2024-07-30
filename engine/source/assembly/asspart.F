@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASSPART                       source/assembly/asspart.F     
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    asspart      ../engine/source/assembly/asspart.F
+      !||--- called by ------------------------------------------------------
+      !||    resol        ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier   ../engine/source/system/machine.F
+      !||====================================================================
       SUBROUTINE ASSPART( 
      2   PARTFT,PARTLT,PARTSAV,GREFT,GRELT,GRESAV)
 C----6---------------------------------------------------------------7---------8

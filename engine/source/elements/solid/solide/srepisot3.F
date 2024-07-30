@@ -20,16 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SREPISOT3                     source/elements/solid/solide/srepisot3.F
-Chd|-- called by -----------
-Chd|        PRE_HEPH                      source/output/anim/generate/tensor6.F
-Chd|        SR8COOR3                      source/elements/solid/solide8/sr8coor3.F
-Chd|        SRCOORK                       source/elements/solid/solide8z/srcoork.F
-Chd|        SREP2GLO                      source/elements/sph/srep2glo.F
-Chd|        TSH_DIR2                      source/output/h3d/h3d_results/h3d_skin_tensor.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    srepisot3   ../engine/source/elements/solid/solide/srepisot3.F
+      !||--- called by ------------------------------------------------------
+      !||    pre_heph    ../engine/source/output/anim/generate/tensor6.F
+      !||    sr8coor3    ../engine/source/elements/solid/solide8/sr8coor3.F
+      !||    srcoork     ../engine/source/elements/solid/solide8z/srcoork.F
+      !||    srep2glo    ../engine/source/elements/sph/srep2glo.F
+      !||    tsh_dir2    ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+      !||====================================================================
       SUBROUTINE SREPISOT3(
      1   X1,      X2,      X3,      X4,
      2   X5,      X6,      X7,      X8,

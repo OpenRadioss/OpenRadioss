@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SRBILAN                       source/elements/solid/solide/srbilan.F
-Chd|-- called by -----------
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F 
-Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
-Chd|====================================================================
+      !||====================================================================
+      !||    srbilan               ../engine/source/elements/solid/solide/srbilan.F
+      !||--- called by ------------------------------------------------------
+      !||    s8cforc3              ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3              ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8sforc3              ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||    s8zforc3              ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    scforc3               ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||    sforc3                ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3               ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
+      !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+      !||====================================================================
       SUBROUTINE SRBILAN(PARTSAV,EINT,RHO,RK,VOL,
      .   VXA, VYA, VZA, VA2, VNEW,IPARTS ,
      .   GRESAV,GRTH,IGRTH,OFF,IEXPAN,EINTTH,

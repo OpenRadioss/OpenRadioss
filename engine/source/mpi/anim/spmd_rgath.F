@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_RGATH                    source/mpi/anim/spmd_rgath.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_rgath      ../engine/source/mpi/anim/spmd_rgath.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_r_c       ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
        SUBROUTINE SPMD_RGATH(SBUF,NODGLOB,WEIGHT,NUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

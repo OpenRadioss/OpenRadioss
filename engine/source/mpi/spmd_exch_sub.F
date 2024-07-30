@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_SUB_BOUNDARIES           source/mpi/spmd_exch_sub.F    
-Chd|-- called by -----------
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
-Chd|-- calls ---------------
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sub_boundaries   ../engine/source/mpi/spmd_exch_sub.F
+      !||--- called by ------------------------------------------------------
+      !||    resol_init            ../engine/source/engine/resol_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    nlocal_reg_mod        ../common_source/modules/nlocal_reg_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_SUB_BOUNDARIES(NLOC_DMG,IAD_ELEM,FR_ELEM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -216,13 +216,14 @@ C     -----------------------------
       END
 
 
-Chd|====================================================================
-Chd|  SPMD_EXCH_SUB_POFF            source/mpi/spmd_exch_sub.F    
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_sub_poff   ../engine/source/mpi/spmd_exch_sub.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    nlocal_reg_mod       ../common_source/modules/nlocal_reg_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_SUB_POFF(NLOC_DMG)
 C-----------------------------------------------
 C   M o d u l e s
@@ -379,13 +380,14 @@ c-------------------------------------------------------------------
       END
 
 
-Chd|====================================================================
-Chd|  SPMD_EXCH_SUB_PON             source/mpi/spmd_exch_sub.F    
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_sub_pon   ../engine/source/mpi/spmd_exch_sub.F
+      !||--- called by ------------------------------------------------------
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    nlocal_reg_mod      ../common_source/modules/nlocal_reg_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_SUB_PON(NLOC_DMG)
 !$COMMENT
 !       SPMD_EXCH_SUB_PON

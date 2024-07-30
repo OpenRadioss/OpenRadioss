@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PLOT_CURVE                    sortie/plot_curve.F           
-Chd|-- called by -----------
-Chd|        ADD_MASS_STAT                 starter/source/tools/admas/add_mass_stat.F
-Chd|        OUTRIN                        starter/source/materials/time_step/outri.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
-Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    plot_curve             ../common_source/sortie/plot_curve.F
+      !||--- called by ------------------------------------------------------
+      !||    add_mass_stat          ../starter/source/tools/admas/add_mass_stat.F
+      !||    outrin                 ../starter/source/materials/time_step/outri.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE PLOT_CURVE(X, Y, NB_POINTS, INPUT_SIZE_X, INPUT_SIZE_Y, 
      .                      INPUT_X_MINVALUE, INPUT_Y_MINVALUE, INPUT_X_MAXVALUE, 
      .                      INPUT_Y_MAXVALUE, INPUT_SYMBOL, INPUT_CURVE_TYPE,

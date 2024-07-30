@@ -20,14 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALECONVE                      source/ale/porous/aleconv.F   
-Chd|-- called by -----------
-Chd|        ALEFLOW                       source/ale/porous/aleflow.F   
-Chd|-- calls ---------------
-Chd|        ALECONV3                      source/ale/porous/aleconv.F   
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    aleconve               ../engine/source/ale/porous/aleconv.F
+      !||--- called by ------------------------------------------------------
+      !||    aleflow                ../engine/source/ale/porous/aleflow.F
+      !||--- calls      -----------------------------------------------------
+      !||    aleconv3               ../engine/source/ale/porous/aleconv.F
+      !||    nvar                   ../engine/source/input/nvar.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||====================================================================
       SUBROUTINE ALECONVE(VAR     ,FLUX    ,FLU1    ,PHI     ,
      .                    ALE_CONNECT   ,PHIV    ,NGL     ,nvar )
 C-----------------------------------------------
@@ -67,13 +69,13 @@ C-------------
       RETURN
       END SUBROUTINE ALECONVE
 c
-Chd|====================================================================
-Chd|  ALECONV3                      source/ale/porous/aleconv.F   
-Chd|-- called by -----------
-Chd|        ALECONVE                      source/ale/porous/aleconv.F   
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    aleconv3               ../engine/source/ale/porous/aleconv.F
+      !||--- called by ------------------------------------------------------
+      !||    aleconve               ../engine/source/ale/porous/aleconv.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||====================================================================
       SUBROUTINE ALECONV3(VTOT        ,PHI    ,FLUX  ,FLU1  ,PHIV  ,
      .                    ALE_CONNECT ,IOFF   ,NGL   )
       USE ALE_CONNECTIVITY_MOD

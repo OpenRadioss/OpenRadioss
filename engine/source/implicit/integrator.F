@@ -20,11 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTEGRATORL                   source/implicit/integrator.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    integratorl   ../engine/source/implicit/integrator.F
+      !||====================================================================
       SUBROUTINE INTEGRATORL(NODFT,NODLT,D     ,DR    ,
      1                      X    ,V    ,VR     ,A     ,AR    )
 C-----------------------------------------------
@@ -72,13 +70,12 @@ C------- integrateur ----------
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  INTEGRATOR                    source/implicit/integrator.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        INTEGRATOR0                   source/implicit/integrator.F  
-Chd|        INTE_DYNA                     source/implicit/imp_dyna.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    integrator    ../engine/source/implicit/integrator.F
+      !||--- calls      -----------------------------------------------------
+      !||    inte_dyna     ../engine/source/implicit/imp_dyna.F
+      !||    integrator0   ../engine/source/implicit/integrator.F
+      !||====================================================================
       SUBROUTINE INTEGRATOR(NODFT,NODLT ,NDT   ,D    ,DR    ,
      1                      X     ,V    ,VR    ,A    ,AR    )
 C-----------------------------------------------
@@ -137,13 +134,12 @@ C
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  INTEGRATOR0                   source/implicit/integrator.F  
-Chd|-- called by -----------
-Chd|        INTEGRATOR                    source/implicit/integrator.F  
-Chd|        INTEGRATOR_HP                 source/implicit/integrator.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    integrator0     ../engine/source/implicit/integrator.F
+      !||--- called by ------------------------------------------------------
+      !||    integrator      ../engine/source/implicit/integrator.F
+      !||    integrator_hp   ../engine/source/implicit/integrator.F
+      !||====================================================================
       SUBROUTINE INTEGRATOR0(NODFT,NODLT,V     ,X    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -173,11 +169,9 @@ C------- integrateur de base---------
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  INTEGRATOR1                   source/implicit/integrator.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    integrator1   ../engine/source/implicit/integrator.F
+      !||====================================================================
       SUBROUTINE INTEGRATOR1(NODFT,NODLT,D     ,X    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -203,13 +197,12 @@ C------- integrateur de base---------
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  INTEGRATOR2                   source/implicit/integrator.F  
-Chd|-- called by -----------
-Chd|        AL_CONSTRAINT1                source/implicit/nl_solv.F     
-Chd|        AL_CONSTRAINTH1               source/implicit/nl_solv.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    integrator2       ../engine/source/implicit/integrator.F
+      !||--- called by ------------------------------------------------------
+      !||    al_constraint1    ../engine/source/implicit/nl_solv.F
+      !||    al_constrainth1   ../engine/source/implicit/nl_solv.F
+      !||====================================================================
       SUBROUTINE INTEGRATOR2(NODFT,NODLT,IDDL,NDOF,IKC,D,DR,DD,DDR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -249,11 +242,9 @@ C-----------------------------------------------
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  FRAC_D                        source/implicit/integrator.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    frac_d   ../engine/source/implicit/integrator.F
+      !||====================================================================
       SUBROUTINE FRAC_D(NODFT,NODLT,IDDL,NDOF,IKC,D,DR,FAC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -294,13 +285,12 @@ C-----------------------------------------------
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  FRAC_DD                       source/implicit/integrator.F  
-Chd|-- called by -----------
-Chd|        AL_CONSTRAINT1                source/implicit/nl_solv.F     
-Chd|        AL_CONSTRAINTH1               source/implicit/nl_solv.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    frac_dd           ../engine/source/implicit/integrator.F
+      !||--- called by ------------------------------------------------------
+      !||    al_constraint1    ../engine/source/implicit/nl_solv.F
+      !||    al_constrainth1   ../engine/source/implicit/nl_solv.F
+      !||====================================================================
       SUBROUTINE FRAC_DD(NODFT,NODLT,IDDL,NDOF,IKC,D,DR,DD,DDR,FAC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -342,13 +332,13 @@ C--------------------------------------------
       RETURN
       END
 C-----_HP: Hybrid SMP // inside     
-Chd|====================================================================
-Chd|  INTEGRATORL_HP                source/implicit/integrator.F  
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        IMP_SMPINI                    source/implicit/imp_solv.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    integratorl_hp   ../engine/source/implicit/integrator.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv         ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    imp_smpini       ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE INTEGRATORL_HP(D     ,DR    ,
      1                          X    ,V    ,VR     ,A     ,AR    )
 C-----------------------------------------------
@@ -400,15 +390,15 @@ C------- integrateur ----------
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  INTEGRATOR_HP                 source/implicit/integrator.F  
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        IMP_SMPINI                    source/implicit/imp_solv.F    
-Chd|        INTEGRATOR0                   source/implicit/integrator.F  
-Chd|        INTE_DYNA                     source/implicit/imp_dyna.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    integrator_hp   ../engine/source/implicit/integrator.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv        ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    imp_smpini      ../engine/source/implicit/imp_solv.F
+      !||    inte_dyna       ../engine/source/implicit/imp_dyna.F
+      !||    integrator0     ../engine/source/implicit/integrator.F
+      !||====================================================================
       SUBROUTINE INTEGRATOR_HP(NDT   ,D    ,DR    ,
      1                         X     ,V     ,VR    ,A    ,AR    )
 C-----------------------------------------------
@@ -472,13 +462,13 @@ C
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  INTEGRATOR1_HP                source/implicit/integrator.F  
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        IMP_SMPINI                    source/implicit/imp_solv.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    integrator1_hp   ../engine/source/implicit/integrator.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv         ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    imp_smpini       ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE INTEGRATOR1_HP(D     ,X    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -511,14 +501,14 @@ C------- integrateur de base---------
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  INTEGRATOR2_HP                source/implicit/integrator.F  
-Chd|-- called by -----------
-Chd|        AL_CONSTRAINT1_HP             source/implicit/nl_solv.F     
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
-Chd|-- calls ---------------
-Chd|        IMP_SMPINI                    source/implicit/imp_solv.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    integrator2_hp      ../engine/source/implicit/integrator.F
+      !||--- called by ------------------------------------------------------
+      !||    al_constraint1_hp   ../engine/source/implicit/nl_solv.F
+      !||    nl_solv             ../engine/source/implicit/nl_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    imp_smpini          ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE INTEGRATOR2_HP(IDDL,NDOF,IKC,D,DR,DD,DDR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -564,13 +554,13 @@ C-----------------------------------------------
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  FRAC_D_HP                     source/implicit/integrator.F  
-Chd|-- called by -----------
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
-Chd|-- calls ---------------
-Chd|        IMP_SMPINI                    source/implicit/imp_solv.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    frac_d_hp    ../engine/source/implicit/integrator.F
+      !||--- called by ------------------------------------------------------
+      !||    nl_solv      ../engine/source/implicit/nl_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    imp_smpini   ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE FRAC_D_HP(IDDL,NDOF,IKC,D,DR,FAC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -616,14 +606,14 @@ C-----------------------------------------------
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  FRAC_DD_HP                    source/implicit/integrator.F  
-Chd|-- called by -----------
-Chd|        AL_CONSTRAINT1_HP             source/implicit/nl_solv.F     
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
-Chd|-- calls ---------------
-Chd|        IMP_SMPINI                    source/implicit/imp_solv.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    frac_dd_hp          ../engine/source/implicit/integrator.F
+      !||--- called by ------------------------------------------------------
+      !||    al_constraint1_hp   ../engine/source/implicit/nl_solv.F
+      !||    nl_solv             ../engine/source/implicit/nl_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    imp_smpini          ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE FRAC_DD_HP(IDDL,NDOF,IKC,D,DR,DD,DDR,FAC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

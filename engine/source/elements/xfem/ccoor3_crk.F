@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CCOOR3_CRK                    source/elements/xfem/ccoor3_crk.F
-Chd|-- called by -----------
-Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    ccoor3_crk      ../engine/source/elements/xfem/ccoor3_crk.F
+      !||--- called by ------------------------------------------------------
+      !||    cforc3_crk      ../engine/source/elements/xfem/cforc3_crk.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE CCOOR3_CRK(JFT  ,JLT  ,NFT  ,IXC    ,NGL     ,
      2                      PID  ,MAT  ,ILEV ,IEL_CRK,IADC_CRK,
      3                      OFFG ,OFF  ,SIGY ,THKE   ,THK0    ,

@@ -20,15 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRITE_UNITS                   comm/write_units.F            
-Chd|-- called by -----------
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      tools/input_output/write_db.F 
-Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    write_units   ../common_source/comm/write_units.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
+      !||    wrrestp       ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db      ../common_source/tools/input_output/write_db.F
+      !||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    unitab_mod    ../common_source/modules/unitab_mod.F
+      !||====================================================================
       SUBROUTINE WRITE_UNITS(UNITAB)
 C============================================================================
 C   M o d u l e s
@@ -75,16 +77,17 @@ C-----------------------------------------------
       ENDDO
 C----------------------------------------------- 
       END
-Chd|====================================================================
-Chd|  READ_UNITS                    comm/write_units.F            
-Chd|-- called by -----------
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|        READ_DB                       tools/input_output/read_db.F  
-Chd|        READ_I_C                      tools/input_output/write_routtines.c
-Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
-Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    read_units    ../common_source/comm/write_units.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb        ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db       ../common_source/tools/input_output/read_db.F
+      !||    read_i_c      ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||    unitab_mod    ../common_source/modules/unitab_mod.F
+      !||====================================================================
       SUBROUTINE READ_UNITS(UNITAB)
 C============================================================================
 C   M o d u l e s

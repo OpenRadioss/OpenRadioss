@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8SKE3                        source/elements/solid/solide8s/s8ske3.F
-Chd|-- called by -----------
-Chd|        IMP_GLOB_K                    source/implicit/imp_glob_k.F  
-Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|        ASSEM_S8                      source/implicit/assem_s8.F    
-Chd|        S8EOFF                        source/elements/solid/solide8/s8eoff.F
-Chd|        S8SCOORK_IMP                  source/elements/solid/solide8s/srcoork_imp.F
-Chd|        S8SDERI3                      source/elements/solid/solide8s/s8sderi3.F
-Chd|        S8SKSIG                       source/elements/solid/solide8s/s8sksig.F
-Chd|        S8SLKE3                       source/elements/solid/solide8s/s8slke3.F
-Chd|        TRANSK                        source/elements/solid/solide8s/transk.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8ske3         ../engine/source/elements/solid/solide8s/s8ske3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
+      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_s8       ../engine/source/implicit/assem_s8.F
+      !||    s8eoff         ../engine/source/elements/solid/solide8/s8eoff.F
+      !||    s8scoork_imp   ../engine/source/elements/solid/solide8s/srcoork_imp.F
+      !||    s8sderi3       ../engine/source/elements/solid/solide8s/s8sderi3.F
+      !||    s8sksig        ../engine/source/elements/solid/solide8s/s8sksig.F
+      !||    s8slke3        ../engine/source/elements/solid/solide8s/s8slke3.F
+      !||    transk         ../engine/source/elements/solid/solide8s/transk.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE S8SKE3(
      1   PM,       GEO,      IXS,      X,
      2   ELBUF_STR,NEL,      ICP,      ICSIG,

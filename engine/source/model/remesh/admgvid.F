@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ADMGVID                       source/model/remesh/admgvid.F 
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    admgvid        ../engine/source/model/remesh/admgvid.F
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||    resol_init     ../engine/source/engine/resol_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    remesh_mod     ../engine/share/modules/remesh_mod.F
+      !||====================================================================
       SUBROUTINE ADMGVID(IPARG ,ELBUF_TAB,FSKYV,FSKY  ,FTHESKY,
      .                   IADC  ,IADTG    ,IFLG ,IGROUC,NGROUC ,
      .                   CONDNSKY )

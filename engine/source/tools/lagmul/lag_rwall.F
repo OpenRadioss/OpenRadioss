@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAG_RWALL                     source/tools/lagmul/lag_rwall.F
-Chd|-- called by -----------
-Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_rwall     ../engine/source/tools/lagmul/lag_rwall.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_mult      ../engine/source/tools/lagmul/lag_mult.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE LAG_RWALL(RWL     ,NSW     ,NSN     ,ITIED   ,MSR     ,
      2                     INDEX   ,X       ,V       ,A       ,IADLL   ,
      3                     LLL     ,JLL     ,SLL     ,XLL     ,COMNTAG ,

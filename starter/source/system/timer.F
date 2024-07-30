@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INITIME                       source/system/timer.F         
-Chd|-- called by -----------
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    initime        ../starter/source/system/timer.F
+      !||--- called by ------------------------------------------------------
+      !||    starter0       ../starter/source/starter/starter0.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INITIME()
 C     initialisation des timers
 C     timer                       signification
@@ -80,15 +80,15 @@ C-----------------------------------------------
 
       RETURN
       END
-Chd|====================================================================
-Chd|  STARTIME                      source/system/timer.F         
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|-- calls ---------------
-Chd|        MY_ETIME                      source/system/machine.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    startime       ../starter/source/system/timer.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+      !||    lectur         ../starter/source/starter/lectur.F
+      !||    starter0       ../starter/source/starter/starter0.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_etime       ../starter/source/system/machine.F
+      !||====================================================================
       SUBROUTINE STARTIME(EVENT,ITASK)
 C     routine d'incrementation du timer event
 C-----------------------------------------------
@@ -122,15 +122,15 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  STOPTIME                      source/system/timer.F         
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|-- calls ---------------
-Chd|        MY_ETIME                      source/system/machine.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    stoptime       ../starter/source/system/timer.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+      !||    lectur         ../starter/source/starter/lectur.F
+      !||    starter0       ../starter/source/starter/starter0.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_etime       ../starter/source/system/machine.F
+      !||====================================================================
       SUBROUTINE STOPTIME(EVENT,ITASK)
 C     routine incrementation du timer event
 C-----------------------------------------------
@@ -173,13 +173,13 @@ C-----------------------------------------------
 
       RETURN
       END
-Chd|====================================================================
-Chd|  PRINTIME                      source/system/timer.F         
-Chd|-- called by -----------
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|-- calls ---------------
-Chd|        ELAPSTIME                     source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    printime        ../starter/source/system/timer.F
+      !||--- called by ------------------------------------------------------
+      !||    starter0        ../starter/source/starter/starter0.F
+      !||--- calls      -----------------------------------------------------
+      !||    elapstime       ../starter/source/system/timer.F
+      !||====================================================================
       SUBROUTINE PRINTIME(ITASK,GOT_TIMER,STARTDATE,STARTTIME)
 C     routine d'affichage des timers
 C-----------------------------------------------
@@ -351,12 +351,12 @@ c---Format
 
       RETURN
       END
-Chd|====================================================================
-Chd|  ELAPSTIME                     source/system/timer.F         
-Chd|-- called by -----------
-Chd|        PRINTIME                      source/system/timer.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    elapstime      ../starter/source/system/timer.F
+      !||--- called by ------------------------------------------------------
+      !||    printime       ../starter/source/system/timer.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
         SUBROUTINE ELAPSTIME(ETIME)
 C       reset timer elapsed time et calcul du temps elapsed courant
 C-----------------------------------------------
@@ -410,12 +410,11 @@ C-----------------------------------------------
         RETURN
         END SUBROUTINE ELAPSTIME
 
-Chd|====================================================================
-Chd|  ELAPSTIME_OMP                 source/system/timer.F         
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    elapstime_omp   ../starter/source/system/timer.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit         ../starter/source/restart/ddsplit/ddsplit.F
+      !||====================================================================
         SUBROUTINE ELAPSTIME_OMP(ETIME)
 !       compute the current elapsed time 
 C-----------------------------------------------

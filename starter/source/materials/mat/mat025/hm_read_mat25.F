@@ -20,18 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_MAT25                 source/materials/mat/mat025/hm_read_mat25.F
-Chd|-- called by -----------
-Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
-Chd|-- calls ---------------
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
-Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_mat25            ../starter/source/materials/mat/mat025/hm_read_mat25.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    init_mat_keyword         ../starter/source/materials/mat/init_mat_keyword.F
+      !||    read_mat25_crasurv       ../starter/source/materials/mat/mat025/read_mat25_crasurv.F90
+      !||    read_mat25_tsaiwu        ../starter/source/materials/mat/mat025/read_mat25_tsaiwu.F90
+      !||--- uses       -----------------------------------------------------
+      !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    read_mat25_crasurv_mod   ../starter/source/materials/mat/mat025/read_mat25_crasurv.F90
+      !||    read_mat25_tsaiwu_mod    ../starter/source/materials/mat/mat025/read_mat25_tsaiwu.F90
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_MAT25(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,UNITAB   ,LSUBMODEL,
      .           MTAG     ,ID       ,TITR     ,PM       ,ISRATE   ,

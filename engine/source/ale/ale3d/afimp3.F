@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  AFIMP3                        source/ale/ale3d/afimp3.F     
-Chd|-- called by -----------
-Chd|        ATHERM                        source/ale/atherm.F           
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    afimp3                 ../engine/source/ale/ale3d/afimp3.F
+      !||--- called by ------------------------------------------------------
+      !||    atherm                 ../engine/source/ale/atherm.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||====================================================================
       SUBROUTINE AFIMP3(PM ,X, IXS, T,GRAD ,COEF ,ALE_CONNECT ,FV)
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------

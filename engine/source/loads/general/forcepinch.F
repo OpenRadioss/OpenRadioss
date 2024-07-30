@@ -20,17 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FORCEPINCH                    source/loads/general/forcepinch.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    forcepinch         ../engine/source/loads/general/forcepinch.F
+      !||--- called by ------------------------------------------------------
+      !||    resol              ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter             ../engine/source/tools/curve/finter.F
+      !||    finter_smooth      ../engine/source/tools/curve/finter_smooth.F
+      !||    get_u_numsens      ../engine/source/user_interface/usensor.F
+      !||    get_u_sens_fpar    ../engine/source/user_interface/usensor.F
+      !||    get_u_sens_ipar    ../engine/source/user_interface/usensor.F
+      !||    get_u_sens_value   ../engine/source/user_interface/usensor.F
+      !||    set_u_sens_value   ../engine/source/user_interface/usensor.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod            ../engine/share/modules/h3d_mod.F
+      !||    pinchtype_mod      ../common_source/modules/pinchtype_mod.F
+      !||    sensor_mod         ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE FORCEPINCH (IB     ,FAC     ,NPC    ,TF      ,A     ,
      2                  V      ,X       ,SKEW   ,AR      ,VR    ,
      3                  NSENSOR,SENSOR_TAB ,WEIGHT ,TFEXC   ,IADC  ,

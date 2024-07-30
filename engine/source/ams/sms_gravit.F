@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SMS_GRAVIT                    source/ams/sms_gravit.F       
-Chd|-- called by -----------
-Chd|        SMS_MASS_SCALE_2              source/ams/sms_mass_scale_2.F 
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_gravit         ../engine/source/ams/sms_gravit.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter             ../engine/source/tools/curve/finter.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod         ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SMS_GRAVIT(IGRV  ,AGRV   ,NPC   ,TF   ,A     ,
      2                      V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,
      3                      WEIGHT,IB    ,ITASK,TAGSLV_RBY_SMS,NSENSOR)

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M18TH                         source/materials/mat/mat018/m18th.F
-Chd|-- called by -----------
-Chd|        ATHERM                        source/ale/atherm.F           
-Chd|-- calls ---------------
-Chd|        INTERP                        source/tools/curve/interp.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    m18th    ../engine/source/materials/mat/mat018/m18th.F
+      !||--- called by ------------------------------------------------------
+      !||    atherm   ../engine/source/ale/atherm.F
+      !||--- calls      -----------------------------------------------------
+      !||    interp   ../engine/source/tools/curve/interp.F
+      !||====================================================================
       SUBROUTINE M18TH(
      1   T,       XK,      MAT,     PM,
      2   IPM,     TF,      NPF,     NEL)

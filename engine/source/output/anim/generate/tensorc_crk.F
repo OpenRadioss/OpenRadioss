@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TENSORC_CRK                   source/output/anim/generate/tensorc_crk.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|-- calls ---------------
-Chd|        SIGROTA_XFE                   source/output/anim/generate/sigrota_xfe.F
-Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
-Chd|        UROTOV                        source/airbag/uroto.F         
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    tensorc_crk        ../engine/source/output/anim/generate/tensorc_crk.F
+      !||--- called by ------------------------------------------------------
+      !||    genani             ../engine/source/output/anim/generate/genani.F
+      !||--- calls      -----------------------------------------------------
+      !||    sigrota_xfe        ../engine/source/output/anim/generate/sigrota_xfe.F
+      !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
+      !||    urotov             ../engine/source/airbag/uroto.F
+      !||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod      ../engine/share/modules/crackxfem_mod.F
+      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE TENSORC_CRK(ELBUF_TAB,XFEM_TAB,IPARG     ,IPM     ,
      1                       ITENS    ,INVERT  ,EL2FA     ,NBF     ,
      2                       LEN      ,EPSDOT  ,IADP      ,NBF_L   ,

@@ -22,17 +22,17 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 
-Chd|====================================================================
-Chd|  SPMD_IGLOB_PARTN              source/mpi/anim/spmd_iglob_partn.F
-Chd|-- called by -----------
-Chd|        PARSOR0                       source/output/anim/generate/parsor0.F
-Chd|        PARSORC                       source/output/anim/generate/parsorc.F
-Chd|        PARSORF                       source/output/anim/generate/parsorf.F
-Chd|        PARSORS                       source/output/anim/generate/parsors.F
-Chd|        PARSOR_CRK                    source/output/anim/generate/parsor_crk.F
-Chd|        PARSOR_PLY                    source/output/anim/generate/parsor_ply.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_iglob_partn   ../engine/source/mpi/anim/spmd_iglob_partn.F
+      !||--- called by ------------------------------------------------------
+      !||    parsor0            ../engine/source/output/anim/generate/parsor0.F
+      !||    parsor_crk         ../engine/source/output/anim/generate/parsor_crk.F
+      !||    parsor_ply         ../engine/source/output/anim/generate/parsor_ply.F
+      !||    parsorc            ../engine/source/output/anim/generate/parsorc.F
+      !||    parsorf            ../engine/source/output/anim/generate/parsorf.F
+      !||    parsors            ../engine/source/output/anim/generate/parsors.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_IGLOB_PARTN(IAD,NBPART,IADG,SBUF)
 C iglob_part reconstruit sur p0 un tableau global de part 
 C-----------------------------------------------

@@ -20,22 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7ASS33                       source/interfaces/int07/i7ass3.F
-Chd|-- called by -----------
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|-- calls ---------------
-Chd|        I7ASS0                        source/interfaces/int07/i7ass3.F
-Chd|        I7ASS05                       source/interfaces/int07/i7ass3.F
-Chd|        I7ASS2                        source/interfaces/int07/i7ass3.F
-Chd|        I7ASS25                       source/interfaces/int07/i7ass3.F
-Chd|        I7ASS3                        source/interfaces/int07/i7ass3.F
-Chd|        I7ASS35                       source/interfaces/int07/i7ass3.F
-Chd|        I7ASSIGEO0                    source/interfaces/int07/i7ass3.F
-Chd|        I7SMS2                        source/interfaces/int07/i7sms2.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7ass33      ../engine/source/interfaces/int07/i7ass3.F
+      !||--- called by ------------------------------------------------------
+      !||    i7mainf      ../engine/source/interfaces/int07/i7mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    i7ass0       ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass05      ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass2       ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass25      ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass3       ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass35      ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7assigeo0   ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7sms2       ../engine/source/interfaces/int07/i7sms2.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod      ../engine/share/modules/h3d_mod.F
+      !||    tri7box      ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I7ASS33(JLT       ,A        ,NOINT     ,ITAB      ,STIFN    ,
      2                  STIF      ,FSKYI    ,ISKY      ,FCONT     ,IX1       ,
      3                  IX2       ,IX3      ,IX4       ,NSVG      ,NELTST    ,
@@ -310,17 +311,17 @@ C +fsav(section)
 C-----------------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  I7ASS3                        source/interfaces/int07/i7ass3.F
-Chd|-- called by -----------
-Chd|        I18FOR3                       source/interfaces/int18/i18for3.F
-Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
-Chd|        I22FOR3                       source/interfaces/int22/i22for3.F
-Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
-Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
-Chd|-- calls ---------------
-Chd|        DOUBLE_FLOT_IEEE              source/system/parit.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    i7ass3             ../engine/source/interfaces/int07/i7ass3.F
+      !||--- called by ------------------------------------------------------
+      !||    i18for3            ../engine/source/interfaces/int18/i18for3.F
+      !||    i20for3            ../engine/source/interfaces/int20/i20for3.F
+      !||    i22for3            ../engine/source/interfaces/int22/i22for3.F
+      !||    i23for3            ../engine/source/interfaces/int23/i23for3.F
+      !||    i7ass33            ../engine/source/interfaces/int07/i7ass3.F
+      !||--- calls      -----------------------------------------------------
+      !||    double_flot_ieee   ../engine/source/system/parit.F
+      !||====================================================================
       SUBROUTINE I7ASS3(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
      3                  FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,
@@ -485,15 +486,15 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I7ASS35                       source/interfaces/int07/i7ass3.F
-Chd|-- called by -----------
-Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
-Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
-Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
-Chd|-- calls ---------------
-Chd|        DOUBLE_FLOT_IEEE              source/system/parit.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    i7ass35            ../engine/source/interfaces/int07/i7ass3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20for3            ../engine/source/interfaces/int20/i20for3.F
+      !||    i23for3            ../engine/source/interfaces/int23/i23for3.F
+      !||    i7ass33            ../engine/source/interfaces/int07/i7ass3.F
+      !||--- calls      -----------------------------------------------------
+      !||    double_flot_ieee   ../engine/source/system/parit.F
+      !||====================================================================
       SUBROUTINE I7ASS35(JLT  ,IX1  ,IX2  ,IX3  ,IX4  ,
      2                  NSVG ,H1   ,H2   ,H3   ,H4   ,STIF ,
      3                  FX1  ,FY1  ,FZ1  ,FX2  ,FY2  ,FZ2  ,
@@ -694,17 +695,17 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I7ASS0                        source/interfaces/int07/i7ass3.F
-Chd|-- called by -----------
-Chd|        I10FOR3                       source/interfaces/int10/i10for3.F
-Chd|        I18FOR3                       source/interfaces/int18/i18for3.F
-Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
-Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
-Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7ass0    ../engine/source/interfaces/int07/i7ass3.F
+      !||--- called by ------------------------------------------------------
+      !||    i10for3   ../engine/source/interfaces/int10/i10for3.F
+      !||    i18for3   ../engine/source/interfaces/int18/i18for3.F
+      !||    i20for3   ../engine/source/interfaces/int20/i20for3.F
+      !||    i23for3   ../engine/source/interfaces/int23/i23for3.F
+      !||    i7ass33   ../engine/source/interfaces/int07/i7ass3.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box   ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I7ASS0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
      3                  FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,
@@ -910,16 +911,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I7ASS05                       source/interfaces/int07/i7ass3.F
-Chd|-- called by -----------
-Chd|        I10FOR3                       source/interfaces/int10/i10for3.F
-Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
-Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
-Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7ass05   ../engine/source/interfaces/int07/i7ass3.F
+      !||--- called by ------------------------------------------------------
+      !||    i10for3   ../engine/source/interfaces/int10/i10for3.F
+      !||    i20for3   ../engine/source/interfaces/int20/i20for3.F
+      !||    i23for3   ../engine/source/interfaces/int23/i23for3.F
+      !||    i7ass33   ../engine/source/interfaces/int07/i7ass3.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box   ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I7ASS05(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                   NSVG  ,H1   ,H2   ,H3   ,H4     ,
      3                   FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,
@@ -1119,20 +1120,21 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I7ASS2                        source/interfaces/int07/i7ass3.F
-Chd|-- called by -----------
-Chd|        I10FOR3                       source/interfaces/int10/i10for3.F
-Chd|        I18FOR3                       source/interfaces/int18/i18for3.F
-Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
-Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
-Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7ass2        ../engine/source/interfaces/int07/i7ass3.F
+      !||--- called by ------------------------------------------------------
+      !||    i10for3       ../engine/source/interfaces/int10/i10for3.F
+      !||    i18for3       ../engine/source/interfaces/int18/i18for3.F
+      !||    i20for3       ../engine/source/interfaces/int20/i20for3.F
+      !||    i23for3       ../engine/source/interfaces/int23/i23for3.F
+      !||    i7ass33       ../engine/source/interfaces/int07/i7ass3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I7ASS2(JLT   ,IX1   ,IX2  ,IX3  ,IX4   ,
      2                  NSVG  ,H1    ,H2   ,H3   ,H4    ,STIF   ,
      3                  FX1   ,FY1   ,FZ1  ,FX2  ,FY2   ,FZ2    ,
@@ -1445,19 +1447,20 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I7ASS25                       source/interfaces/int07/i7ass3.F
-Chd|-- called by -----------
-Chd|        I10FOR3                       source/interfaces/int10/i10for3.F
-Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
-Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
-Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7ass25       ../engine/source/interfaces/int07/i7ass3.F
+      !||--- called by ------------------------------------------------------
+      !||    i10for3       ../engine/source/interfaces/int10/i10for3.F
+      !||    i20for3       ../engine/source/interfaces/int20/i20for3.F
+      !||    i23for3       ../engine/source/interfaces/int23/i23for3.F
+      !||    i7ass33       ../engine/source/interfaces/int07/i7ass3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I7ASS25(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                   NSVG  ,H1   ,H2   ,H3   ,H4     ,
      3                   FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2   ,
@@ -1780,16 +1783,17 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I7ASSIGEO0                    source/interfaces/int07/i7ass3.F
-Chd|-- called by -----------
-Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
-Chd|-- calls ---------------
-Chd|        IG3DONEBASIS                  source/elements/ige3d/ig3donebasis.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7assigeo0     ../engine/source/interfaces/int07/i7ass3.F
+      !||--- called by ------------------------------------------------------
+      !||    i7ass33        ../engine/source/interfaces/int07/i7ass3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ig3donebasis   ../engine/source/elements/ige3d/ig3donebasis.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod        ../engine/share/modules/h3d_mod.F
+      !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||    tri7box        ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I7ASSIGEO0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
      3                  FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,

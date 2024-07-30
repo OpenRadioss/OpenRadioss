@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_I20NORMF                 source/mpi/interfaces/spmd_i20normf.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_i20normf   ../engine/source/mpi/interfaces/spmd_i20normf.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf        ../engine/source/interfaces/int20/i20mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_I20NORMF(
      1 SOLIDN_NORMAL,SOLIDN_NORMAL_F,SOLIDN_NORMAL_FE,NIN     ,IRLEN20 ,
      2 ISLEN20      ,IRLEN20T       ,ISLEN20T        ,IRLEN20E,ISLEN20E,

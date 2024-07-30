@@ -25,6 +25,13 @@
 ! ======================================================================================================================
 !! \brief This subroutine is solving Exponential EoS
 !! \details P = P0 exp(alpha.time) - PSH
+      !||====================================================================
+      !||    eosexponential   ../common_source/eos/eosexponential.F90
+      !||--- called by ------------------------------------------------------
+      !||    eosmain          ../common_source/eos/eosmain.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod     ../common_source/modules/constant_mod.F
+      !||====================================================================
       subroutine eosexponential(iflag ,nel   ,pm   ,off  ,eint ,&
                                 dvol  ,vnew  ,mat  ,psh  ,      &
                                 pnew  ,dpdm  ,dpdE ,theta,time ,&

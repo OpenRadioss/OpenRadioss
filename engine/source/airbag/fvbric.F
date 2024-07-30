@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FVBRIC                        source/airbag/fvbric.F        
-Chd|-- called by -----------
-Chd|        FVMESH0                       source/airbag/fvmesh0.F       
-Chd|-- calls ---------------
-Chd|        SPMD_FVB_GATH                 source/mpi/airbags/spmd_fvb_gath.F
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    fvbric          ../engine/source/airbag/fvbric.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh0         ../engine/source/airbag/fvmesh0.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_fvb_gath   ../engine/source/mpi/airbags/spmd_fvb_gath.F
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod       ../engine/share/modules/fvbag_mod.F
+      !||====================================================================
       SUBROUTINE FVBRIC(IVOLU, RVOLU, IBUF, X, NN)
 C-----------------------------------------------
 C   M o d u l e s 

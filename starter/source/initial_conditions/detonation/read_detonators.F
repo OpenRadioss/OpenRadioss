@@ -20,28 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ_DETONATORS               source/initial_conditions/detonation/read_detonators.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        PRELECDET                     source/initial_conditions/detonation/prelecdet.F
-Chd|        READ_DFS_DETCORD              source/initial_conditions/detonation/read_dfs_detcord.F
-Chd|        READ_DFS_DETLINE              source/initial_conditions/detonation/read_dfs_detline.F
-Chd|        READ_DFS_DETPLAN              source/initial_conditions/detonation/read_dfs_detplan.F
-Chd|        READ_DFS_DETPOINT             source/initial_conditions/detonation/read_dfs_detpoint.F
-Chd|        READ_DFS_WAVE_SHAPER          source/initial_conditions/detonation/read_dfs_wave_shaper.F
-Chd|        ID                            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    read_detonators        ../starter/source/initial_conditions/detonation/read_detonators.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                 ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    hm_option_count        ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    prelecdet              ../starter/source/initial_conditions/detonation/prelecdet.F
+      !||    read_dfs_detcord       ../starter/source/initial_conditions/detonation/read_dfs_detcord.F
+      !||    read_dfs_detline       ../starter/source/initial_conditions/detonation/read_dfs_detline.F
+      !||    read_dfs_detplan       ../starter/source/initial_conditions/detonation/read_dfs_detplan.F
+      !||    read_dfs_detpoint      ../starter/source/initial_conditions/detonation/read_dfs_detpoint.F
+      !||    read_dfs_wave_shaper   ../starter/source/initial_conditions/detonation/read_dfs_wave_shaper.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE READ_DETONATORS(ITABM1     ,ITAB   ,IGRNOD,
      .                           IPM        ,X      ,UNITAB,
      .                           LSUBMODEL  ,DETONATORS)

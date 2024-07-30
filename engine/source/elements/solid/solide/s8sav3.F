@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8SAV3                        source/elements/solid/solide/s8sav3.F
-Chd|-- called by -----------
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8sav3     ../engine/source/elements/solid/solide/s8sav3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8cforc3   ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3   ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8zforc3   ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||    sforc3     ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3    ../engine/source/elements/solid/solidez/szforc3.F
+      !||====================================================================
       SUBROUTINE S8SAV3(
      1   OFFG,    SAV,     XD1,     XD2,
      2   XD3,     XD4,     XD5,     XD6,

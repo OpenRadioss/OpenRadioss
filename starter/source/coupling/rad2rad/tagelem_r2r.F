@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TAGELEM_R2R                   source/coupling/rad2rad/tagelem_r2r.F
-Chd|-- called by -----------
-Chd|        R2R_SPLIT                     source/coupling/rad2rad/r2r_split.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    tagelem_r2r   ../starter/source/coupling/rad2rad/tagelem_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_split     ../starter/source/coupling/rad2rad/r2r_split.F
+      !||====================================================================
       SUBROUTINE TAGELEM_R2R(NUMEL,IPART,TAGBUF,NPART)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -51,17 +50,17 @@ C-----------
         RETURN
       END SUBROUTINE TAGELEM_R2R
 
-Chd|====================================================================
-Chd|  TAG_ELEM_VOID_R2R             source/coupling/rad2rad/tagelem_r2r.F
-Chd|-- called by -----------
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
-Chd|-- calls ---------------
-Chd|        MODIF_TAG                     source/coupling/rad2rad/routines_r2r.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    tag_elem_void_r2r   ../starter/source/coupling/rad2rad/tagelem_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_prelec          ../starter/source/coupling/rad2rad/r2r_prelec.F
+      !||--- calls      -----------------------------------------------------
+      !||    modif_tag           ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- uses       -----------------------------------------------------
+      !||    nod2el_mod          ../starter/share/modules1/nod2el_mod.F
+      !||    r2r_mod             ../starter/share/modules1/r2r_mod.F
+      !||    restmod             ../starter/share/modules1/restart_mod.F
+      !||====================================================================
       SUBROUTINE TAG_ELEM_VOID_R2R(NB,IPARTS,IPARTC,IPARTG,
      2           IPARTSP,VAL,CONT,MODIF,ITAGL,F2,FLAG,EANI2,
      3           IGRSURF,IGRNOD,GR_ID)
@@ -236,18 +235,18 @@ C-----------
         RETURN
       END SUBROUTINE TAG_ELEM_VOID_R2R
 
-Chd|====================================================================
-Chd|  TAG_ELEM_VOID_R2R_LIN         source/coupling/rad2rad/tagelem_r2r.F
-Chd|-- called by -----------
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
-Chd|-- calls ---------------
-Chd|        MODIF_TAG                     source/coupling/rad2rad/routines_r2r.F
-Chd|        R2R_VOID_1D                   source/coupling/rad2rad/r2r_void.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    tag_elem_void_r2r_lin   ../starter/source/coupling/rad2rad/tagelem_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_prelec              ../starter/source/coupling/rad2rad/r2r_prelec.F
+      !||--- calls      -----------------------------------------------------
+      !||    modif_tag               ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    r2r_void_1d             ../starter/source/coupling/rad2rad/r2r_void.F
+      !||--- uses       -----------------------------------------------------
+      !||    nod2el_mod              ../starter/share/modules1/nod2el_mod.F
+      !||    r2r_mod                 ../starter/share/modules1/r2r_mod.F
+      !||    restmod                 ../starter/share/modules1/restart_mod.F
+      !||====================================================================
       SUBROUTINE TAG_ELEM_VOID_R2R_LIN(NB,IPARTS,
      2           IPARTC,IPARTG,IPARTT,IPARTP,IPARTR,VAL,CONT,
      3           MODIF,WARN,IGRSLIN)

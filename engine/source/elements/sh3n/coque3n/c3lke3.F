@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C3LKE3                        source/elements/sh3n/coque3n/c3lke3.F
-Chd|-- called by -----------
-Chd|        C3KE3                         source/elements/sh3n/coque3n/c3ke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c3lke3   ../engine/source/elements/sh3n/coque3n/c3lke3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3ke3    ../engine/source/elements/sh3n/coque3n/c3ke3.F
+      !||====================================================================
        SUBROUTINE C3LKE3(JFT,JLT,AREA,THK0,THK2,HM,HF,HC,HZ,
      1                      PX1,PY1,PY2,VOL,
      2                      K11,K12,K13,K22,K23,K33,
@@ -558,12 +557,11 @@ C------ renforce positive  ----------
 C
        RETURN
        END
-Chd|====================================================================
-Chd|  C3LKERZ3                      source/elements/sh3n/coque3n/c3lke3.F
-Chd|-- called by -----------
-Chd|        C3KE3                         source/elements/sh3n/coque3n/c3ke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c3lkerz3   ../engine/source/elements/sh3n/coque3n/c3lke3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3ke3      ../engine/source/elements/sh3n/coque3n/c3ke3.F
+      !||====================================================================
       SUBROUTINE C3LKERZ3(JFT,JLT,HM,HZ,
      1                   PX1,PY1,PY2,VOL,AREA,
      2                   K11,K12,K13,K22,K23,K33,

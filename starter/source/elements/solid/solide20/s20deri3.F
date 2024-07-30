@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S20DERI3                      source/elements/solid/solide20/s20deri3.F
-Chd|-- called by -----------
-Chd|        S20INIT3                      source/elements/solid/solide20/s20init3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s20deri3      ../starter/source/elements/solid/solide20/s20deri3.F
+      !||--- called by ------------------------------------------------------
+      !||    s20init3      ../starter/source/elements/solid/solide20/s20init3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S20DERI3(NGL,OFF,R,S,T    ,W     ,
      2   DNIDR ,DNIDS ,DNIDT ,DXDR  ,DYDR  ,DZDR  ,
      3   DXDS  ,DYDS  ,DZDS  ,DXDT  ,DYDT  ,DZDT  ,
@@ -494,12 +495,11 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  S20RST                        source/elements/solid/solide20/s20deri3.F
-Chd|-- called by -----------
-Chd|        S20INIT3                      source/elements/solid/solide20/s20init3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s20rst     ../starter/source/elements/solid/solide20/s20deri3.F
+      !||--- called by ------------------------------------------------------
+      !||    s20init3   ../starter/source/elements/solid/solide20/s20init3.F
+      !||====================================================================
       SUBROUTINE S20RST(R,S,T,
      2   NI   ,DNIDR ,DNIDS ,DNIDT )
 C-----------------------------------------------

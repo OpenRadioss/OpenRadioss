@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INT18_LAW151_NSV_SHIFT        source/interfaces/int18/int18_law151_nsv_shift.F
-Chd|-- called by -----------
-Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    int18_law151_nsv_shift   ../engine/source/interfaces/int18/int18_law151_nsv_shift.F
+      !||--- called by ------------------------------------------------------
+      !||    intfop2                  ../engine/source/interfaces/interf/intfop2.F
+      !||    inttri                   ../engine/source/interfaces/intsort/inttri.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod             ../common_source/modules/groupdef_mod.F
+      !||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F
+      !||====================================================================
         SUBROUTINE INT18_LAW151_NSV_SHIFT(MODE,ITASK,MULTI_FVM,IPARI,INTBUF_TAB)
 !$COMMENT
 !       INT18_LAW151_NSV_SHIFT description

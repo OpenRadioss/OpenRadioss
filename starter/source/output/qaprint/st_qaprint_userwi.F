@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ST_QAPRINT_USERWI             source/output/qaprint/st_qaprint_userwi.F
-Chd|-- called by -----------
-Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
-Chd|-- calls ---------------
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    st_qaprint_userwi   ../starter/source/output/qaprint/st_qaprint_userwi.F
+      !||--- called by ------------------------------------------------------
+      !||    st_qaprint_driver   ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE ST_QAPRINT_USERWI(USER_WINDOWS)
 C-----------------------------------------------
 C   M o d u l e s

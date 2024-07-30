@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_BARRIER                  source/mpi/generic/spmd_barrier.F
-Chd|-- called by -----------
-Chd|        CHECK_NAN_ACC                 source/output/outfile/check_nan_acc.F
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        SPHPREP                       source/elements/sph/sphprep.F 
-Chd|        SPHTRI0                       source/elements/sph/sphtri0.F 
-Chd|        THERMBILAN                    source/constraints/thermic/thermbilan.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_barrier    ../engine/source/mpi/generic/spmd_barrier.F
+      !||--- called by ------------------------------------------------------
+      !||    check_nan_acc   ../engine/source/output/outfile/check_nan_acc.F
+      !||    inttri          ../engine/source/interfaces/intsort/inttri.F
+      !||    resol           ../engine/source/engine/resol.F
+      !||    sphprep         ../engine/source/elements/sph/sphprep.F
+      !||    sphtri0         ../engine/source/elements/sph/sphtri0.F
+      !||    thermbilan      ../engine/source/constraints/thermic/thermbilan.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_BARRIER()
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8EFMOY3                      source/elements/solid/solide8e/s8efmoy3.F
-Chd|-- called by -----------
-Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8efmoy3   ../engine/source/elements/solid/solide8e/s8efmoy3.F
+      !||--- called by ------------------------------------------------------
+      !||    q4forc2    ../engine/source/elements/solid_2d/quad4/q4forc2.F
+      !||    s8eforc3   ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8sforc3   ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||====================================================================
       SUBROUTINE S8EFMOY3(
      1   SIGOR,   VOL,     QVIS,    PP,
      2   EINT,    RHO,     Q,       DEFP,

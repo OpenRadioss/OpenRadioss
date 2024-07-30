@@ -21,19 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_I18KINE_PENE_COM_POFF    source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
-Chd|-- called by -----------
-Chd|        I18MAIN_KINE_1                source/interfaces/int18/i18main_kine.F
-Chd|        I18MAIN_KINE_2                source/interfaces/int18/i18main_kine.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_i18kine_pene_com_poff   ../engine/source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
+      !||--- called by ------------------------------------------------------
+      !||    i18main_kine_1               ../engine/source/interfaces/int18/i18main_kine.F
+      !||    i18main_kine_2               ../engine/source/interfaces/int18/i18main_kine.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                       ../engine/source/output/message/message.F
+      !||    arret                        ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod                     ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+      !||    message_mod                  ../engine/share/message_module/message_mod.F
+      !||    tri7box                      ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_I18KINE_PENE_COM_POFF(IPARI,INTBUF_TAB,FCONT,
      *                MTF,A,IAD_ELEM,FR_ELEM,MODE,SLVNDTAG,TAGPENE,ITAB,
      .                H3D_DATA )

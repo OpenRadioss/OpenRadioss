@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  OUTP_C_T                      source/output/sty/outp_c_t.F  
-Chd|-- called by -----------
-Chd|        GENOUTP                       source/output/sty/genoutp.F   
-Chd|-- calls ---------------
-Chd|        SPMD_RGATHER9_1COMM           source/mpi/interfaces/spmd_outp.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    outp_c_t              ../engine/source/output/sty/outp_c_t.F
+      !||--- called by ------------------------------------------------------
+      !||    genoutp               ../engine/source/output/sty/genoutp.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE OUTP_C_T(ITENS ,KEY   ,TEXT  ,ELBUF_TAB,
      .                    IPARG ,EPSDOT,DD_IAD,SIZLOC   ,SIZP0,SIZ_WR)
 C-----------------------------------------------
@@ -365,17 +366,18 @@ C---
       RETURN
       END
 
-Chd|====================================================================
-Chd|  OUTP_C_TF                     source/output/sty/outp_c_t.F  
-Chd|-- called by -----------
-Chd|        GENOUTP                       source/output/sty/genoutp.F   
-Chd|-- calls ---------------
-Chd|        C_TF_NE                       source/output/sty/c_tf_ne.F   
-Chd|        SPMD_RGATHER9_1COMM           source/mpi/interfaces/spmd_outp.F
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    outp_c_tf             ../engine/source/output/sty/outp_c_t.F
+      !||--- called by ------------------------------------------------------
+      !||    genoutp               ../engine/source/output/sty/genoutp.F
+      !||--- calls      -----------------------------------------------------
+      !||    c_tf_ne               ../engine/source/output/sty/c_tf_ne.F
+      !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod             ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    stack_mod             ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE OUTP_C_TF(ITENS ,KEY   ,TEXT  ,ELBUF_TAB,IPARG,
      .                     DD_IAD,SIZLOC,SIZP0 ,THKE     ,GEO  ,
      .                     IGEO  ,STACK ,DRAPE_SH4N, DRAPE_SH3N ,IXC  ,
@@ -942,14 +944,14 @@ C-----------------------------------------------------------------------
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  COUNT_ARSZ_CT                 source/output/sty/outp_c_t.F  
-Chd|-- called by -----------
-Chd|        GENOUTP                       source/output/sty/genoutp.F   
-Chd|        OUTP_ARSZ_CT                  source/mpi/interfaces/spmd_outp.F
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    count_arsz_ct   ../engine/source/output/sty/outp_c_t.F
+      !||--- called by ------------------------------------------------------
+      !||    genoutp         ../engine/source/output/sty/genoutp.F
+      !||    outp_arsz_ct    ../engine/source/mpi/interfaces/spmd_outp.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE COUNT_ARSZ_CT(IPARG,DD_IAD,WASZ,SIZ_WRITE,ELBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UPXFEM1                       source/elements/xfem/upxfem1.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        STARTIMEG                     source/system/timer.F         
-Chd|        STOPTIMEG                     source/system/timer.F         
-Chd|        UPENRIC1_N3                   source/elements/xfem/upenric1_n3.F
-Chd|        UPENRIC1_N4                   source/elements/xfem/upenric1_n4.F
-Chd|        UPENRIC2_N3                   source/elements/xfem/upenric2_n3.F
-Chd|        UPENRIC2_N4                   source/elements/xfem/upenric2_n4.F
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    upxfem1         ../engine/source/elements/xfem/upxfem1.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    startimeg       ../engine/source/system/timer.F
+      !||    stoptimeg       ../engine/source/system/timer.F
+      !||    upenric1_n3     ../engine/source/elements/xfem/upenric1_n3.F
+      !||    upenric1_n4     ../engine/source/elements/xfem/upenric1_n4.F
+      !||    upenric2_n3     ../engine/source/elements/xfem/upenric2_n3.F
+      !||    upenric2_n4     ../engine/source/elements/xfem/upenric2_n4.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE UPXFEM1(XFEM_TAB,
      .                   IPARG    ,IXC     ,NGROUC  ,IGROUC  ,IXTG    ,
      .                   IADC_CRK ,IEL_CRK ,INOD_CRK,ELCUTC  ,NODEDGE ,

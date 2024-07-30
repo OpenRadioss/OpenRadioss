@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_SPHGAT                   source/mpi/sph/spmd_sphgat.F  
-Chd|-- called by -----------
-Chd|        SPHPREP                       source/elements/sph/sphprep.F 
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        SPMD_IALLTOALL                source/mpi/generic/spmd_ialltoall.F
-Chd|        SPMD_IALLTOALLV_INT           source/mpi/generic/spmd_ialltoallv_int.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgat           ../engine/source/mpi/sph/spmd_sphgat.F
+      !||--- called by ------------------------------------------------------
+      !||    sphprep               ../engine/source/elements/sph/sphprep.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
+      !||    spmd_ialltoall        ../engine/source/mpi/generic/spmd_ialltoall.F
+      !||    spmd_ialltoallv_int   ../engine/source/mpi/generic/spmd_ialltoallv_int.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    sphbox                ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPMD_SPHGAT(KXSP ,IXSP, WSP2SORT, IREDUCE, LGAUGE)
 C-----------------------------------------------
 C   M o d u l e s
@@ -342,15 +343,15 @@ C
 
 
 
-Chd|====================================================================
-Chd|  SPMD_SPHGAT_old               source/mpi/sph/spmd_sphgat.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgat_old   ../engine/source/mpi/sph/spmd_sphgat.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg            ../engine/source/output/message/message.F
+      !||    arret             ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../engine/share/message_module/message_mod.F
+      !||    sphbox            ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPMD_SPHGAT_old(KXSP ,IXSP, WSP2SORT, IREDUCE, LGAUGE)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,26 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ECRIT                         source/output/ecrit.F         
-Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ELAPSTIME                     source/system/timer.F         
-Chd|        FVSTATS1                      source/airbag/fvstats1.F      
-Chd|        MY_FLUSH                      source/system/machine.F       
-Chd|        SPMD_EXCH_FVSTATS             source/mpi/airbags/spmd_exch_fvstats.F
-Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
-Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ecrit               ../engine/source/output/ecrit.F
+      !||--- called by ------------------------------------------------------
+      !||    sortie_main         ../engine/source/output/sortie_main.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg              ../engine/source/output/message/message.F
+      !||    elapstime           ../engine/source/system/timer.F
+      !||    fvstats1            ../engine/source/airbag/fvstats1.F
+      !||    my_flush            ../engine/source/system/machine.F
+      !||    spmd_exch_fvstats   ../engine/source/mpi/airbags/spmd_exch_fvstats.F
+      !||    spmd_glob_dsum9     ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_rbcast         ../engine/source/mpi/generic/spmd_rbcast.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod            ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
+      !||    imp_dyna            ../engine/share/modules/impbufdef_mod.F
+      !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod       ../common_source/modules/ale/multi_fvm_mod.F
+      !||    output_mod          ../common_source/modules/output/output_mod.F90
+      !||    sensor_mod          ../engine/share/modules/sensor_mod.F
+      !||    state_mod           ../common_source/modules/state_mod.F
+      !||====================================================================
       SUBROUTINE ECRIT(PARTSAV    ,MS        ,V        ,IN       ,R          ,
      2                 DMAS       ,WEIGHT    ,ENINTOT  ,EKINTOT  ,
      3                 A          ,AR        ,FXBIPM   ,FXBRPM   ,MONVOL     ,

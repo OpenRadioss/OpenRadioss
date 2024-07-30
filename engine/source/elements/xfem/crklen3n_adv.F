@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CRKLEN3N_ADV                  source/elements/xfem/crklen3n_adv.F
-Chd|-- called by -----------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    crklen3n_adv    ../engine/source/elements/xfem/crklen3n_adv.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3         ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret           ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE CRKLEN3N_ADV(
      .           NEL       ,NFT      ,ILAY     ,NLAY     ,IXTG      ,
      .           CRKLEN    ,ELCRKINI ,IEL_CRKTG,DIR1     ,DIR2      ,

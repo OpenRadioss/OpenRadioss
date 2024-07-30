@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  REALLOCATE_I_SKYLINE          source/system/reallocate_skyline.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        SPMD_EXCH2_A_PON              source/mpi/forces/spmd_exch2_a_pon.F
-Chd|        SPMD_I7FCOM_PON               source/mpi/forces/spmd_i7fcom_pon.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        FSKYI_MOD                     share/modules/restart_mod.F   
-Chd|        HEAT_MOD                      share/modules/heat_mod.F      
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    reallocate_i_skyline   ../engine/source/system/reallocate_skyline.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                  ../engine/source/engine/resol.F
+      !||    spmd_exch2_a_pon       ../engine/source/mpi/forces/spmd_exch2_a_pon.F
+      !||    spmd_i7fcom_pon        ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    fskyi_mod              ../engine/share/modules/restart_mod.F
+      !||    heat_mod               ../engine/share/modules/heat_mod.F
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
+      !||====================================================================
       SUBROUTINE REALLOCATE_I_SKYLINE(NEW_COUNT,CALL_ID)
 C-----------------------------------------------
 C   M o d u l e s

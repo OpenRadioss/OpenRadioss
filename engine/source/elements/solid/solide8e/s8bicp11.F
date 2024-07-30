@@ -20,16 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8BICP11                      source/elements/solid/solide8e/s8bicp11.F
-Chd|-- called by -----------
-Chd|        S8EDERI3                      source/elements/solid/solide8e/s8ederi3.F
-Chd|        S8EDERIO3                     source/elements/solid/solide8e/s8ederio3.F
-Chd|        S8EDERIOM3                    source/elements/solid/solide8e/s8ederiom3.F
-Chd|        S8EDERIOT3                    source/elements/solid/solide8e/s8ederiot3.F
-Chd|        S8EDERI_2                     source/elements/solid/solide8e/s8ederi_2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8bicp11     ../engine/source/elements/solid/solide8e/s8bicp11.F
+      !||--- called by ------------------------------------------------------
+      !||    s8ederi3     ../engine/source/elements/solid/solide8e/s8ederi3.F
+      !||    s8ederi_2    ../engine/source/elements/solid/solide8e/s8ederi_2.F
+      !||    s8ederio3    ../engine/source/elements/solid/solide8e/s8ederio3.F
+      !||    s8ederiom3   ../engine/source/elements/solid/solide8e/s8ederiom3.F
+      !||    s8ederiot3   ../engine/source/elements/solid/solide8e/s8ederiot3.F
+      !||====================================================================
       SUBROUTINE S8BICP11(
      1   PX1,     PX2,     PX3,     PX4,
      2   PX5,     PX6,     PX7,     PX8,

@@ -29,16 +29,16 @@ C IOCSV=1 -> output fitting to curv.csv
 !>    @param[out]  IRET       return code 
 !>                            0 : optimization succeeded;
 !>                            1 : optimization failed;
-Chd|====================================================================
-Chd|  MRQMIN                        source/materials/tools/nlsqf.F
-Chd|-- called by -----------
-Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
-Chd|        LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
-Chd|-- calls ---------------
-Chd|        COVSRT                        source/materials/tools/nlsqf.F
-Chd|        INVERSION                     source/materials/tools/nlsqf.F
-Chd|        MRQCOF                        source/materials/tools/nlsqf.F
-Chd|====================================================================
+      !||====================================================================
+      !||    mrqmin             ../starter/source/materials/tools/nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    law69_nlsqf        ../starter/source/materials/tools/nlsqf.F
+      !||    law69_nlsqf_auto   ../starter/source/materials/tools/law69_nlsqf_auto.F
+      !||--- calls      -----------------------------------------------------
+      !||    covsrt             ../starter/source/materials/tools/nlsqf.F
+      !||    inversion          ../starter/source/materials/tools/nlsqf.F
+      !||    mrqcof             ../starter/source/materials/tools/nlsqf.F
+      !||====================================================================
       SUBROUTINE MRQMIN(X,Y,SIG,NDATA,A,IA,
      .                 MA,COVAR,ALPHA,NCA, ERRNOW, 
      .                 IFUNCS,GAMMA,IRET,ICOMP,MMAX,ATRY )  
@@ -173,15 +173,15 @@ C-----------
 C-----------
 C
 C
-Chd|====================================================================
-Chd|  MRQCOF                        source/materials/tools/nlsqf.F
-Chd|-- called by -----------
-Chd|        MRQMIN                        source/materials/tools/nlsqf.F
-Chd|-- calls ---------------
-Chd|        MY_EXIT                       source/output/analyse/analyse.c
-Chd|        OGDEN0                        source/materials/tools/nlsqf.F
-Chd|        OGDEN1                        source/materials/tools/nlsqf.F
-Chd|====================================================================
+      !||====================================================================
+      !||    mrqcof    ../starter/source/materials/tools/nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    mrqmin    ../starter/source/materials/tools/nlsqf.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_exit   ../starter/source/output/analyse/analyse.c
+      !||    ogden0    ../starter/source/materials/tools/nlsqf.F
+      !||    ogden1    ../starter/source/materials/tools/nlsqf.F
+      !||====================================================================
       SUBROUTINE MRQCOF(X,Y,SIG, NDATA,
      * A,IA,MA,ALPHA,BETA,NALP,
      * ERRNOW,IFUNCS,ICOMP)  
@@ -294,13 +294,12 @@ c           IF (Y(I)<EM5) DY=EM5
       END SUBROUTINE MRQCOF
 C
       
-Chd|====================================================================
-Chd|  INVERSION                     source/materials/tools/nlsqf.F
-Chd|-- called by -----------
-Chd|        MRQMIN                        source/materials/tools/nlsqf.F
-Chd|        MRQMIN_LAW92                  source/materials/mat/mat092/law92_nlsqf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inversion      ../starter/source/materials/tools/nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    mrqmin         ../starter/source/materials/tools/nlsqf.F
+      !||    mrqmin_law92   ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||====================================================================
       SUBROUTINE INVERSION(A,N,NP,B,M,MP,IRET)  
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -412,12 +411,11 @@ C-----------
       END SUBROUTINE INVERSION
 C
 C
-Chd|====================================================================
-Chd|  COVSRT                        source/materials/tools/nlsqf.F
-Chd|-- called by -----------
-Chd|        MRQMIN                        source/materials/tools/nlsqf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    covsrt   ../starter/source/materials/tools/nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    mrqmin   ../starter/source/materials/tools/nlsqf.F
+      !||====================================================================
       SUBROUTINE COVSRT(COVAR,SIZCOVAR,MA,IA,MFIT)  
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -464,14 +462,13 @@ C-----------
 !>    @param[in]    X      stretch
 !>    @param[in]    A(NA)  material parameters [mu_1, alpha_1,mu_2, alpha_2,...]
 !>    @param[out]   Y      stress 
-Chd|====================================================================
-Chd|  OGDEN0                        source/materials/tools/nlsqf.F
-Chd|-- called by -----------
-Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
-Chd|        LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
-Chd|        MRQCOF                        source/materials/tools/nlsqf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ogden0             ../starter/source/materials/tools/nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    law69_nlsqf        ../starter/source/materials/tools/nlsqf.F
+      !||    law69_nlsqf_auto   ../starter/source/materials/tools/law69_nlsqf_auto.F
+      !||    mrqcof             ../starter/source/materials/tools/nlsqf.F
+      !||====================================================================
       SUBROUTINE OGDEN0(X,A,Y,NA)  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -502,12 +499,11 @@ C-----------
 !>    @param[in]    IA(NA)        flags if derivative needs to be calculated
 !>                                1=yes, 0=no
 !>    @param[out]   DYDA(NA)      derivatives d(stress)/d(A)
-Chd|====================================================================
-Chd|  OGDEN1                        source/materials/tools/nlsqf.F
-Chd|-- called by -----------
-Chd|        MRQCOF                        source/materials/tools/nlsqf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ogden1   ../starter/source/materials/tools/nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    mrqcof   ../starter/source/materials/tools/nlsqf.F
+      !||====================================================================
       SUBROUTINE OGDEN1(X,A,DYDA,IA,NA)  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -549,20 +545,21 @@ C=======================================================================
 !>    @param[in]   ERRTOL      If ERRAVE < ERRTOL, data fitting converges.
 !>                                 ERRAVE = ( SUM [ ABS ( ( Y_inp-Y_fit) / Y_inp )  ) / NPT
 !>    @param[out]  MUAL(1:NMUAL)   optimized material properties 
-Chd|====================================================================
-Chd|  LAW69_NLSQF                   source/materials/tools/nlsqf.F
-Chd|-- called by -----------
-Chd|        LAW69_UPD                     source/materials/mat/mat069/law69_upd.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        LAW69_CHECK                   source/materials/tools/nlsqf.F
-Chd|        LAW69_GUESS1                  source/materials/tools/nlsqf.F
-Chd|        LAW69_GUESS_BOUNDS            source/materials/tools/nlsqf.F
-Chd|        MRQMIN                        source/materials/tools/nlsqf.F
-Chd|        MY_EXIT                       source/output/analyse/analyse.c
-Chd|        OGDEN0                        source/materials/tools/nlsqf.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    law69_nlsqf          ../starter/source/materials/tools/nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    law69_upd            ../starter/source/materials/mat/mat069/law69_upd.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../starter/source/output/message/message.F
+      !||    law69_check          ../starter/source/materials/tools/nlsqf.F
+      !||    law69_guess1         ../starter/source/materials/tools/nlsqf.F
+      !||    law69_guess_bounds   ../starter/source/materials/tools/nlsqf.F
+      !||    mrqmin               ../starter/source/materials/tools/nlsqf.F
+      !||    my_exit              ../starter/source/output/analyse/analyse.c
+      !||    ogden0               ../starter/source/materials/tools/nlsqf.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE LAW69_NLSQF(LAWID,STRETCH,Y,MA,NMUAL,NPT,MUAL,
      $                       ICHECK, NSTART, ERRTOL,ID,TITR)
       USE MESSAGE_MOD
@@ -1070,12 +1067,11 @@ C-----------
 
 c     if abs(value) < small, it means value is very close to zero,
 c     reset it to be small or -small to avoid potential numerical issue
-Chd|====================================================================
-Chd|  ZERO2SMALL                    source/materials/tools/nlsqf.F
-Chd|-- called by -----------
-Chd|        LAW69_GUESS1                  source/materials/tools/nlsqf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    zero2small     ../starter/source/materials/tools/nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    law69_guess1   ../starter/source/materials/tools/nlsqf.F
+      !||====================================================================
       SUBROUTINE ZERO2SMALL(value, small)
 #include      "implicit_f.inc"
       my_real value, small
@@ -1096,16 +1092,16 @@ Chd|====================================================================
 !>                                      0 = no return,already go through all combinations, 
 !>                                      1 = return one guess point successfully
 !>    @param[out]  A0(NMUAL)             returned guess 
-Chd|====================================================================
-Chd|  LAW69_GUESS1                  source/materials/tools/nlsqf.F
-Chd|-- called by -----------
-Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
-Chd|        LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
-Chd|-- calls ---------------
-Chd|        LAW69_CHECK                   source/materials/tools/nlsqf.F
-Chd|        ZERO2SMALL                    source/materials/tools/nlsqf.F
-Chd|        RAND1                         source/materials/tools/nlsqf.F
-Chd|====================================================================
+      !||====================================================================
+      !||    law69_guess1       ../starter/source/materials/tools/nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    law69_nlsqf        ../starter/source/materials/tools/nlsqf.F
+      !||    law69_nlsqf_auto   ../starter/source/materials/tools/law69_nlsqf_auto.F
+      !||--- calls      -----------------------------------------------------
+      !||    law69_check        ../starter/source/materials/tools/nlsqf.F
+      !||    rand1              ../starter/source/materials/tools/nlsqf.F
+      !||    zero2small         ../starter/source/materials/tools/nlsqf.F
+      !||====================================================================
       SUBROUTINE LAW69_GUESS1(
      $   LAWID, NMUAL, ICHECK, MU_INCR, IRND1,
      $   A0, IA, MCOF_MIN, MCOF_MAX, NGUESS)
@@ -1169,14 +1165,13 @@ C-----------------------------------------------
 !>    @param[in]  MU_INCR  if condition mu(i) <= mu(i+1) is checked              
 !>                         0=no, 1=yes
 !>    @param[out] IVALID   0=not valid, 1=valid
-Chd|====================================================================
-Chd|  LAW69_CHECK                   source/materials/tools/nlsqf.F
-Chd|-- called by -----------
-Chd|        LAW69_GUESS1                  source/materials/tools/nlsqf.F
-Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
-Chd|        LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    law69_check        ../starter/source/materials/tools/nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    law69_guess1       ../starter/source/materials/tools/nlsqf.F
+      !||    law69_nlsqf        ../starter/source/materials/tools/nlsqf.F
+      !||    law69_nlsqf_auto   ../starter/source/materials/tools/law69_nlsqf_auto.F
+      !||====================================================================
       SUBROUTINE LAW69_CHECK(LAWID, A, NMUAL, 
      $                       ICHECK, MU_INCR, IVALID)
 #include      "implicit_f.inc"
@@ -1266,13 +1261,12 @@ C       CHECK IF SUM(MU_I * ALPHA_I) > 0.0
 
 !>    @param[out]  MCOF_MIN(NMUAL)     estimated lower bounds of A(1:NMUAL)
 !>    @param[out]  MCOF_MAX(NMUAL)     estimated upper bounds of A(1:NMUAL)
-Chd|====================================================================
-Chd|  LAW69_GUESS_BOUNDS            source/materials/tools/nlsqf.F
-Chd|-- called by -----------
-Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
-Chd|        LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    law69_guess_bounds   ../starter/source/materials/tools/nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    law69_nlsqf          ../starter/source/materials/tools/nlsqf.F
+      !||    law69_nlsqf_auto     ../starter/source/materials/tools/law69_nlsqf_auto.F
+      !||====================================================================
       SUBROUTINE LAW69_GUESS_BOUNDS(LAWID, ICHECK, X, Y, NPT, 
      $         NMUAL, MCOF_MIN, MCOF_MAX,ICOMP)
 #include      "implicit_f.inc"
@@ -1356,13 +1350,13 @@ c        avolid dx to be too small
 !>    @note
 !>       - random number generator of Park and Miller.  
 !>       - Schrage's modification is used to avoid 'a*(m-1)' overflows for 32-bit. 
-Chd|====================================================================
-Chd|  RAND1                         source/materials/tools/nlsqf.F
-Chd|-- called by -----------
-Chd|        LAW69_GUESS1                  source/materials/tools/nlsqf.F
-Chd|-- calls ---------------
-Chd|        MY_EXIT                       source/output/analyse/analyse.c
-Chd|====================================================================
+      !||====================================================================
+      !||    rand1          ../starter/source/materials/tools/nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    law69_guess1   ../starter/source/materials/tools/nlsqf.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_exit        ../starter/source/output/analyse/analyse.c
+      !||====================================================================
       REAL FUNCTION RAND1(IVAL)
 #include      "implicit_f.inc"
       INTEGER IVAL

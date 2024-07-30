@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8ZDERIC3                     source/elements/solid/solide8z/s8zderic3.F
-Chd|-- called by -----------
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        SCHKJABT3                     source/elements/solid/solide4/schkjabt3.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8zderic3     ../engine/source/elements/solid/solide8z/s8zderic3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8cforc3      ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||    schkjabt3     ../engine/source/elements/solid/solide4/schkjabt3.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S8ZDERIC3(
      1   OFF,     DET,     NGL,     X1,
      2   X2,      X3,      X4,      X5,

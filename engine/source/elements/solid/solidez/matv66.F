@@ -20,11 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MATV66                        source/elements/solid/solidez/matv66.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    matv66   ../engine/source/elements/solid/solidez/matv66.F
+      !||====================================================================
       SUBROUTINE MATV66(
      1   CC,      CG,      G33,     V,
      2   U,       NEL)

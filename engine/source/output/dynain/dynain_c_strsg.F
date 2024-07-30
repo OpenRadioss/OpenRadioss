@@ -20,23 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DYNAIN_C_STRSG                source/output/dynain/dynain_c_strsg.F
-Chd|-- called by -----------
-Chd|        GENDYNAIN                     source/output/dynain/gendynain.F
-Chd|-- calls ---------------
-Chd|        CORTDIR3                      source/elements/shell/coque/cortdir3.F
-Chd|        LAYINI                        source/elements/shell/coque/layini.F
-Chd|        SHELL_LOCAL_FRAME             source/output/dynain/shell_rota.F
-Chd|        SHELL_ROTA                    source/output/dynain/shell_rota.F
-Chd|        SPMD_RGATHER9_DP              source/mpi/interfaces/spmd_outp.F
-Chd|        SPMD_STAT_PGATHER             source/mpi/output/spmd_stat.F 
-Chd|        STRS_TXT50                    source/output/sta/sta_txt.F   
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dynain_c_strsg      ../engine/source/output/dynain/dynain_c_strsg.F
+      !||--- called by ------------------------------------------------------
+      !||    gendynain           ../engine/source/output/dynain/gendynain.F
+      !||--- calls      -----------------------------------------------------
+      !||    cortdir3            ../engine/source/elements/shell/coque/cortdir3.F
+      !||    layini              ../engine/source/elements/shell/coque/layini.F
+      !||    shell_local_frame   ../engine/source/output/dynain/shell_rota.F
+      !||    shell_rota          ../engine/source/output/dynain/shell_rota.F
+      !||    spmd_rgather9_dp    ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
+      !||    strs_txt50          ../engine/source/output/sta/sta_txt.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod           ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    stack_mod           ../engine/share/modules/stack_mod.F
+      !||    state_mod           ../common_source/modules/state_mod.F
+      !||====================================================================
       SUBROUTINE DYNAIN_C_STRSG(
      1                  ELBUF_TAB  ,IPARG     ,IPM        ,IGEO  ,IXC    ,
      2                  IXTG       ,WA        ,WAP0       ,IPARTC,IPARTTG,

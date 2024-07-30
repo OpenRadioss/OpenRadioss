@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  TITRE2                        source/output/outfile/titre2.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    titre2   ../starter/source/output/outfile/titre2.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur   ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE TITRE2
 C------------------------------------
 C     MATERIAUX

@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LASER2                        source/loads/laser/laser2.F   
-Chd|-- called by -----------
-Chd|        LASER1                        source/loads/laser/laser1.F   
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        INTERP                        source/tools/curve/interp.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    laser2         ../engine/source/loads/laser/laser2.F
+      !||--- called by ------------------------------------------------------
+      !||    laser1         ../engine/source/loads/laser/laser1.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf        ../engine/share/resol/initbuf.F
+      !||    interp         ../engine/source/tools/curve/interp.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod    ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE LASER2(NL ,N1   ,N2   ,IFUNC    ,IAFUNC ,
      .                 LAS ,XLAS ,X    ,ELBUF_TAB,PM     ,
      .                 WA  ,IPARG,IXQ  ,TF       ,NPF    ) 
@@ -244,16 +245,17 @@ C-------------------------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  LASER3                        source/loads/laser/laser2.F   
-Chd|-- called by -----------
-Chd|        LASER1                        source/loads/laser/laser1.F   
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        INTERP                        source/tools/curve/interp.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    laser3         ../engine/source/loads/laser/laser2.F
+      !||--- called by ------------------------------------------------------
+      !||    laser1         ../engine/source/loads/laser/laser1.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf        ../engine/share/resol/initbuf.F
+      !||    interp         ../engine/source/tools/curve/interp.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod    ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE LASER3(NL ,IFUNC ,
      .                 LAS ,XLAS ,X    ,ELBUF_TAB ,PM     ,
      .                 IPARG,IXQ  ,TF    ,NPF    )

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASSPAR                        source/assembly/asspar.F      
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    asspar          ../engine/source/assembly/asspar.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    pinchtype_mod   ../common_source/modules/pinchtype_mod.F
+      !||====================================================================
       SUBROUTINE ASSPAR(NTHREAD ,NUMNOD,NODFT ,NODLT,IRODDL,
      .                  NPART,PARTFT ,PARTLT,A    ,AR    ,
      .                  PARTSAV,STIFN ,STIFR,VISCN       ,

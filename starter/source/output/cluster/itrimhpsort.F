@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ITRIMHPSORT                   source/output/cluster/itrimhpsort.F
-Chd|-- called by -----------
-Chd|        HM_READ_CLUSTER               source/output/cluster/hm_read_cluster.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    itrimhpsort       ../starter/source/output/cluster/itrimhpsort.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_cluster   ../starter/source/output/cluster/hm_read_cluster.F
+      !||====================================================================
       SUBROUTINE ITRIMHPSORT(TAB,LEN)
 C-----------------------------------------------
 c in place heap sort algorithm of integer table with elimination 

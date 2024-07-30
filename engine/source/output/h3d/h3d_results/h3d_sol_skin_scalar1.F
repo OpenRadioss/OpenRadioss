@@ -20,18 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_SOL_SKIN_SCALAR1          source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
-Chd|-- called by -----------
-Chd|        H3D_SOL_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
-Chd|-- calls ---------------
-Chd|        DAM_FLD_SOL                   source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
-Chd|        IDX_FLD_SOL                   source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        TENS3DTO2D                    source/output/h3d/h3d_results/h3d_skin_tensor.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_sol_skin_scalar1   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_sol_skin_scalar    ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+      !||--- calls      -----------------------------------------------------
+      !||    dam_fld_sol            ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+      !||    idx_fld_sol            ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+      !||    initbuf                ../engine/share/resol/initbuf.F
+      !||    tens3dto2d             ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+      !||--- uses       -----------------------------------------------------
+      !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE H3D_SOL_SKIN_SCALAR1(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
      .                                SKIN_SCALAR,TAG_SKINS6,T6GPS,X  ,
      .                                NPF,TF,H3D_PART,IS_WRITTEN_SKIN,

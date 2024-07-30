@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DNWALS                        source/output/anim/generate/dnwals.F
-Chd|-- called by -----------
-Chd|        DSECNOR                       source/output/anim/generate/dsecnor.F
-Chd|-- calls ---------------
-Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    dnwals      ../engine/source/output/anim/generate/dnwals.F
+      !||--- called by ------------------------------------------------------
+      !||    dsecnor     ../engine/source/output/anim/generate/dsecnor.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_s_c   ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE DNWALS(X ,RWL ,MSR )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

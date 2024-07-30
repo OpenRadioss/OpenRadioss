@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTFOP8                       source/interfaces/interf/intfop8.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
-Chd|        SPMD_I8_REDUCE                source/mpi/interfaces/spmd_i8tool.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    intfop8          ../engine/source/interfaces/interf/intfop8.F
+      !||--- called by ------------------------------------------------------
+      !||    resol            ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    intvo8           ../engine/source/interfaces/inter3d/intvo8.F
+      !||    spmd_i8_reduce   ../engine/source/mpi/interfaces/spmd_i8tool.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod          ../engine/share/modules/h3d_mod.F
+      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE INTFOP8(
      1       IPARI ,X      ,A    ,
      2       ICODT ,FSAV    ,WA      ,V      ,MS   ,

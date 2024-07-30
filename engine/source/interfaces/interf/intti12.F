@@ -20,25 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTTI12A                      source/interfaces/interf/intti12.F
-Chd|-- called by -----------
-Chd|        INTTI0                        source/interfaces/interf/intti0.F
-Chd|-- calls ---------------
-Chd|        I12COR3                       source/interfaces/inter3d/i12cor3.F
-Chd|        I12DIS3                       source/interfaces/inter3d/i12dis3.F
-Chd|        I12GATHCOR                    source/interfaces/interf/i12gathcor.F
-Chd|        I12LOC3                       source/interfaces/inter3d/i12loc3.F
-Chd|        I12M2S                        source/interfaces/interf/i12m2s.F
-Chd|        I12MSR3                       source/interfaces/inter3d/i12msr3.F
-Chd|        I12NOD3                       source/interfaces/interf/i12nod3.F
-Chd|        I12ROT3                       source/interfaces/inter3d/i12rot3.F
-Chd|        I12S2M                        source/interfaces/interf/i12s2m.F
-Chd|        I3CST3                        source/interfaces/inter3d/i3cst3.F
-Chd|        VARCONDEC                     source/interfaces/interf/varcondec.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    intti12a        ../engine/source/interfaces/interf/intti12.F
+      !||--- called by ------------------------------------------------------
+      !||    intti0          ../engine/source/interfaces/interf/intti0.F
+      !||--- calls      -----------------------------------------------------
+      !||    i12cor3         ../engine/source/interfaces/inter3d/i12cor3.F
+      !||    i12dis3         ../engine/source/interfaces/inter3d/i12dis3.F
+      !||    i12gathcor      ../engine/source/interfaces/interf/i12gathcor.F
+      !||    i12loc3         ../engine/source/interfaces/inter3d/i12loc3.F
+      !||    i12m2s          ../engine/source/interfaces/interf/i12m2s.F
+      !||    i12msr3         ../engine/source/interfaces/inter3d/i12msr3.F
+      !||    i12nod3         ../engine/source/interfaces/interf/i12nod3.F
+      !||    i12rot3         ../engine/source/interfaces/inter3d/i12rot3.F
+      !||    i12s2m          ../engine/source/interfaces/interf/i12s2m.F
+      !||    i3cst3          ../engine/source/interfaces/inter3d/i3cst3.F
+      !||    varcondec       ../engine/source/interfaces/interf/varcondec.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod         ../common_source/modules/ale/ale_mod.F
+      !||    segvar_mod      ../engine/share/modules/segvar_mod.F
+      !||====================================================================
       SUBROUTINE INTTI12A(IPARI, X, WA, ITAB, SEGVAR, TEST, SKEW, ISKWN ,INTBUF_TAB )
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -226,14 +227,15 @@ C-----------------------------------------------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  INTTI12F                      source/interfaces/interf/intti12.F
-Chd|-- called by -----------
-Chd|        INTTI1                        source/interfaces/interf/intti1.F
-Chd|-- calls ---------------
-Chd|        I12FOR3                       source/interfaces/interf/i12for3.F
-Chd|        IN12R                         source/interfaces/interf/in12r.F
-Chd|====================================================================
+      !||====================================================================
+      !||    intti12f        ../engine/source/interfaces/interf/intti12.F
+      !||--- called by ------------------------------------------------------
+      !||    intti1          ../engine/source/interfaces/interf/intti1.F
+      !||--- calls      -----------------------------------------------------
+      !||    i12for3         ../engine/source/interfaces/interf/i12for3.F
+      !||    in12r           ../engine/source/interfaces/interf/in12r.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INTTI12F(IPARI,INTBUF_TAB ,X     ,V     ,
      .                    A    ,MS   ,ITAB ,WEIGHT,STIFN ,WA,SKEW  )
 C INTERFACE FLUIDE/FLUIDE DERIVEE DES INTERFACE 2 ET 5 (SLIDING)
@@ -300,14 +302,15 @@ C-----------------------------------------------
       END
       
       
-Chd|====================================================================
-Chd|  INTTI12V                      source/interfaces/interf/intti12.F
-Chd|-- called by -----------
-Chd|        INTTI2                        source/interfaces/interf/intti2.F
-Chd|-- calls ---------------
-Chd|        I12VIT3                       source/interfaces/interf/i12vit3.F
-Chd|        IN12R                         source/interfaces/interf/in12r.F
-Chd|====================================================================
+      !||====================================================================
+      !||    intti12v        ../engine/source/interfaces/interf/intti12.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2          ../engine/source/interfaces/interf/intti2.F
+      !||--- calls      -----------------------------------------------------
+      !||    i12vit3         ../engine/source/interfaces/interf/i12vit3.F
+      !||    in12r           ../engine/source/interfaces/interf/in12r.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INTTI12V(IPARI,INTBUF_TAB  ,X    ,V   ,
      .                    A    ,MS   ,WEIGHT,WA,SKEW )
 C-----------------------------------------------

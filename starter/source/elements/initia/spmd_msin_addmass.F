@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_MSIN_ADDMASS             source/elements/initia/spmd_msin_addmass.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_msin_addmass   ../starter/source/elements/initia/spmd_msin_addmass.F
+      !||--- called by ------------------------------------------------------
+      !||    initia              ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_MSIN_ADDMASS(
      1               IXS    ,IXS10  ,IXS20  ,IXS16  ,IXQ      ,
      2               IXC    ,IXT    ,IXP    ,IXR    ,IXTG     ,
@@ -485,13 +484,12 @@ C---
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_PARTSAV_PON              source/elements/initia/spmd_msin_addmass.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_partsav_pon   ../starter/source/elements/initia/spmd_msin_addmass.F
+      !||--- called by ------------------------------------------------------
+      !||    initia             ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_PARTSAV_PON(
      1               IXS    ,IXS10  ,IXS20  ,IXS16        ,IXQ    ,
      2               IXC    ,IXT    ,IXP    ,IXR          ,IXTG   ,

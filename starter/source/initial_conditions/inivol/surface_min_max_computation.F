@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SURFACE_MIN_MAX_COMPUTATION   source/initial_conditions/inivol/surface_min_max_computation.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    surface_min_max_computation   ../starter/source/initial_conditions/inivol/surface_min_max_computation.F
+      !||--- called by ------------------------------------------------------
+      !||    init_inivol                   ../starter/source/initial_conditions/inivol/init_inivol.F90
+      !||--- uses       -----------------------------------------------------
+      !||    inivol_def_mod                ../starter/share/modules1/inivol_mod.F
+      !||====================================================================
       SUBROUTINE SURFACE_MIN_MAX_COMPUTATION(
      .                                       NSURF, NUMNOD,
      .                                       SURFACE_NUMBER,MIN_MAX_POSITION,X,IGRSURF,INIVOL)

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RANIM33                       source/elements/joint/ranim33.F
-Chd|-- called by -----------
-Chd|        RGJOINT                       source/elements/joint/rgjoint.F
-Chd|-- calls ---------------
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    ranim33   ../engine/source/elements/joint/ranim33.F
+      !||--- called by ------------------------------------------------------
+      !||    rgjoint   ../engine/source/elements/joint/rgjoint.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod   ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE RANIM33(JFT,JLT,FORX,FORY,FORZ,XMOM,YMOM,ZMOM,XL,TANI,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s

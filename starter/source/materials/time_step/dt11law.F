@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DT11LAW                       source/materials/time_step/dt11law.F
-Chd|-- called by -----------
-Chd|        DTMAIN                        source/materials/time_step/dtmain.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dt11law   ../starter/source/materials/time_step/dt11law.F
+      !||--- called by ------------------------------------------------------
+      !||    dtmain    ../starter/source/materials/time_step/dtmain.F
+      !||====================================================================
       SUBROUTINE DT11LAW(DELTAX, DTX)
 C----------------------------------------------------------------
 C     CALCUL DT ELEM LOI NO 11 COND.LIM. FLUIDE

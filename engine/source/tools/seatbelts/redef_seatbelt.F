@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
-Chd|====================================================================
-Chd|  REDEF_SEATBELT                source/tools/seatbelts/redef_seatbelt.F
-Chd|-- called by -----------
-Chd|        R23L114DEF3                   source/elements/spring/r23l114def3.F
-Chd|-- calls ---------------
-Chd|        VINTER2                       source/tools/curve/vinter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    redef_seatbelt   ../engine/source/tools/seatbelts/redef_seatbelt.F
+      !||--- called by ------------------------------------------------------
+      !||    r23l114def3      ../engine/source/elements/spring/r23l114def3.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_u_func       ../engine/source/user_interface/ufunc.F
+      !||    vinter2          ../engine/source/tools/curve/vinter.F
+      !||====================================================================
       SUBROUTINE REDEF_SEATBELT(
      1   FX,         XK,         DX,         FXEP,
      2   DXOLD,      DPX,        TF,         NPF,

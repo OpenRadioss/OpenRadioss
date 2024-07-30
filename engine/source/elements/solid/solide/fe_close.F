@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FE_CLOSE                      source/elements/solid/solide/fe_close.F
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fe_close   ../engine/source/elements/solid/solide/fe_close.F
+      !||--- called by ------------------------------------------------------
+      !||    sforc3     ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3    ../engine/source/elements/solid/solidez/szforc3.F
+      !||====================================================================
       SUBROUTINE FE_CLOSE(
      1   HH,      RHO,     VOLN,    VX1,
      2   VX2,     VX3,     VX4,     VX5,

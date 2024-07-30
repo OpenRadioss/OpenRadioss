@@ -20,24 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INSERT_CLAUSE_IN_SET          source/model/sets/insert_clause_in_set.F
-Chd|-- called by -----------
-Chd|        CREATE_SETCOL_CLAUSE          source/model/sets/create_setcol_clause.F
-Chd|        CREATE_SET_CLAUSE             source/model/sets/create_set_clause.F
-Chd|        CREATE_SET_COLLECT            source/model/sets/create_setcol_clause.F
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|-- calls ---------------
-Chd|        CREATE_LINE_FROM_ELEMENT      source/model/sets/create_line_from_element.F
-Chd|        CREATE_LINE_FROM_SURFACE      source/model/sets/create_line_from_surface.F
-Chd|        CREATE_NODE_FROM_ELEMENT      source/model/sets/create_node_from_element.F
-Chd|        CREATE_SURFACE_FROM_ELEMENT   source/model/sets/create_surface_from_element.F
-Chd|        SET_MERGE_SIMPLE              source/model/sets/set_merge_simple.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SET_SCRATCH_MOD               ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    insert_clause_in_set          ../starter/source/model/sets/insert_clause_in_set.F
+      !||--- called by ------------------------------------------------------
+      !||    create_set_clause             ../starter/source/model/sets/create_set_clause.F
+      !||    create_set_collect            ../starter/source/model/sets/create_setcol_clause.F
+      !||    create_setcol_clause          ../starter/source/model/sets/create_setcol_clause.F
+      !||    hm_set                        ../starter/source/model/sets/hm_set.F
+      !||--- calls      -----------------------------------------------------
+      !||    create_line_from_element      ../starter/source/model/sets/create_line_from_element.F
+      !||    create_line_from_surface      ../starter/source/model/sets/create_line_from_surface.F
+      !||    create_node_from_element      ../starter/source/model/sets/create_node_from_element.F
+      !||    create_surface_from_element   ../starter/source/model/sets/create_surface_from_element.F
+      !||    set_merge_simple              ../starter/source/model/sets/set_merge_simple.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod            ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod                   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INSERT_CLAUSE_IN_SET(SET       ,CLAUSE   ,CLAUSE_OPERATOR,
      .                                IXS       ,IXS10    ,IXS20     ,IXS16     ,IXQ    ,
      .                                IXC       ,IXTG     ,IXT       ,IXP       ,IXR    ,

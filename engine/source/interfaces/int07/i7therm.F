@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  I7THERM                       source/interfaces/int07/i7therm.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    i7therm    ../engine/source/interfaces/int07/i7therm.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf   ../engine/source/interfaces/int20/i20mainf.F
+      !||    i7mainf    ../engine/source/interfaces/int07/i7mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter     ../engine/source/tools/curve/finter.F
+      !||====================================================================
       SUBROUTINE I7THERM(JLT  ,IPARG ,PM    ,IXS   ,IFORM  ,X     ,
      1                   XI   ,YI    ,ZI    , X1    ,Y1    ,Z1    ,
      1                   X2   ,Y2    ,Z2    ,X3     ,Y3    ,Z3    ,

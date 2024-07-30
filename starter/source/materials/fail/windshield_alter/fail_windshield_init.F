@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_WINDSHIELD_INIT          source/materials/fail/windshield_alter/fail_windshield_init.F
-Chd|-- called by -----------
-Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
-Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|-- calls ---------------
-Chd|        NGR2USRN                      source/system/nintrr.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_windshield_init   ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
+      !||--- called by ------------------------------------------------------
+      !||    c3init3                ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3               ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ngr2usrn               ../starter/source/system/nintrr.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE FAIL_WINDSHIELD_INIT(ELBUF_STR,MAT_PARAM,
      .            NEL      ,NFT      ,ITY      ,IGRSH4N  ,IGRSH3N  )
 C-----------------------------------------------

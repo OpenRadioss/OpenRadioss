@@ -20,13 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_ONED_TORSOR               source/output/h3d/h3d_results/h3d_oned_torsor.F
-Chd|-- called by -----------
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|-- calls ---------------
-Chd|        H3D_WRITE_TORSOR              source/output/h3d/h3d_results/h3d_write_torsor.F
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_oned_torsor        ../engine/source/output/h3d/h3d_results/h3d_oned_torsor.F
+      !||--- called by ------------------------------------------------------
+      !||    genh3d                 ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||--- calls      -----------------------------------------------------
+      !||    h3d_write_torsor       ../engine/source/output/h3d/h3d_results/h3d_write_torsor.F
+      !||--- uses       -----------------------------------------------------
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE H3D_ONED_TORSOR(
      .                   IPARG   , IFUNC          , IXT     , IXP      , IXR   ,
      .                   TORS    , ONED_TORSOR    , ID_ELEM , ITY_ELEM , INFO1 ,

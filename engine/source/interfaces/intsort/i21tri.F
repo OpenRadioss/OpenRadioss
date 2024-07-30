@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I21TRI                        source/interfaces/intsort/i21tri.F
-Chd|-- called by -----------
-Chd|        I21BUCE                       source/interfaces/intsort/i21buce.F
-Chd|-- calls ---------------
-Chd|        I21STO                        source/interfaces/int21/i21sto.F
-Chd|        I7DSTK                        source/interfaces/intsort/i7dstk.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i21tri    ../engine/source/interfaces/intsort/i21tri.F
+      !||--- called by ------------------------------------------------------
+      !||    i21buce   ../engine/source/interfaces/intsort/i21buce.F
+      !||--- calls      -----------------------------------------------------
+      !||    i21sto    ../engine/source/interfaces/int21/i21sto.F
+      !||    i7dstk    ../engine/source/interfaces/intsort/i7dstk.F
+      !||====================================================================
       SUBROUTINE I21TRI(
      1      ADD      ,NSN     ,IRECT  ,XLOC     ,STF     ,
      2      STFN     ,XYZM    ,I_ADD  ,MAXSIZ  ,II_STOK  ,

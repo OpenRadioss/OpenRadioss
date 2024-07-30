@@ -24,42 +24,36 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C=======================================================================
 C     // MEMOIRE PARTAGEE
 C=======================================================================
-Chd|====================================================================
-Chd|  MY_BARRIER                    source/system/machine.F       
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    my_barrier   ../starter/source/system/machine.F
+      !||====================================================================
       SUBROUTINE MY_BARRIER
         RETURN
       END
-Chd|====================================================================
-Chd|  BIDON                         source/system/machine.F       
-Chd|-- called by -----------
-Chd|        INITWG_SHELL                  source/spmd/domain_decomposition/initwg_shell.F
-Chd|        INITWG_SOLID                  source/spmd/domain_decomposition/initwg_solid.F
-Chd|        INITWG_TRI                    source/spmd/domain_decomposition/initwg_tri.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    bidon          ../starter/source/system/machine.F
+      !||--- called by ------------------------------------------------------
+      !||    initwg_shell   ../starter/source/spmd/domain_decomposition/initwg_shell.F
+      !||    initwg_solid   ../starter/source/spmd/domain_decomposition/initwg_solid.F
+      !||    initwg_tri     ../starter/source/spmd/domain_decomposition/initwg_tri.F
+      !||====================================================================
       SUBROUTINE BIDON
         RETURN
       END
 
-Chd|====================================================================
-Chd|  BIDON1                        source/system/machine.F       
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    bidon1   ../starter/source/system/machine.F
+      !||====================================================================
       SUBROUTINE BIDON1(IBID)
         INTEGER IBID
         RETURN
       END
 
-Chd|====================================================================
-Chd|  BIDON2                        source/system/machine.F       
-Chd|-- called by -----------
-Chd|        LECSTACK_PLY                  source/properties/composite_options/stack/lecstack_ply.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    bidon2         ../starter/source/system/machine.F
+      !||--- called by ------------------------------------------------------
+      !||    lecstack_ply   ../starter/source/properties/composite_options/stack/lecstack_ply.F
+      !||====================================================================
       SUBROUTINE BIDON2(FAC_L)
         DOUBLE PRECISION FAC_L
         RETURN
@@ -69,13 +63,13 @@ C
 C=======================================================================
 C  ROUTINE VERIFICATION LIMITATIONS MACHINE
 C=======================================================================
-Chd|====================================================================
-Chd|  MVERIF                        source/system/machine.F       
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    mverif        ../starter/source/system/machine.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE MVERIF()
       USE MESSAGE_MOD
 C
@@ -109,13 +103,13 @@ C        WRITE(IOUT,*)'** WARNING NUMNOD IS TOO LARGE FOR THIS VERSION'
       RETURN
       END
 
-Chd|====================================================================
-Chd|  MY_ETIME                      source/system/machine.F       
-Chd|-- called by -----------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    my_etime   ../starter/source/system/machine.F
+      !||--- called by ------------------------------------------------------
+      !||    startime   ../starter/source/system/timer.F
+      !||    stoptime   ../starter/source/system/timer.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE MY_ETIME(TIMER)
       REAL  RESULT
       REAL, DIMENSION(4) :: TIMER
@@ -140,11 +134,10 @@ Chd|====================================================================
 C
 C
 C appel Fortran flush
-Chd|====================================================================
-Chd|  MY_FLUSH                      source/system/machine.F       
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    my_flush   ../starter/source/system/machine.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE MY_FLUSH(IUNIT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -169,12 +162,11 @@ C pas de routine FLUSH sur AIX
 
 #if CPP_mach == CPP_p4linux964 || CPP_mach == CPP_p4win64
 ccc || CPP_mach == CPP_p4win64  || CPP_mach == CPP_p4win32 || CPP_mach==CPP_macosx64
-Chd|====================================================================
-Chd|  CHECK_KMP_STACK               source/system/machine.F       
-Chd|-- called by -----------
-Chd|        SET_STACK_VALUES              source/system/machine.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    check_kmp_stack    ../starter/source/system/machine.F
+      !||--- called by ------------------------------------------------------
+      !||    set_stack_values   ../starter/source/system/machine.F
+      !||====================================================================
       SUBROUTINE CHECK_KMP_STACK()
 #ifdef __INTEL_COMPILER
       use omp_lib
@@ -217,11 +209,9 @@ C
 #endif
       END
       
-Chd|====================================================================
-Chd|  GET_KMP_STACK                 source/system/machine.F       
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    get_kmp_stack   ../starter/source/system/machine.F
+      !||====================================================================
       SUBROUTINE GET_KMP_STACK()
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -241,12 +231,11 @@ C
 #endif
       END
 #elif 1
-Chd|====================================================================
-Chd|  CHECK_KMP_STACK               source/system/machine.F       
-Chd|-- called by -----------
-Chd|        SET_STACK_VALUES              source/system/machine.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    check_kmp_stack    ../starter/source/system/machine.F
+      !||--- called by ------------------------------------------------------
+      !||    set_stack_values   ../starter/source/system/machine.F
+      !||====================================================================
       SUBROUTINE CHECK_KMP_STACK()
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -261,24 +250,22 @@ C-----------------------------------------------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  GET_KMP_STACK                 source/system/machine.F       
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    get_kmp_stack   ../starter/source/system/machine.F
+      !||====================================================================
       SUBROUTINE GET_KMP_STACK()
       RETURN
       END
 #endif
 
 
-Chd|====================================================================
-Chd|  SET_STACK_VALUES              source/system/machine.F       
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        CHECK_KMP_STACK               source/system/machine.F       
-Chd|        SET_STACK_C                   source/system/machine_c.c     
-Chd|====================================================================
+      !||====================================================================
+      !||    set_stack_values   ../starter/source/system/machine.F
+      !||--- called by ------------------------------------------------------
+      !||    starter            ../starter/source/starter/starter.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_kmp_stack    ../starter/source/system/machine.F
+      !||====================================================================
       SUBROUTINE SET_STACK_VALUES()
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

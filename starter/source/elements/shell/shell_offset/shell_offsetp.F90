@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    shell_offsetp_mod   ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur              ../starter/source/starter/lectur.F
+      !||====================================================================
       module shell_offsetp_mod
 
       contains
@@ -30,6 +35,22 @@
 !=======================================================================================================================
 !!\brief This subroutine do the shell offset treatment w/ projection for composite shell
 !=======================================================================================================================
+      !||====================================================================
+      !||    shell_offsetp             ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur                    ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    dim_shell_offsetp         ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
+      !||    sh_offset_jonct_chk       ../starter/source/elements/shell/shell_offset/sh_offset_jonkt_chk.F90
+      !||    sh_offset_nproj           ../starter/source/elements/shell/shell_offset/shell_offset_nproj.F90
+      !||    sh_offset_setn            ../starter/source/elements/shell/shell_offset/sh_offset_setn.F90
+      !||--- uses       -----------------------------------------------------
+      !||    defaults_mod              ../starter/source/modules/defaults_mod.F90
+      !||    dim_shell_offsetp_mod     ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
+      !||    sh_offset_jonct_chk_mod   ../starter/source/elements/shell/shell_offset/sh_offset_jonkt_chk.F90
+      !||    sh_offset_nproj_mod       ../starter/source/elements/shell/shell_offset/shell_offset_nproj.F90
+      !||    sh_offset_setn_mod        ../starter/source/elements/shell/shell_offset/sh_offset_setn.F90
+      !||====================================================================
         subroutine shell_offsetp(                                              &
                        ngroup,    nparg,      iparg,        npropg,            &
                        numgeo,      geo,     numelc,          nixc,            &

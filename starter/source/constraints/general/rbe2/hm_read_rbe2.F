@@ -20,29 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_RBE2                  source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL                       source/starter/freform.F      
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        HM_SZ_R2R                     source/coupling/rad2rad/routines_r2r.F
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|        KINSET                        source/constraints/general/kinset.F
-Chd|        RBE2MODIF_ND                  source/elements/solid/solide10/dim_s10edg.F
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        NODGRNR6                      source/starter/freform.F      
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_rbe2         ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../starter/source/output/message/message.F
+      !||    fretitl              ../starter/source/starter/freform.F
+      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_sz_r2r            ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    ifrontplus           ../starter/source/spmd/node/frontplus.F
+      !||    kinset               ../starter/source/constraints/general/kinset.F
+      !||    nlocal               ../starter/source/spmd/node/ddtools.F
+      !||    nodgrnr6             ../starter/source/starter/freform.F
+      !||    rbe2modif_nd         ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    usr2sys              ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    r2r_mod              ../starter/share/modules1/r2r_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_RBE2(IRBE2   ,LRBE2  ,ITAB    ,ITABM1  ,IGRNOD,
      .                        ISKN    ,IKINE  ,IDDLEVEL,NOM_OPT ,ITAGND,
      .                        ICDNS10 ,LSUBMODEL)
@@ -307,21 +307,21 @@ C
  1201 FORMAT('      RBE2_ID IND._NODE REF_DOF   SKEW_ID    #SECONDARY     IFLAG'/)
  1200 FORMAT(3X,2I10,3X,3I1,1X,3I1,3I10)
       END SUBROUTINE HM_READ_RBE2
-Chd|====================================================================
-Chd|  HM_PREREAD_RBE2               source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        HM_SZ_R2R                     source/coupling/rad2rad/routines_r2r.F
-Chd|        NGR2USRN                      source/system/nintrr.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_preread_rbe2      ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_sz_r2r            ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    ngr2usrn             ../starter/source/system/nintrr.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    r2r_mod              ../starter/share/modules1/r2r_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_PREREAD_RBE2(LNUM    ,LREAL,  IGRNOD, LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -382,13 +382,13 @@ C
 C-----------
       RETURN
       END SUBROUTINE HM_PREREAD_RBE2
-Chd|====================================================================
-Chd|  REORBE2                       source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- called by -----------
-Chd|        INIRBE2                       source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- calls ---------------
-Chd|        SETIADM                       source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|====================================================================
+      !||====================================================================
+      !||    reorbe2   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- called by ------------------------------------------------------
+      !||    inirbe2   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- calls      -----------------------------------------------------
+      !||    setiadm   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||====================================================================
       SUBROUTINE REORBE2(IRBE2  ,LRBE2  ,NC )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -533,13 +533,12 @@ C----------reodering---
 C
       RETURN
       END SUBROUTINE REORBE2
-Chd|====================================================================
-Chd|  SETIADM                       source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- called by -----------
-Chd|        HIERARBE2                     source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|        REORBE2                       source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    setiadm     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- called by ------------------------------------------------------
+      !||    hierarbe2   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    reorbe2     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||====================================================================
       SUBROUTINE SETIADM(IADM,NZ,IAD_N,IRBE2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -594,13 +593,13 @@ C========================================================================|
 C
       RETURN
       END SUBROUTINE SETIADM
-Chd|====================================================================
-Chd|  HIERARBE2                     source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- called by -----------
-Chd|        INIRBE2                       source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- calls ---------------
-Chd|        SETIADM                       source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|====================================================================
+      !||====================================================================
+      !||    hierarbe2   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- called by ------------------------------------------------------
+      !||    inirbe2     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- calls      -----------------------------------------------------
+      !||    setiadm     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||====================================================================
       SUBROUTINE HIERARBE2(IRBE2  ,LRBE2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -704,18 +703,19 @@ C
       DEALLOCATE(ITAG,IAD_N)
       RETURN
       END SUBROUTINE HIERARBE2
-Chd|====================================================================
-Chd|  INIRBE2                       source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        HIERARBE2                     source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|        RBE2_MERGE                    source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|        REORBE2                       source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inirbe2       ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- called by ------------------------------------------------------
+      !||    initia        ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    fretitl2      ../starter/source/starter/freform.F
+      !||    hierarbe2     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    rbe2_merge    ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    reorbe2       ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INIRBE2(IRBE2  ,LRBE2  ,ITAB  ,X    ,MS   ,
      .                   IN     ,STIFN  ,STIFR ,TOTMAS,XGT  ,
      .                   YGT    ,ZGT   ,B1    ,B2   ,B3    ,
@@ -982,17 +982,18 @@ C
      .       /10X,'INDEPENDENT NODE NUMBER. . .',I10,
      .       /10X,'NEW MASS. . . . . . . . . . .',1PG20.13,//)
       END SUBROUTINE INIRBE2
-Chd|====================================================================
-Chd|  CONTRBE2                      source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- called by -----------
-Chd|        CONTRL                        source/starter/contrl.F       
-Chd|-- calls ---------------
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    contrbe2             ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- called by ------------------------------------------------------
+      !||    contrl               ../starter/source/starter/contrl.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE CONTRBE2(ICR,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1059,13 +1060,12 @@ C
       RETURN
 C
       END SUBROUTINE CONTRBE2
-Chd|====================================================================
-Chd|  SETELOFF2                     source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    seteloff2      ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur         ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SETELOFF2(IXS    ,IXC    ,IXT    ,IXP    ,IXR    ,
      2                     IXTG   ,IPARG  ,ISOLOFF,ISHEOFF,
      3                     ITRUOFF,IPOUOFF,IRESOFF,ITRIOFF,IGRNRB2,
@@ -1158,20 +1158,21 @@ C
 C  -----DEACTIVATED ELEMENTS will done in SETELOFF------
       RETURN
       END SUBROUTINE SETELOFF2
-Chd|====================================================================
-Chd|  SETRB2ON                      source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        NGR2USRN                      source/system/nintrr.F        
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    setrb2on             ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    ngr2usr              ../starter/source/system/nintrr.F
+      !||    ngr2usrn             ../starter/source/system/nintrr.F
+      !||    usr2sys              ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE SETRB2ON(IXS    ,IXC    ,IXTG   ,IGRNOD ,
      2                    IGRNRB2,ISOLOFF,ISHEOFF,ITRIOFF,ITABM1,
      3                    LSUBMODEL)
@@ -1316,14 +1317,14 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  RBE2_MERGE                    source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- called by -----------
-Chd|        INIRBE2                       source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- calls ---------------
-Chd|        IC_MRG                        source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|        SAME_NSN                      source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe2_merge   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- called by ------------------------------------------------------
+      !||    inirbe2      ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ic_mrg       ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    same_nsn     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||====================================================================
       SUBROUTINE RBE2_MERGE(IRBE2  ,LRBE2  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1389,12 +1390,11 @@ C
       DEALLOCATE(ITAG)
       RETURN
       END SUBROUTINE RBE2_MERGE
-Chd|====================================================================
-Chd|  SAME_NSN                      source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- called by -----------
-Chd|        RBE2_MERGE                    source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    same_nsn     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe2_merge   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||====================================================================
       SUBROUTINE SAME_NSN(NSL,LRBE2_1  ,LRBE2_2,ITAG,ISAME)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1421,13 +1421,13 @@ C========================================================================|
 C
       RETURN
       END SUBROUTINE SAME_NSN
-Chd|====================================================================
-Chd|  IC_MRG                        source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- called by -----------
-Chd|        RBE2_MERGE                    source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- calls ---------------
-Chd|        ICT2JT                        source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ic_mrg       ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe2_merge   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ict2jt       ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||====================================================================
       SUBROUTINE IC_MRG(IC_N,IC1 ,IC2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1463,12 +1463,11 @@ C========================================================================|
 C
       RETURN
       END SUBROUTINE IC_MRG
-Chd|====================================================================
-Chd|  ICT2JT                        source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- called by -----------
-Chd|        IC_MRG                        source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ict2jt   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||--- called by ------------------------------------------------------
+      !||    ic_mrg   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||====================================================================
       SUBROUTINE ICT2JT(ICT,JT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

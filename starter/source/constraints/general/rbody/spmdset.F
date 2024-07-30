@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMDSET                       source/constraints/general/rbody/spmdset.F
-Chd|-- called by -----------
-Chd|        HM_READ_RBODY                 source/constraints/general/rbody/hm_read_rbody.F
-Chd|        TRIRBMERGE                    source/constraints/general/merge/hm_read_merge.F
-Chd|-- calls ---------------
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    spmdset               ../starter/source/constraints/general/rbody/spmdset.F
+      !||--- called by ------------------------------------------------------
+      !||    damping_rby_spmdset   ../starter/source/general_controls/damping/damping_rby_spmdset.F90
+      !||    hm_read_rbody         ../starter/source/constraints/general/rbody/hm_read_rbody.F
+      !||    trirbmerge            ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||--- calls      -----------------------------------------------------
+      !||    ifrontplus            ../starter/source/spmd/node/frontplus.F
+      !||    nlocal                ../starter/source/spmd/node/ddtools.F
+      !||====================================================================
       SUBROUTINE SPMDSET(N,NPBY,NNPBY,LPBY,NSL,K)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

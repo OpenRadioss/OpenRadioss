@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TFCUM3P                       source/elements/truss/tfcum3p.F
-Chd|-- called by -----------
-Chd|        TFORC3                        source/elements/truss/tforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    tfcum3p   ../engine/source/elements/truss/tfcum3p.F
+      !||--- called by ------------------------------------------------------
+      !||    tforc3    ../engine/source/elements/truss/tforc3.F
+      !||====================================================================
       SUBROUTINE TFCUM3P(
      1   FOR,     STI,     FSKY,    FSKYV,
      2   IADT,    FX1,     FX2,     FY1,

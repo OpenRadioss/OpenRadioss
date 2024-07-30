@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  S16RST                        source/elements/thickshell/solide16/s16rst.F
-Chd|-- called by -----------
-Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s16rst     ../engine/source/elements/thickshell/solide16/s16rst.F
+      !||--- called by ------------------------------------------------------
+      !||    s16forc3   ../engine/source/elements/thickshell/solide16/s16forc3.F
+      !||====================================================================
       SUBROUTINE S16RST(R,S,T,
      2   NI   ,DNIDR ,DNIDS ,DNIDT )
 C-----------------------------------------------

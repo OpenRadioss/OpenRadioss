@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DONESEC                       source/output/anim/generate/donesec.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|-- calls ---------------
-Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|====================================================================
+      !||====================================================================
+      !||    donesec           ../engine/source/output/anim/generate/donesec.F
+      !||--- called by ------------------------------------------------------
+      !||    genani            ../engine/source/output/anim/generate/genani.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||====================================================================
       SUBROUTINE DONESEC(ISECT,NESCT,NSTRF,IXS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

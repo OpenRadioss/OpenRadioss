@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
-Chd|-- called by -----------
-Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
-Chd|        S10KE3                        source/elements/solid/solide10/s10ke3.F
-Chd|        S20KE3                        source/elements/solid/solide20/s20ke3.F
-Chd|        S4KE3                         source/elements/solid/solide4/s4ke3.F
-Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6cke3.F
-Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
-Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
-Chd|-- calls ---------------
-Chd|        GETHKT3                       source/elements/solid/solide8z/gethkt3.F
-Chd|        SKTCONS2                      source/elements/solid/solide8z/sktcons2.F
-Chd|        SKTVONM3                      source/elements/solid/solide8z/sktvonm3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    mmstifs    ../engine/source/elements/solid/solide8z/mmstifs.F
+      !||--- called by ------------------------------------------------------
+      !||    q4ke2      ../engine/source/elements/solid_2d/quad4/q4ke2.F
+      !||    s10ke3     ../engine/source/elements/solid/solide10/s10ke3.F
+      !||    s20ke3     ../engine/source/elements/solid/solide20/s20ke3.F
+      !||    s4ke3      ../engine/source/elements/solid/solide4/s4ke3.F
+      !||    s6cke3     ../engine/source/elements/thickshell/solide6c/s6cke3.F
+      !||    s8cke3     ../engine/source/elements/thickshell/solide8c/s8cke3.F
+      !||    s8zke3     ../engine/source/elements/solid/solide8z/s8zke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    gethkt3    ../engine/source/elements/solid/solide8z/gethkt3.F
+      !||    sktcons2   ../engine/source/elements/solid/solide8z/sktcons2.F
+      !||    sktvonm3   ../engine/source/elements/solid/solide8z/sktvonm3.F
+      !||====================================================================
       SUBROUTINE MMSTIFS(
      1   PM,      MAT,     HH,      VOL,
      2   ICSIG,   DD,      GG,      DG,

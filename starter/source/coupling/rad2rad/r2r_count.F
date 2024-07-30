@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R2R_COUNT                     source/coupling/rad2rad/r2r_count.F
-Chd|-- called by -----------
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
-Chd|-- calls ---------------
-Chd|        INCOQ3                        source/interfaces/inter3d1/incoq3.F
-Chd|        INSOL3                        source/interfaces/inter3d1/insol3.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_count      ../starter/source/coupling/rad2rad/r2r_count.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_prelec     ../starter/source/coupling/rad2rad/r2r_prelec.F
+      !||--- calls      -----------------------------------------------------
+      !||    incoq3         ../starter/source/interfaces/inter3d1/incoq3.F
+      !||    insol3         ../starter/source/interfaces/inter3d1/insol3.F
+      !||--- uses       -----------------------------------------------------
+      !||    nod2el_mod     ../starter/share/modules1/nod2el_mod.F
+      !||    r2r_mod        ../starter/share/modules1/r2r_mod.F
+      !||    restmod        ../starter/share/modules1/restart_mod.F
+      !||====================================================================
       SUBROUTINE R2R_COUNT(PASSE,IPARTS,
      2           IPARTC,IPARTG,IGRPP_R2R ,PM_STACK , IWORKSH,
      3           IGRNOD,IGRSURF,IGRSLIN,IGRBRIC,IXS10,

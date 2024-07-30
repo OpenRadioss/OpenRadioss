@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CG                            source/ale/alemuscl/conjugate_gradient.F
-Chd|-- called by -----------
-Chd|        GRADIENT_RECONSTRUCTION       source/ale/alemuscl/gradient_reconstruction.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cg                        ../engine/source/ale/alemuscl/conjugate_gradient.F
+      !||--- called by ------------------------------------------------------
+      !||    gradient_reconstruction   ../engine/source/ale/alemuscl/gradient_reconstruction.F
+      !||====================================================================
       SUBROUTINE CG (dim, mat, rhs, sol, max_iter, tol) 
 C-----------------------------------------------
 C   D e s c r i p t i o n

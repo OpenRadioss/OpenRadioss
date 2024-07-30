@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  M24ANIM                       source/materials/mat/mat024/m24anim.F
-Chd|-- called by -----------
-Chd|        M24LAW                        source/materials/mat/mat024/m24law.F
-Chd|-- calls ---------------
-Chd|        AGLO24                        source/materials/mat/mat024/aglo24.F
-Chd|        UDAM24                        source/materials/mat/mat024/udam24.F
-Chd|====================================================================
+      !||====================================================================
+      !||    m24anim   ../engine/source/materials/mat/mat024/m24anim.F
+      !||--- called by ------------------------------------------------------
+      !||    m24law    ../engine/source/materials/mat/mat024/m24law.F
+      !||--- calls      -----------------------------------------------------
+      !||    aglo24    ../engine/source/materials/mat/mat024/aglo24.F
+      !||    udam24    ../engine/source/materials/mat/mat024/udam24.F
+      !||====================================================================
       SUBROUTINE M24ANIM(DAM,ANG,DAMGLO,NEL,
      .                   R11,R12,R13,R21,R22,
      .                   R23,R31,R32,R33)

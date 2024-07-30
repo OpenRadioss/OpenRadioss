@@ -20,75 +20,76 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|-- called by -----------
-Chd|        FORINTC                       source/elements/forintc.F     
-Chd|-- calls ---------------
-Chd|        CBACOOR                       source/elements/shell/coqueba/cbacoor.F
-Chd|        CBACOORPINCH                  source/elements/shell/coqueba/cbacoorpinch.F
-Chd|        CBACOORT                      source/elements/shell/coqueba/cbacoor.F
-Chd|        CBADEF                        source/elements/shell/coqueba/cbadef.F
-Chd|        CBADEF1                       source/elements/shell/coqueba/cbadef.F
-Chd|        CBADEFPINCH                   source/elements/shell/coqueba/cbadefpinch.F
-Chd|        CBADEFRZ                      source/elements/shell/coqueba/cbadef.F
-Chd|        CBADEFSH                      source/elements/shell/coqueba/cbadef.F
-Chd|        CBADEFSH_PLY                  source/properties/composite_options/stack/cbadef_ply.F
-Chd|        CBADEFT                       source/elements/shell/coqueba/cbadef.F
-Chd|        CBADEFT1                      source/elements/shell/coqueba/cbadef.F
-Chd|        CBADEFTW                      source/elements/shell/coqueba/cbadef.F
-Chd|        CBADEF_PLY                    source/properties/composite_options/stack/cbadef_ply.F
-Chd|        CBADERIRZ                     source/elements/shell/coqueba/cbadef.F
-Chd|        CBADERIRZT                    source/elements/shell/coqueba/cbadef.F
-Chd|        CBADERIT1                     source/elements/shell/coqueba/cbadef.F
-Chd|        CBAENER                       source/elements/shell/coqueba/cbaener.F
-Chd|        CBAENERS                      source/elements/shell/coqueba/cbaener.F
-Chd|        CBAFINT_PLY                   source/properties/composite_options/stack/cbafint_ply.F
-Chd|        CBAFINT_REG                   source/elements/shell/coqueba/cbafint_reg.F
-Chd|        CBAFORCT                      source/elements/shell/coqueba/cbafori.F
-Chd|        CBAFORI                       source/elements/shell/coqueba/cbafori.F
-Chd|        CBAFORI1                      source/elements/shell/coqueba/cbafori.F
-Chd|        CBAFORIPINCH                  source/elements/shell/coqueba/cbaforipinch.F
-Chd|        CBAFORRZ                      source/elements/shell/coqueba/cbafori.F
-Chd|        CBAL58WARP                    source/elements/shell/coqueba/cbawarpoff.F
-Chd|        CBAPINCHPROJ                  source/elements/shell/coqueba/cbapinchproj.F
-Chd|        CBAPINCHTHK                   source/elements/shell/coqueba/cbapinchthk.F
-Chd|        CBAPROJ                       source/elements/shell/coqueba/cbaproj.F
-Chd|        CBAPROJ_PLY                   source/properties/composite_options/stack/cbaproj_ply.F
-Chd|        CBASTRA3                      source/elements/shell/coqueba/cbastra3.F
-Chd|        CBASTRA3PINCH                 source/elements/shell/coqueba/cbastra3pinch.F
-Chd|        CBATEMPEL                     source/elements/shell/coqueba/cbatempel.F
-Chd|        CBATHERM                      source/elements/shell/coqueba/cbatherm.F
-Chd|        CBAVARNL                      source/elements/shell/coqueba/cbavarnl.F
-Chd|        CBAVISC                       source/elements/shell/coqueba/cbavisc.F
-Chd|        CBAVISNP1                     source/elements/shell/coqueba/cbavisc.F
-Chd|        CBAVIT_PLY                    source/properties/composite_options/stack/cbavit_ply.F
-Chd|        CBILAN                        source/elements/shell/coque/cbilan.F
-Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
-Chd|        CMAIN3PINCH                   source/elements/shell/coqueba/cmain3pinch.F
-Chd|        CNCOEF3                       source/elements/sh3n/coquedk/cncoef3.F
-Chd|        CNDT3                         source/elements/sh3n/coquedk/cndt3.F
-Chd|        CNDT3PINCH                    source/elements/shell/coqueba/cndt3pinch.F
-Chd|        CNDT_PLY                      source/properties/composite_options/stack/cndt_ply.F
-Chd|        CUPDT3F                       source/elements/shell/coque/cupdt3.F
-Chd|        CUPDTN3                       source/elements/shell/coque/cupdtn3.F
-Chd|        CUPDTN3P                      source/elements/shell/coque/cupdtn3.F
-Chd|        CUPDTN3PINCH                  source/elements/shell/coqueba/cupdtn3pinch.F
-Chd|        CUPDT_PLY                     source/properties/composite_options/stack/cupdt_ply.F
-Chd|        DTCBA_REG                     source/elements/shell/coqueba/dtcba_reg.F
-Chd|        DTTHERM                       source/elements/sh3n/coquedk/dttherm.F
-Chd|        SET_FAILWAVE_SH4N             source/materials/fail/failwave/upd_failwave_sh4n.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        PINCH_LOCAL_MOD               share/modules/pinch_local_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    cbaforc3            ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||--- called by ------------------------------------------------------
+      !||    forintc             ../engine/source/elements/forintc.F
+      !||--- calls      -----------------------------------------------------
+      !||    cbacoor             ../engine/source/elements/shell/coqueba/cbacoor.F
+      !||    cbacoorpinch        ../engine/source/elements/shell/coqueba/cbacoorpinch.F
+      !||    cbacoort            ../engine/source/elements/shell/coqueba/cbacoor.F
+      !||    cbadef              ../engine/source/elements/shell/coqueba/cbadef.F
+      !||    cbadef1             ../engine/source/elements/shell/coqueba/cbadef.F
+      !||    cbadef_ply          ../engine/source/properties/composite_options/stack/cbadef_ply.F
+      !||    cbadefpinch         ../engine/source/elements/shell/coqueba/cbadefpinch.F
+      !||    cbadefrz            ../engine/source/elements/shell/coqueba/cbadef.F
+      !||    cbadefsh            ../engine/source/elements/shell/coqueba/cbadef.F
+      !||    cbadefsh_ply        ../engine/source/properties/composite_options/stack/cbadef_ply.F
+      !||    cbadeft             ../engine/source/elements/shell/coqueba/cbadef.F
+      !||    cbadeft1            ../engine/source/elements/shell/coqueba/cbadef.F
+      !||    cbadeftw            ../engine/source/elements/shell/coqueba/cbadef.F
+      !||    cbaderirz           ../engine/source/elements/shell/coqueba/cbadef.F
+      !||    cbaderirzt          ../engine/source/elements/shell/coqueba/cbadef.F
+      !||    cbaderit1           ../engine/source/elements/shell/coqueba/cbadef.F
+      !||    cbaener             ../engine/source/elements/shell/coqueba/cbaener.F
+      !||    cbaeners            ../engine/source/elements/shell/coqueba/cbaener.F
+      !||    cbafint_ply         ../engine/source/properties/composite_options/stack/cbafint_ply.F
+      !||    cbafint_reg         ../engine/source/elements/shell/coqueba/cbafint_reg.F
+      !||    cbaforct            ../engine/source/elements/shell/coqueba/cbafori.F
+      !||    cbafori             ../engine/source/elements/shell/coqueba/cbafori.F
+      !||    cbafori1            ../engine/source/elements/shell/coqueba/cbafori.F
+      !||    cbaforipinch        ../engine/source/elements/shell/coqueba/cbaforipinch.F
+      !||    cbaforrz            ../engine/source/elements/shell/coqueba/cbafori.F
+      !||    cbal58warp          ../engine/source/elements/shell/coqueba/cbawarpoff.F
+      !||    cbapinchproj        ../engine/source/elements/shell/coqueba/cbapinchproj.F
+      !||    cbapinchthk         ../engine/source/elements/shell/coqueba/cbapinchthk.F
+      !||    cbaproj             ../engine/source/elements/shell/coqueba/cbaproj.F
+      !||    cbaproj_ply         ../engine/source/properties/composite_options/stack/cbaproj_ply.F
+      !||    cbastra3            ../engine/source/elements/shell/coqueba/cbastra3.F
+      !||    cbastra3pinch       ../engine/source/elements/shell/coqueba/cbastra3pinch.F
+      !||    cbatempel           ../engine/source/elements/shell/coqueba/cbatempel.F
+      !||    cbatherm            ../engine/source/elements/shell/coqueba/cbatherm.F
+      !||    cbavarnl            ../engine/source/elements/shell/coqueba/cbavarnl.F
+      !||    cbavisc             ../engine/source/elements/shell/coqueba/cbavisc.F
+      !||    cbavisnp1           ../engine/source/elements/shell/coqueba/cbavisc.F
+      !||    cbavit_ply          ../engine/source/properties/composite_options/stack/cbavit_ply.F
+      !||    cbilan              ../engine/source/elements/shell/coque/cbilan.F
+      !||    cmain3              ../engine/source/materials/mat_share/cmain3.F
+      !||    cmain3pinch         ../engine/source/elements/shell/coqueba/cmain3pinch.F
+      !||    cncoef3             ../engine/source/elements/sh3n/coquedk/cncoef3.F
+      !||    cndt3               ../engine/source/elements/sh3n/coquedk/cndt3.F
+      !||    cndt3pinch          ../engine/source/elements/shell/coqueba/cndt3pinch.F
+      !||    cndt_ply            ../engine/source/properties/composite_options/stack/cndt_ply.F
+      !||    cupdt3f             ../engine/source/elements/shell/coque/cupdt3.F
+      !||    cupdt_ply           ../engine/source/properties/composite_options/stack/cupdt_ply.F
+      !||    cupdtn3             ../engine/source/elements/shell/coque/cupdtn3.F
+      !||    cupdtn3p            ../engine/source/elements/shell/coque/cupdtn3.F
+      !||    cupdtn3pinch        ../engine/source/elements/shell/coqueba/cupdtn3pinch.F
+      !||    dtcba_reg           ../engine/source/elements/shell/coqueba/dtcba_reg.F
+      !||    dttherm             ../engine/source/elements/sh3n/coquedk/dttherm.F
+      !||    set_failwave_sh4n   ../engine/source/materials/fail/failwave/upd_failwave_sh4n.F
+      !||    startime            ../engine/source/system/timer.F
+      !||    stoptime            ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod           ../engine/share/modules/drape_mod.F
+      !||    failwave_mod        ../common_source/modules/failwave_mod.F
+      !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    nlocal_reg_mod      ../common_source/modules/nlocal_reg_mod.F
+      !||    pinch_local_mod     ../engine/share/modules/pinch_local_mod.F
+      !||    sensor_mod          ../engine/share/modules/sensor_mod.F
+      !||    stack_mod           ../engine/share/modules/stack_mod.F
+      !||    table_mod           ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE CBAFORC3(
      1   ELBUF_STR,   JFT,         JLT,         NFT,
      2   NPT,         IPARI,       MTN,         IPRI,

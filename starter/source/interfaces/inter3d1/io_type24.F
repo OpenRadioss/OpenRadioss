@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IO_TYPE24                     source/interfaces/inter3d1/io_type24.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        IO_IARRAY                     source/interfaces/inter3d1/io_type24.F
-Chd|        IO_RARRAY                     source/interfaces/inter3d1/io_type24.F
-Chd|====================================================================
+      !||====================================================================
+      !||    io_type24   ../starter/source/interfaces/inter3d1/io_type24.F
+      !||--- calls      -----------------------------------------------------
+      !||    io_iarray   ../starter/source/interfaces/inter3d1/io_type24.F
+      !||    io_rarray   ../starter/source/interfaces/inter3d1/io_type24.F
+      !||====================================================================
       SUBROUTINE IO_TYPE24(IDO,IOUT,
      .                     IGAP, 
      .                     IPEN0,   
@@ -321,11 +320,9 @@ c     WRITE(6,*) " RWA       ";CALL IO_RARRAY (RWA      ,SIZ_RWA      ,IOUT ,FLA
 
       RETURN
       END
-Chd|====================================================================
-Chd|  IO_INT                        source/interfaces/inter3d1/io_type24.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    io_int   ../starter/source/interfaces/inter3d1/io_type24.F
+      !||====================================================================
       SUBROUTINE IO_INT(SCALAR,IOUT,FLAG)
 C============================================================================
 C-----------------------------------------------
@@ -361,12 +358,11 @@ c     CALL FLUSH(700)
       RETURN
       END
 
-Chd|====================================================================
-Chd|  IO_IARRAY                     source/interfaces/inter3d1/io_type24.F
-Chd|-- called by -----------
-Chd|        IO_TYPE24                     source/interfaces/inter3d1/io_type24.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    io_iarray   ../starter/source/interfaces/inter3d1/io_type24.F
+      !||--- called by ------------------------------------------------------
+      !||    io_type24   ../starter/source/interfaces/inter3d1/io_type24.F
+      !||====================================================================
       SUBROUTINE IO_IARRAY(ARRAY,LENGTH,IOUT,FLAG)
 C============================================================================
 C-----------------------------------------------
@@ -405,12 +401,11 @@ c          WRITE(6,*) I,ARRAY(I)
       RETURN
       END
 C============================================================================
-Chd|====================================================================
-Chd|  IO_RARRAY                     source/interfaces/inter3d1/io_type24.F
-Chd|-- called by -----------
-Chd|        IO_TYPE24                     source/interfaces/inter3d1/io_type24.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    io_rarray   ../starter/source/interfaces/inter3d1/io_type24.F
+      !||--- called by ------------------------------------------------------
+      !||    io_type24   ../starter/source/interfaces/inter3d1/io_type24.F
+      !||====================================================================
       SUBROUTINE IO_RARRAY(ARRAY,LENGTH,IOUT,FLAG)
 C-----------------------------------------------
 C   M o d u l e s

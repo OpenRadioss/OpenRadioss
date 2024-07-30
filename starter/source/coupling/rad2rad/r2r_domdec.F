@@ -20,22 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R2R_DOMDEC                    source/coupling/rad2rad/r2r_domdec.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_domdec      ../starter/source/coupling/rad2rad/r2r_domdec.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur          ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../starter/source/output/message/message.F
+      !||    ifrontplus      ../starter/source/spmd/node/frontplus.F
+      !||    nlocal          ../starter/source/spmd/node/ddtools.F
+      !||    plist_ifront    ../starter/source/spmd/node/ddtools.F
+      !||    usr2sys         ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    r2r_mod         ../starter/share/modules1/r2r_mod.F
+      !||    restmod         ../starter/share/modules1/restart_mod.F
+      !||====================================================================
       SUBROUTINE R2R_DOMDEC(IEXTER,IGRNOD,FRONTB_R2R,DT_R2R,FLAG)
 C-----------------------------------------------
 C   M o d u l e s

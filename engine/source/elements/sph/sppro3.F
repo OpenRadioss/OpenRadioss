@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPPRO3                        source/elements/sph/sppro3.F  
-Chd|-- called by -----------
-Chd|        SPTRIVOX                      source/elements/sph/sptrivox.F
-Chd|-- calls ---------------
-Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    sppro3     ../engine/source/elements/sph/sppro3.F
+      !||--- called by ------------------------------------------------------
+      !||    sptrivox   ../engine/source/elements/sph/sptrivox.F
+      !||--- calls      -----------------------------------------------------
+      !||    myqsort    ../common_source/tools/sort/myqsort.F
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox     ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPPRO3(IL    ,KXSP ,IXSP ,NOD2SP,JVOIS,
      .                  JSTOR,JPERM ,DVOIS,IREDUCE,KREDUCE,
      .                  KXSPR,IXSPR,TAB_DK)

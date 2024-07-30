@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RBE2V                         source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        PRERBE2                       source/constraints/general/rbe2/rbe2f.F
-Chd|        RBE2V1                        source/constraints/general/rbe2/rbe2v.F
-Chd|        RBE2VL1                       source/constraints/general/rbe2/rbe2v.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe2v     ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- called by ------------------------------------------------------
+      !||    resol     ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    prerbe2   ../engine/source/constraints/general/rbe2/rbe2f.F
+      !||    rbe2v1    ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rbe2vl1   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE RBE2V(IRBE2 ,LRBE2 ,X    ,A     ,AR    ,
      1                 V     ,VR    ,SKEW  )
 C-----------------------------------------------
@@ -73,11 +73,9 @@ C======================================================================|
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE2V0                        source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe2v0   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE RBE2V0(NSL   ,ISL   ,X     ,A     ,AR    ,
      1                  V     ,VR    ,JT    ,JR    ,M     )
 C-----------------------------------------------
@@ -132,11 +130,9 @@ C     VR(J,NS)= VR(J,M)
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE2VL                        source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe2vl   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE RBE2VL(NSN   ,ISL   ,X     ,A     ,AR    ,
      1                  V     ,VR    ,JT    ,JR    ,M     ,
      2                  SKEW  )
@@ -210,16 +206,16 @@ C======================================================================|
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE2_IMPD                     source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|        RECUKIN                       source/implicit/recudis.F     
-Chd|-- calls ---------------
-Chd|        PRERBE2                       source/constraints/general/rbe2/rbe2f.F
-Chd|        RBE2D0                        source/constraints/general/rbe2/rbe2v.F
-Chd|        RBE2DL2                       source/constraints/general/rbe2/rbe2v.F
-Chd|        RBE2DL3                       source/constraints/general/rbe2/rbe2v.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe2_impd   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- called by ------------------------------------------------------
+      !||    recukin     ../engine/source/implicit/recudis.F
+      !||--- calls      -----------------------------------------------------
+      !||    prerbe2     ../engine/source/constraints/general/rbe2/rbe2f.F
+      !||    rbe2d0      ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rbe2dl2     ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rbe2dl3     ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE RBE2_IMPD(IRBE2 ,LRBE2 ,X    ,D     ,DR    ,SKEW )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -268,13 +264,13 @@ C======================================================================|
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE2D0                        source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|        RBE2_IMPD                     source/constraints/general/rbe2/rbe2v.F
-Chd|-- calls ---------------
-Chd|        VELROT                        source/constraints/general/rbe2/rbe2v.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe2d0      ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe2_impd   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- calls      -----------------------------------------------------
+      !||    velrot      ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE RBE2D0(NSL   ,ISL   ,X     ,V     ,VR    ,
      1                  JT    ,JR    ,M     ,IRAD  )
 C-----------------------------------------------
@@ -369,11 +365,9 @@ C
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE2DL                        source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe2dl   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE RBE2DL(NSN   ,ISL   ,X     ,V     ,VR    ,
      1                  JT    ,JR    ,M     ,SKEW  )
 C-----------------------------------------------
@@ -446,14 +440,14 @@ C======================================================================|
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE2DL2                       source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|        RBE2_IMPD                     source/constraints/general/rbe2/rbe2v.F
-Chd|-- calls ---------------
-Chd|        CDI_BCN1                      source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE2D_BCL                     source/constraints/general/rbe2/rbe2v.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe2dl2     ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe2_impd   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- calls      -----------------------------------------------------
+      !||    cdi_bcn1    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe2d_bcl   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE RBE2DL2(NSN   ,ISL   ,X     ,V     ,VR    ,
      1                   JT    ,JR    ,M     ,SKEW  ,IRAD  )
 C-----------------------------------------------
@@ -524,16 +518,16 @@ C
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE2D_BCL                     source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|        RBE2DL2                       source/constraints/general/rbe2/rbe2v.F
-Chd|        RBE2VL1                       source/constraints/general/rbe2/rbe2v.F
-Chd|        RBE2_FRD                      source/constraints/general/rbe2/rbe2v.F
-Chd|-- calls ---------------
-Chd|        DIR_RBE2                      source/constraints/general/rbe2/rbe2v.F
-Chd|        L_DIR                         source/constraints/general/bcs/bc_imp0.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe2d_bcl   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe2_frd    ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rbe2dl2     ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rbe2vl1     ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- calls      -----------------------------------------------------
+      !||    dir_rbe2    ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    l_dir       ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||====================================================================
       SUBROUTINE RBE2D_BCL(ICT  ,NSN   ,ISL   ,M     ,V     ,
      1                    SKEW  )
 C-----------------------------------------------
@@ -693,29 +687,28 @@ C-------------------110---------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  DIR_RBE2                      source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|        BCL_IMPD                      source/constraints/general/bcs/bc_imp0.F
-Chd|        BC_FI2                        source/constraints/general/bcs/bc_imp0.F
-Chd|        BC_UPD2D                      source/constraints/general/bcs/bc_imp0.F
-Chd|        BC_UPDF2D                     source/constraints/general/bcs/bc_imp0.F
-Chd|        BC_UPDFR2                     source/constraints/general/bcs/bc_imp0.F
-Chd|        BC_UPDK2D                     source/constraints/general/bcs/bc_imp0.F
-Chd|        CDI_BCN                       source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        CDI_BCN1                      source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        FVBC_COMPA0                   source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_UPDKD2                     source/constraints/general/bcs/bc_imp0.F
-Chd|        GETBCL_J                      source/constraints/general/impvel/fv_imp0.F
-Chd|        GFVBC2_IND                    source/constraints/general/impvel/fv_imp0.F
-Chd|        RBE2D_BCL                     source/constraints/general/rbe2/rbe2v.F
-Chd|        RBE2FLSN                      source/constraints/general/rbe2/rbe2f.F
-Chd|        RBE2FLSNFR                    source/constraints/general/rbe2/rbe2f.F
-Chd|        RBE2IMPBSN                    source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE2_BCL                      source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        SELECT_DOF                    source/constraints/general/rbe2/rbe2v.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dir_rbe2      ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- called by ------------------------------------------------------
+      !||    bc_fi2        ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    bc_upd2d      ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    bc_updf2d     ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    bc_updfr2     ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    bc_updk2d     ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    bcl_impd      ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    cdi_bcn       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    cdi_bcn1      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    fv_updkd2     ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    fvbc_compa0   ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    getbcl_j      ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    gfvbc2_ind    ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    rbe2_bcl      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe2d_bcl     ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rbe2flsn      ../engine/source/constraints/general/rbe2/rbe2f.F
+      !||    rbe2flsnfr    ../engine/source/constraints/general/rbe2/rbe2f.F
+      !||    rbe2impbsn    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    select_dof    ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE DIR_RBE2(J    ,J1    ,K     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -740,12 +733,11 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE2V1                        source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|        RBE2V                         source/constraints/general/rbe2/rbe2v.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe2v1   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe2v    ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE RBE2V1(NSL   ,ISL   ,X     ,A     ,AR    ,
      1                  V     ,VR    ,JT    ,JR    ,M     ,
      2                  IRAD  )
@@ -843,14 +835,14 @@ C
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE2VL1                       source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|        RBE2V                         source/constraints/general/rbe2/rbe2v.F
-Chd|-- calls ---------------
-Chd|        CDI_BCN1                      source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE2D_BCL                     source/constraints/general/rbe2/rbe2v.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe2vl1     ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe2v       ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- calls      -----------------------------------------------------
+      !||    cdi_bcn1    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe2d_bcl   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE RBE2VL1(NSL   ,ISL   ,X     ,A     ,AR    ,
      1                   V     ,VR    ,JT    ,JR    ,M     ,
      2                   SKEW  ,IRAD  )
@@ -977,15 +969,15 @@ C
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE2_FRD                      source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|        FR_U2DD                       source/mpi/implicit/imp_fri.F 
-Chd|        IMP3_U2X                      source/airbag/monv_imp0.F     
-Chd|-- calls ---------------
-Chd|        CDI_BCN1                      source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE2D_BCL                     source/constraints/general/rbe2/rbe2v.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe2_frd    ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- called by ------------------------------------------------------
+      !||    fr_u2dd     ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp3_u2x    ../engine/source/airbag/monv_imp0.F
+      !||--- calls      -----------------------------------------------------
+      !||    cdi_bcn1    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe2d_bcl   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE RBE2_FRD(NS    ,M     ,X     ,V     ,VR    ,
      1                    JT    ,JR    ,SKEW0 ,ISK   ,IRAD  )
 C-----------------------------------------------
@@ -1068,19 +1060,19 @@ C---
       RETURN
       END
 
-Chd|====================================================================
-Chd|  VELROT                        source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|        FV_IMP                        source/constraints/general/impvel/fv_imp0.F
-Chd|        I2RECU0                       source/interfaces/interf/i2_imp2.F
-Chd|        I2RECU2                       source/interfaces/interf/i2_imp2.F
-Chd|        RBE2D0                        source/constraints/general/rbe2/rbe2v.F
-Chd|        RBE2DL3                       source/constraints/general/rbe2/rbe2v.F
-Chd|        RBY_IMP7                      source/constraints/general/rbody/rby_impd.F
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        CROSSPRODUCT                  source/constraints/general/rbe2/rbe2v.F
-Chd|====================================================================
+      !||====================================================================
+      !||    velrot         ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- called by ------------------------------------------------------
+      !||    fv_imp         ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    i2recu0        ../engine/source/interfaces/interf/i2_imp2.F
+      !||    i2recu2        ../engine/source/interfaces/interf/i2_imp2.F
+      !||    rbe2d0         ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rbe2dl3        ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rby_imp7       ../engine/source/constraints/general/rbody/rby_impd.F
+      !||    spb_rm_rig     ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    crossproduct   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE VELROT(VRM,LSM,VS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1219,12 +1211,11 @@ C SO NO VELOCITY WILL BE CAUSED BY THIS ROTATION
       END SUBROUTINE !VELROT
 
 
-Chd|====================================================================
-Chd|  CROSSPRODUCT                  source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|        VELROT                        source/constraints/general/rbe2/rbe2v.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    crossproduct   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- called by ------------------------------------------------------
+      !||    velrot         ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE CROSSPRODUCT(X,Y,Z)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1245,15 +1236,15 @@ C         CALCULATE CROSSPRODUCT Z = X (X) Y
 
       END ! SUBROUTINE CROSSPRODUCT
 
-Chd|====================================================================
-Chd|  RBE2DL3                       source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|        RBE2_IMPD                     source/constraints/general/rbe2/rbe2v.F
-Chd|-- calls ---------------
-Chd|        SELECT_DOF                    source/constraints/general/rbe2/rbe2v.F
-Chd|        UPDATE_GLOBV                  source/constraints/general/rbe2/rbe2v.F
-Chd|        VELROT                        source/constraints/general/rbe2/rbe2v.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe2dl3        ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe2_impd      ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- calls      -----------------------------------------------------
+      !||    select_dof     ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    update_globv   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    velrot         ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE RBE2DL3(NSN   ,ISL   ,X     ,V     ,VR    ,
      1                   JT    ,JR    ,M     ,SKEW  ,IRAD  )
 C-----------------------------------------------
@@ -1353,14 +1344,14 @@ C---
       RETURN
       END ! SUBROUTINE RBE2DL3
 
-Chd|====================================================================
-Chd|  SELECT_DOF                    source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|        RBE2DL3                       source/constraints/general/rbe2/rbe2v.F
-Chd|-- calls ---------------
-Chd|        DIR_RBE2                      source/constraints/general/rbe2/rbe2v.F
-Chd|        L_DIR                         source/constraints/general/bcs/bc_imp0.F
-Chd|====================================================================
+      !||====================================================================
+      !||    select_dof   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe2dl3      ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- calls      -----------------------------------------------------
+      !||    dir_rbe2     ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    l_dir        ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||====================================================================
       SUBROUTINE SELECT_DOF(ICT, SKEW, J, J1, K)
 #include "implicit_f.inc"
 
@@ -1448,12 +1439,11 @@ C-------------------110---------------------
       END !SUBROUTINE SELECT_DOF
 
 
-Chd|====================================================================
-Chd|  UPDATE_GLOBV                  source/constraints/general/rbe2/rbe2v.F
-Chd|-- called by -----------
-Chd|        RBE2DL3                       source/constraints/general/rbe2/rbe2v.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    update_globv   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe2dl3        ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||====================================================================
       SUBROUTINE UPDATE_GLOBV(ICT,NS,VLS,V,SKEW,J, J1, K)
 #include "implicit_f.inc"
 #include "param_c.inc"

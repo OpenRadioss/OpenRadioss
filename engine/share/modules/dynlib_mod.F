@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DYNLIB_MOD                    share/modules/dynlib_mod.F    
-Chd|-- called by -----------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        RADIOSS0                      source/engine/radioss0.F      
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dynlib_mod   ../engine/share/modules/dynlib_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    arret        ../engine/source/system/arret.F
+      !||    radioss0     ../engine/source/engine/radioss0.F
+      !||    radioss2     ../engine/source/engine/radioss2.F
+      !||    resol        ../engine/source/engine/resol.F
+      !||====================================================================
       MODULE DYNLIB_MOD
 !$COMMENT
 !       DYNLIB_MOD :
@@ -88,13 +87,12 @@ C-----------------------------------------------
 
         CONTAINS
 !       -----------------------------------------------
-Chd|====================================================================
-Chd|  INIT_DYN_LIB_STRUC            share/modules/dynlib_mod.F    
-Chd|-- called by -----------
-Chd|        RADIOSS0                      source/engine/radioss0.F      
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    init_dyn_lib_struc   ../engine/share/modules/dynlib_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss0             ../engine/source/engine/radioss0.F
+      !||    radioss2             ../engine/source/engine/radioss2.F
+      !||====================================================================
         SUBROUTINE INIT_DYN_LIB_STRUC(MODE)
 !$COMMENT
 !           INIT_DYN_LIB_STRUC description

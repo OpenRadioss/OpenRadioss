@@ -20,26 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS51                      source/materials/mat/mat051/sigeps51.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        COMPUTE_BFRAC                 source/materials/mat/mat051/compute_bfrac.F
-Chd|        DPRAG51                       source/materials/mat/mat051/dprag51.F
-Chd|        JCOOK51                       source/materials/mat/mat051/jcook51.F
-Chd|        JWL51                         source/materials/mat/mat051/jwl51.F
-Chd|        JWLUN51                       source/materials/mat/mat051/jwl51.F
-Chd|        M51VOIS2                      source/materials/mat/mat051/m51vois2.F
-Chd|        M51VOIS3                      source/materials/mat/mat051/m51vois3.F
-Chd|        POLY51                        source/materials/mat/mat051/polynomial51.F
-Chd|        POLYUN51                      source/materials/mat/mat051/polynomial51.F
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps51               ../engine/source/materials/mat/mat051/sigeps51.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw                  ../engine/source/materials/mat_share/mulaw.F90
+      !||--- calls      -----------------------------------------------------
+      !||    compute_bfrac          ../engine/source/materials/mat/mat051/compute_bfrac.F
+      !||    dprag51                ../engine/source/materials/mat/mat051/dprag51.F
+      !||    finter                 ../engine/source/tools/curve/finter.F
+      !||    jcook51                ../engine/source/materials/mat/mat051/jcook51.F
+      !||    jwl51                  ../engine/source/materials/mat/mat051/jwl51.F
+      !||    jwlun51                ../engine/source/materials/mat/mat051/jwl51.F
+      !||    m51vois2               ../engine/source/materials/mat/mat051/m51vois2.F
+      !||    m51vois3               ../engine/source/materials/mat/mat051/m51vois3.F
+      !||    poly51                 ../engine/source/materials/mat/mat051/polynomial51.F
+      !||    polyun51               ../engine/source/materials/mat/mat051/polynomial51.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||====================================================================
       SUBROUTINE SIGEPS51 (
      1     NEL    ,NUPARAM     ,NUVAR   ,NFUNC   ,IFUNC    ,
      2     NPF    ,TF          ,TIME    ,TIMESTEP,UPARAM   ,NUMEL  ,

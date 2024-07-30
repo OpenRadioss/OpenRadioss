@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7TRIVOX1                     source/interfaces/inter3d1/i7trivox1.F
-Chd|-- called by -----------
-Chd|        I7BUC_VOX1                    source/interfaces/inter3d1/i7buc_vox1.F
-Chd|-- calls ---------------
-Chd|        I7CMP3                        source/interfaces/inter3d1/i7cmp3.F
-Chd|        I7COR3                        source/interfaces/inter3d1/i7cor3.F
-Chd|        I7DST3                        source/interfaces/inter3d1/i7dst3.F
-Chd|        I7PEN3                        source/interfaces/inter3d1/i7pen3.F
-Chd|        TRI7BOX                       share/modules1/tri7box.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    i7trivox1    ../starter/source/interfaces/inter3d1/i7trivox1.F
+      !||--- called by ------------------------------------------------------
+      !||    i7buc_vox1   ../starter/source/interfaces/inter3d1/i7buc_vox1.F
+      !||--- calls      -----------------------------------------------------
+      !||    i7cmp3       ../starter/source/interfaces/inter3d1/i7cmp3.F
+      !||    i7cor3       ../starter/source/interfaces/inter3d1/i7cor3.F
+      !||    i7dst3       ../starter/source/interfaces/inter3d1/i7dst3.F
+      !||    i7pen3       ../starter/source/interfaces/inter3d1/i7pen3.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box      ../starter/share/modules1/tri7box.F
+      !||====================================================================
       SUBROUTINE I7TRIVOX1(
      1      NSN    ,I_MEM   ,IRECT    ,X       ,STF     ,
      2      STFN   ,XYZM    ,NSV      ,CAND_N  ,CAND_E  ,

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SHVIS3                        source/elements/solid/solide/shvis3.F
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    shvis3    ../engine/source/elements/solid/solide/shvis3.F
+      !||--- called by ------------------------------------------------------
+      !||    sforc3    ../engine/source/elements/solid/solide/sforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod   ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
       SUBROUTINE SHVIS3(
      1   PM,       RHO,      OFF,      VX1,
      2   VX2,      VX3,      VX4,      VX5,

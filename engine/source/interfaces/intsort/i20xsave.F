@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I20XSAVE                      source/interfaces/intsort/i20xsave.F
-Chd|-- called by -----------
-Chd|        I20MAIN_TRI                   source/interfaces/intsort/i20main_tri.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i20xsave      ../engine/source/interfaces/intsort/i20xsave.F
+      !||--- called by ------------------------------------------------------
+      !||    i20main_tri   ../engine/source/interfaces/intsort/i20main_tri.F
+      !||====================================================================
        SUBROUTINE I20XSAVE(
      1       ITASK ,XA    ,NTY   ,NSN     ,
      2       NMN   ,NSNE  ,NMNE  ,NLN     ,

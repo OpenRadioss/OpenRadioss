@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MAT87C_TABULATED_PLAS_SR      source/materials/mat/mat087/mat87c_tabulated_plas_sr.F
-Chd|-- called by -----------
-Chd|        SIGEPS87C                     source/materials/mat/mat087/sigeps87c.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    mat87c_tabulated_plas_sr   ../engine/source/materials/mat/mat087/mat87c_tabulated_plas_sr.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps87c                  ../engine/source/materials/mat/mat087/sigeps87c.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                     ../engine/source/tools/curve/finter.F
+      !||====================================================================
       SUBROUTINE MAT87C_TABULATED_PLAS_SR(
      1     NEL    ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC    ,
      2     NPF    ,TF      ,TIME    ,TIMESTEP,UPARAM   ,

@@ -20,22 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STRI                          source/tools/univ/stri.F      
-Chd|-- called by -----------
-Chd|        HIST1                         source/output/th/hist1.F      
-Chd|        HIST13                        source/output/th/hist13.F     
-Chd|        I21ASS3                       source/interfaces/int21/i21ass3.F
-Chd|        I21FOR3                       source/interfaces/int21/i21for3.F
-Chd|        I21MAINF                      source/interfaces/int21/i21mainf.F
-Chd|        I23MAINF                      source/interfaces/int23/i23mainf.F
-Chd|        LECNOISE                      source/general_controls/computation/lecnoise.F
-Chd|        WRTDES                        source/output/th/wrtdes.F     
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        STRI                          source/tools/univ/stri.F      
-Chd|-- calls ---------------
-Chd|        STRI                          source/tools/univ/stri.F      
-Chd|====================================================================
       CHARACTER*8 FUNCTION STRI(N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

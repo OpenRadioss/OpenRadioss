@@ -20,19 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTBUF_INI                    interf/intbuf_ini.F           
-Chd|-- called by -----------
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|        ARRET                         starter/source/system/arret.F 
-Chd|        ARRET                         engine/source/system/arret.F  
-Chd|        INTBUF_INI_T8                 interf/intbuf_ini.F           
-Chd|        READ_DB                       tools/input_output/read_db.F  
-Chd|        READ_I_C                      tools/input_output/write_routtines.c
-Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
-Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    intbuf_ini      ../common_source/interf/intbuf_ini.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb          ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret           ../engine/source/system/arret.F
+      !||    intbuf_ini_t8   ../common_source/interf/intbuf_ini.F
+      !||    read_db         ../common_source/tools/input_output/read_db.F
+      !||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INTBUF_INI(INTBUF_TAB)  
 C-----------------------------------------------
 C   M o d u l e s
@@ -2127,13 +2126,14 @@ C-----
       RETURN
 
       END SUBROUTINE INTBUF_INI
-Chd|====================================================================
-Chd|  INTBUF_INI_T8                 interf/intbuf_ini.F           
-Chd|-- called by -----------
-Chd|        INTBUF_INI                    common_source/interf/intbuf_ini.F
-Chd|-- calls ---------------
-Chd|        READ_I_C                      tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    intbuf_ini_t8   ../common_source/interf/intbuf_ini.F
+      !||--- called by ------------------------------------------------------
+      !||    intbuf_ini      ../common_source/interf/intbuf_ini.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INTBUF_INI_T8(T8)  
 C Reads the T8 structures
 

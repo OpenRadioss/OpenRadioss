@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTER_CELL_COLOR              source/interfaces/generic/inter_cell_color.F
-Chd|-- called by -----------
-Chd|        INTER_COLOR_VOXEL             source/interfaces/generic/inter_color_voxel.F
-Chd|-- calls ---------------
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inter_cell_color    ../engine/source/interfaces/generic/inter_cell_color.F
+      !||--- called by ------------------------------------------------------
+      !||    inter_color_voxel   ../engine/source/interfaces/generic/inter_color_voxel.F
+      !||--- uses       -----------------------------------------------------
+      !||    inter_sorting_mod   ../engine/share/modules/inter_sorting_mod.F
+      !||    inter_struct_mod    ../engine/share/modules/inter_struct_mod.F
+      !||====================================================================
         SUBROUTINE INTER_CELL_COLOR(X,IGAP   ,NRTM  ,STF   ,
      2              TZINF  ,CURV_MAX,
      3              GAPMIN ,GAPMAX,GAP_M ,

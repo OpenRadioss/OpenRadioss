@@ -21,15 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  WRITE_TH_BUFFER               source/restart/ddsplit/write_th_buffer.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        W_TH                          source/restart/ddsplit/w_th.F 
-Chd|        TIME_HISTORY_MOD              ../common_source/modules/output/time_history_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    write_th_buffer    ../starter/source/restart/ddsplit/write_th_buffer.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit            ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    w_th               ../starter/source/restart/ddsplit/w_th.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE WRITE_TH_BUFFER(TH       ,NODLOCAL ,CEL      ,P,
      2                           NTHGRP0  ,NTHGRP   ,NTHGRP01 ,NTHGRP1  , 
      3                           SCEL     ,NUMSPH   ,NUMNOD   ,NCLUSTER ,

@@ -27,6 +27,16 @@
 !! \details  with law151 (collocated scheme) boundary faces have automatic wall BCs. This option manage
 !! \details  internal faces inside the mesh (not on element closure)
 !
+      !||====================================================================
+      !||    bcs_wall_trigger       ../engine/source/boundary_conditions/bcs_wall_trigger.F90
+      !||--- called by ------------------------------------------------------
+      !||    alemain                ../engine/source/ale/alemain.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    bcs_mod                ../common_source/modules/boundary_conditions/bcs_mod.F90
+      !||    constant_mod           ../common_source/modules/constant_mod.F
+      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       subroutine bcs_wall_trigger(time, ale_connectivity, nsensor, sensor_tab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

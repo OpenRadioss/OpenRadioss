@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7TRC                         source/interfaces/intsort/i7trc.F
-Chd|-- called by -----------
-Chd|        I20MAIN_TRI                   source/interfaces/intsort/i20main_tri.F
-Chd|        I7MAIN_TRI                    source/interfaces/intsort/i7main_tri.F
-Chd|        INTER_TRC_7                   source/interfaces/int07/inter_trc_7.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7trc         ../engine/source/interfaces/intsort/i7trc.F
+      !||--- called by ------------------------------------------------------
+      !||    i20main_tri   ../engine/source/interfaces/intsort/i20main_tri.F
+      !||    i7main_tri    ../engine/source/interfaces/intsort/i7main_tri.F
+      !||    inter_trc_7   ../engine/source/interfaces/int07/inter_trc_7.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I7TRC(
      1      NSN    ,I_STOK  ,CAND_N ,CAND_E ,
      2      CAND_P ,CAND_FX ,CAND_FY,CAND_FZ,
@@ -651,13 +651,13 @@ C
       END
 
 
-Chd|====================================================================
-Chd|  I24TRC                        source/interfaces/intsort/i7trc.F
-Chd|-- called by -----------
-Chd|        I24MAIN_TRI                   source/interfaces/intsort/i24main_tri.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i24trc        ../engine/source/interfaces/intsort/i7trc.F
+      !||--- called by ------------------------------------------------------
+      !||    i24main_tri   ../engine/source/interfaces/intsort/i24main_tri.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I24TRC(
      1      NSN,I_STOK,CAND_N,CAND_E,CAND_A,NIN,NSNL,IRTLM,NSV,ITAB,
      2      MSEGLO,MSEGTYP)

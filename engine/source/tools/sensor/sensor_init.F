@@ -20,16 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SENSOR_INIT                   source/tools/sensor/sensor_init.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SENSOR_LOGICAL                source/tools/sensor/sensor_logical.F
-Chd|        SENSOR_TIME                   source/tools/sensor/sensor_time.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sensor_init      ../engine/source/tools/sensor/sensor_init.F
+      !||--- called by ------------------------------------------------------
+      !||    resol            ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    quicksort_i      ../common_source/tools/sort/quicksort.F
+      !||    sensor_logical   ../engine/source/tools/sensor/sensor_logical.F
+      !||    sensor_time      ../engine/source/tools/sensor/sensor_time.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod     ../common_source/modules/groupdef_mod.F
+      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||====================================================================
         SUBROUTINE SENSOR_INIT( SUBSET,IPARG,NGROUC,
      .                          IPARTC,IPARTTG,IPARTS,IPARTQ,IPARTT,
      .                          IPARTP,IPARTR,SENSORS,TIME  ,TIMESTEP,

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10DERITO3                    source/elements/solid/solide10/s10derito3.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        S10JACOBT                     source/elements/solid/solide10/s10jacobt.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s10derito3     ../engine/source/elements/solid/solide10/s10derito3.F
+      !||--- calls      -----------------------------------------------------
+      !||    s10jacobt      ../engine/source/elements/solid/solide10/s10jacobt.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S10DERITO3(
      1   VOL,      XX,       YY,       ZZ,
      2   PX,       PY,       PZ,       NX,

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UPGRADE_REMNODE               source/interfaces/interf1/upgrade_remnode.F
-Chd|-- called by -----------
-Chd|        I7REMNODE                     source/interfaces/inter3d1/i7remnode.F
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|        ININTR                        source/interfaces/interf1/inintr.F
-Chd|-- calls ---------------
-Chd|        INTBUFMOD                     share/modules1/restart_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    upgrade_remnode   ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    i7remnode         ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    inint3            ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inintr            ../starter/source/interfaces/interf1/inintr.F
+      !||--- uses       -----------------------------------------------------
+      !||    intbufmod         ../starter/share/modules1/restart_mod.F
+      !||====================================================================
       SUBROUTINE UPGRADE_REMNODE(IPARI,NREMNODE,INTBUF_TAB,NTY)
 C-----------------------------------------------
 C   M o d u l e s
@@ -98,16 +98,16 @@ C
       ENDIF
 
       END
-Chd|====================================================================
-Chd|  UPGRADE_REMNODE2              source/interfaces/interf1/upgrade_remnode.F
-Chd|-- called by -----------
-Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
-Chd|        REMN_I2_EDGOP                 source/interfaces/inter3d1/i7remnode.F
-Chd|        REMN_SELF24                   source/interfaces/inter3d1/remn_self24.F
-Chd|-- calls ---------------
-Chd|        INTBUFMOD                     share/modules1/restart_mod.F  
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    upgrade_remnode2   ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    remn_i2_edgop      ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    remn_i2op          ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    remn_self24        ../starter/source/interfaces/inter3d1/remn_self24.F
+      !||--- uses       -----------------------------------------------------
+      !||    intbufmod          ../starter/share/modules1/restart_mod.F
+      !||    restmod            ../starter/share/modules1/restart_mod.F
+      !||====================================================================
       SUBROUTINE UPGRADE_REMNODE2(NI,NREMNODE,INTBUF_TAB,NTY)
 C-----------------------------------------------
 C   M o d u l e s
@@ -213,14 +213,14 @@ C
 C
       RETURN
       END 
-Chd|====================================================================
-Chd|  UPGRADE_REMNODE_EDG           source/interfaces/interf1/upgrade_remnode.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|        ININTR                        source/interfaces/interf1/inintr.F
-Chd|-- calls ---------------
-Chd|        INTBUFMOD                     share/modules1/restart_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    upgrade_remnode_edg   ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3                ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inintr                ../starter/source/interfaces/interf1/inintr.F
+      !||--- uses       -----------------------------------------------------
+      !||    intbufmod             ../starter/share/modules1/restart_mod.F
+      !||====================================================================
       SUBROUTINE UPGRADE_REMNODE_EDG(IPARI,NREMNODE,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -269,13 +269,13 @@ C
       END
 
 
-Chd|====================================================================
-Chd|  UPGRADE_REMNODE_EDG2          source/interfaces/interf1/upgrade_remnode.F
-Chd|-- called by -----------
-Chd|        REMN_I2OP_EDG25               source/interfaces/int25/i25remlin.F
-Chd|-- calls ---------------
-Chd|        INTBUFMOD                     share/modules1/restart_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    upgrade_remnode_edg2   ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    remn_i2op_edg25        ../starter/source/interfaces/int25/i25remlin.F
+      !||--- uses       -----------------------------------------------------
+      !||    intbufmod              ../starter/share/modules1/restart_mod.F
+      !||====================================================================
       SUBROUTINE UPGRADE_REMNODE_EDG2(IPARI,NREMNODE,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -336,13 +336,13 @@ C
 
       END
 
-Chd|====================================================================
-Chd|  UPGRADE_REMNODE_E2S           source/interfaces/interf1/upgrade_remnode.F
-Chd|-- called by -----------
-Chd|        REMN_I2OP_EDG25               source/interfaces/int25/i25remlin.F
-Chd|-- calls ---------------
-Chd|        INTBUFMOD                     share/modules1/restart_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    upgrade_remnode_e2s   ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    remn_i2op_edg25       ../starter/source/interfaces/int25/i25remlin.F
+      !||--- uses       -----------------------------------------------------
+      !||    intbufmod             ../starter/share/modules1/restart_mod.F
+      !||====================================================================
       SUBROUTINE UPGRADE_REMNODE_E2S(IPARI,NREMNODE,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s

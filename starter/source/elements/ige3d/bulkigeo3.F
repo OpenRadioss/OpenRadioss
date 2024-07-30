@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BULKIGE3                      source/elements/ige3d/bulkigeo3.F
-Chd|-- called by -----------
-Chd|        IG3DINIT3                     source/elements/ige3d/ig3dinit3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    bulkige3    ../starter/source/elements/ige3d/bulkigeo3.F
+      !||--- called by ------------------------------------------------------
+      !||    ig3dinit3   ../starter/source/elements/ige3d/ig3dinit3.F
+      !||====================================================================
       SUBROUTINE BULKIGE3(
      1          VOLU    ,NCTRL   ,MAT     ,PM      ,VNIGE   ,BNIGE     ,
      2          PX      ,PY      ,PZ      ,NCTRLMAX)

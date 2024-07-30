@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAW_USER                      source/user_interface/law_user.F
-Chd|-- called by -----------
-Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
-Chd|        HM_READ_MAT_99                source/materials/mat/matuser/hm_read_mat_user_99.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    law_user         ../starter/source/user_interface/law_user.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_mat      ../starter/source/materials/mat/hm_read_mat.F
+      !||    hm_read_mat_99   ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
+      !||====================================================================
       MODULE LAW_USER
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION

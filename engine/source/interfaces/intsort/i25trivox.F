@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25TRIVOX                     source/interfaces/intsort/i25trivox.F
-Chd|-- called by -----------
-Chd|        I25BUCE                       source/interfaces/intsort/i25buce.F
-Chd|-- calls ---------------
-Chd|        I25STO                        source/interfaces/intsort/i25sto.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25trivox    ../engine/source/interfaces/intsort/i25trivox.F
+      !||--- called by ------------------------------------------------------
+      !||    i25buce      ../engine/source/interfaces/intsort/i25buce.F
+      !||--- calls      -----------------------------------------------------
+      !||    i25sto       ../engine/source/interfaces/intsort/i25sto.F
+      !||    my_barrier   ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box      ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25TRIVOX(
      1      NSN    ,NSNR    ,ISZNSNR ,I_MEM   ,VMAXDT   ,
      2      IRECT  ,X       ,STF     ,STFN    ,XYZM     ,

@@ -20,21 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIEBCS                       source/boundary_conditions/ebcs/iniebcs.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FINDELE                       source/boundary_conditions/ebcs/findele.F
-Chd|        ICINVS                        source/boundary_conditions/ebcs/iniebcs.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    iniebcs                ../starter/source/boundary_conditions/ebcs/iniebcs.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                 ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    findele                ../starter/source/boundary_conditions/ebcs/findele.F
+      !||    icinvs                 ../starter/source/boundary_conditions/ebcs/iniebcs.F
+      !||    iface                  ../starter/source/ale/ale3d/iface.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
+      !||====================================================================
       SUBROUTINE INIEBCS(ALE_CONNECTIVITY, IFLAG,IGRSURF, IXS, IXQ, IXTG, 
      .     PM, IGEO, X, SENSORS, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
 C-----------------------------------------------
@@ -325,12 +323,11 @@ C-----------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  ICINVS                        source/boundary_conditions/ebcs/iniebcs.F
-Chd|-- called by -----------
-Chd|        INIEBCS                       source/boundary_conditions/ebcs/iniebcs.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    icinvs    ../starter/source/boundary_conditions/ebcs/iniebcs.F
+      !||--- called by ------------------------------------------------------
+      !||    iniebcs   ../starter/source/boundary_conditions/ebcs/iniebcs.F
+      !||====================================================================
       SUBROUTINE ICINVS(NNODE, NELEM, NIX, IX, IADD, INVC)
 C
 C-----------------------------------------------

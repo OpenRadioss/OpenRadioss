@@ -21,14 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  ATURI2                        source/ale/ale2d/aturi2.F     
-Chd|-- called by -----------
-Chd|        BINIT2                        source/ale/bimat/binit2.F     
-Chd|        Q4INIT2                       source/elements/solid_2d/quad4/q4init2.F
-Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    aturi2    ../starter/source/ale/ale2d/aturi2.F
+      !||--- called by ------------------------------------------------------
+      !||    binit2    ../starter/source/ale/bimat/binit2.F
+      !||    q4init2   ../starter/source/elements/solid_2d/quad4/q4init2.F
+      !||    qinit2    ../starter/source/elements/solid_2d/quad/qinit2.F
+      !||====================================================================
       SUBROUTINE ATURI2(IPARG,RHO,PM,IX,X,RK,RE,AIRE)
 C-----------------------------------------------
 C   D e s c r i p t i o n

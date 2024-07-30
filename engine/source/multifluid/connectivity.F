@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BUILD_CONNECTIVITY            source/multifluid/connectivity.F
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    build_connectivity     ../engine/source/multifluid/connectivity.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain                ../engine/source/ale/alemain.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret                  ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F
+      !||====================================================================
       SUBROUTINE BUILD_CONNECTIVITY(ITASK, MULTI_FVM, ALE_CONNECTIVITY, IPARG)
 C-----------------------------------------------
 C     D e s c r i p t i o n

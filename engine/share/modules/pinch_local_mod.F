@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PINCH_LOCAL_MOD               share/modules/pinch_local_mod.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|        CMAIN3PINCH                   source/elements/shell/coqueba/cmain3pinch.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pinch_local_mod   ../engine/share/modules/pinch_local_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3          ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||    cmain3pinch       ../engine/source/elements/shell/coqueba/cmain3pinch.F
+      !||====================================================================
       MODULE PINCH_LOCAL_MOD
 
 #include "my_real.inc"

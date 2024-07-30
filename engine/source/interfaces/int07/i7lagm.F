@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7LAGM                        source/interfaces/int07/i7lagm.F
-Chd|-- called by -----------
-Chd|        I7MAIN_LMULT                  source/interfaces/int07/i7main_lmult.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i7lagm         ../engine/source/interfaces/int07/i7lagm.F
+      !||--- called by ------------------------------------------------------
+      !||    i7main_lmult   ../engine/source/interfaces/int07/i7main_lmult.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../engine/source/output/message/message.F
+      !||    arret          ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I7LAGM(LLL     ,JLL     ,SLL    ,XLL   ,IADLL  ,
      2                  N_MUL_MX,ITASK   ,NINT   ,NKMAX , 
      3                  JLT     ,A       ,V      ,ITAG  ,XTAG   ,

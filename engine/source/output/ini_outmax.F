@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INI_TMAX                      source/output/ini_outmax.F    
-Chd|-- called by -----------
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
-Chd|-- calls ---------------
-Chd|        INI_TMNORM2                   source/output/outmaxsubr.F    
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SIG2D2PIN                     source/output/outmaxsubr.F    
-Chd|        SIG3D2PIN                     source/output/outmaxsubr.F    
-Chd|        UPD_TMAX                      source/output/upd_outmax.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    ini_tmax       ../engine/source/output/ini_outmax.F
+      !||--- called by ------------------------------------------------------
+      !||    resol_init     ../engine/source/engine/resol_init.F
+      !||--- calls      -----------------------------------------------------
+      !||    ini_tmnorm2    ../engine/source/output/outmaxsubr.F
+      !||    my_barrier     ../engine/source/system/machine.F
+      !||    sig2d2pin      ../engine/source/output/outmaxsubr.F
+      !||    sig3d2pin      ../engine/source/output/outmaxsubr.F
+      !||    upd_tmax       ../engine/source/output/upd_outmax.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    outmax_mod     ../common_source/modules/outmax_mod.F
+      !||    stack_mod      ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE INI_TMAX(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
      .           IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,

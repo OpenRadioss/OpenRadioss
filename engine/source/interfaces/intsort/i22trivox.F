@@ -20,17 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I22TRIVOX                     source/interfaces/intsort/i22trivox.F
-Chd|-- called by -----------
-Chd|        I22BUCE                       source/interfaces/intsort/i22buce.F
-Chd|-- calls ---------------
-Chd|        I22STO                        source/interfaces/intsort/i22sto.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        REALLOC_MOD                   share/modules/realloc_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    i22trivox        ../engine/source/interfaces/intsort/i22trivox.F
+      !||--- called by ------------------------------------------------------
+      !||    i22buce          ../engine/source/interfaces/intsort/i22buce.F
+      !||--- calls      -----------------------------------------------------
+      !||    i22sto           ../engine/source/interfaces/intsort/i22sto.F
+      !||    ireallocate      ../engine/share/modules/realloc_mod.F
+      !||    isonsh3n         ../engine/source/interfaces/int22/i22intersect.F
+      !||    my_barrier       ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22edge_mod      ../common_source/modules/interfaces/cut-cell-buffer_mod.F
+      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    realloc_mod      ../engine/share/modules/realloc_mod.F
+      !||====================================================================
       SUBROUTINE I22TRIVOX(
      1      NSN    ,RENUM  ,NSHELR_L,ISZNSNR  ,I_MEM    ,
      2      IRECT  ,X      ,STF     ,STFN     ,BMINMA   ,

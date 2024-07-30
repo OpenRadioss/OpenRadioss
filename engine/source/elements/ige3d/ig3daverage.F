@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  IG3DAVERAGE                   source/elements/ige3d/ig3daverage.F
-Chd|-- called by -----------
-Chd|        IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ig3daverage   ../engine/source/elements/ige3d/ig3daverage.F
+      !||--- called by ------------------------------------------------------
+      !||    ig3duforc3    ../engine/source/elements/ige3d/ig3duforc3.F
+      !||====================================================================
       SUBROUTINE IG3DAVERAGE(
      1   SIG,     SIGG,    VOL0,    VOL0G,
      2   RHO,     EINT,    EINTG,   RHOG,

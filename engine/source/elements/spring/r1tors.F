@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R1TORS                        source/elements/spring/r1tors.F
-Chd|-- called by -----------
-Chd|        RFORC3                        source/elements/spring/rforc3.F
-Chd|-- calls ---------------
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    r1tors    ../engine/source/elements/spring/r1tors.F
+      !||--- called by ------------------------------------------------------
+      !||    rforc3    ../engine/source/elements/spring/rforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod   ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE R1TORS(
      1   FOR,     TANI,    H3D_DATA,NEL)
 C-----------------------------------------------

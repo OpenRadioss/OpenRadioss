@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DEGES4V                       source/elements/solid/solide/deges4v.F
-Chd|-- called by -----------
-Chd|        SDLEN_DEGE                    source/elements/solid/solide/sdlen_dege.F
-Chd|        SDLEN_SMS                     source/elements/solid/solidez/sdlen_sms.F
-Chd|        SLDEGE                        source/elements/solid/solide/sldege.F
-Chd|-- calls ---------------
-Chd|        NODEDEGE                      source/elements/solid/solide/nodedege.F
-Chd|        TETRA4V                       source/elements/solid/solide/tetra4v.F
-Chd|====================================================================
+      !||====================================================================
+      !||    deges4v      ../engine/source/elements/solid/solide/deges4v.F
+      !||--- called by ------------------------------------------------------
+      !||    sdlen_dege   ../engine/source/elements/solid/solide/sdlen_dege.F
+      !||    sdlen_sms    ../engine/source/elements/solid/solidez/sdlen_sms.F
+      !||    sldege       ../engine/source/elements/solid/solide/sldege.F
+      !||--- calls      -----------------------------------------------------
+      !||    nodedege     ../engine/source/elements/solid/solide/nodedege.F
+      !||    tetra4v      ../engine/source/elements/solid/solide/tetra4v.F
+      !||====================================================================
       SUBROUTINE DEGES4V(DET,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,

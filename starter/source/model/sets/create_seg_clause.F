@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CREATE_SEG_CLAUSE             source/model/sets/create_seg_clause.F
-Chd|-- called by -----------
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_GET_INT_ARRAY_2INDEXES     source/devtools/hm_reader/hm_get_int_array_2indexes.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        SET_USRTOS                    source/model/sets/ipartm1.F   
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    create_seg_clause           ../starter/source/model/sets/create_seg_clause.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_set                      ../starter/source/model/sets/hm_set.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                      ../starter/source/output/message/message.F
+      !||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
+      !||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    set_usrtos                  ../starter/source/model/sets/ipartm1.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod                 ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE CREATE_SEG_CLAUSE(
      .               CLAUSE,  ITABM1  ,JCLAUSE ,IS_AVAILABLE ,LSUBMODEL)
 C-----------------------------------------------

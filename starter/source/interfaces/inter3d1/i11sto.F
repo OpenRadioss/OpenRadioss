@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I11STO_VOX1                   source/interfaces/inter3d1/i11sto.F
-Chd|-- called by -----------
-Chd|        I11TRIVOX1                    source/interfaces/inter3d1/i11trivox1.F
-Chd|-- calls ---------------
-Chd|        I11PEN3_VOX1                  source/interfaces/inter3d1/i11pen3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i11sto_vox1    ../starter/source/interfaces/inter3d1/i11sto.F
+      !||--- called by ------------------------------------------------------
+      !||    i11trivox1     ../starter/source/interfaces/inter3d1/i11trivox1.F
+      !||--- calls      -----------------------------------------------------
+      !||    i11pen3_vox1   ../starter/source/interfaces/inter3d1/i11pen3.F
+      !||====================================================================
       SUBROUTINE I11STO_VOX1(
      1      J_STOK,IRECTS,IRECTM,X     ,II_STOK,
      4      CAND_N,CAND_E,NSN   ,NOINT ,MARGE  ,
@@ -121,14 +121,14 @@ C-----------------------------------------------
 C-----------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  I11STO                        source/interfaces/inter3d1/i11sto.F
-Chd|-- called by -----------
-Chd|        I11BUC1                       source/interfaces/inter3d1/i11buc1.F
-Chd|        I11TRI                        source/interfaces/inter3d1/i11tri.F
-Chd|-- calls ---------------
-Chd|        I11PEN3                       source/interfaces/inter3d1/i11pen3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i11sto    ../starter/source/interfaces/inter3d1/i11sto.F
+      !||--- called by ------------------------------------------------------
+      !||    i11buc1   ../starter/source/interfaces/inter3d1/i11buc1.F
+      !||    i11tri    ../starter/source/interfaces/inter3d1/i11tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    i11pen3   ../starter/source/interfaces/inter3d1/i11pen3.F
+      !||====================================================================
       SUBROUTINE I11STO(
      1      J_STOK,IRECTS,IRECTM,X     ,II_STOK,
      4      CAND_N,CAND_E,NSN   ,NOINT ,TZINF ,

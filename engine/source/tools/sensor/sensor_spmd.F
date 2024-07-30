@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SPMD_ALLREDUCE_DB             source/mpi/generic/spmd_allreduce_db.F
-Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
-Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
-Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
-Chd|        SPMD_SD_ACC                   source/mpi/output/spmd_sd_acc.F
-Chd|        SPMD_SD_SENS                  source/mpi/output/spmd_sd_sens.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sensor_spmd         ../engine/source/tools/sensor/sensor_spmd.F
+      !||--- called by ------------------------------------------------------
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_allreduce_db   ../engine/source/mpi/generic/spmd_allreduce_db.F
+      !||    spmd_glob_dsum9     ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_glob_isum9     ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_ibcast         ../engine/source/mpi/generic/spmd_ibcast.F
+      !||    spmd_rbcast         ../engine/source/mpi/generic/spmd_rbcast.F
+      !||    spmd_sd_acc         ../engine/source/mpi/output/spmd_sd_acc.F
+      !||    spmd_sd_sens        ../engine/source/mpi/output/spmd_sd_sens.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod        ../common_source/modules/groupdef_mod.F
+      !||    sensor_mod          ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SENSOR_SPMD(SENSOR_TAB,IPARI  ,NPRW   ,ISENSP  ,NSENSP    ,
      .                   XSENS     ,X      ,ACCELM ,IACCP   ,NACCP     ,
      .                   GAUGE     ,IGAUP  ,NGAUP  ,PARTSAV2,NSENSOR   )

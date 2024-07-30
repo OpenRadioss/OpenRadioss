@@ -20,14 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAG_FXV                       source/tools/lagmul/lag_fxv.F 
-Chd|-- called by -----------
-Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_fxv               ../engine/source/tools/lagmul/lag_fxv.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_mult              ../engine/source/tools/lagmul/lag_mult.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                ../engine/source/tools/curve/finter.F
+      !||    finter_smooth         ../engine/source/tools/curve/finter_smooth.F
+      !||--- uses       -----------------------------------------------------
+      !||    python_funct_mod      ../common_source/modules/python_mod.F90
+      !||====================================================================
       SUBROUTINE LAG_FXV(IBFV   ,VEL    ,SKEW   ,NPF    ,TF     ,
      2                   BLL    ,IADLL  ,LLL    ,JLL    ,SLL    ,
      3                   XLL    ,COMNTAG,ICFTAG ,JCFTAG ,MS     ,
@@ -154,14 +156,16 @@ C---
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  LAG_FXVP                      source/tools/lagmul/lag_fxv.F 
-Chd|-- called by -----------
-Chd|        LAG_MULTP                     source/tools/lagmul/lag_mult.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_fxvp              ../engine/source/tools/lagmul/lag_fxv.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_multp             ../engine/source/tools/lagmul/lag_mult.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                ../engine/source/tools/curve/finter.F
+      !||    finter_smooth         ../engine/source/tools/curve/finter_smooth.F
+      !||--- uses       -----------------------------------------------------
+      !||    python_funct_mod      ../common_source/modules/python_mod.F90
+      !||====================================================================
       SUBROUTINE LAG_FXVP(IBFV   ,VEL    ,SKEW   ,NPF    ,TF     ,
      2                    LAGCOMC,LAGCOMK,NC     ,NODGLOB,WEIGHT ,
      3                    IK     ,PYTHON)

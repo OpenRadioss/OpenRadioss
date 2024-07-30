@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_CELL_SIZE_EXCHANGE       source/mpi/interfaces/spmd_cell_size_exchange.F
-Chd|-- called by -----------
-Chd|        SPMD_CELL_LIST_EXCHANGE       source/mpi/interfaces/spmd_cell_list_exchange.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MYQSORT_INT                   ../common_source/tools/sort/myqsort_int.F
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_cell_size_exchange   ../engine/source/mpi/interfaces/spmd_cell_size_exchange.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_cell_list_exchange   ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                    ../engine/source/output/message/message.F
+      !||    arret                     ../engine/source/system/arret.F
+      !||    my_orders                 ../common_source/tools/sort/my_orders.c
+      !||    myqsort_int               ../common_source/tools/sort/myqsort_int.F
+      !||--- uses       -----------------------------------------------------
+      !||    inter_sorting_mod         ../engine/share/modules/inter_sorting_mod.F
+      !||    message_mod               ../engine/share/message_module/message_mod.F
+      !||    tri7box                   ../engine/share/modules/tri7box.F
+      !||====================================================================
         SUBROUTINE SPMD_CELL_SIZE_EXCHANGE(IRCVFROM,ISENDTO,WEIGHT,
      .                    IAD_ELEM,FR_ELEM,X,V,MS,TEMP,KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,NIN,REMOTE_PROC_ID,
      .                    ALREADY_SEND,INDEX_ALREADY_SEND,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZE)

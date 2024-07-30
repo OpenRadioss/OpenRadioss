@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FIXTEMP                       source/constraints/thermic/fixtemp.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        VINTER                        source/tools/curve/vinter.F   
-Chd|        VINTER_SMOOTH                 source/tools/curve/vinter_smooth.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    fixtemp         ../engine/source/constraints/thermic/fixtemp.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    vinter          ../engine/source/tools/curve/vinter.F
+      !||    vinter_smooth   ../engine/source/tools/curve/vinter_smooth.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE FIXTEMP(IBFT   ,VAL    , TEMP  ,NPC    ,TF   ,
      .                   NSENSOR,SENSOR_TAB)
 C-----------------------------------------------

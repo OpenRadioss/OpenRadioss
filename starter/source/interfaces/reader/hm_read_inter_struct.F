@@ -20,35 +20,35 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_INTER_STRUCT          source/interfaces/reader/hm_read_inter_struct.F
-Chd|-- called by -----------
-Chd|        HM_READ_INTERFACES            source/interfaces/reader/hm_read_interfaces.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL                       source/starter/freform.F      
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_READ_INTER_HERTZ_TYPE17    source/interfaces/int17/hm_read_inter_hertz_type17.F
-Chd|        HM_READ_INTER_TYPE02          source/interfaces/int02/hm_read_inter_type02.F
-Chd|        HM_READ_INTER_TYPE03          source/interfaces/int03/hm_read_inter_type03.F
-Chd|        HM_READ_INTER_TYPE05          source/interfaces/int05/hm_read_inter_type05.F
-Chd|        HM_READ_INTER_TYPE06          source/interfaces/int06/hm_read_inter_type06.F
-Chd|        HM_READ_INTER_TYPE07          source/interfaces/int07/hm_read_inter_type07.F
-Chd|        HM_READ_INTER_TYPE08          source/interfaces/int08/hm_read_inter_type08.F
-Chd|        HM_READ_INTER_TYPE10          source/interfaces/int10/hm_read_inter_type10.F
-Chd|        HM_READ_INTER_TYPE11          source/interfaces/int11/hm_read_inter_type11.F
-Chd|        HM_READ_INTER_TYPE14          source/interfaces/int14/hm_read_inter_type14.F
-Chd|        HM_READ_INTER_TYPE15          source/interfaces/int15/hm_read_inter_type15.F
-Chd|        HM_READ_INTER_TYPE20          source/interfaces/int20/hm_read_inter_type20.F
-Chd|        HM_READ_INTER_TYPE21          source/interfaces/int21/hm_read_inter_type21.F
-Chd|        HM_READ_INTER_TYPE23          source/interfaces/int23/hm_read_inter_type23.F
-Chd|        HM_READ_INTER_TYPE24          source/interfaces/int24/hm_read_inter_type24.F
-Chd|        HM_READ_INTER_TYPE25          source/interfaces/int25/hm_read_inter_type25.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_inter_struct         ../starter/source/interfaces/reader/hm_read_inter_struct.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_interfaces           ../starter/source/interfaces/reader/hm_read_interfaces.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                       ../starter/source/output/message/message.F
+      !||    fretitl                      ../starter/source/starter/freform.F
+      !||    hm_get_intv                  ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_read_inter_hertz_type17   ../starter/source/interfaces/int17/hm_read_inter_hertz_type17.F
+      !||    hm_read_inter_type02         ../starter/source/interfaces/int02/hm_read_inter_type02.F
+      !||    hm_read_inter_type03         ../starter/source/interfaces/int03/hm_read_inter_type03.F
+      !||    hm_read_inter_type05         ../starter/source/interfaces/int05/hm_read_inter_type05.F
+      !||    hm_read_inter_type06         ../starter/source/interfaces/int06/hm_read_inter_type06.F
+      !||    hm_read_inter_type07         ../starter/source/interfaces/int07/hm_read_inter_type07.F
+      !||    hm_read_inter_type08         ../starter/source/interfaces/int08/hm_read_inter_type08.F
+      !||    hm_read_inter_type10         ../starter/source/interfaces/int10/hm_read_inter_type10.F
+      !||    hm_read_inter_type11         ../starter/source/interfaces/int11/hm_read_inter_type11.F
+      !||    hm_read_inter_type14         ../starter/source/interfaces/int14/hm_read_inter_type14.F
+      !||    hm_read_inter_type15         ../starter/source/interfaces/int15/hm_read_inter_type15.F
+      !||    hm_read_inter_type20         ../starter/source/interfaces/int20/hm_read_inter_type20.F
+      !||    hm_read_inter_type21         ../starter/source/interfaces/int21/hm_read_inter_type21.F
+      !||    hm_read_inter_type23         ../starter/source/interfaces/int23/hm_read_inter_type23.F
+      !||    hm_read_inter_type24         ../starter/source/interfaces/int24/hm_read_inter_type24.F
+      !||    hm_read_inter_type25         ../starter/source/interfaces/int25/hm_read_inter_type25.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                  ../starter/share/message_module/message_mod.F
+      !||    sensor_mod                   ../starter/share/modules1/sensor_mod.F
+      !||    submodel_mod                 ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_INTER_STRUCT(
      1        IPARI       ,STFAC      ,FRIGAP         ,XFILTR   ,FRIC_P    ,
      2        IGRNOD      ,IGRSURF    ,IGRSLIN        ,NPC      ,ILAGM     ,   

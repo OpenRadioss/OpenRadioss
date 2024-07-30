@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DELSUB                        source/output/anim/delsub.F   
-Chd|-- called by -----------
-Chd|        GENANI1                       source/output/anim/genani1.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    delsub    ../starter/source/output/anim/delsub.F
+      !||--- called by ------------------------------------------------------
+      !||    genani1   ../starter/source/output/anim/genani1.F
+      !||====================================================================
       SUBROUTINE DELSUB(NLEVEL, ELSUB , ILEVEL, OFFSET, NEL,
      .                  EL2FA , FUNC)
 C-----------------------------------------------

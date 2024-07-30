@@ -20,20 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SECTION_INIT                  source/tools/sect/section_init.F
-Chd|-- called by -----------
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
-Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
-Chd|        READ_R_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    section_init           ../engine/source/tools/sect/section_init.F
+      !||--- called by ------------------------------------------------------
+      !||    resol_init             ../engine/source/engine/resol_init.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    close_c                ../common_source/tools/input_output/write_routtines.c
+      !||    cur_fil_c              ../common_source/tools/input_output/write_routtines.c
+      !||    open_c                 ../common_source/tools/input_output/write_routtines.c
+      !||    read_r_c               ../common_source/tools/input_output/write_routtines.c
+      !||    spmd_rbcast            ../engine/source/mpi/generic/spmd_rbcast.F
+      !||--- uses       -----------------------------------------------------
+      !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE SECTION_INIT (NSTRF,SECBUF,NOM_SECT,ISECTR,NSECT,IOLDSECT)
 C-----------------------------------------------
 C   M o d u l e s

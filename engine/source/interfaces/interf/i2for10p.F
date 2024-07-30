@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2FOR10P                      source/interfaces/interf/i2for10p.F
-Chd|-- called by -----------
-Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i2for10p   ../engine/source/interfaces/interf/i2for10p.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2f    ../engine/source/interfaces/interf/intti2f.F
+      !||====================================================================
       SUBROUTINE I2FOR10P(A     ,MS    ,STIFN ,WEIGHT,IADI2 ,
      2                    FSKYI2,NSV   ,IRUPT ,CRST  ,FSM   ,
      3                    NIR   ,NSN   ,I0    ,I2SIZE, CSTS_BIS)
@@ -208,12 +207,11 @@ C-----------
       RETURN
       END SUBROUTINE I2FOR10P
 C      
-Chd|====================================================================
-Chd|  I2MOM10P                      source/interfaces/interf/i2for10p.F
-Chd|-- called by -----------
-Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i2mom10p   ../engine/source/interfaces/interf/i2for10p.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2f    ../engine/source/interfaces/interf/intti2f.F
+      !||====================================================================
       SUBROUTINE I2MOM10P(
      1           X         ,A         ,AR        ,MS        ,IN        ,
      2           STIFN     ,STIFR     ,WEIGHT    ,IRECT     ,NSV       ,        

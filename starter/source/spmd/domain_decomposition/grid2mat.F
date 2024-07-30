@@ -20,35 +20,38 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        C_IDDCONNECT                  source/spmd/node/ddtools.F    
-Chd|        DD_BFS                        source/spmd/domain_decomposition/grid2mat.F
-Chd|        FIND_NODES                    source/spmd/domain_decomposition/grid2mat.F
-Chd|        FVBAG_VERTEX                  source/spmd/domain_decomposition/grid2mat.F
-Chd|        IDDCONNECTPLUS                source/spmd/node/frontplus.F  
-Chd|        INITWG                        source/spmd/domain_decomposition/initwg.F
-Chd|        INI_IDDCONNECT                source/spmd/node/ddtools.F    
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        PLIST_BFS                     source/spmd/node/ddtools.F    
-Chd|        PLIST_IDDCONNECT              source/spmd/node/ddtools.F    
-Chd|        STAT_DOMDEC                   source/spmd/domain_decomposition/grid2mat.F
-Chd|        CLUSTER_MOD                   share/modules1/cluster_mod.F  
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTER_CAND_MOD                share/modules1/inter_cand_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        REORDER_MOD                   share/modules1/reorder_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    dometis                         ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                          ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                          ../starter/source/output/message/message.F
+      !||    c_enforce_constraints           ../starter/source/spmd/domain_decomposition/c_domain_decomposition.cpp
+      !||    c_enforce_constraints_rbody     ../starter/source/spmd/domain_decomposition/c_domain_decomposition_rbody.cpp
+      !||    c_iddconnect                    ../starter/source/spmd/node/ddtools.F
+      !||    c_prevent_decomposition_rbody   ../starter/source/spmd/domain_decomposition/c_domain_decomposition_rbody.cpp
+      !||    consider_edge                   ../starter/source/spmd/domain_decomposition/consider_edge.F
+      !||    dd_bfs                          ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||    find_nodes                      ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||    fvbag_vertex                    ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||    iddconnectplus                  ../starter/source/spmd/node/frontplus.F
+      !||    ini_iddconnect                  ../starter/source/spmd/node/ddtools.F
+      !||    initwg                          ../starter/source/spmd/domain_decomposition/initwg.F
+      !||    plist_bfs                       ../starter/source/spmd/node/ddtools.F
+      !||    plist_iddconnect                ../starter/source/spmd/node/ddtools.F
+      !||    sort_descending                 ../starter/source/spmd/domain_decomposition/consider_edge.F
+      !||    stat_domdec                     ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- uses       -----------------------------------------------------
+      !||    cluster_mod                     ../starter/share/modules1/cluster_mod.F
+      !||    consider_edge_mod               ../starter/source/spmd/domain_decomposition/consider_edge.F
+      !||    front_mod                       ../starter/share/modules1/front_mod.F
+      !||    inter_cand_mod                  ../starter/share/modules1/inter_cand_mod.F
+      !||    message_mod                     ../starter/share/message_module/message_mod.F
+      !||    mid_pid_mod                     ../starter/share/modules1/mid_pid_mod.F
+      !||    monvol_struct_mod               ../starter/share/modules1/monvol_struct_mod.F
+      !||    r2r_mod                         ../starter/share/modules1/r2r_mod.F
+      !||    reorder_mod                     ../starter/share/modules1/reorder_mod.F
+      !||====================================================================
       SUBROUTINE DOMETIS(
      1  IXS    ,IXQ    ,IXC    ,IXT     ,IXP     ,
      2  IXR    ,IXTG   ,CEP     ,GEO     ,
@@ -2603,13 +2606,12 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  SPDOMETIS                     source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|====================================================================
+      !||====================================================================
+      !||    spdometis   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur      ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPDOMETIS(KXSP, IXSP, NOD2SP, CEPSP, RESERVEP,
      .                     SPH2SOL, CEP)
 C-----------------------------------------------
@@ -2874,13 +2876,12 @@ C
       RETURN
       END
       
-Chd|====================================================================
-Chd|  INTERLAGRAN                   source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        INITWG_SHELL                  source/spmd/domain_decomposition/initwg_shell.F
-Chd|        INITWG_TRI                    source/spmd/domain_decomposition/initwg_tri.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    interlagran    ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    initwg_shell   ../starter/source/spmd/domain_decomposition/initwg_shell.F
+      !||    initwg_tri     ../starter/source/spmd/domain_decomposition/initwg_tri.F
+      !||====================================================================
       SUBROUTINE INTERLAGRAN(TAB,LX,LTAB,X,Y)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2919,12 +2920,11 @@ C-----------------------------------------------
       ENDIF
       END
 C
-Chd|====================================================================
-Chd|  I2WCONTDD                     source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i2wcontdd   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3      ../starter/source/interfaces/inter3d1/inint3.F
+      !||====================================================================
       SUBROUTINE I2WCONTDD(NSV,MSR,NSN,NMN,IWCONT,NSNT,NMNT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2955,12 +2955,11 @@ C        IWCONT(1,N) = IWCONT(1,N)+1
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  IWCONTDD_NEW                  source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        ININTR                        source/interfaces/interf1/inintr.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    iwcontdd_new   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    inintr         ../starter/source/interfaces/interf1/inintr.F
+      !||====================================================================
       SUBROUTINE IWCONTDD_NEW(NSV,MSR,NSN,NMN,IWCONT,COST)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2989,12 +2988,11 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  IWCONTDD                      source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    iwcontdd   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3     ../starter/source/interfaces/inter3d1/inint3.F
+      !||====================================================================
       SUBROUTINE IWCONTDD(NSV,MSR,NSN,NMN,IWCONT,NSNT,NMNT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3027,12 +3025,11 @@ C
 
 
 
-Chd|====================================================================
-Chd|  IWCONTDD_151                  source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    iwcontdd_151   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3         ../starter/source/interfaces/inter3d1/inint3.F
+      !||====================================================================
       SUBROUTINE IWCONTDD_151(BUFBRIC,NBRIC,MSR,NMN,IWCONT,NSNT,NMNT,NUMNOD,IXS,NUMELS,NALE)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -3077,12 +3074,11 @@ C
       END
 
 C
-Chd|====================================================================
-Chd|  I20WCONTDD                    source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        I20INI3                       source/interfaces/inter3d1/i20ini3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i20wcontdd   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    i20ini3      ../starter/source/interfaces/inter3d1/i20ini3.F
+      !||====================================================================
       SUBROUTINE I20WCONTDD(NSV,MSR,NSN,NMN,IWCONT,NSNT,NMNT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3112,12 +3108,11 @@ C        IWCONT(1,N) = IWCONT(1,N)+2
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  DD_BFS                        source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dd_bfs    ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    dometis   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||====================================================================
       SUBROUTINE DD_BFS(XADJ,ADJNCY,NELEM,NEDGES,NCONNX,COLORS,ROOTS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3177,12 +3172,11 @@ c        END IF
       RETURN
       END
 
-Chd|====================================================================
-Chd|  PRELEC_DDW                    source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    prelec_ddw   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur       ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE PRELEC_DDW(FILNAM,LEN_FILNAM,MARQUEUR3)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3244,12 +3238,11 @@ C        Prelecture des poids couple Mat/Prop
       ENDIF   
        RETURN
        END
-Chd|====================================================================
-Chd|  LEC_DDW                       source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    lec_ddw   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur    ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE LEC_DDW(FILNAM,LEN_FILNAM,TAB_UMP_OLD,CPUTIME_MP_OLD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3291,12 +3284,11 @@ C     Lecture des poids couple Mat/Prop
       CLOSE(UNIT=30)
       RETURN
       END
-Chd|====================================================================
-Chd|  PRELEC_DDW_POIN               source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    prelec_ddw_poin   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur            ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE PRELEC_DDW_POIN(FILNAM,LEN_FILNAM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3327,12 +3319,11 @@ C     Lecture du pointer
       CLOSE(UNIT=30)
       RETURN
       END 
-Chd|====================================================================
-Chd|  LEC_DDW_POIN                  source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    lec_ddw_poin   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur         ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE LEC_DDW_POIN(FILNAM,LEN_FILNAM,POIN_UMP_OLD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3369,12 +3360,11 @@ C     Lecture du pointer
       CLOSE(UNIT=30)
       RETURN
       END      
-Chd|====================================================================
-Chd|  REINI_MATPROP                 source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    reini_matprop   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur          ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE REINI_MATPROP(TAILLE,TAILLE2,TAB_UMP_LOC,TAB_UMP_LOC2,
      .           IXS,IXQ,IXC,IXT,IXP,IXR,IXTG,ISOLNOD,POIN_UMP)
 C-----------------------------------------------
@@ -3580,12 +3570,11 @@ C
       RETURN
       END
       
-Chd|====================================================================
-Chd|  REINI_MATPROP2                source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    reini_matprop2   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur           ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE REINI_MATPROP2(TAILLE,TAILLE2,
      .           TAB_UMP_LOC,TAB_UMP_LOC2,TAB_UMP,TAB_SOL,
      .           POIN_UMP)
@@ -3648,12 +3637,11 @@ C-----------------------------------------------
 
       RETURN
       END                    
-Chd|====================================================================
-Chd|  STAT_DOMDEC                   source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    stat_domdec   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    dometis       ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||====================================================================
       SUBROUTINE  STAT_DOMDEC(WIS   ,WI2     ,WFSI      ,WDEL   ,WDDL     ,
      2                        WCAND ,WSOL    ,WR2R      ,WKIN   ,IWD      ,
      3                        NCOND ,ICELEM  ,ICINTS    ,ICINT2 ,ICCAND   ,
@@ -3784,12 +3772,13 @@ C
               DEVIATION(I)=SQRT(DEVIATION(I)/NSPMD)
             END DO
         END
-Chd|====================================================================
-Chd|  FIND_NODES                    source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    find_nodes          ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    dometis             ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- uses       -----------------------------------------------------
+      !||    consider_edge_mod   ../starter/source/spmd/domain_decomposition/consider_edge.F
+      !||====================================================================
       SUBROUTINE FIND_NODES(ELEMN0,ELEMNODES,TAGELEM,IXS, IXS10 ,
      2                      IXQ   ,IXC      ,IXT    ,IXP, IXR   , 
      3                      IXTG  ,KXX    ,IXX, KXIG3D,
@@ -3933,17 +3922,16 @@ C     Set duplicates to 0
 
       END
 
-Chd|====================================================================
-Chd|  FVBAG_VERTEX                  source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
-Chd|-- calls ---------------
-Chd|        FVELSURF                      source/airbag/fvelsurf.F      
-Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fvbag_vertex             ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- called by ------------------------------------------------------
+      !||    dometis                  ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- calls      -----------------------------------------------------
+      !||    fvelsurf                 ../starter/source/airbag/fvelsurf.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    monvol_struct_mod        ../starter/share/modules1/monvol_struct_mod.F
+      !||====================================================================
       SUBROUTINE FVBAG_VERTEX(IXC   ,IXTG    , NELEM, WD,
      .                        WD_MAX,FVM_ELEM, FVM_DOMDEC, ITAB, 
      .     IGRSURF, T_MONVOL)

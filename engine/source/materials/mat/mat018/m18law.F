@@ -20,12 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M18LAW                        source/materials/mat/mat018/m18law.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        INTERP                        source/tools/curve/interp.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    m18law   ../engine/source/materials/mat/mat018/m18law.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain    ../engine/source/materials/mat_share/mmain.F90
+      !||--- calls      -----------------------------------------------------
+      !||    interp   ../engine/source/tools/curve/interp.F
+      !||====================================================================
       SUBROUTINE M18LAW(
      1   PM,      VOLU,    EINT,    THETA,
      2   DELTAX,  TF,      NPF,     DT2T,

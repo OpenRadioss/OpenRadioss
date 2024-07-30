@@ -20,19 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIEBCSP0                     source/boundary_conditions/ebcs/iniebcsp0.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        INIEBCSP                      source/boundary_conditions/ebcs/iniebcsp.F
-Chd|        INIEBCS_DP                    source/boundary_conditions/ebcs/iniebcs_dp.F
-Chd|        INIEBCS_NRF_TCAR              source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
-Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INIGRAV                       share/modules1/inigrav_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    iniebcsp0          ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur             ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    iniebcs_dp         ../starter/source/boundary_conditions/ebcs/iniebcs_dp.F
+      !||    iniebcs_nrf_tcar   ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
+      !||    iniebcsp           ../starter/source/boundary_conditions/ebcs/iniebcsp.F
+      !||--- uses       -----------------------------------------------------
+      !||    inigrav            ../starter/share/modules1/inigrav_mod.F
+      !||====================================================================
       SUBROUTINE INIEBCSP0(X, IPARG, ELBUF_STR, EBCS_TAB, IXS, IXQ, IXTG, IPARTS, IPARTQ, IPARTTG, PM, IPM)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I20MAIN_OPT_TRI               source/interfaces/intsort/i20main_opt_tri.F
-Chd|-- called by -----------
-Chd|        IMP_TRIPI                     source/implicit/imp_int_k.F   
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        I20OPTCD                      source/interfaces/intsort/i20optcd.F
-Chd|        I20OPTCDE                     source/interfaces/intsort/i20optcd.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i20main_opt_tri   ../engine/source/interfaces/intsort/i20main_opt_tri.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_tripi         ../engine/source/implicit/imp_int_k.F
+      !||    inttri            ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    i20optcd          ../engine/source/interfaces/intsort/i20optcd.F
+      !||    i20optcde         ../engine/source/interfaces/intsort/i20optcd.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I20MAIN_OPT_TRI(
      1                  IPARI   ,X    ,V      ,
      2                  NIN     ,ITASK ,COUNT_REMSLV,COUNT_REMSLVE,

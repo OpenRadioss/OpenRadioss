@@ -20,53 +20,54 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GENOUTP                       source/output/sty/genoutp.F   
-Chd|-- called by -----------
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|-- calls ---------------
-Chd|        COUNT_ARSZ_CS                 source/output/sty/outp_c_s.F  
-Chd|        COUNT_ARSZ_CT                 source/output/sty/outp_c_t.F  
-Chd|        COUNT_ARSZ_RS                 source/output/sty/outp_r_s.F  
-Chd|        COUNT_ARSZ_RT                 source/output/sty/outp_r_t.F  
-Chd|        COUNT_ARSZ_SPS                source/output/sty/outp_sp_s.F 
-Chd|        COUNT_ARSZ_SPT                source/output/sty/outp_sp_t.F 
-Chd|        COUNT_ARSZ_SPTT               source/output/sty/outp_sp_t.F 
-Chd|        COUNT_ARSZ_SS                 source/output/sty/outp_s_s.F  
-Chd|        COUNT_ARSZ_ST                 source/output/sty/outp_s_t.F  
-Chd|        FILELEN_SYS                   ../common_source/tools/input_output/write_routtines.c
-Chd|        OUTP_ARSZ_CS                  source/mpi/interfaces/spmd_outp.F
-Chd|        OUTP_ARSZ_CT                  source/mpi/interfaces/spmd_outp.F
-Chd|        OUTP_ARSZ_RS                  source/mpi/interfaces/spmd_outp.F
-Chd|        OUTP_ARSZ_RT                  source/mpi/interfaces/spmd_outp.F
-Chd|        OUTP_ARSZ_SPS                 source/mpi/interfaces/spmd_outp.F
-Chd|        OUTP_ARSZ_SPT                 source/mpi/interfaces/spmd_outp.F
-Chd|        OUTP_ARSZ_SPTT                source/mpi/interfaces/spmd_outp.F
-Chd|        OUTP_ARSZ_SS                  source/mpi/interfaces/spmd_outp.F
-Chd|        OUTP_ARSZ_ST                  source/mpi/interfaces/spmd_outp.F
-Chd|        OUTP_C_S                      source/output/sty/outp_c_s.F  
-Chd|        OUTP_C_T                      source/output/sty/outp_c_t.F  
-Chd|        OUTP_C_TF                     source/output/sty/outp_c_t.F  
-Chd|        OUTP_MT                       source/output/sty/outp_mt.F   
-Chd|        OUTP_NO                       source/output/sty/outp_no.F   
-Chd|        OUTP_N_V                      source/output/sty/outp_n_v.F  
-Chd|        OUTP_N_V2                     source/output/sty/outp_n_v.F  
-Chd|        OUTP_N_VC                     source/output/sty/outp_n_v.F  
-Chd|        OUTP_R_S                      source/output/sty/outp_r_s.F  
-Chd|        OUTP_R_T                      source/output/sty/outp_r_t.F  
-Chd|        OUTP_SP_S                     source/output/sty/outp_sp_s.F 
-Chd|        OUTP_SP_T                     source/output/sty/outp_sp_t.F 
-Chd|        OUTP_SP_TT                    source/output/sty/outp_sp_t.F 
-Chd|        OUTP_S_S                      source/output/sty/outp_s_s.F  
-Chd|        OUTP_S_T                      source/output/sty/outp_s_t.F  
-Chd|        OUTP_S_TT                     source/output/sty/outp_s_t.F  
-Chd|        SPMD_OUTPITAB                 source/mpi/interfaces/spmd_outp.F
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    genoutp           ../engine/source/output/sty/genoutp.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_buck          ../engine/source/implicit/imp_buck.F
+      !||    sortie_main       ../engine/source/output/sortie_main.F
+      !||--- calls      -----------------------------------------------------
+      !||    count_arsz_cs     ../engine/source/output/sty/outp_c_s.F
+      !||    count_arsz_ct     ../engine/source/output/sty/outp_c_t.F
+      !||    count_arsz_rs     ../engine/source/output/sty/outp_r_s.F
+      !||    count_arsz_rt     ../engine/source/output/sty/outp_r_t.F
+      !||    count_arsz_sps    ../engine/source/output/sty/outp_sp_s.F
+      !||    count_arsz_spt    ../engine/source/output/sty/outp_sp_t.F
+      !||    count_arsz_sptt   ../engine/source/output/sty/outp_sp_t.F
+      !||    count_arsz_ss     ../engine/source/output/sty/outp_s_s.F
+      !||    count_arsz_st     ../engine/source/output/sty/outp_s_t.F
+      !||    filelen_sys       ../common_source/tools/input_output/write_routtines.c
+      !||    outp_arsz_cs      ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    outp_arsz_ct      ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    outp_arsz_rs      ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    outp_arsz_rt      ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    outp_arsz_sps     ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    outp_arsz_spt     ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    outp_arsz_sptt    ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    outp_arsz_ss      ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    outp_arsz_st      ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    outp_c_s          ../engine/source/output/sty/outp_c_s.F
+      !||    outp_c_t          ../engine/source/output/sty/outp_c_t.F
+      !||    outp_c_tf         ../engine/source/output/sty/outp_c_t.F
+      !||    outp_mt           ../engine/source/output/sty/outp_mt.F
+      !||    outp_n_v          ../engine/source/output/sty/outp_n_v.F
+      !||    outp_n_v2         ../engine/source/output/sty/outp_n_v.F
+      !||    outp_n_vc         ../engine/source/output/sty/outp_n_v.F
+      !||    outp_no           ../engine/source/output/sty/outp_no.F
+      !||    outp_r_s          ../engine/source/output/sty/outp_r_s.F
+      !||    outp_r_t          ../engine/source/output/sty/outp_r_t.F
+      !||    outp_s_s          ../engine/source/output/sty/outp_s_s.F
+      !||    outp_s_t          ../engine/source/output/sty/outp_s_t.F
+      !||    outp_s_tt         ../engine/source/output/sty/outp_s_t.F
+      !||    outp_sp_s         ../engine/source/output/sty/outp_sp_s.F
+      !||    outp_sp_t         ../engine/source/output/sty/outp_sp_t.F
+      !||    outp_sp_tt        ../engine/source/output/sty/outp_sp_t.F
+      !||    spmd_outpitab     ../engine/source/mpi/interfaces/spmd_outp.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod         ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    inoutfile_mod     ../common_source/modules/inoutfile_mod.F
+      !||    stack_mod         ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE GENOUTP(X    ,D         ,V      ,A     ,
      2                  IXS   ,IXQ       ,IXC    ,IXT   ,IXP   ,
      3                  IXR   ,IXTG      ,IPARG  ,PM    ,IGEO  ,

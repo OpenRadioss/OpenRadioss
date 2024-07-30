@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I10MAINF                      source/interfaces/int10/i10mainf.F
-Chd|-- called by -----------
-Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I10DST3                       source/interfaces/int10/i10dst3.F
-Chd|        I10FOR3                       source/interfaces/int10/i10for3.F
-Chd|        I7CDCOR3                      source/interfaces/int07/i7cdcor3.F
-Chd|        I7COR3                        source/interfaces/int07/i7cor3.F
-Chd|        SUM_6_FLOAT_SENS              source/system/parit.F         
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i10mainf           ../engine/source/interfaces/int10/i10mainf.F
+      !||--- called by ------------------------------------------------------
+      !||    intfop2            ../engine/source/interfaces/interf/intfop2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../engine/source/output/message/message.F
+      !||    arret              ../engine/source/system/arret.F
+      !||    i10dst3            ../engine/source/interfaces/int10/i10dst3.F
+      !||    i10for3            ../engine/source/interfaces/int10/i10for3.F
+      !||    i7cdcor3           ../engine/source/interfaces/int07/i7cdcor3.F
+      !||    i7cor3             ../engine/source/interfaces/int07/i7cor3.F
+      !||    sum_6_float_sens   ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod            ../engine/share/modules/h3d_mod.F
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I10MAINF(IPARI  ,X      ,A      ,
      2                    ICODT  ,FSAV   ,V      ,MS     ,DT2T    ,
      3                    NELTST ,ITYPTST,ITAB   ,STIFN  ,FSKYI  ,

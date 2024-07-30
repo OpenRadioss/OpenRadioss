@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R23FORC3                      source/elements/spring/r23forc3.F
-Chd|-- called by -----------
-Chd|        FORINT                        source/elements/forint.F      
-Chd|-- calls ---------------
-Chd|        R23LAW108                     source/elements/spring/r23law108.F
-Chd|        R23LAW113                     source/elements/spring/r23law113.F
-Chd|        R23LAW114                     source/elements/spring/r23law114.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    r23forc3       ../engine/source/elements/spring/r23forc3.F
+      !||--- called by ------------------------------------------------------
+      !||    forint         ../engine/source/elements/forint.F
+      !||--- calls      -----------------------------------------------------
+      !||    r23law108      ../engine/source/elements/spring/r23law108.F
+      !||    r23law113      ../engine/source/elements/spring/r23law113.F
+      !||    r23law114      ../engine/source/elements/spring/r23law114.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    h3d_mod        ../engine/share/modules/h3d_mod.F
+      !||    sensor_mod     ../engine/share/modules/sensor_mod.F
+      !||    table_mod      ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE R23FORC3(
      1   ELBUF_STR,            JFT,                  JLT,                  NEL,
      2   MTN,                  IGEO,                 GEO,                  IPM,

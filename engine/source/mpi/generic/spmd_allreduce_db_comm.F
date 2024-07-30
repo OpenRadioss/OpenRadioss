@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_ALLREDUCE_DB_COMM        source/mpi/generic/spmd_allreduce_db_comm.F
-Chd|-- called by -----------
-Chd|        TELESC                        source/constraints/general/cyl_joint/telesc.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_allreduce_db_comm   ../engine/source/mpi/generic/spmd_allreduce_db_comm.F
+      !||--- called by ------------------------------------------------------
+      !||    telesc                   ../engine/source/constraints/general/cyl_joint/telesc.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
         SUBROUTINE SPMD_ALLREDUCE_DB_COMM(VALUE,RES,MY_SIZE,MY_OPERATION,MY_COMM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

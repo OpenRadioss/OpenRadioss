@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C3COOR3                       source/elements/sh3n/coque3n/c3coor3.F
-Chd|-- called by -----------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c3coor3   ../engine/source/elements/sh3n/coque3n/c3coor3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3   ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||====================================================================
       SUBROUTINE C3COOR3(JFT      ,JLT      ,X       ,IXTG     ,
      .                   OFFG     ,OFF      ,DT1C    ,
      .                   V        ,VR       ,VL1     ,VL2      ,VL3      ,
@@ -175,12 +174,11 @@ C
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  C3COORT3                      source/elements/sh3n/coque3n/c3coor3.F
-Chd|-- called by -----------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c3coort3   ../engine/source/elements/sh3n/coque3n/c3coor3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3    ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||====================================================================
       SUBROUTINE C3COORT3(JFT    ,JLT    ,X     ,IXTG   ,OFFG   ,
      1                    DR     ,XL2    ,XL3   ,YL2    ,YL3    ,
      2                    E1X    ,E1Y    ,E1Z   ,E2X    ,E2Y    ,

@@ -21,16 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #define TO1D(i,j,k,s1,s2) i+(j-1)*s1+(k-1)*s1*s2
-Chd|====================================================================
-Chd|  SPMD_I25FRONT_INIT            source/mpi/interfaces/spmd_i25front.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        I25FREE_BOUND                 source/interfaces/int25/i25free_bound.F
-Chd|        SPMD_COMM_SPLIT               source/mpi/generic/spmd_comm_split.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_i25front_init   ../engine/source/mpi/interfaces/spmd_i25front.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    i25free_bound        ../engine/source/interfaces/int25/i25free_bound.F
+      !||    spmd_comm_split      ../engine/source/mpi/generic/spmd_comm_split.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod          ../engine/share/message_module/message_mod.F
+      !||    tri7box              ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_I25FRONT_INIT(ITAB,MAIN_PROC,INTBUF_TAB,IPARI)
 C============================================================================
 C   M o d u l e s
@@ -296,16 +297,17 @@ c                WRITE(6,*) "found at ",K
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_I25FRONT_NOR             source/mpi/interfaces/spmd_i25front.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MPI_COMMOD                    share/modules/mpi_comm_mod.F  
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_i25front_nor   ../engine/source/mpi/interfaces/spmd_i25front.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri              ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||    mpi_commod          ../engine/share/modules/mpi_comm_mod.F
+      !||    tri25ebox           ../engine/share/modules/tri25ebox.F
+      !||    tri7box             ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_I25FRONT_NOR(IPARI,
      . INTBUF_TAB,
      . INTLIST25,

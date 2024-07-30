@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I11KE3                        source/interfaces/int11/i11ke3.F
-Chd|-- called by -----------
-Chd|        IMP_INT_K                     source/implicit/imp_int_k.F   
-Chd|-- calls ---------------
-Chd|        ASSEM_INT11                   source/implicit/assem_int.F   
-Chd|        ASS_SPMD11                    source/implicit/assem_int.F   
-Chd|        I11COR3                       source/interfaces/int11/i11cor3.F
-Chd|        I11DSTK3                      source/interfaces/int11/i11dstk3.F
-Chd|        I11KEG3                       source/interfaces/int11/i11keg3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i11ke3          ../engine/source/interfaces/int11/i11ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_int_k       ../engine/source/implicit/imp_int_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    ass_spmd11      ../engine/source/implicit/assem_int.F
+      !||    assem_int11     ../engine/source/implicit/assem_int.F
+      !||    i11cor3         ../engine/source/interfaces/int11/i11cor3.F
+      !||    i11dstk3        ../engine/source/interfaces/int11/i11dstk3.F
+      !||    i11keg3         ../engine/source/interfaces/int11/i11keg3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I11KE3(
      1      A         ,V        ,MS        ,IPARI   ,INTBUF_TAB,
      2      X        ,NIN       ,NUM_IMP ,CAND_N    ,
@@ -183,14 +184,15 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I11FORCF3                     source/interfaces/int11/i11ke3.F
-Chd|-- called by -----------
-Chd|        I7MAINFR                      source/interfaces/int07/i7ke3.F
-Chd|-- calls ---------------
-Chd|        I11CORP3                      source/interfaces/int11/i11corp3.F
-Chd|        I11FRF3                       source/interfaces/int11/i11keg3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i11forcf3       ../engine/source/interfaces/int11/i11ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    i7mainfr        ../engine/source/interfaces/int07/i7ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    i11corp3        ../engine/source/interfaces/int11/i11corp3.F
+      !||    i11frf3         ../engine/source/interfaces/int11/i11keg3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I11FORCF3(  A     ,V      ,MS   ,X       ,D       ,
      1                    IPARI   ,INTBUF_TAB,NIN     ,
      2                    NUM_IMP ,CAND_N ,CAND_E)
@@ -286,16 +288,17 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  IMP_I11MAINF                  source/interfaces/int11/i11ke3.F
-Chd|-- called by -----------
-Chd|        IMP_TRIPI                     source/implicit/imp_int_k.F   
-Chd|-- calls ---------------
-Chd|        I11CDCOR3                     source/interfaces/int11/i11cdcor3.F
-Chd|        I11COR3                       source/interfaces/int11/i11cor3.F
-Chd|        I11DSTK3                      source/interfaces/int11/i11dstk3.F
-Chd|        I11DSTR3                      source/interfaces/int11/i11dstk3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_i11mainf    ../engine/source/interfaces/int11/i11ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_tripi       ../engine/source/implicit/imp_int_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    i11cdcor3       ../engine/source/interfaces/int11/i11cdcor3.F
+      !||    i11cor3         ../engine/source/interfaces/int11/i11cor3.F
+      !||    i11dstk3        ../engine/source/interfaces/int11/i11dstk3.F
+      !||    i11dstr3        ../engine/source/interfaces/int11/i11dstk3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE IMP_I11MAINF(
      1       IPARI  ,INTBUF_TAB,X         ,
      2       V      ,MS        ,NIN       ,LINDMAX  ,
@@ -444,16 +447,17 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I11FKU3                       source/interfaces/int11/i11ke3.F
-Chd|-- called by -----------
-Chd|        INT_FKU3                      source/implicit/imp_int_k.F   
-Chd|-- calls ---------------
-Chd|        I11COR3                       source/interfaces/int11/i11cor3.F
-Chd|        I11CORKP3                     source/interfaces/int11/i11corp3.F
-Chd|        I11DSTK3                      source/interfaces/int11/i11dstk3.F
-Chd|        I11KFOR3                      source/interfaces/int11/i11keg3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i11fku3         ../engine/source/interfaces/int11/i11ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    int_fku3        ../engine/source/implicit/imp_int_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    i11cor3         ../engine/source/interfaces/int11/i11cor3.F
+      !||    i11corkp3       ../engine/source/interfaces/int11/i11corp3.F
+      !||    i11dstk3        ../engine/source/interfaces/int11/i11dstk3.F
+      !||    i11kfor3        ../engine/source/interfaces/int11/i11keg3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I11FKU3(
      1      A         ,V         ,MS        ,D        ,
      2      IPARI     ,INTBUF_TAB,X        ,NIN     ,

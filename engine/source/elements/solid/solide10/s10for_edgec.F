@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10FOR_EDGEC                  source/elements/solid/solide10/s10for_edgec.F
-Chd|-- called by -----------
-Chd|        S10FOR_DISTOR                 source/elements/solid/solide10/s10for_distor.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s10for_edgec    ../engine/source/elements/solid/solide10/s10for_edgec.F
+      !||--- called by ------------------------------------------------------
+      !||    s10for_distor   ../engine/source/elements/solid/solide10/s10for_distor.F
+      !||====================================================================
       SUBROUTINE S10FOR_EDGEC(
      .              STI,    LL  ,   STI_C,   
      .              XX ,     YY ,     ZZ ,   

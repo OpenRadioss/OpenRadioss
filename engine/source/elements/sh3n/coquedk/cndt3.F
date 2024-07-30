@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CNDT3                         source/elements/sh3n/coquedk/cndt3.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|        CDK6FORC3                     source/elements/sh3n/coquedk6/cdk6forc3.F
-Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|        CSSP2A11                      source/elements/sh3n/coque3n/cssp2a11.F
-Chd|====================================================================
+      !||====================================================================
+      !||    cndt3         ../engine/source/elements/sh3n/coquedk/cndt3.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3      ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||    cdk6forc3     ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+      !||    cdkforc3      ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+      !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
+      !||--- calls      -----------------------------------------------------
+      !||    cssp2a11      ../engine/source/elements/sh3n/coque3n/cssp2a11.F
+      !||====================================================================
       SUBROUTINE CNDT3(JFT   ,JLT     ,OFF  ,DT2T ,AMU ,
      1                 NELTST,ITYPTST ,STI  ,STIR ,OFFG,
      2                 SSP   ,VISCMX  ,RHO  ,VOL0 ,THK0,THK02,

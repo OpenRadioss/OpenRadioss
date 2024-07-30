@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SMS_BCSCYC                    source/ams/sms_bcscyc.F       
-Chd|-- called by -----------
-Chd|        SMS_ENCIN_2                   source/ams/sms_encin_2.F      
-Chd|        SMS_MASS_SCALE_2              source/ams/sms_mass_scale_2.F 
-Chd|        SMS_PCG                       source/ams/sms_pcg.F          
-Chd|-- calls ---------------
-Chd|        ACC_CYCON                     source/constraints/general/bcs/bcscyc.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_bcscyc         ../engine/source/ams/sms_bcscyc.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_encin_2        ../engine/source/ams/sms_encin_2.F
+      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+      !||    sms_pcg            ../engine/source/ams/sms_pcg.F
+      !||--- calls      -----------------------------------------------------
+      !||    acc_cycon          ../engine/source/constraints/general/bcs/bcscyc.F
+      !||====================================================================
       SUBROUTINE SMS_BCSCYC(IBCSCYC,LBCSCYC,SKEW,X,A)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

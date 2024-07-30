@@ -20,12 +20,27 @@
 !copyright>        as an alternative to this open-source version, altair also offers altair radioss
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    get_segment_interface_id_mod             ../engine/source/interfaces/interf/get_segment_interface_id.F90
+      !||--- called by ------------------------------------------------------
+      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||====================================================================
       module get_segment_interface_id_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief This routine checks if some segments belong to a given interface /TYPE25 "my_interface_id" and if the segments have no neighbours
+      !||====================================================================
+      !||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
+      !||--- called by ------------------------------------------------------
+      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod                             ../common_source/modules/constant_mod.F
+      !||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
+      !||====================================================================
         subroutine get_segment_interface_id( ninter,nb_segment,list_segment_id, &
                                              my_interface_id,my_reduced_nb,my_reduced_list,my_reduced_neighbour, &
                                              shoot_struct,intbuf_tab)

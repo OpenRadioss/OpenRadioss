@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C_LAG                         source/restart/ddsplit/c_lag.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c_lag     ../starter/source/restart/ddsplit/c_lag.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit   ../starter/source/restart/ddsplit/ddsplit.F
+      !||====================================================================
       SUBROUTINE C_LAG(IPARI, NPRW, LAG_SEC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

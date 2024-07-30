@@ -20,37 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_LECGRN                     source/groups/hm_lecgrn.F     
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_BIGBOX                     source/model/box/hm_bigbox.F  
-Chd|        HM_ELNGR                      source/groups/hm_elngr.F      
-Chd|        HM_ELNGRR                     source/groups/hm_elngrr.F     
-Chd|        HM_ELNGRS                     source/groups/hm_elngr.F      
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_LINENGR                    source/groups/hm_linengr.F    
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        HM_SUBMODGRN                  source/groups/hm_submodgr.F   
-Chd|        HM_SURFNOD                    source/groups/hm_surfnod.F    
-Chd|        HM_TAGPART                    source/groups/hm_tagpart.F    
-Chd|        TAGNOD                        source/groups/tagnod.F        
-Chd|        TAGNODR                       source/groups/tagnodr.F       
-Chd|        TAGNODS                       source/groups/tagnod.F        
-Chd|        TAGNODX                       source/groups/tagnodx.F       
-Chd|        UDOUBLE_IGR                   source/system/sysfus.F        
-Chd|        ULIST2S                       source/system/sysfus.F        
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_lecgrn                ../starter/source/groups/hm_lecgrn.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                   ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../starter/source/output/message/message.F
+      !||    hm_bigbox                ../starter/source/model/box/hm_bigbox.F
+      !||    hm_elngr                 ../starter/source/groups/hm_elngr.F
+      !||    hm_elngrr                ../starter/source/groups/hm_elngrr.F
+      !||    hm_elngrs                ../starter/source/groups/hm_elngr.F
+      !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_linengr               ../starter/source/groups/hm_linengr.F
+      !||    hm_option_read_key       ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start          ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_submodgrn             ../starter/source/groups/hm_submodgr.F
+      !||    hm_surfnod               ../starter/source/groups/hm_surfnod.F
+      !||    hm_tagpart               ../starter/source/groups/hm_tagpart.F
+      !||    tagnod                   ../starter/source/groups/tagnod.F
+      !||    tagnodr                  ../starter/source/groups/tagnodr.F
+      !||    tagnods                  ../starter/source/groups/tagnod.F
+      !||    tagnodx                  ../starter/source/groups/tagnodx.F
+      !||    udouble_igr              ../starter/source/system/sysfus.F
+      !||    ulist2s                  ../starter/source/system/sysfus.F
+      !||    usr2sys                  ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_LECGRN(
      1           ITAB    ,ITABM1  ,IGRNOD  ,
      2           ISUBMOD ,X       ,GEO     ,IXS     ,

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ADMNORM4                      source/model/remesh/admnorm.F 
-Chd|-- called by -----------
-Chd|        ADMDIV                        source/model/remesh/admdiv.F  
-Chd|-- calls ---------------
-Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    admnorm4     ../engine/source/model/remesh/admnorm.F
+      !||--- called by ------------------------------------------------------
+      !||    admdiv       ../engine/source/model/remesh/admdiv.F
+      !||--- uses       -----------------------------------------------------
+      !||    remesh_mod   ../engine/share/modules/remesh_mod.F
+      !||====================================================================
       SUBROUTINE ADMNORM4(N,IXC,X)
 C-----------------------------------------------
 C   M o d u l e s
@@ -96,13 +96,13 @@ c
       RETURN
       END     
 
-Chd|====================================================================
-Chd|  ADMNORM3                      source/model/remesh/admnorm.F 
-Chd|-- called by -----------
-Chd|        ADMDIV                        source/model/remesh/admdiv.F  
-Chd|-- calls ---------------
-Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    admnorm3     ../engine/source/model/remesh/admnorm.F
+      !||--- called by ------------------------------------------------------
+      !||    admdiv       ../engine/source/model/remesh/admdiv.F
+      !||--- uses       -----------------------------------------------------
+      !||    remesh_mod   ../engine/share/modules/remesh_mod.F
+      !||====================================================================
       SUBROUTINE ADMNORM3(N,IXTG,X)
 C-----------------------------------------------
 C   M o d u l e s

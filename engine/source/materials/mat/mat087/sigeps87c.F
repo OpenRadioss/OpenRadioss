@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS87C                     source/materials/mat/mat087/sigeps87c.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|-- calls ---------------
-Chd|        MAT87C_HANSEL                 source/materials/mat/mat087/mat87c_hansel.F
-Chd|        MAT87C_SWIFT_VOCE             source/materials/mat/mat087/mat87c_swift_voce.F
-Chd|        MAT87C_TABULATED_PLAS_SR      source/materials/mat/mat087/mat87c_tabulated_plas_sr.F
-Chd|        MAT87C_TABULATED_TOTALSR      source/materials/mat/mat087/mat87c_tabulated_totalsr.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps87c                  ../engine/source/materials/mat/mat087/sigeps87c.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc                     ../engine/source/materials/mat_share/mulawc.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                     ../engine/source/tools/curve/finter.F
+      !||    mat87c_hansel              ../engine/source/materials/mat/mat087/mat87c_hansel.F
+      !||    mat87c_swift_voce          ../engine/source/materials/mat/mat087/mat87c_swift_voce.F
+      !||    mat87c_tabulated_plas_sr   ../engine/source/materials/mat/mat087/mat87c_tabulated_plas_sr.F
+      !||    mat87c_tabulated_totalsr   ../engine/source/materials/mat/mat087/mat87c_tabulated_totalsr.F
+      !||====================================================================
       SUBROUTINE SIGEPS87C(
      1   NEL,     NUPARAM, NUVAR,   NFUNC,
      2   IFUNC,   NPF,     TF,      TIME,

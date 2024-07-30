@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  QROTA_VECT                    source/output/anim/generate/qrota_vect.F
-Chd|-- called by -----------
-Chd|        H3D_QUAD_VECTOR               source/output/h3d/h3d_results/h3d_quad_vector.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    qrota_vect        ../engine/source/output/anim/generate/qrota_vect.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_quad_vector   ../engine/source/output/h3d/h3d_results/h3d_quad_vector.F
+      !||====================================================================
       SUBROUTINE QROTA_VECT(X, IXQ, KCVT, VECT, GAMA, NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

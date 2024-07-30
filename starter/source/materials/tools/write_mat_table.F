@@ -20,16 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRITE_MAT_TABLE               source/materials/tools/write_mat_table.F
-Chd|-- called by -----------
-Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
-Chd|        WRITE_VISCPARAM               source/materials/mat/write_viscparam.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    write_mat_table   ../starter/source/materials/tools/write_mat_table.F
+      !||--- called by ------------------------------------------------------
+      !||    write_matparam    ../starter/source/materials/mat/write_matparam.F
+      !||    write_viscparam   ../starter/source/materials/mat/write_viscparam.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE WRITE_MAT_TABLE(TABLE, NUMTABL, LENI,  LENR)
 C-----------------------------------------------
       USE TABLE4D_MOD

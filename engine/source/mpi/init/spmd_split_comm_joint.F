@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_SPLIT_COMM_JOINT         source/mpi/init/spmd_split_comm_joint.F
-Chd|-- called by -----------
-Chd|        MPP_INIT                      source/mpi/interfaces/spmd_i7tool.F
-Chd|-- calls ---------------
-Chd|        JOINT_MOD                     share/modules/joint_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_split_comm_joint   ../engine/source/mpi/init/spmd_split_comm_joint.F
+      !||--- called by ------------------------------------------------------
+      !||    mpp_init                ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    joint_mod               ../engine/share/modules/joint_mod.F
+      !||====================================================================
         SUBROUTINE SPMD_SPLIT_COMM_JOINT(  )
 !$COMMENT
 !       SPMD_SPLIT_COMM_JOINT :

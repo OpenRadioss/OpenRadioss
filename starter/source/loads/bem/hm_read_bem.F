@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_PREREAD_BEM                source/loads/bem/hm_read_bem.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_preread_bem       ../starter/source/loads/bem/hm_read_bem.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../starter/source/output/message/message.F
+      !||    arret                ../starter/source/system/arret.F
+      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_count      ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_PREREAD_BEM(IGRSURF,IGRNOD, NNFT ,
      .     UNITAB, NOM_OPT, LSUBMODEL)
 C-----------------------------------------------
@@ -242,32 +242,31 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  HM_READ_BEM                   source/loads/bem/hm_read_bem.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
-Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
-Chd|        HM_GET_FLOAT_ARRAY_INDEX_DIM  source/devtools/hm_reader/hm_get_float_array_index_dim.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        INIT_QD                       source/fluid/init_qd.F        
-Chd|        INIT_TG                       source/fluid/init_tg.F        
-Chd|        MASS_FLUID_QD                 source/fluid/mass-fluid_qd.F  
-Chd|        MASS_FLUID_TG                 source/fluid/mass-fluid_tg.F  
-Chd|        ID                            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_bem                    ../starter/source/loads/bem/hm_read_bem.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                         ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                         ../starter/source/output/message/message.F
+      !||    arret                          ../starter/source/system/arret.F
+      !||    hm_get_float_array_index       ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+      !||    hm_get_float_array_index_dim   ../starter/source/devtools/hm_reader/hm_get_float_array_index_dim.F
+      !||    hm_get_floatv                  ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_floatv_dim              ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
+      !||    hm_get_int_array_index         ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    hm_get_intv                    ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_count                ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_read_key             ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start                ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    init_qd                        ../starter/source/fluid/init_qd.F
+      !||    init_tg                        ../starter/source/fluid/init_tg.F
+      !||    mass_fluid_qd                  ../starter/source/fluid/mass-fluid_qd.F
+      !||    mass_fluid_tg                  ../starter/source/fluid/mass-fluid_tg.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod             ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod                    ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_BEM(IGRSURF, IFLOW   , RFLOW  ,
      .                    NPC    , IGRNOD  , MEMFLOW,UNITAB,
      .                    X      , NOM_OPT , LGAUGE ,IGRV, LSUBMODEL)

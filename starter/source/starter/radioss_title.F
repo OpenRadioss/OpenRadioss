@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RADIOSS_TITLE                 source/starter/radioss_title.F
-Chd|-- called by -----------
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|-- calls ---------------
-Chd|        PRINTCENTER                   source/starter/radioss_title.F
-Chd|====================================================================
+      !||====================================================================
+      !||    radioss_title   ../starter/source/starter/radioss_title.F
+      !||--- called by ------------------------------------------------------
+      !||    starter0        ../starter/source/starter/starter0.F
+      !||--- calls      -----------------------------------------------------
+      !||    printcenter     ../starter/source/starter/radioss_title.F
+      !||====================================================================
       SUBROUTINE RADIOSS_TITLE(IOUT,CPUNAM,ARCHTITLE,
      *             FILNAM,ROOTLEN,CHRUN,IRESP,IFLAG)
 C-----------------------------------------------
@@ -99,14 +99,13 @@ C-----------------------------------------------
       END
 
 
-Chd|====================================================================
-Chd|  PRINTCENTER                   source/starter/radioss_title.F
-Chd|-- called by -----------
-Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
-Chd|        RADIOSS_TITLE                 source/starter/radioss_title.F
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    printcenter     ../starter/source/starter/radioss_title.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_group       ../starter/source/coupling/rad2rad/r2r_group.F
+      !||    radioss_title   ../starter/source/starter/radioss_title.F
+      !||    starter0        ../starter/source/starter/starter0.F
+      !||====================================================================
       SUBROUTINE PRINTCENTER(ARRAY,ARRLEN,LINOUT,FLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ_SENSOR_ENERGY            source/tools/sensor/read_sensor_energy.F
-Chd|-- called by -----------
-Chd|        HM_READ_SENSORS               source/tools/sensor/hm_read_sensors.F
-Chd|-- calls ---------------
-Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    read_sensor_energy   ../starter/source/tools/sensor/read_sensor_energy.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_sensors      ../starter/source/tools/sensor/hm_read_sensors.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_floatv        ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    sensor_mod           ../starter/share/modules1/sensor_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE READ_SENSOR_ENERGY(SENSOR_PTR,SENS_ID   ,TITR     ,
      .           IPART    ,SUBSET   ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------

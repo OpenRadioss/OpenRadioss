@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C_SEATBELTS                   source/restart/ddsplit/c_seatbelts.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    c_seatbelts    ../starter/source/restart/ddsplit/c_seatbelts.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal         ../starter/source/spmd/node/ddtools.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE C_SEATBELTS(N_SLIPRING_L,N_RETRACTOR_L,P,NODLOCAL,ELBUF_TAB,
      .                       IPARG,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,ANCHOR_REMOTE_L,ANCHOR_REMOTE_SEND_L,
      .                       N_SEATBELT_L,N_SEATBELT_2D_L,CEP,OFF)     

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RTRANSPOS                     source/model/submodel/rtranspos.F
-Chd|-- called by -----------
-Chd|        LECTRANSSUB                   source/model/submodel/lectranssub.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rtranspos     ../starter/source/model/submodel/rtranspos.F
+      !||--- called by ------------------------------------------------------
+      !||    lectranssub   ../starter/source/model/submodel/lectranssub.F
+      !||====================================================================
       SUBROUTINE RTRANSPOS(POINT     ,MYTRANS, RTRANS )
 C-----------------------------------------------
 C     TRANSFORMATION OF COORDS OF POINT ACCORDING TO RTRANS(MYTRANS)

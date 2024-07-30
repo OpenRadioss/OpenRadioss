@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MSTRAIN_RATE                  source/materials/mat_share/mstrain_rate.F
-Chd|-- called by -----------
-Chd|        M2LAW                         source/materials/mat/mat002/m2law.F
-Chd|        SIGEPS44                      source/materials/mat/mat044/sigeps44.F
-Chd|        SIGEPS93                      source/materials/mat/mat093/sigeps93.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mstrain_rate   ../engine/source/materials/mat_share/mstrain_rate.F
+      !||--- called by ------------------------------------------------------
+      !||    m2law          ../engine/source/materials/mat/mat002/m2law.F
+      !||    mulaw          ../engine/source/materials/mat_share/mulaw.F90
+      !||    sigeps44       ../engine/source/materials/mat/mat044/sigeps44.F
+      !||    sigeps93       ../engine/source/materials/mat/mat093/sigeps93.F
+      !||====================================================================
       SUBROUTINE MSTRAIN_RATE(NEL    ,ISRATE ,ASRATE ,EPSD   ,IDEV   ,
      .                        EP1    ,EP2    ,EP3    ,EP4    ,EP5    ,EP6)
 C-----------------------------------------------

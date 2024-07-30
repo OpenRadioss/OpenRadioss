@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BCS3V                         source/ale/inter/bcs3v.F      
-Chd|-- called by -----------
-Chd|        ALESUB1                       source/ale/subcycling/alesub1.F
-Chd|        ALESUB2                       source/ale/subcycling/alesub2.F
-Chd|        ALEWDX                        source/ale/grid/alewdx.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    bcs3v     ../engine/source/ale/inter/bcs3v.F
+      !||--- called by ------------------------------------------------------
+      !||    alesub1   ../engine/source/ale/subcycling/alesub1.F
+      !||    alesub2   ../engine/source/ale/subcycling/alesub2.F
+      !||    alewdx    ../engine/source/ale/grid/alewdx.F
+      !||====================================================================
       SUBROUTINE BCS3V(NINDX,INDX,ISKEW,ICODT,W,V,B)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

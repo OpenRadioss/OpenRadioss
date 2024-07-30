@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PLAS24B                       source/materials/mat/mat024/plas24b.F
-Chd|-- called by -----------
-Chd|        CONC24                        source/materials/mat/mat024/conc24.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    plas24b   ../engine/source/materials/mat/mat024/plas24b.F
+      !||--- called by ------------------------------------------------------
+      !||    conc24    ../engine/source/materials/mat/mat024/conc24.F
+      !||====================================================================
       SUBROUTINE PLAS24B(NEL   ,NINDX ,INDX  ,NGL   ,PM    ,
      .                   SIG   ,DAM   ,CRAK  ,EPSVP ,CDAM  ,
      .                   RHO   ,EINT  ,VK0   ,VK    ,ROB   ,PLA   ,

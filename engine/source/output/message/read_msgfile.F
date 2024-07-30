@@ -20,15 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ_MSGFILE                  source/output/message/read_msgfile.F
-Chd|-- called by -----------
-Chd|        EXECARGCHECK                  source/engine/execargcheck.F  
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    read_msgfile           ../engine/source/output/message/read_msgfile.F
+      !||--- called by ------------------------------------------------------
+      !||    execargcheck           ../engine/source/engine/execargcheck.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE READ_MSGFILE(LENI,INPUTR)
 C-----------------------------------------------
 C   M o d u l e s

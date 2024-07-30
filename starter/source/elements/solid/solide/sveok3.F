@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SVEOK3                        source/elements/solid/solide/sveok3.F
-Chd|-- called by -----------
-Chd|        MULTIFLUID_INIT3              source/multifluid/multifluid_init3.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|-- calls ---------------
-Chd|        CCOLI3                        source/elements/shell/coque/ccoli3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sveok3             ../starter/source/elements/solid/solide/sveok3.F
+      !||--- called by ------------------------------------------------------
+      !||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
+      !||    sinit3             ../starter/source/elements/solid/solide/sinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ccoli3             ../starter/source/elements/shell/coque/ccoli3.F
+      !||====================================================================
       SUBROUTINE SVEOK3(NVC,NOD, 
      .     IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
 C

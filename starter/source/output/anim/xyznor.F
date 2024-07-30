@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  XYZNOR                        source/output/anim/xyznor.F   
-Chd|-- called by -----------
-Chd|        DD_ANI                        source/output/anim/dd_ani.F   
-Chd|        GENANI1                       source/output/anim/genani1.F  
-Chd|-- calls ---------------
-Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    xyznor      ../starter/source/output/anim/xyznor.F
+      !||--- called by ------------------------------------------------------
+      !||    dd_ani      ../starter/source/output/anim/dd_ani.F
+      !||    genani1     ../starter/source/output/anim/genani1.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE XYZNOR(XNORM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

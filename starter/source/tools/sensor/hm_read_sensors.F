@@ -20,45 +20,45 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_SENSORS               source/tools/sensor/hm_read_sensors.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        READ_SENSOR_ACC               source/tools/sensor/read_sensor_acc.F
-Chd|        READ_SENSOR_AND               source/tools/sensor/read_sensor_and.F
-Chd|        READ_SENSOR_CONTACT           source/tools/sensor/read_sensor_contact.F
-Chd|        READ_SENSOR_DISP              source/tools/sensor/read_sensor_disp.F
-Chd|        READ_SENSOR_DIST_SURF         source/tools/sensor/read_sensor_dist_surf.F
-Chd|        READ_SENSOR_ENERGY            source/tools/sensor/read_sensor_energy.F
-Chd|        READ_SENSOR_GAUGE             source/tools/sensor/read_sensor_gauge.F
-Chd|        READ_SENSOR_HIC               source/tools/sensor/read_sensor_hic.F
-Chd|        READ_SENSOR_NIC               source/tools/sensor/read_sensor_nic.F
-Chd|        READ_SENSOR_NOT               source/tools/sensor/read_sensor_not.F
-Chd|        READ_SENSOR_OR                source/tools/sensor/read_sensor_or.F
-Chd|        READ_SENSOR_RBODY             source/tools/sensor/read_sensor_rbody.F
-Chd|        READ_SENSOR_RWALL             source/tools/sensor/read_sensor_rwall.F
-Chd|        READ_SENSOR_SECT              source/tools/sensor/read_sensor_sect.F
-Chd|        READ_SENSOR_SENS              source/tools/sensor/read_sensor_sens.F
-Chd|        READ_SENSOR_TEMP              source/tools/sensor/read_sensor_temp.F
-Chd|        READ_SENSOR_TIME              source/tools/sensor/read_sensor_time.F
-Chd|        READ_SENSOR_USER              source/tools/sensor/read_sensor_user.F
-Chd|        READ_SENSOR_VEL               source/tools/sensor/read_sensor_vel.F
-Chd|        READ_SENSOR_WORK              source/tools/sensor/read_sensor_work.F
-Chd|        SENSOR_TAB_INIT               source/tools/sensor/sensor_tab_init.F
-Chd|        UDOUBLE                       source/system/sysfus.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|        SURF_MOD                      share/modules1/surf_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_sensors         ../starter/source/tools/sensor/hm_read_sensors.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                  ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                  ../starter/source/output/message/message.F
+      !||    hm_option_count         ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_read_key      ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start         ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    read_sensor_acc         ../starter/source/tools/sensor/read_sensor_acc.F
+      !||    read_sensor_and         ../starter/source/tools/sensor/read_sensor_and.F
+      !||    read_sensor_contact     ../starter/source/tools/sensor/read_sensor_contact.F
+      !||    read_sensor_disp        ../starter/source/tools/sensor/read_sensor_disp.F
+      !||    read_sensor_dist_surf   ../starter/source/tools/sensor/read_sensor_dist_surf.F
+      !||    read_sensor_energy      ../starter/source/tools/sensor/read_sensor_energy.F
+      !||    read_sensor_gauge       ../starter/source/tools/sensor/read_sensor_gauge.F
+      !||    read_sensor_hic         ../starter/source/tools/sensor/read_sensor_hic.F
+      !||    read_sensor_nic         ../starter/source/tools/sensor/read_sensor_nic.F
+      !||    read_sensor_not         ../starter/source/tools/sensor/read_sensor_not.F
+      !||    read_sensor_or          ../starter/source/tools/sensor/read_sensor_or.F
+      !||    read_sensor_rbody       ../starter/source/tools/sensor/read_sensor_rbody.F
+      !||    read_sensor_rwall       ../starter/source/tools/sensor/read_sensor_rwall.F
+      !||    read_sensor_sect        ../starter/source/tools/sensor/read_sensor_sect.F
+      !||    read_sensor_sens        ../starter/source/tools/sensor/read_sensor_sens.F
+      !||    read_sensor_temp        ../starter/source/tools/sensor/read_sensor_temp.F
+      !||    read_sensor_time        ../starter/source/tools/sensor/read_sensor_time.F
+      !||    read_sensor_user        ../starter/source/tools/sensor/read_sensor_user.F
+      !||    read_sensor_vel         ../starter/source/tools/sensor/read_sensor_vel.F
+      !||    read_sensor_work        ../starter/source/tools/sensor/read_sensor_work.F
+      !||    sensor_tab_init         ../starter/source/tools/sensor/sensor_tab_init.F
+      !||    udouble                 ../starter/source/system/sysfus.F
+      !||    usr2sys                 ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod      ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||    sensor_mod              ../starter/share/modules1/sensor_mod.F
+      !||    submodel_mod            ../starter/share/modules1/submodel_mod.F
+      !||    surf_mod                ../starter/share/modules1/surf_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_SENSORS(
      .           SENSORS   ,LACCELM   ,ITABM1    ,IPART     ,LGAUGE    ,
      .           SUBSET    ,NSETS     ,IGRSURF   ,IGRNOD    ,BUFSF     ,

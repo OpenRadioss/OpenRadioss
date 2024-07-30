@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I21BUCE_CRIT                  source/interfaces/intsort/i21buce_crit.F
-Chd|-- called by -----------
-Chd|        I21MAIN_CRIT_TRI              source/interfaces/intsort/i21main_crit_tri.F
-Chd|-- calls ---------------
-Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    i21buce_crit       ../engine/source/interfaces/intsort/i21buce_crit.F
+      !||--- called by ------------------------------------------------------
+      !||    i21main_crit_tri   ../engine/source/interfaces/intsort/i21main_crit_tri.F
+      !||--- uses       -----------------------------------------------------
+      !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
+      !||====================================================================
        SUBROUTINE I21BUCE_CRIT(
      1       X       ,NSV   ,NSN   ,INTSTAMP,ITASK   ,
      2       XSAV  ,NIN   ,STFN    ,V       ,XSLV_G  ,

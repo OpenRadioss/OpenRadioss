@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_I7ITIED_CAND             source/mpi/interfaces/spmd_i7itied_cand.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_i7itied_cand   ../engine/source/mpi/interfaces/spmd_i7itied_cand.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri              ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||    tri7box             ../engine/share/modules/tri7box.F
+      !||====================================================================
         SUBROUTINE SPMD_I7ITIED_CAND(FLAG,NBINTC,IPARI,INTLIST,INTBUF_TAB)
 
 C-----------------------------------------------

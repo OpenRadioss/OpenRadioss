@@ -21,20 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
-Chd|====================================================================
-Chd|  REDEF3                        source/elements/spring/redef3.F
-Chd|-- called by -----------
-Chd|        R1DEF3                        source/elements/spring/r1def3.F
-Chd|        R23L108DEF3                   source/elements/spring/r23l108def3.F
-Chd|        R23L114DEF3                   source/elements/spring/r23l114def3.F
-Chd|        R2DEF3                        source/elements/spring/r2def3.F
-Chd|        R3DEF3                        source/elements/spring/r3def3.F
-Chd|        R4DEF3                        source/elements/spring/r4def3.F
-Chd|        R6DEF3                        source/elements/spring/r6def3.F
-Chd|-- calls ---------------
-Chd|        VINTER2                       source/tools/curve/vinter.F   
-Chd|        VINTER2DP                     source/tools/curve/vinter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    redef3        ../engine/source/elements/spring/redef3.F
+      !||--- called by ------------------------------------------------------
+      !||    r1def3        ../engine/source/elements/spring/r1def3.F
+      !||    r23l108def3   ../engine/source/elements/spring/r23l108def3.F
+      !||    r23l114def3   ../engine/source/elements/spring/r23l114def3.F
+      !||    r2def3        ../engine/source/elements/spring/r2def3.F
+      !||    r3def3        ../engine/source/elements/spring/r3def3.F
+      !||    r4def3        ../engine/source/elements/spring/r4def3.F
+      !||    r6def3        ../engine/source/elements/spring/r6def3.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter        ../engine/source/tools/curve/finter.F
+      !||    vinter2       ../engine/source/tools/curve/vinter.F
+      !||    vinter2dp     ../engine/source/tools/curve/vinter.F
+      !||====================================================================
       SUBROUTINE REDEF3(
      1   FX,      XK,      DX,      FXEP,
      2   DXOLD,   DPX,     TF,      NPF,

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CUPDT3_CRK                    source/elements/xfem/xfemfsky.F
-Chd|-- called by -----------
-Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    cupdt3_crk      ../engine/source/elements/xfem/xfemfsky.F
+      !||--- called by ------------------------------------------------------
+      !||    cforc3_crk      ../engine/source/elements/xfem/cforc3_crk.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE CUPDT3_CRK(
      .           JFT     ,JLT     ,NFT   ,IXC    ,OFF     ,IADC    ,
      .           F11     ,F21     ,F31   ,F12    ,F22     ,F32     ,
@@ -259,13 +259,13 @@ C---
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  CUPDTN3_CRK                   source/elements/xfem/xfemfsky.F
-Chd|-- called by -----------
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    cupdtn3_crk     ../engine/source/elements/xfem/xfemfsky.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3_crk     ../engine/source/elements/xfem/czforc3_crk.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE CUPDTN3_CRK(
      .          JFT   ,JLT  ,NFT  ,IXC   ,OFF     ,IADC   ,
      .          F11   ,F21  ,F31  ,F12   ,F22     ,F32    ,
@@ -498,13 +498,13 @@ C---
 C-------------
       RETURN
       END
-Chd|====================================================================
-Chd|  C3UPDT3_CRK                   source/elements/xfem/xfemfsky.F
-Chd|-- called by -----------
-Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    c3updt3_crk     ../engine/source/elements/xfem/xfemfsky.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3_crk     ../engine/source/elements/xfem/c3forc3_crk.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE C3UPDT3_CRK(
      .          JFT  ,JLT  ,NFT  ,IXTG  ,OFF     ,IADC   ,
      .          F11  ,F21  ,F31  ,F12   ,F22     ,F32    ,
@@ -699,14 +699,15 @@ C---
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_CRK_ADV                  source/elements/xfem/xfemfsky.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SPMD_EXCH_NODENR              source/mpi/elements/spmd_xfem.F
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_crk_adv       ../engine/source/elements/xfem/xfemfsky.F
+      !||--- called by ------------------------------------------------------
+      !||    resol              ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_exch_nodenr   ../engine/source/mpi/elements/spmd_xfem.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod      ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_CRK_ADV(IAD_ELEM ,FR_ELEM, INOD_CRK ,ENRTAG)
 C-----------------------------------------------
       USE CRACKXFEM_MOD

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ERR_THK_MOD                   source/elements/shell/err_thk.F
-Chd|-- called by -----------
-Chd|        ERR_THK                       source/elements/shell/err_thk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    err_thk_mod   ../engine/source/elements/shell/err_thk.F
+      !||--- called by ------------------------------------------------------
+      !||    err_thk       ../engine/source/elements/shell/err_thk.F
+      !||====================================================================
       MODULE ERR_THK_MOD
 #include "my_real.inc"
 
@@ -38,22 +37,23 @@ Chd|====================================================================
      .      AREA_SH4, AREA_SH3
 
       END MODULE ERR_THK_MOD
-Chd|====================================================================
-Chd|  ERR_THK                       source/elements/shell/err_thk.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ADMTHKE                       source/model/remesh/admthke.F 
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_EXCH_NODAREA             source/mpi/anim/spmd_exch_nodarea.F
-Chd|        STARTIMEG                     source/system/timer.F         
-Chd|        STOPTIMEG                     source/system/timer.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        ERR_THK_MOD                   source/elements/shell/err_thk.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    err_thk             ../engine/source/elements/shell/err_thk.F
+      !||--- called by ------------------------------------------------------
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    admthke             ../engine/source/model/remesh/admthke.F
+      !||    ancmsg              ../engine/source/output/message/message.F
+      !||    arret               ../engine/source/system/arret.F
+      !||    my_barrier          ../engine/source/system/machine.F
+      !||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
+      !||    startimeg           ../engine/source/system/timer.F
+      !||    stoptimeg           ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    err_thk_mod         ../engine/source/elements/shell/err_thk.F
+      !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ERR_THK(
      .             IXC     ,IXTG    ,IPARG   ,IAD_ELEM,FR_ELEM ,
      .             WEIGHT  ,X       ,ELBUF_TAB,IPART   ,IPARTC  ,

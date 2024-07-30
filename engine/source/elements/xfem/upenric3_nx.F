@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UPENRIC3_N4                   source/elements/xfem/upenric3_nx.F
-Chd|-- called by -----------
-Chd|        UPXFEM_TAGXP                  source/elements/xfem/upxfem_tagxp.F
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    upenric3_n4     ../engine/source/elements/xfem/upenric3_nx.F
+      !||--- called by ------------------------------------------------------
+      !||    upxfem_tagxp    ../engine/source/elements/xfem/upxfem_tagxp.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE UPENRIC3_N4(XFEM_TAB,
      .                   IPARG  ,IXC     ,NFT    ,JFT     ,JLT  ,
      .                   ELCUTC ,IADC_CRK,IEL_CRK,INOD_CRK,IXFEM,
@@ -122,14 +122,14 @@ C
 C-----------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  UPENRIC3_N3                   source/elements/xfem/upenric3_nx.F
-Chd|-- called by -----------
-Chd|        UPXFEM_TAGXP                  source/elements/xfem/upxfem_tagxp.F
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    upenric3_n3     ../engine/source/elements/xfem/upenric3_nx.F
+      !||--- called by ------------------------------------------------------
+      !||    upxfem_tagxp    ../engine/source/elements/xfem/upxfem_tagxp.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE UPENRIC3_N3(XFEM_TAB,
      .                    IPARG  ,IXTG     ,NFT    ,JFT     ,JLT  ,
      .                    ELCUTC ,IAD_CRKTG,IEL_CRKTG,INOD_CRK,IXFEM,

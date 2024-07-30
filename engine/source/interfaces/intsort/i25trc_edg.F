@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25TRC_EDG                    source/interfaces/intsort/i25trc_edg.F
-Chd|-- called by -----------
-Chd|        I25MAIN_TRI                   source/interfaces/intsort/i25main_tri.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25trc_edg    ../engine/source/interfaces/intsort/i25trc_edg.F
+      !||--- called by ------------------------------------------------------
+      !||    i25main_tri   ../engine/source/interfaces/intsort/i25main_tri.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25TRC_EDG(
      1      NEDGE,I_STOK,CAND_S,CAND_M,
      2      CAND_P,CAND_A,NIN,NEDGE_L,IFQ,

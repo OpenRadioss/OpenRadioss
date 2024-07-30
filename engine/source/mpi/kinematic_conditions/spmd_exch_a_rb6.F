@@ -21,16 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_EXCH_A_RB6               source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
-Chd|-- called by -----------
-Chd|        RBYFOR                        source/constraints/general/rbody/rbyfor.F
-Chd|        SMS_ENCIN_2                   source/ams/sms_encin_2.F      
-Chd|        SMS_MASS_SCALE_2              source/ams/sms_mass_scale_2.F 
-Chd|        SMS_PCG                       source/ams/sms_pcg.F          
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_a_rb6    ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
+      !||--- called by ------------------------------------------------------
+      !||    rbyfor             ../engine/source/constraints/general/rbody/rbyfor.F
+      !||    sms_encin_2        ../engine/source/ams/sms_encin_2.F
+      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+      !||    sms_pcg            ../engine/source/ams/sms_pcg.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_A_RB6(NRBDIM,IAD_RBY,FR_RBY6,ICSIZE,RBF6)
 C     make summation of acc and stiffness for main nodes of rigid bodies
 C     and make summation of other quantities for AMS
@@ -155,13 +156,14 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_EXCH_A_RB6_VREL          source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
-Chd|-- called by -----------
-Chd|        RBYFOR                        source/constraints/general/rbody/rbyfor.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_a_rb6_vrel   ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
+      !||--- called by ------------------------------------------------------
+      !||    rbyfor                 ../engine/source/constraints/general/rbody/rbyfor.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_A_RB6_VREL(NRBDIM,IAD_RBY,FR_RBY6,ICSIZE,RBY6,
      .                                RBY6_C,SIZE_RBY6_C)
 C     make summation of acc, stiffness for main nodes of rigid bodies

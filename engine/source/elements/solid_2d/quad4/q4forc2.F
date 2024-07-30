@@ -20,41 +20,44 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
-Chd|-- called by -----------
-Chd|        FORINT                        source/elements/forint.F      
-Chd|-- calls ---------------
-Chd|        Q4COOR2                       source/elements/solid_2d/quad4/q4coor2.F
-Chd|        Q4CUMU2                       source/elements/solid_2d/quad4/q4cumu2.F
-Chd|        Q4CUMU2P                      source/elements/solid_2d/quad4/q4cumu2p.F
-Chd|        Q4DEFO2                       source/elements/solid_2d/quad4/q4defo2.F
-Chd|        Q4DEFOC2                      source/elements/solid_2d/quad4/q4defoc2.F
-Chd|        Q4DERI2                       source/elements/solid_2d/quad4/q4deri2.F
-Chd|        Q4DERIC2                      source/elements/solid_2d/quad4/q4deric2.F
-Chd|        Q4FINT2                       source/elements/solid_2d/quad4/q4fint2.F
-Chd|        Q4FINTC2                      source/elements/solid_2d/quad4/q4fintc2.F
-Chd|        Q4RCOOR2                      source/elements/solid_2d/quad4/q4rcoor2.F
-Chd|        Q4RROTA2                      source/elements/solid_2d/quad4/q4rrota2.F
-Chd|        Q4VIS2                        source/elements/solid_2d/quad4/q4vis2.F
-Chd|        Q4ZERO2                       source/elements/solid_2d/quad4/q4zero2.F
-Chd|        QBILAN                        source/elements/solid_2d/quad/qbilan.F
-Chd|        QDLEN2                        source/elements/solid_2d/quad/qdlen2.F
-Chd|        QLAGR2                        source/elements/solid_2d/quad/qlagr2.F
-Chd|        QMASS2                        source/elements/solid_2d/quad/qmass2.F
-Chd|        QMASS2P                       source/elements/solid_2d/quad/qmass2p.F
-Chd|        QMASSREAL2                    source/elements/solid_2d/quad/qmassreal2.F
-Chd|        QMASSREAL2P                   source/elements/solid_2d/quad/qmassreal2p.F
-Chd|        QROTA2                        source/elements/solid_2d/quad/qrota2.F
-Chd|        QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
-Chd|        S8EFMOY3                      source/elements/solid/solide8e/s8efmoy3.F
-Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zsigp3.F
-Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    q4forc2                ../engine/source/elements/solid_2d/quad4/q4forc2.F
+      !||--- called by ------------------------------------------------------
+      !||    forint                 ../engine/source/elements/forint.F
+      !||--- calls      -----------------------------------------------------
+      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+      !||    q4coor2                ../engine/source/elements/solid_2d/quad4/q4coor2.F
+      !||    q4cumu2                ../engine/source/elements/solid_2d/quad4/q4cumu2.F
+      !||    q4cumu2p               ../engine/source/elements/solid_2d/quad4/q4cumu2p.F
+      !||    q4defo2                ../engine/source/elements/solid_2d/quad4/q4defo2.F
+      !||    q4defoc2               ../engine/source/elements/solid_2d/quad4/q4defoc2.F
+      !||    q4deri2                ../engine/source/elements/solid_2d/quad4/q4deri2.F
+      !||    q4deric2               ../engine/source/elements/solid_2d/quad4/q4deric2.F
+      !||    q4fint2                ../engine/source/elements/solid_2d/quad4/q4fint2.F
+      !||    q4fintc2               ../engine/source/elements/solid_2d/quad4/q4fintc2.F
+      !||    q4rcoor2               ../engine/source/elements/solid_2d/quad4/q4rcoor2.F
+      !||    q4rrota2               ../engine/source/elements/solid_2d/quad4/q4rrota2.F
+      !||    q4vis2                 ../engine/source/elements/solid_2d/quad4/q4vis2.F
+      !||    q4zero2                ../engine/source/elements/solid_2d/quad4/q4zero2.F
+      !||    qbilan                 ../engine/source/elements/solid_2d/quad/qbilan.F
+      !||    qdlen2                 ../engine/source/elements/solid_2d/quad/qdlen2.F
+      !||    qlagr2                 ../engine/source/elements/solid_2d/quad/qlagr2.F
+      !||    qmass2                 ../engine/source/elements/solid_2d/quad/qmass2.F
+      !||    qmass2p                ../engine/source/elements/solid_2d/quad/qmass2p.F
+      !||    qmassreal2             ../engine/source/elements/solid_2d/quad/qmassreal2.F
+      !||    qmassreal2p            ../engine/source/elements/solid_2d/quad/qmassreal2p.F
+      !||    qrota2                 ../engine/source/elements/solid_2d/quad/qrota2.F
+      !||    qvolu2                 ../engine/source/elements/solid_2d/quad/qvolu2.F
+      !||    s8efmoy3               ../engine/source/elements/solid/solide8e/s8efmoy3.F
+      !||    s8zsigp3               ../engine/source/elements/solid/solide8z/s8zsigp3.F
+      !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE Q4FORC2(PM    ,GEO    ,IC     ,X     ,A      ,
      2                   V     ,MS     ,W      ,FLUX  ,FLU1  ,
      3                   VEUL   ,FV     ,ALE_CONNECT ,IPARG  ,NLOC_DMG,

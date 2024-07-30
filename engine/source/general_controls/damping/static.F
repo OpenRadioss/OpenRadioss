@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STATIC                        source/general_controls/damping/static.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        NGR2USR                       source/input/freform.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    static         ../engine/source/general_controls/damping/static.F
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ngr2usr        ../engine/source/input/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+      !||====================================================================
       SUBROUTINE STATIC(V,VR,A,AR,MS,IN,IGRNOD,WEIGHT_MD)
 C-----------------------------------------------
 C   M o d u l e s
@@ -209,13 +210,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  E_PERIOD                      source/general_controls/damping/static.F
-Chd|-- called by -----------
-Chd|        ENER_W0                       source/general_controls/damping/static.F
-Chd|-- calls ---------------
-Chd|        BUTTERWORTH                   source/tools/univ/butterworth.F
-Chd|====================================================================
+      !||====================================================================
+      !||    e_period      ../engine/source/general_controls/damping/static.F
+      !||--- called by ------------------------------------------------------
+      !||    ener_w0       ../engine/source/general_controls/damping/static.F
+      !||--- calls      -----------------------------------------------------
+      !||    butterworth   ../engine/source/tools/univ/butterworth.F
+      !||====================================================================
       SUBROUTINE E_PERIOD(IPI,IPC,F_FIL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -310,13 +311,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ENER_W0                       source/general_controls/damping/static.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        E_PERIOD                      source/general_controls/damping/static.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ener_w0    ../engine/source/general_controls/damping/static.F
+      !||--- called by ------------------------------------------------------
+      !||    resol      ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    e_period   ../engine/source/general_controls/damping/static.F
+      !||====================================================================
       SUBROUTINE ENER_W0
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

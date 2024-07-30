@@ -20,29 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UPGRADE_MULTIMP               interf/upgrade_multimp.F      
-Chd|-- called by -----------
-Chd|        ININTR                        starter/source/interfaces/interf1/inintr.F
-Chd|        ININTR_THKVAR                 starter/source/interfaces/interf1/inintr_thkvar.F
-Chd|        I10MAIN_TRI                   engine/source/interfaces/intsort/i10main_tri.F
-Chd|        I11MAIN_TRI                   engine/source/interfaces/intsort/i11main_tri.F
-Chd|        I20MAIN_TRI                   engine/source/interfaces/intsort/i20main_tri.F
-Chd|        I21MAIN_TRI                   engine/source/interfaces/intsort/i21main_tri.F
-Chd|        I22MAIN_TRI                   engine/source/interfaces/intsort/i22main_tri.F
-Chd|        I23MAIN_TRI                   engine/source/interfaces/intsort/i23main_tri.F
-Chd|        I24MAIN_TRI                   engine/source/interfaces/intsort/i24main_tri.F
-Chd|        I25MAIN_TRI                   engine/source/interfaces/intsort/i25main_tri.F
-Chd|        I7MAIN_TRI                    engine/source/interfaces/intsort/i7main_tri.F
-Chd|        INTER_SORT_07                 engine/source/interfaces/int07/inter_sort_07.F
-Chd|-- calls ---------------
-Chd|        ARRET                         starter/source/system/arret.F 
-Chd|        ARRET                         engine/source/system/arret.F  
-Chd|        ARRET_MESSAGE                 starter/source/interfaces/int24/arret_message.F
-Chd|        ARRET_MESSAGE                 engine/source/system/arret_message.F
-Chd|        RESTMOD                       starter/share/modules1/restart_mod.F
-Chd|        RESTMOD                       engine/share/modules/restart_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    upgrade_multimp   ../common_source/interf/upgrade_multimp.F
+      !||--- called by ------------------------------------------------------
+      !||    i10main_tri       ../engine/source/interfaces/intsort/i10main_tri.F
+      !||    i11main_tri       ../engine/source/interfaces/intsort/i11main_tri.F
+      !||    i20main_tri       ../engine/source/interfaces/intsort/i20main_tri.F
+      !||    i21main_tri       ../engine/source/interfaces/intsort/i21main_tri.F
+      !||    i22main_tri       ../engine/source/interfaces/intsort/i22main_tri.F
+      !||    i23main_tri       ../engine/source/interfaces/intsort/i23main_tri.F
+      !||    i24main_tri       ../engine/source/interfaces/intsort/i24main_tri.F
+      !||    i25main_tri       ../engine/source/interfaces/intsort/i25main_tri.F
+      !||    i7main_tri        ../engine/source/interfaces/intsort/i7main_tri.F
+      !||    inintr            ../starter/source/interfaces/interf1/inintr.F
+      !||    inintr_thkvar     ../starter/source/interfaces/interf1/inintr_thkvar.F
+      !||    inter_sort_07     ../engine/source/interfaces/int07/inter_sort_07.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret             ../engine/source/system/arret.F
+      !||    arret_message     ../engine/source/system/arret_message.F
+      !||--- uses       -----------------------------------------------------
+      !||    restmod           ../engine/share/modules/restart_mod.F
+      !||====================================================================
       SUBROUTINE UPGRADE_MULTIMP(NI,MULTIMP_PARAMETER,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1107,19 +1105,17 @@ C=======================================================================
       
       CALL ARRET(2)
       END
-Chd|====================================================================
-Chd|  UPGRADE_CAND_OPT              interf/upgrade_multimp.F      
-Chd|-- called by -----------
-Chd|        I25MAIN_OPT_TRI               engine/source/interfaces/intsort/i25main_opt_tri.F
-Chd|        I25MAIN_SLID                  engine/source/interfaces/int25/i25main_slid.F
-Chd|-- calls ---------------
-Chd|        ARRET                         starter/source/system/arret.F 
-Chd|        ARRET                         engine/source/system/arret.F  
-Chd|        ARRET_MESSAGE_SLID            starter/source/interfaces/int24/arret_message.F
-Chd|        ARRET_MESSAGE_SLID            engine/source/system/arret_message.F
-Chd|        RESTMOD                       starter/share/modules1/restart_mod.F
-Chd|        RESTMOD                       engine/share/modules/restart_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    upgrade_cand_opt     ../common_source/interf/upgrade_multimp.F
+      !||--- called by ------------------------------------------------------
+      !||    i25main_opt_tri      ../engine/source/interfaces/intsort/i25main_opt_tri.F
+      !||    i25main_slid         ../engine/source/interfaces/int25/i25main_slid.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret                ../engine/source/system/arret.F
+      !||    arret_message_slid   ../engine/source/system/arret_message.F
+      !||--- uses       -----------------------------------------------------
+      !||    restmod              ../engine/share/modules/restart_mod.F
+      !||====================================================================
       SUBROUTINE UPGRADE_CAND_OPT(NI,K_STOK,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1307,19 +1303,17 @@ C=======================================================================
       
       CALL ARRET(2)
       END
-Chd|====================================================================
-Chd|  UPGRADE_LCAND_EDG             interf/upgrade_multimp.F      
-Chd|-- called by -----------
-Chd|        ININT3                        starter/source/interfaces/inter3d1/inint3.F
-Chd|        I25MAIN_TRI                   engine/source/interfaces/intsort/i25main_tri.F
-Chd|-- calls ---------------
-Chd|        ARRET                         starter/source/system/arret.F 
-Chd|        ARRET                         engine/source/system/arret.F  
-Chd|        ARRET_MESSAGE                 starter/source/interfaces/int24/arret_message.F
-Chd|        ARRET_MESSAGE                 engine/source/system/arret_message.F
-Chd|        RESTMOD                       starter/share/modules1/restart_mod.F
-Chd|        RESTMOD                       engine/share/modules/restart_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    upgrade_lcand_edg   ../common_source/interf/upgrade_multimp.F
+      !||--- called by ------------------------------------------------------
+      !||    i25main_tri         ../engine/source/interfaces/intsort/i25main_tri.F
+      !||    inint3              ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret               ../engine/source/system/arret.F
+      !||    arret_message       ../engine/source/system/arret_message.F
+      !||--- uses       -----------------------------------------------------
+      !||    restmod             ../engine/share/modules/restart_mod.F
+      !||====================================================================
       SUBROUTINE UPGRADE_LCAND_EDG(NI,MULTIMP_PARAMETER,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1510,19 +1504,17 @@ C=======================================================================
       
       CALL ARRET(2)
       END
-Chd|====================================================================
-Chd|  UPGRADE_LCAND_E2S             interf/upgrade_multimp.F      
-Chd|-- called by -----------
-Chd|        ININT3                        starter/source/interfaces/inter3d1/inint3.F
-Chd|        I25MAIN_TRI                   engine/source/interfaces/intsort/i25main_tri.F
-Chd|-- calls ---------------
-Chd|        ARRET                         starter/source/system/arret.F 
-Chd|        ARRET                         engine/source/system/arret.F  
-Chd|        ARRET_MESSAGE                 starter/source/interfaces/int24/arret_message.F
-Chd|        ARRET_MESSAGE                 engine/source/system/arret_message.F
-Chd|        RESTMOD                       starter/share/modules1/restart_mod.F
-Chd|        RESTMOD                       engine/share/modules/restart_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    upgrade_lcand_e2s   ../common_source/interf/upgrade_multimp.F
+      !||--- called by ------------------------------------------------------
+      !||    i25main_tri         ../engine/source/interfaces/intsort/i25main_tri.F
+      !||    inint3              ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret               ../engine/source/system/arret.F
+      !||    arret_message       ../engine/source/system/arret_message.F
+      !||--- uses       -----------------------------------------------------
+      !||    restmod             ../engine/share/modules/restart_mod.F
+      !||====================================================================
       SUBROUTINE UPGRADE_LCAND_E2S(NI,MULTIMP_PARAMETER,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8EDERI3                      source/elements/solid/solide8e/s8ederi3.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        S8BICP11                      source/elements/solid/solide8e/s8bicp11.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8ederi3   ../engine/source/elements/solid/solide8e/s8ederi3.F
+      !||--- calls      -----------------------------------------------------
+      !||    s8bicp11   ../engine/source/elements/solid/solide8e/s8bicp11.F
+      !||====================================================================
       SUBROUTINE S8EDERI3(
      1   OFFG,    OFF,     VOL,     NGL,
      2   KSI,     ETA,     ZETA,    WI,

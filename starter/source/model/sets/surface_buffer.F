@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SURFACE_BUFFER                source/model/sets/surface_buffer.F
-Chd|-- called by -----------
-Chd|        CREATE_SURFACE_FROM_ELEMENT   source/model/sets/create_surface_from_element.F
-Chd|-- calls ---------------
-Chd|        QUAD_SURFACE_BUFFER           source/model/sets/quad_surface_buffer.F
-Chd|        SHELL_SURFACE_BUFFER          source/model/sets/shell_surface_buffer.F
-Chd|        SHELL_SURFACE_BUFFER_REMESH   source/model/sets/shell_surface_buffer_remesh.F
-Chd|        SOLID_SURFACE_BUFFER          source/model/sets/solid_surface_buffer.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    surface_buffer                ../starter/source/model/sets/surface_buffer.F
+      !||--- called by ------------------------------------------------------
+      !||    create_surface_from_element   ../starter/source/model/sets/create_surface_from_element.F
+      !||--- calls      -----------------------------------------------------
+      !||    quad_surface_buffer           ../starter/source/model/sets/quad_surface_buffer.F
+      !||    shell_surface_buffer          ../starter/source/model/sets/shell_surface_buffer.F
+      !||    shell_surface_buffer_remesh   ../starter/source/model/sets/shell_surface_buffer_remesh.F
+      !||    solid_surface_buffer          ../starter/source/model/sets/solid_surface_buffer.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SURFACE_BUFFER(
      .                          IXS       ,IXS10    ,IXC       ,SH4TREE   ,SH3TREE   ,
      .                          IXTG      ,KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC   ,

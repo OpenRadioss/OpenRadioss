@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M51TH                         source/materials/mat/mat051/heat51.F
-Chd|-- called by -----------
-Chd|        ATHERM                        source/ale/atherm.F           
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m51th    ../engine/source/materials/mat/mat051/heat51.F
+      !||--- called by ------------------------------------------------------
+      !||    atherm   ../engine/source/ale/atherm.F
+      !||====================================================================
       SUBROUTINE M51TH(
      1   T,       AV1,     AV2,     AV3,
      2   UPARAM,  XK,      NEL    )

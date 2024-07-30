@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALE51_SPMD3                   source/ale/ale51/ale51_spmd3.F
-Chd|-- called by -----------
-Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
-Chd|-- calls ---------------
-Chd|        SYSFUS2                       source/system/sysfus.F        
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ale51_spmd3            ../engine/source/ale/ale51/ale51_spmd3.F
+      !||--- called by ------------------------------------------------------
+      !||    afluxt                 ../engine/source/ale/ale51/afluxt.F
+      !||--- calls      -----------------------------------------------------
+      !||    sysfus2                ../engine/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||====================================================================
       SUBROUTINE ALE51_SPMD3(IXS      ,FLUX   ,FLU1  ,ALE_CONNECT,
      .                       FLUX_VOIS,N4_VOIS,ITABM1,NV46)
 C-----------------------------------------------

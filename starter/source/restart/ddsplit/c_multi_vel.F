@@ -21,13 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       
-Chd|====================================================================
-Chd|  C_MULTI_VEL                   source/restart/ddsplit/c_multi_vel.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    c_multi_vel     ../starter/source/restart/ddsplit/c_multi_vel.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit         ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE C_MULTI_VEL(CEP, NUMEL, NUMEL_L, PROC, 
      .     MULTI_FVM_VEL_L, MULTI_FVM)
 C-----------------------------------------------

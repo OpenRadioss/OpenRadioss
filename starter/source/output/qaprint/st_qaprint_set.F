@@ -20,23 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ST_QAPRINT_SET                source/output/qaprint/st_qaprint_set.F
-Chd|-- called by -----------
-Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
-Chd|-- calls ---------------
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_INT_ARRAY_2INDEXES     source/devtools/hm_reader/hm_get_int_array_2indexes.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_GET_STRING                 source/devtools/hm_reader/hm_get_string.F
-Chd|        HM_GET_STRING_INDEX           source/devtools/hm_reader/hm_get_string_index.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    st_qaprint_set              ../starter/source/output/qaprint/st_qaprint_set.F
+      !||--- called by ------------------------------------------------------
+      !||    st_qaprint_driver           ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
+      !||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    hm_get_intv                 ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_get_string               ../starter/source/devtools/hm_reader/hm_get_string.F
+      !||    hm_get_string_index         ../starter/source/devtools/hm_reader/hm_get_string_index.F
+      !||    hm_option_read_key          ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start             ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE ST_QAPRINT_SET(SET    ,LSUBMODEL,ITAB     ,IGRNOD ,IGRPART,
      .                          IPART  ,IGRBRIC  ,IGRSH4N  ,IGRSH3N,IGRQUAD,
      .                          IGRBEAM,IGRTRUSS ,IGRSPRING,IGRSURF,IGRSLIN,

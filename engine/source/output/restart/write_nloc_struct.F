@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRITE_NLOC_STRUCT             source/output/restart/write_nloc_struct.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    write_nloc_struct   ../engine/source/output/restart/write_nloc_struct.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp             ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db            ../common_source/tools/input_output/write_db.F
+      !||    write_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    nlocal_reg_mod      ../common_source/modules/nlocal_reg_mod.F
+      !||====================================================================
       SUBROUTINE WRITE_NLOC_STRUCT(NLOC_DMG)
 C-----------------------------------------------
 C   M o d u l e s

@@ -21,17 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #include "macro.inc"
-Chd|====================================================================
-Chd|  SPMD_XVOIS                    source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|        ALETHE                        source/ale/alethe.F           
-Chd|        ALEW1                         source/ale/grid/alew1.F       
-Chd|        ALEW5                         source/ale/grid/alew5.F       
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_xvois     ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain        ../engine/source/ale/alemain.F
+      !||    alethe         ../engine/source/ale/alethe.F
+      !||    alew1          ../engine/source/ale/grid/alew1.F
+      !||    alew5          ../engine/source/ale/grid/alew5.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
+      !||    startime       ../engine/source/system/timer.F
+      !||    stoptime       ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_XVOIS(
      1    X     ,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,
      2    LENCOM)
@@ -132,14 +136,18 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_WVOIS                    source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        ALEW                          source/ale/grid/alew.F        
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_wvois     ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    alew           ../engine/source/ale/grid/alew.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
+      !||    startime       ../engine/source/system/timer.F
+      !||    stoptime       ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_WVOIS(X       ,D       ,W ,NBRCVOIS,NBSDVOIS,
      .                      LNRCVOIS,LNSDVOIS,LENCOM)
       USE SPMD_MOD
@@ -251,16 +259,20 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  SPMD_EVOIS                    source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        AETURB                        source/ale/turbulence/aeturb.F
-Chd|        AKTURB                        source/ale/turbulence/akturb.F
-Chd|        ATHERM                        source/ale/atherm.F           
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_evois     ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    aeturb         ../engine/source/ale/turbulence/aeturb.F
+      !||    akturb         ../engine/source/ale/turbulence/akturb.F
+      !||    atherm         ../engine/source/ale/atherm.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
+      !||    startime       ../engine/source/system/timer.F
+      !||    stoptime       ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_EVOIS(
      1     T       ,VAL2  ,NERCVOIS,NESDVOIS,LERCVOIS,
      2     LESDVOIS,LENCOM)
@@ -359,23 +371,28 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_E1VOIS                   source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        ACONVE                        source/ale/aconve.F           
-Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
-Chd|        AGAUGE                        source/ale/agauge.F           
-Chd|        ALE51_GRADIENT_RECONSTRUCTION source/ale/alemuscl/ale51_gradient_reconstruction.F
-Chd|        ALE51_GRADIENT_RECONSTRUCTION2source/ale/alemuscl/ale51_gradient_reconstruction2.F
-Chd|        ALEW6                         source/ale/grid/alew6.F       
-Chd|        AREZON                        source/ale/arezon.F           
-Chd|        MULTI_TIMEEVOLUTION           source/multifluid/multi_timeevolution.F
-Chd|        PRELECFLOW                    source/elements/solid/solide/prelecflow.F
-Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_e1vois                      ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    aconve                           ../engine/source/ale/aconve.F
+      !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+      !||    agauge                           ../engine/source/ale/agauge.F
+      !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+      !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+      !||    alew6                            ../engine/source/ale/grid/alew6.F
+      !||    arezon                           ../engine/source/ale/arezon.F
+      !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
+      !||    ns_fvm_diffusion                 ../engine/source/multifluid/ns_fvm_diffusion.F
+      !||    prelecflow                       ../engine/source/elements/solid/solide/prelecflow.F
+      !||    schlieren_buffer_gathering       ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait                        ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany                     ../engine/source/mpi/spmd_mod.F90
+      !||    startime                         ../engine/source/system/timer.F
+      !||    stoptime                         ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod                         ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_E1VOIS(
      1                        PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
      2                        LESDVOIS,LENCOM  )
@@ -469,14 +486,18 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_E6VOIS                   source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_e6vois    ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    afluxt         ../engine/source/ale/ale51/afluxt.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
+      !||    startime       ../engine/source/system/timer.F
+      !||    stoptime       ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_E6VOIS(
      1                       PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
      2                       LESDVOIS,LENCOM  )
@@ -583,14 +604,18 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  SPMD_E4VOIS                   source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_e4vois    ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    afluxt         ../engine/source/ale/ale51/afluxt.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
+      !||    startime       ../engine/source/system/timer.F
+      !||    stoptime       ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_E4VOIS(
      1                       PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
      2                       LESDVOIS,LENCOM  )
@@ -692,16 +717,20 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_ENVOIS                   source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|        ALEW6                         source/ale/grid/alew6.F       
-Chd|        MULTI_TIMEEVOLUTION           source/multifluid/multi_timeevolution.F
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_envois           ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain               ../engine/source/ale/alemain.F
+      !||    alew6                 ../engine/source/ale/grid/alew6.F
+      !||    multi_timeevolution   ../engine/source/multifluid/multi_timeevolution.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait             ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany          ../engine/source/mpi/spmd_mod.F90
+      !||    startime              ../engine/source/system/timer.F
+      !||    stoptime              ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_ENVOIS(DIM,
      1                       PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
      2                       LESDVOIS,LENCOM  )
@@ -800,14 +829,18 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_I8VOIS                   source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_i8vois    ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    afluxt         ../engine/source/ale/ale51/afluxt.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
+      !||    startime       ../engine/source/system/timer.F
+      !||    stoptime       ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_I8VOIS(
      1                       PHI   ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
      2                       LENCOM)
@@ -922,14 +955,18 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  SPMD_I4VOIS                   source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_i4vois    ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    afluxt         ../engine/source/ale/ale51/afluxt.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
+      !||    startime       ../engine/source/system/timer.F
+      !||    stoptime       ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_I4VOIS(
      1                       PHI   ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
      2                       LENCOM)
@@ -1034,15 +1071,19 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_L11VOIS                  source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_l11vois   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain        ../engine/source/ale/alemain.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
+      !||    startime       ../engine/source/system/timer.F
+      !||    stoptime       ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_L11VOIS(
      1                        LBVOIS  ,IPARG   ,ELBUF_TAB,PM      ,IXS,
      2                        IXQ     ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
@@ -1219,15 +1260,18 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_EXALEW                   source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        ALEW2                         source/ale/grid/alew2.F       
-Chd|        ALEW4                         source/ale/grid/alew4.F       
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exalew   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    alew2         ../engine/source/ale/grid/alew2.F
+      !||    alew4         ../engine/source/ale/grid/alew4.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait     ../engine/source/mpi/spmd_mod.F90
+      !||    startime      ../engine/source/system/timer.F
+      !||    stoptime      ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod      ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_EXALEW(WA,WB,IAD_ELEM,FR_ELEM,NALE,SIZE,LENR)
         USE SPMD_MOD
 C-----------------------------------------------
@@ -1351,15 +1395,19 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_EXALEW_PON               source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        ALEW2                         source/ale/grid/alew2.F       
-Chd|        ALEW4                         source/ale/grid/alew4.F       
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exalew_pon   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    alew2             ../engine/source/ale/grid/alew2.F
+      !||    alew4             ../engine/source/ale/grid/alew4.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait         ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany      ../engine/source/mpi/spmd_mod.F90
+      !||    startime          ../engine/source/system/timer.F
+      !||    stoptime          ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_EXALEW_PON(
      1   FSKY  ,FSKYV ,IAD_ELEM,FR_ELEM,NALE,
      2   ADDCNE,PROCNE,FR_NBCC ,SIZE   ,LENR,
@@ -1526,14 +1574,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_GLOB_DMIN9               source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_glob_dmin9   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp           ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    startime          ../engine/source/system/timer.F
+      !||    stoptime          ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_GLOB_DMIN9(V,LEN)
         USE SPMD_MOD
 C-----------------------------------------------
@@ -1585,15 +1635,18 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_EXTAG                    source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        RGWAT2                        source/interfaces/int09/rgwat2.F
-Chd|        RGWAT3                        source/interfaces/int09/rgwat3.F
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_extag   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    rgwat2       ../engine/source/interfaces/int09/rgwat2.F
+      !||    rgwat3       ../engine/source/interfaces/int09/rgwat3.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait    ../engine/source/mpi/spmd_mod.F90
+      !||    startime     ../engine/source/system/timer.F
+      !||    stoptime     ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod     ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_EXTAG(NTAG,IAD_ELEM,FR_ELEM,LENR)
         USE SPMD_MOD
 C-----------------------------------------------
@@ -1706,16 +1759,19 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SEGCOM                   source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_segcom    ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain        ../engine/source/ale/alemain.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
+      !||    startime       ../engine/source/system/timer.F
+      !||    stoptime       ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod        ../common_source/modules/ale/ale_mod.F
+      !||    segvar_mod     ../engine/share/modules/segvar_mod.F
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SEGCOM(SEGVAR,NPSEGCOM,LSEGCOM,SIZE,FLAG)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1943,16 +1999,18 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_INIT_EBCS                source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|-- calls ---------------
-Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_init_ebcs   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain          ../engine/source/ale/alemain.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_ibcast      ../engine/source/mpi/generic/spmd_ibcast.F
+      !||    startime         ../engine/source/system/timer.F
+      !||    stoptime         ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    ebcs_mod         ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_INIT_EBCS(V,ISIZXV,IAD_ELEM,FR_ELEM,EBCS_TAB)
       USE EBCS_MOD
       USE SPMD_MOD
@@ -2060,15 +2118,19 @@ C
       RETURN
       END
       
-Chd|====================================================================
-Chd|  SPMD_L51VOIS                  source/mpi/fluid/spmd_cfd.F   
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|-- calls ---------------
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_l51vois   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain        ../engine/source/ale/alemain.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
+      !||    startime       ../engine/source/system/timer.F
+      !||    stoptime       ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_L51VOIS(
      1     LBVOIS  ,IPARG    ,ELBUF_TAB ,PM       ,IXS     ,
      2     IXQ     ,NERCVOIS ,NESDVOIS  ,LERCVOIS ,LESDVOIS,

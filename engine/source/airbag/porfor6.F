@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PORFOR6                       source/airbag/porfor6.F       
-Chd|-- called by -----------
-Chd|        AIRBAGB1                      source/airbag/airbagb1.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    porfor6    ../engine/source/airbag/porfor6.F
+      !||--- called by ------------------------------------------------------
+      !||    airbagb1   ../engine/source/airbag/airbagb1.F
+      !||====================================================================
       SUBROUTINE PORFOR6(SVTFAC,IM,IPM,PM,STRAIN,P,PEXT,IEL,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -62,12 +61,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  PORFORM6                      source/airbag/porfor6.F       
-Chd|-- called by -----------
-Chd|        FVVENT0                       source/airbag/fvvent0.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    porform6   ../engine/source/airbag/porfor6.F
+      !||--- called by ------------------------------------------------------
+      !||    fvvent0    ../engine/source/airbag/fvvent0.F
+      !||====================================================================
       SUBROUTINE PORFORM6(SVTFAC,IM,PM,AREA,AREA0,P,PEXT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

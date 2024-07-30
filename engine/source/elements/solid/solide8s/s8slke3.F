@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8SLKE3                       source/elements/solid/solide8s/s8slke3.F
-Chd|-- called by -----------
-Chd|        S8SKE3                        source/elements/solid/solide8s/s8ske3.F
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        S8SANSB                       source/elements/solid/solide8s/s8sansb.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8slke3   ../engine/source/elements/solid/solide8s/s8slke3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8ske3    ../engine/source/elements/solid/solide8s/s8ske3.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret     ../engine/source/system/arret.F
+      !||    s8sansb   ../engine/source/elements/solid/solide8s/s8sansb.F
+      !||====================================================================
       SUBROUTINE S8SLKE3(
      1   KL,      HH,      VOL,     !DN_X,
      2   DN_Y,    DN_Z,    KSI,     ETA,

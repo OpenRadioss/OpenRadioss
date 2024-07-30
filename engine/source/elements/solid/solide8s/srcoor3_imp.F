@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SRCOOR3_IMP                   source/elements/solid/solide8s/srcoor3_imp.F
-Chd|-- called by -----------
-Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
-Chd|-- calls ---------------
-Chd|        CRFRAME_IMP                   source/elements/solid/solide8s/crframe_imp.F
-Chd|        CRTRANS_IMP                   source/elements/solid/solide8s/crtrans_imp.F
-Chd|        GETULOC                       source/elements/solid/solide8s/getuloc.F
-Chd|        S8SAV3_IMP                    source/elements/solid/solide8s/s8sav3_imp.F
-Chd|        S8XREF_IMP                    source/elements/solid/solide8s/s8xref_imp.F
-Chd|====================================================================
+      !||====================================================================
+      !||    srcoor3_imp   ../engine/source/elements/solid/solide8s/srcoor3_imp.F
+      !||--- called by ------------------------------------------------------
+      !||    s8sforc3      ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    crframe_imp   ../engine/source/elements/solid/solide8s/crframe_imp.F
+      !||    crtrans_imp   ../engine/source/elements/solid/solide8s/crtrans_imp.F
+      !||    getuloc       ../engine/source/elements/solid/solide8s/getuloc.F
+      !||    s8sav3_imp    ../engine/source/elements/solid/solide8s/s8sav3_imp.F
+      !||    s8xref_imp    ../engine/source/elements/solid/solide8s/s8xref_imp.F
+      !||====================================================================
       SUBROUTINE SRCOOR3_IMP(X   ,IXS   ,V     ,W     ,GAMA0 ,GAMA  ,
      .   X1    ,X2    ,X3    ,X4    ,X5    ,X6    ,X7    ,X8    ,
      .   Y1    ,Y2    ,Y3    ,Y4    ,Y5    ,Y6    ,Y7    ,Y8    ,

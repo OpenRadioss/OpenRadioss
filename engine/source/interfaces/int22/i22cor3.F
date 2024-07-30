@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I22COR3                       source/interfaces/int22/i22cor3.F
-Chd|-- called by -----------
-Chd|        I22MAINF                      source/interfaces/int22/i22mainf.F
-Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i22cor3          ../engine/source/interfaces/int22/i22cor3.F
+      !||--- called by ------------------------------------------------------
+      !||    i22mainf         ../engine/source/interfaces/int22/i22mainf.F
+      !||--- uses       -----------------------------------------------------
+      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22edge_mod      ../common_source/modules/interfaces/cut-cell-buffer_mod.F
+      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I22COR3(
      1                JLT     ,X         ,IRECT  ,NSV     ,CAND_E ,
      2                CAND_B  ,STF       ,STFN   ,X1      ,X2     ,

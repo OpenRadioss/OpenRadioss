@@ -20,30 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBAKE3                        source/elements/shell/coqueba/cbake3.F
-Chd|-- called by -----------
-Chd|        IMP_GLOB_K                    source/implicit/imp_glob_k.F  
-Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|        ASSEM_C4                      source/implicit/assem_c4.F    
-Chd|        C4EOFF                        source/elements/shell/coque/c4eoff.F
-Chd|        CBABE3                        source/elements/shell/coqueba/cbabe3.F
-Chd|        CBABEC3                       source/elements/shell/coqueba/cbabe3.F
-Chd|        CBABER3                       source/elements/shell/coqueba/cbabe3.F
-Chd|        CBACOORK                      source/elements/shell/coqueba/cbacoork.F
-Chd|        CBADERIRZ                     source/elements/shell/coqueba/cbadef.F
-Chd|        CBAINI3                       source/elements/shell/coqueba/cbake3.F
-Chd|        CBALKE3                       source/elements/shell/coqueba/cbalke3.F
-Chd|        CBALKEC3                      source/elements/shell/coqueba/cbalke3.F
-Chd|        CBALKERZ                      source/elements/shell/coqueba/cbalke3.F
-Chd|        CBASUMG3                      source/elements/shell/coqueba/cbasumg3.F
-Chd|        CMATC3                        source/elements/shell/coqueba/cmatc3.F
-Chd|        CMATIP3                       source/elements/shell/coqueba/cmatc3.F
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    cbake3         ../engine/source/elements/shell/coqueba/cbake3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
+      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_c4       ../engine/source/implicit/assem_c4.F
+      !||    c4eoff         ../engine/source/elements/shell/coque/c4eoff.F
+      !||    cbabe3         ../engine/source/elements/shell/coqueba/cbabe3.F
+      !||    cbabec3        ../engine/source/elements/shell/coqueba/cbabe3.F
+      !||    cbaber3        ../engine/source/elements/shell/coqueba/cbabe3.F
+      !||    cbacoork       ../engine/source/elements/shell/coqueba/cbacoork.F
+      !||    cbaderirz      ../engine/source/elements/shell/coqueba/cbadef.F
+      !||    cbaini3        ../engine/source/elements/shell/coqueba/cbake3.F
+      !||    cbalke3        ../engine/source/elements/shell/coqueba/cbalke3.F
+      !||    cbalkec3       ../engine/source/elements/shell/coqueba/cbalke3.F
+      !||    cbalkerz       ../engine/source/elements/shell/coqueba/cbalke3.F
+      !||    cbasumg3       ../engine/source/elements/shell/coqueba/cbasumg3.F
+      !||    cmatc3         ../engine/source/elements/shell/coqueba/cmatc3.F
+      !||    cmatip3        ../engine/source/elements/shell/coqueba/cmatc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod      ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    stack_mod      ../engine/share/modules/stack_mod.F
+      !||====================================================================
        SUBROUTINE CBAKE3 (
      1            JFT    ,JLT    ,NFT    ,NPT    ,MTN    ,
      2            ITHK   ,NCYCLE ,
@@ -302,12 +303,11 @@ C
 C
        RETURN
        END
-Chd|====================================================================
-Chd|  CBAINI3                       source/elements/shell/coqueba/cbake3.F
-Chd|-- called by -----------
-Chd|        CBAKE3                        source/elements/shell/coqueba/cbake3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cbaini3   ../engine/source/elements/shell/coqueba/cbake3.F
+      !||--- called by ------------------------------------------------------
+      !||    cbake3    ../engine/source/elements/shell/coqueba/cbake3.F
+      !||====================================================================
         SUBROUTINE CBAINI3(JFT,JLT,VKSI,VETA,
      1                     K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      2                     M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,

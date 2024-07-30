@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBATEMPEL                     source/elements/shell/coqueba/cbatempel.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cbatempel   ../engine/source/elements/shell/coqueba/cbatempel.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3    ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||====================================================================
       SUBROUTINE CBATEMPEL(JFT ,JLT   ,NG  ,IXC   ,TEMP ,
      3                  TEMPEL)
 C-----------------------------------------------

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THBCS_IMP                     source/output/th/thbcs_imp.F  
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        BCS1TH_IMP                    source/output/th/bcs1th_imp.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    thbcs_imp    ../engine/source/output/th/thbcs_imp.F
+      !||--- called by ------------------------------------------------------
+      !||    resol        ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    bcs1th_imp   ../engine/source/output/th/bcs1th_imp.F
+      !||====================================================================
       SUBROUTINE THBCS_IMP(NODFT,NODLAST,A,AR,
      1                     FTHREAC  ,NODREAC ,
      2                     CPTREAC  ,FTHDTM,DT3)

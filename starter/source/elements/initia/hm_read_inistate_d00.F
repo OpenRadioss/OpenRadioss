@@ -20,33 +20,32 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_INISTATE_D00          source/elements/initia/hm_read_inistate_d00.F
-Chd|-- called by -----------
-Chd|        LEC_INISTATE                  source/elements/initia/lec_inistate.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        HM_GET_FLOAT_ARRAY            source/devtools/hm_reader/hm_get_float_array.F
-Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        LEC_INISTATE_D00_BRICK_CHECK  source/elements/initia/lec_inistate_d00_brick-check.F
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        SUBROTTENS                    source/model/submodel/subrot.F
-Chd|        SUBROTVECT                    source/model/submodel/subrot.F
-Chd|        UEL2SYS                       source/initial_conditions/inista/yctrl.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MAPPING_OPTION_MOD            share/modules1/dichotomy_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_inistate_d00           ../starter/source/elements/initia/hm_read_inistate_d00.F
+      !||--- called by ------------------------------------------------------
+      !||    lec_inistate                   ../starter/source/elements/initia/lec_inistate.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                         ../starter/source/output/message/message.F
+      !||    fretitl2                       ../starter/source/starter/freform.F
+      !||    hm_get_float_array             ../starter/source/devtools/hm_reader/hm_get_float_array.F
+      !||    hm_get_float_array_index       ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+      !||    hm_get_int_array_index         ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    hm_get_intv                    ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_count                ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_read_key             ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start                ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    lec_inistate_d00_brick_check   ../starter/source/elements/initia/lec_inistate_d00_brick-check.F
+      !||    set_usrtos                     ../starter/source/model/sets/ipartm1.F
+      !||    subrottens                     ../starter/source/model/submodel/subrot.F
+      !||    subrotvect                     ../starter/source/model/submodel/subrot.F
+      !||    uel2sys                        ../starter/source/initial_conditions/inista/yctrl.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod             ../starter/share/modules1/hm_option_read_mod.F
+      !||    mapping_option_mod             ../starter/share/modules1/dichotomy_mod.F
+      !||    message_mod                    ../starter/share/message_module/message_mod.F
+      !||    stack_mod                      ../starter/share/modules1/stack_mod.F
+      !||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_INISTATE_D00 (
      1                  IXS        ,IXQ          ,IXC          ,IXT          ,IXP       ,
      2                  IXR        ,GEO          ,PM           ,IXTG         ,INDEX     ,

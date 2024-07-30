@@ -22,13 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 
-Chd|====================================================================
-Chd|  C_RBYMK                       source/restart/ddsplit/c_rbymk.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    c_rbymk   ../starter/source/restart/ddsplit/c_rbymk.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit   ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal    ../starter/source/spmd/node/ddtools.F
+      !||====================================================================
       SUBROUTINE C_RBYMK(NPBY,LPBY,PROC,NSLARB_L,NSKYRBK_L)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C3DEFO3                       source/elements/sh3n/coque3n/c3defo3.F
-Chd|-- called by -----------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c3defo3       ../engine/source/elements/sh3n/coque3n/c3defo3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
+      !||====================================================================
       SUBROUTINE C3DEFO3(JFT,JLT,VL1,VL2,VL3,
      .                   IXTG,ISH3N,PX1  ,PY1    ,PY2   ,
      .                   EXX  ,EYY  ,EXY  ,EYZ   ,EZX   ,
@@ -128,14 +127,14 @@ C
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  C3BRZ3                        source/elements/sh3n/coque3n/c3defo3.F
-Chd|-- called by -----------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
-Chd|-- calls ---------------
-Chd|        C3DERIRZ                      source/elements/sh3n/coque3n/c3defo3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    c3brz3        ../engine/source/elements/sh3n/coque3n/c3defo3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
+      !||--- calls      -----------------------------------------------------
+      !||    c3derirz      ../engine/source/elements/sh3n/coque3n/c3defo3.F
+      !||====================================================================
       SUBROUTINE C3BRZ3(JFT  ,JLT  ,AREA ,X2   ,X3    ,
      .                  Y3   ,BM0RZ,B0RZ ,BKRZ ,BERZ  )
 C-----------------------------------------------
@@ -177,13 +176,12 @@ C=======================================================================
 c-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  C3DEFRZ                       source/elements/sh3n/coque3n/c3defo3.F
-Chd|-- called by -----------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c3defrz       ../engine/source/elements/sh3n/coque3n/c3defo3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
+      !||====================================================================
         SUBROUTINE C3DEFRZ(JFT  ,JLT  ,RLZ   ,BM0RZ ,B0RZ ,
      1                     BKRZ ,BERZ ,E3X   ,E3Y   ,E3Z  ,
      2                     VRL1 ,VRL2 ,VRL3  ,EXX   ,EYY  ,
@@ -255,14 +253,14 @@ C--------NxI,x *A------pay attention Bi*A--- RLZ: VRZ--
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  C3DERIRZ                      source/elements/sh3n/coque3n/c3defo3.F
-Chd|-- called by -----------
-Chd|        C3BRZ3                        source/elements/sh3n/coque3n/c3defo3.F
-Chd|        C3KE3                         source/elements/sh3n/coque3n/c3ke3.F
-Chd|-- calls ---------------
-Chd|        C3BM0RZ                       source/elements/sh3n/coque3n/c3defo3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    c3derirz   ../engine/source/elements/sh3n/coque3n/c3defo3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3brz3     ../engine/source/elements/sh3n/coque3n/c3defo3.F
+      !||    c3ke3      ../engine/source/elements/sh3n/coque3n/c3ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    c3bm0rz    ../engine/source/elements/sh3n/coque3n/c3defo3.F
+      !||====================================================================
         SUBROUTINE C3DERIRZ(JFT ,JLT  ,AREA ,X2    ,X3    ,
      2                      Y2  ,Y3   ,BMRZ ,B0RZ  ,BKRZ  ,
      3                      BERZ )
@@ -402,12 +400,11 @@ C-----------necessary for stabilization (explicit)
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  C3BM0RZ                       source/elements/sh3n/coque3n/c3defo3.F
-Chd|-- called by -----------
-Chd|        C3DERIRZ                      source/elements/sh3n/coque3n/c3defo3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c3bm0rz    ../engine/source/elements/sh3n/coque3n/c3defo3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3derirz   ../engine/source/elements/sh3n/coque3n/c3defo3.F
+      !||====================================================================
         SUBROUTINE C3BM0RZ(JFT ,JLT  ,BMRZ ,BM0RZ,BMKRZ ,BMERZ )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
@@ -442,12 +439,11 @@ C------- moyen volume (analytical integration)
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  C3DEFT3                       source/elements/sh3n/coque3n/c3defo3.F
-Chd|-- called by -----------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c3deft3   ../engine/source/elements/sh3n/coque3n/c3defo3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3   ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||====================================================================
       SUBROUTINE C3DEFT3(JFT,JLT,X2,Y2,X3,Y3,V21X,V21Y,V31X,V31Y,
      2                   BM0RZ,RZ13,RZ23,AREA,VDEF,IDRIL )
 C-----------------------------------------------

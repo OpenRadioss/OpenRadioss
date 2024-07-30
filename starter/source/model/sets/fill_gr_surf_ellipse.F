@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FILL_SURF_ELLIPSE             source/model/sets/fill_gr_surf_ellipse.F
-Chd|-- called by -----------
-Chd|        FILL_IGR                      source/model/sets/fill_igr.F  
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fill_surf_ellipse   ../starter/source/model/sets/fill_gr_surf_ellipse.F
+      !||--- called by ------------------------------------------------------
+      !||    fill_igr            ../starter/source/model/sets/fill_igr.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod         ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE FILL_SURF_ELLIPSE(SET,IGRSURF,IGRS,BUFSF,LISURF1,NSURF)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

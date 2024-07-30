@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTER_CHECK_SORT              source/interfaces/generic/inter_check_sort.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    inter_check_sort   ../engine/source/interfaces/generic/inter_check_sort.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri             ../engine/source/interfaces/intsort/inttri.F
+      !||--- uses       -----------------------------------------------------
+      !||    inter_struct_mod   ../engine/share/modules/inter_struct_mod.F
+      !||    sensor_mod         ../engine/share/modules/sensor_mod.F
+      !||====================================================================
         SUBROUTINE INTER_CHECK_SORT( ITASK,NEED_TO_SORT,NBINTC,INTLIST,IPARI,NSENSOR,
      .                               INTBUF_TAB,SENSOR_TAB,NB_INTER_SORTED,
      .                               LIST_INTER_SORTED,INTER_STRUCT)

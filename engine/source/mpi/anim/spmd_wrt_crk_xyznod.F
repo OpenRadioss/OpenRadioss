@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_WRT_CRK_XYZNOD           source/mpi/anim/spmd_wrt_crk_xyznod.F
-Chd|-- called by -----------
-Chd|        XYZNOD_CRK                    source/output/anim/generate/xyznod_crk.F
-Chd|-- calls ---------------
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_wrt_crk_xyznod   ../engine/source/mpi/anim/spmd_wrt_crk_xyznod.F
+      !||--- called by ------------------------------------------------------
+      !||    xyznod_crk            ../engine/source/output/anim/generate/xyznod_crk.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod         ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
        SUBROUTINE SPMD_WRT_CRK_XYZNOD(ICRK,NUM,NODGLOBXFE)
 C-----------------------------------------------
       USE CRACKXFEM_MOD        

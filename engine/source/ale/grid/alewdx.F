@@ -20,35 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALEWDX                        source/ale/grid/alewdx.F      
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ALELIN                        source/ale/grid/alelin.F      
-Chd|        ALEW                          source/ale/grid/alew.F        
-Chd|        ALEW1                         source/ale/grid/alew1.F       
-Chd|        ALEW2                         source/ale/grid/alew2.F       
-Chd|        ALEW4                         source/ale/grid/alew4.F       
-Chd|        ALEW5                         source/ale/grid/alew5.F       
-Chd|        ALEW6                         source/ale/grid/alew6.F       
-Chd|        ALEW7                         source/ale/grid/alew7.F       
-Chd|        BCS2V                         source/constraints/general/bcs/bcs2.F
-Chd|        BCS3V                         source/ale/inter/bcs3v.F      
-Chd|        INTAL3                        source/ale/inter/intal3.F     
-Chd|        LASER1                        source/loads/laser/laser1.F   
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        RGWAL1                        source/ale/grid/rgwal1.F      
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        WLAG                          source/ale/grid/wlag.F        
-Chd|        WPOR                          source/ale/grid/wpor.F        
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    alewdx                 ../engine/source/ale/grid/alewdx.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                  ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    alelin                 ../engine/source/ale/grid/alelin.F
+      !||    alew                   ../engine/source/ale/grid/alew.F
+      !||    alew1                  ../engine/source/ale/grid/alew1.F
+      !||    alew2                  ../engine/source/ale/grid/alew2.F
+      !||    alew4                  ../engine/source/ale/grid/alew4.F
+      !||    alew5                  ../engine/source/ale/grid/alew5.F
+      !||    alew6                  ../engine/source/ale/grid/alew6.F
+      !||    alew7                  ../engine/source/ale/grid/alew7.F
+      !||    bcs2v                  ../engine/source/constraints/general/bcs/bcs2.F
+      !||    bcs3v                  ../engine/source/ale/inter/bcs3v.F
+      !||    intal3                 ../engine/source/ale/inter/intal3.F
+      !||    laser1                 ../engine/source/loads/laser/laser1.F
+      !||    my_barrier             ../engine/source/system/machine.F
+      !||    rgwal1                 ../engine/source/ale/grid/rgwal1.F
+      !||    startime               ../engine/source/system/timer.F
+      !||    stoptime               ../engine/source/system/timer.F
+      !||    wlag                   ../engine/source/ale/grid/wlag.F
+      !||    wpor                   ../engine/source/ale/grid/wpor.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    ale_mod                ../common_source/modules/ale/ale_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F
+      !||====================================================================
       SUBROUTINE ALEWDX(
      1     GEO             ,X             ,D          ,V          ,VR         ,
      2     W               ,WA            ,WB         ,RBY        ,SKEW       ,

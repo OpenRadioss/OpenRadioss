@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCFINT_REG                    source/elements/thickshell/solidec/scfint_reg.F
-Chd|-- called by -----------
-Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    scfint_reg       ../engine/source/elements/thickshell/solidec/scfint_reg.F
+      !||--- called by ------------------------------------------------------
+      !||    scforc3          ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
+      !||====================================================================
       SUBROUTINE SCFINT_REG(
      1   NLOC_DMG,VAR_REG ,NEL     ,OFF     ,
      2   VOL     ,NLOCS   ,AREA    ,

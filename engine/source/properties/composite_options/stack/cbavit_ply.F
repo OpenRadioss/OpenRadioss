@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBAVIT_PLY                    source/properties/composite_options/stack/cbavit_ply.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|-- calls ---------------
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    cbavit_ply    ../engine/source/properties/composite_options/stack/cbavit_ply.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3      ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
+      !||====================================================================
           SUBROUTINE CBAVIT_PLY(JFT,JLT,IXC,OFFG,OFF,NPLAT,IPLAT,NPT,
      1                        VCORE,DI,ZL,VQ , VXYZ,X13_T  ,X24_T ,
      2                        Y13_T,Y24_T,AREA,INOD,DEL_PLY,

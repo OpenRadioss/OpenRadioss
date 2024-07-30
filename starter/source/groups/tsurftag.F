@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TSURFTAG                      source/groups/tsurftag.F      
-Chd|-- called by -----------
-Chd|        HM_READ_SURF                  source/groups/hm_read_surf.F  
-Chd|-- calls ---------------
-Chd|        SEGSURF                       source/groups/tsurftag.F      
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    tsurftag       ../starter/source/groups/tsurftag.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_surf   ../starter/source/groups/hm_read_surf.F
+      !||--- calls      -----------------------------------------------------
+      !||    segsurf        ../starter/source/groups/tsurftag.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE TSURFTAG(IXS     ,IXS10  ,IGRSURF,FLAG ,NSEG  ,
      2                    KNOD2ELS,NOD2ELS,N1     ,N2   ,N3    ,
      3                    NSEG0   )
@@ -281,13 +281,12 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  SEGSURF                       source/groups/tsurftag.F      
-Chd|-- called by -----------
-Chd|        HM_READ_SURF                  source/groups/hm_read_surf.F  
-Chd|        TSURFTAG                      source/groups/tsurftag.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    segsurf        ../starter/source/groups/tsurftag.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_surf   ../starter/source/groups/hm_read_surf.F
+      !||    tsurftag       ../starter/source/groups/tsurftag.F
+      !||====================================================================
       SUBROUTINE SEGSURF(N1    ,N2        ,N3        ,N4       ,NSEG0,
      .                   ISEG  ,SURF_NODES,SURF_ELTYP,SURF_ELEM,ELEM,ELTY)
 C-----------------------------------------------

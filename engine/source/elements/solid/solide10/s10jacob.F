@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10JACOB                      source/elements/solid/solide10/s10jacob.F
-Chd|-- called by -----------
-Chd|        S10DERI3                      source/elements/solid/solide10/s10deri3.F
-Chd|        S10DERIT3                     source/elements/solid/solide10/s10derit3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s10jacob    ../engine/source/elements/solid/solide10/s10jacob.F
+      !||--- called by ------------------------------------------------------
+      !||    s10deri3    ../engine/source/elements/solid/solide10/s10deri3.F
+      !||    s10derit3   ../engine/source/elements/solid/solide10/s10derit3.F
+      !||====================================================================
       SUBROUTINE S10JACOB(
      1   ALPH,    BETA,    W,       X1B,
      2   X2B,     X3B,     X4A,     X5B,

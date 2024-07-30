@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M4LAW                         source/materials/mat/mat004/m4law.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m4law   ../engine/source/materials/mat/mat004/m4law.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain   ../engine/source/materials/mat_share/mmain.F90
+      !||====================================================================
       SUBROUTINE M4LAW(
      1   PM,      OFF,     SIG,     EPXE,
      2   MAT,     TEMPER,  SSP,     D1,

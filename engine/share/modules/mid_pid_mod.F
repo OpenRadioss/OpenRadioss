@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MID_PID_MOD                   share/modules/mid_pid_mod.F   
-Chd|-- called by -----------
-Chd|        SORT_MID_PID                  source/system/sort_mid_pid.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mid_pid_mod    ../engine/share/modules/mid_pid_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    sort_mid_pid   ../engine/source/system/sort_mid_pid.F
+      !||====================================================================
       MODULE MID_PID_MOD
 C-----------------------------------------------
 C   m y _ r e a l

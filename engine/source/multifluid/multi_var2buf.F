@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MULTI_VAR2BUF                 source/multifluid/multi_var2buf.F
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    multi_var2buf   ../engine/source/multifluid/multi_var2buf.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain         ../engine/source/ale/alemain.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F
+      !||====================================================================
       SUBROUTINE MULTI_VAR2BUF(ITASK, IPARG, MULTI_FVM, ELBUF_TAB)
 C-----------------------------------------------
 C     M o d u l e s

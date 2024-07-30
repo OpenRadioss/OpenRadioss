@@ -20,30 +20,32 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RDCOMI                        source/output/restart/rdcomm.F
-Chd|-- called by -----------
-Chd|        RDRESA                        source/output/restart/rdresa.F
-Chd|-- calls ---------------
-Chd|        READ_ARRAY                    ../common_source/comm/read_array.F
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        DAMP_MOD                      share/modules/damp_mod.F      
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        PLOAD_CYL_MOD                 ../common_source/modules/loads/pload_cyl_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rdcomi           ../engine/source/output/restart/rdcomm.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresa           ../engine/source/output/restart/rdresa.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_array       ../common_source/comm/read_array.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod          ../common_source/modules/ale/ale_mod.F
+      !||    alefvm_mod       ../common_source/modules/ale/alefvm_mod.F
+      !||    alemuscl_mod     ../common_source/modules/ale/alemuscl_mod.F
+      !||    anim_mod         ../common_source/modules/output/anim_mod.F
+      !||    damp_mod         ../engine/share/modules/damp_mod.F
+      !||    drape_mod        ../engine/share/modules/drape_mod.F
+      !||    h3d_mod          ../engine/share/modules/h3d_mod.F
+      !||    loads_mod        ../common_source/modules/loads/loads_mod.F
+      !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F
+      !||    outmax_mod       ../common_source/modules/outmax_mod.F
+      !||    outputs_mod      ../common_source/modules/outputs_mod.F
+      !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
+      !||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
+      !||    pload_cyl_mod    ../common_source/modules/loads/pload_cyl_mod.F
+      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    skew_mod         ../common_source/modules/skew_mod.F90
+      !||    state_mod        ../common_source/modules/state_mod.F
+      !||====================================================================
       SUBROUTINE RDCOMI(TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .                  INTER_PARAMETERS,SENSORS,LOADS ,MAT_ELEM,SKEWS)
 C-----------------------------------------------
@@ -1801,17 +1803,18 @@ C
 C--------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  RDCOMR                        source/output/restart/rdcomm.F
-Chd|-- called by -----------
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
-Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rdcomr           ../engine/source/output/restart/rdcomm.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb           ../engine/source/output/restart/rdresb.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod          ../common_source/modules/ale/ale_mod.F
+      !||    anim_mod         ../common_source/modules/output/anim_mod.F
+      !||    output_mod       ../common_source/modules/output/output_mod.F90
+      !||    outputs_mod      ../common_source/modules/outputs_mod.F
+      !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
+      !||    state_mod        ../common_source/modules/state_mod.F
+      !||====================================================================
       SUBROUTINE RDCOMR(LMXVREA,TABVREA,DYNAIN_DATA,INTER_PARAMETERS,
      .                  OUTPUT)
 C-----------------------------------------------

@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M5IN3                         source/initial_conditions/detonation/m5in3.F
-Chd|-- called by -----------
-Chd|        M105INIT                      source/materials/mat/mat105/m105init.F
-Chd|        M51INIT                       source/materials/mat/mat051/m51init.F
-Chd|        M97INIT                       source/materials/mat/mat097/m97init.F
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|        MULTIFLUID_INIT3              source/multifluid/multifluid_init3.F
-Chd|        MULTIFLUID_INIT3T             source/multifluid/multifluid_init3t.F
-Chd|-- calls ---------------
-Chd|        DETCORD                       source/initial_conditions/detonation/detcord.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    m5in3               ../starter/source/initial_conditions/detonation/m5in3.F
+      !||--- called by ------------------------------------------------------
+      !||    m105init            ../starter/source/materials/mat/mat105/m105init.F
+      !||    m51init             ../starter/source/materials/mat/mat051/m51init.F
+      !||    m97init             ../starter/source/materials/mat/mat097/m97init.F
+      !||    matini              ../starter/source/materials/mat_share/matini.F
+      !||    multifluid_init3    ../starter/source/multifluid/multifluid_init3.F
+      !||    multifluid_init3t   ../starter/source/multifluid/multifluid_init3t.F
+      !||--- calls      -----------------------------------------------------
+      !||    detcord             ../starter/source/initial_conditions/detonation/detcord.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod      ../starter/share/modules1/detonators_mod.F
+      !||    message_mod         ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE M5IN3(PM,MAT,M151_ID,DETONATORS,TB,NGL,IPARG,X,IX,NIX)
 C-----------------------------------------------
 C   M o d u l e s

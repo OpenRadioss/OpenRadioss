@@ -20,62 +20,65 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|        FORINT                        source/elements/forint.F      
-Chd|-- calls ---------------
-Chd|        A4MASS3                       source/elements/solid/solide4/a4mass3.F
-Chd|        A4MASS3P                      source/elements/solid/solide4/a4mass3p.F
-Chd|        A4MOMT3                       source/elements/solid/solide4/a4momt3.F
-Chd|        BOLTST                        source/elements/solid/solide/boltst.F
-Chd|        CHECK_OFF_ALE                 source/elements/solid/solide/check_off_ale.F
-Chd|        E4PXLE3                       source/elements/solid/solide4/e4pxle3.F
-Chd|        S11FX3                        source/elements/solid/solide/s11fx3.F
-Chd|        S4BILAN                       source/elements/solid/solide4/s4bilan.F
-Chd|        S4COOR3                       source/elements/solid/solide4/s4coor3.F
-Chd|        S4CUMU3                       source/elements/solid/solide4/s4cumu3.F
-Chd|        S4CUMU3P                      source/elements/solid/solide4/s4cumu3p.F
-Chd|        S4DEFO3                       source/elements/solid/solide4/s4defo3.F
-Chd|        S4DEFOT3                      source/elements/solid/solide4/s4defot3.F
-Chd|        S4DERI3                       source/elements/solid/solide4/s4deri3.F
-Chd|        S4DERIT3                      source/elements/solid/solide4/s4derit3.F
-Chd|        S4DERITO3                     source/elements/solid/solide4/s4derito3.F
-Chd|        S4FILLOPT                     source/elements/solid/solide4/s4fillopt.F
-Chd|        S4FINT3                       source/elements/solid/solide4/s4fint3.F
-Chd|        S4FINT_REG                    source/elements/solid/solide4/s4fint_reg.F
-Chd|        S4FOR_DISTOR                  source/elements/solid/solide4/s4for_distor.F
-Chd|        S4MALLA3                      source/elements/solid/solide4/s4mall3.F
-Chd|        S4RCOOR12                     source/elements/solid/solide4/s4rcoor12.F
-Chd|        S4SAV12                       source/elements/solid/solide4/s4sav12.F
-Chd|        S4SAV3                        source/elements/solid/solide4/s4sav3.F
-Chd|        S4THERM                       source/elements/solid/solide4/s4therm.F
-Chd|        S4UPD11T12                    source/elements/solid/solide4/s4upd11t12.F
-Chd|        S4VOLN_M                      source/elements/solid/solide4_sfem/s4voln_m.F
-Chd|        SCRE_SIG3                     source/elements/solid/solide/scre_sig3.F
-Chd|        SGCOOR3                       source/elements/solid/solide/sgcoor3.F
-Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
-Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
-Chd|        SMALLGEO3                     source/elements/solid/solide/smallgeo3.F
-Chd|        SORDEF12                      source/elements/solid/solidez/sordef12.F
-Chd|        SORDEFT12                     source/elements/solid/solidez/sordeft12.F
-Chd|        SORTHDIR3                     source/elements/solid/solide/sorthdir3.F
-Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
-Chd|        SRHO3                         source/elements/solid/solide/srho3.F
-Chd|        SROTA3                        source/elements/solid/solide/srota3.F
-Chd|        SROTO12_SIG                   source/elements/solid/solidez/sroto12_sig.F
-Chd|        SSTRA3                        source/elements/solid/solide/sstra3.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        DT_MOD                        share/modules/dt_mod.F        
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    s4forc3                ../engine/source/elements/solid/solide4/s4forc3.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain                ../engine/source/ale/alemain.F
+      !||    forint                 ../engine/source/elements/forint.F
+      !||--- calls      -----------------------------------------------------
+      !||    a4mass3                ../engine/source/elements/solid/solide4/a4mass3.F
+      !||    a4mass3p               ../engine/source/elements/solid/solide4/a4mass3p.F
+      !||    a4momt3                ../engine/source/elements/solid/solide4/a4momt3.F
+      !||    boltst                 ../engine/source/elements/solid/solide/boltst.F
+      !||    check_off_ale          ../engine/source/elements/solid/solide/check_off_ale.F
+      !||    e4pxle3                ../engine/source/elements/solid/solide4/e4pxle3.F
+      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+      !||    s11fx3                 ../engine/source/elements/solid/solide/s11fx3.F
+      !||    s4bilan                ../engine/source/elements/solid/solide4/s4bilan.F
+      !||    s4coor3                ../engine/source/elements/solid/solide4/s4coor3.F
+      !||    s4cumu3                ../engine/source/elements/solid/solide4/s4cumu3.F
+      !||    s4cumu3p               ../engine/source/elements/solid/solide4/s4cumu3p.F
+      !||    s4defo3                ../engine/source/elements/solid/solide4/s4defo3.F
+      !||    s4defot3               ../engine/source/elements/solid/solide4/s4defot3.F
+      !||    s4deri3                ../engine/source/elements/solid/solide4/s4deri3.F
+      !||    s4derit3               ../engine/source/elements/solid/solide4/s4derit3.F
+      !||    s4derito3              ../engine/source/elements/solid/solide4/s4derito3.F
+      !||    s4fillopt              ../engine/source/elements/solid/solide4/s4fillopt.F
+      !||    s4fint3                ../engine/source/elements/solid/solide4/s4fint3.F
+      !||    s4fint_reg             ../engine/source/elements/solid/solide4/s4fint_reg.F
+      !||    s4for_distor           ../engine/source/elements/solid/solide4/s4for_distor.F
+      !||    s4malla3               ../engine/source/elements/solid/solide4/s4mall3.F
+      !||    s4rcoor12              ../engine/source/elements/solid/solide4/s4rcoor12.F
+      !||    s4sav12                ../engine/source/elements/solid/solide4/s4sav12.F
+      !||    s4sav3                 ../engine/source/elements/solid/solide4/s4sav3.F
+      !||    s4therm                ../engine/source/elements/solid/solide4/s4therm.F
+      !||    s4upd11t12             ../engine/source/elements/solid/solide4/s4upd11t12.F
+      !||    s4voln_m               ../engine/source/elements/solid/solide4_sfem/s4voln_m.F
+      !||    scre_sig3              ../engine/source/elements/solid/solide/scre_sig3.F
+      !||    sgcoor3                ../engine/source/elements/solid/solide/sgcoor3.F
+      !||    sgeodel3               ../engine/source/elements/solid/solide/sgeodel3.F
+      !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
+      !||    smallgeo3              ../engine/source/elements/solid/solide/smallgeo3.F
+      !||    sordef12               ../engine/source/elements/solid/solidez/sordef12.F
+      !||    sordeft12              ../engine/source/elements/solid/solidez/sordeft12.F
+      !||    sorthdir3              ../engine/source/elements/solid/solide/sorthdir3.F
+      !||    sreploc3               ../engine/source/elements/solid/solide/sreploc3.F
+      !||    srho3                  ../engine/source/elements/solid/solide/srho3.F
+      !||    srota3                 ../engine/source/elements/solid/solide/srota3.F
+      !||    sroto12_sig            ../engine/source/elements/solid/solidez/sroto12_sig.F
+      !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
+      !||    startime               ../engine/source/system/timer.F
+      !||    stoptime               ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    ale_mod                ../common_source/modules/ale/ale_mod.F
+      !||    dt_mod                 ../engine/share/modules/dt_mod.F
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE S4FORC3(
      1   ELBUF_TAB,  NG,         PM,         GEO,
      2   IXS,        X,          A,          V,

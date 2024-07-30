@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8ZFINT_REG                   source/elements/solid/solide8z/s8zfint_reg.F
-Chd|-- called by -----------
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|-- calls ---------------
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8zfint_reg      ../engine/source/elements/solid/solide8z/s8zfint_reg.F
+      !||--- called by ------------------------------------------------------
+      !||    s8eforc3         ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8sforc3         ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||    s8zforc3         ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
+      !||====================================================================
       SUBROUTINE S8ZFINT_REG(
      1   NLOC_DMG,VAR_REG, NEL,     OFFG,
      2   VOL,     NC1,     NC2,     NC3,

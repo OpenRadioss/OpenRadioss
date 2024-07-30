@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FATHER                        source/model/remesh/build_admesh.F
-Chd|-- called by -----------
-Chd|        ORIGIN                        source/model/remesh/build_admesh.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    father   ../starter/source/model/remesh/build_admesh.F
+      !||--- called by ------------------------------------------------------
+      !||    origin   ../starter/source/model/remesh/build_admesh.F
+      !||====================================================================
       INTEGER FUNCTION FATHER(NN,IXC,IPARTC,IPART,SONTYPE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -54,14 +53,20 @@ C-----------------------------------------------
       END IF
       RETURN
       END     
-Chd|====================================================================
-Chd|  ORIGIN                        source/model/remesh/build_admesh.F
-Chd|-- called by -----------
-Chd|        I11REMLINE                    source/interfaces/inter3d1/i11remlin.F
-Chd|        I25REMLINE                    source/interfaces/int25/i25remlin.F
-Chd|-- calls ---------------
-Chd|        FATHER                        source/model/remesh/build_admesh.F
-Chd|====================================================================
+      !||====================================================================
+      !||    origin                  ../starter/source/model/remesh/build_admesh.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_frm             ../starter/source/tools/skew/hm_read_frm.F
+      !||    hm_read_monvol_type11   ../starter/source/airbag/hm_read_monvol_type11.F
+      !||    hm_read_monvol_type6    ../starter/source/airbag/hm_read_monvol_type6.F
+      !||    hm_read_monvol_type8    ../starter/source/airbag/hm_read_monvol_type8.F
+      !||    hm_read_skw             ../starter/source/tools/skew/hm_read_skw.F
+      !||    i11remline              ../starter/source/interfaces/inter3d1/i11remlin.F
+      !||    i25remline              ../starter/source/interfaces/int25/i25remlin.F
+      !||    th_titles               ../starter/source/output/th/th_titles.F90
+      !||--- calls      -----------------------------------------------------
+      !||    father                  ../starter/source/model/remesh/build_admesh.F
+      !||====================================================================
       INTEGER FUNCTION ORIGIN(NN,IXC,IPARTC,IPART)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -95,6 +100,12 @@ C-----------------------------------------------
       ORIGIN=NN
       RETURN
       END     
+      !||====================================================================
+      !||    identson4      ../starter/source/model/remesh/build_admesh.F
+      !||--- called by ------------------------------------------------------
+      !||    build_admesh   ../starter/source/model/remesh/build_admesh.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       RECURSIVE SUBROUTINE IDENTSON4(LEVEL,NN,IXC,SH4TREE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -140,6 +151,12 @@ C-----------------------------------------------
       END IF
       RETURN
       END     
+      !||====================================================================
+      !||    identson3      ../starter/source/model/remesh/build_admesh.F
+      !||--- called by ------------------------------------------------------
+      !||    build_admesh   ../starter/source/model/remesh/build_admesh.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       RECURSIVE SUBROUTINE IDENTSON3(LEVEL,NN,IXTG,SH3TREE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -186,16 +203,18 @@ C-----------------------------------------------
 
       RETURN
       END     
-Chd|====================================================================
-Chd|  BUILD_ADMESH                  source/model/remesh/build_admesh.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        CONSTIT                       source/elements/nodes/constit.F
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    build_admesh   ../starter/source/model/remesh/build_admesh.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur         ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../starter/source/output/message/message.F
+      !||    constit        ../starter/source/elements/nodes/constit.F
+      !||    identson3      ../starter/source/model/remesh/build_admesh.F
+      !||    identson4      ../starter/source/model/remesh/build_admesh.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE BUILD_ADMESH(
      .                    IPART ,IPARTC,IPARTTG,IXC   ,IXTG  ,
      .                    X     ,ITAB  ,ITABM1 ,SH4TREE,SH3TREE,

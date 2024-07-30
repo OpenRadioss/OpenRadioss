@@ -20,24 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  XFEM2DEF_MOD                  modules/xfem2def_mod.F        
-Chd|-- called by -----------
-Chd|        ACTIV_XFEM                    starter/source/elements/xfem/lslocal.F
-Chd|        ALLOCXFEM                     starter/source/elements/xfem/allocxfem.F
-Chd|        C_NCRKXFEM                    starter/source/restart/ddsplit/c_ncrkxfem.F
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        EDGETIP3N                     starter/source/elements/xfem/lslocal.F
-Chd|        EDGETIP4N                     starter/source/elements/xfem/lslocal.F
-Chd|        INICRKFILL                    starter/source/elements/xfem/inicrkfill.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        LSLOCAL                       starter/source/elements/xfem/lslocal.F
-Chd|        PREINICRK3N                   starter/source/elements/xfem/preinicrk3N.F
-Chd|        PREINICRK4N                   starter/source/elements/xfem/preinicrk4N.F
-Chd|        W_ANIM_CRK                    starter/source/restart/ddsplit/w_anim_crk.F
-Chd|        XFEM_CRACK_INIT               starter/source/elements/xfem/xfem_crack_init.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    xfem2def_mod      ../common_source/modules/xfem2def_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    activ_xfem        ../engine/source/elements/xfem/activ_xfem.F
+      !||    allocxfem         ../starter/source/elements/xfem/allocxfem.F
+      !||    c_ncrkxfem        ../starter/source/restart/ddsplit/c_ncrkxfem.F
+      !||    ddsplit           ../starter/source/restart/ddsplit/ddsplit.F
+      !||    edgetip3n         ../starter/source/elements/xfem/lslocal.F
+      !||    edgetip4n         ../starter/source/elements/xfem/lslocal.F
+      !||    inicrkfill        ../starter/source/elements/xfem/inicrkfill.F
+      !||    lectur            ../engine/source/input/lectur.F
+      !||    lslocal           ../starter/source/elements/xfem/lslocal.F
+      !||    preinicrk3n       ../starter/source/elements/xfem/preinicrk3N.F
+      !||    preinicrk4n       ../starter/source/elements/xfem/preinicrk4N.F
+      !||    w_anim_crk        ../starter/source/restart/ddsplit/w_anim_crk.F
+      !||    xfem_crack_init   ../starter/source/elements/xfem/xfem_crack_init.F
+      !||====================================================================
       MODULE XFEM2DEF_MOD
 C-----------------------------------------------
 #include      "my_real.inc"

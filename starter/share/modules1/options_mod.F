@@ -23,13 +23,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !
 !   starter used only
 !
-Chd|====================================================================
-Chd|  OPTION_MOD                    share/modules1/options_mod.F  
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    option_mod      ../starter/share/modules1/options_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur          ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       MODULE OPTION_MOD
 
         USE OPTIONDEF_MOD      

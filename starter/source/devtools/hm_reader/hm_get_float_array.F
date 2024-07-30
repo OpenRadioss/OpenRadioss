@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_GET_FLOAT_ARRAY            source/devtools/hm_reader/hm_get_float_array.F
-Chd|-- called by -----------
-Chd|        HM_READ_INISTATE_D00          source/elements/initia/hm_read_inistate_d00.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_get_float_array     ../starter/source/devtools/hm_reader/hm_get_float_array.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_inistate_d00   ../starter/source/elements/initia/hm_read_inistate_d00.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_GET_FLOAT_ARRAY(NAME,RARRAY,S_RARRAY,INDEX,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

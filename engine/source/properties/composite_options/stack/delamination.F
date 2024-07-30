@@ -20,16 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DELAMINATION                  source/properties/composite_options/stack/delamination.F
-Chd|-- called by -----------
-Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
-Chd|-- calls ---------------
-Chd|        DELM01LAW                     source/properties/composite_options/stack/delm01law.F
-Chd|        DELM02LAW                     source/properties/composite_options/stack/delm02law.F
-Chd|        DELM24LAW                     source/properties/composite_options/stack/delm24law.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    delamination   ../engine/source/properties/composite_options/stack/delamination.F
+      !||--- called by ------------------------------------------------------
+      !||    cmain3         ../engine/source/materials/mat_share/cmain3.F
+      !||--- calls      -----------------------------------------------------
+      !||    delm01law      ../engine/source/properties/composite_options/stack/delm01law.F
+      !||    delm02law      ../engine/source/properties/composite_options/stack/delm02law.F
+      !||    delm24law      ../engine/source/properties/composite_options/stack/delm24law.F
+      !||    nvar           ../engine/source/input/nvar.F
+      !||--- uses       -----------------------------------------------------
+      !||    mat_elem_mod   ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||====================================================================
       SUBROUTINE DELAMINATION(ELBUF_STR,MAT_PARAM,
      1           JFT      ,JLT     ,IR     ,IS     ,NPT      ,
      2           MAT_IPLY ,IPM     ,PM     ,BUFMAT ,NPF      ,

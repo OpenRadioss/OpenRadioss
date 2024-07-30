@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PMCUM3P                       source/elements/beam/pmcum3p.F
-Chd|-- called by -----------
-Chd|        PFORC3                        source/elements/beam/pforc3.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pmcum3p   ../engine/source/elements/beam/pmcum3p.F
+      !||--- called by ------------------------------------------------------
+      !||    pforc3    ../engine/source/elements/beam/pforc3.F
+      !||====================================================================
       SUBROUTINE PMCUM3P(
      1   STIR,    FSKY,    FSKYV,   IADP,
      2   MX1,     MX2,     MY1,     MY2,

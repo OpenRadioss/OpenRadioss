@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M115_PERTURB                  source/materials/mat/mat115/m115_perturb.F
-Chd|-- called by -----------
-Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m115_perturb   ../starter/source/materials/mat/mat115/m115_perturb.F
+      !||--- called by ------------------------------------------------------
+      !||    s4init3        ../starter/source/elements/solid/solide4/s4init3.F
+      !||    sinit3         ../starter/source/elements/solid/solide/sinit3.F
+      !||====================================================================
       SUBROUTINE M115_PERTURB(PM       ,MAT      ,RHO      ,PERTURB  ,RNOISE   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

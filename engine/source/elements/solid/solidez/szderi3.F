@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SZDERI3                       source/elements/solid/solidez/szderi3.F
-Chd|-- called by -----------
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        SCHKJABT3                     source/elements/solid/solide4/schkjabt3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    szderi3     ../engine/source/elements/solid/solidez/szderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    szforc3     ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    schkjabt3   ../engine/source/elements/solid/solide4/schkjabt3.F
+      !||====================================================================
       SUBROUTINE SZDERI3(
      1   OFF,     DET,     NGL,     ISMSTR,
      2   X1,      X2,      X3,      X4,
@@ -316,13 +316,13 @@ C -1 1 -1 1 1 -1 1 -1
       RETURN
 C
       END SUBROUTINE SZDERI3
-Chd|====================================================================
-Chd|  SZDERIT3                      source/elements/solid/solidez/szderi3.F
-Chd|-- called by -----------
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        SCHKJAB3                      source/elements/solid/solide/schkjab3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    szderit3   ../engine/source/elements/solid/solidez/szderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    szforc3    ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    schkjab3   ../engine/source/elements/solid/solide/schkjab3.F
+      !||====================================================================
       SUBROUTINE SZDERIT3(
      1   OFF,     DET,     NGL,     NEL,
      2   X1,      X2,      X3,      X4,
@@ -516,12 +516,11 @@ C -1 1 -1 1 1 -1 1 -1
       RETURN
 C
       END SUBROUTINE SZDERIT3
-Chd|====================================================================
-Chd|  SZDERITO3                     source/elements/solid/solidez/szderi3.F
-Chd|-- called by -----------
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    szderito3   ../engine/source/elements/solid/solidez/szderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    szforc3     ../engine/source/elements/solid/solidez/szforc3.F
+      !||====================================================================
       SUBROUTINE SZDERITO3(
      1   OFF,     DET,     PX1,     PX2,
      2   PX3,     PX4,     PY1,     PY2,

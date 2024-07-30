@@ -20,25 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I20FOR3                       source/interfaces/int20/i20for3.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- calls ---------------
-Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
-Chd|        I7ASS0                        source/interfaces/int07/i7ass3.F
-Chd|        I7ASS05                       source/interfaces/int07/i7ass3.F
-Chd|        I7ASS2                        source/interfaces/int07/i7ass3.F
-Chd|        I7ASS25                       source/interfaces/int07/i7ass3.F
-Chd|        I7ASS3                        source/interfaces/int07/i7ass3.F
-Chd|        I7ASS35                       source/interfaces/int07/i7ass3.F
-Chd|        I7CURV                        source/interfaces/int07/i7curv.F
-Chd|        I7SMS2                        source/interfaces/int07/i7sms2.F
-Chd|        IBCOFF                        source/interfaces/interf/ibcoff.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20for3           ../engine/source/interfaces/int20/i20for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf          ../engine/source/interfaces/int20/i20mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    foat_to_6_float   ../engine/source/system/parit.F
+      !||    i7ass0            ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass05           ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass2            ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass25           ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass3            ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass35           ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7curv            ../engine/source/interfaces/int07/i7curv.F
+      !||    i7sms2            ../engine/source/interfaces/int07/i7sms2.F
+      !||    ibcoff            ../engine/source/interfaces/interf/ibcoff.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod          ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod           ../engine/share/modules/h3d_mod.F
+      !||    tri7box           ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20FOR3(JLT   ,A      ,VA     ,IBCC  ,ICODT  ,
      2                  FSAV   ,GAP    ,FRIC   ,MS    ,VISC   ,
      3                  VISCF  ,NOINT  ,STFA   ,ITAB  ,CN_LOC ,
@@ -2253,14 +2254,14 @@ C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I20FOR3C                      source/interfaces/int20/i20for3.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- calls ---------------
-Chd|        ICONTACT_MOD                  share/modules/icontact_mod.F  
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20for3c       ../engine/source/interfaces/int20/i20for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf       ../engine/source/interfaces/int20/i20mainf.F
+      !||--- uses       -----------------------------------------------------
+      !||    icontact_mod   ../engine/share/modules/icontact_mod.F
+      !||    tri7box        ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20FOR3C(NLN   ,NLG  ,MS     ,DXANC ,
      2                    DVANC ,STFA ,WEIGHT ,INACTI,
      3                    DAANC6,STFAC,PENIA  ,ALPHAK,
@@ -2376,20 +2377,21 @@ c          VISR = 0.1 * TWO * SQRT(STFR * MS(J))
 
       RETURN
       END
-Chd|====================================================================
-Chd|  I20FOR3E                      source/interfaces/int20/i20for3.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- calls ---------------
-Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
-Chd|        I20ASS0                       source/interfaces/int20/i20for3.F
-Chd|        I20ASS05                      source/interfaces/int20/i20for3.F
-Chd|        I20ASS2                       source/interfaces/int20/i20for3.F
-Chd|        I20ASS25                      source/interfaces/int20/i20for3.F
-Chd|        I20SMS2E                      source/interfaces/int20/i20sms2.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20for3e          ../engine/source/interfaces/int20/i20for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf          ../engine/source/interfaces/int20/i20mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    foat_to_6_float   ../engine/source/system/parit.F
+      !||    i20ass0           ../engine/source/interfaces/int20/i20for3.F
+      !||    i20ass05          ../engine/source/interfaces/int20/i20for3.F
+      !||    i20ass2           ../engine/source/interfaces/int20/i20for3.F
+      !||    i20ass25          ../engine/source/interfaces/int20/i20for3.F
+      !||    i20sms2e          ../engine/source/interfaces/int20/i20sms2.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod           ../engine/share/modules/h3d_mod.F
+      !||    tri7box           ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20FOR3E(
      1                  JLT    ,A      ,V      ,IBC     ,ICODT  ,
      2                  FSAV   ,GAP    ,FRIC   ,MS      ,VISC   ,
@@ -3337,13 +3339,13 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I20ASS0                       source/interfaces/int20/i20for3.F
-Chd|-- called by -----------
-Chd|        I20FOR3E                      source/interfaces/int20/i20for3.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20ass0    ../engine/source/interfaces/int20/i20for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20for3e   ../engine/source/interfaces/int20/i20for3.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box    ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20ASS0(JLT  ,CS_LOC,N1   ,N2   ,M1   ,
      2                   M2   ,HS1   ,HS2  ,HM1  ,HM2  ,
      3                   FX1  ,FY1   ,FZ1  ,FX2  ,FY2  ,
@@ -3429,13 +3431,13 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I20ASS05                      source/interfaces/int20/i20for3.F
-Chd|-- called by -----------
-Chd|        I20FOR3E                      source/interfaces/int20/i20for3.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20ass05   ../engine/source/interfaces/int20/i20for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20for3e   ../engine/source/interfaces/int20/i20for3.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box    ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20ASS05(JLT  ,CS_LOC,N1    ,N2   ,M1   ,
      2                    M2   ,HS1   ,HS2   ,HM1  ,HM2  ,
      3                    FX1  ,FY1   ,FZ1   ,FX2  ,FY2  ,
@@ -3530,16 +3532,17 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I20ASS2                       source/interfaces/int20/i20for3.F
-Chd|-- called by -----------
-Chd|        I20FOR3E                      source/interfaces/int20/i20for3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20ass2       ../engine/source/interfaces/int20/i20for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20for3e      ../engine/source/interfaces/int20/i20for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20ASS2(JLT   ,CS_LOC ,N1    ,N2    ,M1      ,
      2                   M2    ,HS1    ,HS2   ,HM1   ,HM2     ,
      3                   FX1   ,FY1    ,FZ1   ,FX2   ,FY2     ,
@@ -3669,16 +3672,17 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I20ASS25                      source/interfaces/int20/i20for3.F
-Chd|-- called by -----------
-Chd|        I20FOR3E                      source/interfaces/int20/i20for3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20ass25      ../engine/source/interfaces/int20/i20for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20for3e      ../engine/source/interfaces/int20/i20for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20ASS25(JLT   ,CS_LOC ,N1    ,N2      ,M1    ,
      2                    M2    ,HS1    ,HS2   ,HM1     ,HM2   ,
      3                    FX1   ,FY1    ,FZ1   ,FX2     ,FY2   ,

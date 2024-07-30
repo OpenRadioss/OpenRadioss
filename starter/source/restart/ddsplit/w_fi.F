@@ -20,21 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  W_FI                          source/restart/ddsplit/w_fi.F 
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        ID                            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        I25_FIE_MOD                   share/modules1/i25_fie_mod.F  
-Chd|        I7I10SPLITMOD                 share/modules1/i710split_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    w_fi            ../starter/source/restart/ddsplit/w_fi.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit         ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal          ../starter/source/spmd/node/ddtools.F
+      !||    plist_ifront    ../starter/source/spmd/node/ddtools.F
+      !||--- uses       -----------------------------------------------------
+      !||    front_mod       ../starter/share/modules1/front_mod.F
+      !||    i25_fie_mod     ../starter/share/modules1/i25_fie_mod.F
+      !||    i7i10splitmod   ../starter/share/modules1/i710split_mod.F
+      !||====================================================================
       SUBROUTINE W_FI(IPARI,PROC,LEN_IA,
      1                INTERCEP ,INTBUF_TAB,ITAB,MULTI_FVM,TAG,
      2                NINDX_TAG,INDX_TAG  ,NODLOCAL,NUMNOD_L,LEN_CEP,CEP)

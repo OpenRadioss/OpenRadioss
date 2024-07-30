@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PRI324                        source/materials/mat/mat024/pri324.F
-Chd|-- called by -----------
-Chd|        DAMA24                        source/materials/mat/mat024/dama24.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pri324   ../engine/source/materials/mat/mat024/pri324.F
+      !||--- called by ------------------------------------------------------
+      !||    dama24   ../engine/source/materials/mat/mat024/dama24.F
+      !||====================================================================
       SUBROUTINE PRI324(SIG,EPSTOT,EPS,VEC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

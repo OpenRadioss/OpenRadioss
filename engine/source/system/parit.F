@@ -20,46 +20,46 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SUM_6_FLOAT                   source/system/parit.F         
-Chd|-- called by -----------
-Chd|        AIRBAGB                       source/airbag/airbag2.F       
-Chd|        AIRBAGB1                      source/airbag/airbagb1.F      
-Chd|        ASS18                         source/interfaces/int18/ass18.F
-Chd|        DAMPVREF_SUM6                 source/assembly/dampvref_sum6.F
-Chd|        PORO                          source/ale/porous/poro.F      
-Chd|        RBYACT                        source/constraints/general/rbody/rbyact.F
-Chd|        RBYPID                        source/constraints/general/rbody/rbypid.F
-Chd|        RGBODFP                       source/constraints/general/rbody/rgbodfp.F
-Chd|        RGWALC                        source/constraints/general/rwall/rgwalc.F
-Chd|        RGWALL                        source/constraints/general/rwall/rgwall.F
-Chd|        RGWALP                        source/constraints/general/rwall/rgwalp.F
-Chd|        RGWALS                        source/constraints/general/rwall/rgwals.F
-Chd|        RGWATH                        source/interfaces/int09/rgwath.F
-Chd|        RLINK0                        source/constraints/general/rlink/rlink0.F
-Chd|        RLINK1                        source/constraints/general/rlink/rlink1.F
-Chd|        RLINK2                        source/constraints/general/rlink/rlink2.F
-Chd|        RLINK3                        source/constraints/general/rlink/rlink10.F
-Chd|        RMATPON                       source/materials/mat/mat013/rmatpon.F
-Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
-Chd|        SENSOR_TEMP0                  source/tools/sensor/sensor_temp0.F
-Chd|        SMS_PCG                       source/ams/sms_pcg.F          
-Chd|        SMS_PRODUT_H                  source/ams/sms_proj.F         
-Chd|        SMS_RBE_1                     source/ams/sms_rbe2.F         
-Chd|        SMS_RBE_5                     source/ams/sms_rbe2.F         
-Chd|        SMS_RGWALC_BILAN              source/ams/sms_rgwalc.F       
-Chd|        SMS_RGWALL_BILAN              source/ams/sms_rgwall.F       
-Chd|        SMS_RGWALP_BILAN              source/ams/sms_rgwalp.F       
-Chd|        SMS_RGWALS_BILAN              source/ams/sms_rgwals.F       
-Chd|        SMS_RLINK1                    source/ams/sms_rlink.F        
-Chd|        SMS_RLINK2                    source/ams/sms_rlink.F        
-Chd|        SMS_RLINK3                    source/ams/sms_rlink.F        
-Chd|        SPGAUGE                       source/elements/sph/spgauge.F 
-Chd|        TELESC                        source/constraints/general/cyl_joint/telesc.F
-Chd|        VOLPVGB                       source/airbag/volpvg.F        
-Chd|        VOLUM0                        source/airbag/volum0.F        
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sum_6_float             ../engine/source/system/parit.F
+      !||--- called by ------------------------------------------------------
+      !||    airbagb                 ../engine/source/airbag/airbag2.F
+      !||    airbagb1                ../engine/source/airbag/airbagb1.F
+      !||    ass18                   ../engine/source/interfaces/int18/ass18.F
+      !||    damping_vref_sum6_rby   ../engine/source/assembly/damping_vref_sum6_rby.F90
+      !||    dampvref_sum6           ../engine/source/assembly/dampvref_sum6.F
+      !||    poro                    ../engine/source/ale/porous/poro.F
+      !||    rbyact                  ../engine/source/constraints/general/rbody/rbyact.F
+      !||    rbypid                  ../engine/source/constraints/general/rbody/rbypid.F
+      !||    rgbodfp                 ../engine/source/constraints/general/rbody/rgbodfp.F
+      !||    rgwalc                  ../engine/source/constraints/general/rwall/rgwalc.F
+      !||    rgwall                  ../engine/source/constraints/general/rwall/rgwall.F
+      !||    rgwalp                  ../engine/source/constraints/general/rwall/rgwalp.F
+      !||    rgwals                  ../engine/source/constraints/general/rwall/rgwals.F
+      !||    rgwath                  ../engine/source/interfaces/int09/rgwath.F
+      !||    rlink0                  ../engine/source/constraints/general/rlink/rlink0.F
+      !||    rlink1                  ../engine/source/constraints/general/rlink/rlink1.F
+      !||    rlink2                  ../engine/source/constraints/general/rlink/rlink2.F
+      !||    rlink3                  ../engine/source/constraints/general/rlink/rlink10.F
+      !||    rmatpon                 ../engine/source/materials/mat/mat013/rmatpon.F
+      !||    sensor_energy_bilan     ../engine/source/tools/sensor/sensor_energy_bilan.F
+      !||    sensor_temp0            ../engine/source/tools/sensor/sensor_temp0.F
+      !||    sms_pcg                 ../engine/source/ams/sms_pcg.F
+      !||    sms_produt_h            ../engine/source/ams/sms_proj.F
+      !||    sms_rbe_1               ../engine/source/ams/sms_rbe2.F
+      !||    sms_rbe_5               ../engine/source/ams/sms_rbe2.F
+      !||    sms_rgwalc_bilan        ../engine/source/ams/sms_rgwalc.F
+      !||    sms_rgwall_bilan        ../engine/source/ams/sms_rgwall.F
+      !||    sms_rgwalp_bilan        ../engine/source/ams/sms_rgwalp.F
+      !||    sms_rgwals_bilan        ../engine/source/ams/sms_rgwals.F
+      !||    sms_rlink1              ../engine/source/ams/sms_rlink.F
+      !||    sms_rlink2              ../engine/source/ams/sms_rlink.F
+      !||    sms_rlink3              ../engine/source/ams/sms_rlink.F
+      !||    spgauge                 ../engine/source/elements/sph/spgauge.F
+      !||    telesc                  ../engine/source/constraints/general/cyl_joint/telesc.F
+      !||    volpvgb                 ../engine/source/airbag/volpvg.F
+      !||    volum0                  ../engine/source/airbag/volum0.F
+      !||====================================================================
       SUBROUTINE SUM_6_FLOAT(JFT  ,JLT  ,F, F6, N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -195,32 +195,33 @@ C-----------------------------------------------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  FOAT_TO_6_FLOAT               source/system/parit.F         
-Chd|-- called by -----------
-Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
-Chd|        I20FOR3E                      source/interfaces/int20/i20for3.F
-Chd|        I21ASS3                       source/interfaces/int21/i21ass3.F
-Chd|        MULTI_I18_FORCE_PON           source/interfaces/int18/multi_i18_force_pon.F
-Chd|        RBE2F                         source/constraints/general/rbe2/rbe2f.F
-Chd|        RBE2FL                        source/constraints/general/rbe2/rbe2f.F
-Chd|        RBE3T1                        source/constraints/general/rbe3/rbe3f.F
-Chd|        S10VOLNOD3                    source/elements/solid/solide4_sfem/s10volnod3.F
-Chd|        S10VOLNODT3                   source/elements/solid/solide4_sfem/s10volnodt3.F
-Chd|        S4ALESFEM                     source/elements/solid/solide4_sfem/s4alesfem.F
-Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4lagsfem.F
-Chd|        S4VOLNOD3                     source/elements/solid/solide4_sfem/s4volnod3.F
-Chd|        S4VOLNOD_SM                   source/elements/solid/solide4_sfem/s4volnod_sm.F
-Chd|        SMS_BUILD_DIAG                source/ams/sms_build_diag.F   
-Chd|        SMS_MAV_LT                    source/ams/sms_pcg.F          
-Chd|        SMS_MAV_LT1                   source/ams/sms_pcg.F          
-Chd|        SMS_MAV_LT2                   source/ams/sms_pcg.F          
-Chd|        SMS_PRODUT3                   source/ams/sms_proj.F         
-Chd|        SMS_RBE3T1                    source/ams/sms_rbe3.F         
-Chd|        SMS_RBE3_PREC                 source/ams/sms_rbe3.F         
-Chd|        SPLISSV                       source/elements/sph/splissv.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    foat_to_6_float       ../engine/source/system/parit.F
+      !||--- called by ------------------------------------------------------
+      !||    i20for3               ../engine/source/interfaces/int20/i20for3.F
+      !||    i20for3e              ../engine/source/interfaces/int20/i20for3.F
+      !||    i21ass3               ../engine/source/interfaces/int21/i21ass3.F
+      !||    inter_sh_offset_ini   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
+      !||    multi_i18_force_pon   ../engine/source/interfaces/int18/multi_i18_force_pon.F
+      !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
+      !||    rbe2f                 ../engine/source/constraints/general/rbe2/rbe2f.F
+      !||    rbe2fl                ../engine/source/constraints/general/rbe2/rbe2f.F
+      !||    rbe3t1                ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    s10volnod3            ../engine/source/elements/solid/solide4_sfem/s10volnod3.F
+      !||    s10volnodt3           ../engine/source/elements/solid/solide4_sfem/s10volnodt3.F
+      !||    s4alesfem             ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
+      !||    s4lagsfem             ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
+      !||    s4volnod3             ../engine/source/elements/solid/solide4_sfem/s4volnod3.F
+      !||    s4volnod_sm           ../engine/source/elements/solid/solide4_sfem/s4volnod_sm.F
+      !||    sms_build_diag        ../engine/source/ams/sms_build_diag.F
+      !||    sms_mav_lt            ../engine/source/ams/sms_pcg.F
+      !||    sms_mav_lt1           ../engine/source/ams/sms_pcg.F
+      !||    sms_mav_lt2           ../engine/source/ams/sms_pcg.F
+      !||    sms_produt3           ../engine/source/ams/sms_proj.F
+      !||    sms_rbe3_prec         ../engine/source/ams/sms_rbe3.F
+      !||    sms_rbe3t1            ../engine/source/ams/sms_rbe3.F
+      !||    splissv               ../engine/source/elements/sph/splissv.F
+      !||====================================================================
       SUBROUTINE FOAT_TO_6_FLOAT(JFT  ,JLT  ,F, F6)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -350,11 +351,9 @@ C-----------------------------------------------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  FOAT_TO_7_FLOAT               source/system/parit.F         
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    foat_to_7_float   ../engine/source/system/parit.F
+      !||====================================================================
        SUBROUTINE FOAT_TO_7_FLOAT(F,F7)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -476,14 +475,13 @@ C-----------------------------------------------
        END
 
 
-Chd|====================================================================
-Chd|  DOUBLE_FLOT_IEEE              source/system/parit.F         
-Chd|-- called by -----------
-Chd|        CUPDT3F                       source/elements/shell/coque/cupdt3.F
-Chd|        I7ASS3                        source/interfaces/int07/i7ass3.F
-Chd|        I7ASS35                       source/interfaces/int07/i7ass3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    double_flot_ieee   ../engine/source/system/parit.F
+      !||--- called by ------------------------------------------------------
+      !||    cupdt3f            ../engine/source/elements/shell/coque/cupdt3.F
+      !||    i7ass3             ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass35            ../engine/source/interfaces/int07/i7ass3.F
+      !||====================================================================
       SUBROUTINE DOUBLE_FLOT_IEEE(JFT  ,JLT  ,I8 ,R8, I8F)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -526,20 +524,19 @@ c___________________________________________________
 c___________________________________________________          
       RETURN
       END
-Chd|====================================================================
-Chd|  SUM_6_FLOAT_SENS              source/system/parit.F         
-Chd|-- called by -----------
-Chd|        I10MAINF                      source/interfaces/int10/i10mainf.F
-Chd|        I11MAINF                      source/interfaces/int11/i11mainf.F
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|        I21MAINF                      source/interfaces/int21/i21mainf.F
-Chd|        I22MAINF                      source/interfaces/int22/i22mainf.F
-Chd|        I23MAINF                      source/interfaces/int23/i23mainf.F
-Chd|        I24MAINF                      source/interfaces/int24/i24main.F
-Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sum_6_float_sens   ../engine/source/system/parit.F
+      !||--- called by ------------------------------------------------------
+      !||    i10mainf           ../engine/source/interfaces/int10/i10mainf.F
+      !||    i11mainf           ../engine/source/interfaces/int11/i11mainf.F
+      !||    i20mainf           ../engine/source/interfaces/int20/i20mainf.F
+      !||    i21mainf           ../engine/source/interfaces/int21/i21mainf.F
+      !||    i22mainf           ../engine/source/interfaces/int22/i22mainf.F
+      !||    i23mainf           ../engine/source/interfaces/int23/i23mainf.F
+      !||    i24mainf           ../engine/source/interfaces/int24/i24main.F
+      !||    i25mainf           ../engine/source/interfaces/int25/i25mainf.F
+      !||    i7mainf            ../engine/source/interfaces/int07/i7mainf.F
+      !||====================================================================
       SUBROUTINE SUM_6_FLOAT_SENS(F, A, B, C, JFT  ,JLT  , F6, D, E, G, ISENSINT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -687,19 +684,18 @@ C-----------------------------------------------
 
       RETURN
       END
-Chd|====================================================================
-Chd|  SUM_6_FLOAT_SECT              source/system/parit.F         
-Chd|-- called by -----------
-Chd|        SECTION_3N                    source/tools/sect/section_3n.F
-Chd|        SECTION_C                     source/tools/sect/section_c.F 
-Chd|        SECTION_P                     source/tools/sect/section_p.F 
-Chd|        SECTION_R                     source/tools/sect/section_r.F 
-Chd|        SECTION_S                     source/tools/sect/section_s.F 
-Chd|        SECTION_S4                    source/tools/sect/section_s4.F
-Chd|        SECTION_S6                    source/tools/sect/section_s6.F
-Chd|        SECTION_T                     source/tools/sect/section_t.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sum_6_float_sect   ../engine/source/system/parit.F
+      !||--- called by ------------------------------------------------------
+      !||    section_3n         ../engine/source/tools/sect/section_3n.F
+      !||    section_c          ../engine/source/tools/sect/section_c.F
+      !||    section_p          ../engine/source/tools/sect/section_p.F
+      !||    section_r          ../engine/source/tools/sect/section_r.F
+      !||    section_s          ../engine/source/tools/sect/section_s.F
+      !||    section_s4         ../engine/source/tools/sect/section_s4.F
+      !||    section_s6         ../engine/source/tools/sect/section_s6.F
+      !||    section_t          ../engine/source/tools/sect/section_t.F
+      !||====================================================================
       SUBROUTINE SUM_6_FLOAT_SECT(F, A, B, JFT  ,JLT  , F6, D, E)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,21 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TABLE_MAT_VINTERP_MOD         source/materials/tools/table_mat_vinterp.F
-Chd|-- called by -----------
-Chd|        SIGEPS70                      source/materials/mat/mat070/sigeps70.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps70                ../starter/source/materials/mat/mat070/sigeps70.F
+      !||====================================================================
       MODULE TABLE_MAT_VINTERP_MOD
       CONTAINS
-Chd|====================================================================
-Chd|  TABLE_MAT_VINTERP             source/materials/tools/table_mat_vinterp.F
-Chd|-- called by -----------
-Chd|        SIGEPS70                      source/materials/mat/mat070/sigeps70.F
-Chd|-- calls ---------------
-Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    table_mat_vinterp   ../starter/source/materials/tools/table_mat_vinterp.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps70            ../starter/source/materials/mat/mat070/sigeps70.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE TABLE_MAT_VINTERP(TABLE,DIMX,NEL,IPOS,XX,YY,DYDX)
 C-----------------------------------------------
       USE TABLE4D_MOD

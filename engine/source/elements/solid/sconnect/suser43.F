@@ -20,34 +20,34 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SUSER43                       source/elements/solid/sconnect/suser43.F
-Chd|-- called by -----------
-Chd|        SUFORC3                       source/user_interface/suforc3.F
-Chd|-- calls ---------------
-Chd|        ENG_USERLIB_GET_LAW_VAR       source/user_interface/dyn_userlib.c
-Chd|        ENG_USERLIB_SET_LAW_VAR       source/user_interface/dyn_userlib.c
-Chd|        ENG_USERLIB_SIGEPS99          source/user_interface/dyn_userlib.c
-Chd|        FAIL_CONNECT                  source/materials/fail/connect/fail_connect.F
-Chd|        FAIL_SNCONNECT                source/materials/fail/snconnect/fail_snconnect.F
-Chd|        SBILAN43                      source/elements/solid/sconnect/sbilan43.F
-Chd|        SCONNECT_OFF                  source/elements/solid/sconnect/sconnect_off.F
-Chd|        SCOOR43                       source/elements/solid/sconnect/scoor43.F
-Chd|        SDEF43                        source/elements/solid/sconnect/sdef43.F
-Chd|        SFINT43                       source/elements/solid/sconnect/sfint43.F
-Chd|        SIGEPS116                     source/materials/mat/mat116/sigeps116.F
-Chd|        SIGEPS117                     source/materials/mat/mat117/sigeps117.F
-Chd|        SIGEPS120_CONNECT_MAIN        source/materials/mat/mat120/sigeps120_connect_main.F
-Chd|        SIGEPS59                      source/materials/mat/mat059/sigeps59.F
-Chd|        SIGEPS83                      source/materials/mat/mat083/sigeps83.F
-Chd|        SMOM43                        source/elements/solid/sconnect/smom43.F
-Chd|        SRROTA3                       source/elements/solid/solide/srrota3.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        LAW_USERSO                    source/user_interface/law_userso.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    suser43                   ../engine/source/elements/solid/sconnect/suser43.F
+      !||--- called by ------------------------------------------------------
+      !||    suforc3                   ../engine/source/user_interface/suforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    fail_connect              ../engine/source/materials/fail/connect/fail_connect.F
+      !||    fail_snconnect            ../engine/source/materials/fail/snconnect/fail_snconnect.F
+      !||    sbilan43                  ../engine/source/elements/solid/sconnect/sbilan43.F
+      !||    sconnect_off              ../engine/source/elements/solid/sconnect/sconnect_off.F
+      !||    scoor43                   ../engine/source/elements/solid/sconnect/scoor43.F
+      !||    sdef43                    ../engine/source/elements/solid/sconnect/sdef43.F
+      !||    sfint43                   ../engine/source/elements/solid/sconnect/sfint43.F
+      !||    sigeps116                 ../engine/source/materials/mat/mat116/sigeps116.F
+      !||    sigeps117                 ../engine/source/materials/mat/mat117/sigeps117.F
+      !||    sigeps120_connect_main    ../engine/source/materials/mat/mat120/sigeps120_connect_main.F
+      !||    sigeps169_connect         ../engine/source/materials/mat/mat169/sigeps169_connect.F90
+      !||    sigeps59                  ../engine/source/materials/mat/mat059/sigeps59.F
+      !||    sigeps83                  ../engine/source/materials/mat/mat083/sigeps83.F
+      !||    smom43                    ../engine/source/elements/solid/sconnect/smom43.F
+      !||    srrota3                   ../engine/source/elements/solid/solide/srrota3.F
+      !||    startime                  ../engine/source/system/timer.F
+      !||    stoptime                  ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    law_userso                ../engine/source/user_interface/law_userso.F
+      !||    mat_elem_mod              ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    sigeps169_connect_mod     ../engine/source/materials/mat/mat169/sigeps169_connect.F90
+      !||    table_mod                 ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE SUSER43(
      1 ELBUF_STR,IOUT  ,IPROP  ,IMAT   ,NGL    ,TIME  ,TIMESTEP,FR_WAVE,
      2 XX1      ,XX2   ,XX3    ,XX4    ,XX5    ,XX6    ,XX7    ,XX8    ,   

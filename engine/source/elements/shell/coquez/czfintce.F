@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CZFINTCE                      source/elements/shell/coquez/czfintce.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czfintce      ../engine/source/elements/shell/coquez/czfintce.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
+      !||====================================================================
         SUBROUTINE CZFINTCE(JFT  ,JLT  ,THK  ,C1   ,A_I  ,X13  ,
      2                      X24  ,Y13  ,Y24  ,Z1   ,MX23 ,MX13 ,
      3                      MX34 ,MY13 ,MY23 ,MY34 ,VSTRE,MSTRE,
@@ -102,13 +101,12 @@ C
        ENDDO
        RETURN
        END
-Chd|====================================================================
-Chd|  CZFINTCRZ                     source/elements/shell/coquez/czfintce.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czfintcrz     ../engine/source/elements/shell/coquez/czfintce.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
+      !||====================================================================
         SUBROUTINE CZFINTCRZ(JFT  ,JLT  ,THK  ,VOL  ,AREA ,X13  ,
      2                       X24  ,Y13  ,Y24  ,Z1   ,MX23 ,MX13 ,
      3                       MX34 ,MY13 ,MY23 ,MY34 ,VSTRE,VSRZ ,

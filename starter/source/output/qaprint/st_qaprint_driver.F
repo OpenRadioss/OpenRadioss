@@ -20,64 +20,58 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ST_QAPRINT_ADMESH             source/output/qaprint/st_qaprint_admesh.F
-Chd|        ST_QAPRINT_ALE_OPTIONS_DRIVER source/output/qaprint/st_qaprint_ale_options_driver.F
-Chd|        ST_QAPRINT_CLUSTERS           source/output/qaprint/st_qaprint_clusters.F
-Chd|        ST_QAPRINT_COMPOSITE_OPTIONS  source/output/qaprint/st_qaprint_composite_options.F
-Chd|        ST_QAPRINT_CONSTRAINTS        source/output/qaprint/st_qaprint_constraints.F
-Chd|        ST_QAPRINT_DFS_DETONATORS     source/output/qaprint/st_qaprint_dfs_detonators.F
-Chd|        ST_QAPRINT_DFS_LASERS         source/output/qaprint/st_qaprint_dfs_lasers.F
-Chd|        ST_QAPRINT_EBCS               source/output/qaprint/st_qaprint_ebcs.F
-Chd|        ST_QAPRINT_ELEMENT            source/output/qaprint/st_qaprint_element.F
-Chd|        ST_QAPRINT_FRICTION           source/output/qaprint/st_qaprint_friction.F
-Chd|        ST_QAPRINT_GENERAL_CONTROLS   source/output/qaprint/st_qaprint_general_controls.F
-Chd|        ST_QAPRINT_GROUPS             source/output/qaprint/st_qaprint_groups.F
-Chd|        ST_QAPRINT_INITIAL_CONDITIONS source/output/qaprint/st_qaprint_initial_conditions.F
-Chd|        ST_QAPRINT_INITIAL_STATE      source/output/qaprint/st_qaprint_initial_state.F
-Chd|        ST_QAPRINT_INIVOL             source/output/qaprint/st_qaprint_inivol.F
-Chd|        ST_QAPRINT_INTERFACES         source/output/qaprint/st_qaprint_interfaces.F
-Chd|        ST_QAPRINT_INTERNAL_GROUPS    source/output/qaprint/st_qaprint_internal_groups.F
-Chd|        ST_QAPRINT_LOADS              source/output/qaprint/st_qaprint_loads.F
-Chd|        ST_QAPRINT_MADYMO             source/output/qaprint/st_qaprint_madymo.F
-Chd|        ST_QAPRINT_MATERIALS          source/output/qaprint/st_qaprint_materials.F
-Chd|        ST_QAPRINT_MODEL_TOOLS        source/output/qaprint/st_qaprint_model_tools.F
-Chd|        ST_QAPRINT_MONVOL             source/output/qaprint/st_qaprint_monvol.F
-Chd|        ST_QAPRINT_MULTIDOMAINS       source/output/qaprint/st_qaprint_multidomains.F
-Chd|        ST_QAPRINT_NODES              source/output/qaprint/st_qaprint_nodes.F
-Chd|        ST_QAPRINT_OUTPUT_DATABASES   source/output/qaprint/st_qaprint_output_databases.F
-Chd|        ST_QAPRINT_PROPERTIES         source/output/qaprint/st_qaprint_properties.F
-Chd|        ST_QAPRINT_REFERENCE_STATE    source/output/qaprint/st_qaprint_reference_state.F
-Chd|        ST_QAPRINT_REFSTA             source/output/qaprint/st_qaprint_refsta.F
-Chd|        ST_QAPRINT_SEATBELTS          source/output/qaprint/st_qaprint_seatbelts.F
-Chd|        ST_QAPRINT_SET                source/output/qaprint/st_qaprint_set.F
-Chd|        ST_QAPRINT_SURF               source/output/qaprint/st_qaprint_surf.F
-Chd|        ST_QAPRINT_TIME_HISTORIES     source/output/qaprint/st_qaprint_time_histories.F
-Chd|        ST_QAPRINT_TRANSFORMATIONS    source/output/qaprint/st_qaprint_transformations.F
-Chd|        ST_QAPRINT_USERWI             source/output/qaprint/st_qaprint_userwi.F
-Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
-Chd|        CLUSTER_MOD                   share/modules1/cluster_mod.F  
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        FUNC2D_MOD                    share/modules1/func2d_mod.F   
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 
-Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F 
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    st_qaprint_driver               ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                          ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    st_qaprint_admesh               ../starter/source/output/qaprint/st_qaprint_admesh.F
+      !||    st_qaprint_ale_options_driver   ../starter/source/output/qaprint/st_qaprint_ale_options_driver.F
+      !||    st_qaprint_clusters             ../starter/source/output/qaprint/st_qaprint_clusters.F
+      !||    st_qaprint_composite_options    ../starter/source/output/qaprint/st_qaprint_composite_options.F
+      !||    st_qaprint_constraints          ../starter/source/output/qaprint/st_qaprint_constraints.F
+      !||    st_qaprint_dfs_detonators       ../starter/source/output/qaprint/st_qaprint_dfs_detonators.F
+      !||    st_qaprint_dfs_lasers           ../starter/source/output/qaprint/st_qaprint_dfs_lasers.F
+      !||    st_qaprint_ebcs                 ../starter/source/output/qaprint/st_qaprint_ebcs.F
+      !||    st_qaprint_element              ../starter/source/output/qaprint/st_qaprint_element.F
+      !||    st_qaprint_friction             ../starter/source/output/qaprint/st_qaprint_friction.F
+      !||    st_qaprint_general_controls     ../starter/source/output/qaprint/st_qaprint_general_controls.F
+      !||    st_qaprint_groups               ../starter/source/output/qaprint/st_qaprint_groups.F
+      !||    st_qaprint_initial_conditions   ../starter/source/output/qaprint/st_qaprint_initial_conditions.F
+      !||    st_qaprint_initial_state        ../starter/source/output/qaprint/st_qaprint_initial_state.F
+      !||    st_qaprint_inivol               ../starter/source/output/qaprint/st_qaprint_inivol.F
+      !||    st_qaprint_interfaces           ../starter/source/output/qaprint/st_qaprint_interfaces.F
+      !||    st_qaprint_internal_groups      ../starter/source/output/qaprint/st_qaprint_internal_groups.F
+      !||    st_qaprint_loads                ../starter/source/output/qaprint/st_qaprint_loads.F
+      !||    st_qaprint_madymo               ../starter/source/output/qaprint/st_qaprint_madymo.F
+      !||    st_qaprint_materials            ../starter/source/output/qaprint/st_qaprint_materials.F
+      !||    st_qaprint_model_tools          ../starter/source/output/qaprint/st_qaprint_model_tools.F
+      !||    st_qaprint_monvol               ../starter/source/output/qaprint/st_qaprint_monvol.F
+      !||    st_qaprint_multidomains         ../starter/source/output/qaprint/st_qaprint_multidomains.F
+      !||    st_qaprint_nodes                ../starter/source/output/qaprint/st_qaprint_nodes.F
+      !||    st_qaprint_output_databases     ../starter/source/output/qaprint/st_qaprint_output_databases.F
+      !||    st_qaprint_properties           ../starter/source/output/qaprint/st_qaprint_properties.F
+      !||    st_qaprint_reference_state      ../starter/source/output/qaprint/st_qaprint_reference_state.F
+      !||    st_qaprint_refsta               ../starter/source/output/qaprint/st_qaprint_refsta.F
+      !||    st_qaprint_seatbelts            ../starter/source/output/qaprint/st_qaprint_seatbelts.F
+      !||    st_qaprint_set                  ../starter/source/output/qaprint/st_qaprint_set.F
+      !||    st_qaprint_surf                 ../starter/source/output/qaprint/st_qaprint_surf.F
+      !||    st_qaprint_time_histories       ../starter/source/output/qaprint/st_qaprint_time_histories.F
+      !||    st_qaprint_transformations      ../starter/source/output/qaprint/st_qaprint_transformations.F
+      !||    st_qaprint_userwi               ../starter/source/output/qaprint/st_qaprint_userwi.F
+      !||--- uses       -----------------------------------------------------
+      !||    cluster_mod                     ../starter/share/modules1/cluster_mod.F
+      !||    defaults_mod                    ../starter/source/modules/defaults_mod.F90
+      !||    detonators_mod                  ../starter/share/modules1/detonators_mod.F
+      !||    drape_mod                       ../starter/share/modules1/drape_mod.F
+      !||    func2d_mod                      ../starter/share/modules1/func2d_mod.F
+      !||    inimap1d_mod                    ../starter/share/modules1/inimap1d_mod.F
+      !||    inimap2d_mod                    ../starter/share/modules1/inimap2d_mod.F
+      !||    monvol_struct_mod               ../starter/share/modules1/monvol_struct_mod.F
+      !||    sensor_mod                      ../starter/share/modules1/sensor_mod.F
+      !||    submodel_mod                    ../starter/share/modules1/submodel_mod.F
+      !||    table_mod                       ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE ST_QAPRINT_DRIVER(IGEO        ,GEO        ,BUFGEO          ,IPM            ,PM               ,
      2                             BUFMAT      ,NOM_OPT    ,INOM_OPT        ,NUMLOADP       ,ILOADP           ,
      3                             LLOADP      ,LOADP      ,IBCL            ,FORC           ,IPRES            ,

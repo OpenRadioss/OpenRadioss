@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_COLLECT_SEATBELT         source/mpi/output/spmd_collect_seatbelt.F
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_collect_seatbelt   ../engine/source/mpi/output/spmd_collect_seatbelt.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2                   ../engine/source/output/th/hist2.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    seatbelt_mod            ../common_source/modules/seatbelt_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_COLLECT_SEATBELT()
 C-----------------------------------------------
       USE SEATBELT_MOD

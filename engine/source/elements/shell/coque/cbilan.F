@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBILAN                        source/elements/shell/coque/cbilan.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F 
-Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    cbilan                ../engine/source/elements/shell/coque/cbilan.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3              ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||    cforc3                ../engine/source/elements/shell/coque/cforc3.F
+      !||    cforc3_crk            ../engine/source/elements/xfem/cforc3_crk.F
+      !||    czforc3               ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk           ../engine/source/elements/xfem/czforc3_crk.F
+      !||--- calls      -----------------------------------------------------
+      !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
+      !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE CBILAN(
      1   JFT,      JLT,      PM,       V,
      2   IXC,      THK,      EINT,     PARTSAV,

@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_GET_FLOAT_ARRAY_2INDEXES   source/devtools/hm_reader/hm_get_float_array_2indexes.F
-Chd|-- called by -----------
-Chd|        HM_READ_DRAPE                 source/properties/composite_options/drape/hm_read_drape.F
-Chd|        HM_READ_PROP17                source/properties/shell/hm_read_prop17.F
-Chd|        HM_READ_PROP51                source/properties/shell/hm_read_prop51.F
-Chd|        HM_READ_STACK                 source/stack/hm_read_stack.F  
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_get_float_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_float_array_2indexes.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_drape                 ../starter/source/properties/composite_options/drape/hm_read_drape.F
+      !||    hm_read_prop17                ../starter/source/properties/shell/hm_read_prop17.F
+      !||    hm_read_prop51                ../starter/source/properties/shell/hm_read_prop51.F
+      !||    hm_read_stack                 ../starter/source/stack/hm_read_stack.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                   ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_GET_FLOAT_ARRAY_2INDEXES(NAME,RVAL,INDEX1,INDEX2,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

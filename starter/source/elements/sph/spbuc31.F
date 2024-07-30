@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPBUC31                       source/elements/sph/spbuc31.F 
-Chd|-- called by -----------
-Chd|        SPTRI                         source/elements/sph/sptri.F   
-Chd|-- calls ---------------
-Chd|        SPTRIVOX                      source/elements/sph/sptrivox.F
-Chd|        TRI7BOX                       share/modules1/tri7box.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    spbuc31    ../starter/source/elements/sph/spbuc31.F
+      !||--- called by ------------------------------------------------------
+      !||    sptri      ../starter/source/elements/sph/sptri.F
+      !||--- calls      -----------------------------------------------------
+      !||    sptrivox   ../starter/source/elements/sph/sptrivox.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box    ../starter/share/modules1/tri7box.F
+      !||====================================================================
       SUBROUTINE SPBUC31(X      ,KXSP  ,IXSP  ,NOD2SP,
      2                   SPBUF  ,MA    ,JVOIS ,JSTOR ,JPERM ,
      3                   DVOIS  ,IREDUCE,KREDUCE,BMINMA)
@@ -126,13 +127,12 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPPRO31                       source/elements/sph/spbuc31.F 
-Chd|-- called by -----------
-Chd|        SPTRIVOX                      source/elements/sph/sptrivox.F
-Chd|-- calls ---------------
-Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sppro31    ../starter/source/elements/sph/spbuc31.F
+      !||--- called by ------------------------------------------------------
+      !||    sptrivox   ../starter/source/elements/sph/sptrivox.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPPRO31(IL    ,KXSP ,IXSP ,NOD2SP,JVOIS,
      .                  JSTOR,JPERM ,DVOIS,IREDUCE,KREDUCE)
 C-----------------------------------------------

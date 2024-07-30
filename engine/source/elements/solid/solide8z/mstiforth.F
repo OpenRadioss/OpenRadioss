@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MSTIFORTH                     source/elements/solid/solide8z/mstiforth.F
-Chd|-- called by -----------
-Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
-Chd|-- calls ---------------
-Chd|        CBATRAN3                      source/elements/shell/coqueba/cbasumg3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    mstiforth   ../engine/source/elements/solid/solide8z/mstiforth.F
+      !||--- called by ------------------------------------------------------
+      !||    mmats       ../engine/source/elements/solid/solide8z/mmats.F
+      !||--- calls      -----------------------------------------------------
+      !||    cbatran3    ../engine/source/elements/shell/coqueba/cbasumg3.F
+      !||====================================================================
       SUBROUTINE MSTIFORTH(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                     QG     ,CC    ,G3  ,G33  ,CG     ) 
 C-----------------------------------------------

@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  S6CDERI3                      source/elements/thickshell/solide6c/s6cderi3.F
-Chd|-- called by -----------
-Chd|        S6CINIT3                      source/elements/thickshell/solide6c/s6cinit3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        SLEN                          source/elements/solid/solide/slen.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s6cderi3      ../starter/source/elements/thickshell/solide6c/s6cderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s6cinit3      ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    slen          ../starter/source/elements/solid/solide/slen.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S6CDERI3(NEL ,VOL  ,GEO   ,VZL   ,NGL, DELTAX, DET, 
      .     X1, X2, X3, X4, X5, X6, 
      .     Y1, Y2, Y3, Y4, Y5, Y6,

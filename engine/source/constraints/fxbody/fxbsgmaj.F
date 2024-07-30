@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FXBSGMAJ                      source/constraints/fxbody/fxbsgmaj.F
-Chd|-- called by -----------
-Chd|        FXBODFP1                      source/constraints/fxbody/fxbodfp.F
-Chd|-- calls ---------------
-Chd|        SCHREP                        source/constraints/fxbody/fxbsgmaj.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fxbsgmaj       ../engine/source/constraints/fxbody/fxbsgmaj.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbodfp1       ../engine/source/constraints/fxbody/fxbodfp.F
+      !||--- calls      -----------------------------------------------------
+      !||    schrep         ../engine/source/constraints/fxbody/fxbsgmaj.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE FXBSGMAJ(ELBUF, FXBELM , FXBSIG, FXBDEP, FXBIPM ,
      .                    EIEL , PARTSAV, RT    , ITN   , IPARG  ,
      .                    NFX  , LVSIG  , IRCS  ,ELBUF_TAB)
@@ -442,12 +443,11 @@ C
 C
       RETURN
       END SUBROUTINE FXBSGMAJ
-Chd|====================================================================
-Chd|  SCHREP                        source/constraints/fxbody/fxbsgmaj.F
-Chd|-- called by -----------
-Chd|        FXBSGMAJ                      source/constraints/fxbody/fxbsgmaj.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    schrep     ../engine/source/constraints/fxbody/fxbsgmaj.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbsgmaj   ../engine/source/constraints/fxbody/fxbsgmaj.F
+      !||====================================================================
       SUBROUTINE SCHREP(NEL, SIG, SIGL, R)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

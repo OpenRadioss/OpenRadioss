@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FIXFLUX                       source/constraints/thermic/fixflux.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        S4VOLUME                      source/elements/solid/solide4/s4volume.F
-Chd|        S8EVOLUME                     source/elements/solid/solide8e/s8evolume.F
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    fixflux      ../engine/source/constraints/thermic/fixflux.F
+      !||--- called by ------------------------------------------------------
+      !||    resol        ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret        ../engine/source/system/arret.F
+      !||    finter       ../engine/source/tools/curve/finter.F
+      !||    s4volume     ../engine/source/elements/solid/solide4/s4volume.F
+      !||    s8evolume    ../engine/source/elements/solid/solide8e/s8evolume.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE FIXFLUX (IBFFLUX ,FBFFLUX ,NPC   ,TF  ,X  ,IXS,
      1                    NSENSOR ,SENSOR_TAB,FTHE  ,IAD ,FTHESKY)
 C-----------------------------------------------

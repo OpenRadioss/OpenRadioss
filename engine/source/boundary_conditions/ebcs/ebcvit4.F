@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  EBCVIT4                       source/boundary_conditions/ebcs/ebcvit4.F
-Chd|-- called by -----------
-Chd|        EBCCLAP                       source/boundary_conditions/ebcs/ebcclap.F
-Chd|-- calls ---------------
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ebcvit4    ../engine/source/boundary_conditions/ebcs/ebcvit4.F
+      !||--- called by ------------------------------------------------------
+      !||    ebcclap    ../engine/source/boundary_conditions/ebcs/ebcclap.F
+      !||--- uses       -----------------------------------------------------
+      !||    ebcs_mod   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||====================================================================
       SUBROUTINE EBCVIT4(V, A, LISTE, NOD, FV, RESO, LA, EBCS)
       USE EBCS_MOD
 C-----------------------------------------------

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M26TH                         source/materials/mat/mat026/m26th.F
-Chd|-- called by -----------
-Chd|        ATHERM                        source/ale/atherm.F           
-Chd|-- calls ---------------
-Chd|        MINTP_RT                      ../common_source/eos/mintp_rt.F
-Chd|====================================================================
+      !||====================================================================
+      !||    m26th      ../engine/source/materials/mat/mat026/m26th.F
+      !||--- called by ------------------------------------------------------
+      !||    atherm     ../engine/source/ale/atherm.F
+      !||--- calls      -----------------------------------------------------
+      !||    mintp_rt   ../common_source/eos/mintp_rt.F
+      !||====================================================================
       SUBROUTINE M26TH(
      1   MAT,     RHO,     T,       XK,
      2   PM,      SESAME,  Z,       NEL,

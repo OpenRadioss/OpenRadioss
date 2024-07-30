@@ -20,100 +20,100 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NLOCAL_REG_MOD                modules/nlocal_reg_mod.F      
-Chd|-- called by -----------
-Chd|        C3FINT_REG_INI                starter/source/elements/sh3n/coque3n/c3fint_reg_ini.F
-Chd|        C3INIT3                       starter/source/elements/sh3n/coque3n/c3init3.F
-Chd|        CBAFINT_REG_INI               starter/source/elements/shell/coqueba/cbafint_reg_ini.F
-Chd|        CBAINIT3                      starter/source/elements/shell/coqueba/cbainit3.F
-Chd|        CDKFINT_REG_INI               starter/source/elements/sh3n/coquedk/cdkfint_reg_ini.F
-Chd|        CDKINIT3                      starter/source/elements/sh3n/coquedk/cdkinit3.F
-Chd|        CFINT_REG_INI                 starter/source/elements/shell/coque/cfint_reg_ini.F
-Chd|        CINIT3                        starter/source/elements/shell/coque/cinit3.F
-Chd|        C_FRONT                       starter/source/restart/ddsplit/c_front.F
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        HM_READ_FAIL                  starter/source/materials/fail/hm_read_fail.F
-Chd|        HM_READ_FAIL_GURSON           starter/source/materials/fail/gurson/hm_read_fail_gurson.F
-Chd|        HM_READ_NONLOCAL              starter/source/materials/nonlocal/hm_read_nonlocal.F
-Chd|        INITIA                        starter/source/elements/initia/initia.F
-Chd|        LAW104_UPD                    starter/source/materials/mat/mat104/law104_upd.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        NLOCAL_INIT_STA               starter/source/materials/fail/nlocal_init_sta.F
-Chd|        NLOC_DMG_INIT                 starter/source/materials/fail/nloc_dmg_init.F
-Chd|        R2R_GROUP                     starter/source/coupling/rad2rad/r2r_group.F
-Chd|        READ_MATERIAL_MODELS          starter/source/materials/read_material_models.F
-Chd|        UPDMAT                        starter/source/materials/updmat.F
-Chd|        WRITE_NLOC_STRUCT             starter/source/restart/ddsplit/write_nloc_struct.F
-Chd|        W_FRONT                       starter/source/restart/ddsplit/w_front.F
-Chd|        ALEMAIN                       engine/source/ale/alemain.F   
-Chd|        BFORC2                        engine/source/ale/bimat/bforc2.F
-Chd|        C3FINT_REG                    engine/source/elements/sh3n/coque3n/c3fint_reg.F
-Chd|        C3FORC3                       engine/source/elements/sh3n/coque3n/c3forc3.F
-Chd|        C3FORC3_CRK                   engine/source/elements/xfem/c3forc3_crk.F
-Chd|        CBAFINT_REG                   engine/source/elements/shell/coqueba/cbafint_reg.F
-Chd|        CBAFORC3                      engine/source/elements/shell/coqueba/cbaforc3.F
-Chd|        CBAVARNL                      engine/source/elements/shell/coqueba/cbavarnl.F
-Chd|        CDK6FINT_REG                  engine/source/elements/sh3n/coquedk6/cdk6fint_reg.F
-Chd|        CDK6FORC3                     engine/source/elements/sh3n/coquedk6/cdk6forc3.F
-Chd|        CDKFINT_REG                   engine/source/elements/sh3n/coquedk/cdkfint_reg.F
-Chd|        CDKFORC3                      engine/source/elements/sh3n/coquedk/cdkforc3.F
-Chd|        CFINT_REG                     engine/source/elements/shell/coque/cfint_reg.F
-Chd|        CFORC3                        engine/source/elements/shell/coque/cforc3.F
-Chd|        CFORC3_CRK                    engine/source/elements/xfem/cforc3_crk.F
-Chd|        CMAIN3                        engine/source/materials/mat_share/cmain3.F
-Chd|        CZFORC3                       engine/source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   engine/source/elements/xfem/czforc3_crk.F
-Chd|        DTCBA_REG                     engine/source/elements/shell/coqueba/dtcba_reg.F
-Chd|        DTCDK_REG                     engine/source/elements/sh3n/coquedk/dtcdk_reg.F
-Chd|        FORINT                        engine/source/elements/forint.F
-Chd|        FORINTC                       engine/source/elements/forintc.F
-Chd|        FORINTP                       engine/source/elements/forintp.F
-Chd|        IG3DUFORC3                    engine/source/elements/ige3d/ig3duforc3.F
-Chd|        MULAWC                        engine/source/materials/mat_share/mulawc.F
-Chd|        NLOCAL_ACC                    engine/source/assembly/nlocal_acc.F
-Chd|        NLOCAL_DTNODA                 engine/source/time_step/nlocal_dtnoda.F
-Chd|        NLOCAL_INCR                   engine/source/assembly/nlocal_incr.F
-Chd|        NLOCAL_VEL                    engine/source/assembly/nlocal_vel.F
-Chd|        Q4FORC2                       engine/source/elements/solid_2d/quad4/q4forc2.F
-Chd|        QFORC2                        engine/source/elements/solid_2d/quad/qforc2.F
-Chd|        R2R_EXCHANGE                  engine/source/coupling/rad2rad/r2r_exchange.F
-Chd|        R2R_GETDATA                   engine/source/coupling/rad2rad/r2r_getdata.F
-Chd|        R2R_INIT                      engine/source/coupling/rad2rad/r2r_init.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        READ_NLOC_STRUCT              engine/source/output/restart/read_nloc_struct.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESOL_INIT                    engine/source/engine/resol_init.F
-Chd|        S10FORC3                      engine/source/elements/solid/solide10/s10forc3.F
-Chd|        S16FORC3                      engine/source/elements/thickshell/solide16/s16forc3.F
-Chd|        S20FORC3                      engine/source/elements/solid/solide20/s20forc3.F
-Chd|        S4FINT_REG                    engine/source/elements/solid/solide4/s4fint_reg.F
-Chd|        S4FORC3                       engine/source/elements/solid/solide4/s4forc3.F
-Chd|        S6CFINT_REG                   engine/source/elements/thickshell/solide6c/s6cfint_reg.F
-Chd|        S6CFORC3                      engine/source/elements/thickshell/solide6c/s6cforc3.F
-Chd|        S8CFINT_REG                   engine/source/elements/thickshell/solide8c/s8cfint_reg.F
-Chd|        S8CFORC3                      engine/source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8EFORC3                      engine/source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8SFORC3                      engine/source/elements/solid/solide8s/s8sforc3.F
-Chd|        S8ZFINT_REG                   engine/source/elements/solid/solide8z/s8zfint_reg.F
-Chd|        S8ZFORC3                      engine/source/elements/solid/solide8z/s8zforc3.F
-Chd|        SCFINT_REG                    engine/source/elements/thickshell/solidec/scfint_reg.F
-Chd|        SCFORC3                       engine/source/elements/thickshell/solidec/scforc3.F
-Chd|        SFINT_REG                     engine/source/elements/solid/solide/sfint_reg.F
-Chd|        SFORC3                        engine/source/elements/solid/solide/sforc3.F
-Chd|        SPMD_COLLECT_NLOCAL           engine/source/mpi/output/spmd_collect_nlocal.F
-Chd|        SPMD_EXCH_R2R_NL              engine/source/mpi/r2r/spmd_exch_r2r_nl.F
-Chd|        SPMD_EXCH_SUB_POFF            engine/source/mpi/spmd_exch_sub.F
-Chd|        SPMD_EXCH_SUB_PON             engine/source/mpi/spmd_exch_sub.F
-Chd|        SPMD_SUB_BOUNDARIES           engine/source/mpi/spmd_exch_sub.F
-Chd|        SPSTRES                       engine/source/elements/sph/spstres.F
-Chd|        SZFORC3                       engine/source/elements/solid/solidez/szforc3.F
-Chd|        USERMAT_SHELL                 engine/source/materials/mat_share/usermat_shell.F
-Chd|        USERMAT_SOLID                 engine/source/materials/mat_share/usermat_solid.F
-Chd|        WRITE_NLOC_STRUCT             engine/source/output/restart/write_nloc_struct.F
-Chd|        RESTMOD                       engine/share/modules/restart_mod.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain                ../engine/source/ale/alemain.F
+      !||    bforc2                 ../engine/source/ale/bimat/bforc2.F
+      !||    c3fint_reg             ../engine/source/elements/sh3n/coque3n/c3fint_reg.F
+      !||    c3fint_reg_ini         ../starter/source/elements/sh3n/coque3n/c3fint_reg_ini.F
+      !||    c3forc3                ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||    c3forc3_crk            ../engine/source/elements/xfem/c3forc3_crk.F
+      !||    c3init3                ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    c_front                ../starter/source/restart/ddsplit/c_front.F
+      !||    cbafint_reg            ../engine/source/elements/shell/coqueba/cbafint_reg.F
+      !||    cbafint_reg_ini        ../starter/source/elements/shell/coqueba/cbafint_reg_ini.F
+      !||    cbaforc3               ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||    cbainit3               ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cbavarnl               ../engine/source/elements/shell/coqueba/cbavarnl.F
+      !||    cdk6fint_reg           ../engine/source/elements/sh3n/coquedk6/cdk6fint_reg.F
+      !||    cdk6forc3              ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+      !||    cdkfint_reg            ../engine/source/elements/sh3n/coquedk/cdkfint_reg.F
+      !||    cdkfint_reg_ini        ../starter/source/elements/sh3n/coquedk/cdkfint_reg_ini.F
+      !||    cdkforc3               ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+      !||    cdkinit3               ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||    cfint_reg              ../engine/source/elements/shell/coque/cfint_reg.F
+      !||    cfint_reg_ini          ../starter/source/elements/shell/coque/cfint_reg_ini.F
+      !||    cforc3                 ../engine/source/elements/shell/coque/cforc3.F
+      !||    cforc3_crk             ../engine/source/elements/xfem/cforc3_crk.F
+      !||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
+      !||    cmain3                 ../engine/source/materials/mat_share/cmain3.F
+      !||    czforc3                ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk            ../engine/source/elements/xfem/czforc3_crk.F
+      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+      !||    dtcba_reg              ../engine/source/elements/shell/coqueba/dtcba_reg.F
+      !||    dtcdk_reg              ../engine/source/elements/sh3n/coquedk/dtcdk_reg.F
+      !||    forint                 ../engine/source/elements/forint.F
+      !||    forintc                ../engine/source/elements/forintc.F
+      !||    forintp                ../engine/source/elements/forintp.F
+      !||    hm_read_fail           ../starter/source/materials/fail/hm_read_fail.F
+      !||    hm_read_fail_gurson    ../starter/source/materials/fail/gurson/hm_read_fail_gurson.F
+      !||    hm_read_nonlocal       ../starter/source/materials/nonlocal/hm_read_nonlocal.F
+      !||    ig3duforc3             ../engine/source/elements/ige3d/ig3duforc3.F
+      !||    initia                 ../starter/source/elements/initia/initia.F
+      !||    law104_upd             ../starter/source/materials/mat/mat104/law104_upd.F
+      !||    lectur                 ../engine/source/input/lectur.F
+      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+      !||    mulaw                  ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulawc                 ../engine/source/materials/mat_share/mulawc.F
+      !||    nloc_dmg_init          ../starter/source/materials/fail/nloc_dmg_init.F
+      !||    nlocal_acc             ../engine/source/assembly/nlocal_acc.F
+      !||    nlocal_dtnoda          ../engine/source/time_step/nlocal_dtnoda.F
+      !||    nlocal_incr            ../engine/source/assembly/nlocal_incr.F
+      !||    nlocal_init_sta        ../starter/source/materials/fail/nlocal_init_sta.F
+      !||    nlocal_vel             ../engine/source/assembly/nlocal_vel.F
+      !||    q4forc2                ../engine/source/elements/solid_2d/quad4/q4forc2.F
+      !||    qforc2                 ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||    r2r_exchange           ../engine/source/coupling/rad2rad/r2r_exchange.F
+      !||    r2r_getdata            ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||    r2r_group              ../starter/source/coupling/rad2rad/r2r_group.F
+      !||    r2r_init               ../engine/source/coupling/rad2rad/r2r_init.F
+      !||    rdresb                 ../engine/source/output/restart/rdresb.F
+      !||    read_material_models   ../starter/source/materials/read_material_models.F
+      !||    read_nloc_struct       ../engine/source/output/restart/read_nloc_struct.F
+      !||    resol                  ../engine/source/engine/resol.F
+      !||    resol_init             ../engine/source/engine/resol_init.F
+      !||    restmod                ../engine/share/modules/restart_mod.F
+      !||    s10forc3               ../engine/source/elements/solid/solide10/s10forc3.F
+      !||    s16forc3               ../engine/source/elements/thickshell/solide16/s16forc3.F
+      !||    s20forc3               ../engine/source/elements/solid/solide20/s20forc3.F
+      !||    s4fint_reg             ../engine/source/elements/solid/solide4/s4fint_reg.F
+      !||    s4forc3                ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    s6cfint_reg            ../engine/source/elements/thickshell/solide6c/s6cfint_reg.F
+      !||    s6cforc3               ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s8cfint_reg            ../engine/source/elements/thickshell/solide8c/s8cfint_reg.F
+      !||    s8cforc3               ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3               ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8sforc3               ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||    s8zfint_reg            ../engine/source/elements/solid/solide8z/s8zfint_reg.F
+      !||    s8zforc3               ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    scfint_reg             ../engine/source/elements/thickshell/solidec/scfint_reg.F
+      !||    scforc3                ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||    sfint_reg              ../engine/source/elements/solid/solide/sfint_reg.F
+      !||    sforc3                 ../engine/source/elements/solid/solide/sforc3.F
+      !||    spmd_collect_nlocal    ../engine/source/mpi/output/spmd_collect_nlocal.F
+      !||    spmd_exch_r2r_nl       ../engine/source/mpi/r2r/spmd_exch_r2r_nl.F
+      !||    spmd_exch_sub_poff     ../engine/source/mpi/spmd_exch_sub.F
+      !||    spmd_exch_sub_pon      ../engine/source/mpi/spmd_exch_sub.F
+      !||    spmd_sub_boundaries    ../engine/source/mpi/spmd_exch_sub.F
+      !||    spstres                ../engine/source/elements/sph/spstres.F
+      !||    szforc3                ../engine/source/elements/solid/solidez/szforc3.F
+      !||    updmat                 ../starter/source/materials/updmat.F
+      !||    usermat_shell          ../engine/source/materials/mat_share/usermat_shell.F
+      !||    usermat_solid          ../engine/source/materials/mat_share/usermat_solid.F
+      !||    w_front                ../starter/source/restart/ddsplit/w_front.F
+      !||    write_nloc_struct      ../engine/source/output/restart/write_nloc_struct.F
+      !||====================================================================
       MODULE NLOCAL_REG_MOD
 C----------------------------------------------------------------------- 
 #include "my_real.inc"
@@ -174,14 +174,13 @@ C       SPMD PON BOUNDARIES
 c=======================================================================      
 c define routine GET_LEMAX to automatically determine the maximal element length
 c======================================================================= 
-Chd|====================================================================
-Chd|  GET_LEMAX                     modules/nlocal_reg_mod.F      
-Chd|-- called by -----------
-Chd|        HM_READ_FAIL_GURSON           starter/source/materials/fail/gurson/hm_read_fail_gurson.F
-Chd|        HM_READ_NONLOCAL              starter/source/materials/nonlocal/hm_read_nonlocal.F
-Chd|        LAW104_UPD                    starter/source/materials/mat/mat104/law104_upd.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    get_lemax             ../common_source/modules/nlocal_reg_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_fail_gurson   ../starter/source/materials/fail/gurson/hm_read_fail_gurson.F
+      !||    hm_read_nonlocal      ../starter/source/materials/nonlocal/hm_read_nonlocal.F
+      !||    law104_upd            ../starter/source/materials/mat/mat104/law104_upd.F
+      !||====================================================================
         SUBROUTINE GET_LEMAX(LE_MAX,NLOC_LENGTH)
 #include      "implicit_f.inc"
           my_real, INTENT(IN)  :: NLOC_LENGTH
@@ -191,13 +190,12 @@ Chd|====================================================================
 c=======================================================================      
 c define routine GET_LENGTH to automatically determine the maximal element length
 c======================================================================= 
-Chd|====================================================================
-Chd|  GET_LENGTH                    modules/nlocal_reg_mod.F      
-Chd|-- called by -----------
-Chd|        HM_READ_FAIL_GURSON           starter/source/materials/fail/gurson/hm_read_fail_gurson.F
-Chd|        HM_READ_NONLOCAL              starter/source/materials/nonlocal/hm_read_nonlocal.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    get_length            ../common_source/modules/nlocal_reg_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_fail_gurson   ../starter/source/materials/fail/gurson/hm_read_fail_gurson.F
+      !||    hm_read_nonlocal      ../starter/source/materials/nonlocal/hm_read_nonlocal.F
+      !||====================================================================
         SUBROUTINE GET_LENGTH(NLOC_LENGTH,LE_MAX)
 #include      "implicit_f.inc"
           my_real, INTENT(IN)  :: LE_MAX

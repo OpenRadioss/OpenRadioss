@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FILTER_SAE211                 source/tools/sensor/filter_sae211.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    filter_sae211   ../engine/source/tools/sensor/filter_sae211.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE FILTER_SAE211(NPT,NT,NH,A0,A1,A2,B1,B2,VAR)
 C-----------------------------------------------
 C   M o d u l e s

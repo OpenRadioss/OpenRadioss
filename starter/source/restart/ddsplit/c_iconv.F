@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C_ICONV                       source/restart/ddsplit/c_iconv.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c_iconv   ../starter/source/restart/ddsplit/c_iconv.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit   ../starter/source/restart/ddsplit/ddsplit.F
+      !||====================================================================
       SUBROUTINE C_ICONV(IBCV,CEP,PROC,NCONV_L)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

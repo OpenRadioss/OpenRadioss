@@ -20,16 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SOLTOSPH_MOD                  share/modules/soltosph_mod.F  
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|        SOLTOSPHA                     source/elements/sph/soltospha.F
-Chd|        SOLTOSPHF                     source/elements/sph/soltosph.F
-Chd|        SOLTOSPH_ON2                  source/elements/sph/soltosph_on2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    soltosph_mod   ../engine/share/modules/soltosph_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2       ../engine/source/engine/radioss2.F
+      !||    resol_head     ../engine/source/engine/resol_head.F
+      !||    soltosph_on2   ../engine/source/elements/sph/soltosph_on2.F
+      !||    soltospha      ../engine/source/elements/sph/soltospha.F
+      !||    soltosphf      ../engine/source/elements/sph/soltosph.F
+      !||====================================================================
       MODULE SOLTOSPH_MOD
       implicit none
 #include      "my_real.inc"

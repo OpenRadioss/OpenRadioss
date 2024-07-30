@@ -21,18 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_I17FROTS_PON             source/mpi/interfaces/spmd_i17frots_pon.F
-Chd|-- called by -----------
-Chd|        I17FOR3                       source/interfaces/int17/i17for3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        INTCONTP                      source/mpi/interfaces/spmd_i7tool.F
-Chd|        SORTI20                       source/mpi/interfaces/spmd_i7tool.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_i17frots_pon   ../engine/source/mpi/interfaces/spmd_i17frots_pon.F
+      !||--- called by ------------------------------------------------------
+      !||    i17for3             ../engine/source/interfaces/int17/i17for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg              ../engine/source/output/message/message.F
+      !||    arret               ../engine/source/system/arret.F
+      !||    intcontp            ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    sorti20             ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||    tri7box             ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_I17FROTS_PON(
      1      NSKYI17 ,ISKYI17,FSKYI17,NRSKYI17,IRSKYI17,
      2      FRSKYI17,NIN    ,LSKYI17,NOINT   )

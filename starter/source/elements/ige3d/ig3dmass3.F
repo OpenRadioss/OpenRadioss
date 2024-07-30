@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IG3DMASS3                     source/elements/ige3d/ig3dmass3.F
-Chd|-- called by -----------
-Chd|        IG3DINIT3                     source/elements/ige3d/ig3dinit3.F
-Chd|-- calls ---------------
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ig3dmass3   ../starter/source/elements/ige3d/ig3dmass3.F
+      !||--- called by ------------------------------------------------------
+      !||    ig3dinit3   ../starter/source/elements/ige3d/ig3dinit3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE IG3DMASS3(
      1  RHO    ,MS    ,PARTSAV,X     ,Y      ,
      2  Z      ,VX    ,VY     ,VZ    ,IPART  ,

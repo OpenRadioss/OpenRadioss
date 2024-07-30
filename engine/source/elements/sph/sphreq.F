@@ -23,14 +23,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C     Build buckets from segments & particles.
 C-----------------------------------------------
-Chd|====================================================================
-Chd|  SPHREQS                       source/elements/sph/sphreq.F  
-Chd|-- called by -----------
-Chd|        SPONOF1                       source/elements/sph/sponof1.F 
-Chd|        SPONOF2                       source/elements/sph/sponof2.F 
-Chd|-- calls ---------------
-Chd|        SPH_NODSEG                    source/elements/sph/sph_nodseg.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sphreqs      ../engine/source/elements/sph/sphreq.F
+      !||--- called by ------------------------------------------------------
+      !||    sponof1      ../engine/source/elements/sph/sponof1.F
+      !||    sponof2      ../engine/source/elements/sph/sponof2.F
+      !||--- calls      -----------------------------------------------------
+      !||    sph_nodseg   ../engine/source/elements/sph/sph_nodseg.F
+      !||====================================================================
       SUBROUTINE SPHREQS(NSEG ,ISEG ,X    ,NCEL ,IXP     ,
      2                LONFSPH ,KXSP ,NSX  ,ISX  ,NSY     ,
      3                ISY     ,NSZ  ,ISZ  ,NPX  ,IPX     ,

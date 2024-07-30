@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPADASM0                      source/elements/sph/spadasm.F 
-Chd|-- called by -----------
-Chd|        SPHPREP                       source/elements/sph/sphprep.F 
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spadasm0   ../engine/source/elements/sph/spadasm.F
+      !||--- called by ------------------------------------------------------
+      !||    sphprep    ../engine/source/elements/sph/sphprep.F
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox     ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPADASM0(
      1    X       ,V       ,MS      ,SPBUF   ,ITAB    ,
      2    KXSP    ,IXSP    ,NOD2SP  ,ISPCOND ,ISPSYM  ,
@@ -115,13 +115,13 @@ C-------------------------------------------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPADASM                       source/elements/sph/spadasm.F 
-Chd|-- called by -----------
-Chd|        SPHPREP                       source/elements/sph/sphprep.F 
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spadasm   ../engine/source/elements/sph/spadasm.F
+      !||--- called by ------------------------------------------------------
+      !||    sphprep   ../engine/source/elements/sph/sphprep.F
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox    ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPADASM(
      1    X       ,V       ,MS      ,SPBUF   ,ITAB    ,
      2    KXSP    ,IXSP    ,NOD2SP  ,ISPCOND ,ISPSYM  ,

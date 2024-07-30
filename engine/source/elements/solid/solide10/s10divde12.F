@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10DIVDE12                    source/elements/solid/solide10/s10divde12.F
-Chd|-- called by -----------
-Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s10divde12   ../engine/source/elements/solid/solide10/s10divde12.F
+      !||--- called by ------------------------------------------------------
+      !||    s10forc3     ../engine/source/elements/solid/solide10/s10forc3.F
+      !||====================================================================
       SUBROUTINE S10DIVDE12(DVM ,DIVDE ,FACP,OFFG,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

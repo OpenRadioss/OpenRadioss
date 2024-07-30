@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4VOLN_M                      source/elements/solid/solide4_sfem/s4voln_m.F
-Chd|-- called by -----------
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|-- calls ---------------
-Chd|        JACOB_J33                     source/elements/solid/solide8e/jacob_j33.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s4voln_m           ../engine/source/elements/solid/solide4_sfem/s4voln_m.F
+      !||--- called by ------------------------------------------------------
+      !||    s4forc3            ../engine/source/elements/solid/solide4/s4forc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    jacob_j33          ../engine/source/elements/solid/solide8e/jacob_j33.F
+      !||--- uses       -----------------------------------------------------
+      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||====================================================================
       SUBROUTINE S4VOLN_M(
      1   VARNOD,  NC1,     NC2,     NC3,
      2   NC4,     MAT,     OFFG,    RHO,

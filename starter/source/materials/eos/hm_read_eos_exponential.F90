@@ -25,6 +25,16 @@
 ! ======================================================================================================================
 !! \brief Reader for option /EOS/EXPONENTIAL
 !! \details  PM(31) = P(MU0,E0) -> will be used to initialize pressure from stress tensor SIG(1:3,*)
+      !||====================================================================
+      !||    hm_read_eos_exponential   ../starter/source/materials/eos/hm_read_eos_exponential.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos               ../starter/source/materials/eos/hm_read_eos.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_floatv             ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_option_is_encrypted    ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||--- uses       -----------------------------------------------------
+      !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       subroutine hm_read_eos_exponential(iout,pm,unitab,lsubmodel,npropm)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

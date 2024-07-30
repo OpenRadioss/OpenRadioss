@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_SETOFF_C                 source/materials/fail/fail_setoff_c.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
-Chd|-- calls ---------------
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_setoff_c   ../engine/source/materials/fail/fail_setoff_c.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc          ../engine/source/materials/mat_share/mulawc.F
+      !||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
+      !||--- uses       -----------------------------------------------------
+      !||    failwave_mod    ../common_source/modules/failwave_mod.F
+      !||    mat_elem_mod    ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    stack_mod       ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE FAIL_SETOFF_C(ELBUF_STR,MAT_ELEM ,GEO      ,PID      ,
      .                         NGL      ,NEL      ,NLAY     ,NPTTOT   ,
      .                         THK_LY   ,THKLY    ,OFF      ,STACK    ,

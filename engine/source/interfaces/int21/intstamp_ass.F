@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTSTAMP_ASS                  source/interfaces/int21/intstamp_ass.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SPMD_GLOB_DPSUM9              source/mpi/interfaces/spmd_th.F
-Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
-Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
-Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    intstamp_ass       ../engine/source/interfaces/int21/intstamp_ass.F
+      !||--- called by ------------------------------------------------------
+      !||    resol              ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_glob_dpsum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_glob_dsum9    ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_rbcast        ../engine/source/mpi/generic/spmd_rbcast.F
+      !||--- uses       -----------------------------------------------------
+      !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
+      !||====================================================================
       SUBROUTINE INTSTAMP_ASS(
      1           INTSTAMP,MS     ,IN      ,A     ,AR    ,
      2           STIFN   ,STIFR  ,WEIGHT  )

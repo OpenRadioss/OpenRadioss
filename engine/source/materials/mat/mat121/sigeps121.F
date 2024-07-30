@@ -20,15 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS121                     source/materials/mat/mat121/sigeps121.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MAT121_NEWTON                 source/materials/mat/mat121/mat121_newton.F
-Chd|        MAT121_NICE                   source/materials/mat/mat121/mat121_nice.F
-Chd|        VINTER2                       source/tools/curve/vinter.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps121       ../engine/source/materials/mat/mat121/sigeps121.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+      !||--- calls      -----------------------------------------------------
+      !||    mat121_newton   ../engine/source/materials/mat/mat121/mat121_newton.F
+      !||    mat121_nice     ../engine/source/materials/mat/mat121/mat121_nice.F
+      !||    vinter2         ../engine/source/tools/curve/vinter.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE SIGEPS121(
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,NPF      ,
      2     TF      ,TIMESTEP,TIME    ,UPARAM  ,UVAR    ,RHO     ,PLA      ,

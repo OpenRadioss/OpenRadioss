@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M25CRAK                       source/materials/mat/mat025/m25crak.F
-Chd|-- called by -----------
-Chd|        SIGEPS25C                     source/materials/mat/mat025/sigeps25c.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m25crak     ../engine/source/materials/mat/mat025/m25crak.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps25c   ../engine/source/materials/mat/mat025/sigeps25c.F
+      !||====================================================================
       SUBROUTINE M25CRAK(NEL   ,OFF   ,DMG   ,L_DMG ,DIR   ,ILAYER,
      .                   THLY  ,NGL   ,STRP1 ,STRP2 ,PLY_ID,IGTYP ,
      .                   IPG   ,EPST1 ,EPST2 ,EPSM1 ,EPSM2 ,DMAX  )

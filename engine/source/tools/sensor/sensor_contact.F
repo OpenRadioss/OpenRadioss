@@ -21,14 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C=======================================================================
-Chd|====================================================================
-Chd|  SENSOR_CONTACT                source/tools/sensor/sensor_contact.F
-Chd|-- called by -----------
-Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
-Chd|-- calls ---------------
-Chd|        BUTTERWORTH                   source/tools/univ/butterworth.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sensor_contact   ../engine/source/tools/sensor/sensor_contact.F
+      !||--- called by ------------------------------------------------------
+      !||    sensor_base      ../engine/source/tools/sensor/sensor_base.F
+      !||--- calls      -----------------------------------------------------
+      !||    butterworth      ../engine/source/tools/univ/butterworth.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SENSOR_CONTACT(SENSOR ,
      .           IPARI    ,DIMFB   ,STABS   ,TABS   ,FBSAV6)
 C-----------------------------------------------

@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  VINTER_SMOOTH                 source/tools/curve/vinter_smooth.F
-Chd|-- called by -----------
-Chd|        FIXTEMP                       source/constraints/thermic/fixtemp.F
-Chd|        FIXVEL                        source/constraints/general/impvel/fixvel.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    vinter_smooth   ../engine/source/tools/curve/vinter_smooth.F
+      !||--- called by ------------------------------------------------------
+      !||    fixtemp         ../engine/source/constraints/thermic/fixtemp.F
+      !||    fixvel          ../engine/source/constraints/general/impvel/fixvel.F
+      !||====================================================================
       SUBROUTINE VINTER_SMOOTH(TF,IAD,IPOS ,ILEN,NEL0,X,DYDX,Y)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ONEBASISFUN                   source/elements/ige3d/onebasisfun.F
-Chd|-- called by -----------
-Chd|        IG3DONEBASIS                  source/elements/ige3d/ig3donebasis.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    onebasisfun    ../starter/source/elements/ige3d/onebasisfun.F
+      !||--- called by ------------------------------------------------------
+      !||    ig3donebasis   ../starter/source/elements/ige3d/ig3donebasis.F
+      !||====================================================================
       SUBROUTINE ONEBASISFUN(IDXII, IDXI, PXI, XI, KXI, DERS1)
 C--------------------------------------------------------------------------------------------------------
 C

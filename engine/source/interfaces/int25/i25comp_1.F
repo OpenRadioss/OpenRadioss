@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25COMP_1                     source/interfaces/int25/i25comp_1.F
-Chd|-- called by -----------
-Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
-Chd|-- calls ---------------
-Chd|        I25COR3_1                     source/interfaces/int25/i25cor3.F
-Chd|        I25DST3_1                     source/interfaces/int25/i25dst3_1.F
-Chd|        I25GLOB_1                     source/interfaces/int25/i25dst3_1.F
-Chd|        I25PREP_SLID_1                source/interfaces/int25/i25slid.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25comp_1        ../engine/source/interfaces/int25/i25comp_1.F
+      !||--- called by ------------------------------------------------------
+      !||    i25main_slid     ../engine/source/interfaces/int25/i25main_slid.F
+      !||--- calls      -----------------------------------------------------
+      !||    i25cor3_1        ../engine/source/interfaces/int25/i25cor3.F
+      !||    i25dst3_1        ../engine/source/interfaces/int25/i25dst3_1.F
+      !||    i25glob_1        ../engine/source/interfaces/int25/i25dst3_1.F
+      !||    i25prep_slid_1   ../engine/source/interfaces/int25/i25slid.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25COMP_1(
      1                   IPARI   ,INTBUF_TAB ,X      ,ITAB   ,NIN        ,
      2                   KINET      ,JTASK  ,NB_DST1,V       ,NSENSOR    ,

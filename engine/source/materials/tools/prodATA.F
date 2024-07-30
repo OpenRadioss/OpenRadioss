@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C This subroutines computes C(NEL,3,3) which is the product [C] = [A]t[A]
-Chd|====================================================================
-Chd|  PRODATA                       source/materials/tools/prodATA.F
-Chd|-- called by -----------
-Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    prodata     ../engine/source/materials/tools/prodATA.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps190   ../engine/source/materials/mat/mat190/sigeps190.F
+      !||====================================================================
       SUBROUTINE PRODATA(A, C, E, NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

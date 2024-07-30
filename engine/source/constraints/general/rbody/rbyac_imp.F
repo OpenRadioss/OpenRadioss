@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RBYAC_IMP                     source/constraints/general/rbody/rbyac_imp.F
-Chd|-- called by -----------
-Chd|        DIM_NDOF_I                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rbyac_imp    ../engine/source/constraints/general/rbody/rbyac_imp.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_ndof_i   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE RBYAC_IMP(NPBY,ITAB,NRBYAC,IRBYAC,NSMAX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

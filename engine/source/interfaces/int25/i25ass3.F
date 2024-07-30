@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25ASS3                       source/interfaces/int25/i25ass3.F
-Chd|-- called by -----------
-Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|-- calls ---------------
-Chd|        I25ASS0                       source/interfaces/int25/i25ass3.F
-Chd|        I25ASS2                       source/interfaces/int25/i25ass3.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25ass3         ../engine/source/interfaces/int25/i25ass3.F
+      !||--- called by ------------------------------------------------------
+      !||    i25mainf        ../engine/source/interfaces/int25/i25mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    i25ass0         ../engine/source/interfaces/int25/i25ass3.F
+      !||    i25ass2         ../engine/source/interfaces/int25/i25ass3.F
+      !||--- uses       -----------------------------------------------------
+      !||    pinchtype_mod   ../common_source/modules/pinchtype_mod.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25ASS3(JLT     ,NSVG      ,ITAB      ,CE_LOC    ,
      2    JTASK       ,NIN       ,NOINT     ,INTPLY    ,A         ,
      3    STIF        ,STIFN     ,NISKYFI   ,FSKYI     ,ISKY      ,
@@ -113,16 +114,17 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I25ASS2                       source/interfaces/int25/i25ass3.F
-Chd|-- called by -----------
-Chd|        I25ASS3                       source/interfaces/int25/i25ass3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25ass2       ../engine/source/interfaces/int25/i25ass3.F
+      !||--- called by ------------------------------------------------------
+      !||    i25ass3       ../engine/source/interfaces/int25/i25ass3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25ASS2(JLT   ,IX1   ,IX2  ,IX3  ,IX4   ,
      2                  NSVG  ,H1    ,H2   ,H3   ,H4    ,STIF   ,
      3                  FX1   ,FY1   ,FZ1  ,FX2  ,FY2   ,FZ2    ,
@@ -357,14 +359,14 @@ C
 C      
       RETURN
       END
-Chd|====================================================================
-Chd|  I25ASS0                       source/interfaces/int25/i25ass3.F
-Chd|-- called by -----------
-Chd|        I25ASS3                       source/interfaces/int25/i25ass3.F
-Chd|-- calls ---------------
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25ass0         ../engine/source/interfaces/int25/i25ass3.F
+      !||--- called by ------------------------------------------------------
+      !||    i25ass3         ../engine/source/interfaces/int25/i25ass3.F
+      !||--- uses       -----------------------------------------------------
+      !||    pinchtype_mod   ../common_source/modules/pinchtype_mod.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25ASS0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
      3                  FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,

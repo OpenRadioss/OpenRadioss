@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C=======================================================================
-Chd|====================================================================
-Chd|  SENSOR_RWALL                  source/tools/sensor/sensor_rwall.F
-Chd|-- called by -----------
-Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sensor_rwall   ../engine/source/tools/sensor/sensor_rwall.F
+      !||--- called by ------------------------------------------------------
+      !||    sensor_base    ../engine/source/tools/sensor/sensor_base.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod     ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SENSOR_RWALL(SENSOR ,
      .           NPRW    ,DIMFB   ,STABS   ,TABS   ,FBSAV6)
 C-----------------------------------------------

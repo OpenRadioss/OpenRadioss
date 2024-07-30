@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  KINE_SEATBELT_VEL             source/tools/seatbelts/kine_seatbelt_vel.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    kine_seatbelt_vel   ../engine/source/tools/seatbelts/kine_seatbelt_vel.F
+      !||--- called by ------------------------------------------------------
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    seatbelt_mod        ../common_source/modules/seatbelt_mod.F
+      !||====================================================================
       SUBROUTINE KINE_SEATBELT_VEL(A,V,X,XDP)
 C-----------------------------------------------
 C   M o d u l e s

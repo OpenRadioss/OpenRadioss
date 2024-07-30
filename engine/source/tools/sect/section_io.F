@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SECTION_IO                    source/tools/sect/section_io.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        FLU_FIL_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        SECTION                       source/tools/sect/section.F   
-Chd|        SECTION_READ                  source/tools/sect/section_read.F
-Chd|        SECTION_READP                 source/tools/sect/section_readp.F
-Chd|        SPMD_EXCH_CUT                 source/mpi/sections/spmd_section.F
-Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
-Chd|        SPMD_WRT_CUTD                 source/mpi/sections/spmd_section.F
-Chd|        SPMD_WRT_CUTF                 source/mpi/sections/spmd_section.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    section_io        ../engine/source/tools/sect/section_io.F
+      !||--- called by ------------------------------------------------------
+      !||    resol             ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    cur_fil_c         ../common_source/tools/input_output/write_routtines.c
+      !||    flu_fil_c         ../common_source/tools/input_output/write_routtines.c
+      !||    section           ../engine/source/tools/sect/section.F
+      !||    section_read      ../engine/source/tools/sect/section_read.F
+      !||    section_readp     ../engine/source/tools/sect/section_readp.F
+      !||    spmd_exch_cut     ../engine/source/mpi/sections/spmd_section.F
+      !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_wrt_cutd     ../engine/source/mpi/sections/spmd_section.F
+      !||    spmd_wrt_cutf     ../engine/source/mpi/sections/spmd_section.F
+      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE SECTION_IO (
      1    NSTRF  ,D      ,DR    ,V     ,VR      ,FSAV   ,
      2    SECFCUM,A      ,AR    ,SECBUF,MS      ,IN     ,

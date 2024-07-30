@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2FOR28P_CIN                  source/interfaces/interf/i2for28p_cin.F
-Chd|-- called by -----------
-Chd|        I2FOR28P                      source/interfaces/interf/i2for28p.F
-Chd|-- calls ---------------
-Chd|        I2FORCES                      source/interfaces/interf/i2forces.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i2for28p_cin   ../engine/source/interfaces/interf/i2for28p_cin.F
+      !||--- called by ------------------------------------------------------
+      !||    i2for28p       ../engine/source/interfaces/interf/i2for28p.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2forces       ../engine/source/interfaces/interf/i2forces.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod        ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I2FOR28P_CIN(
      1             NSN      ,NMN     ,A      ,IRECT   ,DPARA   ,
      2             MSR      ,NSV     ,IRTL   ,MS      ,WEIGHT  ,

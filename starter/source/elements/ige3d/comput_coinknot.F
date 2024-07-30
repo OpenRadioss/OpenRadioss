@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  COMPUT_COINKNOT               source/elements/ige3d/comput_coinknot.F
-Chd|-- called by -----------
-Chd|        PRERAFIG3D                    source/elements/ige3d/prerafig3d.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|====================================================================
+      !||====================================================================
+      !||    comput_coinknot   ../starter/source/elements/ige3d/comput_coinknot.F
+      !||--- called by ------------------------------------------------------
+      !||    prerafig3d        ../starter/source/elements/ige3d/prerafig3d.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE COMPUT_COINKNOT(IEL ,IXIG3D,KXIG3D ,MESHIGE,PTANG1 ,PTANG2 ,IDDIR,
      .                           IDTANG1,IDTANG2,NELDIR,NELTANG1,NELTANG2,DIR,
      .                           TAB_COINKNOT,L_TAB_COINKNOT,TAB_ELCUT,L_TAB_ELCUT,TAB_NEWEL,L_TAB_NEWEL,

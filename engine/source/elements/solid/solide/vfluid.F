@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C --- fluid structure       
-Chd|====================================================================
-Chd|  VFLUID                        source/elements/solid/solide/vfluid.F
-Chd|-- called by -----------
-Chd|        PRELECFLOW                    source/elements/solid/solide/prelecflow.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    vfluid       ../engine/source/elements/solid/solide/vfluid.F
+      !||--- called by ------------------------------------------------------
+      !||    prelecflow   ../engine/source/elements/solid/solide/prelecflow.F
+      !||====================================================================
       SUBROUTINE VFLUID(
      1   UVAR,    NEL,     MLW,     PHI1,
      2   PHI2,    PHI3,    NFT)

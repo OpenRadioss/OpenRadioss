@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IG3DONEBASIS                  source/elements/ige3d/ig3donebasis.F
-Chd|-- called by -----------
-Chd|        SSURFIGEO                     source/groups/ssurftagigeo.F  
-Chd|-- calls ---------------
-Chd|        ONEBASISFUN                   source/elements/ige3d/onebasisfun.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ig3donebasis   ../starter/source/elements/ige3d/ig3donebasis.F
+      !||--- called by ------------------------------------------------------
+      !||    ssurfigeo      ../starter/source/groups/ssurftagigeo.F
+      !||--- calls      -----------------------------------------------------
+      !||    onebasisfun    ../starter/source/elements/ige3d/onebasisfun.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE IG3DONEBASIS(
      1 ITEL  ,N     ,XXI   ,YYI   ,
      2 ZZI   ,WWI   ,IDX   ,IDY   ,

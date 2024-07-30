@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BEMSOLVP                      source/fluid/bemsolvp.F       
-Chd|-- called by -----------
-Chd|        INCPFLOW                      source/fluid/incpflow.F       
-Chd|-- calls ---------------
-Chd|        GLBEMP                        source/fluid/bemsolvp.F       
-Chd|        GLSINFP                       source/fluid/bemsolvp.F       
-Chd|        INTGTG                        source/fluid/bemsolv.F        
-Chd|        INTHTG                        source/fluid/bemsolv.F        
-Chd|        PROGCONDP_C                   source/system/progcond_c.c    
-Chd|        SPMD_FL_SUM                   source/mpi/generic/spmd_fl_sum.F
-Chd|====================================================================
+      !||====================================================================
+      !||    bemsolvp         ../engine/source/fluid/bemsolvp.F
+      !||--- called by ------------------------------------------------------
+      !||    incpflow         ../engine/source/fluid/incpflow.F
+      !||--- calls      -----------------------------------------------------
+      !||    glbemp           ../engine/source/fluid/bemsolvp.F
+      !||    glsinfp          ../engine/source/fluid/bemsolvp.F
+      !||    intgtg           ../engine/source/fluid/bemsolv.F
+      !||    inthtg           ../engine/source/fluid/bemsolv.F
+      !||    progcondp_c      ../engine/source/system/progcond_c.c
+      !||    spmd_fl_sum      ../engine/source/mpi/generic/spmd_fl_sum.F
+      !||====================================================================
       SUBROUTINE BEMSOLVP(
      .   ELEM         , NORM , X          , NNRP       , CR_LOC_GLOB,
      .   CR_GLOB_LOC  , NNCP , CC_LOC_GLOB, CC_GLOB_LOC, NCEIP      ,
@@ -371,13 +371,13 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  GLBEMP                        source/fluid/bemsolvp.F       
-Chd|-- called by -----------
-Chd|        BEMSOLVP                      source/fluid/bemsolvp.F       
-Chd|-- calls ---------------
-Chd|        INTANL                        source/fluid/bemsolv.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    glbemp     ../engine/source/fluid/bemsolvp.F
+      !||--- called by ------------------------------------------------------
+      !||    bemsolvp   ../engine/source/fluid/bemsolvp.F
+      !||--- calls      -----------------------------------------------------
+      !||    intanl     ../engine/source/fluid/bemsolv.F
+      !||====================================================================
       SUBROUTINE GLBEMP(X1    , Y1   , Z1    , X2  , Y2   ,
      .                  Z2    , X3   , Y3    , Z3  , X0   ,
      .                  Y0    , Z0   , TELNOR, HBEM, GBEM ,
@@ -538,12 +538,11 @@ C Matrice G
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  GLSINFP                       source/fluid/bemsolvp.F       
-Chd|-- called by -----------
-Chd|        BEMSOLVP                      source/fluid/bemsolvp.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    glsinfp    ../engine/source/fluid/bemsolvp.F
+      !||--- called by ------------------------------------------------------
+      !||    bemsolvp   ../engine/source/fluid/bemsolvp.F
+      !||====================================================================
       SUBROUTINE GLSINFP(N1     , N2,  N3,  JAC, S    ,
      .                   PHI_INF, NL1, NL2, NL3, OFFNR)
 C-----------------------------------------------

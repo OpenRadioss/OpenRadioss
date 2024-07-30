@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DOMDEC1                       source/spmd/domain_decomposition/domdec1.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        DD_ANI                        source/output/anim/dd_ani.F   
-Chd|        DD_FR                         source/spmd/domain_decomposition/domdec1.F
-Chd|        DD_FRX                        source/spmd/domain_decomposition/domdec1.F
-Chd|        DD_FR_2                       source/spmd/domain_decomposition/domdec1.F
-Chd|====================================================================
+      !||====================================================================
+      !||    domdec1   ../starter/source/spmd/domain_decomposition/domdec1.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur    ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    dd_ani    ../starter/source/output/anim/dd_ani.F
+      !||    dd_fr     ../starter/source/spmd/domain_decomposition/domdec1.F
+      !||    dd_fr_2   ../starter/source/spmd/domain_decomposition/domdec1.F
+      !||    dd_frx    ../starter/source/spmd/domain_decomposition/domdec1.F
+      !||    nlocal    ../starter/source/spmd/node/ddtools.F
+      !||====================================================================
       SUBROUTINE DOMDEC1(
      1     IPARG ,IXS   ,IXQ        ,IXC   ,IXT    ,
      2     IXP   ,IXR   ,IXTG  ,DD_IAD ,
@@ -201,13 +202,13 @@ C  a condition que imach==3 !
       RETURN
       END
 
-Chd|====================================================================
-Chd|  DD_FR                         source/spmd/domain_decomposition/domdec1.F
-Chd|-- called by -----------
-Chd|        DOMDEC1                       source/spmd/domain_decomposition/domdec1.F
-Chd|-- calls ---------------
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    dd_fr        ../starter/source/spmd/domain_decomposition/domdec1.F
+      !||--- called by ------------------------------------------------------
+      !||    domdec1      ../starter/source/spmd/domain_decomposition/domdec1.F
+      !||--- calls      -----------------------------------------------------
+      !||    ifrontplus   ../starter/source/spmd/node/frontplus.F
+      !||====================================================================
       SUBROUTINE DD_FR(IX,P,NEL,ICON,DIM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -244,13 +245,13 @@ C         mettre a 1 la FRONTIERE(sd) correspondante
       RETURN
       END
 
-Chd|====================================================================
-Chd|  DD_FRX                        source/spmd/domain_decomposition/domdec1.F
-Chd|-- called by -----------
-Chd|        DOMDEC1                       source/spmd/domain_decomposition/domdec1.F
-Chd|-- calls ---------------
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    dd_frx       ../starter/source/spmd/domain_decomposition/domdec1.F
+      !||--- called by ------------------------------------------------------
+      !||    domdec1      ../starter/source/spmd/domain_decomposition/domdec1.F
+      !||--- calls      -----------------------------------------------------
+      !||    ifrontplus   ../starter/source/spmd/node/frontplus.F
+      !||====================================================================
       SUBROUTINE DD_FRX(KXX,IXX,P,NEL,DIM)
 C
 C-----------------------------------------------
@@ -289,13 +290,13 @@ C         mettre a 1 la FRONTIERE(sd) correspondante
 
       RETURN
       END
-Chd|====================================================================
-Chd|  DD_FR_2                       source/spmd/domain_decomposition/domdec1.F
-Chd|-- called by -----------
-Chd|        DOMDEC1                       source/spmd/domain_decomposition/domdec1.F
-Chd|-- calls ---------------
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    dd_fr_2      ../starter/source/spmd/domain_decomposition/domdec1.F
+      !||--- called by ------------------------------------------------------
+      !||    domdec1      ../starter/source/spmd/domain_decomposition/domdec1.F
+      !||--- calls      -----------------------------------------------------
+      !||    ifrontplus   ../starter/source/spmd/node/frontplus.F
+      !||====================================================================
       SUBROUTINE DD_FR_2(IX,P,NEL,ICON,DIM)
 C-----------------------------------------------
 C   M o d u l e s

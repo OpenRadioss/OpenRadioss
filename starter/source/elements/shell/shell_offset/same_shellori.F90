@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    same_shellori_mod     ../starter/source/elements/shell/shell_offset/same_shellori.F90
+      !||--- called by ------------------------------------------------------
+      !||    sh_offset_jonct_chk   ../starter/source/elements/shell/shell_offset/sh_offset_jonkt_chk.F90
+      !||====================================================================
       module same_shellori_mod
 
       contains
@@ -30,6 +35,11 @@
 !=======================================================================================================================
 !!\brief if the same orientation of two shell connected by i1,i2 (i2>i1)
 !=======================================================================================================================
+      !||====================================================================
+      !||    same_shellori         ../starter/source/elements/shell/shell_offset/same_shellori.F90
+      !||--- called by ------------------------------------------------------
+      !||    sh_offset_jonct_chk   ../starter/source/elements/shell/shell_offset/sh_offset_jonkt_chk.F90
+      !||====================================================================
         subroutine same_shellori(i1,i2,ixm,ixn,isame)
 ! ------------------------------------------------------------------------------
 !

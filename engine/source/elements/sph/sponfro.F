@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPONFRO                       source/elements/sph/sponfro.F 
-Chd|-- called by -----------
-Chd|        FORINTP                       source/elements/forintp.F     
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    sponfro   ../engine/source/elements/sph/sponfro.F
+      !||--- called by ------------------------------------------------------
+      !||    forintp   ../engine/source/elements/forintp.F
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox    ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPONFRO(X ,V        ,A       ,MS      ,
      2             SPBUF   ,ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,
      3             ISPHIO  ,IPART   ,IPARTSP ,WASPACT ,WA_EPSD ,

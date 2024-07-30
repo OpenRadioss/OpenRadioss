@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CHECK_FUNCTION_ID             source/tools/curve/check_function.F
-Chd|-- called by -----------
-Chd|        HM_READ_MONVOL_TYPE10         source/airbag/hm_read_monvol_type10.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    check_function_id       ../starter/source/tools/curve/check_function.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_monvol_type10   ../starter/source/airbag/hm_read_monvol_type10.F
+      !||====================================================================
       SUBROUTINE CHECK_FUNCTION_ID(NPC, NFUNCT, IFUNCT_IN, IFUNCT_OUT, IFOUND)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

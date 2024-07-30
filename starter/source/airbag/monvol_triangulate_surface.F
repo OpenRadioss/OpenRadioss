@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MONVOL_TRIANGULATE_SURFACE    source/airbag/monvol_triangulate_surface.F
-Chd|-- called by -----------
-Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    monvol_triangulate_surface   ../starter/source/airbag/monvol_triangulate_surface.F
+      !||--- called by ------------------------------------------------------
+      !||    init_monvol                  ../starter/source/airbag/init_monvol.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    monvol_struct_mod            ../starter/share/modules1/monvol_struct_mod.F
+      !||====================================================================
       SUBROUTINE MONVOL_TRIANGULATE_SURFACE(T_MONVOLN, IGRSURF, LOCAL_NODEID, LOCAL_INT_NODEID, TAGE, 
      .     X, KMESH, NNS, NNI, NTG, NTGI, SIZE1, SIZE2, FVBAG_ELEMID)
 C-----------------------------------------------

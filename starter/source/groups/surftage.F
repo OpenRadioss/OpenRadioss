@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SURFTAGE                      source/groups/surftage.F      
-Chd|-- called by -----------
-Chd|        HM_READ_LINES                 source/groups/hm_read_lines.F 
-Chd|        HM_READ_SURF                  source/groups/hm_read_surf.F  
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    surftage        ../starter/source/groups/surftage.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_lines   ../starter/source/groups/hm_read_lines.F
+      !||    hm_read_surf    ../starter/source/groups/hm_read_surf.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SURFTAGE(NUMEL,IX,NIX,NIX1,NIX2,IELTYP,
      .                    TAGBUF,ISU,NSEG,FLAG,
      .                    INDX,NINDX,NSEG_TOT)

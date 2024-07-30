@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_EXCHMSR_IDEL             source/mpi/interfaces/spmd_exchmsr_idel.F
-Chd|-- called by -----------
-Chd|        CHKSTFN3N                     source/interfaces/interf/chkstfn3.F
-Chd|-- calls ---------------
-Chd|        SYSFUS2                       source/system/sysfus.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exchmsr_idel   ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
+      !||--- called by ------------------------------------------------------
+      !||    chkstfn3n           ../engine/source/interfaces/interf/chkstfn3.F
+      !||--- calls      -----------------------------------------------------
+      !||    sysfus2             ../engine/source/system/sysfus.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCHMSR_IDEL(
      1    BUFS  ,LBUFS,IXS    ,IXC    ,IXTG   ,
      2    IXQ   ,IPARG ,ITAGL  ,ITABM1 ,

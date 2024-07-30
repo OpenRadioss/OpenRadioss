@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS01G                     source/materials/mat/mat001/sigeps01g.F
-Chd|-- called by -----------
-Chd|        MULAWGLC                      source/materials/mat_share/mulawglc.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps01g   ../engine/source/materials/mat/mat001/sigeps01g.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawglc    ../engine/source/materials/mat_share/mulawglc.F
+      !||====================================================================
       SUBROUTINE SIGEPS01G(JFT     ,JLT     ,G       ,THK     ,OFF     ,
      1                     GS      ,A1      ,A2      ,NU      ,THK0    ,
      2                     NEL     ,F_DEF   ,ISMSTR  ,DEPSXX  ,DEPSYY  ,

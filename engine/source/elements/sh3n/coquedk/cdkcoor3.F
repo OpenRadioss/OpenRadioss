@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CDKCOOR3                      source/elements/sh3n/coquedk/cdkcoor3.F
-Chd|-- called by -----------
-Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
-Chd|-- calls ---------------
-Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
-Chd|        CORTDIR3                      source/elements/shell/coque/cortdir3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    cdkcoor3       ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+      !||--- called by ------------------------------------------------------
+      !||    cdkforc3       ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+      !||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE CDKCOOR3(ELBUF_STR,
      .                    JFT,JLT,MAT,PID,NGL,X,V,R,IXTG,OFFG,OFF,
      .                    R11,R12,R13,R21,R22,R23,R31,R32,R33,
@@ -271,33 +272,32 @@ C----------------------------
       RETURN
       END
 c
-Chd|====================================================================
-Chd|  CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
-Chd|-- called by -----------
-Chd|        C3COORK3                      source/elements/sh3n/coque3n/c3coork3.F
-Chd|        C3EVEC3                       source/elements/sh3n/coque3n/c3evec3.F
-Chd|        CBACOOR                       source/elements/shell/coqueba/cbacoor.F
-Chd|        CBACOORK                      source/elements/shell/coqueba/cbacoork.F
-Chd|        CBACOORT                      source/elements/shell/coqueba/cbacoor.F
-Chd|        CDK6COOR3                     source/elements/sh3n/coquedk6/cdk6coor3.F
-Chd|        CDKCOOR3                      source/elements/sh3n/coquedk/cdkcoor3.F
-Chd|        CZCOORK3                      source/elements/shell/coquez/czcoork3.F
-Chd|        CZCORC1                       source/elements/shell/coquez/czcorc.F
-Chd|        CZCORCHT                      source/elements/shell/coquez/czcorc.F
-Chd|        CZCORCT                       source/elements/shell/coquez/czcorc.F
-Chd|        ENRICHC_INI                   source/elements/xfem/enrichc_ini.F
-Chd|        ENRICHTG_INI                  source/elements/xfem/enrichtg_ini.F
-Chd|        GET_Q4L                       source/output/sta/stat_c_strafg.F
-Chd|        GET_Q4LSYS                    source/output/sta/sta_c_get_q4lsys.F
-Chd|        GET_T3L                       source/output/sta/stat_c_strafg.F
-Chd|        GET_T3LSYS                    source/output/sta/sta_c_get_t3lsys.F
-Chd|        SCOOR43                       source/elements/solid/sconnect/scoor43.F
-Chd|        SHELL_LOCAL_FRAME             source/output/dynain/shell_rota.F
-Chd|        SHELL_LOC_COR                 source/tools/seatbelts/shell_loc_cor.F
-Chd|        SHLROTG                       source/output/anim/generate/tensor6.F
-Chd|        TENS3DTO2D                    source/output/h3d/h3d_results/h3d_skin_tensor.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    clskew3             ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3coork3            ../engine/source/elements/sh3n/coque3n/c3coork3.F
+      !||    c3evec3             ../engine/source/elements/sh3n/coque3n/c3evec3.F
+      !||    cbacoor             ../engine/source/elements/shell/coqueba/cbacoor.F
+      !||    cbacoork            ../engine/source/elements/shell/coqueba/cbacoork.F
+      !||    cbacoort            ../engine/source/elements/shell/coqueba/cbacoor.F
+      !||    cdk6coor3           ../engine/source/elements/sh3n/coquedk6/cdk6coor3.F
+      !||    cdkcoor3            ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+      !||    czcoork3            ../engine/source/elements/shell/coquez/czcoork3.F
+      !||    czcorc1             ../engine/source/elements/shell/coquez/czcorc.F
+      !||    czcorcht            ../engine/source/elements/shell/coquez/czcorc.F
+      !||    czcorct             ../engine/source/elements/shell/coquez/czcorc.F
+      !||    enrichc_ini         ../engine/source/elements/xfem/enrichc_ini.F
+      !||    enrichtg_ini        ../engine/source/elements/xfem/enrichtg_ini.F
+      !||    get_q4l             ../engine/source/output/sta/stat_c_strafg.F
+      !||    get_q4lsys          ../engine/source/output/sta/sta_c_get_q4lsys.F
+      !||    get_t3l             ../engine/source/output/sta/stat_c_strafg.F
+      !||    get_t3lsys          ../engine/source/output/sta/sta_c_get_t3lsys.F
+      !||    scoor43             ../engine/source/elements/solid/sconnect/scoor43.F
+      !||    shell_loc_cor       ../engine/source/tools/seatbelts/shell_loc_cor.F
+      !||    shell_local_frame   ../engine/source/output/dynain/shell_rota.F
+      !||    shlrotg             ../engine/source/output/anim/generate/tensor6.F
+      !||    tens3dto2d          ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+      !||====================================================================
       SUBROUTINE CLSKEW3(JFT,JLT,IREP,
      .   RX, RY, RZ, SX, SY, SZ, 
      .   E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z,

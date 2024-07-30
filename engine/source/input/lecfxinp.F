@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LECFXINP                      source/input/lecfxinp.F       
-Chd|-- called by -----------
-Chd|        LECTUR                        source/input/lectur.F         
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        EIG_MOD                       share/modules/eig_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    lecfxinp   ../engine/source/input/lecfxinp.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur     ../engine/source/input/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret      ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    eig_mod    ../engine/share/modules/eig_mod.F
+      !||====================================================================
       SUBROUTINE LECFXINP(NFXINP)
 C-----------------------------------------------
 C   M o d u l e s

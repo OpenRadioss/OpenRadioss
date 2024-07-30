@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INITWG_X                      source/spmd/domain_decomposition/initwg_x.F
-Chd|-- called by -----------
-Chd|        INITWG                        source/spmd/domain_decomposition/initwg.F
-Chd|-- calls ---------------
-Chd|        DDWEIGHTS_MOD                 share/modules1/ddweights_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    initwg_x        ../starter/source/spmd/domain_decomposition/initwg_x.F
+      !||--- called by ------------------------------------------------------
+      !||    initwg          ../starter/source/spmd/domain_decomposition/initwg.F
+      !||--- uses       -----------------------------------------------------
+      !||    ddweights_mod   ../starter/share/modules1/ddweights_mod.F
+      !||====================================================================
       SUBROUTINE INITWG_X(WD,PM,GEO,KXX,IGEO,
      .            NUMELX,IPM,NUMMAT,NUMGEO,OFF)
 C-----------------------------------------------

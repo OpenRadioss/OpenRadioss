@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  QROTA_GROUP                   source/output/anim/generate/qrota_group.F
-Chd|-- called by -----------
-Chd|        H3D_QUAD_TENSOR               source/output/h3d/h3d_results/h3d_quad_tensor.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    qrota_group       ../engine/source/output/anim/generate/qrota_group.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_quad_tensor   ../engine/source/output/h3d/h3d_results/h3d_quad_tensor.F
+      !||====================================================================
       SUBROUTINE QROTA_GROUP(
      1   X,       IXQ,     KCVT,    TENS,
      2   GAMA,    NEL,     ISORTH)

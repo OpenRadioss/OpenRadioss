@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DOUBLE_FLOT_IEEE              source/elements/shell/coque/cinmas.F
-Chd|-- called by -----------
-Chd|        CINMAS                        source/elements/shell/coque/cinmas.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    double_flot_ieee   ../starter/source/elements/shell/coque/cinmas.F
+      !||--- called by ------------------------------------------------------
+      !||    cinmas             ../starter/source/elements/shell/coque/cinmas.F
+      !||====================================================================
       SUBROUTINE DOUBLE_FLOT_IEEE(JFT  ,JLT  ,I8 ,R8, I8F)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -69,22 +68,22 @@ c___________________________________________________
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  CINMAS                        source/elements/shell/coque/cinmas.F
-Chd|-- called by -----------
-Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
-Chd|        INIVOID                       source/elements/initia/inivoid.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        DOUBLE_FLOT_IEEE              source/elements/shell/coque/cinmas.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    cinmas             ../starter/source/elements/shell/coque/cinmas.F
+      !||--- called by ------------------------------------------------------
+      !||    cbainit3           ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cinit3             ../starter/source/elements/shell/coque/cinit3.F
+      !||    inirig_mat         ../starter/source/elements/initia/inirig_mat.F
+      !||    inivoid            ../starter/source/elements/initia/inivoid.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../starter/source/output/message/message.F
+      !||    double_flot_ieee   ../starter/source/elements/shell/coque/cinmas.F
+      !||    fretitl2           ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod          ../starter/share/modules1/drape_mod.F
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||    stack_mod          ../starter/share/modules1/stack_mod.F
+      !||====================================================================
       SUBROUTINE CINMAS(
      .          X       ,XREFC   ,IX      ,GEO      ,PM       ,
      .          MS      ,TINER   ,THKE    ,IHBE     ,PARTSAV  ,     

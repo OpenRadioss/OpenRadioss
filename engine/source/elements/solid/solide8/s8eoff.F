@@ -20,16 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8EOFF                        source/elements/solid/solide8/s8eoff.F
-Chd|-- called by -----------
-Chd|        S4KE3                         source/elements/solid/solide4/s4ke3.F
-Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6cke3.F
-Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
-Chd|        S8SKE3                        source/elements/solid/solide8s/s8ske3.F
-Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8eoff   ../engine/source/elements/solid/solide8/s8eoff.F
+      !||--- called by ------------------------------------------------------
+      !||    s4ke3    ../engine/source/elements/solid/solide4/s4ke3.F
+      !||    s6cke3   ../engine/source/elements/thickshell/solide6c/s6cke3.F
+      !||    s8cke3   ../engine/source/elements/thickshell/solide8c/s8cke3.F
+      !||    s8ske3   ../engine/source/elements/solid/solide8s/s8ske3.F
+      !||    s8zke3   ../engine/source/elements/solid/solide8z/s8zke3.F
+      !||====================================================================
       SUBROUTINE S8EOFF(JFT, JLT, IXS, ETAG, OFF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

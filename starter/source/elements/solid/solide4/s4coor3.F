@@ -20,17 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4COOR3                       source/elements/solid/solide4/s4coor3.F
-Chd|-- called by -----------
-Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
-Chd|        INISOLDIST                    source/initial_conditions/inivol/inisoldist.F
-Chd|        INIVOID                       source/elements/initia/inivoid.F
-Chd|        MULTIFLUID_INIT3T             source/multifluid/multifluid_init3t.F
-Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s4coor3             ../starter/source/elements/solid/solide4/s4coor3.F
+      !||--- called by ------------------------------------------------------
+      !||    inirig_mat          ../starter/source/elements/initia/inirig_mat.F
+      !||    inisoldist          ../starter/source/initial_conditions/inivol/inisoldist.F
+      !||    inivoid             ../starter/source/elements/initia/inivoid.F
+      !||    multifluid_init3t   ../starter/source/multifluid/multifluid_init3t.F
+      !||    s4init3             ../starter/source/elements/solid/solide4/s4init3.F
+      !||--- calls      -----------------------------------------------------
+      !||    checkvolume_4n      ../starter/source/elements/solid/solide/checksvolume.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod         ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S4COOR3(X     ,XREFS   ,IXS    ,NGL     ,MXT    ,
      .                  NGEO  ,IX1     ,IX2    ,IX3     ,IX4    ,
      .                  X1   ,X2   ,X3   ,X4   ,Y1   ,Y2   ,

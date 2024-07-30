@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTAL2                        source/ale/inter/intal2.F     
-Chd|-- called by -----------
-Chd|        INTAL1                        source/ale/inter/intal1.F     
-Chd|-- calls ---------------
-Chd|        IQEL02                        source/ale/ale2d/iqel02.F     
-Chd|        IQEL03                        source/ale/ale3d/iqel03.F     
-Chd|        IQELA1                        source/ale/inter/iqela1.F     
-Chd|        IQELA2                        source/ale/inter/iqela2.F     
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    intal2          ../engine/source/ale/inter/intal2.F
+      !||--- called by ------------------------------------------------------
+      !||    intal1          ../engine/source/ale/inter/intal1.F
+      !||--- calls      -----------------------------------------------------
+      !||    iqel02          ../engine/source/ale/ale2d/iqel02.F
+      !||    iqel03          ../engine/source/ale/ale3d/iqel03.F
+      !||    iqela1          ../engine/source/ale/inter/iqela1.F
+      !||    iqela2          ../engine/source/ale/inter/iqela2.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE INTAL2(IPARI,INTBUF_TAB         , X        ,V         ,
      1           A           ,ISKEW   ,SKEW      ,LCOD      ,E         ,
      2           MSM         ,MS      ,ITAB      ,FSAV      ,FCONT     ,

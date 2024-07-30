@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  E4PXLE3                       source/elements/solid/solide4/e4pxle3.F
-Chd|-- called by -----------
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    e4pxle3   ../engine/source/elements/solid/solide4/e4pxle3.F
+      !||--- called by ------------------------------------------------------
+      !||    s4forc3   ../engine/source/elements/solid/solide4/s4forc3.F
+      !||====================================================================
       SUBROUTINE E4PXLE3(
      1   VOL,     VEUL,    X1,      X2,
      2   X3,      X4,      Y1,      Y2,

@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_I7CURVSZ                 source/mpi/interfaces/spmd_i7curvsz.F
-Chd|-- called by -----------
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_i7curvsz   ../engine/source/mpi/interfaces/spmd_i7curvsz.F
+      !||--- called by ------------------------------------------------------
+      !||    i7mainf         ../engine/source/interfaces/int07/i7mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_I7CURVSZ(NRTM  ,IRECT ,NUMNOD,IAD_ELEM,FR_ELEM,
      2                         ISDSIZ,IRCSIZ,ITAG  ,LENR    ,LENT   ,
      3                         MAXCC )

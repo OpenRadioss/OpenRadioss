@@ -20,12 +20,28 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    write_thnms1_mod   ../starter/source/output/th/write_thnms1.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_thgrou     ../starter/source/output/th/hm_read_thgrou.F
+      !||====================================================================
       module write_thnms1_mod
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \write th.nms1 file containing th index->name correspondance
+      !||====================================================================
+      !||    write_thnms1                    ../starter/source/output/th/write_thnms1.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_thgrou                  ../starter/source/output/th/hm_read_thgrou.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_thnms1_empty_titles       ../starter/source/output/th/write_thnms1_empty_titles.F90
+      !||    write_thnms1_titles             ../starter/source/output/th/write_thnms1_titles.F90
+      !||--- uses       -----------------------------------------------------
+      !||    write_thnms1_empty_titles_mod   ../starter/source/output/th/write_thnms1_empty_titles.F90
+      !||    write_thnms1_titles_mod         ../starter/source/output/th/write_thnms1_titles.F90
+      !||====================================================================
         subroutine write_thnms1(nvarn1        ,nvarn1a       ,nvarn2           ,nvarnpinch        ,nvars1           ,&
           nvars2        ,nvars3        ,nvars4           ,nvars5            ,nvars6           ,&
           nvars7        ,nvars8        ,nvars9           ,nvarsnloc         ,&

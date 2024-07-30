@@ -20,316 +20,316 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TRI7BOX                       share/modules/tri7box.F       
-Chd|-- called by -----------
-Chd|        ASSPARXX                      source/assembly/assparxx.F    
-Chd|        CHECK_FI                      source/mpi/interfaces/spmd_i25slide.F
-Chd|        CP_IFRONT                     source/implicit/produt_v.F    
-Chd|        DEALLOCATE_FI1_TMP            source/mpi/interfaces/spmd_i25slide.F
-Chd|        FRICTIONPARTS_MODEL_ORTHO     source/interfaces/int07/frictionparts_model.F
-Chd|        I10CORP3                      source/interfaces/int10/i10corp3.F
-Chd|        I10FOR3                       source/interfaces/int10/i10for3.F
-Chd|        I10OPTCD                      source/interfaces/intsort/i10optcd.F
-Chd|        I10SMS2                       source/interfaces/int10/i10sms2.F
-Chd|        I10TRI                        source/interfaces/intsort/i10tri.F
-Chd|        I11ASS0                       source/interfaces/int11/i11ass3.F
-Chd|        I11ASS05                      source/interfaces/int11/i11ass3.F
-Chd|        I11ASS2                       source/interfaces/int11/i11ass3.F
-Chd|        I11ASS25                      source/interfaces/int11/i11ass3.F
-Chd|        I11ASS3                       source/interfaces/int11/i11ass3.F
-Chd|        I11BUCE_VOX                   source/interfaces/intsort/i11buce.F
-Chd|        I11COR3                       source/interfaces/int11/i11cor3.F
-Chd|        I11CORP3                      source/interfaces/int11/i11corp3.F
-Chd|        I11FOR3                       source/interfaces/int11/i11for3.F
-Chd|        I11KEG3                       source/interfaces/int11/i11keg3.F
-Chd|        I11KFOR3                      source/interfaces/int11/i11keg3.F
-Chd|        I11MAIN_TRI                   source/interfaces/intsort/i11main_tri.F
-Chd|        I11OPTCD                      source/interfaces/intsort/i11optcd.F
-Chd|        I11PEN3                       source/interfaces/intsort/i11pen3.F
-Chd|        I11PEN3_VOX                   source/interfaces/intsort/i11pen3.F
-Chd|        I11SMS2                       source/interfaces/int11/i11sms2.F
-Chd|        I11STO                        source/interfaces/intsort/i11sto.F
-Chd|        I11STO_VOX                    source/interfaces/intsort/i11sto.F
-Chd|        I11TRC                        source/interfaces/intsort/i11trc.F
-Chd|        I11TRI                        source/interfaces/intsort/i11tri.F
-Chd|        I11TRIVOX                     source/interfaces/intsort/i11trivox.F
-Chd|        I17CUT                        source/interfaces/int17/i17tri.F
-Chd|        I17FOR3                       source/interfaces/int17/i17for3.F
-Chd|        I17LLL4_PENA                  source/interfaces/int17/i17for3.F
-Chd|        I17VIT_PENA                   source/interfaces/int17/i17for3.F
-Chd|        I18DST3                       source/interfaces/int18/i18dst3.F
-Chd|        I18FOR3                       source/interfaces/int18/i18for3.F
-Chd|        I18KINE_F                     source/interfaces/int18/i18main_kine.F
-Chd|        I18KINE_I                     source/interfaces/int18/i18main_kine.F
-Chd|        I18KINE_S                     source/interfaces/int18/i18main_kine.F
-Chd|        I18KINE_V                     source/interfaces/int18/i18main_kine.F
-Chd|        I18MAIN_KINE_1                source/interfaces/int18/i18main_kine.F
-Chd|        I18MAIN_KINE_2                source/interfaces/int18/i18main_kine.F
-Chd|        I18TRI                        source/interfaces/int18/i18tri.F
-Chd|        I20ASS0                       source/interfaces/int20/i20for3.F
-Chd|        I20ASS05                      source/interfaces/int20/i20for3.F
-Chd|        I20ASS2                       source/interfaces/int20/i20for3.F
-Chd|        I20ASS25                      source/interfaces/int20/i20for3.F
-Chd|        I20COR3                       source/interfaces/int20/i20cor3.F
-Chd|        I20COR3E                      source/interfaces/int20/i20cor3.F
-Chd|        I20COR3T                      source/interfaces/int20/i20cor3t.F
-Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
-Chd|        I20FOR3C                      source/interfaces/int20/i20for3.F
-Chd|        I20FOR3E                      source/interfaces/int20/i20for3.F
-Chd|        I20OPTCD                      source/interfaces/intsort/i20optcd.F
-Chd|        I20OPTCDE                     source/interfaces/intsort/i20optcd.F
-Chd|        I20PEN3_EDGE                  source/interfaces/intsort/i20sto.F
-Chd|        I20SMS2E                      source/interfaces/int20/i20sms2.F
-Chd|        I20STO                        source/interfaces/intsort/i20sto.F
-Chd|        I20TRI                        source/interfaces/intsort/i20tri.F
-Chd|        I20TRI_EDGE                   source/interfaces/intsort/i20tri.F
-Chd|        I20XSINIR                     source/interfaces/intsort/i20main_tri.F
-Chd|        I21ASS3                       source/interfaces/int21/i21ass3.F
-Chd|        I21BUCE                       source/interfaces/intsort/i21buce.F
-Chd|        I21COR3                       source/interfaces/int21/i21cor3.F
-Chd|        I21SMS2                       source/interfaces/int21/i21sms2.F
-Chd|        I22ASS0                       source/interfaces/int22/i22assembly.F
-Chd|        I22ASS2                       source/interfaces/int22/i22assembly.F
-Chd|        I22BUCE                       source/interfaces/intsort/i22buce.F
-Chd|        I22COR3                       source/interfaces/int22/i22cor3.F
-Chd|        I22MAIN_TRI                   source/interfaces/intsort/i22main_tri.F
-Chd|        I22SHELL_GETMINMAX            source/interfaces/intsort/i22main_tri.F
-Chd|        I23BUCE                       source/interfaces/intsort/i23buce.F
-Chd|        I23COR3                       source/interfaces/int23/i23cor3.F
-Chd|        I23COR3T                      source/interfaces/int23/i23cor3t.F
-Chd|        I23FOR3                       source/interfaces/int23/i23for3.F
-Chd|        I23MAIN_TRI                   source/interfaces/intsort/i23main_tri.F
-Chd|        I23OPTCD                      source/interfaces/int23/i23optcd.F
-Chd|        I23TRIVOX                     source/interfaces/intsort/i23trivox.F
-Chd|        I24ASS0                       source/interfaces/int24/i24for3.F
-Chd|        I24ASS2                       source/interfaces/int24/i24for3.F
-Chd|        I24BUCE                       source/interfaces/intsort/i24buce.F
-Chd|        I24COR3                       source/interfaces/int24/i24cor3.F
-Chd|        I24COR3T                      source/interfaces/intsort/i24cor3t.F
-Chd|        I24CORK3                      source/interfaces/int24/i24cork3.F
-Chd|        I24CORKM                      source/interfaces/int24/i24cork3.F
-Chd|        I24CORP3                      source/interfaces/int24/i24cork3.F
-Chd|        I24DST3                       source/interfaces/int24/i24dst3.F
-Chd|        I24DST3E                      source/interfaces/int24/i24dst3e.F
-Chd|        I24EDGT                       source/interfaces/intsort/i24sto.F
-Chd|        I24FOR1_FIC                   source/interfaces/int24/i24for3e.F
-Chd|        I24FOR1_FICR                  source/interfaces/int24/i24for3e.F
-Chd|        I24FOR3                       source/interfaces/int24/i24for3.F
-Chd|        I24GAP_PXFEM                  source/interfaces/int24/i24gap_pxfem.F
-Chd|        I24IPLY_PXFEM                 source/interfaces/int24/i24iply_pxfem.F
-Chd|        I24ISPT2_INI                  source/interfaces/int24/i24cor3.F
-Chd|        I24ISPT2_INI_OPTTRI           source/interfaces/int24/i24cor3.F
-Chd|        I24KEG3                       source/interfaces/int24/i24ke3.F
-Chd|        I24MAIN_TRI                   source/interfaces/intsort/i24main_tri.F
-Chd|        I24NEXTTRIA                   source/interfaces/int24/i24dst3.F
-Chd|        I24NEXTTRIA2                  source/interfaces/int24/i24dst3.F
-Chd|        I24NITSCHFOR3                 source/interfaces/int24/i24nitschfor3.F
-Chd|        I24OPTCD                      source/interfaces/intsort/i24optcd.F
-Chd|        I24S1S2                       source/interfaces/intsort/i24sto.F
-Chd|        I24SMS2                       source/interfaces/int24/i24for3.F
-Chd|        I24STO                        source/interfaces/intsort/i24sto.F
-Chd|        I24TRC                        source/interfaces/intsort/i7trc.F
-Chd|        I24TRIVOX                     source/interfaces/intsort/i24trivox.F
-Chd|        I24_SAVE_SUB                  source/interfaces/int24/i24_save_sub.F
-Chd|        I25ASS0                       source/interfaces/int25/i25ass3.F
-Chd|        I25ASS2                       source/interfaces/int25/i25ass3.F
-Chd|        I25ASS3                       source/interfaces/int25/i25ass3.F
-Chd|        I25ASSE0                      source/interfaces/int25/i25asse.F
-Chd|        I25ASSE05                     source/interfaces/int25/i25asse.F
-Chd|        I25ASSE05_E2S                 source/interfaces/int25/i25ass_e2s.F
-Chd|        I25ASSE0_E2S                  source/interfaces/int25/i25ass_e2s.F
-Chd|        I25ASSE2                      source/interfaces/int25/i25asse.F
-Chd|        I25ASSE25                     source/interfaces/int25/i25asse.F
-Chd|        I25ASSE25_E2S                 source/interfaces/int25/i25ass_e2s.F
-Chd|        I25ASSE2_E2S                  source/interfaces/int25/i25ass_e2s.F
-Chd|        I25BUCE                       source/interfaces/intsort/i25buce.F
-Chd|        I25BUCE_EDG                   source/interfaces/intsort/i25buce_edg.F
-Chd|        I25COMP_1                     source/interfaces/int25/i25comp_1.F
-Chd|        I25COMP_2                     source/interfaces/int25/i25comp_2.F
-Chd|        I25COR3E                      source/interfaces/int25/i25cor3e.F
-Chd|        I25COR3T                      source/interfaces/intsort/i25cor3t.F
-Chd|        I25COR3_1                     source/interfaces/int25/i25cor3.F
-Chd|        I25COR3_21                    source/interfaces/int25/i25cor3.F
-Chd|        I25COR3_22                    source/interfaces/int25/i25cor3.F
-Chd|        I25COR3_3                     source/interfaces/int25/i25cor3.F
-Chd|        I25COR3_E2S                   source/interfaces/int25/i25cor3_e2s.F
-Chd|        I25DST3_1                     source/interfaces/int25/i25dst3_1.F
-Chd|        I25DST3_21                    source/interfaces/int25/i25dst3_21.F
-Chd|        I25DST3_22                    source/interfaces/int25/i25dst3_22.F
-Chd|        I25DST3_3                     source/interfaces/int25/i25dst3_3.F
-Chd|        I25FOR3                       source/interfaces/int25/i25for3.F
-Chd|        I25FOR3E                      source/interfaces/int25/i25for3e.F
-Chd|        I25FOR3_E2S                   source/interfaces/int25/i25for3_e2s.F
-Chd|        I25GLOB                       source/interfaces/int25/i25dst3_1.F
-Chd|        I25GLOB_22                    source/interfaces/int25/i25dst3_22.F
-Chd|        I25IRTLM                      source/interfaces/int25/i25irtlm.F
-Chd|        I25KEEPF                      source/interfaces/int25/i25slid.F
-Chd|        I25MAIND_2                    source/interfaces/int25/i25maind_2.F
-Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|        I25MAIN_FREE                  source/interfaces/intsort/i25main_free.F
-Chd|        I25MAIN_OPT_TRI               source/interfaces/intsort/i25main_opt_tri.F
-Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
-Chd|        I25MAIN_TRI                   source/interfaces/intsort/i25main_tri.F
-Chd|        I25OPTCD                      source/interfaces/intsort/i25optcd.F
-Chd|        I25OPTCD_E2S                  source/interfaces/intsort/i25optcd_e2s.F
-Chd|        I25OPTCD_EDG                  source/interfaces/intsort/i25optcd_edg.F
-Chd|        I25PEN3_E2S                   source/interfaces/intsort/i25pen3_e2s.F
-Chd|        I25PEN3_EDG                   source/interfaces/intsort/i25pen3_edg.F
-Chd|        I25PREP_ADD                   source/interfaces/int25/i25slid.F
-Chd|        I25PREP_NINDEX                source/interfaces/int25/i25slid.F
-Chd|        I25PREP_SEND                  source/interfaces/int25/i25slid.F
-Chd|        I25PREP_SIZBUFS               source/interfaces/int25/i25slid.F
-Chd|        I25PREP_SLID_1                source/interfaces/int25/i25slid.F
-Chd|        I25PREP_SLID_2                source/interfaces/int25/i25slid.F
-Chd|        I25S1S2                       source/interfaces/intsort/i25sto.F
-Chd|        I25SMS0E                      source/interfaces/int25/i25smse.F
-Chd|        I25SMS2                       source/interfaces/int25/i25for3.F
-Chd|        I25SMS2E                      source/interfaces/int25/i25smse.F
-Chd|        I25SMS_E2S                    source/interfaces/int25/i25sms_e2s.F
-Chd|        I25STO                        source/interfaces/intsort/i25sto.F
-Chd|        I25STO_E2S                    source/interfaces/intsort/i25sto_e2s.F
-Chd|        I25STO_EDG                    source/interfaces/intsort/i25sto_edg.F
-Chd|        I25TAGN                       source/interfaces/int25/i25norm.F
-Chd|        I25TRC_E2S                    source/interfaces/intsort/i25trc_e2s.F
-Chd|        I25TRC_EDG                    source/interfaces/intsort/i25trc_edg.F
-Chd|        I25TRIVOX                     source/interfaces/intsort/i25trivox.F
-Chd|        I25TRIVOX_EDG                 source/interfaces/intsort/i25trivox_edg.F
-Chd|        I7ASS0                        source/interfaces/int07/i7ass3.F
-Chd|        I7ASS05                       source/interfaces/int07/i7ass3.F
-Chd|        I7ASS2                        source/interfaces/int07/i7ass3.F
-Chd|        I7ASS25                       source/interfaces/int07/i7ass3.F
-Chd|        I7ASS33                       source/interfaces/int07/i7ass3.F
-Chd|        I7ASSIGEO0                    source/interfaces/int07/i7ass3.F
-Chd|        I7BUCE                        source/interfaces/intsort/i7buce.F
-Chd|        I7BUCE_VOX                    source/interfaces/intsort/i7buce.F
-Chd|        I7COR3                        source/interfaces/int07/i7cor3.F
-Chd|        I7COR3T                       source/interfaces/int07/i7cor3t.F
-Chd|        I7CORK3                       source/interfaces/int07/i7cork3.F
-Chd|        I7CORP3                       source/interfaces/int07/i7cork3.F
-Chd|        I7FOR3                        source/interfaces/int07/i7for3.F
-Chd|        I7MAIN_TRI                    source/interfaces/intsort/i7main_tri.F
-Chd|        I7OPTCD                       source/interfaces/intsort/i7optcd.F
-Chd|        I7SMS2                        source/interfaces/int07/i7sms2.F
-Chd|        I7TRC                         source/interfaces/intsort/i7trc.F
-Chd|        I7TRI                         source/interfaces/intsort/i7tri.F
-Chd|        I7TRIVOX                      source/interfaces/intsort/i7trivox.F
-Chd|        IMPL_SAV                      source/interfaces/int24/i24main.F
-Chd|        IMPL_SAV0                     source/interfaces/int24/i24main.F
-Chd|        IMPL_SAV1                     source/interfaces/int24/i24main.F
-Chd|        IMP_FR7I                      source/mpi/implicit/imp_fri.F 
-Chd|        IMP_STIF24                    source/implicit/imp_solv.F    
-Chd|        INIT_TRIM                     source/interfaces/intsort/init_trim.F
-Chd|        INT18_ALLOC                   source/interfaces/int18/int18_alloc.F
-Chd|        INT18_LAW151_OMP_ACCUMULATION source/interfaces/int18/int18_law151_omp_accumulation.F
-Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
-Chd|        INTER7_COLLISION_DETECTION    source/interfaces/inter7_collision_detection.F
-Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
-Chd|        INTMASS_UPDATE                source/interfaces/interf/intmass_update.F
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|        I_CORPFIT3                    source/interfaces/int24/i24cor3.F
-Chd|        I_COR_EPFIT3                  source/interfaces/int24/i24cor3.F
-Chd|        MPP_INIT                      source/mpi/interfaces/spmd_i7tool.F
-Chd|        MULTI_I18_FORCE_POFF          source/interfaces/int18/multi_i18_force_poff.F
-Chd|        MULTI_I18_FORCE_PON           source/interfaces/int18/multi_i18_force_pon.F
-Chd|        PRINT_STIF                    source/implicit/imp_solv.F    
-Chd|        REALLOCATE_FI1                source/mpi/interfaces/spmd_i25slide.F
-Chd|        REALLOCATE_FI2                source/mpi/interfaces/spmd_i25slide.F
-Chd|        SPBUC3                        source/elements/sph/spbuc3.F  
-Chd|        SPHTRI0                       source/elements/sph/sphtri0.F 
-Chd|        SPMD_CELL_EXCHANGE            source/mpi/generic/spmd_cell_exchange.F
-Chd|        SPMD_CELL_LIST_EXCHANGE       source/mpi/interfaces/spmd_cell_list_exchange.F
-Chd|        SPMD_CELL_SIZE_EXCHANGE       source/mpi/interfaces/spmd_cell_size_exchange.F
-Chd|        SPMD_CELL_SIZE_EXCHANGE_INIT  source/mpi/interfaces/spmd_cell_size_exchange_init.F
-Chd|        SPMD_CELL_SIZE_POST_RCV       source/mpi/interfaces/spmd_cell_size_post_rcv.F
-Chd|        SPMD_CHECK_TAG                source/mpi/ams/spmd_check_tag.F
-Chd|        SPMD_EXCH_EFRIC               source/mpi/interfaces/spmd_exch_efric.F
-Chd|        SPMD_EXCH_I24                 source/mpi/interfaces/spmd_exch_i24.F
-Chd|        SPMD_EXCH_I25                 source/mpi/interfaces/spmd_exch_i25.F
-Chd|        SPMD_EXCH_INTER_18            source/mpi/interfaces/spmd_exch_inter_18.F
-Chd|        SPMD_EXCH_PRESS               source/mpi/interfaces/spmd_exch_press.F
-Chd|        SPMD_EXCH_SMST2               source/mpi/ams/spmd_exch_smst2.F
-Chd|        SPMD_EXCH_SORTING_EFRIC       source/mpi/interfaces/spmd_exch_sorting_efric.F
-Chd|        SPMD_GET_PENIS                source/mpi/interfaces/send_cand.F
-Chd|        SPMD_GET_PENIS20              source/mpi/interfaces/send_cand.F
-Chd|        SPMD_GET_STIF                 source/mpi/interfaces/send_cand.F
-Chd|        SPMD_GET_STIF11               source/mpi/interfaces/send_cand.F
-Chd|        SPMD_GET_STIF20               source/mpi/interfaces/send_cand.F
-Chd|        SPMD_GET_STIF20E              source/mpi/interfaces/send_cand.F
-Chd|        SPMD_GET_STIF25               source/mpi/interfaces/send_cand.F
-Chd|        SPMD_GET_STIF25_EDG           source/mpi/interfaces/spmd_getstif25_edg.F
-Chd|        SPMD_I17FROTS_PON             source/mpi/interfaces/spmd_i17frots_pon.F
-Chd|        SPMD_I18KINE_COM_A            source/mpi/interfaces/spmd_i18kine_com_a.F
-Chd|        SPMD_I18KINE_COM_ACC          source/mpi/interfaces/spmd_i18kine_com_acc.F
-Chd|        SPMD_I18KINE_COM_MS           source/mpi/interfaces/spmd_i18kine_com_ms.F
-Chd|        SPMD_I18KINE_COM_V            source/mpi/interfaces/spmd_i18kine_com_v.F
-Chd|        SPMD_I18KINE_MACC_COM_POFF    source/mpi/interfaces/spmd_i18kine_macc_com_poff.F
-Chd|        SPMD_I18KINE_MSF_COM_POFF     source/mpi/interfaces/spmd_i18kine_msf_com_poff.F
-Chd|        SPMD_I18KINE_PENE_COM_POFF    source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
-Chd|        SPMD_I20NORMF                 source/mpi/interfaces/spmd_i20normf.F
-Chd|        SPMD_I21FTHECOM               source/mpi/interfaces/send_cand.F
-Chd|        SPMD_I24_PREPARE              source/interfaces/int24/i24_prepare.F
-Chd|        SPMD_I25FRONT_INIT            source/mpi/interfaces/spmd_i25front.F
-Chd|        SPMD_I25FRONT_NOR             source/mpi/interfaces/spmd_i25front.F
-Chd|        SPMD_I25_PREPARE              source/interfaces/int25/i25_prepare.F
-Chd|        SPMD_I25_SLIDE_GAT            source/mpi/interfaces/spmd_i25slide.F
-Chd|        SPMD_I7FCOM_POFF              source/mpi/forces/spmd_i7fcom_poff.F
-Chd|        SPMD_I7FCOM_PON               source/mpi/forces/spmd_i7fcom_pon.F
-Chd|        SPMD_I7ITIED_CAND             source/mpi/interfaces/spmd_i7itied_cand.F
-Chd|        SPMD_I7XVCOM2                 source/mpi/interfaces/spmd_i7xvcom2.F
-Chd|        SPMD_IFRONT                   source/mpi/interfaces/spmd_ifront.F
-Chd|        SPMD_INITFI                   source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_INT18_LAW151_PON         source/mpi/forces/spmd_int18_law151_pon.F
-Chd|        SPMD_OLDNUMCD                 source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_RNUM25                   source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_RNUM25_EDGE              source/mpi/interfaces/spmd_rnum25_edge.F
-Chd|        SPMD_RNUMCD                   source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_RNUMCD10                 source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_RNUMCD11                 source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_RNUMCD20                 source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_SAVEFI                   source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_SD_STFA20                source/mpi/interfaces/send_cand.F
-Chd|        SPMD_SD_STFN                  source/mpi/interfaces/send_cand.F
-Chd|        SPMD_SD_STFN11                source/mpi/interfaces/send_cand.F
-Chd|        SPMD_SD_STFN20E               source/mpi/interfaces/send_cand.F
-Chd|        SPMD_SD_STFN25                source/mpi/interfaces/send_cand.F
-Chd|        SPMD_SPHVOX                   source/mpi/sph/spmd_sphvox.F  
-Chd|        SPMD_SPHVOX0                  source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHVOX_OLD               source/mpi/sph/spmd_sphvox.F  
-Chd|        SPMD_TRI10BOX                 source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI10GAT                 source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI11GAT                 source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI11VOX                 source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI11VOX0                source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI17BOX                 source/mpi/interfaces/spmd_tri17box.F
-Chd|        SPMD_TRI17GAT                 source/mpi/interfaces/spmd_i7crit.F
-Chd|        SPMD_TRI18_151VOX             source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI20BOX                 source/mpi/interfaces/spmd_tri20box.F
-Chd|        SPMD_TRI20BOXE                source/mpi/interfaces/spmd_tri20boxe.F
-Chd|        SPMD_TRI20GAT                 source/mpi/interfaces/spmd_i7crit.F
-Chd|        SPMD_TRI20GATE                source/mpi/interfaces/spmd_i7crit.F
-Chd|        SPMD_TRI22VOX                 source/mpi/interfaces/spmd_tri22vox.F
-Chd|        SPMD_TRI22VOX0                source/mpi/interfaces/spmd_tri22vox0.F
-Chd|        SPMD_TRI23VOX0                source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI24GAT                 source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI24VOX                 source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI24VOX0                source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI25EGAT                source/mpi/interfaces/spmd_tri25egat.F
-Chd|        SPMD_TRI25GAT                 source/mpi/interfaces/spmd_tri25gat.F
-Chd|        SPMD_TRI25VOX                 source/mpi/interfaces/spmd_tri25vox.F
-Chd|        SPMD_TRI25VOX0                source/mpi/interfaces/spmd_tri25vox0.F
-Chd|        SPMD_TRI25VOX0_EDGE           source/mpi/interfaces/spmd_tri25vox0.F
-Chd|        SPMD_TRI7GAT                  source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI7VOX                  source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI7VOX0                 source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI7VOX_OPTIMIZED        source/mpi/interfaces/spmd_tri7vox_optimized.F
-Chd|        SPMD_WAIT_NB                  source/mpi/interfaces/spmd_wait_nb.F
-Chd|        SPTRIVOX                      source/elements/sph/sptrivox.F
-Chd|        UPDATE_STRUCT_INT21           source/interfaces/int21/update_struct_int21.F
-Chd|        UPGRADE_REM_2RY               source/mpi/interfaces/spmd_i7tool.F
-Chd|-- calls ---------------
-Chd|        POINTERDEF                    share/modules/pointerdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    tri7box                         ../engine/share/modules/tri7box.F
+      !||--- called by ------------------------------------------------------
+      !||    assparxx                        ../engine/source/assembly/assparxx.F
+      !||    check_fi                        ../engine/source/mpi/interfaces/spmd_i25slide.F
+      !||    cp_ifront                       ../engine/source/implicit/produt_v.F
+      !||    deallocate_fi1_tmp              ../engine/source/mpi/interfaces/spmd_i25slide.F
+      !||    frictionparts_model_ortho       ../engine/source/interfaces/int07/frictionparts_model.F
+      !||    i10corp3                        ../engine/source/interfaces/int10/i10corp3.F
+      !||    i10for3                         ../engine/source/interfaces/int10/i10for3.F
+      !||    i10optcd                        ../engine/source/interfaces/intsort/i10optcd.F
+      !||    i10sms2                         ../engine/source/interfaces/int10/i10sms2.F
+      !||    i10tri                          ../engine/source/interfaces/intsort/i10tri.F
+      !||    i11ass0                         ../engine/source/interfaces/int11/i11ass3.F
+      !||    i11ass05                        ../engine/source/interfaces/int11/i11ass3.F
+      !||    i11ass2                         ../engine/source/interfaces/int11/i11ass3.F
+      !||    i11ass25                        ../engine/source/interfaces/int11/i11ass3.F
+      !||    i11ass3                         ../engine/source/interfaces/int11/i11ass3.F
+      !||    i11buce_vox                     ../engine/source/interfaces/intsort/i11buce.F
+      !||    i11cor3                         ../engine/source/interfaces/int11/i11cor3.F
+      !||    i11corp3                        ../engine/source/interfaces/int11/i11corp3.F
+      !||    i11for3                         ../engine/source/interfaces/int11/i11for3.F
+      !||    i11keg3                         ../engine/source/interfaces/int11/i11keg3.F
+      !||    i11kfor3                        ../engine/source/interfaces/int11/i11keg3.F
+      !||    i11main_tri                     ../engine/source/interfaces/intsort/i11main_tri.F
+      !||    i11optcd                        ../engine/source/interfaces/intsort/i11optcd.F
+      !||    i11pen3                         ../engine/source/interfaces/intsort/i11pen3.F
+      !||    i11pen3_vox                     ../engine/source/interfaces/intsort/i11pen3.F
+      !||    i11sms2                         ../engine/source/interfaces/int11/i11sms2.F
+      !||    i11sto                          ../engine/source/interfaces/intsort/i11sto.F
+      !||    i11sto_vox                      ../engine/source/interfaces/intsort/i11sto.F
+      !||    i11trc                          ../engine/source/interfaces/intsort/i11trc.F
+      !||    i11tri                          ../engine/source/interfaces/intsort/i11tri.F
+      !||    i11trivox                       ../engine/source/interfaces/intsort/i11trivox.F
+      !||    i17cut                          ../engine/source/interfaces/int17/i17tri.F
+      !||    i17for3                         ../engine/source/interfaces/int17/i17for3.F
+      !||    i17lll4_pena                    ../engine/source/interfaces/int17/i17for3.F
+      !||    i17vit_pena                     ../engine/source/interfaces/int17/i17for3.F
+      !||    i18dst3                         ../engine/source/interfaces/int18/i18dst3.F
+      !||    i18for3                         ../engine/source/interfaces/int18/i18for3.F
+      !||    i18kine_f                       ../engine/source/interfaces/int18/i18main_kine.F
+      !||    i18kine_i                       ../engine/source/interfaces/int18/i18main_kine.F
+      !||    i18kine_s                       ../engine/source/interfaces/int18/i18main_kine.F
+      !||    i18kine_v                       ../engine/source/interfaces/int18/i18main_kine.F
+      !||    i18main_kine_1                  ../engine/source/interfaces/int18/i18main_kine.F
+      !||    i18main_kine_2                  ../engine/source/interfaces/int18/i18main_kine.F
+      !||    i18tri                          ../engine/source/interfaces/int18/i18tri.F
+      !||    i20ass0                         ../engine/source/interfaces/int20/i20for3.F
+      !||    i20ass05                        ../engine/source/interfaces/int20/i20for3.F
+      !||    i20ass2                         ../engine/source/interfaces/int20/i20for3.F
+      !||    i20ass25                        ../engine/source/interfaces/int20/i20for3.F
+      !||    i20cor3                         ../engine/source/interfaces/int20/i20cor3.F
+      !||    i20cor3e                        ../engine/source/interfaces/int20/i20cor3.F
+      !||    i20cor3t                        ../engine/source/interfaces/int20/i20cor3t.F
+      !||    i20for3                         ../engine/source/interfaces/int20/i20for3.F
+      !||    i20for3c                        ../engine/source/interfaces/int20/i20for3.F
+      !||    i20for3e                        ../engine/source/interfaces/int20/i20for3.F
+      !||    i20optcd                        ../engine/source/interfaces/intsort/i20optcd.F
+      !||    i20optcde                       ../engine/source/interfaces/intsort/i20optcd.F
+      !||    i20pen3_edge                    ../engine/source/interfaces/intsort/i20sto.F
+      !||    i20sms2e                        ../engine/source/interfaces/int20/i20sms2.F
+      !||    i20sto                          ../engine/source/interfaces/intsort/i20sto.F
+      !||    i20tri                          ../engine/source/interfaces/intsort/i20tri.F
+      !||    i20tri_edge                     ../engine/source/interfaces/intsort/i20tri.F
+      !||    i20xsinir                       ../engine/source/interfaces/intsort/i20main_tri.F
+      !||    i21ass3                         ../engine/source/interfaces/int21/i21ass3.F
+      !||    i21buce                         ../engine/source/interfaces/intsort/i21buce.F
+      !||    i21cor3                         ../engine/source/interfaces/int21/i21cor3.F
+      !||    i21sms2                         ../engine/source/interfaces/int21/i21sms2.F
+      !||    i22ass0                         ../engine/source/interfaces/int22/i22assembly.F
+      !||    i22ass2                         ../engine/source/interfaces/int22/i22assembly.F
+      !||    i22buce                         ../engine/source/interfaces/intsort/i22buce.F
+      !||    i22cor3                         ../engine/source/interfaces/int22/i22cor3.F
+      !||    i22main_tri                     ../engine/source/interfaces/intsort/i22main_tri.F
+      !||    i22shell_getminmax              ../engine/source/interfaces/intsort/i22main_tri.F
+      !||    i23buce                         ../engine/source/interfaces/intsort/i23buce.F
+      !||    i23cor3                         ../engine/source/interfaces/int23/i23cor3.F
+      !||    i23cor3t                        ../engine/source/interfaces/int23/i23cor3t.F
+      !||    i23for3                         ../engine/source/interfaces/int23/i23for3.F
+      !||    i23main_tri                     ../engine/source/interfaces/intsort/i23main_tri.F
+      !||    i23optcd                        ../engine/source/interfaces/int23/i23optcd.F
+      !||    i23trivox                       ../engine/source/interfaces/intsort/i23trivox.F
+      !||    i24_save_sub                    ../engine/source/interfaces/int24/i24_save_sub.F
+      !||    i24ass0                         ../engine/source/interfaces/int24/i24for3.F
+      !||    i24ass2                         ../engine/source/interfaces/int24/i24for3.F
+      !||    i24buce                         ../engine/source/interfaces/intsort/i24buce.F
+      !||    i24cor3                         ../engine/source/interfaces/int24/i24cor3.F
+      !||    i24cor3t                        ../engine/source/interfaces/intsort/i24cor3t.F
+      !||    i24cork3                        ../engine/source/interfaces/int24/i24cork3.F
+      !||    i24corkm                        ../engine/source/interfaces/int24/i24cork3.F
+      !||    i24corp3                        ../engine/source/interfaces/int24/i24cork3.F
+      !||    i24dst3                         ../engine/source/interfaces/int24/i24dst3.F
+      !||    i24dst3e                        ../engine/source/interfaces/int24/i24dst3e.F
+      !||    i24edgt                         ../engine/source/interfaces/intsort/i24sto.F
+      !||    i24for1_fic                     ../engine/source/interfaces/int24/i24for3e.F
+      !||    i24for1_ficr                    ../engine/source/interfaces/int24/i24for3e.F
+      !||    i24for3                         ../engine/source/interfaces/int24/i24for3.F
+      !||    i24gap_pxfem                    ../engine/source/interfaces/int24/i24gap_pxfem.F
+      !||    i24iply_pxfem                   ../engine/source/interfaces/int24/i24iply_pxfem.F
+      !||    i24ispt2_ini                    ../engine/source/interfaces/int24/i24cor3.F
+      !||    i24ispt2_ini_opttri             ../engine/source/interfaces/int24/i24cor3.F
+      !||    i24keg3                         ../engine/source/interfaces/int24/i24ke3.F
+      !||    i24main_tri                     ../engine/source/interfaces/intsort/i24main_tri.F
+      !||    i24nexttria                     ../engine/source/interfaces/int24/i24dst3.F
+      !||    i24nexttria2                    ../engine/source/interfaces/int24/i24dst3.F
+      !||    i24nitschfor3                   ../engine/source/interfaces/int24/i24nitschfor3.F
+      !||    i24optcd                        ../engine/source/interfaces/intsort/i24optcd.F
+      !||    i24s1s2                         ../engine/source/interfaces/intsort/i24sto.F
+      !||    i24sms2                         ../engine/source/interfaces/int24/i24for3.F
+      !||    i24sto                          ../engine/source/interfaces/intsort/i24sto.F
+      !||    i24trc                          ../engine/source/interfaces/intsort/i7trc.F
+      !||    i24trivox                       ../engine/source/interfaces/intsort/i24trivox.F
+      !||    i25ass0                         ../engine/source/interfaces/int25/i25ass3.F
+      !||    i25ass2                         ../engine/source/interfaces/int25/i25ass3.F
+      !||    i25ass3                         ../engine/source/interfaces/int25/i25ass3.F
+      !||    i25asse0                        ../engine/source/interfaces/int25/i25asse.F
+      !||    i25asse05                       ../engine/source/interfaces/int25/i25asse.F
+      !||    i25asse05_e2s                   ../engine/source/interfaces/int25/i25ass_e2s.F
+      !||    i25asse0_e2s                    ../engine/source/interfaces/int25/i25ass_e2s.F
+      !||    i25asse2                        ../engine/source/interfaces/int25/i25asse.F
+      !||    i25asse25                       ../engine/source/interfaces/int25/i25asse.F
+      !||    i25asse25_e2s                   ../engine/source/interfaces/int25/i25ass_e2s.F
+      !||    i25asse2_e2s                    ../engine/source/interfaces/int25/i25ass_e2s.F
+      !||    i25buce                         ../engine/source/interfaces/intsort/i25buce.F
+      !||    i25buce_edg                     ../engine/source/interfaces/intsort/i25buce_edg.F
+      !||    i25comp_1                       ../engine/source/interfaces/int25/i25comp_1.F
+      !||    i25comp_2                       ../engine/source/interfaces/int25/i25comp_2.F
+      !||    i25cor3_1                       ../engine/source/interfaces/int25/i25cor3.F
+      !||    i25cor3_21                      ../engine/source/interfaces/int25/i25cor3.F
+      !||    i25cor3_22                      ../engine/source/interfaces/int25/i25cor3.F
+      !||    i25cor3_3                       ../engine/source/interfaces/int25/i25cor3.F
+      !||    i25cor3_e2s                     ../engine/source/interfaces/int25/i25cor3_e2s.F
+      !||    i25cor3e                        ../engine/source/interfaces/int25/i25cor3e.F
+      !||    i25cor3t                        ../engine/source/interfaces/intsort/i25cor3t.F
+      !||    i25dst3_1                       ../engine/source/interfaces/int25/i25dst3_1.F
+      !||    i25dst3_21                      ../engine/source/interfaces/int25/i25dst3_21.F
+      !||    i25dst3_22                      ../engine/source/interfaces/int25/i25dst3_22.F
+      !||    i25dst3_3                       ../engine/source/interfaces/int25/i25dst3_3.F
+      !||    i25for3                         ../engine/source/interfaces/int25/i25for3.F
+      !||    i25for3_e2s                     ../engine/source/interfaces/int25/i25for3_e2s.F
+      !||    i25for3e                        ../engine/source/interfaces/int25/i25for3e.F
+      !||    i25glob                         ../engine/source/interfaces/int25/i25dst3_1.F
+      !||    i25glob_22                      ../engine/source/interfaces/int25/i25dst3_22.F
+      !||    i25irtlm                        ../engine/source/interfaces/int25/i25irtlm.F
+      !||    i25keepf                        ../engine/source/interfaces/int25/i25slid.F
+      !||    i25main_free                    ../engine/source/interfaces/intsort/i25main_free.F
+      !||    i25main_opt_tri                 ../engine/source/interfaces/intsort/i25main_opt_tri.F
+      !||    i25main_slid                    ../engine/source/interfaces/int25/i25main_slid.F
+      !||    i25main_tri                     ../engine/source/interfaces/intsort/i25main_tri.F
+      !||    i25maind_2                      ../engine/source/interfaces/int25/i25maind_2.F
+      !||    i25mainf                        ../engine/source/interfaces/int25/i25mainf.F
+      !||    i25optcd                        ../engine/source/interfaces/intsort/i25optcd.F
+      !||    i25optcd_e2s                    ../engine/source/interfaces/intsort/i25optcd_e2s.F
+      !||    i25optcd_edg                    ../engine/source/interfaces/intsort/i25optcd_edg.F
+      !||    i25pen3_e2s                     ../engine/source/interfaces/intsort/i25pen3_e2s.F
+      !||    i25pen3_edg                     ../engine/source/interfaces/intsort/i25pen3_edg.F
+      !||    i25prep_add                     ../engine/source/interfaces/int25/i25slid.F
+      !||    i25prep_nindex                  ../engine/source/interfaces/int25/i25slid.F
+      !||    i25prep_send                    ../engine/source/interfaces/int25/i25slid.F
+      !||    i25prep_sizbufs                 ../engine/source/interfaces/int25/i25slid.F
+      !||    i25prep_slid_1                  ../engine/source/interfaces/int25/i25slid.F
+      !||    i25prep_slid_2                  ../engine/source/interfaces/int25/i25slid.F
+      !||    i25s1s2                         ../engine/source/interfaces/intsort/i25sto.F
+      !||    i25sms0e                        ../engine/source/interfaces/int25/i25smse.F
+      !||    i25sms2                         ../engine/source/interfaces/int25/i25for3.F
+      !||    i25sms2e                        ../engine/source/interfaces/int25/i25smse.F
+      !||    i25sms_e2s                      ../engine/source/interfaces/int25/i25sms_e2s.F
+      !||    i25sto                          ../engine/source/interfaces/intsort/i25sto.F
+      !||    i25sto_e2s                      ../engine/source/interfaces/intsort/i25sto_e2s.F
+      !||    i25sto_edg                      ../engine/source/interfaces/intsort/i25sto_edg.F
+      !||    i25tagn                         ../engine/source/interfaces/int25/i25norm.F
+      !||    i25trc_e2s                      ../engine/source/interfaces/intsort/i25trc_e2s.F
+      !||    i25trc_edg                      ../engine/source/interfaces/intsort/i25trc_edg.F
+      !||    i25trivox                       ../engine/source/interfaces/intsort/i25trivox.F
+      !||    i25trivox_edg                   ../engine/source/interfaces/intsort/i25trivox_edg.F
+      !||    i7ass0                          ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass05                         ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass2                          ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass25                         ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass33                         ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7assigeo0                      ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7buce                          ../engine/source/interfaces/intsort/i7buce.F
+      !||    i7buce_vox                      ../engine/source/interfaces/intsort/i7buce.F
+      !||    i7cor3                          ../engine/source/interfaces/int07/i7cor3.F
+      !||    i7cor3t                         ../engine/source/interfaces/int07/i7cor3t.F
+      !||    i7cork3                         ../engine/source/interfaces/int07/i7cork3.F
+      !||    i7corp3                         ../engine/source/interfaces/int07/i7cork3.F
+      !||    i7for3                          ../engine/source/interfaces/int07/i7for3.F
+      !||    i7main_tri                      ../engine/source/interfaces/intsort/i7main_tri.F
+      !||    i7optcd                         ../engine/source/interfaces/intsort/i7optcd.F
+      !||    i7sms2                          ../engine/source/interfaces/int07/i7sms2.F
+      !||    i7trc                           ../engine/source/interfaces/intsort/i7trc.F
+      !||    i7tri                           ../engine/source/interfaces/intsort/i7tri.F
+      !||    i7trivox                        ../engine/source/interfaces/intsort/i7trivox.F
+      !||    i_cor_epfit3                    ../engine/source/interfaces/int24/i24cor3.F
+      !||    i_corpfit3                      ../engine/source/interfaces/int24/i24cor3.F
+      !||    imp_fr7i                        ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_stif24                      ../engine/source/implicit/imp_solv.F
+      !||    impl_sav                        ../engine/source/interfaces/int24/i24main.F
+      !||    impl_sav0                       ../engine/source/interfaces/int24/i24main.F
+      !||    impl_sav1                       ../engine/source/interfaces/int24/i24main.F
+      !||    init_trim                       ../engine/source/interfaces/intsort/init_trim.F
+      !||    int18_alloc                     ../engine/source/interfaces/int18/int18_alloc.F
+      !||    int18_law151_omp_accumulation   ../engine/source/interfaces/int18/int18_law151_omp_accumulation.F
+      !||    intcrit                         ../engine/source/interfaces/intsort/intcrit.F
+      !||    inter7_collision_detection      ../engine/source/interfaces/inter7_collision_detection.F
+      !||    inter_sort_07                   ../engine/source/interfaces/int07/inter_sort_07.F
+      !||    intmass_update                  ../engine/source/interfaces/interf/intmass_update.F
+      !||    inttri                          ../engine/source/interfaces/intsort/inttri.F
+      !||    mpp_init                        ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    multi_i18_force_poff            ../engine/source/interfaces/int18/multi_i18_force_poff.F
+      !||    multi_i18_force_pon             ../engine/source/interfaces/int18/multi_i18_force_pon.F
+      !||    print_stif                      ../engine/source/implicit/imp_solv.F
+      !||    reallocate_fi1                  ../engine/source/mpi/interfaces/spmd_i25slide.F
+      !||    reallocate_fi2                  ../engine/source/mpi/interfaces/spmd_i25slide.F
+      !||    spbuc3                          ../engine/source/elements/sph/spbuc3.F
+      !||    sphtri0                         ../engine/source/elements/sph/sphtri0.F
+      !||    spmd_cell_exchange              ../engine/source/mpi/generic/spmd_cell_exchange.F
+      !||    spmd_cell_list_exchange         ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
+      !||    spmd_cell_size_exchange         ../engine/source/mpi/interfaces/spmd_cell_size_exchange.F
+      !||    spmd_cell_size_exchange_init    ../engine/source/mpi/interfaces/spmd_cell_size_exchange_init.F
+      !||    spmd_cell_size_post_rcv         ../engine/source/mpi/interfaces/spmd_cell_size_post_rcv.F
+      !||    spmd_check_tag                  ../engine/source/mpi/ams/spmd_check_tag.F
+      !||    spmd_exch_efric                 ../engine/source/mpi/interfaces/spmd_exch_efric.F
+      !||    spmd_exch_i24                   ../engine/source/mpi/interfaces/spmd_exch_i24.F
+      !||    spmd_exch_i25                   ../engine/source/mpi/interfaces/spmd_exch_i25.F
+      !||    spmd_exch_inter_18              ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+      !||    spmd_exch_press                 ../engine/source/mpi/interfaces/spmd_exch_press.F
+      !||    spmd_exch_smst2                 ../engine/source/mpi/ams/spmd_exch_smst2.F
+      !||    spmd_exch_sorting_efric         ../engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
+      !||    spmd_get_penis                  ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_get_penis20                ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_get_stif                   ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_get_stif11                 ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_get_stif20                 ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_get_stif20e                ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_get_stif25                 ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_get_stif25_edg             ../engine/source/mpi/interfaces/spmd_getstif25_edg.F
+      !||    spmd_i17frots_pon               ../engine/source/mpi/interfaces/spmd_i17frots_pon.F
+      !||    spmd_i18kine_com_a              ../engine/source/mpi/interfaces/spmd_i18kine_com_a.F
+      !||    spmd_i18kine_com_acc            ../engine/source/mpi/interfaces/spmd_i18kine_com_acc.F
+      !||    spmd_i18kine_com_ms             ../engine/source/mpi/interfaces/spmd_i18kine_com_ms.F
+      !||    spmd_i18kine_com_v              ../engine/source/mpi/interfaces/spmd_i18kine_com_v.F
+      !||    spmd_i18kine_macc_com_poff      ../engine/source/mpi/interfaces/spmd_i18kine_macc_com_poff.F
+      !||    spmd_i18kine_msf_com_poff       ../engine/source/mpi/interfaces/spmd_i18kine_msf_com_poff.F
+      !||    spmd_i18kine_pene_com_poff      ../engine/source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
+      !||    spmd_i20normf                   ../engine/source/mpi/interfaces/spmd_i20normf.F
+      !||    spmd_i21fthecom                 ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_i24_prepare                ../engine/source/interfaces/int24/i24_prepare.F
+      !||    spmd_i25_prepare                ../engine/source/interfaces/int25/i25_prepare.F
+      !||    spmd_i25_slide_gat              ../engine/source/mpi/interfaces/spmd_i25slide.F
+      !||    spmd_i25front_init              ../engine/source/mpi/interfaces/spmd_i25front.F
+      !||    spmd_i25front_nor               ../engine/source/mpi/interfaces/spmd_i25front.F
+      !||    spmd_i7fcom_poff                ../engine/source/mpi/forces/spmd_i7fcom_poff.F
+      !||    spmd_i7fcom_pon                 ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+      !||    spmd_i7itied_cand               ../engine/source/mpi/interfaces/spmd_i7itied_cand.F
+      !||    spmd_i7xvcom2                   ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
+      !||    spmd_ifront                     ../engine/source/mpi/interfaces/spmd_ifront.F
+      !||    spmd_initfi                     ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_int18_law151_pon           ../engine/source/mpi/forces/spmd_int18_law151_pon.F
+      !||    spmd_oldnumcd                   ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_rnum25                     ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_rnum25_edge                ../engine/source/mpi/interfaces/spmd_rnum25_edge.F
+      !||    spmd_rnumcd                     ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_rnumcd10                   ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_rnumcd11                   ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_rnumcd20                   ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_savefi                     ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_sd_stfa20                  ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_sd_stfn                    ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_sd_stfn11                  ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_sd_stfn20e                 ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_sd_stfn25                  ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_sphvox                     ../engine/source/mpi/sph/spmd_sphvox.F
+      !||    spmd_sphvox0                    ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphvox_old                 ../engine/source/mpi/sph/spmd_sphvox.F
+      !||    spmd_tri10box                   ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri10gat                   ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri11gat                   ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri11vox                   ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri11vox0                  ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri17box                   ../engine/source/mpi/interfaces/spmd_tri17box.F
+      !||    spmd_tri17gat                   ../engine/source/mpi/interfaces/spmd_i7crit.F
+      !||    spmd_tri18_151vox               ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri20box                   ../engine/source/mpi/interfaces/spmd_tri20box.F
+      !||    spmd_tri20boxe                  ../engine/source/mpi/interfaces/spmd_tri20boxe.F
+      !||    spmd_tri20gat                   ../engine/source/mpi/interfaces/spmd_i7crit.F
+      !||    spmd_tri20gate                  ../engine/source/mpi/interfaces/spmd_i7crit.F
+      !||    spmd_tri22vox                   ../engine/source/mpi/interfaces/spmd_tri22vox.F
+      !||    spmd_tri22vox0                  ../engine/source/mpi/interfaces/spmd_tri22vox0.F
+      !||    spmd_tri23vox0                  ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri24gat                   ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri24vox                   ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri24vox0                  ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri25egat                  ../engine/source/mpi/interfaces/spmd_tri25egat.F
+      !||    spmd_tri25gat                   ../engine/source/mpi/interfaces/spmd_tri25gat.F
+      !||    spmd_tri25vox                   ../engine/source/mpi/interfaces/spmd_tri25vox.F
+      !||    spmd_tri25vox0                  ../engine/source/mpi/interfaces/spmd_tri25vox0.F
+      !||    spmd_tri25vox0_edge             ../engine/source/mpi/interfaces/spmd_tri25vox0.F
+      !||    spmd_tri7gat                    ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri7vox                    ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri7vox0                   ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri7vox_optimized          ../engine/source/mpi/interfaces/spmd_tri7vox_optimized.F
+      !||    spmd_wait_nb                    ../engine/source/mpi/interfaces/spmd_wait_nb.F
+      !||    sptrivox                        ../engine/source/elements/sph/sptrivox.F
+      !||    update_struct_int21             ../engine/source/interfaces/int21/update_struct_int21.F
+      !||    upgrade_rem_2ry                 ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||--- uses       -----------------------------------------------------
+      !||    pointerdef                      ../engine/share/modules/pointerdef_mod.F
+      !||====================================================================
       MODULE TRI7BOX
       USE POINTERDEF
 #include "my_real.inc"

@@ -20,18 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_INIEVO_S                 source/materials/fail/inievo/fail_inievo_s.F
-Chd|-- called by -----------
-Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
-Chd|-- calls ---------------
-Chd|        JACOBIEW_V                    source/materials/mat_share/jacobview_v.F
-Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
-Chd|        FCRIT                         source/materials/mat/mat081/sigeps81.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_inievo_s         ../engine/source/materials/fail/inievo/fail_inievo_s.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain                 ../engine/source/materials/mat_share/mmain.F90
+      !||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
+      !||    usermat_solid         ../engine/source/materials/mat_share/usermat_solid.F
+      !||--- calls      -----------------------------------------------------
+      !||    fcrit                 ../engine/source/materials/mat/mat081/sigeps81.F
+      !||    jacobiew_v            ../engine/source/materials/mat_share/jacobview_v.F
+      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    table_mod             ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE FAIL_INIEVO_S (
      1     NEL      ,NUPARAM  ,NUVAR    ,
      2     TABLE    ,NTABLF   ,ITABLF   ,TIME     ,UPARAM   , 

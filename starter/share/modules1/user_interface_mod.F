@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  USER_INTERFACE_MOD            share/modules1/user_interface_mod.F
-Chd|-- called by -----------
-Chd|        SET_USER_WINDOW_NODES         source/user_interface/user_windows_tools.F
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|        SET_U_SENS_FPAR               source/user_interface/uaccess.F
-Chd|        SET_U_SENS_IPAR               source/user_interface/uaccess.F
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    user_interface_mod      ../starter/share/modules1/user_interface_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    set_u_sens_fpar         ../starter/source/user_interface/uaccess.F
+      !||    set_u_sens_ipar         ../starter/source/user_interface/uaccess.F
+      !||    set_user_window_nodes   ../starter/source/user_interface/user_windows_tools.F
+      !||    starter0                ../starter/source/starter/starter0.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod              ../starter/share/modules1/sensor_mod.F
+      !||====================================================================
       MODULE USER_INTERFACE_MOD
          USE USER_WINDOWS_MOD
          USE SENSOR_MOD
@@ -44,16 +43,16 @@ C-------------------------------------------------------------------------------
 
       ! Need to have sensor_tab in a separate module as long as the array is not embedded in a Type
       ! Otherwise issues with Allocation / Reallocation
-Chd|====================================================================
-Chd|  USER_SENSOR_MOD               share/modules1/user_interface_mod.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|        SET_U_SENS_FPAR               source/user_interface/uaccess.F
-Chd|        SET_U_SENS_IPAR               source/user_interface/uaccess.F
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    user_sensor_mod   ../starter/share/modules1/user_interface_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur            ../starter/source/starter/lectur.F
+      !||    set_u_sens_fpar   ../starter/source/user_interface/uaccess.F
+      !||    set_u_sens_ipar   ../starter/source/user_interface/uaccess.F
+      !||    starter0          ../starter/source/starter/starter0.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod        ../starter/share/modules1/sensor_mod.F
+      !||====================================================================
       MODULE USER_SENSOR_MOD
          USE SENSOR_MOD
 #include "my_real.inc"

@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAW70_TABLE                   source/materials/mat/mat070/law70_table.F
-Chd|-- called by -----------
-Chd|        LAW70_UPD                     source/materials/mat/mat070/law70_upd.F
-Chd|-- calls ---------------
-Chd|        FUNC2D_DEINTERSECT            source/materials/tools/func2d_deintersect.F
-Chd|        TABLE_VALUES_2D               source/materials/tools/table_values_2d.F
-Chd|        UNIFY_ABSCISSA_2D             source/materials/tools/unify_abscissas_2d.F
-Chd|        VW_SMOOTH                     source/tools/curve/vw_smooth.F
-Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    law70_table          ../starter/source/materials/mat/mat070/law70_table.F
+      !||--- called by ------------------------------------------------------
+      !||    law70_upd            ../starter/source/materials/mat/mat070/law70_upd.F
+      !||--- calls      -----------------------------------------------------
+      !||    func2d_deintersect   ../starter/source/materials/tools/func2d_deintersect.F
+      !||    table_values_2d      ../starter/source/materials/tools/table_values_2d.F
+      !||    unify_abscissa_2d    ../starter/source/materials/tools/unify_abscissas_2d.F
+      !||    vw_smooth            ../starter/source/tools/curve/vw_smooth.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE LAW70_TABLE(TABLE  ,NFUNC  ,LEN     ,LMAX   ,RATE   ,
      .                       XI     ,YI     )
 C----------------------------------------------- 

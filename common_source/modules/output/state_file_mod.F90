@@ -21,6 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
+      !||====================================================================
+      !||    state_file_mod   ../common_source/modules/output/state_file_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    output_mod       ../common_source/modules/output/output_mod.F90
+      !||====================================================================
       module state_file_mod
 
 ! ======================================================================================================================
@@ -40,6 +45,11 @@
          contains
 
          
+      !||====================================================================
+      !||    state_init   ../common_source/modules/output/state_file_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    frestat      ../engine/source/input/frestat.F
+      !||====================================================================
          subroutine state_init(state,mx_stat)
             
 

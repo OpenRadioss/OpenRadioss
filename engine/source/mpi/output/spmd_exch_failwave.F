@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_FAILWAVE_BOUNDARIES      source/mpi/output/spmd_exch_failwave.F
-Chd|-- called by -----------
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
-Chd|-- calls ---------------
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_failwave_boundaries   ../engine/source/mpi/output/spmd_exch_failwave.F
+      !||--- called by ------------------------------------------------------
+      !||    resol_init                 ../engine/source/engine/resol_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    failwave_mod               ../common_source/modules/failwave_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_FAILWAVE_BOUNDARIES(FAILWAVE,IAD_ELEM,FR_ELEM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -93,13 +93,14 @@ C count the #boundaries failwave nodes
       END
 
 
-Chd|====================================================================
-Chd|  SPMD_EXCH_FAILWAVE            source/mpi/output/spmd_exch_failwave.F
-Chd|-- called by -----------
-Chd|        UPDATE_FAILWAVE               source/materials/fail/failwave/update_failwave.F
-Chd|-- calls ---------------
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_failwave   ../engine/source/mpi/output/spmd_exch_failwave.F
+      !||--- called by ------------------------------------------------------
+      !||    update_failwave      ../engine/source/materials/fail/failwave/update_failwave.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    failwave_mod         ../common_source/modules/failwave_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_FAILWAVE(FAILWAVE)
 C-----------------------------------------------
 C   M o d u l e s

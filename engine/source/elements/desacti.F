@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DESACTI                       source/elements/desacti.F     
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        CONVECOFF                     source/constraints/thermic/convecoff.F
-Chd|        ELOFF                         source/elements/eloff.F       
-Chd|        RADIATOFF                     source/constraints/thermic/radiatoff.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    desacti        ../engine/source/elements/desacti.F
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    convecoff      ../engine/source/constraints/thermic/convecoff.F
+      !||    eloff          ../engine/source/elements/eloff.F
+      !||    radiatoff      ../engine/source/constraints/thermic/radiatoff.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+      !||    sensor_mod     ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE DESACTI(IXS      ,IXQ      ,IXC     ,IXP     ,IXT      ,
      .                   IXR      ,IXTG     ,IPARG   ,IACTIV  , 
      .                   NSENSOR  ,SENSOR_TAB,FSKY    ,X      ,ELBUF_TAB,

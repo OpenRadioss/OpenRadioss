@@ -21,13 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SZETFAC                       source/elements/solid/solidez/szetfac.F
-Chd|-- called by -----------
-Chd|        SZHOUR3                       source/elements/solid/solidez/szhour3.F
-Chd|        SZHOUR3_OR                    source/elements/solid/solidez/szhour3_or.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    szetfac      ../engine/source/elements/solid/solidez/szetfac.F
+      !||--- called by ------------------------------------------------------
+      !||    szhour3      ../engine/source/elements/solid/solidez/szhour3.F
+      !||    szhour3_or   ../engine/source/elements/solid/solidez/szhour3_or.F
+      !||====================================================================
       SUBROUTINE SZETFAC(LFT,LLT,IKT,MTN,ET,G  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

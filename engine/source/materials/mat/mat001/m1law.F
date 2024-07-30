@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M1LAW                         source/materials/mat/mat001/m1law.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MDTSPH                        source/materials/mat_share/mdtsph.F
-Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F
-Chd|====================================================================
+      !||====================================================================
+      !||    m1law     ../engine/source/materials/mat/mat001/m1law.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain     ../engine/source/materials/mat_share/mmain.F90
+      !||--- calls      -----------------------------------------------------
+      !||    mdtsph    ../engine/source/materials/mat_share/mdtsph.F
+      !||    mqviscb   ../engine/source/materials/mat_share/mqviscb.F
+      !||====================================================================
       SUBROUTINE M1LAW(
      1   PM,      OFF,     SIG,     EINT,
      2   RHO,     QOLD,    VOL,     STIFN,

@@ -21,17 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  I23GAP3                       source/interfaces/inter3d1/i23gap3.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        I4GMX3                        source/interfaces/inter3d1/i4gmx3.F
-Chd|        INCOQ3                        source/interfaces/inter3d1/incoq3.F
-Chd|        INSOL3                        source/interfaces/inter3d1/insol3.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i23gap3       ../starter/source/interfaces/inter3d1/i23gap3.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    i4gmx3        ../starter/source/interfaces/inter3d1/i4gmx3.F
+      !||    incoq3        ../starter/source/interfaces/inter3d1/incoq3.F
+      !||    insol3        ../starter/source/interfaces/inter3d1/insol3.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I23GAP3(
      1 X     ,IRECTS ,IRECTM ,NRTS  ,NRTM  ,
      2 GEO      ,IXS      ,PM        ,IXC     ,IXTG  ,

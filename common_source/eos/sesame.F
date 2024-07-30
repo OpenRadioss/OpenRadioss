@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SESAME                        eos/sesame.F                  
-Chd|-- called by -----------
-Chd|        EOSMAIN                       common_source/eos/eosmain.F   
-Chd|-- calls ---------------
-Chd|        MINTP1_RT                     eos/mintp1_rt.F               
-Chd|        MINTP_RE                      eos/mintp_re.F                
-Chd|        MINTP_RT                      eos/mintp_rt.F                
-Chd|====================================================================
+      !||====================================================================
+      !||    sesame      ../common_source/eos/sesame.F
+      !||--- called by ------------------------------------------------------
+      !||    eosmain     ../common_source/eos/eosmain.F
+      !||--- calls      -----------------------------------------------------
+      !||    mintp1_rt   ../common_source/eos/mintp1_rt.F
+      !||    mintp_re    ../common_source/eos/mintp_re.F
+      !||    mintp_rt    ../common_source/eos/mintp_rt.F
+      !||====================================================================
       SUBROUTINE SESAME(IFLAG,NEL, PM   ,OFF  ,EINT ,RHO  ,RHO0  , 
      2                  ESPE ,DVOL ,MAT  ,PNEW ,DPDM ,DPDE  ,THETA ,
      3                  BUFMAT)

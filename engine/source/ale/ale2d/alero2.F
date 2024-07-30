@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALERO2                        source/ale/ale2d/alero2.F     
-Chd|-- called by -----------
-Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    alero2        ../engine/source/ale/ale2d/alero2.F
+      !||--- called by ------------------------------------------------------
+      !||    qforc2        ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ALERO2(OFF,VOLO,RHON,FLUX,FLU1,W,
      .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
      .                  VOLN,DVOL,VD2,

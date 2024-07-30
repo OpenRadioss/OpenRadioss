@@ -21,15 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  W_ITABM1                      source/restart/ddsplit/w_itabm1.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    w_itabm1    ../starter/source/restart/ddsplit/w_itabm1.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    usr2sys     ../starter/source/system/sysfus.F
+      !||====================================================================
       SUBROUTINE W_ITABM1(ITABM1,ITABM2,NODGLOB,NODLOCAL,NUMNOD_L,
      2                   ITAB, LEN_IA)
 C-----------------------------------------------

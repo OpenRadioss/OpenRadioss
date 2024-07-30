@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ANI_FASOLFR1                  source/output/anim/ani_fasolfr.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    ani_fasolfr1   ../starter/source/output/anim/ani_fasolfr.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur         ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret          ../starter/source/system/arret.F
+      !||====================================================================
       SUBROUTINE ANI_FASOLFR1(IXS ,IXC     ,IXTG    ,FASTAG, ISOLNOD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -329,12 +329,11 @@ C            FASOLFR(2,NFASOLFR)=JJ
 C     
       RETURN
       END
-Chd|====================================================================
-Chd|  ANI_FASOLFR2                  source/output/anim/ani_fasolfr.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ani_fasolfr2   ../starter/source/output/anim/ani_fasolfr.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur         ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE ANI_FASOLFR2(FASTAG  ,FASOLFR, ISOLNOD )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

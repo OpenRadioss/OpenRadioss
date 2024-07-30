@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TRI11                         share/modules1/tri11_mod.F    
-Chd|-- called by -----------
-Chd|        I11BUC_VOX1                   source/interfaces/inter3d1/i11buc1.F
-Chd|        I11TRIVOX1                    source/interfaces/inter3d1/i11trivox1.F
-Chd|        I25TRIVOX_EDG                 source/interfaces/inter3d1/i25trivox_edg.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    tri11           ../starter/share/modules1/tri11_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    i11buc_vox1     ../starter/source/interfaces/inter3d1/i11buc1.F
+      !||    i11trivox1      ../starter/source/interfaces/inter3d1/i11trivox1.F
+      !||    i25trivox_edg   ../starter/source/interfaces/inter3d1/i25trivox_edg.F
+      !||====================================================================
       MODULE TRI11
 #include "my_real.inc"
 

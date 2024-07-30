@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  |         INTTI12F                        /interf/intti12.F
-Chd|====================================================================
-Chd|  I12FOR3                       source/interfaces/interf/i12for3.F
-Chd|-- called by -----------
-Chd|        INTTI12F                      source/interfaces/interf/intti12.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i12for3    ../engine/source/interfaces/interf/i12for3.F
+      !||--- called by ------------------------------------------------------
+      !||    intti12f   ../engine/source/interfaces/interf/intti12.F
+      !||====================================================================
       SUBROUTINE I12FOR3(
      1  NSN  ,NMN  ,A      ,IRECT,CRST  ,
      2  MSR  ,NSV  ,IRTL   ,MS   ,WEIGHT,

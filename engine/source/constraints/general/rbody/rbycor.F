@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RBYCOR                        source/constraints/general/rbody/rbycor.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        RGBCOR                        source/constraints/general/rbody/rgbcor.F
-Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    rbycor     ../engine/source/constraints/general/rbody/rbycor.F
+      !||--- called by ------------------------------------------------------
+      !||    resol      ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    rgbcor     ../engine/source/constraints/general/rbody/rgbcor.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_dyna   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE RBYCOR(RBY ,X   ,V    ,VR  ,SKEW    ,FSAV     ,
      2                  LPBY,NPBY,ISKEW,ITAB,WEIGHT  ,A        ,
      3                  AR  ,MS  ,IN   ,KIND,IRBKIN_L,NRBYKIN_L,

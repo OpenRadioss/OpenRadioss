@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS102                     source/materials/mat/mat102/sigeps102.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps102   ../engine/source/materials/mat/mat102/sigeps102.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw       ../engine/source/materials/mat_share/mulaw.F90
+      !||====================================================================
        SUBROUTINE SIGEPS102(
      1      NEL    , NUPARAM, NUVAR  , UPARAM  , RHO0    , RHO    , 
      2      DEPSXX , DEPSYY , DEPSZZ , DEPSXY  , DEPSYZ  , DEPSZX ,

@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C3COORI                       source/elements/sh3n/coque3n/c3coori.F
-Chd|-- called by -----------
-Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
-Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
-Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
-Chd|        INIVOID                       source/elements/initia/inivoid.F
-Chd|        LSLOCAL                       source/elements/xfem/lslocal.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    c3coori       ../starter/source/elements/sh3n/coque3n/c3coori.F
+      !||--- called by ------------------------------------------------------
+      !||    c3init3       ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cdkinit3      ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||    inirig_mat    ../starter/source/elements/initia/inirig_mat.F
+      !||    inivoid       ../starter/source/elements/initia/inivoid.F
+      !||    lslocal       ../starter/source/elements/xfem/lslocal.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE C3COORI(X ,XREFTG,IXP ,NGL ,         
      .                   X1  ,X2  ,X3  ,Y1  ,Y2  ,Y3  , 
      .                   Z1  ,Z2  ,Z3  ,IX1 ,IX2 ,IX3 )

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS83                      source/materials/mat/mat083/sigeps83.F
-Chd|-- called by -----------
-Chd|        SUSER43                       source/elements/solid/sconnect/suser43.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps83   ../engine/source/materials/mat/mat083/sigeps83.F
+      !||--- called by ------------------------------------------------------
+      !||    suser43    ../engine/source/elements/solid/sconnect/suser43.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter     ../engine/source/tools/curve/finter.F
+      !||====================================================================
       SUBROUTINE SIGEPS83(
      1     NEL     ,TIME    ,TIMESTEP,UPARAM  ,OFF     ,
      2     EPSD    ,STIFM   ,IFUNC   ,MAXFUNC ,NPF     ,TF      ,

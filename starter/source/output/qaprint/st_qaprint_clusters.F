@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ST_QAPRINT_CLUSTERS           source/output/qaprint/st_qaprint_clusters.F
-Chd|-- called by -----------
-Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
-Chd|-- calls ---------------
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        CLUSTER_MOD                   share/modules1/cluster_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    st_qaprint_clusters   ../starter/source/output/qaprint/st_qaprint_clusters.F
+      !||--- called by ------------------------------------------------------
+      !||    st_qaprint_driver     ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl2              ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    cluster_mod           ../starter/share/modules1/cluster_mod.F
+      !||====================================================================
       SUBROUTINE ST_QAPRINT_CLUSTERS(NOM_OPT   ,INOM_OPT  ,CLUSTERS )
 C============================================================================
 C   M o d u l e s

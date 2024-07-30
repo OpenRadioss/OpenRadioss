@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  W_FTHFLUX                     source/restart/ddsplit/w_fthflux.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|====================================================================
+      !||====================================================================
+      !||    w_fthflux   ../starter/source/restart/ddsplit/w_fthflux.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE W_FTHFLUX(FBFFLUX,CEP,PROC,NFXFLUX_L,LEN_AM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

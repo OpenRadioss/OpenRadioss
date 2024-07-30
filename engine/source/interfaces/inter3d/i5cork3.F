@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I5CORK3                       source/interfaces/inter3d/i5cork3.F
-Chd|-- called by -----------
-Chd|        I5KE3                         source/interfaces/inter3d/i5ke3.F
-Chd|        UD_INT5                       source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i5cork3   ../engine/source/interfaces/inter3d/i5cork3.F
+      !||--- called by ------------------------------------------------------
+      !||    i5ke3     ../engine/source/interfaces/inter3d/i5ke3.F
+      !||    ud_int5   ../engine/source/implicit/upd_glob_k.F
+      !||====================================================================
       SUBROUTINE I5CORK3(
      1   X,       IRECT,   MSR,     NSV,
      2   IRTL,    I_N,     I_E,     NSVG,

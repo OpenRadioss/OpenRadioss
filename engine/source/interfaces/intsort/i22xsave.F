@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I22XSAVE                      source/interfaces/intsort/i22xsave.F
-Chd|-- called by -----------
-Chd|        I22MAIN_TRI                   source/interfaces/intsort/i22main_tri.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i22xsave      ../engine/source/interfaces/intsort/i22xsave.F
+      !||--- called by ------------------------------------------------------
+      !||    i22main_tri   ../engine/source/interfaces/intsort/i22main_tri.F
+      !||====================================================================
       SUBROUTINE I22XSAVE(
      1       X     ,NSV  ,MSR   ,NSN   ,NMN     ,
      2       ITASK ,XSAV ,XMIN  ,YMIN  ,ZMIN    ,

@@ -21,13 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  W_ELIG3D                      source/restart/ddsplit/w_elig3d.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    w_elig3d    ../starter/source/restart/ddsplit/w_elig3d.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE W_ELIG3D(KXIG3D,NUMELIG3D_L,ISUMNIG3D_L,IXIG3D,
      +                  PROC,NODLOCAL,LEN_IA)
 C-----------------------------------------------

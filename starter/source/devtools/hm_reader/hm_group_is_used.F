@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_GROUP_IS_USED              source/devtools/hm_reader/hm_group_is_used.F
-Chd|-- called by -----------
-Chd|        FILL_IGR                      source/model/sets/fill_igr.F  
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_group_is_used    ../starter/source/devtools/hm_reader/hm_group_is_used.F
+      !||--- called by ------------------------------------------------------
+      !||    fill_igr            ../starter/source/model/sets/fill_igr.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod         ../starter/share/message_module/message_mod.F
+      !||    submodel_mod        ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_GROUP_IS_USED(NAME,SNAME,ID,IS_USED)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

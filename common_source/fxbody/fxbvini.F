@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FXBVINI                       fxbody/fxbvini.F              
-Chd|-- called by -----------
-Chd|        INITIA                        starter/source/elements/initia/initia.F
-Chd|        LECINV                        engine/source/input/lecinv.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fxbvini   ../common_source/fxbody/fxbvini.F
+      !||--- called by ------------------------------------------------------
+      !||    initia    ../starter/source/elements/initia/initia.F
+      !||    lecinv    ../engine/source/input/lecinv.F
+      !||====================================================================
       SUBROUTINE FXBVINI(FXBIPM, FXBVIT, FXBRPM, V, VR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

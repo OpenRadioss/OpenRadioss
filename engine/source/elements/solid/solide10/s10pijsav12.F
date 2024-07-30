@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10PIJSAV12                   source/elements/solid/solide10/s10pijsav12.F
-Chd|-- called by -----------
-Chd|        S10UPD11T12                   source/elements/solid/solide10/s10upd11t12.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s10pijsav12   ../engine/source/elements/solid/solide10/s10pijsav12.F
+      !||--- called by ------------------------------------------------------
+      !||    s10upd11t12   ../engine/source/elements/solid/solide10/s10upd11t12.F
+      !||====================================================================
       SUBROUTINE S10PIJSAV12(PX,PY,PZ, PIJ,SIG,SIGL,INDEX,NB,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

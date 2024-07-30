@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NOLIB_USERMAT99               source/user_interface/nolib_usermat99.F
-Chd|-- called by -----------
-Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
-Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
-Chd|-- calls ---------------
-Chd|        LAW_USERSH                    source/user_interface/law_usersh.F
-Chd|====================================================================
+      !||====================================================================
+      !||    nolib_usermat99        ../engine/source/user_interface/nolib_usermat99.F
+      !||--- called by ------------------------------------------------------
+      !||    usermat_shell          ../engine/source/materials/mat_share/usermat_shell.F
+      !||    usermat_solid          ../engine/source/materials/mat_share/usermat_solid.F
+      !||--- uses       -----------------------------------------------------
+      !||    law_usersh             ../engine/source/user_interface/law_usersh.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE NOLIB_USERMAT99(ILAW_USER, IUSER_KEY)
 C-----------------------------------------------
 C   D e s c r i p t i o n

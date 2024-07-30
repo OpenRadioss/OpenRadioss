@@ -22,16 +22,17 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 Cls -> Cgw|         ARRET                           /sortie1/arret.F
-Chd|====================================================================
-Chd|  QVOLI2                        source/elements/solid_2d/quad/qvoli2.F
-Chd|-- called by -----------
-Chd|        BINIT2                        source/ale/bimat/binit2.F     
-Chd|        MULTIFLUID_INIT2              source/multifluid/multifluid_init2.F
-Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    qvoli2             ../starter/source/elements/solid_2d/quad/qvoli2.F
+      !||--- called by ------------------------------------------------------
+      !||    binit2             ../starter/source/ale/bimat/binit2.F
+      !||    multifluid_init2   ../starter/source/multifluid/multifluid_init2.F
+      !||    qinit2             ../starter/source/elements/solid_2d/quad/qinit2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE QVOLI2(VOLU,IXQ, 
      .     NGL, AIRE, 
      .     Y1, Y2, Y3, Y4, 

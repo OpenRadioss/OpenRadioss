@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CNDORDR                       source/model/remesh/cndordr.F 
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
-Chd|-- calls ---------------
-Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    cndordr      ../engine/source/model/remesh/cndordr.F
+      !||--- called by ------------------------------------------------------
+      !||    resol        ../engine/source/engine/resol.F
+      !||    resol_init   ../engine/source/engine/resol_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    remesh_mod   ../engine/share/modules/remesh_mod.F
+      !||====================================================================
       SUBROUTINE CNDORDR(IPART,IPARTC,IPARTTG,SH4TREE,SH3TREE)
 C-----------------------------------------------
 C   M o d u l e s

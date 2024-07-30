@@ -21,16 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  GROUPS_GET_NENTITY            source/groups/groups_get_nentity.F
-Chd|-- called by -----------
-Chd|        HM_LECGRE                     source/groups/hm_lecgre.F     
-Chd|-- calls ---------------
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    groups_get_nentity   ../starter/source/groups/groups_get_nentity.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_lecgre            ../starter/source/groups/hm_lecgre.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE GROUPS_GET_NENTITY(NENTITY,LSUBMODEL)
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD

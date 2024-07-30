@@ -20,16 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SET_MERGE_SIMPLE              source/model/sets/set_merge_simple.F
-Chd|-- called by -----------
-Chd|        FILL_CLAUSE_ELT_BOX           source/model/sets/fill_clause_elt_box.F
-Chd|        FILL_CLAUSE_NODE_BOX          source/model/sets/fill_clause_node_box.F
-Chd|        FILL_CLAUSE_RBODY_BOX         source/model/sets/fill_clause_rbody_box.F
-Chd|        INSERT_CLAUSE_IN_SET          source/model/sets/insert_clause_in_set.F
-Chd|        SORT_SET                      source/model/sets/sort_sets.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    set_merge_simple           ../starter/source/model/sets/set_merge_simple.F
+      !||--- called by ------------------------------------------------------
+      !||    elt_box                    ../starter/source/model/sets/fill_clause_elt_box.F
+      !||    fill_clause_elt_box        ../starter/source/model/sets/fill_clause_elt_box.F
+      !||    fill_clause_node_box       ../starter/source/model/sets/fill_clause_node_box.F
+      !||    fill_clause_rbody_box      ../starter/source/model/sets/fill_clause_rbody_box.F
+      !||    insert_clause_in_set       ../starter/source/model/sets/insert_clause_in_set.F
+      !||    node_box                   ../starter/source/model/sets/fill_clause_node_box.F
+      !||    rbody_box                  ../starter/source/model/sets/fill_clause_rbody_box.F
+      !||    sort_set                   ../starter/source/model/sets/sort_sets.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SET_MERGE_SIMPLE( SET_ENTITY,    NB_SET_ENTITY,
      *                             CLAUSE_ENTITY, NB_CLAUSE_ENTITY,
      *                             RESULT       , NB_RESULT,

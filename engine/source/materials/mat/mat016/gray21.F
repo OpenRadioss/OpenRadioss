@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GRAY21                        source/materials/mat/mat016/gray21.F
-Chd|-- called by -----------
-Chd|        GRAY20                        source/materials/mat/mat016/gray20.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    gray21   ../engine/source/materials/mat/mat016/gray21.F
+      !||--- called by ------------------------------------------------------
+      !||    gray20   ../engine/source/materials/mat/mat016/gray20.F
+      !||====================================================================
       SUBROUTINE GRAY21(
      1   PM,      RHO,     TEMP,    XIST,
      2   MAT,     RHO0,    DSP,     ALP,

@@ -20,37 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
-Chd|-- called by -----------
-Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        MODIF_TAG                     source/coupling/rad2rad/routines_r2r.F
-Chd|        PRELECSEC                     source/tools/sect/prelecsec.F 
-Chd|        R2R_COUNT                     source/coupling/rad2rad/r2r_count.F
-Chd|        TAGINT_R2R                    source/coupling/rad2rad/tagint_r2r.F
-Chd|        TAG_ELEM_VOID_R2R             source/coupling/rad2rad/tagelem_r2r.F
-Chd|        TAG_ELEM_VOID_R2R_LIN         source/coupling/rad2rad/tagelem_r2r.F
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_prelec                 ../starter/source/coupling/rad2rad/r2r_prelec.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_group                  ../starter/source/coupling/rad2rad/r2r_group.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                     ../starter/source/output/message/message.F
+      !||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+      !||    hm_get_floatv              ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_int_array_index     ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_count            ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_read_key         ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    modif_tag                  ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    prelecsec                  ../starter/source/tools/sect/prelecsec.F
+      !||    r2r_count                  ../starter/source/coupling/rad2rad/r2r_count.F
+      !||    tag_elem_void_r2r          ../starter/source/coupling/rad2rad/tagelem_r2r.F
+      !||    tag_elem_void_r2r_lin      ../starter/source/coupling/rad2rad/tagelem_r2r.F
+      !||    tagint_r2r                 ../starter/source/coupling/rad2rad/tagint_r2r.F
+      !||    usr2sys                    ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod             ../starter/share/modules1/detonators_mod.F
+      !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
+      !||    inivol_def_mod             ../starter/share/modules1/inivol_mod.F
+      !||    message_mod                ../starter/share/message_module/message_mod.F
+      !||    nod2el_mod                 ../starter/share/modules1/nod2el_mod.F
+      !||    r2r_mod                    ../starter/share/modules1/r2r_mod.F
+      !||    restmod                    ../starter/share/modules1/restart_mod.F
+      !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE R2R_PRELEC(IPARTS,
      2           IPARTC,IPARTG,IPARTT,IPARTP,IPARTR,IPARTSP,COMPT_T2,
      3           MODIF,PASSE,INOM_OPT,NSPCONDN,NSPHION,IPART_L,MEMTR,
@@ -1342,23 +1341,22 @@ C------------------------------------------------------------------
 
       END SUBROUTINE R2R_PRELEC
 
-Chd|====================================================================
-Chd|  R2R_MONVOL                    source/coupling/rad2rad/r2r_prelec.F
-Chd|-- called by -----------
-Chd|        R2R_SPLIT                     source/coupling/rad2rad/r2r_split.F
-Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_monvol               ../starter/source/coupling/rad2rad/r2r_prelec.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_split                ../starter/source/coupling/rad2rad/r2r_split.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key       ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start          ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    usr2sys                  ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+      !||    r2r_mod                  ../starter/share/modules1/r2r_mod.F
+      !||    restmod                  ../starter/share/modules1/restart_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE R2R_MONVOL(TAGPART,TAGPRO,IGRSURF,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s

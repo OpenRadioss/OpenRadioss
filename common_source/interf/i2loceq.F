@@ -20,21 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2LOCEQ                       interf/i2loceq.F              
-Chd|-- called by -----------
-Chd|        I2_DTN_25                     starter/source/interfaces/inter3d1/i2_dtn.F
-Chd|        I2_DTN_27_PEN                 starter/source/interfaces/inter3d1/i2_dtn_27.F
-Chd|        I2FOR25                       engine/source/interfaces/interf/i2for25.F
-Chd|        I2FOR25P                      engine/source/interfaces/interf/i2for25p.F
-Chd|        I2FOR26                       engine/source/interfaces/interf/i2for26.F
-Chd|        I2FOR26P                      engine/source/interfaces/interf/i2for26p.F
-Chd|        I2FOR27P_PEN                  engine/source/interfaces/interf/i2for27p_pen.F
-Chd|        I2FOR27_PEN                   engine/source/interfaces/interf/i2for27_pen.F
-Chd|-- calls ---------------
-Chd|        INV3                          starter/source/tools/univ/inv3.F
-Chd|        INV3                          engine/source/elements/joint/rskew33.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i2loceq         ../common_source/interf/i2loceq.F
+      !||--- called by ------------------------------------------------------
+      !||    i2_dtn_25       ../starter/source/interfaces/inter3d1/i2_dtn.F
+      !||    i2_dtn_27_pen   ../starter/source/interfaces/inter3d1/i2_dtn_27.F
+      !||    i2for25         ../engine/source/interfaces/interf/i2for25.F
+      !||    i2for25p        ../engine/source/interfaces/interf/i2for25p.F
+      !||    i2for26         ../engine/source/interfaces/interf/i2for26.F
+      !||    i2for26p        ../engine/source/interfaces/interf/i2for26p.F
+      !||    i2for27_pen     ../engine/source/interfaces/interf/i2for27_pen.F
+      !||    i2for27p_pen    ../engine/source/interfaces/interf/i2for27p_pen.F
+      !||--- calls      -----------------------------------------------------
+      !||    inv3            ../engine/source/elements/joint/rskew33.F
+      !||====================================================================
       SUBROUTINE I2LOCEQ(
      .           NIR    ,RS     ,RX     ,RY     ,RZ      ,
      .           FMX    ,FMY    ,FMZ    ,H      ,STIFM   )
@@ -212,16 +211,15 @@ C-----
 C-----------
       RETURN
       END 
-Chd|====================================================================
-Chd|  I2LOCEQ_27                    interf/i2loceq.F              
-Chd|-- called by -----------
-Chd|        I2_DTN_27_CIN                 starter/source/interfaces/inter3d1/i2_dtn_27.F
-Chd|        I2FOR27P_CIN                  engine/source/interfaces/interf/i2for27p_cin.F
-Chd|        I2FOR27_CIN                   engine/source/interfaces/interf/i2for27_cin.F
-Chd|-- calls ---------------
-Chd|        INV3                          starter/source/tools/univ/inv3.F
-Chd|        INV3                          engine/source/elements/joint/rskew33.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i2loceq_27      ../common_source/interf/i2loceq.F
+      !||--- called by ------------------------------------------------------
+      !||    i2_dtn_27_cin   ../starter/source/interfaces/inter3d1/i2_dtn_27.F
+      !||    i2for27_cin     ../engine/source/interfaces/interf/i2for27_cin.F
+      !||    i2for27p_cin    ../engine/source/interfaces/interf/i2for27p_cin.F
+      !||--- calls      -----------------------------------------------------
+      !||    inv3            ../engine/source/elements/joint/rskew33.F
+      !||====================================================================
       SUBROUTINE I2LOCEQ_27(
      .           NIR    ,RS     ,RX     ,RY     ,RZ      ,
      .           FMX    ,FMY    ,FMZ    ,H      ,STIFM   ,

@@ -20,35 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SUBROTVECT                    source/model/submodel/subrot.F
-Chd|-- called by -----------
-Chd|        HM_PROP_READ21                source/properties/thickshell/hm_read_prop21.F
-Chd|        HM_READ_FRICTION_ORIENTATIONS source/interfaces/friction/reader/hm_read_friction_orientations.F
-Chd|        HM_READ_FRM                   source/tools/skew/hm_read_frm.F
-Chd|        HM_READ_INISTATE_D00          source/elements/initia/hm_read_inistate_d00.F
-Chd|        HM_READ_INIVEL                source/initial_conditions/general/inivel/hm_read_inivel.F
-Chd|        HM_READ_PROP06                source/properties/solid/hm_read_prop06.F
-Chd|        HM_READ_PROP09                source/properties/shell/hm_read_prop09.F
-Chd|        HM_READ_PROP10                source/properties/shell/hm_read_prop10.F
-Chd|        HM_READ_PROP11                source/properties/shell/hm_read_prop11.F
-Chd|        HM_READ_PROP16                source/properties/shell/hm_read_prop16.F
-Chd|        HM_READ_PROP17                source/properties/shell/hm_read_prop17.F
-Chd|        HM_READ_PROP22                source/properties/thickshell/hm_read_prop22.F
-Chd|        HM_READ_PROP51                source/properties/shell/hm_read_prop51.F
-Chd|        HM_READ_RWALL_CYL             source/constraints/general/rwall/hm_read_rwall_cyl.F
-Chd|        HM_READ_RWALL_LAGMUL          source/constraints/general/rwall/hm_read_rwall_lagmul.F
-Chd|        HM_READ_RWALL_PARAL           source/constraints/general/rwall/hm_read_rwall_paral.F
-Chd|        HM_READ_RWALL_PLANE           source/constraints/general/rwall/hm_read_rwall_plane.F
-Chd|        HM_READ_RWALL_SPHER           source/constraints/general/rwall/hm_read_rwall_spher.F
-Chd|        HM_READ_STACK                 source/stack/hm_read_stack.F  
-Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
-Chd|        LECSEC4BOLT                   source/tools/sect/lecsec4bolt.F
-Chd|        LECTRANS                      source/model/transformation/lectrans.F
-Chd|-- calls ---------------
-Chd|        EULER_VROT                    source/model/submodel/euler_vrot.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    subrotvect                      ../starter/source/model/submodel/subrot.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_prop_read21                  ../starter/source/properties/thickshell/hm_read_prop21.F
+      !||    hm_read_friction_orientations   ../starter/source/interfaces/friction/reader/hm_read_friction_orientations.F
+      !||    hm_read_frm                     ../starter/source/tools/skew/hm_read_frm.F
+      !||    hm_read_inistate_d00            ../starter/source/elements/initia/hm_read_inistate_d00.F
+      !||    hm_read_inivel                  ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
+      !||    hm_read_prop06                  ../starter/source/properties/solid/hm_read_prop06.F
+      !||    hm_read_prop09                  ../starter/source/properties/shell/hm_read_prop09.F
+      !||    hm_read_prop10                  ../starter/source/properties/shell/hm_read_prop10.F
+      !||    hm_read_prop11                  ../starter/source/properties/shell/hm_read_prop11.F
+      !||    hm_read_prop16                  ../starter/source/properties/shell/hm_read_prop16.F
+      !||    hm_read_prop17                  ../starter/source/properties/shell/hm_read_prop17.F
+      !||    hm_read_prop22                  ../starter/source/properties/thickshell/hm_read_prop22.F
+      !||    hm_read_prop51                  ../starter/source/properties/shell/hm_read_prop51.F
+      !||    hm_read_rwall_cyl               ../starter/source/constraints/general/rwall/hm_read_rwall_cyl.F
+      !||    hm_read_rwall_lagmul            ../starter/source/constraints/general/rwall/hm_read_rwall_lagmul.F
+      !||    hm_read_rwall_paral             ../starter/source/constraints/general/rwall/hm_read_rwall_paral.F
+      !||    hm_read_rwall_plane             ../starter/source/constraints/general/rwall/hm_read_rwall_plane.F
+      !||    hm_read_rwall_spher             ../starter/source/constraints/general/rwall/hm_read_rwall_spher.F
+      !||    hm_read_stack                   ../starter/source/stack/hm_read_stack.F
+      !||    lecsec42                        ../starter/source/tools/sect/hm_read_sect.F
+      !||    lecsec4bolt                     ../starter/source/tools/sect/lecsec4bolt.F
+      !||    lectrans                        ../starter/source/model/transformation/lectrans.F
+      !||--- calls      -----------------------------------------------------
+      !||    euler_vrot                      ../starter/source/model/submodel/euler_vrot.F
+      !||--- uses       -----------------------------------------------------
+      !||    submodel_mod                    ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE SUBROTVECT (X,Y,Z,RTRANS,SUB_ID,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -113,31 +114,33 @@ C======================================================================
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  SUBROTPOINT                   source/model/submodel/subrot.F
-Chd|-- called by -----------
-Chd|        CREATE_ELLIPSE_CLAUSE         source/model/sets/create_ellipse_clause.F
-Chd|        HM_READ_FRM                   source/tools/skew/hm_read_frm.F
-Chd|        HM_READ_PBLAST                source/loads/pblast/hm_read_pblast.F
-Chd|        HM_READ_RWALL_CYL             source/constraints/general/rwall/hm_read_rwall_cyl.F
-Chd|        HM_READ_RWALL_LAGMUL          source/constraints/general/rwall/hm_read_rwall_lagmul.F
-Chd|        HM_READ_RWALL_PARAL           source/constraints/general/rwall/hm_read_rwall_paral.F
-Chd|        HM_READ_RWALL_PLANE           source/constraints/general/rwall/hm_read_rwall_plane.F
-Chd|        HM_READ_RWALL_SPHER           source/constraints/general/rwall/hm_read_rwall_spher.F
-Chd|        HM_READ_RWALL_THERM           source/constraints/general/rwall/hm_read_rwall_therm.F
-Chd|        HM_READ_SKW                   source/tools/skew/hm_read_skw.F
-Chd|        HM_READ_SURF                  source/groups/hm_read_surf.F  
-Chd|        HM_READ_XREF                  source/loads/reference_state/xref/hm_read_xref.F
-Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
-Chd|        LECSEC4BOLT                   source/tools/sect/lecsec4bolt.F
-Chd|        LECTRANS                      source/model/transformation/lectrans.F
-Chd|        READ_BOX_CYL                  source/model/box/read_box_cyl.F
-Chd|        READ_BOX_RECT                 source/model/box/read_box_rect.F
-Chd|        READ_BOX_SPHER                source/model/box/read_box_spher.F
-Chd|-- calls ---------------
-Chd|        EULER_VROT                    source/model/submodel/euler_vrot.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    subrotpoint             ../starter/source/model/submodel/subrot.F
+      !||--- called by ------------------------------------------------------
+      !||    create_ellipse_clause   ../starter/source/model/sets/create_ellipse_clause.F
+      !||    create_plane_clause     ../starter/source/model/sets/create_plane_clause.F90
+      !||    hm_read_frm             ../starter/source/tools/skew/hm_read_frm.F
+      !||    hm_read_pblast          ../starter/source/loads/pblast/hm_read_pblast.F
+      !||    hm_read_rwall_cyl       ../starter/source/constraints/general/rwall/hm_read_rwall_cyl.F
+      !||    hm_read_rwall_lagmul    ../starter/source/constraints/general/rwall/hm_read_rwall_lagmul.F
+      !||    hm_read_rwall_paral     ../starter/source/constraints/general/rwall/hm_read_rwall_paral.F
+      !||    hm_read_rwall_plane     ../starter/source/constraints/general/rwall/hm_read_rwall_plane.F
+      !||    hm_read_rwall_spher     ../starter/source/constraints/general/rwall/hm_read_rwall_spher.F
+      !||    hm_read_rwall_therm     ../starter/source/constraints/general/rwall/hm_read_rwall_therm.F
+      !||    hm_read_skw             ../starter/source/tools/skew/hm_read_skw.F
+      !||    hm_read_surf            ../starter/source/groups/hm_read_surf.F
+      !||    hm_read_xref            ../starter/source/loads/reference_state/xref/hm_read_xref.F
+      !||    lecsec42                ../starter/source/tools/sect/hm_read_sect.F
+      !||    lecsec4bolt             ../starter/source/tools/sect/lecsec4bolt.F
+      !||    lectrans                ../starter/source/model/transformation/lectrans.F
+      !||    read_box_cyl            ../starter/source/model/box/read_box_cyl.F
+      !||    read_box_rect           ../starter/source/model/box/read_box_rect.F
+      !||    read_box_spher          ../starter/source/model/box/read_box_spher.F
+      !||--- calls      -----------------------------------------------------
+      !||    euler_vrot              ../starter/source/model/submodel/euler_vrot.F
+      !||--- uses       -----------------------------------------------------
+      !||    submodel_mod            ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE SUBROTPOINT (X,Y,Z,RTRANS,SUB_ID,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -240,13 +243,13 @@ C======================================================================
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  SUBROTTENS                    source/model/submodel/subrot.F
-Chd|-- called by -----------
-Chd|        HM_READ_INISTATE_D00          source/elements/initia/hm_read_inistate_d00.F
-Chd|-- calls ---------------
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    subrottens             ../starter/source/model/submodel/subrot.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_inistate_d00   ../starter/source/elements/initia/hm_read_inistate_d00.F
+      !||--- uses       -----------------------------------------------------
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE SUBROTTENS (TENS,RTRANS,SUB_ID,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s

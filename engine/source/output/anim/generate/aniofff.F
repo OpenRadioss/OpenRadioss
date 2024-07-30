@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ANIOFFF                       source/output/anim/generate/aniofff.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|-- calls ---------------
-Chd|        SPMD_IGET_PARTN               source/mpi/anim/spmd_iget_partn.F
-Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    aniofff           ../engine/source/output/anim/generate/aniofff.F
+      !||--- called by ------------------------------------------------------
+      !||    genani            ../engine/source/output/anim/generate/genani.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_iget_partn   ../engine/source/mpi/anim/spmd_iget_partn.F
+      !||    write_c_c         ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE ANIOFFF(ELBUF_TAB,      IPARG ,IOFF ,EL2FA ,
      .                   NBF      ,IADD ,NBPART,IADG ,IOFFX1,
      .                   NANIM1D_L)

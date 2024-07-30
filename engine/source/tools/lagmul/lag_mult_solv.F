@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAG_MULT_SOLV                 source/tools/lagmul/lag_mult_solv.F
-Chd|-- called by -----------
-Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
-Chd|-- calls ---------------
-Chd|        LAG_MULT_H                    source/tools/lagmul/lag_mult_h.F
-Chd|        PRECHOL                       source/tools/lagmul/cholfact.F
-Chd|        CHOLFACT                      source/tools/lagmul/cholfact.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_mult_solv   ../engine/source/tools/lagmul/lag_mult_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_mult        ../engine/source/tools/lagmul/lag_mult.F
+      !||--- calls      -----------------------------------------------------
+      !||    cholfact        ../engine/source/tools/lagmul/cholfact.F
+      !||    lag_mult_h      ../engine/source/tools/lagmul/lag_mult_h.F
+      !||    prechol         ../engine/source/tools/lagmul/cholfact.F
+      !||====================================================================
       SUBROUTINE LAG_MULT_SOLV(
      1                    NH    ,NC    ,NCR   ,A     ,V     ,
      2                    MAS   ,IADLL ,LLL   ,JLL   ,XLL   ,
@@ -400,15 +400,15 @@ C--------------------------------------------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  LAG_MULT_SOLVP                source/tools/lagmul/lag_mult_solv.F
-Chd|-- called by -----------
-Chd|        LAG_MULTP                     source/tools/lagmul/lag_mult.F
-Chd|-- calls ---------------
-Chd|        LAG_MULT_HP                   source/tools/lagmul/lag_mult_h.F
-Chd|        PRECHOL                       source/tools/lagmul/cholfact.F
-Chd|        CHOLFACT                      source/tools/lagmul/cholfact.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_mult_solvp   ../engine/source/tools/lagmul/lag_mult_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_multp        ../engine/source/tools/lagmul/lag_mult.F
+      !||--- calls      -----------------------------------------------------
+      !||    cholfact         ../engine/source/tools/lagmul/cholfact.F
+      !||    lag_mult_hp      ../engine/source/tools/lagmul/lag_mult_h.F
+      !||    prechol          ../engine/source/tools/lagmul/cholfact.F
+      !||====================================================================
       SUBROUTINE LAG_MULT_SOLVP(
      1                    NH    ,NC      ,NCR   ,A     ,V     ,
      2                    MAS   ,IADLL   ,LLL   ,JLL   ,XLL   ,
@@ -780,16 +780,16 @@ C--------------------------------------------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  LAG_MULT_SDP                  source/tools/lagmul/lag_mult_solv.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        LAG_MULT_HP                   source/tools/lagmul/lag_mult_h.F
-Chd|        SPMD_MUMPS_DEAL               source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_MUMPS_EXEC               source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_MUMPS_INI                source/mpi/implicit/imp_spmd.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_mult_sdp      ../engine/source/tools/lagmul/lag_mult_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret             ../engine/source/system/arret.F
+      !||    cholfact          ../engine/source/tools/lagmul/cholfact.F
+      !||    lag_mult_hp       ../engine/source/tools/lagmul/lag_mult_h.F
+      !||    spmd_mumps_deal   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_exec   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_ini    ../engine/source/mpi/implicit/imp_spmd.F
+      !||====================================================================
       SUBROUTINE LAG_MULT_SDP(
      1                    NH    ,NC      ,NCR   ,A     ,V     ,
      2                    MAS   ,IADLL   ,LLL   ,JLL   ,XLL   ,

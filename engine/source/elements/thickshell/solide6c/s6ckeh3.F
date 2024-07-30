@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S6CKEH3                       source/elements/thickshell/solide6c/s6ckeh3.F
-Chd|-- called by -----------
-Chd|        S6CKGEO3                      source/elements/thickshell/solide6c/s6ckgeo3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s6ckeh3    ../engine/source/elements/thickshell/solide6c/s6ckeh3.F
+      !||--- called by ------------------------------------------------------
+      !||    s6ckgeo3   ../engine/source/elements/thickshell/solide6c/s6ckgeo3.F
+      !||====================================================================
       SUBROUTINE S6CKEH3(LFT,LLT,
      .   PXI, PYI ,PXJ, PYJ ,FXX, FYY ,FXY, KIJ)
 C-----------------------------------------------

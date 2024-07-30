@@ -21,14 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  CCOLI3                        source/elements/shell/coque/ccoli3.F
-Chd|-- called by -----------
-Chd|        C3VEOK3                       source/elements/sh3n/coque3n/c3veok3.F
-Chd|        CVEOK3                        source/elements/shell/coque/cveok3.F
-Chd|        SVEOK3                        source/elements/solid/solide/sveok3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ccoli3    ../starter/source/elements/shell/coque/ccoli3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3veok3   ../starter/source/elements/sh3n/coque3n/c3veok3.F
+      !||    cveok3    ../starter/source/elements/shell/coque/cveok3.F
+      !||    sveok3    ../starter/source/elements/solid/solide/sveok3.F
+      !||====================================================================
       SUBROUTINE CCOLI3(IXI,NVCI,LFT,LLT)
 C
 C-----------------------------------------------

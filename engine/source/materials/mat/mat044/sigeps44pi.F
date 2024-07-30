@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS44PI                    source/materials/mat/mat044/sigeps44pi.F
-Chd|-- called by -----------
-Chd|        MULAW_IB                      source/elements/beam/mulaw_ib.F
-Chd|-- calls ---------------
-Chd|        VINTER                        source/tools/curve/vinter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps44pi   ../engine/source/materials/mat/mat044/sigeps44pi.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw_ib     ../engine/source/elements/beam/mulaw_ib.F
+      !||--- calls      -----------------------------------------------------
+      !||    vinter       ../engine/source/tools/curve/vinter.F
+      !||====================================================================
       SUBROUTINE SIGEPS44PI(
      1               NEL     ,NUPARAM ,UPARAM  ,IPM     ,IMAT    ,
      2               OFF     ,PLA     ,DEPSXX  ,DEPSXY  ,DEPSXZ  ,        

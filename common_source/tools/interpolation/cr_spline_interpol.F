@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CR_SPLINE_INTERPOL
-Chd|-- called by -----------
-Chd|        CR_SPLINE_LENGTH              source/initial_conditions/detonation/detcord.F
-Chd|        CR_SPLINE_POINT_PROJ          source/initial_conditions/detonation/detcord.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cr_spline_interpol     ../common_source/tools/interpolation/cr_spline_interpol.F
+      !||--- called by ------------------------------------------------------
+      !||    cr_spline_length       ../common_source/tools/interpolation/cr_spline_length.F
+      !||    cr_spline_point_proj   ../common_source/tools/interpolation/cr_spline_point_proj.F
+      !||====================================================================
        SUBROUTINE CR_SPLINE_INTERPOL( PTS , KNOTS, T, C, C_D, C_DD)
 C-----------------------------------------------
        !FOR A GIVEN POSITION T in [0,1] which is position on [P1,P2], GET VALUE ON SPLINE P0-P1-P2-P3 

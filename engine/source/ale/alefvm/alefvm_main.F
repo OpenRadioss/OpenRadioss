@@ -20,23 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALEFVM_MAIN                   source/ale/alefvm/alefvm_main.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ALEFVM_SCHEME                 source/ale/alefvm/alefvm_scheme.F
-Chd|        ALEFVM_SFINT3                 source/ale/alefvm/alefvm_sfint3.F
-Chd|        ALEFVM_SFINT3_INT22           source/ale/alefvm/alefvm_sfint3_int22.F
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    alefvm_main            ../engine/source/ale/alefvm/alefvm_main.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                  ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    alefvm_scheme          ../engine/source/ale/alefvm/alefvm_scheme.F
+      !||    alefvm_sfint3          ../engine/source/ale/alefvm/alefvm_sfint3.F
+      !||    alefvm_sfint3_int22    ../engine/source/ale/alefvm/alefvm_sfint3_int22.F
+      !||    initbuf                ../engine/share/resol/initbuf.F
+      !||    my_barrier             ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    segvar_mod             ../engine/share/modules/segvar_mod.F
+      !||====================================================================
       SUBROUTINE ALEFVM_MAIN(
      1         PM        , GEO       ,X         ,A        ,AR       ,V       ,
      2         MS        , WA        ,ELBUF_TAB ,BUFMAT   ,PARTSAV  ,TF      ,

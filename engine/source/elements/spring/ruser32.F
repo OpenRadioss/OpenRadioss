@@ -20,17 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RUSER32                       source/elements/spring/ruser32.F
-Chd|-- called by -----------
-Chd|        RFORC3                        source/elements/spring/rforc3.F
-Chd|-- calls ---------------
-Chd|        GET_U_FUNC                    source/user_interface/ufunc.F 
-Chd|        GET_U_GEO                     source/user_interface/upidmid.F
-Chd|        GET_U_PNU                     source/user_interface/upidmid.F
-Chd|        GET_U_SENS                    source/user_interface/usensor.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    ruser32      ../engine/source/elements/spring/ruser32.F
+      !||--- called by ------------------------------------------------------
+      !||    rforc3       ../engine/source/elements/spring/rforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_u_func   ../engine/source/user_interface/ufunc.F
+      !||    get_u_mid    ../engine/source/user_interface/upidmid.F
+      !||    get_u_mnu    ../engine/source/user_interface/upidmid.F
+      !||    get_u_pid    ../engine/source/user_interface/upidmid.F
+      !||    get_u_pnu    ../engine/source/user_interface/upidmid.F
+      !||    get_u_sens   ../engine/source/user_interface/usensor.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE RUSER32(
      1             NEL     ,IOUT    ,IPROP  ,UVAR   ,NUVAR  ,
      2             FX      ,FY      ,FZ     ,XMOM   ,YMOM   ,

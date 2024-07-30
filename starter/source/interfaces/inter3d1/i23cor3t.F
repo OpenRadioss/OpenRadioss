@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I23COR3T                      source/interfaces/inter3d1/i23cor3t.F
-Chd|-- called by -----------
-Chd|        I23BUC1                       source/interfaces/inter3d1/i23buc3.F
-Chd|        I23TRI                        source/interfaces/inter3d1/i23tri.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i23cor3t   ../starter/source/interfaces/inter3d1/i23cor3t.F
+      !||--- called by ------------------------------------------------------
+      !||    i23buc1    ../starter/source/interfaces/inter3d1/i23buc3.F
+      !||    i23tri     ../starter/source/interfaces/inter3d1/i23tri.F
+      !||====================================================================
       SUBROUTINE I23COR3T(X    ,IRECT ,NSV   ,CAND_E  ,CAND_N ,
      2                   GAPV  ,IGAP  ,GAP   ,GAP_S   ,GAPMIN ,
      3                   GAPMAX,MSR   ,GAP_M ,IX1     ,IX2    ,

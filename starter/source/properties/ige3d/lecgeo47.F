@@ -20,13 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LECG47                        source/properties/ige3d/lecgeo47.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lecg47        ../starter/source/properties/ige3d/lecgeo47.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE LECG47(IIN   ,IOUT ,PARGEO,IGEO,KNOT,IAD_KNOT)
       USE MESSAGE_MOD
 C-----------------------------------------------

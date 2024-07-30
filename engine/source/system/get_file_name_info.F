@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GET_FILE_NAME_INFO            source/system/get_file_name_info.F
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        PHELPINFO                     source/engine/execargcheck.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    get_file_name_info   ../engine/source/system/get_file_name_info.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2             ../engine/source/engine/radioss2.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret                ../engine/source/system/arret.F
+      !||    phelpinfo            ../engine/source/engine/execargcheck.F
+      !||====================================================================
       SUBROUTINE GET_FILE_NAME_INFO(INPUT,LENI,
      *                              ROOTNAME,LENR,
      *                              RUNN,FVERS)

@@ -20,18 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I22INTERSECT                  source/interfaces/int22/i22intersect.F
-Chd|-- called by -----------
-Chd|        I22BUCE                       source/interfaces/intsort/i22buce.F
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        ISONSH3N                      source/interfaces/int22/i22intersect.F
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        REALLOC_MOD                   share/modules/realloc_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    i22intersect     ../engine/source/interfaces/int22/i22intersect.F
+      !||--- called by ------------------------------------------------------
+      !||    i22buce          ../engine/source/interfaces/intsort/i22buce.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret            ../engine/source/system/arret.F
+      !||    isonsh3n         ../engine/source/interfaces/int22/i22intersect.F
+      !||    my_barrier       ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22edge_mod      ../common_source/modules/interfaces/cut-cell-buffer_mod.F
+      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    realloc_mod      ../engine/share/modules/realloc_mod.F
+      !||====================================================================
       SUBROUTINE I22INTERSECT(
      1      X      ,II_STOK, CAND_B  ,CAND_E   ,ITASK,
      2      NBRIC  ,ITAB   , BUFBRIC  ,NCAND,   
@@ -763,12 +765,12 @@ C================================================================
 
 
 
-Chd|====================================================================
-Chd|  ISONSH3N                      source/interfaces/int22/i22intersect.F
-Chd|-- called by -----------
-Chd|        I22INTERSECT                  source/interfaces/int22/i22intersect.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    isonsh3n       ../engine/source/interfaces/int22/i22intersect.F
+      !||--- called by ------------------------------------------------------
+      !||    i22intersect   ../engine/source/interfaces/int22/i22intersect.F
+      !||    i22trivox      ../engine/source/interfaces/intsort/i22trivox.F
+      !||====================================================================
       INTEGER FUNCTION ISONSH3N(Z, A, ZA, ZB, P, IFLG_DB)
 C-----------------------------------------------
 C   P r e c o n d i t i o n s

@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_EXCH_DA20                source/mpi/interfaces/spmd_exch_da20.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ADDDP                         source/mpi/interfaces/spmd_i7tool.F
-Chd|        GETDPDAANC                    source/mpi/interfaces/spmd_i7tool.F
-Chd|        PUTDPDAANC                    source/mpi/interfaces/spmd_i7tool.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_da20   ../engine/source/mpi/interfaces/spmd_exch_da20.F
+      !||--- called by ------------------------------------------------------
+      !||    resol            ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    adddp            ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    getdpdaanc       ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    putdpdaanc       ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_DA20(
      1   INTBUF_TAB,IPARI,IAD_ELEM,FR_ELEM,
      2   LEN20,NBINT20,LENR ,INTLIST ,NBINTC )

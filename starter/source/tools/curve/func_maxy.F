@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FUNC_MAXY                     source/tools/curve/func_maxy.F
-Chd|-- called by -----------
-Chd|        LAW100_UPD_NHT                source/materials/mat/mat100/law100_upd.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    func_maxy        ../starter/source/tools/curve/func_maxy.F
+      !||--- called by ------------------------------------------------------
+      !||    law100_upd_nht   ../starter/source/materials/mat/mat100/law100_upd.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||    table_mod        ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE FUNC_MAXY(IDN,FAC,NPC,PLD,MAXY)
 C-----------------------------------------------
 C   M o d u l e s

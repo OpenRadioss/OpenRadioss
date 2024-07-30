@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TAGNODR                       source/groups/tagnodr.F       
-Chd|-- called by -----------
-Chd|        HM_LECGRN                     source/groups/hm_lecgrn.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    tagnodr     ../starter/source/groups/tagnodr.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_lecgrn   ../starter/source/groups/hm_lecgrn.F
+      !||====================================================================
       SUBROUTINE TAGNODR(IXR,GEO,NUMELR,IPARTR,TAGBUF,NPART)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

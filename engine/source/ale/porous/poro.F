@@ -25,14 +25,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 #include      "com06_c.inc"
       DATA EPOR/0./
       END
-Chd|====================================================================
-Chd|  PORO                          source/ale/porous/poro.F      
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    poro            ../engine/source/ale/porous/poro.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+      !||    sum_6_float     ../engine/source/system/parit.F
+      !||====================================================================
        SUBROUTINE PORO(
      1    GEO    ,NODPOR ,MS ,X   ,V     ,
      2    W      ,AF     ,AM ,SKEW,WEIGHT,

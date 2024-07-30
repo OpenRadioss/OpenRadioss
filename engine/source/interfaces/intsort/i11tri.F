@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I11TRI                        source/interfaces/intsort/i11tri.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        I11STO                        source/interfaces/intsort/i11sto.F
-Chd|        I7DSTK                        source/interfaces/intsort/i7dstk.F
-Chd|        I11INSID                      source/interfaces/intsort/i11tri.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i11tri     ../engine/source/interfaces/intsort/i11tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    i11insid   ../engine/source/interfaces/intsort/i11tri.F
+      !||    i11sto     ../engine/source/interfaces/intsort/i11sto.F
+      !||    i7dstk     ../engine/source/interfaces/intsort/i7dstk.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box    ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I11TRI(
      1      ADD   ,
      2      IRECTS,IRECTM,X     ,NRTM     ,NRTSR,
@@ -730,13 +730,12 @@ C-------------------------------------------------------------------------
 
 
 
-Chd|====================================================================
-Chd|  I11INSID                      source/interfaces/intsort/i11tri.F
-Chd|-- called by -----------
-Chd|        I11TRI                        source/interfaces/intsort/i11tri.F
-Chd|        I20TRI_EDGE                   source/interfaces/intsort/i20tri.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i11insid      ../engine/source/interfaces/intsort/i11tri.F
+      !||--- called by ------------------------------------------------------
+      !||    i11tri        ../engine/source/interfaces/intsort/i11tri.F
+      !||    i20tri_edge   ../engine/source/interfaces/intsort/i20tri.F
+      !||====================================================================
       LOGICAL FUNCTION I11INSID(X1,X2,Y1,Y2,Z1,Z2,
      .                   XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX)
 #include      "implicit_f.inc"

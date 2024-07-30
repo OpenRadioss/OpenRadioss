@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  H3D_QUAD_TENSOR               source/output/h3d/h3d_results/h3d_quad_tensor.F
-Chd|-- called by -----------
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|-- calls ---------------
-Chd|        H3D_WRITE_TENSOR              source/output/h3d/h3d_results/h3d_write_tensor.F
-Chd|        QROTA_GROUP                   source/output/anim/generate/qrota_group.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_quad_tensor        ../engine/source/output/h3d/h3d_results/h3d_quad_tensor.F
+      !||--- called by ------------------------------------------------------
+      !||    genh3d                 ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||--- calls      -----------------------------------------------------
+      !||    h3d_write_tensor       ../engine/source/output/h3d/h3d_results/h3d_write_tensor.F
+      !||    qrota_group            ../engine/source/output/anim/generate/qrota_group.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    stack_mod              ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE H3D_QUAD_TENSOR(ELBUF_TAB,QUAD_TENSOR,IPARG ,ITENS ,INVERT,NELCUT,
      2                   EL2FA    ,TENS  ,EPSDOT,IADP  ,
      3                   NBPART,IADG  ,X     ,IXQ   ,

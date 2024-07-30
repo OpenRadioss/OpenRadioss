@@ -20,14 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  REPORT                        source/output/report/report.F 
-Chd|-- called by -----------
-Chd|        ARRET                         source/system/arret.F         
-Chd|-- calls ---------------
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    report                 ../engine/source/output/report/report.F
+      !||--- called by ------------------------------------------------------
+      !||    arret                  ../engine/source/system/arret.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    user_interface_mod     ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       SUBROUTINE REPORT(IH3DREADER,N,IMVW)
 C-----------------------------------------------
 C   M o d u l e s

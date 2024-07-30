@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  W_ISURF_STR                   source/restart/ddsplit/w_isurf_str.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        FRETITL                       source/starter/freform.F      
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    w_isurf_str    ../starter/source/restart/ddsplit/w_isurf_str.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl        ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         SUBROUTINE W_ISURF_STR( LEN_IA,PROC,NUMNOD,NSURF,NUMELS,
      .                          NUMELQ,NUMELC,NUMELT,NUMELP,NUMELR,
      .                          NODLOCAL,SCEL,CEL,LTITR,LENISURF_L,

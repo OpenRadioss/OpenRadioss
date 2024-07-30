@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RMATPON                       source/materials/mat/mat013/rmatpon.F
-Chd|-- called by -----------
-Chd|        RMATFORP                      source/materials/mat/mat013/rmatforp.F
-Chd|-- calls ---------------
-Chd|        ROTBMR                        source/tools/skew/rotbmr.F    
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    rmatpon       ../engine/source/materials/mat/mat013/rmatpon.F
+      !||--- called by ------------------------------------------------------
+      !||    rmatforp      ../engine/source/materials/mat/mat013/rmatforp.F
+      !||--- calls      -----------------------------------------------------
+      !||    rotbmr        ../engine/source/tools/skew/rotbmr.F
+      !||    sum_6_float   ../engine/source/system/parit.F
+      !||====================================================================
       SUBROUTINE RMATPON(AF   ,AM   ,X    ,RBY   ,NOD  ,
      2                   NBY  ,STIFN,STIFR,WEIGHT,NSL  ,
      3                   RBF6 ,ICOD ,ARBY ,VRBY  ,ARRBY,

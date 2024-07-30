@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #ifndef RD_COM
-Chd|====================================================================
-Chd|  C_TRICALL                     stub/fvmbags_stub.F           
-Chd|-- called by -----------
-Chd|        FVMESH1                       source/airbag/fvmesh.F        
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    c_tricall   ../engine/stub/fvmbags_stub.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh1     ../engine/source/airbag/fvmesh.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret       ../engine/source/system/arret.F
+      !||====================================================================
          SUBROUTINE C_TRICALL(PNODES, PSEG, PHOLES, PTRI, NNP,
      .                  NSEG,   NHOL, NELP  )
 C-----------------------------------------------
@@ -42,13 +42,13 @@ C-----------------------------------------------
 C          
           CALL ARRET(5)
       END SUBROUTINE
-Chd|====================================================================
-Chd|  TRIBOX3                       stub/fvmbags_stub.F           
-Chd|-- called by -----------
-Chd|        FVMESH1                       source/airbag/fvmesh.F        
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    tribox3   ../engine/stub/fvmbags_stub.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh1   ../engine/source/airbag/fvmesh.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret     ../engine/source/system/arret.F
+      !||====================================================================
       SUBROUTINE TRIBOX3(ICUT, BCENTER, BHALFSIZE, TVERTS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -61,13 +61,13 @@ C-----------------------------------------------
         my_real :: BCENTER(3),BHALFSIZE(3),TVERTS(9)
           CALL ARRET(5)
       END SUBROUTINE
-Chd|====================================================================
-Chd|  TRITRI3                       stub/fvmbags_stub.F           
-Chd|-- called by -----------
-Chd|        FVMESH1                       source/airbag/fvmesh.F        
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    tritri3   ../engine/stub/fvmbags_stub.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh1   ../engine/source/airbag/fvmesh.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret     ../engine/source/system/arret.F
+      !||====================================================================
       SUBROUTINE TRITRI3(ICUT, FV0, FV1, FV2, FU0, FU1, FU2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

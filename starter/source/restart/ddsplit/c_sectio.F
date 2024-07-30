@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  C_SECTIO                      source/restart/ddsplit/c_sectio.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    c_sectio   ../starter/source/restart/ddsplit/c_sectio.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal     ../starter/source/spmd/node/ddtools.F
+      !||====================================================================
       SUBROUTINE C_SECTIO(NSTRF    ,CEP    ,PROC,NSTRF_L,
      .                    LSECBUF_L,NNODT_L,NNODL_L)
 C-----------------------------------------------

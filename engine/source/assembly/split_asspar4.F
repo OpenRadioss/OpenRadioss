@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPLIT_ASSPAR4                 source/assembly/split_asspar4.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    split_asspar4   ../engine/source/assembly/split_asspar4.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||====================================================================
         SUBROUTINE SPLIT_ASSPAR4(ADDCNE,NUMNOD,NTHREADS,FIRST,LAST,SADSKY)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

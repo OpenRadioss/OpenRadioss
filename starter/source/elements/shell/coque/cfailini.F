@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CFAILINI                      source/elements/shell/coque/cfailini.F
-Chd|-- called by -----------
-Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
-Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|-- calls ---------------
-Chd|        BIQUAD_COEFFICIENTS           source/materials/fail/biquad/biquad_coefficients.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    cfailini              ../starter/source/elements/shell/coque/cfailini.F
+      !||--- called by ------------------------------------------------------
+      !||    c3init3               ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3              ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cinit3                ../starter/source/elements/shell/coque/cinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    biquad_coefficients   ../starter/source/materials/fail/biquad/biquad_coefficients.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE CFAILINI(ELBUF_STR,MAT_PARAM,
      .           NPTT    ,NLAY     ,SIGSH    ,NSIGSH  ,PTSH    ,
      .           RNOISE  ,PERTURB  ,ALDT     ,THK     )
@@ -168,16 +167,14 @@ c
 c-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  CFAILINI4                     source/elements/shell/coque/cfailini.F
-Chd|-- called by -----------
-Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
-Chd|-- calls ---------------
-Chd|        BIQUAD_COEFFICIENTS           source/materials/fail/biquad/biquad_coefficients.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    cfailini4             ../starter/source/elements/shell/coque/cfailini.F
+      !||--- called by ------------------------------------------------------
+      !||    cbainit3              ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    biquad_coefficients   ../starter/source/materials/fail/biquad/biquad_coefficients.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE CFAILINI4(
      .           ELBUF_STR,NPTR    ,NPTS    ,NPTT     ,NLAY    ,
      .           SIGSH    ,NSIGSH  ,PTSH    ,RNOISE   ,PERTURB ,

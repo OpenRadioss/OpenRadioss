@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FXBODFP1                      source/constraints/fxbody/fxbodfp.F
-Chd|-- called by -----------
-Chd|        FXBYFOR                       source/constraints/fxbody/fxbyfor.F
-Chd|-- calls ---------------
-Chd|        FXBDEPLA                      source/constraints/fxbody/fxbdepla.F
-Chd|        FXBMAJP1                      source/constraints/fxbody/fxbodfp.F
-Chd|        FXBSGMAJ                      source/constraints/fxbody/fxbsgmaj.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fxbodfp1       ../engine/source/constraints/fxbody/fxbodfp.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbyfor        ../engine/source/constraints/fxbody/fxbyfor.F
+      !||--- calls      -----------------------------------------------------
+      !||    fxbdepla       ../engine/source/constraints/fxbody/fxbdepla.F
+      !||    fxbmajp1       ../engine/source/constraints/fxbody/fxbodfp.F
+      !||    fxbsgmaj       ../engine/source/constraints/fxbody/fxbsgmaj.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE FXBODFP1(FXBIPM , FXBRPM, FXBNOD  , FXBMOD  , FXBDEP ,
      .                    FXBVIT , FXBACC, A       , AR      , NME    ,
      .                    NMOD   , ITN   , FXBELM  , FXBSIG  , ELBUF  ,
@@ -218,15 +219,16 @@ C
 C
       RETURN
       END SUBROUTINE FXBODFP1
-Chd|====================================================================
-Chd|  FXBODFP2                      source/constraints/fxbody/fxbodfp.F
-Chd|-- called by -----------
-Chd|        FXBYFOR                       source/constraints/fxbody/fxbyfor.F
-Chd|-- calls ---------------
-Chd|        FXBMAJP2                      source/constraints/fxbody/fxbodfp.F
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    fxbodfp2     ../engine/source/constraints/fxbody/fxbodfp.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbyfor      ../engine/source/constraints/fxbody/fxbyfor.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter       ../engine/source/tools/curve/finter.F
+      !||    fxbmajp2     ../engine/source/constraints/fxbody/fxbodfp.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE FXBODFP2(FXBIPM , FXBRPM , FXBGLM, FXBCPM, FXBCPS ,
      .                    FXBLM  , FXBFLS , FXBDLS, FXBDEP, FXBVIT ,
      .                    NME    , NMOD   , MVN   , MCD   , SE     ,
@@ -441,12 +443,11 @@ C-----------------------------------------------
 C
       RETURN
       END SUBROUTINE FXBODFP2
-Chd|====================================================================
-Chd|  FXBMAJP1                      source/constraints/fxbody/fxbodfp.F
-Chd|-- called by -----------
-Chd|        FXBODFP1                      source/constraints/fxbody/fxbodfp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fxbmajp1   ../engine/source/constraints/fxbody/fxbodfp.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbodfp1   ../engine/source/constraints/fxbody/fxbodfp.F
+      !||====================================================================
       SUBROUTINE FXBMAJP1(FXBDEP,FXBVIT,FXBACC,FXBRPM,DT1 ,
      .                    NME   ,NMOD  ,TMROT )
 C-----------------------------------------------
@@ -486,12 +487,11 @@ C-----------------------------------------------
 C      
       RETURN
       END SUBROUTINE FXBMAJP1  
-Chd|====================================================================
-Chd|  FXBMAJP2                      source/constraints/fxbody/fxbodfp.F
-Chd|-- called by -----------
-Chd|        FXBODFP2                      source/constraints/fxbody/fxbodfp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fxbmajp2   ../engine/source/constraints/fxbody/fxbodfp.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbodfp2   ../engine/source/constraints/fxbody/fxbodfp.F
+      !||====================================================================
       SUBROUTINE FXBMAJP2(MC , RC    , MVN   , NME  , NMOD  ,
      .                    DT1, FXBCPM, FXBCPS, FXBLM, FXBRPM)
 C-----------------------------------------------

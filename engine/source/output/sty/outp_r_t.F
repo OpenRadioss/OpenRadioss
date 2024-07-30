@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  OUTP_R_T                      source/output/sty/outp_r_t.F  
-Chd|-- called by -----------
-Chd|        GENOUTP                       source/output/sty/genoutp.F   
-Chd|-- calls ---------------
-Chd|        SPMD_RGATHER9_1COMM           source/mpi/interfaces/spmd_outp.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    outp_r_t              ../engine/source/output/sty/outp_r_t.F
+      !||--- called by ------------------------------------------------------
+      !||    genoutp               ../engine/source/output/sty/genoutp.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE OUTP_R_T(KEY   ,TEXT ,ELBUF_TAB,IPARG ,DD_IAD,
      2                    IXR   ,IGEO ,GEO      ,SIZLOC,SIZP0 ,
      3                    SIZ_WR)
@@ -467,13 +468,12 @@ c
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  COUNT_ARSZ_RT                 source/output/sty/outp_r_t.F  
-Chd|-- called by -----------
-Chd|        GENOUTP                       source/output/sty/genoutp.F   
-Chd|        OUTP_ARSZ_RT                  source/mpi/interfaces/spmd_outp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    count_arsz_rt   ../engine/source/output/sty/outp_r_t.F
+      !||--- called by ------------------------------------------------------
+      !||    genoutp         ../engine/source/output/sty/genoutp.F
+      !||    outp_arsz_rt    ../engine/source/mpi/interfaces/spmd_outp.F
+      !||====================================================================
       SUBROUTINE COUNT_ARSZ_RT(IPARG,IGEO,GEO,IXR,DD_IAD,WASZ,SIZ_WRITE_LOC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

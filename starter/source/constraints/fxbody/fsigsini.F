@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FSIGSINI                      source/constraints/fxbody/fsigsini.F
-Chd|-- called by -----------
-Chd|        FXBSINI                       source/constraints/fxbody/fxbsini.F
-Chd|-- calls ---------------
-Chd|        SCHREP                        source/constraints/fxbody/fsigsini.F
-Chd|        SDEFOI                        source/constraints/fxbody/fsigsini.F
-Chd|        SDERII                        source/constraints/fxbody/fsigsini.F
-Chd|        SM1INIF                       source/constraints/fxbody/fsigsini.F
-Chd|        SRHOI                         source/constraints/fxbody/fsigsini.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fsigsini   ../starter/source/constraints/fxbody/fsigsini.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbsini    ../starter/source/constraints/fxbody/fxbsini.F
+      !||--- calls      -----------------------------------------------------
+      !||    schrep     ../starter/source/constraints/fxbody/fsigsini.F
+      !||    sdefoi     ../starter/source/constraints/fxbody/fsigsini.F
+      !||    sderii     ../starter/source/constraints/fxbody/fsigsini.F
+      !||    sm1inif    ../starter/source/constraints/fxbody/fsigsini.F
+      !||    srhoi      ../starter/source/constraints/fxbody/fsigsini.F
+      !||====================================================================
       SUBROUTINE FSIGSINI(FXBELM, IPARG , X     , PM, IXS, 
      .                    GEO   , FXBMOD, FXBSIG, R , NELS)
 C-----------------------------------------------
@@ -249,12 +249,11 @@ C
 C 
       RETURN
       END SUBROUTINE FSIGSINI
-Chd|====================================================================
-Chd|  SDERII                        source/constraints/fxbody/fsigsini.F
-Chd|-- called by -----------
-Chd|        FSIGSINI                      source/constraints/fxbody/fsigsini.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sderii     ../starter/source/constraints/fxbody/fsigsini.F
+      !||--- called by ------------------------------------------------------
+      !||    fsigsini   ../starter/source/constraints/fxbody/fsigsini.F
+      !||====================================================================
       SUBROUTINE SDERII(NEL, DET,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
@@ -396,12 +395,11 @@ C
 C
       RETURN
       END SUBROUTINE SDERII
-Chd|====================================================================
-Chd|  SDEFOI                        source/constraints/fxbody/fsigsini.F
-Chd|-- called by -----------
-Chd|        FSIGSINI                      source/constraints/fxbody/fsigsini.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sdefoi     ../starter/source/constraints/fxbody/fsigsini.F
+      !||--- called by ------------------------------------------------------
+      !||    fsigsini   ../starter/source/constraints/fxbody/fsigsini.F
+      !||====================================================================
       SUBROUTINE SDEFOI(NEL,
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
@@ -490,12 +488,11 @@ C
 C
       RETURN
       END SUBROUTINE SDEFOI
-Chd|====================================================================
-Chd|  SRHOI                         source/constraints/fxbody/fsigsini.F
-Chd|-- called by -----------
-Chd|        FSIGSINI                      source/constraints/fxbody/fsigsini.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    srhoi      ../starter/source/constraints/fxbody/fsigsini.F
+      !||--- called by ------------------------------------------------------
+      !||    fsigsini   ../starter/source/constraints/fxbody/fsigsini.F
+      !||====================================================================
       SUBROUTINE SRHOI(NEL, PM, VOLO, RHON, VOLN, MAT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -529,12 +526,11 @@ C
 C
       RETURN
       END SUBROUTINE SRHOI
-Chd|====================================================================
-Chd|  SM1INIF                       source/constraints/fxbody/fsigsini.F
-Chd|-- called by -----------
-Chd|        FSIGSINI                      source/constraints/fxbody/fsigsini.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sm1inif    ../starter/source/constraints/fxbody/fsigsini.F
+      !||--- called by ------------------------------------------------------
+      !||    fsigsini   ../starter/source/constraints/fxbody/fsigsini.F
+      !||====================================================================
       SUBROUTINE SM1INIF(NEL, PM , SIG , EINT, 
      .                   RHO, D1 , D2 , D3  , D4  , 
      .                   D5  ,D6 , MAT)
@@ -599,13 +595,12 @@ C
 C
       RETURN
       END SUBROUTINE SM1INIF
-Chd|====================================================================
-Chd|  SCHREP                        source/constraints/fxbody/fsigsini.F
-Chd|-- called by -----------
-Chd|        FSIGSINI                      source/constraints/fxbody/fsigsini.F
-Chd|        MODBUFEL                      source/constraints/fxbody/modbufel.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    schrep     ../starter/source/constraints/fxbody/fsigsini.F
+      !||--- called by ------------------------------------------------------
+      !||    fsigsini   ../starter/source/constraints/fxbody/fsigsini.F
+      !||    modbufel   ../starter/source/constraints/fxbody/modbufel.F
+      !||====================================================================
       SUBROUTINE SCHREP(NEL, SIG, SIGL, R)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

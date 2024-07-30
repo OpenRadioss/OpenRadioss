@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MPI_TOOLS_MOD                 share/modules/mpi_tools_mod.F 
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mpi_tools_mod   ../engine/share/modules/mpi_tools_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||====================================================================
       MODULE MPI_TOOLS_MOD 
 C-----------------------------------------------
 C   m y _ r e a l
@@ -61,13 +60,14 @@ C  CALL MPI_MIN_REAL_END(VAL2,TAB2,1,MY_STRUCT)
 C  ! VAL2 is the min of VAL over the processors
 C  ! TAB2 is the TAB of the processor that has the minimum value of VAL
 
-Chd|====================================================================
-Chd|  MPI_MIN_REAL_BEGIN            share/modules/mpi_tools_mod.F 
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    mpi_min_real_begin   ../engine/share/modules/mpi_tools_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod          ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE MPI_MIN_REAL_BEGIN(VAL,TAB,STAB,MY_STRUCT) 
 C-----------------------------------------------
 C   M o d u l e s
@@ -160,13 +160,14 @@ C-----------------------------------------------
       RETURN
       END SUBROUTINE MPI_MIN_REAL_BEGIN
 
-Chd|====================================================================
-Chd|  MPI_MIN_REAL_END              share/modules/mpi_tools_mod.F 
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    mpi_min_real_end   ../engine/share/modules/mpi_tools_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    resol              ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE MPI_MIN_REAL_END(VAL,TAB,STAB,MY_STRUCT) 
 C-----------------------------------------------
 C   M o d u l e s

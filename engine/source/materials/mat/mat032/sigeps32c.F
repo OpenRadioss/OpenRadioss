@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS32C                     source/materials/mat/mat032/sigeps32c.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|-- calls ---------------
-Chd|        M32ELAS                       source/materials/mat/mat032/m32elas.F
-Chd|        M32PLAS                       source/materials/mat/mat032/m32plas.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps32c   ../engine/source/materials/mat/mat032/sigeps32c.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc      ../engine/source/materials/mat_share/mulawc.F
+      !||--- calls      -----------------------------------------------------
+      !||    m32elas     ../engine/source/materials/mat/mat032/m32elas.F
+      !||    m32plas     ../engine/source/materials/mat/mat032/m32plas.F
+      !||====================================================================
       SUBROUTINE SIGEPS32C(
      1                     JFT    ,JLT    ,PM     ,THK    ,OFF    ,
      2                     DIR    ,IPT    ,IMAT   ,NEL    ,DT1C   ,

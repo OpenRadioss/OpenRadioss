@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FVBRIC3                       source/airbag/fvbric3.F       
-Chd|-- called by -----------
-Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fvbric3       ../starter/source/airbag/fvbric3.F
+      !||--- called by ------------------------------------------------------
+      !||    init_monvol   ../starter/source/airbag/init_monvol.F
+      !||====================================================================
       SUBROUTINE FVBRIC3(IBUF,  IBUFA,  NNT,   NBRIC, NNA,
      .                   TBRIC, BRNA,   NCONA, ITAB,  
      .                   ILVOUT,NB_NODE,IVINI, VINI,  KMESH, V  )

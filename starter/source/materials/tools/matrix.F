@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  JACOBIEW                      source/materials/tools/matrix.F
-Chd|-- called by -----------
-Chd|        SIGEPS38                      source/materials/mat/mat038/sigeps38.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    jacobiew   ../starter/source/materials/tools/matrix.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps38   ../starter/source/materials/mat/mat038/sigeps38.F
+      !||====================================================================
       SUBROUTINE  JACOBIEW(A,N,EW,EV,NROT)
 C-------------------------------------------------------KK141189-
 C COMPUTATION OF ALL EIGENVALUES AND EIGENVECTORS OF A SYMMETRIC
@@ -153,12 +152,11 @@ C SUM OF THE OFF DIAGONALS
       END
  
       
-Chd|====================================================================
-Chd|  DREH                          source/materials/tools/matrix.F
-Chd|-- called by -----------
-Chd|        SIGEPS38                      source/materials/mat/mat038/sigeps38.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dreh       ../starter/source/materials/tools/matrix.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps38   ../starter/source/materials/mat/mat038/sigeps38.F
+      !||====================================================================
       SUBROUTINE DREH(B,TR,II,JJ,KEN) 
 C-------------------------------------------------------KK010587-
 C KEN=0 -> ROTATION OF MATRIX B BY TR = TR(T)*B*TR
@@ -205,15 +203,14 @@ C          IF(LK(I,K)==ZERO) GOTO 30
                                                                     
       END 
 C
-Chd|====================================================================
-Chd|  VALPVEC                       source/materials/tools/matrix.F
-Chd|-- called by -----------
-Chd|        SIGEPS38                      source/materials/mat/mat038/sigeps38.F
-Chd|        SIGEPS42                      source/materials/mat/mat042/sigeps42.F
-Chd|        SIGEPS90                      source/materials/mat/mat090/sigeps90.F
-Chd|-- calls ---------------
-Chd|        FLOATMIN                      ../common_source/tools/math/precision.c
-Chd|====================================================================
+      !||====================================================================
+      !||    valpvec    ../starter/source/materials/tools/matrix.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps38   ../starter/source/materials/mat/mat038/sigeps38.F
+      !||    sigeps42   ../starter/source/materials/mat/mat042/sigeps42.F
+      !||    sigeps90   ../starter/source/materials/mat/mat090/sigeps90.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE VALPVEC(SIG,VAL,VEC,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -523,15 +520,14 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  VALPVECDP                     source/materials/tools/matrix.F
-Chd|-- called by -----------
-Chd|        SIGEPS38                      source/materials/mat/mat038/sigeps38.F
-Chd|        SIGEPS42                      source/materials/mat/mat042/sigeps42.F
-Chd|        SIGEPS90                      source/materials/mat/mat090/sigeps90.F
-Chd|-- calls ---------------
-Chd|        FLOATMIN                      ../common_source/tools/math/precision.c
-Chd|====================================================================
+      !||====================================================================
+      !||    valpvecdp   ../starter/source/materials/tools/matrix.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps38    ../starter/source/materials/mat/mat038/sigeps38.F
+      !||    sigeps42    ../starter/source/materials/mat/mat042/sigeps42.F
+      !||    sigeps90    ../starter/source/materials/mat/mat090/sigeps90.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE VALPVECDP(SIG,VAL,VEC,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

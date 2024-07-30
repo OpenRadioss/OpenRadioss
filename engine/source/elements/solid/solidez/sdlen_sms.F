@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SDLEN_SMS                     source/elements/solid/solidez/sdlen_sms.F
-Chd|-- called by -----------
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        BASISF                        source/elements/solid/solide8/basisf.F
-Chd|        DEGENES8                      source/elements/solid/solide/degenes8.F
-Chd|        DEGES4V                       source/elements/solid/solide/deges4v.F
-Chd|        IDEGE8                        source/elements/solid/solide/idege8.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sdlen_sms   ../engine/source/elements/solid/solidez/sdlen_sms.F
+      !||--- called by ------------------------------------------------------
+      !||    szforc3     ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    basisf      ../engine/source/elements/solid/solide8/basisf.F
+      !||    degenes8    ../engine/source/elements/solid/solide/degenes8.F
+      !||    deges4v     ../engine/source/elements/solid/solide/deges4v.F
+      !||    idege8      ../engine/source/elements/solid/solide/idege8.F
+      !||====================================================================
       SUBROUTINE SDLEN_SMS(
      1   DELTAX,     VOLG,       IXS,        X1,
      2   X2,         X3,         X4,         X5,

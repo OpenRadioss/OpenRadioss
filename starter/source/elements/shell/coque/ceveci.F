@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CEVECI                        source/elements/shell/coque/ceveci.F
-Chd|-- called by -----------
-Chd|        CEPSINI                       source/elements/shell/coque/cepsini.F
-Chd|        CFINT_REG_INI                 source/elements/shell/coque/cfint_reg_ini.F
-Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|        FSIGCINI                      source/constraints/fxbody/fsigcini.F
-Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
-Chd|        INIVOID                       source/elements/initia/inivoid.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ceveci          ../starter/source/elements/shell/coque/ceveci.F
+      !||--- called by ------------------------------------------------------
+      !||    cepsini         ../starter/source/elements/shell/coque/cepsini.F
+      !||    cfint_reg_ini   ../starter/source/elements/shell/coque/cfint_reg_ini.F
+      !||    cinit3          ../starter/source/elements/shell/coque/cinit3.F
+      !||    fsigcini        ../starter/source/constraints/fxbody/fsigcini.F
+      !||    inirig_mat      ../starter/source/elements/initia/inirig_mat.F
+      !||    inivoid         ../starter/source/elements/initia/inivoid.F
+      !||====================================================================
       SUBROUTINE CEVECI(JFT,JLT,AREA,
      .           X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .           Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,

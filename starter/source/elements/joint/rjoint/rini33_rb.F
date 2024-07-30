@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RINI33_RB                     source/elements/joint/rjoint/rini33_rb.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        PROD_ATB                      source/elements/joint/rjoint/rini33.F
-Chd|        FIND_RBY                      source/elements/joint/rjoint/rini33_rb.F
-Chd|        GET_U_GEO                     source/user_interface/uaccess.F
-Chd|        GET_U_SKEW                    source/user_interface/uaccess.F
-Chd|        RESET_U_GEO                   source/user_interface/uaccess.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rini33_rb     ../starter/source/elements/joint/rjoint/rini33_rb.F
+      !||--- called by ------------------------------------------------------
+      !||    initia        ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    find_rby      ../starter/source/elements/joint/rjoint/rini33_rb.F
+      !||    fretitl2      ../starter/source/starter/freform.F
+      !||    get_u_geo     ../starter/source/user_interface/uaccess.F
+      !||    get_u_skew    ../starter/source/user_interface/uaccess.F
+      !||    prod_atb      ../starter/source/elements/joint/rjoint/rini33.F
+      !||    reset_u_geo   ../starter/source/user_interface/uaccess.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE RINI33_RB(NEL,NUVAR,IPROP,IXR,NPBY,LPBY,RBY,STIFR,
      1                     UVAR,ITAB,IGEO,IXR_KJ,GMASS)
       USE MESSAGE_MOD
@@ -266,12 +267,12 @@ C-------------------------------------------------------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  FIND_RBY                      source/elements/joint/rjoint/rini33_rb.F
-Chd|-- called by -----------
-Chd|        RINI33_RB                     source/elements/joint/rjoint/rini33_rb.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    find_rby    ../starter/source/elements/joint/rjoint/rini33_rb.F
+      !||--- called by ------------------------------------------------------
+      !||    rini33_rb   ../starter/source/elements/joint/rjoint/rini33_rb.F
+      !||    rini45_rb   ../starter/source/elements/joint/rjoint/rini45_rb.F
+      !||====================================================================
       INTEGER FUNCTION FIND_RBY(IDNOD,NPBY,LPBY)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

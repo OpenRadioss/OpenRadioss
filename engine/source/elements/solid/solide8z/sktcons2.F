@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SKTCONS2                      source/elements/solid/solide8z/sktcons2.F
-Chd|-- called by -----------
-Chd|        MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
-Chd|-- calls ---------------
-Chd|        SKTVONM4                      source/elements/solid/solide8z/sktvonm4.F
-Chd|        IMP_KTAN                      share/modules/impbufdef_mod.F 
-Chd|        IMP_KTAN_DEF                  share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    sktcons2       ../engine/source/elements/solid/solide8z/sktcons2.F
+      !||--- called by ------------------------------------------------------
+      !||    mmstifs        ../engine/source/elements/solid/solide8z/mmstifs.F
+      !||--- calls      -----------------------------------------------------
+      !||    sktvonm4       ../engine/source/elements/solid/solide8z/sktvonm4.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
+      !||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE SKTCONS2(
      1   JFT,     JLT,     CC,      LAMDA,
      2   G,       CG,      G33,     IR,

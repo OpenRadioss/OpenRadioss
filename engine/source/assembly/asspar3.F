@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASSPAR3                       source/assembly/asspar3.F     
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    asspar3      ../engine/source/assembly/asspar3.F
+      !||--- called by ------------------------------------------------------
+      !||    resol        ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier   ../engine/source/system/machine.F
+      !||====================================================================
       SUBROUTINE ASSPAR3( 
      2   A          ,AR         ,ITASK                 ,NODFT      ,
      3   NODLT      ,STIFN      ,STIFR      ,ITAB      ,FSKY       ,

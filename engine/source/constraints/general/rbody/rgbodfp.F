@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RGBODFP                       source/constraints/general/rbody/rgbodfp.F
-Chd|-- called by -----------
-Chd|        RBYFOR                        source/constraints/general/rbody/rbyfor.F
-Chd|-- calls ---------------
-Chd|        ROTBMR                        source/tools/skew/rotbmr.F    
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    rgbodfp       ../engine/source/constraints/general/rbody/rgbodfp.F
+      !||--- called by ------------------------------------------------------
+      !||    rbyfor        ../engine/source/constraints/general/rbody/rbyfor.F
+      !||--- calls      -----------------------------------------------------
+      !||    rotbmr        ../engine/source/tools/skew/rotbmr.F
+      !||    sum_6_float   ../engine/source/system/parit.F
+      !||====================================================================
       SUBROUTINE RGBODFP(AF   ,AM    ,X      ,FS   ,RBY  ,
      2                   NOD  ,M     ,IN     ,VR   ,STIFN,
      3                   STIFR,FOPTA ,WEIGHT ,MS   ,V    ,

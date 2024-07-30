@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_EXCH2_A_PON              source/mpi/forces/spmd_exch2_a_pon.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        REALLOCATE_I_SKYLINE          source/system/reallocate_skyline.F
-Chd|        SPMD_EXCHI_A_PON              source/mpi/forces/spmd_exchi_a_pon.F
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        FSKYI_MOD                     share/modules/restart_mod.F   
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        HEAT_MOD                      share/modules/heat_mod.F      
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch2_a_pon       ../engine/source/mpi/forces/spmd_exch2_a_pon.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                  ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    reallocate_i_skyline   ../engine/source/system/reallocate_skyline.F
+      !||    spmd_exchi_a_pon       ../engine/source/mpi/forces/spmd_exchi_a_pon.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod          ../engine/share/modules/crackxfem_mod.F
+      !||    fskyi_mod              ../engine/share/modules/restart_mod.F
+      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
+      !||    heat_mod               ../engine/share/modules/heat_mod.F
+      !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCH2_A_PON(
      1   IAD_ELEM,FR_ELEM,ADDCNE,PROCNE,FR_NBCC,
      2   SIZE    ,LENR   ,LENS  ,FSKY  ,FSKYV  ,

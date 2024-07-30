@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MAT104_LDAM_NEWTON            source/materials/mat/mat104/mat104_ldam_newton.F
-Chd|-- called by -----------
-Chd|        SIGEPS104                     source/materials/mat/mat104/sigeps104.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mat104_ldam_newton   ../engine/source/materials/mat/mat104/mat104_ldam_newton.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps104            ../engine/source/materials/mat/mat104/sigeps104.F
+      !||====================================================================
       SUBROUTINE MAT104_LDAM_NEWTON(
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   , 
      2     TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFF     ,

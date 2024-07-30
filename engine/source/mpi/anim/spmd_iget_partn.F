@@ -21,29 +21,29 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_IGET_PARTN               source/mpi/anim/spmd_iget_partn.F
-Chd|-- called by -----------
-Chd|        ANIOFF0                       source/output/anim/generate/anioff0.F
-Chd|        ANIOFFC                       source/output/anim/generate/anioffc.F
-Chd|        ANIOFFC_CRK                   source/output/anim/generate/anioffc_crk.F
-Chd|        ANIOFFC_PLY                   source/output/anim/generate/anioffc_ply.F
-Chd|        ANIOFFF                       source/output/anim/generate/aniofff.F
-Chd|        ANIOFFS                       source/output/anim/generate/anioff6.F
-Chd|        DELNUMB0                      source/output/anim/generate/delnumb0.F
-Chd|        DELNUMBC                      source/output/anim/generate/delnumbc.F
-Chd|        DELNUMBC_CRK                  source/output/anim/generate/delnumbc_crk.F
-Chd|        DELNUMBF                      source/output/anim/generate/delnumbf.F
-Chd|        DELNUMBS                      source/output/anim/generate/delnumb6.F
-Chd|        PARSOR0                       source/output/anim/generate/parsor0.F
-Chd|        PARSORC                       source/output/anim/generate/parsorc.F
-Chd|        PARSORF                       source/output/anim/generate/parsorf.F
-Chd|        PARSORS                       source/output/anim/generate/parsors.F
-Chd|        PARSOR_CRK                    source/output/anim/generate/parsor_crk.F
-Chd|-- calls ---------------
-Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_iget_partn   ../engine/source/mpi/anim/spmd_iget_partn.F
+      !||--- called by ------------------------------------------------------
+      !||    anioff0           ../engine/source/output/anim/generate/anioff0.F
+      !||    anioffc           ../engine/source/output/anim/generate/anioffc.F
+      !||    anioffc_crk       ../engine/source/output/anim/generate/anioffc_crk.F
+      !||    anioffc_ply       ../engine/source/output/anim/generate/anioffc_ply.F
+      !||    aniofff           ../engine/source/output/anim/generate/aniofff.F
+      !||    anioffs           ../engine/source/output/anim/generate/anioff6.F
+      !||    delnumb0          ../engine/source/output/anim/generate/delnumb0.F
+      !||    delnumbc          ../engine/source/output/anim/generate/delnumbc.F
+      !||    delnumbc_crk      ../engine/source/output/anim/generate/delnumbc_crk.F
+      !||    delnumbf          ../engine/source/output/anim/generate/delnumbf.F
+      !||    delnumbs          ../engine/source/output/anim/generate/delnumb6.F
+      !||    parsor0           ../engine/source/output/anim/generate/parsor0.F
+      !||    parsor_crk        ../engine/source/output/anim/generate/parsor_crk.F
+      !||    parsorc           ../engine/source/output/anim/generate/parsorc.F
+      !||    parsorf           ../engine/source/output/anim/generate/parsorf.F
+      !||    parsors           ../engine/source/output/anim/generate/parsors.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_c_c         ../common_source/tools/input_output/write_routtines.c
+      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE SPMD_IGET_PARTN(SIZE,NBF_L,NP,NBPART,IADG,SRBUF,IFLAG)
 C gather sur p0 du tableau wa en fonction des parts (IADG)
 C-----------------------------------------------

@@ -20,16 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS52                      source/materials/mat/mat052/sigeps52.F
-Chd|-- called by -----------
-Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
-Chd|-- calls ---------------
-Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
-Chd|        TABLE_INTERP_LAW76            source/tools/curve/table_tools.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps52              ../engine/source/materials/mat/mat052/sigeps52.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8                ../engine/source/materials/mat_share/mulaw8.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter2               ../engine/source/tools/curve/vinter.F
+      !||    table_interp          ../engine/source/tools/curve/table_tools.F
+      !||    table_interp_law76    ../engine/source/tools/curve/table_tools.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    table_mod             ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE SIGEPS52(
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,

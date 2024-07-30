@@ -20,14 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NINTRN                        source/system/nintrn.F        
-Chd|-- called by -----------
-Chd|        HM_READ_THGRNS                source/output/th/hm_read_thgrns.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    nintrn             ../starter/source/system/nintrn.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_beam       ../starter/source/elements/reader/hm_read_beam.F
+      !||    hm_read_quad       ../starter/source/elements/reader/hm_read_quad.F
+      !||    hm_read_sh3n       ../starter/source/elements/reader/hm_read_sh3n.F
+      !||    hm_read_shell      ../starter/source/elements/reader/hm_read_shell.F
+      !||    hm_read_spring     ../starter/source/elements/reader/hm_read_spring.F
+      !||    hm_read_thgrne     ../starter/source/output/th/hm_read_thgrne.F
+      !||    hm_read_thgrns     ../starter/source/output/th/hm_read_thgrns.F
+      !||    hm_read_thgrsurf   ../starter/source/output/th/hm_read_thgrsurf.F
+      !||    hm_read_tria       ../starter/source/elements/reader/hm_read_tria.F
+      !||    hm_read_truss      ../starter/source/elements/reader/hm_read_truss.F
+      !||    hm_thgrki_vent     ../starter/source/output/th/hm_thgrki_vent.F
+      !||    thprin             ../starter/source/output/th/thprin.F
+      !||    thprin_sub         ../starter/source/output/th/thprin.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||====================================================================
       INTEGER FUNCTION NINTRN (IEXT,NTN,M,N,ID,TITR)
       USE MESSAGE_MOD
 C

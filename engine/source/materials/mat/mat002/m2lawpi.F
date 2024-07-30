@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M2LAWPI                       source/materials/mat/mat002/m2lawpi.F
-Chd|-- called by -----------
-Chd|        MAIN_BEAM18                   source/elements/beam/main_beam18.F
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    m2lawpi        ../engine/source/materials/mat/mat002/m2lawpi.F
+      !||--- called by ------------------------------------------------------
+      !||    main_beam18    ../engine/source/elements/beam/main_beam18.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE M2LAWPI(ELBUF_STR,
      1                  JFT    ,JLT    ,NPT    ,PM     ,GEO,
      2                  EINT   ,OFF    ,IMAT,

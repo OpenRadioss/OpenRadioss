@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CREATE_NODE_ALL_CLAUSE        source/model/sets/create_node_all_clause.F
-Chd|-- called by -----------
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|-- calls ---------------
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    create_node_all_clause   ../starter/source/model/sets/create_node_all_clause.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_set                   ../starter/source/model/sets/hm_set.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE CREATE_NODE_ALL_CLAUSE( CLAUSE )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

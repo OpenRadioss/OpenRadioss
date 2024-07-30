@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MORTHLOCK3                    source/elements/solid/solide4/morthlock3.F
-Chd|-- called by -----------
-Chd|        S10KE3                        source/elements/solid/solide10/s10ke3.F
-Chd|        S4KE3                         source/elements/solid/solide4/s4ke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    morthlock3   ../engine/source/elements/solid/solide4/morthlock3.F
+      !||--- called by ------------------------------------------------------
+      !||    s10ke3       ../engine/source/elements/solid/solide10/s10ke3.F
+      !||    s4ke3        ../engine/source/elements/solid/solide4/s4ke3.F
+      !||====================================================================
       SUBROUTINE MORTHLOCK3(LFT,LLT ,GAMA,E1X,E2X,E3X,
      2                      E1Y,E2Y ,E3Y ,E1Z,E2Z,E3Z)
 C-----------------------------------------------

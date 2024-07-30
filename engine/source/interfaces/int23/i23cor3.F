@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I23COR3                       source/interfaces/int23/i23cor3.F
-Chd|-- called by -----------
-Chd|        I23MAINF                      source/interfaces/int23/i23mainf.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i23cor3    ../engine/source/interfaces/int23/i23cor3.F
+      !||--- called by ------------------------------------------------------
+      !||    i23mainf   ../engine/source/interfaces/int23/i23mainf.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box    ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I23COR3(JLT   ,NIN    ,X       ,IRECT ,NSN   ,
      2                NSV      ,CAND_E ,CAND_N  ,STF   ,STFN  ,
      3                MSR      ,MS       ,V      ,XI  ,YI    ,

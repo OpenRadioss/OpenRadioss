@@ -20,23 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IG3DINIT3                     source/elements/ige3d/ig3dinit3.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        BULKIGE3                      source/elements/ige3d/bulkigeo3.F
-Chd|        DTMAIN                        source/materials/time_step/dtmain.F
-Chd|        IG3DMASS3                     source/elements/ige3d/ig3dmass3.F
-Chd|        IG3DONEDERIV                  source/elements/ige3d/ig3donederiv.F
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|        SCZERO3                       source/elements/thickshell/solidec/scinit3.F
-Chd|        SVALUE0                       source/elements/thickshell/solidec/scinit3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ig3dinit3              ../starter/source/elements/ige3d/ig3dinit3.F
+      !||--- called by ------------------------------------------------------
+      !||    initia                 ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    bulkige3               ../starter/source/elements/ige3d/bulkigeo3.F
+      !||    dtmain                 ../starter/source/materials/time_step/dtmain.F
+      !||    ig3dmass3              ../starter/source/elements/ige3d/ig3dmass3.F
+      !||    ig3donederiv           ../starter/source/elements/ige3d/ig3donederiv.F
+      !||    matini                 ../starter/source/materials/mat_share/matini.F
+      !||    sczero3                ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||    svalue0                ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE IG3DINIT3(ELBUF_STR,MS    ,KXIG3D ,IXIG3D  ,PM    ,X,
      .                   DETONATORS,GEO     ,VEUL   ,ALE_CONNECTIVITY   ,IPARG   ,
      .                   DTELEM   ,SIGI    ,NEL    ,SKEW    ,IGEO    ,

@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10DERI3                      source/elements/solid/solide10/s10deri3.F
-Chd|-- called by -----------
-Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|        S10KE3                        source/elements/solid/solide10/s10ke3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        S10JACOB                      source/elements/solid/solide10/s10jacob.F
-Chd|        S10JACOB1                     source/elements/solid/solide10/s10jacob1.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s10deri3      ../engine/source/elements/solid/solide10/s10deri3.F
+      !||--- called by ------------------------------------------------------
+      !||    s10forc3      ../engine/source/elements/solid/solide10/s10forc3.F
+      !||    s10ke3        ../engine/source/elements/solid/solide10/s10ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    s10jacob      ../engine/source/elements/solid/solide10/s10jacob.F
+      !||    s10jacob1     ../engine/source/elements/solid/solide10/s10jacob1.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S10DERI3(
      1   OFF,     VOL,     NGL,     DELTAX,
      2   DELTAX2, XX,      YY,      ZZ,

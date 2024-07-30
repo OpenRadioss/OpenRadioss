@@ -21,14 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
-Chd|====================================================================
-Chd|  REDEF3_LAW113                 source/elements/spring/redef3_law113.F
-Chd|-- called by -----------
-Chd|        R23L113DEF3                   source/elements/spring/r23l113def3.F
-Chd|-- calls ---------------
-Chd|        VINTER2                       source/tools/curve/vinter.F   
-Chd|        VINTER2DP                     source/tools/curve/vinter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    redef3_law113   ../engine/source/elements/spring/redef3_law113.F
+      !||--- called by ------------------------------------------------------
+      !||    r23l113def3     ../engine/source/elements/spring/r23l113def3.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter          ../engine/source/tools/curve/finter.F
+      !||    vinter2         ../engine/source/tools/curve/vinter.F
+      !||    vinter2dp       ../engine/source/tools/curve/vinter.F
+      !||====================================================================
       SUBROUTINE REDEF3_LAW113(NEL ,NFT,
      .                  FX      ,XK     ,DX     ,FXEP       ,DXOLD ,
      .                  DPX     ,TF     ,NPF    ,XC         ,OFF   ,

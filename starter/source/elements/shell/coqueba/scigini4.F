@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CSIGINI4                      source/elements/shell/coqueba/scigini4.F
-Chd|-- called by -----------
-Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        CG2LEPS                       source/elements/shell/coqueba/scigini4.F
-Chd|        CG2LSIG                       source/elements/shell/coqueba/scigini4.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        LOC2ORTH                      source/elements/shell/coqueba/scigini4.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    csigini4       ../starter/source/elements/shell/coqueba/scigini4.F
+      !||--- called by ------------------------------------------------------
+      !||    cbainit3       ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cdkinit3       ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../starter/source/output/message/message.F
+      !||    cg2leps        ../starter/source/elements/shell/coqueba/scigini4.F
+      !||    cg2lsig        ../starter/source/elements/shell/coqueba/scigini4.F
+      !||    fretitl2       ../starter/source/starter/freform.F
+      !||    loc2orth       ../starter/source/elements/shell/coqueba/scigini4.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE CSIGINI4(ELBUF_STR,
      1           IHBE   ,JFT    ,JLT   ,NFT    ,NPT    ,
      2           ISTRAIN,THK    ,EINT  ,GSTR   ,HH     ,
@@ -781,14 +781,13 @@ c
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  CG2LEPS                       source/elements/shell/coqueba/scigini4.F
-Chd|-- called by -----------
-Chd|        CSIGINI                       source/elements/shell/coque/csigini.F
-Chd|        CSIGINI4                      source/elements/shell/coqueba/scigini4.F
-Chd|        CSTRAINI4                     source/elements/shell/coqueba/cstraini4.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cg2leps     ../starter/source/elements/shell/coqueba/scigini4.F
+      !||--- called by ------------------------------------------------------
+      !||    csigini     ../starter/source/elements/shell/coque/csigini.F
+      !||    csigini4    ../starter/source/elements/shell/coqueba/scigini4.F
+      !||    cstraini4   ../starter/source/elements/shell/coqueba/cstraini4.F
+      !||====================================================================
       SUBROUTINE CG2LEPS(
      7           E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
      8           E1Z    ,E2Z   ,E3Z   ,EPS   )
@@ -834,13 +833,12 @@ C
              EPS(6) = ZERO 
       RETURN
       END
-Chd|====================================================================
-Chd|  CG2LSIG                       source/elements/shell/coqueba/scigini4.F
-Chd|-- called by -----------
-Chd|        CSIGINI                       source/elements/shell/coque/csigini.F
-Chd|        CSIGINI4                      source/elements/shell/coqueba/scigini4.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cg2lsig    ../starter/source/elements/shell/coqueba/scigini4.F
+      !||--- called by ------------------------------------------------------
+      !||    csigini    ../starter/source/elements/shell/coque/csigini.F
+      !||    csigini4   ../starter/source/elements/shell/coqueba/scigini4.F
+      !||====================================================================
       SUBROUTINE CG2LSIG(
      7           E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
      8           E1Z    ,E2Z   ,E3Z   ,SIG   )
@@ -886,14 +884,14 @@ C
              SIG(6) = ZERO 
       RETURN
       END
-Chd|====================================================================
-Chd|  LOC2ORTH                      source/elements/shell/coqueba/scigini4.F
-Chd|-- called by -----------
-Chd|        CSIGINI                       source/elements/shell/coque/csigini.F
-Chd|        CSIGINI4                      source/elements/shell/coqueba/scigini4.F
-Chd|-- calls ---------------
-Chd|        ROTOVS                        source/elements/shell/coqueba/scigini4.F
-Chd|====================================================================
+      !||====================================================================
+      !||    loc2orth   ../starter/source/elements/shell/coqueba/scigini4.F
+      !||--- called by ------------------------------------------------------
+      !||    csigini    ../starter/source/elements/shell/coque/csigini.F
+      !||    csigini4   ../starter/source/elements/shell/coqueba/scigini4.F
+      !||--- calls      -----------------------------------------------------
+      !||    rotovs     ../starter/source/elements/shell/coqueba/scigini4.F
+      !||====================================================================
       SUBROUTINE LOC2ORTH(TENS,DIR_A,DIR_B,II,ILAW,IGTYP,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -929,12 +927,11 @@ c                II = JDIR + I-1
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ROTOVS                        source/elements/shell/coqueba/scigini4.F
-Chd|-- called by -----------
-Chd|        LOC2ORTH                      source/elements/shell/coqueba/scigini4.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rotovs     ../starter/source/elements/shell/coqueba/scigini4.F
+      !||--- called by ------------------------------------------------------
+      !||    loc2orth   ../starter/source/elements/shell/coqueba/scigini4.F
+      !||====================================================================
       SUBROUTINE ROTOVS(SIG,DIR1,DIR2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

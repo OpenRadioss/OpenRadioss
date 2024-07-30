@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TH_MOD                        share/modules/th_mod.F        
-Chd|-- called by -----------
-Chd|        FREFORM                       source/input/freform.F        
-Chd|        HIST1                         source/output/th/hist1.F      
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|        INIT_TH                       source/output/th/init_th.F    
-Chd|        INIT_TH0                      source/output/th/init_th0.F   
-Chd|        WRITE_TH                      source/output/th/write_th.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    th_mod     ../engine/share/modules/th_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    freform    ../engine/source/input/freform.F
+      !||    hist1      ../engine/source/output/th/hist1.F
+      !||    hist2      ../engine/source/output/th/hist2.F
+      !||    init_th    ../engine/source/output/th/init_th.F
+      !||    init_th0   ../engine/source/output/th/init_th0.F
+      !||    write_th   ../engine/source/output/th/write_th.F
+      !||====================================================================
         MODULE TH_MOD
 C-----------------------------------------------
 C   m y _ r e a l

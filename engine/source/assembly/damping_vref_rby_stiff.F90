@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    damping_vref_rby_stiff_mod   ../engine/source/assembly/damping_vref_rby_stiff.F90
+      !||--- called by ------------------------------------------------------
+      !||    rbyfor                       ../engine/source/constraints/general/rbody/rbyfor.F
+      !||====================================================================
       module damping_vref_rby_stiff_mod
       contains
 ! ======================================================================================================================
@@ -30,6 +35,13 @@
 !!\brief This subroutine computes nodal stiffness on main nodes of RBODY for /DAMP/VREL
 !=======================================================================================================================
 !
+      !||====================================================================
+      !||    damping_vref_rby_stiff   ../engine/source/assembly/damping_vref_rby_stiff.F90
+      !||--- called by ------------------------------------------------------
+      !||    rbyfor                   ../engine/source/constraints/general/rbody/rbyfor.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod             ../common_source/modules/constant_mod.F
+      !||====================================================================
         subroutine damping_vref_rby_stiff(numnod,nnpby,nrbykin,nrbykin_l,npby,                       &
           rby6_c,ms,in,stifn,stifr,size_rby6_c,irbkin_l)
 ! ----------------------------------------------------------------------------------------------------------------------

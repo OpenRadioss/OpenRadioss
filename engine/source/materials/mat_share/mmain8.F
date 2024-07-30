@@ -20,33 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MMAIN8                        source/materials/mat_share/mmain8.F
-Chd|-- called by -----------
-Chd|        S8FORC3                       source/elements/solid/solide8/s8forc3.F
-Chd|-- calls ---------------
-Chd|        FAIL_BIQUAD_S                 source/materials/fail/biquad/fail_biquad_s.F
-Chd|        FAIL_EMC                      source/materials/fail/emc/fail_emc.F
-Chd|        FAIL_JOHNSON                  source/materials/fail/johnson_cook/fail_johnson.F
-Chd|        FAIL_ORTHBIQUAD_S             source/materials/fail/orthbiquad/fail_orthbiquad_s.F
-Chd|        FAIL_RTCL_S                   source/materials/fail/rtcl/fail_rtcl_s.F
-Chd|        FAIL_SPALLING_S               source/materials/fail/spalling/fail_spalling_s.F
-Chd|        FAIL_TAB_S                    source/materials/fail/tabulated/fail_tab_s.F
-Chd|        FAIL_TBUTCHER_S               source/materials/fail/tuler_butcher/fail_tbutcher_s.F
-Chd|        FAIL_WIERZBICKI_S             source/materials/fail/wierzbicki/fail_wierzbicki_s.F
-Chd|        FAIL_WILKINS_S                source/materials/fail/wilkins/fail_wilkins_s.F
-Chd|        M1LAW8                        source/materials/mat/mat001/m1law8.F
-Chd|        M2LAW8                        source/materials/mat/mat002/m2law8.F
-Chd|        M3LAW8                        source/materials/mat/mat003/m3law8.F
-Chd|        MEOS8                         source/materials/mat_share/meos8.F
-Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
-Chd|        PUT_ETFAC                     source/elements/solid/solide8z/put_etfac.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MULAW8_MOD                    source/materials/mat_share/mulaw8.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    mmain8              ../engine/source/materials/mat_share/mmain8.F
+      !||--- called by ------------------------------------------------------
+      !||    s8forc3             ../engine/source/elements/solid/solide8/s8forc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    fail_biquad_s       ../engine/source/materials/fail/biquad/fail_biquad_s.F
+      !||    fail_emc            ../engine/source/materials/fail/emc/fail_emc.F
+      !||    fail_johnson        ../engine/source/materials/fail/johnson_cook/fail_johnson.F
+      !||    fail_orthbiquad_s   ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
+      !||    fail_rtcl_s         ../engine/source/materials/fail/rtcl/fail_rtcl_s.F
+      !||    fail_spalling_s     ../engine/source/materials/fail/spalling/fail_spalling_s.F
+      !||    fail_tab_old_s      ../engine/source/materials/fail/tabulated/fail_tab_old_s.F
+      !||    fail_tab_s          ../engine/source/materials/fail/tabulated/fail_tab_s.F
+      !||    fail_tbutcher_s     ../engine/source/materials/fail/tuler_butcher/fail_tbutcher_s.F
+      !||    fail_wierzbicki_s   ../engine/source/materials/fail/wierzbicki/fail_wierzbicki_s.F
+      !||    fail_wilkins_s      ../engine/source/materials/fail/wilkins/fail_wilkins_s.F
+      !||    m1law8              ../engine/source/materials/mat/mat001/m1law8.F
+      !||    m2law8              ../engine/source/materials/mat/mat002/m2law8.F
+      !||    m3law8              ../engine/source/materials/mat/mat003/m3law8.F
+      !||    meos8               ../engine/source/materials/mat_share/meos8.F
+      !||    mulaw8              ../engine/source/materials/mat_share/mulaw8.F
+      !||    nvar                ../engine/source/input/nvar.F
+      !||    put_etfac           ../engine/source/elements/solid/solide8z/put_etfac.F
+      !||    startime            ../engine/source/system/timer.F
+      !||    stoptime            ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    mulaw8_mod          ../engine/source/materials/mat_share/mulaw8.F
+      !||    table_mod           ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE MMAIN8(PM     ,GEO      ,ELBUF_STR,MAT_ELEM ,
      2                  IX     ,IPARG    ,V        ,TF       ,
      3                  NPF    ,BUFMAT   ,STIFN    ,X        ,D1      ,

@@ -20,16 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CREATE_ELEMENT_FROM_PART      source/model/sets/create_element_from_part.F
-Chd|-- called by -----------
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        INVERTED_GROUP_MOD            share/modules1/inverted_group_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    create_element_from_part   ../starter/source/model/sets/create_element_from_part.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_set                     ../starter/source/model/sets/hm_set.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    inverted_group_mod         ../starter/share/modules1/inverted_group_mod.F
+      !||    message_mod                ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP,NUMSPH)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

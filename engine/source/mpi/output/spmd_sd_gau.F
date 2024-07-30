@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_SD_GAU                   source/mpi/output/spmd_sd_gau.F
-Chd|-- called by -----------
-Chd|        AGAUGE0                       source/ale/agauge.F           
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sd_gau   ../engine/source/mpi/output/spmd_sd_gau.F
+      !||--- called by ------------------------------------------------------
+      !||    agauge0       ../engine/source/ale/agauge.F
+      !||    hist2         ../engine/source/output/th/hist2.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_SD_GAU(GAUGE,IGAUP,NGAUP)
 C envoi vers p0 du tableau GAUGE calcule sur chaque proc
 C-----------------------------------------------

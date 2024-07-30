@@ -20,16 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STRR                          source/tools/univ/strr.F      
-Chd|-- called by -----------
-Chd|        HIST1                         source/output/th/hist1.F      
-Chd|        WRTDES                        source/output/th/wrtdes.F     
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|        STRR                          source/tools/univ/strr.F      
-Chd|-- calls ---------------
-Chd|        STRR                          source/tools/univ/strr.F      
-Chd|====================================================================
       CHARACTER*8 FUNCTION STRR(Y)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

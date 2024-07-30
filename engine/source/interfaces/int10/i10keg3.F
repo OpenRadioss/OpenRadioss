@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I10KEG3                       source/interfaces/int10/i10keg3.F
-Chd|-- called by -----------
-Chd|        I10KE3                        source/interfaces/int10/i10ke3.F
-Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    i10keg3    ../engine/source/interfaces/int10/i10keg3.F
+      !||--- called by ------------------------------------------------------
+      !||    i10ke3     ../engine/source/interfaces/int10/i10ke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm   ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE I10KEG3(JLT    ,A      ,V      ,MS    ,FRIC   ,
      1                  NX1    ,NX2    ,NX3    ,NX4   ,NY1    ,
      2                  NY2    ,NY3    ,NY4    ,NZ1   ,NZ2    ,
@@ -448,13 +448,13 @@ C---------pour temporairement diag_ss---
 C
        RETURN
       END
-Chd|====================================================================
-Chd|  I10FRF3                       source/interfaces/int10/i10keg3.F
-Chd|-- called by -----------
-Chd|        I10FORCF3                     source/interfaces/int10/i10ke3.F
-Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    i10frf3     ../engine/source/interfaces/int10/i10keg3.F
+      !||--- called by ------------------------------------------------------
+      !||    i10forcf3   ../engine/source/interfaces/int10/i10ke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm    ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE I10FRF3(JLT    ,A      ,V      ,MS     ,FRIC   ,
      1                   N1     ,N2     ,N3     ,T1X    ,T1Y    ,
      2                   T1Z    ,H1     ,H2     ,H3     ,H4     ,
@@ -598,13 +598,13 @@ C--------partie NSL-------
 C
        RETURN
       END
-Chd|====================================================================
-Chd|  I10KFOR3                      source/interfaces/int10/i10keg3.F
-Chd|-- called by -----------
-Chd|        I10FKU3                       source/interfaces/int10/i10ke3.F
-Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    i10kfor3   ../engine/source/interfaces/int10/i10keg3.F
+      !||--- called by ------------------------------------------------------
+      !||    i10fku3    ../engine/source/interfaces/int10/i10ke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm   ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE I10KFOR3(JLT    ,A      ,V      ,MS    ,CAND_F ,
      1                    STIF   ,ITIED  ,X1     ,X2    ,X3    ,
      2                    X4     ,Y1     ,Y2     ,Y3    ,Y4    ,

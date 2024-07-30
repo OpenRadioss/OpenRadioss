@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CHECK_ACTIVE_ELEM_EDGE        source/interfaces/interf/check_active_elem_edge.F
-Chd|-- called by -----------
-Chd|        CHECK_EDGE_STATE              source/interfaces/interf/check_edge_state.F
-Chd|        CHECK_SURFACE_STATE           source/interfaces/interf/check_surface_state.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    check_active_elem_edge   ../engine/source/interfaces/interf/check_active_elem_edge.F
+      !||--- called by ------------------------------------------------------
+      !||    check_edge_state         ../engine/source/interfaces/interf/check_edge_state.F
+      !||    check_surface_state      ../engine/source/interfaces/interf/check_surface_state.F
+      !||====================================================================
         SUBROUTINE CHECK_ACTIVE_ELEM_EDGE( NUMBER_NODE, N1,N2,N3,N4,
      .                                     DEACTIVATION,GEO,IXS,IXC,
      .                                     IXT,IXP,IXR,IXTG,IXS10,ADDCNEL,CNEL,

@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IMP_DSOLV                     source/implicit/imp_dsolv.F   
-Chd|-- called by -----------
-Chd|        LIN_SOLV2                     source/implicit/lin_solv.F    
-Chd|        LIN_SOLVP2                    source/implicit/lin_solv.F    
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_dsolv     ../engine/source/implicit/imp_dsolv.F
+      !||--- called by ------------------------------------------------------
+      !||    lin_solv2     ../engine/source/implicit/lin_solv.F
+      !||    lin_solvp2    ../engine/source/implicit/lin_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    dsgraph_mod   ../engine/share/modules/dsgraph_mod.F
+      !||====================================================================
       SUBROUTINE IMP_DSOLV(GRAPHE, K_DIAG, K_LT , IADK , JDIK   ,
      .                     NDDL  , NB    , B    , X    , ITAB   ,
      .                     IPRINT, NDDLI7, IADI7, JDII7, I7_DIAG,
@@ -63,15 +64,16 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  IMP_DSOLV_ITER                source/implicit/imp_dsolv.F   
-Chd|-- called by -----------
-Chd|        LIN_SOLV2                     source/implicit/lin_solv.F    
-Chd|        LIN_SOLVP2                    source/implicit/lin_solv.F    
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_dsolv_iter   ../engine/source/implicit/imp_dsolv.F
+      !||--- called by ------------------------------------------------------
+      !||    lin_solv2        ../engine/source/implicit/lin_solv.F
+      !||    lin_solvp2       ../engine/source/implicit/lin_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret            ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    dsgraph_mod      ../engine/share/modules/dsgraph_mod.F
+      !||====================================================================
       SUBROUTINE IMP_DSOLV_ITER(GRAPHE, K_DIAG, K_LT  , IADK   , JDIK  ,
      .                          NDDL  , NB    , B     , X      , ITAB  ,
      .                          IT    , FAC_K , IPIV_K, NK     , IPRINT,

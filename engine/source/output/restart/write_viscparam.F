@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRITE_VISCPARAM               source/output/restart/write_viscparam.F
-Chd|-- called by -----------
-Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
-Chd|-- calls ---------------
-Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_MAT_TABLE               source/materials/tools/write_mat_table.F
-Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
-Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    write_viscparam        ../engine/source/output/restart/write_viscparam.F
+      !||--- called by ------------------------------------------------------
+      !||    write_matparam         ../engine/source/output/restart/write_matparam.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_c_c              ../common_source/tools/input_output/write_routtines.c
+      !||    write_db               ../common_source/tools/input_output/write_db.F
+      !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+      !||    write_mat_table        ../engine/source/materials/tools/write_mat_table.F
+      !||--- uses       -----------------------------------------------------
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    visc_param_mod         ../common_source/modules/mat_elem/visc_param_mod.F90
+      !||====================================================================
       SUBROUTINE WRITE_VISCPARAM(VISC)
 C-----------------------------------------------
 C   M o d u l e s

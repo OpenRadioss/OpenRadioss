@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RUSER32KE3                    source/elements/spring/ruser32ke3.F
-Chd|-- called by -----------
-Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|        ASSEM_P                       source/implicit/assem_p.F     
-Chd|        PEOFF                         source/elements/beam/peoff.F  
-Chd|        R1COORK3                      source/elements/spring/r1coork3.F
-Chd|        R4SUMG3                       source/elements/spring/r4sumg3.F
-Chd|        RUSER32MAT3                   source/elements/spring/ruser32mat3.F
-Chd|        TKEG3                         source/elements/truss/tkeg3.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ruser32ke3     ../engine/source/elements/spring/ruser32ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_p        ../engine/source/implicit/assem_p.F
+      !||    peoff          ../engine/source/elements/beam/peoff.F
+      !||    r1coork3       ../engine/source/elements/spring/r1coork3.F
+      !||    r4sumg3        ../engine/source/elements/spring/r4sumg3.F
+      !||    ruser32mat3    ../engine/source/elements/spring/ruser32mat3.F
+      !||    tkeg3          ../engine/source/elements/truss/tkeg3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE RUSER32KE3 (JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                  GEO    ,IXR   ,X     ,ELBUF_TAB,NPF   ,
      2                  TF     ,SKEW  ,OFFSET,FR_WAVE,

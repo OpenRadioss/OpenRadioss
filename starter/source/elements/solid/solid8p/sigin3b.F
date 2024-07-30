@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGIN3B                       source/elements/solid/solid8p/sigin3b.F
-Chd|-- called by -----------
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|-- calls ---------------
-Chd|        M38INIT                       source/materials/mat/mat038/m38init.F
-Chd|        M70INIT                       source/materials/mat/mat070/m70init.F
-Chd|        SROTA6_M1                     source/output/anim/srota6_M1.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sigin3b        ../starter/source/elements/solid/solid8p/sigin3b.F
+      !||--- called by ------------------------------------------------------
+      !||    sinit3         ../starter/source/elements/solid/solide/sinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    m38init        ../starter/source/materials/mat/mat038/m38init.F
+      !||    m70init        ../starter/source/materials/mat/mat070/m70init.F
+      !||    srota6_m1      ../starter/source/output/anim/srota6_M1.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SIGIN3B(MAT     ,PM      ,IPM     ,SIG     ,VOL     ,
      2                   SIGSP   ,SIGI    ,EINT    ,RHO     ,
      3                   IX      ,NIX     ,NSIGI   ,NSIGS   ,

@@ -20,14 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S6CCOOR3                      source/elements/thickshell/solide6c/s6ccoor3.F
-Chd|-- called by -----------
-Chd|        S6CINIT3                      source/elements/thickshell/solide6c/s6cinit3.F
-Chd|-- calls ---------------
-Chd|        S6CORTHO3                     source/elements/thickshell/solide6c/s6cortho3.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s6ccoor3         ../starter/source/elements/thickshell/solide6c/s6ccoor3.F
+      !||--- called by ------------------------------------------------------
+      !||    s6cinit3         ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    checkvolume_6n   ../starter/source/elements/solid/solide/checksvolume.F
+      !||    s6cortho3        ../starter/source/elements/thickshell/solide6c/s6cortho3.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S6CCOOR3(X       ,IXS  ,GEO  ,NGL  ,MXT  ,NGEO ,                            
      .     RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .     R11  ,R21  ,R31  ,R12  ,R22  ,R32  ,R13  ,R23  ,R33  ,

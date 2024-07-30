@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MESSAGE_MOD2                  share/message_module/message_mod2.F
-Chd|-- called by -----------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    message_mod2   ../starter/share/message_module/message_mod2.F
+      !||--- called by ------------------------------------------------------
+      !||    ancmsg         ../starter/source/output/message/message.F
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       MODULE MESSAGE_MOD2
 #include "nchar_c.inc"
       TYPE TMESSAGE

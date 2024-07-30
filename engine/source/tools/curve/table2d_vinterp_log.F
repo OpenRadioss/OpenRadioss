@@ -20,31 +20,32 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TABLE2D_VINTERP_LOG           source/tools/curve/table2d_vinterp_log.F
-Chd|-- called by -----------
-Chd|        FAIL_GENE1_C                  source/materials/fail/gene1/fail_gene1_c.F
-Chd|        FAIL_GENE1_S                  source/materials/fail/gene1/fail_gene1_s.F
-Chd|        MAT107C_NEWTON                source/materials/mat/mat107/mat107c_newton.F
-Chd|        MAT107C_NICE                  source/materials/mat/mat107/mat107c_nice.F
-Chd|        MAT107_NEWTON                 source/materials/mat/mat107/mat107_newton.F
-Chd|        MAT107_NICE                   source/materials/mat/mat107/mat107_nice.F
-Chd|        MAT112C_XIA_NEWTON            source/materials/mat/mat112/mat112c_xia_newton.F
-Chd|        MAT112C_XIA_NICE              source/materials/mat/mat112/mat112c_xia_nice.F
-Chd|        MAT112_XIA_NEWTON             source/materials/mat/mat112/mat112_xia_newton.F
-Chd|        MAT112_XIA_NICE               source/materials/mat/mat112/mat112_xia_nice.F
-Chd|        SIGEPS109                     source/materials/mat/mat109/sigeps109.F
-Chd|        SIGEPS109C                    source/materials/mat/mat109/sigeps109c.F
-Chd|        SIGEPS110C_LITE_NEWTON        source/materials/mat/mat110/sigeps110c_lite_newton.F
-Chd|        SIGEPS110C_LITE_NICE          source/materials/mat/mat110/sigeps110c_lite_nice.F
-Chd|        SIGEPS110C_NEWTON             source/materials/mat/mat110/sigeps110c_newton.F
-Chd|        SIGEPS110C_NICE               source/materials/mat/mat110/sigeps110c_nice.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    table2d_vinterp_log      ../engine/source/tools/curve/table2d_vinterp_log.F
+      !||--- called by ------------------------------------------------------
+      !||    fail_gene1_c             ../engine/source/materials/fail/gene1/fail_gene1_c.F
+      !||    fail_gene1_s             ../engine/source/materials/fail/gene1/fail_gene1_s.F
+      !||    mat107_newton            ../engine/source/materials/mat/mat107/mat107_newton.F
+      !||    mat107_nice              ../engine/source/materials/mat/mat107/mat107_nice.F
+      !||    mat107c_newton           ../engine/source/materials/mat/mat107/mat107c_newton.F
+      !||    mat107c_nice             ../engine/source/materials/mat/mat107/mat107c_nice.F
+      !||    mat112_xia_newton        ../engine/source/materials/mat/mat112/mat112_xia_newton.F
+      !||    mat112_xia_nice          ../engine/source/materials/mat/mat112/mat112_xia_nice.F
+      !||    mat112c_xia_newton       ../engine/source/materials/mat/mat112/mat112c_xia_newton.F
+      !||    mat112c_xia_nice         ../engine/source/materials/mat/mat112/mat112c_xia_nice.F
+      !||    sigeps109                ../engine/source/materials/mat/mat109/sigeps109.F
+      !||    sigeps109c               ../engine/source/materials/mat/mat109/sigeps109c.F
+      !||    sigeps110c_lite_newton   ../engine/source/materials/mat/mat110/sigeps110c_lite_newton.F
+      !||    sigeps110c_lite_nice     ../engine/source/materials/mat/mat110/sigeps110c_lite_nice.F
+      !||    sigeps110c_newton        ../engine/source/materials/mat/mat110/sigeps110c_newton.F
+      !||    sigeps110c_nice          ../engine/source/materials/mat/mat110/sigeps110c_nice.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../engine/source/output/message/message.F
+      !||    arret                    ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../engine/share/message_module/message_mod.F
+      !||    table_mod                ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE TABLE2D_VINTERP_LOG(TABLE,ISMOOTH,DIMX,NEL,IPOS,XX,YY,DYDX1,DYDX2)
 C-----------------------------------------------
       USE TABLE_MOD

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MAT115_NEWTON                 source/materials/mat/mat115/mat115_newton.F
-Chd|-- called by -----------
-Chd|        SIGEPS115                     source/materials/mat/mat115/sigeps115.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mat115_newton   ../engine/source/materials/mat/mat115/mat115_newton.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps115       ../engine/source/materials/mat/mat115/sigeps115.F
+      !||====================================================================
       SUBROUTINE MAT115_NEWTON(
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,GRHO    , 
      2     TIME    ,TIMESTEP,UPARAM  ,UVAR    ,OFF     ,SIGY    ,

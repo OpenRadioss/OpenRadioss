@@ -20,27 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTER7_COLLISION_DETECTION_MODsource/interfaces/inter7_collision_detection.F
-Chd|-- called by -----------
-Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inter7_collision_detection_mod   ../engine/source/interfaces/inter7_collision_detection.F
+      !||--- called by ------------------------------------------------------
+      !||    inter_sort_07                    ../engine/source/interfaces/int07/inter_sort_07.F
+      !||====================================================================
        MODULE INTER7_COLLISION_DETECTION_MOD
        CONTAINS
-Chd|====================================================================
-Chd|  INTER7_COLLISION_DETECTION    source/interfaces/inter7_collision_detection.F
-Chd|-- called by -----------
-Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        INTER7_CANDIDATE_PAIRS        source/interfaces/intsort/inter7_candidate_pairs.F
-Chd|        SPMD_OLDNUMCD                 source/mpi/interfaces/spmd_i7tool.F
-Chd|        INTER7_CANDIDATE_PAIRS_MOD    source/interfaces/intsort/inter7_candidate_pairs.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    inter7_collision_detection   ../engine/source/interfaces/inter7_collision_detection.F
+      !||--- called by ------------------------------------------------------
+      !||    inter_sort_07                ../engine/source/interfaces/int07/inter_sort_07.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                       ../engine/source/output/message/message.F
+      !||    arret                        ../engine/source/system/arret.F
+      !||    inter7_candidate_pairs       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||    my_barrier                   ../engine/source/system/machine.F
+      !||    spmd_oldnumcd                ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||--- uses       -----------------------------------------------------
+      !||    inter7_candidate_pairs_mod   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||    message_mod                  ../engine/share/message_module/message_mod.F
+      !||    tri7box                      ../engine/share/modules/tri7box.F
+      !||====================================================================
        SUBROUTINE INTER7_COLLISION_DETECTION(
      1   X        ,IRECT   ,NSV     ,INACTI   ,CAND_P  ,
      2   NMN      ,NRTM    ,NSN     ,CAND_E   ,CAND_N  ,

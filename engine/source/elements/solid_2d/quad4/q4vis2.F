@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  Q4VIS2                        source/elements/solid_2d/quad4/q4vis2.F
-Chd|-- called by -----------
-Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    q4vis2    ../engine/source/elements/solid_2d/quad4/q4vis2.F
+      !||--- called by ------------------------------------------------------
+      !||    q4forc2   ../engine/source/elements/solid_2d/quad4/q4forc2.F
+      !||====================================================================
       SUBROUTINE Q4VIS2(
      1   PM,      OFF,     RHO,     Y1,
      2   Y2,      Y3,      Y4,      Z1,

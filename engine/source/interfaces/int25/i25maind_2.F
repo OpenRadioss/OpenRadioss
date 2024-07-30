@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25MAIND_2                    source/interfaces/int25/i25maind_2.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        I25COMP_2                     source/interfaces/int25/i25comp_2.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MPI_COMMOD                    share/modules/mpi_comm_mod.F  
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25maind_2      ../engine/source/interfaces/int25/i25maind_2.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri          ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    i25comp_2       ../engine/source/interfaces/int25/i25comp_2.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    mpi_commod      ../engine/share/modules/mpi_comm_mod.F
+      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25MAIND_2(
      1       IPARI    ,ITAB    ,SENSOR_TAB,INTLIST25,INTBUF_TAB ,
      2       X        ,V       ,KINET   ,JTASK    ,NB_DST2    ,

@@ -20,11 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SMALLC3                       source/elements/solid/solide/smallc3.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    smallc3   ../engine/source/elements/solid/solide/smallc3.F
+      !||====================================================================
       SUBROUTINE SMALLC3(
      1   SAV,     OFFG,    OFF,     WXX,
      2   WYY,     WZZ,     DXX,     DYY,

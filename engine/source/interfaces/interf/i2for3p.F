@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  dev023 routine duale de i2for3 pour parith/on spmd
-Chd|====================================================================
-Chd|  I2FOR3PN                      source/interfaces/interf/i2for3p.F
-Chd|-- called by -----------
-Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
-Chd|-- calls ---------------
-Chd|        I2FORCES                      source/interfaces/interf/i2forces.F
-Chd|        I2FORCES_2D                   source/interfaces/interf/i2forces_2D.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i2for3pn      ../engine/source/interfaces/interf/i2for3p.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2f       ../engine/source/interfaces/interf/intti2f.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2forces      ../engine/source/interfaces/interf/i2forces.F
+      !||    i2forces_2d   ../engine/source/interfaces/interf/i2forces_2D.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod       ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I2FOR3PN(NSN    ,NMN    ,A      ,CRST   ,NSV    ,
      2                    MS     ,WEIGHT ,STIFN  ,MMASS  ,FSKYI2 ,
      3                    IADI2  ,I0     ,NIR    ,I2SIZE ,IDEL2  ,
@@ -266,14 +267,15 @@ C----
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I2FOR3P                       source/interfaces/interf/i2for3p.F
-Chd|-- called by -----------
-Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
-Chd|-- calls ---------------
-Chd|        I2FORCES                      source/interfaces/interf/i2forces.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i2for3p    ../engine/source/interfaces/interf/i2for3p.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2f    ../engine/source/interfaces/interf/intti2f.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2forces   ../engine/source/interfaces/interf/i2forces.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod    ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I2FOR3P(NSN    ,NMN    ,A      ,CRST   ,MSR    ,
      2                   NSV    ,MS     ,WEIGHT ,STIFN  ,MMASS  ,
      3                   FSKYI2 ,IADI2  ,I0     ,NIR    ,I2SIZE ,
@@ -496,14 +498,15 @@ C----
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I2FOR3PO                      source/interfaces/interf/i2for3p.F
-Chd|-- called by -----------
-Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
-Chd|-- calls ---------------
-Chd|        I2FORCES                      source/interfaces/interf/i2forces.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i2for3po   ../engine/source/interfaces/interf/i2for3p.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2f    ../engine/source/interfaces/interf/intti2f.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2forces   ../engine/source/interfaces/interf/i2forces.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod    ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I2FOR3PO(NSN      ,NMN    ,A       ,CRST   ,MSR     ,
      2                    NSV      ,MS     ,WEIGHT  ,STIFN  ,MMASS   ,
      3                    FSKYI2   ,IADI2  ,I0      ,NIR    ,I2SIZE  ,
@@ -673,13 +676,13 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  I2MOM3PN                      source/interfaces/interf/i2for3p.F
-Chd|-- called by -----------
-Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
-Chd|-- calls ---------------
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i2mom3pn   ../engine/source/interfaces/interf/i2for3p.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2f    ../engine/source/interfaces/interf/intti2f.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod    ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I2MOM3PN(NSN  ,NMN  ,AR    ,IRECT,CRST  ,
      2                    MSR  ,NSV  ,IRTL  ,IN   ,MS    ,
      3                    A    ,X    ,WEIGHT,STIFR,FSKYI2,
@@ -996,12 +999,11 @@ C
       RETURN
       END
 C  dev023 routine duale de i2mom3 pour parith/on spmd
-Chd|====================================================================
-Chd|  I2MOM3P                       source/interfaces/interf/i2for3p.F
-Chd|-- called by -----------
-Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i2mom3p   ../engine/source/interfaces/interf/i2for3p.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2f   ../engine/source/interfaces/interf/intti2f.F
+      !||====================================================================
       SUBROUTINE I2MOM3P(NSN  ,NMN,AR    ,IRECT ,CRST  ,
      2                   MSR  ,NSV,IRTL  ,IN    ,MS    ,
      3                   A    ,X  ,WEIGHT,STIFR ,FSKYI2,
@@ -1180,14 +1182,15 @@ C
       END
 C  dev023 routine duale de i2fomo3 pour parith/on spmd
 C==========================================================================
-Chd|====================================================================
-Chd|  I2FOMO3P                      source/interfaces/interf/i2for3p.F
-Chd|-- called by -----------
-Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
-Chd|-- calls ---------------
-Chd|        I2FORCES                      source/interfaces/interf/i2forces.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i2fomo3p   ../engine/source/interfaces/interf/i2for3p.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2f    ../engine/source/interfaces/interf/intti2f.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2forces   ../engine/source/interfaces/interf/i2forces.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod    ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I2FOMO3P(
      1             NSN      ,NMN     ,A      ,IRECT   ,DPARA   ,
      2             MSR      ,NSV     ,IRTL   ,MS      ,WEIGHT  ,
@@ -1517,12 +1520,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I2MZEROP                      source/interfaces/interf/i2for3p.F
-Chd|-- called by -----------
-Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i2mzerop   ../engine/source/interfaces/interf/i2for3p.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2f    ../engine/source/interfaces/interf/intti2f.F
+      !||====================================================================
       SUBROUTINE I2MZEROP(FSKYI2,I0 ,NIR   ,I2SIZE,IADI2,
      2                    NSN   ,NSV,WEIGHT)
 C-----------------------------------------------
@@ -1576,12 +1578,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I2SKIP                        source/interfaces/interf/i2for3p.F
-Chd|-- called by -----------
-Chd|        INTTI1                        source/interfaces/interf/intti1.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i2skip   ../engine/source/interfaces/interf/i2for3p.F
+      !||--- called by ------------------------------------------------------
+      !||    intti1   ../engine/source/interfaces/interf/intti1.F
+      !||====================================================================
       SUBROUTINE I2SKIP(NSN  ,NSV   ,WEIGHT,I0    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

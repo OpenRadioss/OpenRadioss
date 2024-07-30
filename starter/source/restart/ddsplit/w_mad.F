@@ -59,14 +59,13 @@ C
 c      RETURN
 c      END
 C
-Chd|====================================================================
-Chd|  W_MAD                         source/restart/ddsplit/w_mad.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    w_mad       ../starter/source/restart/ddsplit/w_mad.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal      ../starter/source/spmd/node/ddtools.F
+      !||====================================================================
       SUBROUTINE W_MAD(IEXMAD  ,NMADSH4_L,NMADSH3_L,NMADSOL_L,NMADNOD_L,
      +                 MADCL_NMADNOD_L,CEP,PROC,NODLOCAL ,CEL  ,
      +                 NUMELS_L,NUMELC_L ,NUMELTG_L,LEN_IA   )

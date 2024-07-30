@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  I24NITSCHFOR3                 source/interfaces/int24/i24nitschfor3.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i24nitschfor3   ../engine/source/interfaces/int24/i24nitschfor3.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
        SUBROUTINE  I24NITSCHFOR3 (IPARI ,INTBUF_TAB ,IPARIT ,STRESSMEAN,
      2                           INTLIST ,NBINTC    ,X      ,IADS      ,
      3                           FORNEQS ,FORNEQSKY,ITAB    ,IXS       ,

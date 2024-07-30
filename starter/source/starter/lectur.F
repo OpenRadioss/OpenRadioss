@@ -20,495 +20,500 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LECTUR                        source/starter/lectur.F       
-Chd|-- called by -----------
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|-- calls ---------------
-Chd|        ADDMAST10                     source/tools/admas/addmast10.F
-Chd|        ADD_MASS_STAT                 source/tools/admas/add_mass_stat.F
-Chd|        ADMBCS                        source/model/remesh/admbcs.F  
-Chd|        ALELEC                        source/ale/alelec.F           
-Chd|        ALLOCXFEM                     source/elements/xfem/allocxfem.F
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ANI_FASOLFR1                  source/output/anim/ani_fasolfr.F
-Chd|        ANI_FASOLFR2                  source/output/anim/ani_fasolfr.F
-Chd|        ANI_SEGQUADFR1                source/output/anim/ani_segquadfr.F
-Chd|        ANI_SEGQUADFR2                source/output/anim/ani_segquadfr.F
-Chd|        ANODIN                        source/output/analyse/analyse_node.c
-Chd|        APARTIN                       source/output/analyse/analyse_part.c
-Chd|        APPLYSORT2FLUX                source/restart/ddsplit/w_ithflux.F
-Chd|        APPLYSORT2FVM                 source/airbag/fvmesh0.F       
-Chd|        ARRET                         source/system/arret.F         
-Chd|        BCSCYCMODIF_ND                source/elements/solid/solide10/dim_s10edg.F
-Chd|        BCSMODIF_ND                   source/elements/solid/solide10/dim_s10edg.F
-Chd|        BUILD_ADDCNEL_SUB             source/model/mesh/build_addcnel_sub.F
-Chd|        BUILD_ADMESH                  source/model/remesh/build_admesh.F
-Chd|        BUILD_CNEL                    source/model/mesh/build_cnel.F
-Chd|        BUILD_CNEL_SUB                source/model/mesh/build_cnel_sub.F
-Chd|        BUILD_CSRECT                  source/model/mesh/build_cnel.F
-Chd|        BULKFAKEIGEO3                 source/elements/ige3d/bulkfakeigeo3.F
-Chd|        C3GRHEAD                      source/elements/sh3n/coque3n/c3grhead.F
-Chd|        C3GRTAILS                     source/elements/sh3n/coque3n/c3grtails.F
-Chd|        CDK6INX                       source/elements/sh3n/coquedk6/cdk6inx.F
-Chd|        CGRHEAD                       source/elements/shell/coque/cgrhead.F
-Chd|        CGRTAILS                      source/elements/shell/coque/cgrtails.F
-Chd|        CHECKRBY                      source/constraints/general/rbody/checkrby.F
-Chd|        CHECK_DYNAIN                  source/starter/check_dynain.F 
-Chd|        CHECK_PTHICKFAIL              source/materials/fail/check_pthickfail.F
-Chd|        CHECK_QEPH_STRA               source/starter/check_qeph_stra.F
-Chd|        CHECK_SURF                    source/groups/check_surf.F    
-Chd|        CHKFUNCT                      source/tools/curve/lecfun.F   
-Chd|        CHKTYP2                       source/interfaces/interf1/chktyp2.F
-Chd|        CHK_DTTSH                     source/elements/thickshell/solidec/scdtchk3.F
-Chd|        COMPUTE_CONNECT_PARTELM       source/model/sets/compute_connect_partelm.F
-Chd|        COPY_TO_MONVOL                share/modules1/monvol_struct_mod.F
-Chd|        COPY_TO_VOLMON                share/modules1/monvol_struct_mod.F
-Chd|        CREATE_MAP_TABLES             source/model/sets/map_tables.F
-Chd|        CREATE_SEATBELT               source/tools/seatbelts/create_seatbelt.F
-Chd|        DAMPDTNODA                    source/general_controls/damping/dampdtnoda.F
-Chd|        DDPRINT                       source/spmd/domdec2.F         
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|        DEALLOCATE_DETONATORS         share/modules1/detonators_mod.F
-Chd|        DEALLOCATE_ELBUF              source/elements/elbuf_init/deallocate_buffer.F
-Chd|        DEALLOCATE_IGRSURF_SPLIT      source/spmd/deallocate_igrsurf_split.F
-Chd|        DEALLOCATE_JOINT              source/constraints/general/cyl_joint/deallocate_joint.F
-Chd|        DEALLOCATE_SPLIT_CFD_SOLIDE   source/spmd/split_cfd_solide.F
-Chd|        DESOUT                        source/output/outp/desout.F   
-Chd|        DIM_S10EDG                    source/elements/solid/solide10/dim_s10edg.F
-Chd|        DOMDEC1                       source/spmd/domain_decomposition/domdec1.F
-Chd|        DOMDEC2                       source/spmd/domdec2.F         
-Chd|        DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
-Chd|        DSDIM0                        source/implicit/dsolve/dsdim.F
-Chd|        ELBUF_INI                     source/elements/elbuf_init/elbuf_ini.F
-Chd|        FAILWAVE_INIT                 source/materials/fail/failwave_init.F
-Chd|        FICTIVMASSIGEO                source/groups/ssurftagigeo.F  
-Chd|        FILLCNCND                     source/elements/solid/solide10/dim_s10edg.F
-Chd|        FILLCNE                       source/spmd/domdec2.F         
-Chd|        FILLCNE_PXFEM                 source/properties/composite_options/stack/preplyxfem.F
-Chd|        FILLCNE_XFEM                  source/elements/xfem/fillcne_xfem.F
-Chd|        FILLCNI2                      source/spmd/domdec2.F         
-Chd|        FILL_INTERCEP                 source/spmd/node/ddtools.F    
-Chd|        FIXMODIF_ND                   source/elements/solid/solide10/dim_s10edg.F
-Chd|        FLOWDEC                       source/fluid/flowdec.F        
-Chd|        FSDCOD                        source/system/fsdcod.F        
-Chd|        FVDIM                         source/airbag/fvmesh.F        
-Chd|        FVMESH0                       source/airbag/fvmesh0.F       
-Chd|        FXBELNUM                      source/constraints/fxbody/fxbelnum.F
-Chd|        FXBGRAV                       source/constraints/fxbody/fxbgrav.F
-Chd|        FXBTAGN                       source/constraints/fxbody/fxbtagn.F
-Chd|        GENANI1                       source/output/anim/genani1.F  
-Chd|        GET_SIZE_INTER24              source/spmd/get_size_tag.F    
-Chd|        GET_SIZE_NUMNOD_LOCAL         source/spmd/get_size_tag.F    
-Chd|        GLOBMAT                       source/materials/globmat.F    
-Chd|        GLOBVARS                      source/spmd/globvars.F        
-Chd|        GROUP_INI                     source/model/group/group_ini.F
-Chd|        HM_GROGRONOD                  source/groups/hm_grogronod.F  
-Chd|        HM_LECGRN                     source/groups/hm_lecgrn.F     
-Chd|        HM_LINES_OF_LINES             source/groups/hm_lines_of_lines.F
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_PRELECGRNS                 source/groups/hm_prelecgrns.F 
-Chd|        HM_PRELECJOI                  source/constraints/general/cyl_joint/hm_prelecjoi.F
-Chd|        HM_PREREAD_BCSCYC             source/constraints/general/bcs/lecbcscyc.F
-Chd|        HM_PREREAD_BEM                source/loads/bem/hm_read_bem.F
-Chd|        HM_PREREAD_CLOAD              source/loads/general/cload/hm_preread_cload.F
-Chd|        HM_PREREAD_CONVEC             source/loads/thermic/hm_preread_convec.F
-Chd|        HM_PREREAD_EIG                source/general_controls/computation/hm_read_eig.F
-Chd|        HM_PREREAD_GRAV               source/loads/general/grav/hm_preread_grav.F
-Chd|        HM_PREREAD_IMPACC             source/constraints/general/impvel/hm_preread_impacc.F
-Chd|        HM_PREREAD_IMPDISP            source/constraints/general/impvel/hm_preread_impdisp.F
-Chd|        HM_PREREAD_IMPFLUX            source/constraints/thermic/hm_preread_impflux.F
-Chd|        HM_PREREAD_IMPTEMP            source/constraints/thermic/hm_preread_imptemp.F
-Chd|        HM_PREREAD_IMPVEL             source/constraints/general/impvel/hm_preread_impvel.F
-Chd|        HM_PREREAD_IMPVEL0            source/constraints/general/impvel/hm_preread_impvel0.F
-Chd|        HM_PREREAD_LOAD_CENTRI        source/loads/general/load_centri/hm_preread_load_centri.F
-Chd|        HM_PREREAD_LOAD_PRESSURE      source/loads/general/load_pressure/hm_preread_load_pressure.F
-Chd|        HM_PREREAD_MERGE              source/constraints/general/merge/hm_preread_merge.F
-Chd|        HM_PREREAD_PART               source/model/assembling/hm_read_part.F
-Chd|        HM_PREREAD_PBLAST             source/loads/pblast/hm_preread_pblast.F
-Chd|        HM_PREREAD_PFLUID             source/loads/general/pfluid/hm_preread_pfluid.F
-Chd|        HM_PREREAD_PLOAD              source/loads/general/pload/hm_preread_pload.F
-Chd|        HM_PREREAD_RADIATION          source/loads/thermic/hm_preread_radiation.F
-Chd|        HM_PREREAD_RBE2               source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|        HM_PREREAD_RBE3               source/constraints/general/rbe3/hm_preread_rbe3.F
-Chd|        HM_PREREAD_RBODY              source/constraints/general/rbody/hm_preread_rbody.F
-Chd|        HM_PREREAD_SPHIO              source/loads/sph/hm_preread_sphio.F
-Chd|        HM_PREREAD_XELEM              source/elements/reader/hm_preread_xelem.F
-Chd|        HM_PRE_READ_LINK              source/constraints/rigidlink/hm_pre_read_rlink.F
-Chd|        HM_PRE_READ_PRELOAD           source/loads/general/preload/hm_pre_read_preload.F
-Chd|        HM_READ_ACTIV                 source/tools/activ/hm_read_activ.F
-Chd|        HM_READ_ADMAS                 source/tools/admas/hm_read_admas.F
-Chd|        HM_READ_ALEBCS                source/constraints/ale/hm_read_alebcs.F
-Chd|        HM_READ_ALE_LINK              source/constraints/ale/hm_read_ale_link_vel.F
-Chd|        HM_READ_BCS                   source/constraints/general/bcs/hm_read_bcs.F
-Chd|        HM_READ_BEAM                  source/elements/reader/hm_read_beam.F
-Chd|        HM_READ_BEM                   source/loads/bem/hm_read_bem.F
-Chd|        HM_READ_BOX                   source/model/box/hm_read_box.F
-Chd|        HM_READ_CLOAD                 source/loads/general/cload/hm_read_cload.F
-Chd|        HM_READ_CLUSTER               source/output/cluster/hm_read_cluster.F
-Chd|        HM_READ_CONVEC                source/loads/thermic/hm_read_convec.F
-Chd|        HM_READ_CYLJOINT              source/constraints/general/cyl_joint/hm_read_cyljoint.F
-Chd|        HM_READ_DAMP                  source/general_controls/damping/hm_read_damp.F
-Chd|        HM_READ_DRAPE                 source/properties/composite_options/drape/hm_read_drape.F
-Chd|        HM_READ_EIG                   source/general_controls/computation/hm_read_eig.F
-Chd|        HM_READ_EREF                  source/loads/reference_state/eref/hm_read_eref.F
-Chd|        HM_READ_FRICTION_MODELS       source/interfaces/friction/reader/hm_read_friction_models.F
-Chd|        HM_READ_FRICTION_ORIENTATIONS source/interfaces/friction/reader/hm_read_friction_orientations.F
-Chd|        HM_READ_FRM                   source/tools/skew/hm_read_frm.F
-Chd|        HM_READ_FUNC2D                source/tools/curve/hm_read_func2d.F
-Chd|        HM_READ_FUNCT                 source/tools/curve/hm_read_funct.F
-Chd|        HM_READ_FXB1                  source/constraints/fxbody/hm_read_fxb.F
-Chd|        HM_READ_FXB2                  source/constraints/fxbody/hm_read_fxb.F
-Chd|        HM_READ_GAUGE                 source/output/gauge/hm_read_gauge.F
-Chd|        HM_READ_GJOINT                source/constraints/general/gjoint/hm_read_gjoint.F
-Chd|        HM_READ_GRAV                  source/loads/general/grav/hm_read_grav.F
-Chd|        HM_READ_GRPART                source/groups/hm_read_grpart.F
-Chd|        HM_READ_IMPACC                source/constraints/general/impvel/hm_read_impacc.F
-Chd|        HM_READ_IMPFLUX               source/constraints/thermic/hm_read_impflux.F
-Chd|        HM_READ_IMPTEMP               source/constraints/thermic/hm_read_imptemp.F
-Chd|        HM_READ_IMPVEL                source/constraints/general/impvel/hm_read_impvel.F
-Chd|        HM_READ_INICRACK              source/initial_conditions/inicrack/hm_read_inicrack.F
-Chd|        HM_READ_INIGRAV               source/initial_conditions/inigrav/hm_read_inigrav.F
-Chd|        HM_READ_INIMAP1D              source/initial_conditions/inimap/hm_read_inimap1d.F
-Chd|        HM_READ_INIMAP2D              source/initial_conditions/inimap/hm_read_inimap2d.F
-Chd|        HM_READ_INITEMP               source/initial_conditions/thermic/hm_read_initemp.F
-Chd|        HM_READ_INIVEL                source/initial_conditions/general/inivel/hm_read_inivel.F
-Chd|        HM_READ_INIVOL                source/initial_conditions/inivol/hm_read_inivol.F
-Chd|        HM_READ_INTERFACES            source/interfaces/reader/hm_read_interfaces.F
-Chd|        HM_READ_INTSUB                source/output/subinterface/hm_read_intsub.F
-Chd|        HM_READ_LINES                 source/groups/hm_read_lines.F 
-Chd|        HM_READ_LINK                  source/constraints/rigidlink/hm_read_rlink.F
-Chd|        HM_READ_LOAD_CENTRI           source/loads/general/load_centri/hm_read_load_centri.F
-Chd|        HM_READ_LOAD_PRESSURE         source/loads/general/load_pressure/hm_read_load_pressure.F
-Chd|        HM_READ_MERGE                 source/constraints/general/merge/hm_read_merge.F
-Chd|        HM_READ_MERGE_NODE            source/elements/reader/hm_read_merge_node.F
-Chd|        HM_READ_MOVE_FUNCT            source/tools/curve/hm_read_move_funct.F
-Chd|        HM_READ_MPC                   source/constraints/general/mpc/hm_read_mpc.F
-Chd|        HM_READ_MPC0                  source/constraints/general/mpc/hm_read_mpc.F
-Chd|        HM_READ_NBCS                  source/constraints/general/bcs/hm_read_nbcs.F
-Chd|        HM_READ_NODE                  source/elements/reader/hm_read_node.F
-Chd|        HM_READ_PART                  source/model/assembling/hm_read_part.F
-Chd|        HM_READ_PBLAST                source/loads/pblast/hm_read_pblast.F
-Chd|        HM_READ_PCYL                  source/loads/general/load_pcyl/hm_read_pcyl.F
-Chd|        HM_READ_PERTURB               source/general_controls/computation/hm_read_perturb.F
-Chd|        HM_READ_PFLUID                source/loads/general/pfluid/hm_read_pfluid.F
-Chd|        HM_READ_PLOAD                 source/loads/general/pload/hm_read_pload.F
-Chd|        HM_READ_PRELECDRAPE           source/properties/composite_options/drape/hm_read_drape.F
-Chd|        HM_READ_PRELOAD               source/loads/general/preload/hm_read_preload.F
-Chd|        HM_READ_PRETHGROU             source/output/th/hm_read_prethgrou.F
-Chd|        HM_READ_PROPERTIES            source/properties/hm_read_properties.F
-Chd|        HM_READ_QUAD                  source/elements/reader/hm_read_quad.F
-Chd|        HM_READ_RADIATION             source/loads/thermic/hm_read_radiation.F
-Chd|        HM_READ_RAND                  source/general_controls/computation/hm_read_rand.F
-Chd|        HM_READ_RBE2                  source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|        HM_READ_RBE3                  source/constraints/general/rbe3/hm_read_rbe3.F
-Chd|        HM_READ_RBODY                 source/constraints/general/rbody/hm_read_rbody.F
-Chd|        HM_READ_RBODY_LAGMUL          source/constraints/general/rbody/hm_read_rbody_lagmul.F
-Chd|        HM_READ_RETRACTOR             source/tools/seatbelts/hm_read_retractor.F
-Chd|        HM_READ_RIVET                 source/elements/reader/hm_read_rivet.F
-Chd|        HM_READ_SENSORS               source/tools/sensor/hm_read_sensors.F
-Chd|        HM_READ_SH3N                  source/elements/reader/hm_read_sh3n.F
-Chd|        HM_READ_SHELL                 source/elements/reader/hm_read_shell.F
-Chd|        HM_READ_SKW                   source/tools/skew/hm_read_skw.F
-Chd|        HM_READ_SLIPRING              source/tools/seatbelts/hm_read_slipring.F
-Chd|        HM_READ_SOLID                 source/elements/reader/hm_read_solid.F
-Chd|        HM_READ_SPCND                 source/constraints/sph/hm_read_spcnd.F
-Chd|        HM_READ_SPHCEL                source/elements/reader/hm_read_sphcel.F
-Chd|        HM_READ_SPHIO                 source/loads/sph/hm_read_sphio.F
-Chd|        HM_READ_SPRING                source/elements/reader/hm_read_spring.F
-Chd|        HM_READ_SUBSET                source/model/assembling/hm_read_subset.F
-Chd|        HM_READ_SURF                  source/groups/hm_read_surf.F  
-Chd|        HM_READ_SURFSURF              source/groups/hm_read_surfsurf.F
-Chd|        HM_READ_TABLE1                source/tools/curve/hm_read_table.F
-Chd|        HM_READ_TABLE2                source/tools/curve/hm_read_table.F
-Chd|        HM_READ_THGROU                source/output/th/hm_read_thgrou.F
-Chd|        HM_READ_THPART                source/output/thpart/hm_read_thpart.F
-Chd|        HM_READ_TRIA                  source/elements/reader/hm_read_tria.F
-Chd|        HM_READ_TRUSS                 source/elements/reader/hm_read_truss.F
-Chd|        HM_READ_WINDOW_USER           source/tools/userwi/hm_read_window_user.F
-Chd|        HM_READ_XELEM                 source/elements/reader/hm_read_xelem.F
-Chd|        HM_READ_XREF                  source/loads/reference_state/xref/hm_read_xref.F
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|        HM_SETFXRBYON                 source/constraints/fxbody/hm_setfxrbyon.F
-Chd|        HM_YCTRL                      source/elements/initia/hm_yctrl.F
-Chd|        I24SETNODES                   source/interfaces/inter3d1/i24setnodes.F
-Chd|        IEDGE_XFEM                    source/elements/xfem/iedge_xfem.F
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|        IG3DGRHEAD                    source/elements/ige3d/ig3dgrhead.F
-Chd|        IG3DGRTAILS                   source/elements/ige3d/ig3dgrtails.F
-Chd|        IGRSURF_SPLIT                 source/spmd/igrsurf_split.F   
-Chd|        IND_S10EDG                    source/elements/solid/solide10/dim_s10edg.F
-Chd|        INICRKFILL                    source/elements/xfem/inicrkfill.F
-Chd|        INIEBCS                       source/boundary_conditions/ebcs/iniebcs.F
-Chd|        INIEBCSP0                     source/boundary_conditions/ebcs/iniebcsp0.F
-Chd|        INIMU2                        source/ale/bimat/inimu2.F     
-Chd|        INIMU3                        source/ale/bimat/inimu3.F     
-Chd|        INIMUL                        source/ale/bimat/inimul.F     
-Chd|        ININTR                        source/interfaces/interf1/inintr.F
-Chd|        ININTR1                       source/interfaces/interf1/inintr1.F
-Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
-Chd|        ININTR_ORTHDIRFRIC            source/interfaces/interf1/inintr_orthdirfric.F
-Chd|        ININTR_THKVAR                 source/interfaces/interf1/inintr_thkvar.F
-Chd|        ININTSUB                      source/interfaces/interf1/inintsub.F
-Chd|        INIRBE3                       source/constraints/general/rbe3/hm_read_rbe3.F
-Chd|        INISEN                        source/tools/sensor/inisen.F  
-Chd|        INISMS                        source/general_controls/computation/hm_read_sms.F
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|        INIT_JOINT                    source/constraints/general/cyl_joint/init_joint.F
-Chd|        INIT_MAT_WEIGHT               source/user_interface/set_dd_mat_weight.F
-Chd|        INIT_MLAW_TAG                 source/elements/elbuf_init/init_mlaw_tag.F
-Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
-Chd|        INIT_PERMUTATION              source/starter/lectur.F       
-Chd|        INIT_RANDOM                   source/general_controls/computation/init_random.F
-Chd|        INIVCHK                       source/constraints/general/kinchk.F
-Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
-Chd|        INI_BCSCYC                    source/constraints/general/bcs/lecbcscyc.F
-Chd|        INI_H3DTMAX_ENGINE            source/starter/contrl.F       
-Chd|        INI_IFRONT                    source/spmd/node/ddtools.F    
-Chd|        INT18_LAW151_ALLOC            source/interfaces/int18/int18_law151_alloc.F
-Chd|        INT18_LAW151_INIT             source/interfaces/int18/int18_law151_init.F
-Chd|        INT8_INI                      source/interfaces/intbuf/intbuf_ini_starter.F
-Chd|        INTBUF_FRIC_COPY              source/interfaces/interf1/intbuf_fric_copy.F
-Chd|        INTBUF_FRIC_INI_STARTER       source/interfaces/intbuf/intbufFric_ini_starter.F
-Chd|        INTBUF_INI_STARTER            source/interfaces/intbuf/intbuf_ini_starter.F
-Chd|        INTSTAMP_ZERO                 share/modules1/intstamp_mod.F 
-Chd|        INVERTED_GROUP_DEALLOC        source/model/sets/inverted_group_dealloc.F
-Chd|        INVERTED_GROUP_INIT           source/model/sets/inverted_group_init.F
-Chd|        ISLIN_INI                     source/model/group/islin_ini.F
-Chd|        ISURF_INI                     source/model/group/isurf_ini.F
-Chd|        KINCHK                        source/constraints/general/kinchk.F
-Chd|        KININI                        source/constraints/general/kinini.F
-Chd|        KINREM                        source/constraints/general/kinchk.F
-Chd|        LAGM_INI                      source/tools/lagmul/lagm_ini.F
-Chd|        LAGM_NHF                      source/tools/lagmul/lagm_nhf.F
-Chd|        LASERP1                       source/loads/laser/laserp.F   
-Chd|        LASERP3                       source/loads/laser/laserp.F   
-Chd|        LCE16Q3                       source/elements/solid_2d/quad/lce16q.F
-Chd|        LCE16S3                       source/elements/reader/hm_read_solid.F
-Chd|        LCE16S4                       source/elements/reader/hm_read_solid.F
-Chd|        LECACC                        source/tools/accele/lecacc.F  
-Chd|        LECEXTLNK                     source/coupling/rad2rad/lecextlnk.F
-Chd|        LECFILL                       source/elements/initia/lecfill.F
-Chd|        LECGGROUP                     source/groups/lecggroup.F     
-Chd|        LECGROUP                      source/groups/lecgroup.F      
-Chd|        LECIG3D                       source/elements/ige3d/lecig3d.F
-Chd|        LECINS                        source/interfaces/interf1/lecins.F
-Chd|        LECINT                        source/interfaces/interf1/lecint.F
-Chd|        LECLAS                        source/loads/laser/leclas.F   
-Chd|        LECREFSTA                     source/loads/reference_state/refsta/lecrefsta.F
-Chd|        LECSEC0                       source/tools/sect/hm_read_sect.F
-Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
-Chd|        LECSEC4BOLT                   source/tools/sect/lecsec4bolt.F
-Chd|        LECSTACK_PLY                  source/properties/composite_options/stack/lecstack_ply.F
-Chd|        LECSTAMP                      source/interfaces/interf1/lecstamp.F
-Chd|        LECSUBMOD                     source/model/submodel/lecsubmod.F
-Chd|        LECTRANS                      source/model/transformation/lectrans.F
-Chd|        LECTRANSSUB                   source/model/submodel/lectranssub.F
-Chd|        LEC_DDW                       source/spmd/domain_decomposition/grid2mat.F
-Chd|        LEC_DDW_POIN                  source/spmd/domain_decomposition/grid2mat.F
-Chd|        LEC_INISTATE                  source/elements/initia/lec_inistate.F
-Chd|        LGMINI_I7                     source/tools/lagmul/lgmini_i7.F
-Chd|        LGMINI_RWL                    source/tools/lagmul/lgmini_rwl.F
-Chd|        LINE_DECOMP                   source/model/group/line_decomp.F
-Chd|        M20DCOD                       source/system/fsdcod.F        
-Chd|        MERGE                         source/model/submodel/merge.F 
-Chd|        MERGE_NODE                    source/elements/nodes/merge_node.F
-Chd|        MONVOL_ALLOCATE               share/modules1/monvol_struct_mod.F
-Chd|        MONVOL_DEALLOCATE             share/modules1/monvol_struct_mod.F
-Chd|        MULTI_CONNECTIVITY            source/multifluid/multi_connectivity.F
-Chd|        MULTI_UNPLUG_NEIGHBORS        source/multifluid/multi_unplug_neighbors.F
-Chd|        NBFUNCT                       source/tools/curve/nbfunc.F   
-Chd|        NODM11                        source/materials/mat/mat011/nodm11.F
-Chd|        OUTRI                         source/materials/time_step/outri.F
-Chd|        OUTRIN                        source/materials/time_step/outri.F
-Chd|        PAROI                         source/materials/mat/mat006/paroi.F
-Chd|        PGRHEAD                       source/elements/beam/pgrhead.F
-Chd|        PGRTAILS                      source/elements/beam/pgrtails.F
-Chd|        PORNOD                        source/ale/pornod.F           
-Chd|        PRECRKXFEM                    source/elements/xfem/precrkxfem.F
-Chd|        PRELECIG3D                    source/elements/ige3d/prelecig3d.F
-Chd|        PRELECSEC                     source/tools/sect/prelecsec.F 
-Chd|        PRELECSEC4BOLT                source/tools/sect/prelecsec4bolt.F
-Chd|        PRELEC_DDW                    source/spmd/domain_decomposition/grid2mat.F
-Chd|        PRELEC_DDW_POIN               source/spmd/domain_decomposition/grid2mat.F
-Chd|        PREPARE_INT25                 source/model/mesh/build_cnel.F
-Chd|        PREPARE_SPLIT_I25E2E          source/spmd/prepare_split_i25e2e.F
-Chd|        PREPLYXFEM                    source/properties/composite_options/stack/preplyxfem.F
-Chd|        PRERAFIG3D                    source/elements/ige3d/prerafig3d.F
-Chd|        PREREAD_RBODY_LAGMUL          source/constraints/general/rbody/preread_rbody_lagmul.F
-Chd|        PREREAD_RBODY_SET             source/model/sets/preread_rbody_set.F
-Chd|        PRESCRINT                     source/interfaces/interf1/prescrint.F
-Chd|        PRESEARCHIGEO3D               source/elements/ige3d/searchigeo3d.F
-Chd|        PRETAG_XFEM                   source/elements/xfem/pretag_xfem.F
-Chd|        PRE_CNDPON                    source/elements/solid/solide10/dim_s10edg.F
-Chd|        PRE_STACKGROUP                source/stack/pres_stackgroup.F
-Chd|        PRINTBCS                      source/constraints/general/bcs/printbcs.F
-Chd|        PRINTGROUP                    source/output/outfile/printgroup.F
-Chd|        PRINTSTSZ                     source/spmd/node/st_array_size.F
-Chd|        QGRHEAD                       source/elements/solid_2d/quad/qgrhead.F
-Chd|        QGRTAILS                      source/elements/solid_2d/quad/qgrtails.F
-Chd|        R2R_CHECK                     source/coupling/rad2rad/r2r_check.F
-Chd|        R2R_CLEAN_INTER               source/coupling/rad2rad/r2r_clean_inter.F
-Chd|        R2R_DOMDEC                    source/coupling/rad2rad/r2r_domdec.F
-Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
-Chd|        R2R_MATPARAM_COPY             source/elements/elbuf_init/r2r_matparam_copy.F
-Chd|        R2R_NOM_OPT                   source/coupling/rad2rad/routines_r2r.F
-Chd|        R2R_SPEEDUP                   source/coupling/rad2rad/r2r_speedup.F
-Chd|        R2R_SPLIT                     source/coupling/rad2rad/r2r_split.F
-Chd|        R2R_VOID                      source/coupling/rad2rad/r2r_void.F
-Chd|        RBE2MODIF1_ND                 source/elements/solid/solide10/dim_s10edg.F
-Chd|        READ_DETONATORS               source/initial_conditions/detonation/read_detonators.F
-Chd|        READ_EBCS                     source/boundary_conditions/ebcs/read_ebcs.F
-Chd|        READ_ENGINE_DRIVER            source/general_controls/engine/read_engine_driver.F
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
-Chd|        READ_MONVOL                   source/airbag/read_monvol.F   
-Chd|        READ_RWALL                    source/constraints/general/rwall/read_rwall.F
-Chd|        RECONNECT                     source/elements/nodes/reconnect.F
-Chd|        REINI_MATPROP                 source/spmd/domain_decomposition/grid2mat.F
-Chd|        REINI_MATPROP2                source/spmd/domain_decomposition/grid2mat.F
-Chd|        REORD_ICND                    source/elements/solid/solide10/dim_s10edg.F
-Chd|        RGRHEAD                       source/elements/spring/rgrhead.F
-Chd|        RGRTAILS                      source/elements/spring/rgrtails.F
-Chd|        RIGID_MAT                     source/materials/mat/mat019/rigid_mat.F
-Chd|        RIGMODIF1_ND                  source/elements/solid/solide10/dim_s10edg.F
-Chd|        S10EDG_RLINK                  source/elements/solid/solide10/s10edg_rlink.F
-Chd|        SCRINT                        source/interfaces/interf1/scrint.F
-Chd|        SEARCHIGEO3D                  source/elements/ige3d/searchigeo3d.F
-Chd|        SENSOR_USER_CONVERT_LOCAL_ID  source/tools/sensor/sensor_user_convert_local_id.F
-Chd|        SENSOR_USER_INIT              source/tools/sensor/sensor_user_init.F
-Chd|        SETELOFF                      source/constraints/general/rbody/hm_read_rbody.F
-Chd|        SETELOFF2                     source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|        SETLENWA                      source/restart/ddsplit/setlenwa.F
-Chd|        SETMULTI                      source/restart/ddsplit/setlenwa.F
-Chd|        SETRB2ON                      source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|        SETRBYON                      source/constraints/general/rbody/hm_read_rbody.F
-Chd|        SET_ADMESH                    source/model/remesh/set_admesh.F
-Chd|        SET_ELGROUP_PARAM             source/elements/shell/coque/set_elgroup_param.F
-Chd|        SET_FRONT8                    source/spmd/node/ddtools.F    
-Chd|        SET_IBUFSSG_IO                source/starter/lectur.F       
-Chd|        SET_INTERCEP                  source/spmd/node/ddtools.F    
-Chd|        SET_POIN_UMP                  source/system/set_poin_ump.F  
-Chd|        SGRHEAD                       source/elements/solid/solide/sgrhead.F
-Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
-Chd|        SHELLTHK_UPD                  source/properties/composite_options/drape/shellthk_upd.F
-Chd|        SMS_INIT                      source/ams/sms_init.F         
-Chd|        SMS_INI_JAD_1                 source/ams/sms_init.F         
-Chd|        SMS_INI_JAD_2                 source/ams/sms_init.F         
-Chd|        SMS_INI_JAD_3                 source/ams/sms_init.F         
-Chd|        SMS_INI_KAD                   source/ams/sms_init.F         
-Chd|        SMS_INI_KDI                   source/ams/sms_init.F         
-Chd|        SORTGROUP                     source/system/nintrr.F        
-Chd|        SORT_SURF                     source/groups/sort_surf.F     
-Chd|        SPDOMETIS                     source/spmd/domain_decomposition/grid2mat.F
-Chd|        SPGRHEAD                      source/elements/sph/spgrhead.F
-Chd|        SPGRTAILS                     source/elements/sph/spgrtails.F
-Chd|        SPHDCOD                       source/elements/sph/sphdcod.F 
-Chd|        SPHONF0                       source/elements/sph/sphonf0.F 
-Chd|        SPINIH                        source/elements/sph/spinih.F  
-Chd|        SPLIT_CFD_SOLIDE              source/spmd/split_cfd_solide.F
-Chd|        SPLIT_PCYL                    source/loads/general/load_pcyl/split_pcyl.F
-Chd|        SPMD_ANIM_PLY_INIT            source/spmd/spmd_anim_ply_init.F
-Chd|        SPTRI                         source/elements/sph/sptri.F   
-Chd|        STACKGROUP                    source/stack/stackgroup.F     
-Chd|        STACKGROUP_DRAPE              source/stack/stackgroup_drape.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STATE_ADMESH                  source/model/remesh/state_admesh.F
-Chd|        STIFN0_ND                     source/elements/solid/solide10/dim_s10edg.F
-Chd|        STIFN1_ND                     source/elements/solid/solide10/dim_s10edg.F
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
-Chd|        SUBSET_INI                    source/model/group/subset_ini.F
-Chd|        SURFEXT_TAGN                  source/groups/ssurftag.F      
-Chd|        T3GRHEAD                      source/elements/solid_2d/tria/t3grhead.F
-Chd|        T3GRTAILS                     source/elements/solid_2d/tria/t3grtails.F
-Chd|        TABLE_ZERO                    source/tools/curve/table_tools.F
-Chd|        TET4_10                       source/starter/lectur.F       
-Chd|        TGRHEAD                       source/elements/truss/tgrhead.F
-Chd|        TGRTAILS                      source/elements/truss/tgrtails.F
-Chd|        THPINIT                       source/output/th/thpinit.F    
-Chd|        THSKEWC                       source/output/th/thskewc.F    
-Chd|        TH_SURF_LOAD_PRESSURE         source/output/th/th_surf_load_pressure.F
-Chd|        TITRE2                        source/output/outfile/titre2.F
-Chd|        TITRE3                        source/output/outfile/titre3.F
-Chd|        TRACE_IN1                     source/system/trace_back.F    
-Chd|        TRACE_OUT1                    source/system/trace_back.F    
-Chd|        TRIINTFRIC                    source/interfaces/interf1/trintfric.F
-Chd|        UPDATE_WEIGHT_RBE3            source/spmd/domain_decomposition/update_weight_rbe3.F
-Chd|        UPDMAT                        source/materials/updmat.F     
-Chd|        UPGRADE_IXINT                 source/interfaces/interf1/upgrade_ixint.F
-Chd|        XFEM_CRACK_INIT               source/elements/xfem/xfem_crack_init.F
-Chd|        XGRHEAD                       source/elements/xelem/xgrhead.F
-Chd|        XGRTAILS                      source/elements/xelem/xgrtails.F
-Chd|        YCTRL                         source/initial_conditions/inista/yctrl.F
-Chd|        SET_USRTOS                    source/model/sets/ipartm1.F   
-Chd|        STRR                          source/tools/univ/strr.F      
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        BPRELOAD_MOD                  share/modules1/bpreload_mod.F 
-Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
-Chd|        CLUSTER_MOD                   share/modules1/cluster_mod.F  
-Chd|        DDWEIGHTS_MOD                 share/modules1/ddweights_mod.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
-Chd|        DSGRAPH_MOD                   share/modules1/dsgraph_mod.F  
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        FUNC2D_MOD                    share/modules1/func2d_mod.F   
-Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
-Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        GROUP_MOD                     share/modules1/group_mod.F    
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        INIGRAV                       share/modules1/inigrav_mod.F  
-Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 
-Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F 
-Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
-Chd|        INIVOL_INTERF_MOD             share/modules1/inivol_mod.F   
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        INTBUFMOD                     share/modules1/restart_mod.F  
-Chd|        INTBUFSCRATCH_MOD             source/interfaces/interf1/intbufscratch_mod.F
-Chd|        INTER_CAND_MOD                share/modules1/inter_cand_mod.F
-Chd|        INTSTAMP_GLOB_MOD             share/modules1/intstamp_glob_mod.F
-Chd|        INVERTED_GROUP_MOD            share/modules1/inverted_group_mod.F
-Chd|        JOINT_MOD                     share/modules1/joint_mod.F    
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        MAPPING_OPTION_MOD            share/modules1/dichotomy_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESHSURFIG3D_MOD              source/elements/ige3d/meshsurfig3d_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|        OPTION_MOD                    share/modules1/options_mod.F  
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RANDOM_MOD                    share/modules1/random_mod.F   
-Chd|        REORDER_MOD                   share/modules1/reorder_mod.F  
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SET_MOD                       share/modules1/set_mod.F      
-Chd|        SMS_MOD                       share/modules1/sms_mod.F      
-Chd|        SPH_MOD                       share/modules1/sph_mod.F      
-Chd|        SPLIT_CFD_MOD                 share/modules1/split_cfd_mod.F
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
-Chd|        STACK_VAR_MOD                 share/modules1/stack_var_mod.F
-Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|        TABLE_GLOB_MOD                share/modules1/table_glob_mod.F
-Chd|        USER_SENSOR_MOD               share/modules1/user_interface_mod.F
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lectur                              ../starter/source/starter/lectur.F
+      !||--- called by ------------------------------------------------------
+      !||    starter0                            ../starter/source/starter/starter0.F
+      !||--- calls      -----------------------------------------------------
+      !||    add_mass_stat                       ../starter/source/tools/admas/add_mass_stat.F
+      !||    addmast10                           ../starter/source/tools/admas/addmast10.F
+      !||    admbcs                              ../starter/source/model/remesh/admbcs.F
+      !||    alelec                              ../starter/source/ale/alelec.F
+      !||    alloc_constraint_struct             ../starter/source/modules/constaint_mod.F90
+      !||    allocxfem                           ../starter/source/elements/xfem/allocxfem.F
+      !||    ancmsg                              ../starter/source/output/message/message.F
+      !||    ani_fasolfr1                        ../starter/source/output/anim/ani_fasolfr.F
+      !||    ani_fasolfr2                        ../starter/source/output/anim/ani_fasolfr.F
+      !||    ani_segquadfr1                      ../starter/source/output/anim/ani_segquadfr.F
+      !||    ani_segquadfr2                      ../starter/source/output/anim/ani_segquadfr.F
+      !||    anodin                              ../starter/source/output/analyse/analyse_node.c
+      !||    apartin                             ../starter/source/output/analyse/analyse_part.c
+      !||    applysort2flux                      ../starter/source/restart/ddsplit/w_ithflux.F
+      !||    applysort2fvm                       ../starter/source/airbag/fvmesh0.F
+      !||    arret                               ../starter/source/system/arret.F
+      !||    bcscycmodif_nd                      ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    bcsmodif_nd                         ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    build_addcnel_sub                   ../starter/source/model/mesh/build_addcnel_sub.F
+      !||    build_admesh                        ../starter/source/model/remesh/build_admesh.F
+      !||    build_cnel                          ../starter/source/model/mesh/build_cnel.F
+      !||    build_cnel_sub                      ../starter/source/model/mesh/build_cnel_sub.F
+      !||    build_csrect                        ../starter/source/model/mesh/build_cnel.F
+      !||    bulkfakeigeo3                       ../starter/source/elements/ige3d/bulkfakeigeo3.F
+      !||    c3grhead                            ../starter/source/elements/sh3n/coque3n/c3grhead.F
+      !||    c3grtails                           ../starter/source/elements/sh3n/coque3n/c3grtails.F
+      !||    cdk6inx                             ../starter/source/elements/sh3n/coquedk6/cdk6inx.F
+      !||    cgrhead                             ../starter/source/elements/shell/coque/cgrhead.F
+      !||    cgrtails                            ../starter/source/elements/shell/coque/cgrtails.F
+      !||    check_dynain                        ../starter/source/starter/check_dynain.F
+      !||    check_mat_elem_prop_compatibility   ../starter/source/materials/mat/check_mat_elem_prop_compatibility.F
+      !||    check_pthickfail                    ../starter/source/materials/fail/check_pthickfail.F
+      !||    check_qeph_stra                     ../starter/source/starter/check_qeph_stra.F
+      !||    check_surf                          ../starter/source/groups/check_surf.F
+      !||    checkrby                            ../starter/source/constraints/general/rbody/checkrby.F
+      !||    chk_dttsh                           ../starter/source/elements/thickshell/solidec/scdtchk3.F
+      !||    chk_shell_offset                    ../starter/source/elements/shell/shell_offset/chk_shell_offset.F90
+      !||    chkfunct                            ../starter/source/tools/curve/lecfun.F
+      !||    chktyp2                             ../starter/source/interfaces/interf1/chktyp2.F
+      !||    compute_connect_partelm             ../starter/source/model/sets/compute_connect_partelm.F
+      !||    copy_to_monvol                      ../starter/share/modules1/monvol_struct_mod.F
+      !||    copy_to_volmon                      ../starter/share/modules1/monvol_struct_mod.F
+      !||    create_map_tables                   ../starter/source/model/sets/map_tables.F
+      !||    create_seatbelt                     ../starter/source/tools/seatbelts/create_seatbelt.F
+      !||    dampdtnoda                          ../starter/source/general_controls/damping/dampdtnoda.F
+      !||    damping_rby_spmdset                 ../starter/source/general_controls/damping/damping_rby_spmdset.F90
+      !||    ddprint                             ../starter/source/spmd/domdec2.F
+      !||    ddsplit                             ../starter/source/restart/ddsplit/ddsplit.F
+      !||    dealloc_constraint_struct           ../starter/source/modules/constaint_mod.F90
+      !||    deallocate_detonators               ../starter/share/modules1/detonators_mod.F
+      !||    deallocate_elbuf                    ../starter/source/elements/elbuf_init/deallocate_buffer.F
+      !||    deallocate_igrsurf_split            ../starter/source/spmd/deallocate_igrsurf_split.F
+      !||    deallocate_joint                    ../starter/source/constraints/general/cyl_joint/deallocate_joint.F
+      !||    deallocate_split_cfd_solide         ../starter/source/spmd/split_cfd_solide.F
+      !||    desout                              ../starter/source/output/outp/desout.F
+      !||    dim_s10edg                          ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    domdec1                             ../starter/source/spmd/domain_decomposition/domdec1.F
+      !||    domdec2                             ../starter/source/spmd/domdec2.F
+      !||    dometis                             ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||    dsdim0                              ../starter/source/implicit/dsolve/dsdim.F
+      !||    elbuf_ini                           ../starter/source/elements/elbuf_init/elbuf_ini.F
+      !||    failwave_init                       ../starter/source/materials/fail/failwave_init.F
+      !||    fictivmassigeo                      ../starter/source/groups/ssurftagigeo.F
+      !||    fill_intercep                       ../starter/source/spmd/node/ddtools.F
+      !||    fillcncnd                           ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    fillcne                             ../starter/source/spmd/domdec2.F
+      !||    fillcne_pxfem                       ../starter/source/properties/composite_options/stack/preplyxfem.F
+      !||    fillcne_xfem                        ../starter/source/elements/xfem/fillcne_xfem.F
+      !||    fillcni2                            ../starter/source/spmd/domdec2.F
+      !||    fixmodif_nd                         ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    flowdec                             ../starter/source/fluid/flowdec.F
+      !||    fsdcod                              ../starter/source/system/fsdcod.F
+      !||    fvdim                               ../starter/source/airbag/fvmesh.F
+      !||    fvmesh0                             ../starter/source/airbag/fvmesh0.F
+      !||    fxbelnum                            ../starter/source/constraints/fxbody/fxbelnum.F
+      !||    fxbgrav                             ../starter/source/constraints/fxbody/fxbgrav.F
+      !||    fxbtagn                             ../starter/source/constraints/fxbody/fxbtagn.F
+      !||    genani1                             ../starter/source/output/anim/genani1.F
+      !||    get_size_inter24                    ../starter/source/spmd/get_size_tag.F
+      !||    get_size_numnod_local               ../starter/source/spmd/get_size_tag.F
+      !||    globmat                             ../starter/source/materials/globmat.F
+      !||    globvars                            ../starter/source/spmd/globvars.F
+      !||    group_ini                           ../starter/source/model/group/group_ini.F
+      !||    hm_grogronod                        ../starter/source/groups/hm_grogronod.F
+      !||    hm_lecgrn                           ../starter/source/groups/hm_lecgrn.F
+      !||    hm_lines_of_lines                   ../starter/source/groups/hm_lines_of_lines.F
+      !||    hm_option_count                     ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_pre_read_link                    ../starter/source/constraints/rigidlink/hm_pre_read_rlink.F
+      !||    hm_pre_read_preload                 ../starter/source/loads/general/preload/hm_pre_read_preload.F
+      !||    hm_pre_read_preload_axial           ../starter/source/loads/general/preload/hm_read_preload_axial.F90
+      !||    hm_prelecgrns                       ../starter/source/groups/hm_prelecgrns.F
+      !||    hm_prelecjoi                        ../starter/source/constraints/general/cyl_joint/hm_prelecjoi.F
+      !||    hm_preread_bcscyc                   ../starter/source/constraints/general/bcs/lecbcscyc.F
+      !||    hm_preread_bem                      ../starter/source/loads/bem/hm_read_bem.F
+      !||    hm_preread_cload                    ../starter/source/loads/general/cload/hm_preread_cload.F
+      !||    hm_preread_convec                   ../starter/source/loads/thermic/hm_preread_convec.F
+      !||    hm_preread_eig                      ../starter/source/general_controls/computation/hm_read_eig.F
+      !||    hm_preread_grav                     ../starter/source/loads/general/grav/hm_preread_grav.F
+      !||    hm_preread_impacc                   ../starter/source/constraints/general/impvel/hm_preread_impacc.F
+      !||    hm_preread_impdisp                  ../starter/source/constraints/general/impvel/hm_preread_impdisp.F
+      !||    hm_preread_impflux                  ../starter/source/constraints/thermic/hm_preread_impflux.F
+      !||    hm_preread_imptemp                  ../starter/source/constraints/thermic/hm_preread_imptemp.F
+      !||    hm_preread_impvel                   ../starter/source/constraints/general/impvel/hm_preread_impvel.F
+      !||    hm_preread_impvel0                  ../starter/source/constraints/general/impvel/hm_preread_impvel0.F
+      !||    hm_preread_load_centri              ../starter/source/loads/general/load_centri/hm_preread_load_centri.F
+      !||    hm_preread_load_pressure            ../starter/source/loads/general/load_pressure/hm_preread_load_pressure.F
+      !||    hm_preread_merge                    ../starter/source/constraints/general/merge/hm_preread_merge.F
+      !||    hm_preread_part                     ../starter/source/model/assembling/hm_read_part.F
+      !||    hm_preread_pblast                   ../starter/source/loads/pblast/hm_preread_pblast.F
+      !||    hm_preread_pfluid                   ../starter/source/loads/general/pfluid/hm_preread_pfluid.F
+      !||    hm_preread_pload                    ../starter/source/loads/general/pload/hm_preread_pload.F
+      !||    hm_preread_radiation                ../starter/source/loads/thermic/hm_preread_radiation.F
+      !||    hm_preread_rbe2                     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    hm_preread_rbe3                     ../starter/source/constraints/general/rbe3/hm_preread_rbe3.F
+      !||    hm_preread_rbody                    ../starter/source/constraints/general/rbody/hm_preread_rbody.F
+      !||    hm_preread_sphio                    ../starter/source/loads/sph/hm_preread_sphio.F
+      !||    hm_preread_xelem                    ../starter/source/elements/reader/hm_preread_xelem.F
+      !||    hm_read_activ                       ../starter/source/tools/activ/hm_read_activ.F
+      !||    hm_read_admas                       ../starter/source/tools/admas/hm_read_admas.F
+      !||    hm_read_ale_link                    ../starter/source/constraints/ale/hm_read_ale_link_vel.F
+      !||    hm_read_alebcs                      ../starter/source/constraints/ale/hm_read_alebcs.F
+      !||    hm_read_bcs                         ../starter/source/constraints/general/bcs/hm_read_bcs.F
+      !||    hm_read_bcs_wall                    ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
+      !||    hm_read_beam                        ../starter/source/elements/reader/hm_read_beam.F
+      !||    hm_read_bem                         ../starter/source/loads/bem/hm_read_bem.F
+      !||    hm_read_box                         ../starter/source/model/box/hm_read_box.F
+      !||    hm_read_cload                       ../starter/source/loads/general/cload/hm_read_cload.F
+      !||    hm_read_cluster                     ../starter/source/output/cluster/hm_read_cluster.F
+      !||    hm_read_convec                      ../starter/source/loads/thermic/hm_read_convec.F
+      !||    hm_read_cyljoint                    ../starter/source/constraints/general/cyl_joint/hm_read_cyljoint.F
+      !||    hm_read_damp                        ../starter/source/general_controls/damping/hm_read_damp.F
+      !||    hm_read_drape                       ../starter/source/properties/composite_options/drape/hm_read_drape.F
+      !||    hm_read_eig                         ../starter/source/general_controls/computation/hm_read_eig.F
+      !||    hm_read_eref                        ../starter/source/loads/reference_state/eref/hm_read_eref.F
+      !||    hm_read_friction_models             ../starter/source/interfaces/friction/reader/hm_read_friction_models.F
+      !||    hm_read_friction_orientations       ../starter/source/interfaces/friction/reader/hm_read_friction_orientations.F
+      !||    hm_read_frm                         ../starter/source/tools/skew/hm_read_frm.F
+      !||    hm_read_func2d                      ../starter/source/tools/curve/hm_read_func2d.F
+      !||    hm_read_funct                       ../starter/source/tools/curve/hm_read_funct.F
+      !||    hm_read_funct_python                ../starter/source/tools/curve/hm_read_funct_python.F90
+      !||    hm_read_fxb1                        ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_read_fxb2                        ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_read_gauge                       ../starter/source/output/gauge/hm_read_gauge.F
+      !||    hm_read_gjoint                      ../starter/source/constraints/general/gjoint/hm_read_gjoint.F
+      !||    hm_read_grav                        ../starter/source/loads/general/grav/hm_read_grav.F
+      !||    hm_read_grpart                      ../starter/source/groups/hm_read_grpart.F
+      !||    hm_read_impacc                      ../starter/source/constraints/general/impvel/hm_read_impacc.F
+      !||    hm_read_impflux                     ../starter/source/constraints/thermic/hm_read_impflux.F
+      !||    hm_read_imptemp                     ../starter/source/constraints/thermic/hm_read_imptemp.F
+      !||    hm_read_impvel                      ../starter/source/constraints/general/impvel/hm_read_impvel.F
+      !||    hm_read_inicrack                    ../starter/source/initial_conditions/inicrack/hm_read_inicrack.F
+      !||    hm_read_inigrav                     ../starter/source/initial_conditions/inigrav/hm_read_inigrav.F
+      !||    hm_read_inimap1d                    ../starter/source/initial_conditions/inimap/hm_read_inimap1d.F
+      !||    hm_read_inimap2d                    ../starter/source/initial_conditions/inimap/hm_read_inimap2d.F
+      !||    hm_read_initemp                     ../starter/source/initial_conditions/thermic/hm_read_initemp.F
+      !||    hm_read_inivel                      ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
+      !||    hm_read_inivol                      ../starter/source/initial_conditions/inivol/hm_read_inivol.F
+      !||    hm_read_interfaces                  ../starter/source/interfaces/reader/hm_read_interfaces.F
+      !||    hm_read_intsub                      ../starter/source/output/subinterface/hm_read_intsub.F
+      !||    hm_read_lines                       ../starter/source/groups/hm_read_lines.F
+      !||    hm_read_link                        ../starter/source/constraints/rigidlink/hm_read_rlink.F
+      !||    hm_read_load_centri                 ../starter/source/loads/general/load_centri/hm_read_load_centri.F
+      !||    hm_read_load_pressure               ../starter/source/loads/general/load_pressure/hm_read_load_pressure.F
+      !||    hm_read_merge                       ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    hm_read_merge_node                  ../starter/source/elements/reader/hm_read_merge_node.F
+      !||    hm_read_move_funct                  ../starter/source/tools/curve/hm_read_move_funct.F
+      !||    hm_read_mpc                         ../starter/source/constraints/general/mpc/hm_read_mpc.F
+      !||    hm_read_mpc0                        ../starter/source/constraints/general/mpc/hm_read_mpc.F
+      !||    hm_read_nbcs                        ../starter/source/constraints/general/bcs/hm_read_nbcs.F
+      !||    hm_read_node                        ../starter/source/elements/reader/hm_read_node.F
+      !||    hm_read_part                        ../starter/source/model/assembling/hm_read_part.F
+      !||    hm_read_pblast                      ../starter/source/loads/pblast/hm_read_pblast.F
+      !||    hm_read_pcyl                        ../starter/source/loads/general/load_pcyl/hm_read_pcyl.F
+      !||    hm_read_perturb                     ../starter/source/general_controls/computation/hm_read_perturb.F
+      !||    hm_read_pfluid                      ../starter/source/loads/general/pfluid/hm_read_pfluid.F
+      !||    hm_read_pload                       ../starter/source/loads/general/pload/hm_read_pload.F
+      !||    hm_read_prelecdrape                 ../starter/source/properties/composite_options/drape/hm_read_drape.F
+      !||    hm_read_preload                     ../starter/source/loads/general/preload/hm_read_preload.F
+      !||    hm_read_preload_axial               ../starter/source/loads/general/preload/hm_read_preload_axial.F90
+      !||    hm_read_prethgrou                   ../starter/source/output/th/hm_read_prethgrou.F
+      !||    hm_read_properties                  ../starter/source/properties/hm_read_properties.F
+      !||    hm_read_quad                        ../starter/source/elements/reader/hm_read_quad.F
+      !||    hm_read_radiation                   ../starter/source/loads/thermic/hm_read_radiation.F
+      !||    hm_read_rand                        ../starter/source/general_controls/computation/hm_read_rand.F
+      !||    hm_read_rbe2                        ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    hm_read_rbe3                        ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+      !||    hm_read_rbody                       ../starter/source/constraints/general/rbody/hm_read_rbody.F
+      !||    hm_read_rbody_lagmul                ../starter/source/constraints/general/rbody/hm_read_rbody_lagmul.F
+      !||    hm_read_retractor                   ../starter/source/tools/seatbelts/hm_read_retractor.F
+      !||    hm_read_rivet                       ../starter/source/elements/reader/hm_read_rivet.F
+      !||    hm_read_sensors                     ../starter/source/tools/sensor/hm_read_sensors.F
+      !||    hm_read_sh3n                        ../starter/source/elements/reader/hm_read_sh3n.F
+      !||    hm_read_shell                       ../starter/source/elements/reader/hm_read_shell.F
+      !||    hm_read_skw                         ../starter/source/tools/skew/hm_read_skw.F
+      !||    hm_read_slipring                    ../starter/source/tools/seatbelts/hm_read_slipring.F
+      !||    hm_read_solid                       ../starter/source/elements/reader/hm_read_solid.F
+      !||    hm_read_spcnd                       ../starter/source/constraints/sph/hm_read_spcnd.F
+      !||    hm_read_sphcel                      ../starter/source/elements/reader/hm_read_sphcel.F
+      !||    hm_read_sphio                       ../starter/source/loads/sph/hm_read_sphio.F
+      !||    hm_read_spring                      ../starter/source/elements/reader/hm_read_spring.F
+      !||    hm_read_subset                      ../starter/source/model/assembling/hm_read_subset.F
+      !||    hm_read_surf                        ../starter/source/groups/hm_read_surf.F
+      !||    hm_read_surfsurf                    ../starter/source/groups/hm_read_surfsurf.F
+      !||    hm_read_table1                      ../starter/source/tools/curve/hm_read_table.F
+      !||    hm_read_table2                      ../starter/source/tools/curve/hm_read_table.F
+      !||    hm_read_thgrou                      ../starter/source/output/th/hm_read_thgrou.F
+      !||    hm_read_thpart                      ../starter/source/output/thpart/hm_read_thpart.F
+      !||    hm_read_tria                        ../starter/source/elements/reader/hm_read_tria.F
+      !||    hm_read_truss                       ../starter/source/elements/reader/hm_read_truss.F
+      !||    hm_read_window_user                 ../starter/source/tools/userwi/hm_read_window_user.F
+      !||    hm_read_xelem                       ../starter/source/elements/reader/hm_read_xelem.F
+      !||    hm_read_xref                        ../starter/source/loads/reference_state/xref/hm_read_xref.F
+      !||    hm_set                              ../starter/source/model/sets/hm_set.F
+      !||    hm_setfxrbyon                       ../starter/source/constraints/fxbody/hm_setfxrbyon.F
+      !||    hm_yctrl                            ../starter/source/elements/initia/hm_yctrl.F
+      !||    i24setnodes                         ../starter/source/interfaces/inter3d1/i24setnodes.F
+      !||    iedge_xfem                          ../starter/source/elements/xfem/iedge_xfem.F
+      !||    ifrontplus                          ../starter/source/spmd/node/frontplus.F
+      !||    ig3dgrhead                          ../starter/source/elements/ige3d/ig3dgrhead.F
+      !||    ig3dgrtails                         ../starter/source/elements/ige3d/ig3dgrtails.F
+      !||    igrsurf_split                       ../starter/source/spmd/igrsurf_split.F
+      !||    ind_s10edg                          ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    ini_bcscyc                          ../starter/source/constraints/general/bcs/lecbcscyc.F
+      !||    ini_h3dtmax_engine                  ../starter/source/starter/contrl.F
+      !||    ini_ifront                          ../starter/source/spmd/node/ddtools.F
+      !||    inicrkfill                          ../starter/source/elements/xfem/inicrkfill.F
+      !||    iniebcs                             ../starter/source/boundary_conditions/ebcs/iniebcs.F
+      !||    iniebcsp0                           ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
+      !||    inimu2                              ../starter/source/ale/bimat/inimu2.F
+      !||    inimu3                              ../starter/source/ale/bimat/inimu3.F
+      !||    inimul                              ../starter/source/ale/bimat/inimul.F
+      !||    inintr                              ../starter/source/interfaces/interf1/inintr.F
+      !||    inintr1                             ../starter/source/interfaces/interf1/inintr1.F
+      !||    inintr2                             ../starter/source/interfaces/inter3d1/inintr2.F
+      !||    inintr_orthdirfric                  ../starter/source/interfaces/interf1/inintr_orthdirfric.F
+      !||    inintr_thkvar                       ../starter/source/interfaces/interf1/inintr_thkvar.F
+      !||    inintsub                            ../starter/source/interfaces/interf1/inintsub.F
+      !||    inirbe3                             ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+      !||    inisen                              ../starter/source/tools/sensor/inisen.F
+      !||    inisms                              ../starter/source/general_controls/computation/hm_read_sms.F
+      !||    init_joint                          ../starter/source/constraints/general/cyl_joint/init_joint.F
+      !||    init_mat_weight                     ../starter/source/user_interface/set_dd_mat_weight.F
+      !||    init_mlaw_tag                       ../starter/source/elements/elbuf_init/init_mlaw_tag.F
+      !||    init_monvol                         ../starter/source/airbag/init_monvol.F
+      !||    init_permutation                    ../starter/source/starter/lectur.F
+      !||    init_random                         ../starter/source/general_controls/computation/init_random.F
+      !||    initia                              ../starter/source/elements/initia/initia.F
+      !||    inivchk                             ../starter/source/constraints/general/kinchk.F
+      !||    inivel                              ../starter/source/initial_conditions/general/inivel/inivel.F
+      !||    int18_law151_alloc                  ../starter/source/interfaces/int18/int18_law151_alloc.F
+      !||    int18_law151_init                   ../starter/source/interfaces/int18/int18_law151_init.F
+      !||    int8_ini                            ../starter/source/interfaces/intbuf/intbuf_ini_starter.F
+      !||    intbuf_fric_copy                    ../starter/source/interfaces/interf1/intbuf_fric_copy.F
+      !||    intbuf_fric_ini_starter             ../starter/source/interfaces/intbuf/intbufFric_ini_starter.F
+      !||    intbuf_ini_starter                  ../starter/source/interfaces/intbuf/intbuf_ini_starter.F
+      !||    inter_offset_itag                   ../starter/source/elements/shell/shell_offset/inter_offset_itag.F90
+      !||    intstamp_zero                       ../starter/share/modules1/intstamp_mod.F
+      !||    inverted_group_dealloc              ../starter/source/model/sets/inverted_group_dealloc.F
+      !||    inverted_group_init                 ../starter/source/model/sets/inverted_group_init.F
+      !||    islin_ini                           ../starter/source/model/group/islin_ini.F
+      !||    isurf_ini                           ../starter/source/model/group/isurf_ini.F
+      !||    kinchk                              ../starter/source/constraints/general/kinchk.F
+      !||    kinini                              ../starter/source/constraints/general/kinini.F
+      !||    kinrem                              ../starter/source/constraints/general/kinchk.F
+      !||    lagm_ini                            ../starter/source/tools/lagmul/lagm_ini.F
+      !||    lagm_nhf                            ../starter/source/tools/lagmul/lagm_nhf.F
+      !||    laserp1                             ../starter/source/loads/laser/laserp.F
+      !||    laserp3                             ../starter/source/loads/laser/laserp.F
+      !||    lce16q3                             ../starter/source/elements/solid_2d/quad/lce16q.F
+      !||    lce16s3                             ../starter/source/elements/reader/hm_read_solid.F
+      !||    lce16s4                             ../starter/source/elements/reader/hm_read_solid.F
+      !||    lec_ddw                             ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||    lec_ddw_poin                        ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||    lec_inistate                        ../starter/source/elements/initia/lec_inistate.F
+      !||    lecacc                              ../starter/source/tools/accele/lecacc.F
+      !||    lecextlnk                           ../starter/source/coupling/rad2rad/lecextlnk.F
+      !||    lecfill                             ../starter/source/elements/initia/lecfill.F
+      !||    lecggroup                           ../starter/source/groups/lecggroup.F
+      !||    lecgroup                            ../starter/source/groups/lecgroup.F
+      !||    lecig3d                             ../starter/source/elements/ige3d/lecig3d.F
+      !||    lecins                              ../starter/source/interfaces/interf1/lecins.F
+      !||    lecint                              ../starter/source/interfaces/interf1/lecint.F
+      !||    leclas                              ../starter/source/loads/laser/leclas.F
+      !||    lecrefsta                           ../starter/source/loads/reference_state/refsta/lecrefsta.F
+      !||    lecsec0                             ../starter/source/tools/sect/hm_read_sect.F
+      !||    lecsec42                            ../starter/source/tools/sect/hm_read_sect.F
+      !||    lecsec4bolt                         ../starter/source/tools/sect/lecsec4bolt.F
+      !||    lecstack_ply                        ../starter/source/properties/composite_options/stack/lecstack_ply.F
+      !||    lecstamp                            ../starter/source/interfaces/interf1/lecstamp.F
+      !||    lecsubmod                           ../starter/source/model/submodel/lecsubmod.F
+      !||    lectrans                            ../starter/source/model/transformation/lectrans.F
+      !||    lectranssub                         ../starter/source/model/submodel/lectranssub.F
+      !||    lgmini_i7                           ../starter/source/tools/lagmul/lgmini_i7.F
+      !||    lgmini_rwl                          ../starter/source/tools/lagmul/lgmini_rwl.F
+      !||    line_decomp                         ../starter/source/model/group/line_decomp.F
+      !||    m20dcod                             ../starter/source/system/fsdcod.F
+      !||    merge                               ../starter/source/model/submodel/merge.F
+      !||    merge_node                          ../starter/source/elements/nodes/merge_node.F
+      !||    monvol_allocate                     ../starter/share/modules1/monvol_struct_mod.F
+      !||    monvol_deallocate                   ../starter/share/modules1/monvol_struct_mod.F
+      !||    multi_connectivity                  ../starter/source/multifluid/multi_connectivity.F
+      !||    multi_unplug_neighbors              ../starter/source/multifluid/multi_unplug_neighbors.F
+      !||    nbfunct                             ../starter/source/tools/curve/nbfunc.F
+      !||    nlocal                              ../starter/source/spmd/node/ddtools.F
+      !||    nodm11                              ../starter/source/materials/mat/mat011/nodm11.F
+      !||    outri                               ../starter/source/materials/time_step/outri.F
+      !||    outrin                              ../starter/source/materials/time_step/outri.F
+      !||    paroi                               ../starter/source/materials/mat/mat006/paroi.F
+      !||    pgrhead                             ../starter/source/elements/beam/pgrhead.F
+      !||    pgrtails                            ../starter/source/elements/beam/pgrtails.F
+      !||    pornod                              ../starter/source/ale/pornod.F
+      !||    pre_cndpon                          ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    pre_stackgroup                      ../starter/source/stack/pres_stackgroup.F
+      !||    precrkxfem                          ../starter/source/elements/xfem/precrkxfem.F
+      !||    prelec_ddw                          ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||    prelec_ddw_poin                     ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||    prelecig3d                          ../starter/source/elements/ige3d/prelecig3d.F
+      !||    prelecsec                           ../starter/source/tools/sect/prelecsec.F
+      !||    prelecsec4bolt                      ../starter/source/tools/sect/prelecsec4bolt.F
+      !||    prepare_int25                       ../starter/source/model/mesh/build_cnel.F
+      !||    prepare_split_i25e2e                ../starter/source/spmd/prepare_split_i25e2e.F
+      !||    preplyxfem                          ../starter/source/properties/composite_options/stack/preplyxfem.F
+      !||    prerafig3d                          ../starter/source/elements/ige3d/prerafig3d.F
+      !||    preread_rbody_lagmul                ../starter/source/constraints/general/rbody/preread_rbody_lagmul.F
+      !||    preread_rbody_set                   ../starter/source/model/sets/preread_rbody_set.F
+      !||    prescrint                           ../starter/source/interfaces/interf1/prescrint.F
+      !||    presearchigeo3d                     ../starter/source/elements/ige3d/searchigeo3d.F
+      !||    pretag_xfem                         ../starter/source/elements/xfem/pretag_xfem.F
+      !||    printbcs                            ../starter/source/constraints/general/bcs/printbcs.F
+      !||    printgroup                          ../starter/source/output/outfile/printgroup.F
+      !||    printstsz                           ../starter/source/spmd/node/st_array_size.F
+      !||    qgrhead                             ../starter/source/elements/solid_2d/quad/qgrhead.F
+      !||    qgrtails                            ../starter/source/elements/solid_2d/quad/qgrtails.F
+      !||    r2r_check                           ../starter/source/coupling/rad2rad/r2r_check.F
+      !||    r2r_clean_inter                     ../starter/source/coupling/rad2rad/r2r_clean_inter.F
+      !||    r2r_domdec                          ../starter/source/coupling/rad2rad/r2r_domdec.F
+      !||    r2r_group                           ../starter/source/coupling/rad2rad/r2r_group.F
+      !||    r2r_matparam_copy                   ../starter/source/elements/elbuf_init/r2r_matparam_copy.F
+      !||    r2r_nom_opt                         ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    r2r_speedup                         ../starter/source/coupling/rad2rad/r2r_speedup.F
+      !||    r2r_split                           ../starter/source/coupling/rad2rad/r2r_split.F
+      !||    r2r_void                            ../starter/source/coupling/rad2rad/r2r_void.F
+      !||    rbe2modif1_nd                       ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    read_detonators                     ../starter/source/initial_conditions/detonation/read_detonators.F
+      !||    read_ebcs                           ../starter/source/boundary_conditions/ebcs/read_ebcs.F
+      !||    read_engine_driver                  ../starter/source/general_controls/engine/read_engine_driver.F
+      !||    read_material_models                ../starter/source/materials/read_material_models.F
+      !||    read_monvol                         ../starter/source/airbag/read_monvol.F
+      !||    read_rwall                          ../starter/source/constraints/general/rwall/read_rwall.F
+      !||    reconnect                           ../starter/source/elements/nodes/reconnect.F
+      !||    reini_matprop                       ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||    reini_matprop2                      ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||    reord_icnd                          ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    rgrhead                             ../starter/source/elements/spring/rgrhead.F
+      !||    rgrtails                            ../starter/source/elements/spring/rgrtails.F
+      !||    rigid_mat                           ../starter/source/materials/mat/mat019/rigid_mat.F
+      !||    rigmodif1_nd                        ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    s10edg_rlink                        ../starter/source/elements/solid/solide10/s10edg_rlink.F
+      !||    scrint                              ../starter/source/interfaces/interf1/scrint.F
+      !||    searchigeo3d                        ../starter/source/elements/ige3d/searchigeo3d.F
+      !||    sensor_user_convert_local_id        ../starter/source/tools/sensor/sensor_user_convert_local_id.F
+      !||    sensor_user_init                    ../starter/source/tools/sensor/sensor_user_init.F
+      !||    set_admesh                          ../starter/source/model/remesh/set_admesh.F
+      !||    set_elgroup_param                   ../starter/source/elements/shell/coque/set_elgroup_param.F
+      !||    set_front8                          ../starter/source/spmd/node/ddtools.F
+      !||    set_ibufssg_io                      ../starter/source/starter/lectur.F
+      !||    set_intercep                        ../starter/source/spmd/node/ddtools.F
+      !||    set_poin_ump                        ../starter/source/system/set_poin_ump.F
+      !||    set_usrtos                          ../starter/source/model/sets/ipartm1.F
+      !||    seteloff                            ../starter/source/constraints/general/rbody/hm_read_rbody.F
+      !||    seteloff2                           ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    setlenwa                            ../starter/source/restart/ddsplit/setlenwa.F
+      !||    setmulti                            ../starter/source/restart/ddsplit/setlenwa.F
+      !||    setrb2on                            ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    setrbyon                            ../starter/source/constraints/general/rbody/hm_read_rbody.F
+      !||    sgrhead                             ../starter/source/elements/solid/solide/sgrhead.F
+      !||    sgrtails                            ../starter/source/elements/solid/solide/sgrtails.F
+      !||    shell_offset_ini                    ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
+      !||    shell_offsetp                       ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
+      !||    shellthk_upd                        ../starter/source/properties/composite_options/drape/shellthk_upd.F
+      !||    sms_ini_jad_1                       ../starter/source/ams/sms_init.F
+      !||    sms_ini_jad_2                       ../starter/source/ams/sms_init.F
+      !||    sms_ini_jad_3                       ../starter/source/ams/sms_init.F
+      !||    sms_ini_kad                         ../starter/source/ams/sms_init.F
+      !||    sms_ini_kdi                         ../starter/source/ams/sms_init.F
+      !||    sms_init                            ../starter/source/ams/sms_init.F
+      !||    sort_surf                           ../starter/source/groups/sort_surf.F
+      !||    sortgroup                           ../starter/source/system/nintrr.F
+      !||    spdometis                           ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||    spgrhead                            ../starter/source/elements/sph/spgrhead.F
+      !||    spgrtails                           ../starter/source/elements/sph/spgrtails.F
+      !||    sphdcod                             ../starter/source/elements/sph/sphdcod.F
+      !||    sphonf0                             ../starter/source/elements/sph/sphonf0.F
+      !||    spinih                              ../starter/source/elements/sph/spinih.F
+      !||    split_bcs_wall                      ../starter/source/restart/ddsplit/split_bcs_wall.F90
+      !||    split_cfd_solide                    ../starter/source/spmd/split_cfd_solide.F
+      !||    split_pcyl                          ../starter/source/loads/general/load_pcyl/split_pcyl.F
+      !||    split_rwall                         ../starter/source/constraints/general/rwall/split_rwall.F90
+      !||    spmd_anim_ply_init                  ../starter/source/spmd/spmd_anim_ply_init.F
+      !||    sptri                               ../starter/source/elements/sph/sptri.F
+      !||    st_qaprint_driver                   ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||    stackgroup                          ../starter/source/stack/stackgroup.F
+      !||    stackgroup_drape                    ../starter/source/stack/stackgroup_drape.F
+      !||    startime                            ../starter/source/system/timer.F
+      !||    state_admesh                        ../starter/source/model/remesh/state_admesh.F
+      !||    stifn0_nd                           ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    stifn1_nd                           ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    stoptime                            ../starter/source/system/timer.F
+      !||    subset_ini                          ../starter/source/model/group/subset_ini.F
+      !||    surfext_tagn                        ../starter/source/groups/ssurftag.F
+      !||    t3grhead                            ../starter/source/elements/solid_2d/tria/t3grhead.F
+      !||    t3grtails                           ../starter/source/elements/solid_2d/tria/t3grtails.F
+      !||    table_zero                          ../starter/source/tools/curve/table_tools.F
+      !||    tet4_10                             ../starter/source/starter/lectur.F
+      !||    tgrhead                             ../starter/source/elements/truss/tgrhead.F
+      !||    tgrtails                            ../starter/source/elements/truss/tgrtails.F
+      !||    th_surf_load_pressure               ../starter/source/output/th/th_surf_load_pressure.F
+      !||    thpinit                             ../starter/source/output/th/thpinit.F
+      !||    thskewc                             ../starter/source/output/th/thskewc.F
+      !||    titre2                              ../starter/source/output/outfile/titre2.F
+      !||    titre3                              ../starter/source/output/outfile/titre3.F
+      !||    trace_in1                           ../starter/source/system/trace_back.F
+      !||    trace_out1                          ../starter/source/system/trace_back.F
+      !||    triintfric                          ../starter/source/interfaces/interf1/trintfric.F
+      !||    update_weight_rbe3                  ../starter/source/spmd/domain_decomposition/update_weight_rbe3.F
+      !||    updfail                             ../starter/source/materials/updfail.F90
+      !||    updmat                              ../starter/source/materials/updmat.F
+      !||    upgrade_ixint                       ../starter/source/interfaces/interf1/upgrade_ixint.F
+      !||    xfem_crack_init                     ../starter/source/elements/xfem/xfem_crack_init.F
+      !||    xgrhead                             ../starter/source/elements/xelem/xgrhead.F
+      !||    xgrtails                            ../starter/source/elements/xelem/xgrtails.F
+      !||    yctrl                               ../starter/source/initial_conditions/inista/yctrl.F
+      !||--- uses       -----------------------------------------------------
+      !||    bpreload_mod                        ../starter/share/modules1/bpreload_mod.F
+      !||    chk_shell_offset_mod                ../starter/source/elements/shell/shell_offset/chk_shell_offset.F90
+      !||    cluster_mod                         ../starter/share/modules1/cluster_mod.F
+      !||    constraint_mod                      ../starter/source/modules/constaint_mod.F90
+      !||    damping_rby_spmdset_mod             ../starter/source/general_controls/damping/damping_rby_spmdset.F90
+      !||    ddweights_mod                       ../starter/share/modules1/ddweights_mod.F
+      !||    defaults_mod                        ../starter/source/modules/defaults_mod.F90
+      !||    detonators_mod                      ../starter/share/modules1/detonators_mod.F
+      !||    drape_mod                           ../starter/share/modules1/drape_mod.F
+      !||    dsgraph_mod                         ../starter/share/modules1/dsgraph_mod.F
+      !||    elbuftag_mod                        ../starter/share/modules1/elbuftag_mod.F
+      !||    front_mod                           ../starter/share/modules1/front_mod.F
+      !||    func2d_mod                          ../starter/share/modules1/func2d_mod.F
+      !||    fvbag_mod                           ../starter/share/modules1/fvbag_mod.F
+      !||    group_mod                           ../starter/share/modules1/group_mod.F
+      !||    hm_option_read_mod                  ../starter/share/modules1/hm_option_read_mod.F
+      !||    hm_read_preload_axial_mod           ../starter/source/loads/general/preload/hm_read_preload_axial.F90
+      !||    inigrav                             ../starter/share/modules1/inigrav_mod.F
+      !||    inimap1d_mod                        ../starter/share/modules1/inimap1d_mod.F
+      !||    inimap2d_mod                        ../starter/share/modules1/inimap2d_mod.F
+      !||    inivol_def_mod                      ../starter/share/modules1/inivol_mod.F
+      !||    inivol_interf_mod                   ../starter/share/modules1/inivol_mod.F
+      !||    intbufmod                           ../starter/share/modules1/restart_mod.F
+      !||    intbufscratch_mod                   ../starter/source/interfaces/interf1/intbufscratch_mod.F
+      !||    inter_cand_mod                      ../starter/share/modules1/inter_cand_mod.F
+      !||    inter_offset_itag_mod               ../starter/source/elements/shell/shell_offset/inter_offset_itag.F90
+      !||    intstamp_glob_mod                   ../starter/share/modules1/intstamp_glob_mod.F
+      !||    inverted_group_mod                  ../starter/share/modules1/inverted_group_mod.F
+      !||    joint_mod                           ../starter/share/modules1/joint_mod.F
+      !||    mapping_option_mod                  ../starter/share/modules1/dichotomy_mod.F
+      !||    meshsurfig3d_mod                    ../starter/source/elements/ige3d/meshsurfig3d_mod.F
+      !||    message_mod                         ../starter/share/message_module/message_mod.F
+      !||    mid_pid_mod                         ../starter/share/modules1/mid_pid_mod.F
+      !||    monvol_struct_mod                   ../starter/share/modules1/monvol_struct_mod.F
+      !||    nod2el_mod                          ../starter/share/modules1/nod2el_mod.F
+      !||    option_mod                          ../starter/share/modules1/options_mod.F
+      !||    r2r_mod                             ../starter/share/modules1/r2r_mod.F
+      !||    random_mod                          ../starter/share/modules1/random_mod.F
+      !||    read_funct_python_mod               ../starter/source/tools/curve/hm_read_funct_python.F90
+      !||    reorder_mod                         ../starter/share/modules1/reorder_mod.F
+      !||    restmod                             ../starter/share/modules1/restart_mod.F
+      !||    sensor_mod                          ../starter/share/modules1/sensor_mod.F
+      !||    set_mod                             ../starter/share/modules1/set_mod.F
+      !||    shell_offset_ini_mod                ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
+      !||    shell_offsetp_mod                   ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
+      !||    sms_mod                             ../starter/share/modules1/sms_mod.F
+      !||    sph_mod                             ../starter/share/modules1/sph_mod.F
+      !||    split_cfd_mod                       ../starter/share/modules1/split_cfd_mod.F
+      !||    split_rwall_mod                     ../starter/source/constraints/general/rwall/split_rwall.F90
+      !||    stack_mod                           ../starter/share/modules1/stack_mod.F
+      !||    stack_var_mod                       ../starter/share/modules1/stack_var_mod.F
+      !||    submodel_mod                        ../starter/share/modules1/submodel_mod.F
+      !||    table_glob_mod                      ../starter/share/modules1/table_glob_mod.F
+      !||    updfail_mod                         ../starter/source/materials/updfail.F90
+      !||    user_sensor_mod                     ../starter/share/modules1/user_interface_mod.F
+      !||====================================================================
       SUBROUTINE LECTUR(MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
      .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  ,
      .                  MAT_ELEM,NAMES_AND_TITLES,DEFAULTS)
@@ -11190,14 +11195,14 @@ C----------------------------------------------
 
       RETURN
       END
-Chd|====================================================================
-Chd|  SET_IBUFSSG_IO                source/starter/lectur.F       
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    set_ibufssg_io   ../starter/source/starter/lectur.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur           ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ifrontplus       ../starter/source/spmd/node/frontplus.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SET_IBUFSSG_IO(ISPHIO, IGRSURF, IBUFSSG_IO)
 C-----------------------------------------------
 C   M o d u l e s
@@ -11268,13 +11273,13 @@ C-----------------------------------------------
 C=======================================================================
       RETURN
       END
-Chd|====================================================================
-Chd|  INIT_PERMUTATION              source/starter/lectur.F       
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        REORDER_MOD                   share/modules1/reorder_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    init_permutation   ../starter/source/starter/lectur.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur             ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||    reorder_mod        ../starter/share/modules1/reorder_mod.F
+      !||====================================================================
       SUBROUTINE INIT_PERMUTATION()
 C-----------------------------------------------
 C   M o d u l e s
@@ -11306,12 +11311,11 @@ C-----------------------------------------------
 
       RETURN
       END
-Chd|====================================================================
-Chd|  TET4_10                       source/starter/lectur.F       
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    tet4_10   ../starter/source/starter/lectur.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur    ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE TET4_10(IGEO,ITET4_10)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

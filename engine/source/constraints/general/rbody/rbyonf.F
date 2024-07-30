@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RBYONF                        source/constraints/general/rbody/rbyonf.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/input/lectur.F         
-Chd|-- calls ---------------
-Chd|        RBYPID                        source/constraints/general/rbody/rbypid.F
-Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbyonf            ../engine/source/constraints/general/rbody/rbyonf.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur            ../engine/source/input/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    rbypid            ../engine/source/constraints/general/rbody/rbypid.F
+      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_ibcast       ../engine/source/mpi/generic/spmd_ibcast.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE RBYONF(IPARG   ,IPARI         ,MS     ,IN     ,
      2                  IXS     ,IXQ    ,IXC   ,IXT    ,IXP    ,
      3                  IXR     ,SKEW   ,ITAB  ,ITABM1 ,ISKWN  ,
@@ -214,15 +215,16 @@ C
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  RBYSENS                       source/constraints/general/rbody/rbyonf.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        RBYPID                        source/constraints/general/rbody/rbypid.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    rbysens        ../engine/source/constraints/general/rbody/rbyonf.F
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    rbypid         ../engine/source/constraints/general/rbody/rbypid.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    sensor_mod     ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE RBYSENS(IPARG,IPARI      ,MS    ,IN   ,
      2                  IXS  ,IXQ  ,IXC   ,IXT   ,IXP  ,
      3                  IXR  ,SKEW ,ITAB  ,ITABM1,ISKWN,

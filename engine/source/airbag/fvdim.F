@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FVDIM                         source/airbag/fvdim.F         
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    fvdim       ../engine/source/airbag/fvdim.F
+      !||--- called by ------------------------------------------------------
+      !||    resol       ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod   ../engine/share/modules/fvbag_mod.F
+      !||====================================================================
       SUBROUTINE FVDIM(MONVOL)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -63,13 +63,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  FV_SWITCH_CRIT                source/airbag/fvdim.F         
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    fv_switch_crit   ../engine/source/airbag/fvdim.F
+      !||--- called by ------------------------------------------------------
+      !||    resol            ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod        ../engine/share/modules/fvbag_mod.F
+      !||====================================================================
       SUBROUTINE FV_SWITCH_CRIT(MONVOL,CHECK_NPOLH)
 C checks if at least one FVMBAGS is using NPOLH to switch to UP
 C In that case, additional communication is needed

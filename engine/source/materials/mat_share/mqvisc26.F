@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MQVISC26                      source/materials/mat_share/mqvisc26.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mqvisc26   ../engine/source/materials/mat_share/mqvisc26.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain      ../engine/source/materials/mat_share/mmain.F90
+      !||====================================================================
       SUBROUTINE MQVISC26(
      1   PM,      OFF,     RHO,     RK,
      2   T,       SSP,     RE,      STI,

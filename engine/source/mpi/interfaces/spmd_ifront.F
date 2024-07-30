@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_IFRONT                   source/mpi/interfaces/spmd_ifront.F
-Chd|-- called by -----------
-Chd|        IMP_TRIPI                     source/implicit/imp_int_k.F   
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        IFRONT_MOD                    share/modules/ifront_mod.F    
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_ifront     ../engine/source/mpi/interfaces/spmd_ifront.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_tripi       ../engine/source/implicit/imp_int_k.F
+      !||    inttri          ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    ifront_mod      ../engine/share/modules/ifront_mod.F
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||    tri25ebox       ../engine/share/modules/tri25ebox.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_IFRONT(
      1   IPARI   ,NEWFRONT,ISENDTO   ,IRCVFROM,
      2   NSENSOR ,NBINTC  ,INTLIST ,ISLEN7    ,IRLEN7  ,

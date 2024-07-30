@@ -20,13 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  REDKEY0                       source/input/redkey0.F        
-Chd|-- called by -----------
-Chd|        FREFORM                       source/input/freform.F        
-Chd|-- calls ---------------
-Chd|        ERRMSG                        source/input/errmsg.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    redkey0                ../engine/source/input/redkey0.F
+      !||--- called by ------------------------------------------------------
+      !||    freform                ../engine/source/input/freform.F
+      !||--- calls      -----------------------------------------------------
+      !||    errmsg                 ../engine/source/input/errmsg.F
+      !||--- uses       -----------------------------------------------------
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE REDKEY0(KEY0,NKEY,CARTE,IKEY,NSLASH) 
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,17 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRITE_SENSORS                 source/output/restart/write_sensors.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        FRETITL                       source/input/freform.F        
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_DPDB                    ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    write_sensors          ../engine/source/output/restart/write_sensors.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp                ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl                ../engine/source/input/freform.F
+      !||    nvar                   ../engine/source/input/nvar.F
+      !||    write_db               ../common_source/tools/input_output/write_db.F
+      !||    write_dpdb             ../common_source/tools/input_output/write_db.F
+      !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE WRITE_SENSORS(SENSORS)
 C-----------------------------------------------
 C   M o d u l e s

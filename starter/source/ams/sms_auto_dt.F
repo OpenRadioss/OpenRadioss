@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SMS_AUTO_DT                   source/ams/sms_auto_dt.F      
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        NOD_SMS_DT                    source/ams/sms_auto_dt.F      
-Chd|        NOD_SMS_DT_SOL                source/ams/sms_auto_dt.F      
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_auto_dt      ../starter/source/ams/sms_auto_dt.F
+      !||--- called by ------------------------------------------------------
+      !||    initia           ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    nod_sms_dt       ../starter/source/ams/sms_auto_dt.F
+      !||    nod_sms_dt_sol   ../starter/source/ams/sms_auto_dt.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SMS_AUTO_DT(DTELEM,NATIV_SMS,
      1  IXS     ,IXQ      ,IXC     ,IXT     ,IXP       ,
      2  IXR     ,IXTG     ,IXS10   ,IXS16   ,IXS20     ,
@@ -280,12 +280,11 @@ C
 
       END
 
-Chd|====================================================================
-Chd|  NOD_SMS_DT                    source/ams/sms_auto_dt.F      
-Chd|-- called by -----------
-Chd|        SMS_AUTO_DT                   source/ams/sms_auto_dt.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    nod_sms_dt    ../starter/source/ams/sms_auto_dt.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_auto_dt   ../starter/source/ams/sms_auto_dt.F
+      !||====================================================================
       SUBROUTINE NOD_SMS_DT(
      1 NUMNOD  ,TAGEL_SMS,NEL,NFT,NIX ,MIX ,LIX_INPUT,
      2 IX      ,TAGN_SMS,DTELEM,ITY,DT_INDEX,
@@ -353,13 +352,13 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  NOD_SMS_DT_SOL                source/ams/sms_auto_dt.F      
-Chd|-- called by -----------
-Chd|        SMS_AUTO_DT                   source/ams/sms_auto_dt.F      
-Chd|-- calls ---------------
-Chd|        SMS_MOD                       share/modules1/sms_mod.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    nod_sms_dt_sol   ../starter/source/ams/sms_auto_dt.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_auto_dt      ../starter/source/ams/sms_auto_dt.F
+      !||--- uses       -----------------------------------------------------
+      !||    sms_mod          ../starter/share/modules1/sms_mod.F
+      !||====================================================================
       SUBROUTINE NOD_SMS_DT_SOL(
      1 NUMNOD  ,TAGEL_SMS ,NEL  ,NFT     ,NIX ,OFFSET,
      2 IXS  ,TAGN_SMS)

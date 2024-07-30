@@ -20,35 +20,35 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ_MONVOL                   source/airbag/read_monvol.F   
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL                       source/starter/freform.F      
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        HM_READ_MONVOL_TYPE1          source/airbag/hm_read_monvol_type1.F
-Chd|        HM_READ_MONVOL_TYPE10         source/airbag/hm_read_monvol_type10.F
-Chd|        HM_READ_MONVOL_TYPE11         source/airbag/hm_read_monvol_type11.F
-Chd|        HM_READ_MONVOL_TYPE2          source/airbag/hm_read_monvol_type2.F
-Chd|        HM_READ_MONVOL_TYPE3          source/airbag/hm_read_monvol_type3.F
-Chd|        HM_READ_MONVOL_TYPE4          source/airbag/hm_read_monvol_type4.F
-Chd|        HM_READ_MONVOL_TYPE5          source/airbag/hm_read_monvol_type5.F
-Chd|        HM_READ_MONVOL_TYPE6          source/airbag/hm_read_monvol_type6.F
-Chd|        HM_READ_MONVOL_TYPE7          source/airbag/hm_read_monvol_type7.F
-Chd|        HM_READ_MONVOL_TYPE8          source/airbag/hm_read_monvol_type8.F
-Chd|        HM_READ_MONVOL_TYPE9          source/airbag/hm_read_monvol_type9.F
-Chd|        HM_SZ_R2R                     source/coupling/rad2rad/routines_r2r.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    read_monvol             ../starter/source/airbag/read_monvol.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                  ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                  ../starter/source/output/message/message.F
+      !||    fretitl                 ../starter/source/starter/freform.F
+      !||    hm_option_read_key      ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start         ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_read_monvol_type1    ../starter/source/airbag/hm_read_monvol_type1.F
+      !||    hm_read_monvol_type10   ../starter/source/airbag/hm_read_monvol_type10.F
+      !||    hm_read_monvol_type11   ../starter/source/airbag/hm_read_monvol_type11.F
+      !||    hm_read_monvol_type2    ../starter/source/airbag/hm_read_monvol_type2.F
+      !||    hm_read_monvol_type3    ../starter/source/airbag/hm_read_monvol_type3.F
+      !||    hm_read_monvol_type4    ../starter/source/airbag/hm_read_monvol_type4.F
+      !||    hm_read_monvol_type5    ../starter/source/airbag/hm_read_monvol_type5.F
+      !||    hm_read_monvol_type6    ../starter/source/airbag/hm_read_monvol_type6.F
+      !||    hm_read_monvol_type7    ../starter/source/airbag/hm_read_monvol_type7.F
+      !||    hm_read_monvol_type8    ../starter/source/airbag/hm_read_monvol_type8.F
+      !||    hm_read_monvol_type9    ../starter/source/airbag/hm_read_monvol_type9.F
+      !||    hm_sz_r2r               ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod      ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||    monvol_struct_mod       ../starter/share/modules1/monvol_struct_mod.F
+      !||    r2r_mod                 ../starter/share/modules1/r2r_mod.F
+      !||    sensor_mod              ../starter/share/modules1/sensor_mod.F
+      !||    submodel_mod            ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE READ_MONVOL(T_MONVOL, T_MONVOL_METADATA, ITAB, ITABM1, IPM, IGEO, 
      .     X, PM, GEO, IXC, IXTG, SENSORS,
      .     UNITAB, NPC, NPT, PLD, IGRSURF, IGRBRIC, NOM_OPT,IFRAME, XFRAME, 

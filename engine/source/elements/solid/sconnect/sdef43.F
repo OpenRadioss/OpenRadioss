@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SDEF43                        source/elements/solid/sconnect/sdef43.F
-Chd|-- called by -----------
-Chd|        SUSER43                       source/elements/solid/sconnect/suser43.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sdef43    ../engine/source/elements/solid/sconnect/sdef43.F
+      !||--- called by ------------------------------------------------------
+      !||    suser43   ../engine/source/elements/solid/sconnect/suser43.F
+      !||====================================================================
       SUBROUTINE SDEF43(NEL    ,NPG    ,HH     ,
      .                  DZX    ,DYZ    ,DZZ    ,
      .                  VXLOC  ,VYLOC  ,VZLOC  )

@@ -22,13 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 C
-Chd|====================================================================
-Chd|  WRITC                         source/output/analyse/analyse_out.F
-Chd|-- called by -----------
-Chd|        WIOUT                         source/output/analyse/analyse_out.F
-Chd|        WISTDO                        source/output/analyse/analyse_out.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    writc    ../starter/source/output/analyse/analyse_out.F
+      !||--- called by ------------------------------------------------------
+      !||    wiout    ../starter/source/output/analyse/analyse_out.F
+      !||    wistdo   ../starter/source/output/analyse/analyse_out.F
+      !||====================================================================
       SUBROUTINE WRITC(UNIT,LENGTH,TABINT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -78,12 +77,11 @@ C
 C
 C
 C
-Chd|====================================================================
-Chd|  WIOUT                         source/output/analyse/analyse_out.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITC                         source/output/analyse/analyse_out.F
-Chd|====================================================================
+      !||====================================================================
+      !||    wiout   ../starter/source/output/analyse/analyse_out.F
+      !||--- calls      -----------------------------------------------------
+      !||    writc   ../starter/source/output/analyse/analyse_out.F
+      !||====================================================================
       INTEGER FUNCTION WIOUT(LENGTH,TABINT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -107,12 +105,11 @@ C
 C
 C
 C
-Chd|====================================================================
-Chd|  WISTDO                        source/output/analyse/analyse_out.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITC                         source/output/analyse/analyse_out.F
-Chd|====================================================================
+      !||====================================================================
+      !||    wistdo   ../starter/source/output/analyse/analyse_out.F
+      !||--- calls      -----------------------------------------------------
+      !||    writc    ../starter/source/output/analyse/analyse_out.F
+      !||====================================================================
       INTEGER FUNCTION WISTDO(LENGTH,TABINT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

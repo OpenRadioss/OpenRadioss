@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  POWDER_BURN                   eos/powder_burn.F             
-Chd|-- called by -----------
-Chd|        EOSMAIN                       common_source/eos/eosmain.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    powder_burn   ../common_source/eos/powder_burn.F
+      !||--- called by ------------------------------------------------------
+      !||    eosmain       ../common_source/eos/eosmain.F
+      !||====================================================================
       SUBROUTINE POWDER_BURN    (
      1                            IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,MU2 , 
      2                            ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH  ,

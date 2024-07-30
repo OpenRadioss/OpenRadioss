@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STRN_TENSCOR3                 source/output/h3d/h3d_results/h3d_strn_tenscor3.F
-Chd|-- called by -----------
-Chd|        H3D_SOLID_TENSOR_1            source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-Chd|-- calls ---------------
-Chd|        SROTA6                        source/output/anim/generate/srota6.F
-Chd|        SZSTRAINGPS                   source/elements/solid/solidez/szstraingps.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    strn_tenscor3        ../engine/source/output/h3d/h3d_results/h3d_strn_tenscor3.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_solid_tensor_1   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+      !||--- calls      -----------------------------------------------------
+      !||    srota6               ../engine/source/output/anim/generate/srota6.F
+      !||    szstraingps          ../engine/source/elements/solid/solidez/szstraingps.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod          ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE STRN_TENSCOR3(ELBUF_TAB,IPARG   ,IXS      ,IXS10   ,X        ,
      .                         PM       ,KCVT    ,NEL      ,EVAR    )
 C-----------------------------------------------

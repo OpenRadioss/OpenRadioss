@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_IGATH                    source/mpi/anim/spmd_igath.F  
-Chd|-- called by -----------
-Chd|        ANISKEW                       source/output/anim/generate/aniskew.F
-Chd|        ANISKEWF                      source/output/anim/generate/aniskewf.F
-Chd|        DSPHNOR                       source/output/anim/generate/dsphnor.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_igath   ../engine/source/mpi/anim/spmd_igath.F
+      !||--- called by ------------------------------------------------------
+      !||    aniskew      ../engine/source/output/anim/generate/aniskew.F
+      !||    aniskewf     ../engine/source/output/anim/generate/aniskewf.F
+      !||    dsphnor      ../engine/source/output/anim/generate/dsphnor.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_IGATH(SRBUF,LEN,LRECV)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

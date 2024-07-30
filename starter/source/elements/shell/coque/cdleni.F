@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CDLENI                        source/elements/shell/coque/cdleni.F
-Chd|-- called by -----------
-Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|-- calls ---------------
-Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    cdleni            ../starter/source/elements/shell/coque/cdleni.F
+      !||--- called by ------------------------------------------------------
+      !||    cinit3            ../starter/source/elements/shell/coque/cinit3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE CDLENI(PM  ,GEO ,STIFN ,STIFR,IXC,
      .                  PX1 ,PX2 ,PY1   ,PY2  ,THK,
      .                  IGEO,DT  ,SH4TREE,ALDT,UPARAM ,

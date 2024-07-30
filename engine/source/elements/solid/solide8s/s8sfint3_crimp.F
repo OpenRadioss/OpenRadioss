@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8SFINT3_CRIMP                source/elements/solid/solide8s/s8sfint3_crimp.F
-Chd|-- called by -----------
-Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8sfint3_crimp   ../engine/source/elements/solid/solide8s/s8sfint3_crimp.F
+      !||--- called by ------------------------------------------------------
+      !||    s8sforc3         ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||====================================================================
       SUBROUTINE S8SFINT3_CRIMP(TRM,QF,R,
      .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
      .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,

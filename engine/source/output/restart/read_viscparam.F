@@ -20,19 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ_VISCPARAM                source/output/restart/read_viscparam.F
-Chd|-- called by -----------
-Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
-Chd|-- calls ---------------
-Chd|        READ_C_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
-Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        READ_MAT_TABLE                source/materials/tools/read_mat_table.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
-Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    read_viscparam         ../engine/source/output/restart/read_viscparam.F
+      !||--- called by ------------------------------------------------------
+      !||    read_matparam          ../engine/source/output/restart/read_matparam.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_c_c               ../common_source/tools/input_output/write_routtines.c
+      !||    read_db                ../common_source/tools/input_output/read_db.F
+      !||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+      !||    read_mat_table         ../engine/source/materials/tools/read_mat_table.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    visc_param_mod         ../common_source/modules/mat_elem/visc_param_mod.F90
+      !||====================================================================
       SUBROUTINE READ_VISCPARAM(VISC)
 C-----------------------------------------------
 C   M o d u l e s

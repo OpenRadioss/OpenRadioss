@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RKINI3                        source/elements/spring/rkini3.F
-Chd|-- called by -----------
-Chd|        RINIT3                        source/elements/spring/rinit3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rkini3        ../starter/source/elements/spring/rkini3.F
+      !||--- called by ------------------------------------------------------
+      !||    rinit3        ../starter/source/elements/spring/rinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    fretitl2      ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE RKINI3(IFUNCT  ,NPC     ,PLD     ,XK      ,ECROU   , 
      .                  IGEO ,A       ,LSCALE  ,ID,TITR,NOM_OPT)
       USE MESSAGE_MOD

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FREDEC3M                      source/output/message/fredec3m.F
-Chd|-- called by -----------
-Chd|        BUILD_MSG                     source/output/message/build_msg.F
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    fredec3m    ../starter/source/output/message/fredec3m.F
+      !||--- called by ------------------------------------------------------
+      !||    build_msg   ../starter/source/output/message/build_msg.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret       ../starter/source/system/arret.F
+      !||====================================================================
       SUBROUTINE FREDEC3M(LINE1,KEY)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

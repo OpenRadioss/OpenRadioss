@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SMASS3B                       source/elements/solid/solid8p/smass3b.F
-Chd|-- called by -----------
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|-- calls ---------------
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    smass3b   ../starter/source/elements/solid/solid8p/smass3b.F
+      !||--- called by ------------------------------------------------------
+      !||    sinit3    ../starter/source/elements/solid/solide/sinit3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SMASS3B(
      1                   RHO    ,MS  ,VOLGP,LVLOC,MSS,
      2                   PARTSAV,X   ,V    ,IPART,MSNF,

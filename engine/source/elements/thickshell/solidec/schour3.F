@@ -20,11 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCHOUR3                       source/elements/thickshell/solidec/schour3.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    schour3   ../engine/source/elements/thickshell/solidec/schour3.F
+      !||====================================================================
       SUBROUTINE SCHOUR3(
      1   PM,      RHO,     OFF,     VX1,
      2   VX2,     VX3,     VX4,     VX5,

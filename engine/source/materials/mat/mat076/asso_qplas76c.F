@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASSO_QPLAS76C                 source/materials/mat/mat076/asso_qplas76c.F
-Chd|-- called by -----------
-Chd|        SIGEPS76C                     source/materials/mat/mat076/sigeps76c.F
-Chd|-- calls ---------------
-Chd|        TABLE_MAT_VINTERP             source/materials/tools/table_mat_vinterp.F
-Chd|        VINTER                        source/tools/curve/vinter.F   
-Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
-Chd|        TABLE_MAT_VINTERP_MOD         source/materials/tools/table_mat_vinterp.F
-Chd|====================================================================
+      !||====================================================================
+      !||    asso_qplas76c           ../engine/source/materials/mat/mat076/asso_qplas76c.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps76c               ../engine/source/materials/mat/mat076/sigeps76c.F
+      !||--- calls      -----------------------------------------------------
+      !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+      !||    vinter                  ../engine/source/tools/curve/vinter.F
+      !||--- uses       -----------------------------------------------------
+      !||    table4d_mod             ../common_source/modules/table4d_mod.F
+      !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+      !||====================================================================
       SUBROUTINE ASSO_QPLAS76C(
      .     NEL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,
      .     NPF     ,TF      ,NUMTABL ,TABLE   ,

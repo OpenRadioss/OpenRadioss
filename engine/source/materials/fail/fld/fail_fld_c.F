@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_FLD_C                    source/materials/fail/fld/fail_fld_c.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
-Chd|-- calls ---------------
-Chd|        VINTER                        source/tools/curve/vinter.F   
-Chd|        FINTERFLD                     source/materials/fail/fld/fail_fld_c.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_fld_c      ../engine/source/materials/fail/fld/fail_fld_c.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc          ../engine/source/materials/mat_share/mulawc.F
+      !||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter          ../engine/source/tools/curve/finter.F
+      !||    finterfld       ../engine/source/materials/fail/fld/fail_fld_c.F
+      !||    vinter          ../engine/source/tools/curve/vinter.F
+      !||====================================================================
       SUBROUTINE FAIL_FLD_C(
      1     NEL      ,NUPARAM  ,NFUNC    ,IFUNC    ,
      2     NPF      ,TF       ,TIME     ,UPARAM   ,
@@ -269,16 +270,15 @@ c------------------------
       RETURN
       END
 c      
-Chd|====================================================================
-Chd|  FINTERFLD                     source/materials/fail/fld/fail_fld_c.F
-Chd|-- called by -----------
-Chd|        DAM_FLD_SOL                   source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
-Chd|        FAIL_FLD_C                    source/materials/fail/fld/fail_fld_c.F
-Chd|        FAIL_FLD_TSH                  source/materials/fail/fld/fail_fld_tsh.F
-Chd|        FAIL_FLD_XFEM                 source/materials/fail/fld/fail_fld_xfem.F
-Chd|        IDX_FLD_SOL                   source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    finterfld       ../engine/source/materials/fail/fld/fail_fld_c.F
+      !||--- called by ------------------------------------------------------
+      !||    dam_fld_sol     ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+      !||    fail_fld_c      ../engine/source/materials/fail/fld/fail_fld_c.F
+      !||    fail_fld_tsh    ../engine/source/materials/fail/fld/fail_fld_tsh.F
+      !||    fail_fld_xfem   ../engine/source/materials/fail/fld/fail_fld_xfem.F
+      !||    idx_fld_sol     ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+      !||====================================================================
       my_real FUNCTION FINTERFLD(EPST,LENF,XF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

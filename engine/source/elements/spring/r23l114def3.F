@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R23L114DEF3                   source/elements/spring/r23l114def3.F
-Chd|-- called by -----------
-Chd|        R23LAW114                     source/elements/spring/r23law114.F
-Chd|-- calls ---------------
-Chd|        MATERIAL_FLOW                 source/tools/seatbelts/material_flow.F
-Chd|        REDEF3                        source/elements/spring/redef3.F
-Chd|        REDEF_SEATBELT                source/tools/seatbelts/redef_seatbelt.F
-Chd|        REPLA3                        source/elements/spring/repla3.F
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    r23l114def3      ../engine/source/elements/spring/r23l114def3.F
+      !||--- called by ------------------------------------------------------
+      !||    r23law114        ../engine/source/elements/spring/r23law114.F
+      !||--- calls      -----------------------------------------------------
+      !||    material_flow    ../engine/source/tools/seatbelts/material_flow.F
+      !||    redef3           ../engine/source/elements/spring/redef3.F
+      !||    redef_seatbelt   ../engine/source/tools/seatbelts/redef_seatbelt.F
+      !||    repla3           ../engine/source/elements/spring/repla3.F
+      !||--- uses       -----------------------------------------------------
+      !||    seatbelt_mod     ../common_source/modules/seatbelt_mod.F
+      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE R23L114DEF3(
      1   SKEW,                 IPM,                  IGEO,                 MID,
      2   PID,                  GEO,                  UPARAM,               FX,

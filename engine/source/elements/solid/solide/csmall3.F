@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CSMALL3                       source/elements/solid/solide/csmall3.F
-Chd|-- called by -----------
-Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    csmall3    ../engine/source/elements/solid/solide/csmall3.F
+      !||--- called by ------------------------------------------------------
+      !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s8cforc3   ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3   ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8sforc3   ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||    s8zforc3   ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||====================================================================
       SUBROUTINE CSMALL3(SIG, S1, S2, S3, S4, S5, S6,
      .                   OFFG ,OFF  ,NEL) 
 C-----------------------------------------------

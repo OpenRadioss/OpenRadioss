@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_VELVEC2                  source/mpi/anim/spmd_velvec2.F
-Chd|-- called by -----------
-Chd|        VELVEC2                       source/output/anim/generate/velvec.F
-Chd|-- calls ---------------
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_velvec2    ../engine/source/mpi/anim/spmd_velvec2.F
+      !||--- called by ------------------------------------------------------
+      !||    velvec2         ../engine/source/output/anim/generate/velvec.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_r_c       ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE SPMD_VELVEC2(V,NODGLOB,RBUF,NUMPOG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

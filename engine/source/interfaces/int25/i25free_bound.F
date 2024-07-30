@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25FREE_BOUND                 source/interfaces/int25/i25free_bound.F
-Chd|-- called by -----------
-Chd|        I25MAIN_FREE                  source/interfaces/intsort/i25main_free.F
-Chd|        SPMD_I25FRONT_INIT            source/mpi/interfaces/spmd_i25front.F
-Chd|-- calls ---------------
-Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    i25free_bound        ../engine/source/interfaces/int25/i25free_bound.F
+      !||--- called by ------------------------------------------------------
+      !||    i25main_free         ../engine/source/interfaces/intsort/i25main_free.F
+      !||    spmd_i25front_init   ../engine/source/mpi/interfaces/spmd_i25front.F
+      !||--- uses       -----------------------------------------------------
+      !||    debug_mod            ../engine/share/modules/debug_mod.F
+      !||====================================================================
       SUBROUTINE I25FREE_BOUND( 
      . NRTM,
      . MVOISIN,

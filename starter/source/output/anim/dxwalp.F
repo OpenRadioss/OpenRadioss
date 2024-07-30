@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DXWALP                        source/output/anim/dxwalp.F   
-Chd|-- called by -----------
-Chd|        DXYZSECT                      source/output/anim/dxyzsect.F 
-Chd|-- calls ---------------
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    dxwalp      ../starter/source/output/anim/dxwalp.F
+      !||--- called by ------------------------------------------------------
+      !||    dxyzsect    ../starter/source/output/anim/dxyzsect.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE DXWALP(X ,RWL ,MSR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

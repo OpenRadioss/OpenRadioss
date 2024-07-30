@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I17STI3                       source/interfaces/inter3d1/i17sti3.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i17sti3   ../starter/source/interfaces/inter3d1/i17sti3.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3    ../starter/source/interfaces/inter3d1/inint3.F
+      !||====================================================================
       SUBROUTINE I17STI3(
      1 IXS       ,PM        ,NME    ,NMES  ,NELM,NELS,
      2 KM        ,KS        )

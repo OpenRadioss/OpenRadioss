@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C_SPMD_NE_CONNECT             source/ale/spmd_ne_connect.F  
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    c_spmd_ne_connect      ../starter/source/ale/spmd_ne_connect.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE C_SPMD_NE_CONNECT(ALE_CONNECTIVITY, PROC    , CEP      , CEL     , 
      .                             NODGLOBAL       , NODLOCAL, 
      .                             NUMEL           , NUMNOD  , NUMEL_L  , NUMNOD_L, 
@@ -155,14 +154,13 @@ C-----------------------------------------------
       END SUBROUTINE C_SPMD_NE_CONNECT
 
 
-Chd|====================================================================
-Chd|  SPMD_NE_CONNECT               source/ale/spmd_ne_connect.F  
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_ne_connect        ../starter/source/ale/spmd_ne_connect.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_NE_CONNECT(ALE_CONNECTIVITY, PROC    , CEP      , CEL     , 
      .                           NODGLOBAL       , NODLOCAL, 
      .                           NUMEL           , NUMNOD  , NUMEL_L  , NUMNOD_L, 

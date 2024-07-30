@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALLOC_SUBSET_STR              source/groups/alloc_subset_str.F
-Chd|-- called by -----------
-Chd|        SUBSET_INI                    source/groups/subset_ini.F    
-Chd|-- calls ---------------
-Chd|        FRETITL2                      source/input/freform.F        
-Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    alloc_subset_str   ../engine/source/groups/alloc_subset_str.F
+      !||--- called by ------------------------------------------------------
+      !||    subset_ini         ../engine/source/groups/subset_ini.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl2           ../engine/source/input/freform.F
+      !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ALLOC_SUBSET_STR(SUBSET)
 C-----------------------------------------------
 C   M o d u l e s

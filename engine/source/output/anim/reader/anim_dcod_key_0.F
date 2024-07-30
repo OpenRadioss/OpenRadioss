@@ -20,15 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ANIM_DCOD_KEY_0               source/output/anim/reader/anim_dcod_key_0.F
-Chd|-- called by -----------
-Chd|        FREANIM                       source/output/anim/reader/freanim.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    anim_dcod_key_0        ../engine/source/output/anim/reader/anim_dcod_key_0.F
+      !||--- called by ------------------------------------------------------
+      !||    freanim                ../engine/source/output/anim/reader/freanim.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    stack_mod              ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE ANIM_DCOD_KEY_0(KEY2,KEY3,KEY4,KEY5,KEY6,JERR,IXITKEY)
 C-----------------------------------------------
 C   M o d u l e s

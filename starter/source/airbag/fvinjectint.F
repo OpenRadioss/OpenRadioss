@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FVINJECTINT                   source/airbag/fvinjectint.F   
-Chd|-- called by -----------
-Chd|        FVMESH0                       source/airbag/fvmesh0.F       
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fvinjectint    ../starter/source/airbag/fvinjectint.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh0        ../starter/source/airbag/fvmesh0.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE FVINJECTINT(IBUF  , ELEM   , IBAGJET, 
      .                       NJET  , IGRSURF,
      .                       ITAGEL, NN     , NEL, NB_NODE, MINUS_SIGN_REVERSE)

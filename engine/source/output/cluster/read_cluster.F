@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ_CLUSTER                  source/output/cluster/read_cluster.F
-Chd|-- called by -----------
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
-Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    read_cluster   ../engine/source/output/cluster/read_cluster.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb         ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db        ../common_source/tools/input_output/read_db.F
+      !||    read_i_c       ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    cluster_mod    ../engine/share/modules/cluster_mod.F
+      !||====================================================================
       SUBROUTINE READ_CLUSTER(CLUSTER)
 C-----------------------------------------------
 C   M o d u l e s

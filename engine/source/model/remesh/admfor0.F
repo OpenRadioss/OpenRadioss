@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ADMFOR0                       source/model/remesh/admfor0.F 
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    admfor0      ../engine/source/model/remesh/admfor0.F
+      !||--- called by ------------------------------------------------------
+      !||    resol        ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    remesh_mod   ../engine/share/modules/remesh_mod.F
+      !||====================================================================
       SUBROUTINE ADMFOR0(IXC ,IPARTC,IXTG  ,IPARTTG,IPART ,
      .                 A     ,STIFN ,AR     ,STIFR ,X     ,
      .                 SH4TREE,SH3TREE,STCONT,FTHE ,CONDN )

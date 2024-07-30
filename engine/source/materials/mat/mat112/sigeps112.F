@@ -20,16 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS112                     source/materials/mat/mat112/sigeps112.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MAT112_XIA_NEWTON             source/materials/mat/mat112/mat112_xia_newton.F
-Chd|        MAT112_XIA_NICE               source/materials/mat/mat112/mat112_xia_nice.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps112             ../engine/source/materials/mat/mat112/sigeps112.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
+      !||--- calls      -----------------------------------------------------
+      !||    mat112_xia_newton     ../engine/source/materials/mat/mat112/mat112_xia_newton.F
+      !||    mat112_xia_nice       ../engine/source/materials/mat/mat112/mat112_xia_nice.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    table_mod             ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE SIGEPS112(
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,TIME    ,TIMESTEP,
      2     UPARAM  ,UVAR    ,JTHE    ,OFF     ,RHO0    ,RHO     ,

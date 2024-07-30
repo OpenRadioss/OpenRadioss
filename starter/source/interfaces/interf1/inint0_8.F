@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  ININT0_8                      source/interfaces/interf1/inint0_8.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inint0_8   ../starter/source/interfaces/interf1/inint0_8.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3     ../starter/source/interfaces/inter3d1/inint3.F
+      !||====================================================================
       SUBROUTINE ININT0_8(X      ,IRECT  ,NSEG   ,LCSEG  ,NSV   ,
      1                    MSR    ,ILOC   ,NMN    ,NSN    ,NRT   , NUMNOD )
 C-----------------------------------------------------------------------

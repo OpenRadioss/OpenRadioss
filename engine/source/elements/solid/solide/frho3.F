@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FRHO3                         source/elements/solid/solide/frho3.F
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    frho3     ../engine/source/elements/solid/solide/frho3.F
+      !||--- called by ------------------------------------------------------
+      !||    sforc3    ../engine/source/elements/solid/solide/sforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod   ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
       SUBROUTINE FRHO3(UVAR ,RHO0,DXX, DYY, DZZ,
      .                 FLUX,FLU1,VOLN,NGL,MAT,OFF,NEL)
 C-----------------------------------------------

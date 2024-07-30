@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IELOF3                        source/interfaces/interf/ielof3.F
-Chd|-- called by -----------
-Chd|        IELOF2                        source/interfaces/interf/ielof2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ielof3   ../engine/source/interfaces/interf/ielof3.F
+      !||--- called by ------------------------------------------------------
+      !||    ielof2   ../engine/source/interfaces/interf/ielof2.F
+      !||====================================================================
       SUBROUTINE IELOF3(
      1 IRECT ,STF   ,NRT   ,IXC   ,STFN  ,
      2 NSEG  ,LNSV  ,NSN   ,NSV   ,NEL   ,

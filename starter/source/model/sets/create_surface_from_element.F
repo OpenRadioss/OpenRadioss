@@ -20,19 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CREATE_SURFACE_FROM_ELEMENT   source/model/sets/create_surface_from_element.F
-Chd|-- called by -----------
-Chd|        CREATE_BOX_CLAUSE             source/model/sets/create_box_clause.F
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|        INSERT_CLAUSE_IN_SET          source/model/sets/insert_clause_in_set.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        SURFACE_BUFFER                source/model/sets/surface_buffer.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SET_SCRATCH_MOD               ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    create_surface_from_element   ../starter/source/model/sets/create_surface_from_element.F
+      !||--- called by ------------------------------------------------------
+      !||    create_box_clause             ../starter/source/model/sets/create_box_clause.F
+      !||    hm_set                        ../starter/source/model/sets/hm_set.F
+      !||    insert_clause_in_set          ../starter/source/model/sets/insert_clause_in_set.F
+      !||--- calls      -----------------------------------------------------
+      !||    surface_buffer                ../starter/source/model/sets/surface_buffer.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE CREATE_SURFACE_FROM_ELEMENT(
      .                       IXS       ,IXS10    ,SH4TREE   ,SH3TREE   ,IXC       ,
      .                       IXTG      ,KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC   ,

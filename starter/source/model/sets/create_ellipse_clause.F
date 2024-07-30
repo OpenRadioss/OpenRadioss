@@ -20,21 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CREATE_ELLIPSE_CLAUSE         source/model/sets/create_ellipse_clause.F
-Chd|-- called by -----------
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        SUBROTPOINT                   source/model/submodel/subrot.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    create_ellipse_clause   ../starter/source/model/sets/create_ellipse_clause.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_set                  ../starter/source/model/sets/hm_set.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                  ../starter/source/output/message/message.F
+      !||    hm_get_floatv           ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_intv             ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    subrotpoint             ../starter/source/model/submodel/subrot.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod      ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||    submodel_mod            ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE CREATE_ELLIPSE_CLAUSE(ID        ,TITLE    ,SUB_ID   ,SKEW   ,RTRANS,
      .                                 CLAUSE    ,NRTRANS  ,LSUBMODEL,UNITAB ,ISKN  ,
      .                                 IAD       ,NTRANSF  ,NUMSKW   ,LISKN  ,LSKEW ,

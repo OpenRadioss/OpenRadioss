@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7I10SPLITMOD                 share/modules1/i710split_mod.F
-Chd|-- called by -----------
-Chd|        I24SETNODES                   source/interfaces/inter3d1/i24setnodes.F
-Chd|        PREPARE_SPLIT_I7              source/restart/ddsplit/inter_tools.F
-Chd|        W_FI                          source/restart/ddsplit/w_fi.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i7i10splitmod      ../starter/share/modules1/i710split_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    i24setnodes        ../starter/source/interfaces/inter3d1/i24setnodes.F
+      !||    prepare_split_i7   ../starter/source/restart/ddsplit/inter_tools.F
+      !||    w_fi               ../starter/source/restart/ddsplit/w_fi.F
+      !||====================================================================
       MODULE I7I10SPLITMOD
 
 

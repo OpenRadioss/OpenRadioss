@@ -20,11 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MYQSORT_INT                       
-Chd|-- called by -----------       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    myqsort_int                ../common_source/tools/sort/myqsort_int.F
+      !||--- called by ------------------------------------------------------
+      !||    find_surface_inter         ../engine/source/interfaces/interf/find_surface_inter.F
+      !||    get_segment_orientation    ../engine/source/interfaces/interf/get_segment_orientation.F90
+      !||    init_nodal_state           ../engine/source/interfaces/interf/init_nodal_state.F
+      !||    nloc_count_solnod          ../engine/source/elements/solid/solide/nloc_count_solnod.F90
+      !||    nloc_dmg_init              ../starter/source/materials/fail/nloc_dmg_init.F
+      !||    spmd_cell_size_exchange    ../engine/source/mpi/interfaces/spmd_cell_size_exchange.F
+      !||    update_neighbour_segment   ../engine/source/interfaces/interf/update_neighbour_segment.F90
+      !||====================================================================
       SUBROUTINE MYQSORT_INT(N, A, PERM, ERROR)
 C-----------------------------------------------
 c     q u i c k s o r t

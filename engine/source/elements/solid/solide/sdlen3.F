@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SDLEN3                        source/elements/solid/solide/sdlen3.F
-Chd|-- called by -----------
-Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
-Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        SLDEGE                        source/elements/solid/solide/sldege.F
-Chd|        SLEN                          source/elements/solid/solide/slen.F
-Chd|        SLENA                         source/elements/solid/solide/slena.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sdlen3     ../engine/source/elements/solid/solide/sdlen3.F
+      !||--- called by ------------------------------------------------------
+      !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||    sforc3     ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3    ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    sldege     ../engine/source/elements/solid/solide/sldege.F
+      !||    slen       ../engine/source/elements/solid/solide/slen.F
+      !||    slena      ../engine/source/elements/solid/solide/slena.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod    ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
       SUBROUTINE SDLEN3(
      1   VOLN,    DELTAX,  X1,      X2,
      2   X3,      X4,      X5,      X6,

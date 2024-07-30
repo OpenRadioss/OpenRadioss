@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_WIND_FRWAVE_INIT         source/materials/fail/alter/fail_wind_frwave_init.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        RUPTURE_MOD                   share/modules/rupture_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_wind_frwave_init   ../engine/source/materials/fail/alter/fail_wind_frwave_init.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                   ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    rupture_mod             ../engine/share/modules/rupture_mod.F
+      !||====================================================================
         SUBROUTINE FAIL_WIND_FRWAVE_INIT(NGROUP)
         USE RUPTURE_MOD
 !$COMMENT

@@ -20,18 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  XFORC28                       source/elements/xelem/xforc28.F
-Chd|-- called by -----------
-Chd|        XFORC3                        source/elements/xelem/xforc3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        GET_U_FUNC                    source/user_interface/ufunc.F 
-Chd|        GET_U_GEO                     source/user_interface/upidmid.F
-Chd|        GET_U_PNU                     source/user_interface/upidmid.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    xforc28       ../engine/source/elements/xelem/xforc28.F
+      !||--- called by ------------------------------------------------------
+      !||    xforc3        ../engine/source/elements/xelem/xforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||    get_u_func    ../engine/source/user_interface/ufunc.F
+      !||    get_u_mid     ../engine/source/user_interface/upidmid.F
+      !||    get_u_mnu     ../engine/source/user_interface/upidmid.F
+      !||    get_u_pid     ../engine/source/user_interface/upidmid.F
+      !||    get_u_pnu     ../engine/source/user_interface/upidmid.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE XFORC28(NX     ,
      2             XEL     ,VEL     ,VREL   ,UIX    ,UID    ,
      3             IOUT    ,IPROP   ,IMAT   ,OFF    ,KEINT  ,

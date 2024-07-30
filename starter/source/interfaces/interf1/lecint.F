@@ -20,33 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LECINT                        source/interfaces/interf1/lecint.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        I20SURFI                      source/interfaces/inter3d1/i20surfi.F
-Chd|        I24SURFI                      source/interfaces/inter3d1/i24surfi.F
-Chd|        I25SURFI                      source/interfaces/inter3d1/i25surfi.F
-Chd|        INGRBRIC                      source/interfaces/interf1/ingrbric.F
-Chd|        INGRBRIC_DX                   source/interfaces/interf1/ingrbric_dx.F
-Chd|        INGRBRIC_NODES                source/interfaces/interf1/ingrbric_nodes.F
-Chd|        INPOINT                       source/interfaces/interf1/inpoint.F
-Chd|        INSLIN                        source/interfaces/interf1/inslin.F
-Chd|        INSURF                        source/interfaces/interf1/insurf.F
-Chd|        INSURF23                      source/interfaces/interf1/insurf23.F
-Chd|        INSURFIGEO                    source/interfaces/interf1/insurfigeo.F
-Chd|        INSURF_DX                     source/interfaces/interf1/insurf_dx.F
-Chd|        PRESEGMT                      source/interfaces/interf1/presegmt.F
-Chd|        NINTRI                        source/system/nintrr.F        
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    lecint            ../starter/source/interfaces/interf1/lecint.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur            ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg            ../starter/source/output/message/message.F
+      !||    fretitl2          ../starter/source/starter/freform.F
+      !||    i20surfi          ../starter/source/interfaces/inter3d1/i20surfi.F
+      !||    i24surfi          ../starter/source/interfaces/inter3d1/i24surfi.F
+      !||    i25surfi          ../starter/source/interfaces/inter3d1/i25surfi.F
+      !||    ingrbric          ../starter/source/interfaces/interf1/ingrbric.F
+      !||    ingrbric_dx       ../starter/source/interfaces/interf1/ingrbric_dx.F
+      !||    ingrbric_nodes    ../starter/source/interfaces/interf1/ingrbric_nodes.F
+      !||    inpoint           ../starter/source/interfaces/interf1/inpoint.F
+      !||    inslin            ../starter/source/interfaces/interf1/inslin.F
+      !||    insurf            ../starter/source/interfaces/interf1/insurf.F
+      !||    insurf23          ../starter/source/interfaces/interf1/insurf23.F
+      !||    insurf_dx         ../starter/source/interfaces/interf1/insurf_dx.F
+      !||    insurfigeo        ../starter/source/interfaces/interf1/insurfigeo.F
+      !||    nintri            ../starter/source/system/nintrr.F
+      !||    presegmt          ../starter/source/interfaces/interf1/presegmt.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../starter/share/message_module/message_mod.F
+      !||    r2r_mod           ../starter/share/modules1/r2r_mod.F
+      !||====================================================================
       SUBROUTINE LECINT(IPARI   ,LINTER  ,IPM     ,BUFMAT  ,
      .                  NMNT    ,ITAB    ,ITABM1  ,GEO     ,
      .                  PM      ,X       ,IGRNOD  ,IGRSURF ,IGRSLIN ,

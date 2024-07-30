@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  VOISIN1                       source/interfaces/inter3d1/voisin1.F
-Chd|-- called by -----------
-Chd|        REMOVEIC1                     source/interfaces/inter3d1/i24tools.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    voisin1     ../starter/source/interfaces/inter3d1/voisin1.F
+      !||--- called by ------------------------------------------------------
+      !||    removeic1   ../starter/source/interfaces/inter3d1/i24tools.F
+      !||====================================================================
       SUBROUTINE VOISIN1(NC1,NC2 ,I1 ,I2 ,INV)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s

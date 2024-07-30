@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I20COR3                       source/interfaces/int20/i20cor3.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20cor3    ../engine/source/interfaces/int20/i20cor3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf   ../engine/source/interfaces/int20/i20mainf.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box    ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20COR3(
      1                JLT     ,XA    ,IRECT ,NSV   ,CAND_E ,
      2                CAND_N  ,STF   ,STFA  ,X1    ,X2     ,
@@ -337,13 +337,13 @@ C
 
       RETURN
       END
-Chd|====================================================================
-Chd|  I20COR3E                      source/interfaces/int20/i20cor3.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20cor3e   ../engine/source/interfaces/int20/i20cor3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf   ../engine/source/interfaces/int20/i20mainf.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box    ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20COR3E(
      1      JLT    ,IXLINS ,IXLINM ,XA     ,VA     ,
      2      CAND_S ,CAND_M ,STFS   ,STFM   ,GAPMIN ,
@@ -577,12 +577,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I20DST3E                      source/interfaces/int20/i20cor3.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i20dst3e   ../engine/source/interfaces/int20/i20cor3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf   ../engine/source/interfaces/int20/i20mainf.F
+      !||====================================================================
       SUBROUTINE I20DST3E(
      1   JLT    ,CAND_S,CAND_M,H1S   ,H2S   ,
      2   H1M    ,H2M   ,NX    ,NY    ,NZ    ,

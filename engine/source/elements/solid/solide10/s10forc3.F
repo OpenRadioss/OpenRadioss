@@ -20,65 +20,68 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|-- called by -----------
-Chd|        FORINT                        source/elements/forint.F      
-Chd|-- calls ---------------
-Chd|        BOLTST                        source/elements/solid/solide/boltst.F
-Chd|        NSVIS_SM12                    source/elements/solid/solide10/nsvis_sm12.F
-Chd|        S10BILAN                      source/elements/solid/solide10/s10bilan.F
-Chd|        S10COOR3                      source/elements/solid/solide10/s10coor3.F
-Chd|        S10CUMU3                      source/elements/solid/solide10/s10cumu3.F
-Chd|        S10CUMU3P                     source/elements/solid/solide10/s10cumu3p.F
-Chd|        S10DEFO3                      source/elements/solid/solide10/s10defo3.F
-Chd|        S10DEFOT3                     source/elements/solid/solide10/s10defot3.F
-Chd|        S10DERI3                      source/elements/solid/solide10/s10deri3.F
-Chd|        S10DERIT3                     source/elements/solid/solide10/s10derit3.F
-Chd|        S10DIVDE12                    source/elements/solid/solide10/s10divde12.F
-Chd|        S10DVM12                      source/elements/solid/solide10/s10dvm12.F
-Chd|        S10FINT3                      source/elements/solid/solide10/s10fint3.F
-Chd|        S10FOR_DISTOR                 source/elements/solid/solide10/s10for_distor.F
-Chd|        S10GET_X3                     source/elements/solid/solide10/s10get_x3.F
-Chd|        S10LEN3                       source/elements/solid/solide10/s10len3.F
-Chd|        S10MALLA3                     source/elements/solid/solide10/s10malla3.F
-Chd|        S10MALLB3                     source/elements/solid/solide10/s10mallb3.F
-Chd|        S10MALLGEO3                   source/elements/solid/solide10/s10mallgeo3.F
-Chd|        S10NX3                        source/elements/solid/solide10/s10nx3.F
-Chd|        S10NXT4                       source/elements/solid/solide10/s10nxt4.F
-Chd|        S10PIJTO3                     source/elements/solid/solide10/s10pijto3.F
-Chd|        S10RCOOR12                    source/elements/solid/solide10/s10rcoor12.F
-Chd|        S10SAV12                      source/elements/solid/solide10/s10sav12.F
-Chd|        S10SAV3                       source/elements/solid/solide10/s10sav3.F
-Chd|        S10SIGP3                      source/elements/solid/solide4_sfem/s10sigp3.F
-Chd|        S10THERM                      source/elements/solid/solide10/s10therm.F
-Chd|        S10UPD11T12                   source/elements/solid/solide10/s10upd11t12.F
-Chd|        S10_ICP                       source/elements/solid/solide4_sfem/s10_icp.F
-Chd|        S4THERM_ITET1                 source/elements/solid/solide4/s4therm-itet1.F
-Chd|        S8E_SIGP                      source/elements/solid/solide8e/s8e_sig.F
-Chd|        SCRE_SIG3                     source/elements/solid/solide/scre_sig3.F
-Chd|        SGCOOR10                      source/elements/solid/solide10/sgcoor10.F
-Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
-Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
-Chd|        SMALLGEO3                     source/elements/solid/solide/smallgeo3.F
-Chd|        SORDEF12                      source/elements/solid/solidez/sordef12.F
-Chd|        SORDEFT12                     source/elements/solid/solidez/sordeft12.F
-Chd|        SORTHDIR3                     source/elements/solid/solide/sorthdir3.F
-Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
-Chd|        SRHO3                         source/elements/solid/solide/srho3.F
-Chd|        SROTA3                        source/elements/solid/solide/srota3.F
-Chd|        SROTO12_SIG                   source/elements/solid/solidez/sroto12_sig.F
-Chd|        SSTRA3                        source/elements/solid/solide/sstra3.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        SXFILLOPT                     source/elements/solid/solide10/sxfillopt.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        DT_MOD                        share/modules/dt_mod.F        
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    s10forc3               ../engine/source/elements/solid/solide10/s10forc3.F
+      !||--- called by ------------------------------------------------------
+      !||    forint                 ../engine/source/elements/forint.F
+      !||--- calls      -----------------------------------------------------
+      !||    boltst                 ../engine/source/elements/solid/solide/boltst.F
+      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+      !||    nsvis_sm12             ../engine/source/elements/solid/solide10/nsvis_sm12.F
+      !||    s10_icp                ../engine/source/elements/solid/solide4_sfem/s10_icp.F
+      !||    s10bilan               ../engine/source/elements/solid/solide10/s10bilan.F
+      !||    s10coor3               ../engine/source/elements/solid/solide10/s10coor3.F
+      !||    s10cumu3               ../engine/source/elements/solid/solide10/s10cumu3.F
+      !||    s10cumu3p              ../engine/source/elements/solid/solide10/s10cumu3p.F
+      !||    s10defo3               ../engine/source/elements/solid/solide10/s10defo3.F
+      !||    s10defot3              ../engine/source/elements/solid/solide10/s10defot3.F
+      !||    s10deri3               ../engine/source/elements/solid/solide10/s10deri3.F
+      !||    s10derit3              ../engine/source/elements/solid/solide10/s10derit3.F
+      !||    s10divde12             ../engine/source/elements/solid/solide10/s10divde12.F
+      !||    s10dvm12               ../engine/source/elements/solid/solide10/s10dvm12.F
+      !||    s10fint3               ../engine/source/elements/solid/solide10/s10fint3.F
+      !||    s10for_distor          ../engine/source/elements/solid/solide10/s10for_distor.F
+      !||    s10get_x3              ../engine/source/elements/solid/solide10/s10get_x3.F
+      !||    s10len3                ../engine/source/elements/solid/solide10/s10len3.F
+      !||    s10malla3              ../engine/source/elements/solid/solide10/s10malla3.F
+      !||    s10mallb3              ../engine/source/elements/solid/solide10/s10mallb3.F
+      !||    s10mallgeo3            ../engine/source/elements/solid/solide10/s10mallgeo3.F
+      !||    s10nx3                 ../engine/source/elements/solid/solide10/s10nx3.F
+      !||    s10nxt4                ../engine/source/elements/solid/solide10/s10nxt4.F
+      !||    s10pijto3              ../engine/source/elements/solid/solide10/s10pijto3.F
+      !||    s10rcoor12             ../engine/source/elements/solid/solide10/s10rcoor12.F
+      !||    s10sav12               ../engine/source/elements/solid/solide10/s10sav12.F
+      !||    s10sav3                ../engine/source/elements/solid/solide10/s10sav3.F
+      !||    s10sigp3               ../engine/source/elements/solid/solide4_sfem/s10sigp3.F
+      !||    s10therm               ../engine/source/elements/solid/solide10/s10therm.F
+      !||    s10upd11t12            ../engine/source/elements/solid/solide10/s10upd11t12.F
+      !||    s4therm_itet1          ../engine/source/elements/solid/solide4/s4therm-itet1.F
+      !||    s8e_sigp               ../engine/source/elements/solid/solide8e/s8e_sig.F
+      !||    scre_sig3              ../engine/source/elements/solid/solide/scre_sig3.F
+      !||    sgcoor10               ../engine/source/elements/solid/solide10/sgcoor10.F
+      !||    sgeodel3               ../engine/source/elements/solid/solide/sgeodel3.F
+      !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
+      !||    smallgeo3              ../engine/source/elements/solid/solide/smallgeo3.F
+      !||    sordef12               ../engine/source/elements/solid/solidez/sordef12.F
+      !||    sordeft12              ../engine/source/elements/solid/solidez/sordeft12.F
+      !||    sorthdir3              ../engine/source/elements/solid/solide/sorthdir3.F
+      !||    sreploc3               ../engine/source/elements/solid/solide/sreploc3.F
+      !||    srho3                  ../engine/source/elements/solid/solide/srho3.F
+      !||    srota3                 ../engine/source/elements/solid/solide/srota3.F
+      !||    sroto12_sig            ../engine/source/elements/solid/solidez/sroto12_sig.F
+      !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
+      !||    startime               ../engine/source/system/timer.F
+      !||    stoptime               ../engine/source/system/timer.F
+      !||    sxfillopt              ../engine/source/elements/solid/solide10/sxfillopt.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    dt_mod                 ../engine/share/modules/dt_mod.F
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE S10FORC3(
      1   ELBUF_TAB,  NG,         PM,         GEO,
      2   IXS,        X,          A,          V,

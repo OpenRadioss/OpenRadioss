@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALENO                         source/airbag/fvmbag1.F       
-Chd|-- called by -----------
-Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
-Chd|-- calls ---------------
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    aleno               ../starter/source/airbag/fvmbag1.F
+      !||--- called by ------------------------------------------------------
+      !||    init_monvol         ../starter/source/airbag/init_monvol.F
+      !||--- uses       -----------------------------------------------------
+      !||    monvol_struct_mod   ../starter/share/modules1/monvol_struct_mod.F
+      !||====================================================================
       SUBROUTINE ALENO(NN  , SURF_NODES, NNB, ITABINV,
      2                 TAGE, TAGVENT ,TAGNODBR, T_MONVOLN)
 C-----------------------------------------------
@@ -265,13 +265,11 @@ c fin elimination des elements doubles
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ALETG                         source/airbag/fvmbag1.F       
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    aletg               ../starter/source/airbag/fvmbag1.F
+      !||--- uses       -----------------------------------------------------
+      !||    monvol_struct_mod   ../starter/share/modules1/monvol_struct_mod.F
+      !||====================================================================
       SUBROUTINE ALETG(T_MONVOLN, ELEM_ID, NN, SURF, NTG,
      .     ITABINV, TAGE, NNO)
 C-----------------------------------------------
@@ -366,12 +364,10 @@ C
       DEALLOCATE(TBEMTG)
       RETURN
       END
-Chd|====================================================================
-Chd|  FVBAG_TAGELE                  source/airbag/fvmbag1.F       
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fvbag_tagele   ../starter/source/airbag/fvmbag1.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE FVBAG_TAGELE(ELEM_ID, NN, SURF)
 C-----------------------------------------------
 C   M o d u l e s
@@ -414,14 +410,15 @@ C     decoupage du quadrangle en 2 triangles
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  FVVERIF                       source/airbag/fvmbag1.F       
-Chd|-- called by -----------
-Chd|        FVMESH0                       source/airbag/fvmesh0.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fvverif       ../starter/source/airbag/fvmbag1.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh0       ../starter/source/airbag/fvmesh0.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE FVVERIF(NELA, ELEMA, X    , MONVID,
      .     VX3 , VY3  , VZ3  , VX1   , VY1,
      .     VZ1 , XB0  , YB0  , ZB0   ,
@@ -569,13 +566,14 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  FVNODI                        source/airbag/fvmbag1.F       
-Chd|-- called by -----------
-Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
-Chd|-- calls ---------------
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fvnodi                ../starter/source/airbag/fvmbag1.F
+      !||--- called by ------------------------------------------------------
+      !||    init_monvol           ../starter/source/airbag/init_monvol.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    monvol_struct_mod     ../starter/share/modules1/monvol_struct_mod.F
+      !||====================================================================
       SUBROUTINE FVNODI(NN, SURF_NODES, NNB, ITABINV, T_MONVOLN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -670,13 +668,11 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  FVTGI                         source/airbag/fvmbag1.F       
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fvtgi               ../starter/source/airbag/fvmbag1.F
+      !||--- uses       -----------------------------------------------------
+      !||    monvol_struct_mod   ../starter/share/modules1/monvol_struct_mod.F
+      !||====================================================================
       SUBROUTINE FVTGI(T_MONVOLN, ELEM_Id, NN, SURF, NTG, ITABINV)
 C-----------------------------------------------
 C   M o d u l e s
@@ -747,13 +743,13 @@ C
       DEALLOCATE(ELEMTG, BUFELEM)
       RETURN
       END
-Chd|====================================================================
-Chd|  FVNODBR                       source/airbag/fvmbag1.F       
-Chd|-- called by -----------
-Chd|        FVMESH0                       source/airbag/fvmesh0.F       
-Chd|-- calls ---------------
-Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    fvnodbr     ../starter/source/airbag/fvmbag1.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh0     ../starter/source/airbag/fvmesh0.F
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod   ../starter/share/modules1/fvbag_mod.F
+      !||====================================================================
       SUBROUTINE FVNODBR(IBUFA, NNA, NNFV, IFV, NB_NODE)
 C-----------------------------------------------
 C   M o d u l e s
@@ -791,16 +787,15 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  FVNORMAL                      source/airbag/fvmbag1.F       
-Chd|-- called by -----------
-Chd|        FVBRIC1                       source/airbag/fvbric1.F       
-Chd|        FVELAREA                      source/airbag/fvelarea.F      
-Chd|        FVLENGTH                      source/airbag/fvlength.F      
-Chd|        FVMESH1                       source/airbag/fvmesh.F        
-Chd|        FVVOLU                        source/airbag/fvvolu.F        
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fvnormal   ../starter/source/airbag/fvmbag1.F
+      !||--- called by ------------------------------------------------------
+      !||    fvbric1    ../starter/source/airbag/fvbric1.F
+      !||    fvelarea   ../starter/source/airbag/fvelarea.F
+      !||    fvlength   ../starter/source/airbag/fvlength.F
+      !||    fvmesh1    ../starter/source/airbag/fvmesh.F
+      !||    fvvolu     ../starter/source/airbag/fvvolu.F
+      !||====================================================================
       SUBROUTINE FVNORMAL(X, N1, N2, N3, N4, NX, NY, NZ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

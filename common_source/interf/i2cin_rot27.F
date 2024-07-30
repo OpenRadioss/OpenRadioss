@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2CIN_ROT27                   interf/i2cin_rot27.F          
-Chd|-- called by -----------
-Chd|        I2_DTN_27_CIN                 starter/source/interfaces/inter3d1/i2_dtn_27.F
-Chd|        I2FOR27P_CIN                  engine/source/interfaces/interf/i2for27p_cin.F
-Chd|        I2FOR27_CIN                   engine/source/interfaces/interf/i2for27_cin.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i2cin_rot27     ../common_source/interf/i2cin_rot27.F
+      !||--- called by ------------------------------------------------------
+      !||    i2_dtn_27_cin   ../starter/source/interfaces/inter3d1/i2_dtn_27.F
+      !||    i2for27_cin     ../engine/source/interfaces/interf/i2for27_cin.F
+      !||    i2for27p_cin    ../engine/source/interfaces/interf/i2for27p_cin.F
+      !||====================================================================
       SUBROUTINE I2CIN_ROT27(STBRK,RS,RM,X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,
      .                       X4,Y4,Z4,DPARA,DWDU,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
      .                       NIR,BETAX,BETAY)

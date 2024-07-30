@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INT2POFF                      source/interfaces/interf/int2poff.F
-Chd|-- called by -----------
-Chd|        INTTI1                        source/interfaces/interf/intti1.F
-Chd|-- calls ---------------
-Chd|        I2IPOFF                       source/interfaces/interf/int2poff.F
-Chd|====================================================================
+      !||====================================================================
+      !||    int2poff        ../engine/source/interfaces/interf/int2poff.F
+      !||--- called by ------------------------------------------------------
+      !||    intti1          ../engine/source/interfaces/interf/intti1.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2ipoff         ../engine/source/interfaces/interf/int2poff.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INT2POFF(IPARI,X    ,V     ,
      .                   A     ,VR   ,AR   ,MS   ,IN    ,
      .                   WEIGHT,STIFN,STIFR,MCP  ,CONDN  ,
@@ -88,13 +89,14 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  INT2POFFH                     source/interfaces/interf/int2poff.F
-Chd|-- called by -----------
-Chd|        INTTI1                        source/interfaces/interf/intti1.F
-Chd|-- calls ---------------
-Chd|        I2IPOFFH                      source/interfaces/interf/int2poff.F
-Chd|====================================================================
+      !||====================================================================
+      !||    int2poffh       ../engine/source/interfaces/interf/int2poff.F
+      !||--- called by ------------------------------------------------------
+      !||    intti1          ../engine/source/interfaces/interf/intti1.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2ipoffh        ../engine/source/interfaces/interf/int2poff.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INT2POFFH(IPARI,X     ,V     ,
      .                   A     ,VR   ,AR    ,MS    ,IN    ,
      .                   WEIGHT,STIFN,STIFR ,TAGNOD,INTBUF_TAB)
@@ -136,12 +138,11 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  I2IPOFF                       source/interfaces/interf/int2poff.F
-Chd|-- called by -----------
-Chd|        INT2POFF                      source/interfaces/interf/int2poff.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i2ipoff    ../engine/source/interfaces/interf/int2poff.F
+      !||--- called by ------------------------------------------------------
+      !||    int2poff   ../engine/source/interfaces/interf/int2poff.F
+      !||====================================================================
       SUBROUTINE I2IPOFF(NMN  ,A     ,MSR   ,MS    ,WEIGHT,
      2                   AR   ,IN    ,STIFN ,STIFR ,ILEV  ,
      3                   MCP  ,CONDN ,MMASS ,FTHE  )
@@ -339,12 +340,11 @@ C-----------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  I2IPOFFH                      source/interfaces/interf/int2poff.F
-Chd|-- called by -----------
-Chd|        INT2POFFH                     source/interfaces/interf/int2poff.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i2ipoffh    ../engine/source/interfaces/interf/int2poff.F
+      !||--- called by ------------------------------------------------------
+      !||    int2poffh   ../engine/source/interfaces/interf/int2poff.F
+      !||====================================================================
       SUBROUTINE I2IPOFFH(NMN  ,A    ,MSR  ,MS    ,WEIGHT,
      2                   AR   ,IN   ,STIFN,STIFR ,ILEV  ,
      3                   MMASS,TAGNOD )

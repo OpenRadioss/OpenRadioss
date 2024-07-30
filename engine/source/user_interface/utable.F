@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UTABLE_DUM                    source/user_interface/utable.F
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    utable_dum   ../engine/source/user_interface/utable.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2     ../engine/source/engine/radioss2.F
+      !||====================================================================
       SUBROUTINE UTABLE_DUM(IERR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -35,13 +34,12 @@ C-----------------------------------------------
        INTEGER IERR
        IERR=0
       END
-Chd|====================================================================
-Chd|  GET_U_NUMTABLE                source/user_interface/utable.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    get_u_numtable   ../engine/source/user_interface/utable.F
+      !||--- uses       -----------------------------------------------------
+      !||    table_glob_mod   ../engine/share/modules/table_glob_mod.F
+      !||    table_mod        ../engine/share/modules/table_mod.F
+      !||====================================================================
       INTEGER FUNCTION GET_U_NUMTABLE(TID) 
 C-----------------------------------------------
 C   M o d u l e s
@@ -68,14 +66,14 @@ C
       ENDDO
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_U_TABLE                   source/user_interface/utable.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_u_table           ../engine/source/user_interface/utable.F
+      !||--- calls      -----------------------------------------------------
+      !||    table_interp          ../engine/source/tools/curve/table_tools.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    table_glob_mod        ../engine/share/modules/table_glob_mod.F
+      !||====================================================================
       SUBROUTINE GET_U_TABLE(ITABLE,XX,YY) 
 C-----------------------------------------------
 C   M o d u l e s
@@ -98,14 +96,14 @@ C
       CALL TABLE_INTERP(TABLE(ITABLE),XX,YY)
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_TABLE_VALUE               source/user_interface/utable.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_table_value       ../engine/source/user_interface/utable.F
+      !||--- calls      -----------------------------------------------------
+      !||    table_interp          ../engine/source/tools/curve/table_tools.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    table_glob_mod        ../engine/share/modules/table_glob_mod.F
+      !||====================================================================
       SUBROUTINE GET_TABLE_VALUE(ITABLE,XX,XXDIM,YY) 
       USE TABLE_GLOB_MOD
       USE INTERFACE_TABLE_MOD
@@ -131,14 +129,15 @@ C
       DEALLOCATE(XX2)
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_TABLE_VALUE_DYDX          source/user_interface/utable.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        TABLE_INTERP_DYDX             source/tools/curve/table_tools.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_table_value_dydx   ../engine/source/user_interface/utable.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_flush               ../engine/source/system/machine.F
+      !||    table_interp_dydx      ../engine/source/tools/curve/table_tools.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_table_mod    ../engine/share/modules/table_mod.F
+      !||    table_glob_mod         ../engine/share/modules/table_glob_mod.F
+      !||====================================================================
       SUBROUTINE GET_TABLE_VALUE_DYDX(ITABLE,XX,XXDIM,YY,DYDX) 
       USE TABLE_GLOB_MOD
       USE INTERFACE_TABLE_MOD
@@ -165,14 +164,14 @@ C
       DEALLOCATE(XX2)
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_U_VTABLE                  source/user_interface/utable.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_u_vtable          ../engine/source/user_interface/utable.F
+      !||--- calls      -----------------------------------------------------
+      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    table_glob_mod        ../engine/share/modules/table_glob_mod.F
+      !||====================================================================
       SUBROUTINE GET_U_VTABLE(ITABLE,NEL0,IPOS,XX,YY,DYDX1) 
       USE TABLE_GLOB_MOD
       USE INTERFACE_TABLE_MOD
@@ -197,14 +196,14 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  GET_VTABLE_VALUE              source/user_interface/utable.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_vtable_value      ../engine/source/user_interface/utable.F
+      !||--- calls      -----------------------------------------------------
+      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    table_glob_mod        ../engine/share/modules/table_glob_mod.F
+      !||====================================================================
       SUBROUTINE GET_VTABLE_VALUE(ITABLE,NEL0,IPOS,XX,XXDIM,YY,DYDX1) 
       USE TABLE_GLOB_MOD
       USE INTERFACE_TABLE_MOD

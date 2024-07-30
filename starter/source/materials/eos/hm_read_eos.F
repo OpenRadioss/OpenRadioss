@@ -20,38 +20,39 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_EOS                   source/materials/eos/hm_read_eos.F
-Chd|-- called by -----------
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_GET_STRING                 source/devtools/hm_reader/hm_get_string.F
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        HM_READ_EOS_COMPACTION        source/materials/eos/hm_read_eos_compaction.F
-Chd|        HM_READ_EOS_GRUNEISEN         source/materials/eos/hm_read_eos_gruneisen.F
-Chd|        HM_READ_EOS_IDEAL_GAS         source/materials/eos/hm_read_eos_ideal_gas.F
-Chd|        HM_READ_EOS_IDEAL_GAS_VT      source/materials/eos/hm_read_eos_ideal_gas_vt.F
-Chd|        HM_READ_EOS_LINEAR            source/materials/eos/hm_read_eos_linear.F
-Chd|        HM_READ_EOS_LSZK              source/materials/eos/hm_read_eos_lszk.F
-Chd|        HM_READ_EOS_MURNAGHAN         source/materials/eos/hm_read_eos_murnaghan.F
-Chd|        HM_READ_EOS_NASG              source/materials/eos/hm_read_eos_nasg.F
-Chd|        HM_READ_EOS_NOBLE_ABEL        source/materials/eos/hm_read_eos_noble_abel.F
-Chd|        HM_READ_EOS_OSBORNE           source/materials/eos/hm_read_eos_osborne.F
-Chd|        HM_READ_EOS_POLYNOMIAL        source/materials/eos/hm_read_eos_polynomial.F
-Chd|        HM_READ_EOS_PUFF              source/materials/eos/hm_read_eos_puff.F
-Chd|        HM_READ_EOS_SESAME            source/materials/eos/hm_read_eos_sesame.F
-Chd|        HM_READ_EOS_STIFFENED_GAS     source/materials/eos/hm_read_eos_stiffened_gas.F
-Chd|        HM_READ_EOS_TABULATED         source/materials/eos/hm_read_eos_tabulated.F
-Chd|        HM_READ_EOS_TILLOTSON         source/materials/eos/hm_read_eos_tillotson.F
-Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_eos                 ../starter/source/materials/eos/hm_read_eos.F
+      !||--- called by ------------------------------------------------------
+      !||    read_material_models        ../starter/source/materials/read_material_models.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                      ../starter/source/output/message/message.F
+      !||    hm_get_string               ../starter/source/devtools/hm_reader/hm_get_string.F
+      !||    hm_option_count             ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_read_key          ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start             ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_read_eos_compaction      ../starter/source/materials/eos/hm_read_eos_compaction.F
+      !||    hm_read_eos_exponential     ../starter/source/materials/eos/hm_read_eos_exponential.F90
+      !||    hm_read_eos_gruneisen       ../starter/source/materials/eos/hm_read_eos_gruneisen.F
+      !||    hm_read_eos_ideal_gas       ../starter/source/materials/eos/hm_read_eos_ideal_gas.F
+      !||    hm_read_eos_ideal_gas_vt    ../starter/source/materials/eos/hm_read_eos_ideal_gas_vt.F
+      !||    hm_read_eos_linear          ../starter/source/materials/eos/hm_read_eos_linear.F
+      !||    hm_read_eos_lszk            ../starter/source/materials/eos/hm_read_eos_lszk.F
+      !||    hm_read_eos_murnaghan       ../starter/source/materials/eos/hm_read_eos_murnaghan.F
+      !||    hm_read_eos_nasg            ../starter/source/materials/eos/hm_read_eos_nasg.F
+      !||    hm_read_eos_noble_abel      ../starter/source/materials/eos/hm_read_eos_noble_abel.F
+      !||    hm_read_eos_osborne         ../starter/source/materials/eos/hm_read_eos_osborne.F
+      !||    hm_read_eos_polynomial      ../starter/source/materials/eos/hm_read_eos_polynomial.F
+      !||    hm_read_eos_puff            ../starter/source/materials/eos/hm_read_eos_puff.F
+      !||    hm_read_eos_sesame          ../starter/source/materials/eos/hm_read_eos_sesame.F
+      !||    hm_read_eos_stiffened_gas   ../starter/source/materials/eos/hm_read_eos_stiffened_gas.F
+      !||    hm_read_eos_tabulated       ../starter/source/materials/eos/hm_read_eos_tabulated.F
+      !||    hm_read_eos_tillotson       ../starter/source/materials/eos/hm_read_eos_tillotson.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbuftag_mod                ../starter/share/modules1/elbuftag_mod.F
+      !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod                 ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_EOS(
      .           MAT_PARAM   ,IPM      ,PM       ,BUFMAT   ,
      .           BUFLEN      ,IADBUF   ,EOS_TAG  ,UNITAB   ,LSUBMODEL)

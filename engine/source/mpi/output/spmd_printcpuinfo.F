@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_PRINTCPUINFO             source/mpi/output/spmd_printcpuinfo.F
-Chd|-- called by -----------
-Chd|        PRINTCPU                      source/system/timer.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_printcpuinfo   ../engine/source/mpi/output/spmd_printcpuinfo.F
+      !||--- called by ------------------------------------------------------
+      !||    printcpu            ../engine/source/system/timer.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_PRINTCPUINFO(HOSTNAME,LENH,CPUNAM,LENC,FREQUENCE,
      *                             MEM,SWAP)
 C-----------------------------------------------

@@ -20,20 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_SOL_SKIN_TENSOR           source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
-Chd|-- called by -----------
-Chd|        H3D_SKIN_TENSOR               source/output/h3d/h3d_results/h3d_skin_tensor.F
-Chd|-- calls ---------------
-Chd|        GPSSTRAIN_SKIN                source/output/anim/generate/tensgpstrain.F
-Chd|        H3D_SOL_SKIN_IXSKIN           source/output/h3d/h3d_results/h3d_sol_skin_ixskin.F
-Chd|        SPMD_EXCH_NODAREA2            source/mpi/anim/spmd_exch_nodarea2.F
-Chd|        SPMD_EXCH_NODAREAI            source/mpi/anim/spmd_exch_nodareai.F
-Chd|        TENS3DTO2D                    source/output/h3d/h3d_results/h3d_skin_tensor.F
-Chd|        TENSGPS_SKIN                  source/output/anim/generate/tensor6.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_sol_skin_tensor    ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_skin_tensor        ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+      !||--- calls      -----------------------------------------------------
+      !||    gpsstrain_skin         ../engine/source/output/anim/generate/tensgpstrain.F
+      !||    h3d_sol_skin_ixskin    ../engine/source/output/h3d/h3d_results/h3d_sol_skin_ixskin.F
+      !||    spmd_exch_nodarea2     ../engine/source/mpi/anim/spmd_exch_nodarea2.F
+      !||    spmd_exch_nodareai     ../engine/source/mpi/anim/spmd_exch_nodareai.F
+      !||    tens3dto2d             ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+      !||    tensgps_skin           ../engine/source/output/anim/generate/tensor6.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE H3D_SOL_SKIN_TENSOR(
      .                   ELBUF_TAB,SKIN_TENSOR, IPARG   ,IXS     ,X     ,PM  ,
      4                   IPARTS  ,IPM     ,IGEO    ,IXS10 ,IXS16 , IXS20  ,

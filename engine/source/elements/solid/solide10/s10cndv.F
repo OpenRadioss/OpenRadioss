@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10CNDV                       source/elements/solid/solide10/s10cndv.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s10cndv   ../engine/source/elements/solid/solide10/s10cndv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol     ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE S10CNDV(ICNDS10 ,VND   ,V     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -73,12 +72,11 @@ C----6---------------------------------------------------------------7---------8
       RETURN
  1005 FORMAT(3X,1PE10.3)
       END
-Chd|====================================================================
-Chd|  S10MVND                       source/elements/solid/solide10/s10cndv.F
-Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s10mvnd       ../engine/source/elements/solid/solide10/s10cndv.F
+      !||--- called by ------------------------------------------------------
+      !||    sortie_main   ../engine/source/output/sortie_main.F
+      !||====================================================================
       SUBROUTINE S10MVND(ICNDS10 ,VND   ,V     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -118,11 +116,9 @@ C---relative velocity for KE compute----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  S10PRTV                       source/elements/solid/solide10/s10cndv.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s10prtv   ../engine/source/elements/solid/solide10/s10cndv.F
+      !||====================================================================
       SUBROUTINE S10PRTV(ICNDS10 ,V     ,itab)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -156,12 +152,11 @@ C======================================================================|
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  S10CNDI2A                     source/elements/solid/solide10/s10cndv.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s10cndi2a   ../engine/source/elements/solid/solide10/s10cndv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol       ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE S10CNDI2A(ICNDS10 ,ITAGND ,A      )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -208,12 +203,11 @@ C----for Nd as main of int2 only; Ad-> acce absolu
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  S10CNDI2A1                    source/elements/solid/solide10/s10cndv.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s10cndi2a1   ../engine/source/elements/solid/solide10/s10cndv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol        ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE S10CNDI2A1(ICNDS10 ,ITAGND ,A      )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -255,12 +249,11 @@ C----for Nd as main of int2 only; Ad-> acce relative
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  S10GETVDM                     source/elements/solid/solide10/s10cndv.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s10getvdm   ../engine/source/elements/solid/solide10/s10cndv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol       ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE S10GETVDM(ICNDS10 ,V,VND,VMD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

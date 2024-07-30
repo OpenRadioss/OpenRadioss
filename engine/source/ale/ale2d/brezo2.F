@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BREZO2                        source/ale/ale2d/brezo2.F     
-Chd|-- called by -----------
-Chd|        AREZON                        source/ale/arezon.F           
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    brezo2                 ../engine/source/ale/ale2d/brezo2.F
+      !||--- called by ------------------------------------------------------
+      !||    arezon                 ../engine/source/ale/arezon.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||====================================================================
       SUBROUTINE BREZO2(ALE_CONNECT,VAR,NV,PHI,NDIM,FLUX,VOL,BHOLE,NM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -131,13 +131,13 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  BREZO2_SIG                    source/ale/ale2d/brezo2.F     
-Chd|-- called by -----------
-Chd|        AREZON                        source/ale/arezon.F           
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    brezo2_sig             ../engine/source/ale/ale2d/brezo2.F
+      !||--- called by ------------------------------------------------------
+      !||    arezon                 ../engine/source/ale/arezon.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||====================================================================
       SUBROUTINE BREZO2_SIG(ALE_CONNECT,SIG,NV,PHI,NDIM,FLUX,VOL,BHOLE,NM,NEL)
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------

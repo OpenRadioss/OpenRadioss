@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DESOUT                        source/output/outp/desout.F   
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    desout                 ../starter/source/output/outp/desout.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                 ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE DESOUT(X   ,IXS  ,IXQ  ,IXC  ,IXT  ,
      .                  IXP ,IXR  ,IXTG ,ITAB ,PM   ,
      .                  GEO ,MS   ,IXS10,IGEO ,IPM  ,

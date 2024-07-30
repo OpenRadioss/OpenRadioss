@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SDLENSH                       source/elements/thickshell/solidec/sdlensh.F
-Chd|-- called by -----------
-Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|-- calls ---------------
-Chd|        CLSYS3                        source/output/h3d/h3d_results/h3d_shell_tensor.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sdlensh   ../engine/source/elements/thickshell/solidec/sdlensh.F
+      !||--- called by ------------------------------------------------------
+      !||    scforc3   ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    clsys3    ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+      !||====================================================================
       SUBROUTINE SDLENSH(
      1   VOLN,    LLSH, AREA, X1,      X2,
      2   X3,      X4,      X5,      X6,

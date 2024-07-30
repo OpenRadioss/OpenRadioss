@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I20SURFI                      source/interfaces/inter3d1/i20surfi.F
-Chd|-- called by -----------
-Chd|        LECINS                        source/interfaces/interf1/lecins.F
-Chd|        LECINT                        source/interfaces/interf1/lecint.F
-Chd|-- calls ---------------
-Chd|        I20BORD                       source/interfaces/inter3d1/i20surfi.F
-Chd|        I20EDGE1                      source/interfaces/inter3d1/i20surfi.F
-Chd|        BITSET                        source/interfaces/inter3d1/bitget.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i20surfi       ../starter/source/interfaces/inter3d1/i20surfi.F
+      !||--- called by ------------------------------------------------------
+      !||    lecins         ../starter/source/interfaces/interf1/lecins.F
+      !||    lecint         ../starter/source/interfaces/interf1/lecint.F
+      !||--- calls      -----------------------------------------------------
+      !||    bitset         ../starter/source/interfaces/inter3d1/bitget.F
+      !||    i20bord        ../starter/source/interfaces/inter3d1/i20surfi.F
+      !||    i20edge1       ../starter/source/interfaces/inter3d1/i20surfi.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I20SURFI(IALLO   ,IPARI   ,IGRNOD  ,IGRSURF ,
      2                    IGRSLIN ,IRECT   ,FRIGAP  ,
      3                    NSV     ,MSR     ,IXLINS  ,IXLINM  ,
@@ -315,16 +315,16 @@ c-----------------------------------------------------------------
 
 
 
-Chd|====================================================================
-Chd|  I20EDGE1                      source/interfaces/inter3d1/i20surfi.F
-Chd|-- called by -----------
-Chd|        I20SURFI                      source/interfaces/inter3d1/i20surfi.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        BITSET                        source/interfaces/inter3d1/bitget.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i20edge1      ../starter/source/interfaces/inter3d1/i20surfi.F
+      !||--- called by ------------------------------------------------------
+      !||    i20surfi      ../starter/source/interfaces/inter3d1/i20surfi.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I20EDGE1(IALLO     ,NSEG0     ,NLIN0   ,NLIN    ,NACTIF  ,
      2                    IXLINE    ,MSVE      ,NSME    ,IEDGE   ,
      3                    SURF_NODES,SLIN_NODES,ITAB    ,
@@ -641,16 +641,16 @@ C-----------
       END
 
 
-Chd|====================================================================
-Chd|  I20BORD                       source/interfaces/inter3d1/i20surfi.F
-Chd|-- called by -----------
-Chd|        I20SURFI                      source/interfaces/inter3d1/i20surfi.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        BITSET                        source/interfaces/inter3d1/bitget.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i20bord       ../starter/source/interfaces/inter3d1/i20surfi.F
+      !||--- called by ------------------------------------------------------
+      !||    i20surfi      ../starter/source/interfaces/inter3d1/i20surfi.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I20BORD(NSEG  ,SURF_NODES ,TAGB,ISU)
 C-----------------------------------------------
 C   M o d u l e s

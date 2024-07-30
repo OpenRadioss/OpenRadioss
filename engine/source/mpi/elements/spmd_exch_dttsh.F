@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_EXCH_TAG_TSH             source/mpi/elements/spmd_exch_dttsh.F
-Chd|-- called by -----------
-Chd|        TSHCDCOM_DIM                  source/elements/thickshell/solidec/tshcdcom_dim.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_tag_tsh   ../engine/source/mpi/elements/spmd_exch_dttsh.F
+      !||--- called by ------------------------------------------------------
+      !||    tshcdcom_dim        ../engine/source/elements/thickshell/solidec/tshcdcom_dim.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_TAG_TSH(IAD_ELEM ,FR_ELEM ,ISEND,IRECV ,LEN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -103,15 +104,16 @@ C
 #endif
        
        END SUBROUTINE SPMD_EXCH_TAG_TSH
-Chd|====================================================================
-Chd|  SPMD_EXCH_VMAX                source/mpi/elements/spmd_exch_dttsh.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_vmax   ../engine/source/mpi/elements/spmd_exch_dttsh.F
+      !||--- called by ------------------------------------------------------
+      !||    resol            ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg           ../engine/source/output/message/message.F
+      !||    arret            ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_VMAX(IAD_STSH ,FR_STSH ,IAD_RTSH ,FR_RTSH ,V_MAX )
 C-----------------------------------------------
 C   M o d u l e s
@@ -234,15 +236,16 @@ C ------------
 #endif
        
        END SUBROUTINE SPMD_EXCH_VMAX
-Chd|====================================================================
-Chd|  SPMD_EXCH_FA                  source/mpi/elements/spmd_exch_dttsh.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_fa   ../engine/source/mpi/elements/spmd_exch_dttsh.F
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../engine/source/output/message/message.F
+      !||    arret          ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_FA(IAD_STSH ,FR_STSH ,IAD_RTSH ,FR_RTSH ,A  )
 C-----------------------------------------------
 C   M o d u l e s

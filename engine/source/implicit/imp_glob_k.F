@@ -20,34 +20,35 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IMP_GLOB_K                    source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_K_EIG                     stub/imp_k_eig.F              
-Chd|-- calls ---------------
-Chd|        C3KE3                         source/elements/sh3n/coque3n/c3ke3.F
-Chd|        CBAKE3                        source/elements/shell/coqueba/cbake3.F
-Chd|        CZKE3                         source/elements/shell/coquez/czke3.F
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        PKE3                          source/elements/beam/pke3.F   
-Chd|        R12KE3                        source/elements/spring/r12ke3.F
-Chd|        R13KE3                        source/elements/spring/r13ke3.F
-Chd|        R4KE3                         source/elements/spring/r4ke3.F
-Chd|        R8KE3                         source/elements/spring/r8ke3.F
-Chd|        S10KE3                        source/elements/solid/solide10/s10ke3.F
-Chd|        S20KE3                        source/elements/solid/solide20/s20ke3.F
-Chd|        S4KE3                         source/elements/solid/solide4/s4ke3.F
-Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6cke3.F
-Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
-Chd|        S8SKE3                        source/elements/solid/solide8s/s8ske3.F
-Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
-Chd|        STARTIMEG                     source/system/timer.F         
-Chd|        TKE3                          source/elements/truss/tke3.F  
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_k_eig      ../engine/stub/imp_k_eig.F
+      !||--- calls      -----------------------------------------------------
+      !||    c3ke3          ../engine/source/elements/sh3n/coque3n/c3ke3.F
+      !||    cbake3         ../engine/source/elements/shell/coqueba/cbake3.F
+      !||    czke3          ../engine/source/elements/shell/coquez/czke3.F
+      !||    initbuf        ../engine/share/resol/initbuf.F
+      !||    pke3           ../engine/source/elements/beam/pke3.F
+      !||    r12ke3         ../engine/source/elements/spring/r12ke3.F
+      !||    r13ke3         ../engine/source/elements/spring/r13ke3.F
+      !||    r4ke3          ../engine/source/elements/spring/r4ke3.F
+      !||    r8ke3          ../engine/source/elements/spring/r8ke3.F
+      !||    s10ke3         ../engine/source/elements/solid/solide10/s10ke3.F
+      !||    s20ke3         ../engine/source/elements/solid/solide20/s20ke3.F
+      !||    s4ke3          ../engine/source/elements/solid/solide4/s4ke3.F
+      !||    s6cke3         ../engine/source/elements/thickshell/solide6c/s6cke3.F
+      !||    s8cke3         ../engine/source/elements/thickshell/solide8c/s8cke3.F
+      !||    s8ske3         ../engine/source/elements/solid/solide8s/s8ske3.F
+      !||    s8zke3         ../engine/source/elements/solid/solide8z/s8zke3.F
+      !||    startimeg      ../engine/source/system/timer.F
+      !||    tke3           ../engine/source/elements/truss/tke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod      ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod    ../engine/share/resol/initbuf.F
+      !||    stack_mod      ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE IMP_GLOB_K(
      1    PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
      2    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
@@ -570,23 +571,22 @@ C----6---------------------------------------------------------------7---------8
      .       ,'USING ITETRA=0 INSTEAD, POSSIBLE CONVERGING ISSUE.')
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_KII                       source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        BC_UPDK                       source/constraints/general/bcs/bc_imp0.F
-Chd|        BC_UPDK2                      source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        I2UPDK0                       source/interfaces/interf/i2_imp1.F
-Chd|        I2UPDK1                       source/interfaces/interf/i2_imp1.F
-Chd|        IMP_FRKS                      source/mpi/implicit/imp_fri.F 
-Chd|        IMP_FVKSS                     source/mpi/implicit/imp_fri.F 
-Chd|        RBE2_IMP1                     source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE2_IMPL                     source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE3_IMP1                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBY_IMP1                      source/constraints/general/rbody/rby_imp0.F
-Chd|        RM_IMP1                       source/model/remesh/rm_imp0.F 
-Chd|        UPD_ASPC0                     source/constraints/general/bcs/bc_imp0.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    get_kii     ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    bc_updk     ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    bc_updk2    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    i2updk0     ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2updk1     ../engine/source/interfaces/interf/i2_imp1.F
+      !||    imp_frks    ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_fvkss   ../engine/source/mpi/implicit/imp_fri.F
+      !||    rbe2_imp1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe2_impl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe3_imp1   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rby_imp1    ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||    rm_imp1     ../engine/source/model/remesh/rm_imp0.F
+      !||    upd_aspc0   ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||====================================================================
       SUBROUTINE GET_KII(NI  ,IDDL ,IADK,K_DIAG,K_LT ,KII,ND)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -632,24 +632,23 @@ C----6----------KII is always triag_sup whatever IKPAT------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  PUT_KII                       source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        BC_UPDK                       source/constraints/general/bcs/bc_imp0.F
-Chd|        BC_UPDK2                      source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        I2UPDK0                       source/interfaces/interf/i2_imp1.F
-Chd|        I2UPDK1                       source/interfaces/interf/i2_imp1.F
-Chd|        I2UPDKM0                      source/interfaces/interf/i2_imp1.F
-Chd|        I2UPDKM1                      source/interfaces/interf/i2_imp1.F
-Chd|        IMP_FVKSS                     source/mpi/implicit/imp_fri.F 
-Chd|        IND_SLD                       source/mpi/implicit/imp_fri.F 
-Chd|        RBE2_IMP1                     source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE2_IMPL                     source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE3_IMP1                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBY_IMP1                      source/constraints/general/rbody/rby_imp0.F
-Chd|        RM_IMP1                       source/model/remesh/rm_imp0.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    put_kii     ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    bc_updk     ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    bc_updk2    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    i2updk0     ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2updk1     ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2updkm0    ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2updkm1    ../engine/source/interfaces/interf/i2_imp1.F
+      !||    imp_fvkss   ../engine/source/mpi/implicit/imp_fri.F
+      !||    ind_sld     ../engine/source/mpi/implicit/imp_fri.F
+      !||    rbe2_imp1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe2_impl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe3_imp1   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rby_imp1    ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||    rm_imp1     ../engine/source/model/remesh/rm_imp0.F
+      !||====================================================================
       SUBROUTINE PUT_KII(NI  ,IDDL ,IADK,K_DIAG,K_LT ,KII,ND)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -695,21 +694,20 @@ C----6----------KII is always triag_sup whatever IKPAT------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_KIJ                       source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        I2UPDK0                       source/interfaces/interf/i2_imp1.F
-Chd|        I2UPDK1                       source/interfaces/interf/i2_imp1.F
-Chd|        I2_IMPM                       source/interfaces/interf/i2_imp1.F
-Chd|        IMP_FRKS                      source/mpi/implicit/imp_fri.F 
-Chd|        RBE2_IMP1                     source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE2_IMPL                     source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE3_IMP1                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBY_IMP1                      source/constraints/general/rbody/rby_imp0.F
-Chd|        RBY_IMPM                      source/constraints/general/rbody/rby_imp0.F
-Chd|        RM_IMP1                       source/model/remesh/rm_imp0.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    get_kij     ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    i2_impm     ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2updk0     ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2updk1     ../engine/source/interfaces/interf/i2_imp1.F
+      !||    imp_frks    ../engine/source/mpi/implicit/imp_fri.F
+      !||    rbe2_imp1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe2_impl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe3_imp1   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rby_imp1    ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||    rby_impm    ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||    rm_imp1     ../engine/source/model/remesh/rm_imp0.F
+      !||====================================================================
       SUBROUTINE GET_KIJ( NI ,NJ ,IDDL  ,IADK,JDIK,K_LT ,KIJ ,NK,NL ,
      .                   IERR)
 C----6---------------------------------------------------------------7---------8
@@ -792,22 +790,21 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  PUT_KIJ                       source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        I2UPDK0                       source/interfaces/interf/i2_imp1.F
-Chd|        I2UPDK1                       source/interfaces/interf/i2_imp1.F
-Chd|        I2UPDKM0                      source/interfaces/interf/i2_imp1.F
-Chd|        I2UPDKM1                      source/interfaces/interf/i2_imp1.F
-Chd|        IMP_KPRES                     source/implicit/imp_glob_k.F  
-Chd|        RBE2_IMP1                     source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE2_IMPL                     source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE3_IMP1                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBY_IMP1                      source/constraints/general/rbody/rby_imp0.F
-Chd|        RBY_IMPM                      source/constraints/general/rbody/rby_imp0.F
-Chd|        RM_IMP1                       source/model/remesh/rm_imp0.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    put_kij     ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    i2updk0     ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2updk1     ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2updkm0    ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2updkm1    ../engine/source/interfaces/interf/i2_imp1.F
+      !||    imp_kpres   ../engine/source/implicit/imp_glob_k.F
+      !||    rbe2_imp1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe2_impl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe3_imp1   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rby_imp1    ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||    rby_impm    ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||    rm_imp1     ../engine/source/model/remesh/rm_imp0.F
+      !||====================================================================
       SUBROUTINE PUT_KIJ( NI ,NJ ,IDDL  ,IADK,JDIK,K_LT,KIJ,NK,NL ,
      .                   IERR)
 C-----------------------------------------------
@@ -874,22 +871,21 @@ C---------find l'adress dans LT-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  PRINT_WKIJ                    source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        I2UPDK0                       source/interfaces/interf/i2_imp1.F
-Chd|        I2UPDK1                       source/interfaces/interf/i2_imp1.F
-Chd|        I2_FRK0                       source/interfaces/interf/i2_imp1.F
-Chd|        I2_FRK1                       source/interfaces/interf/i2_imp1.F
-Chd|        RBE2_IMP1                     source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE2_IMPL                     source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE3_FR1                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBE3_IMP1                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBY_IMP1                      source/constraints/general/rbody/rby_imp0.F
-Chd|        RBY_IMPM                      source/constraints/general/rbody/rby_imp0.F
-Chd|        RM_IMP1                       source/model/remesh/rm_imp0.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    print_wkij   ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    i2_frk0      ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2_frk1      ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2updk0      ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2updk1      ../engine/source/interfaces/interf/i2_imp1.F
+      !||    rbe2_imp1    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe2_impl    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe3_fr1     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3_imp1    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rby_imp1     ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||    rby_impm     ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||    rm_imp1      ../engine/source/model/remesh/rm_imp0.F
+      !||====================================================================
       SUBROUTINE PRINT_WKIJ( NI ,NJ ,IFLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -943,25 +939,24 @@ C----6---------------------------------------------------------------7---------8
      .        '*** NO CONNECTIVITY BETWEEN NODES:',2I10)
       RETURN
       END
-Chd|====================================================================
-Chd|  ASSEM_KII                     source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        ASSEM_INT                     source/implicit/assem_int.F   
-Chd|        ASSEM_INT11                   source/implicit/assem_int.F   
-Chd|        ASSEM_KIJ                     source/implicit/imp_glob_k.F  
-Chd|        ASSEM_KSL                     source/mpi/implicit/imp_fri.F 
-Chd|        ASSEM_P                       source/implicit/assem_p.F     
-Chd|        ASSEM_Q4                      source/implicit/assem_q4.F    
-Chd|        ASSEM_R3                      source/implicit/assem_r3.F    
-Chd|        ASSEM_S10                     source/implicit/assem_s10.F   
-Chd|        ASSEM_S20                     source/implicit/assem_s20.F   
-Chd|        ASSEM_S4                      source/implicit/assem_s4.F    
-Chd|        ASSEM_S6                      source/implicit/assem_s6.F    
-Chd|        ASSEM_S8                      source/implicit/assem_s8.F    
-Chd|        ASS_SPMD                      source/implicit/assem_int.F   
-Chd|        ASS_SPMD11                    source/implicit/assem_int.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    assem_kii     ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ass_spmd      ../engine/source/implicit/assem_int.F
+      !||    ass_spmd11    ../engine/source/implicit/assem_int.F
+      !||    assem_int     ../engine/source/implicit/assem_int.F
+      !||    assem_int11   ../engine/source/implicit/assem_int.F
+      !||    assem_kij     ../engine/source/implicit/imp_glob_k.F
+      !||    assem_ksl     ../engine/source/mpi/implicit/imp_fri.F
+      !||    assem_p       ../engine/source/implicit/assem_p.F
+      !||    assem_q4      ../engine/source/implicit/assem_q4.F
+      !||    assem_r3      ../engine/source/implicit/assem_r3.F
+      !||    assem_s10     ../engine/source/implicit/assem_s10.F
+      !||    assem_s20     ../engine/source/implicit/assem_s20.F
+      !||    assem_s4      ../engine/source/implicit/assem_s4.F
+      !||    assem_s6      ../engine/source/implicit/assem_s6.F
+      !||    assem_s8      ../engine/source/implicit/assem_s8.F
+      !||====================================================================
       SUBROUTINE ASSEM_KII(NI    ,NEL   ,IDDL  ,IADK  ,K_DIAG,
      1                     K_LT  ,KII   ,ND    ,OFF   )
 C-----------------------------------------------
@@ -1025,22 +1020,22 @@ c#include "lockoff.inc"
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ASSEM_KIJ                     source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        ASSEM_INT                     source/implicit/assem_int.F   
-Chd|        ASSEM_INT11                   source/implicit/assem_int.F   
-Chd|        ASSEM_P                       source/implicit/assem_p.F     
-Chd|        ASSEM_Q4                      source/implicit/assem_q4.F    
-Chd|        ASSEM_R3                      source/implicit/assem_r3.F    
-Chd|        ASSEM_S10                     source/implicit/assem_s10.F   
-Chd|        ASSEM_S20                     source/implicit/assem_s20.F   
-Chd|        ASSEM_S4                      source/implicit/assem_s4.F    
-Chd|        ASSEM_S6                      source/implicit/assem_s6.F    
-Chd|        ASSEM_S8                      source/implicit/assem_s8.F    
-Chd|-- calls ---------------
-Chd|        ASSEM_KII                     source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    assem_kij     ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    assem_int     ../engine/source/implicit/assem_int.F
+      !||    assem_int11   ../engine/source/implicit/assem_int.F
+      !||    assem_p       ../engine/source/implicit/assem_p.F
+      !||    assem_q4      ../engine/source/implicit/assem_q4.F
+      !||    assem_r3      ../engine/source/implicit/assem_r3.F
+      !||    assem_s10     ../engine/source/implicit/assem_s10.F
+      !||    assem_s20     ../engine/source/implicit/assem_s20.F
+      !||    assem_s4      ../engine/source/implicit/assem_s4.F
+      !||    assem_s6      ../engine/source/implicit/assem_s6.F
+      !||    assem_s8      ../engine/source/implicit/assem_s8.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_kii     ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE ASSEM_KIJ( NI ,NJ ,NEL  ,IDDL  ,IADK,JDIK,
      1                      K_DIAG,K_LT  ,KIJ  ,ND    ,OFF )
 C----6---------------------------------------------------------------7---------8
@@ -1175,18 +1170,17 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  PUT_KMII                      source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        BC_UPDFR                      source/constraints/general/bcs/bc_imp0.F
-Chd|        BC_UPDFR2                     source/constraints/general/bcs/bc_imp0.F
-Chd|        I2_FRK0                       source/interfaces/interf/i2_imp1.F
-Chd|        I2_FRK1                       source/interfaces/interf/i2_imp1.F
-Chd|        RBE2_FRK                      source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE3_FR1                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBY_FRK                       source/constraints/general/rbody/rby_imp0.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    put_kmii    ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    bc_updfr    ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    bc_updfr2   ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    i2_frk0     ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2_frk1     ../engine/source/interfaces/interf/i2_imp1.F
+      !||    rbe2_frk    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe3_fr1    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rby_frk     ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||====================================================================
       SUBROUTINE PUT_KMII(ID    ,IADK  ,K_DIAG,K_LT  ,KII   ,
      .                    ND    )
 C-----------------------------------------------
@@ -1232,14 +1226,13 @@ C----6----------KII is always triag_sup whatever IKPAT------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  PUT_KMIJ                      source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        I2_FRK0                       source/interfaces/interf/i2_imp1.F
-Chd|        I2_FRK1                       source/interfaces/interf/i2_imp1.F
-Chd|        RBE3_FR1                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    put_kmij   ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    i2_frk0    ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2_frk1    ../engine/source/interfaces/interf/i2_imp1.F
+      !||    rbe3_fr1   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||====================================================================
       SUBROUTINE PUT_KMIJ(INI ,INJ ,IADK,JDIK,K_LT,
      .                    KIJ ,NK  ,NL  ,IERR)
 C-----------------------------------------------
@@ -1306,12 +1299,11 @@ C---------find l'adress dans LT-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  IMPKSOUT                      source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITEKS                       source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    impksout   ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    writeks    ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE IMPKSOUT( IXS,NFT,NEL,IUGEO,
      1                   K11   ,K12   ,K13    ,K14    ,K15   ,
      2                   K16   ,K17   ,K18    ,K22    ,K23   ,
@@ -1392,12 +1384,11 @@ C
       RETURN
       END
 C  |----nouvell routine -----
-Chd|====================================================================
-Chd|  WRITEKS                       source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMPKSOUT                      source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    writeks    ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    impksout   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE WRITEKS( IN,NFT,NEL,IG,CH,KIJ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1433,12 +1424,11 @@ C-----------------------------------------------
       END
 C
 C  |----nouvell routine -----
-Chd|====================================================================
-Chd|  IMPKCOUT                      source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITEKC                       source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    impkcout   ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    writekc    ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE IMPKCOUT( IXC,NFT,NEL,IUGEO,
      1                    KE11   ,KE12   ,KE13   ,KE14   ,KE22 ,
      2                    KE23   ,KE24   ,KE33   ,KE34   ,KE44 )
@@ -1482,12 +1472,11 @@ C
       RETURN
       END
 C  |----nouvell routine -----
-Chd|====================================================================
-Chd|  WRITEKC                       source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMPKCOUT                      source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    writekc    ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    impkcout   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE WRITEKC( IN,NFT,NEL,IG,CH,KIJ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1523,12 +1512,11 @@ C-----------------------------------------------
       END
 C
 C  |----nouvell routine -----
-Chd|====================================================================
-Chd|  IMPKPOUT                      source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITEKP                       source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    impkpout   ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    writekp    ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE IMPKPOUT( NIXPL,IXP,NFT,NEL,IUGEO,KE11,KE12,KE22 )
 C
 C-----------------------------------------------
@@ -1561,12 +1549,11 @@ C
       RETURN
       END
 C  |----nouvell routine -----
-Chd|====================================================================
-Chd|  WRITEKP                       source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMPKPOUT                      source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    writekp    ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    impkpout   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE WRITEKP( IN,NFT,NEL,IG,CH,KIJ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1602,12 +1589,11 @@ C-----------------------------------------------
       END
 C
 C  |----nouvell routine -----
-Chd|====================================================================
-Chd|  IMPKIOUT                      source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITEKI                       source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    impkiout   ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    writeki    ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE IMPKIOUT( NIXPL,IXP,NFT,NEL,IUGEO,KE11,KE12,KE22 )
 C
 C-----------------------------------------------
@@ -1640,12 +1626,11 @@ C
       RETURN
       END
 C  |----nouvell routine -----
-Chd|====================================================================
-Chd|  WRITEKI                       source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMPKIOUT                      source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    writeki    ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    impkiout   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE WRITEKI( IN,NFT,NEL,IG,CH,KIJ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1681,12 +1666,11 @@ C-----------------------------------------------
       END
 C
 C  |----nouvell routine -----
-Chd|====================================================================
-Chd|  KELAMDA                       source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        JACOBIEN                      source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    kelamda    ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    jacobien   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE KELAMDA( IXC,NIXCL,NFT,NEL,IUGEO,
      1                    KE11   ,KE12   ,KE13   ,KE14   ,KE22 ,
      2                    KE23   ,KE24   ,KE33   ,KE34   ,KE44 )
@@ -1785,14 +1769,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  JACOBIEN                      source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        KELAMDA                       source/implicit/imp_glob_k.F  
-Chd|        MINV_K                        source/implicit/imp_solv.F    
-Chd|        PVP_K                         source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    jacobien   ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    kelamda    ../engine/source/implicit/imp_glob_k.F
+      !||    minv_k     ../engine/source/implicit/imp_solv.F
+      !||    pvp_k      ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE  JACOBIEN(A,N,EW,EV,TOL,LAMDA)
 C-------------------------------------------------------KK141189-
 C COMPUTATION OF ALL EIGENVALUES AND EIGENVECTORS OF A SYMMETRIC
@@ -1928,12 +1911,11 @@ c      write(*,*)'n_iter,nrot=',iter,nrot,eps
       RETURN
 
       END
-Chd|====================================================================
-Chd|  ELEOFF                        source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        R12KE3                        source/elements/spring/r12ke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    eleoff   ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    r12ke3   ../engine/source/elements/spring/r12ke3.F
+      !||====================================================================
       SUBROUTINE ELEOFF(JFT , JLT , IX, NIX ,NN   ,ETAG, OFF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1968,19 +1950,20 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  IMP_KPRES                     source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        KP4_INI                       source/implicit/imp_glob_k.F  
-Chd|        KPQUAD                        source/implicit/imp_glob_k.F  
-Chd|        KPTRIA                        source/implicit/imp_glob_k.F  
-Chd|        PUT_KIJ                       source/implicit/imp_glob_k.F  
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_kpres    ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_buck     ../engine/source/implicit/imp_buck.F
+      !||    imp_solv     ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter       ../engine/source/tools/curve/finter.F
+      !||    kp4_ini      ../engine/source/implicit/imp_glob_k.F
+      !||    kpquad       ../engine/source/implicit/imp_glob_k.F
+      !||    kptria       ../engine/source/implicit/imp_glob_k.F
+      !||    put_kij      ../engine/source/implicit/imp_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE IMP_KPRES(IB    ,FAC    ,NPC   ,TF    ,X     ,
      2                     SKEW  ,NSENSOR,SENSOR_TAB,WEIGHT,IADC  ,
      3                     IDDL  ,NDOF   ,IADK  ,JDIK  ,K_DIAG,
@@ -2162,12 +2145,11 @@ C        ANALYSE 2D
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  KPQUAD                        source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_KPRES                     source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    kpquad      ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_kpres   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE KPQUAD(N1,N2,N3,N4,P,X,VKSI,VETA,VF4,
      .                 K11,K22,K33,K44,K12,K13,K14,K23,K24,K34)
 C-----------------------------------------------
@@ -2381,11 +2363,9 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  PRODUITV                      source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    produitv   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE PRODUITV(RX, RY, RZ, SX, SY, SZ,DET)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2412,12 +2392,11 @@ C                                                                     12
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  KP4_INI                       source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_KPRES                     source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    kp4_ini     ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_kpres   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE KP4_INI(VKSI,VETA,VF4)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2496,12 +2475,11 @@ C------------NI,ksi=VKSI,NI,eta=VETA--------------------------------
       VF4(4,4)=VF4(4,4)-PG2
       RETURN
       END
-Chd|====================================================================
-Chd|  KPTRIA                        source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_KPRES                     source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    kptria      ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_kpres   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE KPTRIA(N1,N2,N3,P,X,
      .                  K11,K22,K33,K12,K13,K23)
 C-----------------------------------------------
@@ -2591,14 +2569,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ASSEMC_KII                    source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        ASSEMC_KIJ                    source/implicit/imp_glob_k.F  
-Chd|        ASSEM_C3                      source/implicit/assem_c3.F    
-Chd|        ASSEM_C4                      source/implicit/assem_c4.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    assemc_kii   ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    assem_c3     ../engine/source/implicit/assem_c3.F
+      !||    assem_c4     ../engine/source/implicit/assem_c4.F
+      !||    assemc_kij   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE ASSEMC_KII(NI    ,NEL   ,IDDL  ,IADK  ,K_DIAG,
      1                     K_LT  ,KII   ,ND     ,OFF   ,NDOF  )
 C----6---------------------------------------------------------------7---------8
@@ -2663,14 +2640,14 @@ c#include "lockoff.inc"
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ASSEMC_KIJ                    source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        ASSEM_C3                      source/implicit/assem_c3.F    
-Chd|        ASSEM_C4                      source/implicit/assem_c4.F    
-Chd|-- calls ---------------
-Chd|        ASSEMC_KII                    source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    assemc_kij   ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    assem_c3     ../engine/source/implicit/assem_c3.F
+      !||    assem_c4     ../engine/source/implicit/assem_c4.F
+      !||--- calls      -----------------------------------------------------
+      !||    assemc_kii   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE ASSEMC_KIJ( NI ,NJ ,NEL  ,IDDL  ,IADK,JDIK,
      1                      K_DIAG,K_LT  ,KIJ  ,ND    ,OFF ,
      2                      NDOF  )
@@ -2813,14 +2790,13 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C-----------------------------------------------
-Chd|====================================================================
-Chd|  GRPREORDER                    source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        ETFAC_INI                     source/implicit/imp_init.F    
-Chd|        IMP_GLOB_KHP                  source/implicit/imp_glob_k.F  
-Chd|        KTBUF_INI                     source/implicit/imp_init.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    grpreorder     ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    etfac_ini      ../engine/source/implicit/imp_init.F
+      !||    imp_glob_khp   ../engine/source/implicit/imp_glob_k.F
+      !||    ktbuf_ini      ../engine/source/implicit/imp_init.F
+      !||====================================================================
       SUBROUTINE  GRPREORDER(IPARG, IGROUC)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -2861,21 +2837,22 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  IMP_GLOB_KHP                  source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        GRPREORDER                    source/implicit/imp_glob_k.F  
-Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
-Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_glob_khp   ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_buck       ../engine/source/implicit/imp_buck.F
+      !||    imp_chkm       ../engine/source/implicit/imp_solv.F
+      !||    imp_solv       ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    grpreorder     ../engine/source/implicit/imp_glob_k.F
+      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+      !||    spmd_max_i     ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod      ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod    ../engine/share/resol/initbuf.F
+      !||    stack_mod      ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE IMP_GLOB_KHP(
      1    PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
      2    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
@@ -3051,36 +3028,37 @@ C----6---------------------------------------------------------------7---------8
      .        5X,'USING ITETRA=0 INSTEAD, POSSIBLE CONVERGING ISSUE.')
       RETURN
       END
-Chd|====================================================================
-Chd|  IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_GLOB_KHP                  source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|        C3KE3                         source/elements/sh3n/coque3n/c3ke3.F
-Chd|        CBAKE3                        source/elements/shell/coqueba/cbake3.F
-Chd|        CZKE3                         source/elements/shell/coquez/czke3.F
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        PKE3                          source/elements/beam/pke3.F   
-Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
-Chd|        R12KE3                        source/elements/spring/r12ke3.F
-Chd|        R13KE3                        source/elements/spring/r13ke3.F
-Chd|        R4KE3                         source/elements/spring/r4ke3.F
-Chd|        R8KE3                         source/elements/spring/r8ke3.F
-Chd|        RUSER32KE3                    source/elements/spring/ruser32ke3.F
-Chd|        S10KE3                        source/elements/solid/solide10/s10ke3.F
-Chd|        S20KE3                        source/elements/solid/solide20/s20ke3.F
-Chd|        S4KE3                         source/elements/solid/solide4/s4ke3.F
-Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6cke3.F
-Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
-Chd|        S8SKE3                        source/elements/solid/solide8s/s8ske3.F
-Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
-Chd|        STARTIMEG                     source/system/timer.F         
-Chd|        TKE3                          source/elements/truss/tke3.F  
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_glob_khp   ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    c3ke3          ../engine/source/elements/sh3n/coque3n/c3ke3.F
+      !||    cbake3         ../engine/source/elements/shell/coqueba/cbake3.F
+      !||    czke3          ../engine/source/elements/shell/coquez/czke3.F
+      !||    initbuf        ../engine/share/resol/initbuf.F
+      !||    pke3           ../engine/source/elements/beam/pke3.F
+      !||    q4ke2          ../engine/source/elements/solid_2d/quad4/q4ke2.F
+      !||    r12ke3         ../engine/source/elements/spring/r12ke3.F
+      !||    r13ke3         ../engine/source/elements/spring/r13ke3.F
+      !||    r4ke3          ../engine/source/elements/spring/r4ke3.F
+      !||    r8ke3          ../engine/source/elements/spring/r8ke3.F
+      !||    ruser32ke3     ../engine/source/elements/spring/ruser32ke3.F
+      !||    s10ke3         ../engine/source/elements/solid/solide10/s10ke3.F
+      !||    s20ke3         ../engine/source/elements/solid/solide20/s20ke3.F
+      !||    s4ke3          ../engine/source/elements/solid/solide4/s4ke3.F
+      !||    s6cke3         ../engine/source/elements/thickshell/solide6c/s6cke3.F
+      !||    s8cke3         ../engine/source/elements/thickshell/solide8c/s8cke3.F
+      !||    s8ske3         ../engine/source/elements/solid/solide8s/s8ske3.F
+      !||    s8zke3         ../engine/source/elements/solid/solide8z/s8zke3.F
+      !||    startimeg      ../engine/source/system/timer.F
+      !||    tke3           ../engine/source/elements/truss/tke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod      ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod    ../engine/share/resol/initbuf.F
+      !||    stack_mod      ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE IMP_GLOB_K0(
      1    PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
      2    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,

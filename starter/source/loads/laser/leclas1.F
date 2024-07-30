@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LECLAS1                       source/loads/laser/leclas1.F  
-Chd|-- called by -----------
-Chd|        LECLAS                        source/loads/laser/leclas.F   
-Chd|-- calls ---------------
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    leclas1                  ../starter/source/loads/laser/leclas1.F
+      !||--- called by ------------------------------------------------------
+      !||    leclas                   ../starter/source/loads/laser/leclas.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE LECLAS1(NL ,LAS ,NC, LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s

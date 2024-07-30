@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C3SUMG3                       source/elements/sh3n/coque3n/c3sumg3.F
-Chd|-- called by -----------
-Chd|        C3KE3                         source/elements/sh3n/coque3n/c3ke3.F
-Chd|-- calls ---------------
-Chd|        CBATRAN2                      source/elements/shell/coqueba/cbasumg3.F
-Chd|        CBATRAN223                    source/elements/shell/coqueba/cbasumg3.F
-Chd|        CBATRAN232                    source/elements/shell/coqueba/cbasumg3.F
-Chd|        CBATRAN233                    source/elements/shell/coqueba/cbasumg3.F
-Chd|        CBATRAN3                      source/elements/shell/coqueba/cbasumg3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    c3sumg3      ../engine/source/elements/sh3n/coque3n/c3sumg3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3ke3        ../engine/source/elements/sh3n/coque3n/c3ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    cbatran2     ../engine/source/elements/shell/coqueba/cbasumg3.F
+      !||    cbatran223   ../engine/source/elements/shell/coqueba/cbasumg3.F
+      !||    cbatran232   ../engine/source/elements/shell/coqueba/cbasumg3.F
+      !||    cbatran233   ../engine/source/elements/shell/coqueba/cbasumg3.F
+      !||    cbatran3     ../engine/source/elements/shell/coqueba/cbasumg3.F
+      !||====================================================================
       SUBROUTINE C3SUMG3(JFT ,JLT ,
      1                     R11,R12,R13,R21,R22,R23,R31,R32,R33,
      2                     K11,K12,K13,K22,K23,K33,

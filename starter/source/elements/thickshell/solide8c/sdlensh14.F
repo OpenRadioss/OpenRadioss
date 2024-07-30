@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SDLENSH14                     source/elements/thickshell/solide8c/sdlensh14.F
-Chd|-- called by -----------
-Chd|        S8CINIT3                      source/elements/thickshell/solide8c/s8cinit3.F
-Chd|-- calls ---------------
-Chd|        CLSYS3                        source/elements/thickshell/solidec/scinit3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sdlensh14   ../starter/source/elements/thickshell/solide8c/sdlensh14.F
+      !||--- called by ------------------------------------------------------
+      !||    s8cinit3    ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    clsys3      ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||====================================================================
       SUBROUTINE SDLENSH14(
      1   NEL,     LLSH,    X1,      X2,
      2   X3,      X4,      X5,      X6,

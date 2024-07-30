@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTTI0                        source/interfaces/interf/intti0.F
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|-- calls ---------------
-Chd|        INTTI12A                      source/interfaces/interf/intti12.F
-Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    intti0          ../engine/source/interfaces/interf/intti0.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain         ../engine/source/ale/alemain.F
+      !||--- calls      -----------------------------------------------------
+      !||    intti12a        ../engine/source/interfaces/interf/intti12.F
+      !||--- uses       -----------------------------------------------------
+      !||    segvar_mod      ../engine/share/modules/segvar_mod.F
+      !||====================================================================
       SUBROUTINE INTTI0(IPARI ,X      ,V    ,WA     ,ITAB ,
      .                  IPARG ,IXS,SEGVAR,SKEW,ISKWN,INTBUF_TAB )
       USE SEGVAR_MOD

@@ -21,13 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 CCgw|============================================================
-Chd|====================================================================
-Chd|  W_ICONV                       source/restart/ddsplit/w_iconv.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    w_iconv     ../starter/source/restart/ddsplit/w_iconv.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE W_ICONV(IBCV,CEP,PROC,NODLOCAL,NCONV_L,LEN_IA,
      .                   CEL,IPARG,NUMLOCGROUP)
 C-----------------------------------------------

@@ -20,14 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd/        HM_READ_FAIL_TBUTCHER         source/materials/fail/tuler_bucher/hm_read_fail_tbutcher.F
-Chd|====================================================================
-Chd|  FAIL_INIT                     source/materials/fail/fail_init.F
-Chd|-- called by -----------
-Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
-Chd|-- calls ---------------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_init          ../starter/source/materials/fail/fail_init.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_fail       ../starter/source/materials/fail/hm_read_fail.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE FAIL_INIT(MAT_PARAM ,NUMMAT)
 C-----------------------------------------------
 C   M o d u l e s

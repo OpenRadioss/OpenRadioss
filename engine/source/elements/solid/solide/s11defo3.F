@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S11DEFO3                      source/elements/solid/solide/s11defo3.F
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s11defo3               ../engine/source/elements/solid/solide/s11defo3.F
+      !||--- called by ------------------------------------------------------
+      !||    sforc3                 ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3                ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||====================================================================
       SUBROUTINE S11DEFO3(
      1   PM,         V,          VEUL,       X,
      2   IXS,        ALE_CONNECT,DXX,        DXY,

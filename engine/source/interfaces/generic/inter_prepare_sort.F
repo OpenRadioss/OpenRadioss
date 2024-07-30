@@ -20,25 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        INTER_BOX_CREATION            source/interfaces/generic/inter_box_creation.F
-Chd|        INTER_COLOR_COARSE_VOXEL      source/interfaces/generic/inter_color_coarse_voxel.F
-Chd|        INTER_COLOR_VOXEL             source/interfaces/generic/inter_color_voxel.F
-Chd|        INTER_COUNT_NODE_CURV         source/interfaces/generic/inter_count_node_curv.F
-Chd|        INTER_MINMAX_NODE             source/interfaces/generic/inter_minmax_node.F
-Chd|        INTER_VOXEL_CREATION          source/interfaces/generic/inter_voxel_creation.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_BOX_LIMIT_REDUCTION      source/mpi/interfaces/spmd_box_limit_reduction.F
-Chd|        SPMD_CELL_LIST_EXCHANGE       source/mpi/interfaces/spmd_cell_list_exchange.F
-Chd|        SPMD_COARSE_CELL_EXCHANGE     source/mpi/interfaces/spmd_coarse_cell_exchange.F
-Chd|        SPMD_WAIT_NB                  source/mpi/interfaces/spmd_wait_nb.F
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inter_prepare_sort          ../engine/source/interfaces/generic/inter_prepare_sort.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri                      ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    inter_box_creation          ../engine/source/interfaces/generic/inter_box_creation.F
+      !||    inter_color_coarse_voxel    ../engine/source/interfaces/generic/inter_color_coarse_voxel.F
+      !||    inter_color_voxel           ../engine/source/interfaces/generic/inter_color_voxel.F
+      !||    inter_count_node_curv       ../engine/source/interfaces/generic/inter_count_node_curv.F
+      !||    inter_minmax_node           ../engine/source/interfaces/generic/inter_minmax_node.F
+      !||    inter_voxel_creation        ../engine/source/interfaces/generic/inter_voxel_creation.F
+      !||    my_barrier                  ../engine/source/system/machine.F
+      !||    spmd_box_limit_reduction    ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
+      !||    spmd_cell_list_exchange     ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
+      !||    spmd_coarse_cell_exchange   ../engine/source/mpi/interfaces/spmd_coarse_cell_exchange.F
+      !||    spmd_wait_nb                ../engine/source/mpi/interfaces/spmd_wait_nb.F
+      !||--- uses       -----------------------------------------------------
+      !||    inter_sorting_mod           ../engine/share/modules/inter_sorting_mod.F
+      !||    inter_struct_mod            ../engine/share/modules/inter_struct_mod.F
+      !||====================================================================
         SUBROUTINE INTER_PREPARE_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,ISENDTO,IRECVFROM,
      .                                 IPARI,IAD_ELEM,FR_ELEM,X,V,
      .                                 MS,TEMP,KINET,NODNX_SMS,ITAB,

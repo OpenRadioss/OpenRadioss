@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #ifdef MPI
-Chd|====================================================================
-Chd|  INIPAR                        source/mpi/init/inipar.F      
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    inipar                ../engine/source/mpi/init/inipar.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2              ../engine/source/engine/radioss2.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret                 ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INIPAR(ITID,ICAS,NNODES,INPUT,GOT_INPUT,NBTASK)
 C-----------------------------------------------------------------
 #include      "implicit_f.inc"
@@ -319,13 +320,14 @@ C MPI
 C
 C routines simplifiees non mpi
 C
-Chd|====================================================================
-Chd|  INIPAR                        source/mpi/init/inipar.F      
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    inipar                ../engine/source/mpi/init/inipar.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2              ../engine/source/engine/radioss2.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret                 ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INIPAR(ITID,ICAS,NNODES,INPUT,GOT_INPUT,NBTASK)
 C-----------------------------------------------------------------
 #include      "implicit_f.inc"

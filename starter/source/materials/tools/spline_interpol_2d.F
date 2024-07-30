@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPLINE_INTERPOL_2D            source/materials/tools/spline_interpol_2d.F
-Chd|-- called by -----------
-Chd|        TEST_SPLINE                   source/materials/tools/test_splines.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spline_interpol_2d   ../starter/source/materials/tools/spline_interpol_2d.F
+      !||--- called by ------------------------------------------------------
+      !||    test_spline          ../starter/source/materials/tools/test_splines.F
+      !||====================================================================
       SUBROUTINE SPLINE_INTERPOL_2D(PTX, PTY ,KNOTS, T,  NX  ,NY  )
 C-----------------------------------------------
       ! FOR A GIVEN POSITION T in [0,1] which is position on [P1,P2], 

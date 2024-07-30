@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  QCUMU2                        source/elements/solid_2d/quad/qcumu2.F
-Chd|-- called by -----------
-Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    qcumu2   ../engine/source/elements/solid_2d/quad/qcumu2.F
+      !||--- called by ------------------------------------------------------
+      !||    qforc2   ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||====================================================================
       SUBROUTINE QCUMU2(
      1   E,       F11,     F12,     F21,
      2   F22,     AX1,     AX2,     T11,

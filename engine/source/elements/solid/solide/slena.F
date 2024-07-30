@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SLENA                         source/elements/solid/solide/slena.F
-Chd|-- called by -----------
-Chd|        FDLEN3                        source/elements/solid/solide/fdlen3.F
-Chd|        SDLEN3                        source/elements/solid/solide/sdlen3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    slena    ../engine/source/elements/solid/solide/slena.F
+      !||--- called by ------------------------------------------------------
+      !||    fdlen3   ../engine/source/elements/solid/solide/fdlen3.F
+      !||    sdlen3   ../engine/source/elements/solid/solide/sdlen3.F
+      !||====================================================================
       SUBROUTINE SLENA(
      1   N1X,     N2X,     N3X,     N4X,
      2   N5X,     N6X,     N1Y,     N2Y,

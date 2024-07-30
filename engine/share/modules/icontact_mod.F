@@ -20,18 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ICONTACT_MOD                  share/modules/icontact_mod.F  
-Chd|-- called by -----------
-Chd|        I17BUCE                       source/interfaces/int17/i17buce.F
-Chd|        I17BUCE_PENA                  source/interfaces/int17/i17buce.F
-Chd|        I17FOR3                       source/interfaces/int17/i17for3.F
-Chd|        I17LLL4_PENA                  source/interfaces/int17/i17for3.F
-Chd|        I17STO                        source/interfaces/int17/i17tri.F
-Chd|        I20FOR3C                      source/interfaces/int20/i20for3.F
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    icontact_mod   ../engine/share/modules/icontact_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    i17buce        ../engine/source/interfaces/int17/i17buce.F
+      !||    i17buce_pena   ../engine/source/interfaces/int17/i17buce.F
+      !||    i17for3        ../engine/source/interfaces/int17/i17for3.F
+      !||    i17lll4_pena   ../engine/source/interfaces/int17/i17for3.F
+      !||    i17sto         ../engine/source/interfaces/int17/i17tri.F
+      !||    i20for3c       ../engine/source/interfaces/int20/i20for3.F
+      !||    resol          ../engine/source/engine/resol.F
+      !||====================================================================
       MODULE ICONTACT_MOD
 C-----------------------------------------------
 C   m y _ r e a l

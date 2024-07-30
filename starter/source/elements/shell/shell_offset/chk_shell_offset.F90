@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    chk_shell_offset_mod   ../starter/source/elements/shell/shell_offset/chk_shell_offset.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur                 ../starter/source/starter/lectur.F
+      !||====================================================================
       module chk_shell_offset_mod
 
       contains
@@ -30,6 +35,12 @@
 !=======================================================================================================================
 !!\brief This subroutine check if there is shell offset in the model
 !=======================================================================================================================
+      !||====================================================================
+      !||    chk_shell_offset   ../starter/source/elements/shell/shell_offset/chk_shell_offset.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur             ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine chk_shell_offset(                                           &
                        ngroup,    nparg,      iparg,        npropg,            &
                        numgeo,      geo,    ioffset)

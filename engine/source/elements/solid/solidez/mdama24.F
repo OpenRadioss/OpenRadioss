@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MDAMA24                       source/elements/solid/solidez/mdama24.F
-Chd|-- called by -----------
-Chd|        SZHOUR3                       source/elements/solid/solidez/szhour3.F
-Chd|        SZHOUR3_OR                    source/elements/solid/solidez/szhour3_or.F
-Chd|-- calls ---------------
-Chd|        CBATRAN3V                     source/elements/solid/solidez/cbatran3v.F
-Chd|        GETTRANSV                     source/elements/solid/solidez/gettransv.F
-Chd|        MMODUL24C                     source/elements/solid/solidez/mmodul24c.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    mdama24        ../engine/source/elements/solid/solidez/mdama24.F
+      !||--- called by ------------------------------------------------------
+      !||    szhour3        ../engine/source/elements/solid/solidez/szhour3.F
+      !||    szhour3_or     ../engine/source/elements/solid/solidez/szhour3_or.F
+      !||--- calls      -----------------------------------------------------
+      !||    cbatran3v      ../engine/source/elements/solid/solidez/cbatran3v.F
+      !||    gettransv      ../engine/source/elements/solid/solidez/gettransv.F
+      !||    mmodul24c      ../engine/source/elements/solid/solidez/mmodul24c.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE MDAMA24(ELBUF_STR,JFT     ,JLT     ,PM    ,MAT    ,
      .                   DAMA_G )
 C-----------------------------------------------

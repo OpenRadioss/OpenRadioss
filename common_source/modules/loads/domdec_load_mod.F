@@ -22,12 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #include "my_real.inc"
 c-----------------------------------------------------------------------
-Chd|====================================================================
-Chd|  DOMDEC_LOAD_MOD               modules/loads/domdec_load_mod.F
-Chd|-- called by -----------
-Chd|        LOADS_MOD                     common_source/modules/loads/loads_mod.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    domdec_load_mod   ../common_source/modules/loads/domdec_load_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    loads_mod         ../common_source/modules/loads/loads_mod.F
+      !||====================================================================
         MODULE DOMDEC_LOAD_MOD
 c-----------------------------------------------------------------------
         TYPE DOMDEC_PROC_LOAD_

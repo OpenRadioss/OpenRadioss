@@ -20,16 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RGRHEAD                       source/elements/spring/rgrhead.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        CLUSTER_MOD                   share/modules1/cluster_mod.F  
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rgrhead        ../starter/source/elements/spring/rgrhead.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur         ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    cluster_mod    ../starter/share/modules1/cluster_mod.F
+      !||====================================================================
       SUBROUTINE RGRHEAD(
      1       IXR     ,GEO    ,INUM   ,ISEL     ,IGEO   ,
      2       ITR1    ,EADD   ,INDEX  ,ITRI     ,

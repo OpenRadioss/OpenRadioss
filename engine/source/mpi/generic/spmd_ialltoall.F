@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_IALLTOALL                source/mpi/generic/spmd_ialltoall.F
-Chd|-- called by -----------
-Chd|        SPMD_SPHGAT                   source/mpi/sph/spmd_sphgat.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_ialltoall   ../engine/source/mpi/generic/spmd_ialltoall.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_sphgat      ../engine/source/mpi/sph/spmd_sphgat.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
         SUBROUTINE SPMD_IALLTOALL(SENDBUF,RECVBUF,TOTAL_SEND_SIZE,SEND_SIZE,
      .                            TOTAL_RCV_SIZE,RCV_SIZE,REQUEST,COMM)
 C-----------------------------------------------

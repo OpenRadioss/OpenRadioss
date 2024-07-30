@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25GAP3                       source/interfaces/int25/i25gap3.F
-Chd|-- called by -----------
-Chd|        I25MAIN_GAP                   source/interfaces/int25/i25main_gap.F
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25gap3       ../engine/source/interfaces/int25/i25gap3.F
+      !||--- called by ------------------------------------------------------
+      !||    i25main_gap   ../engine/source/interfaces/int25/i25main_gap.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier    ../engine/source/system/machine.F
+      !||====================================================================
       SUBROUTINE I25GAP3(
      1 ITASK,
      2 NRTM  ,IRECT   ,GAP_NM   ,GAP_M   ,

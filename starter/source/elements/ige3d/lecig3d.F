@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LECIG3D                       source/elements/ige3d/lecig3d.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREDEC0                       source/starter/freform.F      
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        UDOUBLE                       source/system/sysfus.F        
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        MESHSURFIG3D_MOD              source/elements/ige3d/meshsurfig3d_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lecig3d            ../starter/source/elements/ige3d/lecig3d.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur             ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../starter/source/output/message/message.F
+      !||    fredec0            ../starter/source/starter/freform.F
+      !||    nodgrnr5           ../starter/source/starter/freform.F
+      !||    udouble            ../starter/source/system/sysfus.F
+      !||    usr2sys            ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    meshsurfig3d_mod   ../starter/source/elements/ige3d/meshsurfig3d_mod.F
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE LECIG3D(ITAB    ,IPART   ,IPARTIG3D  ,IPM     ,IGEO    ,
      .                   KXIG3D  ,IXIG3D  ,ITABM1  ,NCTRLMAX, TABCONPATCH)
       USE MESSAGE_MOD

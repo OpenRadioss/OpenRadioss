@@ -20,13 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RINI46                        source/elements/spring/rini46.F
-Chd|-- called by -----------
-Chd|        RINIT3                        source/elements/spring/rinit3.F
-Chd|-- calls ---------------
-Chd|        GET_U_GEO                     source/user_interface/uaccess.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rini46      ../starter/source/elements/spring/rini46.F
+      !||--- called by ------------------------------------------------------
+      !||    rinit3      ../starter/source/elements/spring/rinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_u_geo   ../starter/source/user_interface/uaccess.F
+      !||    get_u_mat   ../starter/source/user_interface/uaccess.F
+      !||    get_u_mid   ../starter/source/user_interface/uaccess.F
+      !||    get_u_mnu   ../starter/source/user_interface/uaccess.F
+      !||    get_u_pid   ../starter/source/user_interface/uaccess.F
+      !||    get_u_pnu   ../starter/source/user_interface/uaccess.F
+      !||====================================================================
       SUBROUTINE RINI46(NEL   ,IOUT   ,IPROP ,
      3                  IX    ,XL     ,MASS  ,XINER  ,STIFM ,
      4                  STIFR ,VISCM  ,VISCR ,UVAR   ,NUVAR )

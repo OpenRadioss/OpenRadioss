@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTHTG                        source/fluid/inte_tg.F        
-Chd|-- called by -----------
-Chd|        MASS_FLUID_QD                 source/fluid/mass-fluid_qd.F  
-Chd|        MASS_FLUID_TG                 source/fluid/mass-fluid_tg.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inthtg          ../starter/source/fluid/inte_tg.F
+      !||--- called by ------------------------------------------------------
+      !||    mass_fluid_qd   ../starter/source/fluid/mass-fluid_qd.F
+      !||    mass_fluid_tg   ../starter/source/fluid/mass-fluid_tg.F
+      !||====================================================================
       SUBROUTINE INTHTG(X1 , Y1,  Z1,  X2,  Y2,  Z2,  
      .                  X3,  Y3,  Z3,  XP,  YP,  ZP,                    
      .                  NRX,NRY, NRZ,  D2, JAC,
@@ -133,13 +132,12 @@ C
       END
 C
 C
-Chd|====================================================================
-Chd|  INTGTG                        source/fluid/inte_tg.F        
-Chd|-- called by -----------
-Chd|        MASS_FLUID_QD                 source/fluid/mass-fluid_qd.F  
-Chd|        MASS_FLUID_TG                 source/fluid/mass-fluid_tg.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    intgtg          ../starter/source/fluid/inte_tg.F
+      !||--- called by ------------------------------------------------------
+      !||    mass_fluid_qd   ../starter/source/fluid/mass-fluid_qd.F
+      !||    mass_fluid_tg   ../starter/source/fluid/mass-fluid_tg.F
+      !||====================================================================
       SUBROUTINE INTGTG(X1 , Y1,  Z1,  X2,  Y2,  Z2,  
      .                  X3,  Y3,  Z3,  XP,  YP,  ZP,                    
      .                  D2, JAC,

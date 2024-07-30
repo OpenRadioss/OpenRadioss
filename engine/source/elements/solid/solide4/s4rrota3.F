@@ -20,11 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4RROTA3                      source/elements/solid/solide4/s4rrota3.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s4rrota3   ../engine/source/elements/solid/solide4/s4rrota3.F
+      !||====================================================================
       SUBROUTINE S4RROTA3(
      1   OFF,     R11,     R12,     R13,
      2   R21,     R22,     R23,     R31,

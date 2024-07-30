@@ -20,39 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ_EBCS                     source/boundary_conditions/ebcs/read_ebcs.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        HM_READ_EBCS_FLUXOUT          source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
-Chd|        HM_READ_EBCS_GRADP0           source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
-Chd|        HM_READ_EBCS_INIP             source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
-Chd|        HM_READ_EBCS_INIV             source/boundary_conditions/ebcs/hm_read_ebcs_iniv.F
-Chd|        HM_READ_EBCS_INLET            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
-Chd|        HM_READ_EBCS_MONVOL           source/boundary_conditions/ebcs/hm_read_ebcs_monvol.F
-Chd|        HM_READ_EBCS_NORMV            source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
-Chd|        HM_READ_EBCS_NRF              source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
-Chd|        HM_READ_EBCS_PRES             source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
-Chd|        HM_READ_EBCS_VALVIN           source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
-Chd|        HM_READ_EBCS_VALVOUT          source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
-Chd|        HM_READ_EBCS_VEL              source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    read_ebcs              ../starter/source/boundary_conditions/ebcs/read_ebcs.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                 ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_read_ebcs_fluxout   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
+      !||    hm_read_ebcs_gradp0    ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
+      !||    hm_read_ebcs_inip      ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
+      !||    hm_read_ebcs_iniv      ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_iniv.F
+      !||    hm_read_ebcs_inlet     ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
+      !||    hm_read_ebcs_monvol    ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_monvol.F
+      !||    hm_read_ebcs_normv     ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
+      !||    hm_read_ebcs_nrf       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
+      !||    hm_read_ebcs_pres      ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
+      !||    hm_read_ebcs_valvin    ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
+      !||    hm_read_ebcs_valvout   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
+      !||    hm_read_ebcs_vel       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
+      !||    ifrontplus             ../starter/source/spmd/node/frontplus.F
+      !||--- uses       -----------------------------------------------------
+      !||    front_mod              ../starter/share/modules1/front_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    restmod                ../starter/share/modules1/restart_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+      !||    table_mod              ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE READ_EBCS(IGRSURF,MULTI_FVM,NPC1,LSUBMODEL,EBCS_TAB)
 C-----------------------------------------------
 C   M o d u l e s

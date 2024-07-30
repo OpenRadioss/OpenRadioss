@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M2LAWP                        source/materials/mat/mat002/m2lawp.F
-Chd|-- called by -----------
-Chd|        MAIN_BEAM3                    source/elements/beam/main_beam3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m2lawp       ../engine/source/materials/mat/mat002/m2lawp.F
+      !||--- called by ------------------------------------------------------
+      !||    main_beam3   ../engine/source/elements/beam/main_beam3.F
+      !||====================================================================
       SUBROUTINE M2LAWP(
      .    PM      ,FOR     ,MOM     ,EINT    ,GEO     ,
      .    OFF     ,PLA     ,EXX     ,EXY     ,EXZ     ,

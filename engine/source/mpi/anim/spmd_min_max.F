@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_MIN_MAX                  source/mpi/anim/spmd_min_max.F
-Chd|-- called by -----------
-Chd|        SCANOR                        source/output/anim/generate/scanor.F
-Chd|        SPHPREP                       source/elements/sph/sphprep.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_min_max    ../engine/source/mpi/anim/spmd_min_max.F
+      !||--- called by ------------------------------------------------------
+      !||    scanor          ../engine/source/output/anim/generate/scanor.F
+      !||    sphprep         ../engine/source/elements/sph/sphprep.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_MIN_MAX(X1,Y1,Z1,X2,Y2,Z2)
 C spmd_min_max calcule les minimum des reels X1, Y1, Z1 et les
 C maximum des reels X2, Y2, Z2 sur p0

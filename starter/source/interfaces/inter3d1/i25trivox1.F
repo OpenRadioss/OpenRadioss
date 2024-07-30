@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25TRIVOX1                    source/interfaces/inter3d1/i25trivox1.F
-Chd|-- called by -----------
-Chd|        I25BUC_VOX1                   source/interfaces/inter3d1/i25buc_vox1.F
-Chd|-- calls ---------------
-Chd|        I25STO                        source/interfaces/inter3d1/i25sto.F
-Chd|        TRI7BOX                       share/modules1/tri7box.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    i25trivox1    ../starter/source/interfaces/inter3d1/i25trivox1.F
+      !||--- called by ------------------------------------------------------
+      !||    i25buc_vox1   ../starter/source/interfaces/inter3d1/i25buc_vox1.F
+      !||--- calls      -----------------------------------------------------
+      !||    i25sto        ../starter/source/interfaces/inter3d1/i25sto.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box       ../starter/share/modules1/tri7box.F
+      !||====================================================================
       SUBROUTINE I25TRIVOX1(
      1      NSN    ,I_MEM   ,IRECT  ,X       ,STF     ,
      2      STFN   ,XYZM    ,NSV    ,II_STOK ,CAND_N  ,

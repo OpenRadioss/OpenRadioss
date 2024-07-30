@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FORINTS                       source/elements/forints.F     
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        STARTIMEG                     source/system/timer.F         
-Chd|        STOPTIMEG                     source/system/timer.F         
-Chd|        XFORC3                        source/elements/xelem/xforc3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    forints        ../engine/source/elements/forints.F
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf        ../engine/share/resol/initbuf.F
+      !||    startimeg      ../engine/source/system/timer.F
+      !||    stoptimeg      ../engine/source/system/timer.F
+      !||    xforc3         ../engine/source/elements/xelem/xforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod    ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE FORINTS(
      1    PM        ,GEO       ,X         ,A         ,AR ,
      2    V         ,VR        ,MS        ,IN        ,W         ,

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RBE3_IMP0                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|        PRERBE3                       source/constraints/general/rbe3/rbe3f.F
-Chd|        RBE3CL                        source/constraints/general/rbe3/rbe3f.F
-Chd|        RBE3_IMP1                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe3_imp0    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    upd_glob_k   ../engine/source/implicit/upd_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    prerbe3      ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3_imp1    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3cl       ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||====================================================================
       SUBROUTINE RBE3_IMP0(
      1                    IRBE3  ,LRBE3 ,FRBE3  ,X     ,SKEW   ,
      2                    ISS3   ,IKC   ,NDOF   ,IDDL  ,IADK   ,
@@ -93,15 +93,15 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE3_IMPI                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        UPD_INT_K                     source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|        PRERBE3                       source/constraints/general/rbe3/rbe3f.F
-Chd|        RBE3CL                        source/constraints/general/rbe3/rbe3f.F
-Chd|        RBE3_IMP1                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe3_impi   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    upd_int_k   ../engine/source/implicit/upd_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    prerbe3     ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3_imp1   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3cl      ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||====================================================================
       SUBROUTINE RBE3_IMPI(
      1                    IRBE3  ,LRBE3 ,FRBE3  ,X     ,SKEW   ,
      2                    NSS3   ,ISS3  ,IKC   ,NDOF   ,IDDL   ,
@@ -168,22 +168,22 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE3_IMP1                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        RBE3_IMP0                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBE3_IMPI                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- calls ---------------
-Chd|        GET_KII                       source/implicit/imp_glob_k.F  
-Chd|        GET_KIJ                       source/implicit/imp_glob_k.F  
-Chd|        PRINT_WKIJ                    source/implicit/imp_glob_k.F  
-Chd|        PUT_KII                       source/implicit/imp_glob_k.F  
-Chd|        PUT_KIJ                       source/implicit/imp_glob_k.F  
-Chd|        UPDB_CDI                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        UPDK_CDI                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        UPDK_CDII                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        UPDK_CDIJ                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe3_imp1    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe3_imp0    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3_impi    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_kii      ../engine/source/implicit/imp_glob_k.F
+      !||    get_kij      ../engine/source/implicit/imp_glob_k.F
+      !||    print_wkij   ../engine/source/implicit/imp_glob_k.F
+      !||    put_kii      ../engine/source/implicit/imp_glob_k.F
+      !||    put_kij      ../engine/source/implicit/imp_glob_k.F
+      !||    updb_cdi     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    updk_cdi     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    updk_cdii    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    updk_cdij    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||====================================================================
       SUBROUTINE RBE3_IMP1(NS    ,NML   ,IML   ,X      ,IROT   ,
      2                     NSJ   ,ISJ   ,JT    ,JR     ,FDSTNB ,
      3                     MDSTNB,IKC   ,NDOF  ,IDDL   ,IADK   ,
@@ -300,18 +300,18 @@ C          ENDIF
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE3_IMPR1                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        IMP_DYKV                      source/implicit/imp_dyna.F    
-Chd|        IMP_DYKV0                     source/implicit/imp_dyna.F    
-Chd|        UPD_RHS                       source/implicit/upd_glob_k.F  
-Chd|        UPD_RHS_FR                    source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        PRERBE3                       source/constraints/general/rbe3/rbe3f.F
-Chd|        RBE3CL                        source/constraints/general/rbe3/rbe3f.F
-Chd|        RBE3_IMPB0                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe3_impr1   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_dykv     ../engine/source/implicit/imp_dyna.F
+      !||    imp_dykv0    ../engine/source/implicit/imp_dyna.F
+      !||    upd_rhs      ../engine/source/implicit/upd_glob_k.F
+      !||    upd_rhs_fr   ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    prerbe3      ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3_impb0   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3cl       ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||====================================================================
       SUBROUTINE RBE3_IMPR1(
      1                    IRBE3  ,LRBE3 ,FRBE3  ,X     ,SKEW   ,
      2                    NDOF   ,IDDL  ,B      ,WEIGHT)
@@ -368,13 +368,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE3_IMPB0                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        RBE3_IMPR1                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- calls ---------------
-Chd|        UPDB_CDI                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe3_impb0   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe3_impr1   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- calls      -----------------------------------------------------
+      !||    updb_cdi     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||====================================================================
       SUBROUTINE RBE3_IMPB0(NS    ,NML   ,IML   ,X      ,IROT   ,
      2                      JT    ,JR     ,FDSTNB ,MDSTNB,NDOF  ,
      3                      IDDL   ,B      )
@@ -426,18 +426,18 @@ C-------Update K(main node)---
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE3_IMPR2                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        IMP_DYKV                      source/implicit/imp_dyna.F    
-Chd|        IMP_DYKV0                     source/implicit/imp_dyna.F    
-Chd|        UPD_RHS                       source/implicit/upd_glob_k.F  
-Chd|        UPD_RHS_FR                    source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        PRERBE3                       source/constraints/general/rbe3/rbe3f.F
-Chd|        RBE3CL                        source/constraints/general/rbe3/rbe3f.F
-Chd|        RBE3_IMPB2                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe3_impr2   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_dykv     ../engine/source/implicit/imp_dyna.F
+      !||    imp_dykv0    ../engine/source/implicit/imp_dyna.F
+      !||    upd_rhs      ../engine/source/implicit/upd_glob_k.F
+      !||    upd_rhs_fr   ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    prerbe3      ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3_impb2   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3cl       ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||====================================================================
       SUBROUTINE RBE3_IMPR2(
      1                    IRBE3  ,LRBE3 ,FRBE3  ,X     ,SKEW   ,
      2                    NDOF   ,IDDL  ,B      ,WEIGHT,A      ,
@@ -495,13 +495,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE3_IMPB2                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        RBE3_IMPR2                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- calls ---------------
-Chd|        UPDB_CDI                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe3_impb2   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe3_impr2   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- calls      -----------------------------------------------------
+      !||    updb_cdi     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||====================================================================
       SUBROUTINE RBE3_IMPB2(NS    ,NML   ,IML   ,X      ,IROT   ,
      2                      JT    ,JR     ,FDSTNB ,MDSTNB,NDOF  ,
      3                      IDDL   ,B     ,A    ,AR      )
@@ -606,12 +606,11 @@ C-------Update K(main node)---
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  UPDK_BC                       source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        RBE2_IMP1                     source/constraints/general/rbe2/rbe2_imp0.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    updk_bc     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe2_imp1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||====================================================================
       SUBROUTINE UPDK_BC(JT,JR,K ,ISTIF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -655,12 +654,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  UPDK_BC2                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        RBE2_IMP1                     source/constraints/general/rbe2/rbe2_imp0.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    updk_bc2    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe2_imp1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||====================================================================
       SUBROUTINE UPDK_BC2(JT,JR,K ,ISTIF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -704,14 +702,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  UPDB_CDI                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        RBE3_IMP1                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBE3_IMPB0                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBE3_IMPB2                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    updb_cdi     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe3_imp1    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3_impb0   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3_impb2   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||====================================================================
       SUBROUTINE UPDB_CDI(FDI,MDI,BD,BI,IROT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -749,14 +746,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  UPDK_CDII                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        RBE3_FR1                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBE3_FRUPD                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBE3_IMP1                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    updk_cdii    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe3_fr1     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3_frupd   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3_imp1    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||====================================================================
       SUBROUTINE UPDK_CDII(FDI,MDI,KDD,KII,IROT,ND)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -830,13 +826,12 @@ C----   FDI[KDD]MDI^t------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  UPDK_CDIJ                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        RBE3_FR1                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBE3_IMP1                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    updk_cdij   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe3_fr1    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3_imp1   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||====================================================================
       SUBROUTINE UPDK_CDIJ(FDI,MDI,FDJ,MDJ,KDD,KIJ,IROT,ND)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -905,13 +900,12 @@ C----   MDI[KDD]MDJ^t------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  UPDK_CDI                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        RBE3_FR1                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBE3_IMP1                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    updk_cdi    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe3_fr1    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3_imp1   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||====================================================================
       SUBROUTINE UPDK_CDI(FDI,MDI,KDD,KIJ,IROT,ND,ISYM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -964,12 +958,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  UPDFRK_BC                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        RBE3_FRUPD                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    updfrk_bc    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe3_frupd   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||====================================================================
       SUBROUTINE UPDFRK_BC(JT, K ,ISTIF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1010,15 +1003,15 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE3_FRUPD                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        DIAG_INT                      source/mpi/implicit/imp_fri.F 
-Chd|        UPDK_MV                       source/airbag/monv_imp0.F     
-Chd|-- calls ---------------
-Chd|        UPDFRK_BC                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        UPDK_CDII                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe3_frupd   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    diag_int     ../engine/source/mpi/implicit/imp_fri.F
+      !||    updk_mv      ../engine/source/airbag/monv_imp0.F
+      !||--- calls      -----------------------------------------------------
+      !||    updfrk_bc    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    updk_cdii    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||====================================================================
       SUBROUTINE RBE3_FRUPD(NIR   ,IML   ,FDSTNB ,MDSTNB ,NDOF  ,
      1                      JT    ,IROT  ,KSS    ,DIAG_M3)
 C-----------------------------------------------
@@ -1064,15 +1057,15 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE3_FR0                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        UPD_KML                       source/mpi/implicit/imp_fri.F 
-Chd|        UPD_KSL                       source/mpi/implicit/imp_fri.F 
-Chd|-- calls ---------------
-Chd|        RBE3CL                        source/constraints/general/rbe3/rbe3f.F
-Chd|        RBE3_FR1                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe3_fr0   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    upd_kml    ../engine/source/mpi/implicit/imp_fri.F
+      !||    upd_ksl    ../engine/source/mpi/implicit/imp_fri.F
+      !||--- calls      -----------------------------------------------------
+      !||    rbe3_fr1   ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3cl     ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||====================================================================
       SUBROUTINE RBE3_FR0(NS    ,NML   ,IML    ,X     ,IROT   ,
      2                     JT    ,JR    ,FRBE3 ,SKEW  ,IKC    ,
      3                     NDOF  ,IADK  ,JDIK   ,DIAG_K ,LT_K ,
@@ -1113,18 +1106,18 @@ C------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE3_FR1                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- called by -----------
-Chd|        RBE3_FR0                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|-- calls ---------------
-Chd|        PRINT_WKIJ                    source/implicit/imp_glob_k.F  
-Chd|        PUT_KMII                      source/implicit/imp_glob_k.F  
-Chd|        PUT_KMIJ                      source/implicit/imp_glob_k.F  
-Chd|        UPDK_CDI                      source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        UPDK_CDII                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        UPDK_CDIJ                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe3_fr1     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    rbe3_fr0     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||--- calls      -----------------------------------------------------
+      !||    print_wkij   ../engine/source/implicit/imp_glob_k.F
+      !||    put_kmii     ../engine/source/implicit/imp_glob_k.F
+      !||    put_kmij     ../engine/source/implicit/imp_glob_k.F
+      !||    updk_cdi     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    updk_cdii    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    updk_cdij    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||====================================================================
       SUBROUTINE RBE3_FR1(NS    ,NML   ,IML    ,X     ,IROT   ,
      2                     JT    ,JR    ,FDSTNB ,MDSTNB,IKC    ,
      3                     NDOF  ,IADK  ,JDIK   ,DIAG_K ,LT_K ,

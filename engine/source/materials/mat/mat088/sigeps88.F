@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS88                      source/materials/mat/mat088/sigeps88.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        VALPVEC                       source/materials/mat/mat033/sigeps33.F
-Chd|        VALPVECDP                     source/materials/mat/mat033/sigeps33.F
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps88    ../engine/source/materials/mat/mat088/sigeps88.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw       ../engine/source/materials/mat_share/mulaw.F90
+      !||--- calls      -----------------------------------------------------
+      !||    finter      ../engine/source/tools/curve/finter.F
+      !||    valpvec     ../engine/source/materials/mat/mat033/sigeps33.F
+      !||    valpvecdp   ../engine/source/materials/mat/mat033/sigeps33.F
+      !||====================================================================
        SUBROUTINE SIGEPS88(
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,

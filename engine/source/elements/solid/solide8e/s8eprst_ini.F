@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8EPRST_INI                   source/elements/solid/solide8e/s8eprst_ini.F
-Chd|-- called by -----------
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8eprst_ini   ../engine/source/elements/solid/solide8e/s8eprst_ini.F
+      !||--- called by ------------------------------------------------------
+      !||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8sforc3      ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||====================================================================
       SUBROUTINE S8EPRST_INI(PR ,PS ,PT )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

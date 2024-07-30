@@ -26,6 +26,14 @@
 !! \brief This subroutine is computing initial volume fraction with polygon clipping
 !! \details the user polygon is provided with /SUF/SEG option and used to clip elem polygons (quads or trias)
 !! \details algo first searches for mesh nodes inside/outside the surface, the clipping is used if at least one but not all nodes are inside the user polygon
+      !||====================================================================
+      !||    init_inivol_2d_polygons    ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+      !||--- called by ------------------------------------------------------
+      !||    init_inivol                ../starter/source/initial_conditions/inivol/init_inivol.F90
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    inivol_def_mod             ../starter/share/modules1/inivol_mod.F
+      !||====================================================================
       subroutine init_inivol_2D_polygons( &
                                 i_inivol  ,      idc, &
                                 NUM_INIVOL,   inivol,               nsurf,   igrsurf, &

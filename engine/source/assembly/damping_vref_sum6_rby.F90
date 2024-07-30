@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    damping_vref_sum6_rby_mod   ../engine/source/assembly/damping_vref_sum6_rby.F90
+      !||--- called by ------------------------------------------------------
+      !||    damping_vref_rby            ../engine/source/assembly/damping_vref_rby.F90
+      !||====================================================================
       module damping_vref_sum6_rby_mod
       contains
 ! ======================================================================================================================
@@ -30,6 +35,16 @@
 !!\brief This subroutine computes damping forces for /DAMP/VREL with RBODY and make assembly on main node
 !=======================================================================================================================
 !
+      !||====================================================================
+      !||    damping_vref_sum6_rby   ../engine/source/assembly/damping_vref_sum6_rby.F90
+      !||--- called by ------------------------------------------------------
+      !||    damping_vref_rby        ../engine/source/assembly/damping_vref_rby.F90
+      !||--- calls      -----------------------------------------------------
+      !||    sum_6_float             ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod            ../common_source/modules/constant_mod.F
+      !||    groupdef_mod            ../common_source/modules/groupdef_mod.F
+      !||====================================================================
         subroutine damping_vref_sum6_rby(nsn,igr,id_rby,isk,im,                  &
           igrnod,ngrnod,v,vr,a,                   &
           x,ms,dt1,numnod,tagslv_rby,             &

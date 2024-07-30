@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THICKINI                      source/elements/shell/coqueba/thickini.F
-Chd|-- called by -----------
-Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
-Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
-Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    thickini      ../starter/source/elements/shell/coqueba/thickini.F
+      !||--- called by ------------------------------------------------------
+      !||    c3init3       ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3      ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cdkinit3      ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||    cinit3        ../starter/source/elements/shell/coque/cinit3.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE THICKINI(JFT     ,JLT   ,NFT    ,PTSH  ,NUMEL ,
      2                    THK     ,THKE  ,IX     ,NIX   ,NSIGSH,
      3                    SIGSH   )

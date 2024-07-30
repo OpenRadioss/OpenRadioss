@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  COMPUTE_CONNECT_PARTELM       source/model/sets/compute_connect_partelm.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        INVERTED_GROUP_ALLOC          source/model/sets/inverted_group_alloc.F
-Chd|        INVERTED_GROUP_INIT           source/model/sets/inverted_group_init.F
-Chd|        INVERTED_GROUP_MOD            share/modules1/inverted_group_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    compute_connect_partelm   ../starter/source/model/sets/compute_connect_partelm.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                    ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    inverted_group_alloc      ../starter/source/model/sets/inverted_group_alloc.F
+      !||    inverted_group_init       ../starter/source/model/sets/inverted_group_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    inverted_group_mod        ../starter/share/modules1/inverted_group_mod.F
+      !||====================================================================
       SUBROUTINE COMPUTE_CONNECT_PARTELM( IPARTS,IPARTQ,IPARTC,IPARTT,IPARTP,
      .                                    IPARTTG,IPARTR ,IPARTSP, INV_GROUP,NUMSPH,
      .                                    NISP   ,KXSP   )

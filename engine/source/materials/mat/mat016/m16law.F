@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M16LAW                        source/materials/mat/mat016/m16law.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m16law   ../engine/source/materials/mat/mat016/m16law.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain    ../engine/source/materials/mat_share/mmain.F90
+      !||====================================================================
       SUBROUTINE M16LAW(PM   ,OFF   ,SIG ,NEL  ,
      2                  EPXE ,THETA ,EPD ,XIST ,
      3                  MAT  ,D1    ,D2  ,D3   ,

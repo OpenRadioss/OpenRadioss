@@ -22,14 +22,17 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C     REAL
 #include "my_real.inc"
-Chd|====================================================================
-Chd|  SYSFUS                        source/system/sysfus.F        
-Chd|-- called by -----------
-Chd|        LECCUT                        source/tools/sect/leccut.F    
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sysfus        ../engine/source/system/sysfus.F
+      !||--- called by ------------------------------------------------------
+      !||    animx         ../engine/source/output/anim/generate/animx.F
+      !||    lcbcsf        ../engine/source/constraints/general/bcs/lcbcsf.F
+      !||    leccut        ../engine/source/tools/sect/leccut.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
        my_real  FUNCTION SYSFUS(IU,ITABM1,NUMNOD,MESS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -82,24 +85,26 @@ C     >CAS IU>TABM
       END
 C
 C     REAL
-Chd|====================================================================
-Chd|  SYSFUS2                       source/system/sysfus.F        
-Chd|-- called by -----------
-Chd|        ALE51_SPMD2                   source/ale/ale51/ale51_spmd2.F
-Chd|        ALE51_SPMD3                   source/ale/ale51/ale51_spmd3.F
-Chd|        COUNT_REMOTE_NB_ELEM_EDGE     source/interfaces/interf/count_remote_nb_elem_edge.F
-Chd|        FIND_EDGE_FROM_REMOTE_PROC    source/interfaces/interf/find_edge_from_remote_proc.F
-Chd|        FIND_SURFACE_FROM_REMOTE_PROC source/interfaces/interf/find_surface_from_remote_proc.F
-Chd|        FR_RLALE                      source/mpi/kinematic_conditions/fr_rlink1.F
-Chd|        FR_RLINK1                     source/mpi/kinematic_conditions/fr_rlink1.F
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|        LCBCSF                        source/constraints/general/bcs/lcbcsf.F
-Chd|        LECNOISE                      source/general_controls/computation/lecnoise.F
-Chd|        SPMD_EXCHMSR_IDEL             source/mpi/interfaces/spmd_exchmsr_idel.F
-Chd|        SPMD_EXCHSEG_IDEL             source/mpi/kinematic_conditions/spmd_exchseg_idel.F
-Chd|        TAGOFF3N                      source/interfaces/interf/chkstfn3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sysfus2                                  ../engine/source/system/sysfus.F
+      !||--- called by ------------------------------------------------------
+      !||    ale51_spmd2                              ../engine/source/ale/ale51/ale51_spmd2.F
+      !||    ale51_spmd3                              ../engine/source/ale/ale51/ale51_spmd3.F
+      !||    chkstfn3n                                ../engine/source/interfaces/interf/chkstfn3.F
+      !||    count_remote_nb_elem_edge                ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
+      !||    find_edge_from_remote_proc               ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
+      !||    find_surface_from_remote_proc            ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
+      !||    forcefingeo                              ../engine/source/loads/general/forcefingeo.F
+      !||    fr_rlale                                 ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
+      !||    fr_rlink1                                ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
+      !||    genh3d                                   ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    lcbcsf                                   ../engine/source/constraints/general/bcs/lcbcsf.F
+      !||    lecnoise                                 ../engine/source/general_controls/computation/lecnoise.F
+      !||    spmd_exchmsr_idel                        ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
+      !||    spmd_exchseg_idel                        ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
+      !||    tagoff3n                                 ../engine/source/interfaces/interf/chkstfn3.F
+      !||====================================================================
       INTEGER FUNCTION SYSFUS2(IU,ITABM1,NUMNOD)
 C cette fonction retourne le no interne correspondant a un no user ou 0
 C si le noeud n'existe pas

@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CRK_VITESSE2                  source/elements/xfem/crk_vitesse2.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        UPXVIT_C1                     source/elements/xfem/crk_vitesse2.F
-Chd|        UPXVIT_C2                     source/elements/xfem/crk_vitesse2.F
-Chd|        UPXVIT_T1                     source/elements/xfem/crk_vitesse2.F
-Chd|        UPXVIT_T2                     source/elements/xfem/crk_vitesse2.F
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    crk_vitesse2    ../engine/source/elements/xfem/crk_vitesse2.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    upxvit_c1       ../engine/source/elements/xfem/crk_vitesse2.F
+      !||    upxvit_c2       ../engine/source/elements/xfem/crk_vitesse2.F
+      !||    upxvit_t1       ../engine/source/elements/xfem/crk_vitesse2.F
+      !||    upxvit_t2       ../engine/source/elements/xfem/crk_vitesse2.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE CRK_VITESSE2(IPARG    ,NGROUC   ,IGROUC   ,ELCUTC   ,CRKEDGE  ,
      .                        NODEDGE  ,IXC      ,IXTG     ,XEDGE4N  ,XEDGE3N  ,
      .                        IADC_CRK ,IEL_CRK  ,INOD_CRK ,ITAB     )
@@ -116,13 +117,13 @@ c-----------
       RETURN
       END
 c
-Chd|====================================================================
-Chd|  UPXVIT_C1                     source/elements/xfem/crk_vitesse2.F
-Chd|-- called by -----------
-Chd|        CRK_VITESSE2                  source/elements/xfem/crk_vitesse2.F
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    upxvit_c1       ../engine/source/elements/xfem/crk_vitesse2.F
+      !||--- called by ------------------------------------------------------
+      !||    crk_vitesse2    ../engine/source/elements/xfem/crk_vitesse2.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE UPXVIT_C1(NEL      ,NFT      ,NXLAY   ,ELCUTC ,
      .                     IEL_CRK  ,IADC_CRK )
 C-----------------------------------------------
@@ -210,13 +211,13 @@ c-----------
       RETURN
       END
 c
-Chd|====================================================================
-Chd|  UPXVIT_T1                     source/elements/xfem/crk_vitesse2.F
-Chd|-- called by -----------
-Chd|        CRK_VITESSE2                  source/elements/xfem/crk_vitesse2.F
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    upxvit_t1       ../engine/source/elements/xfem/crk_vitesse2.F
+      !||--- called by ------------------------------------------------------
+      !||    crk_vitesse2    ../engine/source/elements/xfem/crk_vitesse2.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE UPXVIT_T1(NEL    ,NFT     ,NXLAY  ,ELCUTG    ,
      .                     IEL_XTG,IADC_XTG)
 C-----------------------------------------------
@@ -304,13 +305,13 @@ c----
 c-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  UPXVIT_C2                     source/elements/xfem/crk_vitesse2.F
-Chd|-- called by -----------
-Chd|        CRK_VITESSE2                  source/elements/xfem/crk_vitesse2.F
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    upxvit_c2       ../engine/source/elements/xfem/crk_vitesse2.F
+      !||--- called by ------------------------------------------------------
+      !||    crk_vitesse2    ../engine/source/elements/xfem/crk_vitesse2.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE UPXVIT_C2(NEL      ,NFT      ,NXLAY    ,IXC      ,XEDGE4N  ,
      .                     CRKEDGE  ,NODEDGE  ,IEL_CRK  ,IADC_CRK ,INOD_CRK ,
      .                     ELCUTC   ,ITAB     )
@@ -405,13 +406,13 @@ c-----------
       RETURN
       END
 c
-Chd|====================================================================
-Chd|  UPXVIT_T2                     source/elements/xfem/crk_vitesse2.F
-Chd|-- called by -----------
-Chd|        CRK_VITESSE2                  source/elements/xfem/crk_vitesse2.F
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    upxvit_t2       ../engine/source/elements/xfem/crk_vitesse2.F
+      !||--- called by ------------------------------------------------------
+      !||    crk_vitesse2    ../engine/source/elements/xfem/crk_vitesse2.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE UPXVIT_T2(NEL      ,NFT      ,NXLAY    ,IXTG     ,XEDGE3N  ,
      .                     CRKEDGE  ,NODEDGE  ,IEL_XTG  ,IADC_XTG ,INOD_CRK ,
      .                     ELCUTG   ,ITAB     )

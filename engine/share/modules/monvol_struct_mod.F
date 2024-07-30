@@ -20,18 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
-Chd|-- called by -----------
-Chd|        MONVOL0                       source/airbag/monvol0.F       
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|        VOLUM0                        source/airbag/volum0.F        
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    monvol_struct_mod   ../engine/share/modules/monvol_struct_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    monvol0             ../engine/source/airbag/monvol0.F
+      !||    radioss2            ../engine/source/engine/radioss2.F
+      !||    rdresb              ../engine/source/output/restart/rdresb.F
+      !||    resol               ../engine/source/engine/resol.F
+      !||    resol_head          ../engine/source/engine/resol_head.F
+      !||    volum0              ../engine/source/airbag/volum0.F
+      !||    wrrestp             ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
       MODULE MONVOL_STRUCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -47,11 +46,9 @@ C-----------------------------------------------
       END TYPE MONVOL_STRUCT_
       
       CONTAINS
-Chd|====================================================================
-Chd|  MONVOL_DEALLOCATE             share/modules/monvol_struct_mod.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    monvol_deallocate   ../engine/share/modules/monvol_struct_mod.F
+      !||====================================================================
       SUBROUTINE MONVOL_DEALLOCATE(NVOLU, T_MONVOL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASS18                         source/interfaces/int18/ass18.F
-Chd|-- called by -----------
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|-- calls ---------------
-Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
-Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    ass18           ../engine/source/interfaces/int18/ass18.F
+      !||--- called by ------------------------------------------------------
+      !||    i7mainf         ../engine/source/interfaces/int07/i7mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    myqsort         ../common_source/tools/sort/myqsort.F
+      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+      !||    sum_6_float     ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod        ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE ASS18(NRTM  ,IRECT,A    ,X   ,SURF   ,
      2                 PRES  ,FCONT,IBAG ,FSAV,FSAVBAG,
      3                 FR_I18,ISKY ,FSKYI,H3D_DATA )

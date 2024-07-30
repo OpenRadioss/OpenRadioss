@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  QSURFTAG                      source/groups/qsurftag.F      
-Chd|-- called by -----------
-Chd|        HM_READ_SURF                  source/groups/hm_read_surf.F  
-Chd|-- calls ---------------
-Chd|        QSURF                         source/groups/qsurftag.F      
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    qsurftag       ../starter/source/groups/qsurftag.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_surf   ../starter/source/groups/hm_read_surf.F
+      !||--- calls      -----------------------------------------------------
+      !||    qsurf          ../starter/source/groups/qsurftag.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE QSURFTAG(IXQ   ,IPARTQ   ,NSEG0   ,IGRSURF ,TAGBUF,
      .                    NSEG  ,KNOD2ELQ ,NOD2ELQ ,IEXT    ,FLAG  ,
      .                    X     )
@@ -156,12 +156,11 @@ C           check external normal
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  QSURF                         source/groups/qsurftag.F      
-Chd|-- called by -----------
-Chd|        QSURFTAG                      source/groups/qsurftag.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    qsurf      ../starter/source/groups/qsurftag.F
+      !||--- called by ------------------------------------------------------
+      !||    qsurftag   ../starter/source/groups/qsurftag.F
+      !||====================================================================
       SUBROUTINE QSURF(N1        ,N2        ,JQ       ,NSEG0 ,ISEG,
      .                 SURF_ELTYP,SURF_ELEM,SURF_NODES)
 C-----------------------------------------------

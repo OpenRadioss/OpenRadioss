@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25REMLINE                    source/interfaces/int25/i25remlin.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|        I11PENE_LIN                   source/interfaces/inter3d1/i11remlin.F
-Chd|        ORIGIN                        source/model/remesh/build_admesh.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i25remline    ../starter/source/interfaces/int25/i25remlin.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- calls      -----------------------------------------------------
+      !||    i11pene_lin   ../starter/source/interfaces/inter3d1/i11remlin.F
+      !||    origin        ../starter/source/model/remesh/build_admesh.F
+      !||====================================================================
       SUBROUTINE I25REMLINE(
      1         X    ,NEDGE ,LEDGE ,NUMNOD ,GAP_E    ,GAP_E_L,
      2         IGAP0,IGAP  ,DRAD  ,BGAPEMX,BGAPEMX_L,KREMNODE, 
@@ -318,17 +318,18 @@ C
       END
 
 
-Chd|====================================================================
-Chd|  REMN_I2OP_EDG25               source/interfaces/int25/i25remlin.F
-Chd|-- called by -----------
-Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        UPGRADE_REMNODE_E2S           source/interfaces/interf1/upgrade_remnode.F
-Chd|        UPGRADE_REMNODE_EDG2          source/interfaces/interf1/upgrade_remnode.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    remn_i2op_edg25        ../starter/source/interfaces/int25/i25remlin.F
+      !||--- called by ------------------------------------------------------
+      !||    remn_i2op              ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    upgrade_remnode_e2s    ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||    upgrade_remnode_edg2   ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE REMN_I2OP_EDG25(N         ,FLAGREMNODE, IPARI   ,INTBUF_TAB   ,I2NODE  ,
      .                          POINTS_I2N ,I2NODE_SIZE, NOM_OPT ,ITAB,FLAG_OUTPUT)
 C-----------------------------------------------

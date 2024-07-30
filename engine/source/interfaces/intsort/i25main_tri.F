@@ -20,38 +20,41 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25MAIN_TRI                   source/interfaces/intsort/i25main_tri.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I25BUCE                       source/interfaces/intsort/i25buce.F
-Chd|        I25BUCE_EDG                   source/interfaces/intsort/i25buce_edg.F
-Chd|        I25GAPMSAVE                   source/interfaces/intsort/i25gapmsave.F
-Chd|        I25TRC_E2S                    source/interfaces/intsort/i25trc_e2s.F
-Chd|        I25TRC_EDG                    source/interfaces/intsort/i25trc_edg.F
-Chd|        I7XSAVE                       source/interfaces/intsort/i7xsave.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_RNUM25                   source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_RNUM25_EDGE              source/mpi/interfaces/spmd_rnum25_edge.F
-Chd|        SPMD_TRI25EGAT                source/mpi/interfaces/spmd_tri25egat.F
-Chd|        SPMD_TRI25GAT                 source/mpi/interfaces/spmd_tri25gat.F
-Chd|        SPMD_TRI25VOX                 source/mpi/interfaces/spmd_tri25vox.F
-Chd|        SPMD_TRI25VOX0                source/mpi/interfaces/spmd_tri25vox0.F
-Chd|        SPMD_TRI25VOX0_EDGE           source/mpi/interfaces/spmd_tri25vox0.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        UPGRADE_LCAND_E2S             ../common_source/interf/upgrade_multimp.F
-Chd|        UPGRADE_LCAND_EDG             ../common_source/interf/upgrade_multimp.F
-Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25main_tri                  ../engine/source/interfaces/intsort/i25main_tri.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri                       ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                       ../engine/source/output/message/message.F
+      !||    arret                        ../engine/source/system/arret.F
+      !||    check_sorting_criteria       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||    i25buce                      ../engine/source/interfaces/intsort/i25buce.F
+      !||    i25buce_edg                  ../engine/source/interfaces/intsort/i25buce_edg.F
+      !||    i25gapmsave                  ../engine/source/interfaces/intsort/i25gapmsave.F
+      !||    i25trc_e2s                   ../engine/source/interfaces/intsort/i25trc_e2s.F
+      !||    i25trc_edg                   ../engine/source/interfaces/intsort/i25trc_edg.F
+      !||    i7xsave                      ../engine/source/interfaces/intsort/i7xsave.F
+      !||    my_barrier                   ../engine/source/system/machine.F
+      !||    spmd_rnum25                  ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_rnum25_edge             ../engine/source/mpi/interfaces/spmd_rnum25_edge.F
+      !||    spmd_tri25egat               ../engine/source/mpi/interfaces/spmd_tri25egat.F
+      !||    spmd_tri25gat                ../engine/source/mpi/interfaces/spmd_tri25gat.F
+      !||    spmd_tri25vox                ../engine/source/mpi/interfaces/spmd_tri25vox.F
+      !||    spmd_tri25vox0               ../engine/source/mpi/interfaces/spmd_tri25vox0.F
+      !||    spmd_tri25vox0_edge          ../engine/source/mpi/interfaces/spmd_tri25vox0.F
+      !||    startime                     ../engine/source/system/timer.F
+      !||    stoptime                     ../engine/source/system/timer.F
+      !||    upgrade_lcand_e2s            ../common_source/interf/upgrade_multimp.F
+      !||    upgrade_lcand_edg            ../common_source/interf/upgrade_multimp.F
+      !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
+      !||--- uses       -----------------------------------------------------
+      !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+      !||    message_mod                  ../engine/share/message_module/message_mod.F
+      !||    parameters_mod               ../common_source/modules/interfaces/parameters_mod.F
+      !||    tri25ebox                    ../engine/share/modules/tri25ebox.F
+      !||    tri7box                      ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25MAIN_TRI(
      1                  IPARI   ,X       ,V       ,INTBUF_TAB,
      2                  MS      ,NIN     ,ITASK   ,WEIGHT  ,

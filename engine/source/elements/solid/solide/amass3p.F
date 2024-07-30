@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  AMASS3P                       source/elements/solid/solide/amass3p.F
-Chd|-- called by -----------
-Chd|        MULTI_FVM2FEM                 source/multifluid/multi_fvm2fem.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    amass3p          ../engine/source/elements/solid/solide/amass3p.F
+      !||--- called by ------------------------------------------------------
+      !||    multi_fvm2fem    ../engine/source/multifluid/multi_fvm2fem.F
+      !||    sforc3           ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3          ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||====================================================================
       SUBROUTINE AMASS3P(
      1   FSKYM,   RHO,     VOLGP,   TAG22,
      2   VOLU,    IADS,    OFF,     IXS,

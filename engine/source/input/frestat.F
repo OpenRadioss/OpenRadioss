@@ -20,20 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FRESTAT                       source/input/frestat.F        
-Chd|-- called by -----------
-Chd|        FREFORM                       source/input/freform.F        
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        FREDEC_8KEY_I                 source/input/fredec_8key_i.F  
-Chd|        WRIUSC2                       source/input/wriusc2.F        
-Chd|        NVAR                          source/input/nvar.F           
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STATE_INIMAP_MOD              share/modules/state_inimap_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    frestat                ../engine/source/input/frestat.F
+      !||--- called by ------------------------------------------------------
+      !||    freform                ../engine/source/input/freform.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||    fredec_8key_i          ../engine/source/input/fredec_8key_i.F
+      !||    nvar                   ../engine/source/input/nvar.F
+      !||    state_init             ../common_source/modules/output/state_file_mod.F90
+      !||    wriusc2                ../engine/source/input/wriusc2.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    output_mod             ../common_source/modules/output/output_mod.F90
+      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    state_inimap_mod       ../engine/share/modules/state_inimap_mod.F
+      !||====================================================================
       SUBROUTINE FRESTAT(IKAD,KEY0,KSTATF,SENSORS,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s

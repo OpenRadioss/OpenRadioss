@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M1LAWT                        source/materials/mat/mat001/m1lawt.F
-Chd|-- called by -----------
-Chd|        TFORC3                        source/elements/truss/tforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m1lawt   ../engine/source/materials/mat/mat001/m1lawt.F
+      !||--- called by ------------------------------------------------------
+      !||    tforc3   ../engine/source/elements/truss/tforc3.F
+      !||====================================================================
       SUBROUTINE M1LAWT(
      1   PM,      GEO,     OFF,     FOR,
      2   EINT,    AREA,    AL0,     STI,

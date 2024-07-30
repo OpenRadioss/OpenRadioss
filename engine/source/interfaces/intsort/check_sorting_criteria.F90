@@ -20,12 +20,44 @@
 !copyright>        as an alternative to this open-source version, altair also offers altair radioss
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||--- called by ------------------------------------------------------
+      !||    i10main_tri                  ../engine/source/interfaces/intsort/i10main_tri.F
+      !||    i11main_tri                  ../engine/source/interfaces/intsort/i11main_tri.F
+      !||    i20main_tri                  ../engine/source/interfaces/intsort/i20main_tri.F
+      !||    i21main_tri                  ../engine/source/interfaces/intsort/i21main_tri.F
+      !||    i22main_tri                  ../engine/source/interfaces/intsort/i22main_tri.F
+      !||    i23main_tri                  ../engine/source/interfaces/intsort/i23main_tri.F
+      !||    i24main_tri                  ../engine/source/interfaces/intsort/i24main_tri.F
+      !||    i25main_tri                  ../engine/source/interfaces/intsort/i25main_tri.F
+      !||    i7main_tri                   ../engine/source/interfaces/intsort/i7main_tri.F
+      !||    inter_sort_07                ../engine/source/interfaces/int07/inter_sort_07.F
+      !||====================================================================
       module check_sorting_criteria_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief This routine checks if the current "interface_id" interface needs to be sorted
+      !||====================================================================
+      !||    check_sorting_criteria   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||--- called by ------------------------------------------------------
+      !||    i10main_tri              ../engine/source/interfaces/intsort/i10main_tri.F
+      !||    i11main_tri              ../engine/source/interfaces/intsort/i11main_tri.F
+      !||    i20main_tri              ../engine/source/interfaces/intsort/i20main_tri.F
+      !||    i21main_tri              ../engine/source/interfaces/intsort/i21main_tri.F
+      !||    i22main_tri              ../engine/source/interfaces/intsort/i22main_tri.F
+      !||    i23main_tri              ../engine/source/interfaces/intsort/i23main_tri.F
+      !||    i24main_tri              ../engine/source/interfaces/intsort/i24main_tri.F
+      !||    i25main_tri              ../engine/source/interfaces/intsort/i25main_tri.F
+      !||    i7main_tri               ../engine/source/interfaces/intsort/i7main_tri.F
+      !||    inter_sort_07            ../engine/source/interfaces/int07/inter_sort_07.F
+      !||--- calls      -----------------------------------------------------
+      !||    i20xsinir                ../engine/source/interfaces/intsort/i20main_tri.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod             ../common_source/modules/constant_mod.F
+      !||====================================================================
         subroutine check_sorting_criteria( need_computation,interface_id,nipari,nspmd,task_id,ipari,time,intbuf_tab )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules

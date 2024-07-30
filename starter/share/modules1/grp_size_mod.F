@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GRP_SIZE_MOD                  share/modules1/grp_size_mod.F 
-Chd|-- called by -----------
-Chd|        CONTRL                        source/starter/contrl.F       
-Chd|        EXECARGCHECK                  source/starter/execargcheck.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    grp_size_mod   ../starter/share/modules1/grp_size_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    contrl         ../starter/source/starter/contrl.F
+      !||    execargcheck   ../starter/source/starter/execargcheck.F
+      !||====================================================================
         MODULE GRP_SIZE_MOD
 !$COMMENT
 !       GRP_SIZE_MOD description

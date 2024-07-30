@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I23DST3                       source/interfaces/int23/i23dst3.F
-Chd|-- called by -----------
-Chd|        I23MAINF                      source/interfaces/int23/i23mainf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i23dst3    ../engine/source/interfaces/int23/i23dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i23mainf   ../engine/source/interfaces/int23/i23mainf.F
+      !||====================================================================
       SUBROUTINE I23DST3(
      1      JLT    ,CAND_N_N ,CAND_E_N ,CN_LOC ,CE_LOC ,
      2      X1     ,X2     ,X3     ,X4     ,Y1     ,

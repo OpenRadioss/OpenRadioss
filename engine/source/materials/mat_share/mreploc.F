@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MREPLOC                       source/materials/mat_share/mreploc.F
-Chd|-- called by -----------
-Chd|        M25LAW                        source/materials/mat/mat025/m25law.F
-Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
-Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mreploc         ../engine/source/materials/mat_share/mreploc.F
+      !||--- called by ------------------------------------------------------
+      !||    m25law          ../engine/source/materials/mat/mat025/m25law.F
+      !||    mmain           ../engine/source/materials/mat_share/mmain.F90
+      !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8          ../engine/source/materials/mat_share/mulaw8.F
+      !||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
+      !||====================================================================
       SUBROUTINE MREPLOC(
      1   ANG,     R11,     R12,     R13,
      2   R21,     R22,     R23,     R31,

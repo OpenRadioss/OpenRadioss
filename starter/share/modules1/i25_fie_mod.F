@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25_FIE_MOD                   share/modules1/i25_fie_mod.F  
-Chd|-- called by -----------
-Chd|        PREPARE_SPLIT_I25E2E          source/spmd/prepare_split_i25e2e.F
-Chd|        SPLIT_CAND_I25_EDGE           source/restart/ddsplit/inter_tools.F
-Chd|        W_FI                          source/restart/ddsplit/w_fi.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i25_fie_mod            ../starter/share/modules1/i25_fie_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    prepare_split_i25e2e   ../starter/source/spmd/prepare_split_i25e2e.F
+      !||    split_cand_i25_edge    ../starter/source/restart/ddsplit/inter_tools.F
+      !||    w_fi                   ../starter/source/restart/ddsplit/w_fi.F
+      !||====================================================================
       MODULE I25_FIE_MOD 
 C----------------------------------------------------------------------- 
 #include "my_real.inc"

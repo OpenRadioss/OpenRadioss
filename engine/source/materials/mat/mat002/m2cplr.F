@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M2CPLR                        source/materials/mat/mat002/m2cplr.F
-Chd|-- called by -----------
-Chd|        SIGEPS02C                     source/materials/mat/mat002/sigeps02c.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m2cplr      ../engine/source/materials/mat/mat002/m2cplr.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps02c   ../engine/source/materials/mat/mat002/sigeps02c.F
+      !||====================================================================
       SUBROUTINE M2CPLR(JFT    ,JLT    ,EZZ      ,OFF      ,EPSEQ   ,
      2                  IPLA   ,T      ,Z3       ,Z4       ,EPIF    ,
      3                  NPIF   ,IRTY   ,ETSE     ,GS       ,EPSP    ,

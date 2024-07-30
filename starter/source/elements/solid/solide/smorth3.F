@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SMORTH3                       source/elements/solid/solide/smorth3.F
-Chd|-- called by -----------
-Chd|        MULTIFLUID_INIT3              source/multifluid/multifluid_init3.F
-Chd|        S10INIT3                      source/elements/solid/solide10/s10init3.F
-Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        INV3                          source/tools/univ/inv3.F      
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    smorth3            ../starter/source/elements/solid/solide/smorth3.F
+      !||--- called by ------------------------------------------------------
+      !||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
+      !||    s10init3           ../starter/source/elements/solid/solide10/s10init3.F
+      !||    s4init3            ../starter/source/elements/solid/solide4/s4init3.F
+      !||    s8zinit3           ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||    sinit3             ../starter/source/elements/solid/solide/sinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../starter/source/output/message/message.F
+      !||    fretitl2           ../starter/source/starter/freform.F
+      !||    inv3               ../starter/source/tools/univ/inv3.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,GAMA ,
      .       RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .       E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,

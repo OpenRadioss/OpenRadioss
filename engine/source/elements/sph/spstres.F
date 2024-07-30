@@ -20,27 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPSTRES                       source/elements/sph/spstres.F 
-Chd|-- called by -----------
-Chd|        FORINTP                       source/elements/forintp.F     
-Chd|-- calls ---------------
-Chd|        SPBACK3                       source/elements/sph/spback3.F 
-Chd|        SPBILAN                       source/elements/sph/spbilan.F 
-Chd|        SPDEFO3                       source/elements/sph/spdefo3.F 
-Chd|        SPLOAD3                       source/elements/sph/spload3.F 
-Chd|        SPMALLB3                      source/elements/sph/spmall3.F 
-Chd|        SPOFF3                        source/elements/sph/spoff3.F  
-Chd|        SPREPLOC                      source/elements/sph/spreploc.F
-Chd|        SPTEMPEL                      source/elements/sph/sptemp.F  
-Chd|        SPVOL3                        source/elements/sph/spvol3.F  
-Chd|        SROTA3                        source/elements/solid/solide/srota3.F
-Chd|        SSTRA3                        source/elements/solid/solide/sstra3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    spstres                ../engine/source/elements/sph/spstres.F
+      !||--- called by ------------------------------------------------------
+      !||    forintp                ../engine/source/elements/forintp.F
+      !||--- calls      -----------------------------------------------------
+      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+      !||    spback3                ../engine/source/elements/sph/spback3.F
+      !||    spbilan                ../engine/source/elements/sph/spbilan.F
+      !||    spdefo3                ../engine/source/elements/sph/spdefo3.F
+      !||    spload3                ../engine/source/elements/sph/spload3.F
+      !||    spmallb3               ../engine/source/elements/sph/spmall3.F
+      !||    spoff3                 ../engine/source/elements/sph/spoff3.F
+      !||    spreploc               ../engine/source/elements/sph/spreploc.F
+      !||    sptempel               ../engine/source/elements/sph/sptemp.F
+      !||    spvol3                 ../engine/source/elements/sph/spvol3.F
+      !||    srota3                 ../engine/source/elements/solid/solide/srota3.F
+      !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    output_mod             ../common_source/modules/output/output_mod.F90
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE SPSTRES(ELBUF_TAB,NG     , 
      1    PM        ,GEO       ,X         ,V         ,MS        ,
      2    W         ,SPBUF     ,WA        ,NLOC_DMG  ,

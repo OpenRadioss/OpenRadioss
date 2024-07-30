@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FLOW_DEPLA                    source/assembly/flow_depla.F  
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    flow_depla   ../engine/source/assembly/flow_depla.F
+      !||--- called by ------------------------------------------------------
+      !||    resol        ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE FLOW_DEPLA(NALE,V    ,D    ,
      2                 NODFT,NODLT    )
 C----6---------------------------------------------------------------7---------8

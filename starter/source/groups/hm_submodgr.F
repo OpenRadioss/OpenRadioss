@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_SUBMODGRN                  source/groups/hm_submodgr.F   
-Chd|-- called by -----------
-Chd|        HM_LECGRN                     source/groups/hm_lecgrn.F     
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        GROUPS_GET_ELEM_LIST          source/groups/groups_get_elem_list.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_submodgrn           ../starter/source/groups/hm_submodgr.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_lecgrn              ../starter/source/groups/hm_lecgrn.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    groups_get_elem_list   ../starter/source/groups/groups_get_elem_list.F
+      !||    usr2sys                ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_SUBMODGRN(
      .           ITAB   ,ITABM1    ,ISUBMOD  ,SID     ,
      .           NNOD   ,MESS      ,FLAG     ,TITR    ,
@@ -158,17 +159,17 @@ C-------------------------------------
 C-------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  HM_SUBMODGRE                  source/groups/hm_submodgr.F   
-Chd|-- called by -----------
-Chd|        HM_LECGRE                     source/groups/hm_lecgre.F     
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        GROUPS_GET_ELEM_LIST          source/groups/groups_get_elem_list.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_submodgre           ../starter/source/groups/hm_submodgr.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_lecgre              ../starter/source/groups/hm_lecgre.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    groups_get_elem_list   ../starter/source/groups/groups_get_elem_list.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_SUBMODGRE(
      .           ISUBMOD  ,IX      ,NIX      ,SID      ,
      .           NEL      ,NUMEL   ,IELT     ,MESS     ,

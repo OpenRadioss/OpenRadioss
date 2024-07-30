@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SORTIE_MVW                    source/output/report/sortie_mvw.F
-Chd|-- called by -----------
-Chd|        ARRET                         source/system/arret.F         
-Chd|-- calls ---------------
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sortie_mvw      ../engine/source/output/report/sortie_mvw.F
+      !||--- called by ------------------------------------------------------
+      !||    arret           ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    inoutfile_mod   ../common_source/modules/inoutfile_mod.F
+      !||====================================================================
       SUBROUTINE SORTIE_MVW(IMVW,IMVW_REF)
 C-----------------------------------------------
 C   M o d u l e s

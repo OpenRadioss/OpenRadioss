@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SHELL_LOC_COR                 source/tools/seatbelts/shell_loc_cor.F
-Chd|-- called by -----------
-Chd|        UPDATE_SLIPRING               source/tools/seatbelts/update_slipring.F
-Chd|-- calls ---------------
-Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    shell_loc_cor     ../engine/source/tools/seatbelts/shell_loc_cor.F
+      !||--- called by ------------------------------------------------------
+      !||    update_slipring   ../engine/source/tools/seatbelts/update_slipring.F
+      !||--- calls      -----------------------------------------------------
+      !||    clskew3           ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+      !||====================================================================
       SUBROUTINE SHELL_LOC_COR(X,IXC,J,XL2,YL2,XL3,YL3,XL4,YL4,IREP,NN1,NN2,N_DIR2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

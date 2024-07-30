@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALEW                          source/ale/grid/alew.F        
-Chd|-- called by -----------
-Chd|        ALEWDX                        source/ale/grid/alewdx.F      
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_WVOIS                    source/mpi/fluid/spmd_cfd.F   
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    alew                   ../engine/source/ale/grid/alew.F
+      !||--- called by ------------------------------------------------------
+      !||    alewdx                 ../engine/source/ale/grid/alewdx.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier             ../engine/source/system/machine.F
+      !||    spmd_wvois             ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    ale_mod                ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
       SUBROUTINE ALEW(
      1     X              ,D       ,V        ,W       ,WA      ,
      2     ALE_NN_CONNECT ,NALE    ,NODFT    ,NODLT   ,ITASK   ,

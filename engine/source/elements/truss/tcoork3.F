@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TCOORK3                       source/elements/truss/tcoork3.F
-Chd|-- called by -----------
-Chd|        TKE3                          source/elements/truss/tke3.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    tcoork3   ../engine/source/elements/truss/tcoork3.F
+      !||--- called by ------------------------------------------------------
+      !||    tke3      ../engine/source/elements/truss/tke3.F
+      !||====================================================================
       SUBROUTINE TCOORK3(JFT    ,JLT    ,X      ,NCC   ,MAT    ,
      1                   NGL    ,AL     ,R11    ,R21   ,R31    ,
      2                   OFFG   ,OFF    )

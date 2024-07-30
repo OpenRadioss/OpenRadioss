@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS93C                     source/materials/mat/mat093/sigeps93c.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|-- calls ---------------
-Chd|        VINTER                        source/tools/curve/vinter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps93c   ../engine/source/materials/mat/mat093/sigeps93c.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc      ../engine/source/materials/mat_share/mulawc.F
+      !||--- calls      -----------------------------------------------------
+      !||    vinter      ../engine/source/tools/curve/vinter.F
+      !||====================================================================
       SUBROUTINE SIGEPS93C(
      1     NEL      ,NUPARAM  ,NUVAR    ,MFUNC    ,KFUNC    ,
      2     NPF      ,TF       ,TIME     ,TIMESTEP ,UPARAM   ,

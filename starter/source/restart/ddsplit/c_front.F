@@ -21,17 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  C_FRONT                       source/restart/ddsplit/c_front.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        C_IFRONT                      source/spmd/node/ddtools.F    
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    c_front            ../starter/source/restart/ddsplit/c_front.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit            ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    c_ifront           ../starter/source/spmd/node/ddtools.F
+      !||    nlocal             ../starter/source/spmd/node/ddtools.F
+      !||--- uses       -----------------------------------------------------
+      !||    front_mod          ../starter/share/modules1/front_mod.F
+      !||====================================================================
       SUBROUTINE C_FRONT(PROC     ,NBDDACC,NBDDKIN,NBDDNRB,
      2                   NPBY     ,NRBYKIN_L,LJOINT ,NBDDNCJ,IBVEL  ,
      3                   NBDDNRBM ,IADLL    ,LLL    ,NLAGF_L,FRONT_RM,

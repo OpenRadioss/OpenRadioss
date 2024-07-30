@@ -20,18 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_SOLID                 source/elements/reader/hm_read_solid.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ANODSET                       source/output/analyse/analyse_node.c
-Chd|        UDOUBLE                       source/system/sysfus.F        
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_solid      ../starter/source/elements/reader/hm_read_solid.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur             ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../starter/source/output/message/message.F
+      !||    anodset            ../starter/source/output/analyse/analyse_node.c
+      !||    checkvolume_4n     ../starter/source/elements/solid/solide/checksvolume.F
+      !||    udouble            ../starter/source/system/sysfus.F
+      !||    usr2sys            ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||    submodel_mod       ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_SOLID(IXS   ,PM     ,ITAB ,ITABM1,
      .                  IPART,IPARTS,ISOLNOD,IXS10 ,IXS20,IXS16 ,
      .                  IGEO ,LSUBMODEL,IS_DYNA,X  )
@@ -458,14 +460,15 @@ C-------------------------------------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  LCE16S3                       source/elements/reader/hm_read_solid.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        REORDR                        source/elements/solid_2d/quad/reordr.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lce16s3        ../starter/source/elements/reader/hm_read_solid.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur         ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    reordr         ../starter/source/elements/solid_2d/quad/reordr.F
+      !||    usr2sys        ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE LCE16S3(IXS    ,ISEL    ,PM      ,IPOINT  ,ITAB     ,ITABM1 ,
      .                   ICODE  ,IPARTS  ,IGRBRIC ,GEO     ,ISOLNOD  ,
      .                   IXS10  ,IPART   ,IXS20   ,IXS16   ,KNOD2ELS ,NOD2ELS,
@@ -751,12 +754,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  LCE16S4                       source/elements/reader/hm_read_solid.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    lce16s4   ../starter/source/elements/reader/hm_read_solid.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur    ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE LCE16S4(IXS,PM,ICODE)
 C
 C-----------------------------------------------
@@ -804,15 +806,17 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  HM_PRELCE16S                  source/elements/reader/hm_read_solid.F
-Chd|-- called by -----------
-Chd|        CONTRL                        source/starter/contrl.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_prelce16s      ../starter/source/elements/reader/hm_read_solid.F
+      !||--- called by ------------------------------------------------------
+      !||    contrl            ../starter/source/starter/contrl.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg            ../starter/source/output/message/message.F
+      !||    usr2sys           ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../starter/share/message_module/message_mod.F
+      !||    submodel_mod      ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_PRELCE16S(IPART   ,IGEO    ,IXS     ,NSPHSOL ,LSUBMODEL,
      .                        IS_DYNA )
 C-----------------------------------------------

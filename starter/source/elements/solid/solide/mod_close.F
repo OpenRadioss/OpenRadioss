@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MOD_CLOSE                     source/elements/solid/solide/mod_close.F
-Chd|-- called by -----------
-Chd|        SCCOOR3                       source/elements/thickshell/solidec/sccoor3.F
-Chd|        SCOOR3                        source/elements/solid/solide/scoor3.F
-Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mod_close   ../starter/source/elements/solid/solide/mod_close.F
+      !||--- called by ------------------------------------------------------
+      !||    sccoor3     ../starter/source/elements/thickshell/solidec/sccoor3.F
+      !||    scoor3      ../starter/source/elements/solid/solide/scoor3.F
+      !||    srcoor3     ../starter/source/elements/solid/solide/srcoor3.F
+      !||====================================================================
       SUBROUTINE MOD_CLOSE(GEO,NGEO,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,

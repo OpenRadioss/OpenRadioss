@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SET_DD_MAT_WEIGHT             source/user_interface/set_dd_mat_weight.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        DDWEIGHTS_MOD                 share/modules1/ddweights_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    set_dd_mat_weight   ../starter/source/user_interface/set_dd_mat_weight.F
+      !||--- uses       -----------------------------------------------------
+      !||    ddweights_mod       ../starter/share/modules1/ddweights_mod.F
+      !||====================================================================
        SUBROUTINE SET_DD_MAT_WEIGHT(MAT_WEIGHT1PT,MAT_WEIGHT5PT,ELEM_TYPE)
 C----------------------------------------------- 
       USE DDWEIGHTS_MOD
@@ -54,14 +53,14 @@ C
 !       DDWEIGHTS(2,2,MAT_NUMBER)=3.7
        END
 
-Chd|====================================================================
-Chd|  INIT_MAT_WEIGHT               source/user_interface/set_dd_mat_weight.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        R2R_VOID                      source/coupling/rad2rad/r2r_void.F
-Chd|-- calls ---------------
-Chd|        DDWEIGHTS_MOD                 share/modules1/ddweights_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    init_mat_weight   ../starter/source/user_interface/set_dd_mat_weight.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur            ../starter/source/starter/lectur.F
+      !||    r2r_void          ../starter/source/coupling/rad2rad/r2r_void.F
+      !||--- uses       -----------------------------------------------------
+      !||    ddweights_mod     ../starter/share/modules1/ddweights_mod.F
+      !||====================================================================
        SUBROUTINE INIT_MAT_WEIGHT(NUMMAT)
 C----------------------------------------------- 
       USE DDWEIGHTS_MOD

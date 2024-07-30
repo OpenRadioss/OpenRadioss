@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I11CORP3                      source/interfaces/int11/i11corp3.F
-Chd|-- called by -----------
-Chd|        I11FORCF3                     source/interfaces/int11/i11ke3.F
-Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i11corp3    ../engine/source/interfaces/int11/i11corp3.F
+      !||--- called by ------------------------------------------------------
+      !||    i11forcf3   ../engine/source/interfaces/int11/i11ke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm    ../engine/share/modules/imp_intm.F
+      !||    tri7box     ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I11CORP3(JLT   ,X     ,IRECTS,IRECTM  ,CAND_E  ,
      1                   CAND_N,STIF  ,HS1   ,HS2     ,HM1     ,
      2                   HM2   ,NX    ,NY    ,NZ      ,N1      ,
@@ -135,13 +135,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I11CORKP3                     source/interfaces/int11/i11corp3.F
-Chd|-- called by -----------
-Chd|        I11FKU3                       source/interfaces/int11/i11ke3.F
-Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    i11corkp3   ../engine/source/interfaces/int11/i11corp3.F
+      !||--- called by ------------------------------------------------------
+      !||    i11fku3     ../engine/source/interfaces/int11/i11ke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm    ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE I11CORKP3(JLT   ,
      1                    XXS1   ,XXS2    ,XYS1    ,XYS2   ,XZS1   ,
      2                    XZS2   ,DXS1    ,DYS1    ,DZS1   ,DXS2   ,  

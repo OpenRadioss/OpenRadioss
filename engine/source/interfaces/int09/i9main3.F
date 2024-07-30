@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I9MAIN3                       source/interfaces/int09/i9main3.F
-Chd|-- called by -----------
-Chd|        INTAL1                        source/ale/inter/intal1.F     
-Chd|-- calls ---------------
-Chd|        I3CST3                        source/interfaces/inter3d/i3cst3.F
-Chd|        I3DIS3                        source/interfaces/inter3d/i3dis3.F
-Chd|        I3GAP3                        source/interfaces/inter3d/i3gap3.F
-Chd|        I3LOC3                        source/interfaces/inter3d/i3loc3.F
-Chd|        I3MSR3                        source/interfaces/inter3d/i3msr3.F
-Chd|        I9AVEL                        source/interfaces/int09/i9avel.F
-Chd|        I9COR3                        source/interfaces/int09/i9cor3.F
-Chd|        I9FRMS                        source/interfaces/int09/i9frms.F
-Chd|        I9IMP3                        source/interfaces/int09/i9imp3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i9main3         ../engine/source/interfaces/int09/i9main3.F
+      !||--- called by ------------------------------------------------------
+      !||    intal1          ../engine/source/ale/inter/intal1.F
+      !||--- calls      -----------------------------------------------------
+      !||    i3cst3          ../engine/source/interfaces/inter3d/i3cst3.F
+      !||    i3dis3          ../engine/source/interfaces/inter3d/i3dis3.F
+      !||    i3gap3          ../engine/source/interfaces/inter3d/i3gap3.F
+      !||    i3loc3          ../engine/source/interfaces/inter3d/i3loc3.F
+      !||    i3msr3          ../engine/source/interfaces/inter3d/i3msr3.F
+      !||    i9avel          ../engine/source/interfaces/int09/i9avel.F
+      !||    i9cor3          ../engine/source/interfaces/int09/i9cor3.F
+      !||    i9frms          ../engine/source/interfaces/int09/i9frms.F
+      !||    i9imp3          ../engine/source/interfaces/int09/i9imp3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I9MAIN3(IPARI,INTBUF_TAB        ,X         ,V         ,
      1           A            ,ISKEW   ,SKEW     ,LCOD      ,FN        ,
      2           FT           ,MS      ,MSMN     ,MSMT      ,ITAB      ,

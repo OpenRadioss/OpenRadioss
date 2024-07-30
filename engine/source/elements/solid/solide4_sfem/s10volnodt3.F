@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10VOLNODT3                   source/elements/solid/solide4_sfem/s10volnodt3.F
-Chd|-- called by -----------
-Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4lagsfem.F
-Chd|-- calls ---------------
-Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
-Chd|        JACOB_J33                     source/elements/solid/solide8e/jacob_j33.F
-Chd|        S10DEFOT3                     source/elements/solid/solide10/s10defot3.F
-Chd|        S10PIJTO3                     source/elements/solid/solide10/s10pijto3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s10volnodt3       ../engine/source/elements/solid/solide4_sfem/s10volnodt3.F
+      !||--- called by ------------------------------------------------------
+      !||    s4lagsfem         ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
+      !||--- calls      -----------------------------------------------------
+      !||    foat_to_6_float   ../engine/source/system/parit.F
+      !||    jacob_j33         ../engine/source/elements/solid/solide8e/jacob_j33.F
+      !||    s10defot3         ../engine/source/elements/solid/solide10/s10defot3.F
+      !||    s10pijto3         ../engine/source/elements/solid/solide10/s10pijto3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE S10VOLNODT3(
      1   ELBUF_TAB,VOLNOD6,  X,        NC,
      2   OFFG,     SAV,      XDP,      NEL,

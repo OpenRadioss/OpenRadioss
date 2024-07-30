@@ -20,18 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS190                     source/materials/mat/mat190/sigeps190.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        CONDAMAGE                     source/materials/mat/mat190/condamage.F
-Chd|        CONVERSION                    source/materials/mat/mat190/conversion.F
-Chd|        PRODATA                       source/materials/tools/prodATA.F
-Chd|        VALPVEC_V                     source/materials/mat/mat033/sigeps33.F
-Chd|        CONDAMAGE_MOD                 source/materials/mat/mat190/condamage.F
-Chd|        CONVERSION_MOD                source/materials/mat/mat190/conversion.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps190          ../engine/source/materials/mat/mat190/sigeps190.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw              ../engine/source/materials/mat_share/mulaw.F90
+      !||--- calls      -----------------------------------------------------
+      !||    condamage          ../engine/source/materials/mat/mat190/condamage.F
+      !||    conversion         ../engine/source/materials/mat/mat190/conversion.F
+      !||    prodata            ../engine/source/materials/tools/prodATA.F
+      !||    valpvec_v          ../engine/source/materials/mat/mat033/sigeps33.F
+      !||--- uses       -----------------------------------------------------
+      !||    condamage_mod      ../engine/source/materials/mat/mat190/condamage.F
+      !||    conversion_mod     ../engine/source/materials/mat/mat190/conversion.F
+      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||====================================================================
       SUBROUTINE SIGEPS190(
      1     NEL    ,NUVAR   ,TIME   ,RHO   ,
      2     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,

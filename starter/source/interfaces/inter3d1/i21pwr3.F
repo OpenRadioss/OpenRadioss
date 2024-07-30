@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I21PWR3                       source/interfaces/inter3d1/i21pwr3.F
-Chd|-- called by -----------
-Chd|        ININT3_THKVAR                 source/interfaces/inter3d1/inint3_thkvar.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i21pwr3         ../starter/source/interfaces/inter3d1/i21pwr3.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3_thkvar   ../starter/source/interfaces/inter3d1/inint3_thkvar.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I21PWR3(ITAB,INACTI,CAND_E,CAND_N,STFN,
      1                  X     ,I_STOK,NSV   ,IWPENE,PENI,
      2                  NOINT,NTY   ,GAP_S ,MSR ,IRTLM  ,

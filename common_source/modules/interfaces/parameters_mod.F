@@ -20,33 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PARAMETERS_MOD                modules/interfaces/parameters_mod.F
-Chd|-- called by -----------
-Chd|        HM_READ_INTER_TYPE24          starter/source/interfaces/int24/hm_read_inter_type24.F
-Chd|        HM_READ_INTER_TYPE25          starter/source/interfaces/int25/hm_read_inter_type25.F
-Chd|        I25SURFI                      starter/source/interfaces/inter3d1/i25surfi.F
-Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
-Chd|        WRCOMR                        starter/source/restart/ddsplit/wrcomm.F
-Chd|        I24COR3                       engine/source/interfaces/int24/i24cor3.F
-Chd|        I24FOR3                       engine/source/interfaces/int24/i24for3.F
-Chd|        I24MAIN_TRI                   engine/source/interfaces/intsort/i24main_tri.F
-Chd|        I25COR3E                      engine/source/interfaces/int25/i25cor3e.F
-Chd|        I25COR3_3                     engine/source/interfaces/int25/i25cor3.F
-Chd|        I25COR3_E2S                   engine/source/interfaces/int25/i25cor3_e2s.F
-Chd|        I25FOR3                       engine/source/interfaces/int25/i25for3.F
-Chd|        I25MAIN_SLID                  engine/source/interfaces/int25/i25main_slid.F
-Chd|        I25MAIN_TRI                   engine/source/interfaces/intsort/i25main_tri.F
-Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
-Chd|        RDCOMR                        engine/source/output/restart/rdcomm.F
-Chd|        SPMD_FIADD_POFF               engine/source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_FIADD_PON                engine/source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_INITFI                   engine/source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_SAVEFI                   engine/source/mpi/interfaces/spmd_i7tool.F
-Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
-Chd|        WRCOMR                        engine/source/output/restart/wrcomm.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    parameters_mod         ../common_source/modules/interfaces/parameters_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_inter_type24   ../starter/source/interfaces/int24/hm_read_inter_type24.F
+      !||    hm_read_inter_type25   ../starter/source/interfaces/int25/hm_read_inter_type25.F
+      !||    i24cor3                ../engine/source/interfaces/int24/i24cor3.F
+      !||    i24for3                ../engine/source/interfaces/int24/i24for3.F
+      !||    i24main_tri            ../engine/source/interfaces/intsort/i24main_tri.F
+      !||    i25cor3_3              ../engine/source/interfaces/int25/i25cor3.F
+      !||    i25cor3_e2s            ../engine/source/interfaces/int25/i25cor3_e2s.F
+      !||    i25cor3e               ../engine/source/interfaces/int25/i25cor3e.F
+      !||    i25for3                ../engine/source/interfaces/int25/i25for3.F
+      !||    i25main_slid           ../engine/source/interfaces/int25/i25main_slid.F
+      !||    i25main_tri            ../engine/source/interfaces/intsort/i25main_tri.F
+      !||    i25surfi               ../starter/source/interfaces/inter3d1/i25surfi.F
+      !||    rdcomi                 ../engine/source/output/restart/rdcomm.F
+      !||    rdcomr                 ../engine/source/output/restart/rdcomm.F
+      !||    spmd_fiadd_poff        ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_fiadd_pon         ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_initfi            ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_savefi            ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    wrcomi                 ../engine/source/output/restart/wrcomm.F
+      !||    wrcomip                ../starter/source/restart/ddsplit/wrcommp.F
+      !||    wrcomr                 ../engine/source/output/restart/wrcomm.F
+      !||====================================================================
         MODULE PARAMETERS_MOD
 C-----------------------------------------------
 C   m y _ r e a l

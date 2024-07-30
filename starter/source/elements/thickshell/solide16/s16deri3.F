@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S16DERI3                      source/elements/thickshell/solide16/s16deri3.F
-Chd|-- called by -----------
-Chd|        S16INIT3                      source/elements/thickshell/solide16/s16init3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s16deri3      ../starter/source/elements/thickshell/solide16/s16deri3.F
+      !||--- called by ------------------------------------------------------
+      !||    s16init3      ../starter/source/elements/thickshell/solide16/s16init3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S16DERI3(NGL,OFF,R,S,T    ,W     ,
      2   DNIDR ,DNIDS ,DNIDT ,DXDR  ,DYDR  ,DZDR  ,
      3   DXDS  ,DYDS  ,DZDS  ,DXDT  ,DYDT  ,DZDT  ,
@@ -484,12 +485,11 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  S16RST                        source/elements/thickshell/solide16/s16deri3.F
-Chd|-- called by -----------
-Chd|        S16INIT3                      source/elements/thickshell/solide16/s16init3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s16rst     ../starter/source/elements/thickshell/solide16/s16deri3.F
+      !||--- called by ------------------------------------------------------
+      !||    s16init3   ../starter/source/elements/thickshell/solide16/s16init3.F
+      !||====================================================================
       SUBROUTINE S16RST(R,S,T,
      2   NI   ,DNIDR ,DNIDS ,DNIDT )
 C-----------------------------------------------

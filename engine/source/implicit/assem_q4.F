@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASSEM_Q4                      source/implicit/assem_q4.F    
-Chd|-- called by -----------
-Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
-Chd|-- calls ---------------
-Chd|        ASSEM_KII                     source/implicit/imp_glob_k.F  
-Chd|        ASSEM_KIJ                     source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    assem_q4    ../engine/source/implicit/assem_q4.F
+      !||--- called by ------------------------------------------------------
+      !||    q4ke2       ../engine/source/elements/solid_2d/quad4/q4ke2.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_kii   ../engine/source/implicit/imp_glob_k.F
+      !||    assem_kij   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE ASSEM_Q4(
      1                   IXQ   ,NEL   ,IDDL  ,NDOF  ,K_DIAG,
      2                   K_LT  ,IADK  ,JDIK  ,K11   ,K12   ,     

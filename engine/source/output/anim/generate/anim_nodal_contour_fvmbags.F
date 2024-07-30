@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ANIM_NODAL_CONTOUR_FVMBAGS    source/output/anim/generate/anim_nodal_contour_fvmbags.F
-Chd|-- called by -----------
-Chd|        NODALD                        source/output/anim/generate/nodald.F
-Chd|        NODALDT                       source/output/anim/generate/nodaldt.F
-Chd|        NODALP                        source/output/anim/generate/nodalp.F
-Chd|        NODALSSP                      source/output/anim/generate/nodalssp.F
-Chd|        NODALT                        source/output/anim/generate/nodalt.F
-Chd|        NODALVOL                      source/output/anim/generate/nodalvol.F
-Chd|-- calls ---------------
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    anim_nodal_contour_fvmbags   ../engine/source/output/anim/generate/anim_nodal_contour_fvmbags.F
+      !||--- called by ------------------------------------------------------
+      !||    nodald                       ../engine/source/output/anim/generate/nodald.F
+      !||    nodaldt                      ../engine/source/output/anim/generate/nodaldt.F
+      !||    nodalp                       ../engine/source/output/anim/generate/nodalp.F
+      !||    nodalssp                     ../engine/source/output/anim/generate/nodalssp.F
+      !||    nodalt                       ../engine/source/output/anim/generate/nodalt.F
+      !||    nodalvol                     ../engine/source/output/anim/generate/nodalvol.F
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod                    ../engine/share/modules/fvbag_mod.F
+      !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
+      !||====================================================================
       SUBROUTINE ANIM_NODAL_CONTOUR_FVMBAGS(KEY, WA4, MONVOL,VOLMON, FVDATA_P, NFVBAG, SMONVOL, SVOLMON, AIRBAGS_TOTAL_FVM,
      .                                      IS_WRITTEN_NODE_FVM, AIRBAGS_NODE_ID_SHIFT)
 C-----------------------------------------------

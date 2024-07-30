@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ELEGROR_SEATBELT              source/groups/elegror_seatbelt.F
-Chd|-- called by -----------
-Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    elegror_seatbelt   ../starter/source/groups/elegror_seatbelt.F
+      !||--- called by ------------------------------------------------------
+      !||    lecsec42           ../starter/source/tools/sect/hm_read_sect.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||====================================================================
       INTEGER FUNCTION ELEGROR_SEATBELT(IGU,IGRELE,NGRELE,IBUF,NIB,
      .                                  SIBUF,NFRAM,TAGELEMS,ISTYP,SEATBELT_SHELL_TO_SPRING)
 C-----------------------------------------------

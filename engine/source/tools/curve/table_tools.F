@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TABLE_ZERO                    source/tools/curve/table_tools.F
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    table_zero   ../engine/source/tools/curve/table_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2     ../engine/source/engine/radioss2.F
+      !||--- uses       -----------------------------------------------------
+      !||    table_mod    ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE TABLE_ZERO(TABLE)
 C-----------------------------------------------
       USE TABLE_MOD
@@ -55,14 +55,15 @@ C--------------------------------------
       END DO
       RETURN
       END SUBROUTINE TABLE_ZERO
-Chd|====================================================================
-Chd|  TABLE_WRESTI                  source/tools/curve/table_tools.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    table_wresti   ../engine/source/tools/curve/table_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp        ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_i_c      ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    table_mod      ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE TABLE_WRESTI(TABLE, LENI)
 C-----------------------------------------------
       USE TABLE_MOD
@@ -103,14 +104,15 @@ C--------------------------------------
       END DO
       RETURN
       END SUBROUTINE TABLE_WRESTI
-Chd|====================================================================
-Chd|  TABLE_WRESTR                  source/tools/curve/table_tools.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    table_wrestr   ../engine/source/tools/curve/table_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp        ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db       ../common_source/tools/input_output/write_db.F
+      !||--- uses       -----------------------------------------------------
+      !||    table_mod      ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE TABLE_WRESTR(TABLE, LENR)
 C-----------------------------------------------
       USE TABLE_MOD
@@ -145,17 +147,18 @@ C--------------------------------------
       END DO
       RETURN
       END SUBROUTINE TABLE_WRESTR
-Chd|====================================================================
-Chd|  TABLE_RRESTI                  source/tools/curve/table_tools.F
-Chd|-- called by -----------
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    table_rresti   ../engine/source/tools/curve/table_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb         ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../engine/source/output/message/message.F
+      !||    arret          ../engine/source/system/arret.F
+      !||    read_i_c       ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||    table_mod      ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE TABLE_RRESTI(TABLE)
 C-----------------------------------------------
       USE TABLE_MOD
@@ -211,14 +214,15 @@ C--------------------------------------
       CALL ARRET(2)
 C--------------------------------------
       END SUBROUTINE TABLE_RRESTI
-Chd|====================================================================
-Chd|  TABLE_RRESTR                  source/tools/curve/table_tools.F
-Chd|-- called by -----------
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    table_rrestr   ../engine/source/tools/curve/table_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb         ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db        ../common_source/tools/input_output/read_db.F
+      !||--- uses       -----------------------------------------------------
+      !||    table_mod      ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE TABLE_RRESTR(TABLE)
 C-----------------------------------------------
       USE TABLE_MOD
@@ -249,22 +253,23 @@ C--------------------------------------
       END DO
       RETURN
       END SUBROUTINE TABLE_RRESTR
-Chd|====================================================================
-Chd|  TABLE_INTERP                  source/tools/curve/table_tools.F
-Chd|-- called by -----------
-Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
-Chd|        FAIL_TAB_XFEM                 source/materials/fail/tabulated/fail_tab_xfem.F
-Chd|        GET_TABLE_VALUE               source/user_interface/utable.F
-Chd|        GET_U_TABLE                   source/user_interface/utable.F
-Chd|        R3DEF3                        source/elements/spring/r3def3.F
-Chd|        SIGEPS52                      source/materials/mat/mat052/sigeps52.F
-Chd|        SIGEPS52C                     source/materials/mat/mat052/sigeps52c.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    table_interp      ../engine/source/tools/curve/table_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    fail_tab_c        ../engine/source/materials/fail/tabulated/fail_tab_c.F
+      !||    fail_tab_xfem     ../engine/source/materials/fail/tabulated/fail_tab_xfem.F
+      !||    get_table_value   ../engine/source/user_interface/utable.F
+      !||    get_u_table       ../engine/source/user_interface/utable.F
+      !||    r3def3            ../engine/source/elements/spring/r3def3.F
+      !||    sigeps52          ../engine/source/materials/mat/mat052/sigeps52.F
+      !||    sigeps52c         ../engine/source/materials/mat/mat052/sigeps52c.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg            ../engine/source/output/message/message.F
+      !||    arret             ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../engine/share/message_module/message_mod.F
+      !||    table_mod         ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE TABLE_INTERP(TABLE,XX,YY)
 C-----------------------------------------------
       USE TABLE_MOD
@@ -397,17 +402,18 @@ C-----
 
       RETURN
       END SUBROUTINE TABLE_INTERP
-Chd|====================================================================
-Chd|  TABLE_INTERP_DYDX             source/tools/curve/table_tools.F
-Chd|-- called by -----------
-Chd|        GET_TABLE_VALUE_DYDX          source/user_interface/utable.F
-Chd|        PRESS_SEG3                    source/loads/general/load_pcyl/press_seg3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    table_interp_dydx      ../engine/source/tools/curve/table_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    get_table_value_dydx   ../engine/source/user_interface/utable.F
+      !||    press_seg3             ../engine/source/loads/general/load_pcyl/press_seg3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE TABLE_INTERP_DYDX(TABLE,XX,XXDIM,YY,DYDX)
 C-----------------------------------------------
       USE TABLE_MOD
@@ -569,40 +575,41 @@ C-----
 
       RETURN
       END SUBROUTINE TABLE_INTERP_DYDX
-Chd|====================================================================
-Chd|  TABLE_VINTERP                 source/tools/curve/table_tools.F
-Chd|-- called by -----------
-Chd|        FAIL_GENE1_C                  source/materials/fail/gene1/fail_gene1_c.F
-Chd|        FAIL_GENE1_S                  source/materials/fail/gene1/fail_gene1_s.F
-Chd|        FAIL_INIEVO_C                 source/materials/fail/inievo/fail_inievo_c.F
-Chd|        FAIL_INIEVO_S                 source/materials/fail/inievo/fail_inievo_s.F
-Chd|        FAIL_TAB2_C                   source/materials/fail/tabulated/fail_tab2_c.F
-Chd|        FAIL_TAB2_S                   source/materials/fail/tabulated/fail_tab2_s.F
-Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
-Chd|        FAIL_TAB_S                    source/materials/fail/tabulated/fail_tab_s.F
-Chd|        GET_U_VTABLE                  source/user_interface/utable.F
-Chd|        GET_VTABLE_VALUE              source/user_interface/utable.F
-Chd|        LAW119_MEMBRANE               source/materials/mat/mat119/law119_membrane.F
-Chd|        SIGEPS109                     source/materials/mat/mat109/sigeps109.F
-Chd|        SIGEPS109C                    source/materials/mat/mat109/sigeps109c.F
-Chd|        SIGEPS110C_LITE_NEWTON        source/materials/mat/mat110/sigeps110c_lite_newton.F
-Chd|        SIGEPS110C_LITE_NICE          source/materials/mat/mat110/sigeps110c_lite_nice.F
-Chd|        SIGEPS110C_NEWTON             source/materials/mat/mat110/sigeps110c_newton.F
-Chd|        SIGEPS110C_NICE               source/materials/mat/mat110/sigeps110c_nice.F
-Chd|        SIGEPS120_CONNECT_TAB_DP      source/materials/mat/mat120/sigeps120_connect_tab_dp.F
-Chd|        SIGEPS120_CONNECT_TAB_VM      source/materials/mat/mat120/sigeps120_connect_tab_vm.F
-Chd|        SIGEPS120_TAB_DP              source/materials/mat/mat120/sigeps120_tab_dp.F
-Chd|        SIGEPS120_TAB_VM              source/materials/mat/mat120/sigeps120_tab_vm.F
-Chd|        SIGEPS73C                     source/materials/mat/mat073/sigeps73c.F
-Chd|        SIGEPS74                      source/materials/mat/mat074/sigeps74.F
-Chd|        SIGEPS80                      source/materials/mat/mat080/sigeps80.F
-Chd|        SIGEPS80C                     source/materials/mat/mat080/sigeps80c.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    table_vinterp              ../engine/source/tools/curve/table_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    fail_gene1_c               ../engine/source/materials/fail/gene1/fail_gene1_c.F
+      !||    fail_gene1_s               ../engine/source/materials/fail/gene1/fail_gene1_s.F
+      !||    fail_inievo_c              ../engine/source/materials/fail/inievo/fail_inievo_c.F
+      !||    fail_inievo_s              ../engine/source/materials/fail/inievo/fail_inievo_s.F
+      !||    fail_tab2_c                ../engine/source/materials/fail/tabulated/fail_tab2_c.F
+      !||    fail_tab2_s                ../engine/source/materials/fail/tabulated/fail_tab2_s.F
+      !||    fail_tab_c                 ../engine/source/materials/fail/tabulated/fail_tab_c.F
+      !||    fail_tab_s                 ../engine/source/materials/fail/tabulated/fail_tab_s.F
+      !||    get_u_vtable               ../engine/source/user_interface/utable.F
+      !||    get_vtable_value           ../engine/source/user_interface/utable.F
+      !||    law119_membrane            ../engine/source/materials/mat/mat119/law119_membrane.F
+      !||    sigeps109                  ../engine/source/materials/mat/mat109/sigeps109.F
+      !||    sigeps109c                 ../engine/source/materials/mat/mat109/sigeps109c.F
+      !||    sigeps110c_lite_newton     ../engine/source/materials/mat/mat110/sigeps110c_lite_newton.F
+      !||    sigeps110c_lite_nice       ../engine/source/materials/mat/mat110/sigeps110c_lite_nice.F
+      !||    sigeps110c_newton          ../engine/source/materials/mat/mat110/sigeps110c_newton.F
+      !||    sigeps110c_nice            ../engine/source/materials/mat/mat110/sigeps110c_nice.F
+      !||    sigeps120_connect_tab_dp   ../engine/source/materials/mat/mat120/sigeps120_connect_tab_dp.F
+      !||    sigeps120_connect_tab_vm   ../engine/source/materials/mat/mat120/sigeps120_connect_tab_vm.F
+      !||    sigeps120_tab_dp           ../engine/source/materials/mat/mat120/sigeps120_tab_dp.F
+      !||    sigeps120_tab_vm           ../engine/source/materials/mat/mat120/sigeps120_tab_vm.F
+      !||    sigeps73c                  ../engine/source/materials/mat/mat073/sigeps73c.F
+      !||    sigeps74                   ../engine/source/materials/mat/mat074/sigeps74.F
+      !||    sigeps80                   ../engine/source/materials/mat/mat080/sigeps80.F
+      !||    sigeps80c                  ../engine/source/materials/mat/mat080/sigeps80c.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                     ../engine/source/output/message/message.F
+      !||    arret                      ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                ../engine/share/message_module/message_mod.F
+      !||    table_mod                  ../engine/share/modules/table_mod.F
+      !||====================================================================
         SUBROUTINE TABLE_VINTERP(TABLE,DIMX,NEL,IPOS,XX,YY,DYDX1)
 C-----------------------------------------------
         USE TABLE_MOD
@@ -860,17 +867,18 @@ C-----
       END SELECT
       RETURN
       END SUBROUTINE TABLE_VINTERP
-Chd|====================================================================
-Chd|  TABLE_INTERP_LAW76            source/tools/curve/table_tools.F
-Chd|-- called by -----------
-Chd|        SIGEPS52                      source/materials/mat/mat052/sigeps52.F
-Chd|        SIGEPS52C                     source/materials/mat/mat052/sigeps52c.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    table_interp_law76   ../engine/source/tools/curve/table_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps52             ../engine/source/materials/mat/mat052/sigeps52.F
+      !||    sigeps52c            ../engine/source/materials/mat/mat052/sigeps52c.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../engine/source/output/message/message.F
+      !||    arret                ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod          ../engine/share/message_module/message_mod.F
+      !||    table_mod            ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE TABLE_INTERP_LAW76(TABLE,IPOS2,XX,R2,DYDX,YY)
 C-----------------------------------------------
       USE TABLE_MOD

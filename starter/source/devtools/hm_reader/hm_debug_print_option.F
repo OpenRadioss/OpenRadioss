@@ -20,16 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_DEBUG_PRINT_OPTION         source/devtools/hm_reader/hm_debug_print_option.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_debug_print_option               ../starter/source/devtools/hm_reader/hm_debug_print_option.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_option_count                     ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_start                     ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                         ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                        ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
        SUBROUTINE HM_DEBUG_PRINT_OPTION(OPTION)
 C-----------------------------------------------
 C   M o d u l e s

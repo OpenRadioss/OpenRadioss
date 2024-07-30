@@ -20,16 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FXB_MOD                       share/modules/fxb_mod.F       
-Chd|-- called by -----------
-Chd|        FXBRESB                       source/output/restart/rdresb.F
-Chd|        FXBWREST                      source/output/restart/wrrest.F
-Chd|        LECTUR                        source/input/lectur.F         
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|        RESTALLOC                     source/output/restart/arralloc.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fxb_mod      ../engine/share/modules/fxb_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbresb      ../engine/source/output/restart/rdresb.F
+      !||    fxbwrest     ../engine/source/output/restart/wrrest.F
+      !||    lectur       ../engine/source/input/lectur.F
+      !||    resol_head   ../engine/source/engine/resol_head.F
+      !||    restalloc    ../engine/source/output/restart/arralloc.F
+      !||====================================================================
       MODULE FXB_MOD
 C-----------------------------------------------
 C   m y _ r e a l

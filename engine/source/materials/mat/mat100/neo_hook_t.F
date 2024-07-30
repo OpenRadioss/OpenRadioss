@@ -23,13 +23,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C   Hyperelastic model: THERMAL DEPENDANT NEO-HOOK
 C   compute stresses using MATB which is the 
 C   left cauchy green tensor [b]=[F][FT]
-Chd|====================================================================
-Chd|  NEO_HOOK_T                    source/materials/mat/mat100/neo_hook_t.F
-Chd|-- called by -----------
-Chd|        SIGEPS100                     source/materials/mat/mat100/sigeps100.F
-Chd|-- calls ---------------
-Chd|        MULLINS_OR                    source/materials/fail/mullins_or/fail_mullins_OR_s.F
-Chd|====================================================================
+      !||====================================================================
+      !||    neo_hook_t   ../engine/source/materials/mat/mat100/neo_hook_t.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps100    ../engine/source/materials/mat/mat100/sigeps100.F
+      !||--- calls      -----------------------------------------------------
+      !||    mullins_or   ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F
+      !||====================================================================
        SUBROUTINE NEO_HOOK_T(
      1                NEL , MATB,SIG,
      4                BI1,JDET ,FLAG_MUL,MU,D,

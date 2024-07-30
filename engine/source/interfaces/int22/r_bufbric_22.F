@@ -20,18 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R_BUFBRIC_22                  source/interfaces/int22/r_bufbric_22.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I22DATAINIT                   source/interfaces/int22/i22datainit.F
-Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
-Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    r_bufbric_22     ../engine/source/interfaces/int22/r_bufbric_22.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb           ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret            ../engine/source/system/arret.F
+      !||    i22datainit      ../engine/source/interfaces/int22/i22datainit.F
+      !||    read_db          ../common_source/tools/input_output/read_db.F
+      !||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod          ../common_source/modules/ale/ale_mod.F
+      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||====================================================================
       SUBROUTINE R_BUFBRIC_22()
 C-----------------------------------------------
 C   D e s c r i p t i o n

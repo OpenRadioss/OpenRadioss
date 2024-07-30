@@ -20,19 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SURF_MOD                      share/modules1/surf_mod.F     
-Chd|-- called by -----------
-Chd|        DEALLOCATE_SURF_ELM           source/groups/init_surf_elm.F 
-Chd|        FILL_IGR                      source/model/sets/fill_igr.F  
-Chd|        HM_READ_LINES                 source/groups/hm_read_lines.F 
-Chd|        HM_READ_SENSORS               source/tools/sensor/hm_read_sensors.F
-Chd|        HM_READ_SURF                  source/groups/hm_read_surf.F  
-Chd|        INIT_SURF_ELM                 source/groups/init_surf_elm.F 
-Chd|        SSURFTAG                      source/groups/ssurftag.F      
-Chd|        SURFTAG                       source/groups/surftag.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    surf_mod              ../starter/share/modules1/surf_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    deallocate_surf_elm   ../starter/source/groups/init_surf_elm.F
+      !||    fill_igr              ../starter/source/model/sets/fill_igr.F
+      !||    hm_read_lines         ../starter/source/groups/hm_read_lines.F
+      !||    hm_read_sensors       ../starter/source/tools/sensor/hm_read_sensors.F
+      !||    hm_read_surf          ../starter/source/groups/hm_read_surf.F
+      !||    init_surf_elm         ../starter/source/groups/init_surf_elm.F
+      !||    ssurftag              ../starter/source/groups/ssurftag.F
+      !||    surftag               ../starter/source/groups/surftag.F
+      !||====================================================================
       MODULE SURF_MOD
 C-----------------------------------------------
 C   m y _ r e a l

@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    sh_offset_jonct_chk_mod   ../starter/source/elements/shell/shell_offset/sh_offset_jonkt_chk.F90
+      !||--- called by ------------------------------------------------------
+      !||    shell_offsetp             ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
+      !||====================================================================
       module sh_offset_jonct_chk_mod
 
       contains
@@ -30,6 +35,16 @@
 !=======================================================================================================================
 !!\brief This subroutine check the joinction shell and tag to remove some in prjection
 !=======================================================================================================================
+      !||====================================================================
+      !||    sh_offset_jonct_chk   ../starter/source/elements/shell/shell_offset/sh_offset_jonkt_chk.F90
+      !||--- called by ------------------------------------------------------
+      !||    shell_offsetp         ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
+      !||--- calls      -----------------------------------------------------
+      !||    norma4n               ../starter/source/interfaces/inter3d1/norma1.F
+      !||    same_shellori         ../starter/source/elements/shell/shell_offset/same_shellori.F90
+      !||--- uses       -----------------------------------------------------
+      !||    same_shellori_mod     ../starter/source/elements/shell/shell_offset/same_shellori.F90
+      !||====================================================================
         subroutine sh_offset_jonct_chk(nshel    ,irect   ,xyz     ,numnod ,          &
           ichange  )
 ! ----------------------------------------------------------------------------------------------------------------------

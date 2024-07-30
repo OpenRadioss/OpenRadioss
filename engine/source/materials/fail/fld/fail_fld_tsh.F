@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_FLD_TSH                  source/materials/fail/fld/fail_fld_tsh.F
-Chd|-- called by -----------
-Chd|        H3D_FLD_TSH                   source/output/h3d/h3d_results/h3d_fld_tsh.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        FINTERFLD                     source/materials/fail/fld/fail_fld_c.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_fld_tsh   ../engine/source/materials/fail/fld/fail_fld_tsh.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_fld_tsh    ../engine/source/output/h3d/h3d_results/h3d_fld_tsh.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter         ../engine/source/tools/curve/finter.F
+      !||    finterfld      ../engine/source/materials/fail/fld/fail_fld_c.F
+      !||====================================================================
       SUBROUTINE FAIL_FLD_TSH(
      1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
      2     NPF      ,TF       ,TIME     ,TIMESTEP ,UPARAM   ,

@@ -20,74 +20,65 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GENANI1                       source/output/anim/genani1.F  
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANIOFF0                       source/output/anim/anioff0.F  
-Chd|        ANIOFFC                       source/output/anim/anioffc.F  
-Chd|        ANIOFFF                       source/output/anim/aniofff.F  
-Chd|        ANIOFFS                       source/output/anim/anioffs.F  
-Chd|        ANISKEW                       source/output/anim/aniskew.F  
-Chd|        ANISKEWF                      source/output/anim/aniskewf.F 
-Chd|        ANI_TXT                       source/output/anim/ani_txt.F  
-Chd|        ANI_TXT50                     source/output/anim/ani_txt.F  
-Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
-Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        DELNUMB0                      source/output/anim/delnumb0.F 
-Chd|        DELNUMBC                      source/output/anim/delnumbc.F 
-Chd|        DELNUMBF                      source/output/anim/delnumbf.F 
-Chd|        DELNUMBS                      source/output/anim/delnumbs.F 
-Chd|        DELSUB                        source/output/anim/delsub.F   
-Chd|        DFUNC0                        source/output/anim/dfunc0.F   
-Chd|        DFUNCC                        source/output/anim/dfuncc.F   
-Chd|        DFUNCF                        source/output/anim/dfuncf.F   
-Chd|        DFUNCS                        source/output/anim/dfuncs.F   
-Chd|        DMASANI0                      source/output/anim/dmasani0.F 
-Chd|        DMASANIC                      source/output/anim/dmasanic.F 
-Chd|        DMASANIF                      source/output/anim/dmasanif.F 
-Chd|        DMASANIS                      source/output/anim/dmasanis.F 
-Chd|        DONERBY                       source/output/anim/donerby.F  
-Chd|        DONERWL                       source/output/anim/donerwl.F  
-Chd|        DONESEC                       source/output/anim/donesec.F  
-Chd|        DONESRG                       source/output/anim/donesrg.F  
-Chd|        DPARRBY                       source/output/anim/dparrby.F  
-Chd|        DPARRWS                       source/output/anim/dparrws.F  
-Chd|        DPARSRG                       source/output/anim/dparsrg.F  
-Chd|        DRBYCNT                       source/output/anim/drbycnt.F  
-Chd|        DSECCNT                       source/output/anim/dseccnt.F  
-Chd|        DSECNOR                       source/output/anim/dsecnor.F  
-Chd|        DSPHCNT                       source/output/anim/dsphcnt.F  
-Chd|        DSPHNOR                       source/output/anim/dsphnor.F  
-Chd|        DSRGCNT                       source/output/anim/dsrgcnt.F  
-Chd|        DSRGNOR                       source/output/anim/dsrgnor.F  
-Chd|        DXYZSECT                      source/output/anim/dxyzsect.F 
-Chd|        DXYZSPH                       source/output/anim/dxyzsph.F  
-Chd|        DXYZSRG                       source/output/anim/dxyzsrg.F  
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
-Chd|        PARSOR0                       source/output/anim/parsor0.F  
-Chd|        PARSORC                       source/output/anim/parsorc.F  
-Chd|        PARSORF                       source/output/anim/parsorf.F  
-Chd|        PARSORS                       source/output/anim/parsors.F  
-Chd|        TENSOR0                       source/output/anim/tensor0.F  
-Chd|        TENSORC                       source/output/anim/tensorc.F  
-Chd|        TENSORS                       source/output/anim/tensors.F  
-Chd|        VELVEC                        source/output/anim/velvec.F   
-Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        XYZ16                         source/output/anim/genani1.F  
-Chd|        XYZNOR                        source/output/anim/xyznor.F   
-Chd|        XYZNOR16                      source/output/anim/genani1.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    genani1         ../starter/source/output/anim/genani1.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur          ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ani_txt         ../starter/source/output/anim/ani_txt.F
+      !||    ani_txt50       ../starter/source/output/anim/ani_txt.F
+      !||    anioff0         ../starter/source/output/anim/anioff0.F
+      !||    anioffc         ../starter/source/output/anim/anioffc.F
+      !||    aniofff         ../starter/source/output/anim/aniofff.F
+      !||    anioffs         ../starter/source/output/anim/anioffs.F
+      !||    aniskew         ../starter/source/output/anim/aniskew.F
+      !||    aniskewf        ../starter/source/output/anim/aniskewf.F
+      !||    delnumb0        ../starter/source/output/anim/delnumb0.F
+      !||    delnumbc        ../starter/source/output/anim/delnumbc.F
+      !||    delnumbf        ../starter/source/output/anim/delnumbf.F
+      !||    delnumbs        ../starter/source/output/anim/delnumbs.F
+      !||    delsub          ../starter/source/output/anim/delsub.F
+      !||    dfunc0          ../starter/source/output/anim/dfunc0.F
+      !||    dfuncc          ../starter/source/output/anim/dfuncc.F
+      !||    dfuncf          ../starter/source/output/anim/dfuncf.F
+      !||    dfuncs          ../starter/source/output/anim/dfuncs.F
+      !||    dmasani0        ../starter/source/output/anim/dmasani0.F
+      !||    dmasanic        ../starter/source/output/anim/dmasanic.F
+      !||    dmasanif        ../starter/source/output/anim/dmasanif.F
+      !||    dmasanis        ../starter/source/output/anim/dmasanis.F
+      !||    donerby         ../starter/source/output/anim/donerby.F
+      !||    donerwl         ../starter/source/output/anim/donerwl.F
+      !||    donesec         ../starter/source/output/anim/donesec.F
+      !||    donesrg         ../starter/source/output/anim/donesrg.F
+      !||    dparrby         ../starter/source/output/anim/dparrby.F
+      !||    dparrws         ../starter/source/output/anim/dparrws.F
+      !||    dparsrg         ../starter/source/output/anim/dparsrg.F
+      !||    drbycnt         ../starter/source/output/anim/drbycnt.F
+      !||    dseccnt         ../starter/source/output/anim/dseccnt.F
+      !||    dsecnor         ../starter/source/output/anim/dsecnor.F
+      !||    dsphcnt         ../starter/source/output/anim/dsphcnt.F
+      !||    dsphnor         ../starter/source/output/anim/dsphnor.F
+      !||    dsrgcnt         ../starter/source/output/anim/dsrgcnt.F
+      !||    dsrgnor         ../starter/source/output/anim/dsrgnor.F
+      !||    dxyzsect        ../starter/source/output/anim/dxyzsect.F
+      !||    dxyzsph         ../starter/source/output/anim/dxyzsph.F
+      !||    dxyzsrg         ../starter/source/output/anim/dxyzsrg.F
+      !||    fretitl2        ../starter/source/starter/freform.F
+      !||    parsor0         ../starter/source/output/anim/parsor0.F
+      !||    parsorc         ../starter/source/output/anim/parsorc.F
+      !||    parsorf         ../starter/source/output/anim/parsorf.F
+      !||    parsors         ../starter/source/output/anim/parsors.F
+      !||    tensor0         ../starter/source/output/anim/tensor0.F
+      !||    tensorc         ../starter/source/output/anim/tensorc.F
+      !||    tensors         ../starter/source/output/anim/tensors.F
+      !||    velvec          ../starter/source/output/anim/velvec.F
+      !||    xyz16           ../starter/source/output/anim/genani1.F
+      !||    xyznor          ../starter/source/output/anim/xyznor.F
+      !||    xyznor16        ../starter/source/output/anim/genani1.F
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod       ../starter/share/modules1/fvbag_mod.F
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE GENANI1(X      , BUFEL  , IXS   , IXQ    , IXC     ,
      2                   IXT    , IXP    , IXR   , IXTG   , SWAFT   ,
      3                   IPARG  , PM     , GEO   , SKEW   , ITAB    ,
@@ -2697,13 +2688,12 @@ C-----------------------------------------------
 C
       RETURN
       END 
-Chd|====================================================================
-Chd|  XYZ16                         source/output/anim/genani1.F  
-Chd|-- called by -----------
-Chd|        GENANI1                       source/output/anim/genani1.F  
-Chd|-- calls ---------------
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    xyz16       ../starter/source/output/anim/genani1.F
+      !||--- called by ------------------------------------------------------
+      !||    genani1     ../starter/source/output/anim/genani1.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE XYZ16(IXS,IXS10,IXS20,IXS16,X)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2784,13 +2774,12 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  XYZNOR16                      source/output/anim/genani1.F  
-Chd|-- called by -----------
-Chd|        GENANI1                       source/output/anim/genani1.F  
-Chd|-- calls ---------------
-Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    xyznor16    ../starter/source/output/anim/genani1.F
+      !||--- called by ------------------------------------------------------
+      !||    genani1     ../starter/source/output/anim/genani1.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE XYZNOR16(IXS,IXS10,IXS20,IXS16,X)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

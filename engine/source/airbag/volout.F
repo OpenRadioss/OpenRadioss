@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  VOLOUT                        source/airbag/volout.F        
-Chd|-- called by -----------
-Chd|        MONVOL0                       source/airbag/monvol0.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    volout    ../engine/source/airbag/volout.F
+      !||--- called by ------------------------------------------------------
+      !||    monvol0   ../engine/source/airbag/monvol0.F
+      !||====================================================================
       SUBROUTINE VOLOUT(RVOLU,VOL,FSAV,PMAIN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

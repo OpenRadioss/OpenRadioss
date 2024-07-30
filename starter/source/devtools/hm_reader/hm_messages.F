@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_MESSAGES                   source/devtools/hm_reader/hm_messages.F
-Chd|-- called by -----------
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_messages                      ../starter/source/devtools/hm_reader/hm_messages.F
+      !||--- called by ------------------------------------------------------
+      !||    starter0                         ../starter/source/starter/starter0.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                           ../starter/source/output/message/message.F
+      !||    hm_option_count                  ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                      ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE HM_MESSAGES(IS_DYNA)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

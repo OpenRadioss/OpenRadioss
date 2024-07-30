@@ -22,12 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 C
-Chd|====================================================================
-Chd|  SPMD_RBCAST_SUBCOMM           source/mpi/generic/spmd_rbcast_subcomm.F
-Chd|-- called by -----------
-Chd|        FVBAG2                        source/airbag/fvbag2.F        
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_rbcast_subcomm   ../engine/source/mpi/generic/spmd_rbcast_subcomm.F
+      !||--- called by ------------------------------------------------------
+      !||    fvbag2                ../engine/source/airbag/fvbag2.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_RBCAST_SUBCOMM(BUFFER,N,FROM,COMM)
 C Wrapper to MPI_BCAST for REAL
 C-----------------------------------------------

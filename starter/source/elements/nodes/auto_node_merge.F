@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  AUTO_NODE_MERGE               source/elements/nodes/auto_node_merge.F
-Chd|-- called by -----------
-Chd|        HM_PREREAD_NODE               source/elements/reader/hm_preread_node.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    auto_node_merge   ../starter/source/elements/nodes/auto_node_merge.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_preread_node   ../starter/source/elements/reader/hm_preread_node.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg            ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE AUTO_NODE_MERGE(IS_DYNA,NUMNUSR,NUMCNOD,NUMNOD,ITAB,X)
 C-----------------------------------------------
       USE MESSAGE_MOD

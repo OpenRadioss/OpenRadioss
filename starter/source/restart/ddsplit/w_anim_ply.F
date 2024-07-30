@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  W_ANIM_PLY                    source/restart/ddsplit/w_anim_ply.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        GET_PLY_NOD                   source/spmd/spmd_anim_ply_init.F
-Chd|        PLYXFEM_MOD                   share/modules1/plyxfem_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    w_anim_ply    ../starter/source/restart/ddsplit/w_anim_ply.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_ply_nod   ../starter/source/spmd/spmd_anim_ply_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    plyxfem_mod   ../starter/share/modules1/plyxfem_mod.F
+      !||====================================================================
       SUBROUTINE W_ANIM_PLY(IXC,NUMELC_L,NODLOCAL,
      *                      NUMNOD_L,CEL,CEP,PROC)
       USE PLYXFEM_MOD

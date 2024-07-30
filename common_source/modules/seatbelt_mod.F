@@ -20,36 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SEATBELT_MOD                  modules/seatbelt_mod.F        
-Chd|-- called by -----------
-Chd|        CREATE_SEATBELT               starter/source/tools/seatbelts/create_seatbelt.F
-Chd|        C_SEATBELTS                   starter/source/restart/ddsplit/c_seatbelts.F
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        HM_READ_RETRACTOR             starter/source/tools/seatbelts/hm_read_retractor.F
-Chd|        HM_READ_SLIPRING              starter/source/tools/seatbelts/hm_read_slipring.F
-Chd|        INI_SEATBELT                  starter/source/tools/seatbelts/ini_seatbelt.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        NEW_SEATBELT                  starter/source/tools/seatbelts/new_seatbelt.F
-Chd|        RGRHEAD                       starter/source/elements/spring/rgrhead.F
-Chd|        RGRTAILS                      starter/source/elements/spring/rgrtails.F
-Chd|        RINIT3                        starter/source/elements/spring/rinit3.F
-Chd|        ST_QAPRINT_SEATBELTS          starter/source/output/qaprint/st_qaprint_seatbelts.F
-Chd|        W_SEATBELTS                   starter/source/restart/ddsplit/w_seatbelts.F
-Chd|        HIST2                         engine/source/output/th/hist2.F
-Chd|        KINE_SEATBELT_FORCE           engine/source/tools/seatbelts/kine_seatbelt_force.F
-Chd|        KINE_SEATBELT_VEL             engine/source/tools/seatbelts/kine_seatbelt_vel.F
-Chd|        MATERIAL_FLOW                 engine/source/tools/seatbelts/material_flow.F
-Chd|        R23L114DEF3                   engine/source/elements/spring/r23l114def3.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
-Chd|        SPMD_COLLECT_SEATBELT         engine/source/mpi/output/spmd_collect_seatbelt.F
-Chd|        SPMD_EXCH_A_SEATBELT          engine/source/mpi/seatbelts/spmd_exch_a_seatbelt.F
-Chd|        UPDATE_SLIPRING               engine/source/tools/seatbelts/update_slipring.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    seatbelt_mod            ../common_source/modules/seatbelt_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    c_seatbelts             ../starter/source/restart/ddsplit/c_seatbelts.F
+      !||    create_seatbelt         ../starter/source/tools/seatbelts/create_seatbelt.F
+      !||    ddsplit                 ../starter/source/restart/ddsplit/ddsplit.F
+      !||    hist2                   ../engine/source/output/th/hist2.F
+      !||    hm_read_retractor       ../starter/source/tools/seatbelts/hm_read_retractor.F
+      !||    hm_read_slipring        ../starter/source/tools/seatbelts/hm_read_slipring.F
+      !||    ini_seatbelt            ../starter/source/tools/seatbelts/ini_seatbelt.F
+      !||    init_seatbelt_rbodies   ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90
+      !||    kine_seatbelt_force     ../engine/source/tools/seatbelts/kine_seatbelt_force.F
+      !||    kine_seatbelt_vel       ../engine/source/tools/seatbelts/kine_seatbelt_vel.F
+      !||    lectur                  ../engine/source/input/lectur.F
+      !||    material_flow           ../engine/source/tools/seatbelts/material_flow.F
+      !||    new_seatbelt            ../starter/source/tools/seatbelts/new_seatbelt.F
+      !||    r23l114def3             ../engine/source/elements/spring/r23l114def3.F
+      !||    rdresb                  ../engine/source/output/restart/rdresb.F
+      !||    resol                   ../engine/source/engine/resol.F
+      !||    restalloc               ../engine/source/output/restart/arralloc.F
+      !||    rgrhead                 ../starter/source/elements/spring/rgrhead.F
+      !||    rgrtails                ../starter/source/elements/spring/rgrtails.F
+      !||    rinit3                  ../starter/source/elements/spring/rinit3.F
+      !||    spmd_collect_seatbelt   ../engine/source/mpi/output/spmd_collect_seatbelt.F
+      !||    spmd_exch_a_seatbelt    ../engine/source/mpi/seatbelts/spmd_exch_a_seatbelt.F
+      !||    st_qaprint_seatbelts    ../starter/source/output/qaprint/st_qaprint_seatbelts.F
+      !||    update_slipring         ../engine/source/tools/seatbelts/update_slipring.F
+      !||    w_seatbelts             ../starter/source/restart/ddsplit/w_seatbelts.F
+      !||    wrrestp                 ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
       MODULE SEATBELT_MOD
 C----------------------------------------------------------------------- 
 #include "my_real.inc"

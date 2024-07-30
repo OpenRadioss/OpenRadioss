@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I22GET_PREV_DATA              source/interfaces/int22/i22get_prev_data.F
-Chd|-- called by -----------
-Chd|        I22BUCE                       source/interfaces/intsort/i22buce.F
-Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        REALLOC_MOD                   share/modules/realloc_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    i22get_prev_data   ../engine/source/interfaces/int22/i22get_prev_data.F
+      !||--- called by ------------------------------------------------------
+      !||    i22buce            ../engine/source/interfaces/intsort/i22buce.F
+      !||--- uses       -----------------------------------------------------
+      !||    i22bufbric_mod     ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22edge_mod        ../common_source/modules/interfaces/cut-cell-buffer_mod.F
+      !||    i22tri_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    realloc_mod        ../engine/share/modules/realloc_mod.F
+      !||====================================================================
       SUBROUTINE I22GET_PREV_DATA(
      1      X      ,II_STOK, CAND_B  ,CAND_E   ,ITASK,
      2      NBRIC  ,ITAB   , BUFBRIC  ,NCAND,   

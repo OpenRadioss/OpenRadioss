@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  VISC_PRONY                    source/materials/visc/visc_prony.F
-Chd|-- called by -----------
-Chd|        VISCMAIN                      source/materials/visc/viscmain.F
-Chd|-- calls ---------------
-Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    visc_prony       ../engine/source/materials/visc/visc_prony.F
+      !||--- called by ------------------------------------------------------
+      !||    viscmain         ../engine/source/materials/visc/viscmain.F
+      !||--- uses       -----------------------------------------------------
+      !||    visc_param_mod   ../common_source/modules/mat_elem/visc_param_mod.F90
+      !||====================================================================
       SUBROUTINE VISC_PRONY(VISC  ,NPRONY  ,NEL     ,NVARVIS ,UVARVIS ,
      .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,
      .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,

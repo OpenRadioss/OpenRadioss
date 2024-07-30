@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25COR3T                      source/interfaces/intsort/i25cor3t.F
-Chd|-- called by -----------
-Chd|        I25STO                        source/interfaces/intsort/i25sto.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25cor3t   ../engine/source/interfaces/intsort/i25cor3t.F
+      !||--- called by ------------------------------------------------------
+      !||    i25sto     ../engine/source/interfaces/intsort/i25sto.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box    ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25COR3T(JLT    ,X     ,IRECT   ,NSV   ,CAND_E ,
      1                   CAND_N  ,X1    ,X2     ,
      2                   X3      ,X4    ,Y1      ,Y2    ,Y3     ,

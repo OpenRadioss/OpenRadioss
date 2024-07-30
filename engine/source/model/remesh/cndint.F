@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CNDINT                        source/model/remesh/cndint.F  
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    cndint       ../engine/source/model/remesh/cndint.F
+      !||--- called by ------------------------------------------------------
+      !||    resol        ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier   ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    remesh_mod   ../engine/share/modules/remesh_mod.F
+      !||====================================================================
       SUBROUTINE CNDINT(IXC ,IPARTC ,IXTG ,IPARTTG,IPART,
      2              ITASK   ,A      ,V    ,AR     ,VR   , 
      3              MS      ,IN     ,NODFT,NODLT  ,X    ,

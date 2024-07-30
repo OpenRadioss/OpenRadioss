@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RGWALS                        source/constraints/general/rwall/rgwals.F
-Chd|-- called by -----------
-Chd|        RGWAL0                        source/constraints/general/rwall/rgwal0.F
-Chd|        RGWAL0_IMP                    source/constraints/general/rwall/rgwal0.F
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    rgwals        ../engine/source/constraints/general/rwall/rgwals.F
+      !||--- called by ------------------------------------------------------
+      !||    rgwal0        ../engine/source/constraints/general/rwall/rgwal0.F
+      !||    rgwal0_imp    ../engine/source/constraints/general/rwall/rgwal0.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier    ../engine/source/system/machine.F
+      !||    sum_6_float   ../engine/source/system/parit.F
+      !||====================================================================
       SUBROUTINE RGWALS(X    ,A    ,V    ,RWL  ,NSW   ,
      1                  NSN  ,ITIED,MSR  ,MS   ,WEIGHT,
      2                  ICONT,FRWL6,IMP_S,NT_RW,IDDL  ,

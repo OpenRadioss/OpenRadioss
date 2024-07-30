@@ -20,38 +20,39 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  KINSET                        source/constraints/general/kinset.F
-Chd|-- called by -----------
-Chd|        CHECKRBY                      source/constraints/general/rbody/checkrby.F
-Chd|        HM_READ_BCS                   source/constraints/general/bcs/hm_read_bcs.F
-Chd|        HM_READ_CYLJOINT              source/constraints/general/cyl_joint/hm_read_cyljoint.F
-Chd|        HM_READ_GJOINT                source/constraints/general/gjoint/hm_read_gjoint.F
-Chd|        HM_READ_IMPACC                source/constraints/general/impvel/hm_read_impacc.F
-Chd|        HM_READ_LINK                  source/constraints/rigidlink/hm_read_rlink.F
-Chd|        HM_READ_MPC                   source/constraints/general/mpc/hm_read_mpc.F
-Chd|        HM_READ_NBCS                  source/constraints/general/bcs/hm_read_nbcs.F
-Chd|        HM_READ_RBE2                  source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|        HM_READ_RBE3                  source/constraints/general/rbe3/hm_read_rbe3.F
-Chd|        HM_READ_RBODY_LAGMUL          source/constraints/general/rbody/hm_read_rbody_lagmul.F
-Chd|        HM_READ_RWALL_CYL             source/constraints/general/rwall/hm_read_rwall_cyl.F
-Chd|        HM_READ_RWALL_LAGMUL          source/constraints/general/rwall/hm_read_rwall_lagmul.F
-Chd|        HM_READ_RWALL_PARAL           source/constraints/general/rwall/hm_read_rwall_paral.F
-Chd|        HM_READ_RWALL_PLANE           source/constraints/general/rwall/hm_read_rwall_plane.F
-Chd|        HM_READ_RWALL_SPHER           source/constraints/general/rwall/hm_read_rwall_spher.F
-Chd|        HM_READ_RWALL_THERM           source/constraints/general/rwall/hm_read_rwall_therm.F
-Chd|        I1TID3                        source/interfaces/inter3d1/i1tid3.F
-Chd|        I2TID3                        source/interfaces/inter3d1/i2tid3.F
-Chd|        ITAGSL12                      source/interfaces/inter3d1/inintr2.F
-Chd|        ITAGSL2                       source/interfaces/inter3d1/itagsl2.F
-Chd|        READ_IMPDISP                  source/constraints/general/impvel/read_impdisp.F
-Chd|        READ_IMPVEL                   source/constraints/general/impvel/read_impvel.F
-Chd|        READ_IMPVEL_LAGMUL            source/constraints/general/impvel/read_impvel_lagmul.F
-Chd|        RIVET0                        source/elements/reader/rivet0.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    kinset                 ../starter/source/constraints/general/kinset.F
+      !||--- called by ------------------------------------------------------
+      !||    checkrby               ../starter/source/constraints/general/rbody/checkrby.F
+      !||    hm_read_bcs            ../starter/source/constraints/general/bcs/hm_read_bcs.F
+      !||    hm_read_cyljoint       ../starter/source/constraints/general/cyl_joint/hm_read_cyljoint.F
+      !||    hm_read_gjoint         ../starter/source/constraints/general/gjoint/hm_read_gjoint.F
+      !||    hm_read_impacc         ../starter/source/constraints/general/impvel/hm_read_impacc.F
+      !||    hm_read_link           ../starter/source/constraints/rigidlink/hm_read_rlink.F
+      !||    hm_read_mpc            ../starter/source/constraints/general/mpc/hm_read_mpc.F
+      !||    hm_read_nbcs           ../starter/source/constraints/general/bcs/hm_read_nbcs.F
+      !||    hm_read_rbe2           ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    hm_read_rbe3           ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+      !||    hm_read_rbody_lagmul   ../starter/source/constraints/general/rbody/hm_read_rbody_lagmul.F
+      !||    hm_read_rwall_cyl      ../starter/source/constraints/general/rwall/hm_read_rwall_cyl.F
+      !||    hm_read_rwall_lagmul   ../starter/source/constraints/general/rwall/hm_read_rwall_lagmul.F
+      !||    hm_read_rwall_paral    ../starter/source/constraints/general/rwall/hm_read_rwall_paral.F
+      !||    hm_read_rwall_plane    ../starter/source/constraints/general/rwall/hm_read_rwall_plane.F
+      !||    hm_read_rwall_spher    ../starter/source/constraints/general/rwall/hm_read_rwall_spher.F
+      !||    hm_read_rwall_therm    ../starter/source/constraints/general/rwall/hm_read_rwall_therm.F
+      !||    i1tid3                 ../starter/source/interfaces/inter3d1/i1tid3.F
+      !||    i2tid3                 ../starter/source/interfaces/inter3d1/i2tid3.F
+      !||    itagsl12               ../starter/source/interfaces/inter3d1/inintr2.F
+      !||    itagsl2                ../starter/source/interfaces/inter3d1/itagsl2.F
+      !||    read_impdisp           ../starter/source/constraints/general/impvel/read_impdisp.F
+      !||    read_impvel            ../starter/source/constraints/general/impvel/read_impvel.F
+      !||    read_impvel_lagmul     ../starter/source/constraints/general/impvel/read_impvel_lagmul.F
+      !||    rivet0                 ../starter/source/elements/reader/rivet0.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE KINSET(IK,NODE,IKINE,IDIR,ISK,IKINE1)
       USE MESSAGE_MOD
 C

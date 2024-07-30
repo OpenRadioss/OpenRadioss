@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIT_SURF_ELM                 source/groups/init_surf_elm.F 
-Chd|-- called by -----------
-Chd|        HM_READ_LINES                 source/groups/hm_read_lines.F 
-Chd|        HM_READ_SURF                  source/groups/hm_read_surf.F  
-Chd|-- calls ---------------
-Chd|        SURF_MOD                      share/modules1/surf_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    init_surf_elm   ../starter/source/groups/init_surf_elm.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_lines   ../starter/source/groups/hm_read_lines.F
+      !||    hm_read_surf    ../starter/source/groups/hm_read_surf.F
+      !||--- uses       -----------------------------------------------------
+      !||    surf_mod        ../starter/share/modules1/surf_mod.F
+      !||====================================================================
         SUBROUTINE INIT_SURF_ELM( NUMELS  ,NUMELS8,NUMELS10,NUMELC ,NUMELTG ,
      1                            NUMELT  ,NUMELP ,NUMELR  ,NPART  ,IPARTS  ,
      2                            IPARTC  ,IPARTTG,IPARTT  ,IPARTP ,IPARTR  ,
@@ -188,14 +188,14 @@ C-----------------------------------------------
         RETURN
         END SUBROUTINE INIT_SURF_ELM
 
-Chd|====================================================================
-Chd|  DEALLOCATE_SURF_ELM           source/groups/init_surf_elm.F 
-Chd|-- called by -----------
-Chd|        HM_READ_LINES                 source/groups/hm_read_lines.F 
-Chd|        HM_READ_SURF                  source/groups/hm_read_surf.F  
-Chd|-- calls ---------------
-Chd|        SURF_MOD                      share/modules1/surf_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    deallocate_surf_elm   ../starter/source/groups/init_surf_elm.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_lines         ../starter/source/groups/hm_read_lines.F
+      !||    hm_read_surf          ../starter/source/groups/hm_read_surf.F
+      !||--- uses       -----------------------------------------------------
+      !||    surf_mod              ../starter/share/modules1/surf_mod.F
+      !||====================================================================
         SUBROUTINE DEALLOCATE_SURF_ELM(NPART,SURF_ELM,MODE)
 
         USE SURF_MOD

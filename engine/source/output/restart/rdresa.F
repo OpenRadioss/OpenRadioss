@@ -20,26 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RDRESA                        source/output/restart/rdresa.F
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        RDCOMI                        source/output/restart/rdcomm.F
-Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rdresa                 ../engine/source/output/restart/rdresa.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2               ../engine/source/engine/radioss2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||    cur_fil_c              ../common_source/tools/input_output/write_routtines.c
+      !||    rdcomi                 ../engine/source/output/restart/rdcomm.F
+      !||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
+      !||    loads_mod              ../common_source/modules/loads/loads_mod.F
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
+      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    skew_mod               ../common_source/modules/skew_mod.F90
+      !||    state_mod              ../common_source/modules/state_mod.F
+      !||====================================================================
       SUBROUTINE RDRESA(ITSTV1 , LHEADER, LVARINT, LVARREA, PRADIOS,
      .                  PRESFIL,MULTI_FVM,H3D_DATA,
      .                  PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
@@ -182,17 +184,19 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  INIRESA                       source/output/restart/rdresa.F
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    iniresa         ../engine/source/output/restart/rdresa.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2        ../engine/source/engine/radioss2.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar            ../engine/source/input/nvar.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod         ../common_source/modules/ale/ale_mod.F
+      !||    aleanim_mod     ../engine/share/modules/aleanim_mod.F
+      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    pinchtype_mod   ../common_source/modules/pinchtype_mod.F
+      !||====================================================================
       SUBROUTINE INIRESA(H3D_DATA,PINCH_DATA)
 C-----------------------------------------------
 C   M o d u l e s

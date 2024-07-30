@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    inter_sh_offset_dim_mod   ../engine/source/interfaces/shell_offset/inter_offset_dim.F90
+      !||--- called by ------------------------------------------------------
+      !||    inter_sh_offset_ini       ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
+      !||====================================================================
       module inter_sh_offset_dim_mod
       contains
         ! ======================================================================================================================
@@ -29,6 +34,14 @@
         !=======================================================================================================================
         !!\brief This subroutine get number of shell w/ offset treatment
         !=======================================================================================================================
+      !||====================================================================
+      !||    inter_sh_offset_dim   ../engine/source/interfaces/shell_offset/inter_offset_dim.F90
+      !||--- called by ------------------------------------------------------
+      !||    inter_sh_offset_ini   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    inter_sh_offset_mod   ../engine/source/modules/interfaces/sh_offset_mod.F90
+      !||====================================================================
         subroutine inter_sh_offset_dim(                                         &
           ngroup,    nparg,      iparg,     elbuf_tab,            &
           nsh_oset)

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GETHKT3                       source/elements/solid/solide8z/gethkt3.F
-Chd|-- called by -----------
-Chd|        MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
-Chd|-- calls ---------------
-Chd|        IMP_KTAN                      share/modules/impbufdef_mod.F 
-Chd|        IMP_KTAN_DEF                  share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    gethkt3        ../engine/source/elements/solid/solide8z/gethkt3.F
+      !||--- called by ------------------------------------------------------
+      !||    mmstifs        ../engine/source/elements/solid/solide8z/mmstifs.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
+      !||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE GETHKT3(
      1   JFT,     JLT,     HT,      IR,
      2   IS,      IT,      MTN)

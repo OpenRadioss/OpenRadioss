@@ -22,12 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 
-Chd|====================================================================
-Chd|  S8SANSB                       source/elements/solid/solide8s/s8sansb.F
-Chd|-- called by -----------
-Chd|        S8SLKE3                       source/elements/solid/solide8s/s8slke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8sansb   ../engine/source/elements/solid/solide8s/s8sansb.F
+      !||--- called by ------------------------------------------------------
+      !||    s8slke3   ../engine/source/elements/solid/solide8s/s8slke3.F
+      !||====================================================================
       SUBROUTINE S8SANSB(
      .    X1,X2,X3,X4,X5,X6,X7,X8,Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,
      .    Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8, INVJ,KSI,ETA,ZETA,

@@ -20,12 +20,149 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    mmain_mod    ../engine/source/materials/mat_share/mmain.F90
+      !||--- called by ------------------------------------------------------
+      !||    bforc2       ../engine/source/ale/bimat/bforc2.F
+      !||    ig3duforc3   ../engine/source/elements/ige3d/ig3duforc3.F
+      !||    q4forc2      ../engine/source/elements/solid_2d/quad4/q4forc2.F
+      !||    qforc2       ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||    s10forc3     ../engine/source/elements/solid/solide10/s10forc3.F
+      !||    s16forc3     ../engine/source/elements/thickshell/solide16/s16forc3.F
+      !||    s20forc3     ../engine/source/elements/solid/solide20/s20forc3.F
+      !||    s4forc3      ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    s6cforc3     ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s8cforc3     ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8sforc3     ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||    s8zforc3     ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    scforc3      ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||    sforc3       ../engine/source/elements/solid/solide/sforc3.F
+      !||    spstres      ../engine/source/elements/sph/spstres.F
+      !||    szforc3      ../engine/source/elements/solid/solidez/szforc3.F
+      !||====================================================================
       module mmain_mod
       contains
 ! ======================================================================================================================
 !                                                   mmain
 ! ======================================================================================================================
 !! \brief main routine for Material Computation for brick/quad/thickshell/sph elements
+      !||====================================================================
+      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+      !||--- called by ------------------------------------------------------
+      !||    bforc2                 ../engine/source/ale/bimat/bforc2.F
+      !||    ig3duforc3             ../engine/source/elements/ige3d/ig3duforc3.F
+      !||    q4forc2                ../engine/source/elements/solid_2d/quad4/q4forc2.F
+      !||    qforc2                 ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||    s10forc3               ../engine/source/elements/solid/solide10/s10forc3.F
+      !||    s16forc3               ../engine/source/elements/thickshell/solide16/s16forc3.F
+      !||    s20forc3               ../engine/source/elements/solid/solide20/s20forc3.F
+      !||    s4forc3                ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    s6cforc3               ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s8cforc3               ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3               ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8sforc3               ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||    s8zforc3               ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    scforc3                ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||    sforc3                 ../engine/source/elements/solid/solide/sforc3.F
+      !||    spstres                ../engine/source/elements/sph/spstres.F
+      !||    szforc3                ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||    atur17                 ../engine/source/ale/turbulence/atur17.F
+      !||    aturbn                 ../engine/source/ale/turbulence/aturbn.F
+      !||    eosmain                ../common_source/eos/eosmain.F
+      !||    eosupda                ../common_source/eos/eosupda.F
+      !||    fail_biquad_s          ../engine/source/materials/fail/biquad/fail_biquad_s.F
+      !||    fail_changchang_s      ../engine/source/materials/fail/changchang/fail_changchang_s.F
+      !||    fail_cockroft_s        ../engine/source/materials/fail/cockroft_latham/fail_cockroft_s.F
+      !||    fail_emc               ../engine/source/materials/fail/emc/fail_emc.F
+      !||    fail_energy_s          ../engine/source/materials/fail/energy/fail_energy_s.F
+      !||    fail_gene1_s           ../engine/source/materials/fail/gene1/fail_gene1_s.F
+      !||    fail_hashin_s          ../engine/source/materials/fail/hashin/fail_hashin_s.F
+      !||    fail_hoffman_s         ../engine/source/materials/fail/hoffman/fail_hoffman_s.F
+      !||    fail_inievo_s          ../engine/source/materials/fail/inievo/fail_inievo_s.F
+      !||    fail_johnson           ../engine/source/materials/fail/johnson_cook/fail_johnson.F
+      !||    fail_ladeveze          ../engine/source/materials/fail/ladeveze/fail_ladeveze.F
+      !||    fail_maxstrain_s       ../engine/source/materials/fail/max_strain/fail_maxstrain_s.F
+      !||    fail_orthbiquad_s      ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
+      !||    fail_orthenerg_s       ../engine/source/materials/fail/orthenerg/fail_orthenerg_s.F
+      !||    fail_orthstrain        ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
+      !||    fail_puck_s            ../engine/source/materials/fail/puck/fail_puck_s.F
+      !||    fail_rtcl_s            ../engine/source/materials/fail/rtcl/fail_rtcl_s.F
+      !||    fail_sahraei_s         ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
+      !||    fail_spalling_s        ../engine/source/materials/fail/spalling/fail_spalling_s.F
+      !||    fail_syazwan_s         ../engine/source/materials/fail/syazwan/fail_syazwan_s.F
+      !||    fail_tab2_s            ../engine/source/materials/fail/tabulated/fail_tab2_s.F
+      !||    fail_tab_old_s         ../engine/source/materials/fail/tabulated/fail_tab_old_s.F
+      !||    fail_tab_s             ../engine/source/materials/fail/tabulated/fail_tab_s.F
+      !||    fail_tbutcher_s        ../engine/source/materials/fail/tuler_butcher/fail_tbutcher_s.F
+      !||    fail_tensstrain_s      ../engine/source/materials/fail/tensstrain/fail_tensstrain_s.F
+      !||    fail_tsaihill_s        ../engine/source/materials/fail/tsaihill/fail_tsaihill_s.F
+      !||    fail_tsaiwu_s          ../engine/source/materials/fail/tsaiwu/fail_tsaiwu_s.F
+      !||    fail_visual_s          ../engine/source/materials/fail/visual/fail_visual_s.F
+      !||    fail_wierzbicki_s      ../engine/source/materials/fail/wierzbicki/fail_wierzbicki_s.F
+      !||    fail_wilkins_s         ../engine/source/materials/fail/wilkins/fail_wilkins_s.F
+      !||    finter                 ../engine/source/tools/curve/finter.F
+      !||    gray10                 ../engine/source/materials/mat/mat016/gray10.F
+      !||    gray20                 ../engine/source/materials/mat/mat016/gray20.F
+      !||    gray30                 ../engine/source/materials/mat/mat016/gray30.F
+      !||    m10law                 ../engine/source/materials/mat/mat010/m10law.F
+      !||    m11law                 ../engine/source/materials/mat/mat011/m11law.F
+      !||    m12law                 ../engine/source/materials/mat/mat012/m12law.F
+      !||    m13law                 ../engine/source/materials/mat/mat013/m13law.F
+      !||    m14law                 ../engine/source/materials/mat/mat014/m14law.F
+      !||    m16law                 ../engine/source/materials/mat/mat016/m16law.F
+      !||    m17law                 ../engine/source/materials/mat/mat017/m17law.F
+      !||    m18law                 ../engine/source/materials/mat/mat018/m18law.F
+      !||    m1law                  ../engine/source/materials/mat/mat001/m1law.F
+      !||    m1lawi                 ../engine/source/materials/mat/mat001/m1lawi.F
+      !||    m1lawtot               ../engine/source/materials/mat/mat001/m1lawtot.F
+      !||    m21law                 ../engine/source/materials/mat/mat021/m21law.F
+      !||    m22law                 ../engine/source/materials/mat/mat022/m22law.F
+      !||    m24law                 ../engine/source/materials/mat/mat024/m24law.F
+      !||    m25law                 ../engine/source/materials/mat/mat025/m25law.F
+      !||    m26law                 ../engine/source/materials/mat/mat026/m26law.F
+      !||    m2law                  ../engine/source/materials/mat/mat002/m2law.F
+      !||    m3law                  ../engine/source/materials/mat/mat003/m3law.F
+      !||    m46law                 ../engine/source/materials/mat/mat046/m46law.F
+      !||    m49law                 ../engine/source/materials/mat/mat049/m49law.F
+      !||    m4law                  ../engine/source/materials/mat/mat004/m4law.F
+      !||    m5law                  ../engine/source/materials/mat/mat005/m5law.F
+      !||    m6law                  ../engine/source/materials/mat/mat006/m6law.F
+      !||    mdtsph                 ../engine/source/materials/mat_share/mdtsph.F
+      !||    meint                  ../engine/source/materials/mat_share/meint.F
+      !||    mjwl                   ../engine/source/materials/mat/mat005/mjwl.F
+      !||    mnsvis                 ../engine/source/materials/mat_share/mnsvis.F
+      !||    mqvisc26               ../engine/source/materials/mat_share/mqvisc26.F
+      !||    mqviscb                ../engine/source/materials/mat_share/mqviscb.F
+      !||    mreploc                ../engine/source/materials/mat_share/mreploc.F
+      !||    mrotens                ../engine/source/materials/mat_share/mrotens.F
+      !||    mtheta                 ../engine/source/materials/mat_share/mtheta.F
+      !||    mulaw                  ../engine/source/materials/mat_share/mulaw.F90
+      !||    nvar                   ../engine/source/input/nvar.F
+      !||    put_etfac              ../engine/source/elements/solid/solide8z/put_etfac.F
+      !||    putsignor3             ../engine/source/elements/solid/solide8z/putsignor3.F
+      !||    sboltlaw               ../engine/source/elements/solid/solide/sboltlaw.F
+      !||    sesa10                 ../engine/source/materials/mat/mat026/sesa10.F
+      !||    sesa20                 ../engine/source/materials/mat/mat026/sesa20.F
+      !||    sesa30                 ../engine/source/materials/mat/mat026/sesa30.F
+      !||    startime               ../engine/source/system/timer.F
+      !||    stoptime               ../engine/source/system/timer.F
+      !||    usermat_solid          ../engine/source/materials/mat_share/usermat_solid.F
+      !||    viscmain               ../engine/source/materials/visc/viscmain.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    ale_mod                ../common_source/modules/ale/ale_mod.F
+      !||    anim_mod               ../common_source/modules/output/anim_mod.F
+      !||    constant_mod           ../common_source/modules/constant_mod.F
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    mulaw_mod              ../engine/source/materials/mat_share/mulaw.F90
+      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
         subroutine mmain(&
         &elbuf_tab,   ng,          pm,          geo,&
         &            ale_connect, ix,          iparg,&

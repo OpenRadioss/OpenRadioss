@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_R2R_RGET3                source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        INIT_LINK_SPMD                source/coupling/rad2rad/r2r_init.F
-Chd|        SEND_DATA_SPMD                source/coupling/rad2rad/r2r_exchange.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r2r_rget3   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    init_link_spmd   ../engine/source/coupling/rad2rad/r2r_init.F
+      !||    send_data_spmd   ../engine/source/coupling/rad2rad/r2r_exchange.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_R2R_RGET3(
      1    X      ,NNG   ,GRNOD, DD_R2R, WEIGHT, BUFR)
 C-----------------------------------------------
@@ -92,12 +92,12 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_R2R_RGET3_DP             source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        SEND_DATA_SPMD                source/coupling/rad2rad/r2r_exchange.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r2r_rget3_dp   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    send_data_spmd      ../engine/source/coupling/rad2rad/r2r_exchange.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_R2R_RGET3_DP(
      1    X      ,NNG   ,GRNOD, DD_R2R, WEIGHT, BUFR)
 C-----------------------------------------------
@@ -163,14 +163,14 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_R2R_RGET                 source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        SEND_DATA_SPMD                source/coupling/rad2rad/r2r_exchange.F
-Chd|        SEND_MASS_RBY_SPMD            source/coupling/rad2rad/r2r_init.F
-Chd|        SEND_MASS_SPMD                source/coupling/rad2rad/r2r_init.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r2r_rget        ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    send_data_spmd       ../engine/source/coupling/rad2rad/r2r_exchange.F
+      !||    send_mass_rby_spmd   ../engine/source/coupling/rad2rad/r2r_init.F
+      !||    send_mass_spmd       ../engine/source/coupling/rad2rad/r2r_init.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_R2R_RGET(
      1    M   ,NNG   ,GRNOD, DD_R2R, WEIGHT, BUFR)
 C-----------------------------------------------
@@ -234,13 +234,14 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_R2R_RBY                  source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        SEND_DATA_SPMD                source/coupling/rad2rad/r2r_exchange.F
-Chd|-- calls ---------------
-Chd|        RAD2R_MOD                     share/modules/rad2r.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r2r_rby     ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    send_data_spmd   ../engine/source/coupling/rad2rad/r2r_exchange.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    rad2r_mod        ../engine/share/modules/rad2r.F
+      !||====================================================================
       SUBROUTINE SPMD_R2R_RBY(
      1    RBY   ,NNG   ,GRNOD, DD_R2R, WEIGHT, IEX, BUFR)
 C----6----------------------------------------------------------------
@@ -312,13 +313,14 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_R2R_IDEF                 source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        INIT_LINK_SPMD                source/coupling/rad2rad/r2r_init.F
-Chd|-- calls ---------------
-Chd|        RAD2R_MOD                     share/modules/rad2r.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r2r_idef    ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    init_link_spmd   ../engine/source/coupling/rad2rad/r2r_init.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    rad2r_mod        ../engine/share/modules/rad2r.F
+      !||====================================================================
       SUBROUTINE SPMD_R2R_IDEF(NNG,GRNOD,WEIGHT,IEX,TLEL,TLELN,TCNEL,TCNELDB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -417,14 +419,14 @@ C
 #endif
       RETURN
       END      
-Chd|====================================================================
-Chd|  SPMD_R2R_IGET                 source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        GET_MASS_RBY_SPMD             source/coupling/rad2rad/r2r_init.F
-Chd|        INIT_LINK_SPMD                source/coupling/rad2rad/r2r_init.F
-Chd|        SEND_MASS_RBY_SPMD            source/coupling/rad2rad/r2r_init.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r2r_iget        ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    get_mass_rby_spmd    ../engine/source/coupling/rad2rad/r2r_init.F
+      !||    init_link_spmd       ../engine/source/coupling/rad2rad/r2r_init.F
+      !||    send_mass_rby_spmd   ../engine/source/coupling/rad2rad/r2r_init.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_R2R_IGET(
      1    ITAB   ,NNG   ,GRNOD, DD_R2R, WEIGHT, IBUF,FLAG)
 C-----------------------------------------------
@@ -492,13 +494,14 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_R2R_IGET2                source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        INIT_LINK_SPMD                source/coupling/rad2rad/r2r_init.F
-Chd|-- calls ---------------
-Chd|        RAD2R_MOD                     share/modules/rad2r.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r2r_iget2   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    init_link_spmd   ../engine/source/coupling/rad2rad/r2r_init.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    rad2r_mod        ../engine/share/modules/rad2r.F
+      !||====================================================================
       SUBROUTINE SPMD_R2R_IGET2(
      1    ITAB   ,NNG   ,IEX, IBUF, FLAG)
 C-----------------------------------------------
@@ -593,13 +596,14 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_R2R_IGET4                source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        INIT_LINK_SPMD                source/coupling/rad2rad/r2r_init.F
-Chd|-- calls ---------------
-Chd|        RAD2R_MOD                     share/modules/rad2r.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r2r_iget4   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    init_link_spmd   ../engine/source/coupling/rad2rad/r2r_init.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    rad2r_mod        ../engine/share/modules/rad2r.F
+      !||====================================================================
       SUBROUTINE SPMD_R2R_IGET4(
      1    ITAB,NNG,GRNOD,DD_R2R,WEIGHT,IBUF,IEX,DBNBUF,
      2    DDBUF,FLAG)
@@ -679,13 +683,13 @@ C
       RETURN
       END
       
-Chd|====================================================================
-Chd|  SPMD_R2R_SYNC                 source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        R2R_INIT                      source/coupling/rad2rad/r2r_init.F
-Chd|-- calls ---------------
-Chd|        GET_NAME_C                    source/coupling/rad2rad/rad2rad_c.c
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r2r_sync   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_init        ../engine/source/coupling/rad2rad/r2r_init.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_name_c      ../engine/source/coupling/rad2rad/rad2rad_c.c
+      !||====================================================================
       SUBROUTINE SPMD_R2R_SYNC(ADDR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -741,13 +745,14 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_R2R_RSET                 source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        GET_STIFF_SPMD                source/coupling/rad2rad/r2r_exchange.F
-Chd|-- calls ---------------
-Chd|        RAD2R_MOD                     share/modules/rad2r.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r2r_rset    ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    get_stiff_spmd   ../engine/source/coupling/rad2rad/r2r_exchange.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    rad2r_mod        ../engine/share/modules/rad2r.F
+      !||====================================================================
       SUBROUTINE SPMD_R2R_RSET(
      1    M      ,NNG     ,GRNOD, DD_R2R, WEIGHT,
      2    BUFR   ,IAD_ELEM,FR_ELEM, LRBUF,IEX )
@@ -832,12 +837,12 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_R2R_RSET4                source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        GET_MASS_SPMD                 source/coupling/rad2rad/r2r_init.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r2r_rset4   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    get_mass_spmd    ../engine/source/coupling/rad2rad/r2r_init.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_R2R_RSET4(
      1    M      ,NNG     ,GRNOD, DD_R2R, WEIGHT,
      2    BUFR   ,IAD_ELEM,FR_ELEM, LRBUF )
@@ -915,14 +920,15 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_R2R_RSET3                source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        GET_DISPL_SPMD                source/coupling/rad2rad/r2r_getdata.F
-Chd|        GET_FORCE_SPMD                source/coupling/rad2rad/r2r_getdata.F
-Chd|-- calls ---------------
-Chd|        RAD2R_MOD                     share/modules/rad2r.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r2r_rset3   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    get_displ_spmd   ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||    get_force_spmd   ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    rad2r_mod        ../engine/share/modules/rad2r.F
+      !||====================================================================
       SUBROUTINE SPMD_R2R_RSET3(
      1    A      ,NNG     ,GRNOD, DD_R2R, WEIGHT,
      2    BUFR   ,IAD_ELEM,FR_ELEM, LRBUF,IEX )
@@ -1012,13 +1018,14 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_R2R_RSET3B               source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        GET_FORCE_SPMD                source/coupling/rad2rad/r2r_getdata.F
-Chd|-- calls ---------------
-Chd|        RAD2R_MOD                     share/modules/rad2r.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r2r_rset3b   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    get_force_spmd    ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    rad2r_mod         ../engine/share/modules/rad2r.F
+      !||====================================================================
       SUBROUTINE SPMD_R2R_RSET3B(
      1    A      ,NNG     ,GRNOD, DD_R2R,WEIGHT,
      2    BUFR   ,IAD_ELEM,FR_ELEM, LRBUF ,MS    ,
@@ -1151,13 +1158,13 @@ C Sommation sur les procs de WF2
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_EXCH_R2R                 source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        R2R_EXCHANGE                  source/coupling/rad2rad/r2r_exchange.F
-Chd|        R2R_INIT                      source/coupling/rad2rad/r2r_init.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_r2r   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_exchange    ../engine/source/coupling/rad2rad/r2r_exchange.F
+      !||    r2r_init        ../engine/source/coupling/rad2rad/r2r_init.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_R2R(
      1   A        ,AR     ,STIFN,STIFR ,MS  ,
      2   IAD_ELEM ,FR_ELEM, SIZE,
@@ -1332,12 +1339,12 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_EXCH_R2R_2               source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        R2R_GETDATA                   source/coupling/rad2rad/r2r_getdata.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_r2r_2   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_getdata       ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_R2R_2(
      1   A ,AR, V, VR     ,MS  , IN,
      2   IAD_ELEM ,FR_ELEM, SIZE, WF, WF2,
@@ -1541,12 +1548,12 @@ C
 #endif
       RETURN
       END    
-Chd|====================================================================
-Chd|  SPMD_EXCH_R2R_RBY             source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        R2R_INIT                      source/coupling/rad2rad/r2r_init.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_r2r_rby   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_init            ../engine/source/coupling/rad2rad/r2r_init.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_R2R_RBY(
      1   NPBY , RBY  ,IAD_ELEM    ,FR_ELEM, SIZE,
      2   LENR ,DD_R2R,DD_R2R_ELEM ,X)
@@ -1700,13 +1707,14 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_EXCH_WORK                source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        R2R_GETDATA                   source/coupling/rad2rad/r2r_getdata.F
-Chd|-- calls ---------------
-Chd|        RAD2R_MOD                     share/modules/rad2r.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_work   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_getdata      ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    rad2r_mod        ../engine/share/modules/rad2r.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_WORK(WF, WF2)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1782,12 +1790,12 @@ C Sommation sur les procs de WF2
       RETURN
       END
 C      
-Chd|====================================================================
-Chd|  SPMD_R2R_TAGEL                source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        TAGOFF3N                      source/interfaces/interf/chkstfn3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r2r_tagel   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    tagoff3n         ../engine/source/interfaces/interf/chkstfn3.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_R2R_TAGEL(TAGELG,TAGEL,LEN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1845,12 +1853,12 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_EXCH_R2R_ITAG            source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        TAGOFF3N                      source/interfaces/interf/chkstfn3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_r2r_itag   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    tagoff3n             ../engine/source/interfaces/interf/chkstfn3.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_R2R_ITAG(
      1   ITAG,IAD_ELEM ,FR_ELEM,DD_R2R,DD_R2R_ELEM,LENR)
 C--------------------------------------
@@ -1972,12 +1980,12 @@ C
       RETURN
       END      
 C
-Chd|====================================================================
-Chd|  SPMD_EXCH_R2R_SPH             source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_r2r_sph   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_R2R_SPH(A,IAD_ELEM,FR_ELEM,DD_R2R,DD_R2R_ELEM,LENR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2098,12 +2106,12 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_EXCH_R2R_SPHOFF          source/mpi/r2r/spmd_r2r.F     
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_r2r_sphoff   ../engine/source/mpi/r2r/spmd_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                  ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_R2R_SPHOFF(OFF_SPH_R2R,IAD_ELEM,
      1   FR_ELEM,DD_R2R,DD_R2R_ELEM,LENR)
 C-----------------------------------------------

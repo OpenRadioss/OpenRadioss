@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CDT3                          source/elements/shell/coque/cdt3.F
-Chd|-- called by -----------
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cdt3         ../engine/source/elements/shell/coque/cdt3.F
+      !||--- called by ------------------------------------------------------
+      !||    cforc3       ../engine/source/elements/shell/coque/cforc3.F
+      !||    cforc3_crk   ../engine/source/elements/xfem/cforc3_crk.F
+      !||====================================================================
       SUBROUTINE CDT3(JFT   ,JLT    ,YM   ,OFF  ,DT2T,
      2                NELTST,ITYPTST,STI  ,STIR ,OFFG,
      3                DTC   ,NDT    ,DT2C ,IXC  ,SSP ,

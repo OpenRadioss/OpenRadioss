@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7STSECND                     source/interfaces/inter3d1/i7stslav.F
-Chd|-- called by -----------
-Chd|        ININTR1                       source/interfaces/interf1/inintr1.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i7stsecnd       ../starter/source/interfaces/inter3d1/i7stslav.F
+      !||--- called by ------------------------------------------------------
+      !||    inintr1         ../starter/source/interfaces/interf1/inintr1.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I7STSECND(IPARI,STIFINT,INTBUF_TAB )
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,24 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_SHELL_SCALAR_1            source/output/h3d/h3d_results/h3d_shell_scalar_1.F
-Chd|-- called by -----------
-Chd|        H3D_SHELL_SCALAR              source/output/h3d/h3d_results/h3d_shell_scalar.F
-Chd|-- calls ---------------
-Chd|        H3D_WRITE_SCALAR              source/output/h3d/h3d_results/h3d_write_scalar.F
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        OUTPUT_DIV_U                  source/output/anim/generate/output_div_u.F
-Chd|        OUTPUT_SCHLIEREN              source/output/anim/generate/output_schlieren.F
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_shell_scalar_1     ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_shell_scalar       ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
+      !||--- calls      -----------------------------------------------------
+      !||    h3d_write_scalar       ../engine/source/output/h3d/h3d_results/h3d_write_scalar.F
+      !||    initbuf                ../engine/share/resol/initbuf.F
+      !||    output_div_u           ../engine/source/output/anim/generate/output_div_u.F
+      !||    output_schlieren       ../engine/source/output/anim/generate/output_schlieren.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    schlieren_mod          ../engine/share/modules/schlieren_mod.F
+      !||    stack_mod              ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE H3D_SHELL_SCALAR_1(
      .                  ELBUF_TAB   ,SHELL_SCALAR,IPARG       ,GEO        ,
      .                  IXC       ,IXTG      ,PM          ,BUFMAT     ,

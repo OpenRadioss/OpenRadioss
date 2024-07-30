@@ -22,18 +22,19 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 C
-Chd|====================================================================
-Chd|  SPMD_FVB_GATH                 source/mpi/airbags/spmd_fvb_gath.F
-Chd|-- called by -----------
-Chd|        FVBAG1                        source/airbag/fvbag1.F        
-Chd|        FVBRIC                        source/airbag/fvbric.F        
-Chd|        FVMESH1                       source/airbag/fvmesh.F        
-Chd|        FVREZONE1                     source/airbag/fvrezone.F      
-Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
-Chd|        LECFVBAG                      source/input/lecfvbag.F       
-Chd|-- calls ---------------
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fvb_gath   ../engine/source/mpi/airbags/spmd_fvb_gath.F
+      !||--- called by ------------------------------------------------------
+      !||    fv_up_switch    ../engine/source/airbag/fv_up_switch.F
+      !||    fvbag1          ../engine/source/airbag/fvbag1.F
+      !||    fvbric          ../engine/source/airbag/fvbric.F
+      !||    fvmesh1         ../engine/source/airbag/fvmesh.F
+      !||    fvrezone1       ../engine/source/airbag/fvrezone.F
+      !||    lecfvbag        ../engine/source/input/lecfvbag.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod       ../engine/share/modules/fvbag_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_FVB_GATH(IFV, X, XXX, XXXA, XXXSA,
      .                         IDO)
 C Gather local X into XXX,XXXA,XXXSA on the PMAIN of the FVM

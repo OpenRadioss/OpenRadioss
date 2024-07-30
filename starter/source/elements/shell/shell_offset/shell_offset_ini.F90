@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    shell_offset_ini_mod   ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur                 ../starter/source/starter/lectur.F
+      !||====================================================================
       module shell_offset_ini_mod
 
       contains
@@ -30,6 +35,13 @@
 !=======================================================================================================================
 !!\brief This subroutine do the initialization of shell offset treatment
 !=======================================================================================================================
+      !||====================================================================
+      !||    shell_offset_ini   ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur             ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||    defaults_mod       ../starter/source/modules/defaults_mod.F90
+      !||====================================================================
         subroutine shell_offset_ini(                                          &
                        ngroup,    nparg,      iparg,        npropg,           &
                        numgeo,      geo,     numelc,       numeltg,           &

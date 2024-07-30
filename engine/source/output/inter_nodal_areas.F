@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTER_NODAL_AREAS             source/output/inter_nodal_areas.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SPMD_EXCH_NODAREA             source/mpi/anim/spmd_exch_nodarea.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inter_nodal_areas   ../engine/source/output/inter_nodal_areas.F
+      !||--- called by ------------------------------------------------------
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
+      !||====================================================================
       SUBROUTINE INTER_NODAL_AREAS(IXS     ,IXC     ,IXTG    ,FASOLFR  ,X       ,
      .                             IAD_ELEM,FR_ELEM ,WEIGHT  ,IXQ     ,SEGQUADFR,
      .                             IXS10   ,INTAREAN)

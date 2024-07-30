@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UNIFY_ABSCISSA_2D             source/materials/tools/unify_abscissas_2d.F
-Chd|-- called by -----------
-Chd|        LAW70_TABLE                   source/materials/mat/mat070/law70_table.F
-Chd|-- calls ---------------
-Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
-Chd|====================================================================
+      !||====================================================================
+      !||    unify_abscissa_2d   ../starter/source/materials/tools/unify_abscissas_2d.F
+      !||--- called by ------------------------------------------------------
+      !||    law50_table         ../starter/source/materials/mat/mat050/law50_table.F90
+      !||    law70_table         ../starter/source/materials/mat/mat070/law70_table.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
        SUBROUTINE UNIFY_ABSCISSA_2D(NFUNC,LEN,LMAX,NPT,XI,XF)
 C-----------------------------------------------
 C   D e s c r i p t i o n

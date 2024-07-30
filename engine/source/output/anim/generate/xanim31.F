@@ -20,12 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  XANIM31                       source/output/anim/generate/xanim31.F
-Chd|-- called by -----------
-Chd|        ANIMX                         source/output/anim/generate/animx.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    xanim31     ../engine/source/output/anim/generate/xanim31.F
+      !||--- called by ------------------------------------------------------
+      !||    animx       ../engine/source/output/anim/generate/animx.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_u_mid   ../engine/source/user_interface/upidmid.F
+      !||    get_u_mnu   ../engine/source/user_interface/upidmid.F
+      !||    get_u_pid   ../engine/source/user_interface/upidmid.F
+      !||    get_u_pnu   ../engine/source/user_interface/upidmid.F
+      !||====================================================================
       SUBROUTINE XANIM31(NX ,UIX     ,UID     ,XEL     ,
      2              IOUT    ,IPROP   ,IMAT    ,
      3              OFF     ,MASSELE ,EINTELE ,

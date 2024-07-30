@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAG_MPC                       source/tools/lagmul/lag_mpc.F 
-Chd|-- called by -----------
-Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_mpc    ../engine/source/tools/lagmul/lag_mpc.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_mult   ../engine/source/tools/lagmul/lag_mult.F
+      !||====================================================================
       SUBROUTINE LAG_MPC(
      1   RBMPC     ,IMPCNC    ,IMPCNN    ,IMPCDL    ,IMPCSK    ,
      2   SKEW      ,IADLL     ,LLL       ,JLL       ,SLL       ,
@@ -185,12 +184,11 @@ C---
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  LAG_MPCP                      source/tools/lagmul/lag_mpc.F 
-Chd|-- called by -----------
-Chd|        LAG_MULTP                     source/tools/lagmul/lag_mult.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_mpcp    ../engine/source/tools/lagmul/lag_mpc.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_multp   ../engine/source/tools/lagmul/lag_mult.F
+      !||====================================================================
       SUBROUTINE LAG_MPCP(
      1   RBMPC     ,IMPCNC    ,IMPCNN    ,IMPCDL    ,IMPCSK    ,
      2   SKEW      ,LAGCOMC   ,LAGCOMK   ,NC        ,IK        )

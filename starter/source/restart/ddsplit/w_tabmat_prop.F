@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  W_TABMAT_PROP                 source/restart/ddsplit/w_tabmat_prop.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    w_tabmat_prop   ../starter/source/restart/ddsplit/w_tabmat_prop.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit         ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    mid_pid_mod     ../starter/share/modules1/mid_pid_mod.F
+      !||====================================================================
       SUBROUTINE W_TABMAT_PROP(IPARG,IXC,IXTG,IXS,PROC,NGROUP_L,
      .                         POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      .                         MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,

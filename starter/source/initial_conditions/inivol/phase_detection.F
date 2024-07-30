@@ -20,16 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PHASE_DETECTION               source/initial_conditions/inivol/phase_detection.F
-Chd|-- called by -----------
-Chd|        GETPHASE                      source/initial_conditions/inivol/getphase.F
-Chd|-- calls ---------------
-Chd|        FIND_CLOSEST_NODE             source/initial_conditions/inivol/find_closest_node.F
-Chd|        IN_OUT_SIDE                   source/initial_conditions/inivol/in_out_side.F
-Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
-Chd|        PHASE_PROPAGATION             source/initial_conditions/inivol/phase_propagation.F
-Chd|====================================================================
+      !||====================================================================
+      !||    phase_detection     ../starter/source/initial_conditions/inivol/phase_detection.F
+      !||--- called by ------------------------------------------------------
+      !||    getphase            ../starter/source/initial_conditions/inivol/getphase.F
+      !||--- calls      -----------------------------------------------------
+      !||    find_closest_node   ../starter/source/initial_conditions/inivol/find_closest_node.F
+      !||    in_out_side         ../starter/source/initial_conditions/inivol/in_out_side.F
+      !||    phase_propagation   ../starter/source/initial_conditions/inivol/phase_propagation.F
+      !||====================================================================
         SUBROUTINE PHASE_DETECTION(
      .                             NPARG,NGROUP,NUMELS,NUMELQ,NUMELTG,NUMNOD,NSURF,N2D,
      .                             LEADING_DIMENSION,NB_CELL_X,NB_CELL_Y,NB_CELL_Z,NB_BOX_LIMIT,

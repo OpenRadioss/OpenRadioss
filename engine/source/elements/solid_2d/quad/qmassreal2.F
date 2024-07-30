@@ -24,16 +24,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 
 
-Chd|====================================================================
-Chd|  QMASSREAL2                    source/elements/solid_2d/quad/qmassreal2.F
-Chd|-- called by -----------
-Chd|        BFORC2                        source/ale/bimat/bforc2.F     
-Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
-Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
-Chd|-- calls ---------------
-Chd|        IDP_FREE                      source/system/machine.F       
-Chd|        IDP_LOCK                      source/system/machine.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    qmassreal2   ../engine/source/elements/solid_2d/quad/qmassreal2.F
+      !||--- called by ------------------------------------------------------
+      !||    bforc2       ../engine/source/ale/bimat/bforc2.F
+      !||    q4forc2      ../engine/source/elements/solid_2d/quad4/q4forc2.F
+      !||    qforc2       ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||--- calls      -----------------------------------------------------
+      !||    idp_free     ../engine/source/system/machine.F
+      !||    idp_lock     ../engine/source/system/machine.F
+      !||====================================================================
       SUBROUTINE QMASSREAL2(
      1   OFF,     RHO,     MS_2D,   VNEW,
      2   NC1,     NC2,     NC3,     NC4,

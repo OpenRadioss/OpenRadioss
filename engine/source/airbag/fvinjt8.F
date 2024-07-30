@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FVINJT8                       source/airbag/fvinjt8.F       
-Chd|-- called by -----------
-Chd|        FVBAG1                        source/airbag/fvbag1.F        
-Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    fvinjt8        ../engine/source/airbag/fvinjt8.F
+      !||--- called by ------------------------------------------------------
+      !||    fv_up_switch   ../engine/source/airbag/fv_up_switch.F
+      !||    fvbag1         ../engine/source/airbag/fvbag1.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter         ../engine/source/tools/curve/finter.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod     ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE FVINJT8(NJET   , IBAGJET , RBAGJET , NPC    , TF,
      2                   NSENSOR,SENSOR_TAB, SCALT,    IGEO,     GEO,     
      3                   PM     , IVOLU,   DATAINJ )

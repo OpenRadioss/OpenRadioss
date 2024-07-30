@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SDET43                        source/elements/solid/sconnect/sdet43.F
-Chd|-- called by -----------
-Chd|        SCOOR43                       source/elements/solid/sconnect/scoor43.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sdet43    ../engine/source/elements/solid/sconnect/sdet43.F
+      !||--- called by ------------------------------------------------------
+      !||    scoor43   ../engine/source/elements/solid/sconnect/scoor43.F
+      !||====================================================================
       SUBROUTINE SDET43(
      .         NEL  ,X    ,Y    ,Z    ,AREA ,AREAP,OFF  ,SOLID_ID,
      .         E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  )

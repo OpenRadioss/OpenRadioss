@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  W_ICFIELD                     source/restart/ddsplit/w_icfield.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    w_icfield   ../starter/source/restart/ddsplit/w_icfield.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal      ../starter/source/spmd/node/ddtools.F
+      !||====================================================================
       SUBROUTINE W_ICFIELD(
      .  ICFIELD,LCFIELD,NODLOCAL,PROC,LLCFIELD_L,LEN_IA,P,NUMNOD_L)
 C-----------------------------------------------

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCTHERM                       source/elements/thickshell/solidec/sctherm.F
-Chd|-- called by -----------
-Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sctherm   ../engine/source/elements/thickshell/solidec/sctherm.F
+      !||--- called by ------------------------------------------------------
+      !||    scforc3   ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||====================================================================
       SUBROUTINE SCTHERM(
      1   PM,      MAT,     VOL,     NC1,
      2   NC2,     NC3,     NC4,     NC5,

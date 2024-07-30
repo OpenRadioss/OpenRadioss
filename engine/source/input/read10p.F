@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ10P                       source/input/read10p.F        
-Chd|-- called by -----------
-Chd|        FREDLI                        source/input/fredli.F         
-Chd|        FREEIG                        source/input/freeig.F         
-Chd|        FRERBO                        source/input/frerbo.F         
-Chd|        RDELE                         source/input/rdele.F          
-Chd|-- calls ---------------
-Chd|        WCIUSC2                       source/input/wciusc2.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    read10p   ../engine/source/input/read10p.F
+      !||--- called by ------------------------------------------------------
+      !||    fredli    ../engine/source/input/fredli.F
+      !||    freeig    ../engine/source/input/freeig.F
+      !||    frerbo    ../engine/source/input/frerbo.F
+      !||    rdele     ../engine/source/input/rdele.F
+      !||--- calls      -----------------------------------------------------
+      !||    wciusc2   ../engine/source/input/wciusc2.F
+      !||====================================================================
       SUBROUTINE READ10P(IREC,NBC,KEY0,IV2,JJ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

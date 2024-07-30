@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_EXCH_A_RB6G              source/mpi/kinematic_conditions/spmd_exch_a_rb6g.F
-Chd|-- called by -----------
-Chd|        RBYFOR                        source/constraints/general/rbody/rbyfor.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_a_rb6g   ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6g.F
+      !||--- called by ------------------------------------------------------
+      !||    rbyfor             ../engine/source/constraints/general/rbody/rbyfor.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_A_RB6G(NPBY,RBF6)
 C realise le cumul des acc et stiffness des noeuds main de rigid bodies
 C dans le cas ou tous les procs sont concernes gather/scatter proc0

@@ -20,22 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_PERTURB               source/general_controls/computation/hm_read_perturb.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_READ_PERTURB_FAIL          source/general_controls/computation/hm_read_perturb_fail.F
-Chd|        HM_READ_PERTURB_PART_SHELL    source/general_controls/computation/hm_read_perturb_part_shell.F
-Chd|        HM_READ_PERTURB_PART_SOLID    source/general_controls/computation/hm_read_perturb_part_solid.F
-Chd|        UDOUBLE                       source/system/sysfus.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_perturb              ../starter/source/general_controls/computation/hm_read_perturb.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                       ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_option_count              ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_read_perturb_fail         ../starter/source/general_controls/computation/hm_read_perturb_fail.F
+      !||    hm_read_perturb_part_shell   ../starter/source/general_controls/computation/hm_read_perturb_part_shell.F
+      !||    hm_read_perturb_part_solid   ../starter/source/general_controls/computation/hm_read_perturb_part_solid.F
+      !||    udouble                      ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod           ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod                  ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                 ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_PERTURB(MAT_PARAM,
      1      IPART   ,RNOISE  ,IPARTC   ,IPARTG    ,IPARTSP  ,
      2      IGRPART ,IPM     ,IPARTS   ,PERTURB   ,QP_IPERTURB,

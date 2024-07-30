@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CENTROID3                     source/multifluid/centroid.F  
-Chd|-- called by -----------
-Chd|        ALEW6                         source/ale/grid/alew6.F       
-Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    centroid3              ../engine/source/multifluid/centroid.F
+      !||--- called by ------------------------------------------------------
+      !||    alew6                  ../engine/source/ale/grid/alew6.F
+      !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
+      !||====================================================================
       SUBROUTINE CENTROID3(NEL, LENGTH, NFT, IXS, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
 C-----------------------------------------------
@@ -92,14 +91,14 @@ C     Face 6
       ENDDO
       END SUBROUTINE CENTROID3
 
-Chd|====================================================================
-Chd|  CENTROID3T                    source/multifluid/centroid.F  
-Chd|-- called by -----------
-Chd|        ALEW6                         source/ale/grid/alew6.F       
-Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem.F
-Chd|-- calls ---------------
-Chd|        GEOM                          source/ale/alemuscl/geom.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    centroid3t             ../engine/source/multifluid/centroid.F
+      !||--- called by ------------------------------------------------------
+      !||    alew6                  ../engine/source/ale/grid/alew6.F
+      !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
+      !||--- calls      -----------------------------------------------------
+      !||    geom                   ../engine/source/ale/alemuscl/geom.F
+      !||====================================================================
       SUBROUTINE CENTROID3T(NEL, LENGTH, NFT, IXS, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
 C-----------------------------------------------
@@ -179,13 +178,12 @@ C     Face 4
       ENDDO
       END SUBROUTINE CENTROID3T
 
-Chd|====================================================================
-Chd|  CENTROID2                     source/multifluid/centroid.F  
-Chd|-- called by -----------
-Chd|        ALEW6                         source/ale/grid/alew6.F       
-Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    centroid2              ../engine/source/multifluid/centroid.F
+      !||--- called by ------------------------------------------------------
+      !||    alew6                  ../engine/source/ale/grid/alew6.F
+      !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
+      !||====================================================================
       SUBROUTINE CENTROID2(NEL, LENGTH, NFT, IXQ, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
 C-----------------------------------------------
@@ -239,12 +237,11 @@ C     Face 4
       ENDDO
       END SUBROUTINE CENTROID2
 
-Chd|====================================================================
-Chd|  CENTROID2T                    source/multifluid/centroid.F  
-Chd|-- called by -----------
-Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    centroid2t             ../engine/source/multifluid/centroid.F
+      !||--- called by ------------------------------------------------------
+      !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
+      !||====================================================================
       SUBROUTINE CENTROID2T(NEL, LENGTH, NFT, IXTG, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
 C-----------------------------------------------

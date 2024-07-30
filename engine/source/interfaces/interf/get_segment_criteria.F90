@@ -20,12 +20,23 @@
 !copyright>        as an alternative to this open-source version, altair also offers altair radioss
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    get_segment_criteria_mod   ../engine/source/interfaces/interf/get_segment_criteria.F90
+      !||--- called by ------------------------------------------------------
+      !||    get_neighbour_surface      ../engine/source/interfaces/interf/get_neighbour_surface.F90
+      !||    update_neighbour_segment   ../engine/source/interfaces/interf/update_neighbour_segment.F90
+      !||====================================================================
       module get_segment_criteria_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief Ths routine computes the angle between 2 segmet's normals
+      !||====================================================================
+      !||    get_segment_criteria       ../engine/source/interfaces/interf/get_segment_criteria.F90
+      !||--- called by ------------------------------------------------------
+      !||    update_neighbour_segment   ../engine/source/interfaces/interf/update_neighbour_segment.F90
+      !||====================================================================
         subroutine get_segment_criteria( criteria,local_normal,remote_normal )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules

@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GRAVIT_IMP                    source/loads/general/grav/gravit_imp.F
-Chd|-- called by -----------
-Chd|        DYNA_INA                      source/implicit/imp_dyna.F    
-Chd|        DYNA_WEX                      source/implicit/imp_dyna.F    
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    gravit_imp      ../engine/source/loads/general/grav/gravit_imp.F
+      !||--- called by ------------------------------------------------------
+      !||    dyna_ina        ../engine/source/implicit/imp_dyna.F
+      !||    dyna_wex        ../engine/source/implicit/imp_dyna.F
+      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
+      !||    imp_solv        ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter          ../engine/source/tools/curve/finter.F
+      !||    finter_smooth   ../engine/source/tools/curve/finter_smooth.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE GRAVIT_IMP(IGRV  ,AGRV  ,NPC   ,TF    ,A ,
      2                  V     ,X     ,SKEW  ,MS,TFEXTT,
      3                  NSENSOR,SENSOR_TAB,WEIGHT,IB,ITASK,

@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  IGE3DBILAN                    source/elements/ige3d/ige3dbilan.F
-Chd|-- called by -----------
-Chd|        IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
-Chd|-- calls ---------------
-Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F 
-Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ige3dbilan            ../engine/source/elements/ige3d/ige3dbilan.F
+      !||--- called by ------------------------------------------------------
+      !||    ig3duforc3            ../engine/source/elements/ige3d/ig3duforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
+      !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+      !||====================================================================
       SUBROUTINE IGE3DBILAN(PARTSAV,EINT,RHO,VOL,
      .                      VX, VY, VZ,IPARTS,VOL0,
      .                      GRESAV,GRTH,IGRTH,

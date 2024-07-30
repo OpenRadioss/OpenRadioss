@@ -20,6 +20,14 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    constraint_mod   ../starter/source/modules/constaint_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
+      !||    lectur           ../starter/source/starter/lectur.F
+      !||    split_rwall      ../starter/source/constraints/general/rwall/split_rwall.F90
+      !||    w_front          ../starter/source/restart/ddsplit/w_front.F
+      !||====================================================================
       module constraint_mod
 !=======================================================================================================================
 !!\brief 
@@ -71,6 +79,11 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief Allocation of constraint_struct
+      !||====================================================================
+      !||    alloc_constraint_struct   ../starter/source/modules/constaint_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur                    ../starter/source/starter/lectur.F
+      !||====================================================================
         subroutine alloc_constraint_struct(nrwall,nspmd,constraint_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -119,6 +132,11 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief Deallocation of constraint_struct
+      !||====================================================================
+      !||    dealloc_constraint_struct   ../starter/source/modules/constaint_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur                      ../starter/source/starter/lectur.F
+      !||====================================================================
         subroutine dealloc_constraint_struct(nrwall,constraint_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

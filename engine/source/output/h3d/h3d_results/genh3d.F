@@ -20,96 +20,146 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        DRBE2CNT                      source/output/anim/generate/drbe2cnt.F
-Chd|        DRBE3CNT                      source/output/anim/generate/drbe3cnt.F
-Chd|        DRBYCNT                       source/output/anim/generate/drbycnt.F
-Chd|        FRETITL                       source/input/freform.F        
-Chd|        GET_NODAL_IPART               source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        H3DLIB_LOAD                   source/output/h3d/h3d_build_cpp/h3d_dl.c
-Chd|        H3D_CONSTIT                   source/output/h3d/h3d_build_fortran/h3d_constit.F
-Chd|        H3D_CREATE_DATATYPE           source/output/h3d/h3d_build_fortran/h3d_create_datatype.F
-Chd|        H3D_CREATE_FVMBAG_CENTROIDS   source/output/h3d/h3d_build_fortran/h3d_create_fvmbag_centroids.F
-Chd|        H3D_CREATE_RBE2_IMPI          source/output/h3d/h3d_build_fortran/h3d_create_rbe2_impi.F
-Chd|        H3D_CREATE_RBE3_IMPI          source/output/h3d/h3d_build_fortran/h3d_create_rbe3_impi.F
-Chd|        H3D_CREATE_RBODIES_IMPI       source/output/h3d/h3d_build_fortran/h3d_create_rbodies_impi.F
-Chd|        H3D_DXYZ_RWALL                source/output/h3d/h3d_build_fortran/h3d_dxyz_rwall.F
-Chd|        H3D_DXYZ_RWALL_UPDATE         source/output/h3d/h3d_build_fortran/h3d_dxyz_rwall_update.F
-Chd|        H3D_NODAL_SCALAR              source/output/h3d/h3d_results/h3d_nodal_scalar.F
-Chd|        H3D_NODAL_TENSOR              source/output/h3d/h3d_results/h3d_nodal_tensor.F
-Chd|        H3D_NODAL_VECTOR              source/output/h3d/h3d_results/h3d_nodal_vector.F
-Chd|        H3D_ONED_OFF                  source/output/h3d/spmd/spmd_h3d_oned_off.F
-Chd|        H3D_ONED_SCALAR               source/output/h3d/h3d_results/h3d_oned_scalar.F
-Chd|        H3D_ONED_TENSOR               source/output/h3d/h3d_results/h3d_oned_tensor.F
-Chd|        H3D_ONED_TORSOR               source/output/h3d/h3d_results/h3d_oned_torsor.F
-Chd|        H3D_ONED_VECTOR               source/output/h3d/h3d_results/h3d_oned_vector.F
-Chd|        H3D_QUAD_OFF                  source/output/h3d/spmd/spmd_h3d_quad_off.F
-Chd|        H3D_QUAD_SCALAR               source/output/h3d/h3d_results/h3d_quad_scalar.F
-Chd|        H3D_QUAD_TENSOR               source/output/h3d/h3d_results/h3d_quad_tensor.F
-Chd|        H3D_QUAD_VECTOR               source/output/h3d/h3d_results/h3d_quad_vector.F
-Chd|        H3D_SHELL_OFF                 source/output/h3d/spmd/spmd_h3d_shell_off.F
-Chd|        H3D_SHELL_SCALAR              source/output/h3d/h3d_results/h3d_shell_scalar.F
-Chd|        H3D_SHELL_TENSOR              source/output/h3d/h3d_results/h3d_shell_tensor.F
-Chd|        H3D_SHELL_VECTOR              source/output/h3d/h3d_results/h3d_shell_vector.F
-Chd|        H3D_SKIN_IXSKIN               source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        H3D_SKIN_OFF                  source/output/h3d/h3d_results/h3d_skin_off.F
-Chd|        H3D_SKIN_PRE_MAP              source/output/h3d/h3d_results/h3d_skin_pre_map.F
-Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin_scalar.F
-Chd|        H3D_SKIN_TENSOR               source/output/h3d/h3d_results/h3d_skin_tensor.F
-Chd|        H3D_SKIN_VECTOR               source/output/h3d/h3d_results/h3d_skin_vector.F
-Chd|        H3D_SOLID_OFF                 source/output/h3d/spmd/spmd_h3d_solid_off.F
-Chd|        H3D_SOLID_SCALAR              source/output/h3d/h3d_results/h3d_solid_scalar.F
-Chd|        H3D_SOLID_TENSOR              source/output/h3d/h3d_results/h3d_solid_tensor.F
-Chd|        H3D_SOLID_VECTOR              source/output/h3d/h3d_results/h3d_solid_vector.F
-Chd|        H3D_SPH_OFF                   source/output/h3d/spmd/spmd_h3d_sph_off.F
-Chd|        H3D_SPH_SCALAR                source/output/h3d/h3d_results/h3d_sph_scalar.F
-Chd|        H3D_SPH_TENSOR                source/output/h3d/h3d_results/h3d_sph_tensor.F
-Chd|        H3D_UPDATE_FVMBAG_CENTROIDS   source/output/h3d/h3d_build_fortran/h3d_update_fvmbag_centroids.F
-Chd|        SCANOR                        source/output/anim/generate/scanor.F
-Chd|        SPMD_H3D_GATHER_I             source/output/h3d/spmd/spmd_h3d_gather_i.F
-Chd|        SPMD_H3D_GATHER_I_NODE        source/output/h3d/spmd/spmd_h3d_gather_i_node.F
-Chd|        SPMD_H3D_GATHER_I_NODE_PART   source/output/h3d/spmd/spmd_h3d_gather_i_node_part.F
-Chd|        SPMD_H3D_GATHER_R             source/output/h3d/spmd/spmd_h3d_gather_r.F
-Chd|        SPMD_H3D_GATHER_R_NODAL_VALUE source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F
-Chd|        SPMD_H3D_GATHER_R_NODE        source/output/h3d/spmd/spmd_h3d_gather_r_node.F
-Chd|        SPMD_H3D_GATHER_T_NODE        source/output/h3d/spmd/spmd_h3d_gather_t_node.F
-Chd|        SPMD_H3D_MAX_R_NODAL_VALUE    source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F
-Chd|        SPMD_H3D_MAX_R_NODAL_VALUE_21 source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F
-Chd|        SPMD_H3D_SUM_R_NODAL          source/output/h3d/spmd/spmd_h3d_gather_r_node.F
-Chd|        SPMD_H3D_SUM_R_NODAL_21       source/output/h3d/spmd/spmd_h3d_gather_r_node.F
-Chd|        SPMD_H3D_SUM_R_NODAL_VALUE    source/output/h3d/spmd/spmd_h3d_sum_r_nodal_value.F
-Chd|        SPMD_OUTPITAB                 source/mpi/interfaces/spmd_outp.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        SYSFUS2                       source/system/sysfus.F        
-Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    genh3d                               ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||--- called by ------------------------------------------------------
+      !||    sortie_main                          ../engine/source/output/sortie_main.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                               ../engine/source/output/message/message.F
+      !||    arret                                ../engine/source/system/arret.F
+      !||    c_h3d_create_beams                   ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_beams.cpp
+      !||    c_h3d_create_components              ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_components.cpp
+      !||    c_h3d_create_displacement_datatype   ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_displacement_datatype.cpp
+      !||    c_h3d_create_nodes                   ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_nodes.cpp
+      !||    c_h3d_create_quads                   ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_quads.cpp
+      !||    c_h3d_create_rbe2                    ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_rbe2.cpp
+      !||    c_h3d_create_rbe3                    ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_rbe3.cpp
+      !||    c_h3d_create_rbodies                 ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_rbodies.cpp
+      !||    c_h3d_create_results_end             ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_results_end.cpp
+      !||    c_h3d_create_rwalls                  ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_rwalls.cpp
+      !||    c_h3d_create_sh3ns                   ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_sh3ns.cpp
+      !||    c_h3d_create_shells                  ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_shells.cpp
+      !||    c_h3d_create_skins                   ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_skins.cpp
+      !||    c_h3d_create_solid8n                 ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_solid8n.cpp
+      !||    c_h3d_create_sph                     ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_sph.cpp
+      !||    c_h3d_create_springs                 ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_springs.cpp
+      !||    c_h3d_create_truss                   ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_truss.cpp
+      !||    c_h3d_eroded_oned                    ../engine/source/output/h3d/h3d_build_cpp/c_h3d_eroded_oned.cpp
+      !||    c_h3d_eroded_quad                    ../engine/source/output/h3d/h3d_build_cpp/c_h3d_eroded_quad.cpp
+      !||    c_h3d_eroded_shell                   ../engine/source/output/h3d/h3d_build_cpp/c_h3d_eroded_shell.cpp
+      !||    c_h3d_eroded_skin                    ../engine/source/output/h3d/h3d_build_cpp/c_h3d_eroded_skin.cpp
+      !||    c_h3d_eroded_solid                   ../engine/source/output/h3d/h3d_build_cpp/c_h3d_eroded_solid.cpp
+      !||    c_h3d_eroded_sph                     ../engine/source/output/h3d/h3d_build_cpp/c_h3d_eroded_sph.cpp
+      !||    c_h3d_open_file                      ../engine/source/output/h3d/h3d_build_cpp/c_h3d_open_file.cpp
+      !||    c_h3d_reopen_file                    ../engine/source/output/h3d/h3d_build_cpp/c_h3d_open_file.cpp
+      !||    c_h3d_update_nodal_fvmbag_scalar     ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_nodal_fvmbag_scalar.cpp
+      !||    c_h3d_update_nodal_scalar            ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_nodal_scalar.cpp
+      !||    c_h3d_update_nodal_tensor            ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_nodal_tensor.cpp
+      !||    c_h3d_update_nodal_vector            ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_nodal_vector.cpp
+      !||    c_h3d_update_oned_scalar             ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_oned_scalar.cpp
+      !||    c_h3d_update_oned_tensor             ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_oned_tensor.cpp
+      !||    c_h3d_update_oned_torsor             ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_oned_torsor.cpp
+      !||    c_h3d_update_oned_vector             ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_oned_vector.cpp
+      !||    c_h3d_update_quad_scalar             ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_quad_scalar.cpp
+      !||    c_h3d_update_quad_tensor             ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_quad_tensor.cpp
+      !||    c_h3d_update_quad_vector             ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_quad_vector.cpp
+      !||    c_h3d_update_shell_scalar            ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_shell_scalar.cpp
+      !||    c_h3d_update_shell_tensor            ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_shell_tensor.cpp
+      !||    c_h3d_update_shell_vector            ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_shell_vector.cpp
+      !||    c_h3d_update_skin_scalar             ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_skin_scalar.cpp
+      !||    c_h3d_update_skin_tensor             ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_skin_tensor.cpp
+      !||    c_h3d_update_skin_vector             ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_skin_vector.cpp
+      !||    c_h3d_update_solid_scalar            ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_solid_scalar.cpp
+      !||    c_h3d_update_solid_tensor            ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_solid_tensor.cpp
+      !||    c_h3d_update_solid_vector            ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_solid_vector.cpp
+      !||    c_h3d_update_sph_scalar              ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_sph_scalar.cpp
+      !||    c_h3d_update_sph_tensor              ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_sph_tensor.cpp
+      !||    drbe2cnt                             ../engine/source/output/anim/generate/drbe2cnt.F
+      !||    drbe3cnt                             ../engine/source/output/anim/generate/drbe3cnt.F
+      !||    drbycnt                              ../engine/source/output/anim/generate/drbycnt.F
+      !||    fretitl                              ../engine/source/input/freform.F
+      !||    get_nodal_ipart                      ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||    h3d_constit                          ../engine/source/output/h3d/h3d_build_fortran/h3d_constit.F
+      !||    h3d_create_datatype                  ../engine/source/output/h3d/h3d_build_fortran/h3d_create_datatype.F
+      !||    h3d_create_fvmbag_centroids          ../engine/source/output/h3d/h3d_build_fortran/h3d_create_fvmbag_centroids.F
+      !||    h3d_create_rbe2_impi                 ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbe2_impi.F
+      !||    h3d_create_rbe3_impi                 ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbe3_impi.F
+      !||    h3d_create_rbodies_impi              ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbodies_impi.F
+      !||    h3d_dxyz_rwall                       ../engine/source/output/h3d/h3d_build_fortran/h3d_dxyz_rwall.F
+      !||    h3d_dxyz_rwall_update                ../engine/source/output/h3d/h3d_build_fortran/h3d_dxyz_rwall_update.F
+      !||    h3d_nodal_scalar                     ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
+      !||    h3d_nodal_tensor                     ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
+      !||    h3d_nodal_vector                     ../engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
+      !||    h3d_oned_off                         ../engine/source/output/h3d/spmd/spmd_h3d_oned_off.F
+      !||    h3d_oned_scalar                      ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F
+      !||    h3d_oned_tensor                      ../engine/source/output/h3d/h3d_results/h3d_oned_tensor.F
+      !||    h3d_oned_torsor                      ../engine/source/output/h3d/h3d_results/h3d_oned_torsor.F
+      !||    h3d_oned_vector                      ../engine/source/output/h3d/h3d_results/h3d_oned_vector.F
+      !||    h3d_quad_off                         ../engine/source/output/h3d/spmd/spmd_h3d_quad_off.F
+      !||    h3d_quad_scalar                      ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+      !||    h3d_quad_tensor                      ../engine/source/output/h3d/h3d_results/h3d_quad_tensor.F
+      !||    h3d_quad_vector                      ../engine/source/output/h3d/h3d_results/h3d_quad_vector.F
+      !||    h3d_shell_off                        ../engine/source/output/h3d/spmd/spmd_h3d_shell_off.F
+      !||    h3d_shell_scalar                     ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
+      !||    h3d_shell_tensor                     ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+      !||    h3d_shell_vector                     ../engine/source/output/h3d/h3d_results/h3d_shell_vector.F
+      !||    h3d_skin_ixskin                      ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||    h3d_skin_off                         ../engine/source/output/h3d/h3d_results/h3d_skin_off.F
+      !||    h3d_skin_pre_map                     ../engine/source/output/h3d/h3d_results/h3d_skin_pre_map.F
+      !||    h3d_skin_scalar                      ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+      !||    h3d_skin_tensor                      ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+      !||    h3d_skin_vector                      ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
+      !||    h3d_solid_off                        ../engine/source/output/h3d/spmd/spmd_h3d_solid_off.F
+      !||    h3d_solid_scalar                     ../engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
+      !||    h3d_solid_tensor                     ../engine/source/output/h3d/h3d_results/h3d_solid_tensor.F
+      !||    h3d_solid_vector                     ../engine/source/output/h3d/h3d_results/h3d_solid_vector.F
+      !||    h3d_sph_off                          ../engine/source/output/h3d/spmd/spmd_h3d_sph_off.F
+      !||    h3d_sph_scalar                       ../engine/source/output/h3d/h3d_results/h3d_sph_scalar.F
+      !||    h3d_sph_tensor                       ../engine/source/output/h3d/h3d_results/h3d_sph_tensor.F
+      !||    h3d_update_fvmbag_centroids          ../engine/source/output/h3d/h3d_build_fortran/h3d_update_fvmbag_centroids.F
+      !||    h3dlib_load                          ../engine/source/output/h3d/h3d_build_cpp/h3d_dl.c
+      !||    scanor                               ../engine/source/output/anim/generate/scanor.F
+      !||    spmd_h3d_gather_i                    ../engine/source/output/h3d/spmd/spmd_h3d_gather_i.F
+      !||    spmd_h3d_gather_i_node               ../engine/source/output/h3d/spmd/spmd_h3d_gather_i_node.F
+      !||    spmd_h3d_gather_i_node_part          ../engine/source/output/h3d/spmd/spmd_h3d_gather_i_node_part.F
+      !||    spmd_h3d_gather_r                    ../engine/source/output/h3d/spmd/spmd_h3d_gather_r.F
+      !||    spmd_h3d_gather_r_nodal_value        ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F
+      !||    spmd_h3d_gather_r_node               ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
+      !||    spmd_h3d_gather_t_node               ../engine/source/output/h3d/spmd/spmd_h3d_gather_t_node.F
+      !||    spmd_h3d_max_r_nodal_value           ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F
+      !||    spmd_h3d_max_r_nodal_value_21        ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F
+      !||    spmd_h3d_sum_r_nodal                 ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
+      !||    spmd_h3d_sum_r_nodal_21              ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
+      !||    spmd_h3d_sum_r_nodal_value           ../engine/source/output/h3d/spmd/spmd_h3d_sum_r_nodal_value.F
+      !||    spmd_outpitab                        ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    startime                             ../engine/source/system/timer.F
+      !||    stoptime                             ../engine/source/system/timer.F
+      !||    sysfus2                              ../engine/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod                 ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    aleanim_mod                          ../engine/share/modules/aleanim_mod.F
+      !||    cluster_mod                          ../engine/share/modules/cluster_mod.F
+      !||    crackxfem_mod                        ../engine/share/modules/crackxfem_mod.F
+      !||    drape_mod                            ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod                         ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    fvbag_mod                            ../engine/share/modules/fvbag_mod.F
+      !||    groupdef_mod                         ../common_source/modules/groupdef_mod.F
+      !||    h3d_inc_mod                          ../engine/share/modules/h3d_inc_mod.F
+      !||    h3d_mod                              ../engine/share/modules/h3d_mod.F
+      !||    inoutfile_mod                        ../common_source/modules/inoutfile_mod.F
+      !||    loads_mod                            ../common_source/modules/loads/loads_mod.F
+      !||    matparam_def_mod                     ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    message_mod                          ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod                        ../common_source/modules/ale/multi_fvm_mod.F
+      !||    my_alloc_mod                         ../common_source/tools/memory/my_alloc.F
+      !||    names_and_titles_mod                 ../common_source/modules/names_and_titles_mod.F
+      !||    outmax_mod                           ../common_source/modules/outmax_mod.F
+      !||    outputs_mod                          ../common_source/modules/outputs_mod.F
+      !||    plyxfem_mod                          ../engine/share/modules/plyxfem_mod.F
+      !||    sensor_mod                           ../engine/share/modules/sensor_mod.F
+      !||    stack_mod                            ../engine/share/modules/stack_mod.F
+      !||    table_mod                            ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE GENH3D(X        ,D        ,V           ,A           ,BUFEL    ,
      2                  IXS      ,IXQ      ,IXC         ,IXT         ,IXP      ,
      3                  IXR      ,IXTG     ,SWAFT       ,SMAS        ,SXNORM   ,

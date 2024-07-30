@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4THERM_ITET1                 source/elements/solid/solide4/s4therm-itet1.F
-Chd|-- called by -----------
-Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s4therm_itet1   ../engine/source/elements/solid/solide4/s4therm-itet1.F
+      !||--- called by ------------------------------------------------------
+      !||    s10forc3        ../engine/source/elements/solid/solide10/s10forc3.F
+      !||====================================================================
       SUBROUTINE S4THERM_ITET1(PM   ,MAT  ,NC   ,NEL  ,
      .                         XX   ,YY   ,ZZ   ,DT1  ,DIE ,
      .                         TEMP ,FPHI ,OFFG ,OFF )

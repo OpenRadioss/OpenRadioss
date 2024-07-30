@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IQEL02                        source/ale/ale2d/iqel02.F     
-Chd|-- called by -----------
-Chd|        INTAL2                        source/ale/inter/intal2.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    iqel02   ../engine/source/ale/ale2d/iqel02.F
+      !||--- called by ------------------------------------------------------
+      !||    intal2   ../engine/source/ale/inter/intal2.F
+      !||====================================================================
       SUBROUTINE IQEL02(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,
      +                  NSN,NSEG,CRST,NOR)
 C-----------------------------------------------

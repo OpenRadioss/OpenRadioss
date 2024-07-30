@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S20DERI3                      source/elements/solid/solide20/s20deri3.F
-Chd|-- called by -----------
-Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
-Chd|        S20KE3                        source/elements/solid/solide20/s20ke3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s20deri3      ../engine/source/elements/solid/solide20/s20deri3.F
+      !||--- called by ------------------------------------------------------
+      !||    s20forc3      ../engine/source/elements/solid/solide20/s20forc3.F
+      !||    s20ke3        ../engine/source/elements/solid/solide20/s20ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S20DERI3(
      1   NGL,     OFF,     R,       S,
      2   T,       W,       DNIDR,   DNIDS,

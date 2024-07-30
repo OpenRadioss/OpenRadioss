@@ -20,52 +20,52 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PINCHTYPE_MOD                 modules/pinchtype_mod.F       
-Chd|-- called by -----------
-Chd|        FREE_PINCH                    common_source/modules/pinchtype_mod.F
-Chd|        CONTRL                        starter/source/starter/contrl.F
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        HM_READ_PLOAD                 starter/source/loads/general/pload/hm_read_pload.F
-Chd|        HM_READ_PROP01                starter/source/properties/shell/hm_read_prop01.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
-Chd|        ACCELEPINCH                   engine/source/assembly/accelepinch.F
-Chd|        ASSPAR                        engine/source/assembly/asspar.F
-Chd|        CBAPINCHPROJ                  engine/source/elements/shell/coqueba/cbapinchproj.F
-Chd|        CBAPINCHTHK                   engine/source/elements/shell/coqueba/cbapinchthk.F
-Chd|        CBASTRA3PINCH                 engine/source/elements/shell/coqueba/cbastra3pinch.F
-Chd|        CMAIN3PINCH                   engine/source/elements/shell/coqueba/cmain3pinch.F
-Chd|        DEPLAPINCH                    engine/source/assembly/deplapinch.F
-Chd|        FORCEPINCH                    engine/source/loads/general/forcepinch.F
-Chd|        FORCE_IMP                     engine/source/loads/general/force_imp.F
-Chd|        FORINTC                       engine/source/elements/forintc.F
-Chd|        H3D_PRE_SKIN_IXSKIN           engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        H3D_PRE_SKIN_SCALAR           engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
-Chd|        H3D_SKIN_PRE_DIM              engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        H3D_SKIN_PRE_MAP              engine/source/output/h3d/h3d_results/h3d_skin_pre_map.F
-Chd|        H3D_SKIN_VECTOR               engine/source/output/h3d/h3d_results/h3d_skin_vector.F
-Chd|        HIST2                         engine/source/output/th/hist2.F
-Chd|        I25ASS0                       engine/source/interfaces/int25/i25ass3.F
-Chd|        I25ASS3                       engine/source/interfaces/int25/i25ass3.F
-Chd|        I25FOR3                       engine/source/interfaces/int25/i25for3.F
-Chd|        INIRESA                       engine/source/output/restart/rdresa.F
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
-Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
-Chd|        RDRESA                        engine/source/output/restart/rdresa.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
-Chd|        RESOL_INIT                    engine/source/engine/resol_init.F
-Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
-Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
-Chd|        THCOQ                         engine/source/output/th/thcoq.F
-Chd|        THNOD                         engine/source/output/th/thnod.F
-Chd|        VITESSEPINCH                  engine/source/assembly/vitessepinch.F
-Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pinchtype_mod         ../common_source/modules/pinchtype_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    accelepinch           ../engine/source/assembly/accelepinch.F
+      !||    asspar                ../engine/source/assembly/asspar.F
+      !||    cbapinchproj          ../engine/source/elements/shell/coqueba/cbapinchproj.F
+      !||    cbapinchthk           ../engine/source/elements/shell/coqueba/cbapinchthk.F
+      !||    cbastra3pinch         ../engine/source/elements/shell/coqueba/cbastra3pinch.F
+      !||    cmain3pinch           ../engine/source/elements/shell/coqueba/cmain3pinch.F
+      !||    contrl                ../starter/source/starter/contrl.F
+      !||    ddsplit               ../starter/source/restart/ddsplit/ddsplit.F
+      !||    deplapinch            ../engine/source/assembly/deplapinch.F
+      !||    force                 ../engine/source/loads/general/force.F90
+      !||    force_imp             ../engine/source/loads/general/force_imp.F
+      !||    forcepinch            ../engine/source/loads/general/forcepinch.F
+      !||    forintc               ../engine/source/elements/forintc.F
+      !||    free_pinch            ../common_source/modules/pinchtype_mod.F
+      !||    h3d_pre_skin_ixskin   ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||    h3d_pre_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+      !||    h3d_skin_pre_dim      ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||    h3d_skin_pre_map      ../engine/source/output/h3d/h3d_results/h3d_skin_pre_map.F
+      !||    h3d_skin_vector       ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
+      !||    hist2                 ../engine/source/output/th/hist2.F
+      !||    hm_read_pload         ../starter/source/loads/general/pload/hm_read_pload.F
+      !||    hm_read_prop01        ../starter/source/properties/shell/hm_read_prop01.F
+      !||    i25ass0               ../engine/source/interfaces/int25/i25ass3.F
+      !||    i25ass3               ../engine/source/interfaces/int25/i25ass3.F
+      !||    i25for3               ../engine/source/interfaces/int25/i25for3.F
+      !||    iniresa               ../engine/source/output/restart/rdresa.F
+      !||    lectur                ../engine/source/input/lectur.F
+      !||    radioss2              ../engine/source/engine/radioss2.F
+      !||    rdcomi                ../engine/source/output/restart/rdcomm.F
+      !||    rdresa                ../engine/source/output/restart/rdresa.F
+      !||    rdresb                ../engine/source/output/restart/rdresb.F
+      !||    resol                 ../engine/source/engine/resol.F
+      !||    resol_head            ../engine/source/engine/resol_head.F
+      !||    resol_init            ../engine/source/engine/resol_init.F
+      !||    restalloc             ../engine/source/output/restart/arralloc.F
+      !||    sortie_main           ../engine/source/output/sortie_main.F
+      !||    thcoq                 ../engine/source/output/th/thcoq.F
+      !||    thnod                 ../engine/source/output/th/thnod.F
+      !||    vitessepinch          ../engine/source/assembly/vitessepinch.F
+      !||    wrcomi                ../engine/source/output/restart/wrcomm.F
+      !||    wrcomip               ../starter/source/restart/ddsplit/wrcommp.F
+      !||    wrrestp               ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
       MODULE PINCHTYPE_MOD
 
 #include "my_real.inc"
@@ -88,13 +88,13 @@ C       [PM] future : mapping of NUMNOD to NUMPINCH
       
       END MODULE PINCHTYPE_MOD
 
-Chd|====================================================================
-Chd|  FREE_PINCH                    modules/pinchtype_mod.F       
-Chd|-- called by -----------
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|-- calls ---------------
-Chd|        PINCHTYPE_MOD                 modules/pinchtype_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    free_pinch      ../common_source/modules/pinchtype_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    pinchtype_mod   ../common_source/modules/pinchtype_mod.F
+      !||====================================================================
       SUBROUTINE FREE_PINCH(PINCH_DATA)
 C-----------------------------------------------
 C   M o d u l e s

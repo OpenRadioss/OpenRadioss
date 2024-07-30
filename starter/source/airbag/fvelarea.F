@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FVELAREA                      source/airbag/fvelarea.F      
-Chd|-- called by -----------
-Chd|        FVMESH0                       source/airbag/fvmesh0.F       
-Chd|-- calls ---------------
-Chd|        FVNORMAL                      source/airbag/fvmbag1.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    fvelarea   ../starter/source/airbag/fvelarea.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh0    ../starter/source/airbag/fvmesh0.F
+      !||--- calls      -----------------------------------------------------
+      !||    fvnormal   ../starter/source/airbag/fvmbag1.F
+      !||====================================================================
       SUBROUTINE FVELAREA(IBUF,   ELEM,      X,    NEL,
      .                    ELAREA )
 C-----------------------------------------------

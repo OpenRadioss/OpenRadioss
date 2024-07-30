@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S6RCOOR3                      source/elements/thickshell/solide6c/s6rcoor3.F
-Chd|-- called by -----------
-Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
-Chd|-- calls ---------------
-Chd|        S6CORTHO3                     source/elements/thickshell/solide6c/s6cortho3.F
-Chd|        S6PROJ3                       source/elements/thickshell/solide6c/s6proj3.F
-Chd|        VRROTA3                       source/elements/thickshell/solide6c/vrrota3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s6rcoor3    ../engine/source/elements/thickshell/solide6c/s6rcoor3.F
+      !||--- called by ------------------------------------------------------
+      !||    s6cforc3    ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    s6cortho3   ../engine/source/elements/thickshell/solide6c/s6cortho3.F
+      !||    s6proj3     ../engine/source/elements/thickshell/solide6c/s6proj3.F
+      !||    vrrota3     ../engine/source/elements/thickshell/solide6c/vrrota3.F
+      !||====================================================================
       SUBROUTINE S6RCOOR3(
      .   X  ,IXS , V  , W  ,GAMA0,GAMA,
      .   X1 , X2 , X3 , X4 , X5 ,  X6   ,

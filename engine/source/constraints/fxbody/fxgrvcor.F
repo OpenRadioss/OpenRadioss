@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FXGRVCOR                      source/constraints/fxbody/fxgrvcor.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    fxgrvcor   ../engine/source/constraints/fxbody/fxgrvcor.F
+      !||--- called by ------------------------------------------------------
+      !||    resol      ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter     ../engine/source/tools/curve/finter.F
+      !||====================================================================
       SUBROUTINE FXGRVCOR(FXBIPM, FXBGRVI , A      , IGRV, AGRV,
      .                    NPC   , TF      , MS     , V   , SKEW,
      .                    FXBGRW, IAD_ELEM, FR_ELEM)

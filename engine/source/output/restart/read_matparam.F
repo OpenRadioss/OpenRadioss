@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ_MATPARAM                 source/output/restart/read_matparam.F
-Chd|-- called by -----------
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|        READ_C_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
-Chd|        READ_FAILPARAM                source/output/restart/read_failparam.F
-Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        READ_MAT_TABLE                source/materials/tools/read_mat_table.F
-Chd|        READ_VISCPARAM                source/output/restart/read_viscparam.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    read_matparam          ../engine/source/output/restart/read_matparam.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb                 ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_c_c               ../common_source/tools/input_output/write_routtines.c
+      !||    read_db                ../common_source/tools/input_output/read_db.F
+      !||    read_failparam         ../engine/source/output/restart/read_failparam.F
+      !||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+      !||    read_mat_table         ../engine/source/materials/tools/read_mat_table.F
+      !||    read_viscparam         ../engine/source/output/restart/read_viscparam.F
+      !||--- uses       -----------------------------------------------------
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE READ_MATPARAM(MAT_ELEM)
 C-----------------------------------------------
 C   M o d u l e s

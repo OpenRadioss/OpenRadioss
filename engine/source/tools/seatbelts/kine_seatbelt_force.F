@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  KINE_SEATBELT_FORCE           source/tools/seatbelts/kine_seatbelt_force.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SPMD_EXCH_A_SEATBELT          source/mpi/seatbelts/spmd_exch_a_seatbelt.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    kine_seatbelt_force    ../engine/source/tools/seatbelts/kine_seatbelt_force.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                  ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_exch_a_seatbelt   ../engine/source/mpi/seatbelts/spmd_exch_a_seatbelt.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    seatbelt_mod           ../common_source/modules/seatbelt_mod.F
+      !||====================================================================
       SUBROUTINE KINE_SEATBELT_FORCE(A,STIFN,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE)
 C-----------------------------------------------
 C   M o d u l e s

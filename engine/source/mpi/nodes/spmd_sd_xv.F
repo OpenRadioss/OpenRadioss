@@ -21,18 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_SD_XV                    source/mpi/nodes/spmd_sd_xv.F 
-Chd|-- called by -----------
-Chd|        IMP_TRIPI                     source/implicit/imp_int_k.F   
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sd_xv    ../engine/source/mpi/nodes/spmd_sd_xv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_tripi     ../engine/source/implicit/imp_int_k.F
+      !||    resol         ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod       ../common_source/modules/ale/ale_mod.F
+      !||    anim_mod      ../common_source/modules/output/anim_mod.F
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_SD_XV(
      1  X     ,D       ,V      ,VR    ,MS   ,
      2  IN    ,IAD_ELEM,FR_ELEM,WEIGHT,IMSCH,

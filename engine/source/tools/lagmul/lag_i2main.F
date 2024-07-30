@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAG_I2MAIN                    source/tools/lagmul/lag_i2main.F
-Chd|-- called by -----------
-Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
-Chd|        LAG_MULTP                     source/tools/lagmul/lag_mult.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I2LAGM                        source/tools/lagmul/lag_i2main.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_i2main      ../engine/source/tools/lagmul/lag_i2main.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_mult        ../engine/source/tools/lagmul/lag_mult.F
+      !||    lag_multp       ../engine/source/tools/lagmul/lag_mult.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||    i2lagm          ../engine/source/tools/lagmul/lag_i2main.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE LAG_I2MAIN(
      1      IPARI    ,INTBUF_TAB,IADLL    ,LLL      ,JLL      ,    
      2      SLL      ,XLL      ,COMNTAG  ,LTSM     ,ICFTAG   ,
@@ -98,13 +99,13 @@ C
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  I2LAGM                        source/tools/lagmul/lag_i2main.F
-Chd|-- called by -----------
-Chd|        LAG_I2MAIN                    source/tools/lagmul/lag_i2main.F
-Chd|-- calls ---------------
-Chd|        LAG_DIRECT                    source/tools/lagmul/lag_direct.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i2lagm       ../engine/source/tools/lagmul/lag_i2main.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_i2main   ../engine/source/tools/lagmul/lag_i2main.F
+      !||--- calls      -----------------------------------------------------
+      !||    lag_direct   ../engine/source/tools/lagmul/lag_direct.F
+      !||====================================================================
       SUBROUTINE I2LAGM(
      1   IRECT    ,NSV      ,IRTL     ,
      2   IADLL    ,LLL      ,

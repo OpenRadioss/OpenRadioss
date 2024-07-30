@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DTNODAMP                      source/time_step/dtnodamp.F   
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dtnodamp       ../engine/source/time_step/dtnodamp.F
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+      !||====================================================================
       SUBROUTINE DTNODAMP(ITAB           ,MS       ,IN    ,STIFN ,STIFR ,DT2T,
      1                    WEIGHT         ,IGRNOD   ,DAMPR ,ISTOP ,
      2                    I_DAMP_RDOF_TAB,ICONTACT ,IXC   ,X     )

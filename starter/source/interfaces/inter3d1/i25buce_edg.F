@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25BUCE_EDG                   source/interfaces/inter3d1/i25buce_edg.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|        I25TRIVOX_EDG                 source/interfaces/inter3d1/i25trivox_edg.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules1/tri7box.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    i25buce_edg     ../starter/source/interfaces/inter3d1/i25buce_edg.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3          ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- calls      -----------------------------------------------------
+      !||    i25trivox_edg   ../starter/source/interfaces/inter3d1/i25trivox_edg.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    tri7box         ../starter/share/modules1/tri7box.F
+      !||====================================================================
        SUBROUTINE I25BUCE_EDG(
      1   X        ,IRECT   ,INACTI  ,NSN      ,
      2   NMN      ,CANDM_E2E  ,CANDS_E2E  ,

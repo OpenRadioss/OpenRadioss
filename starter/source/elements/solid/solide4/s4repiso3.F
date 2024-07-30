@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4REPISO3                     source/elements/solid/solide4/s4repiso3.F
-Chd|-- called by -----------
-Chd|        S4REFSTA3                     source/elements/solid/solide4/s4refsta3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s4repiso3   ../starter/source/elements/solid/solide4/s4repiso3.F
+      !||--- called by ------------------------------------------------------
+      !||    s4refsta3   ../starter/source/elements/solid/solide4/s4refsta3.F
+      !||====================================================================
       SUBROUTINE S4REPISO3(X1   ,X2   ,X3   ,X4   ,
      .                     Y1   ,Y2   ,Y3   ,Y4   ,
      .                     Z1   ,Z2   ,Z3   ,Z4   ,
@@ -83,12 +82,11 @@ C-------------
       RETURN
       END SUBROUTINE S4REPISO3
       
-Chd|====================================================================
-Chd|  S4REPISOT3                    source/elements/solid/solide4/s4repiso3.F
-Chd|-- called by -----------
-Chd|        S4REFSTA3                     source/elements/solid/solide4/s4refsta3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s4repisot3   ../starter/source/elements/solid/solide4/s4repiso3.F
+      !||--- called by ------------------------------------------------------
+      !||    s4refsta3    ../starter/source/elements/solid/solide4/s4refsta3.F
+      !||====================================================================
       SUBROUTINE S4REPISOT3(X1   ,X2   ,X3   ,X4   ,
      .                      Y1   ,Y2   ,Y3   ,Y4   ,
      .                      Z1   ,Z2   ,Z3   ,Z4   ,

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_COMM_SPLIT               source/mpi/generic/spmd_comm_split.F
-Chd|-- called by -----------
-Chd|        FVRREST                       source/output/restart/rdresb.F
-Chd|        SPMD_I25FRONT_INIT            source/mpi/interfaces/spmd_i25front.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_comm_split      ../engine/source/mpi/generic/spmd_comm_split.F
+      !||--- called by ------------------------------------------------------
+      !||    fvrrest              ../engine/source/output/restart/rdresb.F
+      !||    spmd_i25front_init   ../engine/source/mpi/interfaces/spmd_i25front.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_COMM_SPLIT(COLOR,KEY,SUBCOMM,RANK,SIZE_L) 
 C Wrapper to MPI_COMM_SPLIT: returns RANK = -1 and
 C  SUBCOMM = MPI_COMM_NULL if the processor does not belong the the

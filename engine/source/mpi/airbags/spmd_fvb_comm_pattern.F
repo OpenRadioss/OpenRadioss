@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_FVB_COMM_PATTERN         source/mpi/airbags/spmd_fvb_comm_pattern.F
-Chd|-- called by -----------
-Chd|        FVRREST                       source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fvb_comm_pattern   ../engine/source/mpi/airbags/spmd_fvb_comm_pattern.F
+      !||--- called by ------------------------------------------------------
+      !||    fvrrest                 ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod               ../engine/share/modules/fvbag_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_FVB_COMM_PATTERN(IFV) 
 
 ! Prepare the communication pattern for the FVB 

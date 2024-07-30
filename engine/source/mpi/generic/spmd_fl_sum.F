@@ -22,15 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 C
-Chd|====================================================================
-Chd|  SPMD_FL_SUM                   source/mpi/generic/spmd_fl_sum.F
-Chd|-- called by -----------
-Chd|        BEMSOLVP                      source/fluid/bemsolvp.F       
-Chd|        DAAACC                        source/fluid/daaacc.F         
-Chd|        DAASOLVP                      source/fluid/daasolvp.F       
-Chd|        INCPFLOW                      source/fluid/incpflow.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fl_sum   ../engine/source/mpi/generic/spmd_fl_sum.F
+      !||--- called by ------------------------------------------------------
+      !||    bemsolvp      ../engine/source/fluid/bemsolvp.F
+      !||    daaacc        ../engine/source/fluid/daaacc.F
+      !||    daasolvp      ../engine/source/fluid/daasolvp.F
+      !||    incpflow      ../engine/source/fluid/incpflow.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_FL_SUM(LSUM, LEN, LSUMT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

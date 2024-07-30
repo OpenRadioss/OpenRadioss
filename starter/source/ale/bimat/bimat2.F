@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BIMAT2                        source/ale/bimat/bimat2.F     
-Chd|-- called by -----------
-Chd|        BINIT2                        source/ale/bimat/binit2.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    bimat2   ../starter/source/ale/bimat/bimat2.F
+      !||--- called by ------------------------------------------------------
+      !||    binit2   ../starter/source/ale/bimat/binit2.F
+      !||====================================================================
       SUBROUTINE BIMAT2(PM,MXT,VOLT,ALPH,FILL,
      .                  VOL,OFF,IX)
 C-----------------------------------------------

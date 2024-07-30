@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UPDATE_STRUCT_INT21           source/interfaces/int21/update_struct_int21.F
-Chd|-- called by -----------
-Chd|        I21MAIN_TRI                   source/interfaces/intsort/i21main_tri.F
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    update_struct_int21   ../engine/source/interfaces/int21/update_struct_int21.F
+      !||--- called by ------------------------------------------------------
+      !||    i21main_tri           ../engine/source/interfaces/intsort/i21main_tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier            ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    intstamp_glob_mod     ../engine/share/modules/intstamp_glob_mod.F
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    tri7box               ../engine/share/modules/tri7box.F
+      !||====================================================================
        SUBROUTINE UPDATE_STRUCT_INT21(
      1                          CAND_E, II_STOK, IFORM , NIN   , NMN,
      2                          INTTH, MNDD   , MSR_L , IRECTT )

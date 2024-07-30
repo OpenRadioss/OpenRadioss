@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  _clean      SUBROUTINE M27CRAK(JFT,JLT,PM,DAMT,DIR,MATLY,ILAYER,OFF)
-Chd|====================================================================
-Chd|  M27CRAK                       source/materials/mat/mat027/m27crak.F
-Chd|-- called by -----------
-Chd|        SIGEPS27C                     source/materials/mat/mat027/sigeps27c.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m27crak     ../engine/source/materials/mat/mat027/m27crak.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps27c   ../engine/source/materials/mat/mat027/sigeps27c.F
+      !||====================================================================
       SUBROUTINE M27CRAK(JFT    ,JLT    ,PM     ,DAMT   ,DIR    ,
      2                   IMAT   ,ILAYER ,OFF    ,NGL    ,NEL    ,
      3                   STRN1  ,STRN2  ,STRN3  )

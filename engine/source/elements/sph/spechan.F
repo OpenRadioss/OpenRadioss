@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPECHAN                       source/elements/sph/spechan.F 
-Chd|-- called by -----------
-Chd|        SPHPREP                       source/elements/sph/sphprep.F 
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    spechan        ../engine/source/elements/sph/spechan.F
+      !||--- called by ------------------------------------------------------
+      !||    sphprep        ../engine/source/elements/sph/sphprep.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf        ../engine/share/resol/initbuf.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod    ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE SPECHAN(
      1    X       ,V       ,MS       ,SPBUF   ,ITAB    ,
      2    KXSP    ,IXSP    ,NOD2SP   ,ISPCOND ,XFRAME  ,

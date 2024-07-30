@@ -24,16 +24,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 c TWO SOLUTIONS : 
 C - mettre l'user ID dans ITHBUF(J)
 C - rajouter CLUSTER(ILOC)%ID_GLOB dans le cluster (*)
-Chd|====================================================================
-Chd|  THCLUSTER                     source/output/th/thcluster.F  
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
-Chd|        WRTDES                        source/output/th/wrtdes.F     
-Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    thcluster         ../engine/source/output/th/thcluster.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2             ../engine/source/output/th/hist2.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar              ../engine/source/input/nvar.F
+      !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    wrtdes            ../engine/source/output/th/wrtdes.F
+      !||--- uses       -----------------------------------------------------
+      !||    cluster_mod       ../engine/share/modules/cluster_mod.F
+      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE THCLUSTER(WA   ,IAD   ,IADV   ,NN      ,NVAR     ,
      .                     ITTYP,ITHBUF,CLUSTER,SKEW    ,X        ,
      .                     IXS  ,IPARG )

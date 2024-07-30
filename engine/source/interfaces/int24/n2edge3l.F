@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  N2EDGE3L                      source/interfaces/int24/n2edge3l.F
-Chd|-- called by -----------
-Chd|        INTERSECSH                    source/interfaces/int24/i24dst3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    n2edge3l     ../engine/source/interfaces/int24/n2edge3l.F
+      !||--- called by ------------------------------------------------------
+      !||    intersecsh   ../engine/source/interfaces/int24/i24dst3.F
+      !||====================================================================
         SUBROUTINE N2EDGE3L(
      1                           XXI    ,YYI      ,ZZI    ,
      2                           XXJ    ,YYJ      ,ZZJ    ,

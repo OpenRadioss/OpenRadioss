@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  QMASSREAL2P                   source/elements/solid_2d/quad/qmassreal2p.F
-Chd|-- called by -----------
-Chd|        BFORC2                        source/ale/bimat/bforc2.F     
-Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
-Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    qmassreal2p   ../engine/source/elements/solid_2d/quad/qmassreal2p.F
+      !||--- called by ------------------------------------------------------
+      !||    bforc2        ../engine/source/ale/bimat/bforc2.F
+      !||    q4forc2       ../engine/source/elements/solid_2d/quad4/q4forc2.F
+      !||    qforc2        ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||====================================================================
       SUBROUTINE QMASSREAL2P(
      1   OFF,     RHO,     VNEW,    FSKYM,
      2   IADQ,    NEL,     NFT)

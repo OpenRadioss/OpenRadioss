@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7FOR3                        source/interfaces/int07/i7for3.F
-Chd|-- called by -----------
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|-- calls ---------------
-Chd|        I7CURV                        source/interfaces/int07/i7curv.F
-Chd|        IBCOFF                        source/interfaces/interf/ibcoff.F
-Chd|        BITGET                        source/interfaces/intsort/i20sto.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7for3        ../engine/source/interfaces/int07/i7for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i7mainf       ../engine/source/interfaces/int07/i7mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    bitget        ../engine/source/interfaces/intsort/i20sto.F
+      !||    i7curv        ../engine/source/interfaces/int07/i7curv.F
+      !||    ibcoff        ../engine/source/interfaces/interf/ibcoff.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod      ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod       ../engine/share/modules/h3d_mod.F
+      !||    outputs_mod   ../common_source/modules/outputs_mod.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I7FOR3(JLT       ,A         ,V          ,IBCC       ,ICODT  ,
      2                  FSAV      ,GAP       ,FRIC       ,MS         ,VISC   ,
      3                  VISCF     ,NOINT     ,STFN       ,ITAB       ,CN_LOC ,

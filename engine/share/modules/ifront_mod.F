@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IFRONT_MOD                    share/modules/ifront_mod.F    
-Chd|-- called by -----------
-Chd|        SPMD_I25_SLIDE_GAT            source/mpi/interfaces/spmd_i25slide.F
-Chd|        SPMD_IFRONT                   source/mpi/interfaces/spmd_ifront.F
-Chd|-- calls ---------------
-Chd|        POINTERDEF                    share/modules/pointerdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ifront_mod           ../engine/share/modules/ifront_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_i25_slide_gat   ../engine/source/mpi/interfaces/spmd_i25slide.F
+      !||    spmd_ifront          ../engine/source/mpi/interfaces/spmd_ifront.F
+      !||--- uses       -----------------------------------------------------
+      !||    pointerdef           ../engine/share/modules/pointerdef_mod.F
+      !||====================================================================
       MODULE IFRONT_MOD 
       
       USE POINTERDEF

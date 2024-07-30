@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_CELL_EXCHANGE            source/mpi/generic/spmd_cell_exchange.F
-Chd|-- called by -----------
-Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_cell_exchange   ../engine/source/mpi/generic/spmd_cell_exchange.F
+      !||--- called by ------------------------------------------------------
+      !||    inter_sort_07        ../engine/source/interfaces/int07/inter_sort_07.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../engine/source/output/message/message.F
+      !||    arret                ../engine/source/system/arret.F
+      !||    startime             ../engine/source/system/timer.F
+      !||    stoptime             ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    inter_sorting_mod    ../engine/share/modules/inter_sorting_mod.F
+      !||    inter_struct_mod     ../engine/share/modules/inter_struct_mod.F
+      !||    message_mod          ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F
+      !||    tri7box              ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_CELL_EXCHANGE( NIN,ISENDTO,IRCVFROM,NSNR,IGAP,
      1                               IFQ,INACTI,NSNFIOLD,INTTH,ITYP,
      2                               ITIED,NMN,INTER_STRUCT,SORT_COMM )

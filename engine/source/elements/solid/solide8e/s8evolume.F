@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8EVOLUME                     source/elements/solid/solide8e/s8evolume.F
-Chd|-- called by -----------
-Chd|        ELOFF                         source/elements/eloff.F       
-Chd|        FIXFLUX                       source/constraints/thermic/fixflux.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8evolume   ../engine/source/elements/solid/solide8e/s8evolume.F
+      !||--- called by ------------------------------------------------------
+      !||    eloff       ../engine/source/elements/eloff.F
+      !||    fixflux     ../engine/source/constraints/thermic/fixflux.F
+      !||====================================================================
       SUBROUTINE S8EVOLUME(X, VOLG, VOLP, NELA, NPTR, NPTS, NPTT,
      .                     NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8 )
 C-----------------------------------------------

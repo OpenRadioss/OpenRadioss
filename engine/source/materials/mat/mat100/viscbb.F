@@ -23,13 +23,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C Non linear viscous model based on Bergstrom Boyce
 C output: the creep strain increment DGAMMA
 C-----------------------------------------------
-Chd|====================================================================
-Chd|  VISCBB                        source/materials/mat/mat100/viscbb.F
-Chd|-- called by -----------
-Chd|        SIGEPS100                     source/materials/mat/mat100/sigeps100.F
-Chd|        SIGEPS95                      source/materials/mat/mat095/sigeps95.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    viscbb      ../engine/source/materials/mat/mat100/viscbb.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F
+      !||    sigeps95    ../engine/source/materials/mat/mat095/sigeps95.F
+      !||====================================================================
         SUBROUTINE VISCBB ( NEL, FP, TBNORM, A1,EXPC, EXPM , KSI , TAUREF, DGAMMA ) !BERGSTROM BOYCE MODEL
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S

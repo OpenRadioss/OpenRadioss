@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  JOINT_BLOCK_STIFFNESS         source/elements/joint/joint_block_stiffness.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        GET_U_GEO                     source/user_interface/upidmid.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    joint_block_stiffness   ../engine/source/elements/joint/joint_block_stiffness.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                   ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret                   ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE JOINT_BLOCK_STIFFNESS(ITAB,MS,IN,STIFN,STIFR,
      1                    WEIGHT ,IXR,IPART,X,
      2                    IPARTR,IGEO,GEO,NPBY,IPARG,ELBUF_TAB,DMAS,DINER)

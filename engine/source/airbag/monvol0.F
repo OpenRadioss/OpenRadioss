@@ -20,30 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MONVOL0                       source/airbag/monvol0.F       
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        AIRBAGA                       source/airbag/airbag1.F       
-Chd|        AIRBAGA1                      source/airbag/airbaga1.F      
-Chd|        AIRBAGB                       source/airbag/airbag2.F       
-Chd|        AIRBAGB1                      source/airbag/airbagb1.F      
-Chd|        SPMD_MV_CA                    source/mpi/airbags/spmd_mv_ca.F
-Chd|        VOLOUT                        source/airbag/volout.F        
-Chd|        VOLPFV                        source/airbag/volpfv.F        
-Chd|        VOLPRE                        source/airbag/volpres.F       
-Chd|        VOLPREP                       source/airbag/volpresp.F      
-Chd|        VOLPVGA                       source/airbag/volpvg.F        
-Chd|        VOLPVGB                       source/airbag/volpvg.F        
-Chd|        VOLP_LFLUID                   source/airbag/volp_lfluid.F   
-Chd|        VOLUM0                        source/airbag/volum0.F        
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    monvol0             ../engine/source/airbag/monvol0.F
+      !||--- called by ------------------------------------------------------
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    airbaga             ../engine/source/airbag/airbag1.F
+      !||    airbaga1            ../engine/source/airbag/airbaga1.F
+      !||    airbagb             ../engine/source/airbag/airbag2.F
+      !||    airbagb1            ../engine/source/airbag/airbagb1.F
+      !||    spmd_mv_ca          ../engine/source/mpi/airbags/spmd_mv_ca.F
+      !||    volout              ../engine/source/airbag/volout.F
+      !||    volp_lfluid         ../engine/source/airbag/volp_lfluid.F
+      !||    volpfv              ../engine/source/airbag/volpfv.F
+      !||    volpre              ../engine/source/airbag/volpres.F
+      !||    volprep             ../engine/source/airbag/volpresp.F
+      !||    volpvga             ../engine/source/airbag/volpvg.F
+      !||    volpvgb             ../engine/source/airbag/volpvg.F
+      !||    volum0              ../engine/source/airbag/volum0.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod        ../common_source/modules/groupdef_mod.F
+      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
+      !||    monvol_struct_mod   ../engine/share/modules/monvol_struct_mod.F
+      !||    sensor_mod          ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE MONVOL0(MONVOL   ,VOLMON  ,X       ,A      ,
      2                   NPC      ,TF      ,V       ,N      ,
      3                   FSAV     ,NSENSOR ,SENSOR_TAB,IGRSURF,

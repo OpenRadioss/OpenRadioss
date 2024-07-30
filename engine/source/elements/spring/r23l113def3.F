@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R23L113DEF3                   source/elements/spring/r23l113def3.F
-Chd|-- called by -----------
-Chd|        R23LAW113                     source/elements/spring/r23law113.F
-Chd|-- calls ---------------
-Chd|        REDEF3_LAW113                 source/elements/spring/redef3_law113.F
-Chd|        REPLA3                        source/elements/spring/repla3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    r23l113def3     ../engine/source/elements/spring/r23l113def3.F
+      !||--- called by ------------------------------------------------------
+      !||    r23law113       ../engine/source/elements/spring/r23law113.F
+      !||--- calls      -----------------------------------------------------
+      !||    redef3_law113   ../engine/source/elements/spring/redef3_law113.F
+      !||    repla3          ../engine/source/elements/spring/repla3.F
+      !||====================================================================
       SUBROUTINE R23L113DEF3(
      1   SKEW,    IPM,     IGEO,    MID,
      2   PID,     GEO,     UPARAM,  FX,

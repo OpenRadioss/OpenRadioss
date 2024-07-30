@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PREINICRK3N                   source/elements/xfem/preinicrk3N.F
-Chd|-- called by -----------
-Chd|        LSLOCAL                       source/elements/xfem/lslocal.F
-Chd|-- calls ---------------
-Chd|        LSINTX                        source/elements/xfem/preinicrk4N.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    preinicrk3n    ../starter/source/elements/xfem/preinicrk3N.F
+      !||--- called by ------------------------------------------------------
+      !||    lslocal        ../starter/source/elements/xfem/lslocal.F
+      !||--- calls      -----------------------------------------------------
+      !||    lsintx         ../starter/source/elements/xfem/preinicrk4N.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE PREINICRK3N(ELBUF_STR,XFEM_STR,
      .                    X1L     ,Y1L     ,X2L     ,Y2L     ,X3L     ,
      .                    Y3L     ,LFT     ,LLT     ,NFT     ,NXLAY   ,

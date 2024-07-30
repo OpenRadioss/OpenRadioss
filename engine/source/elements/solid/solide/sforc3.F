@@ -20,99 +20,102 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|        FORINT                        source/elements/forint.F      
-Chd|-- calls ---------------
-Chd|        ALEFLOW                       source/ale/porous/aleflow.F   
-Chd|        ALEFVM_EPSDOT                 source/ale/alefvm/alefvm_epsdot.F
-Chd|        ALEFVM_FRESET                 source/ale/alefvm/alefvm_freset.F
-Chd|        ALEFVM_GRAVITY                source/ale/alefvm/alefvm_gravity.F
-Chd|        ALEFVM_GRAVITY_INT22          source/ale/alefvm/alefvm_gravity_int22.F
-Chd|        ALEFVM_STRESS                 source/ale/alefvm/alefvm_stress.F
-Chd|        ALEFVM_STRESS_INT22           source/ale/alefvm/alefvm_stress_int22.F
-Chd|        ALEFVM_TFEXT                  source/ale/alefvm/alefvm_tfext.F
-Chd|        AMASS3                        source/elements/solid/solide/amass3.F
-Chd|        AMASS3F                       source/elements/solid/solide/amass3f.F
-Chd|        AMASS3P                       source/elements/solid/solide/amass3p.F
-Chd|        AMASS3PF                      source/elements/solid/solide/amass3pf.F
-Chd|        AMOMT3                        source/elements/solid/solide/amomt3.F
-Chd|        BOLTST                        source/elements/solid/solide/boltst.F
-Chd|        CHECK_OFF_ALE                 source/elements/solid/solide/check_off_ale.F
-Chd|        DELTAX22                      source/interfaces/int22/deltax22.F
-Chd|        EMOMT3B                       source/elements/solid/solide/emomt3b.F
-Chd|        EPXLE3                        source/elements/solid/solide/epxle3.F
-Chd|        FCUMU3                        source/elements/solid/solide/fcumu3.F
-Chd|        FCUMU3P                       source/elements/solid/solide/fcumu3p.F
-Chd|        FDEFO3                        source/elements/solid/solide/fdefo3.F
-Chd|        FDERI3                        source/elements/solid/solide/fderi3.F
-Chd|        FDLEN3                        source/elements/solid/solide/fdlen3.F
-Chd|        FE_CLOSE                      source/elements/solid/solide/fe_close.F
-Chd|        FFINT3                        source/elements/solid/solide/ffint3.F
-Chd|        FHVIS3                        source/elements/solid/solide/fhvis3.F
-Chd|        FRHO3                         source/elements/solid/solide/frho3.F
-Chd|        MOD_CLOSE                     source/elements/solid/solide/mod_close.F
-Chd|        S11DEFO3                      source/elements/solid/solide/s11defo3.F
-Chd|        S11FX3                        source/elements/solid/solide/s11fx3.F
-Chd|        S8FOR_DISTOR                  source/elements/solid/solide/s8for_distor.F
-Chd|        S8GET_X3                      source/elements/solid/solide/s8get_x3.F
-Chd|        S8SAV12                       source/elements/solid/solide/s8sav12.F
-Chd|        S8SAV3                        source/elements/solid/solide/s8sav3.F
-Chd|        S8SAVSR3                      source/elements/solid/solide/s8savsr3.F
-Chd|        S8UPD11T12                    source/elements/solid/solide/s8upd11t12.F
-Chd|        SBILAN                        source/elements/solid/solide/sbilan.F
-Chd|        SCOOR3                        source/elements/solid/solide/scoor3.F
-Chd|        SCOOR3_FVM                    source/ale/alefvm/scoor3_fvm.F
-Chd|        SCOOR_CP2SP                   source/elements/solid/solidez/scoor_cp2sp.F
-Chd|        SCRE_SIG3                     source/elements/solid/solide/scre_sig3.F
-Chd|        SCUMU3                        source/elements/solid/solide/scumu3.F
-Chd|        SCUMU3P                       source/elements/solid/solide/scumu3p.F
-Chd|        SDEFO3                        source/elements/solid/solide/sdefo3.F
-Chd|        SDEFOT3                       source/elements/solid/solide/sdefot3.F
-Chd|        SDERI3                        source/elements/solid/solide/sderi3.F
-Chd|        SDERIT3                       source/elements/solid/solide/sderit3.F
-Chd|        SDERITO3                      source/elements/solid/solide/sderito3.F
-Chd|        SDLEN3                        source/elements/solid/solide/sdlen3.F
-Chd|        SDLENMAX                      source/elements/solid/solide/sdlenmax.F
-Chd|        SFILLOPT                      source/elements/solid/solide/sfillopt.F
-Chd|        SFINT3                        source/elements/solid/solide/sfint3.F
-Chd|        SFINT3B                       source/elements/solid/solide/sfint3b.F
-Chd|        SFINT_REG                     source/elements/solid/solide/sfint_reg.F
-Chd|        SGCOOR3                       source/elements/solid/solide/sgcoor3.F
-Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
-Chd|        SHVIS3                        source/elements/solid/solide/shvis3.F
-Chd|        SMALLA3                       source/elements/solid/solide/smalla3.F
-Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
-Chd|        SMALLGEO3                     source/elements/solid/solide/smallgeo3.F
-Chd|        SORDEF12                      source/elements/solid/solidez/sordef12.F
-Chd|        SORDEFT12                     source/elements/solid/solidez/sordeft12.F
-Chd|        SORDEFT3                      source/elements/solid/solidez/sordeft3.F
-Chd|        SRBILAN                       source/elements/solid/solide/srbilan.F
-Chd|        SRCOOR12                      source/elements/solid/solide/srcoor12.F
-Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
-Chd|        SRHO3                         source/elements/solid/solide/srho3.F
-Chd|        SRMALLA11                     source/elements/solid/solide/srmalla11.F
-Chd|        SRMALLA3                      source/elements/solid/solide/srmall3.F
-Chd|        SROTA3                        source/elements/solid/solide/srota3.F
-Chd|        SROTO12_SIG                   source/elements/solid/solidez/sroto12_sig.F
-Chd|        SRROTA3                       source/elements/solid/solide/srrota3.F
-Chd|        SRROTADP                      source/elements/solid/solide/srrotadp.F
-Chd|        SSTRA3                        source/elements/solid/solide/sstra3.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STHERM                        source/elements/solid/solide/stherm.F
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        S_HG5                         source/elements/solid/solide/s_hg5.F
-Chd|        VOLN22                        source/interfaces/int22/voln22.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        DT_MOD                        share/modules/dt_mod.F        
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    sforc3                 ../engine/source/elements/solid/solide/sforc3.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain                ../engine/source/ale/alemain.F
+      !||    forint                 ../engine/source/elements/forint.F
+      !||--- calls      -----------------------------------------------------
+      !||    aleflow                ../engine/source/ale/porous/aleflow.F
+      !||    alefvm_epsdot          ../engine/source/ale/alefvm/alefvm_epsdot.F
+      !||    alefvm_freset          ../engine/source/ale/alefvm/alefvm_freset.F
+      !||    alefvm_gravity         ../engine/source/ale/alefvm/alefvm_gravity.F
+      !||    alefvm_gravity_int22   ../engine/source/ale/alefvm/alefvm_gravity_int22.F
+      !||    alefvm_stress          ../engine/source/ale/alefvm/alefvm_stress.F
+      !||    alefvm_stress_int22    ../engine/source/ale/alefvm/alefvm_stress_int22.F
+      !||    alefvm_tfext           ../engine/source/ale/alefvm/alefvm_tfext.F
+      !||    amass3                 ../engine/source/elements/solid/solide/amass3.F
+      !||    amass3f                ../engine/source/elements/solid/solide/amass3f.F
+      !||    amass3p                ../engine/source/elements/solid/solide/amass3p.F
+      !||    amass3pf               ../engine/source/elements/solid/solide/amass3pf.F
+      !||    amomt3                 ../engine/source/elements/solid/solide/amomt3.F
+      !||    boltst                 ../engine/source/elements/solid/solide/boltst.F
+      !||    check_off_ale          ../engine/source/elements/solid/solide/check_off_ale.F
+      !||    deltax22               ../engine/source/interfaces/int22/deltax22.F
+      !||    emomt3b                ../engine/source/elements/solid/solide/emomt3b.F
+      !||    epxle3                 ../engine/source/elements/solid/solide/epxle3.F
+      !||    fcumu3                 ../engine/source/elements/solid/solide/fcumu3.F
+      !||    fcumu3p                ../engine/source/elements/solid/solide/fcumu3p.F
+      !||    fdefo3                 ../engine/source/elements/solid/solide/fdefo3.F
+      !||    fderi3                 ../engine/source/elements/solid/solide/fderi3.F
+      !||    fdlen3                 ../engine/source/elements/solid/solide/fdlen3.F
+      !||    fe_close               ../engine/source/elements/solid/solide/fe_close.F
+      !||    ffint3                 ../engine/source/elements/solid/solide/ffint3.F
+      !||    fhvis3                 ../engine/source/elements/solid/solide/fhvis3.F
+      !||    frho3                  ../engine/source/elements/solid/solide/frho3.F
+      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+      !||    mod_close              ../engine/source/elements/solid/solide/mod_close.F
+      !||    s11defo3               ../engine/source/elements/solid/solide/s11defo3.F
+      !||    s11fx3                 ../engine/source/elements/solid/solide/s11fx3.F
+      !||    s8for_distor           ../engine/source/elements/solid/solide/s8for_distor.F
+      !||    s8get_x3               ../engine/source/elements/solid/solide/s8get_x3.F
+      !||    s8sav12                ../engine/source/elements/solid/solide/s8sav12.F
+      !||    s8sav3                 ../engine/source/elements/solid/solide/s8sav3.F
+      !||    s8savsr3               ../engine/source/elements/solid/solide/s8savsr3.F
+      !||    s8upd11t12             ../engine/source/elements/solid/solide/s8upd11t12.F
+      !||    s_hg5                  ../engine/source/elements/solid/solide/s_hg5.F
+      !||    sbilan                 ../engine/source/elements/solid/solide/sbilan.F
+      !||    scoor3                 ../engine/source/elements/solid/solide/scoor3.F
+      !||    scoor3_fvm             ../engine/source/ale/alefvm/scoor3_fvm.F
+      !||    scoor_cp2sp            ../engine/source/elements/solid/solidez/scoor_cp2sp.F
+      !||    scre_sig3              ../engine/source/elements/solid/solide/scre_sig3.F
+      !||    scumu3                 ../engine/source/elements/solid/solide/scumu3.F
+      !||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
+      !||    sdefo3                 ../engine/source/elements/solid/solide/sdefo3.F
+      !||    sdefot3                ../engine/source/elements/solid/solide/sdefot3.F
+      !||    sderi3                 ../engine/source/elements/solid/solide/sderi3.F
+      !||    sderit3                ../engine/source/elements/solid/solide/sderit3.F
+      !||    sderito3               ../engine/source/elements/solid/solide/sderito3.F
+      !||    sdlen3                 ../engine/source/elements/solid/solide/sdlen3.F
+      !||    sdlenmax               ../engine/source/elements/solid/solide/sdlenmax.F
+      !||    sfillopt               ../engine/source/elements/solid/solide/sfillopt.F
+      !||    sfint3                 ../engine/source/elements/solid/solide/sfint3.F
+      !||    sfint3b                ../engine/source/elements/solid/solide/sfint3b.F
+      !||    sfint_reg              ../engine/source/elements/solid/solide/sfint_reg.F
+      !||    sgcoor3                ../engine/source/elements/solid/solide/sgcoor3.F
+      !||    sgeodel3               ../engine/source/elements/solid/solide/sgeodel3.F
+      !||    shvis3                 ../engine/source/elements/solid/solide/shvis3.F
+      !||    smalla3                ../engine/source/elements/solid/solide/smalla3.F
+      !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
+      !||    smallgeo3              ../engine/source/elements/solid/solide/smallgeo3.F
+      !||    sordef12               ../engine/source/elements/solid/solidez/sordef12.F
+      !||    sordeft12              ../engine/source/elements/solid/solidez/sordeft12.F
+      !||    sordeft3               ../engine/source/elements/solid/solidez/sordeft3.F
+      !||    srbilan                ../engine/source/elements/solid/solide/srbilan.F
+      !||    srcoor12               ../engine/source/elements/solid/solide/srcoor12.F
+      !||    srcoor3                ../engine/source/elements/solid/solide/srcoor3.F
+      !||    srho3                  ../engine/source/elements/solid/solide/srho3.F
+      !||    srmalla11              ../engine/source/elements/solid/solide/srmalla11.F
+      !||    srmalla3               ../engine/source/elements/solid/solide/srmall3.F
+      !||    srota3                 ../engine/source/elements/solid/solide/srota3.F
+      !||    sroto12_sig            ../engine/source/elements/solid/solidez/sroto12_sig.F
+      !||    srrota3                ../engine/source/elements/solid/solide/srrota3.F
+      !||    srrotadp               ../engine/source/elements/solid/solide/srrotadp.F
+      !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
+      !||    startime               ../engine/source/system/timer.F
+      !||    stherm                 ../engine/source/elements/solid/solide/stherm.F
+      !||    stoptime               ../engine/source/system/timer.F
+      !||    voln22                 ../engine/source/interfaces/int22/voln22.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    ale_mod                ../common_source/modules/ale/ale_mod.F
+      !||    dt_mod                 ../engine/share/modules/dt_mod.F
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE SFORC3(
      1   ELBUF_TAB,  NG,         PM,         GEO,
      2   IXS,        X,          NV46,       A,

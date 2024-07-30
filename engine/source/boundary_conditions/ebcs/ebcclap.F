@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  EBCCLAP                       source/boundary_conditions/ebcs/ebcclap.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        EBCCLAP1                      source/boundary_conditions/ebcs/ebcclap.F
-Chd|        EBCVIT4                       source/boundary_conditions/ebcs/ebcvit4.F
-Chd|        EBCVIT5                       source/boundary_conditions/ebcs/ebcvit5.F
-Chd|        EBCVIT7                       source/boundary_conditions/ebcs/ebcvit7.F
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ebcclap    ../engine/source/boundary_conditions/ebcs/ebcclap.F
+      !||--- called by ------------------------------------------------------
+      !||    resol      ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ebcclap1   ../engine/source/boundary_conditions/ebcs/ebcclap.F
+      !||    ebcvit4    ../engine/source/boundary_conditions/ebcs/ebcvit4.F
+      !||    ebcvit5    ../engine/source/boundary_conditions/ebcs/ebcvit5.F
+      !||    ebcvit7    ../engine/source/boundary_conditions/ebcs/ebcvit7.F
+      !||--- uses       -----------------------------------------------------
+      !||    ebcs_mod   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||====================================================================
       SUBROUTINE EBCCLAP(V, A, FV, EBCS_TAB)
       USE EBCS_MOD
 C-----------------------------------------------
@@ -83,12 +84,11 @@ C
       ENDDO
       RETURN
       END
-Chd|====================================================================
-Chd|  EBCCLAP1                      source/boundary_conditions/ebcs/ebcclap.F
-Chd|-- called by -----------
-Chd|        EBCCLAP                       source/boundary_conditions/ebcs/ebcclap.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ebcclap1   ../engine/source/boundary_conditions/ebcs/ebcclap.F
+      !||--- called by ------------------------------------------------------
+      !||    ebcclap    ../engine/source/boundary_conditions/ebcs/ebcclap.F
+      !||====================================================================
       SUBROUTINE EBCCLAP1(V,A,LISTE,NOD,NORM,FAC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

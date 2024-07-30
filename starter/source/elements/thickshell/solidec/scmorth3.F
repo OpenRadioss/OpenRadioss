@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCMORTH3                      source/elements/thickshell/solidec/scmorth3.F
-Chd|-- called by -----------
-Chd|        S6CINIT3                      source/elements/thickshell/solide6c/s6cinit3.F
-Chd|        S8CINIT3                      source/elements/thickshell/solide8c/s8cinit3.F
-Chd|        SCINIT3                       source/elements/thickshell/solidec/scinit3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    scmorth3      ../starter/source/elements/thickshell/solidec/scmorth3.F
+      !||--- called by ------------------------------------------------------
+      !||    s6cinit3      ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+      !||    s8cinit3      ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+      !||    scinit3       ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    fretitl2      ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SCMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,GAMA ,
      .       RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .       E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,

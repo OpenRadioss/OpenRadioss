@@ -21,11 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  REDUCE_MMX                    source/mpi/interfaces/reduce_mmx.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    reduce_mmx   ../engine/source/mpi/interfaces/reduce_mmx.F
+      !||====================================================================
       SUBROUTINE REDUCE_MMX(RIN,RINOUT,LEN,TYPE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8ZDERIPR3                    source/elements/solid/solide8z/s8zderipr3.F
-Chd|-- called by -----------
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8zderipr3    ../engine/source/elements/solid/solide8z/s8zderipr3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S8ZDERIPR3(
      1   OFFG,    VOLDP,   NGL,     KSI,
      2   ETA,     ZETA,    WI,      CJ1,

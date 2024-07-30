@@ -23,12 +23,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 C            DXYZSECT                /anim/dxyzsect.F
 C            DXWALL                  /anim/dxwall.F
-Chd|====================================================================
-Chd|  SPMD_AGET_SECT                source/mpi/anim/spmd_aget_sect.F
-Chd|-- called by -----------
-Chd|        DXYZSECT                      source/output/anim/generate/dxyzsect.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_aget_sect   ../engine/source/mpi/anim/spmd_aget_sect.F
+      !||--- called by ------------------------------------------------------
+      !||    dxyzsect         ../engine/source/output/anim/generate/dxyzsect.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
        SUBROUTINE SPMD_AGET_SECT(NSTRF,X,XSEC,WEIGHT,ITAB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

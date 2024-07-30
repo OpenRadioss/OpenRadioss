@@ -20,31 +20,32 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8FORC3                       source/elements/solid/solide8/s8forc3.F
-Chd|-- called by -----------
-Chd|        FORINT                        source/elements/forint.F      
-Chd|-- calls ---------------
-Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
-Chd|        S8BILAN                       source/elements/solid/solide8/s8bilan.F
-Chd|        S8COOR3                       source/elements/solid/solide8/s8coor3.F
-Chd|        S8CUMU3                       source/elements/solid/solide8/s8cumu3.F
-Chd|        S8DEFO3                       source/elements/solid/solide8/s8defo3.F
-Chd|        S8DERI3                       source/elements/solid/solide8/s8deri3.F
-Chd|        S8FINT3                       source/elements/solid/solide8/s8fint3.F
-Chd|        S8LAGR3                       source/elements/solid/solide8/s8lagr3.F
-Chd|        S8ROTA3                       source/elements/solid/solide8/s8rota3.F
-Chd|        SCUMU3P                       source/elements/solid/solide/scumu3p.F
-Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
-Chd|        SR8BILAN                      source/elements/solid/solide8/sr8bilan.F
-Chd|        SR8COOR3                      source/elements/solid/solide8/sr8coor3.F
-Chd|        SRROTA3                       source/elements/solid/solide/srrota3.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    s8forc3                ../engine/source/elements/solid/solide8/s8forc3.F
+      !||--- called by ------------------------------------------------------
+      !||    forint                 ../engine/source/elements/forint.F
+      !||--- calls      -----------------------------------------------------
+      !||    mmain8                 ../engine/source/materials/mat_share/mmain8.F
+      !||    s8bilan                ../engine/source/elements/solid/solide8/s8bilan.F
+      !||    s8coor3                ../engine/source/elements/solid/solide8/s8coor3.F
+      !||    s8cumu3                ../engine/source/elements/solid/solide8/s8cumu3.F
+      !||    s8defo3                ../engine/source/elements/solid/solide8/s8defo3.F
+      !||    s8deri3                ../engine/source/elements/solid/solide8/s8deri3.F
+      !||    s8fint3                ../engine/source/elements/solid/solide8/s8fint3.F
+      !||    s8lagr3                ../engine/source/elements/solid/solide8/s8lagr3.F
+      !||    s8rota3                ../engine/source/elements/solid/solide8/s8rota3.F
+      !||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
+      !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
+      !||    sr8bilan               ../engine/source/elements/solid/solide8/sr8bilan.F
+      !||    sr8coor3               ../engine/source/elements/solid/solide8/sr8coor3.F
+      !||    srrota3                ../engine/source/elements/solid/solide/srrota3.F
+      !||    startime               ../engine/source/system/timer.F
+      !||    stoptime               ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE S8FORC3(
      1                   ELBUF_STR,PM       ,GEO    ,IXS      ,X      ,
      2                   A        ,V        ,MS     , 

@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I9GRD3                        source/interfaces/int09/i9grd3.F
-Chd|-- called by -----------
-Chd|        I9WAL3                        source/interfaces/int09/i9wal3.F
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    i9grd3         ../engine/source/interfaces/int09/i9grd3.F
+      !||--- called by ------------------------------------------------------
+      !||    i9wal3         ../engine/source/interfaces/int09/i9wal3.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf        ../engine/share/resol/initbuf.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod    ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE I9GRD3(IERR  ,AREA  ,TSTIF    ,T      ,VOL     ,
      2                  II    ,X     ,IXS      ,IX     ,
      3                  IPARG ,PM    ,ELBUF_TAB,IGROU  ,IELN    )

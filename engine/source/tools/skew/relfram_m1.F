@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RELFRAM_M1                    source/tools/skew/relfram_m1.F
-Chd|-- called by -----------
-Chd|        CFIELD_1                      source/loads/general/load_centri/cfield.F
-Chd|        CFIELD_IMP                    source/loads/general/load_centri/cfield_imp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    relfram_m1   ../engine/source/tools/skew/relfram_m1.F
+      !||--- called by ------------------------------------------------------
+      !||    cfield_1     ../engine/source/loads/general/load_centri/cfield.F
+      !||    cfield_imp   ../engine/source/loads/general/load_centri/cfield_imp.F
+      !||====================================================================
       SUBROUTINE RELFRAM_M1(XG ,VG      ,AREL    ,XFRAME  ,
      2                      VO      , AO      )
 C-----------------------------------------------

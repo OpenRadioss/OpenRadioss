@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SURF_AREA                     source/output/th/surf_area.F  
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    surf_area   ../engine/source/output/th/surf_area.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2       ../engine/source/output/th/hist2.F
+      !||====================================================================
       SUBROUTINE SURF_AREA(X, NN, SURF_NODES, AREA, NUMNOD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

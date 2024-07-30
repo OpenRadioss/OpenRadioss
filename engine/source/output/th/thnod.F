@@ -20,15 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THNOD                         source/output/th/thnod.F      
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|        RELFRAM                       source/tools/skew/relfram.F   
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    thnod           ../engine/source/output/th/thnod.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2           ../engine/source/output/th/hist2.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar            ../engine/source/input/nvar.F
+      !||    relfram         ../engine/source/tools/skew/relfram.F
+      !||    sync_data       ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    pinchtype_mod   ../common_source/modules/pinchtype_mod.F
+      !||    plyxfem_mod     ../engine/share/modules/plyxfem_mod.F
+      !||====================================================================
       SUBROUTINE THNOD(ITHBUF ,
      2             WA      ,X       ,D       ,V       ,A      ,
      3             VR      ,AR      ,ISKWN   ,IFRAME  ,SKEW   ,

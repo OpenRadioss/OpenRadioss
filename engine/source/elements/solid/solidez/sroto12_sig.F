@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SROTO12_SIG                   source/elements/solid/solidez/sroto12_sig.F
-Chd|-- called by -----------
-Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sroto12_sig   ../engine/source/elements/solid/solidez/sroto12_sig.F
+      !||--- called by ------------------------------------------------------
+      !||    s10forc3      ../engine/source/elements/solid/solide10/s10forc3.F
+      !||    s4forc3       ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
+      !||====================================================================
       SUBROUTINE SROTO12_SIG(JFT,JLT,SIG,NEL,
      .                       G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,OFF)
 C-----------------------------------------------

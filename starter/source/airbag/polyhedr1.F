@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  POLYHEDR1                     source/airbag/polyhedr1.F     
-Chd|-- called by -----------
-Chd|        FVMESH1                       source/airbag/fvmesh.F        
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        C_TRICALL                     stub/fvmbags_stub.F           
-Chd|====================================================================
+      !||====================================================================
+      !||    polyhedr1   ../starter/source/airbag/polyhedr1.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh1     ../starter/source/airbag/fvmesh.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret       ../starter/source/system/arret.F
+      !||    c_tricall   ../starter/stub/fvmbags_stub.F
+      !||====================================================================
       SUBROUTINE POLYHEDR1(IPOLY, RPOLY   , POLB  , NPOLB, POLH,
      .                     NPOLH, NRPMAX  , NPHMAX, IBRIC, LMIN,
      .                     INFO , NPOLHMAX, NPPMAX, NEL,   INZ ,

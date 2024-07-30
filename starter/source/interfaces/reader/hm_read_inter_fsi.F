@@ -20,22 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_INTER_FSI             source/interfaces/reader/hm_read_inter_fsi.F
-Chd|-- called by -----------
-Chd|        HM_READ_INTERFACES            source/interfaces/reader/hm_read_interfaces.F
-Chd|-- calls ---------------
-Chd|        FRETITL                       source/starter/freform.F      
-Chd|        HM_READ_INTER_TYPE01          source/interfaces/int01/hm_read_inter_type01.F
-Chd|        HM_READ_INTER_TYPE09          source/interfaces/int09/hm_read_inter_type09.F
-Chd|        HM_READ_INTER_TYPE12          source/interfaces/int12/hm_read_inter_type12.F
-Chd|        HM_READ_INTER_TYPE18          source/interfaces/int18/hm_read_inter_type18.F
-Chd|        HM_READ_INTER_TYPE22          source/interfaces/int22/hm_read_inter_type22.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_inter_fsi      ../starter/source/interfaces/reader/hm_read_inter_fsi.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_interfaces     ../starter/source/interfaces/reader/hm_read_interfaces.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl                ../starter/source/starter/freform.F
+      !||    hm_read_inter_type01   ../starter/source/interfaces/int01/hm_read_inter_type01.F
+      !||    hm_read_inter_type09   ../starter/source/interfaces/int09/hm_read_inter_type09.F
+      !||    hm_read_inter_type12   ../starter/source/interfaces/int12/hm_read_inter_type12.F
+      !||    hm_read_inter_type18   ../starter/source/interfaces/int18/hm_read_inter_type18.F
+      !||    hm_read_inter_type22   ../starter/source/interfaces/int22/hm_read_inter_type22.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_INTER_FSI(
      1        IPARI       ,STFAC      ,FRIGAP         ,XFILTR   , FRIC_P   ,
      2        IGRNOD      ,IGRSURF    ,ILAGM          ,UNITAB   , NI       ,

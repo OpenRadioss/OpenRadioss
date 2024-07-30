@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IG3DFINT                      source/elements/ige3d/ig3dfint.F
-Chd|-- called by -----------
-Chd|        IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ig3dfint     ../engine/source/elements/ige3d/ig3dfint.F
+      !||--- called by ------------------------------------------------------
+      !||    ig3duforc3   ../engine/source/elements/ige3d/ig3duforc3.F
+      !||====================================================================
       SUBROUTINE IG3DFINT(
      1   PM,      MXT,     KXIG3D,  SIG,
      2   NCTRL,   MATB,    FX,      FY,

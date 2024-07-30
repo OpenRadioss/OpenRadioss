@@ -20,96 +20,99 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|-- called by -----------
-Chd|        FORINT                        source/elements/forint.F      
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        BASIS8                        source/elements/solid/solide8/basis8.F
-Chd|        BOLTST                        source/elements/solid/solide/boltst.F
-Chd|        CSMALL3                       source/elements/solid/solide/csmall3.F
-Chd|        DEGENES8                      source/elements/solid/solide/degenes8.F
-Chd|        JACOB_F0                      source/elements/solid/solide8e/jacob_f0.F
-Chd|        NSVIS_SM12                    source/elements/solid/solide10/nsvis_sm12.F
-Chd|        S8EDEFO3                      source/elements/solid/solide8e/s8edefo3.F
-Chd|        S8EDEFOC3                     source/elements/solid/solide8e/s8edefoc3.F
-Chd|        S8EDEFOT12                    source/elements/solid/solide8e/s8edefot12.F
-Chd|        S8EDEFOT3                     source/elements/solid/solide8e/s8edefot3.F
-Chd|        S8EDEFW3                      source/elements/solid/solide8e/s8edefw3.F
-Chd|        S8EDERIC3                     source/elements/solid/solide8e/s8ederic3.F
-Chd|        S8EDERICM3                    source/elements/solid/solide8e/s8edericm3.F
-Chd|        S8EDERICT3                    source/elements/solid/solide8e/s8ederict3.F
-Chd|        S8EDERICTO3                   source/elements/solid/solide8e/s8edericto3.F
-Chd|        S8EDERIG3                     source/elements/solid/solide8e/s8ederig3.F
-Chd|        S8EDERIPR3                    source/elements/solid/solide8e/s8ederipr3.F
-Chd|        S8EDERISH2                    source/elements/solid/solide8e/s8ederish2.F
-Chd|        S8EDERI_2                     source/elements/solid/solide8e/s8ederi_2.F
-Chd|        S8EDERI_BIJ                   source/elements/solid/solide8e/s8ederi_bij.F
-Chd|        S8EFINT3                      source/elements/solid/solide8e/s8efint3.F
-Chd|        S8EFMOY3                      source/elements/solid/solide8e/s8efmoy3.F
-Chd|        S8EGETBIJ                     source/elements/solid/solide8e/s8egetbij.F
-Chd|        S8EGETPIJ                     source/elements/solid/solide8e/s8egetpij.F
-Chd|        S8EJACIP3                     source/elements/solid/solide8e/s8ejacip3.F
-Chd|        S8EJACIT3                     source/elements/solid/solide8e/s8ejacit3.F
-Chd|        S8EPRST_INI                   source/elements/solid/solide8e/s8eprst_ini.F
-Chd|        S8ESELECSH                    source/elements/solid/solide8e/s8eselecsh.F
-Chd|        S8ESELECSHT                   source/elements/solid/solide8e/s8eselecsht.F
-Chd|        S8ETHERM                      source/elements/solid/solide8e/s8etherm.F
-Chd|        S8ETOTSH10                    source/elements/solid/solide8e/s8etotsh10.F
-Chd|        S8EVIS3                       source/elements/solid/solide8e/s8evis3.F
-Chd|        S8E_SIGP                      source/elements/solid/solide8e/s8e_sig.F
-Chd|        S8E_SIG_A                     source/elements/solid/solide8e/s8e_sig_a.F
-Chd|        S8FOR_DISTOR                  source/elements/solid/solide/s8for_distor.F
-Chd|        S8FUPD11T12                   source/elements/solid/solide8e/s8fupd11t12.F
-Chd|        S8GET_X3                      source/elements/solid/solide/s8get_x3.F
-Chd|        S8SAV12                       source/elements/solid/solide/s8sav12.F
-Chd|        S8SAV3                        source/elements/solid/solide/s8sav3.F
-Chd|        S8SAVSR3                      source/elements/solid/solide/s8savsr3.F
-Chd|        S8ZDERIMS3                    source/elements/solid/solide8z/s8zderims3.F
-Chd|        S8ZFINTP3                     source/elements/solid/solide8z/s8zfintp3.F
-Chd|        S8ZFINT_REG                   source/elements/solid/solide8z/s8zfint_reg.F
-Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zsigp3.F
-Chd|        S8ZTEMPEL                     source/elements/solid/solide8z/s8ztempel.F
-Chd|        S8ZZERO3                      source/elements/solid/solide8z/s8zzero3.F
-Chd|        SBILAN                        source/elements/solid/solide/sbilan.F
-Chd|        SCOOR3                        source/elements/solid/solide/scoor3.F
-Chd|        SCOOR_CP2SP                   source/elements/solid/solidez/scoor_cp2sp.F
-Chd|        SCRE_SIG3                     source/elements/solid/solide/scre_sig3.F
-Chd|        SCUMU3                        source/elements/solid/solide/scumu3.F
-Chd|        SCUMU3P                       source/elements/solid/solide/scumu3p.F
-Chd|        SDLENMAX                      source/elements/solid/solide/sdlenmax.F
-Chd|        SDLEN_DEGE                    source/elements/solid/solide/sdlen_dege.F
-Chd|        SDLEN_SM11                    source/elements/solid/solide/sdlen_sm11.F
-Chd|        SFILLOPT                      source/elements/solid/solide/sfillopt.F
-Chd|        SGCOOR3                       source/elements/solid/solide/sgcoor3.F
-Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
-Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
-Chd|        SMALLG3                       source/elements/solid/solide/smallg3.F
-Chd|        SMALLGEO3                     source/elements/solid/solide/smallgeo3.F
-Chd|        SORDEF12                      source/elements/solid/solidez/sordef12.F
-Chd|        SORDEFT12                     source/elements/solid/solidez/sordeft12.F
-Chd|        SORDEFT3                      source/elements/solid/solidez/sordeft3.F
-Chd|        SORDEFTB                      source/elements/solid/solide8e/sordeftb.F
-Chd|        SRBILAN                       source/elements/solid/solide/srbilan.F
-Chd|        SRCOOR12                      source/elements/solid/solide/srcoor12.F
-Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
-Chd|        SRHO3                         source/elements/solid/solide/srho3.F
-Chd|        SROTA3                        source/elements/solid/solide/srota3.F
-Chd|        SROTO12_SIG                   source/elements/solid/solidez/sroto12_sig.F
-Chd|        SRROTA3                       source/elements/solid/solide/srrota3.F
-Chd|        SRROTADP                      source/elements/solid/solide/srrotadp.F
-Chd|        SSTRA3                        source/elements/solid/solide/sstra3.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        DT_MOD                        share/modules/dt_mod.F        
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    s8eforc3               ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||--- called by ------------------------------------------------------
+      !||    forint                 ../engine/source/elements/forint.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    basis8                 ../engine/source/elements/solid/solide8/basis8.F
+      !||    boltst                 ../engine/source/elements/solid/solide/boltst.F
+      !||    csmall3                ../engine/source/elements/solid/solide/csmall3.F
+      !||    degenes8               ../engine/source/elements/solid/solide/degenes8.F
+      !||    jacob_f0               ../engine/source/elements/solid/solide8e/jacob_f0.F
+      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+      !||    nsvis_sm12             ../engine/source/elements/solid/solide10/nsvis_sm12.F
+      !||    s8e_sig_a              ../engine/source/elements/solid/solide8e/s8e_sig_a.F
+      !||    s8e_sigp               ../engine/source/elements/solid/solide8e/s8e_sig.F
+      !||    s8edefo3               ../engine/source/elements/solid/solide8e/s8edefo3.F
+      !||    s8edefoc3              ../engine/source/elements/solid/solide8e/s8edefoc3.F
+      !||    s8edefot12             ../engine/source/elements/solid/solide8e/s8edefot12.F
+      !||    s8edefot3              ../engine/source/elements/solid/solide8e/s8edefot3.F
+      !||    s8edefw3               ../engine/source/elements/solid/solide8e/s8edefw3.F
+      !||    s8ederi_2              ../engine/source/elements/solid/solide8e/s8ederi_2.F
+      !||    s8ederi_bij            ../engine/source/elements/solid/solide8e/s8ederi_bij.F
+      !||    s8ederic3              ../engine/source/elements/solid/solide8e/s8ederic3.F
+      !||    s8edericm3             ../engine/source/elements/solid/solide8e/s8edericm3.F
+      !||    s8ederict3             ../engine/source/elements/solid/solide8e/s8ederict3.F
+      !||    s8edericto3            ../engine/source/elements/solid/solide8e/s8edericto3.F
+      !||    s8ederig3              ../engine/source/elements/solid/solide8e/s8ederig3.F
+      !||    s8ederipr3             ../engine/source/elements/solid/solide8e/s8ederipr3.F
+      !||    s8ederish2             ../engine/source/elements/solid/solide8e/s8ederish2.F
+      !||    s8efint3               ../engine/source/elements/solid/solide8e/s8efint3.F
+      !||    s8efmoy3               ../engine/source/elements/solid/solide8e/s8efmoy3.F
+      !||    s8egetbij              ../engine/source/elements/solid/solide8e/s8egetbij.F
+      !||    s8egetpij              ../engine/source/elements/solid/solide8e/s8egetpij.F
+      !||    s8ejacip3              ../engine/source/elements/solid/solide8e/s8ejacip3.F
+      !||    s8ejacit3              ../engine/source/elements/solid/solide8e/s8ejacit3.F
+      !||    s8eprst_ini            ../engine/source/elements/solid/solide8e/s8eprst_ini.F
+      !||    s8eselecsh             ../engine/source/elements/solid/solide8e/s8eselecsh.F
+      !||    s8eselecsht            ../engine/source/elements/solid/solide8e/s8eselecsht.F
+      !||    s8etherm               ../engine/source/elements/solid/solide8e/s8etherm.F
+      !||    s8etotsh10             ../engine/source/elements/solid/solide8e/s8etotsh10.F
+      !||    s8evis3                ../engine/source/elements/solid/solide8e/s8evis3.F
+      !||    s8for_distor           ../engine/source/elements/solid/solide/s8for_distor.F
+      !||    s8fupd11t12            ../engine/source/elements/solid/solide8e/s8fupd11t12.F
+      !||    s8get_x3               ../engine/source/elements/solid/solide/s8get_x3.F
+      !||    s8sav12                ../engine/source/elements/solid/solide/s8sav12.F
+      !||    s8sav3                 ../engine/source/elements/solid/solide/s8sav3.F
+      !||    s8savsr3               ../engine/source/elements/solid/solide/s8savsr3.F
+      !||    s8zderims3             ../engine/source/elements/solid/solide8z/s8zderims3.F
+      !||    s8zfint_reg            ../engine/source/elements/solid/solide8z/s8zfint_reg.F
+      !||    s8zfintp3              ../engine/source/elements/solid/solide8z/s8zfintp3.F
+      !||    s8zsigp3               ../engine/source/elements/solid/solide8z/s8zsigp3.F
+      !||    s8ztempel              ../engine/source/elements/solid/solide8z/s8ztempel.F
+      !||    s8zzero3               ../engine/source/elements/solid/solide8z/s8zzero3.F
+      !||    sbilan                 ../engine/source/elements/solid/solide/sbilan.F
+      !||    scoor3                 ../engine/source/elements/solid/solide/scoor3.F
+      !||    scoor_cp2sp            ../engine/source/elements/solid/solidez/scoor_cp2sp.F
+      !||    scre_sig3              ../engine/source/elements/solid/solide/scre_sig3.F
+      !||    scumu3                 ../engine/source/elements/solid/solide/scumu3.F
+      !||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
+      !||    sdlen_dege             ../engine/source/elements/solid/solide/sdlen_dege.F
+      !||    sdlen_sm11             ../engine/source/elements/solid/solide/sdlen_sm11.F
+      !||    sdlenmax               ../engine/source/elements/solid/solide/sdlenmax.F
+      !||    sfillopt               ../engine/source/elements/solid/solide/sfillopt.F
+      !||    sgcoor3                ../engine/source/elements/solid/solide/sgcoor3.F
+      !||    sgeodel3               ../engine/source/elements/solid/solide/sgeodel3.F
+      !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
+      !||    smallg3                ../engine/source/elements/solid/solide/smallg3.F
+      !||    smallgeo3              ../engine/source/elements/solid/solide/smallgeo3.F
+      !||    sordef12               ../engine/source/elements/solid/solidez/sordef12.F
+      !||    sordeft12              ../engine/source/elements/solid/solidez/sordeft12.F
+      !||    sordeft3               ../engine/source/elements/solid/solidez/sordeft3.F
+      !||    sordeftb               ../engine/source/elements/solid/solide8e/sordeftb.F
+      !||    srbilan                ../engine/source/elements/solid/solide/srbilan.F
+      !||    srcoor12               ../engine/source/elements/solid/solide/srcoor12.F
+      !||    srcoor3                ../engine/source/elements/solid/solide/srcoor3.F
+      !||    srho3                  ../engine/source/elements/solid/solide/srho3.F
+      !||    srota3                 ../engine/source/elements/solid/solide/srota3.F
+      !||    sroto12_sig            ../engine/source/elements/solid/solidez/sroto12_sig.F
+      !||    srrota3                ../engine/source/elements/solid/solide/srrota3.F
+      !||    srrotadp               ../engine/source/elements/solid/solide/srrotadp.F
+      !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
+      !||    startime               ../engine/source/system/timer.F
+      !||    stoptime               ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    dt_mod                 ../engine/share/modules/dt_mod.F
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE S8EFORC3(
      1   ELBUF_TAB,  NG,         PM,         GEO,
      2   IXS,        X,          A,          V,

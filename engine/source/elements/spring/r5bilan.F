@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R5BILAN                       source/elements/spring/r5bilan.F
-Chd|-- called by -----------
-Chd|        RFORC3                        source/elements/spring/rforc3.F
-Chd|-- calls ---------------
-Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F 
-Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
-Chd|====================================================================
+      !||====================================================================
+      !||    r5bilan               ../engine/source/elements/spring/r5bilan.F
+      !||--- called by ------------------------------------------------------
+      !||    rforc3                ../engine/source/elements/spring/rforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
+      !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+      !||====================================================================
       SUBROUTINE R5BILAN(
      1   EINT,    PARTSAV, IXR,     UMAS,
      2   V,       IPARTR,  UINER,   X,

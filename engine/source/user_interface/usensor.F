@@ -21,26 +21,31 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  USENSOR_DUM                   source/user_interface/usensor.F
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    usensor_dum   ../engine/source/user_interface/usensor.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2      ../engine/source/engine/radioss2.F
+      !||====================================================================
       SUBROUTINE USENSOR_DUM(IERR)
 C---------+---------+---+---+--------------------------------------------
 #include "implicit_f.inc"
        INTEGER IERR
        IERR=0
       END
-Chd|====================================================================
-Chd|  GET_U_NUMSENS                 source/user_interface/usensor.F
-Chd|-- called by -----------
-Chd|        CSENS3                        source/elements/shell/coque/csens3.F
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_u_numsens         ../engine/source/user_interface/usensor.F
+      !||--- called by ------------------------------------------------------
+      !||    csens3                ../engine/source/elements/shell/coque/csens3.F
+      !||    force                 ../engine/source/loads/general/force.F90
+      !||    forcepinch            ../engine/source/loads/general/forcepinch.F
+      !||    h3d_pre_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+      !||    h3d_skin_vector       ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
+      !||    load_pressure         ../engine/source/loads/general/load_pressure/load_pressure.F
+      !||    pfluid                ../engine/source/loads/general/pfluid/pfluid.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    user_interface_mod    ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       INTEGER FUNCTION GET_U_NUMSENS(IDSENS)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -84,13 +89,12 @@ C---
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_U_SENS_ID                 source/user_interface/usensor.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_u_sens_id        ../engine/source/user_interface/usensor.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod           ../engine/share/modules/sensor_mod.F
+      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       INTEGER FUNCTION GET_U_SENS_ID(ISENS)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -116,13 +120,20 @@ C=======================================================================
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  SET_U_SENS_VALUE              source/user_interface/usensor.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    set_u_sens_value      ../engine/source/user_interface/usensor.F
+      !||--- called by ------------------------------------------------------
+      !||    csens3                ../engine/source/elements/shell/coque/csens3.F
+      !||    force                 ../engine/source/loads/general/force.F90
+      !||    forcepinch            ../engine/source/loads/general/forcepinch.F
+      !||    h3d_pre_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+      !||    h3d_skin_vector       ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
+      !||    load_pressure         ../engine/source/loads/general/load_pressure/load_pressure.F
+      !||    pfluid                ../engine/source/loads/general/pfluid/pfluid.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    user_interface_mod    ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       INTEGER FUNCTION SET_U_SENS_VALUE(NSENS,IVAR,VAR)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -164,13 +175,20 @@ C
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_U_SENS_VALUE              source/user_interface/usensor.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_u_sens_value      ../engine/source/user_interface/usensor.F
+      !||--- called by ------------------------------------------------------
+      !||    csens3                ../engine/source/elements/shell/coque/csens3.F
+      !||    force                 ../engine/source/loads/general/force.F90
+      !||    forcepinch            ../engine/source/loads/general/forcepinch.F
+      !||    h3d_pre_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+      !||    h3d_skin_vector       ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
+      !||    load_pressure         ../engine/source/loads/general/load_pressure/load_pressure.F
+      !||    pfluid                ../engine/source/loads/general/pfluid/pfluid.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    user_interface_mod    ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       INTEGER FUNCTION GET_U_SENS_VALUE(NSENS, IVAR, VAR)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -211,14 +229,14 @@ C
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  SET_U_SENS_MAXVALUE           source/user_interface/usensor.F
-Chd|-- called by -----------
-Chd|        CSENS3                        source/elements/shell/coque/csens3.F
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    set_u_sens_maxvalue   ../engine/source/user_interface/usensor.F
+      !||--- called by ------------------------------------------------------
+      !||    csens3                ../engine/source/elements/shell/coque/csens3.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    user_interface_mod    ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       INTEGER FUNCTION SET_U_SENS_MAXVALUE(NSENS,IVAR,VAR)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -258,13 +276,20 @@ C=======================================================================
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_U_SENS_FPAR               source/user_interface/usensor.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_u_sens_fpar       ../engine/source/user_interface/usensor.F
+      !||--- called by ------------------------------------------------------
+      !||    csens3                ../engine/source/elements/shell/coque/csens3.F
+      !||    force                 ../engine/source/loads/general/force.F90
+      !||    forcepinch            ../engine/source/loads/general/forcepinch.F
+      !||    h3d_pre_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+      !||    h3d_skin_vector       ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
+      !||    load_pressure         ../engine/source/loads/general/load_pressure/load_pressure.F
+      !||    pfluid                ../engine/source/loads/general/pfluid/pfluid.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    user_interface_mod    ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       INTEGER FUNCTION GET_U_SENS_FPAR(NSENS,IVAR,VAR)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -309,13 +334,19 @@ C
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_U_SENS_IPAR               source/user_interface/usensor.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_u_sens_ipar       ../engine/source/user_interface/usensor.F
+      !||--- called by ------------------------------------------------------
+      !||    force                 ../engine/source/loads/general/force.F90
+      !||    forcepinch            ../engine/source/loads/general/forcepinch.F
+      !||    h3d_pre_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+      !||    h3d_skin_vector       ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
+      !||    load_pressure         ../engine/source/loads/general/load_pressure/load_pressure.F
+      !||    pfluid                ../engine/source/loads/general/pfluid/pfluid.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    user_interface_mod    ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       INTEGER FUNCTION GET_U_SENS_IPAR(NSENS,IVAR,VAR)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -359,13 +390,12 @@ C=======================================================================
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  SET_U_SENS_ACTI               source/user_interface/usensor.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    set_u_sens_acti      ../engine/source/user_interface/usensor.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod           ../engine/share/modules/sensor_mod.F
+      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       INTEGER FUNCTION SET_U_SENS_ACTI(NSENS)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -409,13 +439,12 @@ C---
       RETURN
       END
 c
-Chd|====================================================================
-Chd|  SET_U_SENS_DEACTI             source/user_interface/usensor.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    set_u_sens_deacti    ../engine/source/user_interface/usensor.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod           ../engine/share/modules/sensor_mod.F
+      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       INTEGER FUNCTION SET_U_SENS_DEACTI(NSENS)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -451,13 +480,12 @@ C---
       RETURN
       END
 c
-Chd|====================================================================
-Chd|  GET_U_SENS_ACTI               source/user_interface/usensor.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_u_sens_acti      ../engine/source/user_interface/usensor.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod           ../engine/share/modules/sensor_mod.F
+      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       my_real FUNCTION GET_U_SENS_ACTI(NSENS)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -502,14 +530,14 @@ C---
       RETURN
       END
 c
-Chd|====================================================================
-Chd|  GET_U_SENS                    source/user_interface/usensor.F
-Chd|-- called by -----------
-Chd|        RUSER32                       source/elements/spring/ruser32.F
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_u_sens           ../engine/source/user_interface/usensor.F
+      !||--- called by ------------------------------------------------------
+      !||    ruser32              ../engine/source/elements/spring/ruser32.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod           ../engine/share/modules/sensor_mod.F
+      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       my_real FUNCTION GET_U_SENS(USENS)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -565,13 +593,12 @@ C
 C----
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_U_SENS_DELAY              source/user_interface/usensor.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_u_sens_delay     ../engine/source/user_interface/usensor.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod           ../engine/share/modules/sensor_mod.F
+      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       my_real FUNCTION GET_U_SENS_DELAY(NSENS)
 C-----------------------------------------------
 C   M o d u l e s 

@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAW119_MEMBRANE               source/materials/mat/mat119/law119_membrane.F
-Chd|-- called by -----------
-Chd|        SIGEPS119C                    source/materials/mat/mat119/sigeps119c.F
-Chd|-- calls ---------------
-Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    law119_membrane       ../engine/source/materials/mat/mat119/law119_membrane.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps119c            ../engine/source/materials/mat/mat119/sigeps119c.F
+      !||--- calls      -----------------------------------------------------
+      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    table_mod             ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE LAW119_MEMBRANE(
      .            NEL    ,NUPARAM,NUVAR  ,UPARAM ,UVAR   ,
      .            GS     ,ET     ,DEPSXX ,DEPSYY ,DEPSXY    ,

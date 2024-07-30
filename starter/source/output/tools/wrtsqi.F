@@ -21,20 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|-- called by -----------
-Chd|        CONVWREST                     source/restart/ddsplit/wrrest.F
-Chd|        DSWREST                       source/restart/ddsplit/wrrest.F
-Chd|        EIGWREST                      source/restart/ddsplit/wrrest.F
-Chd|        FXBWRESTP                     source/restart/ddsplit/wrrest.F
-Chd|        FXTEMPWREST                   source/restart/ddsplit/wrrest.F
-Chd|        NFWREST                       source/restart/ddsplit/wrrest.F
-Chd|        PLYXFEM_WREST                 source/restart/ddsplit/wrrest.F
-Chd|        RIGMATWREST                   source/restart/ddsplit/wrrest.F
-Chd|-- calls ---------------
-Chd|        STRI                          source/tools/univ/stri.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    wrtsqi          ../starter/source/output/tools/wrtsqi.F
+      !||--- called by ------------------------------------------------------
+      !||    convwrest       ../starter/source/restart/ddsplit/wrrest.F
+      !||    dswrest         ../starter/source/restart/ddsplit/wrrest.F
+      !||    eigwrest        ../starter/source/restart/ddsplit/wrrest.F
+      !||    fxbwrestp       ../starter/source/restart/ddsplit/wrrest.F
+      !||    fxtempwrest     ../starter/source/restart/ddsplit/wrrest.F
+      !||    nfwrest         ../starter/source/restart/ddsplit/wrrest.F
+      !||    plyxfem_wrest   ../starter/source/restart/ddsplit/wrrest.F
+      !||    rigmatwrest     ../starter/source/restart/ddsplit/wrrest.F
+      !||====================================================================
       SUBROUTINE WRTSQI(IA,L,IFORM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    sh_offset_nproj_mod   ../starter/source/elements/shell/shell_offset/shell_offset_nproj.F90
+      !||--- called by ------------------------------------------------------
+      !||    shell_offsetp         ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
+      !||====================================================================
       module sh_offset_nproj_mod
 
       contains
@@ -30,6 +35,14 @@
 !=======================================================================================================================
 !!\brief This subroutine do nodal offset projection for shell
 !=======================================================================================================================
+      !||====================================================================
+      !||    sh_offset_nproj   ../starter/source/elements/shell/shell_offset/shell_offset_nproj.F90
+      !||--- called by ------------------------------------------------------
+      !||    shell_offsetp     ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
+      !||--- calls      -----------------------------------------------------
+      !||    normvec           ../starter/source/interfaces/inter3d1/i24sti3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine sh_offset_nproj(nshoset,ix_offset,numnod,xyz,shoset_n,itagn)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

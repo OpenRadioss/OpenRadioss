@@ -21,15 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C last SPH structures only (see RESTMOD for other SPH structures)
-Chd|====================================================================
-Chd|  SPH_MOD                       share/modules/sph_mod.F       
-Chd|-- called by -----------
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|        RESTALLOC                     source/output/restart/arralloc.F
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sph_mod      ../engine/share/modules/sph_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb       ../engine/source/output/restart/rdresb.F
+      !||    resol_head   ../engine/source/engine/resol_head.F
+      !||    restalloc    ../engine/source/output/restart/arralloc.F
+      !||    wrrestp      ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
       MODULE SPH_MOD
 #include "my_real.inc"
 

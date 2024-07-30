@@ -20,24 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CZKEL3                        source/elements/shell/coquez/czkel3.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        CMATC3                        source/elements/shell/coqueba/cmatc3.F
-Chd|        CZBE3                         source/elements/shell/coquez/czbe3.F
-Chd|        CZBER3                        source/elements/shell/coquez/czbe3.F
-Chd|        CZCOORK3                      source/elements/shell/coquez/czcoork3.F
-Chd|        CZLKEC3                       source/elements/shell/coquez/czlkec3.F
-Chd|        CZLKECG3                      source/elements/shell/coquez/czlkecg3.F
-Chd|        CZLKECR3                      source/elements/shell/coquez/czlkec3.F
-Chd|        CZLKECT3                      source/elements/shell/coquez/czlkect3.F
-Chd|        CZLKEN3                       source/elements/shell/coquez/czlken3.F
-Chd|        CZLKENR3                      source/elements/shell/coquez/czlken3.F
-Chd|        CZSUMG3                       source/elements/shell/coquez/czsumg3.F
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czkel3         ../engine/source/elements/shell/coquez/czkel3.F
+      !||--- calls      -----------------------------------------------------
+      !||    cmatc3         ../engine/source/elements/shell/coqueba/cmatc3.F
+      !||    czbe3          ../engine/source/elements/shell/coquez/czbe3.F
+      !||    czber3         ../engine/source/elements/shell/coquez/czbe3.F
+      !||    czcoork3       ../engine/source/elements/shell/coquez/czcoork3.F
+      !||    czlkec3        ../engine/source/elements/shell/coquez/czlkec3.F
+      !||    czlkecg3       ../engine/source/elements/shell/coquez/czlkecg3.F
+      !||    czlkecr3       ../engine/source/elements/shell/coquez/czlkec3.F
+      !||    czlkect3       ../engine/source/elements/shell/coquez/czlkect3.F
+      !||    czlken3        ../engine/source/elements/shell/coquez/czlken3.F
+      !||    czlkenr3       ../engine/source/elements/shell/coquez/czlken3.F
+      !||    czsumg3        ../engine/source/elements/shell/coquez/czsumg3.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod      ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
        SUBROUTINE CZKEL3 (
      1            JFT    ,JLT    ,NFT    ,NPT    ,MTN    ,
      2            ITHK   ,ISTRAIN,IPLA   ,PM     ,

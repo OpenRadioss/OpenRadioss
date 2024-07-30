@@ -20,18 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_SOL_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
-Chd|-- called by -----------
-Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin_scalar.F
-Chd|-- calls ---------------
-Chd|        GPSSTRAIN_SKIN                source/output/anim/generate/tensgpstrain.F
-Chd|        H3D_SOL_SKIN_SCALAR1          source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
-Chd|        SPMD_EXCH_NODAREA2            source/mpi/anim/spmd_exch_nodarea2.F
-Chd|        SPMD_EXCH_NODAREAI            source/mpi/anim/spmd_exch_nodareai.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_sol_skin_scalar    ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_skin_scalar        ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+      !||--- calls      -----------------------------------------------------
+      !||    gpsstrain_skin         ../engine/source/output/anim/generate/tensgpstrain.F
+      !||    h3d_sol_skin_scalar1   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
+      !||    spmd_exch_nodarea2     ../engine/source/mpi/anim/spmd_exch_nodarea2.F
+      !||    spmd_exch_nodareai     ../engine/source/mpi/anim/spmd_exch_nodareai.F
+      !||--- uses       -----------------------------------------------------
+      !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE H3D_SOL_SKIN_SCALAR(
      .                   ELBUF_TAB,SKIN_SCALAR, IPARG   ,IXS     ,X     ,PM  ,
      4                   IPARTS  ,IGEO    ,IXS10 ,IXS16 , IXS20  ,
@@ -135,14 +137,14 @@ C
 C-----------
       RETURN
       END 
-Chd|====================================================================
-Chd|  IDX_FLD_SOL                   source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
-Chd|-- called by -----------
-Chd|        H3D_SOL_SKIN_SCALAR1          source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        FINTERFLD                     source/materials/fail/fld/fail_fld_c.F
-Chd|====================================================================
+      !||====================================================================
+      !||    idx_fld_sol            ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_sol_skin_scalar1   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                 ../engine/source/tools/curve/finter.F
+      !||    finterfld              ../engine/source/materials/fail/fld/fail_fld_c.F
+      !||====================================================================
       SUBROUTINE IDX_FLD_SOL(
      1     NEL      ,NUPARAM  ,NFUNC    ,IFUNC    ,
      2     NPF      ,TF       ,UPARAM   ,EPS3     ,FLD_IDX  )
@@ -281,14 +283,14 @@ c
 C------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  DAM_FLD_SOL                   source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
-Chd|-- called by -----------
-Chd|        H3D_SOL_SKIN_SCALAR1          source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        FINTERFLD                     source/materials/fail/fld/fail_fld_c.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dam_fld_sol            ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_sol_skin_scalar1   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                 ../engine/source/tools/curve/finter.F
+      !||    finterfld              ../engine/source/materials/fail/fld/fail_fld_c.F
+      !||====================================================================
       SUBROUTINE DAM_FLD_SOL(
      1     NEL      ,NUPARAM  ,NFUNC    ,IFUNC    ,
      2     NPF      ,TF       ,UPARAM   ,EPS3     ,DAM)

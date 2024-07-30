@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_WRITE_SCALAR              source/output/h3d/h3d_results/h3d_write_scalar.F
-Chd|-- called by -----------
-Chd|        H3D_NODAL_SCALAR              source/output/h3d/h3d_results/h3d_nodal_scalar.F
-Chd|        H3D_ONED_SCALAR               source/output/h3d/h3d_results/h3d_oned_scalar.F
-Chd|        H3D_QUAD_SCALAR               source/output/h3d/h3d_results/h3d_quad_scalar.F
-Chd|        H3D_SHELL_SCALAR_1            source/output/h3d/h3d_results/h3d_shell_scalar_1.F
-Chd|        H3D_SOLID_SCALAR_1            source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-Chd|        H3D_SPH_SCALAR                source/output/h3d/h3d_results/h3d_sph_scalar.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_write_scalar     ../engine/source/output/h3d/h3d_results/h3d_write_scalar.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_nodal_scalar     ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
+      !||    h3d_oned_scalar      ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F
+      !||    h3d_quad_scalar      ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+      !||    h3d_shell_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
+      !||    h3d_solid_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+      !||    h3d_sph_scalar       ../engine/source/output/h3d/h3d_results/h3d_sph_scalar.F
+      !||====================================================================
       SUBROUTINE H3D_WRITE_SCALAR(
      .                  IOK_PART  ,IS_WRITTEN ,SCALAR ,NEL ,OFFSET ,NFT,
      .                  VALUE,IS_WRITTEN_VALUE)
@@ -59,11 +58,9 @@ C
  
       RETURN
       END
-Chd|====================================================================
-Chd|  H3D_WRITE_SCALAR_REAL         source/output/h3d/h3d_results/h3d_write_scalar.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_write_scalar_real   ../engine/source/output/h3d/h3d_results/h3d_write_scalar.F
+      !||====================================================================
       SUBROUTINE H3D_WRITE_SCALAR_REAL(
      .                  IOK_PART  ,IS_WRITTEN ,SCALAR ,I ,OFFSET ,NFT,
      .                  VALUE)

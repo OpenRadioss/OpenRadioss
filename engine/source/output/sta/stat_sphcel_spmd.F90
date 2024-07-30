@@ -20,12 +20,27 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    stat_sphcel_spmd_mod   ../engine/source/output/sta/stat_sphcel_spmd.F90
+      !||--- called by ------------------------------------------------------
+      !||    genstat                ../engine/source/output/sta/genstat.F
+      !||====================================================================
       module stat_sphcel_spmd_mod
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \sphcel element state file write for mpi
+      !||====================================================================
+      !||    stat_sphcel_spmd      ../engine/source/output/sta/stat_sphcel_spmd.F90
+      !||--- called by ------------------------------------------------------
+      !||    genstat               ../engine/source/output/sta/genstat.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_orders             ../common_source/tools/sort/my_orders.c
+      !||    spmd_iget_partn_sta   ../engine/source/mpi/output/spmd_stat.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
         subroutine stat_sphcel_spmd(numnod          ,numsph      ,numsphg      ,nisp          ,npart           ,  &
                                     ngroup          ,nparg       ,lipart1      ,stat_numelsph ,stat_numelsph_g ,  &
                                     lengsph         ,nspmd       ,itab         ,ipart         ,kxsp            ,  &

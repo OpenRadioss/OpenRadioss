@@ -20,17 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    mod_i25norm   ../starter/source/interfaces/inter3d1/i25norm3.F
+      !||--- called by ------------------------------------------------------
+      !||    i25norm       ../starter/source/interfaces/inter3d1/i25norm3.F
+      !||====================================================================
       module MOD_I25NORM
       implicit none
       REAL*4
      .       , DIMENSION(:,:,:), ALLOCATABLE :: WNOD_NORMAL
       END MODULE MOD_I25NORM
-Chd|====================================================================
-Chd|  I25NORM                       source/interfaces/inter3d1/i25norm3.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i25norm       ../starter/source/interfaces/inter3d1/i25norm3.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- uses       -----------------------------------------------------
+      !||    mod_i25norm   ../starter/source/interfaces/inter3d1/i25norm3.F
+      !||====================================================================
       SUBROUTINE I25NORM(NRTM,IRECTM,NUMNOD,X     ,NOD_NORMAL,
      .                  NMN  ,MSR   ,ITAB  ,NRTM0 ,MSEGTYP   ,
      .                  MVOISIN,EVOISIN,NEDGE,LEDGE,

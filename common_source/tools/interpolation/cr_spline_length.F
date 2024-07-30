@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CR_SPLINE_LENGTH
-Chd|-- called by -----------
-Chd|        DETCORD                       source/initial_conditions/detonation/detcord.F
-Chd|-- calls ---------------
-Chd|        CR_SPLINE_INTERPOL            source/initial_conditions/detonation/detcord.F
-Chd|        CR_SPLINE_KNOTS               source/initial_conditions/detonation/detcord.F
-Chd|====================================================================
+      !||====================================================================
+      !||    cr_spline_length     ../common_source/tools/interpolation/cr_spline_length.F
+      !||--- called by ------------------------------------------------------
+      !||    detcord              ../starter/source/initial_conditions/detonation/detcord.F
+      !||--- calls      -----------------------------------------------------
+      !||    cr_spline_interpol   ../common_source/tools/interpolation/cr_spline_interpol.F
+      !||    cr_spline_knots      ../common_source/tools/interpolation/cr_spline_knots.F
+      !||====================================================================
        SUBROUTINE CR_SPLINE_LENGTH(LOCAL_PT,ALPHA,T,LEN)
 C-----------------------------------------------
 C   D e s c r i p t i o n

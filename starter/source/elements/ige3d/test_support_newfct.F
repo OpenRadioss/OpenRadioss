@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TEST_SUPPORT_NEWFCT           source/elements/ige3d/test_support_newfct.F
-Chd|-- called by -----------
-Chd|        PRERAFIG3D                    source/elements/ige3d/prerafig3d.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    test_support_newfct   ../starter/source/elements/ige3d/test_support_newfct.F
+      !||--- called by ------------------------------------------------------
+      !||    prerafig3d            ../starter/source/elements/ige3d/prerafig3d.F
+      !||====================================================================
       SUBROUTINE TEST_SUPPORT_NEWFCT(KNOTLOCPC, DIRDEG, DEGTANG1, DEGTANG2, 
      .                               DIR,NEWKNOT,
      .                               TAB_COINKNOT,L_TAB_COINKNOT,TAB_NEWFCT,

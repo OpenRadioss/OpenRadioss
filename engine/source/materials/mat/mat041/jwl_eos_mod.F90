@@ -20,12 +20,23 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    jwl_eos_mod           ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    mixture_equilibrium   ../engine/source/materials/mat/mat041/sigeps41.F
+      !||====================================================================
       module jwl_eos_mod
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief jwl function for law 41
+      !||====================================================================
+      !||    jwl_eos_state         ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    jwl_eos_delta         ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
+      !||    mixture_equilibrium   ../engine/source/materials/mat/mat041/sigeps41.F
+      !||====================================================================
         subroutine jwl_eos_state(a,b,r1,r2 ,r3,cv ,eta,tmp,dedv,p,bth,dpdt,en)
 !  JWL EoS
 !  p = a*exp(-r1/eta) + b*exp(-r2/eta) + r3*eta*tmp
@@ -79,6 +90,15 @@
 
 
 !! \brief jwl function to be called in sigeps41
+      !||====================================================================
+      !||    jwl_eos_delta         ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    mixture_equilibrium   ../engine/source/materials/mat/mat041/sigeps41.F
+      !||--- calls      -----------------------------------------------------
+      !||    jwl_eos_state         ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod          ../common_source/modules/constant_mod.F
+      !||====================================================================
         function jwl_eos_delta(beta,funct_parameter)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

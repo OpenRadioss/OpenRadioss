@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_GET_MAX_ID                 source/devtools/hm_reader/hm_get_max_id.F
-Chd|-- called by -----------
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|-- calls ---------------
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_get_max_id     ../starter/source/devtools/hm_reader/hm_get_max_id.F
+      !||--- called by ------------------------------------------------------
+      !||    starter0          ../starter/source/starter/starter0.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_option_count   ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_start   ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../starter/share/message_module/message_mod.F
+      !||    submodel_mod      ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_GET_MAX_ID(NAME,IDMAX,LSUBMODEL)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

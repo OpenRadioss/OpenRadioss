@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7BUCE                        source/interfaces/intsort/i7buce.F
-Chd|-- called by -----------
-Chd|        I7MAIN_TRI                    source/interfaces/intsort/i7main_tri.F
-Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
-Chd|-- calls ---------------
-Chd|        I7TRI                         source/interfaces/intsort/i7tri.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7buce          ../engine/source/interfaces/intsort/i7buce.F
+      !||--- called by ------------------------------------------------------
+      !||    i7main_tri      ../engine/source/interfaces/intsort/i7main_tri.F
+      !||    inter_sort_07   ../engine/source/interfaces/int07/inter_sort_07.F
+      !||--- calls      -----------------------------------------------------
+      !||    i7tri           ../engine/source/interfaces/intsort/i7tri.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
        SUBROUTINE I7BUCE(
      1   X        ,IRECT   ,NSV          ,INACTI      ,CAND_P  ,
      2   NMN      ,NRTM    ,NSN          ,CAND_E      ,CAND_N  ,
@@ -170,18 +171,19 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  I7BUCE_VOX                    source/interfaces/intsort/i7buce.F
-Chd|-- called by -----------
-Chd|        I7MAIN_TRI                    source/interfaces/intsort/i7main_tri.F
-Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I7TRIVOX                      source/interfaces/intsort/i7trivox.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7buce_vox      ../engine/source/interfaces/intsort/i7buce.F
+      !||--- called by ------------------------------------------------------
+      !||    i7main_tri      ../engine/source/interfaces/intsort/i7main_tri.F
+      !||    inter_sort_07   ../engine/source/interfaces/int07/inter_sort_07.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||    i7trivox        ../engine/source/interfaces/intsort/i7trivox.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
        SUBROUTINE I7BUCE_VOX(
      1   X        ,IRECT   ,NSV     ,INACTI   ,CAND_P  ,
      2   NMN      ,NRTM    ,NSN     ,CAND_E   ,CAND_N  ,

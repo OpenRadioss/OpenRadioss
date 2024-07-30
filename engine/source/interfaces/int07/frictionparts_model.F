@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FRICTIONPARTS_MODEL_ORTHO     source/interfaces/int07/frictionparts_model.F
-Chd|-- called by -----------
-Chd|        I24MAINF                      source/interfaces/int24/i24main.F
-Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    frictionparts_model_ortho   ../engine/source/interfaces/int07/frictionparts_model.F
+      !||--- called by ------------------------------------------------------
+      !||    i24mainf                    ../engine/source/interfaces/int24/i24main.F
+      !||    i25mainf                    ../engine/source/interfaces/int25/i25mainf.F
+      !||    i7mainf                     ../engine/source/interfaces/int07/i7mainf.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box                     ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE FRICTIONPARTS_MODEL_ORTHO(
      1         INTFRIC     , JLT       ,IPARTFRICSI  ,IPARTFRICMI  ,ADPARTS_FRIC  ,
      2         NSET        , TABCOUPLEPARTS_FRIC,NPARTFRIC ,TABPARTS_FRIC ,TABCOEF_FRIC    ,             
@@ -328,16 +328,16 @@ C
       END
 
 
-Chd|====================================================================
-Chd|  FRICTIONPARTS_MODEL_ISOT      source/interfaces/int07/frictionparts_model.F
-Chd|-- called by -----------
-Chd|        I11MAINF                      source/interfaces/int11/i11mainf.F
-Chd|        I24MAINF                      source/interfaces/int24/i24main.F
-Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    frictionparts_model_isot   ../engine/source/interfaces/int07/frictionparts_model.F
+      !||--- called by ------------------------------------------------------
+      !||    i11mainf                   ../engine/source/interfaces/int11/i11mainf.F
+      !||    i24mainf                   ../engine/source/interfaces/int24/i24main.F
+      !||    i25mainf                   ../engine/source/interfaces/int25/i25mainf.F
+      !||    i7mainf                    ../engine/source/interfaces/int07/i7mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                     ../engine/source/tools/curve/finter.F
+      !||====================================================================
       SUBROUTINE FRICTIONPARTS_MODEL_ISOT(
      1         INTFRIC     , JLT       ,IPARTFRICSI  ,IPARTFRICMI  ,ADPARTS_FRIC  ,
      2         NSET        , TABCOUPLEPARTS_FRIC,NPARTFRIC ,TABPARTS_FRIC ,TABCOEF_FRIC    ,             

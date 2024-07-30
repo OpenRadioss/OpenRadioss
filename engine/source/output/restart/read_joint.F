@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ_JOINT                    source/output/restart/read_joint.F
-Chd|-- called by -----------
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        JOINT_MOD                     share/modules/joint_mod.F     
-Chd|        RESTMOD                       share/modules/restart_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    read_joint   ../engine/source/output/restart/read_joint.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb       ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_i_c     ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    joint_mod    ../engine/share/modules/joint_mod.F
+      !||    restmod      ../engine/share/modules/restart_mod.F
+      !||====================================================================
         SUBROUTINE READ_JOINT()
 !$COMMENT
 !       READ_JOINT description

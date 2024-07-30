@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CSIGINI                       source/elements/shell/coque/csigini.F
-Chd|-- called by -----------
-Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
-Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        CG2LEPS                       source/elements/shell/coqueba/scigini4.F
-Chd|        CG2LSIG                       source/elements/shell/coqueba/scigini4.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        LOC2ORTH                      source/elements/shell/coqueba/scigini4.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    csigini        ../starter/source/elements/shell/coque/csigini.F
+      !||--- called by ------------------------------------------------------
+      !||    c3init3        ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cinit3         ../starter/source/elements/shell/coque/cinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../starter/source/output/message/message.F
+      !||    cg2leps        ../starter/source/elements/shell/coqueba/scigini4.F
+      !||    cg2lsig        ../starter/source/elements/shell/coqueba/scigini4.F
+      !||    fretitl2       ../starter/source/starter/freform.F
+      !||    loc2orth       ../starter/source/elements/shell/coqueba/scigini4.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE CSIGINI(ELBUF_STR,
      1           JFT   ,JLT   ,NFT   ,NPT  ,ISTRAIN,
      2           THK   ,EINT  ,GSTR  ,HH   ,PLAS   ,

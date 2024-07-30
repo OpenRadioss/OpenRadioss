@@ -20,17 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FRECPL                        source/input/frecpl.F         
-Chd|-- called by -----------
-Chd|        FREFORM                       source/input/freform.F        
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        ERRMSG                        source/input/errmsg.F         
-Chd|        WRIUSC2                       source/input/wriusc2.F        
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    frecpl                 ../engine/source/input/frecpl.F
+      !||--- called by ------------------------------------------------------
+      !||    freform                ../engine/source/input/freform.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||    errmsg                 ../engine/source/input/errmsg.F
+      !||    wriusc2                ../engine/source/input/wriusc2.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE FRECPL(IKAD,KEY0,KCPL)
 C-----------------------------------------------
 C   M o d u l e s

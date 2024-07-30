@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STAT_SPRING_SPMD              source/output/sta/stat_spring_spmd.F
-Chd|-- called by -----------
-Chd|        GENSTAT                       source/output/sta/genstat.F   
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        SPMD_IGET_PARTN_STA           source/mpi/output/spmd_stat.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    stat_spring_spmd      ../engine/source/output/sta/stat_spring_spmd.F
+      !||--- called by ------------------------------------------------------
+      !||    genstat               ../engine/source/output/sta/genstat.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_orders             ../common_source/tools/sort/my_orders.c
+      !||    spmd_iget_partn_sta   ../engine/source/mpi/output/spmd_stat.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE STAT_SPRING_SPMD(ITAB   ,IPART     ,IXR   ,IPARTR,IPART_STATE,
      .                            NODTAG ,STAT_INDXR,LENGR ,IPARG ,ELBUF_TAB  ,
      .                            IDEL      )

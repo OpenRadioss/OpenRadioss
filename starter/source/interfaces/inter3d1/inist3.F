@@ -20,16 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIST3                        source/interfaces/inter3d1/inist3.F
-Chd|-- called by -----------
-Chd|        I12TID3                       source/interfaces/inter3d1/i12tid3.F
-Chd|        I1TID3                        source/interfaces/inter3d1/i1tid3.F
-Chd|        I3PEN3                        source/interfaces/inter3d1/i3pen3.F
-Chd|        I5PWR3                        source/interfaces/inter3d1/i3pen3.F
-Chd|        I6PEN3                        source/interfaces/inter3d1/i6pen3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inist3    ../starter/source/interfaces/inter3d1/inist3.F
+      !||--- called by ------------------------------------------------------
+      !||    i12tid3   ../starter/source/interfaces/inter3d1/i12tid3.F
+      !||    i1tid3    ../starter/source/interfaces/inter3d1/i1tid3.F
+      !||    i3pen3    ../starter/source/interfaces/inter3d1/i3pen3.F
+      !||    i5pwr3    ../starter/source/interfaces/inter3d1/i3pen3.F
+      !||    i6pen3    ../starter/source/interfaces/inter3d1/i6pen3.F
+      !||====================================================================
       SUBROUTINE INIST3(N1,N2,N3,SSC,TTC,IER,ALP,XX1,XX2,XX3,XS1,YS1,ZS1,XC,YC,ZC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

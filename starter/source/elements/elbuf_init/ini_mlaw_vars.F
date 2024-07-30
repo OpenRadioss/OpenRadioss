@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INI_MLAW_VARS                 source/elements/elbuf_init/ini_mlaw_vars.F
-Chd|-- called by -----------
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
-Chd|-- calls ---------------
-Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    ini_mlaw_vars          ../starter/source/elements/elbuf_init/ini_mlaw_vars.F
+      !||--- called by ------------------------------------------------------
+      !||    read_material_models   ../starter/source/materials/read_material_models.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
+      !||====================================================================
       SUBROUTINE INI_MLAW_VARS(MLAW_TAG ,NUMMAT)
 C-----------------------------------------------
 C     M o d u l e s

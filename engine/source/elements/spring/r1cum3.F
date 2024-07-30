@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R1CUM3                        source/elements/spring/r1cum3.F
-Chd|-- called by -----------
-Chd|        RFORC3                        source/elements/spring/rforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    r1cum3   ../engine/source/elements/spring/r1cum3.F
+      !||--- called by ------------------------------------------------------
+      !||    rforc3   ../engine/source/elements/spring/rforc3.F
+      !||====================================================================
       SUBROUTINE R1CUM3(
      1   F,       FOR,     STI,     STIFN,
      2   FX1,     FX2,     FY1,     FY2,

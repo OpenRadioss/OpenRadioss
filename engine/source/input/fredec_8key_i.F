@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C-----------------------------------------------
-Chd|====================================================================
-Chd|  FREDEC_8KEY_I                 source/input/fredec_8key_i.F  
-Chd|-- called by -----------
-Chd|        FREANIM                       source/output/anim/reader/freanim.F
-Chd|        FREDYNAIN                     source/input/fredynain.F      
-Chd|        FRESTAT                       source/input/frestat.F        
-Chd|        H3D_READ                      source/output/h3d/h3d_build_fortran/h3d_read.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fredec_8key_i          ../engine/source/input/fredec_8key_i.F
+      !||--- called by ------------------------------------------------------
+      !||    freanim                ../engine/source/output/anim/reader/freanim.F
+      !||    fredynain              ../engine/source/input/fredynain.F
+      !||    frestat                ../engine/source/input/frestat.F
+      !||    h3d_read               ../engine/source/output/h3d/h3d_build_fortran/h3d_read.F
+      !||--- uses       -----------------------------------------------------
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE FREDEC_8KEY_I(CART, KEY2, KEY3, KEY4, KEY5, KEY6, KEY7, KEY8, NBC)
 C-----------------------------------------------
 C   M o d u l e s

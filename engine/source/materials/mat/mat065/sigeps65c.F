@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS65C                     source/materials/mat/mat065/sigeps65c.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|-- calls ---------------
-Chd|        EQSOLV_2                      source/materials/mat/mat065/sigeps65c.F
-Chd|        INTERSTAR                     source/materials/mat/mat065/sigeps65c.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps65c   ../engine/source/materials/mat/mat065/sigeps65c.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc      ../engine/source/materials/mat_share/mulawc.F
+      !||--- calls      -----------------------------------------------------
+      !||    eqsolv_2    ../engine/source/materials/mat/mat065/sigeps65c.F
+      !||    finter      ../engine/source/tools/curve/finter.F
+      !||    interstar   ../engine/source/materials/mat/mat065/sigeps65c.F
+      !||====================================================================
       SUBROUTINE SIGEPS65C(
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
      2     NPF    ,NPT0    ,IPT     ,IFLAG   ,
@@ -527,13 +528,12 @@ C------------------------------------------
       RETURN
       END SUBROUTINE SIGEPS65C
 
-Chd|====================================================================
-Chd|  EQSOLV_2                      source/materials/mat/mat065/sigeps65c.F
-Chd|-- called by -----------
-Chd|        SIGEPS65                      source/materials/mat/mat065/sigeps65.F
-Chd|        SIGEPS65C                     source/materials/mat/mat065/sigeps65c.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    eqsolv_2    ../engine/source/materials/mat/mat065/sigeps65c.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps65    ../engine/source/materials/mat/mat065/sigeps65.F
+      !||    sigeps65c   ../engine/source/materials/mat/mat065/sigeps65c.F
+      !||====================================================================
       SUBROUTINE EQSOLV_2(A,B,C,X1,X2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -567,13 +567,12 @@ c-----------
       RETURN
       END SUBROUTINE EQSOLV_2
       
-Chd|====================================================================
-Chd|  INTERSTAR                     source/materials/mat/mat065/sigeps65c.F
-Chd|-- called by -----------
-Chd|        SIGEPS65                      source/materials/mat/mat065/sigeps65.F
-Chd|        SIGEPS65C                     source/materials/mat/mat065/sigeps65c.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    interstar   ../engine/source/materials/mat/mat065/sigeps65c.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps65    ../engine/source/materials/mat/mat065/sigeps65.F
+      !||    sigeps65c   ../engine/source/materials/mat/mat065/sigeps65c.F
+      !||====================================================================
       SUBROUTINE INTERSTAR(TF    ,IAD   ,IPOS  ,ILEN  ,NEL   ,
      .                     X     ,EPSS_i,DYDX  ,E     ,Y  ,YFAC   )
 C-----------------------------------------------

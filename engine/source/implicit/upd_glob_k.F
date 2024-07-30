@@ -20,34 +20,35 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UPD_GLOB_K                    source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_K_EIG                     stub/imp_k_eig.F              
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        BC_IMP0                       source/constraints/general/bcs/bc_imp0.F
-Chd|        BC_IMP1                       source/constraints/general/bcs/bc_imp0.F
-Chd|        BC_IMPA                       source/constraints/general/bcs/bc_imp0.F
-Chd|        CONDENS_B                     source/implicit/upd_glob_k.F  
-Chd|        CONDENS_K                     source/implicit/upd_glob_k.F  
-Chd|        DIM_FVBCL                     source/constraints/general/impvel/fv_imp0.F
-Chd|        FVBC_ALLO                     source/constraints/general/impvel/fv_imp0.F
-Chd|        FVBC_IMPL                     source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_IMP0                       source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_IMPL                       source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_RW0                        source/constraints/general/impvel/fv_imp0.F
-Chd|        I2_IMP0                       source/interfaces/interf/i2_imp0.F
-Chd|        INI_DOFSPC                    source/implicit/upd_glob_k.F  
-Chd|        RBE2_IMP0                     source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE3_IMP0                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBY_IMP0                      source/constraints/general/rbody/rby_imp0.F
-Chd|        RM_IMP0                       source/model/remesh/rm_imp0.F 
-Chd|        UPD_ASPC                      source/constraints/general/bcs/bc_imp0.F
-Chd|        IMP_FVBCL                     share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    upd_glob_k      ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_buck        ../engine/source/implicit/imp_buck.F
+      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
+      !||    imp_k_eig       ../engine/stub/imp_k_eig.F
+      !||    imp_solv        ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    bc_imp0         ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    bc_imp1         ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    bc_impa         ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    condens_b       ../engine/source/implicit/upd_glob_k.F
+      !||    condens_k       ../engine/source/implicit/upd_glob_k.F
+      !||    dim_fvbcl       ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fv_imp0         ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fv_impl         ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fv_rw0          ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fvbc_allo       ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fvbc_impl       ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    i2_imp0         ../engine/source/interfaces/interf/i2_imp0.F
+      !||    ini_dofspc      ../engine/source/implicit/upd_glob_k.F
+      !||    rbe2_imp0       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe3_imp0       ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rby_imp0        ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||    rm_imp0         ../engine/source/model/remesh/rm_imp0.F
+      !||    upd_aspc        ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_fvbcl       ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE UPD_GLOB_K(ICODT ,ICODR ,ISKEW ,IBFV    ,NPC    ,
      1                      TF    ,VEL   ,XFRAME ,
      2                      RBY   ,X     ,SKEW   ,LPBY   ,NPBY   ,
@@ -206,14 +207,14 @@ C -----update---condense-IKC>=1------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CONDENS_K                     source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F  
-Chd|        UPD_INT_K                     source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|        CONDENS_K0                    source/implicit/upd_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    condens_k    ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    upd_glob_k   ../engine/source/implicit/upd_glob_k.F
+      !||    upd_int_k    ../engine/source/implicit/upd_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    condens_k0   ../engine/source/implicit/upd_glob_k.F
+      !||====================================================================
       SUBROUTINE CONDENS_K(
      1                      NDDL  ,NNZ   ,IADK   ,JDIK   ,
      2                      LT_K  ,IKC   )
@@ -259,12 +260,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CONDENS_K0                    source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        CONDENS_K                     source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    condens_k0   ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    condens_k    ../engine/source/implicit/upd_glob_k.F
+      !||====================================================================
       SUBROUTINE CONDENS_K0(
      1                      NDDL  ,NNZ   ,IADK   ,JDIK   ,NL    ,
      2                      LT_K  ,IKC   ,IFIX   ,NDF    ,NDL   ,
@@ -320,12 +320,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CONDENS_IND                   source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        UPD_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    condens_ind   ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    upd_fr_k      ../engine/source/mpi/implicit/imp_fri.F
+      !||====================================================================
       SUBROUTINE CONDENS_IND(NDDL  ,NNZ   ,IADK  ,JDIK   ,IKC   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -378,25 +377,24 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CONDENS_B                     source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        D_TO_U                        source/implicit/produt_v.F    
-Chd|        EXT_RHS                       source/implicit/upd_glob_k.F  
-Chd|        GET_FEXT                      source/implicit/imp_solv.F    
-Chd|        IMP_FHHT1                     source/implicit/imp_dyna.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|        PRODUT_U                      source/implicit/produt_v.F    
-Chd|        PRODUT_U2                     source/implicit/produt_v.F    
-Chd|        PRODUT_UH                     source/implicit/produt_v.F    
-Chd|        PRODUT_UH2                    source/implicit/produt_v.F    
-Chd|        PRODUT_UHP                    source/implicit/produt_v.F    
-Chd|        PRODUT_UHP2                   source/implicit/produt_v.F    
-Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F  
-Chd|        UPD_INT_K                     source/implicit/upd_glob_k.F  
-Chd|        UPD_RHS                       source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    condens_b     ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    d_to_u        ../engine/source/implicit/produt_v.F
+      !||    ext_rhs       ../engine/source/implicit/upd_glob_k.F
+      !||    get_fext      ../engine/source/implicit/imp_solv.F
+      !||    imp_fhht1     ../engine/source/implicit/imp_dyna.F
+      !||    imp_solv      ../engine/source/implicit/imp_solv.F
+      !||    produt_u      ../engine/source/implicit/produt_v.F
+      !||    produt_u2     ../engine/source/implicit/produt_v.F
+      !||    produt_uh     ../engine/source/implicit/produt_v.F
+      !||    produt_uh2    ../engine/source/implicit/produt_v.F
+      !||    produt_uhp    ../engine/source/implicit/produt_v.F
+      !||    produt_uhp2   ../engine/source/implicit/produt_v.F
+      !||    upd_glob_k    ../engine/source/implicit/upd_glob_k.F
+      !||    upd_int_k     ../engine/source/implicit/upd_glob_k.F
+      !||    upd_rhs       ../engine/source/implicit/upd_glob_k.F
+      !||====================================================================
       SUBROUTINE CONDENS_B(NDDL  ,IKC   ,B   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -430,25 +428,26 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  UPD_INT_K                     source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_INT_K                     source/implicit/imp_int_k.F   
-Chd|-- calls ---------------
-Chd|        BC_IMP0                       source/constraints/general/bcs/bc_imp0.F
-Chd|        BC_IMP1                       source/constraints/general/bcs/bc_imp0.F
-Chd|        BC_IMPA                       source/constraints/general/bcs/bc_imp0.F
-Chd|        CONDENS_B                     source/implicit/upd_glob_k.F  
-Chd|        CONDENS_K                     source/implicit/upd_glob_k.F  
-Chd|        CP_REAL                       source/implicit/produt_v.F    
-Chd|        FV_IMPI                       source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_IMPL                       source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_RW0                        source/constraints/general/impvel/fv_imp0.F
-Chd|        I2_IMPI                       source/interfaces/interf/i2_imp0.F
-Chd|        RBE2_IMPI                     source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE3_IMPI                     source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBY_IMPI                      source/constraints/general/rbody/rby_imp0.F
-Chd|====================================================================
+      !||====================================================================
+      !||    upd_int_k       ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_int_k       ../engine/source/implicit/imp_int_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    bc_imp0         ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    bc_imp1         ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    bc_impa         ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    condens_b       ../engine/source/implicit/upd_glob_k.F
+      !||    condens_k       ../engine/source/implicit/upd_glob_k.F
+      !||    cp_real         ../engine/source/implicit/produt_v.F
+      !||    fv_impi         ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fv_impl         ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fv_rw0          ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    i2_impi         ../engine/source/interfaces/interf/i2_imp0.F
+      !||    rbe2_impi       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe3_impi       ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rby_impi        ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE UPD_INT_K(ICODT  ,ICODR ,ISKEW ,IBFV    ,NPC    ,
      1                      TF    ,VEL   ,XFRAME ,
      2                      RBY   ,X     ,SKEW   ,LPBY   ,NPBY  ,
@@ -622,33 +621,34 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  UPD_RHS                       source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        BC_IMPR1                      source/constraints/general/bcs/bc_imp0.F
-Chd|        CONDENS_B                     source/implicit/upd_glob_k.F  
-Chd|        EXT_RHS                       source/implicit/upd_glob_k.F  
-Chd|        FV_IMPRL                      source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_RWLR0                      source/constraints/general/rwall/srw_imp.F
-Chd|        I2_IMPR1                      source/interfaces/interf/i2_imp1.F
-Chd|        I2_IMPR2                      source/interfaces/interf/i2_imp1.F
-Chd|        IMP_DYCRB                     source/implicit/imp_dyna.F    
-Chd|        IMP_DYNAR                     source/implicit/imp_dyna.F    
-Chd|        IMP_FHHT                      source/implicit/imp_dyna.F    
-Chd|        IMP_FHHT1                     source/implicit/imp_dyna.F    
-Chd|        IMP_SETB                      source/implicit/imp_setb.F    
-Chd|        IMP_SETBA                     source/implicit/imp_setb.F    
-Chd|        IMP_SETBP                     source/implicit/imp_setb.F    
-Chd|        RBE2_IMPR1                    source/constraints/general/rbe2/rbe2_imp0.F
-Chd|        RBE3_IMPR1                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBE3_IMPR2                    source/constraints/general/rbe3/rbe3_imp0.F
-Chd|        RBY_IMPR1                     source/constraints/general/rbody/rby_imp0.F
-Chd|        RBY_IMPR2                     source/constraints/general/rbody/rby_imp0.F
-Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
-Chd|====================================================================
+      !||====================================================================
+      !||    upd_rhs         ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
+      !||    imp_solv        ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    bc_impr1        ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    condens_b       ../engine/source/implicit/upd_glob_k.F
+      !||    ext_rhs         ../engine/source/implicit/upd_glob_k.F
+      !||    fv_imprl        ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fv_rwlr0        ../engine/source/constraints/general/rwall/srw_imp.F
+      !||    i2_impr1        ../engine/source/interfaces/interf/i2_imp1.F
+      !||    i2_impr2        ../engine/source/interfaces/interf/i2_imp1.F
+      !||    imp_dycrb       ../engine/source/implicit/imp_dyna.F
+      !||    imp_dynar       ../engine/source/implicit/imp_dyna.F
+      !||    imp_fhht        ../engine/source/implicit/imp_dyna.F
+      !||    imp_fhht1       ../engine/source/implicit/imp_dyna.F
+      !||    imp_setb        ../engine/source/implicit/imp_setb.F
+      !||    imp_setba       ../engine/source/implicit/imp_setb.F
+      !||    imp_setbp       ../engine/source/implicit/imp_setb.F
+      !||    rbe2_impr1      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe3_impr1      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rbe3_impr2      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+      !||    rby_impr1       ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||    rby_impr2       ../engine/source/constraints/general/rbody/rby_imp0.F
+      !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE UPD_RHS(ICODT ,ICODR ,ISKEW ,IBFV    ,XFRAME ,
      1                   RBY   ,X     ,SKEW   ,LPBY   ,NPBY   ,
      2                   NRBYAC,IRBYAC,NINT2  ,IINT2  ,IPARI  ,
@@ -837,22 +837,22 @@ C-------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  EXT_RHS                       source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        UPD_RHS                       source/implicit/upd_glob_k.F  
-Chd|        UPD_RHS_FR                    source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        BC_IMPR1                      source/constraints/general/bcs/bc_imp0.F
-Chd|        CONDENS_B                     source/implicit/upd_glob_k.F  
-Chd|        CP_REAL                       source/implicit/produt_v.F    
-Chd|        FV_IMPRL                      source/constraints/general/impvel/fv_imp0.F
-Chd|        FV_RWLR0                      source/constraints/general/rwall/srw_imp.F
-Chd|        IMP_SETBA                     source/implicit/imp_setb.F    
-Chd|        IMP_SETBP                     source/implicit/imp_setb.F    
-Chd|        PRODUT_W                      source/implicit/produt_v.F    
-Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ext_rhs       ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    upd_rhs       ../engine/source/implicit/upd_glob_k.F
+      !||    upd_rhs_fr    ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    bc_impr1      ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    condens_b     ../engine/source/implicit/upd_glob_k.F
+      !||    cp_real       ../engine/source/implicit/produt_v.F
+      !||    fv_imprl      ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    fv_rwlr0      ../engine/source/constraints/general/rwall/srw_imp.F
+      !||    imp_setba     ../engine/source/implicit/imp_setb.F
+      !||    imp_setbp     ../engine/source/implicit/imp_setb.F
+      !||    produt_w      ../engine/source/implicit/produt_v.F
+      !||    spmd_sumf_v   ../engine/source/mpi/implicit/imp_spmd.F
+      !||====================================================================
       SUBROUTINE EXT_RHS(ICODT ,ICODR ,ISKEW ,IBFV    ,XFRAME ,
      1                   X     ,SKEW  ,NDOF  ,IDDL    ,IKC    ,
      4                   NDDL0 ,B     ,INLOC  ,LJ     ,AC     ,
@@ -912,17 +912,18 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  RER02                         source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        IMP_SETBP                     source/implicit/imp_setb.F    
-Chd|        PRODUT_W                      source/implicit/produt_v.F    
-Chd|        RECUKIN                       source/implicit/recudis.F     
-Chd|        RER_INT_V                     source/implicit/upd_glob_k.F  
-Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rer02           ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv        ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    imp_setbp       ../engine/source/implicit/imp_setb.F
+      !||    produt_w        ../engine/source/implicit/produt_v.F
+      !||    recukin         ../engine/source/implicit/recudis.F
+      !||    rer_int_v       ../engine/source/implicit/upd_glob_k.F
+      !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE RER02(RBY   ,LPBY  ,NPBY  ,SKEW  ,ISKEW ,
      1                   ITAB  ,WEIGHT,MS    ,IN    ,
      2                   IBFV  ,VEL   ,ICODT,ICODR ,
@@ -1054,15 +1055,16 @@ C
      .       ' REFERENCE RESIDUAL(F) NORM HAS BEEN CHANGED TO:',E11.4)
       RETURN
       END
-Chd|====================================================================
-Chd|  RER_INT_V                     source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        RER02                         source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|        UD_INT11                      source/implicit/upd_glob_k.F  
-Chd|        UD_INT5                       source/implicit/upd_glob_k.F  
-Chd|        UD_INT7                       source/implicit/upd_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    rer_int_v       ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    rer02           ../engine/source/implicit/upd_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    ud_int11        ../engine/source/implicit/upd_glob_k.F
+      !||    ud_int5         ../engine/source/implicit/upd_glob_k.F
+      !||    ud_int7         ../engine/source/implicit/upd_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE RER_INT_V(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
      2    X         ,UD             )
@@ -1139,13 +1141,13 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- ----
-Chd|====================================================================
-Chd|  UD_INT7                       source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        RER_INT_V                     source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|        INIHI7                        source/implicit/upd_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    ud_int7     ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    rer_int_v   ../engine/source/implicit/upd_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    inihi7      ../engine/source/implicit/upd_glob_k.F
+      !||====================================================================
       SUBROUTINE UD_INT7(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT    ,NSV       ,
      2    NSN       ,X         ,UD          )
@@ -1204,13 +1206,13 @@ C--------secnd node-----add case Ud_s >0
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  UD_INT11                      source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        RER_INT_V                     source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|        INIHI11                       source/implicit/upd_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    ud_int11    ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    rer_int_v   ../engine/source/implicit/upd_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    inihi11     ../engine/source/implicit/upd_glob_k.F
+      !||====================================================================
       SUBROUTINE UD_INT11(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECTS   ,IRECTM    ,
      2    NSN       ,X         ,UD        )
@@ -1254,12 +1256,11 @@ C--------secnd node-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  INIHI7                        source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        UD_INT7                       source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inihi7    ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ud_int7   ../engine/source/implicit/upd_glob_k.F
+      !||====================================================================
       SUBROUTINE INIHI7(NS,IRECT,X    ,H)
 C
 C-----------------------------------------------
@@ -1440,12 +1441,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  INIHI11                       source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        UD_INT11                      source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inihi11    ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ud_int11   ../engine/source/implicit/upd_glob_k.F
+      !||====================================================================
       SUBROUTINE INIHI11(NS, NM, X  ,HS ,HM)
 C
 C-----------------------------------------------
@@ -1520,17 +1520,18 @@ C
       RETURN
       END
 C   --------- ----
-Chd|====================================================================
-Chd|  UD_INT5                       source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        RER_INT_V                     source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|        I3CST3                        source/interfaces/inter3d/i3cst3.F
-Chd|        I3DIS3                        source/interfaces/inter3d/i3dis3.F
-Chd|        I3GAP3                        source/interfaces/inter3d/i3gap3.F
-Chd|        I5CORK3                       source/interfaces/inter3d/i5cork3.F
-Chd|        UD_INTG5                      source/implicit/upd_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    ud_int5         ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    rer_int_v       ../engine/source/implicit/upd_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    i3cst3          ../engine/source/interfaces/inter3d/i3cst3.F
+      !||    i3dis3          ../engine/source/interfaces/inter3d/i3dis3.F
+      !||    i3gap3          ../engine/source/interfaces/inter3d/i3gap3.F
+      !||    i5cork3         ../engine/source/interfaces/inter3d/i5cork3.F
+      !||    ud_intg5        ../engine/source/implicit/upd_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE UD_INT5(
      1                   IPARI ,INTBUF_TAB,X    ,NUM_IMP,
      2                   CAND_N,CAND_E ,UD   )
@@ -1642,12 +1643,11 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- ----
-Chd|====================================================================
-Chd|  UD_INTG5                      source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        UD_INT5                       source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ud_intg5   ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ud_int5    ../engine/source/implicit/upd_glob_k.F
+      !||====================================================================
       SUBROUTINE UD_INTG5(LFT    ,LLT    ,NSVG   ,JX1    ,JX2    ,
      .                    JX3    ,JX4    ,UD     ,H1     ,H2     ,
      2                    H3     ,H4     ,XFACE)
@@ -1701,13 +1701,14 @@ C--------secnd node-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  INI_DOFSPC                    source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|        COLINEAR3                     source/implicit/upd_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    ini_dofspc      ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    upd_glob_k      ../engine/source/implicit/upd_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    colinear3       ../engine/source/implicit/upd_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INI_DOFSPC(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,
      2    IINT2     ,IPARI     ,INTBUF_TAB,NDOF      ,IRBE3     ,
@@ -1865,12 +1866,11 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  COLINEAR3                     source/implicit/upd_glob_k.F  
-Chd|-- called by -----------
-Chd|        INI_DOFSPC                    source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    colinear3    ../engine/source/implicit/upd_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ini_dofspc   ../engine/source/implicit/upd_glob_k.F
+      !||====================================================================
       SUBROUTINE COLINEAR3(N1,N2,N3,X,ICOL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2VIT28                       source/interfaces/interf/i2vit28.F
-Chd|-- called by -----------
-Chd|        INTTI2V                       source/interfaces/interf/intti2v.F
-Chd|-- calls ---------------
-Chd|        I2VIROT3                      source/interfaces/interf/i2vit3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i2vit28         ../engine/source/interfaces/interf/i2vit28.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2v         ../engine/source/interfaces/interf/intti2v.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2virot3        ../engine/source/interfaces/interf/i2vit3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I2VIT28(INTBUF_TAB,IPARI,WEIGHT,NSN ,
      .                   X    ,V   ,A    ,VR   ,AR   ,
      .                   MS  ,IN   )

@@ -20,16 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DAASOLV                       source/fluid/daasolv.F        
-Chd|-- called by -----------
-Chd|        FLOW0                         source/fluid/flow0.F          
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    daasolv                ../engine/source/fluid/daasolv.F
+      !||--- called by ------------------------------------------------------
+      !||    flow0                  ../engine/source/fluid/flow0.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret                  ../engine/source/system/arret.F
+      !||    finter                 ../engine/source/tools/curve/finter.F
+      !||    finter_smooth          ../engine/source/tools/curve/finter_smooth.F
+      !||--- uses       -----------------------------------------------------
+      !||    python_funct_mod       ../common_source/modules/python_mod.F90
+      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE DAASOLV(NDIM,   NNO,    NEL,   
      .                   IFLOW,  IBUF,   ELEM,  SHELL_GA,
      .                   RFLOW,  NORMAL, TA,    AREAF, COSG,  DIST,  

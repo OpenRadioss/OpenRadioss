@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25COMP_2                     source/interfaces/int25/i25comp_2.F
-Chd|-- called by -----------
-Chd|        I25MAIND_2                    source/interfaces/int25/i25maind_2.F
-Chd|-- calls ---------------
-Chd|        I25CDCOR3                     source/interfaces/int25/i25mainf.F
-Chd|        I25COR3_21                    source/interfaces/int25/i25cor3.F
-Chd|        I25COR3_22                    source/interfaces/int25/i25cor3.F
-Chd|        I25DST3_21                    source/interfaces/int25/i25dst3_21.F
-Chd|        I25DST3_22                    source/interfaces/int25/i25dst3_22.F
-Chd|        I25GLOB                       source/interfaces/int25/i25dst3_1.F
-Chd|        I25GLOB_22                    source/interfaces/int25/i25dst3_22.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25comp_2       ../engine/source/interfaces/int25/i25comp_2.F
+      !||--- called by ------------------------------------------------------
+      !||    i25maind_2      ../engine/source/interfaces/int25/i25maind_2.F
+      !||--- calls      -----------------------------------------------------
+      !||    i25cdcor3       ../engine/source/interfaces/int25/i25mainf.F
+      !||    i25cor3_21      ../engine/source/interfaces/int25/i25cor3.F
+      !||    i25cor3_22      ../engine/source/interfaces/int25/i25cor3.F
+      !||    i25dst3_21      ../engine/source/interfaces/int25/i25dst3_21.F
+      !||    i25dst3_22      ../engine/source/interfaces/int25/i25dst3_22.F
+      !||    i25glob         ../engine/source/interfaces/int25/i25dst3_1.F
+      !||    i25glob_22      ../engine/source/interfaces/int25/i25dst3_22.F
+      !||    my_barrier      ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25COMP_2(
      1                   IPARI   ,INTBUF_TAB ,X      ,ITAB   ,NIN        ,
      2                   LINDMAX ,KINET      ,JTASK  ,NB_DST2,V          ,

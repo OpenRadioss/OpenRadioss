@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25DST3_21                    source/interfaces/int25/i25dst3_21.F
-Chd|-- called by -----------
-Chd|        I25COMP_2                     source/interfaces/int25/i25comp_2.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25dst3_21   ../engine/source/interfaces/int25/i25dst3_21.F
+      !||--- called by ------------------------------------------------------
+      !||    i25comp_2    ../engine/source/interfaces/int25/i25comp_2.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box      ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25DST3_21(
      1                  JLT    ,CAND_N ,CAND_E ,NRTM   ,XX     ,
      2                  YY     ,ZZ     ,XI     ,YI     ,ZI     ,

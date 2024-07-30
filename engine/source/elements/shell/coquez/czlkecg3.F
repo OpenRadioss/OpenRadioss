@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CZLKECG3                      source/elements/shell/coquez/czlkecg3.F
-Chd|-- called by -----------
-Chd|        CZKE3                         source/elements/shell/coquez/czke3.F
-Chd|        CZKEL3                        source/elements/shell/coquez/czkel3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czlkecg3   ../engine/source/elements/shell/coquez/czlkecg3.F
+      !||--- called by ------------------------------------------------------
+      !||    czke3      ../engine/source/elements/shell/coquez/czke3.F
+      !||    czkel3     ../engine/source/elements/shell/coquez/czkel3.F
+      !||====================================================================
         SUBROUTINE CZLKECG3(JFT ,JLT   ,VOL  ,THK0 ,THK2 ,
      1                      PX1  ,PX2  ,PY1   ,PY2  ,RX   ,
      2                      RY   ,SX    ,SY   ,RX2  ,RY2  ,

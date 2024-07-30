@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RBYVIT                        source/constraints/general/rbody/rbyvit.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        RGBODV                        source/constraints/general/rbody/rgbodv.F
-Chd|        SPMD_ALL_DMAX                 source/mpi/elements/spmd_sph.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbyvit          ../engine/source/constraints/general/rbody/rbyvit.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    rgbodv          ../engine/source/constraints/general/rbody/rgbodv.F
+      !||    spmd_all_dmax   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE RBYVIT(RBY   ,X       ,V        ,VR   ,SKEW,
      2                  FSAV  ,LPBY    ,NPBY     ,ISKEW,ITAB,
      3                  WEIGHT,A       ,AR       ,MS   ,IN  ,

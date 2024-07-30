@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SECTION_FIO                   source/tools/sect/section_fio.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SECTION_READ                  source/tools/sect/section_read.F
-Chd|        SECTION_READP                 source/tools/sect/section_readp.F
-Chd|====================================================================
+      !||====================================================================
+      !||    section_fio     ../engine/source/tools/sect/section_fio.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    section_read    ../engine/source/tools/sect/section_read.F
+      !||    section_readp   ../engine/source/tools/sect/section_readp.F
+      !||====================================================================
       SUBROUTINE SECTION_FIO(NSTRF  ,V      ,VR    ,
      2                       A      ,AR     ,SECBUF,MS   ,IN ,
      3                       WEIGHT ,IAD_CUT,FR_CUT)

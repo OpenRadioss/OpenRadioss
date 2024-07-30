@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  JACOB_J33                     source/elements/solid/solide8e/jacob_j33.F
-Chd|-- called by -----------
-Chd|        JACOB_F0                      source/elements/solid/solide8e/jacob_f0.F
-Chd|        S10VOLNODT3                   source/elements/solid/solide4_sfem/s10volnodt3.F
-Chd|        S10_ICP                       source/elements/solid/solide4_sfem/s10_icp.F
-Chd|        S4VOLN_M                      source/elements/solid/solide4_sfem/s4voln_m.F
-Chd|        S8EDEFOT3                     source/elements/solid/solide8e/s8edefot3.F
-Chd|        S8ZDEFOT3                     source/elements/solid/solide8z/s8zdefot3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    jacob_j33     ../engine/source/elements/solid/solide8e/jacob_j33.F
+      !||--- called by ------------------------------------------------------
+      !||    jacob_f0      ../engine/source/elements/solid/solide8e/jacob_f0.F
+      !||    s10_icp       ../engine/source/elements/solid/solide4_sfem/s10_icp.F
+      !||    s10volnodt3   ../engine/source/elements/solid/solide4_sfem/s10volnodt3.F
+      !||    s4voln_m      ../engine/source/elements/solid/solide4_sfem/s4voln_m.F
+      !||    s8edefot3     ../engine/source/elements/solid/solide8e/s8edefot3.F
+      !||    s8zdefot3     ../engine/source/elements/solid/solide8z/s8zdefot3.F
+      !||====================================================================
       SUBROUTINE JACOB_J33(
      1   DET,     AJ1,     AJ2,     AJ3,
      2   AJ4,     AJ5,     AJ6,     AJ7,

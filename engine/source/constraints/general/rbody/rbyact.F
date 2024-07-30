@@ -21,18 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  RBYACT                        source/constraints/general/rbody/rbyact.F
-Chd|-- called by -----------
-Chd|        RBYPID                        source/constraints/general/rbody/rbypid.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        INEPRI                        source/constraints/general/rbody/inepri.F
-Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbyact          ../engine/source/constraints/general/rbody/rbyact.F
+      !||--- called by ------------------------------------------------------
+      !||    rbypid          ../engine/source/constraints/general/rbody/rbypid.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||    inepri          ../engine/source/constraints/general/rbody/inepri.F
+      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+      !||    sum_6_float     ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE RBYACT(RBY,M,LSN ,NSL ,MS  ,
      .                  IN ,X,ITAB,SKEW,ISPH,
      .                  IWA,NPBYI,RBYI,LSNI ,

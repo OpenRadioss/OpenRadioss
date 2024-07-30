@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS38                      source/materials/mat/mat038/sigeps38.F
-Chd|-- called by -----------
-Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
-Chd|-- calls ---------------
-Chd|        CHECKAXES                     source/materials/mat/mat038/sigeps38.F
-Chd|        DREH                          source/materials/mat/mat033/sigeps33.F
-Chd|        JACOBIEW                      source/materials/mat/mat033/sigeps33.F
-Chd|        VALPVECDP_V                   source/materials/mat/mat033/sigeps33.F
-Chd|        VALPVEC_V                     source/materials/mat/mat033/sigeps33.F
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps38      ../engine/source/materials/mat/mat038/sigeps38.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw         ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8        ../engine/source/materials/mat_share/mulaw8.F
+      !||--- calls      -----------------------------------------------------
+      !||    checkaxes     ../engine/source/materials/mat/mat038/sigeps38.F
+      !||    dreh          ../engine/source/materials/mat/mat033/sigeps33.F
+      !||    finter        ../engine/source/tools/curve/finter.F
+      !||    jacobiew      ../engine/source/materials/mat/mat033/sigeps33.F
+      !||    valpvec_v     ../engine/source/materials/mat/mat033/sigeps33.F
+      !||    valpvecdp_v   ../engine/source/materials/mat/mat033/sigeps33.F
+      !||====================================================================
       SUBROUTINE SIGEPS38(
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
@@ -1174,12 +1175,11 @@ C
 
       END
 
-Chd|====================================================================
-Chd|  CHECKAXES                     source/materials/mat/mat038/sigeps38.F
-Chd|-- called by -----------
-Chd|        SIGEPS38                      source/materials/mat/mat038/sigeps38.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    checkaxes   ../engine/source/materials/mat/mat038/sigeps38.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps38    ../engine/source/materials/mat/mat038/sigeps38.F
+      !||====================================================================
       SUBROUTINE CHECKAXES(TRAN1,TRAN2,AMIN,AMAX,UNCHANGED,TOL)
 C----------------------------------------------------------------
       IMPLICIT NONE

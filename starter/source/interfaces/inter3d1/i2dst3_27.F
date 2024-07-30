@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2DST3_27                     source/interfaces/inter3d1/i2dst3_27.F
-Chd|-- called by -----------
-Chd|        I2BUC1                        source/interfaces/inter3d1/i2buc1.F
-Chd|        I2TRI                         source/interfaces/inter3d1/i2tri.F
-Chd|-- calls ---------------
-Chd|        CHOOSE_MAIN_SEGMENT           source/interfaces/inter3d1/i2dst3_27.F
-Chd|        I2BAR3                        source/interfaces/inter3d1/i2dst3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i2dst3_27             ../starter/source/interfaces/inter3d1/i2dst3_27.F
+      !||--- called by ------------------------------------------------------
+      !||    i2buc1                ../starter/source/interfaces/inter3d1/i2buc1.F
+      !||    i2tri                 ../starter/source/interfaces/inter3d1/i2tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    choose_main_segment   ../starter/source/interfaces/inter3d1/i2dst3_27.F
+      !||    i2bar3                ../starter/source/interfaces/inter3d1/i2dst3.F
+      !||====================================================================
       SUBROUTINE I2DST3_27(GAPV,CAND_E  ,CAND_N,TZINF,IRTL,ST,DMIN,IGNORE,
      .                  THK  ,KNOD2ELS,KNOD2ELC,KNOD2ELTG,NOD2ELS,
      .                  NOD2ELC,NOD2ELTG,X,IRECT,
@@ -222,12 +222,11 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  CHOOSE_MAIN_SEGMENT           source/interfaces/inter3d1/i2dst3_27.F
-Chd|-- called by -----------
-Chd|        I2DST3_27                     source/interfaces/inter3d1/i2dst3_27.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    choose_main_segment   ../starter/source/interfaces/inter3d1/i2dst3_27.F
+      !||--- called by ------------------------------------------------------
+      !||    i2dst3_27             ../starter/source/interfaces/inter3d1/i2dst3_27.F
+      !||====================================================================
       SUBROUTINE CHOOSE_MAIN_SEGMENT(IRECT,M_OLD,M_NEW,S_NEW,T_NEW,S,T,TFLAG,II)
 C============================================================================
 C-----------------------------------------------

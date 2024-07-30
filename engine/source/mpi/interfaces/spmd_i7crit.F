@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_TRI20GAT                 source/mpi/interfaces/spmd_i7crit.F
-Chd|-- called by -----------
-Chd|        I20MAIN_TRI                   source/interfaces/intsort/i20main_tri.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_tri20gat   ../engine/source/mpi/interfaces/spmd_i7crit.F
+      !||--- called by ------------------------------------------------------
+      !||    i20main_tri     ../engine/source/interfaces/intsort/i20main_tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_TRI20GAT(RESULT,NSN ,CAND_N ,I_STOK,NIN  ,
      2                         IGAP  ,NSNR,MULTIMP,ITY   ,INTTH,
      3                         INACTI,H3D_DATA)
@@ -1645,16 +1646,17 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_TRI20GATE                source/mpi/interfaces/spmd_i7crit.F
-Chd|-- called by -----------
-Chd|        I20MAIN_TRI                   source/interfaces/intsort/i20main_tri.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_tri20gate   ../engine/source/mpi/interfaces/spmd_i7crit.F
+      !||--- called by ------------------------------------------------------
+      !||    i20main_tri      ../engine/source/interfaces/intsort/i20main_tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg           ../engine/source/output/message/message.F
+      !||    arret            ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../engine/share/message_module/message_mod.F
+      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_TRI20GATE(RESULT,NRTS ,CAND_S ,I_STOK,NIN,
      2                          INACTI,NRTSR,MULTIMP,IGAP  )
 C-----------------------------------------------
@@ -2682,16 +2684,17 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_TRI17GAT                 source/mpi/interfaces/spmd_i7crit.F
-Chd|-- called by -----------
-Chd|        I17MAIN_TRI                   source/interfaces/int17/i17main_pena.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_tri17gat   ../engine/source/mpi/interfaces/spmd_i7crit.F
+      !||--- called by ------------------------------------------------------
+      !||    i17main_tri     ../engine/source/interfaces/int17/i17main_pena.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_TRI17GAT(RESULT,NMES ,CAND_N ,I_STOK,NIN,
      2                         NMESR )
 C-----------------------------------------------

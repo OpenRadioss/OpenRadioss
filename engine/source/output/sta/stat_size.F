@@ -20,14 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STAT_SIZE_C                   source/output/sta/stat_size.F 
-Chd|-- called by -----------
-Chd|        GENSTAT                       source/output/sta/genstat.F   
-Chd|-- calls ---------------
-Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    stat_size_c       ../engine/source/output/sta/stat_size.F
+      !||--- called by ------------------------------------------------------
+      !||    genstat           ../engine/source/output/sta/genstat.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar              ../engine/source/input/nvar.F
+      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    output_mod        ../common_source/modules/output/output_mod.F90
+      !||====================================================================
       SUBROUTINE STAT_SIZE_C(IPARG ,IXC  ,IXTG ,IGEO ,IPM      ,
      .                       P0ARS ,WASZ ,IXS  ,GEO  ,ELBUF_TAB,
      .                       IXR   ,IXP  ,IXT  ,OUTPUT , LIPART1  ,

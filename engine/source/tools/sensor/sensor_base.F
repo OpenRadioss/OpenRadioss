@@ -20,33 +20,33 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SENSOR_BASE                   source/tools/sensor/sensor_base.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        ENG_USERLIB_USER_SENS         source/user_interface/dyn_userlib.c
-Chd|        SENSOR_ACC                    source/tools/sensor/sensor_acc.F
-Chd|        SENSOR_CONTACT                source/tools/sensor/sensor_contact.F
-Chd|        SENSOR_DIST                   source/tools/sensor/sensor_dist.F
-Chd|        SENSOR_DIST_SURF              source/tools/sensor/sensor_dist_surf.F
-Chd|        SENSOR_ENERGY                 source/tools/sensor/sensor_energy.F
-Chd|        SENSOR_GAUGE                  source/tools/sensor/sensor_gauge.F
-Chd|        SENSOR_HIC                    source/tools/sensor/sensor_hic.F
-Chd|        SENSOR_NIC                    source/tools/sensor/sensor_nic.F
-Chd|        SENSOR_RBODY                  source/tools/sensor/sensor_rbody.F
-Chd|        SENSOR_RWALL                  source/tools/sensor/sensor_rwall.F
-Chd|        SENSOR_SECTION                source/tools/sensor/sensor_section.F
-Chd|        SENSOR_TEMP                   source/tools/sensor/sensor_temp.F
-Chd|        SENSOR_TIME                   source/tools/sensor/sensor_time.F
-Chd|        SENSOR_VEL                    source/tools/sensor/sensor_vel.F
-Chd|        SENSOR_WORK                   source/tools/sensor/sensor_work.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sensor_base             ../engine/source/tools/sensor/sensor_base.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                   ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                  ../engine/source/output/message/message.F
+      !||    arret                   ../engine/source/system/arret.F
+      !||    sensor_acc              ../engine/source/tools/sensor/sensor_acc.F
+      !||    sensor_contact          ../engine/source/tools/sensor/sensor_contact.F
+      !||    sensor_dist             ../engine/source/tools/sensor/sensor_dist.F
+      !||    sensor_dist_surf        ../engine/source/tools/sensor/sensor_dist_surf.F
+      !||    sensor_energy           ../engine/source/tools/sensor/sensor_energy.F
+      !||    sensor_gauge            ../engine/source/tools/sensor/sensor_gauge.F
+      !||    sensor_hic              ../engine/source/tools/sensor/sensor_hic.F
+      !||    sensor_nic              ../engine/source/tools/sensor/sensor_nic.F
+      !||    sensor_rbody            ../engine/source/tools/sensor/sensor_rbody.F
+      !||    sensor_rwall            ../engine/source/tools/sensor/sensor_rwall.F
+      !||    sensor_section          ../engine/source/tools/sensor/sensor_section.F
+      !||    sensor_temp             ../engine/source/tools/sensor/sensor_temp.F
+      !||    sensor_time             ../engine/source/tools/sensor/sensor_time.F
+      !||    sensor_vel              ../engine/source/tools/sensor/sensor_vel.F
+      !||    sensor_work             ../engine/source/tools/sensor/sensor_work.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod            ../common_source/modules/groupdef_mod.F
+      !||    message_mod             ../engine/share/message_module/message_mod.F
+      !||    sensor_mod              ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SENSOR_BASE(SENSORS  ,NSENSOR   ,TIME      ,TIMESTEP  ,
      .           XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
      .           X         ,V         ,A         ,ACC       ,NPRW      ,

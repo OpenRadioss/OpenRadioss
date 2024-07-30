@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TAG_NODE_FROM_RBODY           source/model/sets/tag_node_from_rbody.F
-Chd|-- called by -----------
-Chd|        CREATE_NODE_FROM_RBODY        source/model/sets/create_node_from_rbody.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    tag_node_from_rbody      ../starter/source/model/sets/tag_node_from_rbody.F
+      !||--- called by ------------------------------------------------------
+      !||    create_node_from_rbody   ../starter/source/model/sets/create_node_from_rbody.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE TAG_NODE_FROM_RBODY(
      .                               NRB, RBODY ,CLAUSE_NODE,IND,
      .                               TAGNOD,RBY_MSN)

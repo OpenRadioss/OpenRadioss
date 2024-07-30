@@ -20,12 +20,28 @@
 !copyright>        as an alternative to this open-source version, altair also offers altair radioss
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    get_segment_normal_mod                   ../engine/source/interfaces/interf/get_segment_normal.F90
+      !||--- called by ------------------------------------------------------
+      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
+      !||====================================================================
       module get_segment_normal_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief This routine computes the normals of a segment
+      !||====================================================================
+      !||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
+      !||--- called by ------------------------------------------------------
+      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod                             ../common_source/modules/constant_mod.F
+      !||====================================================================
         subroutine get_segment_normal( segment_id,segment_node_id,segment_position,normal,intbuf_tab,numnod,x )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules

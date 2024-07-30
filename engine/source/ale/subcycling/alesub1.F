@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALESUB1                       source/ale/subcycling/alesub1.F
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|-- calls ---------------
-Chd|        BCS3V                         source/ale/inter/bcs3v.F      
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    alesub1   ../engine/source/ale/subcycling/alesub1.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain   ../engine/source/ale/alemain.F
+      !||--- calls      -----------------------------------------------------
+      !||    bcs3v     ../engine/source/ale/inter/bcs3v.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod   ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
       SUBROUTINE ALESUB1(
      1  NALE ,V    ,W    ,DSAVE ,ICODT,
      2  ISKEW,SKEW ,D    ,ITASK ,NODFT,

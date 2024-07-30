@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MINTER1D_RAT                  eos/minter1d_rat.F            
-Chd|-- called by -----------
-Chd|        MINTP1_RT                     common_source/eos/mintp1_rt.F 
-Chd|        MINTP_RE                      common_source/eos/mintp_re.F  
-Chd|        MINTP_RT                      common_source/eos/mintp_rt.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    minter1d_rat   ../common_source/eos/minter1d_rat.F
+      !||--- called by ------------------------------------------------------
+      !||    mintp1_rt      ../common_source/eos/mintp1_rt.F
+      !||    mintp_re       ../common_source/eos/mintp_re.F
+      !||    mintp_rt       ../common_source/eos/mintp_rt.F
+      !||====================================================================
       SUBROUTINE MINTER1D_RAT(X0,X1,X2,X3,Y0,Y1,Y2,Y3,X,Y,YP,I,N)
 C     INTERPOLATION (RATIONAL FUNCTION)
 C-----------------------------------------------

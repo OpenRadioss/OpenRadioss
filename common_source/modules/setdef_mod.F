@@ -20,83 +20,90 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SETDEF_MOD                    modules/setdef_mod.F          
-Chd|-- called by -----------
-Chd|        CHECK_ELTYP                   starter/source/model/sets/check_eltyp.F
-Chd|        CLAUSE_INIT                   starter/source/model/sets/clause_init.F
-Chd|        CONTRL                        starter/source/starter/contrl.F
-Chd|        COPY_LIST_IN_CAUSE            starter/source/model/sets/create_element_clause.F
-Chd|        CREATE_BOX_CLAUSE             starter/source/model/sets/create_box_clause.F
-Chd|        CREATE_ELEMENT_FROM_PART      starter/source/model/sets/create_element_from_part.F
-Chd|        CREATE_ELEM_ALL_CLAUSE        starter/source/model/sets/create_elem_all_clause.F
-Chd|        CREATE_ELLIPSE_CLAUSE         starter/source/model/sets/create_ellipse_clause.F
-Chd|        CREATE_ELT_BOX                starter/source/model/sets/create_elt_box.F
-Chd|        CREATE_ELT_CLAUSE             starter/source/model/sets/create_element_clause.F
-Chd|        CREATE_ELT_LIST               starter/source/model/sets/create_element_clause.F
-Chd|        CREATE_ELT_LIST_G             starter/source/model/sets/create_element_clause.F
-Chd|        CREATE_LINE_FROM_ELEMENT      starter/source/model/sets/create_line_from_element.F
-Chd|        CREATE_LINE_FROM_SURFACE      starter/source/model/sets/create_line_from_surface.F
-Chd|        CREATE_LINE_FROM_SURFACE_ALL  starter/source/model/sets/create_line_from_surface_all.F
-Chd|        CREATE_LINE_FROM_SURFACE_EXT  starter/source/model/sets/create_line_from_surface_ext.F
-Chd|        CREATE_MAP_TABLES             starter/source/model/sets/map_tables.F
-Chd|        CREATE_NODE_ALL_CLAUSE        starter/source/model/sets/create_node_all_clause.F
-Chd|        CREATE_NODE_BOX               starter/source/model/sets/create_node_box.F
-Chd|        CREATE_NODE_CLAUSE            starter/source/model/sets/create_node_clause.F
-Chd|        CREATE_NODE_FROM_ELEMENT      starter/source/model/sets/create_node_from_element.F
-Chd|        CREATE_NODE_FROM_RBODY        starter/source/model/sets/create_node_from_rbody.F
-Chd|        CREATE_NODE_FROM_SEG          starter/source/model/sets/create_node_from_seg.F
-Chd|        CREATE_NODE_LIST              starter/source/model/sets/create_node_clause.F
-Chd|        CREATE_NODE_LIST_G            starter/source/model/sets/create_node_clause.F
-Chd|        CREATE_PART_ALL_CLAUSE        starter/source/model/sets/create_part_all_clause.F
-Chd|        CREATE_PART_CLAUSE            starter/source/model/sets/create_part_clause.F
-Chd|        CREATE_PART_LIST              starter/source/model/sets/create_part_clause.F
-Chd|        CREATE_PART_LIST_G            starter/source/model/sets/create_part_clause.F
-Chd|        CREATE_RBODY_BOX              starter/source/model/sets/create_rbody_box.F
-Chd|        CREATE_RBODY_CLAUSE           starter/source/model/sets/create_rbody_clause.F
-Chd|        CREATE_RBODY_LIST             starter/source/model/sets/create_rbody_clause.F
-Chd|        CREATE_RBODY_LIST_G           starter/source/model/sets/create_rbody_clause.F
-Chd|        CREATE_SEG_CLAUSE             starter/source/model/sets/create_seg_clause.F
-Chd|        CREATE_SETCOL_ARRAY           starter/source/model/sets/create_setcol_clause.F
-Chd|        CREATE_SETCOL_CLAUSE          starter/source/model/sets/create_setcol_clause.F
-Chd|        CREATE_SETCOL_LIST            starter/source/model/sets/create_setcol_clause.F
-Chd|        CREATE_SETCOL_LIST_G          starter/source/model/sets/create_setcol_clause.F
-Chd|        CREATE_SET_ARRAY              starter/source/model/sets/create_set_clause.F
-Chd|        CREATE_SET_CLAUSE             starter/source/model/sets/create_set_clause.F
-Chd|        CREATE_SET_COLLECT            starter/source/model/sets/create_setcol_clause.F
-Chd|        CREATE_SET_LIST               starter/source/model/sets/create_set_clause.F
-Chd|        CREATE_SET_LIST_G             starter/source/model/sets/create_set_clause.F
-Chd|        CREATE_SUBM_CLAUSE            starter/source/model/sets/create_subm_clause.F
-Chd|        CREATE_SUBM_LIST              starter/source/model/sets/create_subm_clause.F
-Chd|        CREATE_SUBM_LIST_G            starter/source/model/sets/create_subm_clause.F
-Chd|        CREATE_SUBS_CLAUSE            starter/source/model/sets/create_subs_clause.F
-Chd|        CREATE_SUBS_LIST              starter/source/model/sets/create_subs_clause.F
-Chd|        CREATE_SUBS_LIST_G            starter/source/model/sets/create_subs_clause.F
-Chd|        CREATE_SURFACE_FROM_ELEMENT   starter/source/model/sets/create_surface_from_element.F
-Chd|        ELEM_1D_LINE_BUFFER           starter/source/model/sets/elem_1D_line_buffer.F
-Chd|        FILL_GR                       starter/source/model/sets/fill_gr.F
-Chd|        FILL_IGR                      starter/source/model/sets/fill_igr.F
-Chd|        FILL_LINE                     starter/source/model/sets/fill_gr.F
-Chd|        FILL_SURF                     starter/source/model/sets/fill_gr.F
-Chd|        FILL_SURF_ELLIPSE             starter/source/model/sets/fill_gr_surf_ellipse.F
-Chd|        HM_READ_INIVOL                starter/source/initial_conditions/inivol/hm_read_inivol.F
-Chd|        HM_SET                        starter/source/model/sets/hm_set.F
-Chd|        INSERT_CLAUSE_IN_SET          starter/source/model/sets/insert_clause_in_set.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        LINE_BUFFER                   starter/source/model/sets/line_buffer.F
-Chd|        QUAD_SURFACE_BUFFER           starter/source/model/sets/quad_surface_buffer.F
-Chd|        SET_INIT                      starter/source/model/sets/set_init.F
-Chd|        SHELL_SURFACE_BUFFER          starter/source/model/sets/shell_surface_buffer.F
-Chd|        SHELL_SURFACE_BUFFER_REMESH   starter/source/model/sets/shell_surface_buffer_remesh.F
-Chd|        SOLID_SURFACE_BUFFER          starter/source/model/sets/solid_surface_buffer.F
-Chd|        SORT_SET                      starter/source/model/sets/sort_sets.F
-Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F
-Chd|        ST_QAPRINT_SET                starter/source/output/qaprint/st_qaprint_set.F
-Chd|        SURFACE_BUFFER                starter/source/model/sets/surface_buffer.F
-Chd|        SET_MOD                       starter/share/modules1/set_mod.F
-Chd|        CREATE_LINE_FROM_SURFACE_EXT_ALLstarter/source/model/sets/create_line_from_ext_surface_ext_all.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    setdef_mod                         ../common_source/modules/setdef_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    check_eltyp                        ../starter/source/model/sets/check_eltyp.F
+      !||    clause_init                        ../starter/source/model/sets/clause_init.F
+      !||    contrl                             ../starter/source/starter/contrl.F
+      !||    copy_list_in_cause                 ../starter/source/model/sets/create_element_clause.F
+      !||    create_box_clause                  ../starter/source/model/sets/create_box_clause.F
+      !||    create_elem_all_clause             ../starter/source/model/sets/create_elem_all_clause.F
+      !||    create_element_from_part           ../starter/source/model/sets/create_element_from_part.F
+      !||    create_ellipse_clause              ../starter/source/model/sets/create_ellipse_clause.F
+      !||    create_elt_box                     ../starter/source/model/sets/create_elt_box.F
+      !||    create_elt_clause                  ../starter/source/model/sets/create_element_clause.F
+      !||    create_elt_list                    ../starter/source/model/sets/create_element_clause.F
+      !||    create_elt_list_g                  ../starter/source/model/sets/create_element_clause.F
+      !||    create_line_from_element           ../starter/source/model/sets/create_line_from_element.F
+      !||    create_line_from_surface           ../starter/source/model/sets/create_line_from_surface.F
+      !||    create_line_from_surface_all       ../starter/source/model/sets/create_line_from_surface_all.F
+      !||    create_line_from_surface_ext       ../starter/source/model/sets/create_line_from_surface_ext.F
+      !||    create_line_from_surface_ext_all   ../starter/source/model/sets/create_line_from_ext_surface_ext_all.F
+      !||    create_map_tables                  ../starter/source/model/sets/map_tables.F
+      !||    create_node_all_clause             ../starter/source/model/sets/create_node_all_clause.F
+      !||    create_node_box                    ../starter/source/model/sets/create_node_box.F
+      !||    create_node_clause                 ../starter/source/model/sets/create_node_clause.F
+      !||    create_node_from_element           ../starter/source/model/sets/create_node_from_element.F
+      !||    create_node_from_rbody             ../starter/source/model/sets/create_node_from_rbody.F
+      !||    create_node_from_seg               ../starter/source/model/sets/create_node_from_seg.F
+      !||    create_node_list                   ../starter/source/model/sets/create_node_clause.F
+      !||    create_node_list_g                 ../starter/source/model/sets/create_node_clause.F
+      !||    create_nodens_clause               ../starter/source/model/sets/create_nodens_clause.F90
+      !||    create_part_all_clause             ../starter/source/model/sets/create_part_all_clause.F
+      !||    create_part_clause                 ../starter/source/model/sets/create_part_clause.F
+      !||    create_part_list                   ../starter/source/model/sets/create_part_clause.F
+      !||    create_part_list_g                 ../starter/source/model/sets/create_part_clause.F
+      !||    create_plane_clause                ../starter/source/model/sets/create_plane_clause.F90
+      !||    create_rbody_box                   ../starter/source/model/sets/create_rbody_box.F
+      !||    create_rbody_clause                ../starter/source/model/sets/create_rbody_clause.F
+      !||    create_rbody_list                  ../starter/source/model/sets/create_rbody_clause.F
+      !||    create_rbody_list_g                ../starter/source/model/sets/create_rbody_clause.F
+      !||    create_seg_clause                  ../starter/source/model/sets/create_seg_clause.F
+      !||    create_set_array                   ../starter/source/model/sets/create_set_clause.F
+      !||    create_set_clause                  ../starter/source/model/sets/create_set_clause.F
+      !||    create_set_collect                 ../starter/source/model/sets/create_setcol_clause.F
+      !||    create_set_list                    ../starter/source/model/sets/create_set_clause.F
+      !||    create_set_list_g                  ../starter/source/model/sets/create_set_clause.F
+      !||    create_setcol_array                ../starter/source/model/sets/create_setcol_clause.F
+      !||    create_setcol_clause               ../starter/source/model/sets/create_setcol_clause.F
+      !||    create_setcol_list                 ../starter/source/model/sets/create_setcol_clause.F
+      !||    create_setcol_list_g               ../starter/source/model/sets/create_setcol_clause.F
+      !||    create_subm_clause                 ../starter/source/model/sets/create_subm_clause.F
+      !||    create_subm_list                   ../starter/source/model/sets/create_subm_clause.F
+      !||    create_subm_list_g                 ../starter/source/model/sets/create_subm_clause.F
+      !||    create_subs_clause                 ../starter/source/model/sets/create_subs_clause.F
+      !||    create_subs_list                   ../starter/source/model/sets/create_subs_clause.F
+      !||    create_subs_list_g                 ../starter/source/model/sets/create_subs_clause.F
+      !||    create_surface_from_element        ../starter/source/model/sets/create_surface_from_element.F
+      !||    elem_1d_line_buffer                ../starter/source/model/sets/elem_1D_line_buffer.F
+      !||    fill_gr                            ../starter/source/model/sets/fill_gr.F
+      !||    fill_igr                           ../starter/source/model/sets/fill_igr.F
+      !||    fill_line                          ../starter/source/model/sets/fill_gr.F
+      !||    fill_surf                          ../starter/source/model/sets/fill_gr.F
+      !||    fill_surf_ellipse                  ../starter/source/model/sets/fill_gr_surf_ellipse.F
+      !||    fill_surf_plane                    ../starter/source/model/sets/fill_gr_surf_plane.F90
+      !||    fractal_element_neighbor           ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
+      !||    hm_read_inivol                     ../starter/source/initial_conditions/inivol/hm_read_inivol.F
+      !||    hm_set                             ../starter/source/model/sets/hm_set.F
+      !||    inivol_interf_mod                  ../starter/share/modules1/inivol_mod.F
+      !||    insert_clause_in_set               ../starter/source/model/sets/insert_clause_in_set.F
+      !||    lectur                             ../engine/source/input/lectur.F
+      !||    line_buffer                        ../starter/source/model/sets/line_buffer.F
+      !||    quad_surface_buffer                ../starter/source/model/sets/quad_surface_buffer.F
+      !||    set_init                           ../starter/source/model/sets/set_init.F
+      !||    set_mod                            ../starter/share/modules1/set_mod.F
+      !||    shell_surface_buffer               ../starter/source/model/sets/shell_surface_buffer.F
+      !||    shell_surface_buffer_remesh        ../starter/source/model/sets/shell_surface_buffer_remesh.F
+      !||    solid_surface_buffer               ../starter/source/model/sets/solid_surface_buffer.F
+      !||    sort_set                           ../starter/source/model/sets/sort_sets.F
+      !||    st_qaprint_driver                  ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||    st_qaprint_set                     ../starter/source/output/qaprint/st_qaprint_set.F
+      !||    surface_buffer                     ../starter/source/model/sets/surface_buffer.F
+      !||    tag_node_from_part_sphcel          ../starter/source/model/sets/tag_node_from_part_sphcel.F90
+      !||--- uses       -----------------------------------------------------
+      !||    names_and_titles_mod               ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       MODULE SETDEF_MOD
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARTITLE
 C----------------------------------------------------------------------- 
@@ -222,21 +229,20 @@ c---------------
       END MODULE SETDEF_MOD
 
 
-Chd|====================================================================
-Chd|  SET_SCRATCH_MOD               modules/setdef_mod.F          
-Chd|-- called by -----------
-Chd|        CREATE_BOX_CLAUSE             starter/source/model/sets/create_box_clause.F
-Chd|        CREATE_LINE_FROM_ELEMENT      starter/source/model/sets/create_line_from_element.F
-Chd|        CREATE_LINE_FROM_SURFACE      starter/source/model/sets/create_line_from_surface.F
-Chd|        CREATE_SETCOL_CLAUSE          starter/source/model/sets/create_setcol_clause.F
-Chd|        CREATE_SET_CLAUSE             starter/source/model/sets/create_set_clause.F
-Chd|        CREATE_SET_COLLECT            starter/source/model/sets/create_setcol_clause.F
-Chd|        CREATE_SURFACE_FROM_ELEMENT   starter/source/model/sets/create_surface_from_element.F
-Chd|        HM_SET                        starter/source/model/sets/hm_set.F
-Chd|        INSERT_CLAUSE_IN_SET          starter/source/model/sets/insert_clause_in_set.F
-Chd|        CREATE_LINE_FROM_SURFACE_EXT_ALLstarter/source/model/sets/create_line_from_ext_surface_ext_all.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    set_scratch_mod                    ../common_source/modules/setdef_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    create_box_clause                  ../starter/source/model/sets/create_box_clause.F
+      !||    create_line_from_element           ../starter/source/model/sets/create_line_from_element.F
+      !||    create_line_from_surface           ../starter/source/model/sets/create_line_from_surface.F
+      !||    create_line_from_surface_ext_all   ../starter/source/model/sets/create_line_from_ext_surface_ext_all.F
+      !||    create_set_clause                  ../starter/source/model/sets/create_set_clause.F
+      !||    create_set_collect                 ../starter/source/model/sets/create_setcol_clause.F
+      !||    create_setcol_clause               ../starter/source/model/sets/create_setcol_clause.F
+      !||    create_surface_from_element        ../starter/source/model/sets/create_surface_from_element.F
+      !||    hm_set                             ../starter/source/model/sets/hm_set.F
+      !||    insert_clause_in_set               ../starter/source/model/sets/insert_clause_in_set.F
+      !||====================================================================
       MODULE SET_SCRATCH_MOD
 C----------------------------------------------------------------------- 
 c=======================================================================      

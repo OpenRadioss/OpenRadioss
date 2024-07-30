@@ -20,22 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DFUNC0                        source/output/anim/generate/dfunc0.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|-- calls ---------------
-Chd|        OUTPUT_SCHLIEREN              source/output/anim/generate/output_schlieren.F
-Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
-Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    dfunc0                       ../engine/source/output/anim/generate/dfunc0.F
+      !||--- called by ------------------------------------------------------
+      !||    genani                       ../engine/source/output/anim/generate/genani.F
+      !||--- calls      -----------------------------------------------------
+      !||    output_schlieren             ../engine/source/output/anim/generate/output_schlieren.F
+      !||    schlieren_buffer_gathering   ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
+      !||    spmd_r4get_partn             ../engine/source/mpi/anim/spmd_r4get_partn.F
+      !||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
+      !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod                  ../engine/share/resol/initbuf.F
+      !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F
+      !||    schlieren_mod                ../engine/share/modules/schlieren_mod.F
+      !||====================================================================
       SUBROUTINE DFUNC0(ELBUF_TAB, FUNC             ,IFUNC     ,IPARG   ,
      2                  MASS     , PM               ,EL2FA     ,NBF     ,
      3                  NBPART   , IADG             ,SPBUF     ,IPART   ,

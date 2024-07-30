@@ -20,86 +20,87 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
-Chd|-- called by -----------
-Chd|        HM_READ_ADMAS                 source/tools/admas/hm_read_admas.F
-Chd|        HM_READ_BEM                   source/loads/bem/hm_read_bem.F
-Chd|        HM_READ_EBCS_INLET            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
-Chd|        HM_READ_FAIL_INIEVO           source/materials/fail/inievo/hm_read_fail_inievo.F
-Chd|        HM_READ_FAIL_ORTHBIQUAD       source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
-Chd|        HM_READ_FAIL_TAB_OLD          source/materials/fail/tabulated/hm_read_fail_tab_old.F
-Chd|        HM_READ_FRICTION              source/interfaces/friction/reader/hm_read_friction.F
-Chd|        HM_READ_FRICTION_ORIENTATIONS source/interfaces/friction/reader/hm_read_friction_orientations.F
-Chd|        HM_READ_FUNC2D                source/tools/curve/hm_read_func2d.F
-Chd|        HM_READ_FUNCT                 source/tools/curve/hm_read_funct.F
-Chd|        HM_READ_INICRACK              source/initial_conditions/inicrack/hm_read_inicrack.F
-Chd|        HM_READ_INIMAP1D              source/initial_conditions/inimap/hm_read_inimap1d.F
-Chd|        HM_READ_INIMAP2D              source/initial_conditions/inimap/hm_read_inimap2d.F
-Chd|        HM_READ_INISTATE_D00          source/elements/initia/hm_read_inistate_d00.F
-Chd|        HM_READ_INITEMP               source/initial_conditions/thermic/hm_read_initemp.F
-Chd|        HM_READ_INIVEL                source/initial_conditions/general/inivel/hm_read_inivel.F
-Chd|        HM_READ_INIVOL                source/initial_conditions/inivol/hm_read_inivol.F
-Chd|        HM_READ_INJECT1               source/properties/injector/hm_read_inject1.F
-Chd|        HM_READ_INJECT2               source/properties/injector/hm_read_inject2.F
-Chd|        HM_READ_LOAD_PRESSURE         source/loads/general/load_pressure/hm_read_load_pressure.F
-Chd|        HM_READ_MAT100                source/materials/mat/mat100/hm_read_mat100.F
-Chd|        HM_READ_MAT110                source/materials/mat/mat110/hm_read_mat110.F
-Chd|        HM_READ_MAT151                source/materials/mat/mat151/hm_read_mat151.F
-Chd|        HM_READ_MAT36                 source/materials/mat/mat036/hm_read_mat36.F
-Chd|        HM_READ_MAT38                 source/materials/mat/mat038/hm_read_mat38.F
-Chd|        HM_READ_MAT42                 source/materials/mat/mat042/hm_read_mat42.F
-Chd|        HM_READ_MAT43                 source/materials/mat/mat043/hm_read_mat43.F
-Chd|        HM_READ_MAT51                 source/materials/mat/mat051/hm_read_mat51.F
-Chd|        HM_READ_MAT51_IFORM11         source/materials/mat/mat051/hm_read_mat51_iform11.F
-Chd|        HM_READ_MAT52                 source/materials/mat/mat052/hm_read_mat52.F
-Chd|        HM_READ_MAT57                 source/materials/mat/mat057/hm_read_mat57.F
-Chd|        HM_READ_MAT59                 source/materials/mat/mat059/hm_read_mat59.F
-Chd|        HM_READ_MAT62                 source/materials/mat/mat062/hm_read_mat62.F
-Chd|        HM_READ_MAT65                 source/materials/mat/mat065/hm_read_mat65.F
-Chd|        HM_READ_MAT66                 source/materials/mat/mat066/hm_read_mat66.F
-Chd|        HM_READ_MAT70                 source/materials/mat/mat070/hm_read_mat70.F
-Chd|        HM_READ_MAT77                 source/materials/mat/mat077/hm_read_mat77.F
-Chd|        HM_READ_MAT82                 source/materials/mat/mat082/hm_read_mat82.F
-Chd|        HM_READ_MAT87                 source/materials/mat/mat087/hm_read_mat87.F
-Chd|        HM_READ_MAT88                 source/materials/mat/mat088/hm_read_mat88.F
-Chd|        HM_READ_MAT90                 source/materials/mat/mat090/hm_read_mat90.F
-Chd|        HM_READ_MAT93                 source/materials/mat/mat093/hm_read_mat93.F
-Chd|        HM_READ_MONVOL_TYPE11         source/airbag/hm_read_monvol_type11.F
-Chd|        HM_READ_MONVOL_TYPE3          source/airbag/hm_read_monvol_type3.F
-Chd|        HM_READ_MONVOL_TYPE4          source/airbag/hm_read_monvol_type4.F
-Chd|        HM_READ_MONVOL_TYPE5          source/airbag/hm_read_monvol_type5.F
-Chd|        HM_READ_MONVOL_TYPE6          source/airbag/hm_read_monvol_type6.F
-Chd|        HM_READ_MONVOL_TYPE7          source/airbag/hm_read_monvol_type7.F
-Chd|        HM_READ_MONVOL_TYPE8          source/airbag/hm_read_monvol_type8.F
-Chd|        HM_READ_MONVOL_TYPE9          source/airbag/hm_read_monvol_type9.F
-Chd|        HM_READ_MPC                   source/constraints/general/mpc/hm_read_mpc.F
-Chd|        HM_READ_PROP10                source/properties/shell/hm_read_prop10.F
-Chd|        HM_READ_PROP11                source/properties/shell/hm_read_prop11.F
-Chd|        HM_READ_PROP16                source/properties/shell/hm_read_prop16.F
-Chd|        HM_READ_PROP17                source/properties/shell/hm_read_prop17.F
-Chd|        HM_READ_PROP18                source/properties/beam/hm_read_prop18.F
-Chd|        HM_READ_PROP22                source/properties/thickshell/hm_read_prop22.F
-Chd|        HM_READ_PROP26                source/properties/spring/hm_read_prop26.F
-Chd|        HM_READ_PROP28                source/properties/xelem/hm_read_prop28.F
-Chd|        HM_READ_PROP51                source/properties/shell/hm_read_prop51.F
-Chd|        HM_READ_RBE3                  source/constraints/general/rbe3/hm_read_rbe3.F
-Chd|        HM_READ_STACK                 source/stack/hm_read_stack.F  
-Chd|        HM_READ_TABLE1_0              source/tools/curve/hm_read_table1_0.F
-Chd|        HM_READ_TABLE1_1              source/tools/curve/hm_read_table1_1.F
-Chd|        HM_READ_TABLE2_0              source/tools/curve/hm_read_table2_0.F
-Chd|        HM_READ_TABLE2_1              source/tools/curve/hm_read_table2_1.F
-Chd|        HM_READ_VISC_LPRONY           source/materials/visc/hm_read_visc_lprony.F
-Chd|        HM_READ_VISC_PRONY            source/materials/visc/hm_read_visc_prony.F
-Chd|        HM_READ_XREF                  source/loads/reference_state/xref/hm_read_xref.F
-Chd|        LECFILL                       source/elements/initia/lecfill.F
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
-Chd|        READ_IMPDISP_FGEO             source/constraints/general/impvel/read_impdisp_fgeo.F
-Chd|        READ_SENSOR_GAUGE             source/tools/sensor/read_sensor_gauge.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_get_float_array_index        ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_admas                   ../starter/source/tools/admas/hm_read_admas.F
+      !||    hm_read_bem                     ../starter/source/loads/bem/hm_read_bem.F
+      !||    hm_read_ebcs_inlet              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
+      !||    hm_read_fail_inievo             ../starter/source/materials/fail/inievo/hm_read_fail_inievo.F
+      !||    hm_read_fail_orthbiquad         ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
+      !||    hm_read_fail_tab_old            ../starter/source/materials/fail/tabulated/hm_read_fail_tab_old.F
+      !||    hm_read_friction                ../starter/source/interfaces/friction/reader/hm_read_friction.F
+      !||    hm_read_friction_orientations   ../starter/source/interfaces/friction/reader/hm_read_friction_orientations.F
+      !||    hm_read_func2d                  ../starter/source/tools/curve/hm_read_func2d.F
+      !||    hm_read_funct                   ../starter/source/tools/curve/hm_read_funct.F
+      !||    hm_read_inicrack                ../starter/source/initial_conditions/inicrack/hm_read_inicrack.F
+      !||    hm_read_inimap1d                ../starter/source/initial_conditions/inimap/hm_read_inimap1d.F
+      !||    hm_read_inimap2d                ../starter/source/initial_conditions/inimap/hm_read_inimap2d.F
+      !||    hm_read_inistate_d00            ../starter/source/elements/initia/hm_read_inistate_d00.F
+      !||    hm_read_initemp                 ../starter/source/initial_conditions/thermic/hm_read_initemp.F
+      !||    hm_read_inivel                  ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
+      !||    hm_read_inivol                  ../starter/source/initial_conditions/inivol/hm_read_inivol.F
+      !||    hm_read_inject1                 ../starter/source/properties/injector/hm_read_inject1.F
+      !||    hm_read_inject2                 ../starter/source/properties/injector/hm_read_inject2.F
+      !||    hm_read_load_pressure           ../starter/source/loads/general/load_pressure/hm_read_load_pressure.F
+      !||    hm_read_mat100                  ../starter/source/materials/mat/mat100/hm_read_mat100.F
+      !||    hm_read_mat110                  ../starter/source/materials/mat/mat110/hm_read_mat110.F
+      !||    hm_read_mat151                  ../starter/source/materials/mat/mat151/hm_read_mat151.F
+      !||    hm_read_mat36                   ../starter/source/materials/mat/mat036/hm_read_mat36.F
+      !||    hm_read_mat38                   ../starter/source/materials/mat/mat038/hm_read_mat38.F
+      !||    hm_read_mat42                   ../starter/source/materials/mat/mat042/hm_read_mat42.F
+      !||    hm_read_mat43                   ../starter/source/materials/mat/mat043/hm_read_mat43.F
+      !||    hm_read_mat51                   ../starter/source/materials/mat/mat051/hm_read_mat51.F
+      !||    hm_read_mat51_iform11           ../starter/source/materials/mat/mat051/hm_read_mat51_iform11.F
+      !||    hm_read_mat52                   ../starter/source/materials/mat/mat052/hm_read_mat52.F
+      !||    hm_read_mat57                   ../starter/source/materials/mat/mat057/hm_read_mat57.F
+      !||    hm_read_mat59                   ../starter/source/materials/mat/mat059/hm_read_mat59.F
+      !||    hm_read_mat62                   ../starter/source/materials/mat/mat062/hm_read_mat62.F
+      !||    hm_read_mat65                   ../starter/source/materials/mat/mat065/hm_read_mat65.F
+      !||    hm_read_mat66                   ../starter/source/materials/mat/mat066/hm_read_mat66.F
+      !||    hm_read_mat70                   ../starter/source/materials/mat/mat070/hm_read_mat70.F
+      !||    hm_read_mat77                   ../starter/source/materials/mat/mat077/hm_read_mat77.F
+      !||    hm_read_mat82                   ../starter/source/materials/mat/mat082/hm_read_mat82.F
+      !||    hm_read_mat87                   ../starter/source/materials/mat/mat087/hm_read_mat87.F
+      !||    hm_read_mat88                   ../starter/source/materials/mat/mat088/hm_read_mat88.F
+      !||    hm_read_mat90                   ../starter/source/materials/mat/mat090/hm_read_mat90.F
+      !||    hm_read_mat93                   ../starter/source/materials/mat/mat093/hm_read_mat93.F
+      !||    hm_read_monvol_type11           ../starter/source/airbag/hm_read_monvol_type11.F
+      !||    hm_read_monvol_type3            ../starter/source/airbag/hm_read_monvol_type3.F
+      !||    hm_read_monvol_type4            ../starter/source/airbag/hm_read_monvol_type4.F
+      !||    hm_read_monvol_type5            ../starter/source/airbag/hm_read_monvol_type5.F
+      !||    hm_read_monvol_type6            ../starter/source/airbag/hm_read_monvol_type6.F
+      !||    hm_read_monvol_type7            ../starter/source/airbag/hm_read_monvol_type7.F
+      !||    hm_read_monvol_type8            ../starter/source/airbag/hm_read_monvol_type8.F
+      !||    hm_read_monvol_type9            ../starter/source/airbag/hm_read_monvol_type9.F
+      !||    hm_read_mpc                     ../starter/source/constraints/general/mpc/hm_read_mpc.F
+      !||    hm_read_prop10                  ../starter/source/properties/shell/hm_read_prop10.F
+      !||    hm_read_prop11                  ../starter/source/properties/shell/hm_read_prop11.F
+      !||    hm_read_prop16                  ../starter/source/properties/shell/hm_read_prop16.F
+      !||    hm_read_prop17                  ../starter/source/properties/shell/hm_read_prop17.F
+      !||    hm_read_prop18                  ../starter/source/properties/beam/hm_read_prop18.F
+      !||    hm_read_prop22                  ../starter/source/properties/thickshell/hm_read_prop22.F
+      !||    hm_read_prop26                  ../starter/source/properties/spring/hm_read_prop26.F
+      !||    hm_read_prop28                  ../starter/source/properties/xelem/hm_read_prop28.F
+      !||    hm_read_prop51                  ../starter/source/properties/shell/hm_read_prop51.F
+      !||    hm_read_rbe3                    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+      !||    hm_read_stack                   ../starter/source/stack/hm_read_stack.F
+      !||    hm_read_table1_0                ../starter/source/tools/curve/hm_read_table1_0.F
+      !||    hm_read_table1_1                ../starter/source/tools/curve/hm_read_table1_1.F
+      !||    hm_read_table2_0                ../starter/source/tools/curve/hm_read_table2_0.F
+      !||    hm_read_table2_1                ../starter/source/tools/curve/hm_read_table2_1.F
+      !||    hm_read_visc_lprony             ../starter/source/materials/visc/hm_read_visc_lprony.F
+      !||    hm_read_visc_prony              ../starter/source/materials/visc/hm_read_visc_prony.F
+      !||    hm_read_xref                    ../starter/source/loads/reference_state/xref/hm_read_xref.F
+      !||    lecfill                         ../starter/source/elements/initia/lecfill.F
+      !||    r2r_prelec                      ../starter/source/coupling/rad2rad/r2r_prelec.F
+      !||    read_impdisp_fgeo               ../starter/source/constraints/general/impvel/read_impdisp_fgeo.F
+      !||    read_sensor_gauge               ../starter/source/tools/sensor/read_sensor_gauge.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                     ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                    ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_GET_FLOAT_ARRAY_INDEX(NAME,RVAL,INDEX,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

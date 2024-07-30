@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C I25main_tri
-Chd|====================================================================
-Chd|  I25GAPMSAVE                   source/interfaces/intsort/i25gapmsave.F
-Chd|-- called by -----------
-Chd|        I25MAIN_TRI                   source/interfaces/intsort/i25main_tri.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i25gapmsave   ../engine/source/interfaces/intsort/i25gapmsave.F
+      !||--- called by ------------------------------------------------------
+      !||    i25main_tri   ../engine/source/interfaces/intsort/i25main_tri.F
+      !||====================================================================
       SUBROUTINE I25GAPMSAVE(
      1       GAP_M     ,GAPMSAV  ,
      2       MSR       ,NRTM     ,ITASK)

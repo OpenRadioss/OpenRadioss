@@ -20,19 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SFILLOPT                      source/elements/solid/solide/sfillopt.F
-Chd|-- called by -----------
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SUFORC3                       source/user_interface/suforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sfillopt   ../engine/source/elements/solid/solide/sfillopt.F
+      !||--- called by ------------------------------------------------------
+      !||    s8cforc3   ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3   ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8sforc3   ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||    s8zforc3   ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||    sforc3     ../engine/source/elements/solid/solide/sforc3.F
+      !||    suforc3    ../engine/source/user_interface/suforc3.F
+      !||    szforc3    ../engine/source/elements/solid/solidez/szforc3.F
+      !||====================================================================
       SUBROUTINE SFILLOPT(
      1   FILL,    STI,     F11,     F21,
      2   F31,     F12,     F22,     F32,

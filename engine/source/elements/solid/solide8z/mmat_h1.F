@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MMAT_H1                       source/elements/solid/solide8z/mmat_h1.F
-Chd|-- called by -----------
-Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
-Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
-Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mmat_h1   ../engine/source/elements/solid/solide8z/mmat_h1.F
+      !||--- called by ------------------------------------------------------
+      !||    q4ke2     ../engine/source/elements/solid_2d/quad4/q4ke2.F
+      !||    s8cke3    ../engine/source/elements/thickshell/solide8c/s8cke3.F
+      !||    s8zke3    ../engine/source/elements/solid/solide8z/s8zke3.F
+      !||====================================================================
       SUBROUTINE MMAT_H1(
      1   HH,      HH1,     FAC,     ICP,
      2   IPREDU,  NEL,     MTN,     ISMSTR,

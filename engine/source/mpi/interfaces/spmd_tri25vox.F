@@ -20,19 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_TRI25VOX                 source/mpi/interfaces/spmd_tri25vox.F
-Chd|-- called by -----------
-Chd|        I25MAIN_TRI                   source/interfaces/intsort/i25main_tri.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_tri25vox   ../engine/source/mpi/interfaces/spmd_tri25vox.F
+      !||--- called by ------------------------------------------------------
+      !||    i25main_tri     ../engine/source/interfaces/intsort/i25main_tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||    spmd_wait       ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitall    ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany    ../engine/source/mpi/spmd_mod.F90
+      !||    startime        ../engine/source/system/timer.F
+      !||    stoptime        ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+      !||    tri25ebox       ../engine/share/modules/tri25ebox.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_TRI25VOX(
      1   NSV       ,NSN       ,X        ,V       ,MS         ,
      2   BMINMAL   ,WEIGHT    ,STIFN    ,NIN     ,ISENDTO    ,

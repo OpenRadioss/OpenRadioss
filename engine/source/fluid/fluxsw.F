@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FLUXSW                        source/fluid/fluxsw.F         
-Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fluxsw        ../engine/source/fluid/fluxsw.F
+      !||--- called by ------------------------------------------------------
+      !||    sortie_main   ../engine/source/output/sortie_main.F
+      !||====================================================================
       SUBROUTINE FLUXSW (NSFLSW,NEFLSW,  NNFLSW,  CRFLSW,  FLSW  ,
      .                   X     ,V     ,ELBUF                )
 C-----------------------------------------------

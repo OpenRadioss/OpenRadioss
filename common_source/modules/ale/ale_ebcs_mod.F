@@ -20,23 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALE_EBCS_MOD                  modules/ale/ale_ebcs_mod.F    
-Chd|-- called by -----------
-Chd|        CONTRL                        starter/source/starter/contrl.F
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        DOMDEC2                       starter/source/spmd/domdec2.F 
-Chd|        FILLCNE                       starter/source/spmd/domdec2.F 
-Chd|        INIEBCS                       starter/source/boundary_conditions/ebcs/iniebcs.F
-Chd|        INIEBCSP0                     starter/source/boundary_conditions/ebcs/iniebcsp0.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        READ_EBCS                     starter/source/boundary_conditions/ebcs/read_ebcs.F
-Chd|        SPLIT_EBCS                    starter/source/boundary_conditions/ebcs/split_ebcs.F
-Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F
-Chd|        ST_QAPRINT_EBCS               starter/source/output/qaprint/st_qaprint_ebcs.F
-Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ale_ebcs_mod        ../common_source/modules/ale/ale_ebcs_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    contrl              ../starter/source/starter/contrl.F
+      !||    ddsplit             ../starter/source/restart/ddsplit/ddsplit.F
+      !||    domdec2             ../starter/source/spmd/domdec2.F
+      !||    fillcne             ../starter/source/spmd/domdec2.F
+      !||    iniebcs             ../starter/source/boundary_conditions/ebcs/iniebcs.F
+      !||    iniebcsp0           ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
+      !||    lectur              ../engine/source/input/lectur.F
+      !||    read_ebcs           ../starter/source/boundary_conditions/ebcs/read_ebcs.F
+      !||    split_ebcs          ../starter/source/boundary_conditions/ebcs/split_ebcs.F
+      !||    st_qaprint_driver   ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||    st_qaprint_ebcs     ../starter/source/output/qaprint/st_qaprint_ebcs.F
+      !||    wrcomip             ../starter/source/restart/ddsplit/wrcommp.F
+      !||====================================================================
       MODULE ALE_EBCS_MOD
         IMPLICIT NONE
 #include      "my_real.inc"

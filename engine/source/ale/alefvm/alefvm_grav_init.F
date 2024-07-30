@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALEFVM_GRAV_INIT              source/ale/alefvm/alefvm_grav_init.F
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    alefvm_grav_init   ../engine/source/ale/alefvm/alefvm_grav_init.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain            ../engine/source/ale/alemain.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter             ../engine/source/tools/curve/finter.F
+      !||--- uses       -----------------------------------------------------
+      !||    alefvm_mod         ../common_source/modules/ale/alefvm_mod.F
+      !||    sensor_mod         ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE ALEFVM_GRAV_INIT(
      1                          AGRV, IGRV, LGRAV, NSENSOR,SENSOR_TAB,
      2                          IXS , ITASK, NPC , TF    ,SKEW    ,

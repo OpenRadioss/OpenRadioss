@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS104C                    source/materials/mat/mat104/sigeps104c.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|-- calls ---------------
-Chd|        MAT104C_LDAM_NEWTON           source/materials/mat/mat104/mat104c_ldam_newton.F
-Chd|        MAT104C_LDAM_NICE             source/materials/mat/mat104/mat104c_ldam_nice.F
-Chd|        MAT104C_NLDAM_NEWTON          source/materials/mat/mat104/mat104c_nldam_newton.F
-Chd|        MAT104C_NLDAM_NICE            source/materials/mat/mat104/mat104c_nldam_nice.F
-Chd|        MAT104C_NODAM_NEWTON          source/materials/mat/mat104/mat104c_nodam_newton.F
-Chd|        MAT104C_NODAM_NICE            source/materials/mat/mat104/mat104c_nodam_nice.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps104c             ../engine/source/materials/mat/mat104/sigeps104c.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc                 ../engine/source/materials/mat_share/mulawc.F
+      !||--- calls      -----------------------------------------------------
+      !||    mat104c_ldam_newton    ../engine/source/materials/mat/mat104/mat104c_ldam_newton.F
+      !||    mat104c_ldam_nice      ../engine/source/materials/mat/mat104/mat104c_ldam_nice.F
+      !||    mat104c_nldam_newton   ../engine/source/materials/mat/mat104/mat104c_nldam_newton.F
+      !||    mat104c_nldam_nice     ../engine/source/materials/mat/mat104/mat104c_nldam_nice.F
+      !||    mat104c_nodam_newton   ../engine/source/materials/mat/mat104/mat104c_nodam_newton.F
+      !||    mat104c_nodam_nice     ../engine/source/materials/mat/mat104/mat104c_nodam_nice.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE SIGEPS104C(
      1     NEL     ,NGL     ,IPG     ,ILAY    ,IPT     ,NUPARAM ,NUVAR   ,
      2     TIMESTEP,TIME    ,UPARAM  ,UVAR    ,JTHE    ,RHO     ,TEMPEL  ,

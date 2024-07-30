@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASSEM_R3                      source/implicit/assem_r3.F    
-Chd|-- called by -----------
-Chd|        R12KE3                        source/elements/spring/r12ke3.F
-Chd|-- calls ---------------
-Chd|        ASSEM_KII                     source/implicit/imp_glob_k.F  
-Chd|        ASSEM_KIJ                     source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    assem_r3    ../engine/source/implicit/assem_r3.F
+      !||--- called by ------------------------------------------------------
+      !||    r12ke3      ../engine/source/elements/spring/r12ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_kii   ../engine/source/implicit/imp_glob_k.F
+      !||    assem_kij   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE ASSEM_R3(NIX      ,NDL      ,
      1         IX       ,NEL       ,IDDL      ,NDOF      ,K_DIAG    ,
      2         K_LT     ,IADK      ,JDIK      ,K11       ,K12       ,

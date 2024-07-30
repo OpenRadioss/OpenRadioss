@@ -21,18 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  INVERTED_GROUP_MOD            share/modules1/inverted_group_mod.F
-Chd|-- called by -----------
-Chd|        COMPUTE_CONNECT_PARTELM       source/model/sets/compute_connect_partelm.F
-Chd|        CREATE_ELEMENT_FROM_PART      source/model/sets/create_element_from_part.F
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|        INVERTED_GROUP_ALLOC          source/model/sets/inverted_group_alloc.F
-Chd|        INVERTED_GROUP_DEALLOC        source/model/sets/inverted_group_dealloc.F
-Chd|        INVERTED_GROUP_INIT           source/model/sets/inverted_group_init.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inverted_group_mod         ../starter/share/modules1/inverted_group_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    compute_connect_partelm    ../starter/source/model/sets/compute_connect_partelm.F
+      !||    create_element_from_part   ../starter/source/model/sets/create_element_from_part.F
+      !||    hm_set                     ../starter/source/model/sets/hm_set.F
+      !||    inverted_group_alloc       ../starter/source/model/sets/inverted_group_alloc.F
+      !||    inverted_group_dealloc     ../starter/source/model/sets/inverted_group_dealloc.F
+      !||    inverted_group_init        ../starter/source/model/sets/inverted_group_init.F
+      !||    lectur                     ../starter/source/starter/lectur.F
+      !||====================================================================
       MODULE INVERTED_GROUP_MOD
 !$COMMENT
 

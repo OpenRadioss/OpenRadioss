@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I10CORP3                      source/interfaces/int10/i10corp3.F
-Chd|-- called by -----------
-Chd|        I10FORCF3                     source/interfaces/int10/i10ke3.F
-Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i10corp3    ../engine/source/interfaces/int10/i10corp3.F
+      !||--- called by ------------------------------------------------------
+      !||    i10forcf3   ../engine/source/interfaces/int10/i10ke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm    ../engine/share/modules/imp_intm.F
+      !||    tri7box     ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I10CORP3(JLT   ,X     ,IRECT ,CAND_E  ,CAND_N  ,
      1                   STIF  ,H1    ,H2    ,H3      ,H4       ,
      2                   N1    ,N2    ,N3    ,NT1     ,NT2      ,

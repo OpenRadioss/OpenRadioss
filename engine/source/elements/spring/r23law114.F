@@ -20,26 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R23LAW114                     source/elements/spring/r23law114.F
-Chd|-- called by -----------
-Chd|        R23FORC3                      source/elements/spring/r23forc3.F
-Chd|-- calls ---------------
-Chd|        R23BILAN                      source/elements/spring/r23bilan.F
-Chd|        R23COOR3                      source/elements/spring/r23coor3.F
-Chd|        R23L114DEF3                   source/elements/spring/r23l114def3.F
-Chd|        R23SENS3                      source/elements/spring/r23sens3.F
-Chd|        R23_114_COOR3                 source/tools/seatbelts/r23_114_coor3.F
-Chd|        R2LEN3                        source/elements/spring/r2len3.F
-Chd|        R4CUM3                        source/elements/spring/r4cum3.F
-Chd|        R4CUM3P                       source/elements/spring/r4cum3p.F
-Chd|        R4EVEC3                       source/elements/spring/r4evec3.F
-Chd|        R4TORS                        source/elements/spring/r4tors.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    r23law114       ../engine/source/elements/spring/r23law114.F
+      !||--- called by ------------------------------------------------------
+      !||    r23forc3        ../engine/source/elements/spring/r23forc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    r23_114_coor3   ../engine/source/tools/seatbelts/r23_114_coor3.F
+      !||    r23bilan        ../engine/source/elements/spring/r23bilan.F
+      !||    r23coor3        ../engine/source/elements/spring/r23coor3.F
+      !||    r23l114def3     ../engine/source/elements/spring/r23l114def3.F
+      !||    r23sens3        ../engine/source/elements/spring/r23sens3.F
+      !||    r2len3          ../engine/source/elements/spring/r2len3.F
+      !||    r4cum3          ../engine/source/elements/spring/r4cum3.F
+      !||    r4cum3p         ../engine/source/elements/spring/r4cum3p.F
+      !||    r4evec3         ../engine/source/elements/spring/r4evec3.F
+      !||    r4tors          ../engine/source/elements/spring/r4tors.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||    table_mod       ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE R23LAW114(
      1   ELBUF_STR,            JFT,                  JLT,                  NEL,
      2   MTN,                  IGEO,                 GEO,                  IPM,

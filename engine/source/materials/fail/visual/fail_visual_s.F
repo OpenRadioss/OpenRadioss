@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_VISUAL_S                 source/materials/fail/visual/fail_visual_s.F
-Chd|-- called by -----------
-Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
-Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_visual_s   ../engine/source/materials/fail/visual/fail_visual_s.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain           ../engine/source/materials/mat_share/mmain.F90
+      !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8          ../engine/source/materials/mat_share/mulaw8.F
+      !||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
+      !||====================================================================
        SUBROUTINE FAIL_VISUAL_S(
      .            NEL    ,NUPARAM ,NUVAR  ,TIME   ,TIMESTEP,UPARAM ,
      .            EPSXX  ,EPSYY   ,EPSZZ  ,EPSXY  ,EPSYZ   ,EPSZX  ,

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I5IMPK3                       source/interfaces/inter3d/i5impk3.F
-Chd|-- called by -----------
-Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i5impk3   ../engine/source/interfaces/inter3d/i5impk3.F
+      !||--- called by ------------------------------------------------------
+      !||    intvo3    ../engine/source/interfaces/inter3d/intvo3.F
+      !||====================================================================
       SUBROUTINE I5IMPK3(
      1   IRECT,   MSR,     NSV,     IRTL,
      2   NUM_IMP, NS_IMP,  NE_IMP,  ANS,

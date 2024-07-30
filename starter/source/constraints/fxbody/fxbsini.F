@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FXBSINI                       source/constraints/fxbody/fxbsini.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        FSIGCINI                      source/constraints/fxbody/fsigcini.F
-Chd|        FSIGPINI                      source/constraints/fxbody/fsigpini.F
-Chd|        FSIGSINI                      source/constraints/fxbody/fsigsini.F
-Chd|        FSIGTINI                      source/constraints/fxbody/fsigtini.F
-Chd|        FSIGTRINI                     source/constraints/fxbody/fsigtrini.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fxbsini     ../starter/source/constraints/fxbody/fxbsini.F
+      !||--- called by ------------------------------------------------------
+      !||    initia      ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    fsigcini    ../starter/source/constraints/fxbody/fsigcini.F
+      !||    fsigpini    ../starter/source/constraints/fxbody/fsigpini.F
+      !||    fsigsini    ../starter/source/constraints/fxbody/fsigsini.F
+      !||    fsigtini    ../starter/source/constraints/fxbody/fsigtini.F
+      !||    fsigtrini   ../starter/source/constraints/fxbody/fsigtrini.F
+      !||====================================================================
       SUBROUTINE FXBSINI(FXBELM, FXBSIG, NELS , NELC  , NELTG,
      .                   X     , IPARG , PM   , FXBMOD, NML  ,
      .                   NSN   , IXS   , IXC  , IXTG  , GEO  ,

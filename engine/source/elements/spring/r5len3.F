@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R5LEN3                        source/elements/spring/r5len3.F
-Chd|-- called by -----------
-Chd|        RFORC3                        source/elements/spring/rforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    r5len3   ../engine/source/elements/spring/r5len3.F
+      !||--- called by ------------------------------------------------------
+      !||    rforc3   ../engine/source/elements/spring/rforc3.F
+      !||====================================================================
       SUBROUTINE R5LEN3(
      1   JFT,     JLT,     OFF,     DT2T,
      2   NELTST,  ITYPTST, STI,     STIR,

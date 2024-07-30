@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STOCK_MSG                     source/output/message/stock_msg.F
-Chd|-- called by -----------
-Chd|        BUILD_MSG                     source/output/message/build_msg.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    stock_msg     ../starter/source/output/message/stock_msg.F
+      !||--- called by ------------------------------------------------------
+      !||    build_msg     ../starter/source/output/message/build_msg.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE STOCK_MSG(ID,ITYPE,SBUFMSG,BUFMSG)
 C-----------------------------------------------
 C   M o d u l e s

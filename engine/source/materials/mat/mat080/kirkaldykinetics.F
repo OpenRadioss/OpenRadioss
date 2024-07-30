@@ -21,13 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  KIRKALDYKINETICS              source/materials/mat/mat080/kirkaldykinetics.F
-Chd|-- called by -----------
-Chd|        SIGEPS80                      source/materials/mat/mat080/sigeps80.F
-Chd|        SIGEPS80C                     source/materials/mat/mat080/sigeps80c.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    kirkaldykinetics   ../engine/source/materials/mat/mat080/kirkaldykinetics.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps80           ../engine/source/materials/mat/mat080/sigeps80.F
+      !||    sigeps80c          ../engine/source/materials/mat/mat080/sigeps80c.F
+      !||====================================================================
       SUBROUTINE KIRKALDYKINETICS(NEL0,TIME,TEMPEL,TEMPMIN,AE1,AE3,BS,MS,FCFER,
      .  FCPER,FCBAI,FGRAIN,FRAC1,FRAC2,FRAC3,FRAC4,FRAC5,X2,X3,X4,X5,
      .  QR2,QR3,QR4,KPER,KBAIN,ALPHA,XEQ2,XEQ4,XGAMA,TOTFRAC,TIMESTEP,NICOOL,INDEX)

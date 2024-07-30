@@ -24,38 +24,38 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 
 C
-Chd|====================================================================
-Chd|  SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
-Chd|-- called by -----------
-Chd|        AGAUGE                        source/ale/agauge.F           
-Chd|        AGAUGE0                       source/ale/agauge.F           
-Chd|        ALELIN                        source/ale/grid/alelin.F      
-Chd|        ECRIT                         source/output/ecrit.F         
-Chd|        FIND_DT_FOR_TARGETED_ADDED_MASSsource/time_step/find_dt_for_targeted_added_mass.F
-Chd|        GET_MASS_RBY_SPMD             source/coupling/rad2rad/r2r_init.F
-Chd|        I9WAL2                        source/interfaces/int09/i9wal2.F
-Chd|        I9WAL3                        source/interfaces/int09/i9wal3.F
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        INTSTAMP_ASS                  source/interfaces/int21/intstamp_ass.F
-Chd|        MANCTR                        source/input/manctr.F         
-Chd|        MOVFRA1                       source/tools/skew/movfram.F   
-Chd|        MOVFRA2                       source/tools/skew/movfram.F   
-Chd|        MOVFRA_IMP                    source/tools/skew/movfram.F   
-Chd|        R2R_INPUT_INIT                source/coupling/rad2rad/r2r_input_init.F
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        SECTION_INIT                  source/tools/sect/section_init.F
-Chd|        SECTION_READP                 source/tools/sect/section_readp.F
-Chd|        SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
-Chd|        SMS_PCG                       source/ams/sms_pcg.F          
-Chd|        SMS_PRODUT3                   source/ams/sms_proj.F         
-Chd|        SMS_PRODUT_H                  source/ams/sms_proj.F         
-Chd|        SPMD_I21CRIT                  source/mpi/interfaces/spmd_i21crit.F
-Chd|        GET_U_NOD_A                   source/user_interface/uaccess.F
-Chd|        GET_U_NOD_D                   source/user_interface/uaccess.F
-Chd|        GET_U_NOD_V                   source/user_interface/uaccess.F
-Chd|        GET_U_NOD_X                   source/user_interface/uaccess.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_rbcast                       ../engine/source/mpi/generic/spmd_rbcast.F
+      !||--- called by ------------------------------------------------------
+      !||    agauge                            ../engine/source/ale/agauge.F
+      !||    agauge0                           ../engine/source/ale/agauge.F
+      !||    alelin                            ../engine/source/ale/grid/alelin.F
+      !||    ecrit                             ../engine/source/output/ecrit.F
+      !||    find_dt_for_targeted_added_mass   ../engine/source/time_step/find_dt_for_targeted_added_mass.F
+      !||    get_mass_rby_spmd                 ../engine/source/coupling/rad2rad/r2r_init.F
+      !||    get_u_nod_a                       ../engine/source/user_interface/uaccess.F
+      !||    get_u_nod_d                       ../engine/source/user_interface/uaccess.F
+      !||    get_u_nod_v                       ../engine/source/user_interface/uaccess.F
+      !||    get_u_nod_x                       ../engine/source/user_interface/uaccess.F
+      !||    i9wal2                            ../engine/source/interfaces/int09/i9wal2.F
+      !||    i9wal3                            ../engine/source/interfaces/int09/i9wal3.F
+      !||    imp_buck                          ../engine/source/implicit/imp_buck.F
+      !||    intstamp_ass                      ../engine/source/interfaces/int21/intstamp_ass.F
+      !||    manctr                            ../engine/source/input/manctr.F
+      !||    movfra1                           ../engine/source/tools/skew/movfram.F
+      !||    movfra2                           ../engine/source/tools/skew/movfram.F
+      !||    movfra_imp                        ../engine/source/tools/skew/movfram.F
+      !||    r2r_input_init                    ../engine/source/coupling/rad2rad/r2r_input_init.F
+      !||    resol                             ../engine/source/engine/resol.F
+      !||    section_init                      ../engine/source/tools/sect/section_init.F
+      !||    section_readp                     ../engine/source/tools/sect/section_readp.F
+      !||    sensor_spmd                       ../engine/source/tools/sensor/sensor_spmd.F
+      !||    sms_pcg                           ../engine/source/ams/sms_pcg.F
+      !||    sms_produt3                       ../engine/source/ams/sms_proj.F
+      !||    sms_produt_h                      ../engine/source/ams/sms_proj.F
+      !||    spmd_i21crit                      ../engine/source/mpi/interfaces/spmd_i21crit.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_RBCAST(TABI,TABR,N1,N2,FROM,ADD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M25CPLRP2                     source/materials/mat/mat025/m25cplrc2.F
-Chd|-- called by -----------
-Chd|        SIGEPS25CP                    source/materials/mat/mat025/sigeps25cp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m25cplrp2    ../engine/source/materials/mat/mat025/m25cplrc2.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps25cp   ../engine/source/materials/mat/mat025/sigeps25cp.F
+      !||====================================================================
       SUBROUTINE M25CPLRP2(JFT    ,JLT    ,WPLAREF,THK    ,OFF    ,ETSE   ,
      2                     WPLA   ,DIR    ,NPT    ,CC     ,EPDR   ,ICC    ,
      3                     WWPLA  ,SHF    ,FMAX   ,CB     ,CN     ,NEL    ,

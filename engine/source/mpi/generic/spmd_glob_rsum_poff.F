@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_GLOB_RSUM_POFF           source/mpi/generic/spmd_glob_rsum_poff.F
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|        THERMBILAN                    source/constraints/thermic/thermbilan.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_glob_rsum_poff   ../engine/source/mpi/generic/spmd_glob_rsum_poff.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2                 ../engine/source/output/th/hist2.F
+      !||    thermbilan            ../engine/source/constraints/thermic/thermbilan.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_GLOB_RSUM_POFF(ARRAY,LENGTH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

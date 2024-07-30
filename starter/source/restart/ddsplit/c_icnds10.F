@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C_ICNDS10                     source/restart/ddsplit/c_icnds10.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    c_icnds10   ../starter/source/restart/ddsplit/c_icnds10.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal      ../starter/source/spmd/node/ddtools.F
+      !||====================================================================
       SUBROUTINE C_ICNDS10(ICNDS10,ITAGND,PROC,NS10E_L,NBDDCNDM,MS,MS_ND)
 C-----------------------------------------------
 C   M o d u l e s

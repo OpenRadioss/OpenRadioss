@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7KE3                         source/interfaces/int07/i7ke3.F
-Chd|-- called by -----------
-Chd|        IMP_INT_K                     source/implicit/imp_int_k.F   
-Chd|-- calls ---------------
-Chd|        ASSEM_INT                     source/implicit/assem_int.F   
-Chd|        ASS_SPMD                      source/implicit/assem_int.F   
-Chd|        FFIZERO                       source/interfaces/int07/i7ke3.F
-Chd|        I7CORK3                       source/interfaces/int07/i7cork3.F
-Chd|        I7DSTK3                       source/interfaces/int07/i7dstk3.F
-Chd|        I7KEG3                        source/interfaces/int07/i7keg3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i7ke3           ../engine/source/interfaces/int07/i7ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_int_k       ../engine/source/implicit/imp_int_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    ass_spmd        ../engine/source/implicit/assem_int.F
+      !||    assem_int       ../engine/source/implicit/assem_int.F
+      !||    ffizero         ../engine/source/interfaces/int07/i7ke3.F
+      !||    i7cork3         ../engine/source/interfaces/int07/i7cork3.F
+      !||    i7dstk3         ../engine/source/interfaces/int07/i7dstk3.F
+      !||    i7keg3          ../engine/source/interfaces/int07/i7keg3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I7KE3(  A     ,V      ,MS   ,
      1                   IPARI ,INTBUF_TAB,X    ,NIN   ,
      2                   NUM_IMP,CAND_N,CAND_E     ,INDEX2,
@@ -192,15 +193,16 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I7MAINFR                      source/interfaces/int07/i7ke3.F
-Chd|-- called by -----------
-Chd|        FR_MATV                       source/mpi/implicit/imp_fri.F 
-Chd|-- calls ---------------
-Chd|        I10FORCF3                     source/interfaces/int10/i10ke3.F
-Chd|        I11FORCF3                     source/interfaces/int11/i11ke3.F
-Chd|        I7FORCF3                      source/interfaces/int07/i7ke3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i7mainfr        ../engine/source/interfaces/int07/i7ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
+      !||--- calls      -----------------------------------------------------
+      !||    i10forcf3       ../engine/source/interfaces/int10/i10ke3.F
+      !||    i11forcf3       ../engine/source/interfaces/int11/i11ke3.F
+      !||    i7forcf3        ../engine/source/interfaces/int07/i7ke3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I7MAINFR(  A     ,V     ,D      ,X     ,MS    ,
      1                     IPARI  ,INTBUF_TAB    ,NUM_IMP,NS_IMP,
      2                     NE_IMP)
@@ -252,15 +254,16 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I7FORCF3                      source/interfaces/int07/i7ke3.F
-Chd|-- called by -----------
-Chd|        I7MAINFR                      source/interfaces/int07/i7ke3.F
-Chd|-- calls ---------------
-Chd|        I24CORP3                      source/interfaces/int24/i24cork3.F
-Chd|        I7CORP3                       source/interfaces/int07/i7cork3.F
-Chd|        I7FRF3                        source/interfaces/int07/i7keg3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i7forcf3        ../engine/source/interfaces/int07/i7ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    i7mainfr        ../engine/source/interfaces/int07/i7ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    i24corp3        ../engine/source/interfaces/int24/i24cork3.F
+      !||    i7corp3         ../engine/source/interfaces/int07/i7cork3.F
+      !||    i7frf3          ../engine/source/interfaces/int07/i7keg3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I7FORCF3(  A     ,V      ,MS   ,X    ,D ,
      1                    IPARI   ,INTBUF_TAB,NIN     ,
      2                    NUM_IMP ,CAND_N ,CAND_E)
@@ -379,16 +382,17 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  IMP_I7MAINF                   source/interfaces/int07/i7ke3.F
-Chd|-- called by -----------
-Chd|        IMP_TRIPI                     source/implicit/imp_int_k.F   
-Chd|-- calls ---------------
-Chd|        I7CDCOR3                      source/interfaces/int07/i7cdcor3.F
-Chd|        I7CORK3                       source/interfaces/int07/i7cork3.F
-Chd|        I7DSTK3                       source/interfaces/int07/i7dstk3.F
-Chd|        I7DSTR3                       source/interfaces/int07/i7dstk3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_i7mainf     ../engine/source/interfaces/int07/i7ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_tripi       ../engine/source/implicit/imp_int_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    i7cdcor3        ../engine/source/interfaces/int07/i7cdcor3.F
+      !||    i7cork3         ../engine/source/interfaces/int07/i7cork3.F
+      !||    i7dstk3         ../engine/source/interfaces/int07/i7dstk3.F
+      !||    i7dstr3         ../engine/source/interfaces/int07/i7dstk3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE IMP_I7MAINF(
      1       IPARI  ,INTBUF_TAB,X        ,
      2       V      ,MS        ,NIN       ,LINDMAX  ,
@@ -578,16 +582,17 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I7FKU3                        source/interfaces/int07/i7ke3.F
-Chd|-- called by -----------
-Chd|        INT_FKU3                      source/implicit/imp_int_k.F   
-Chd|-- calls ---------------
-Chd|        I7CORK3                       source/interfaces/int07/i7cork3.F
-Chd|        I7CORKP3                      source/interfaces/int07/i7cork3.F
-Chd|        I7DSTK3                       source/interfaces/int07/i7dstk3.F
-Chd|        I7KFOR3                       source/interfaces/int07/i7keg3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i7fku3          ../engine/source/interfaces/int07/i7ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    int_fku3        ../engine/source/implicit/imp_int_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    i7cork3         ../engine/source/interfaces/int07/i7cork3.F
+      !||    i7corkp3        ../engine/source/interfaces/int07/i7cork3.F
+      !||    i7dstk3         ../engine/source/interfaces/int07/i7dstk3.F
+      !||    i7kfor3         ../engine/source/interfaces/int07/i7keg3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I7FKU3(A      ,V     ,MS     ,D     ,
      1                  IPARI ,INTBUF_TAB,X    ,NIN   ,
      2                  NUM_IMP,CAND_N,CAND_E ,INDEX2,IUPD  )
@@ -736,14 +741,14 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  FFIZERO                       source/interfaces/int07/i7ke3.F
-Chd|-- called by -----------
-Chd|        I24KE3                        source/interfaces/int24/i24ke3.F
-Chd|        I7KE3                         source/interfaces/int07/i7ke3.F
-Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    ffizero    ../engine/source/interfaces/int07/i7ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    i24ke3     ../engine/source/interfaces/int24/i24ke3.F
+      !||    i7ke3      ../engine/source/interfaces/int07/i7ke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm   ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE FFIZERO(JLT    ,NIN    ,NSN     ,CAND_N   )
 C-----------------------------------------------
 C   M o d u l e s

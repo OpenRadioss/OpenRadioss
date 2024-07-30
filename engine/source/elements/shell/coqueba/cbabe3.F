@@ -26,12 +26,11 @@ C   |------------------------------------------------------------
 C   |-- appelee par -----------
 C   |         CBAKE3                         /coqueba/cbake3.F
 C   |============================================================
-Chd|====================================================================
-Chd|  CBABE3                        source/elements/shell/coqueba/cbabe3.F
-Chd|-- called by -----------
-Chd|        CBAKE3                        source/elements/shell/coqueba/cbake3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cbabe3   ../engine/source/elements/shell/coqueba/cbabe3.F
+      !||--- called by ------------------------------------------------------
+      !||    cbake3   ../engine/source/elements/shell/coqueba/cbake3.F
+      !||====================================================================
       SUBROUTINE CBABE3(JFT,JLT,NG,VCORE,AREA,CDET,VQN,VQ,VJFI,
      1                  VNRM,VASTN,HX,HY,VETA,VKSI,
      2                  BM,BMF,BF,BC,TC,BZZ,NPLAT,IPLAT,
@@ -633,12 +632,11 @@ C--------pour rigidite en rzz-------
        END IF !(ISROT==0) THEN
        RETURN
        END
-Chd|====================================================================
-Chd|  CBABEC3                       source/elements/shell/coqueba/cbabe3.F
-Chd|-- called by -----------
-Chd|        CBAKE3                        source/elements/shell/coqueba/cbake3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cbabec3   ../engine/source/elements/shell/coqueba/cbabe3.F
+      !||--- called by ------------------------------------------------------
+      !||    cbake3    ../engine/source/elements/shell/coqueba/cbake3.F
+      !||====================================================================
         SUBROUTINE CBABEC3(JFT  ,JLT  ,X13  ,X24  ,Y13  ,Y24  ,
      1                                         BM, NPLAT, IPLAT)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -676,12 +674,11 @@ C-----------------------------------------------
        ENDDO
        RETURN
        END
-Chd|====================================================================
-Chd|  CBABER3                       source/elements/shell/coqueba/cbabe3.F
-Chd|-- called by -----------
-Chd|        CBAKE3                        source/elements/shell/coqueba/cbake3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cbaber3   ../engine/source/elements/shell/coqueba/cbabe3.F
+      !||--- called by ------------------------------------------------------
+      !||    cbake3    ../engine/source/elements/shell/coqueba/cbake3.F
+      !||====================================================================
         SUBROUTINE CBABER3(JFT ,JLT  ,BM0RZ,BMKRZ,BMERZ  ,
      2                     BMRZ ,BRZ  ,BM   ,NPLAT  ,IPLAT,
      3                     NG   )

@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SESA10                        source/materials/mat/mat026/sesa10.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sesa10   ../engine/source/materials/mat/mat026/sesa10.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain    ../engine/source/materials/mat_share/mmain.F90
+      !||====================================================================
       SUBROUTINE SESA10(OFF   ,SNEW  ,QOLD  ,EINT  ,VOLN ,
      2                  DVOL  ,SOLD1 ,SOLD2 ,SOLD3 ,SOLD4,
      3                  SOLD5 ,SOLD6 ,D1    ,D2    ,D3   ,

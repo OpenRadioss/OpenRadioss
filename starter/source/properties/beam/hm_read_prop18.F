@@ -20,22 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_PROP18                source/properties/beam/hm_read_prop18.F
-Chd|-- called by -----------
-Chd|        HM_READ_PROPERTIES            source/properties/hm_read_properties.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        DEFBEAM_SECT                  source/properties/beam/hm_read_prop18.F
-Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
-Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_prop18             ../starter/source/properties/beam/hm_read_prop18.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_properties         ../starter/source/properties/hm_read_properties.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                     ../starter/source/output/message/message.F
+      !||    defbeam_sect               ../starter/source/properties/beam/hm_read_prop18.F
+      !||    defbeam_sect_new           ../starter/source/properties/beam/defbeam_sect_new.F90
+      !||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+      !||    hm_get_floatv              ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_is_encrypted     ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||--- uses       -----------------------------------------------------
+      !||    defbeam_sect_new_mod       ../starter/source/properties/beam/defbeam_sect_new.F90
+      !||    elbuftag_mod               ../starter/share/modules1/elbuftag_mod.F
+      !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod                ../starter/share/message_module/message_mod.F
+      !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_PROP18(GEO       ,IGEO     ,PROP_TAG ,IGTYP    ,IG        ,
      .                          IDTITL    ,UNITAB   ,LSUBMODEL)
 C============================================================================
@@ -395,14 +398,15 @@ C
 C
       END SUBROUTINE
 
-Chd|====================================================================
-Chd|  DEFBEAM_SECT                  source/properties/beam/hm_read_prop18.F
-Chd|-- called by -----------
-Chd|        HM_READ_PROP18                source/properties/beam/hm_read_prop18.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    defbeam_sect     ../starter/source/properties/beam/hm_read_prop18.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_prop18   ../starter/source/properties/beam/hm_read_prop18.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg           ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE DEFBEAM_SECT(GEO,ISECT,INTR,NIP,
      .                        AREA,L,IG,IDTITL)
 C-----------------------------------------------

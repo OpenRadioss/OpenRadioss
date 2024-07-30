@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS119C                    source/materials/mat/mat119/sigeps119c.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|-- calls ---------------
-Chd|        LAW119_MEMBRANE               source/materials/mat/mat119/law119_membrane.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps119c            ../engine/source/materials/mat/mat119/sigeps119c.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc                ../engine/source/materials/mat_share/mulawc.F
+      !||--- calls      -----------------------------------------------------
+      !||    law119_membrane       ../engine/source/materials/mat/mat119/law119_membrane.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    table_mod             ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE SIGEPS119C(
      .            NEL     ,IPT     ,NPT     ,NUPARAM ,NUVAR   ,
      .            NUMTABL ,ITABLE  ,TABLE   ,UVAR    ,UPARAM  ,

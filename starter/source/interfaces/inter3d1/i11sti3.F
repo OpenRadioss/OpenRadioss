@@ -20,24 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I11STI3                       source/interfaces/inter3d1/i11sti3.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRICTION_PARTS_SEARCH         source/interfaces/inter3d1/i7sti3.F
-Chd|        I11COQ                        source/interfaces/inter3d1/i11coq.F
-Chd|        I11FIL                        source/interfaces/inter3d1/i11coq.F
-Chd|        I11GMX3                       source/interfaces/inter3d1/i11gmx3.F
-Chd|        I11SOL                        source/interfaces/inter3d1/i11sol.F
-Chd|        MY_EXIT                       source/output/analyse/analyse.c
-Chd|        NORMA1                        source/interfaces/inter3d1/norma1.F
-Chd|        VOLINT                        source/interfaces/inter3d1/volint.F
-Chd|        GET_U_GEO                     source/user_interface/uaccess.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    i11sti3                 ../starter/source/interfaces/inter3d1/i11sti3.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3                  ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                  ../starter/source/output/message/message.F
+      !||    friction_parts_search   ../starter/source/interfaces/inter3d1/i7sti3.F
+      !||    get_u_geo               ../starter/source/user_interface/uaccess.F
+      !||    i11coq                  ../starter/source/interfaces/inter3d1/i11coq.F
+      !||    i11fil                  ../starter/source/interfaces/inter3d1/i11coq.F
+      !||    i11gmx3                 ../starter/source/interfaces/inter3d1/i11gmx3.F
+      !||    i11sol                  ../starter/source/interfaces/inter3d1/i11sol.F
+      !||    my_exit                 ../starter/source/output/analyse/analyse.c
+      !||    norma1                  ../starter/source/interfaces/inter3d1/norma1.F
+      !||    volint                  ../starter/source/interfaces/inter3d1/volint.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||    r2r_mod                 ../starter/share/modules1/r2r_mod.F
+      !||====================================================================
       SUBROUTINE I11STI3(
      1 X        ,IRECT      ,STF      ,IXS            ,PM      ,
      2 GEO      ,NRT        ,IXC      ,NINTR          ,SLSFAC  ,

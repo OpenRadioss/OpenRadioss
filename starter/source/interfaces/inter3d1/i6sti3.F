@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  I6STI3                        source/interfaces/inter3d1/i6sti3.F
-Chd|-- called by -----------
-Chd|        INIEND                        source/interfaces/inter3d1/iniend.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        LOCAL_INDEX                   source/interfaces/interf1/local_index.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i6sti3        ../starter/source/interfaces/inter3d1/i6sti3.F
+      !||--- called by ------------------------------------------------------
+      !||    iniend        ../starter/source/interfaces/inter3d1/iniend.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    local_index   ../starter/source/interfaces/interf1/local_index.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I6STI3(IRECT,STF  ,NRT   ,STFN  ,NSN    ,
      .                  NSV  ,XMAS ,MS    ,NPBY  ,LPBY   ,
      .                  NOINT,ITAB ,ID    ,TITR  )

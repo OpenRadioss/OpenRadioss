@@ -21,11 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #ifndef DNC
-Chd|====================================================================
-Chd|  KLDIM                         stub/kldim.F                  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    kldim   ../engine/stub/kldim.F
+      !||====================================================================
       SUBROUTINE KLDIM(EIGIPM, EIGIBUF, NDOF  , LDIAG, LJDIK, 
      .                 LJDIK2, NDDL   , K_DIAG, K_LT , IADK , 
      .                 JDIK  , IKC    , NMS   , INLOC, IDDL )

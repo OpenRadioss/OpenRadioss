@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MULTI_EBCS                    source/multifluid/multi_ebcs.F
-Chd|-- called by -----------
-Chd|        MULTI_TIMEEVOLUTION           source/multifluid/multi_timeevolution.F
-Chd|-- calls ---------------
-Chd|        MULTI_INLET_EBCS              source/multifluid/multi_inlet_ebcs.F
-Chd|        MULTI_NRF_EBCS                source/multifluid/multi_nrf_ebcs.F
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    multi_ebcs            ../engine/source/multifluid/multi_ebcs.F
+      !||--- called by ------------------------------------------------------
+      !||    multi_timeevolution   ../engine/source/multifluid/multi_timeevolution.F
+      !||--- calls      -----------------------------------------------------
+      !||    multi_inlet_ebcs      ../engine/source/multifluid/multi_inlet_ebcs.F
+      !||    multi_nrf_ebcs        ../engine/source/multifluid/multi_nrf_ebcs.F
+      !||--- uses       -----------------------------------------------------
+      !||    ebcs_mod              ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F
+      !||    th_surf_mod           ../common_source/modules/interfaces/th_surf_mod.F
+      !||====================================================================
       SUBROUTINE MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM,
      .     FUNC_VALUE, EBCS_TAB,NPF,TF,FSAVSURF,NSURF,TIMESTEP)
 C-----------------------------------------------

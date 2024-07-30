@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCDERI3                       source/elements/thickshell/solidec/scderi3.F
-Chd|-- called by -----------
-Chd|        SCINIT3                       source/elements/thickshell/solidec/scinit3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    scderi3       ../starter/source/elements/thickshell/solidec/scderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    scinit3       ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SCDERI3(NEL,VOL,JEUL ,VEUL ,GEO  ,
      .         VZL  ,VZQ  ,NGL  ,NGEO ,
      .         X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,  

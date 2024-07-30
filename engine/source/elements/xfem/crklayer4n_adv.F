@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CRKLAYER4N_ADV                source/elements/xfem/crklayer4n_adv.F
-Chd|-- called by -----------
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        LSINT4                        source/elements/xfem/crklayer4n_adv.F
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    crklayer4n_adv   ../engine/source/elements/xfem/crklayer4n_adv.F
+      !||--- called by ------------------------------------------------------
+      !||    cforc3           ../engine/source/elements/shell/coque/cforc3.F
+      !||    czforc3          ../engine/source/elements/shell/coquez/czforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret            ../engine/source/system/arret.F
+      !||    lsint4           ../engine/source/elements/xfem/crklayer4n_adv.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod    ../engine/share/modules/crackxfem_mod.F
+      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE CRKLAYER4N_ADV(
      .           XFEM_STR  ,NEL       ,NFT       ,IXC       ,ELCUTC    ,
      .           ILAY      ,NLAY      ,IEL_CRK   ,INOD_CRK  ,
@@ -695,17 +696,16 @@ c
 c-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  LSINT4                        source/elements/xfem/crklayer4n_adv.F
-Chd|-- called by -----------
-Chd|        CRKLAYER3N_ADV                source/elements/xfem/crklayer3n_adv.F
-Chd|        CRKLAYER3N_INI                source/elements/xfem/crklayer3n_ini.F
-Chd|        CRKLAYER4N_ADV                source/elements/xfem/crklayer4n_adv.F
-Chd|        CRKLAYER4N_INI                source/elements/xfem/crklayer4n_ini.F
-Chd|        ENRICHC_INI                   source/elements/xfem/enrichc_ini.F
-Chd|        ENRICHTG_INI                  source/elements/xfem/enrichtg_ini.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    lsint4           ../engine/source/elements/xfem/crklayer4n_adv.F
+      !||--- called by ------------------------------------------------------
+      !||    crklayer3n_adv   ../engine/source/elements/xfem/crklayer3n_adv.F
+      !||    crklayer3n_ini   ../engine/source/elements/xfem/crklayer3n_ini.F
+      !||    crklayer4n_adv   ../engine/source/elements/xfem/crklayer4n_adv.F
+      !||    crklayer4n_ini   ../engine/source/elements/xfem/crklayer4n_ini.F
+      !||    enrichc_ini      ../engine/source/elements/xfem/enrichc_ini.F
+      !||    enrichtg_ini     ../engine/source/elements/xfem/enrichtg_ini.F
+      !||====================================================================
       SUBROUTINE LSINT4(Y1, Z1, Y2, Z2, Y, Z, FI)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_EXCH_ADM                 source/mpi/anim/spmd_exch_adm.F
-Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_adm   ../engine/source/mpi/anim/spmd_exch_adm.F
+      !||--- called by ------------------------------------------------------
+      !||    sortie_main     ../engine/source/output/sortie_main.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_ADM(ADM,IAD_ELEM,FR_ELEM,LENR,WEIGHT_MD)
 C realise la sommation des ajouts de masses au noeuds frontieres
 C-----------------------------------------------

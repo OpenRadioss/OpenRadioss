@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMALLB3                      source/elements/sph/spmall3.F 
-Chd|-- called by -----------
-Chd|        SPSTRES                       source/elements/sph/spstres.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmallb3   ../engine/source/elements/sph/spmall3.F
+      !||--- called by ------------------------------------------------------
+      !||    spstres    ../engine/source/elements/sph/spstres.F
+      !||====================================================================
       SUBROUTINE SPMALLB3(
      1   OFFG,    OFF,     KXSP,    SPH2SOL,
      2   LFT,     LLT,     ISMSTR)

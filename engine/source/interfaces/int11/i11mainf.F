@@ -20,26 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I11MAINF                      source/interfaces/int11/i11mainf.F
-Chd|-- called by -----------
-Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        FRICTIONPARTS_MODEL_ISOT      source/interfaces/int07/frictionparts_model.F
-Chd|        I11ASS3                       source/interfaces/int11/i11ass3.F
-Chd|        I11CDCOR3                     source/interfaces/int11/i11cdcor3.F
-Chd|        I11COR3                       source/interfaces/int11/i11cor3.F
-Chd|        I11DST3                       source/interfaces/int11/i11dst3.F
-Chd|        I11FOR3                       source/interfaces/int11/i11for3.F
-Chd|        I11THERM                      source/interfaces/int11/i11therm.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        SUM_6_FLOAT_SENS              source/system/parit.F         
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i11mainf                   ../engine/source/interfaces/int11/i11mainf.F
+      !||--- called by ------------------------------------------------------
+      !||    intfop2                    ../engine/source/interfaces/interf/intfop2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                     ../engine/source/output/message/message.F
+      !||    arret                      ../engine/source/system/arret.F
+      !||    frictionparts_model_isot   ../engine/source/interfaces/int07/frictionparts_model.F
+      !||    i11ass3                    ../engine/source/interfaces/int11/i11ass3.F
+      !||    i11cdcor3                  ../engine/source/interfaces/int11/i11cdcor3.F
+      !||    i11cor3                    ../engine/source/interfaces/int11/i11cor3.F
+      !||    i11dst3                    ../engine/source/interfaces/int11/i11dst3.F
+      !||    i11for3                    ../engine/source/interfaces/int11/i11for3.F
+      !||    i11therm                   ../engine/source/interfaces/int11/i11therm.F
+      !||    startime                   ../engine/source/system/timer.F
+      !||    stoptime                   ../engine/source/system/timer.F
+      !||    sum_6_float_sens           ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod                    ../engine/share/modules/h3d_mod.F
+      !||    intbuf_fric_mod            ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||    message_mod                ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I11MAINF(
      1      IPARI   ,X         ,A       ,
      2      ICODT   ,FSAV      ,V        ,MS     ,DT2T    ,

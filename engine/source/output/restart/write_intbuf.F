@@ -22,16 +22,17 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
      
 
-Chd|====================================================================
-Chd|  WRITE_INTBUF                  source/output/restart/write_intbuf.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_INTBUF_T8               source/output/restart/write_intbuf.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    write_intbuf      ../engine/source/output/restart/write_intbuf.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp           ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret             ../engine/source/system/arret.F
+      !||    write_db          ../common_source/tools/input_output/write_db.F
+      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||    write_intbuf_t8   ../engine/source/output/restart/write_intbuf.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE WRITE_INTBUF(INTBUF_TAB)  
 C-----------------------------------------------
 C   M o d u l e s
@@ -1387,13 +1388,14 @@ C-----
 
       END SUBROUTINE WRITE_INTBUF
 C-----
-Chd|====================================================================
-Chd|  WRITE_INTBUF_T8               source/output/restart/write_intbuf.F
-Chd|-- called by -----------
-Chd|        WRITE_INTBUF                  source/output/restart/write_intbuf.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    write_intbuf_t8   ../engine/source/output/restart/write_intbuf.F
+      !||--- called by ------------------------------------------------------
+      !||    write_intbuf      ../engine/source/output/restart/write_intbuf.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE WRITE_INTBUF_T8(T8)  
 C-----------------------------------------------
 C   M o d u l e s

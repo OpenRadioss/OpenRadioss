@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4JAC_I                       source/elements/solid/solide4/s4jac_i.F
-Chd|-- called by -----------
-Chd|        S4UPD11T12                    source/elements/solid/solide4/s4upd11t12.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s4jac_i       ../engine/source/elements/solid/solide4/s4jac_i.F
+      !||--- called by ------------------------------------------------------
+      !||    s4upd11t12    ../engine/source/elements/solid/solide4/s4upd11t12.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S4JAC_I(
      .              X1   ,X2   ,X3   ,X4   ,
      .              Y1   ,Y2   ,Y3   ,Y4   ,

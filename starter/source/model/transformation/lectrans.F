@@ -20,30 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LECTRANS                      source/model/transformation/lectrans.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        EULER_MROT                    source/model/submodel/euler_mrot.F
-Chd|        EULER_VROT                    source/model/submodel/euler_vrot.F
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        POINTS_TO_FRAME               source/model/submodel/3points_to_frame.F
-Chd|        SUBROTPOINT                   source/model/submodel/subrot.F
-Chd|        SUBROTVECT                    source/model/submodel/subrot.F
-Chd|        NGR2USR                       source/system/nintrr.F        
-Chd|        USRTOS                        source/system/sysfus.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    lectrans             ../starter/source/model/transformation/lectrans.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../starter/source/output/message/message.F
+      !||    euler_mrot           ../starter/source/model/submodel/euler_mrot.F
+      !||    euler_vrot           ../starter/source/model/submodel/euler_vrot.F
+      !||    hm_get_floatv        ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_count      ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    ngr2usr              ../starter/source/system/nintrr.F
+      !||    points_to_frame      ../starter/source/model/submodel/3points_to_frame.F
+      !||    subrotpoint          ../starter/source/model/submodel/subrot.F
+      !||    subrotvect           ../starter/source/model/submodel/subrot.F
+      !||    usrtos               ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE LECTRANS(X        ,IGRNOD ,ITAB   ,ITABM1,UNITAB,
      .                    LSUBMODEL,RTRANS )
 C-----------------------------------------------

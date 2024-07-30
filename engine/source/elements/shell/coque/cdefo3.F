@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CDEFO3                        source/elements/shell/coque/cdefo3.F
-Chd|-- called by -----------
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cdefo3       ../engine/source/elements/shell/coque/cdefo3.F
+      !||--- called by ------------------------------------------------------
+      !||    cforc3       ../engine/source/elements/shell/coque/cforc3.F
+      !||    cforc3_crk   ../engine/source/elements/xfem/cforc3_crk.F
+      !||====================================================================
       SUBROUTINE CDEFO3(JFT,JLT,VL1,VL2,VL3,VL4,
      1            DT1C,PX1 ,PX2,PY1,PY2,AREA,
      2            EXX ,EYY,EXY,EXZ,EYZ ,X2  ,X3 ,X4 ,Y2 ,Y3  ,
@@ -216,12 +215,11 @@ c-----------
       RETURN
       END
 c
-Chd|====================================================================
-Chd|  CDEFOT3                       source/elements/shell/coque/cdefo3.F
-Chd|-- called by -----------
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cdefot3   ../engine/source/elements/shell/coque/cdefo3.F
+      !||--- called by ------------------------------------------------------
+      !||    cforc3    ../engine/source/elements/shell/coque/cforc3.F
+      !||====================================================================
       SUBROUTINE CDEFOT3(JFT ,JLT  ,PX1  ,PX2  ,PY1   ,
      2                   PY2 ,VX13 ,VX24  ,VY13  ,VY24   ,
      3                   F_DEF )

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SORTIE_ERROR                  source/output/sortie_error.F  
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
-Chd|        SPMD_VGATH_ERR                source/mpi/anim/spmd_vgath_err.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sortie_error      ../engine/source/output/sortie_error.F
+      !||--- called by ------------------------------------------------------
+      !||    resol             ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_vgath_err    ../engine/source/mpi/anim/spmd_vgath_err.F
+      !||====================================================================
       SUBROUTINE SORTIE_ERROR(V,NODGLOB,WEIGHT,ITAB,MS,
      1                        MS0,PARAM,PARTSAV,IPART,PM,
      2                        IGEO)

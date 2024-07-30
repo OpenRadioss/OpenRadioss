@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SET_FAILWAVE_SH4N             source/materials/fail/failwave/upd_failwave_sh4n.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|-- calls ---------------
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    set_failwave_sh4n   ../engine/source/materials/fail/failwave/upd_failwave_sh4n.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3            ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||    cforc3              ../engine/source/elements/shell/coque/cforc3.F
+      !||    czforc3             ../engine/source/elements/shell/coquez/czforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    failwave_mod        ../common_source/modules/failwave_mod.F
+      !||====================================================================
       SUBROUTINE SET_FAILWAVE_SH4N(FAILWAVE    ,FWAVE_EL  ,DADV     ,
      .           NEL      ,IXC      ,ITAB      ,NGL       ,OFFLY    )
 C-----------------------------------------------

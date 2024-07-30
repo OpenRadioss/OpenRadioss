@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  EBCS_VOL2SEG                  source/boundary_conditions/ebcs/ebcs_vol2seg.F
-Chd|-- called by -----------
-Chd|        EBCS_MAIN                     source/boundary_conditions/ebcs/ebcs_main.F
-Chd|-- calls ---------------
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    ebcs_vol2seg   ../engine/source/boundary_conditions/ebcs/ebcs_vol2seg.F
+      !||--- called by ------------------------------------------------------
+      !||    ebcs_main      ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod        ../common_source/modules/ale/ale_mod.F
+      !||    segvar_mod     ../engine/share/modules/segvar_mod.F
+      !||====================================================================
       SUBROUTINE EBCS_VOL2SEG(NSEG,SURF_NODES,ISEG,SEGVAR,
      .                   A,V,X,VOLMON,FSAV)
 C-----------------------------------------------

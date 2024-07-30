@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SOLTOSPHX8                    source/elements/sph/soltosph.F
-Chd|-- called by -----------
-Chd|        HM_READ_SPHCEL                source/elements/reader/hm_read_sphcel.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    soltosphx8       ../starter/source/elements/sph/soltosph.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_sphcel   ../starter/source/elements/reader/hm_read_sphcel.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SOLTOSPHX8(
      .   NSPHDIR ,NCELL   ,INOD    ,IDS     ,IDMAX  ,
      .   X       ,IXS     ,KXSP    ,IPARTSP ,NOD2SP ,
@@ -173,13 +173,15 @@ C
 C-----------------------------------------------
       RETURN
       END SUBROUTINE SOLTOSPHX8
-Chd|====================================================================
-Chd|  SOLTOSPHX4                    source/elements/sph/soltosph.F
-Chd|-- called by -----------
-Chd|        HM_READ_SPHCEL                source/elements/reader/hm_read_sphcel.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    soltosphx4       ../starter/source/elements/sph/soltosph.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_sphcel   ../starter/source/elements/reader/hm_read_sphcel.F
+      !||--- calls      -----------------------------------------------------
+      !||    checkvolume_4n   ../starter/source/elements/solid/solide/checksvolume.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SOLTOSPHX4(
      .   NSPHDIR ,NCELL   ,INOD    ,IDS     ,IDMAX  ,
      .   X       ,IXS     ,KXSP    ,IPARTSP ,NOD2SP ,
@@ -318,15 +320,16 @@ C
 C-----------------------------------------------
       RETURN
       END SUBROUTINE SOLTOSPHX4
-Chd|====================================================================
-Chd|  SOLTOSPHV8                    source/elements/sph/soltosph.F
-Chd|-- called by -----------
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    soltosphv8    ../starter/source/elements/sph/soltosph.F
+      !||--- called by ------------------------------------------------------
+      !||    s8zinit3      ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||    sinit3        ../starter/source/elements/solid/solide/sinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SOLTOSPHV8(
      .   NSPHDIR ,RHO     ,NCELL   ,X      ,SPBUF   ,
      .   IXS     ,KXSP    ,IPARTSP ,IRST   )
@@ -570,14 +573,15 @@ C
 C-----------------------------------------------
       RETURN
       END SUBROUTINE SOLTOSPHV8
-Chd|====================================================================
-Chd|  SOLTOSPHV4                    source/elements/sph/soltosph.F
-Chd|-- called by -----------
-Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    soltosphv4    ../starter/source/elements/sph/soltosph.F
+      !||--- called by ------------------------------------------------------
+      !||    s4init3       ../starter/source/elements/solid/solide4/s4init3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SOLTOSPHV4(
      .   NSPHDIR ,RHO     ,NCELL   ,X      ,SPBUF   ,
      .   IXS     )

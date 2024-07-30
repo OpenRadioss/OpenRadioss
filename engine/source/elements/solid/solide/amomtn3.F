@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  AMOMTN3                       source/elements/solid/solide/amomtn3.F
-Chd|-- called by -----------
-Chd|        AMOMT3                        source/elements/solid/solide/amomt3.F
-Chd|-- calls ---------------
-Chd|        UPWIND_V                      source/elements/solid/solide/upwind_v.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    amomtn3    ../engine/source/elements/solid/solide/amomtn3.F
+      !||--- called by ------------------------------------------------------
+      !||    amomt3     ../engine/source/elements/solid/solide/amomt3.F
+      !||--- calls      -----------------------------------------------------
+      !||    upwind_v   ../engine/source/elements/solid/solide/upwind_v.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod    ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
       SUBROUTINE AMOMTN3(
      1   RHO,     DELTAX,  VIS,     VOL,
      2   A0,      A1,      A2,      A3,

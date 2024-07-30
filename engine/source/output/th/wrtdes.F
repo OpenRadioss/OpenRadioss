@@ -20,29 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRTDES                        source/output/th/wrtdes.F     
-Chd|-- called by -----------
-Chd|        HIST1                         source/output/th/hist1.F      
-Chd|        HIST13                        source/output/th/hist13.F     
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|        LECNOISE                      source/general_controls/computation/lecnoise.F
-Chd|        NOISE                         source/general_controls/computation/noise.F
-Chd|        THCLUSTER                     source/output/th/thcluster.F  
-Chd|        THFXMOD                       source/output/th/thfxmod.F    
-Chd|        THKIN                         source/output/th/thkin.F      
-Chd|        THMONV                        source/output/th/thmonv.F     
-Chd|        THSENS                        source/output/th/thsens.F     
-Chd|        THSURF                        source/output/th/thsurf.F     
-Chd|        WRITE_TH                      source/output/th/write_th.F   
-Chd|        WRTDES0                       source/output/th/wrtdes0.F    
-Chd|-- calls ---------------
-Chd|        EOR_C                         ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        STRI                          source/tools/univ/stri.F      
-Chd|        STRR                          source/tools/univ/strr.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    wrtdes      ../engine/source/output/th/wrtdes.F
+      !||--- called by ------------------------------------------------------
+      !||    hist1       ../engine/source/output/th/hist1.F
+      !||    hist13      ../engine/source/output/th/hist13.F
+      !||    hist2       ../engine/source/output/th/hist2.F
+      !||    lecnoise    ../engine/source/general_controls/computation/lecnoise.F
+      !||    noise       ../engine/source/general_controls/computation/noise.F
+      !||    thcluster   ../engine/source/output/th/thcluster.F
+      !||    thfxmod     ../engine/source/output/th/thfxmod.F
+      !||    thkin       ../engine/source/output/th/thkin.F
+      !||    thmonv      ../engine/source/output/th/thmonv.F
+      !||    thsens      ../engine/source/output/th/thsens.F
+      !||    thsurf      ../engine/source/output/th/thsurf.F
+      !||    write_th    ../engine/source/output/th/write_th.F
+      !||    wrtdes0     ../engine/source/output/th/wrtdes0.F
+      !||--- calls      -----------------------------------------------------
+      !||    eor_c       ../common_source/tools/input_output/write_routtines.c
+      !||    write_i_c   ../common_source/tools/input_output/write_routtines.c
+      !||    write_r_c   ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE WRTDES(A,IA,L,IFORM,IR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

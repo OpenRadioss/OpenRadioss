@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LECFVBAG                      source/input/lecfvbag.F       
-Chd|-- called by -----------
-Chd|        LECTUR                        source/input/lectur.F         
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        SPMD_FVB_GATH                 source/mpi/airbags/spmd_fvb_gath.F
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    lecfvbag        ../engine/source/input/lecfvbag.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur          ../engine/source/input/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret           ../engine/source/system/arret.F
+      !||    spmd_fvb_gath   ../engine/source/mpi/airbags/spmd_fvb_gath.F
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod       ../engine/share/modules/fvbag_mod.F
+      !||====================================================================
       SUBROUTINE LECFVBAG(NFVMESH, MONVOL, VOLMON, X)
 C-----------------------------------------------
 C   M o d u l e s 

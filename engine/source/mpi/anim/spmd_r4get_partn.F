@@ -21,26 +21,26 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
-Chd|-- called by -----------
-Chd|        ANIMCALE                      source/output/anim/generate/genani.F
-Chd|        DFUNC0                        source/output/anim/generate/dfunc0.F
-Chd|        DFUNCC                        source/output/anim/generate/dfuncc.F
-Chd|        DFUNCC_CRK                    source/output/anim/generate/dfuncc_crk.F
-Chd|        DFUNCC_PLY                    source/output/anim/generate/dfuncc_ply.F
-Chd|        DFUNCF                        source/output/anim/generate/dfuncf.F
-Chd|        DFUNCS                        source/output/anim/generate/dfunc6.F
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|        TENSOR0                       source/output/anim/generate/tensor0.F
-Chd|        TENSORC                       source/output/anim/generate/tensorc.F
-Chd|        TENSORC_CRK                   source/output/anim/generate/tensorc_crk.F
-Chd|        TENSORC_PLY                   source/output/anim/generate/tensorc_ply.F
-Chd|        TENSORS                       source/output/anim/generate/tensor6.F
-Chd|        TORSEUR                       source/output/anim/generate/torseur.F
-Chd|-- calls ---------------
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
+      !||--- called by ------------------------------------------------------
+      !||    animcale           ../engine/source/output/anim/generate/genani.F
+      !||    dfunc0             ../engine/source/output/anim/generate/dfunc0.F
+      !||    dfuncc             ../engine/source/output/anim/generate/dfuncc.F
+      !||    dfuncc_crk         ../engine/source/output/anim/generate/dfuncc_crk.F
+      !||    dfuncc_ply         ../engine/source/output/anim/generate/dfuncc_ply.F
+      !||    dfuncf             ../engine/source/output/anim/generate/dfuncf.F
+      !||    dfuncs             ../engine/source/output/anim/generate/dfunc6.F
+      !||    genani             ../engine/source/output/anim/generate/genani.F
+      !||    tensor0            ../engine/source/output/anim/generate/tensor0.F
+      !||    tensorc            ../engine/source/output/anim/generate/tensorc.F
+      !||    tensorc_crk        ../engine/source/output/anim/generate/tensorc_crk.F
+      !||    tensorc_ply        ../engine/source/output/anim/generate/tensorc_ply.F
+      !||    tensors            ../engine/source/output/anim/generate/tensor6.F
+      !||    torseur            ../engine/source/output/anim/generate/torseur.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE SPMD_R4GET_PARTN(SIZE,NBF_L,NBPART,IADG,WAL,BUF)
 C gather sur p0 du tableau wa en fonction des parts (IADG)
 C-----------------------------------------------

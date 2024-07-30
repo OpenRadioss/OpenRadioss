@@ -21,17 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_EXCH_NODAREA             source/mpi/anim/spmd_exch_nodarea.F
-Chd|-- called by -----------
-Chd|        ADMTHKE                       source/model/remesh/admthke.F 
-Chd|        ANI_PCONT                     source/output/anim/generate/ani_pcont.F
-Chd|        ANI_PCONT21                   source/output/anim/generate/ani_pcont.F
-Chd|        ERR_THK                       source/elements/shell/err_thk.F
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|        INTER_NODAL_AREAS             source/output/inter_nodal_areas.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_nodarea     ../engine/source/mpi/anim/spmd_exch_nodarea.F
+      !||--- called by ------------------------------------------------------
+      !||    admthke               ../engine/source/model/remesh/admthke.F
+      !||    ani_pcont             ../engine/source/output/anim/generate/ani_pcont.F
+      !||    ani_pcont21           ../engine/source/output/anim/generate/ani_pcont.F
+      !||    err_thk               ../engine/source/elements/shell/err_thk.F
+      !||    genani                ../engine/source/output/anim/generate/genani.F
+      !||    inter_nodal_areas     ../engine/source/output/inter_nodal_areas.F
+      !||    inter_sh_offset_ini   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_NODAREA(
      .           NODAREA,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
 C realise la sommation des aires aux noeuds frontieres

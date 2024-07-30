@@ -20,14 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ENG_QAPRINT_DTINPUT           source/output/qaprint/eng_qaprint_dtinput.F
-Chd|-- called by -----------
-Chd|        ENG_QAPRINT_DRIVER            source/output/qaprint/eng_qaprint_driver.F
-Chd|-- calls ---------------
-Chd|        DT_MOD                        share/modules/dt_mod.F        
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    eng_qaprint_dtinput   ../engine/source/output/qaprint/eng_qaprint_dtinput.F
+      !||--- called by ------------------------------------------------------
+      !||    eng_qaprint_driver    ../engine/source/output/qaprint/eng_qaprint_driver.F
+      !||--- calls      -----------------------------------------------------
+      !||    qaprint               ../common_source/qa/qa_out_mod.F
+      !||--- uses       -----------------------------------------------------
+      !||    dt_mod                ../engine/share/modules/dt_mod.F
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    qa_out_mod            ../common_source/qa/qa_out_mod.F
+      !||====================================================================
       SUBROUTINE ENG_QAPRINT_DTINPUT(DT)
 C-----------------------------------------------
 C   M o d u l e s

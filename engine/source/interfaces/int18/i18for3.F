@@ -20,23 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I18FOR3                       source/interfaces/int18/i18for3.F
-Chd|-- called by -----------
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|-- calls ---------------
-Chd|        I7ASS0                        source/interfaces/int07/i7ass3.F
-Chd|        I7ASS2                        source/interfaces/int07/i7ass3.F
-Chd|        I7ASS3                        source/interfaces/int07/i7ass3.F
-Chd|        MULTI_I18_FORCE_POFF          source/interfaces/int18/multi_i18_force_poff.F
-Chd|        MULTI_I18_FORCE_PON           source/interfaces/int18/multi_i18_force_pon.F
-Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i18for3                ../engine/source/interfaces/int18/i18for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i7mainf                ../engine/source/interfaces/int07/i7mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    i7ass0                 ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass2                 ../engine/source/interfaces/int07/i7ass3.F
+      !||    i7ass3                 ../engine/source/interfaces/int07/i7ass3.F
+      !||    multi_i18_force_poff   ../engine/source/interfaces/int18/multi_i18_force_poff.F
+      !||    multi_i18_force_pon    ../engine/source/interfaces/int18/multi_i18_force_pon.F
+      !||--- uses       -----------------------------------------------------
+      !||    aleanim_mod            ../engine/share/modules/aleanim_mod.F
+      !||    anim_mod               ../common_source/modules/output/anim_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F
+      !||    tri7box                ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I18FOR3(JLT      ,A          ,V         ,IBCC      ,ICODT         ,
      2                  FSAV      ,GAP        ,FRIC      ,MS        ,VISC          ,
      3                  VISCF     ,NOINT      ,STFN      ,ITAB      ,CN_LOC        ,

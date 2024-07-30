@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ROTO_TENS2D                   source/materials/tools/roto_tens2d.F
-Chd|-- called by -----------
-Chd|        H3D_SHELL_TENSOR              source/output/h3d/h3d_results/h3d_shell_tensor.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    roto_tens2d        ../engine/source/materials/tools/roto_tens2d.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_shell_tensor   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+      !||====================================================================
       SUBROUTINE ROTO_TENS2D(NEL,SIG,DIR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

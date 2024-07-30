@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MMAIN                         source/materials/mat_share/mmain.F
-Chd|-- called by -----------
-Chd|        S4REFSTA3                     source/elements/solid/solide4/s4refsta3.F
-Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
-Chd|-- calls ---------------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    mmain          ../starter/source/materials/mat_share/mmain.F
+      !||--- called by ------------------------------------------------------
+      !||    s4refsta3      ../starter/source/elements/solid/solide4/s4refsta3.F
+      !||    srefsta3       ../starter/source/elements/solid/solide/srefsta3.F
+      !||--- calls      -----------------------------------------------------
+      !||    mulaw          ../starter/source/materials/mat_share/mulaw.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE MMAIN(PM      ,ELBUF_STR,IX   ,NIX    ,X       ,
      2                  GEO    ,IPARG  ,NEL    ,SKEW   ,BUFMAT  ,
      3                  IPART  ,IPARTEL,NUMMAT ,MATPARAM,

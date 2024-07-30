@@ -20,21 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  VOLINT                        source/interfaces/inter3d1/volint.F
-Chd|-- called by -----------
-Chd|        I11STI3                       source/interfaces/inter3d1/i11sti3.F
-Chd|        I20STI3                       source/interfaces/inter3d1/i20sti3.F
-Chd|        I20STI3E                      source/interfaces/inter3d1/i20sti3.F
-Chd|        I24GAPM                       source/interfaces/inter3d1/i24sti3.F
-Chd|        I24LL_KG                      source/interfaces/inter3d1/i24sti3.F
-Chd|        I25GAPM                       source/interfaces/inter3d1/i25sti3.F
-Chd|        I2BUC1                        source/interfaces/inter3d1/i2buc1.F
-Chd|        I2COR3                        source/interfaces/inter3d1/i2cor3.F
-Chd|        I3STI3                        source/interfaces/inter3d1/i3sti3.F
-Chd|        I7STI3                        source/interfaces/inter3d1/i7sti3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    volint     ../starter/source/interfaces/inter3d1/volint.F
+      !||--- called by ------------------------------------------------------
+      !||    i11sti3    ../starter/source/interfaces/inter3d1/i11sti3.F
+      !||    i20sti3    ../starter/source/interfaces/inter3d1/i20sti3.F
+      !||    i20sti3e   ../starter/source/interfaces/inter3d1/i20sti3.F
+      !||    i24gapm    ../starter/source/interfaces/inter3d1/i24sti3.F
+      !||    i24ll_kg   ../starter/source/interfaces/inter3d1/i24sti3.F
+      !||    i25gapm    ../starter/source/interfaces/inter3d1/i25sti3.F
+      !||    i2buc1     ../starter/source/interfaces/inter3d1/i2buc1.F
+      !||    i2cor3     ../starter/source/interfaces/inter3d1/i2cor3.F
+      !||    i3sti3     ../starter/source/interfaces/inter3d1/i3sti3.F
+      !||    i7sti3     ../starter/source/interfaces/inter3d1/i7sti3.F
+      !||====================================================================
       SUBROUTINE VOLINT(VOL)
 C-----------------------------------------------
 C   COMPUTE HEXAHEDRON VOLUME

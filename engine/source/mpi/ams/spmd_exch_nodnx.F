@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_EXCH_NODNX               source/mpi/ams/spmd_exch_nodnx.F
-Chd|-- called by -----------
-Chd|        SMS_BUILD_DIAG                source/ams/sms_build_diag.F   
-Chd|        SMS_INI_JAD_3                 source/ams/sms_init.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_nodnx   ../engine/source/mpi/ams/spmd_exch_nodnx.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_build_diag    ../engine/source/ams/sms_build_diag.F
+      !||    sms_ini_jad_3     ../engine/source/ams/sms_init.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_NODNX(NODNX_SMS,IAD_ELEM,FR_ELEM,LENR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

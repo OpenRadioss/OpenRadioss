@@ -20,18 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_TAB_S                    source/materials/fail/tabulated/fail_tab_s.F
-Chd|-- called by -----------
-Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
-Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
-Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
-Chd|-- calls ---------------
-Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_tab_s            ../engine/source/materials/fail/tabulated/fail_tab_s.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain                 ../engine/source/materials/mat_share/mmain.F90
+      !||    mmain8                ../engine/source/materials/mat_share/mmain8.F
+      !||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8                ../engine/source/materials/mat_share/mulaw8.F
+      !||    usermat_solid         ../engine/source/materials/mat_share/usermat_solid.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                ../engine/source/tools/curve/finter.F
+      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    table_mod             ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE FAIL_TAB_S (
      1     NEL     ,NUVAR   ,NPF     ,TF      ,TIME    ,
      2     UPARAM  ,NGL     ,ALDT    ,

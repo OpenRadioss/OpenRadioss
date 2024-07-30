@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ANIM_XFE_INIT                 source/output/anim/generate/anim_crk_init.F
-Chd|-- called by -----------
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    anim_xfe_init   ../engine/source/output/anim/generate/anim_crk_init.F
+      !||--- called by ------------------------------------------------------
+      !||    resol_init      ../engine/source/engine/resol_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE ANIM_XFE_INIT(IXC,IXTG,INOD_CRK,IEL_CRK,
      .                         IADC_CRK,IADTG_CRK)
 C-----------------------------------------------

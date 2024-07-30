@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TSHCDCOM_DIM                  source/elements/thickshell/solidec/tshcdcom_dim.F
-Chd|-- called by -----------
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
-Chd|-- calls ---------------
-Chd|        SPMD_EXCH_TAG_TSH             source/mpi/elements/spmd_exch_dttsh.F
-Chd|====================================================================
+      !||====================================================================
+      !||    tshcdcom_dim        ../engine/source/elements/thickshell/solidec/tshcdcom_dim.F
+      !||--- called by ------------------------------------------------------
+      !||    resol_init          ../engine/source/engine/resol_init.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_exch_tag_tsh   ../engine/source/mpi/elements/spmd_exch_dttsh.F
+      !||====================================================================
       SUBROUTINE TSHCDCOM_DIM(IENUNL,FR_ELEM,IAD_ELEM,NBDDS,NBDDR ,
      .                        ISEND ,IRECV )
 C-----------------------------------------------

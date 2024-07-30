@@ -22,12 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 C
-Chd|====================================================================
-Chd|  MRDSE3                        source/materials/mat/mat026/mrdse3.F
-Chd|-- called by -----------
-Chd|        HM_READ_MAT26                 source/materials/mat/mat026/hm_read_mat26.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mrdse3          ../starter/source/materials/mat/mat026/mrdse3.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_mat26   ../starter/source/materials/mat/mat026/hm_read_mat26.F
+      !||====================================================================
       SUBROUTINE MRDSE3(RR,NR,TT,NT,QQ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

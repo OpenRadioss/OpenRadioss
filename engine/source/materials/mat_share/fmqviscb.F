@@ -20,12 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FMQVISCB                      source/materials/mat_share/fmqviscb.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fmqviscb   ../engine/source/materials/mat_share/fmqviscb.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw      ../engine/source/materials/mat_share/mulaw.F90
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod    ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
       SUBROUTINE FMQVISCB(
      1   NEL,     PM,      GEO,     PID,
      2   MAT,     NGL,     NELTST,  ITYPTST,

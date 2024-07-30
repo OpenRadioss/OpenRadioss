@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ISTR                          source/tools/univ/istr.F      
-Chd|-- called by -----------
-Chd|        REDSQI                        source/output/tools/redsqi.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    istr     ../engine/source/tools/univ/istr.F
+      !||--- called by ------------------------------------------------------
+      !||    redsqi   ../engine/source/output/tools/redsqi.F
+      !||====================================================================
       INTEGER FUNCTION ISTR(STR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

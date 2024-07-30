@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRTDES0                       source/output/th/wrtdes0.F    
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
-Chd|        WRTDES                        source/output/th/wrtdes.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    wrtdes0           ../engine/source/output/th/wrtdes0.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2             ../engine/source/output/th/hist2.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    wrtdes            ../engine/source/output/th/wrtdes.F
+      !||====================================================================
       SUBROUTINE WRTDES0(NG,WA,II,IFORM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

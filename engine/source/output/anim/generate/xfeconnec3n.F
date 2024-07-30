@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  XFECONNEC3N                   source/output/anim/generate/xfeconnec3n.F
-Chd|-- called by -----------
-Chd|        XFECUT                        source/output/anim/generate/xfecut.F
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    xfeconnec3n     ../engine/source/output/anim/generate/xfeconnec3n.F
+      !||--- called by ------------------------------------------------------
+      !||    xfecut          ../engine/source/output/anim/generate/xfecut.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE XFECONNEC3N(
      .     JFT      ,JLT      ,NFT     ,IXTG        ,ELCUTC   ,
      .     IEL_CRKTG,IAD_CRKTG,ILEV    ,NODEDGE     ,CRKEDGE  ,

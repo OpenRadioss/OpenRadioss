@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RGWAL0                        source/constraints/general/rwall/rgwal0.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        RGWALC                        source/constraints/general/rwall/rgwalc.F
-Chd|        RGWALL                        source/constraints/general/rwall/rgwall.F
-Chd|        RGWALP                        source/constraints/general/rwall/rgwalp.F
-Chd|        RGWALS                        source/constraints/general/rwall/rgwals.F
-Chd|        RGWALT                        source/constraints/general/rwall/rgwal0.F
-Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rgwal0          ../engine/source/constraints/general/rwall/rgwal0.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier      ../engine/source/system/machine.F
+      !||    rgwalc          ../engine/source/constraints/general/rwall/rgwalc.F
+      !||    rgwall          ../engine/source/constraints/general/rwall/rgwall.F
+      !||    rgwalp          ../engine/source/constraints/general/rwall/rgwalp.F
+      !||    rgwals          ../engine/source/constraints/general/rwall/rgwals.F
+      !||    rgwalt          ../engine/source/constraints/general/rwall/rgwal0.F
+      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+      !||====================================================================
       SUBROUTINE RGWAL0(X      ,A      ,V      ,RWBUF   ,LPRW  ,
      2                  NPRW   ,MS     ,FSAV   ,FR_WALL ,FOPT  ,
      3                  RWSAV  ,WEIGHT ,FRWL6 ,NODNX_SMS,WEIGHT_MD,
@@ -186,23 +186,23 @@ C
 
       RETURN
       END
-Chd|====================================================================
-Chd|  RGWAL0_IMP                    source/constraints/general/rwall/rgwal0.F
-Chd|-- called by -----------
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        FV_RWL                        source/constraints/general/rwall/srw_imp.F
-Chd|        GETDYNA_A                     source/implicit/imp_dyna.F    
-Chd|        RGWALC                        source/constraints/general/rwall/rgwalc.F
-Chd|        RGWALL                        source/constraints/general/rwall/rgwall.F
-Chd|        RGWALP                        source/constraints/general/rwall/rgwalp.F
-Chd|        RGWALS                        source/constraints/general/rwall/rgwals.F
-Chd|        RGWALT                        source/constraints/general/rwall/rgwal0.F
-Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
-Chd|        ZEROR                         source/system/zero.F          
-Chd|====================================================================
+      !||====================================================================
+      !||    rgwal0_imp      ../engine/source/constraints/general/rwall/rgwal0.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_buck        ../engine/source/implicit/imp_buck.F
+      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
+      !||    imp_solv        ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    fv_rwl          ../engine/source/constraints/general/rwall/srw_imp.F
+      !||    getdyna_a       ../engine/source/implicit/imp_dyna.F
+      !||    rgwalc          ../engine/source/constraints/general/rwall/rgwalc.F
+      !||    rgwall          ../engine/source/constraints/general/rwall/rgwall.F
+      !||    rgwalp          ../engine/source/constraints/general/rwall/rgwalp.F
+      !||    rgwals          ../engine/source/constraints/general/rwall/rgwals.F
+      !||    rgwalt          ../engine/source/constraints/general/rwall/rgwal0.F
+      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+      !||    zeror           ../engine/source/system/zero.F
+      !||====================================================================
       SUBROUTINE RGWAL0_IMP(X      ,D      ,V      ,RWBUF   ,LPRW   ,
      1                  NPRW   ,MS     ,FSAV   ,FR_WALL ,FOPT   ,
      2                  RWSAV  ,WEIGHT ,FSAVD   ,NT_RW  ,
@@ -370,12 +370,11 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  RGWALF                        source/constraints/general/rwall/rgwal0.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rgwalf   ../engine/source/constraints/general/rwall/rgwal0.F
+      !||--- called by ------------------------------------------------------
+      !||    resol    ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE RGWALF(A      ,RWBUF   ,NPRW   ,MS    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -431,13 +430,12 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  RGWALT                        source/constraints/general/rwall/rgwal0.F
-Chd|-- called by -----------
-Chd|        RGWAL0                        source/constraints/general/rwall/rgwal0.F
-Chd|        RGWAL0_IMP                    source/constraints/general/rwall/rgwal0.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rgwalt       ../engine/source/constraints/general/rwall/rgwal0.F
+      !||--- called by ------------------------------------------------------
+      !||    rgwal0       ../engine/source/constraints/general/rwall/rgwal0.F
+      !||    rgwal0_imp   ../engine/source/constraints/general/rwall/rgwal0.F
+      !||====================================================================
       SUBROUTINE RGWALT(MSR ,RWL,FRWL6,PMAIN,FSAV,
      2                  FOPT,FBSAV6,IPARSENS)
 C-----------------------------------------------

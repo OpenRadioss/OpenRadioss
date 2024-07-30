@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IMP_K_EIG                     stub/imp_k_eig.F              
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        IMP_GLOB_K                    source/implicit/imp_glob_k.F  
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        PR_INFOK                      source/implicit/imp_solv.F    
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        UPD_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F  
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_k_eig       ../engine/stub/imp_k_eig.F
+      !||--- calls      -----------------------------------------------------
+      !||    imp_glob_k      ../engine/source/implicit/imp_glob_k.F
+      !||    my_barrier      ../engine/source/system/machine.F
+      !||    pr_infok        ../engine/source/implicit/imp_solv.F
+      !||    startime        ../engine/source/system/timer.F
+      !||    stoptime        ../engine/source/system/timer.F
+      !||    upd_fr_k        ../engine/source/mpi/implicit/imp_fri.F
+      !||    upd_glob_k      ../engine/source/implicit/upd_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod       ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    stack_mod       ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE IMP_K_EIG(NDDL0  , NNZK0   , DIAG_K , LT_K   , LSIZE ,
      .                     PM     , GEO     , IPM    , IGEO   , ELBUF ,
      .                     IXS    , IXQ     , IXC    , IXT    , IXP   ,

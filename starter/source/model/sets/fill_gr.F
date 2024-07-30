@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FILL_GR                       source/model/sets/fill_gr.F   
-Chd|-- called by -----------
-Chd|        FILL_IGR                      source/model/sets/fill_igr.F  
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fill_gr        ../starter/source/model/sets/fill_gr.F
+      !||--- called by ------------------------------------------------------
+      !||    fill_igr       ../starter/source/model/sets/fill_igr.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE FILL_GR(IGRELE, NGRELEM  ,IELT,
      .                   SET_ID  ,SET_TITLE,GETELEM, NELEM,SET_GREID)
 C-----------------------------------------------
@@ -108,15 +107,14 @@ C-----------------------------------------------
 C-----
       RETURN
       END
-Chd|====================================================================
-Chd|  FILL_SURF                     source/model/sets/fill_gr.F   
-Chd|-- called by -----------
-Chd|        FILL_IGR                      source/model/sets/fill_igr.F  
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fill_surf      ../starter/source/model/sets/fill_gr.F
+      !||--- called by ------------------------------------------------------
+      !||    fill_igr       ../starter/source/model/sets/fill_igr.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE FILL_SURF(SET,IGRSURF,IGRS)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -209,15 +207,14 @@ C-----------------------------------------------
 C-----
       RETURN
       END
-Chd|====================================================================
-Chd|  FILL_LINE                     source/model/sets/fill_gr.F   
-Chd|-- called by -----------
-Chd|        FILL_IGR                      source/model/sets/fill_igr.F  
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fill_line      ../starter/source/model/sets/fill_gr.F
+      !||--- called by ------------------------------------------------------
+      !||    fill_igr       ../starter/source/model/sets/fill_igr.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE FILL_LINE(SET,IGRSLIN  ,IGRL)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

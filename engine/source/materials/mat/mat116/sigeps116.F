@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS116                     source/materials/mat/mat116/sigeps116.F
-Chd|-- called by -----------
-Chd|        SUSER43                       source/elements/solid/sconnect/suser43.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps116   ../engine/source/materials/mat/mat116/sigeps116.F
+      !||--- called by ------------------------------------------------------
+      !||    suser43     ../engine/source/elements/solid/sconnect/suser43.F
+      !||====================================================================
       SUBROUTINE SIGEPS116(
      1     NEL     ,NUPARAM ,NUVAR   ,JSMS    ,TIME    ,TIMESTEP,
      2     UPARAM  ,UVAR    ,AREA    ,EPSD    ,OFF     ,OFFL    ,

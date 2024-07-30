@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTTI2V                       source/interfaces/interf/intti2v.F
-Chd|-- called by -----------
-Chd|        INTTI2                        source/interfaces/interf/intti2.F
-Chd|-- calls ---------------
-Chd|        I2CURVV                       source/interfaces/interf/i2curvv.F
-Chd|        I2ROT10                       source/interfaces/interf/i2vit10.F
-Chd|        I2ROT3                        source/interfaces/interf/i2vit3.F
-Chd|        I2VIROT3                      source/interfaces/interf/i2vit3.F
-Chd|        I2VIT10                       source/interfaces/interf/i2vit10.F
-Chd|        I2VIT27                       source/interfaces/interf/i2vit27.F
-Chd|        I2VIT28                       source/interfaces/interf/i2vit28.F
-Chd|        I2VIT3                        source/interfaces/interf/i2vit3.F
-Chd|        I2VIT3N                       source/interfaces/interf/i2vit3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    intti2v         ../engine/source/interfaces/interf/intti2v.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2          ../engine/source/interfaces/interf/intti2.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2curvv         ../engine/source/interfaces/interf/i2curvv.F
+      !||    i2rot10         ../engine/source/interfaces/interf/i2vit10.F
+      !||    i2rot3          ../engine/source/interfaces/interf/i2vit3.F
+      !||    i2virot3        ../engine/source/interfaces/interf/i2vit3.F
+      !||    i2vit10         ../engine/source/interfaces/interf/i2vit10.F
+      !||    i2vit27         ../engine/source/interfaces/interf/i2vit27.F
+      !||    i2vit28         ../engine/source/interfaces/interf/i2vit28.F
+      !||    i2vit3          ../engine/source/interfaces/interf/i2vit3.F
+      !||    i2vit3n         ../engine/source/interfaces/interf/i2vit3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INTTI2V(IPARI,X    ,V   ,
      .                   A    ,VR   ,AR   ,MS  ,IN   ,
      .                   WEIGHT,INTBUF_TAB)

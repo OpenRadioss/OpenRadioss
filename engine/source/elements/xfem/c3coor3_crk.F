@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C3COOR3_CRK                   source/elements/xfem/c3coor3_crk.F
-Chd|-- called by -----------
-Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    c3coor3_crk     ../engine/source/elements/xfem/c3coor3_crk.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3_crk     ../engine/source/elements/xfem/c3forc3_crk.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE C3COOR3_CRK(JFT    ,JLT    ,OFFG   ,OFF    ,SIGY    ,
      .                       DT1C   ,THKE   ,VL1    ,VL2    ,VL3     ,
      .                       VRL1   ,VRL2   ,VRL3   ,X1     ,X2      ,
@@ -151,13 +151,13 @@ C---
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  C3COOR3_CRK2                  source/elements/xfem/c3coor3_crk.F
-Chd|-- called by -----------
-Chd|        C3BILAN                       source/elements/sh3n/coque3n/c3bilan.F
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    c3coor3_crk2    ../engine/source/elements/xfem/c3coor3_crk.F
+      !||--- called by ------------------------------------------------------
+      !||    c3bilan         ../engine/source/elements/sh3n/coque3n/c3bilan.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE C3COOR3_CRK2(
      1              JFT  ,JLT  ,NFT  ,ILEV     ,IEL_CRK,
      2              X    ,V    ,VR   ,VL1      ,VL2    ,

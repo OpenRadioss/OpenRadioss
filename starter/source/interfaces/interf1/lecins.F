@@ -20,31 +20,30 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LECINS                        source/interfaces/interf1/lecins.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ELTY_SURF                     source/interfaces/interf1/lecins.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        I11EDGE                       source/interfaces/inter3d1/i11edge.F
-Chd|        I20SURFI                      source/interfaces/inter3d1/i20surfi.F
-Chd|        I24SURFI                      source/interfaces/inter3d1/i24surfi.F
-Chd|        I25SURFI                      source/interfaces/inter3d1/i25surfi.F
-Chd|        INGRBRIC                      source/interfaces/interf1/ingrbric.F
-Chd|        INGRBRIC_CENTROIDS            source/interfaces/interf1/ingrbric_centroids.F
-Chd|        INGRBRIC_NODES                source/interfaces/interf1/ingrbric_nodes.F
-Chd|        INPOINT                       source/interfaces/interf1/inpoint.F
-Chd|        INSLIN                        source/interfaces/interf1/inslin.F
-Chd|        INSURF                        source/interfaces/interf1/insurf.F
-Chd|        INSURF23                      source/interfaces/interf1/insurf23.F
-Chd|        INSURFIGEO                    source/interfaces/interf1/insurfigeo.F
-Chd|        NSEGMT                        source/interfaces/interf1/nsegmt.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lecins               ../starter/source/interfaces/interf1/lecins.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../starter/source/output/message/message.F
+      !||    elty_surf            ../starter/source/interfaces/interf1/lecins.F
+      !||    fretitl2             ../starter/source/starter/freform.F
+      !||    i11edge              ../starter/source/interfaces/inter3d1/i11edge.F
+      !||    i20surfi             ../starter/source/interfaces/inter3d1/i20surfi.F
+      !||    i24surfi             ../starter/source/interfaces/inter3d1/i24surfi.F
+      !||    i25surfi             ../starter/source/interfaces/inter3d1/i25surfi.F
+      !||    ingrbric             ../starter/source/interfaces/interf1/ingrbric.F
+      !||    ingrbric_centroids   ../starter/source/interfaces/interf1/ingrbric_centroids.F
+      !||    ingrbric_nodes       ../starter/source/interfaces/interf1/ingrbric_nodes.F
+      !||    inpoint              ../starter/source/interfaces/interf1/inpoint.F
+      !||    inslin               ../starter/source/interfaces/interf1/inslin.F
+      !||    insurf               ../starter/source/interfaces/interf1/insurf.F
+      !||    insurf23             ../starter/source/interfaces/interf1/insurf23.F
+      !||    insurfigeo           ../starter/source/interfaces/interf1/insurfigeo.F
+      !||    nsegmt               ../starter/source/interfaces/interf1/nsegmt.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE LECINS(IPARI   ,ITAB       ,PM       ,IPM       ,BUFMAT  ,
      .                  IGRNOD  ,IGRSURF    ,IGRSLIN  ,XFILTR    ,STFAC   ,
      .                  FRIC_P  ,FRIGAP     ,I2RUPT   ,AREASL    ,LIXINT  ,
@@ -625,12 +624,11 @@ C-----
 
       RETURN
       END
-Chd|====================================================================
-Chd|  ELTY_SURF                     source/interfaces/interf1/lecins.F
-Chd|-- called by -----------
-Chd|        LECINS                        source/interfaces/interf1/lecins.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    elty_surf   ../starter/source/interfaces/interf1/lecins.F
+      !||--- called by ------------------------------------------------------
+      !||    lecins      ../starter/source/interfaces/interf1/lecins.F
+      !||====================================================================
       SUBROUTINE ELTY_SURF(NRTM0,NRTM,NSEG,SURF_ELTYP,MSEGTYP,ISU2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

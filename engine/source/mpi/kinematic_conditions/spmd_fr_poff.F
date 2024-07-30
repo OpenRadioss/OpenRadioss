@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_FR_POFF                  source/mpi/kinematic_conditions/spmd_fr_poff.F
-Chd|-- called by -----------
-Chd|        DAMPING_VREF                  source/assembly/damping_vref.F
-Chd|        MV_MATV                       source/airbag/monv_imp0.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fr_poff   ../engine/source/mpi/kinematic_conditions/spmd_fr_poff.F
+      !||--- called by ------------------------------------------------------
+      !||    damping_vref   ../engine/source/assembly/damping_vref.F
+      !||    mv_matv        ../engine/source/airbag/monv_imp0.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_FR_POFF(FR_WALL,FS,LEN)
 C cumul force sur frontiere en parith/Off
 C-----------------------------------------------

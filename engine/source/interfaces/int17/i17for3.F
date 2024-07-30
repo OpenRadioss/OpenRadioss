@@ -20,23 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I17FOR3                       source/interfaces/int17/i17for3.F
-Chd|-- called by -----------
-Chd|        I17MAIN_PENA                  source/interfaces/int17/i17main_pena.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I17LLL_ASS                    source/interfaces/int17/i17for3.F
-Chd|        I17LLL_PENA                   source/interfaces/int17/i17for3.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_I17FROTS_PON             source/mpi/interfaces/spmd_i17frots_pon.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        ICONTACT_MOD                  share/modules/icontact_mod.F  
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i17for3             ../engine/source/interfaces/int17/i17for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i17main_pena        ../engine/source/interfaces/int17/i17main_pena.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg              ../engine/source/output/message/message.F
+      !||    arret               ../engine/source/system/arret.F
+      !||    i17lll_ass          ../engine/source/interfaces/int17/i17for3.F
+      !||    i17lll_pena         ../engine/source/interfaces/int17/i17for3.F
+      !||    my_barrier          ../engine/source/system/machine.F
+      !||    spmd_i17frots_pon   ../engine/source/mpi/interfaces/spmd_i17frots_pon.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod            ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
+      !||    icontact_mod        ../engine/share/modules/icontact_mod.F
+      !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||    tri7box             ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I17FOR3(
      1   X      ,V       ,CANDN    ,CANDE        ,I_STOK  ,
      2   IXS    ,IXS16   ,EMINXM   ,NELES        ,NELEM   ,
@@ -263,18 +264,19 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I17LLL_PENA                   source/interfaces/int17/i17for3.F
-Chd|-- called by -----------
-Chd|        I17FOR3                       source/interfaces/int17/i17for3.F
-Chd|-- calls ---------------
-Chd|        I17LLL4_PENA                  source/interfaces/int17/i17for3.F
-Chd|        I17MINI_PENA                  source/interfaces/int17/i17for3.F
-Chd|        I17RST                        source/interfaces/int17/i17lagm.F
-Chd|        I17VIT_PENA                   source/interfaces/int17/i17for3.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i17lll_pena    ../engine/source/interfaces/int17/i17for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i17for3        ../engine/source/interfaces/int17/i17for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    i17lll4_pena   ../engine/source/interfaces/int17/i17for3.F
+      !||    i17mini_pena   ../engine/source/interfaces/int17/i17for3.F
+      !||    i17rst         ../engine/source/interfaces/int17/i17lagm.F
+      !||    i17vit_pena    ../engine/source/interfaces/int17/i17for3.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod       ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod        ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I17LLL_PENA(
      .         LLT     ,V      ,STIFN   ,XX        ,FRIC   ,
      2         YY      ,ZZ     ,III     ,FSKYI     ,ISKY   ,
@@ -479,17 +481,17 @@ C-----------------------------------------------------------------------
      9      H3D_DATA  )
       RETURN
       END
-Chd|====================================================================
-Chd|  I17MINI_PENA                  source/interfaces/int17/i17for3.F
-Chd|-- called by -----------
-Chd|        I17LLL_PENA                   source/interfaces/int17/i17for3.F
-Chd|-- calls ---------------
-Chd|        I17ABC                        source/interfaces/int17/i17lagm.F
-Chd|        I17ABC_PENA                   source/interfaces/int17/i17for3.F
-Chd|        I17NORM                       source/interfaces/int17/i17lagm.F
-Chd|        I17RACINE_PENA                source/interfaces/int17/i17for3.F
-Chd|        I17SURF                       source/interfaces/int17/i17for3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i17mini_pena     ../engine/source/interfaces/int17/i17for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i17lll_pena      ../engine/source/interfaces/int17/i17for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    i17abc           ../engine/source/interfaces/int17/i17lagm.F
+      !||    i17abc_pena      ../engine/source/interfaces/int17/i17for3.F
+      !||    i17norm          ../engine/source/interfaces/int17/i17lagm.F
+      !||    i17racine_pena   ../engine/source/interfaces/int17/i17for3.F
+      !||    i17surf          ../engine/source/interfaces/int17/i17for3.F
+      !||====================================================================
       SUBROUTINE I17MINI_PENA(
      1                   LLT   ,R_CS  ,S_CS  ,T_CS  ,RI_S  ,SI_S  ,
      2                   TI_S  ,NI_S  ,XXS   ,YYS   ,ZZS   ,XX    ,
@@ -924,12 +926,11 @@ C-----------------------------------------------
 c-----------------------------------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  I17ABC_PENA                   source/interfaces/int17/i17for3.F
-Chd|-- called by -----------
-Chd|        I17MINI_PENA                  source/interfaces/int17/i17for3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i17abc_pena    ../engine/source/interfaces/int17/i17for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i17mini_pena   ../engine/source/interfaces/int17/i17for3.F
+      !||====================================================================
       SUBROUTINE I17ABC_PENA(I,F   ,R   ,T   ,
      +                  B1  ,B2  ,B3  ,C1  ,C2  ,C3  )
 C-----------------------------------------------
@@ -1012,12 +1013,11 @@ c
 c
       RETURN
       END
-Chd|====================================================================
-Chd|  I17BORNE_PENA                 source/interfaces/int17/i17for3.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        I17RACINE                     source/interfaces/int17/i17lagm.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i17borne_pena   ../engine/source/interfaces/int17/i17for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    i17racine       ../engine/source/interfaces/int17/i17lagm.F
+      !||====================================================================
       SUBROUTINE I17BORNE_PENA(LLT ,R_S ,A   ,B  ,C  ,ICONT,RS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1089,12 +1089,11 @@ C pas de recouvrement main/second
 c
       RETURN
       END
-Chd|====================================================================
-Chd|  I17RACINE_PENA                source/interfaces/int17/i17for3.F
-Chd|-- called by -----------
-Chd|        I17MINI_PENA                  source/interfaces/int17/i17for3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i17racine_pena   ../engine/source/interfaces/int17/i17for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i17mini_pena     ../engine/source/interfaces/int17/i17for3.F
+      !||====================================================================
       SUBROUTINE I17RACINE_PENA(LLT,A,B,C,R1,R2)
 C-----------------------------------------------
 C
@@ -1148,12 +1147,11 @@ c      borne r (ou t) a +-1 sur l'second
 c-----------------------------------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  I17SURF                       source/interfaces/int17/i17for3.F
-Chd|-- called by -----------
-Chd|        I17MINI_PENA                  source/interfaces/int17/i17for3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i17surf        ../engine/source/interfaces/int17/i17for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i17mini_pena   ../engine/source/interfaces/int17/i17for3.F
+      !||====================================================================
       SUBROUTINE I17SURF(
      1             LLT   ,R1    ,R2    ,R3    ,R4    ,
      2             T1    ,T2    ,T3    ,T4    ,AREA  ,
@@ -1390,14 +1388,15 @@ C------------------------------------
 C-----------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  I17VIT_PENA                   source/interfaces/int17/i17for3.F
-Chd|-- called by -----------
-Chd|        I17LLL_PENA                   source/interfaces/int17/i17for3.F
-Chd|-- calls ---------------
-Chd|        I17NI                         source/interfaces/int17/i17lagm.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i17vit_pena   ../engine/source/interfaces/int17/i17for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i17lll_pena   ../engine/source/interfaces/int17/i17for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    i17ni         ../engine/source/interfaces/int17/i17lagm.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I17VIT_PENA(
      1             LLT    ,NINT   ,V      ,A      ,III    ,IIIS   ,
      2             NI_M   ,NI_S   ,NX     ,NY     ,NZ     ,VIT    ,
@@ -1482,19 +1481,20 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I17LLL4_PENA                  source/interfaces/int17/i17for3.F
-Chd|-- called by -----------
-Chd|        I17LLL_PENA                   source/interfaces/int17/i17for3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        ICONTACT_MOD                  share/modules/icontact_mod.F  
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i17lll4_pena   ../engine/source/interfaces/int17/i17for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i17lll_pena    ../engine/source/interfaces/int17/i17for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../engine/source/output/message/message.F
+      !||    arret          ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod       ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod        ../engine/share/modules/h3d_mod.F
+      !||    icontact_mod   ../engine/share/modules/icontact_mod.F
+      !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||    tri7box        ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I17LLL4_PENA(
      1      LLT       ,ITIED     ,NINT    ,V       ,A       ,FRIC    ,
      3      III       ,IIIS      ,NI_M    ,NI_S    ,S_CM    ,S_CS    ,
@@ -2042,13 +2042,13 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  I17LLL_ASS                    source/interfaces/int17/i17for3.F
-Chd|-- called by -----------
-Chd|        I17FOR3                       source/interfaces/int17/i17for3.F
-Chd|-- calls ---------------
-Chd|        ASS2SORT                      source/assembly/ass2sort.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    i17lll_ass   ../engine/source/interfaces/int17/i17for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i17for3      ../engine/source/interfaces/int17/i17for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ass2sort     ../engine/source/assembly/ass2sort.F
+      !||====================================================================
       SUBROUTINE I17LLL_ASS(NSKYI17 ,ISKYI17 ,FSKYI17, FROTS, NMES,
      2                      LSKYI17 )
 C-----------------------------------------------

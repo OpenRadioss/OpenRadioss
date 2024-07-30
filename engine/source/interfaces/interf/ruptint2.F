@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RUPTINT2                      source/interfaces/interf/ruptint2.F
-Chd|-- called by -----------
-Chd|        I2RUPT                        source/interfaces/interf/int2rupt.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        UINTBUF_MOD                   source/user_interface/uintbuf_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ruptint2      ../engine/source/interfaces/interf/ruptint2.F
+      !||--- called by ------------------------------------------------------
+      !||    i2rupt        ../engine/source/interfaces/interf/int2rupt.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter        ../engine/source/tools/curve/finter.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod       ../engine/share/modules/h3d_mod.F
+      !||    uintbuf_mod   ../engine/source/user_interface/uintbuf_mod.F
+      !||====================================================================
       SUBROUTINE RUPTINT2(
      1             NSL     ,ISL     ,NUVAR   ,UVAR    ,USERBUF ,
      2             PROP    ,IFUNS   ,IFUNN   ,IFUNT   ,IMOD    ,

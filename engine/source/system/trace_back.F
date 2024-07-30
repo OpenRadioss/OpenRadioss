@@ -23,16 +23,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 #define NSUB_MAX 21
 #define NIVEAU_MAX 10
 #define NLIGNES_MAX 20
-Chd|====================================================================
-Chd|  TRACE_IN                      source/system/trace_back.F    
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|-- calls ---------------
-Chd|        TRACE_PRINT                   source/system/trace_back.F    
-Chd|        TRACE_PILE                    source/system/trace_back.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    trace_in      ../engine/source/system/trace_back.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2      ../engine/source/engine/radioss2.F
+      !||    resol         ../engine/source/engine/resol.F
+      !||    resol_head    ../engine/source/engine/resol_head.F
+      !||--- calls      -----------------------------------------------------
+      !||    trace_pile    ../engine/source/system/trace_back.F
+      !||    trace_print   ../engine/source/system/trace_back.F
+      !||====================================================================
       SUBROUTINE TRACE_IN(NSUB,ITAB,ATAB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -116,16 +116,16 @@ C-----------------------------------------------
       RETURN
 C
       END
-Chd|====================================================================
-Chd|  TRACE_OUT                     source/system/trace_back.F    
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|-- calls ---------------
-Chd|        TRACE_PRINT                   source/system/trace_back.F    
-Chd|        TRACE_PILE                    source/system/trace_back.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    trace_out     ../engine/source/system/trace_back.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2      ../engine/source/engine/radioss2.F
+      !||    resol         ../engine/source/engine/resol.F
+      !||    resol_head    ../engine/source/engine/resol_head.F
+      !||--- calls      -----------------------------------------------------
+      !||    trace_pile    ../engine/source/system/trace_back.F
+      !||    trace_print   ../engine/source/system/trace_back.F
+      !||====================================================================
       SUBROUTINE TRACE_OUT(NSUB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -151,14 +151,13 @@ C-----------------------------------------------
 C-----------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  TRACE_PILE                    source/system/trace_back.F    
-Chd|-- called by -----------
-Chd|        TRACE_IN                      source/system/trace_back.F    
-Chd|        TRACE_OUT                     source/system/trace_back.F    
-Chd|        TRACE_PRINT                   source/system/trace_back.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    trace_pile    ../engine/source/system/trace_back.F
+      !||--- called by ------------------------------------------------------
+      !||    trace_in      ../engine/source/system/trace_back.F
+      !||    trace_out     ../engine/source/system/trace_back.F
+      !||    trace_print   ../engine/source/system/trace_back.F
+      !||====================================================================
       INTEGER FUNCTION TRACE_PILE(INOUT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -191,12 +190,11 @@ C-----------------------------------------------
 C-----------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  TRACE_CF                      source/system/trace_back.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        TRACE_PRINT                   source/system/trace_back.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    trace_cf      ../engine/source/system/trace_back.F
+      !||--- calls      -----------------------------------------------------
+      !||    trace_print   ../engine/source/system/trace_back.F
+      !||====================================================================
       SUBROUTINE TRACE_CF(SIGNAL,IW)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -214,18 +212,19 @@ C-----------------------------------------------
       CALL TRACE_PRINT(LINE,SIGNAL,IW)
       RETURN
       END
-Chd|====================================================================
-Chd|  TRACE_PRINT                   source/system/trace_back.F    
-Chd|-- called by -----------
-Chd|        TRACE_CF                      source/system/trace_back.F    
-Chd|        TRACE_IN                      source/system/trace_back.F    
-Chd|        TRACE_OUT                     source/system/trace_back.F    
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        TRACE_PILE                    source/system/trace_back.F    
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    trace_print   ../engine/source/system/trace_back.F
+      !||--- called by ------------------------------------------------------
+      !||    trace_cf      ../engine/source/system/trace_back.F
+      !||    trace_in      ../engine/source/system/trace_back.F
+      !||    trace_out     ../engine/source/system/trace_back.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||    trace_pile    ../engine/source/system/trace_back.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE TRACE_PRINT(LINE,NS_SIGNAL,IW)
 C-----------------------------------------------
 C   M o d u l e s

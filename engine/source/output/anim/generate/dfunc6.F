@@ -20,26 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DFUNCS                        source/output/anim/generate/dfunc6.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        OUTPUT_SCHLIEREN              source/output/anim/generate/output_schlieren.F
-Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
-Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
-Chd|        SROTORTH                      source/elements/solid/srotorth.F
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    dfuncs                       ../engine/source/output/anim/generate/dfunc6.F
+      !||--- called by ------------------------------------------------------
+      !||    genani                       ../engine/source/output/anim/generate/genani.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf                      ../engine/share/resol/initbuf.F
+      !||    output_schlieren             ../engine/source/output/anim/generate/output_schlieren.F
+      !||    schlieren_buffer_gathering   ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
+      !||    spmd_r4get_partn             ../engine/source/mpi/anim/spmd_r4get_partn.F
+      !||    srotorth                     ../engine/source/elements/solid/srotorth.F
+      !||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    aleanim_mod                  ../engine/share/modules/aleanim_mod.F
+      !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
+      !||    i22tri_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    initbuf_mod                  ../engine/share/resol/initbuf.F
+      !||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F
+      !||    schlieren_mod                ../engine/share/modules/schlieren_mod.F
+      !||====================================================================
       SUBROUTINE DFUNCS(ELBUF_TAB  ,FUNC      ,IFUNC     ,IPARG    ,GEO     ,
      2                  IXS        ,MASS      ,PM        ,EL2FA    ,NBF     ,
      3                  IPM        ,IGEO      ,NBPART    ,EHOUR    ,ANIM    ,

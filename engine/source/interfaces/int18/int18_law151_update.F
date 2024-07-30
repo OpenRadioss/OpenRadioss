@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INT18_LAW151_UPDATE           source/interfaces/int18/int18_law151_update.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    int18_law151_update   ../engine/source/interfaces/int18/int18_law151_update.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                 ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier            ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod          ../common_source/modules/groupdef_mod.F
+      !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F
+      !||====================================================================
         SUBROUTINE INT18_LAW151_UPDATE(ITASK,MULTI_FVM,IGRBRIC,IPARI,IXS,
      1                               IGROUPS ,IPARG   ,ELBUF_TAB  ,FORCE_INT   ,
      2                               X       ,V       ,MS         ,KINET       ,

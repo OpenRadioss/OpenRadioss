@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  USERWI_READ                   source/user_interface/userwindow_interface_routines.F
-Chd|-- called by -----------
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
-Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    userwi_read        ../engine/source/user_interface/userwindow_interface_routines.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb             ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db            ../common_source/tools/input_output/read_db.F
+      !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    user_windows_mod   ../common_source/modules/user_windows_mod.F
+      !||====================================================================
       SUBROUTINE USERWI_READ(USER_WINDOWS,ISPMD,NSPMD,NUMNOD)
 !$COMMENT
 ! -----------------------------------------------
@@ -116,16 +117,17 @@ C-----------------------------------------------
          ENDIF
       ENDIF 
       END
-Chd|====================================================================
-Chd|  USERWI_WRITE                  source/user_interface/userwindow_interface_routines.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    userwi_write       ../engine/source/user_interface/userwindow_interface_routines.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp            ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db           ../common_source/tools/input_output/write_db.F
+      !||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    user_windows_mod   ../common_source/modules/user_windows_mod.F
+      !||====================================================================
       SUBROUTINE USERWI_WRITE(USER_WINDOWS,ISPMD,NSPMD,NUMNOD)
 !$COMMENT
    ! -----------------------------------------------
@@ -194,13 +196,12 @@ C-----------------------------------------------
       ENDIF 
       
       END
-Chd|====================================================================
-Chd|  GET_USER_WINDOW_NODES         source/user_interface/userwindow_interface_routines.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        RESTMOD                       share/modules/restart_mod.F   
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_user_window_nodes   ../engine/source/user_interface/userwindow_interface_routines.F
+      !||--- uses       -----------------------------------------------------
+      !||    restmod                 ../engine/share/modules/restart_mod.F
+      !||    user_interface_mod      ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       SUBROUTINE GET_USER_WINDOW_NODES(INTERNAL_ID,USER_ID)
 !$COMMENT
    ! -----------------------------------------------
@@ -247,12 +248,11 @@ C-----------------------------------------------
       END
 
 
-Chd|====================================================================
-Chd|  USERWINDOW_GET_A              source/user_interface/userwindow_interface_routines.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    userwindow_get_a     ../engine/source/user_interface/userwindow_interface_routines.F
+      !||--- uses       -----------------------------------------------------
+      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       SUBROUTINE USERWINDOW_GET_A(A_BUF)
 C-----------------------------------------------
 C   M o d u l e s
@@ -284,12 +284,11 @@ C-----------------------------------------------
         ENDDO      
       ENDIF
       END
-Chd|====================================================================
-Chd|  USERWINDOW_GET_AR             source/user_interface/userwindow_interface_routines.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    userwindow_get_ar    ../engine/source/user_interface/userwindow_interface_routines.F
+      !||--- uses       -----------------------------------------------------
+      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||====================================================================
       SUBROUTINE USERWINDOW_GET_AR(AR_BUF)
 C-----------------------------------------------
 C   M o d u l e s

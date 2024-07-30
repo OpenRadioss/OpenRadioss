@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2THERM                       source/interfaces/interf/i2therm.F
-Chd|-- called by -----------
-Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i2therm   ../engine/source/interfaces/interf/i2therm.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2f   ../engine/source/interfaces/interf/intti2f.F
+      !||====================================================================
       SUBROUTINE I2THERM(X       ,NSN     ,NSV     ,IRTL    ,MS      ,
      .                   WEIGHT  ,IRECT   ,CRST    ,IADI2   ,KTHE    ,
      .                   TEMP    ,AREAS   ,FTHE    ,FTHESKYI,CONDN   ,   

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STRS_TXT                      source/output/sta/sta_txt.F   
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    strs_txt    ../engine/source/output/sta/sta_txt.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_c_c   ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE STRS_TXT(TEXT,LEN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -50,40 +49,40 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  STRS_TXT50                    source/output/sta/sta_txt.F   
-Chd|-- called by -----------
-Chd|        DYNAIN_C_STRAG                source/output/dynain/dynain_c_strag.F
-Chd|        DYNAIN_C_STRSG                source/output/dynain/dynain_c_strsg.F
-Chd|        DYNAIN_NODE                   source/output/dynain/dynain_node.F
-Chd|        DYNAIN_SHEL_MP                source/output/dynain/dynain_shel_mp.F
-Chd|        DYNAIN_SHEL_SPMD              source/output/dynain/dynain_shel_spmd.F
-Chd|        GENDYNAIN                     source/output/dynain/gendynain.F
-Chd|        GENSTAT                       source/output/sta/genstat.F   
-Chd|        STAT_C_AUXF                   source/output/sta/stat_c_auxf.F
-Chd|        STAT_C_EPSPF                  source/output/sta/stat_c_epspf.F
-Chd|        STAT_C_FAIL                   source/output/sta/stat_c_fail.F
-Chd|        STAT_C_OFF                    source/output/sta/stat_c_off.F
-Chd|        STAT_C_ORTH_LOC               source/output/sta/stat_c_orth_loc.F
-Chd|        STAT_C_STRAF                  source/output/sta/stat_c_straf.F
-Chd|        STAT_C_STRAFG                 source/output/sta/stat_c_strafg.F
-Chd|        STAT_C_STRSF                  source/output/sta/stat_c_strsf.F
-Chd|        STAT_C_STRSFG                 source/output/sta/stat_c_strsfg.F
-Chd|        STAT_C_THK                    source/output/sta/stat_c_thk.F
-Chd|        STAT_N_BCS                    source/output/sta/stat_n_bcs.F
-Chd|        STAT_N_TEMP                   source/output/sta/stat_n_temp.F
-Chd|        STAT_N_VEL                    source/output/sta/state_n_vel.F
-Chd|        STAT_P_AUX                    source/output/sta/stat_p_aux.F
-Chd|        STAT_S_AUXF                   source/output/sta/stat_s_auxf.F
-Chd|        STAT_S_EREF                   source/output/sta/stat_s_eref.F
-Chd|        STAT_S_FAIL                   source/output/sta/stat_s_fail.F
-Chd|        STAT_S_ORTHO                  source/output/sta/stat_s_ortho.F
-Chd|        STAT_S_STRAF                  source/output/sta/stat_s_straf.F
-Chd|        STAT_S_STRSF                  source/output/sta/stat_s_strsf.F
-Chd|        TAB_STRS_TXT50                source/output/sta/sta_txt.F   
-Chd|-- calls ---------------
-Chd|        WRITE_C_C_TXT                 ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    strs_txt50         ../engine/source/output/sta/sta_txt.F
+      !||--- called by ------------------------------------------------------
+      !||    dynain_c_strag     ../engine/source/output/dynain/dynain_c_strag.F
+      !||    dynain_c_strsg     ../engine/source/output/dynain/dynain_c_strsg.F
+      !||    dynain_node        ../engine/source/output/dynain/dynain_node.F
+      !||    dynain_shel_mp     ../engine/source/output/dynain/dynain_shel_mp.F
+      !||    dynain_shel_spmd   ../engine/source/output/dynain/dynain_shel_spmd.F
+      !||    gendynain          ../engine/source/output/dynain/gendynain.F
+      !||    genstat            ../engine/source/output/sta/genstat.F
+      !||    stat_c_auxf        ../engine/source/output/sta/stat_c_auxf.F
+      !||    stat_c_epspf       ../engine/source/output/sta/stat_c_epspf.F
+      !||    stat_c_fail        ../engine/source/output/sta/stat_c_fail.F
+      !||    stat_c_off         ../engine/source/output/sta/stat_c_off.F
+      !||    stat_c_orth_loc    ../engine/source/output/sta/stat_c_orth_loc.F
+      !||    stat_c_straf       ../engine/source/output/sta/stat_c_straf.F
+      !||    stat_c_strafg      ../engine/source/output/sta/stat_c_strafg.F
+      !||    stat_c_strsf       ../engine/source/output/sta/stat_c_strsf.F
+      !||    stat_c_strsfg      ../engine/source/output/sta/stat_c_strsfg.F
+      !||    stat_c_thk         ../engine/source/output/sta/stat_c_thk.F
+      !||    stat_n_bcs         ../engine/source/output/sta/stat_n_bcs.F
+      !||    stat_n_temp        ../engine/source/output/sta/stat_n_temp.F
+      !||    stat_n_vel         ../engine/source/output/sta/state_n_vel.F
+      !||    stat_p_aux         ../engine/source/output/sta/stat_p_aux.F
+      !||    stat_s_auxf        ../engine/source/output/sta/stat_s_auxf.F
+      !||    stat_s_eref        ../engine/source/output/sta/stat_s_eref.F
+      !||    stat_s_fail        ../engine/source/output/sta/stat_s_fail.F
+      !||    stat_s_ortho       ../engine/source/output/sta/stat_s_ortho.F
+      !||    stat_s_straf       ../engine/source/output/sta/stat_s_straf.F
+      !||    stat_s_strsf       ../engine/source/output/sta/stat_s_strsf.F
+      !||    tab_strs_txt50     ../engine/source/output/sta/sta_txt.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_c_c_txt      ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE STRS_TXT50(TEXT,LENGTH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -104,26 +103,26 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  TAB_STRS_TXT50                source/output/sta/sta_txt.F   
-Chd|-- called by -----------
-Chd|        STAT_C_AUXF                   source/output/sta/stat_c_auxf.F
-Chd|        STAT_C_EPSPF                  source/output/sta/stat_c_epspf.F
-Chd|        STAT_C_FAIL                   source/output/sta/stat_c_fail.F
-Chd|        STAT_C_STRAF                  source/output/sta/stat_c_straf.F
-Chd|        STAT_C_STRAFG                 source/output/sta/stat_c_strafg.F
-Chd|        STAT_C_STRSF                  source/output/sta/stat_c_strsf.F
-Chd|        STAT_C_STRSFG                 source/output/sta/stat_c_strsfg.F
-Chd|        STAT_P_AUX                    source/output/sta/stat_p_aux.F
-Chd|        STAT_S_AUXF                   source/output/sta/stat_s_auxf.F
-Chd|        STAT_S_EREF                   source/output/sta/stat_s_eref.F
-Chd|        STAT_S_FAIL                   source/output/sta/stat_s_fail.F
-Chd|        STAT_S_ORTHO                  source/output/sta/stat_s_ortho.F
-Chd|        STAT_S_STRAF                  source/output/sta/stat_s_straf.F
-Chd|        STAT_S_STRSF                  source/output/sta/stat_s_strsf.F
-Chd|-- calls ---------------
-Chd|        STRS_TXT50                    source/output/sta/sta_txt.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    tab_strs_txt50   ../engine/source/output/sta/sta_txt.F
+      !||--- called by ------------------------------------------------------
+      !||    stat_c_auxf      ../engine/source/output/sta/stat_c_auxf.F
+      !||    stat_c_epspf     ../engine/source/output/sta/stat_c_epspf.F
+      !||    stat_c_fail      ../engine/source/output/sta/stat_c_fail.F
+      !||    stat_c_straf     ../engine/source/output/sta/stat_c_straf.F
+      !||    stat_c_strafg    ../engine/source/output/sta/stat_c_strafg.F
+      !||    stat_c_strsf     ../engine/source/output/sta/stat_c_strsf.F
+      !||    stat_c_strsfg    ../engine/source/output/sta/stat_c_strsfg.F
+      !||    stat_p_aux       ../engine/source/output/sta/stat_p_aux.F
+      !||    stat_s_auxf      ../engine/source/output/sta/stat_s_auxf.F
+      !||    stat_s_eref      ../engine/source/output/sta/stat_s_eref.F
+      !||    stat_s_fail      ../engine/source/output/sta/stat_s_fail.F
+      !||    stat_s_ortho     ../engine/source/output/sta/stat_s_ortho.F
+      !||    stat_s_straf     ../engine/source/output/sta/stat_s_straf.F
+      !||    stat_s_strsf     ../engine/source/output/sta/stat_s_strsf.F
+      !||--- calls      -----------------------------------------------------
+      !||    strs_txt50       ../engine/source/output/sta/sta_txt.F
+      !||====================================================================
       SUBROUTINE TAB_STRS_TXT50(WAP0,CPT,J,SIZP0,NBPLINE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

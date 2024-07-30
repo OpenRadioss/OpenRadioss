@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCOOR_CP2SP                   source/elements/solid/solidez/scoor_cp2sp.F
-Chd|-- called by -----------
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    scoor_cp2sp   ../engine/source/elements/solid/solidez/scoor_cp2sp.F
+      !||--- called by ------------------------------------------------------
+      !||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
+      !||====================================================================
       SUBROUTINE SCOOR_CP2SP(
      1   X0,      Y0,      Z0,      X1,
      2   X2,      X3,      X4,      X5,

@@ -23,22 +23,21 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C  Part of interface buffer:
 C  Monitoring information for interface
 C----------------------------------------------------------------------- 
-Chd|====================================================================
-Chd|  METRIC_MOD                    modules/interfaces/metric_mod.F
-Chd|-- called by -----------
-Chd|        CLOSE_INTERF_TIME             engine/source/system/timer_interf.F
-Chd|        FREFORM                       engine/source/input/freform.F 
-Chd|        INIT_INTERF_SORTING_STRATEGY  engine/source/interfaces/init_interf_sorting_strategy.F
-Chd|        INTER_DEALLOCATE_WAIT         engine/source/interfaces/generic/inter_deallocate_wait.F
-Chd|        INTER_SORT                    engine/source/interfaces/generic/inter_sort.F
-Chd|        INTFOP2                       engine/source/interfaces/interf/intfop2.F
-Chd|        INTTRI                        engine/source/interfaces/intsort/inttri.F
-Chd|        INT_STARTIME                  engine/source/system/timer_interf.F
-Chd|        INT_STOPTIME                  engine/source/system/timer_interf.F
-Chd|        OPEN_INTERF_TIME              engine/source/system/timer_interf.F
-Chd|        PRINTIME_INTERF               engine/source/system/timer_interf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    metric_mod                     ../common_source/modules/interfaces/metric_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    close_interf_time              ../engine/source/system/timer_interf.F
+      !||    freform                        ../engine/source/input/freform.F
+      !||    init_interf_sorting_strategy   ../engine/source/interfaces/init_interf_sorting_strategy.F
+      !||    int_startime                   ../engine/source/system/timer_interf.F
+      !||    int_stoptime                   ../engine/source/system/timer_interf.F
+      !||    inter_deallocate_wait          ../engine/source/interfaces/generic/inter_deallocate_wait.F
+      !||    inter_sort                     ../engine/source/interfaces/generic/inter_sort.F
+      !||    intfop2                        ../engine/source/interfaces/interf/intfop2.F
+      !||    inttri                         ../engine/source/interfaces/intsort/inttri.F
+      !||    open_interf_time               ../engine/source/system/timer_interf.F
+      !||    printime_interf                ../engine/source/system/timer_interf.F
+      !||====================================================================
       MODULE METRIC_MOD 
 C----------------------------------------
 
@@ -82,11 +81,9 @@ C Debug
       END TYPE
       CONTAINS
 
-Chd|====================================================================
-Chd|  INT_PRINTIME                  modules/interfaces/metric_mod.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    int_printime   ../common_source/modules/interfaces/metric_mod.F
+      !||====================================================================
       SUBROUTINE INT_PRINTIME(THIS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -116,11 +113,9 @@ c      CALL INT_FLUSHTIME(THIS)
       END SUBROUTINE
 
 
-Chd|====================================================================
-Chd|  INT_FLUSHTIME                 modules/interfaces/metric_mod.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    int_flushtime   ../common_source/modules/interfaces/metric_mod.F
+      !||====================================================================
       SUBROUTINE INT_FLUSHTIME(THIS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

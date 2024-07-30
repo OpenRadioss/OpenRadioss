@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10RCOOR10                    source/elements/solid/solide10/s10rcoor10.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s10rcoor10   ../engine/source/elements/solid/solide10/s10rcoor10.F
+      !||--- calls      -----------------------------------------------------
+      !||    sortho3      ../engine/source/elements/solid/solide/sortho3.F
+      !||====================================================================
       SUBROUTINE S10RCOOR10(
      1   XX,      YY,      ZZ,      R11,
      2   R12,     R13,     R21,     R22,

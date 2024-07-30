@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DTCBA_REG                     source/elements/shell/coqueba/dtcba_reg.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|-- calls ---------------
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dtcba_reg        ../engine/source/elements/shell/coqueba/dtcba_reg.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3         ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
+      !||====================================================================
       SUBROUTINE DTCBA_REG(NLOC_DMG,THK     ,NEL     ,OFF     ,
      .                     LE      ,IMAT    ,NDDL    ,DT2T    )
 C-----------------------------------------------

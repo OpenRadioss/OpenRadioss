@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_RIVET                 source/elements/reader/hm_read_rivet.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ANODSET                       source/output/analyse/analyse_node.c
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|        RIVET0                        source/elements/reader/rivet0.F
-Chd|        VDOUBLE                       source/system/sysfus.F        
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_rivet    ../starter/source/elements/reader/hm_read_rivet.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur           ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg           ../starter/source/output/message/message.F
+      !||    anodset          ../starter/source/output/analyse/analyse_node.c
+      !||    ifrontplus       ../starter/source/spmd/node/frontplus.F
+      !||    nlocal           ../starter/source/spmd/node/ddtools.F
+      !||    rivet0           ../starter/source/elements/reader/rivet0.F
+      !||    usr2sys          ../starter/source/system/sysfus.F
+      !||    vdouble          ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||    submodel_mod     ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_RIVET(IXRI  ,V    ,VR   ,MS    ,IN    ,
      .                         RIVET ,GEO  ,ITAB ,ITABM1,IKINE ,
      .                         IPART ,IGEO ,LSUBMODEL)

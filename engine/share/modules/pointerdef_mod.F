@@ -21,17 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  POINTERDEF                    share/modules/pointerdef_mod.F
-Chd|-- called by -----------
-Chd|        SPMD_I25_SLIDE_EXCH           source/mpi/interfaces/spmd_i25slide.F
-Chd|        IFRONT_MOD                    share/modules/ifront_mod.F    
-Chd|        INTERFACE_MODIFICATION_MOD    share/modules/interface_modification_mod.F
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
-Chd|        TRI25TMP                      share/modules/tri25tmp_mod.F  
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pointerdef                   ../engine/share/modules/pointerdef_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    ifront_mod                   ../engine/share/modules/ifront_mod.F
+      !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
+      !||    spmd_i25_slide_exch          ../engine/source/mpi/interfaces/spmd_i25slide.F
+      !||    tri25ebox                    ../engine/share/modules/tri25ebox.F
+      !||    tri25tmp                     ../engine/share/modules/tri25tmp_mod.F
+      !||    tri7box                      ../engine/share/modules/tri7box.F
+      !||====================================================================
       MODULE POINTERDEF
 #include "my_real.inc"
       TYPE int_pointer

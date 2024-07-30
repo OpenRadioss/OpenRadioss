@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FVELINTE                      source/airbag/fvelinte.F      
-Chd|-- called by -----------
-Chd|        FVMESH0                       source/airbag/fvmesh0.F       
-Chd|-- calls ---------------
-Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    fvelinte    ../starter/source/airbag/fvelinte.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh0     ../starter/source/airbag/fvmesh0.F
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod   ../starter/share/modules1/fvbag_mod.F
+      !||====================================================================
       SUBROUTINE FVELINTE(IBUF, ELEM, IXC, IXTG, PM, IPM, ILVOUT, IFV, 
      .                    NNT, NTG, POROSITY, ITAB, NSEG,SURF_ELTYP,
      .                    NTGI,ELTG,NB_NODE,SURF_ELEM)

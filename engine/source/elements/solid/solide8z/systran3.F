@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SYSTRAN3                      source/elements/solid/solide8z/systran3.F
-Chd|-- called by -----------
-Chd|        S6CCUMG3                      source/elements/thickshell/solide6c/s6ccumg3.F
-Chd|        S8ZCUMG3                      source/elements/solid/solide8z/s8zcumg3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    systran3   ../engine/source/elements/solid/solide8z/systran3.F
+      !||--- called by ------------------------------------------------------
+      !||    s6ccumg3   ../engine/source/elements/thickshell/solide6c/s6ccumg3.F
+      !||    s8zcumg3   ../engine/source/elements/solid/solide8z/s8zcumg3.F
+      !||====================================================================
       SUBROUTINE SYSTRAN3(JFT   ,JLT    ,VQ   ,KK,ISYM) 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I22ASS0                       source/interfaces/int22/i22assembly.F
-Chd|-- called by -----------
-Chd|        I22FOR3                       source/interfaces/int22/i22for3.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i22ass0   ../engine/source/interfaces/int22/i22assembly.F
+      !||--- called by ------------------------------------------------------
+      !||    i22for3   ../engine/source/interfaces/int22/i22for3.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box   ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I22ASS0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
      3                  FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,
@@ -104,18 +104,19 @@ C
       END
 
 
-Chd|====================================================================
-Chd|  I22ASS2                       source/interfaces/int22/i22assembly.F
-Chd|-- called by -----------
-Chd|        I22FOR3                       source/interfaces/int22/i22for3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i22ass2          ../engine/source/interfaces/int22/i22assembly.F
+      !||--- called by ------------------------------------------------------
+      !||    i22for3          ../engine/source/interfaces/int22/i22for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg           ../engine/source/output/message/message.F
+      !||    arret            ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    message_mod      ../engine/share/message_module/message_mod.F
+      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I22ASS2(JLT   ,IX1   ,IX2   ,IX3    ,IX4     ,ITAB   ,
      2                   NSVG  ,H1    ,H2    ,H3     ,H4      ,STIF   ,
      3                   FX1   ,FY1   ,FZ1   ,FX2    ,FY2     ,FZ2    ,

@@ -20,16 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INSURF                        source/interfaces/interf1/insurf.F
-Chd|-- called by -----------
-Chd|        LECINS                        source/interfaces/interf1/lecins.F
-Chd|        LECINT                        source/interfaces/interf1/lecint.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        COUNT3                        source/interfaces/interf1/count3.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    insurf        ../starter/source/interfaces/interf1/insurf.F
+      !||--- called by ------------------------------------------------------
+      !||    lecins        ../starter/source/interfaces/interf1/lecins.F
+      !||    lecint        ../starter/source/interfaces/interf1/lecint.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    count3        ../starter/source/interfaces/interf1/count3.F
+      !||    usr2sys       ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INSURF(NRT       ,MSN   ,IR    ,IRECT ,NOINT  ,
      .                  SURF_NODES,ITAB  ,MSV   ,ID    ,TITR   ,
      .                  NTAG      ,S_MSV  ,SIRECT, X, TYPE18)

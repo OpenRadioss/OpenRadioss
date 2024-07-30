@@ -20,16 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALEFLOW                       source/ale/porous/aleflow.F   
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|        ALECONVE                      source/ale/porous/aleconv.F   
-Chd|        ALEFLUX                       source/ale/porous/aleflux.F   
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    aleflow                ../engine/source/ale/porous/aleflow.F
+      !||--- called by ------------------------------------------------------
+      !||    sforc3                 ../engine/source/elements/solid/solide/sforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    aleconve               ../engine/source/ale/porous/aleconv.F
+      !||    aleflux                ../engine/source/ale/porous/aleflux.F
+      !||    finter                 ../engine/source/tools/curve/finter.F
+      !||    nvar                   ../engine/source/input/nvar.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE ALEFLOW(
      .         PM    ,IPM      ,MAT         ,X      ,IPARG   ,
      .         MBUF  ,NEL      ,NPF         ,TF     ,RHON    ,

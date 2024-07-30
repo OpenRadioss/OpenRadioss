@@ -20,6 +20,11 @@
 !copyright>        as an alternative to this open-source version, altair also offers altair radioss
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    get_neighbour_surface_from_remote_proc_mod   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||--- called by ------------------------------------------------------
+      !||    spmd_exch_neighbour_segment                  ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||====================================================================
       module get_neighbour_surface_from_remote_proc_mod
       contains
 ! ======================================================================================================================
@@ -30,6 +35,27 @@
 !!          * find the list of remote connected segments without neighbour
 !!          * check if the remote connected segments has no neighbour
 !!          * if yes, the remote connected segments is sent to the other procs
+      !||====================================================================
+      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||--- called by ------------------------------------------------------
+      !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||--- calls      -----------------------------------------------------
+      !||    alloc_my_real_1d_array                   ../common_source/modules/array_mod.F
+      !||    dealloc_my_real_1d_array                 ../common_source/modules/array_mod.F
+      !||    get_segment_edge                         ../engine/source/interfaces/interf/get_segment_edge.F90
+      !||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
+      !||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
+      !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
+      !||    sysfus2                                  ../engine/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    array_mod                                ../common_source/modules/array_mod.F
+      !||    constant_mod                             ../common_source/modules/constant_mod.F
+      !||    get_segment_edge_mod                     ../engine/source/interfaces/interf/get_segment_edge.F90
+      !||    get_segment_interface_id_mod             ../engine/source/interfaces/interf/get_segment_interface_id.F90
+      !||    get_segment_normal_mod                   ../engine/source/interfaces/interf/get_segment_normal.F90
+      !||    get_segment_orientation_mod              ../engine/source/interfaces/interf/get_segment_orientation.F90
+      !||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
+      !||====================================================================
         subroutine get_neighbour_surface_from_remote_proc( ninter,numnod,nspmd,nixs,numels,s_elem_state,  &
                                                              size_r_buffer,nb_r_segment,s_buffer_2_size, &
                                                              elem_state,ixs,itabm1,r_buffer,s_buffer_2, &

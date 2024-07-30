@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IMP_DSFEXT                    source/implicit/imp_dsfext.F  
-Chd|-- called by -----------
-Chd|        LIN_SOLVP2                    source/implicit/lin_solv.F    
-Chd|-- calls ---------------
-Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_dsfext    ../engine/source/implicit/imp_dsfext.F
+      !||--- called by ------------------------------------------------------
+      !||    lin_solvp2    ../engine/source/implicit/lin_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    dsgraph_mod   ../engine/share/modules/dsgraph_mod.F
+      !||====================================================================
       SUBROUTINE IMP_DSFEXT(GRAPHE , NF, F, NDDL, IAD_ELEM,
      .                      FR_ELEM)
 C-----------------------------------------------

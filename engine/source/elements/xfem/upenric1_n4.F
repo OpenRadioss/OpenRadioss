@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UPENRIC1_N4                   source/elements/xfem/upenric1_n4.F
-Chd|-- called by -----------
-Chd|        UPXFEM1                       source/elements/xfem/upxfem1.F
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    upenric1_n4     ../engine/source/elements/xfem/upenric1_n4.F
+      !||--- called by ------------------------------------------------------
+      !||    upxfem1         ../engine/source/elements/xfem/upxfem1.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE UPENRIC1_N4(IPARG  ,IXC     ,NFT     ,JFT     ,JLT   ,
      .                       ELCUTC ,IADC_CRK,IEL_CRK ,INOD_CRK,NXLAY ,
      .                       NODEDGE,ENRTAG  ,CRKEDGE ,XEDGE4N )

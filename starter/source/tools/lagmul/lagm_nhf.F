@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAGM_NHF                      source/tools/lagmul/lagm_nhf.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    lagm_nhf   ../starter/source/tools/lagmul/lagm_nhf.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur     ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE LAGM_NHF(NCF, IADLL  ,JLL    ,LLL    ,JCIHF  )
 C----------------------------------------------------------------
 C   I m p l i c i t   T y p e s

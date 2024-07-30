@@ -23,12 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C     REAL
 #include "my_real.inc"
       my_real
-Chd|====================================================================
-Chd|  ALEAT                         source/general_controls/computation/aleat.F
-Chd|-- called by -----------
-Chd|        HM_READ_RAND                  source/general_controls/computation/hm_read_rand.F
-Chd|-- calls ---------------
-Chd|====================================================================
      .      FUNCTION ALEAT()
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,30 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IMP_SOL_INIT                  source/implicit/imp_sol_init.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        BUF_DIM1                      source/implicit/produt_v.F    
-Chd|        CP_DM                         source/implicit/produt_v.F    
-Chd|        CP_REAL                       source/implicit/produt_v.F    
-Chd|        DIM_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|        DIM_INT7                      source/implicit/ind_glob_k.F  
-Chd|        DIM_SPAN                      source/implicit/ind_glob_k.F  
-Chd|        FIL_SPAN0                     source/implicit/ind_glob_k.F  
-Chd|        IMP_FRII                      source/mpi/implicit/imp_fri.F 
-Chd|        IMP_TRANS0                    source/output/restart/wrrest.F
-Chd|        IND_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|        SPMD_MSTOP                    source/mpi/init/spmd_mstop.F  
-Chd|        ZERO1                         source/system/zero.F          
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_sol_init    ../engine/source/implicit/imp_sol_init.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||    buf_dim1        ../engine/source/implicit/produt_v.F
+      !||    cp_dm           ../engine/source/implicit/produt_v.F
+      !||    cp_real         ../engine/source/implicit/produt_v.F
+      !||    dim_glob_k      ../engine/source/implicit/ind_glob_k.F
+      !||    dim_int7        ../engine/source/implicit/ind_glob_k.F
+      !||    dim_span        ../engine/source/implicit/ind_glob_k.F
+      !||    fil_span0       ../engine/source/implicit/ind_glob_k.F
+      !||    imp_frii        ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_trans0      ../engine/source/output/restart/wrrest.F
+      !||    ind_glob_k      ../engine/source/implicit/ind_glob_k.F
+      !||    spmd_mstop      ../engine/source/mpi/init/spmd_mstop.F
+      !||    zero1           ../engine/source/system/zero.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||    impbufdef_mod   ../engine/share/modules/impbufdef_mod.F
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE IMP_SOL_INIT(
      1    GEO       ,NPBY      ,LPBY      ,ITAB      ,
      2    IPARI     ,IXS       ,IXQ       ,IXC       ,IXT       ,
@@ -492,16 +493,17 @@ c      IBUCK= IBUCKL
 C    
       RETURN
       END SUBROUTINE IMP_SOL_INIT
-Chd|====================================================================
-Chd|  IMP_RESTARCP                  source/implicit/imp_sol_init.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        CP_DM                         source/implicit/produt_v.F    
-Chd|        CP_REAL                       source/implicit/produt_v.F    
-Chd|        ZEROR                         source/system/zero.F          
-Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_restarcp    ../engine/source/implicit/imp_sol_init.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    cp_dm           ../engine/source/implicit/produt_v.F
+      !||    cp_real         ../engine/source/implicit/produt_v.F
+      !||    zeror           ../engine/source/system/zero.F
+      !||--- uses       -----------------------------------------------------
+      !||    impbufdef_mod   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE IMP_RESTARCP(X,V,VR,GEO,IGEO,DMCP,IMPBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s

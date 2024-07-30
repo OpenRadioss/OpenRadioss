@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M95INIT                       source/materials/mat/mat095/m95init.F
-Chd|-- called by -----------
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m95init   ../starter/source/materials/mat/mat095/m95init.F
+      !||--- called by ------------------------------------------------------
+      !||    matini    ../starter/source/materials/mat_share/matini.F
+      !||====================================================================
       SUBROUTINE M95INIT(NEL    , NUVAR   ,UVAR   ) 
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S

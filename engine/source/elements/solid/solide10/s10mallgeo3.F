@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10MALLGEO3                   source/elements/solid/solide10/s10mallgeo3.F
-Chd|-- called by -----------
-Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|-- calls ---------------
-Chd|        DT_MOD                        share/modules/dt_mod.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    s10mallgeo3   ../engine/source/elements/solid/solide10/s10mallgeo3.F
+      !||--- called by ------------------------------------------------------
+      !||    s10forc3      ../engine/source/elements/solid/solide10/s10forc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    dt_mod        ../engine/share/modules/dt_mod.F
+      !||====================================================================
       SUBROUTINE S10MALLGEO3(
      1   NGL,     OFFG,    VOLG,    DELTAX,
      2   VOLG0,   RX,      RY,      RZ,

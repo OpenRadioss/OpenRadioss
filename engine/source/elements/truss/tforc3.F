@@ -20,24 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TFORC3                        source/elements/truss/tforc3.F
-Chd|-- called by -----------
-Chd|        FORINT                        source/elements/forint.F      
-Chd|-- calls ---------------
-Chd|        M1LAWT                        source/materials/mat/mat001/m1lawt.F
-Chd|        M2LAWT                        source/materials/mat/mat002/m2lawt.F
-Chd|        SIGEPS34T                     source/materials/mat/mat034/sigeps34t.F
-Chd|        SIGEPS44T                     source/materials/mat/mat044/sigeps44t.F
-Chd|        TBILAN                        source/elements/truss/tbilan.F
-Chd|        TCOOR3                        source/elements/truss/tcoor3.F
-Chd|        TDEFO3                        source/elements/truss/tdefo3.F
-Chd|        TDLEN3                        source/elements/truss/tdlen3.F
-Chd|        TFCUM3                        source/elements/truss/tfcum3.F
-Chd|        TFCUM3P                       source/elements/truss/tfcum3p.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    tforc3              ../engine/source/elements/truss/tforc3.F
+      !||--- called by ------------------------------------------------------
+      !||    forint              ../engine/source/elements/forint.F
+      !||--- calls      -----------------------------------------------------
+      !||    m1lawt              ../engine/source/materials/mat/mat001/m1lawt.F
+      !||    m2lawt              ../engine/source/materials/mat/mat002/m2lawt.F
+      !||    preload_axial       ../engine/source/elements/spring/preload_axial.F90
+      !||    sigeps34t           ../engine/source/materials/mat/mat034/sigeps34t.F
+      !||    sigeps44t           ../engine/source/materials/mat/mat044/sigeps44t.F
+      !||    tbilan              ../engine/source/elements/truss/tbilan.F
+      !||    tcoor3              ../engine/source/elements/truss/tcoor3.F
+      !||    tdefo3              ../engine/source/elements/truss/tdefo3.F
+      !||    tdlen3              ../engine/source/elements/truss/tdlen3.F
+      !||    tfcum3              ../engine/source/elements/truss/tfcum3.F
+      !||    tfcum3p             ../engine/source/elements/truss/tfcum3p.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
+      !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
+      !||====================================================================
       SUBROUTINE TFORC3(
      1   ELBUF_STR,JFT,      JLT,      PM,
      2   GEO,      NCT,      X,        F,

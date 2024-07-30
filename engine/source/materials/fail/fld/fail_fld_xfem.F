@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_FLD_XFEM                 source/materials/fail/fld/fail_fld_xfem.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        FINTERFLD                     source/materials/fail/fld/fail_fld_c.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_fld_xfem   ../engine/source/materials/fail/fld/fail_fld_xfem.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc          ../engine/source/materials/mat_share/mulawc.F
+      !||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter          ../engine/source/tools/curve/finter.F
+      !||    finterfld       ../engine/source/materials/fail/fld/fail_fld_c.F
+      !||====================================================================
       SUBROUTINE FAIL_FLD_XFEM(
      1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
      2     NPF      ,TF       ,TIME     ,UPARAM   ,

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ5P                        source/input/read5p.F         
-Chd|-- called by -----------
-Chd|        RDELE                         source/input/rdele.F          
-Chd|-- calls ---------------
-Chd|        WCIUSC2                       source/input/wciusc2.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    read5p    ../engine/source/input/read5p.F
+      !||--- called by ------------------------------------------------------
+      !||    rdele     ../engine/source/input/rdele.F
+      !||--- calls      -----------------------------------------------------
+      !||    wciusc2   ../engine/source/input/wciusc2.F
+      !||====================================================================
       SUBROUTINE READ5P(IREC,NBC,KEY0,IV2,JJ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

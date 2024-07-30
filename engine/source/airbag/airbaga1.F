@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  AIRBAGA1                      source/airbag/airbaga1.F      
-Chd|-- called by -----------
-Chd|        MONVOL0                       source/airbag/monvol0.F       
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    airbaga1     ../engine/source/airbag/airbaga1.F
+      !||--- called by ------------------------------------------------------
+      !||    monvol0      ../engine/source/airbag/monvol0.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter       ../engine/source/tools/curve/finter.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE AIRBAGA1(IVOLU  ,NJET    ,IBAGJET ,NVENT   ,IBAGHOL ,
      2                    ICBAG  ,RVOLU   ,RBAGJET ,RBAGHOL ,RCBAG   ,
      3                    RVOLUV ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,

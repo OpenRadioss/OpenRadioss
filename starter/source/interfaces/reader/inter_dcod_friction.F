@@ -21,19 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  INTER_DCOD_FRICTION           source/interfaces/reader/inter_dcod_friction.F
-Chd|-- called by -----------
-Chd|        HM_READ_INTER_TYPE07          source/interfaces/int07/hm_read_inter_type07.F
-Chd|        HM_READ_INTER_TYPE11          source/interfaces/int11/hm_read_inter_type11.F
-Chd|        HM_READ_INTER_TYPE24          source/interfaces/int24/hm_read_inter_type24.F
-Chd|        HM_READ_INTER_TYPE25          source/interfaces/int25/hm_read_inter_type25.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        INTSTAMP_MOD                  share/modules1/intstamp_mod.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inter_dcod_friction    ../starter/source/interfaces/reader/inter_dcod_friction.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_inter_type07   ../starter/source/interfaces/int07/hm_read_inter_type07.F
+      !||    hm_read_inter_type11   ../starter/source/interfaces/int11/hm_read_inter_type11.F
+      !||    hm_read_inter_type24   ../starter/source/interfaces/int24/hm_read_inter_type24.F
+      !||    hm_read_inter_type25   ../starter/source/interfaces/int25/hm_read_inter_type25.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    intstamp_mod           ../starter/share/modules1/intstamp_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INTER_DCOD_FRICTION(NTYP,NI,IPARI,NOM_OPT,NOM_OPTFRIC,
      .           INTBUF_FRIC_TAB)
 C-----------------------------------------------

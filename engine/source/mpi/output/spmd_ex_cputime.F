@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_EX_CPUTIME               source/mpi/output/spmd_ex_cputime.F
-Chd|-- called by -----------
-Chd|        CUMULTIME_MP                  source/system/timer.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_ex_cputime   ../engine/source/mpi/output/spmd_ex_cputime.F
+      !||--- called by ------------------------------------------------------
+      !||    cumultime_mp      ../engine/source/system/timer.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EX_CPUTIME(DIM_TAB3,TAB3,TAB4)
 C     exchange and sum of cputime/mpitask 
 C-----------------------------------------------

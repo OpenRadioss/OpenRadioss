@@ -20,28 +20,30 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_NODAL_SCALAR              source/output/h3d/h3d_results/h3d_nodal_scalar.F
-Chd|-- called by -----------
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|-- calls ---------------
-Chd|        ANIMBALE                      source/output/anim/generate/genani.F
-Chd|        H3D_WRITE_SCALAR              source/output/h3d/h3d_results/h3d_write_scalar.F
-Chd|        NODALD                        source/output/anim/generate/nodald.F
-Chd|        NODALDT                       source/output/anim/generate/nodaldt.F
-Chd|        NODALP                        source/output/anim/generate/nodalp.F
-Chd|        NODALSSP                      source/output/anim/generate/nodalssp.F
-Chd|        NODALT                        source/output/anim/generate/nodalt.F
-Chd|        NODALVOL                      source/output/anim/generate/nodalvol.F
-Chd|        NODAL_SCHLIEREN               source/output/anim/generate/nodal_schlieren.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_nodal_scalar       ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
+      !||--- called by ------------------------------------------------------
+      !||    genh3d                 ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||--- calls      -----------------------------------------------------
+      !||    animbale               ../engine/source/output/anim/generate/genani.F
+      !||    h3d_write_scalar       ../engine/source/output/h3d/h3d_results/h3d_write_scalar.F
+      !||    nodal_schlieren        ../engine/source/output/anim/generate/nodal_schlieren.F
+      !||    nodald                 ../engine/source/output/anim/generate/nodald.F
+      !||    nodaldt                ../engine/source/output/anim/generate/nodaldt.F
+      !||    nodalp                 ../engine/source/output/anim/generate/nodalp.F
+      !||    nodalssp               ../engine/source/output/anim/generate/nodalssp.F
+      !||    nodalt                 ../engine/source/output/anim/generate/nodalt.F
+      !||    nodalvol               ../engine/source/output/anim/generate/nodalvol.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    fvbag_mod              ../engine/share/modules/fvbag_mod.F
+      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    outputs_mod            ../common_source/modules/outputs_mod.F
+      !||====================================================================
       SUBROUTINE H3D_NODAL_SCALAR(
      .                  ELBUF_TAB          ,NODAL_SCALAR ,IFUNC           ,IPARG                  ,GEO     ,
      .                  MASS               ,PM           ,ANIN            ,ITAB                   ,NODE_ID ,

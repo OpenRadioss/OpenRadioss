@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DIST_NODE_SEG3N               source/tools/sensor/dist_node_seg3n.F
-Chd|-- called by -----------
-Chd|        SENSOR_DIST_SURF0             source/tools/sensor/sensor_dist_surf0.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dist_node_seg3n     ../engine/source/tools/sensor/dist_node_seg3n.F
+      !||--- called by ------------------------------------------------------
+      !||    sensor_dist_surf0   ../engine/source/tools/sensor/sensor_dist_surf0.F
+      !||====================================================================
         SUBROUTINE DIST_NODE_SEG3N (
      .             DIST,DMIN,DMAX,NOD_X,NOD_Y,NOD_Z,
      .             AX,AY,AZ,BX,BY,BZ,CX,CY,CZ)

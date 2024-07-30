@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I9WALE                        source/interfaces/int09/i9wale.F
-Chd|-- called by -----------
-Chd|        INTAL3                        source/ale/inter/intal3.F     
-Chd|-- calls ---------------
-Chd|        I9WAL2                        source/interfaces/int09/i9wal2.F
-Chd|        I9WAL3                        source/interfaces/int09/i9wal3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i9wale          ../engine/source/interfaces/int09/i9wale.F
+      !||--- called by ------------------------------------------------------
+      !||    intal3          ../engine/source/ale/inter/intal3.F
+      !||--- calls      -----------------------------------------------------
+      !||    i9wal2          ../engine/source/interfaces/int09/i9wal2.F
+      !||    i9wal3          ../engine/source/interfaces/int09/i9wal3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE I9WALE(IPARI,INTBUF_TAB,X        ,V      ,
      2                  A    ,VG      ,ICODE     ,ISKEW    ,SKEW   ,
      3                  IXS  ,IXQ     ,ELBUF_TAB,IPARG  ,

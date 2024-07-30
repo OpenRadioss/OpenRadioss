@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ST_QAPRINT_PROPERTIES         source/output/qaprint/st_qaprint_properties.F
-Chd|-- called by -----------
-Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
-Chd|-- calls ---------------
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    st_qaprint_properties   ../starter/source/output/qaprint/st_qaprint_properties.F
+      !||--- called by ------------------------------------------------------
+      !||    st_qaprint_driver       ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl2                ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE ST_QAPRINT_PROPERTIES(IGEO      ,GEO       ,BUFGEO    ,
      .                                 PM_STACK  ,GEO_STACK ,IGEO_STACK)
 C============================================================================

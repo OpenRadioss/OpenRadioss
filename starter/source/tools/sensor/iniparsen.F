@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIPARSEN                     source/tools/sensor/iniparsen.F
-Chd|-- called by -----------
-Chd|        INISEN                        source/tools/sensor/inisen.F  
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    iniparsen     ../starter/source/tools/sensor/iniparsen.F
+      !||--- called by ------------------------------------------------------
+      !||    inisen        ../starter/source/tools/sensor/inisen.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    sensor_mod    ../starter/share/modules1/sensor_mod.F
+      !||====================================================================
       SUBROUTINE INIPARSEN(SENSORS,NSECT,NINTER,NINTSUB,NRWALL,NRBODY)
 C-----------------------------------------------
 C   M o d u l e s

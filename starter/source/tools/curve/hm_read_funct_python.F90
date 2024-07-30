@@ -20,9 +20,30 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    read_funct_python_mod   ../starter/source/tools/curve/hm_read_funct_python.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur                  ../starter/source/starter/lectur.F
+      !||====================================================================
       module read_funct_python_mod
       contains
 !! \details Read the python function defined by /FUNCT_PYTHON/
+      !||====================================================================
+      !||    hm_read_funct_python    ../starter/source/tools/curve/hm_read_funct_python.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur                  ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                  ../starter/source/output/message/message.F
+      !||    hm_get_intv             ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_get_string_index     ../starter/source/devtools/hm_reader/hm_get_string_index.F
+      !||    hm_option_count         ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_read_key      ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start         ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod      ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||    submodel_mod            ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
         subroutine hm_read_funct_python(python,npc,snpc,total_nb_funct,&
         &lsubmodel,nbsubmod)
 ! ----------------------------------------------------------------------------------------------------------------------

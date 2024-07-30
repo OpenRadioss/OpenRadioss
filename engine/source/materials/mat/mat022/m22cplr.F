@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M22CPLR                       source/materials/mat/mat022/m22cplr.F
-Chd|-- called by -----------
-Chd|        SIGEPS22C                     source/materials/mat/mat022/sigeps22c.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m22cplr     ../engine/source/materials/mat/mat022/m22cplr.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps22c   ../engine/source/materials/mat/mat022/sigeps22c.F
+      !||====================================================================
       SUBROUTINE M22CPLR(JFT    ,JLT    ,EZZ    ,OFF    ,EPSEQ ,
      2                   IPLA   ,GS     ,YLD    ,A1     ,CA    ,
      3                   CB     ,CN     ,YMAX   ,NU     ,DPLA  ,

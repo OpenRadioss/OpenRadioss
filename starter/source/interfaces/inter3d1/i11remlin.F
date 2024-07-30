@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I11REMLINE                    source/interfaces/inter3d1/i11remlin.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|        I11PENE_LIN                   source/interfaces/inter3d1/i11remlin.F
-Chd|        ORIGIN                        source/model/remesh/build_admesh.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i11remline    ../starter/source/interfaces/inter3d1/i11remlin.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- calls      -----------------------------------------------------
+      !||    i11pene_lin   ../starter/source/interfaces/inter3d1/i11remlin.F
+      !||    origin        ../starter/source/model/remesh/build_admesh.F
+      !||====================================================================
       SUBROUTINE I11REMLINE(
      1         X,NRTM,IRECTM,NRTS,IRECTS,
      2         NUMNOD,GAP_S ,GAP_M, GAPMIN,IGAP,
@@ -347,13 +347,12 @@ C
       END
 C
 C=======================================================================
-Chd|====================================================================
-Chd|  I11PENE_LIN                   source/interfaces/inter3d1/i11remlin.F
-Chd|-- called by -----------
-Chd|        I11REMLINE                    source/interfaces/inter3d1/i11remlin.F
-Chd|        I25REMLINE                    source/interfaces/int25/i25remlin.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i11pene_lin   ../starter/source/interfaces/inter3d1/i11remlin.F
+      !||--- called by ------------------------------------------------------
+      !||    i11remline    ../starter/source/interfaces/inter3d1/i11remlin.F
+      !||    i25remline    ../starter/source/interfaces/int25/i25remlin.F
+      !||====================================================================
       my_real FUNCTION I11PENE_LIN(X,N1,N2,M1,M2,GAP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

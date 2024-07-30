@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7LIN3                        source/interfaces/inter3d1/i7lin3.F
-Chd|-- called by -----------
-Chd|        I2BAR3                        source/interfaces/inter3d1/i2dst3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i7lin3   ../starter/source/interfaces/inter3d1/i7lin3.F
+      !||--- called by ------------------------------------------------------
+      !||    i2bar3   ../starter/source/interfaces/inter3d1/i2dst3.F
+      !||====================================================================
       SUBROUTINE I7LIN3(XI,YI,ZI,XA,YA,ZA,XB,YB,ZB,NX,NY,NZ,P,ALP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

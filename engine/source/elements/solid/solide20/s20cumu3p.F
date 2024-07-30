@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S20CUMU3P                     source/elements/solid/solide20/s20cumu3p.F
-Chd|-- called by -----------
-Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
-Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s20cumu3p   ../engine/source/elements/solid/solide20/s20cumu3p.F
+      !||--- called by ------------------------------------------------------
+      !||    s16forc3    ../engine/source/elements/thickshell/solide16/s16forc3.F
+      !||    s20forc3    ../engine/source/elements/solid/solide20/s20forc3.F
+      !||====================================================================
       SUBROUTINE S20CUMU3P(
      1   OFFG,    STIG,    FSKY,    FSKYV,
      2   IADS,    FX,      FY,      FZ,

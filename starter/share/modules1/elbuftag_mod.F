@@ -20,191 +20,193 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
-Chd|-- called by -----------
-Chd|        ALE_EULER_INIT                source/materials/ale/ale_euler_init.F
-Chd|        DEALLOCATE_ELBUF              source/elements/elbuf_init/deallocate_buffer.F
-Chd|        ELBUF_INI                     source/elements/elbuf_init/elbuf_ini.F
-Chd|        HM_PROP_READ21                source/properties/thickshell/hm_read_prop21.F
-Chd|        HM_READ_EOS                   source/materials/eos/hm_read_eos.F
-Chd|        HM_READ_EOS_COMPACTION        source/materials/eos/hm_read_eos_compaction.F
-Chd|        HM_READ_EOS_TILLOTSON         source/materials/eos/hm_read_eos_tillotson.F
-Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
-Chd|        HM_READ_FAIL_ALTER            source/materials/fail/windshield_alter/hm_read_fail_alter.F
-Chd|        HM_READ_FAIL_CHANG            source/materials/fail/changchang/hm_read_fail_chang.F
-Chd|        HM_READ_FAIL_CONNECT          source/materials/fail/connect/hm_read_fail_connect.F
-Chd|        HM_READ_FAIL_GENE1            source/materials/fail/gene1/hm_read_fail_gene1.F
-Chd|        HM_READ_FAIL_HASHIN           source/materials/fail/hashin/hm_read_fail_hashin.F
-Chd|        HM_READ_FAIL_HOFFMAN          source/materials/fail/hoffman/hm_read_fail_hoffman.F
-Chd|        HM_READ_FAIL_MAXSTRAIN        source/materials/fail/max_strain/hm_read_fail_maxstrain.F
-Chd|        HM_READ_FAIL_NXT              source/materials/fail/nxt/hm_read_fail_nxt.F
-Chd|        HM_READ_FAIL_PUCK             source/materials/fail/puck/hm_read_fail_puck.F
-Chd|        HM_READ_FAIL_TSAIHILL         source/materials/fail/tsaihill/hm_read_fail_tsaihill.F
-Chd|        HM_READ_FAIL_TSAIWU           source/materials/fail/tsaiwu/hm_read_fail_tsaiwu.F
-Chd|        HM_READ_INJECT1               source/properties/injector/hm_read_inject1.F
-Chd|        HM_READ_INJECT2               source/properties/injector/hm_read_inject2.F
-Chd|        HM_READ_INTER_TYPE10          source/interfaces/int10/hm_read_inter_type10.F
-Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
-Chd|        HM_READ_MAT00                 source/materials/mat/mat000/hm_read_mat00.F
-Chd|        HM_READ_MAT02                 source/materials/mat/mat002/hm_read_mat02.F
-Chd|        HM_READ_MAT03                 source/materials/mat/mat003/hm_read_mat03.F
-Chd|        HM_READ_MAT04                 source/materials/mat/mat004/hm_read_mat04.F
-Chd|        HM_READ_MAT05                 source/materials/mat/mat005/hm_read_mat05.F
-Chd|        HM_READ_MAT06                 source/materials/mat/mat006/hm_read_mat06.F
-Chd|        HM_READ_MAT06_KEPS            source/materials/mat/mat006/hm_read_mat06_keps.F
-Chd|        HM_READ_MAT10                 source/materials/mat/mat010/hm_read_mat10.F
-Chd|        HM_READ_MAT100                source/materials/mat/mat100/hm_read_mat100.F
-Chd|        HM_READ_MAT102                source/materials/mat/mat102/hm_read_mat102.F
-Chd|        HM_READ_MAT103                source/materials/mat/mat103/hm_read_mat103.F
-Chd|        HM_READ_MAT104                source/materials/mat/mat104/hm_read_mat104.F
-Chd|        HM_READ_MAT106                source/materials/mat/mat106/hm_read_mat106.F
-Chd|        HM_READ_MAT107                source/materials/mat/mat107/hm_read_mat107.F
-Chd|        HM_READ_MAT108                source/materials/mat/mat108/hm_read_mat108.F
-Chd|        HM_READ_MAT109                source/materials/mat/mat109/hm_read_mat109.F
-Chd|        HM_READ_MAT11                 source/materials/mat/mat011/hm_read_mat11.F
-Chd|        HM_READ_MAT110                source/materials/mat/mat110/hm_read_mat110.F
-Chd|        HM_READ_MAT111                source/materials/mat/mat111/hm_read_mat111.F
-Chd|        HM_READ_MAT112                source/materials/mat/mat112/hm_read_mat112.F
-Chd|        HM_READ_MAT113                source/materials/mat/mat113/hm_read_mat113.F
-Chd|        HM_READ_MAT114                source/materials/mat/mat114/hm_read_mat114.F
-Chd|        HM_READ_MAT115                source/materials/mat/mat115/hm_read_mat115.F
-Chd|        HM_READ_MAT116                source/materials/mat/mat116/hm_read_mat116.F
-Chd|        HM_READ_MAT117                source/materials/mat/mat117/hm_read_mat117.F
-Chd|        HM_READ_MAT119                source/materials/mat/mat119/hm_read_mat119.F
-Chd|        HM_READ_MAT11_K_EPS           source/materials/mat/mat011/hm_read_mat11_k_eps.F
-Chd|        HM_READ_MAT12                 source/materials/mat/mat012/hm_read_mat12.F
-Chd|        HM_READ_MAT120                source/materials/mat/mat120/hm_read_mat120.F
-Chd|        HM_READ_MAT121                source/materials/mat/mat121/hm_read_mat121.F
-Chd|        HM_READ_MAT122                source/materials/mat/mat122/hm_read_mat122.F
-Chd|        HM_READ_MAT124                source/materials/mat/mat124/hm_read_mat124.F
-Chd|        HM_READ_MAT13                 source/materials/mat/mat013/hm_read_mat13.F
-Chd|        HM_READ_MAT14                 source/materials/mat/mat014/hm_read_mat14.F
-Chd|        HM_READ_MAT15                 source/materials/mat/mat015/hm_read_mat15.F
-Chd|        HM_READ_MAT151                source/materials/mat/mat151/hm_read_mat151.F
-Chd|        HM_READ_MAT158                source/materials/mat/mat158/hm_read_mat158.F
-Chd|        HM_READ_MAT16                 source/materials/mat/mat016/hm_read_mat16.F
-Chd|        HM_READ_MAT18                 source/materials/mat/mat018/hm_read_mat18.F
-Chd|        HM_READ_MAT19                 source/materials/mat/mat019/hm_read_mat19.F
-Chd|        HM_READ_MAT190                source/materials/mat/mat190/hm_read_mat190.F
-Chd|        HM_READ_MAT20                 source/materials/mat/mat020/hm_read_mat20.F
-Chd|        HM_READ_MAT21                 source/materials/mat/mat021/hm_read_mat21.F
-Chd|        HM_READ_MAT22                 source/materials/mat/mat022/hm_read_mat22.F
-Chd|        HM_READ_MAT23                 source/materials/mat/mat023/hm_read_mat23.F
-Chd|        HM_READ_MAT24                 source/materials/mat/mat024/hm_read_mat24.F
-Chd|        HM_READ_MAT25                 source/materials/mat/mat025/hm_read_mat25.F
-Chd|        HM_READ_MAT26                 source/materials/mat/mat026/hm_read_mat26.F
-Chd|        HM_READ_MAT27                 source/materials/mat/mat027/hm_read_mat27.F
-Chd|        HM_READ_MAT28                 source/materials/mat/mat028/hm_read_mat28.F
-Chd|        HM_READ_MAT32                 source/materials/mat/mat032/hm_read_mat32.F
-Chd|        HM_READ_MAT33                 source/materials/mat/mat033/hm_read_mat33.F
-Chd|        HM_READ_MAT34                 source/materials/mat/mat034/hm_read_mat34.F
-Chd|        HM_READ_MAT35                 source/materials/mat/mat035/hm_read_mat35.F
-Chd|        HM_READ_MAT36                 source/materials/mat/mat036/hm_read_mat36.F
-Chd|        HM_READ_MAT37                 source/materials/mat/mat037/hm_read_mat37.F
-Chd|        HM_READ_MAT38                 source/materials/mat/mat038/hm_read_mat38.F
-Chd|        HM_READ_MAT40                 source/materials/mat/mat040/hm_read_mat40.F
-Chd|        HM_READ_MAT41                 source/materials/mat/mat041/hm_read_mat41.F
-Chd|        HM_READ_MAT43                 source/materials/mat/mat043/hm_read_mat43.F
-Chd|        HM_READ_MAT44                 source/materials/mat/mat044/hm_read_mat44.F
-Chd|        HM_READ_MAT46                 source/materials/mat/mat046/hm_read_mat46.F
-Chd|        HM_READ_MAT48                 source/materials/mat/mat048/hm_read_mat48.F
-Chd|        HM_READ_MAT49                 source/materials/mat/mat049/hm_read_mat49.F
-Chd|        HM_READ_MAT50                 source/materials/mat/mat050/hm_read_mat50.F
-Chd|        HM_READ_MAT51                 source/materials/mat/mat051/hm_read_mat51.F
-Chd|        HM_READ_MAT52                 source/materials/mat/mat052/hm_read_mat52.F
-Chd|        HM_READ_MAT53                 source/materials/mat/mat053/hm_read_mat53.F
-Chd|        HM_READ_MAT54                 source/materials/mat/mat054/hm_read_mat54.F
-Chd|        HM_READ_MAT57                 source/materials/mat/mat057/hm_read_mat57.F
-Chd|        HM_READ_MAT58                 source/materials/mat/mat058/hm_read_mat58.F
-Chd|        HM_READ_MAT59                 source/materials/mat/mat059/hm_read_mat59.F
-Chd|        HM_READ_MAT60                 source/materials/mat/mat060/hm_read_mat60.F
-Chd|        HM_READ_MAT63                 source/materials/mat/mat063/hm_read_mat63.F
-Chd|        HM_READ_MAT64                 source/materials/mat/mat064/hm_read_mat64.F
-Chd|        HM_READ_MAT65                 source/materials/mat/mat065/hm_read_mat65.F
-Chd|        HM_READ_MAT66                 source/materials/mat/mat066/hm_read_mat66.F
-Chd|        HM_READ_MAT68                 source/materials/mat/mat068/hm_read_mat68.F
-Chd|        HM_READ_MAT69                 source/materials/mat/mat069/hm_read_mat69.F
-Chd|        HM_READ_MAT70                 source/materials/mat/mat070/hm_read_mat70.F
-Chd|        HM_READ_MAT71                 source/materials/mat/mat071/hm_read_mat71.F
-Chd|        HM_READ_MAT72                 source/materials/mat/mat072/hm_read_mat72.F
-Chd|        HM_READ_MAT73                 source/materials/mat/mat073/hm_read_mat73.F
-Chd|        HM_READ_MAT74                 source/materials/mat/mat074/hm_read_mat74.F
-Chd|        HM_READ_MAT75                 source/materials/mat/mat075/hm_read_mat75.F
-Chd|        HM_READ_MAT76                 source/materials/mat/mat076/hm_read_mat76.F
-Chd|        HM_READ_MAT77                 source/materials/mat/mat077/hm_read_mat77.F
-Chd|        HM_READ_MAT78                 source/materials/mat/mat078/hm_read_mat78.F
-Chd|        HM_READ_MAT79                 source/materials/mat/mat079/hm_read_mat79.F
-Chd|        HM_READ_MAT80                 source/materials/mat/mat080/hm_read_mat80.F
-Chd|        HM_READ_MAT81                 source/materials/mat/mat081/hm_read_mat81.F
-Chd|        HM_READ_MAT83                 source/materials/mat/mat083/hm_read_mat83.F
-Chd|        HM_READ_MAT84                 source/materials/mat/mat084/hm_read_mat84.F
-Chd|        HM_READ_MAT87                 source/materials/mat/mat087/hm_read_mat87.F
-Chd|        HM_READ_MAT88                 source/materials/mat/mat088/hm_read_mat88.F
-Chd|        HM_READ_MAT90                 source/materials/mat/mat090/hm_read_mat90.F
-Chd|        HM_READ_MAT92                 source/materials/mat/mat092/hm_read_mat92.F
-Chd|        HM_READ_MAT93                 source/materials/mat/mat093/hm_read_mat93.F
-Chd|        HM_READ_MAT94                 source/materials/mat/mat094/hm_read_mat94.F
-Chd|        HM_READ_MAT95                 source/materials/mat/mat095/hm_read_mat95.F
-Chd|        HM_READ_MAT97                 source/materials/mat/mat097/hm_read_mat97.F
-Chd|        HM_READ_NONLOCAL              source/materials/nonlocal/hm_read_nonlocal.F
-Chd|        HM_READ_PART                  source/model/assembling/hm_read_part.F
-Chd|        HM_READ_PROP0                 source/properties/void/hm_read_prop0.F
-Chd|        HM_READ_PROP01                source/properties/shell/hm_read_prop01.F
-Chd|        HM_READ_PROP02                source/properties/truss/hm_read_prop02.F
-Chd|        HM_READ_PROP03                source/properties/beam/hm_read_prop03.F
-Chd|        HM_READ_PROP04                source/properties/spring/hm_read_prop04.F
-Chd|        HM_READ_PROP06                source/properties/solid/hm_read_prop06.F
-Chd|        HM_READ_PROP08                source/properties/spring/hm_read_prop08.F
-Chd|        HM_READ_PROP09                source/properties/shell/hm_read_prop09.F
-Chd|        HM_READ_PROP10                source/properties/shell/hm_read_prop10.F
-Chd|        HM_READ_PROP11                source/properties/shell/hm_read_prop11.F
-Chd|        HM_READ_PROP12                source/properties/spring/hm_read_prop12.F
-Chd|        HM_READ_PROP13                source/properties/spring/hm_read_prop13.F
-Chd|        HM_READ_PROP14                source/properties/solid/hm_read_prop14.F
-Chd|        HM_READ_PROP14F               source/properties/solid/hm_read_prop14.F
-Chd|        HM_READ_PROP15                source/properties/solid/hm_read_prop15.F
-Chd|        HM_READ_PROP16                source/properties/shell/hm_read_prop16.F
-Chd|        HM_READ_PROP17                source/properties/shell/hm_read_prop17.F
-Chd|        HM_READ_PROP18                source/properties/beam/hm_read_prop18.F
-Chd|        HM_READ_PROP20                source/properties/thickshell/hm_read_prop20.F
-Chd|        HM_READ_PROP22                source/properties/thickshell/hm_read_prop22.F
-Chd|        HM_READ_PROP23                source/properties/spring/hm_read_prop23.F
-Chd|        HM_READ_PROP25                source/properties/spring/hm_read_prop25.F
-Chd|        HM_READ_PROP26                source/properties/spring/hm_read_prop26.F
-Chd|        HM_READ_PROP27                source/properties/spring/hm_read_prop27.F
-Chd|        HM_READ_PROP28                source/properties/xelem/hm_read_prop28.F
-Chd|        HM_READ_PROP32                source/properties/spring/hm_read_prop32.F
-Chd|        HM_READ_PROP33                source/properties/spring/hm_read_prop33.F
-Chd|        HM_READ_PROP34                source/properties/sph/hm_read_prop34.F
-Chd|        HM_READ_PROP35                source/properties/spring/hm_read_prop35.F
-Chd|        HM_READ_PROP36                source/properties/spring/hm_read_prop36.F
-Chd|        HM_READ_PROP43                source/properties/solid/hm_read_prop43.F
-Chd|        HM_READ_PROP44                source/properties/spring/hm_read_prop44.F
-Chd|        HM_READ_PROP45                source/properties/spring/hm_read_prop45.F
-Chd|        HM_READ_PROP46                source/properties/spring/hm_read_prop46.F
-Chd|        HM_READ_PROP51                source/properties/shell/hm_read_prop51.F
-Chd|        HM_READ_PROPERTIES            source/properties/hm_read_properties.F
-Chd|        HM_READ_PROP_GENERIC          source/properties/hm_read_prop_generic.F
-Chd|        HM_READ_PROP_USER             source/properties/user_spring_solid/hm_read_prop_user.F
-Chd|        HM_READ_STACK                 source/stack/hm_read_stack.F  
-Chd|        HM_READ_THERM_STRESS          source/materials/therm/hm_read_therm_stress.F
-Chd|        HM_READ_VISC                  source/materials/visc/hm_read_visc.F
-Chd|        INITVARS_AUTO                 source/elements/elbuf_init/initvars_auto.F
-Chd|        INIT_MLAW_TAG                 source/elements/elbuf_init/init_mlaw_tag.F
-Chd|        INI_EOS_VARS                  source/elements/elbuf_init/ini_eos_vars.F
-Chd|        INI_MLAW_VARS                 source/elements/elbuf_init/ini_mlaw_vars.F
-Chd|        INI_PROP_VARS                 source/elements/elbuf_init/ini_prop_vars.F
-Chd|        LAW104_UPD                    source/materials/mat/mat104/law104_upd.F
-Chd|        LAW36_UPD                     source/materials/mat/mat036/law36_upd.F
-Chd|        LECSTACK_PLY                  source/properties/composite_options/stack/lecstack_ply.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        M20DCOD                       source/system/fsdcod.F        
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
-Chd|        UPDMAT                        source/materials/updmat.F     
-Chd|        ZEROVARS_AUTO                 source/elements/elbuf_init/zerovars_auto.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    ale_euler_init           ../starter/source/materials/ale/ale_euler_init.F
+      !||    deallocate_elbuf         ../starter/source/elements/elbuf_init/deallocate_buffer.F
+      !||    elbuf_ini                ../starter/source/elements/elbuf_init/elbuf_ini.F
+      !||    hm_prop_read21           ../starter/source/properties/thickshell/hm_read_prop21.F
+      !||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
+      !||    hm_read_eos_compaction   ../starter/source/materials/eos/hm_read_eos_compaction.F
+      !||    hm_read_eos_tillotson    ../starter/source/materials/eos/hm_read_eos_tillotson.F
+      !||    hm_read_fail             ../starter/source/materials/fail/hm_read_fail.F
+      !||    hm_read_fail_alter       ../starter/source/materials/fail/windshield_alter/hm_read_fail_alter.F
+      !||    hm_read_fail_chang       ../starter/source/materials/fail/changchang/hm_read_fail_chang.F
+      !||    hm_read_fail_connect     ../starter/source/materials/fail/connect/hm_read_fail_connect.F
+      !||    hm_read_fail_gene1       ../starter/source/materials/fail/gene1/hm_read_fail_gene1.F
+      !||    hm_read_fail_hashin      ../starter/source/materials/fail/hashin/hm_read_fail_hashin.F
+      !||    hm_read_fail_hoffman     ../starter/source/materials/fail/hoffman/hm_read_fail_hoffman.F
+      !||    hm_read_fail_maxstrain   ../starter/source/materials/fail/max_strain/hm_read_fail_maxstrain.F
+      !||    hm_read_fail_nxt         ../starter/source/materials/fail/nxt/hm_read_fail_nxt.F
+      !||    hm_read_fail_puck        ../starter/source/materials/fail/puck/hm_read_fail_puck.F
+      !||    hm_read_fail_tsaihill    ../starter/source/materials/fail/tsaihill/hm_read_fail_tsaihill.F
+      !||    hm_read_fail_tsaiwu      ../starter/source/materials/fail/tsaiwu/hm_read_fail_tsaiwu.F
+      !||    hm_read_inject1          ../starter/source/properties/injector/hm_read_inject1.F
+      !||    hm_read_inject2          ../starter/source/properties/injector/hm_read_inject2.F
+      !||    hm_read_inter_type10     ../starter/source/interfaces/int10/hm_read_inter_type10.F
+      !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F
+      !||    hm_read_mat00            ../starter/source/materials/mat/mat000/hm_read_mat00.F
+      !||    hm_read_mat02            ../starter/source/materials/mat/mat002/hm_read_mat02.F
+      !||    hm_read_mat03            ../starter/source/materials/mat/mat003/hm_read_mat03.F
+      !||    hm_read_mat04            ../starter/source/materials/mat/mat004/hm_read_mat04.F
+      !||    hm_read_mat05            ../starter/source/materials/mat/mat005/hm_read_mat05.F
+      !||    hm_read_mat06            ../starter/source/materials/mat/mat006/hm_read_mat06.F
+      !||    hm_read_mat06_keps       ../starter/source/materials/mat/mat006/hm_read_mat06_keps.F
+      !||    hm_read_mat10            ../starter/source/materials/mat/mat010/hm_read_mat10.F
+      !||    hm_read_mat100           ../starter/source/materials/mat/mat100/hm_read_mat100.F
+      !||    hm_read_mat102           ../starter/source/materials/mat/mat102/hm_read_mat102.F
+      !||    hm_read_mat103           ../starter/source/materials/mat/mat103/hm_read_mat103.F
+      !||    hm_read_mat104           ../starter/source/materials/mat/mat104/hm_read_mat104.F
+      !||    hm_read_mat106           ../starter/source/materials/mat/mat106/hm_read_mat106.F
+      !||    hm_read_mat107           ../starter/source/materials/mat/mat107/hm_read_mat107.F
+      !||    hm_read_mat108           ../starter/source/materials/mat/mat108/hm_read_mat108.F
+      !||    hm_read_mat109           ../starter/source/materials/mat/mat109/hm_read_mat109.F
+      !||    hm_read_mat11            ../starter/source/materials/mat/mat011/hm_read_mat11.F
+      !||    hm_read_mat110           ../starter/source/materials/mat/mat110/hm_read_mat110.F
+      !||    hm_read_mat111           ../starter/source/materials/mat/mat111/hm_read_mat111.F
+      !||    hm_read_mat112           ../starter/source/materials/mat/mat112/hm_read_mat112.F
+      !||    hm_read_mat113           ../starter/source/materials/mat/mat113/hm_read_mat113.F
+      !||    hm_read_mat114           ../starter/source/materials/mat/mat114/hm_read_mat114.F
+      !||    hm_read_mat115           ../starter/source/materials/mat/mat115/hm_read_mat115.F
+      !||    hm_read_mat116           ../starter/source/materials/mat/mat116/hm_read_mat116.F
+      !||    hm_read_mat117           ../starter/source/materials/mat/mat117/hm_read_mat117.F
+      !||    hm_read_mat119           ../starter/source/materials/mat/mat119/hm_read_mat119.F
+      !||    hm_read_mat11_k_eps      ../starter/source/materials/mat/mat011/hm_read_mat11_k_eps.F
+      !||    hm_read_mat12            ../starter/source/materials/mat/mat012/hm_read_mat12.F
+      !||    hm_read_mat120           ../starter/source/materials/mat/mat120/hm_read_mat120.F
+      !||    hm_read_mat121           ../starter/source/materials/mat/mat121/hm_read_mat121.F
+      !||    hm_read_mat122           ../starter/source/materials/mat/mat122/hm_read_mat122.F
+      !||    hm_read_mat124           ../starter/source/materials/mat/mat124/hm_read_mat124.F
+      !||    hm_read_mat125           ../starter/source/materials/mat/mat125/hm_read_mat125.F90
+      !||    hm_read_mat126           ../starter/source/materials/mat/mat126/hm_read_mat126.F90
+      !||    hm_read_mat13            ../starter/source/materials/mat/mat013/hm_read_mat13.F
+      !||    hm_read_mat14            ../starter/source/materials/mat/mat014/hm_read_mat14.F
+      !||    hm_read_mat15            ../starter/source/materials/mat/mat015/hm_read_mat15.F
+      !||    hm_read_mat151           ../starter/source/materials/mat/mat151/hm_read_mat151.F
+      !||    hm_read_mat158           ../starter/source/materials/mat/mat158/hm_read_mat158.F
+      !||    hm_read_mat16            ../starter/source/materials/mat/mat016/hm_read_mat16.F
+      !||    hm_read_mat169_arup      ../starter/source/materials/mat/mat169/hm_read_mat169.F90
+      !||    hm_read_mat18            ../starter/source/materials/mat/mat018/hm_read_mat18.F
+      !||    hm_read_mat19            ../starter/source/materials/mat/mat019/hm_read_mat19.F
+      !||    hm_read_mat190           ../starter/source/materials/mat/mat190/hm_read_mat190.F
+      !||    hm_read_mat20            ../starter/source/materials/mat/mat020/hm_read_mat20.F
+      !||    hm_read_mat21            ../starter/source/materials/mat/mat021/hm_read_mat21.F
+      !||    hm_read_mat22            ../starter/source/materials/mat/mat022/hm_read_mat22.F
+      !||    hm_read_mat23            ../starter/source/materials/mat/mat023/hm_read_mat23.F
+      !||    hm_read_mat24            ../starter/source/materials/mat/mat024/hm_read_mat24.F
+      !||    hm_read_mat25            ../starter/source/materials/mat/mat025/hm_read_mat25.F
+      !||    hm_read_mat26            ../starter/source/materials/mat/mat026/hm_read_mat26.F
+      !||    hm_read_mat27            ../starter/source/materials/mat/mat027/hm_read_mat27.F
+      !||    hm_read_mat28            ../starter/source/materials/mat/mat028/hm_read_mat28.F
+      !||    hm_read_mat32            ../starter/source/materials/mat/mat032/hm_read_mat32.F
+      !||    hm_read_mat33            ../starter/source/materials/mat/mat033/hm_read_mat33.F
+      !||    hm_read_mat34            ../starter/source/materials/mat/mat034/hm_read_mat34.F
+      !||    hm_read_mat35            ../starter/source/materials/mat/mat035/hm_read_mat35.F
+      !||    hm_read_mat36            ../starter/source/materials/mat/mat036/hm_read_mat36.F
+      !||    hm_read_mat37            ../starter/source/materials/mat/mat037/hm_read_mat37.F
+      !||    hm_read_mat38            ../starter/source/materials/mat/mat038/hm_read_mat38.F
+      !||    hm_read_mat40            ../starter/source/materials/mat/mat040/hm_read_mat40.F
+      !||    hm_read_mat41            ../starter/source/materials/mat/mat041/hm_read_mat41.F
+      !||    hm_read_mat43            ../starter/source/materials/mat/mat043/hm_read_mat43.F
+      !||    hm_read_mat44            ../starter/source/materials/mat/mat044/hm_read_mat44.F
+      !||    hm_read_mat46            ../starter/source/materials/mat/mat046/hm_read_mat46.F
+      !||    hm_read_mat48            ../starter/source/materials/mat/mat048/hm_read_mat48.F
+      !||    hm_read_mat49            ../starter/source/materials/mat/mat049/hm_read_mat49.F
+      !||    hm_read_mat50            ../starter/source/materials/mat/mat050/hm_read_mat50.F
+      !||    hm_read_mat51            ../starter/source/materials/mat/mat051/hm_read_mat51.F
+      !||    hm_read_mat52            ../starter/source/materials/mat/mat052/hm_read_mat52.F
+      !||    hm_read_mat53            ../starter/source/materials/mat/mat053/hm_read_mat53.F
+      !||    hm_read_mat54            ../starter/source/materials/mat/mat054/hm_read_mat54.F
+      !||    hm_read_mat57            ../starter/source/materials/mat/mat057/hm_read_mat57.F
+      !||    hm_read_mat58            ../starter/source/materials/mat/mat058/hm_read_mat58.F
+      !||    hm_read_mat59            ../starter/source/materials/mat/mat059/hm_read_mat59.F
+      !||    hm_read_mat60            ../starter/source/materials/mat/mat060/hm_read_mat60.F
+      !||    hm_read_mat63            ../starter/source/materials/mat/mat063/hm_read_mat63.F
+      !||    hm_read_mat64            ../starter/source/materials/mat/mat064/hm_read_mat64.F
+      !||    hm_read_mat65            ../starter/source/materials/mat/mat065/hm_read_mat65.F
+      !||    hm_read_mat66            ../starter/source/materials/mat/mat066/hm_read_mat66.F
+      !||    hm_read_mat68            ../starter/source/materials/mat/mat068/hm_read_mat68.F
+      !||    hm_read_mat69            ../starter/source/materials/mat/mat069/hm_read_mat69.F
+      !||    hm_read_mat70            ../starter/source/materials/mat/mat070/hm_read_mat70.F
+      !||    hm_read_mat71            ../starter/source/materials/mat/mat071/hm_read_mat71.F
+      !||    hm_read_mat72            ../starter/source/materials/mat/mat072/hm_read_mat72.F
+      !||    hm_read_mat73            ../starter/source/materials/mat/mat073/hm_read_mat73.F
+      !||    hm_read_mat74            ../starter/source/materials/mat/mat074/hm_read_mat74.F
+      !||    hm_read_mat75            ../starter/source/materials/mat/mat075/hm_read_mat75.F
+      !||    hm_read_mat76            ../starter/source/materials/mat/mat076/hm_read_mat76.F
+      !||    hm_read_mat77            ../starter/source/materials/mat/mat077/hm_read_mat77.F
+      !||    hm_read_mat78            ../starter/source/materials/mat/mat078/hm_read_mat78.F
+      !||    hm_read_mat79            ../starter/source/materials/mat/mat079/hm_read_mat79.F
+      !||    hm_read_mat80            ../starter/source/materials/mat/mat080/hm_read_mat80.F
+      !||    hm_read_mat81            ../starter/source/materials/mat/mat081/hm_read_mat81.F
+      !||    hm_read_mat83            ../starter/source/materials/mat/mat083/hm_read_mat83.F
+      !||    hm_read_mat84            ../starter/source/materials/mat/mat084/hm_read_mat84.F
+      !||    hm_read_mat87            ../starter/source/materials/mat/mat087/hm_read_mat87.F
+      !||    hm_read_mat88            ../starter/source/materials/mat/mat088/hm_read_mat88.F
+      !||    hm_read_mat90            ../starter/source/materials/mat/mat090/hm_read_mat90.F
+      !||    hm_read_mat92            ../starter/source/materials/mat/mat092/hm_read_mat92.F
+      !||    hm_read_mat93            ../starter/source/materials/mat/mat093/hm_read_mat93.F
+      !||    hm_read_mat94            ../starter/source/materials/mat/mat094/hm_read_mat94.F
+      !||    hm_read_mat95            ../starter/source/materials/mat/mat095/hm_read_mat95.F
+      !||    hm_read_mat97            ../starter/source/materials/mat/mat097/hm_read_mat97.F
+      !||    hm_read_nonlocal         ../starter/source/materials/nonlocal/hm_read_nonlocal.F
+      !||    hm_read_part             ../starter/source/model/assembling/hm_read_part.F
+      !||    hm_read_prop0            ../starter/source/properties/void/hm_read_prop0.F
+      !||    hm_read_prop01           ../starter/source/properties/shell/hm_read_prop01.F
+      !||    hm_read_prop02           ../starter/source/properties/truss/hm_read_prop02.F
+      !||    hm_read_prop03           ../starter/source/properties/beam/hm_read_prop03.F
+      !||    hm_read_prop04           ../starter/source/properties/spring/hm_read_prop04.F
+      !||    hm_read_prop06           ../starter/source/properties/solid/hm_read_prop06.F
+      !||    hm_read_prop08           ../starter/source/properties/spring/hm_read_prop08.F
+      !||    hm_read_prop09           ../starter/source/properties/shell/hm_read_prop09.F
+      !||    hm_read_prop10           ../starter/source/properties/shell/hm_read_prop10.F
+      !||    hm_read_prop11           ../starter/source/properties/shell/hm_read_prop11.F
+      !||    hm_read_prop12           ../starter/source/properties/spring/hm_read_prop12.F
+      !||    hm_read_prop13           ../starter/source/properties/spring/hm_read_prop13.F
+      !||    hm_read_prop14           ../starter/source/properties/solid/hm_read_prop14.F
+      !||    hm_read_prop14f          ../starter/source/properties/solid/hm_read_prop14.F
+      !||    hm_read_prop15           ../starter/source/properties/solid/hm_read_prop15.F
+      !||    hm_read_prop16           ../starter/source/properties/shell/hm_read_prop16.F
+      !||    hm_read_prop17           ../starter/source/properties/shell/hm_read_prop17.F
+      !||    hm_read_prop18           ../starter/source/properties/beam/hm_read_prop18.F
+      !||    hm_read_prop20           ../starter/source/properties/thickshell/hm_read_prop20.F
+      !||    hm_read_prop22           ../starter/source/properties/thickshell/hm_read_prop22.F
+      !||    hm_read_prop23           ../starter/source/properties/spring/hm_read_prop23.F
+      !||    hm_read_prop25           ../starter/source/properties/spring/hm_read_prop25.F
+      !||    hm_read_prop26           ../starter/source/properties/spring/hm_read_prop26.F
+      !||    hm_read_prop27           ../starter/source/properties/spring/hm_read_prop27.F
+      !||    hm_read_prop28           ../starter/source/properties/xelem/hm_read_prop28.F
+      !||    hm_read_prop32           ../starter/source/properties/spring/hm_read_prop32.F
+      !||    hm_read_prop33           ../starter/source/properties/spring/hm_read_prop33.F
+      !||    hm_read_prop34           ../starter/source/properties/sph/hm_read_prop34.F
+      !||    hm_read_prop35           ../starter/source/properties/spring/hm_read_prop35.F
+      !||    hm_read_prop36           ../starter/source/properties/spring/hm_read_prop36.F
+      !||    hm_read_prop43           ../starter/source/properties/solid/hm_read_prop43.F
+      !||    hm_read_prop44           ../starter/source/properties/spring/hm_read_prop44.F
+      !||    hm_read_prop45           ../starter/source/properties/spring/hm_read_prop45.F
+      !||    hm_read_prop46           ../starter/source/properties/spring/hm_read_prop46.F
+      !||    hm_read_prop51           ../starter/source/properties/shell/hm_read_prop51.F
+      !||    hm_read_prop_generic     ../starter/source/properties/hm_read_prop_generic.F
+      !||    hm_read_prop_user        ../starter/source/properties/user_spring_solid/hm_read_prop_user.F
+      !||    hm_read_properties       ../starter/source/properties/hm_read_properties.F
+      !||    hm_read_stack            ../starter/source/stack/hm_read_stack.F
+      !||    hm_read_therm_stress     ../starter/source/materials/therm/hm_read_therm_stress.F
+      !||    hm_read_visc             ../starter/source/materials/visc/hm_read_visc.F
+      !||    ini_eos_vars             ../starter/source/elements/elbuf_init/ini_eos_vars.F
+      !||    ini_mlaw_vars            ../starter/source/elements/elbuf_init/ini_mlaw_vars.F
+      !||    ini_prop_vars            ../starter/source/elements/elbuf_init/ini_prop_vars.F
+      !||    init_mlaw_tag            ../starter/source/elements/elbuf_init/init_mlaw_tag.F
+      !||    initvars_auto            ../starter/source/elements/elbuf_init/initvars_auto.F
+      !||    law104_upd               ../starter/source/materials/mat/mat104/law104_upd.F
+      !||    law36_upd                ../starter/source/materials/mat/mat036/law36_upd.F
+      !||    lecstack_ply             ../starter/source/properties/composite_options/stack/lecstack_ply.F
+      !||    lectur                   ../starter/source/starter/lectur.F
+      !||    m20dcod                  ../starter/source/system/fsdcod.F
+      !||    read_material_models     ../starter/source/materials/read_material_models.F
+      !||    updmat                   ../starter/source/materials/updmat.F
+      !||    zerovars_auto            ../starter/source/elements/elbuf_init/zerovars_auto.F
+      !||====================================================================
       MODULE ELBUFTAG_MOD
 c-----------------------------------------------------------------------
 c     add here new variables used by material laws preceded by L_ or G_prefix

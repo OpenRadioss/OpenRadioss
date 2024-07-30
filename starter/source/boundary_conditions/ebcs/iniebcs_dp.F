@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIEBCS_DP                    source/boundary_conditions/ebcs/iniebcs_dp.F
-Chd|-- called by -----------
-Chd|        INIEBCSP0                     source/boundary_conditions/ebcs/iniebcsp0.F
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INIGRAV                       share/modules1/inigrav_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    iniebcs_dp     ../starter/source/boundary_conditions/ebcs/iniebcs_dp.F
+      !||--- called by ------------------------------------------------------
+      !||    iniebcsp0      ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
+      !||--- uses       -----------------------------------------------------
+      !||    inigrav        ../starter/share/modules1/inigrav_mod.F
+      !||====================================================================
       SUBROUTINE INIEBCS_DP(NSEG,NOD,ISEG,IELEM,IRECT,LISTE,
      .                    IPARG,ELBUF_STR,X, IXS,IXQ,IXTG,DP0,
      .                    IPARTS,IPARTQ,IPARTTG)

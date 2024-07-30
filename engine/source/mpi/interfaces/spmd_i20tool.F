@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_FIADD20_PON              source/mpi/interfaces/spmd_i20tool.F
-Chd|-- called by -----------
-Chd|        SPMD_I7FCOM_PON               source/mpi/forces/spmd_i7fcom_pon.F
-Chd|-- calls ---------------
-Chd|        GETDPDAANC                    source/mpi/interfaces/spmd_i7tool.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fiadd20_pon   ../engine/source/mpi/interfaces/spmd_i20tool.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_i7fcom_pon    ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+      !||--- calls      -----------------------------------------------------
+      !||    getdpdaanc         ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||====================================================================
       SUBROUTINE SPMD_FIADD20_PON(
      1       NB, LEN, NSVSI, BUFR, DAANC6, NSV, ALPHAK)
 C-----------------------------------------------
@@ -82,13 +82,13 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_FIADD20E_PON             source/mpi/interfaces/spmd_i20tool.F
-Chd|-- called by -----------
-Chd|        SPMD_I7FCOM_PON               source/mpi/forces/spmd_i7fcom_pon.F
-Chd|-- calls ---------------
-Chd|        GETDPDAANC                    source/mpi/interfaces/spmd_i7tool.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fiadd20e_pon   ../engine/source/mpi/interfaces/spmd_i20tool.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_i7fcom_pon     ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+      !||--- calls      -----------------------------------------------------
+      !||    getdpdaanc          ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||====================================================================
       SUBROUTINE SPMD_FIADD20E_PON(
      1       NB, LEN, NSVSI, BUFR, DAANC6, IXLINS, ALPHAK)
 C-----------------------------------------------

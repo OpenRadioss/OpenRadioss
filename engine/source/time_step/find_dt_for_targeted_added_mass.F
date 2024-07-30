@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FIND_DT_FOR_TARGETED_ADDED_MASSsource/time_step/find_dt_for_targeted_added_mass.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        FIND_DT_TARGET                ../common_source/tools/time_step/find_dt_target.F
-Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
-Chd|        SPMD_GATHER_DTNODA            source/mpi/generic/spmd_gather_dtnoda.F
-Chd|        SPMD_GLOB_IMAX9               source/mpi/generic/spmd_glob_imax9.F
-Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    find_dt_for_targeted_added_mass   ../engine/source/time_step/find_dt_for_targeted_added_mass.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                             ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    find_dt_target                    ../common_source/tools/time_step/find_dt_target.F
+      !||    myqsort                           ../common_source/tools/sort/myqsort.F
+      !||    spmd_gather_dtnoda                ../engine/source/mpi/generic/spmd_gather_dtnoda.F
+      !||    spmd_glob_imax9                   ../engine/source/mpi/generic/spmd_glob_imax9.F
+      !||    spmd_glob_isum9                   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_rbcast                       ../engine/source/mpi/generic/spmd_rbcast.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod                      ../common_source/modules/groupdef_mod.F
+      !||    message_mod                       ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE FIND_DT_FOR_TARGETED_ADDED_MASS(MS,STIFN,DTSCA,IGRP_USR,TARGET_DT,
      .                                           PERCENT_ADDMASS,PERCENT_ADDMASS_OLD,TOTMAS,WEIGHT,IGRNOD,
      .                                           ICNDS10)

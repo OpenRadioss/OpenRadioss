@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I20STIFN                      source/interfaces/inter3d1/i20stifn.F
-Chd|-- called by -----------
-Chd|        ININTR1                       source/interfaces/interf1/inintr1.F
-Chd|-- calls ---------------
-Chd|        I20STIFN2                     source/interfaces/inter3d1/i20stifn.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i20stifn        ../starter/source/interfaces/inter3d1/i20stifn.F
+      !||--- called by ------------------------------------------------------
+      !||    inintr1         ../starter/source/interfaces/interf1/inintr1.F
+      !||--- calls      -----------------------------------------------------
+      !||    i20stifn2       ../starter/source/interfaces/inter3d1/i20stifn.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I20STIFN(IPARI,STIFINT,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -57,12 +58,11 @@ C---------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I20STIFN2                     source/interfaces/inter3d1/i20stifn.F
-Chd|-- called by -----------
-Chd|        I20STIFN                      source/interfaces/inter3d1/i20stifn.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i20stifn2   ../starter/source/interfaces/inter3d1/i20stifn.F
+      !||--- called by ------------------------------------------------------
+      !||    i20stifn    ../starter/source/interfaces/inter3d1/i20stifn.F
+      !||====================================================================
       SUBROUTINE I20STIFN2(NLN,NLG,STFA,STIFINT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

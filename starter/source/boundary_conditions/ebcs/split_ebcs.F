@@ -20,22 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    split_ebcs           ../starter/source/boundary_conditions/ebcs/split_ebcs.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- uses       -----------------------------------------------------
+      !||    front_mod            ../starter/share/modules1/front_mod.F
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    restmod              ../starter/share/modules1/restart_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||    table_mod            ../starter/share/modules1/table_mod.F
+      !||====================================================================
         SUBROUTINE SPLIT_EBCS( PROC_ID,LOCAL_NEBCS,LIST_OTHER_EBCS,NUMEL,
      1                         CEP,IGRSURF,LOCAL_ELEMENT_ID,
      2                         EBCS_TAB,EBCS_TAB_LOC_2)

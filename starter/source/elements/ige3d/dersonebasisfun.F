@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DERSONEBASISFUN               source/elements/ige3d/dersonebasisfun.F
-Chd|-- called by -----------
-Chd|        IG3DONEDERIV                  source/elements/ige3d/ig3donederiv.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dersonebasisfun   ../starter/source/elements/ige3d/dersonebasisfun.F
+      !||--- called by ------------------------------------------------------
+      !||    ig3donederiv      ../starter/source/elements/ige3d/ig3donederiv.F
+      !||====================================================================
       SUBROUTINE DERSONEBASISFUN(IDXI, PXI, XI, KXI, DERS1, DERS2)
 C--------------------------------------------------------------------------------------------------------
 C

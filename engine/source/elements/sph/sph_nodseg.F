@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPH_NODSEG                    source/elements/sph/sph_nodseg.F
-Chd|-- called by -----------
-Chd|        SPHREQS                       source/elements/sph/sphreq.F  
-Chd|        SPONOF2                       source/elements/sph/sponof2.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sph_nodseg   ../engine/source/elements/sph/sph_nodseg.F
+      !||--- called by ------------------------------------------------------
+      !||    sphreqs      ../engine/source/elements/sph/sphreq.F
+      !||    sponof2      ../engine/source/elements/sph/sponof2.F
+      !||====================================================================
       SUBROUTINE SPH_NODSEG(XI,YI,ZI,XX,TFLAG,NP,LONFSPH,IXP,DPS,WNORMAL,FLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

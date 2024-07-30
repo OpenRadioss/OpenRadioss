@@ -20,12 +20,26 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    init_seatbelt_rbodies_mod   ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90
+      !||--- called by ------------------------------------------------------
+      !||    initia                      ../starter/source/elements/initia/initia.F
+      !||====================================================================
       module init_seatbelt_rbodies_mod
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \routine to search for rbodies that are referenced by slipring and fill slipring data_structure with
+      !||====================================================================
+      !||    init_seatbelt_rbodies   ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90
+      !||--- called by ------------------------------------------------------
+      !||    initia                  ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                  ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||====================================================================
         subroutine init_seatbelt_rbodies(nnpby,nrbody,npby,slrbody,lpby,sicode,icode,nslipring)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

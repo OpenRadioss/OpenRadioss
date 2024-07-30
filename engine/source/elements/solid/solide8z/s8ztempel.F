@@ -21,14 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  S8ZTEMPEL                     source/elements/solid/solide8z/s8ztempel.F
-Chd|-- called by -----------
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8ztempel   ../engine/source/elements/solid/solide8z/s8ztempel.F
+      !||--- called by ------------------------------------------------------
+      !||    s8cforc3    ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3    ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8zforc3    ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||====================================================================
       SUBROUTINE S8ZTEMPEL(LFT,LLT,NI,KSI,ETA,ZETA,
      1                     NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
      2                     TEMP,TEMPEL)

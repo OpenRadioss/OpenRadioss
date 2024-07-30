@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_SPAMAJ                   source/mpi/sph/spmd_spamaj.F  
-Chd|-- called by -----------
-Chd|        SPHPREP                       source/elements/sph/sphprep.F 
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_spamaj     ../engine/source/mpi/sph/spmd_spamaj.F
+      !||--- called by ------------------------------------------------------
+      !||    sphprep         ../engine/source/elements/sph/sphprep.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox          ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPMD_SPAMAJ(IREDUCE, SPAGLOB)
 C-----------------------------------------------
 C   M o d u l e s

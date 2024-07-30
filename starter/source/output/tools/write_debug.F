@@ -26,13 +26,11 @@ C WRITE_I_C_DEBUG
 C Same for WRITE_DB
 C This allows to use the option -flush_rst_to_txt at the starter 
 
-Chd|====================================================================
-Chd|  WRITE_I_C_DEBUG               source/output/tools/write_debug.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    write_i_c_debug   ../starter/source/output/tools/write_debug.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl2          ../starter/source/starter/freform.F
+      !||====================================================================
       SUBROUTINE WRITE_I_C_DEBUG(A,N,SA)
 ! Do not replace IMPLICIT NONE by an include here
       IMPLICIT NONE
@@ -73,12 +71,10 @@ Chd|====================================================================
 
       END SUBROUTINE
 
-Chd|====================================================================
-Chd|  WRITE_DB_DEBUG                source/output/tools/write_debug.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|====================================================================
+      !||====================================================================
+      !||    write_db_debug   ../starter/source/output/tools/write_debug.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE WRITE_DB_DEBUG(A,N,SA)
 ! Do not replace IMPLICIT NONE by an include here
       IMPLICIT NONE

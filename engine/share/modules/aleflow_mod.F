@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALEFLOW_MOD                   share/modules/aleflow_mod.F   
-Chd|-- called by -----------
-Chd|        ALELAG_RREST                  source/output/restart/rdresb.F
-Chd|        ALELAG_WREST                  source/output/restart/wrrest.F
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    aleflow_mod    ../engine/share/modules/aleflow_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    alelag_rrest   ../engine/source/output/restart/rdresb.F
+      !||    alelag_wrest   ../engine/source/output/restart/wrrest.F
+      !||    resol          ../engine/source/engine/resol.F
+      !||====================================================================
       MODULE ALEFLOW_MOD
 C-----------------------------------------------
 C   m y _ r e a l

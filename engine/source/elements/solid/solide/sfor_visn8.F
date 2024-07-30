@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SFOR_VISN8                    source/elements/solid/solide/sfor_visn8.F
-Chd|-- called by -----------
-Chd|        S8FOR_DISTOR                  source/elements/solid/solide/s8for_distor.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sfor_visn8     ../engine/source/elements/solid/solide/sfor_visn8.F
+      !||--- called by ------------------------------------------------------
+      !||    s8for_distor   ../engine/source/elements/solid/solide/s8for_distor.F
+      !||====================================================================
       SUBROUTINE SFOR_VISN8(VC ,    FLD,   TOL_V,    IFC1,
      4                      VX1,    VX2,     VX3,     VX4,
      5                      VX5,    VX6,     VX7,     VX8,

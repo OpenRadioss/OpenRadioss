@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CZFINTN1                      source/elements/shell/coquez/czfintn.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czfintn1      ../engine/source/elements/shell/coquez/czfintn.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
+      !||====================================================================
         SUBROUTINE CZFINTN1(JFT   ,JLT   ,THK  ,C1   ,AA   ,VHG  ,
      2                      X13   ,X24   ,Y13  ,Y24  ,Z1   ,MX23 ,
      3                      MX13  ,MX34  ,MY13 ,MY23 ,MY34 ,VGLAS,
@@ -493,14 +492,13 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  CZFINTNM                      source/elements/shell/coquez/czfintn.F
-Chd|-- called by -----------
-Chd|        CZFINTNM1                     source/elements/shell/coquez/czfintn.F
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czfintnm      ../engine/source/elements/shell/coquez/czfintn.F
+      !||--- called by ------------------------------------------------------
+      !||    czfintnm1     ../engine/source/elements/shell/coquez/czfintn.F
+      !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
+      !||====================================================================
         SUBROUTINE CZFINTNM(JFT  ,JLT  ,THK  ,AA   ,VHG  ,
      2                      X13  ,X24  ,Y13  ,Y24  ,VF   ,
      3                      G    ,RHO  ,AREA ,AMU  ,DT1  ,
@@ -558,12 +556,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZFINTNRZ                     source/elements/shell/coquez/czfintn.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czfintnrz   ../engine/source/elements/shell/coquez/czfintn.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3     ../engine/source/elements/shell/coquez/czforc3.F
+      !||====================================================================
         SUBROUTINE CZFINTNRZ(JFT  ,JLT  ,THK  ,C1   ,AA   ,VHG  ,
      2                      X13  ,X24  ,Y13  ,Y24  ,Z1   ,MX23 ,
      3                      MX13 ,MX34 ,MY13 ,MY23 ,MY34 ,VGLAS,
@@ -1005,15 +1002,15 @@ C
       ENDIF
       RETURN
       END      
-Chd|====================================================================
-Chd|  CZFINTN_OR                    source/elements/shell/coquez/czfintn.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|        CZEHOURV                      source/elements/shell/coquez/czfintn.F
-Chd|        CZHOUREP_OR                   source/elements/shell/coquez/czfintn.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czfintn_or    ../engine/source/elements/shell/coquez/czfintn.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
+      !||--- calls      -----------------------------------------------------
+      !||    czehourv      ../engine/source/elements/shell/coquez/czfintn.F
+      !||    czhourep_or   ../engine/source/elements/shell/coquez/czfintn.F
+      !||====================================================================
         SUBROUTINE CZFINTN_OR(JFT  ,JLT  ,THK  ,C1   ,AA   ,VHG  ,
      2                      X13  ,X24  ,Y13  ,Y24  ,Z1   ,MX23 ,
      3                      MX13 ,MX34 ,MY13 ,MY23 ,MY34 ,VGLAS,
@@ -1376,13 +1373,12 @@ C
       CALL CZEHOURV(JFT  ,JLT  ,IPARTC,EVIS,KFTS  ,TESY ) 
       RETURN
       END      
-Chd|====================================================================
-Chd|  CZEHOURV                      source/elements/shell/coquez/czfintn.F
-Chd|-- called by -----------
-Chd|        CZFINTNRZ_OR                  source/elements/shell/coquez/czfintn.F
-Chd|        CZFINTN_OR                    source/elements/shell/coquez/czfintn.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czehourv       ../engine/source/elements/shell/coquez/czfintn.F
+      !||--- called by ------------------------------------------------------
+      !||    czfintn_or     ../engine/source/elements/shell/coquez/czfintn.F
+      !||    czfintnrz_or   ../engine/source/elements/shell/coquez/czfintn.F
+      !||====================================================================
         SUBROUTINE CZEHOURV(JFT  ,JLT  ,IPARTC,EVIS,KFTS  ,
      8                      TESY ) 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -1444,15 +1440,15 @@ C
 C      
       RETURN
       END      
-Chd|====================================================================
-Chd|  CZFINTNRZ_OR                  source/elements/shell/coquez/czfintn.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|        CZEHOURV                      source/elements/shell/coquez/czfintn.F
-Chd|        CZHOUREPRZ_OR                 source/elements/shell/coquez/czfintn.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czfintnrz_or    ../engine/source/elements/shell/coquez/czfintn.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3         ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk     ../engine/source/elements/xfem/czforc3_crk.F
+      !||--- calls      -----------------------------------------------------
+      !||    czehourv        ../engine/source/elements/shell/coquez/czfintn.F
+      !||    czhoureprz_or   ../engine/source/elements/shell/coquez/czfintn.F
+      !||====================================================================
         SUBROUTINE CZFINTNRZ_OR(JFT  ,JLT  ,THK  ,C1   ,AA   ,VHG  ,
      2                      X13  ,X24  ,Y13  ,Y24  ,Z1   ,MX23 ,
      3                      MX13 ,MX34 ,MY13 ,MY23 ,MY34 ,VGLAS,
@@ -1915,12 +1911,11 @@ C
       CALL CZEHOURV(JFT  ,JLT  ,IPARTC,EVIS,KFTS  ,TESY ) 
       RETURN
       END      
-Chd|====================================================================
-Chd|  CZHOUREP_OR                   source/elements/shell/coquez/czfintn.F
-Chd|-- called by -----------
-Chd|        CZFINTN_OR                    source/elements/shell/coquez/czfintn.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czhourep_or   ../engine/source/elements/shell/coquez/czfintn.F
+      !||--- called by ------------------------------------------------------
+      !||    czfintn_or    ../engine/source/elements/shell/coquez/czfintn.F
+      !||====================================================================
         SUBROUTINE CZHOUREP_OR(JFT   ,JLT  ,SIGY ,VSTRE ,MSTRE ,
      1                         THK   ,FAC  ,ESX  ,EMX   ,NPT   ,
      2                         DGLAS ,VGLAS,NEL  ) 
@@ -2039,12 +2034,11 @@ C-----taking into account failing in the layers(law25 first)----
 C      
       RETURN
       END      
-Chd|====================================================================
-Chd|  CZHOUREPRZ_OR                 source/elements/shell/coquez/czfintn.F
-Chd|-- called by -----------
-Chd|        CZFINTNRZ_OR                  source/elements/shell/coquez/czfintn.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czhoureprz_or   ../engine/source/elements/shell/coquez/czfintn.F
+      !||--- called by ------------------------------------------------------
+      !||    czfintnrz_or    ../engine/source/elements/shell/coquez/czfintn.F
+      !||====================================================================
         SUBROUTINE CZHOUREPRZ_OR(JFT   ,JLT   ,SIGY ,VSTRE ,MSTRE ,
      1                           THK   ,FAC   ,ESX  ,EMX   ,NPT   ,
      2                           DGLAS ,VGLAS ,NEL  ) 
@@ -2174,13 +2168,13 @@ C-----taking into account failing in the layers(law25 first)----
 C      
       RETURN
       END      
-Chd|====================================================================
-Chd|  CZFINTNM1                     source/elements/shell/coquez/czfintn.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|-- calls ---------------
-Chd|        CZFINTNM                      source/elements/shell/coquez/czfintn.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czfintnm1   ../engine/source/elements/shell/coquez/czfintn.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3     ../engine/source/elements/shell/coquez/czforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    czfintnm    ../engine/source/elements/shell/coquez/czfintn.F
+      !||====================================================================
         SUBROUTINE CZFINTNM1(JFT  ,JLT  ,THK  ,AA   ,VHG  ,
      2                       X13  ,X24  ,Y13  ,Y24  ,VF   ,
      3                       MX13 ,MX23 ,MY13 ,MY23 ,

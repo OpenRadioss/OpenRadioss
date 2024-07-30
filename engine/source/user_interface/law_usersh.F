@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAW_USERSH                    source/user_interface/law_usersh.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|        NOLIB_USERMAT99               source/user_interface/nolib_usermat99.F
-Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    law_usersh        ../engine/source/user_interface/law_usersh.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc            ../engine/source/materials/mat_share/mulawc.F
+      !||    nolib_usermat99   ../engine/source/user_interface/nolib_usermat99.F
+      !||    usermat_shell     ../engine/source/materials/mat_share/usermat_shell.F
+      !||====================================================================
       MODULE LAW_USERSH
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

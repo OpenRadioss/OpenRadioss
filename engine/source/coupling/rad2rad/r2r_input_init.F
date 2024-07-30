@@ -20,19 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R2R_INPUT_INIT                source/coupling/rad2rad/r2r_input_init.F
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|        GET_SOCK_IBUF_C               source/coupling/rad2rad/rad2rad_c.c
-Chd|        GET_SOCK_RBUF_C               source/coupling/rad2rad/rad2rad_c.c
-Chd|        SEND_SOCK_IBUF_C              source/coupling/rad2rad/rad2rad_c.c
-Chd|        SEND_SOCK_RBUF_C              source/coupling/rad2rad/rad2rad_c.c
-Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
-Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
-Chd|        RAD2R_MOD                     share/modules/rad2r.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_input_init     ../engine/source/coupling/rad2rad/r2r_input_init.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2           ../engine/source/engine/radioss2.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_sock_ibuf_c    ../engine/source/coupling/rad2rad/rad2rad_c.c
+      !||    get_sock_rbuf_c    ../engine/source/coupling/rad2rad/rad2rad_c.c
+      !||    send_sock_ibuf_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
+      !||    send_sock_rbuf_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
+      !||    spmd_ibcast        ../engine/source/mpi/generic/spmd_ibcast.F
+      !||    spmd_rbcast        ../engine/source/mpi/generic/spmd_rbcast.F
+      !||--- uses       -----------------------------------------------------
+      !||    output_mod         ../common_source/modules/output/output_mod.F90
+      !||    rad2r_mod          ../engine/share/modules/rad2r.F
+      !||====================================================================
       SUBROUTINE R2R_INPUT_INIT(IRUNN,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s

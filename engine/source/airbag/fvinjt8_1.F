@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FVINJT8_1                     source/airbag/fvinjt8_1.F     
-Chd|-- called by -----------
-Chd|        FVBAG1                        source/airbag/fvbag1.F        
-Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fvinjt8_1      ../engine/source/airbag/fvinjt8_1.F
+      !||--- called by ------------------------------------------------------
+      !||    fv_up_switch   ../engine/source/airbag/fv_up_switch.F
+      !||    fvbag1         ../engine/source/airbag/fvbag1.F
+      !||====================================================================
       SUBROUTINE FVINJT8_1(NJET   , IBAGJET , RBAGJET ,
      2                    IGEO,     GEO,     PM, 
      3                    IVOLU,   RVOLU, DMOUT, DHOUT)

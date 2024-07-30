@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  AGAUG3T                       source/ale/agaug3t.F          
-Chd|-- called by -----------
-Chd|        AGAUGE                        source/ale/agauge.F           
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    agaug3t                ../engine/source/ale/agaug3t.F
+      !||--- called by ------------------------------------------------------
+      !||    agauge                 ../engine/source/ale/agauge.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||====================================================================
       SUBROUTINE AGAUG3T(LGAUGE,GAUGE,PHI,IXTG  ,X    ,ALE_CONNECT )
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------

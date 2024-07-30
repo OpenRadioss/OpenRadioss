@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
-Chd|-- called by -----------
-Chd|        BFORC2                        source/ale/bimat/bforc2.F     
-Chd|        MULTI_COMPUTEVOLUME           source/multifluid/multi_computevolume.F
-Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
-Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
-Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    qvolu2                ../engine/source/elements/solid_2d/quad/qvolu2.F
+      !||--- called by ------------------------------------------------------
+      !||    bforc2                ../engine/source/ale/bimat/bforc2.F
+      !||    multi_computevolume   ../engine/source/multifluid/multi_computevolume.F
+      !||    q4forc2               ../engine/source/elements/solid_2d/quad4/q4forc2.F
+      !||    q4ke2                 ../engine/source/elements/solid_2d/quad4/q4ke2.F
+      !||    qforc2                ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE QVOLU2(
      1   OFF,     AIRE,    VOLU,    NGL,
      2   Y1,      Y2,      Y3,      Y4,

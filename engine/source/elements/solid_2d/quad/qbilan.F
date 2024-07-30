@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  QBILAN                        source/elements/solid_2d/quad/qbilan.F
-Chd|-- called by -----------
-Chd|        BFORC2                        source/ale/bimat/bforc2.F     
-Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
-Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
-Chd|-- calls ---------------
-Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F 
-Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
-Chd|====================================================================
+      !||====================================================================
+      !||    qbilan                ../engine/source/elements/solid_2d/quad/qbilan.F
+      !||--- called by ------------------------------------------------------
+      !||    bforc2                ../engine/source/ale/bimat/bforc2.F
+      !||    q4forc2               ../engine/source/elements/solid_2d/quad4/q4forc2.F
+      !||    qforc2                ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||--- calls      -----------------------------------------------------
+      !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
+      !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+      !||====================================================================
       SUBROUTINE QBILAN(
      1   PARTSAV, OFF,     EINT,    RHO,
      2   RK,      VOL,     VY1,     VY2,

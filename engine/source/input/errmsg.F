@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ERRMSG                        source/input/errmsg.F         
-Chd|-- called by -----------
-Chd|        FREBCS                        source/input/frebcs.F         
-Chd|        FRECPL                        source/input/frecpl.F         
-Chd|        FREDLI7                       source/input/fredli7.F        
-Chd|        FREFORM                       source/input/freform.F        
-Chd|        FREINIV                       source/input/freiniv.F        
-Chd|        FRELNK                        source/input/frelnk.F         
-Chd|        REDKEY0                       source/input/redkey0.F        
-Chd|        IXYZ                          source/input/ixyz.F           
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    errmsg        ../engine/source/input/errmsg.F
+      !||--- called by ------------------------------------------------------
+      !||    frebcs        ../engine/source/input/frebcs.F
+      !||    frecpl        ../engine/source/input/frecpl.F
+      !||    fredli7       ../engine/source/input/fredli7.F
+      !||    freform       ../engine/source/input/freform.F
+      !||    freiniv       ../engine/source/input/freiniv.F
+      !||    frelnk        ../engine/source/input/frelnk.F
+      !||    ixyz          ../engine/source/input/ixyz.F
+      !||    redkey0       ../engine/source/input/redkey0.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ERRMSG(KEY)
 C-----------------------------------------------
 C   M o d u l e s

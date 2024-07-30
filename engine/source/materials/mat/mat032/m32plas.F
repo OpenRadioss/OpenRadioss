@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M32PLAS                       source/materials/mat/mat032/m32plas.F
-Chd|-- called by -----------
-Chd|        SIGEPS32C                     source/materials/mat/mat032/sigeps32c.F
-Chd|-- calls ---------------
-Chd|        UROTOV                        source/airbag/uroto.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    m32plas     ../engine/source/materials/mat/mat032/m32plas.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps32c   ../engine/source/materials/mat/mat032/sigeps32c.F
+      !||--- calls      -----------------------------------------------------
+      !||    urotov      ../engine/source/airbag/uroto.F
+      !||====================================================================
       SUBROUTINE M32PLAS(JFT    ,JLT    ,PM     ,OFF    ,EPSEQ  ,
      .                   IMAT   ,DIR    ,EZZ    ,IPLA   ,DT1C   ,
      .                   DPLA1  ,EPSPD  ,NEL    ,NGL    ,HARDM  ,

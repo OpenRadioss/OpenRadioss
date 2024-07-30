@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  REPLA3                        source/elements/spring/repla3.F
-Chd|-- called by -----------
-Chd|        R23L108DEF3                   source/elements/spring/r23l108def3.F
-Chd|        R23L113DEF3                   source/elements/spring/r23l113def3.F
-Chd|        R23L114DEF3                   source/elements/spring/r23l114def3.F
-Chd|        R2DEF3                        source/elements/spring/r2def3.F
-Chd|        R4DEF3                        source/elements/spring/r4def3.F
-Chd|        R6DEF3                        source/elements/spring/r6def3.F
-Chd|-- calls ---------------
-Chd|        INTERP                        source/tools/curve/interp.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    repla3        ../engine/source/elements/spring/repla3.F
+      !||--- called by ------------------------------------------------------
+      !||    r23l108def3   ../engine/source/elements/spring/r23l108def3.F
+      !||    r23l113def3   ../engine/source/elements/spring/r23l113def3.F
+      !||    r23l114def3   ../engine/source/elements/spring/r23l114def3.F
+      !||    r2def3        ../engine/source/elements/spring/r2def3.F
+      !||    r4def3        ../engine/source/elements/spring/r4def3.F
+      !||    r6def3        ../engine/source/elements/spring/r6def3.F
+      !||--- calls      -----------------------------------------------------
+      !||    interp        ../engine/source/tools/curve/interp.F
+      !||====================================================================
       SUBROUTINE REPLA3(
      1   XK,      DPX,     TF,      NPF,
      2   IECROU,  IFUNC,   IFV,     EPLA,

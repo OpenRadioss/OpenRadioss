@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M15CPLRC                      source/materials/mat/mat015/m15cplrc.F
-Chd|-- called by -----------
-Chd|        SIGEPS15C                     source/materials/mat/mat015/sigeps15c.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m15cplrc    ../engine/source/materials/mat/mat015/m15cplrc.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps15c   ../engine/source/materials/mat/mat015/sigeps15c.F
+      !||====================================================================
       SUBROUTINE M15CPLRC(JFT    ,JLT    ,PM     ,WPLA   ,
      2                    IMATLY ,DAMT   ,SHF    ,NGL    ,SIGE  ,
      3                    DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX,

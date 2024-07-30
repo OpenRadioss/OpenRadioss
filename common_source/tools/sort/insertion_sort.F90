@@ -34,6 +34,11 @@
 ! ======================================================================================================================
 !! \brief This subroutine is sorting array of size n with insertion sorting algorithm
 !! \details resulting index are provided
+      !||====================================================================
+      !||    real_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
+      !||--- called by ------------------------------------------------------
+      !||    clipping_weiler_atherton         ../common_source/tools/clipping/polygon_clipping_mod.F90
+      !||====================================================================
           subroutine real_insertion_sort_with_index(array, index, n)
             implicit none
 #include "my_real.inc"
@@ -77,6 +82,9 @@
 ! ======================================================================================================================
 !! \brief This subroutine is sorting array of size n with insertion sorting algorithm
 !! \details resulting index are provided
+      !||====================================================================
+      !||    integer_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
+      !||====================================================================
           subroutine integer_insertion_sort_with_index(array, index, n)
             implicit none
 ! ----------------------------------------------------------------------------------------------------------------------

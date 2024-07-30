@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIXFEM                       source/elements/xfem/inixfem.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        CRK_COORD_INI                 source/elements/xfem/crk_coord_ini.F
-Chd|        ENRICHC_INI                   source/elements/xfem/enrichc_ini.F
-Chd|        ENRICHTG_INI                  source/elements/xfem/enrichtg_ini.F
-Chd|        SPMD_EXCH_IEDGE               source/mpi/elements/spmd_xfem.F
-Chd|        STARTIMEG                     source/system/timer.F         
-Chd|        STOPTIMEG                     source/system/timer.F         
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inixfem           ../engine/source/elements/xfem/inixfem.F
+      !||--- called by ------------------------------------------------------
+      !||    resol             ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    crk_coord_ini     ../engine/source/elements/xfem/crk_coord_ini.F
+      !||    enrichc_ini       ../engine/source/elements/xfem/enrichc_ini.F
+      !||    enrichtg_ini      ../engine/source/elements/xfem/enrichtg_ini.F
+      !||    spmd_exch_iedge   ../engine/source/mpi/elements/spmd_xfem.F
+      !||    startimeg         ../engine/source/system/timer.F
+      !||    stoptimeg         ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod     ../engine/share/modules/crackxfem_mod.F
+      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE INIXFEM(ELBUF_TAB,XFEM_TAB ,
      .                   IPARG    ,IXC      ,IXTG     ,NGROUC   ,IGROUC    ,
      .                   ELCUTC   ,IADC_CRK ,IEL_CRK  ,INOD_CRK ,ADDCNE_CRK,

@@ -20,14 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THNST                         source/output/th/thnst.F      
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|        XTH                           source/output/th/thnst.F      
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    thnst          ../engine/source/output/th/thnst.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2          ../engine/source/output/th/hist2.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar           ../engine/source/input/nvar.F
+      !||    xth            ../engine/source/output/th/thnst.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE THNST(ELBUF_TAB,IPARG,NTHGRP2, ITHGRP,ITHBUF,
      .                 GEO ,KXX, WA  )
 C-----------------------------------------------
@@ -179,12 +181,11 @@ C
 
 
 
-Chd|====================================================================
-Chd|  XTH                           source/output/th/thnst.F      
-Chd|-- called by -----------
-Chd|        THNST                         source/output/th/thnst.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    xth     ../engine/source/output/th/thnst.F
+      !||--- called by ------------------------------------------------------
+      !||    thnst   ../engine/source/output/th/thnst.F
+      !||====================================================================
       SUBROUTINE XTH(NUVAR ,UVAR  ,NUVARN ,UVARN ,WWA,
      .               NX    ,II    ,IST    )
 C-----------------------------------------------

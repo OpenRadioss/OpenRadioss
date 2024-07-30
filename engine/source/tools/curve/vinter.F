@@ -20,55 +20,54 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  VINTER                        source/tools/curve/vinter.F   
-Chd|-- called by -----------
-Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas76.F
-Chd|        ASSO_QPLAS76C                 source/materials/mat/mat076/asso_qplas76c.F
-Chd|        FAIL_FLD_C                    source/materials/fail/fld/fail_fld_c.F
-Chd|        FAIL_TAB_OLD_C                source/materials/fail/tabulated/fail_tab_old_c.F
-Chd|        FIXTEMP                       source/constraints/thermic/fixtemp.F
-Chd|        MAT122C_NEWTON                source/materials/mat/mat122/mat122c_newton.F
-Chd|        MAT122C_NICE                  source/materials/mat/mat122/mat122c_nice.F
-Chd|        MAT122_NEWTON                 source/materials/mat/mat122/mat122_newton.F
-Chd|        MAT122_NICE                   source/materials/mat/mat122/mat122_nice.F
-Chd|        MAT87C_TABULATED_TOTALSR      source/materials/mat/mat087/mat87c_tabulated_totalsr.F
-Chd|        NO_ASSO_LPLAS76C              source/materials/mat/mat076/no_asso_lplas76c.F
-Chd|        NO_ASSO_PLAS76                source/materials/mat/mat076/no_asso_plas76.F
-Chd|        NO_ASSO_QPLAS76C              source/materials/mat/mat076/no_asso_qplas76c.F
-Chd|        SIGEPS100                     source/materials/mat/mat100/sigeps100.F
-Chd|        SIGEPS187                     source/materials/mat/mat187/sigeps187.F
-Chd|        SIGEPS36                      source/materials/mat/mat036/sigeps36.F
-Chd|        SIGEPS36C                     source/materials/mat/mat036/sigeps36c.F
-Chd|        SIGEPS36G                     source/materials/mat/mat036/sigeps36g.F
-Chd|        SIGEPS36PI                    source/materials/mat/mat036/sigeps36pi.F
-Chd|        SIGEPS43C                     source/materials/mat/mat043/sigeps43c.F
-Chd|        SIGEPS43G                     source/materials/mat/mat043/sigeps43g.F
-Chd|        SIGEPS44                      source/materials/mat/mat044/sigeps44.F
-Chd|        SIGEPS44C                     source/materials/mat/mat044/sigeps44c.F
-Chd|        SIGEPS44PI                    source/materials/mat/mat044/sigeps44pi.F
-Chd|        SIGEPS53                      source/materials/mat/mat053/sigeps53.F
-Chd|        SIGEPS55C                     source/materials/mat/mat055/sigeps55c.F
-Chd|        SIGEPS56                      source/materials/mat/mat056/sigeps56.F
-Chd|        SIGEPS56C                     source/materials/mat/mat056/sigeps56c.F
-Chd|        SIGEPS56G                     source/materials/mat/mat056/sigeps56g.F
-Chd|        SIGEPS57C                     source/materials/mat/mat057/sigeps57c.F
-Chd|        SIGEPS60                      source/materials/mat/mat060/sigeps60.F
-Chd|        SIGEPS60C                     source/materials/mat/mat060/sigeps60c.F
-Chd|        SIGEPS60G                     source/materials/mat/mat060/sigeps60g.F
-Chd|        SIGEPS64C                     source/materials/mat/mat064/sigeps64c.F
-Chd|        SIGEPS66                      source/materials/mat/mat066/sigeps66.F
-Chd|        SIGEPS66C                     source/materials/mat/mat066/sigeps66c.F
-Chd|        SIGEPS76                      source/materials/mat/mat076/sigeps76.F
-Chd|        SIGEPS76C                     source/materials/mat/mat076/sigeps76c.F
-Chd|        SIGEPS78C                     source/materials/mat/mat078/sigeps78c.F
-Chd|        SIGEPS86C                     source/materials/mat/mat086/sigeps86c.F
-Chd|        SIGEPS86G                     source/materials/mat/mat086/sigeps86g.F
-Chd|        SIGEPS93                      source/materials/mat/mat093/sigeps93.F
-Chd|        SIGEPS93C                     source/materials/mat/mat093/sigeps93c.F
-Chd|        SMS_FIXVEL                    source/ams/sms_fixvel.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    vinter                     ../engine/source/tools/curve/vinter.F
+      !||--- called by ------------------------------------------------------
+      !||    asso_plas76                ../engine/source/materials/mat/mat076/asso_plas76.F
+      !||    asso_qplas76c              ../engine/source/materials/mat/mat076/asso_qplas76c.F
+      !||    fail_fld_c                 ../engine/source/materials/fail/fld/fail_fld_c.F
+      !||    fail_tab_old_c             ../engine/source/materials/fail/tabulated/fail_tab_old_c.F
+      !||    fixtemp                    ../engine/source/constraints/thermic/fixtemp.F
+      !||    mat122_newton              ../engine/source/materials/mat/mat122/mat122_newton.F
+      !||    mat122_nice                ../engine/source/materials/mat/mat122/mat122_nice.F
+      !||    mat122c_newton             ../engine/source/materials/mat/mat122/mat122c_newton.F
+      !||    mat122c_nice               ../engine/source/materials/mat/mat122/mat122c_nice.F
+      !||    mat87c_tabulated_totalsr   ../engine/source/materials/mat/mat087/mat87c_tabulated_totalsr.F
+      !||    no_asso_lplas76c           ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
+      !||    no_asso_plas76             ../engine/source/materials/mat/mat076/no_asso_plas76.F
+      !||    no_asso_qplas76c           ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
+      !||    sigeps100                  ../engine/source/materials/mat/mat100/sigeps100.F
+      !||    sigeps187                  ../engine/source/materials/mat/mat187/sigeps187.F
+      !||    sigeps36                   ../engine/source/materials/mat/mat036/sigeps36.F
+      !||    sigeps36c                  ../engine/source/materials/mat/mat036/sigeps36c.F
+      !||    sigeps36g                  ../engine/source/materials/mat/mat036/sigeps36g.F
+      !||    sigeps36pi                 ../engine/source/materials/mat/mat036/sigeps36pi.F
+      !||    sigeps43c                  ../engine/source/materials/mat/mat043/sigeps43c.F
+      !||    sigeps43g                  ../engine/source/materials/mat/mat043/sigeps43g.F
+      !||    sigeps44                   ../engine/source/materials/mat/mat044/sigeps44.F
+      !||    sigeps44c                  ../engine/source/materials/mat/mat044/sigeps44c.F
+      !||    sigeps44pi                 ../engine/source/materials/mat/mat044/sigeps44pi.F
+      !||    sigeps53                   ../engine/source/materials/mat/mat053/sigeps53.F
+      !||    sigeps55c                  ../engine/source/materials/mat/mat055/sigeps55c.F
+      !||    sigeps56                   ../engine/source/materials/mat/mat056/sigeps56.F
+      !||    sigeps56c                  ../engine/source/materials/mat/mat056/sigeps56c.F
+      !||    sigeps56g                  ../engine/source/materials/mat/mat056/sigeps56g.F
+      !||    sigeps57c                  ../engine/source/materials/mat/mat057/sigeps57c.F
+      !||    sigeps60                   ../engine/source/materials/mat/mat060/sigeps60.F
+      !||    sigeps60c                  ../engine/source/materials/mat/mat060/sigeps60c.F
+      !||    sigeps60g                  ../engine/source/materials/mat/mat060/sigeps60g.F
+      !||    sigeps64c                  ../engine/source/materials/mat/mat064/sigeps64c.F
+      !||    sigeps66                   ../engine/source/materials/mat/mat066/sigeps66.F
+      !||    sigeps66c                  ../engine/source/materials/mat/mat066/sigeps66c.F
+      !||    sigeps76                   ../engine/source/materials/mat/mat076/sigeps76.F
+      !||    sigeps76c                  ../engine/source/materials/mat/mat076/sigeps76c.F
+      !||    sigeps78c                  ../engine/source/materials/mat/mat078/sigeps78c.F
+      !||    sigeps86c                  ../engine/source/materials/mat/mat086/sigeps86c.F
+      !||    sigeps86g                  ../engine/source/materials/mat/mat086/sigeps86g.F
+      !||    sigeps93                   ../engine/source/materials/mat/mat093/sigeps93.F
+      !||    sigeps93c                  ../engine/source/materials/mat/mat093/sigeps93c.F
+      !||    sms_fixvel                 ../engine/source/ams/sms_fixvel.F
+      !||====================================================================
       SUBROUTINE VINTER(TF,IAD,IPOS ,ILEN,NEL0,X,DYDX,Y)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -103,38 +102,37 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  VINTER2                       source/tools/curve/vinter.F   
-Chd|-- called by -----------
-Chd|        FAIL_ORTHSTRAIN               source/materials/fail/orthstrain/fail_orthstrain_s.F
-Chd|        FAIL_ORTHSTRAIN_C             source/materials/fail/orthstrain/fail_orthstrain_c.F
-Chd|        FAIL_TAB2_C                   source/materials/fail/tabulated/fail_tab2_c.F
-Chd|        FAIL_TAB2_S                   source/materials/fail/tabulated/fail_tab2_s.F
-Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
-Chd|        M36ITER_IMP                   source/materials/mat/mat036/m36iter_imp.F
-Chd|        MAT121C_NEWTON                source/materials/mat/mat121/mat121c_newton.F
-Chd|        MAT121C_NICE                  source/materials/mat/mat121/mat121c_nice.F
-Chd|        MAT121_NEWTON                 source/materials/mat/mat121/mat121_newton.F
-Chd|        MAT121_NICE                   source/materials/mat/mat121/mat121_nice.F
-Chd|        REDEF3                        source/elements/spring/redef3.F
-Chd|        REDEF3_LAW113                 source/elements/spring/redef3_law113.F
-Chd|        REDEF_SEATBELT                source/tools/seatbelts/redef_seatbelt.F
-Chd|        RKENONL                       source/elements/spring/r4mat3.F
-Chd|        SIGEPS121                     source/materials/mat/mat121/sigeps121.F
-Chd|        SIGEPS121C                    source/materials/mat/mat121/sigeps121c.F
-Chd|        SIGEPS158C                    source/materials/mat/mat158/sigeps158c.F
-Chd|        SIGEPS28                      source/materials/mat/mat028/sigeps28.F
-Chd|        SIGEPS36                      source/materials/mat/mat036/sigeps36.F
-Chd|        SIGEPS36C                     source/materials/mat/mat036/sigeps36c.F
-Chd|        SIGEPS56                      source/materials/mat/mat056/sigeps56.F
-Chd|        SIGEPS60                      source/materials/mat/mat060/sigeps60.F
-Chd|        SIGEPS68                      source/materials/mat/mat068/sigeps68.F
-Chd|        SIGEPS70                      source/materials/mat/mat070/sigeps70.F
-Chd|        SIGEPS90                      source/materials/mat/mat090/sigeps90.F
-Chd|        SIGEPS96                      source/materials/mat/mat096/sigeps96.F
-Chd|        SIGEPS96C                     source/materials/mat/mat096/sigeps96c.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    vinter2             ../engine/source/tools/curve/vinter.F
+      !||--- called by ------------------------------------------------------
+      !||    fail_orthstrain     ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
+      !||    fail_orthstrain_c   ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
+      !||    fail_tab2_c         ../engine/source/materials/fail/tabulated/fail_tab2_c.F
+      !||    fail_tab2_s         ../engine/source/materials/fail/tabulated/fail_tab2_s.F
+      !||    fail_tab_c          ../engine/source/materials/fail/tabulated/fail_tab_c.F
+      !||    m36iter_imp         ../engine/source/materials/mat/mat036/m36iter_imp.F
+      !||    mat121_newton       ../engine/source/materials/mat/mat121/mat121_newton.F
+      !||    mat121_nice         ../engine/source/materials/mat/mat121/mat121_nice.F
+      !||    mat121c_newton      ../engine/source/materials/mat/mat121/mat121c_newton.F
+      !||    mat121c_nice        ../engine/source/materials/mat/mat121/mat121c_nice.F
+      !||    redef3              ../engine/source/elements/spring/redef3.F
+      !||    redef3_law113       ../engine/source/elements/spring/redef3_law113.F
+      !||    redef_seatbelt      ../engine/source/tools/seatbelts/redef_seatbelt.F
+      !||    rkenonl             ../engine/source/elements/spring/r4mat3.F
+      !||    sigeps121           ../engine/source/materials/mat/mat121/sigeps121.F
+      !||    sigeps121c          ../engine/source/materials/mat/mat121/sigeps121c.F
+      !||    sigeps158c          ../engine/source/materials/mat/mat158/sigeps158c.F
+      !||    sigeps28            ../engine/source/materials/mat/mat028/sigeps28.F
+      !||    sigeps36            ../engine/source/materials/mat/mat036/sigeps36.F
+      !||    sigeps36c           ../engine/source/materials/mat/mat036/sigeps36c.F
+      !||    sigeps56            ../engine/source/materials/mat/mat056/sigeps56.F
+      !||    sigeps60            ../engine/source/materials/mat/mat060/sigeps60.F
+      !||    sigeps68            ../engine/source/materials/mat/mat068/sigeps68.F
+      !||    sigeps70            ../engine/source/materials/mat/mat070/sigeps70.F
+      !||    sigeps90            ../engine/source/materials/mat/mat090/sigeps90.F
+      !||    sigeps96            ../engine/source/materials/mat/mat096/sigeps96.F
+      !||    sigeps96c           ../engine/source/materials/mat/mat096/sigeps96c.F
+      !||====================================================================
       SUBROUTINE VINTER2(TF,IAD,IPOS ,ILEN,NEL0,X,DYDX,Y)
 C IDEM VINTER AVEC POSSIBILITE DE FAIRE DECROITRE X
 C-----------------------------------------------
@@ -196,17 +194,16 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  VINTER2DP                     source/tools/curve/vinter.F   
-Chd|-- called by -----------
-Chd|        M36ITER_IMP                   source/materials/mat/mat036/m36iter_imp.F
-Chd|        REDEF3                        source/elements/spring/redef3.F
-Chd|        REDEF3_LAW113                 source/elements/spring/redef3_law113.F
-Chd|        RKENONL                       source/elements/spring/r4mat3.F
-Chd|        SIGEPS28                      source/materials/mat/mat028/sigeps28.F
-Chd|        SIGEPS68                      source/materials/mat/mat068/sigeps68.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    vinter2dp       ../engine/source/tools/curve/vinter.F
+      !||--- called by ------------------------------------------------------
+      !||    m36iter_imp     ../engine/source/materials/mat/mat036/m36iter_imp.F
+      !||    redef3          ../engine/source/elements/spring/redef3.F
+      !||    redef3_law113   ../engine/source/elements/spring/redef3_law113.F
+      !||    rkenonl         ../engine/source/elements/spring/r4mat3.F
+      !||    sigeps28        ../engine/source/materials/mat/mat028/sigeps28.F
+      !||    sigeps68        ../engine/source/materials/mat/mat068/sigeps68.F
+      !||====================================================================
       SUBROUTINE VINTER2DP(TF,IAD,IPOS ,ILEN,NEL0,X,DYDX,Y)
 C IDEM VINTER AVEC POSSIBILITE DE FAIRE DECROITRE X
 C-----------------------------------------------
@@ -262,15 +259,21 @@ ccc        Y(I)   = TF(2,J1) + DYDX(I)*(X(I)-TF(1,J1))
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  FINTER2                       source/tools/curve/vinter.F   
-Chd|-- called by -----------
-Chd|        FIXFINGEO                     source/constraints/general/impvel/fixfingeo.F
-Chd|        M36ITER_IMP                   source/materials/mat/mat036/m36iter_imp.F
-Chd|        SIGEPS56                      source/materials/mat/mat056/sigeps56.F
-Chd|        SIGEPS60                      source/materials/mat/mat060/sigeps60.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    finter2       ../engine/source/tools/curve/vinter.F
+      !||--- called by ------------------------------------------------------
+      !||    fixfingeo     ../engine/source/constraints/general/impvel/fixfingeo.F
+      !||    m36iter_imp   ../engine/source/materials/mat/mat036/m36iter_imp.F
+      !||    sigeps52      ../engine/source/materials/mat/mat052/sigeps52.F
+      !||    sigeps53      ../engine/source/materials/mat/mat053/sigeps53.F
+      !||    sigeps56      ../engine/source/materials/mat/mat056/sigeps56.F
+      !||    sigeps60      ../engine/source/materials/mat/mat060/sigeps60.F
+      !||    sigeps65      ../engine/source/materials/mat/mat065/sigeps65.F
+      !||    sigeps66      ../engine/source/materials/mat/mat066/sigeps66.F
+      !||    sigeps66c     ../engine/source/materials/mat/mat066/sigeps66c.F
+      !||    sigeps71      ../engine/source/materials/mat/mat071/sigeps71.F
+      !||    sigeps74      ../engine/source/materials/mat/mat074/sigeps74.F
+      !||====================================================================
       my_real FUNCTION FINTER2(TF,IAD,IPOS,ILEN,XX,DYDX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

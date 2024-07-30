@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ATUR17                        source/ale/turbulence/atur17.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        A17YL2                        source/ale/turbulence/a17yl2.F
-Chd|        A17YL3                        source/ale/turbulence/a17yl3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    atur17   ../engine/source/ale/turbulence/atur17.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain    ../engine/source/materials/mat_share/mmain.F90
+      !||--- calls      -----------------------------------------------------
+      !||    a17yl2   ../engine/source/ale/turbulence/a17yl2.F
+      !||    a17yl3   ../engine/source/ale/turbulence/a17yl3.F
+      !||====================================================================
       SUBROUTINE ATUR17(
      1   PM,      OFF,     RHO,     RK,
      2   RE,      GEO,     VOLN,    MAT,

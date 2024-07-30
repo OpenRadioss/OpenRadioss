@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I10KE3                        source/interfaces/int10/i10ke3.F
-Chd|-- called by -----------
-Chd|        IMP_INT_K                     source/implicit/imp_int_k.F   
-Chd|-- calls ---------------
-Chd|        ASSEM_INT                     source/implicit/assem_int.F   
-Chd|        ASS_SPMD                      source/implicit/assem_int.F   
-Chd|        I10KEG3                       source/interfaces/int10/i10keg3.F
-Chd|        I7CORK3                       source/interfaces/int07/i7cork3.F
-Chd|        I7DSTK3                       source/interfaces/int07/i7dstk3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i10ke3          ../engine/source/interfaces/int10/i10ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_int_k       ../engine/source/implicit/imp_int_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    ass_spmd        ../engine/source/implicit/assem_int.F
+      !||    assem_int       ../engine/source/implicit/assem_int.F
+      !||    i10keg3         ../engine/source/interfaces/int10/i10keg3.F
+      !||    i7cork3         ../engine/source/interfaces/int07/i7cork3.F
+      !||    i7dstk3         ../engine/source/interfaces/int07/i7dstk3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I10KE3(  A     ,V      ,MS   ,
      1                   IPARI  ,INTBUF_TAB   ,X    ,NIN   ,
      2                   NUM_IMP,CAND_N,CAND_E     ,INDEX2,
@@ -178,14 +179,15 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I10FORCF3                     source/interfaces/int10/i10ke3.F
-Chd|-- called by -----------
-Chd|        I7MAINFR                      source/interfaces/int07/i7ke3.F
-Chd|-- calls ---------------
-Chd|        I10CORP3                      source/interfaces/int10/i10corp3.F
-Chd|        I10FRF3                       source/interfaces/int10/i10keg3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i10forcf3       ../engine/source/interfaces/int10/i10ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    i7mainfr        ../engine/source/interfaces/int07/i7ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    i10corp3        ../engine/source/interfaces/int10/i10corp3.F
+      !||    i10frf3         ../engine/source/interfaces/int10/i10keg3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I10FORCF3( A     ,V      ,MS   ,X       ,D ,
      1                    IPARI   ,INTBUF_TAB   ,NIN     ,
      2                    NUM_IMP ,CAND_N ,CAND_E)
@@ -273,16 +275,17 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I10FKU3                       source/interfaces/int10/i10ke3.F
-Chd|-- called by -----------
-Chd|        INT_FKU3                      source/implicit/imp_int_k.F   
-Chd|-- calls ---------------
-Chd|        I10KFOR3                      source/interfaces/int10/i10keg3.F
-Chd|        I7CORK3                       source/interfaces/int07/i7cork3.F
-Chd|        I7CORKP3                      source/interfaces/int07/i7cork3.F
-Chd|        I7DSTK3                       source/interfaces/int07/i7dstk3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i10fku3         ../engine/source/interfaces/int10/i10ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    int_fku3        ../engine/source/implicit/imp_int_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    i10kfor3        ../engine/source/interfaces/int10/i10keg3.F
+      !||    i7cork3         ../engine/source/interfaces/int07/i7cork3.F
+      !||    i7corkp3        ../engine/source/interfaces/int07/i7cork3.F
+      !||    i7dstk3         ../engine/source/interfaces/int07/i7dstk3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I10FKU3(A      ,V     ,MS     ,D     ,
      1                  IPARI ,INTBUF_TAB      ,X    ,NIN   ,
      2                  NUM_IMP,CAND_N,CAND_E     ,INDEX2,IUPD )
@@ -412,16 +415,17 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  IMP_I10MAINF                  source/interfaces/int10/i10ke3.F
-Chd|-- called by -----------
-Chd|        IMP_TRIPI                     source/implicit/imp_int_k.F   
-Chd|-- calls ---------------
-Chd|        I7CDCOR3                      source/interfaces/int07/i7cdcor3.F
-Chd|        I7CORK3                       source/interfaces/int07/i7cork3.F
-Chd|        I7DSTK3                       source/interfaces/int07/i7dstk3.F
-Chd|        I7DSTR3                       source/interfaces/int07/i7dstk3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_i10mainf    ../engine/source/interfaces/int10/i10ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_tripi       ../engine/source/implicit/imp_int_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    i7cdcor3        ../engine/source/interfaces/int07/i7cdcor3.F
+      !||    i7cork3         ../engine/source/interfaces/int07/i7cork3.F
+      !||    i7dstk3         ../engine/source/interfaces/int07/i7dstk3.F
+      !||    i7dstr3         ../engine/source/interfaces/int07/i7dstk3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE IMP_I10MAINF(
      1       IPARI  ,INTBUF_TAB,X        ,
      2       V      ,MS        ,NIN       ,LINDMAX  ,

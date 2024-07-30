@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PMAT3                         source/elements/beam/pmat3.F  
-Chd|-- called by -----------
-Chd|        PKE3                          source/elements/beam/pke3.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pmat3   ../engine/source/elements/beam/pmat3.F
+      !||--- called by ------------------------------------------------------
+      !||    pke3    ../engine/source/elements/beam/pke3.F
+      !||====================================================================
       SUBROUTINE PMAT3(JFT    ,JLT    ,PM     ,GEO     ,YM      ,
      2                 G      ,A1     ,B1     ,B2      ,B3      ,
      3                 AL     ,ALI    ,SH1    ,SH2     ,MTN     ,

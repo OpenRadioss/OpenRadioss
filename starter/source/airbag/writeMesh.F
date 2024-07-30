@@ -20,14 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRITEMESH                     source/airbag/writeMesh.F     
-Chd|-- called by -----------
-Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
-Chd|-- calls ---------------
-Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    writemesh                ../starter/source/airbag/writeMesh.F
+      !||--- called by ------------------------------------------------------
+      !||    init_monvol              ../starter/source/airbag/init_monvol.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE WRITEMESH(VOLID)
 C-----------------------------------------------
 C   M o d u l e s

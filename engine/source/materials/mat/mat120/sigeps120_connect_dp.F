@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS120_CONNECT_DP          source/materials/mat/mat120/sigeps120_connect_dp.F
-Chd|-- called by -----------
-Chd|        SIGEPS120_CONNECT_MAIN        source/materials/mat/mat120/sigeps120_connect_main.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps120_connect_dp     ../engine/source/materials/mat/mat120/sigeps120_connect_dp.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps120_connect_main   ../engine/source/materials/mat/mat120/sigeps120_connect_main.F
+      !||====================================================================
       SUBROUTINE SIGEPS120_CONNECT_DP(
      1     NEL     ,NGL     ,TIME    ,TIMESTEP,UPARAM  ,OFF     ,
      2     EPSD    ,STIFM   ,THICK   ,

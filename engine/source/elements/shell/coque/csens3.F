@@ -20,17 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CSENS3                        source/elements/shell/coque/csens3.F
-Chd|-- called by -----------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
-Chd|-- calls ---------------
-Chd|        GET_U_NUMSENS                 source/user_interface/usensor.F
-Chd|        SET_U_SENS_MAXVALUE           source/user_interface/usensor.F
-Chd|====================================================================
+      !||====================================================================
+      !||    csens3                ../engine/source/elements/shell/coque/csens3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3               ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||    c3forc3_crk           ../engine/source/elements/xfem/c3forc3_crk.F
+      !||    cforc3                ../engine/source/elements/shell/coque/cforc3.F
+      !||    cforc3_crk            ../engine/source/elements/xfem/cforc3_crk.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_u_numsens         ../engine/source/user_interface/usensor.F
+      !||    get_u_sens_fpar       ../engine/source/user_interface/usensor.F
+      !||    get_u_sens_value      ../engine/source/user_interface/usensor.F
+      !||    set_u_sens_maxvalue   ../engine/source/user_interface/usensor.F
+      !||    set_u_sens_value      ../engine/source/user_interface/usensor.F
+      !||====================================================================
        SUBROUTINE CSENS3 (JFT    ,JLT    ,PID    ,IGEO   ,EPSP   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

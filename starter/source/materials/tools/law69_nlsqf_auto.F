@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
-Chd|-- called by -----------
-Chd|        LAW69_UPD                     source/materials/mat/mat069/law69_upd.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        LAW69_CHECK                   source/materials/tools/nlsqf.F
-Chd|        LAW69_GUESS1                  source/materials/tools/nlsqf.F
-Chd|        LAW69_GUESS_BOUNDS            source/materials/tools/nlsqf.F
-Chd|        MRQMIN                        source/materials/tools/nlsqf.F
-Chd|        OGDEN0                        source/materials/tools/nlsqf.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    law69_nlsqf_auto     ../starter/source/materials/tools/law69_nlsqf_auto.F
+      !||--- called by ------------------------------------------------------
+      !||    law69_upd            ../starter/source/materials/mat/mat069/law69_upd.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../starter/source/output/message/message.F
+      !||    law69_check          ../starter/source/materials/tools/nlsqf.F
+      !||    law69_guess1         ../starter/source/materials/tools/nlsqf.F
+      !||    law69_guess_bounds   ../starter/source/materials/tools/nlsqf.F
+      !||    mrqmin               ../starter/source/materials/tools/nlsqf.F
+      !||    ogden0               ../starter/source/materials/tools/nlsqf.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE LAW69_NLSQF_AUTO(LAWID,STRETCH,Y,MA,NMUAL,NPT,MUAL,
      $                            ICHECK, NSTART, ERRTOL,ID,TITR)
       USE MESSAGE_MOD

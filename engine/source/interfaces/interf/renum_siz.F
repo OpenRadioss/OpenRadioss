@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RENUM_SIZ                     source/interfaces/interf/renum_siz.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    renum_siz   ../engine/source/interfaces/interf/renum_siz.F
+      !||--- called by ------------------------------------------------------
+      !||    resol       ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE RENUM_SIZ(IPARI,RNUM_SIZ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

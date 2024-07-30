@@ -20,15 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTER7_GATHER_CAND_MOD        source/interfaces/int07/inter7_gather_cand.F
-Chd|-- called by -----------
-Chd|        INTER7_FILTER_CAND            source/interfaces/intsort/inter7_filter_cand.F
-Chd|-- calls ---------------
-Chd|        COLLISION_MOD                 source/interfaces/intsort/collision_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inter7_gather_cand_mod   ../engine/source/interfaces/int07/inter7_gather_cand.F
+      !||--- called by ------------------------------------------------------
+      !||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F
+      !||====================================================================
       MODULE INTER7_GATHER_CAND_MOD
       CONTAINS
+      !||====================================================================
+      !||    inter7_gather_cand   ../engine/source/interfaces/int07/inter7_gather_cand.F
+      !||--- called by ------------------------------------------------------
+      !||    inter7_filter_cand   ../engine/source/interfaces/intsort/inter7_filter_cand.F
+      !||--- uses       -----------------------------------------------------
+      !||    collision_mod        ../engine/source/interfaces/intsort/collision_mod.F
+      !||====================================================================
         subroutine inter7_gather_cand(jlt     ,x     ,irect ,nsv   ,cand_e ,
      1                     cand_n  ,igap  ,gap   ,x1    ,x2     ,
      2                     x3      ,x4    ,y1    ,y2    ,y3     ,

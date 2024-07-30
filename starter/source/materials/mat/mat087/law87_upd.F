@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAW87_UPD                     source/materials/mat/mat087/law87_upd.F
-Chd|-- called by -----------
-Chd|        UPDMAT                        source/materials/updmat.F     
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        CRITYLD2000                   source/materials/mat/mat087/law87_upd.F
-Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
-Chd|        INVERT                        source/constraints/general/rbe3/hm_read_rbe3.F
-Chd|        PRODMATVECT                   source/materials/mat/mat087/law87_upd.F
-Chd|        R_YLD2000                     source/materials/mat/mat087/law87_upd.F
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    law87_upd                ../starter/source/materials/mat/mat087/law87_upd.F
+      !||--- called by ------------------------------------------------------
+      !||    updmat                   ../starter/source/materials/updmat.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../starter/source/output/message/message.F
+      !||    crityld2000              ../starter/source/materials/mat/mat087/law87_upd.F
+      !||    finter                   ../starter/source/tools/curve/finter.F
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||    invert                   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+      !||    prodmatvect              ../starter/source/materials/mat/mat087/law87_upd.F
+      !||    r_yld2000                ../starter/source/materials/mat/mat087/law87_upd.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    table_mod                ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE LAW87_UPD(IOUT, TITR,MAT_ID,UPARAM,NFUNC,NFUNCT,
      .                        IFUNC, FUNC_ID , NPC   , PLD , PM)
 C-----------------------------------------------
@@ -358,13 +359,13 @@ cc
 cc
 
 
-Chd|====================================================================
-Chd|  CRITYLD2000                   source/materials/mat/mat087/law87_upd.F
-Chd|-- called by -----------
-Chd|        LAW87_UPD                     source/materials/mat/mat087/law87_upd.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    crityld2000   ../starter/source/materials/mat/mat087/law87_upd.F
+      !||--- called by ------------------------------------------------------
+      !||    law87_upd     ../starter/source/materials/mat/mat087/law87_upd.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE CRITYLD2000(F,G, D, AA, AL)
                   !(FCT,GAMMA, DELTA, EXPA, AL)
 C-----------------------------------------------
@@ -397,13 +398,13 @@ C=======================================================================
       RETURN
       END
 cc
-Chd|====================================================================
-Chd|  R_YLD2000                     source/materials/mat/mat087/law87_upd.F
-Chd|-- called by -----------
-Chd|        LAW87_UPD                     source/materials/mat/mat087/law87_upd.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    r_yld2000     ../starter/source/materials/mat/mat087/law87_upd.F
+      !||--- called by ------------------------------------------------------
+      !||    law87_upd     ../starter/source/materials/mat/mat087/law87_upd.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE R_YLD2000(DX,DY,GAMMA, DELTA, A, AL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -444,12 +445,11 @@ C=======================================================================
       RETURN
       END
 C=======================================================================
-Chd|====================================================================
-Chd|  TETA45_YLD2000                source/materials/mat/mat087/law87_upd.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    teta45_yld2000   ../starter/source/materials/mat/mat087/law87_upd.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE TETA45_YLD2000(F1,F2,AL,AA,X1,X2,X11,X22)
 C-----------------------------------------------
 C   M o d u l e s
@@ -489,11 +489,9 @@ C-----------------------------------------------
       END
 C=======================================================================
 C=======================================================================
-Chd|====================================================================
-Chd|  PRODMAT                       source/materials/mat/mat087/law87_upd.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    prodmat   ../starter/source/materials/mat/mat087/law87_upd.F
+      !||====================================================================
       SUBROUTINE PRODMAT(A, B, C, N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -521,12 +519,11 @@ C
 C
 C=======================================================================
 C=======================================================================
-Chd|====================================================================
-Chd|  PRODMATVECT                   source/materials/mat/mat087/law87_upd.F
-Chd|-- called by -----------
-Chd|        LAW87_UPD                     source/materials/mat/mat087/law87_upd.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    prodmatvect   ../starter/source/materials/mat/mat087/law87_upd.F
+      !||--- called by ------------------------------------------------------
+      !||    law87_upd     ../starter/source/materials/mat/mat087/law87_upd.F
+      !||====================================================================
       SUBROUTINE PRODMATVECT(A, B, C, N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

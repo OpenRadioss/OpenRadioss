@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I8CST3                        source/interfaces/inter3d/i8cst3.F
-Chd|-- called by -----------
-Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i8cst3   ../engine/source/interfaces/inter3d/i8cst3.F
+      !||--- called by ------------------------------------------------------
+      !||    intvo8   ../engine/source/interfaces/inter3d/intvo8.F
+      !||====================================================================
       SUBROUTINE I8CST3(
      1   X1,      Y1,      Z1,      X2,
      2   Y2,      Z2,      X3,      Y3,

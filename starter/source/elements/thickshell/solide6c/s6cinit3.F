@@ -20,32 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S6CINIT3                      source/elements/thickshell/solide6c/s6cinit3.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ATHERI                        source/ale/atheri.F           
-Chd|        DTMAIN                        source/materials/time_step/dtmain.F
-Chd|        FAILINI                       source/elements/solid/solide/failini.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|        S6CCOOR3                      source/elements/thickshell/solide6c/s6ccoor3.F
-Chd|        S6CDERI3                      source/elements/thickshell/solide6c/s6cderi3.F
-Chd|        S6MASS3                       source/elements/thickshell/solide6c/s6mass3.F
-Chd|        SBULK3                        source/elements/solid/solide/sbulk3.F
-Chd|        SCMORTH3                      source/elements/thickshell/solidec/scmorth3.F
-Chd|        SCZERO3                       source/elements/thickshell/solidec/scinit3.F
-Chd|        SDLENSH3N                     source/elements/thickshell/solide6c/s6cinit3.F
-Chd|        SIGIN20B                      source/elements/solid/solide20/s20mass3.F
-Chd|        SVALUE0                       source/elements/thickshell/solidec/scinit3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s6cinit3               ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+      !||--- called by ------------------------------------------------------
+      !||    initia                 ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    atheri                 ../starter/source/ale/atheri.F
+      !||    dtmain                 ../starter/source/materials/time_step/dtmain.F
+      !||    failini                ../starter/source/elements/solid/solide/failini.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    matini                 ../starter/source/materials/mat_share/matini.F
+      !||    s6ccoor3               ../starter/source/elements/thickshell/solide6c/s6ccoor3.F
+      !||    s6cderi3               ../starter/source/elements/thickshell/solide6c/s6cderi3.F
+      !||    s6mass3                ../starter/source/elements/thickshell/solide6c/s6mass3.F
+      !||    sbulk3                 ../starter/source/elements/solid/solide/sbulk3.F
+      !||    scmorth3               ../starter/source/elements/thickshell/solidec/scmorth3.F
+      !||    sczero3                ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||    sdlensh3n              ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+      !||    sigin20b               ../starter/source/elements/solid/solide20/s20mass3.F
+      !||    svalue0                ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||--- uses       -----------------------------------------------------
+      !||    defaults_mod           ../starter/source/modules/defaults_mod.F90
+      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S6CINIT3(
      .                    ELBUF_STR,MAS     ,IXS     ,PM       ,X     ,
      .                    DETONATORS,GEO     ,VEUL    ,ALE_CONNECTIVITY,IPARG ,
@@ -439,12 +438,11 @@ c
 C-----------
       RETURN
       END SUBROUTINE S6CINIT3
-Chd|====================================================================
-Chd|  SDLENSH3N                     source/elements/thickshell/solide6c/s6cinit3.F
-Chd|-- called by -----------
-Chd|        S6CINIT3                      source/elements/thickshell/solide6c/s6cinit3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sdlensh3n   ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+      !||--- called by ------------------------------------------------------
+      !||    s6cinit3    ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+      !||====================================================================
       SUBROUTINE SDLENSH3N(NEL,LLSH3N,
      .                     X1, X2, X3, X4, X5, X6,
      .                     Y1, Y2, Y3, Y4, Y5, Y6,

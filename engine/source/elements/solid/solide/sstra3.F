@@ -20,25 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SSTRA3                        source/elements/solid/solide/sstra3.F
-Chd|-- called by -----------
-Chd|        IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
-Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
-Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SPSTRES                       source/elements/sph/spstres.F 
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sstra3       ../engine/source/elements/solid/solide/sstra3.F
+      !||--- called by ------------------------------------------------------
+      !||    ig3duforc3   ../engine/source/elements/ige3d/ig3duforc3.F
+      !||    s10forc3     ../engine/source/elements/solid/solide10/s10forc3.F
+      !||    s16forc3     ../engine/source/elements/thickshell/solide16/s16forc3.F
+      !||    s20forc3     ../engine/source/elements/solid/solide20/s20forc3.F
+      !||    s4forc3      ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    s6cforc3     ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s8cforc3     ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8sforc3     ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||    s8zforc3     ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    scforc3      ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||    sforc3       ../engine/source/elements/solid/solide/sforc3.F
+      !||    spstres      ../engine/source/elements/sph/spstres.F
+      !||    szforc3      ../engine/source/elements/solid/solidez/szforc3.F
+      !||====================================================================
       SUBROUTINE SSTRA3(
      1   DXX,     DYY,     DZZ,     D4,
      2   D5,      D6,      STRAIN,  WXX,

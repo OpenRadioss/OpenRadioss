@@ -21,20 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  NORMA1                        source/interfaces/inter3d1/norma1.F
-Chd|-- called by -----------
-Chd|        FINDELE                       source/boundary_conditions/ebcs/findele.F
-Chd|        I11STI3                       source/interfaces/inter3d1/i11sti3.F
-Chd|        I12SOL3                       source/interfaces/inter3d1/insol3.F
-Chd|        I20NELTS                      source/interfaces/inter3d1/inelt.F
-Chd|        I2SURFS                       source/interfaces/inter3d1/i2surfs.F
-Chd|        INELTIGEO                     source/interfaces/inter3d1/inelt.F
-Chd|        INELTS                        source/interfaces/inter3d1/inelt.F
-Chd|        INELTS_NP                     source/interfaces/inter3d1/i24sti3.F
-Chd|        INSOL3                        source/interfaces/inter3d1/insol3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    norma1      ../starter/source/interfaces/inter3d1/norma1.F
+      !||--- called by ------------------------------------------------------
+      !||    findele     ../starter/source/boundary_conditions/ebcs/findele.F
+      !||    i11sti3     ../starter/source/interfaces/inter3d1/i11sti3.F
+      !||    i12sol3     ../starter/source/interfaces/inter3d1/insol3.F
+      !||    i20nelts    ../starter/source/interfaces/inter3d1/inelt.F
+      !||    i2surfs     ../starter/source/interfaces/inter3d1/i2surfs.F
+      !||    ineltigeo   ../starter/source/interfaces/inter3d1/inelt.F
+      !||    inelts      ../starter/source/interfaces/inter3d1/inelt.F
+      !||    inelts_np   ../starter/source/interfaces/inter3d1/i24sti3.F
+      !||    insol3      ../starter/source/interfaces/inter3d1/insol3.F
+      !||====================================================================
       SUBROUTINE NORMA1(N1,N2,N3,AREA,XX1,XX2,XX3)
 C
 C-----------------------------------------------
@@ -73,12 +72,11 @@ C
 
 
 
-Chd|====================================================================
-Chd|  NORMA1D                       source/interfaces/inter3d1/norma1.F
-Chd|-- called by -----------
-Chd|        INSOL3D                       source/interfaces/inter3d1/insol3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    norma1d   ../starter/source/interfaces/inter3d1/norma1.F
+      !||--- called by ------------------------------------------------------
+      !||    insol3d   ../starter/source/interfaces/inter3d1/insol3.F
+      !||====================================================================
       SUBROUTINE NORMA1D(N1,N2,N3,AREA,XX1,XX2,XX3)
 C
 C-----------------------------------------------
@@ -119,16 +117,16 @@ C
 
 
 
-Chd|====================================================================
-Chd|  NORMA4N                       source/interfaces/inter3d1/norma1.F
-Chd|-- called by -----------
-Chd|        I25NEIGH_REMOVEALLBUT1        source/interfaces/inter3d1/i25neigh.F
-Chd|        REMOVEIC                      source/interfaces/inter3d1/i24tools.F
-Chd|        REMOVEIC1                     source/interfaces/inter3d1/i24tools.F
-Chd|        SEG_OPP                       source/interfaces/inter3d1/i24tools.F
-Chd|        VOISIN2                       source/interfaces/inter3d1/i24tools.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    norma4n                  ../starter/source/interfaces/inter3d1/norma1.F
+      !||--- called by ------------------------------------------------------
+      !||    i25neigh_removeallbut1   ../starter/source/interfaces/inter3d1/i25neigh.F
+      !||    removeic                 ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    removeic1                ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    seg_opp                  ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    sh_offset_jonct_chk      ../starter/source/elements/shell/shell_offset/sh_offset_jonkt_chk.F90
+      !||    voisin2                  ../starter/source/interfaces/inter3d1/i24tools.F
+      !||====================================================================
       SUBROUTINE NORMA4N(N1,N2,N3,AREA,IRECT,X)
 C
 C-----------------------------------------------
@@ -175,12 +173,11 @@ C
 C      
       RETURN
       END
-Chd|====================================================================
-Chd|  NORMA4NX                      source/interfaces/inter3d1/norma1.F
-Chd|-- called by -----------
-Chd|        VOISIN2                       source/interfaces/inter3d1/i24tools.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    norma4nx   ../starter/source/interfaces/inter3d1/norma1.F
+      !||--- called by ------------------------------------------------------
+      !||    voisin2    ../starter/source/interfaces/inter3d1/i24tools.F
+      !||====================================================================
       SUBROUTINE NORMA4NX(N1,N2,N3,AREA,IRECT,X ,I1,I2,SHF)
 C
 C-----------------------------------------------

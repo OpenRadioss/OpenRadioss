@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2_DTN                        source/interfaces/inter3d1/i2_dtn.F
-Chd|-- called by -----------
-Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
-Chd|-- calls ---------------
-Chd|        I2_DTN_0                      source/interfaces/inter3d1/i2_dtn.F
-Chd|        I2_DTN_1                      source/interfaces/inter3d1/i2_dtn.F
-Chd|        I2_DTN_25                     source/interfaces/inter3d1/i2_dtn.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i2_dtn          ../starter/source/interfaces/inter3d1/i2_dtn.F
+      !||--- called by ------------------------------------------------------
+      !||    inintr2         ../starter/source/interfaces/inter3d1/inintr2.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2_dtn_0        ../starter/source/interfaces/inter3d1/i2_dtn.F
+      !||    i2_dtn_1        ../starter/source/interfaces/inter3d1/i2_dtn.F
+      !||    i2_dtn_25       ../starter/source/interfaces/inter3d1/i2_dtn.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I2_DTN(X,INTBUF_TAB,IPARI,STIFN,MS,IN,N,NSN,ILEV)
 C-----------------------------------------------
 C   M o d u l e s
@@ -76,12 +77,11 @@ C-----------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  I2_DTN_0                      source/interfaces/inter3d1/i2_dtn.F
-Chd|-- called by -----------
-Chd|        I2_DTN                        source/interfaces/inter3d1/i2_dtn.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i2_dtn_0   ../starter/source/interfaces/inter3d1/i2_dtn.F
+      !||--- called by ------------------------------------------------------
+      !||    i2_dtn     ../starter/source/interfaces/inter3d1/i2_dtn.F
+      !||====================================================================
       SUBROUTINE I2_DTN_0(X,IRECT ,CRST    ,CSTS_BIS, NSV  ,
      2                    IRTL  ,IPARI, MSEGTYP2, STIFN, STIFR,
      2                    MS, IN, ILEV)
@@ -171,12 +171,11 @@ C-----------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  I2_DTN_1                      source/interfaces/inter3d1/i2_dtn.F
-Chd|-- called by -----------
-Chd|        I2_DTN                        source/interfaces/inter3d1/i2_dtn.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i2_dtn_1   ../starter/source/interfaces/inter3d1/i2_dtn.F
+      !||--- called by ------------------------------------------------------
+      !||    i2_dtn     ../starter/source/interfaces/inter3d1/i2_dtn.F
+      !||====================================================================
       SUBROUTINE I2_DTN_1(X,IRECT , MSR   ,NSV  ,IRTL  ,
      2                         IPARI, STIFN, STIFR, MS, IN,ILEV)
 C-----------------------------------------------
@@ -343,15 +342,12 @@ C-----------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I2_DTN_25                     source/interfaces/inter3d1/i2_dtn.F
-Chd|-- called by -----------
-Chd|        I2_DTN                        source/interfaces/inter3d1/i2_dtn.F
-Chd|-- calls ---------------
-Chd|        I2LOCEQ                       ../common_source/interf/i2loceq.F
-Chd|        I2PEN_ROT                     ../common_source/interf/i2pen_rot.F
-Chd|        I2REP                         ../common_source/interf/i2rep.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i2_dtn_25   ../starter/source/interfaces/inter3d1/i2_dtn.F
+      !||--- called by ------------------------------------------------------
+      !||    i2_dtn      ../starter/source/interfaces/inter3d1/i2_dtn.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I2_DTN_25(X,IRECT ,CRST    ,NSV  ,IRTL,
      2                     IPARI,STIFN,STFN,VISC,IN)
 C-----------------------------------------------

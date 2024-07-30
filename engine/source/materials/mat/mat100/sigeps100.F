@@ -20,31 +20,33 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS100_MOD                 source/materials/mat/mat100/sigeps100.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps100_mod   ../engine/source/materials/mat/mat100/sigeps100.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+      !||====================================================================
       MODULE SIGEPS100_MOD
       CONTAINS
-Chd|====================================================================
-Chd|  SIGEPS100                     source/materials/mat/mat100/sigeps100.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        CALCMATB                      source/materials/mat/mat100/calcmatb.F
-Chd|        KMATINV3                      source/materials/tools/kmatinv.F
-Chd|        NEO_HOOK_T                    source/materials/mat/mat100/neo_hook_t.F
-Chd|        POLYSTRESS2                   source/materials/mat/mat100/sigpoly.F
-Chd|        PRODAAT                       source/materials/tools/prodAAT.F
-Chd|        PRODMAT                       source/materials/tools/prodmat.F
-Chd|        ROTTOGLOB                     source/materials/mat/mat095/sigeps95.F
-Chd|        ROTTOLOC                      source/materials/mat/mat095/sigeps95.F
-Chd|        SIGABOYCE                     source/materials/mat/mat100/sigaboyce.F
-Chd|        VINTER                        source/tools/curve/vinter.F   
-Chd|        VISCBB                        source/materials/mat/mat100/viscbb.F
-Chd|        VISCPOWER                     source/materials/mat/mat100/viscpower.F
-Chd|        VISCSINH                      source/materials/mat/mat100/viscsinh.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps100     ../engine/source/materials/mat/mat100/sigeps100.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw         ../engine/source/materials/mat_share/mulaw.F90
+      !||--- calls      -----------------------------------------------------
+      !||    calcmatb      ../engine/source/materials/mat/mat100/calcmatb.F
+      !||    finter        ../engine/source/tools/curve/finter.F
+      !||    kmatinv3      ../engine/source/materials/tools/kmatinv.F
+      !||    neo_hook_t    ../engine/source/materials/mat/mat100/neo_hook_t.F
+      !||    polystress2   ../engine/source/materials/mat/mat100/sigpoly.F
+      !||    prodaat       ../engine/source/materials/tools/prodAAT.F
+      !||    prodmat       ../engine/source/materials/tools/prodmat.F
+      !||    rottoglob     ../engine/source/materials/mat/mat095/sigeps95.F
+      !||    rottoloc      ../engine/source/materials/mat/mat095/sigeps95.F
+      !||    sigaboyce     ../engine/source/materials/mat/mat100/sigaboyce.F
+      !||    vinter        ../engine/source/tools/curve/vinter.F
+      !||    viscbb        ../engine/source/materials/mat/mat100/viscbb.F
+      !||    viscpower     ../engine/source/materials/mat/mat100/viscpower.F
+      !||    viscsinh      ../engine/source/materials/mat/mat100/viscsinh.F
+      !||====================================================================
        SUBROUTINE SIGEPS100(
      1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC , 
      2      NPF    ,TF      , TIME    , TIMESTEP, UPARAM, 

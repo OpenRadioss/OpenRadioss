@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DTDC_MOD                      share/modules/dtdc_mod.F      
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
-Chd|        SCUMUALPHA                    source/elements/thickshell/solidec/scumualpha.F
-Chd|        SCUMUALPHA6                   source/elements/thickshell/solidec/scumualpha6.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dtdc_mod      ../engine/share/modules/dtdc_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    resol         ../engine/source/engine/resol.F
+      !||    resol_init    ../engine/source/engine/resol_init.F
+      !||    scumualpha    ../engine/source/elements/thickshell/solidec/scumualpha.F
+      !||    scumualpha6   ../engine/source/elements/thickshell/solidec/scumualpha6.F
+      !||====================================================================
       MODULE DTDC_MOD 
 C----------------------------------------------------------------------- 
 C    thick-shell dt of shell, DC : Dynamic,Condensation  

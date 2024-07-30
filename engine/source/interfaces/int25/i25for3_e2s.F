@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25FOR3_E2S                   source/interfaces/int25/i25for3_e2s.F
-Chd|-- called by -----------
-Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|-- calls ---------------
-Chd|        I25ASSE05_E2S                 source/interfaces/int25/i25ass_e2s.F
-Chd|        I25ASSE0_E2S                  source/interfaces/int25/i25ass_e2s.F
-Chd|        I25ASSE25_E2S                 source/interfaces/int25/i25ass_e2s.F
-Chd|        I25ASSE2_E2S                  source/interfaces/int25/i25ass_e2s.F
-Chd|        I25SMS_E2S                    source/interfaces/int25/i25sms_e2s.F
-Chd|        BITGET                        source/interfaces/intsort/i20sto.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25for3_e2s     ../engine/source/interfaces/int25/i25for3_e2s.F
+      !||--- called by ------------------------------------------------------
+      !||    i25mainf        ../engine/source/interfaces/int25/i25mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    bitget          ../engine/source/interfaces/intsort/i20sto.F
+      !||    i25asse05_e2s   ../engine/source/interfaces/int25/i25ass_e2s.F
+      !||    i25asse0_e2s    ../engine/source/interfaces/int25/i25ass_e2s.F
+      !||    i25asse25_e2s   ../engine/source/interfaces/int25/i25ass_e2s.F
+      !||    i25asse2_e2s    ../engine/source/interfaces/int25/i25ass_e2s.F
+      !||    i25sms_e2s      ../engine/source/interfaces/int25/i25sms_e2s.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||    tri25ebox       ../engine/share/modules/tri25ebox.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25FOR3_E2S(
      1                  JLT    ,A      ,V      ,IBC     ,ICODT  ,
      2                  FSAV   ,GAP    ,FRIC   ,MS      ,VISC   ,

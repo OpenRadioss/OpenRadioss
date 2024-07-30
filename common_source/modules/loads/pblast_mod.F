@@ -21,24 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  PBLAST_MOD                    modules/loads/pblast_mod.F    
-Chd|-- called by -----------
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        HM_PREREAD_PBLAST             starter/source/loads/pblast/hm_preread_pblast.F
-Chd|        HM_READ_PBLAST                starter/source/loads/pblast/hm_read_pblast.F
-Chd|        H3D_PRE_SKIN_SCALAR           engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
-Chd|        H3D_SKIN_VECTOR               engine/source/output/h3d/h3d_results/h3d_skin_vector.F
-Chd|        PBLAST                        engine/source/loads/pblast/pblast.F
-Chd|        PBLAST_1                      engine/source/loads/pblast/pblast_1.F
-Chd|        PBLAST_2                      engine/source/loads/pblast/pblast_2.F
-Chd|        PBLAST_3                      engine/source/loads/pblast/pblast_3.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESOL_INIT                    engine/source/engine/resol_init.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pblast_mod            ../common_source/modules/loads/pblast_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit               ../starter/source/restart/ddsplit/ddsplit.F
+      !||    h3d_pre_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+      !||    h3d_skin_vector       ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
+      !||    hm_preread_pblast     ../starter/source/loads/pblast/hm_preread_pblast.F
+      !||    hm_read_pblast        ../starter/source/loads/pblast/hm_read_pblast.F
+      !||    pblast                ../engine/source/loads/pblast/pblast.F
+      !||    pblast_1              ../engine/source/loads/pblast/pblast_1.F
+      !||    pblast_2              ../engine/source/loads/pblast/pblast_2.F
+      !||    pblast_3              ../engine/source/loads/pblast/pblast_3.F
+      !||    rdresb                ../engine/source/output/restart/rdresb.F
+      !||    resol                 ../engine/source/engine/resol.F
+      !||    resol_init            ../engine/source/engine/resol_init.F
+      !||    wrrestp               ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
       MODULE PBLAST_MOD
 
 #include "my_real.inc"
@@ -120,18 +119,17 @@ Chd|====================================================================
 
        CONTAINS
 
-Chd|====================================================================
-Chd|  PBLAST_LOAD                   modules/loads/pblast_mod.F    
-Chd|-- called by -----------
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|        ARRET                         starter/source/system/arret.F 
-Chd|        ARRET                         engine/source/system/arret.F  
-Chd|        READ_DB                       tools/input_output/read_db.F  
-Chd|        READ_I_C                      tools/input_output/write_routtines.c
-Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
-Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    pblast_load   ../common_source/modules/loads/pblast_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb        ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret         ../engine/source/system/arret.F
+      !||    read_db       ../common_source/tools/input_output/read_db.F
+      !||    read_i_c      ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE PBLAST_LOAD(PBLAST_TAB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -227,14 +225,13 @@ C-----------------------------------------------
       END
 
 
-Chd|====================================================================
-Chd|  PBLAST_DEALLOCATE             modules/loads/pblast_mod.F    
-Chd|-- called by -----------
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
-Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    pblast_deallocate   ../common_source/modules/loads/pblast_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE PBLAST_DEALLOCATE(PBLAST_TAB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -286,16 +283,16 @@ C-----------------------------------------------
       END
 
 
-Chd|====================================================================
-Chd|  PBLAST_WRITE_STARTER          modules/loads/pblast_mod.F    
-Chd|-- called by -----------
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      tools/input_output/write_db.F 
-Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
-Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
-Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    pblast_write_starter   ../common_source/modules/loads/pblast_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db               ../common_source/tools/input_output/write_db.F
+      !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE PBLAST_WRITE_STARTER(PBLAST_TAB,PROC,CEP)
 C-----------------------------------------------
 C   M o d u l e s
@@ -390,16 +387,16 @@ C-----------------------------------------------
       END
 
 
-Chd|====================================================================
-Chd|  PBLAST_WRITE_ENGINE           modules/loads/pblast_mod.F    
-Chd|-- called by -----------
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      tools/input_output/write_db.F 
-Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
-Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
-Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    pblast_write_engine   ../common_source/modules/loads/pblast_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp               ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db              ../common_source/tools/input_output/write_db.F
+      !||    write_i_c             ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE PBLAST_WRITE_ENGINE(PBLAST_TAB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -472,13 +469,12 @@ C-----------------------------------------------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  PBLAST_INIT_TABLES            modules/loads/pblast_mod.F    
-Chd|-- called by -----------
-Chd|        HM_READ_PBLAST                starter/source/loads/pblast/hm_read_pblast.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pblast_init_tables   ../common_source/modules/loads/pblast_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_pblast       ../starter/source/loads/pblast/hm_read_pblast.F
+      !||    rdresb               ../engine/source/output/restart/rdresb.F
+      !||====================================================================
          SUBROUTINE PBLAST_INIT_TABLES(PBLAST_DATA)
             TYPE(PBLAST_DATA_),INTENT(INOUT) :: PBLAST_DATA
 
@@ -3244,15 +3240,14 @@ C Figure 2_13 scale height of trople point versus scaled horizontal distance  cm
 
 
 
-Chd|====================================================================
-Chd|  PBLAST_PARAMETERS__FREE_AIR   modules/loads/pblast_mod.F    
-Chd|-- called by -----------
-Chd|        HM_READ_PBLAST                starter/source/loads/pblast/hm_read_pblast.F
-Chd|        PBLAST_1                      engine/source/loads/pblast/pblast_1.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
-Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    pblast_parameters__free_air   ../common_source/modules/loads/pblast_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_pblast                ../starter/source/loads/pblast/hm_read_pblast.F
+      !||    pblast_1                      ../engine/source/loads/pblast/pblast_1.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                   ../engine/share/message_module/message_mod.F
+      !||====================================================================
         SUBROUTINE PBLAST_PARAMETERS__FREE_AIR(Z, W13, TDET,
      +                                         FAC_P_bb, FAC_I_bb, FAC_T_bb,
      +                                         IS_DECAY_TO_BE_COMPUTED,
@@ -3486,13 +3481,14 @@ C-----------------------------------------------
         END SUBROUTINE PBLAST_PARAMETERS__FREE_AIR
 
 
-Chd|====================================================================
-Chd|  PBLAST_PARAMETERS__SURFACE_BURSTmodules/loads/pblast_mod.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
-Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    pblast_parameters__surface_burst   ../common_source/modules/loads/pblast_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_pblast                     ../starter/source/loads/pblast/hm_read_pblast.F
+      !||    pblast_2                           ../engine/source/loads/pblast/pblast_2.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                        ../engine/share/message_module/message_mod.F
+      !||====================================================================
        SUBROUTINE PBLAST_PARAMETERS__SURFACE_BURST(Z, W13, TDET,
      +                                             FAC_P_bb, FAC_I_bb, FAC_T_bb,
      +                                             IS_DECAY_TO_BE_COMPUTED,
@@ -3693,15 +3689,18 @@ C-----------------------------------------------
         END SUBROUTINE PBLAST_PARAMETERS__SURFACE_BURST
 
 
-Chd|====================================================================
-Chd|  PBLAST_PARAMETERS__AIR_BURST  modules/loads/pblast_mod.F    
-Chd|-- called by -----------
-Chd|        HM_READ_PBLAST                starter/source/loads/pblast/hm_read_pblast.F
-Chd|        PBLAST_3                      engine/source/loads/pblast/pblast_3.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
-Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    pblast_parameters__air_burst   ../common_source/modules/loads/pblast_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_pblast                 ../starter/source/loads/pblast/hm_read_pblast.F
+      !||    pblast_3                       ../engine/source/loads/pblast/pblast_3.F
+      !||--- calls      -----------------------------------------------------
+      !||    dichotomic_search_r_asc        ../common_source/tools/search/dichotomic_search_r_asc.F
+      !||    dichotomic_search_r_desc       ../common_source/tools/search/dichotomic_search_r_desc.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                    ../engine/share/message_module/message_mod.F
+      !||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
        SUBROUTINE PBLAST_PARAMETERS__AIR_BURST( Z_struct, Zc, Zg, ANGLE_g, W13, TDET,
      +                                         FAC_P_bb, FAC_I_bb, FAC_T_bb,
      +                                         IS_DECAY_TO_BE_COMPUTED,

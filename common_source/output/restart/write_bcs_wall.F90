@@ -26,6 +26,17 @@
 !! \brief Save buffer for restart file.
 !! \details  necessary buffer specific to option /BCS/WALL/...
 !
+      !||====================================================================
+      !||    write_bcs_wall   ../common_source/output/restart/write_bcs_wall.F90
+      !||--- called by ------------------------------------------------------
+      !||    w_bcs_proc       ../starter/source/restart/ddsplit/w_bcs_proc.F90
+      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db         ../common_source/tools/input_output/write_db.F
+      !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    bcs_mod          ../common_source/modules/boundary_conditions/bcs_mod.F90
+      !||====================================================================
       subroutine write_bcs_wall(bcsw)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

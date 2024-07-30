@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UPGRADE_IXINT                 source/interfaces/interf1/upgrade_ixint.F
-Chd|-- called by -----------
-Chd|        I20INI3                       source/interfaces/inter3d1/i20ini3.F
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        INTER_CAND_MOD                share/modules1/inter_cand_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    upgrade_ixint    ../starter/source/interfaces/interf1/upgrade_ixint.F
+      !||--- called by ------------------------------------------------------
+      !||    i20ini3          ../starter/source/interfaces/inter3d1/i20ini3.F
+      !||    inint3           ../starter/source/interfaces/inter3d1/inint3.F
+      !||    lectur           ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||    inter_cand_mod   ../starter/share/modules1/inter_cand_mod.F
+      !||====================================================================
         SUBROUTINE UPGRADE_IXINT(INTER_CAND,NELEMINT,NEW_SIZE)
 C-----------------------------------------------
 C   M o d u l e s

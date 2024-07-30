@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MOD_FORINTP                   source/elements/forintp.F     
-Chd|-- called by -----------
-Chd|        FORINTP                       source/elements/forintp.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mod_forintp   ../engine/source/elements/forintp.F
+      !||--- called by ------------------------------------------------------
+      !||    forintp       ../engine/source/elements/forintp.F
+      !||====================================================================
       MODULE MOD_FORINTP
       implicit none
 #include      "my_real.inc"
@@ -40,44 +39,46 @@ Chd|====================================================================
      .      , DIMENSION(:,:), ALLOCATABLE :: 
      .    STAB
       END MODULE MOD_FORINTP
-Chd|====================================================================
-Chd|  FORINTP                       source/elements/forintp.F     
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SOLTOSPHP                     source/elements/sph/soltosph.F
-Chd|        SPADAH                        source/elements/sph/spadah.F  
-Chd|        SPDENS                        source/elements/sph/spdens.F  
-Chd|        SPFORCP                       source/elements/sph/spforcp.F 
-Chd|        SPGAUGE                       source/elements/sph/spgauge.F 
-Chd|        SPGRADT                       source/elements/sph/sptemp.F  
-Chd|        SPGTSYM                       source/elements/sph/sptemp.F  
-Chd|        SPLAPLT                       source/elements/sph/sptemp.F  
-Chd|        SPMD_SPHGETG                  source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETSTB                source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETT                  source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETW                  source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETWA                 source/mpi/elements/spmd_sph.F
-Chd|        SPONFPRS                      source/elements/sph/sponfprs.F
-Chd|        SPONFRO                       source/elements/sph/sponfro.F 
-Chd|        SPSCOMP                       source/elements/sph/spcompl.F 
-Chd|        SPSGSYM                       source/elements/sph/spsgsym.F 
-Chd|        SPSTABS                       source/elements/sph/spstab.F  
-Chd|        SPSTABW                       source/elements/sph/spstab.F  
-Chd|        SPSTRES                       source/elements/sph/spstres.F 
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STARTIMEG                     source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        STOPTIMEG                     source/system/timer.F         
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MOD_FORINTP                   source/elements/forintp.F     
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    forintp          ../engine/source/elements/forintp.F
+      !||--- called by ------------------------------------------------------
+      !||    resol            ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf          ../engine/share/resol/initbuf.F
+      !||    my_barrier       ../engine/source/system/machine.F
+      !||    soltosphp        ../engine/source/elements/sph/soltosph.F
+      !||    spadah           ../engine/source/elements/sph/spadah.F
+      !||    spdens           ../engine/source/elements/sph/spdens.F
+      !||    spforcp          ../engine/source/elements/sph/spforcp.F
+      !||    spgauge          ../engine/source/elements/sph/spgauge.F
+      !||    spgradt          ../engine/source/elements/sph/sptemp.F
+      !||    spgtsym          ../engine/source/elements/sph/sptemp.F
+      !||    splaplt          ../engine/source/elements/sph/sptemp.F
+      !||    spmd_sphgetg     ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetstb   ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgett     ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetw     ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetwa    ../engine/source/mpi/elements/spmd_sph.F
+      !||    sponfprs         ../engine/source/elements/sph/sponfprs.F
+      !||    sponfro          ../engine/source/elements/sph/sponfro.F
+      !||    spscomp          ../engine/source/elements/sph/spcompl.F
+      !||    spsgsym          ../engine/source/elements/sph/spsgsym.F
+      !||    spstabs          ../engine/source/elements/sph/spstab.F
+      !||    spstabw          ../engine/source/elements/sph/spstab.F
+      !||    spstres          ../engine/source/elements/sph/spstres.F
+      !||    startime         ../engine/source/system/timer.F
+      !||    startimeg        ../engine/source/system/timer.F
+      !||    stoptime         ../engine/source/system/timer.F
+      !||    stoptimeg        ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    initbuf_mod      ../engine/share/resol/initbuf.F
+      !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    mod_forintp      ../engine/source/elements/forintp.F
+      !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
+      !||    output_mod       ../common_source/modules/output/output_mod.F90
+      !||    sphbox           ../engine/share/modules/sphbox.F
+      !||    table_mod        ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE FORINTP(
      1    PM        ,GEO       ,X         ,A         ,V         ,
      2    MS        ,W         ,ELBUF_TAB ,WA        ,FV        ,

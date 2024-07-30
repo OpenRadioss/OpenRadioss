@@ -20,16 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIGRAV_PART_LIST             source/initial_conditions/inigrav/inigrav_part_list.F
-Chd|-- called by -----------
-Chd|        INIGRAV_LOAD                  source/initial_conditions/inigrav/inigrav_load.F
-Chd|-- calls ---------------
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INIGRAV                       share/modules1/inigrav_mod.F  
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inigrav_part_list   ../starter/source/initial_conditions/inigrav/inigrav_part_list.F
+      !||--- called by ------------------------------------------------------
+      !||    inigrav_load        ../starter/source/initial_conditions/inigrav/inigrav_load.F
+      !||--- uses       -----------------------------------------------------
+      !||    inigrav             ../starter/share/modules1/inigrav_mod.F
+      !||    message_mod         ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INIGRAV_PART_LIST(IPART, IGRPART, EBCS_TAB)
 C-----------------------------------------------
 C   Description

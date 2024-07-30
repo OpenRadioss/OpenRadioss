@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I21ROT                        source/interfaces/inter3d1/i21rot.F
-Chd|-- called by -----------
-Chd|        ININT3_THKVAR                 source/interfaces/inter3d1/inint3_thkvar.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i21rot          ../starter/source/interfaces/inter3d1/i21rot.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3_thkvar   ../starter/source/interfaces/inter3d1/inint3_thkvar.F
+      !||====================================================================
       SUBROUTINE I21ROT(IROT   ,XG, ROT, NMN, NOD_NORMAL,
      .                  XM0    ,BRACKET,NRTM,IRECTM,LXM ,
      .                  LYM    ,LZM    ,NSN ,XSAV  )

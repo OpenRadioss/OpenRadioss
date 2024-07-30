@@ -20,199 +20,201 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALE_CONNECTIVITY_MOD          modules/ale/ale_connectivity_mod.F
-Chd|-- called by -----------
-Chd|        AGRAD2                        starter/source/ale/ale2d/agrad2.F
-Chd|        AGRAD3                        starter/source/ale/ale3d/agrad3.F
-Chd|        ALELEC                        starter/source/ale/alelec.F   
-Chd|        ALESO2                        starter/source/ale/ale2d/aleso2.F
-Chd|        ALESO2T                       starter/source/ale/ale2d/aleso2t.F
-Chd|        ALESO3                        starter/source/ale/ale3d/aleso3.F
-Chd|        ALESOP                        starter/source/ale/alesop.F   
-Chd|        BINIT2                        starter/source/ale/bimat/binit2.F
-Chd|        C_IDGLOB                      starter/source/restart/ddsplit/c_idglob.F
-Chd|        C_IXFLOC                      starter/source/restart/ddsplit/c_ixfloc.F
-Chd|        C_SPMD_NE_CONNECT             starter/source/ale/spmd_ne_connect.F
-Chd|        C_VOIS                        starter/source/restart/ddsplit/c_vois.F
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        EPORIN3                       starter/source/ale/ale3d/eporin3.F
-Chd|        FINDELE                       starter/source/boundary_conditions/ebcs/findele.F
-Chd|        I12CHK3                       starter/source/interfaces/inter3d1/i12chk3.F
-Chd|        IG3DINIT3                     starter/source/elements/ige3d/ig3dinit3.F
-Chd|        INIEBCS                       starter/source/boundary_conditions/ebcs/iniebcs.F
-Chd|        INIGRAV_LOAD                  starter/source/initial_conditions/inigrav/inigrav_load.F
-Chd|        INIGRAV_M51                   starter/source/initial_conditions/inigrav/inigrav_m51.F
-Chd|        ININT3                        starter/source/interfaces/inter3d1/inint3.F
-Chd|        ININTR                        starter/source/interfaces/interf1/inintr.F
-Chd|        INITIA                        starter/source/elements/initia/initia.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        M51INIT                       starter/source/materials/mat/mat051/m51init.F
-Chd|        MAT11CHECK                    starter/source/materials/mat/mat011/mat11check.F
-Chd|        MATINI                        starter/source/materials/mat_share/matini.F
-Chd|        MULTIFLUID_INIT2              starter/source/multifluid/multifluid_init2.F
-Chd|        MULTIFLUID_INIT2T             starter/source/multifluid/multifluid_init2t.F
-Chd|        MULTIFLUID_INIT3              starter/source/multifluid/multifluid_init3.F
-Chd|        MULTIFLUID_INIT3T             starter/source/multifluid/multifluid_init3t.F
-Chd|        MULTI_CONNECTIVITY            starter/source/multifluid/multi_connectivity.F
-Chd|        MULTI_UNPLUG_NEIGHBORS        starter/source/multifluid/multi_unplug_neighbors.F
-Chd|        NRF51INI                      starter/source/materials/mat/mat051/nrf51ini.F
-Chd|        Q4INIT2                       starter/source/elements/solid_2d/quad4/q4init2.F
-Chd|        QINIT2                        starter/source/elements/solid_2d/quad/qinit2.F
-Chd|        S10INIT3                      starter/source/elements/solid/solide10/s10init3.F
-Chd|        S16INIT3                      starter/source/elements/thickshell/solide16/s16init3.F
-Chd|        S20INIT3                      starter/source/elements/solid/solide20/s20init3.F
-Chd|        S4INIT3                       starter/source/elements/solid/solide4/s4init3.F
-Chd|        S6CINIT3                      starter/source/elements/thickshell/solide6c/s6cinit3.F
-Chd|        S8CINIT3                      starter/source/elements/thickshell/solide8c/s8cinit3.F
-Chd|        S8ZINIT3                      starter/source/elements/solid/solide8z/s8zinit3.F
-Chd|        SCINIT3                       starter/source/elements/thickshell/solidec/scinit3.F
-Chd|        SINIT3                        starter/source/elements/solid/solide/sinit3.F
-Chd|        SPINIT3                       starter/source/elements/sph/spinit3.F
-Chd|        SPLIT_CFD_SOLIDE              starter/source/spmd/split_cfd_solide.F
-Chd|        SPMD_NE_CONNECT               starter/source/ale/spmd_ne_connect.F
-Chd|        SUINIT3                       starter/source/elements/elbuf_init/suinit3.F
-Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
-Chd|        W_FRONT                       starter/source/restart/ddsplit/w_front.F
-Chd|        W_ING2LOC                     starter/source/restart/ddsplit/w_ing2loc.F
-Chd|        A4CONV3                       engine/source/ale/ale3d/a4conv3.F
-Chd|        A4FLUX3                       engine/source/ale/ale3d/a4flux3.F
-Chd|        ACONV2                        engine/source/ale/ale2d/aconv2.F
-Chd|        ACONV3                        engine/source/ale/ale3d/aconv3.F
-Chd|        ACONVE                        engine/source/ale/aconve.F    
-Chd|        ADIFF2                        engine/source/ale/ale2d/adiff2.F
-Chd|        ADIFF3                        engine/source/ale/ale3d/adiff3.F
-Chd|        AETURB                        engine/source/ale/turbulence/aeturb.F
-Chd|        AFIMP2                        engine/source/ale/ale2d/afimp2.F
-Chd|        AFIMP3                        engine/source/ale/ale3d/afimp3.F
-Chd|        AFLUX0                        engine/source/ale/aflux0.F    
-Chd|        AFLUX2                        engine/source/ale/ale2d/aflux2.F
-Chd|        AFLUX3                        engine/source/ale/ale3d/aflux3.F
-Chd|        AFLUXT                        engine/source/ale/ale51/afluxt.F
-Chd|        AGAUG3                        engine/source/ale/agauge.F    
-Chd|        AGAUG3Q                       engine/source/ale/agaug3q.F   
-Chd|        AGAUG3T                       engine/source/ale/agaug3t.F   
-Chd|        AGAUGE                        engine/source/ale/agauge.F    
-Chd|        AGRAD0                        engine/source/ale/agrad0.F    
-Chd|        AGRAD2                        engine/source/ale/ale2d/agrad2.F
-Chd|        AGRAD3                        engine/source/ale/ale3d/agrad3.F
-Chd|        AKTURB                        engine/source/ale/turbulence/akturb.F
-Chd|        ALE51_ANTIDIFF2               engine/source/ale/ale51/ale51_antidiff2.F
-Chd|        ALE51_ANTIDIFF3               engine/source/ale/ale51/ale51_antidiff3.F
-Chd|        ALE51_FINISH                  engine/source/ale/ale51/ale51_finish.F
-Chd|        ALE51_GRADIENT_RECONSTRUCTION engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
-Chd|        ALE51_INIT                    engine/source/ale/ale51/ale51_init.F
-Chd|        ALE51_SPMD2                   engine/source/ale/ale51/ale51_spmd2.F
-Chd|        ALE51_SPMD3                   engine/source/ale/ale51/ale51_spmd3.F
-Chd|        ALE51_UPWIND2                 engine/source/ale/ale51/ale51_upwind2.F
-Chd|        ALE51_UPWIND3                 engine/source/ale/ale51/ale51_upwind3.F
-Chd|        ALECONV3                      engine/source/ale/porous/aleconv.F
-Chd|        ALECONVE                      engine/source/ale/porous/aleconv.F
-Chd|        ALEFLOW                       engine/source/ale/porous/aleflow.F
-Chd|        ALEFLUX                       engine/source/ale/porous/aleflux.F
-Chd|        ALEFVM_AFLUX3                 engine/source/ale/alefvm/alefvm_aflux3.F
-Chd|        ALEFVM_EFLUX3                 engine/source/ale/alefvm/alefvm_eflux3.F
-Chd|        ALEFVM_MAIN                   engine/source/ale/alefvm/alefvm_main.F
-Chd|        ALEFVM_SFINT3                 engine/source/ale/alefvm/alefvm_sfint3.F
-Chd|        ALEFVM_TFEXT                  engine/source/ale/alefvm/alefvm_tfext.F
-Chd|        ALEMAIN                       engine/source/ale/alemain.F   
-Chd|        ALEMUSCL_UPWIND               engine/source/ale/alemuscl/alemuscl_upwind.F
-Chd|        ALEMUSCL_UPWIND2              engine/source/ale/alemuscl/alemuscl_upwind2.F
-Chd|        ALETHE                        engine/source/ale/alethe.F    
-Chd|        ALEW                          engine/source/ale/grid/alew.F 
-Chd|        ALEW1                         engine/source/ale/grid/alew1.F
-Chd|        ALEW5                         engine/source/ale/grid/alew5.F
-Chd|        ALEW6                         engine/source/ale/grid/alew6.F
-Chd|        ALEWDX                        engine/source/ale/grid/alewdx.F
-Chd|        AMULF2                        engine/source/ale/bimat/amulf2.F
-Chd|        AREZO2                        engine/source/ale/ale2d/arezo2.F
-Chd|        AREZO2_SIG                    engine/source/ale/ale2d/arezo2.F
-Chd|        AREZO3                        engine/source/ale/ale3d/arezo3.F
-Chd|        AREZO3_SIG                    engine/source/ale/ale3d/arezo3.F
-Chd|        AREZON                        engine/source/ale/arezon.F    
-Chd|        ATHERM                        engine/source/ale/atherm.F    
-Chd|        BCONV2                        engine/source/ale/ale2d/bconv2.F
-Chd|        BFORC2                        engine/source/ale/bimat/bforc2.F
-Chd|        BREZO2                        engine/source/ale/ale2d/brezo2.F
-Chd|        BREZO2_SIG                    engine/source/ale/ale2d/brezo2.F
-Chd|        BUILD_CONNECTIVITY            engine/source/multifluid/connectivity.F
-Chd|        DFUNC0                        engine/source/output/anim/generate/dfunc0.F
-Chd|        DFUNCC                        engine/source/output/anim/generate/dfuncc.F
-Chd|        DFUNCS                        engine/source/output/anim/generate/dfunc6.F
-Chd|        EDE112                        engine/source/ale/euler2d/ede112.F
-Chd|        EFLUX2                        engine/source/ale/euler2d/eflux2.F
-Chd|        EFLUX3                        engine/source/ale/euler3d/eflux3.F
-Chd|        EGRAD2                        engine/source/ale/euler2d/egrad2.F
-Chd|        EGRAD3                        engine/source/ale/euler3d/egrad3.F
-Chd|        EIG                           engine/stub/eig.F             
-Chd|        EIG1                          engine/stub/eig1.F            
-Chd|        EIGCOND                       engine/stub/eigcond.F         
-Chd|        EIGP                          engine/stub/eigp.F            
-Chd|        FORINT                        engine/source/elements/forint.F
-Chd|        GENANI                        engine/source/output/anim/generate/genani.F
-Chd|        GENH3D                        engine/source/output/h3d/h3d_results/genh3d.F
-Chd|        GRADIENT_RECONSTRUCTION       engine/source/ale/alemuscl/gradient_reconstruction.F
-Chd|        GRADIENT_RECONSTRUCTION2      engine/source/ale/alemuscl/gradient_reconstruction2.F
-Chd|        H3D_NODAL_SCALAR              engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
-Chd|        H3D_QUAD_SCALAR               engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
-Chd|        H3D_SHELL_SCALAR              engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
-Chd|        H3D_SHELL_SCALAR_1            engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
-Chd|        H3D_SOLID_SCALAR              engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
-Chd|        H3D_SOLID_SCALAR_1            engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-Chd|        I18DST3                       engine/source/interfaces/int18/i18dst3.F
-Chd|        I18MAIN_KINE_1                engine/source/interfaces/int18/i18main_kine.F
-Chd|        I18MAIN_KINE_I                engine/source/interfaces/int18/i18main_kine.F
-Chd|        I22BUCE                       engine/source/interfaces/intsort/i22buce.F
-Chd|        I22MAIN_TRI                   engine/source/interfaces/intsort/i22main_tri.F
-Chd|        I7MAINF                       engine/source/interfaces/int07/i7mainf.F
-Chd|        IG3DUFORC3                    engine/source/elements/ige3d/ig3duforc3.F
-Chd|        IMP_BUCK                      engine/source/implicit/imp_buck.F
-Chd|        INIT_DIFFUSION                engine/share/modules/diffusion_mod.F
-Chd|        INTFOP2                       engine/source/interfaces/interf/intfop2.F
-Chd|        INTTRI                        engine/source/interfaces/intsort/inttri.F
-Chd|        M11LAW                        engine/source/materials/mat/mat011/m11law.F
-Chd|        M11VS2                        engine/source/materials/mat/mat011/m11vs2.F
-Chd|        M11VS3                        engine/source/materials/mat/mat011/m11vs3.F
-Chd|        M51VOIS2                      engine/source/materials/mat/mat051/m51vois2.F
-Chd|        M51VOIS3                      engine/source/materials/mat/mat051/m51vois3.F
-Chd|        MULTI_FLUXES_COMPUTATION      engine/source/multifluid/multi_fluxes_computation.F
-Chd|        MULTI_MUSCL_GRADIENTS         engine/source/multifluid/multi_muscl_gradients.F
-Chd|        MULTI_TIMEEVOLUTION           engine/source/multifluid/multi_timeevolution.F
-Chd|        NODAL_SCHLIEREN               engine/source/output/anim/generate/nodal_schlieren.F
-Chd|        OUTPUT_SCHLIEREN              engine/source/output/anim/generate/output_schlieren.F
-Chd|        Q4FORC2                       engine/source/elements/solid_2d/quad4/q4forc2.F
-Chd|        QFORC2                        engine/source/elements/solid_2d/quad/qforc2.F
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
-Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
-Chd|        S10FORC3                      engine/source/elements/solid/solide10/s10forc3.F
-Chd|        S11DEFO3                      engine/source/elements/solid/solide/s11defo3.F
-Chd|        S11FX3                        engine/source/elements/solid/solide/s11fx3.F
-Chd|        S16FORC3                      engine/source/elements/thickshell/solide16/s16forc3.F
-Chd|        S20FORC3                      engine/source/elements/solid/solide20/s20forc3.F
-Chd|        S4FORC3                       engine/source/elements/solid/solide4/s4forc3.F
-Chd|        S6CFORC3                      engine/source/elements/thickshell/solide6c/s6cforc3.F
-Chd|        S8CFORC3                      engine/source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8EFORC3                      engine/source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8FORC3                       engine/source/elements/solid/solide8/s8forc3.F
-Chd|        S8SFORC3                      engine/source/elements/solid/solide8s/s8sforc3.F
-Chd|        S8ZFORC3                      engine/source/elements/solid/solide8z/s8zforc3.F
-Chd|        SCFORC3                       engine/source/elements/thickshell/solidec/scforc3.F
-Chd|        SEGGETV                       engine/source/interfaces/interf/seggetv.F
-Chd|        SFORC3                        engine/source/elements/solid/solide/sforc3.F
-Chd|        SIGEPS51                      engine/source/materials/mat/mat051/sigeps51.F
-Chd|        SINIT22_FVM                   engine/source/interfaces/int22/sinit22_fvm.F
-Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
-Chd|        SPMD_EXCH_INTER_18            engine/source/mpi/interfaces/spmd_exch_inter_18.F
-Chd|        SPSTRES                       engine/source/elements/sph/spstres.F
-Chd|        SZFORC3                       engine/source/elements/solid/solidez/szforc3.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|        ALE51_GRADIENT_RECONSTRUCTION2engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
-Chd|        MULTI_MUSCL_FLUXES_COMPUTATIONengine/source/multifluid/multi_muscl_fluxes_computation.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    a4conv3                          ../engine/source/ale/ale3d/a4conv3.F
+      !||    a4flux3                          ../engine/source/ale/ale3d/a4flux3.F
+      !||    aconv2                           ../engine/source/ale/ale2d/aconv2.F
+      !||    aconv3                           ../engine/source/ale/ale3d/aconv3.F
+      !||    aconve                           ../engine/source/ale/aconve.F
+      !||    adiff2                           ../engine/source/ale/ale2d/adiff2.F
+      !||    adiff3                           ../engine/source/ale/ale3d/adiff3.F
+      !||    aeturb                           ../engine/source/ale/turbulence/aeturb.F
+      !||    afimp2                           ../engine/source/ale/ale2d/afimp2.F
+      !||    afimp3                           ../engine/source/ale/ale3d/afimp3.F
+      !||    aflux0                           ../engine/source/ale/aflux0.F
+      !||    aflux2                           ../engine/source/ale/ale2d/aflux2.F
+      !||    aflux3                           ../engine/source/ale/ale3d/aflux3.F
+      !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+      !||    agaug3                           ../engine/source/ale/agauge.F
+      !||    agaug3q                          ../engine/source/ale/agaug3q.F
+      !||    agaug3t                          ../engine/source/ale/agaug3t.F
+      !||    agauge                           ../engine/source/ale/agauge.F
+      !||    agrad0                           ../engine/source/ale/agrad0.F
+      !||    agrad2                           ../engine/source/ale/ale2d/agrad2.F
+      !||    agrad3                           ../engine/source/ale/ale3d/agrad3.F
+      !||    akturb                           ../engine/source/ale/turbulence/akturb.F
+      !||    ale51_antidiff2                  ../engine/source/ale/ale51/ale51_antidiff2.F
+      !||    ale51_antidiff3                  ../engine/source/ale/ale51/ale51_antidiff3.F
+      !||    ale51_finish                     ../engine/source/ale/ale51/ale51_finish.F
+      !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+      !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+      !||    ale51_init                       ../engine/source/ale/ale51/ale51_init.F
+      !||    ale51_spmd2                      ../engine/source/ale/ale51/ale51_spmd2.F
+      !||    ale51_spmd3                      ../engine/source/ale/ale51/ale51_spmd3.F
+      !||    ale51_upwind2                    ../engine/source/ale/ale51/ale51_upwind2.F
+      !||    ale51_upwind3                    ../engine/source/ale/ale51/ale51_upwind3.F
+      !||    aleconv3                         ../engine/source/ale/porous/aleconv.F
+      !||    aleconve                         ../engine/source/ale/porous/aleconv.F
+      !||    aleflow                          ../engine/source/ale/porous/aleflow.F
+      !||    aleflux                          ../engine/source/ale/porous/aleflux.F
+      !||    alefvm_aflux3                    ../engine/source/ale/alefvm/alefvm_aflux3.F
+      !||    alefvm_eflux3                    ../engine/source/ale/alefvm/alefvm_eflux3.F
+      !||    alefvm_main                      ../engine/source/ale/alefvm/alefvm_main.F
+      !||    alefvm_sfint3                    ../engine/source/ale/alefvm/alefvm_sfint3.F
+      !||    alefvm_tfext                     ../engine/source/ale/alefvm/alefvm_tfext.F
+      !||    alelec                           ../starter/source/ale/alelec.F
+      !||    alemain                          ../engine/source/ale/alemain.F
+      !||    alemuscl_upwind                  ../engine/source/ale/alemuscl/alemuscl_upwind.F
+      !||    alemuscl_upwind2                 ../engine/source/ale/alemuscl/alemuscl_upwind2.F
+      !||    aleso2                           ../starter/source/ale/ale2d/aleso2.F
+      !||    aleso2t                          ../starter/source/ale/ale2d/aleso2t.F
+      !||    aleso3                           ../starter/source/ale/ale3d/aleso3.F
+      !||    alesop                           ../starter/source/ale/alesop.F
+      !||    alethe                           ../engine/source/ale/alethe.F
+      !||    alew                             ../engine/source/ale/grid/alew.F
+      !||    alew1                            ../engine/source/ale/grid/alew1.F
+      !||    alew5                            ../engine/source/ale/grid/alew5.F
+      !||    alew6                            ../engine/source/ale/grid/alew6.F
+      !||    alewdx                           ../engine/source/ale/grid/alewdx.F
+      !||    amulf2                           ../engine/source/ale/bimat/amulf2.F
+      !||    arezo2                           ../engine/source/ale/ale2d/arezo2.F
+      !||    arezo2_sig                       ../engine/source/ale/ale2d/arezo2.F
+      !||    arezo3                           ../engine/source/ale/ale3d/arezo3.F
+      !||    arezo3_sig                       ../engine/source/ale/ale3d/arezo3.F
+      !||    arezon                           ../engine/source/ale/arezon.F
+      !||    atherm                           ../engine/source/ale/atherm.F
+      !||    bconv2                           ../engine/source/ale/ale2d/bconv2.F
+      !||    bcs_wall_trigger                 ../engine/source/boundary_conditions/bcs_wall_trigger.F90
+      !||    bforc2                           ../engine/source/ale/bimat/bforc2.F
+      !||    binit2                           ../starter/source/ale/bimat/binit2.F
+      !||    brezo2                           ../engine/source/ale/ale2d/brezo2.F
+      !||    brezo2_sig                       ../engine/source/ale/ale2d/brezo2.F
+      !||    build_connectivity               ../engine/source/multifluid/connectivity.F
+      !||    c_idglob                         ../starter/source/restart/ddsplit/c_idglob.F
+      !||    c_ixfloc                         ../starter/source/restart/ddsplit/c_ixfloc.F
+      !||    c_spmd_ne_connect                ../starter/source/ale/spmd_ne_connect.F
+      !||    c_vois                           ../starter/source/restart/ddsplit/c_vois.F
+      !||    ddsplit                          ../starter/source/restart/ddsplit/ddsplit.F
+      !||    dfunc0                           ../engine/source/output/anim/generate/dfunc0.F
+      !||    dfuncc                           ../engine/source/output/anim/generate/dfuncc.F
+      !||    dfuncs                           ../engine/source/output/anim/generate/dfunc6.F
+      !||    ede112                           ../engine/source/ale/euler2d/ede112.F
+      !||    eflux2                           ../engine/source/ale/euler2d/eflux2.F
+      !||    eflux3                           ../engine/source/ale/euler3d/eflux3.F
+      !||    egrad2                           ../engine/source/ale/euler2d/egrad2.F
+      !||    egrad3                           ../engine/source/ale/euler3d/egrad3.F
+      !||    eig                              ../engine/stub/eig.F
+      !||    eig1                             ../engine/stub/eig1.F
+      !||    eigcond                          ../engine/stub/eigcond.F
+      !||    eigp                             ../engine/stub/eigp.F
+      !||    eporin3                          ../starter/source/ale/ale3d/eporin3.F
+      !||    findele                          ../starter/source/boundary_conditions/ebcs/findele.F
+      !||    forint                           ../engine/source/elements/forint.F
+      !||    genani                           ../engine/source/output/anim/generate/genani.F
+      !||    genh3d                           ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||    gradient_reconstruction          ../engine/source/ale/alemuscl/gradient_reconstruction.F
+      !||    gradient_reconstruction2         ../engine/source/ale/alemuscl/gradient_reconstruction2.F
+      !||    h3d_nodal_scalar                 ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
+      !||    h3d_quad_scalar                  ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+      !||    h3d_shell_scalar                 ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
+      !||    h3d_shell_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
+      !||    h3d_solid_scalar                 ../engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
+      !||    h3d_solid_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+      !||    i12chk3                          ../starter/source/interfaces/inter3d1/i12chk3.F
+      !||    i18dst3                          ../engine/source/interfaces/int18/i18dst3.F
+      !||    i18main_kine_1                   ../engine/source/interfaces/int18/i18main_kine.F
+      !||    i18main_kine_i                   ../engine/source/interfaces/int18/i18main_kine.F
+      !||    i22buce                          ../engine/source/interfaces/intsort/i22buce.F
+      !||    i22main_tri                      ../engine/source/interfaces/intsort/i22main_tri.F
+      !||    i7mainf                          ../engine/source/interfaces/int07/i7mainf.F
+      !||    ig3dinit3                        ../starter/source/elements/ige3d/ig3dinit3.F
+      !||    ig3duforc3                       ../engine/source/elements/ige3d/ig3duforc3.F
+      !||    imp_buck                         ../engine/source/implicit/imp_buck.F
+      !||    iniebcs                          ../starter/source/boundary_conditions/ebcs/iniebcs.F
+      !||    inigrav_load                     ../starter/source/initial_conditions/inigrav/inigrav_load.F
+      !||    inigrav_m51                      ../starter/source/initial_conditions/inigrav/inigrav_m51.F
+      !||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inintr                           ../starter/source/interfaces/interf1/inintr.F
+      !||    init_bcs_wall                    ../starter/source/boundary_conditions/init_bcs_wall.F90
+      !||    init_diffusion                   ../engine/share/modules/diffusion_mod.F
+      !||    initia                           ../starter/source/elements/initia/initia.F
+      !||    intfop2                          ../engine/source/interfaces/interf/intfop2.F
+      !||    inttri                           ../engine/source/interfaces/intsort/inttri.F
+      !||    lectur                           ../engine/source/input/lectur.F
+      !||    m11law                           ../engine/source/materials/mat/mat011/m11law.F
+      !||    m11vs2                           ../engine/source/materials/mat/mat011/m11vs2.F
+      !||    m11vs3                           ../engine/source/materials/mat/mat011/m11vs3.F
+      !||    m51init                          ../starter/source/materials/mat/mat051/m51init.F
+      !||    m51vois2                         ../engine/source/materials/mat/mat051/m51vois2.F
+      !||    m51vois3                         ../engine/source/materials/mat/mat051/m51vois3.F
+      !||    mat11check                       ../starter/source/materials/mat/mat011/mat11check.F
+      !||    matini                           ../starter/source/materials/mat_share/matini.F
+      !||    mmain                            ../engine/source/materials/mat_share/mmain.F90
+      !||    mulaw                            ../engine/source/materials/mat_share/mulaw.F90
+      !||    multi_connectivity               ../starter/source/multifluid/multi_connectivity.F
+      !||    multi_fluxes_computation         ../engine/source/multifluid/multi_fluxes_computation.F
+      !||    multi_muscl_fluxes_computation   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
+      !||    multi_muscl_gradients            ../engine/source/multifluid/multi_muscl_gradients.F
+      !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
+      !||    multi_unplug_neighbors           ../starter/source/multifluid/multi_unplug_neighbors.F
+      !||    multifluid_init2                 ../starter/source/multifluid/multifluid_init2.F
+      !||    multifluid_init2t                ../starter/source/multifluid/multifluid_init2t.F
+      !||    multifluid_init3                 ../starter/source/multifluid/multifluid_init3.F
+      !||    multifluid_init3t                ../starter/source/multifluid/multifluid_init3t.F
+      !||    nodal_schlieren                  ../engine/source/output/anim/generate/nodal_schlieren.F
+      !||    nrf51ini                         ../starter/source/materials/mat/mat051/nrf51ini.F
+      !||    ns_fvm_diffusion                 ../engine/source/multifluid/ns_fvm_diffusion.F
+      !||    output_schlieren                 ../engine/source/output/anim/generate/output_schlieren.F
+      !||    q4forc2                          ../engine/source/elements/solid_2d/quad4/q4forc2.F
+      !||    q4init2                          ../starter/source/elements/solid_2d/quad4/q4init2.F
+      !||    qforc2                           ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||    qinit2                           ../starter/source/elements/solid_2d/quad/qinit2.F
+      !||    radioss2                         ../engine/source/engine/radioss2.F
+      !||    rdresb                           ../engine/source/output/restart/rdresb.F
+      !||    resol                            ../engine/source/engine/resol.F
+      !||    resol_head                       ../engine/source/engine/resol_head.F
+      !||    restalloc                        ../engine/source/output/restart/arralloc.F
+      !||    s10forc3                         ../engine/source/elements/solid/solide10/s10forc3.F
+      !||    s10init3                         ../starter/source/elements/solid/solide10/s10init3.F
+      !||    s11defo3                         ../engine/source/elements/solid/solide/s11defo3.F
+      !||    s11fx3                           ../engine/source/elements/solid/solide/s11fx3.F
+      !||    s16forc3                         ../engine/source/elements/thickshell/solide16/s16forc3.F
+      !||    s16init3                         ../starter/source/elements/thickshell/solide16/s16init3.F
+      !||    s20forc3                         ../engine/source/elements/solid/solide20/s20forc3.F
+      !||    s20init3                         ../starter/source/elements/solid/solide20/s20init3.F
+      !||    s4forc3                          ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    s4init3                          ../starter/source/elements/solid/solide4/s4init3.F
+      !||    s6cforc3                         ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s6cinit3                         ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+      !||    s8cforc3                         ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8cinit3                         ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+      !||    s8eforc3                         ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8forc3                          ../engine/source/elements/solid/solide8/s8forc3.F
+      !||    s8sforc3                         ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||    s8zforc3                         ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    s8zinit3                         ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||    scforc3                          ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||    scinit3                          ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||    seggetv                          ../engine/source/interfaces/interf/seggetv.F
+      !||    sforc3                           ../engine/source/elements/solid/solide/sforc3.F
+      !||    sigeps51                         ../engine/source/materials/mat/mat051/sigeps51.F
+      !||    sinit22_fvm                      ../engine/source/interfaces/int22/sinit22_fvm.F
+      !||    sinit3                           ../starter/source/elements/solid/solide/sinit3.F
+      !||    sortie_main                      ../engine/source/output/sortie_main.F
+      !||    spinit3                          ../starter/source/elements/sph/spinit3.F
+      !||    split_cfd_solide                 ../starter/source/spmd/split_cfd_solide.F
+      !||    spmd_exch_inter_18               ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+      !||    spmd_ne_connect                  ../starter/source/ale/spmd_ne_connect.F
+      !||    spstres                          ../engine/source/elements/sph/spstres.F
+      !||    suinit3                          ../starter/source/elements/elbuf_init/suinit3.F
+      !||    szforc3                          ../engine/source/elements/solid/solidez/szforc3.F
+      !||    w_front                          ../starter/source/restart/ddsplit/w_front.F
+      !||    w_ing2loc                        ../starter/source/restart/ddsplit/w_ing2loc.F
+      !||    wrcomip                          ../starter/source/restart/ddsplit/wrcommp.F
+      !||    wrrestp                          ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
       MODULE ALE_CONNECTIVITY_MOD
       
         IMPLICIT NONE
@@ -267,12 +269,11 @@ Chd|====================================================================
 !     ***********    !
       CONTAINS
       
-Chd|====================================================================
-Chd|  ALE_CONNECTIVITY_INIT         modules/ale/ale_connectivity_mod.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ALE_MOD                       modules/ale/ale_mod.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    ale_connectivity_init   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod                 ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
       SUBROUTINE ALE_CONNECTIVITY_INIT(THIS)
         USE ALE_MOD      
         IMPLICIT NONE
@@ -292,11 +293,12 @@ Chd|====================================================================
         THIS%HAS_NN_CONNECT = RESULT
       END SUBROUTINE ALE_CONNECTIVITY_INIT
       
-Chd|====================================================================
-Chd|  ALE_COMPUTE_CONNECTIVITY      modules/ale/ale_connectivity_mod.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ale_compute_connectivity   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    quicksort_i                ../common_source/tools/sort/quicksort.F
+      !||    quicksort_i2               ../common_source/tools/sort/quicksort.F
+      !||====================================================================
       SUBROUTINE ALE_COMPUTE_CONNECTIVITY(THIS, NUMNOD, NUMELQ, NUMELTG, NUMELS, 
      .     NIXQ, NIXTG, NIXS, ITAB,
      .     IXQ, IXTG, IXS)
@@ -643,11 +645,9 @@ C-----------------------------------------------
         DEALLOCATE(ADSKY, EDGES, IDX, EDGES_TMP, NN_NB_CONNECT, NE_NB_CONNECT)
       END SUBROUTINE ALE_COMPUTE_CONNECTIVITY
 
-Chd|====================================================================
-Chd|  ALE_DEALLOCATE_CONNECTIVITY   modules/ale/ale_connectivity_mod.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ale_deallocate_connectivity   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||====================================================================
       SUBROUTINE ALE_DEALLOCATE_CONNECTIVITY(THIS)
         IMPLICIT NONE
         CLASS(T_ALE_CONNECTIVITY), INTENT(INOUT) :: THIS
@@ -660,11 +660,10 @@ Chd|====================================================================
         
       END SUBROUTINE ALE_DEALLOCATE_CONNECTIVITY
 
-Chd|====================================================================
-Chd|  ALE_COMPUTE_EE_CONNECTIVITY   modules/ale/ale_connectivity_mod.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ale_compute_ee_connectivity   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE ALE_COMPUTE_EE_CONNECTIVITY(THIS, PM, IGEO,
      .     NPROPGI,NUMGEO, NPROPM, NUMMAT, NUMNOD, NUMELQ, NUMELTG, NUMELS, N2D, 
      .     IALE, IEULER, ITHERM, IALELAG,

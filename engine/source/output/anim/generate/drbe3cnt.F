@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DRBE3CNT                      source/output/anim/generate/drbe3cnt.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|-- calls ---------------
-Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
-Chd|====================================================================
+      !||====================================================================
+      !||    drbe3cnt          ../engine/source/output/anim/generate/drbe3cnt.F
+      !||--- called by ------------------------------------------------------
+      !||    genani            ../engine/source/output/anim/generate/genani.F
+      !||    genh3d            ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_ibcast       ../engine/source/mpi/generic/spmd_ibcast.F
+      !||====================================================================
       SUBROUTINE DRBE3CNT(NERBE3,IRBE3,LRBE3,WEIGHT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -21,15 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  COUNT3                        source/interfaces/interf1/count3.F
-Chd|-- called by -----------
-Chd|        INSLIN                        source/interfaces/interf1/inslin.F
-Chd|        INSURF                        source/interfaces/interf1/insurf.F
-Chd|        INSURF23                      source/interfaces/interf1/insurf23.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|====================================================================
+      !||====================================================================
+      !||    count3      ../starter/source/interfaces/interf1/count3.F
+      !||--- called by ------------------------------------------------------
+      !||    inslin      ../starter/source/interfaces/interf1/inslin.F
+      !||    insurf      ../starter/source/interfaces/interf1/insurf.F
+      !||    insurf23    ../starter/source/interfaces/interf1/insurf23.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE COUNT3(IRECT,MNN,N,NRT,NTAG)
 C-----------------------------------------------------------------------
 C-----------------------------------------------

@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TABLE_GLOB_MOD                share/modules/table_glob_mod.F
-Chd|-- called by -----------
-Chd|        GET_TABLE_VALUE               source/user_interface/utable.F
-Chd|        GET_TABLE_VALUE_DYDX          source/user_interface/utable.F
-Chd|        GET_U_TABLE                   source/user_interface/utable.F
-Chd|        GET_U_VTABLE                  source/user_interface/utable.F
-Chd|        GET_VTABLE_VALUE              source/user_interface/utable.F
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|        GET_U_NUMTABLE                source/user_interface/utable.F
-Chd|-- calls ---------------
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    table_glob_mod         ../engine/share/modules/table_glob_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    get_table_value        ../engine/source/user_interface/utable.F
+      !||    get_table_value_dydx   ../engine/source/user_interface/utable.F
+      !||    get_u_numtable         ../engine/source/user_interface/utable.F
+      !||    get_u_table            ../engine/source/user_interface/utable.F
+      !||    get_u_vtable           ../engine/source/user_interface/utable.F
+      !||    get_vtable_value       ../engine/source/user_interface/utable.F
+      !||    radioss2               ../engine/source/engine/radioss2.F
+      !||    rdresb                 ../engine/source/output/restart/rdresb.F
+      !||    resol_head             ../engine/source/engine/resol_head.F
+      !||    wrrestp                ../engine/source/output/restart/wrrestp.F
+      !||--- uses       -----------------------------------------------------
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
       MODULE TABLE_GLOB_MOD
 C-----------------------------------------------
 C   M o d u l e s

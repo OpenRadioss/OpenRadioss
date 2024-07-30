@@ -20,19 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STAT_S_FAIL                   source/output/sta/stat_s_fail.F
-Chd|-- called by -----------
-Chd|        GENSTAT                       source/output/sta/genstat.F   
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        SPMD_RGATHER9_DP              source/mpi/interfaces/spmd_outp.F
-Chd|        SPMD_STAT_PGATHER             source/mpi/output/spmd_stat.F 
-Chd|        STRS_TXT50                    source/output/sta/sta_txt.F   
-Chd|        TAB_STRS_TXT50                source/output/sta/sta_txt.F   
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    stat_s_fail         ../engine/source/output/sta/stat_s_fail.F
+      !||--- called by ------------------------------------------------------
+      !||    genstat             ../engine/source/output/sta/genstat.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf             ../engine/share/resol/initbuf.F
+      !||    nvar                ../engine/source/input/nvar.F
+      !||    spmd_rgather9_dp    ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
+      !||    strs_txt50          ../engine/source/output/sta/sta_txt.F
+      !||    tab_strs_txt50      ../engine/source/output/sta/sta_txt.F
+      !||--- uses       -----------------------------------------------------
+      !||    initbuf_mod         ../engine/share/resol/initbuf.F
+      !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||====================================================================
       SUBROUTINE STAT_S_FAIL(ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,
      3                        STAT_INDXS,IPART,SIZP0,NUMMAT,MAT_PARAM)

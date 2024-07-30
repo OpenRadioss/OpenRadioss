@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  CHKLOAD                       source/interfaces/chkload.F   
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_EXCHSEG_IDEL             source/mpi/kinematic_conditions/spmd_exchseg_idel.F
-Chd|        SPMD_INIT_IDEL                source/mpi/interfaces/spmd_init_idel.F
-Chd|====================================================================
+      !||====================================================================
+      !||    chkload             ../engine/source/interfaces/chkload.F
+      !||--- called by ------------------------------------------------------
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier          ../engine/source/system/machine.F
+      !||    spmd_exchseg_idel   ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
+      !||    spmd_init_idel      ../engine/source/mpi/interfaces/spmd_init_idel.F
+      !||====================================================================
       SUBROUTINE CHKLOAD(
      1    IB     ,IXS     ,IXQ     ,IXC    ,IXT     ,IXP     ,
      2    IXR    ,IXTG    ,ITAG   ,ITASK   ,ITAGL   ,ITAB    ,

@@ -20,28 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SROTA6                        source/output/anim/generate/srota6.F
-Chd|-- called by -----------
-Chd|        FORINT                        source/elements/forint.F      
-Chd|        GPSSTRAIN_SKIN                source/output/anim/generate/tensgpstrain.F
-Chd|        H3D_SOLID_TENSOR_1            source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-Chd|        STAT_S_STRAF                  source/output/sta/stat_s_straf.F
-Chd|        STAT_S_STRSF                  source/output/sta/stat_s_strsf.F
-Chd|        STRN_TENSCOR3                 source/output/h3d/h3d_results/h3d_strn_tenscor3.F
-Chd|        STRS_TENSCOR3                 source/output/h3d/h3d_results/strs_tenscor3.F
-Chd|        TENSGPS1                      source/output/anim/generate/tensor6.F
-Chd|        TENSGPS2                      source/output/anim/generate/tensor6.F
-Chd|        TENSGPS3                      source/output/anim/generate/tensor6.F
-Chd|        TENSGPSTRAIN                  source/output/anim/generate/tensgpstrain.F
-Chd|        TENSGPS_SKIN                  source/output/anim/generate/tensor6.F
-Chd|        TENSORS                       source/output/anim/generate/tensor6.F
-Chd|        THSOL                         source/output/th/thsol.F      
-Chd|-- calls ---------------
-Chd|        SCOOR431                      source/elements/solid/sconnect/scoor431.F
-Chd|        SCORTHO31                     source/elements/thickshell/solidec/scortho31.F
-Chd|        SORTHO31                      source/elements/solid/solide/sortho31.F
-Chd|====================================================================
+      !||====================================================================
+      !||    srota6               ../engine/source/output/anim/generate/srota6.F
+      !||--- called by ------------------------------------------------------
+      !||    forint               ../engine/source/elements/forint.F
+      !||    gpsstrain_skin       ../engine/source/output/anim/generate/tensgpstrain.F
+      !||    h3d_solid_tensor_1   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+      !||    stat_s_straf         ../engine/source/output/sta/stat_s_straf.F
+      !||    stat_s_strsf         ../engine/source/output/sta/stat_s_strsf.F
+      !||    strn_tenscor3        ../engine/source/output/h3d/h3d_results/h3d_strn_tenscor3.F
+      !||    strs_tenscor3        ../engine/source/output/h3d/h3d_results/strs_tenscor3.F
+      !||    tensgps1             ../engine/source/output/anim/generate/tensor6.F
+      !||    tensgps2             ../engine/source/output/anim/generate/tensor6.F
+      !||    tensgps3             ../engine/source/output/anim/generate/tensor6.F
+      !||    tensgps_skin         ../engine/source/output/anim/generate/tensor6.F
+      !||    tensgpstrain         ../engine/source/output/anim/generate/tensgpstrain.F
+      !||    tensors              ../engine/source/output/anim/generate/tensor6.F
+      !||    thsol                ../engine/source/output/th/thsol.F
+      !||--- calls      -----------------------------------------------------
+      !||    scoor431             ../engine/source/elements/solid/sconnect/scoor431.F
+      !||    scortho31            ../engine/source/elements/thickshell/solidec/scortho31.F
+      !||    sortho31             ../engine/source/elements/solid/solide/sortho31.F
+      !||====================================================================
       SUBROUTINE SROTA6(
      1   X,       IXS,     KCVT,    TENS,
      2   GAMA,    KHBE,    ITYP,    ISORTH)

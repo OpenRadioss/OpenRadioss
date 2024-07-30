@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C Orthotropic Hill
-Chd|====================================================================
-Chd|  SIGEPS93                      source/materials/mat/mat093/sigeps93.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MSTRAIN_RATE                  source/materials/mat_share/mstrain_rate.F
-Chd|        VINTER                        source/tools/curve/vinter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps93       ../engine/source/materials/mat/mat093/sigeps93.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw          ../engine/source/materials/mat_share/mulaw.F90
+      !||--- calls      -----------------------------------------------------
+      !||    mstrain_rate   ../engine/source/materials/mat_share/mstrain_rate.F
+      !||    vinter         ../engine/source/tools/curve/vinter.F
+      !||====================================================================
        SUBROUTINE SIGEPS93(
      1      NEL      ,NUPARAM  ,NUVAR    ,MFUNC    ,KFUNC    , 
      2      NPF      ,TF       ,TIME     ,TIMESTEP ,UPARAM   ,     

@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SBOLTLAW                      source/elements/solid/solide/sboltlaw.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MDTSPH                        source/materials/mat_share/mdtsph.F
-Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sboltlaw   ../engine/source/elements/solid/solide/sboltlaw.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain      ../engine/source/materials/mat_share/mmain.F90
+      !||--- calls      -----------------------------------------------------
+      !||    mdtsph     ../engine/source/materials/mat_share/mdtsph.F
+      !||    mqviscb    ../engine/source/materials/mat_share/mqviscb.F
+      !||====================================================================
       SUBROUTINE SBOLTLAW(
      1   PM,      SIG,     MAT,     D1,
      2   D2,      D3,      D4,      D5,

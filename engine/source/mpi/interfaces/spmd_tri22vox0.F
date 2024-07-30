@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_TRI22VOX0                source/mpi/interfaces/spmd_tri22vox0.F
-Chd|-- called by -----------
-Chd|        I22MAIN_TRI                   source/interfaces/intsort/i22main_tri.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_tri22vox0   ../engine/source/mpi/interfaces/spmd_tri22vox0.F
+      !||--- called by ------------------------------------------------------
+      !||    i22main_tri      ../engine/source/interfaces/intsort/i22main_tri.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_TRI22VOX0(
      1   X      ,BMINMA_FLU_L ,NBRIC  , IXS   , BUFBRIC, 
      2   ITASK  ,ITAB         ,XMINS  , YMINS , ZMINS  ,

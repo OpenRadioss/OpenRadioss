@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_INTER_LAGMUL          source/interfaces/reader/hm_read_inter_lagmul.F
-Chd|-- called by -----------
-Chd|        HM_READ_INTERFACES            source/interfaces/reader/hm_read_interfaces.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL                       source/starter/freform.F      
-Chd|        HM_READ_INTER_LAGMUL_TYPE02   source/interfaces/int02/hm_read_inter_lagmul_type02.F
-Chd|        HM_READ_INTER_LAGMUL_TYPE07   source/interfaces/int07/hm_read_inter_lagmul_type07.F
-Chd|        HM_READ_INTER_LAGMUL_TYPE16   source/interfaces/int16/hm_read_inter_lagmul_type16.F
-Chd|        HM_READ_INTER_LAGMUL_TYPE17   source/interfaces/int17/hm_read_inter_lagmul_type17.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_inter_lagmul          ../starter/source/interfaces/reader/hm_read_inter_lagmul.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_interfaces            ../starter/source/interfaces/reader/hm_read_interfaces.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                        ../starter/source/output/message/message.F
+      !||    fretitl                       ../starter/source/starter/freform.F
+      !||    hm_read_inter_lagmul_type02   ../starter/source/interfaces/int02/hm_read_inter_lagmul_type02.F
+      !||    hm_read_inter_lagmul_type07   ../starter/source/interfaces/int07/hm_read_inter_lagmul_type07.F
+      !||    hm_read_inter_lagmul_type16   ../starter/source/interfaces/int16/hm_read_inter_lagmul_type16.F
+      !||    hm_read_inter_lagmul_type17   ../starter/source/interfaces/int17/hm_read_inter_lagmul_type17.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                   ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_INTER_LAGMUL(
      1        IPARI    ,STFAC      ,FRIGAP    ,IGRNOD      ,IGRSURF    ,
      2        ILAGM    ,NI         ,NOM_OPT   ,TITR        ,DEF_INTER  ,

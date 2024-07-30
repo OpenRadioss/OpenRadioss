@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4MALLA3                      source/elements/solid/solide4/s4mall3.F
-Chd|-- called by -----------
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s4malla3   ../engine/source/elements/solid/solide4/s4mall3.F
+      !||--- called by ------------------------------------------------------
+      !||    s4forc3    ../engine/source/elements/solid/solide4/s4forc3.F
+      !||====================================================================
       SUBROUTINE S4MALLA3(
      1   SAV,     OFFG,    OFF,     WXX,
      2   WYY,     WZZ,     NEL,     ISMSTR,

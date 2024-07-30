@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I24STSECND                    source/interfaces/inter3d1/i24stslav.F
-Chd|-- called by -----------
-Chd|        ININTR1                       source/interfaces/interf1/inintr1.F
-Chd|-- calls ---------------
-Chd|        I24FICS_INI                   source/interfaces/inter3d1/i24surfi.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i24stsecnd      ../starter/source/interfaces/inter3d1/i24stslav.F
+      !||--- called by ------------------------------------------------------
+      !||    inintr1         ../starter/source/interfaces/interf1/inintr1.F
+      !||--- calls      -----------------------------------------------------
+      !||    i24fics_ini     ../starter/source/interfaces/inter3d1/i24surfi.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I24STSECND(IPARI,STIFINT,INTBUF_TAB,SFAC )
 C-----------------------------------------------
 C   M o d u l e s

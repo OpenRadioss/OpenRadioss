@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ADMINI                        source/model/remesh/admini.F  
-Chd|-- called by -----------
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
-Chd|-- calls ---------------
-Chd|        ADMMAP3                       source/model/remesh/admmap3.F 
-Chd|        ADMMAP4                       source/model/remesh/admmap4.F 
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    admini         ../engine/source/model/remesh/admini.F
+      !||--- called by ------------------------------------------------------
+      !||    resol_init     ../engine/source/engine/resol_init.F
+      !||--- calls      -----------------------------------------------------
+      !||    admmap3        ../engine/source/model/remesh/admmap3.F
+      !||    admmap4        ../engine/source/model/remesh/admmap4.F
+      !||    ancmsg         ../engine/source/output/message/message.F
+      !||    arret          ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||    remesh_mod     ../engine/share/modules/remesh_mod.F
+      !||====================================================================
       SUBROUTINE ADMINI(IXC ,IPARTC ,IXTG    ,IPARTTG  ,IPART ,
      .                  IGEO,IPM    ,IPARG   ,X        ,MS    ,
      .                  IN  ,ELBUF_TAB,SH4TREE ,IPADMESH ,MSC   ,

@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INSOLT10                      source/interfaces/inter3d1/insolt10.F
-Chd|-- called by -----------
-Chd|        I12SOL3                       source/interfaces/inter3d1/insol3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    insolt10      ../starter/source/interfaces/inter3d1/insolt10.F
+      !||--- called by ------------------------------------------------------
+      !||    i12sol3       ../starter/source/interfaces/inter3d1/insol3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INSOLT10(IXS,IXS10,IRECT,NOINT,NRTM,ITAB,
      .                    KNOD2ELS,NOD2ELS,NTY,NSV ,MSEGTYP,ID,TITR)
 C

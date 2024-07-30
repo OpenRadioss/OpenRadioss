@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPPART3                       source/elements/sph/sppart3.F 
-Chd|-- called by -----------
-Chd|        SPINIT3                       source/elements/sph/spinit3.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sppart3   ../starter/source/elements/sph/sppart3.F
+      !||--- called by ------------------------------------------------------
+      !||    spinit3   ../starter/source/elements/sph/spinit3.F
+      !||====================================================================
       SUBROUTINE SPPART3(MS,PARTSAV,NC1,MASS,X,V,IPART)
 C
 C-----------------------------------------------

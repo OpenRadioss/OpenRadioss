@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  BASISF                        source/elements/solid/solide8/basisf.F
-Chd|-- called by -----------
-Chd|        S8DERI3                       source/elements/solid/solide8/s8deri3.F
-Chd|        SDLEN8                        source/elements/solid/solidez/sdlen8.F
-Chd|        SDLEN_SMS                     source/elements/solid/solidez/sdlen_sms.F
-Chd|-- calls ---------------
-Chd|        BASIS8                        source/elements/solid/solide8/basis8.F
-Chd|====================================================================
+      !||====================================================================
+      !||    basisf      ../engine/source/elements/solid/solide8/basisf.F
+      !||--- called by ------------------------------------------------------
+      !||    s8deri3     ../engine/source/elements/solid/solide8/s8deri3.F
+      !||    sdlen8      ../engine/source/elements/solid/solidez/sdlen8.F
+      !||    sdlen_sms   ../engine/source/elements/solid/solidez/sdlen_sms.F
+      !||--- calls      -----------------------------------------------------
+      !||    basis8      ../engine/source/elements/solid/solide8/basis8.F
+      !||====================================================================
       SUBROUTINE BASISF(H,P1,P2,P3,IPT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

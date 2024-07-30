@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7DSTK3                       source/interfaces/int07/i7dstk3.F
-Chd|-- called by -----------
-Chd|        I10FKU3                       source/interfaces/int10/i10ke3.F
-Chd|        I10KE3                        source/interfaces/int10/i10ke3.F
-Chd|        I7FKU3                        source/interfaces/int07/i7ke3.F
-Chd|        I7KE3                         source/interfaces/int07/i7ke3.F
-Chd|        IMP_I10MAINF                  source/interfaces/int10/i10ke3.F
-Chd|        IMP_I7MAINF                   source/interfaces/int07/i7ke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i7dstk3        ../engine/source/interfaces/int07/i7dstk3.F
+      !||--- called by ------------------------------------------------------
+      !||    i10fku3        ../engine/source/interfaces/int10/i10ke3.F
+      !||    i10ke3         ../engine/source/interfaces/int10/i10ke3.F
+      !||    i7fku3         ../engine/source/interfaces/int07/i7ke3.F
+      !||    i7ke3          ../engine/source/interfaces/int07/i7ke3.F
+      !||    imp_i10mainf   ../engine/source/interfaces/int10/i10ke3.F
+      !||    imp_i7mainf    ../engine/source/interfaces/int07/i7ke3.F
+      !||====================================================================
       SUBROUTINE I7DSTK3(
      1                  JLT    ,CAND_N ,CAND_E ,
      2                  X1     ,X2     ,X3     ,X4     ,Y1     ,
@@ -343,13 +342,12 @@ C---------------------
       RETURN
       END
 C===============================================================================
-Chd|====================================================================
-Chd|  I7DSTR3                       source/interfaces/int07/i7dstk3.F
-Chd|-- called by -----------
-Chd|        IMP_I10MAINF                  source/interfaces/int10/i10ke3.F
-Chd|        IMP_I7MAINF                   source/interfaces/int07/i7ke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i7dstr3        ../engine/source/interfaces/int07/i7dstk3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_i10mainf   ../engine/source/interfaces/int10/i10ke3.F
+      !||    imp_i7mainf    ../engine/source/interfaces/int07/i7ke3.F
+      !||====================================================================
       SUBROUTINE I7DSTR3(
      1                  JLT    ,CAND_N ,CAND_E ,CN_LOC ,CE_LOC ,
      2                  P1     ,P2     ,P3     ,P4     ,STIF   ,

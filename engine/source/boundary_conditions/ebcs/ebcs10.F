@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  EBCS10                        source/boundary_conditions/ebcs/ebcs10.F
-Chd|-- called by -----------
-Chd|        EBCS_MAIN                     source/boundary_conditions/ebcs/ebcs_main.F
-Chd|-- calls ---------------
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
-Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ebcs10          ../engine/source/boundary_conditions/ebcs/ebcs10.F
+      !||--- called by ------------------------------------------------------
+      !||    ebcs_main       ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod         ../common_source/modules/ale/ale_mod.F
+      !||    ebcs_mod        ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F
+      !||    segvar_mod      ../engine/share/modules/segvar_mod.F
+      !||    th_surf_mod     ../common_source/modules/interfaces/th_surf_mod.F
+      !||====================================================================
       SUBROUTINE EBCS10(NSEG,ISEG,SEGVAR,
      .                 A,V,W,X,
      .                 LISTE,NOD,IRECT,IELEM,IFACE,

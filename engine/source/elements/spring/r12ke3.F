@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R12KE3                        source/elements/spring/r12ke3.F
-Chd|-- called by -----------
-Chd|        IMP_GLOB_K                    source/implicit/imp_glob_k.F  
-Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|        ASSEM_R3                      source/implicit/assem_r3.F    
-Chd|        ELEOFF                        source/implicit/imp_glob_k.F  
-Chd|        R12MAT3                       source/elements/spring/r12mat3.F
-Chd|        R12SUMG3                      source/elements/spring/r12sumg3.F
-Chd|        R3COORK3                      source/elements/spring/r3coork3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    r12ke3         ../engine/source/elements/spring/r12ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
+      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_r3       ../engine/source/implicit/assem_r3.F
+      !||    eleoff         ../engine/source/implicit/imp_glob_k.F
+      !||    r12mat3        ../engine/source/elements/spring/r12mat3.F
+      !||    r12sumg3       ../engine/source/elements/spring/r12sumg3.F
+      !||    r3coork3       ../engine/source/elements/spring/r3coork3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE R12KE3(JFT    ,JLT   ,NEL   ,MTN      ,PM    ,
      1                  GEO    ,IXR   ,X     ,ELBUF_TAB,NPF   ,
      2                  TF     ,SKEW  ,OFFSET,FR_WAVE  ,IGEO  ,

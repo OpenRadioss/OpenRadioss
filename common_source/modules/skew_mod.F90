@@ -20,6 +20,30 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    skew_mod          ../common_source/modules/skew_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    check_skew        ../starter/source/spmd/domain_decomposition/check_skew.F
+      !||    ddsplit           ../starter/source/restart/ddsplit/ddsplit.F
+      !||    domdec2           ../starter/source/spmd/domdec2.F
+      !||    dyna_ina          ../engine/source/implicit/imp_dyna.F
+      !||    dyna_wex          ../engine/source/implicit/imp_dyna.F
+      !||    force             ../engine/source/loads/general/force.F90
+      !||    force_imp         ../engine/source/loads/general/force_imp.F
+      !||    imp_chkm          ../engine/source/implicit/imp_solv.F
+      !||    imp_solv          ../engine/source/implicit/imp_solv.F
+      !||    lectur            ../engine/source/input/lectur.F
+      !||    radioss2          ../engine/source/engine/radioss2.F
+      !||    rdcomi            ../engine/source/output/restart/rdcomm.F
+      !||    rdresa            ../engine/source/output/restart/rdresa.F
+      !||    rdresb            ../engine/source/output/restart/rdresb.F
+      !||    resol             ../engine/source/engine/resol.F
+      !||    resol_head        ../engine/source/engine/resol_head.F
+      !||    restalloc         ../engine/source/output/restart/arralloc.F
+      !||    split_skew        ../starter/source/restart/ddsplit/split_skew.F
+      !||    split_skew_save   ../starter/source/restart/ddsplit/split_skew.F
+      !||    wrrestp           ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
       module skew_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files

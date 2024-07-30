@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8_IS17JAC_I                  source/elements/solid/solide8e/s8_is17jac_i.F
-Chd|-- called by -----------
-Chd|        S8FUPD11T12                   source/elements/solid/solide8e/s8fupd11t12.F
-Chd|-- calls ---------------
-Chd|        S8ZJAC_I3                     source/elements/solid/solide8e/s8zjac_i3.F
-Chd|        S8ZJAC_IC                     source/elements/solid/solide8e/s8zjac_ic.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8_is17jac_i   ../engine/source/elements/solid/solide8e/s8_is17jac_i.F
+      !||--- called by ------------------------------------------------------
+      !||    s8fupd11t12    ../engine/source/elements/solid/solide8e/s8fupd11t12.F
+      !||--- calls      -----------------------------------------------------
+      !||    s8zjac_i3      ../engine/source/elements/solid/solide8e/s8zjac_i3.F
+      !||    s8zjac_ic      ../engine/source/elements/solid/solide8e/s8zjac_ic.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE S8_IS17JAC_I(ELBUF_TAB,
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .              Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,

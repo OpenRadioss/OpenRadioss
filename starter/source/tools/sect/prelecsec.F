@@ -20,30 +20,30 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PRELECSEC                     source/tools/sect/prelecsec.F 
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
-Chd|        R2R_SPLIT                     source/coupling/rad2rad/r2r_split.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL                       source/starter/freform.F      
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        HM_SZ_R2R                     source/coupling/rad2rad/routines_r2r.F
-Chd|        GRSIZEN                       source/system/nintrr.F        
-Chd|        GRSIZE_ELE                    source/system/nintrr.F        
-Chd|        GRSIZE_ELE_TRANS              source/system/nintrr.F        
-Chd|        GRSIZE_R2R                    source/coupling/rad2rad/routines_r2r.F
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    prelecsec            ../starter/source/tools/sect/prelecsec.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||    r2r_prelec           ../starter/source/coupling/rad2rad/r2r_prelec.F
+      !||    r2r_split            ../starter/source/coupling/rad2rad/r2r_split.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../starter/source/output/message/message.F
+      !||    fretitl              ../starter/source/starter/freform.F
+      !||    grsize_ele           ../starter/source/system/nintrr.F
+      !||    grsize_ele_trans     ../starter/source/system/nintrr.F
+      !||    grsize_r2r           ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    grsizen              ../starter/source/system/nintrr.F
+      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_sz_r2r            ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    usr2sys              ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    r2r_mod              ../starter/share/modules1/r2r_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE PRELECSEC(
      1     SNSTRF  ,SSECBUF   ,ITABM1  ,FLAG_R2R ,NOM_OPT ,
      2     IGRBRIC ,IGRQUAD   ,IGRSH4N ,IGRSH3N  ,IGRTRUSS,

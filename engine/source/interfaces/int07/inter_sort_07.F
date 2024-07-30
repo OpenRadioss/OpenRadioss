@@ -20,30 +20,33 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
-Chd|-- called by -----------
-Chd|        INTER_SORT                    source/interfaces/generic/inter_sort.F
-Chd|-- calls ---------------
-Chd|        I7BUCE                        source/interfaces/intsort/i7buce.F
-Chd|        I7BUCE_VOX                    source/interfaces/intsort/i7buce.F
-Chd|        INTER7_COLLISION_DETECTION    source/interfaces/inter7_collision_detection.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_CELL_EXCHANGE            source/mpi/generic/spmd_cell_exchange.F
-Chd|        SPMD_RNUMCD                   source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_TRI7GAT                  source/mpi/interfaces/spmd_int.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
-Chd|        COMMAND_LINE_ARGS_MOD         share/modules/command_line_args.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTER7_COLLISION_DETECTION_MODsource/interfaces/inter7_collision_detection.F
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    inter_sort_07                    ../engine/source/interfaces/int07/inter_sort_07.F
+      !||--- called by ------------------------------------------------------
+      !||    inter_sort                       ../engine/source/interfaces/generic/inter_sort.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_sorting_criteria           ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||    i7buce                           ../engine/source/interfaces/intsort/i7buce.F
+      !||    i7buce_vox                       ../engine/source/interfaces/intsort/i7buce.F
+      !||    inter7_collision_detection       ../engine/source/interfaces/inter7_collision_detection.F
+      !||    my_barrier                       ../engine/source/system/machine.F
+      !||    spmd_cell_exchange               ../engine/source/mpi/generic/spmd_cell_exchange.F
+      !||    spmd_rnumcd                      ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_tri7gat                     ../engine/source/mpi/interfaces/spmd_int.F
+      !||    startime                         ../engine/source/system/timer.F
+      !||    stoptime                         ../engine/source/system/timer.F
+      !||    upgrade_multimp                  ../common_source/interf/upgrade_multimp.F
+      !||--- uses       -----------------------------------------------------
+      !||    check_sorting_criteria_mod       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||    command_line_args_mod            ../engine/share/modules/command_line_args.F
+      !||    h3d_mod                          ../engine/share/modules/h3d_mod.F
+      !||    inter7_collision_detection_mod   ../engine/source/interfaces/inter7_collision_detection.F
+      !||    inter_sorting_mod                ../engine/share/modules/inter_sorting_mod.F
+      !||    inter_struct_mod                 ../engine/share/modules/inter_struct_mod.F
+      !||    message_mod                      ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod                    ../common_source/modules/ale/multi_fvm_mod.F
+      !||    tri7box                          ../engine/share/modules/tri7box.F
+      !||====================================================================
         SUBROUTINE INTER_SORT_07( IPARI,X,NIN,ITASK,ISENDTO,
      1                            IRCVFROM,RETRI,ITAB,NRTM_T,RENUM,RENUM_SIZ,
      2                            NSNFIOLD,ESHIFT,MULTI_FVM,INTBUF_TAB,H3D_DATA,

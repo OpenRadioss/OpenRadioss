@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FIND_SURFACE_INTER            source/interfaces/interf/find_surface_inter.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        MYQSORT_INT                   ../common_source/tools/sort/myqsort_int.F
-Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    find_surface_inter        ../engine/source/interfaces/interf/find_surface_inter.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                     ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    myqsort_int               ../common_source/tools/sort/myqsort_int.F
+      !||--- uses       -----------------------------------------------------
+      !||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F
+      !||====================================================================
         SUBROUTINE FIND_SURFACE_INTER(ITAB  ,SHOOT_STRUCT  ,IXS  ,IXS10  ,IXC  ,
      .                                IXTG  ,
      .                                NGROUP,NPARG,IGROUPS,IPARG )

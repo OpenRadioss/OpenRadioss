@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PRESEARCHIGEO3D               source/elements/ige3d/searchigeo3d.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        MYQSORT3D                     source/elements/ige3d/searchigeo3d.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    presearchigeo3d   ../starter/source/elements/ige3d/searchigeo3d.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur            ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    myqsort3d         ../starter/source/elements/ige3d/searchigeo3d.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE PRESEARCHIGEO3D(IGRSURF,xigetmp, permige)
 C-----------------------------------------------
 C   M o d u l e s
@@ -74,13 +74,12 @@ c
       RETURN
       END
       
-Chd|====================================================================
-Chd|  SEARCHIGEO3D                  source/elements/ige3d/searchigeo3d.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    searchigeo3d   ../starter/source/elements/ige3d/searchigeo3d.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur         ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SEARCHIGEO3D(IGRSURF,IADTABIGEINI, PERM, 
      .                  NIGETMP, NIGE, RIGETMP, RIGE,
      .                  XIGETMP, XIGE, VIGETMP, VIGE,
@@ -169,12 +168,10 @@ c
       RETURN
       END
       
-Chd|====================================================================
-Chd|  SEARCHIGEO3DOLD               source/elements/ige3d/searchigeo3d.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    searchigeo3dold   ../starter/source/elements/ige3d/searchigeo3d.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SEARCHIGEO3DOLD(IGRSURF,IADTABIGEINI, PERM, 
      .                  NIGETMP, NIGE, RIGETMP, RIGE,
      .                  XIGETMP, XIGE, VIGETMP, VIGE,
@@ -268,12 +265,10 @@ c
       RETURN
       END
 
-Chd|====================================================================
-Chd|  SEARCHIGEO3D3                 source/elements/ige3d/searchigeo3d.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    searchigeo3d3   ../starter/source/elements/ige3d/searchigeo3d.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SEARCHIGEO3D3(IGRSURF,N, PERM, 
 c      SUBROUTINE SEARCHIGEO3D(IGRSURF,N, NSEGIGE ,PERM, 
      .                        NIGETMP, NIGE, RIGETMP, RIGE,
@@ -388,12 +383,10 @@ c
       END
 c
 
-Chd|====================================================================
-Chd|  SEARCHIGEO3D2                 source/elements/ige3d/searchigeo3d.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    searchigeo3d2   ../starter/source/elements/ige3d/searchigeo3d.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SEARCHIGEO3D2(IGRSURF,IADTABIGE, PERM, 
      .                        NIGETMP, NIGE, RIGETMP, RIGE,
      .                        XIGETMP, XIGE, VIGETMP, VIGE,
@@ -475,14 +468,13 @@ c
       RETURN
       END
 c
-Chd|====================================================================
-Chd|  MYQSORT3D                     source/elements/ige3d/searchigeo3d.F
-Chd|-- called by -----------
-Chd|        PRESEARCHIGEO3D               source/elements/ige3d/searchigeo3d.F
-Chd|        REORDER_IG3D                  source/elements/ige3d/reorder_ig3d.F
-Chd|-- calls ---------------
-Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
-Chd|====================================================================
+      !||====================================================================
+      !||    myqsort3d         ../starter/source/elements/ige3d/searchigeo3d.F
+      !||--- called by ------------------------------------------------------
+      !||    presearchigeo3d   ../starter/source/elements/ige3d/searchigeo3d.F
+      !||    reorder_ig3d      ../starter/source/elements/ige3d/reorder_ig3d.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE MYQSORT3D(n, X, perm)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

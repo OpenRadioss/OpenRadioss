@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_DPARRBE2                 source/mpi/anim/spmd_dparrbe2.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|-- calls ---------------
-Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_dparrbe2     ../engine/source/mpi/anim/spmd_dparrbe2.F
+      !||--- called by ------------------------------------------------------
+      !||    genani            ../engine/source/output/anim/generate/genani.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE SPMD_DPARRBE2(LRBE2, IRBE2,NODGLOB,WEIGHT,NERBE2Y,
      *                         NERBE2T )
 C-----------------------------------------------

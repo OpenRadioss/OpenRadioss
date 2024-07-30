@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C3DERII                       source/elements/sh3n/coque3n/c3derii.F
-Chd|-- called by -----------
-Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
-Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
-Chd|-- calls ---------------
-Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    c3derii           ../starter/source/elements/sh3n/coque3n/c3derii.F
+      !||--- called by ------------------------------------------------------
+      !||    c3init3           ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    inirig_mat        ../starter/source/elements/initia/inirig_mat.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE C3DERII(JFT,JLT,PM    ,GEO  ,PX1,
      .                   PY1,PY2,STIFN ,STIFR,IXTG,
      .                   THK,SH3TREE   ,ALDT ,UPARAM  ,IPM ,IGEO,

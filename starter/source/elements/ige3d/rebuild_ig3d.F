@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  REBUILD_IG3D                  source/elements/ige3d/rebuild_ig3d.F
-Chd|-- called by -----------
-Chd|        PRERAFIG3D                    source/elements/ige3d/prerafig3d.F
-Chd|-- calls ---------------
-Chd|        MESHSURFIG3D_MOD              source/elements/ige3d/meshsurfig3d_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rebuild_ig3d       ../starter/source/elements/ige3d/rebuild_ig3d.F
+      !||--- called by ------------------------------------------------------
+      !||    prerafig3d         ../starter/source/elements/ige3d/prerafig3d.F
+      !||--- uses       -----------------------------------------------------
+      !||    meshsurfig3d_mod   ../starter/source/elements/ige3d/meshsurfig3d_mod.F
+      !||====================================================================
       SUBROUTINE REBUILD_IG3D(IXIG3D, KXIG3D,DIR,DEG,DEGTANG1,
      .                        DEGTANG2,KNOTLOCPC,KNOTLOCEL,
      .                        TAB_ELCUT,L_TAB_ELCUT,

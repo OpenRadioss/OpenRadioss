@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8BILAN                       source/elements/solid/solide8/s8bilan.F
-Chd|-- called by -----------
-Chd|        S8FORC3                       source/elements/solid/solide8/s8forc3.F
-Chd|-- calls ---------------
-Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F 
-Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8bilan               ../engine/source/elements/solid/solide8/s8bilan.F
+      !||--- called by ------------------------------------------------------
+      !||    s8forc3               ../engine/source/elements/solid/solide8/s8forc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
+      !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+      !||====================================================================
       SUBROUTINE S8BILAN(PARTSAV,EINT,RHO,RK,VOL,VNEW,
      .                   VX,VY,VZ,IPARTS,
      .                   GRESAV,GRTH,IGRTH,X,Y,Z,ITASK,IPARG)

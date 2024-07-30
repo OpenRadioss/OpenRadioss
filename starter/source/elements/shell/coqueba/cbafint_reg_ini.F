@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBAFINT_REG_INI               source/elements/shell/coqueba/cbafint_reg_ini.F
-Chd|-- called by -----------
-Chd|        NLOCAL_INIT_STA               source/materials/fail/nlocal_init_sta.F
-Chd|-- calls ---------------
-Chd|        CNEVECI                       source/elements/shell/coqueba/cneveci.F
-Chd|        CNLOC_MATINI                  source/materials/mat_share/cnloc_matini.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    cbafint_reg_ini   ../starter/source/elements/shell/coqueba/cbafint_reg_ini.F
+      !||--- called by ------------------------------------------------------
+      !||    nlocal_init_sta   ../starter/source/materials/fail/nlocal_init_sta.F
+      !||--- calls      -----------------------------------------------------
+      !||    cneveci           ../starter/source/elements/shell/coqueba/cneveci.F
+      !||    cnloc_matini      ../starter/source/materials/mat_share/cnloc_matini.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE CBAFINT_REG_INI(ELBUF_TAB,NLOC_DMG ,AREA     ,IXC      ,
      .                           DT_NL    ,X        ,XREFC    ,NFT      ,
      .                           NEL      ,NG       ,IPM      ,BUFMAT   ,

@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_SPHGETV                  source/mpi/sph/spmd_sphgetv.F 
-Chd|-- called by -----------
-Chd|        SPHPREP                       source/elements/sph/sphprep.F 
-Chd|-- calls ---------------
-Chd|        SPMD_IALLTOALLV               source/mpi/generic/spmd_ialltoallv.F
-Chd|        SPMD_IALLTOALLV_INT           source/mpi/generic/spmd_ialltoallv_int.F
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgetv          ../engine/source/mpi/sph/spmd_sphgetv.F
+      !||--- called by ------------------------------------------------------
+      !||    sphprep               ../engine/source/elements/sph/sphprep.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_ialltoallv       ../engine/source/mpi/generic/spmd_ialltoallv.F
+      !||    spmd_ialltoallv_int   ../engine/source/mpi/generic/spmd_ialltoallv_int.F
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox                ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETV(KXSP ,SPBUF, V, MS, ISORTSP, IPARTSP)
 C-----------------------------------------------
 C   M o d u l e s
@@ -274,12 +275,12 @@ C
 
 
 
-Chd|====================================================================
-Chd|  SPMD_SPHGETV_OLD              source/mpi/sph/spmd_sphgetv.F 
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgetv_old   ../engine/source/mpi/sph/spmd_sphgetv.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox             ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETV_OLD(KXSP ,SPBUF, V, MS, ISORTSP, IPARTSP)
 C-----------------------------------------------
 C   M o d u l e s

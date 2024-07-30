@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    defbeam_sect_new_mod   ../starter/source/properties/beam/defbeam_sect_new.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_prop18         ../starter/source/properties/beam/hm_read_prop18.F
+      !||====================================================================
       module defbeam_sect_new_mod
       contains
 ! ======================================================================================================================
@@ -30,6 +35,12 @@
 !\brief This subroutine compute new predefined sections for integrated beams (position and weight) Isect 10-31
 !=======================================================================================================================
 !
+      !||====================================================================
+      !||    defbeam_sect_new   ../starter/source/properties/beam/defbeam_sect_new.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_prop18     ../starter/source/properties/beam/hm_read_prop18.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine defbeam_sect_new(geo,npropg,isect,intr,intr_max,nip,area,l,nb_dim)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

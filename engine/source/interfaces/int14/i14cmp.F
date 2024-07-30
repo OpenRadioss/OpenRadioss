@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I14CMP                        source/interfaces/int14/i14cmp.F
-Chd|-- called by -----------
-Chd|        INTFOP1                       source/interfaces/interf/intfop1.F
-Chd|-- calls ---------------
-Chd|        I14CAN                        source/interfaces/int14/i14can.F
-Chd|        I14DMP                        source/interfaces/int14/i14dmp.F
-Chd|        I14ELA                        source/interfaces/int14/i14ela.F
-Chd|        I14FRT                        source/interfaces/int14/i14frt.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i14cmp          ../engine/source/interfaces/int14/i14cmp.F
+      !||--- called by ------------------------------------------------------
+      !||    intfop1         ../engine/source/interfaces/interf/intfop1.F
+      !||--- calls      -----------------------------------------------------
+      !||    i14can          ../engine/source/interfaces/int14/i14can.F
+      !||    i14dmp          ../engine/source/interfaces/int14/i14dmp.F
+      !||    i14ela          ../engine/source/interfaces/int14/i14ela.F
+      !||    i14frt          ../engine/source/interfaces/int14/i14frt.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I14CMP(IPARI ,INTBUF_TAB ,IGRSURF ,BUFSF ,
      2            A ,X ,V ,WA ,FSAV ,
      3            IN ,STIFN ,FCONT , MS ,FSKYI , 

@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7TRIVOX                      source/interfaces/intsort/i7trivox.F
-Chd|-- called by -----------
-Chd|        I7BUCE_VOX                    source/interfaces/intsort/i7buce.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I7STO                         source/interfaces/intsort/i7sto.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_OLDNUMCD                 source/mpi/interfaces/spmd_i7tool.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7trivox        ../engine/source/interfaces/intsort/i7trivox.F
+      !||--- called by ------------------------------------------------------
+      !||    i7buce_vox      ../engine/source/interfaces/intsort/i7buce.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||    i7sto           ../engine/source/interfaces/intsort/i7sto.F
+      !||    my_barrier      ../engine/source/system/machine.F
+      !||    spmd_oldnumcd   ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I7TRIVOX(
      1      NSN    ,RENUM       ,NSNR    ,ISZNSNR  ,I_MEM    ,
      2      IRECT  ,X           ,STF     ,STFN     ,XYZM     ,

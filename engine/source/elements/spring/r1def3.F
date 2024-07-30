@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R1DEF3                        source/elements/spring/r1def3.F
-Chd|-- called by -----------
-Chd|        RFORC3                        source/elements/spring/rforc3.F
-Chd|-- calls ---------------
-Chd|        REDEF3                        source/elements/spring/redef3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    r1def3   ../engine/source/elements/spring/r1def3.F
+      !||--- called by ------------------------------------------------------
+      !||    rforc3   ../engine/source/elements/spring/rforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    redef3   ../engine/source/elements/spring/redef3.F
+      !||====================================================================
       SUBROUTINE R1DEF3(
      1   GEO,     F,       AL0,     E,
      2   DL,      NPF,     TF,      OFF,

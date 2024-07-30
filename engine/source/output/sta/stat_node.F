@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STAT_NODE                     source/output/sta/stat_node.F 
-Chd|-- called by -----------
-Chd|        GENSTAT                       source/output/sta/genstat.F   
-Chd|-- calls ---------------
-Chd|        SPMD_DSTAT_VGATH              source/mpi/output/spmd_stat.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    stat_node          ../engine/source/output/sta/stat_node.F
+      !||--- called by ------------------------------------------------------
+      !||    genstat            ../engine/source/output/sta/genstat.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_dstat_vgath   ../engine/source/mpi/output/spmd_stat.F
+      !||====================================================================
       SUBROUTINE STAT_NODE(X,NUMNOD,ITAB,ITABG,LENG,
      .                    NODGLOB,WEIGHT,NODTAG)
 C-----------------------------------------------

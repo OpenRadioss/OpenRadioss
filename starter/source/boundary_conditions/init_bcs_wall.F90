@@ -26,6 +26,13 @@
 !! \brief This subroutine is initializing the sliding wall boundary conditions
 !! \details identification of related faces is done. Identified faces are recorded in specific buffer bcs%wall(id)%list(*)
 !! \details binary comparison (IAND) is done to identify relevant faces
+      !||====================================================================
+      !||    init_bcs_wall          ../starter/source/boundary_conditions/init_bcs_wall.F90
+      !||--- called by ------------------------------------------------------
+      !||    initia                 ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       subroutine init_bcs_wall( igrnod, ngrnod, numnod, ale_connectivity, multi_fvm,&
         ixs,nixs,numels, ixq,nixq,numelq, ixtg,nixtg,numeltg, n2d ,  &
         ngroup, nparg, iparg, ipri)

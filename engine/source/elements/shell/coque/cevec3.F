@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CEVEC3                        source/elements/shell/coque/cevec3.F
-Chd|-- called by -----------
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|-- calls ---------------
-Chd|        CORTDIR3                      source/elements/shell/coque/cortdir3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    cevec3         ../engine/source/elements/shell/coque/cevec3.F
+      !||--- called by ------------------------------------------------------
+      !||    cforc3         ../engine/source/elements/shell/coque/cforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE CEVEC3(ELBUF_STR,DIR_A  ,DIR_B  ,
      1    JFT,JLT,X1 ,X2 ,X3 ,X4 ,Y1 ,Y2 ,Y3 ,Y4  ,
      2    Z1 ,Z2 ,Z3 ,Z4 ,E1X,E1Y,E1Z,E2X,E2Y, E2Z, 

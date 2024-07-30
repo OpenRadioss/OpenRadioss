@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_WRT_XYZNOR               source/mpi/anim/spmd_wrt_xyznor.F
-Chd|-- called by -----------
-Chd|        XYZNOR                        source/output/anim/generate/xyznor.F
-Chd|-- calls ---------------
-Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_wrt_xyznor   ../engine/source/mpi/anim/spmd_wrt_xyznor.F
+      !||--- called by ------------------------------------------------------
+      !||    xyznor            ../engine/source/output/anim/generate/xyznor.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_s_c         ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE SPMD_WRT_XYZNOR(XNORM,WEIGHT,NODGLOB,NUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

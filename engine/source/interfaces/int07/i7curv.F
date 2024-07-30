@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7NORM                        source/interfaces/int07/i7curv.F
-Chd|-- called by -----------
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i7norm    ../engine/source/interfaces/int07/i7curv.F
+      !||--- called by ------------------------------------------------------
+      !||    i7mainf   ../engine/source/interfaces/int07/i7mainf.F
+      !||====================================================================
       SUBROUTINE I7NORM(NRTM,IRECT,NUMNOD,X,NOD_NORMAL,
      .                  NMN ,MSR  )
 C-----------------------------------------------
@@ -89,14 +88,14 @@ C optimisable en spmd si ajout flag pour routine de comm, spmd_exchange_n
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I7NORMP                       source/interfaces/int07/i7curv.F
-Chd|-- called by -----------
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|-- calls ---------------
-Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
-Chd|        SPMD_I7CURVCOM                source/mpi/interfaces/spmd_i7curvcom.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i7normp          ../engine/source/interfaces/int07/i7curv.F
+      !||--- called by ------------------------------------------------------
+      !||    i7mainf          ../engine/source/interfaces/int07/i7mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    myqsort          ../common_source/tools/sort/myqsort.F
+      !||    spmd_i7curvcom   ../engine/source/mpi/interfaces/spmd_i7curvcom.F
+      !||====================================================================
       SUBROUTINE I7NORMP(NRTM  ,IRECT   ,NUMNOD ,X    ,NOD_NORMAL,
      .                   NMN   ,MSR     ,LENT   ,MAXCC,ISDSIZ    ,
      .                   IRCSIZ,IAD_ELEM,FR_ELEM,ITAG )
@@ -210,12 +209,11 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I7CURVSZ                      source/interfaces/int07/i7curv.F
-Chd|-- called by -----------
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i7curvsz   ../engine/source/interfaces/int07/i7curv.F
+      !||--- called by ------------------------------------------------------
+      !||    i7mainf    ../engine/source/interfaces/int07/i7mainf.F
+      !||====================================================================
       SUBROUTINE I7CURVSZ(NRTM,IRECT,NUMNOD,ITAG,LENT,MAXCC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -258,12 +256,11 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  I7CMAJ                        source/interfaces/int07/i7curv.F
-Chd|-- called by -----------
-Chd|        I7DST3                        source/interfaces/int07/i7dst3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i7cmaj   ../engine/source/interfaces/int07/i7curv.F
+      !||--- called by ------------------------------------------------------
+      !||    i7dst3   ../engine/source/interfaces/int07/i7dst3.F
+      !||====================================================================
       SUBROUTINE I7CMAJ(JLT    ,CMAJ   ,IRECT  ,NOD_NORMAL,CAND_E,
      2                  X1     ,X2     ,X3     ,X4        ,
      3                  Y1     ,Y2     ,Y3     ,Y4        ,
@@ -427,14 +424,14 @@ c            Z^2 = (L.N)^2 L^2 / 4(N^2 L^2 - (L.N)^2)
 
       RETURN
       END
-Chd|====================================================================
-Chd|  I7CURV                        source/interfaces/int07/i7curv.F
-Chd|-- called by -----------
-Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
-Chd|        I7FOR3                        source/interfaces/int07/i7for3.F
-Chd|-- calls ---------------
-Chd|        I7CUBIC                       source/interfaces/int07/i7curv.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i7curv    ../engine/source/interfaces/int07/i7curv.F
+      !||--- called by ------------------------------------------------------
+      !||    i20for3   ../engine/source/interfaces/int20/i20for3.F
+      !||    i7for3    ../engine/source/interfaces/int07/i7for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    i7cubic   ../engine/source/interfaces/int07/i7curv.F
+      !||====================================================================
       SUBROUTINE I7CURV(JLT    ,PENE   ,N1     ,N2        ,
      1                  N3     ,GAPV   ,X      ,NOD_NORMAL,
      2                  IX1    ,IX2    ,IX3    ,IX4       ,
@@ -664,12 +661,11 @@ C        ENDIF
 
       RETURN
       END
-Chd|====================================================================
-Chd|  I7CUBIC                       source/interfaces/int07/i7curv.F
-Chd|-- called by -----------
-Chd|        I7CURV                        source/interfaces/int07/i7curv.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i7cubic   ../engine/source/interfaces/int07/i7curv.F
+      !||--- called by ------------------------------------------------------
+      !||    i7curv    ../engine/source/interfaces/int07/i7curv.F
+      !||====================================================================
       SUBROUTINE I7CUBIC(JLT,R,TT,
      .                   X1,NNX1,X2,NNX2,X12,NNX12,CX,
      .                   Y1,NNY1,Y2,NNY2,Y12,NNY12,CY,

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_INI                       source/output/h3d/h3d_build_fortran/h3d_ini.F
-Chd|-- called by -----------
-Chd|        FREFORM                       source/input/freform.F        
-Chd|-- calls ---------------
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_ini   ../engine/source/output/h3d/h3d_build_fortran/h3d_ini.F
+      !||--- called by ------------------------------------------------------
+      !||    freform   ../engine/source/input/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod   ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE H3D_INI(H3D_DATA,KH3D,NSLASH)
 C-----------------------------------------------
 C   M o d u l e s

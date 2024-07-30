@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  USER_WINDOWS_ROUTINE          source/user_interface/user_windows.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        ENG_USERLIB_USERWI            source/user_interface/dyn_userlib.c
-Chd|        SPMD_EXCH_USERWI              source/mpi/user_interface/spmd_exch_userwi.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    user_windows_routine   ../engine/source/user_interface/user_windows.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                  ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||    spmd_exch_userwi       ../engine/source/mpi/user_interface/spmd_exch_userwi.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    user_windows_mod       ../common_source/modules/user_windows_mod.F
+      !||====================================================================
        SUBROUTINE USER_WINDOWS_ROUTINE( ISPMD        ,NSPMD         ,USERL_AVAIL   ,
      1                                  USER_WINDOWS ,RAD_INPUTNAME ,LEN_RAD_INPUTNAME,
      2                                  NUMNOD       ,NCYCLE        ,ITAB             ,

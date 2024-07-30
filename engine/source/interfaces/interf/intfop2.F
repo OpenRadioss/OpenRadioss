@@ -20,35 +20,37 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTFOP2                       source/interfaces/interf/intfop2.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        I10MAINF                      source/interfaces/int10/i10mainf.F
-Chd|        I11MAINF                      source/interfaces/int11/i11mainf.F
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|        I21MAINF                      source/interfaces/int21/i21mainf.F
-Chd|        I22MAINF                      source/interfaces/int22/i22mainf.F
-Chd|        I23MAINF                      source/interfaces/int23/i23mainf.F
-Chd|        I24MAINF                      source/interfaces/int24/i24main.F
-Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|        INT18_LAW151_NSV_SHIFT        source/interfaces/int18/int18_law151_nsv_shift.F
-Chd|        INT_STARTIME                  source/system/timer_interf.F  
-Chd|        INT_STOPTIME                  source/system/timer_interf.F  
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
-Chd|        METRIC_MOD                    ../common_source/modules/interfaces/metric_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    intfop2                  ../engine/source/interfaces/interf/intfop2.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                    ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    i10mainf                 ../engine/source/interfaces/int10/i10mainf.F
+      !||    i11mainf                 ../engine/source/interfaces/int11/i11mainf.F
+      !||    i20mainf                 ../engine/source/interfaces/int20/i20mainf.F
+      !||    i21mainf                 ../engine/source/interfaces/int21/i21mainf.F
+      !||    i22mainf                 ../engine/source/interfaces/int22/i22mainf.F
+      !||    i23mainf                 ../engine/source/interfaces/int23/i23mainf.F
+      !||    i24mainf                 ../engine/source/interfaces/int24/i24main.F
+      !||    i25mainf                 ../engine/source/interfaces/int25/i25mainf.F
+      !||    i7mainf                  ../engine/source/interfaces/int07/i7mainf.F
+      !||    int18_law151_nsv_shift   ../engine/source/interfaces/int18/int18_law151_nsv_shift.F
+      !||    int_startime             ../engine/source/system/timer_interf.F
+      !||    int_stoptime             ../engine/source/system/timer_interf.F
+      !||    my_barrier               ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod     ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    array_mod                ../common_source/modules/array_mod.F
+      !||    elbufdef_mod             ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod             ../common_source/modules/groupdef_mod.F
+      !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
+      !||    intbuf_fric_mod          ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||    intstamp_mod             ../engine/share/modules/intstamp_mod.F
+      !||    metric_mod               ../common_source/modules/interfaces/metric_mod.F
+      !||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F
+      !||    outputs_mod              ../common_source/modules/outputs_mod.F
+      !||    sensor_mod               ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE INTFOP2(
      1       IPARI     ,X          ,A          ,IGROUPS   ,ALE_CONNECTIVITY,
      2       ICODT     ,FSAV       ,V          ,MS        ,DT2T            ,

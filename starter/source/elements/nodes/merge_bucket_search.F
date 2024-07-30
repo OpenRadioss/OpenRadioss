@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MERGE_BUCKET_SEARCH           source/elements/nodes/merge_bucket_search.F
-Chd|-- called by -----------
-Chd|        MERGE_NODE                    source/elements/nodes/merge_node.F
-Chd|-- calls ---------------
-Chd|        DECODE_MERGE                  source/elements/nodes/merge_bucket_search.F
-Chd|        USRTOS                        source/system/sysfus.F        
-Chd|        USRTOSC                       source/model/submodel/merge.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    merge_bucket_search   ../starter/source/elements/nodes/merge_bucket_search.F
+      !||--- called by ------------------------------------------------------
+      !||    merge_node            ../starter/source/elements/nodes/merge_node.F
+      !||--- calls      -----------------------------------------------------
+      !||    decode_merge          ../starter/source/elements/nodes/merge_bucket_search.F
+      !||    usrtos                ../starter/source/system/sysfus.F
+      !||    usrtosc               ../starter/source/model/submodel/merge.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod           ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE MERGE_BUCKET_SEARCH(X,ITAB,ITABM1,IMERGE0,CMERGE,
      .                               DBUC,NN1,NN2,LIST1,LIST2,
      .                               DDD,FLAG,LIST1_IDMERGE,LIST1_NBMERGE,LIST2_IDMERGE,
@@ -448,12 +449,11 @@ C--------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  DECODE_MERGE                  source/elements/nodes/merge_bucket_search.F
-Chd|-- called by -----------
-Chd|        MERGE_BUCKET_SEARCH           source/elements/nodes/merge_bucket_search.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    decode_merge          ../starter/source/elements/nodes/merge_bucket_search.F
+      !||--- called by ------------------------------------------------------
+      !||    merge_bucket_search   ../starter/source/elements/nodes/merge_bucket_search.F
+      !||====================================================================
       SUBROUTINE DECODE_MERGE(CODE,NVAL,TAB,NB_MERGE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

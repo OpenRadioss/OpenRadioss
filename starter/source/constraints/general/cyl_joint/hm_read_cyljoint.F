@@ -20,29 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_CYLJOINT              source/constraints/general/cyl_joint/hm_read_cyljoint.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANODSET                       source/output/analyse/analyse_node.c
-Chd|        FRETITL                       source/starter/freform.F      
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        HM_SZ_R2R                     source/coupling/rad2rad/routines_r2r.F
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|        KINSET                        source/constraints/general/kinset.F
-Chd|        UDOUBLE                       source/system/sysfus.F        
-Chd|        NODGRNR5                      source/starter/freform.F      
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        JOINT_MOD                     share/modules1/joint_mod.F    
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_cyljoint     ../starter/source/constraints/general/cyl_joint/hm_read_cyljoint.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    anodset              ../starter/source/output/analyse/analyse_node.c
+      !||    fretitl              ../starter/source/starter/freform.F
+      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_sz_r2r            ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    ifrontplus           ../starter/source/spmd/node/frontplus.F
+      !||    kinset               ../starter/source/constraints/general/kinset.F
+      !||    nodgrnr5             ../starter/source/starter/freform.F
+      !||    udouble              ../starter/source/system/sysfus.F
+      !||    usr2sys              ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    joint_mod            ../starter/share/modules1/joint_mod.F
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    r2r_mod              ../starter/share/modules1/r2r_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_CYLJOINT(LJOINT ,ITABM1,IKINE  ,ITAB   ,IGRNOD,
      .                            NOM_OPT,LSUBMODEL)
 C-----------------------------------------------

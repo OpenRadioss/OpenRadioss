@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  COUNTIGEO                     source/interfaces/interf1/countigeo.F
-Chd|-- called by -----------
-Chd|        INSURFIGEO                    source/interfaces/interf1/insurfigeo.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    countigeo    ../starter/source/interfaces/interf1/countigeo.F
+      !||--- called by ------------------------------------------------------
+      !||    insurfigeo   ../starter/source/interfaces/interf1/insurfigeo.F
+      !||====================================================================
       SUBROUTINE COUNTIGEO(IRECT,MNN,N,NRT_IGE,NRT_FE)
 C-----------------------------------------------------------------------
 C-----------------------------------------------

@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAW158_INIT                   source/materials/mat/mat158/law158_init.F
-Chd|-- called by -----------
-Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
-Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|        CMAINI3                       source/elements/sh3n/coquedk/cmaini3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    law158_init   ../starter/source/materials/mat/mat158/law158_init.F
+      !||--- called by ------------------------------------------------------
+      !||    c3init3       ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cinit3        ../starter/source/elements/shell/coque/cinit3.F
+      !||    cmaini3       ../starter/source/elements/sh3n/coquedk/cmaini3.F
+      !||====================================================================
       SUBROUTINE LAW158_INIT(DIR1     ,DIR2     ,
      .                       UVAR,ALDT,NEL      ,NUVAR    ,TAN_PHI  ,
      .                       X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,

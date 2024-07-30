@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTANL_QD                     source/fluid/intanl_qd.F      
-Chd|-- called by -----------
-Chd|        MASS_FLUID_QD                 source/fluid/mass-fluid_qd.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    intanl_qd       ../starter/source/fluid/intanl_qd.F
+      !||--- called by ------------------------------------------------------
+      !||    mass_fluid_qd   ../starter/source/fluid/mass-fluid_qd.F
+      !||====================================================================
       SUBROUTINE INTANL_QD(X1,  Y1,  Z1,  X2,  Y2,  Z2,  X3,  Y3,  Z3, 
      .                     X4,  Y4,  Z4,  XP,  YP,  ZP, NRX, NRY, NRZ,
      .                     AREA,RVLH,RVLG,JEL, IEL)

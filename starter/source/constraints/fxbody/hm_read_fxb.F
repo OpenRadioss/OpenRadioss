@@ -20,29 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_FXB1                  source/constraints/fxbody/hm_read_fxb.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL                       source/starter/freform.F      
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        FXRLINE                       source/constraints/fxbody/hm_read_fxb.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_STRING                 source/devtools/hm_reader/hm_get_string.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        NEWDBL                        source/system/sysfus.F        
-Chd|        READ_PCH_FILE                 source/constraints/fxbody/read_pch_file.F
-Chd|        UDOUBLE                       source/system/sysfus.F        
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_fxb1         ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../starter/source/output/message/message.F
+      !||    fretitl              ../starter/source/starter/freform.F
+      !||    fretitl2             ../starter/source/starter/freform.F
+      !||    fxrline              ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_get_string        ../starter/source/devtools/hm_reader/hm_get_string.F
+      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    newdbl               ../starter/source/system/sysfus.F
+      !||    read_pch_file        ../starter/source/constraints/fxbody/read_pch_file.F
+      !||    udouble              ../starter/source/system/sysfus.F
+      !||    usr2sys              ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_FXB1(NOM_OPT,FXBNOD,FXBIPM,FXB_MATRIX,FXB_MATRIX_ADD,
      .                        NMANIM,ITAB,ITABM1,FXBFILE_TAB,LSUBMODEL)
 C-----------------------------------------------
@@ -479,22 +478,20 @@ C
 C      
       END SUBROUTINE HM_READ_FXB1
 c=================================================================================
-Chd|====================================================================
-Chd|  HM_READ_FXB2                  source/constraints/fxbody/hm_read_fxb.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        FXRLINE                       source/constraints/fxbody/hm_read_fxb.F
-Chd|        HM_GET_STRING                 source/devtools/hm_reader/hm_get_string.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_fxb2         ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    fxrline              ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_get_string        ../starter/source/devtools/hm_reader/hm_get_string.F
+      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_FXB2(FXBIPM, FXBRPM, FXBNOD, FXBGLM,  
      .                   FXBCPM , FXBCPS, FXBLM , FXBFLS, FXBDLS,
      .                   FXBMOD , ITAB   , ITABM1, NOM_OPT,FXB_LAST_ADRESS,
@@ -1012,17 +1009,16 @@ C
      .       /10X,'STABILITY TIME-STEP                     ',1PE10.3)
 C
       END SUBROUTINE HM_READ_FXB2
-Chd|====================================================================
-Chd|  FXRLINE                       source/constraints/fxbody/hm_read_fxb.F
-Chd|-- called by -----------
-Chd|        HM_READ_FXB1                  source/constraints/fxbody/hm_read_fxb.F
-Chd|        HM_READ_FXB2                  source/constraints/fxbody/hm_read_fxb.F
-Chd|        HM_SETFXRBYON                 source/constraints/fxbody/hm_setfxrbyon.F
-Chd|        READ_PCH_FILE                 source/constraints/fxbody/read_pch_file.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fxrline         ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_fxb1    ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_read_fxb2    ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_setfxrbyon   ../starter/source/constraints/fxbody/hm_setfxrbyon.F
+      !||    read_pch_file   ../starter/source/constraints/fxbody/read_pch_file.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE FXRLINE(IFIC, NWLINE, ID,TITR)                     
 C-----------------------------------------------
 C   M o d u l e s

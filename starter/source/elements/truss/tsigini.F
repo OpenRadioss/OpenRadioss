@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TSIGINI                       source/elements/truss/tsigini.F
-Chd|-- called by -----------
-Chd|        TINIT3                        source/elements/truss/tinit3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    tsigini   ../starter/source/elements/truss/tsigini.F
+      !||--- called by ------------------------------------------------------
+      !||    tinit3    ../starter/source/elements/truss/tinit3.F
+      !||====================================================================
       SUBROUTINE TSIGINI(NSIGTRUSS  ,SIGTRUSS   ,PTTRUSS,  EINT   ,FOR   ,
      .                   G_PLA      ,PLA        ,AREA   )
 C-----------------------------------------------

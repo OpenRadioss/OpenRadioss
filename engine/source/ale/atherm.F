@@ -20,24 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ATHERM                        source/ale/atherm.F           
-Chd|-- called by -----------
-Chd|        ALETHE                        source/ale/alethe.F           
-Chd|-- calls ---------------
-Chd|        ADIFF2                        source/ale/ale2d/adiff2.F     
-Chd|        ADIFF3                        source/ale/ale3d/adiff3.F     
-Chd|        AFIMP2                        source/ale/ale2d/afimp2.F     
-Chd|        AFIMP3                        source/ale/ale3d/afimp3.F     
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        M18TH                         source/materials/mat/mat018/m18th.F
-Chd|        M26TH                         source/materials/mat/mat026/m26th.F
-Chd|        M51TH                         source/materials/mat/mat051/heat51.F
-Chd|        SPMD_EVOIS                    source/mpi/fluid/spmd_cfd.F   
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    atherm                 ../engine/source/ale/atherm.F
+      !||--- called by ------------------------------------------------------
+      !||    alethe                 ../engine/source/ale/alethe.F
+      !||--- calls      -----------------------------------------------------
+      !||    adiff2                 ../engine/source/ale/ale2d/adiff2.F
+      !||    adiff3                 ../engine/source/ale/ale3d/adiff3.F
+      !||    afimp2                 ../engine/source/ale/ale2d/afimp2.F
+      !||    afimp3                 ../engine/source/ale/ale3d/afimp3.F
+      !||    initbuf                ../engine/share/resol/initbuf.F
+      !||    m18th                  ../engine/source/materials/mat/mat018/m18th.F
+      !||    m26th                  ../engine/source/materials/mat/mat026/m26th.F
+      !||    m51th                  ../engine/source/materials/mat/mat051/heat51.F
+      !||    spmd_evois             ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE ATHERM(
      1   IPARG,      PM,         ELBUF_TAB,  FLUX,
      2   VAL2,       T,          ALE_CONNECT,IXS,

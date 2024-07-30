@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R4MAT3                        source/elements/spring/r4mat3.F
-Chd|-- called by -----------
-Chd|        R4KE3                         source/elements/spring/r4ke3.F
-Chd|-- calls ---------------
-Chd|        RKENONL                       source/elements/spring/r4mat3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    r4mat3    ../engine/source/elements/spring/r4mat3.F
+      !||--- called by ------------------------------------------------------
+      !||    r4ke3     ../engine/source/elements/spring/r4ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    rkenonl   ../engine/source/elements/spring/r4mat3.F
+      !||====================================================================
       SUBROUTINE R4MAT3(JFT    ,JLT    ,GEO    ,KX     ,MGN    ,
      1                  AL0    ,FX     ,DX     ,TF     ,NPF    ,
      2                  POS    ,IGEO   )
@@ -91,17 +91,17 @@ C        IFUNC2(I) =NINT(GEO(18,MGN(I)))
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  RKENONL                       source/elements/spring/r4mat3.F
-Chd|-- called by -----------
-Chd|        R12MAT3                       source/elements/spring/r12mat3.F
-Chd|        R13MAT3                       source/elements/spring/r13mat3.F
-Chd|        R4MAT3                        source/elements/spring/r4mat3.F
-Chd|-- calls ---------------
-Chd|        ES_FUNC                       source/elements/spring/r4mat3.F
-Chd|        VINTER2                       source/tools/curve/vinter.F   
-Chd|        VINTER2DP                     source/tools/curve/vinter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    rkenonl     ../engine/source/elements/spring/r4mat3.F
+      !||--- called by ------------------------------------------------------
+      !||    r12mat3     ../engine/source/elements/spring/r12mat3.F
+      !||    r13mat3     ../engine/source/elements/spring/r13mat3.F
+      !||    r4mat3      ../engine/source/elements/spring/r4mat3.F
+      !||--- calls      -----------------------------------------------------
+      !||    es_func     ../engine/source/elements/spring/r4mat3.F
+      !||    vinter2     ../engine/source/tools/curve/vinter.F
+      !||    vinter2dp   ../engine/source/tools/curve/vinter.F
+      !||====================================================================
       SUBROUTINE RKENONL(JFT    ,JLT    ,KX     ,FX     ,DX     ,
      .                   IECROU ,IFUNC  ,IFUNC2 ,A      ,TF     ,
      .                   NPF    ,POS    )
@@ -188,12 +188,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ES_FUNC                       source/elements/spring/r4mat3.F
-Chd|-- called by -----------
-Chd|        RKENONL                       source/elements/spring/r4mat3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    es_func   ../engine/source/elements/spring/r4mat3.F
+      !||--- called by ------------------------------------------------------
+      !||    rkenonl   ../engine/source/elements/spring/r4mat3.F
+      !||====================================================================
       SUBROUTINE ES_FUNC(IFUNCT  ,TF     ,NPF    ,E_S    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

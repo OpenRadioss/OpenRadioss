@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7REMNODE                     source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        I25REMNOR                     source/interfaces/inter3d1/i7remnode.F
-Chd|        I7REMNODE_BUILD               source/interfaces/inter3d1/i7remnode.F
-Chd|        I7REMNODE_INIT                source/interfaces/inter3d1/i7remnode.F
-Chd|        MY_EXIT                       source/output/analyse/analyse.c
-Chd|        UPGRADE_REMNODE               source/interfaces/interf1/upgrade_remnode.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i7remnode         ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3            ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg            ../starter/source/output/message/message.F
+      !||    i25remnor         ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    i7remnode_build   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    i7remnode_init    ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    my_exit           ../starter/source/output/analyse/analyse.c
+      !||    upgrade_remnode   ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I7REMNODE(
      1         IREMNODE,NOINT   ,TITR     ,INTBUF_TAB ,NUMNOD ,
      1         X       ,NRTM    ,IRECT    ,NSV        ,NSN    ,
@@ -165,13 +166,13 @@ C-----------------------------------------------
 C-----------------------------------------------
       RETURN
       END  
-Chd|====================================================================
-Chd|  I7REMNODE_INIT                source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        I7REMNODE                     source/interfaces/inter3d1/i7remnode.F
-Chd|-- calls ---------------
-Chd|        BITGET                        source/interfaces/inter3d1/bitget.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i7remnode_init   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    i7remnode        ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- calls      -----------------------------------------------------
+      !||    bitget           ../starter/source/interfaces/inter3d1/bitget.F
+      !||====================================================================
       SUBROUTINE I7REMNODE_INIT(ISELF_IMPACTANT,NTY    ,
      1         X       ,NRTM    ,IRECT    ,NSV     ,NSN    ,NUMNOD ,
      2         ITAB    ,GAP_S   ,GAP_M    ,GAPMIN  ,GAPMAX ,
@@ -343,12 +344,11 @@ C-----------------------------------------------
 C-----------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  I7REMNODE_BUILD               source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        I7REMNODE                     source/interfaces/inter3d1/i7remnode.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i7remnode_build   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    i7remnode         ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||====================================================================
       SUBROUTINE I7REMNODE_BUILD(IFIRST,ILAST,
      1         X       ,NRTM    ,IRECT    ,NSV     ,NSN    ,
      2         ITAB    ,GAP_S   ,GAP_M    ,GAPMIN  ,GAPMAX ,
@@ -580,12 +580,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I25REMNOR                     source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        I7REMNODE                     source/interfaces/inter3d1/i7remnode.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i25remnor   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    i7remnode   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||====================================================================
       SUBROUTINE I25REMNOR(
      1         NRTM    ,IRECT    ,NSV     ,NSN    ,NUMNOD ,
      2         KREMNODE,REMNODE  ,KREMNOR ,REMNOR  ,IPARI ,
@@ -653,12 +652,11 @@ C----- Compute maximum number of MAIN segments banned for all SECONDARY nodes---
 
       RETURN
       END
-Chd|====================================================================
-Chd|  INSERT_A                      source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        ADD_NSFIC                     source/interfaces/inter3d1/i7remnode.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    insert_a    ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    add_nsfic   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||====================================================================
       SUBROUTINE INSERT_A(N,IC,IA,ID)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -683,14 +681,14 @@ C----add IA--at IC(ID)--------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  REMN_I2_EDG                   source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ADD_NSFIC                     source/interfaces/inter3d1/i7remnode.F
-Chd|        DIM_IEDGN2                    source/interfaces/inter3d1/i7remnode.F
-Chd|        IND_IEDGN2                    source/interfaces/inter3d1/i7remnode.F
-Chd|====================================================================
+      !||====================================================================
+      !||    remn_i2_edg     ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- calls      -----------------------------------------------------
+      !||    add_nsfic       ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    dim_iedgn2      ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    ind_iedgn2      ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE REMN_I2_EDG(IPARI   ,INTBUF_TAB   ,ITAB, NREMOV,IFLAG  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -753,12 +751,11 @@ C-----
 C----
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_IEDGN2                    source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        REMN_I2_EDG                   source/interfaces/inter3d1/i7remnode.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_iedgn2    ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    remn_i2_edg   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||====================================================================
       SUBROUTINE DIM_IEDGN2(NE2,NSNE,IS2SE,IRTSE,TAGN)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -797,12 +794,11 @@ C-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  IND_IEDGN2                    source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        REMN_I2_EDG                   source/interfaces/inter3d1/i7remnode.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ind_iedgn2    ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    remn_i2_edg   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||====================================================================
       SUBROUTINE IND_IEDGN2(NE2,NSNE,IS2SE,IRTSE,TAGN,IEDGN2)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -846,14 +842,14 @@ C-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  ADD_NSFIC                     source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        REMN_I2_EDG                   source/interfaces/inter3d1/i7remnode.F
-Chd|-- calls ---------------
-Chd|        INSERT_A                      source/interfaces/inter3d1/i7remnode.F
-Chd|        INTAB                         source/interfaces/inter3d1/i24tools.F
-Chd|====================================================================
+      !||====================================================================
+      !||    add_nsfic     ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    remn_i2_edg   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- calls      -----------------------------------------------------
+      !||    insert_a      ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    intab         ../starter/source/interfaces/inter3d1/i24tools.F
+      !||====================================================================
       SUBROUTINE ADD_NSFIC(NE2,NRTM,NSNE,IS2SE,NREMOV,KREMNODE,
      +                     REMNODE,IEDGN2,IFLAG)
 C----6---------------------------------------------------------------7---------8
@@ -923,21 +919,22 @@ C------if one of edge nodes in %REMNODE(iad+1:iad+NNREM+1), add fictive nodes
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|        ININTR                        source/interfaces/interf1/inintr.F
-Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        PRE_I2                        source/interfaces/inter3d1/i7remnode.F
-Chd|        REMN_I2OP_EDG25               source/interfaces/int25/i25remlin.F
-Chd|        UPGRADE_REMNODE2              source/interfaces/interf1/upgrade_remnode.F
-Chd|        ZERONM_TAGD                   source/interfaces/inter3d1/i7remnode.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    remn_i2op          ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3             ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inintr             ../starter/source/interfaces/interf1/inintr.F
+      !||    inintr2            ../starter/source/interfaces/inter3d1/inintr2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../starter/source/output/message/message.F
+      !||    fretitl2           ../starter/source/starter/freform.F
+      !||    pre_i2             ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    remn_i2op_edg25    ../starter/source/interfaces/int25/i25remlin.F
+      !||    upgrade_remnode2   ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||    zeronm_tagd        ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE REMN_I2OP(LOWER_BOUND, UPPER_BOUND, IPARI,INTBUF_TAB,ITAB,NOM_OPT,NREMOV,IDDLEVEL,SKIP_TYPE25_EDGE_2_EDGE)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1490,13 +1487,13 @@ C-----------------------------------------------
 C----
         RETURN
         END
-Chd|====================================================================
-Chd|  PRE_I2                        source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|====================================================================
+      !||====================================================================
+      !||    pre_i2          ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    remn_i2op       ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE PRE_I2(IPARI   ,INTBUF_TAB ,NSIZE, I2NODE,POINT_I2NODE)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1639,12 +1636,11 @@ c       ALLOCATE(POINT_I2NODE(NUMNOD,2))
 C----
       RETURN
       END
-Chd|====================================================================
-Chd|  ZERONM_TAGD                   source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    zeronm_tagd   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    remn_i2op     ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||====================================================================
       SUBROUTINE ZERONM_TAGD(IS     ,IRECT   ,IRTL     ,TAGD   )                  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1672,17 +1668,18 @@ C-----------------------------------------------
 C----
       RETURN
       END
-Chd|====================================================================
-Chd|  REMN_I2_EDGOP                 source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        ININTR                        source/interfaces/interf1/inintr.F
-Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
-Chd|-- calls ---------------
-Chd|        ADD_NSFIC1                    source/interfaces/inter3d1/i7remnode.F
-Chd|        DIM_PTEDGN                    source/interfaces/inter3d1/i7remnode.F
-Chd|        PRE_I2EDGE                    source/interfaces/inter3d1/i7remnode.F
-Chd|        UPGRADE_REMNODE2              source/interfaces/interf1/upgrade_remnode.F
-Chd|====================================================================
+      !||====================================================================
+      !||    remn_i2_edgop      ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    inintr             ../starter/source/interfaces/interf1/inintr.F
+      !||    inintr2            ../starter/source/interfaces/inter3d1/inintr2.F
+      !||--- calls      -----------------------------------------------------
+      !||    add_nsfic1         ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    dim_ptedgn         ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    pre_i2edge         ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    upgrade_remnode2   ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE REMN_I2_EDGOP(IPARI   ,INTBUF_TAB   ,ITAB, NREMOV)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1764,12 +1761,11 @@ C-----
 C----
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_PTEDGN                    source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        REMN_I2_EDGOP                 source/interfaces/inter3d1/i7remnode.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_ptedgn      ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    remn_i2_edgop   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||====================================================================
       SUBROUTINE DIM_PTEDGN(NSIZE,NSNE,IS2SE,IRTSE,TAGN)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -1810,13 +1806,12 @@ C-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  PRE_I2EDGE                    source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        REMN_I2_EDGOP                 source/interfaces/inter3d1/i7remnode.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|====================================================================
+      !||====================================================================
+      !||    pre_i2edge      ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    remn_i2_edgop   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE PRE_I2EDGE(NSIZE,NSNE,IS2SE,IRTSE,TAGN,E2NODE,PT_E2NODE)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -1904,12 +1899,11 @@ C-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  ADD_NSFIC1                    source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        REMN_I2_EDGOP                 source/interfaces/inter3d1/i7remnode.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    add_nsfic1      ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    remn_i2_edgop   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||====================================================================
       SUBROUTINE ADD_NSFIC1(NRTM,NREMOV,KREMNODE,REMNODE,E2NODE,PT_E2NODE,
      +                      TAGN,IFLAG)
 C----6---------------------------------------------------------------7---------8
@@ -1997,15 +1991,16 @@ C reset  TAGN(NN) =0
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  RI2_INT24P_INI                source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        ININTR                        source/interfaces/interf1/inintr.F
-Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
-Chd|-- calls ---------------
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        RM_CAND24                     source/interfaces/inter3d1/i7remnode.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ri2_int24p_ini   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    inintr           ../starter/source/interfaces/interf1/inintr.F
+      !||    inintr2          ../starter/source/interfaces/inter3d1/inintr2.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl2         ../starter/source/starter/freform.F
+      !||    rm_cand24        ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE RI2_INT24P_INI(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMOV)
 C-----------------------------------------------
 C   M o d u l e s
@@ -2057,14 +2052,15 @@ C------INTBUF_TAB(N)%CAND_E,INTBUF_TAB(N)%CAND_N
 C----
       RETURN
       END
-Chd|====================================================================
-Chd|  RM_CAND24                     source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|        RI2_INT24P_INI                source/interfaces/inter3d1/i7remnode.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rm_cand24        ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- called by ------------------------------------------------------
+      !||    ri2_int24p_ini   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg           ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE RM_CAND24(I_STOK,ID,TITR,CAND_N,CAND_E,KREMNODE  ,REMNOD ,
      *                     NSV   ,IRTLM,PENE_OLD,ITAB  )
 C

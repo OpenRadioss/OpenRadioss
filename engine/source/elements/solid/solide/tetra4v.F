@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TETRA4V                       source/elements/solid/solide/tetra4v.F
-Chd|-- called by -----------
-Chd|        DEGES4V                       source/elements/solid/solide/deges4v.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    tetra4v   ../engine/source/elements/solid/solide/tetra4v.F
+      !||--- called by ------------------------------------------------------
+      !||    deges4v   ../engine/source/elements/solid/solide/deges4v.F
+      !||====================================================================
       SUBROUTINE TETRA4V(DET,
      .   X1, X2, X3, X4, 
      .   Y1, Y2, Y3, Y4,

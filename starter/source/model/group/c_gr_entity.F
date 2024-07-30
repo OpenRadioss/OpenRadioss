@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C_GR_ENTITY_E                 source/model/group/c_gr_entity.F
-Chd|-- called by -----------
-Chd|        C_GROUP_STR                   source/restart/ddsplit/c_group_str.F
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    c_gr_entity_e   ../starter/source/model/group/c_gr_entity.F
+      !||--- called by ------------------------------------------------------
+      !||    c_group_str     ../starter/source/restart/ddsplit/c_group_str.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE C_GR_ENTITY_E(IGR  ,NGR  ,LENIGR ,CEP,
      .                         CEL    ,PROC ,ESHIFT ,LENIGR_L)
 C-----------------------------------------------
@@ -104,12 +103,10 @@ C-----------------------------------------------
 !---------
       RETURN
       END
-Chd|====================================================================
-Chd|  C_GR_ENTITY_P                 source/model/group/c_gr_entity.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    c_gr_entity_p   ../starter/source/model/group/c_gr_entity.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE C_GR_ENTITY_P(IGR  ,NGR  ,LENIGR ,CEP,
      .                         CEL  ,PROC ,LENIGR_L)
 C-----------------------------------------------
@@ -185,13 +182,12 @@ C-----------------------------------------------
 !---------
       RETURN
       END
-Chd|====================================================================
-Chd|  C_GR_ENTITY_N                 source/model/group/c_gr_entity.F
-Chd|-- called by -----------
-Chd|        C_GROUP_STR                   source/restart/ddsplit/c_group_str.F
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    c_gr_entity_n   ../starter/source/model/group/c_gr_entity.F
+      !||--- called by ------------------------------------------------------
+      !||    c_group_str     ../starter/source/restart/ddsplit/c_group_str.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE C_GR_ENTITY_N(IGR  ,NGR     ,LENIGR    ,NODLOCAL,
      .                         PROC ,LENIGR_L,FRONTB_R2R,NUMNOD_L)
 C-----------------------------------------------

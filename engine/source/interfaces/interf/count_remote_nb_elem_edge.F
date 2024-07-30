@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  COUNT_REMOTE_NB_ELEM_EDGE     source/interfaces/interf/count_remote_nb_elem_edge.F
-Chd|-- called by -----------
-Chd|        INIT_NODAL_STATE              source/interfaces/interf/init_nodal_state.F
-Chd|-- calls ---------------
-Chd|        SYSFUS2                       source/system/sysfus.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    count_remote_nb_elem_edge   ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
+      !||--- called by ------------------------------------------------------
+      !||    init_nodal_state            ../engine/source/interfaces/interf/init_nodal_state.F
+      !||--- calls      -----------------------------------------------------
+      !||    sysfus2                     ../engine/source/system/sysfus.F
+      !||====================================================================
         SUBROUTINE COUNT_REMOTE_NB_ELEM_EDGE( SIZE_BUFFER,BUFFER,GEO,IXS,IXC,
      .                                 IXT,IXP,IXR,IXTG,ADDCNEL,ITABM1,CNEL,CHUNK)
 !$COMMENT

@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RMDIM_IMP                     source/model/remesh/rm_imp0.F 
-Chd|-- called by -----------
-Chd|        DIM_KINMAX                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        CP_INT                        source/implicit/produt_v.F    
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    rmdim_imp    ../engine/source/model/remesh/rm_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_kinmax   ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    cp_int       ../engine/source/implicit/produt_v.F
+      !||    reorder_a    ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    remesh_mod   ../engine/share/modules/remesh_mod.F
+      !||====================================================================
       SUBROUTINE RMDIM_IMP(IXC ,IXTG  ,NDOF   ,NNMAX ,NKINE,
      1                     INLOC,NROW ,ITAB   ,SH4TREE,SH3TREE)
 C-----------------------------------------------
@@ -318,14 +319,15 @@ C
       RETURN
       END     
 
-Chd|====================================================================
-Chd|  RMIND_IMP                     source/model/remesh/rm_imp0.F 
-Chd|-- called by -----------
-Chd|        IND_KINE_K                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    rmind_imp    ../engine/source/model/remesh/rm_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    ind_kine_k   ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    reorder_a    ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    remesh_mod   ../engine/share/modules/remesh_mod.F
+      !||====================================================================
       SUBROUTINE RMIND_IMP(NNMAX,INLOC,NROWK,ICOK )
 C-----------------------------------------------
 C   M o d u l e s
@@ -369,14 +371,15 @@ C
       RETURN
       END     
 
-Chd|====================================================================
-Chd|  RM_IMP0                       source/model/remesh/rm_imp0.F 
-Chd|-- called by -----------
-Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|        RM_IMP1                       source/model/remesh/rm_imp0.F 
-Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    rm_imp0      ../engine/source/model/remesh/rm_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    upd_glob_k   ../engine/source/implicit/upd_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    rm_imp1      ../engine/source/model/remesh/rm_imp0.F
+      !||--- uses       -----------------------------------------------------
+      !||    remesh_mod   ../engine/share/modules/remesh_mod.F
+      !||====================================================================
       SUBROUTINE RM_IMP0(NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
      1                   NDOF  ,IDDL  ,IKC   ,B      ,ITAB  )
 C-----------------------------------------------
@@ -411,19 +414,19 @@ C
       RETURN
       END     
 
-Chd|====================================================================
-Chd|  RM_IMP1                       source/model/remesh/rm_imp0.F 
-Chd|-- called by -----------
-Chd|        RM_IMP0                       source/model/remesh/rm_imp0.F 
-Chd|-- calls ---------------
-Chd|        GET_KII                       source/implicit/imp_glob_k.F  
-Chd|        GET_KIJ                       source/implicit/imp_glob_k.F  
-Chd|        PRINT_WKIJ                    source/implicit/imp_glob_k.F  
-Chd|        PUT_KII                       source/implicit/imp_glob_k.F  
-Chd|        PUT_KIJ                       source/implicit/imp_glob_k.F  
-Chd|        UPDKDD                        source/interfaces/interf/i2_imp1.F
-Chd|        UPDKDD1                       source/interfaces/interf/i2_imp1.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rm_imp1      ../engine/source/model/remesh/rm_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    rm_imp0      ../engine/source/model/remesh/rm_imp0.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_kii      ../engine/source/implicit/imp_glob_k.F
+      !||    get_kij      ../engine/source/implicit/imp_glob_k.F
+      !||    print_wkij   ../engine/source/implicit/imp_glob_k.F
+      !||    put_kii      ../engine/source/implicit/imp_glob_k.F
+      !||    put_kij      ../engine/source/implicit/imp_glob_k.F
+      !||    updkdd       ../engine/source/interfaces/interf/i2_imp1.F
+      !||    updkdd1      ../engine/source/interfaces/interf/i2_imp1.F
+      !||====================================================================
       SUBROUTINE RM_IMP1(NIR  ,IRECT ,I    ,NR   ,NODS ,
      3                   ITAB ,IKC  ,NDOF  ,NDDL ,IDDL ,
      4                   IADK ,JDIK ,DIAG_K,LT_K ,B    )
@@ -512,13 +515,13 @@ C------- Update ---
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  RM_IMP2                       source/model/remesh/rm_imp0.F 
-Chd|-- called by -----------
-Chd|        RECUKIN                       source/implicit/recudis.F     
-Chd|-- calls ---------------
-Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    rm_imp2      ../engine/source/model/remesh/rm_imp0.F
+      !||--- called by ------------------------------------------------------
+      !||    recukin      ../engine/source/implicit/recudis.F
+      !||--- uses       -----------------------------------------------------
+      !||    remesh_mod   ../engine/share/modules/remesh_mod.F
+      !||====================================================================
       SUBROUTINE RM_IMP2(IXC,IXTG,V ,VR ,SH4TREE,SH3TREE)
 C-----------------------------------------------
 C   M o d u l e s

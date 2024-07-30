@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BEMSOLV                       source/fluid/bemsolv.F        
-Chd|-- called by -----------
-Chd|        INCPFLOW                      source/fluid/incpflow.F       
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        GLBEM                         source/fluid/bemsolv.F        
-Chd|        GLSINF                        source/fluid/bemsolv.F        
-Chd|        INTGTG                        source/fluid/bemsolv.F        
-Chd|        INTHTG                        source/fluid/bemsolv.F        
-Chd|        PROGBAR_C                     ../common_source/sortie/progbar_c.c
-Chd|====================================================================
+      !||====================================================================
+      !||    bemsolv     ../engine/source/fluid/bemsolv.F
+      !||--- called by ------------------------------------------------------
+      !||    incpflow    ../engine/source/fluid/incpflow.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret       ../engine/source/system/arret.F
+      !||    glbem       ../engine/source/fluid/bemsolv.F
+      !||    glsinf      ../engine/source/fluid/bemsolv.F
+      !||    intgtg      ../engine/source/fluid/bemsolv.F
+      !||    inthtg      ../engine/source/fluid/bemsolv.F
+      !||    progbar_c   ../common_source/sortie/progbar_c.c
+      !||====================================================================
       SUBROUTINE BEMSOLV(L_ASSEMB, ILVOUT, IFORM, NN    , NEL    ,
      .                   HBEM    , GBEM  , IBUF , TBEMTG, TELNOR ,
      .                   X       , Q     , PHI  , IPIV  , PHI_INF)
@@ -217,12 +217,11 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  GLSINF                        source/fluid/bemsolv.F        
-Chd|-- called by -----------
-Chd|        BEMSOLV                       source/fluid/bemsolv.F        
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    glsinf    ../engine/source/fluid/bemsolv.F
+      !||--- called by ------------------------------------------------------
+      !||    bemsolv   ../engine/source/fluid/bemsolv.F
+      !||====================================================================
       SUBROUTINE GLSINF(N1     , N2, N3, JAC, S,
      .                  PHI_INF)
 C-----------------------------------------------
@@ -304,13 +303,12 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  INTHTG                        source/fluid/bemsolv.F        
-Chd|-- called by -----------
-Chd|        BEMSOLV                       source/fluid/bemsolv.F        
-Chd|        BEMSOLVP                      source/fluid/bemsolvp.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inthtg     ../engine/source/fluid/bemsolv.F
+      !||--- called by ------------------------------------------------------
+      !||    bemsolv    ../engine/source/fluid/bemsolv.F
+      !||    bemsolvp   ../engine/source/fluid/bemsolvp.F
+      !||====================================================================
       SUBROUTINE INTHTG(NNJ, X1 , Y1,  Z1,   X2,
      .                  Y2,  Z2,  X3,  Y3,   Z3,
      .                  X0,  Y0,  Z0,  D2,   JAC,
@@ -431,13 +429,12 @@ C         par JAC a la ligne d'en dessous...
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  INTGTG                        source/fluid/bemsolv.F        
-Chd|-- called by -----------
-Chd|        BEMSOLV                       source/fluid/bemsolv.F        
-Chd|        BEMSOLVP                      source/fluid/bemsolvp.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    intgtg     ../engine/source/fluid/bemsolv.F
+      !||--- called by ------------------------------------------------------
+      !||    bemsolv    ../engine/source/fluid/bemsolv.F
+      !||    bemsolvp   ../engine/source/fluid/bemsolvp.F
+      !||====================================================================
       SUBROUTINE INTGTG(NNJ, X1 , Y1,  Z1,   X2,
      .                  Y2,  Z2,  X3,  Y3,   Z3,
      .                  X0,  Y0,  Z0,  D2,   JAC,
@@ -579,13 +576,13 @@ C INTEGRATION
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  GLBEM                         source/fluid/bemsolv.F        
-Chd|-- called by -----------
-Chd|        BEMSOLV                       source/fluid/bemsolv.F        
-Chd|-- calls ---------------
-Chd|        INTANL                        source/fluid/bemsolv.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    glbem     ../engine/source/fluid/bemsolv.F
+      !||--- called by ------------------------------------------------------
+      !||    bemsolv   ../engine/source/fluid/bemsolv.F
+      !||--- calls      -----------------------------------------------------
+      !||    intanl    ../engine/source/fluid/bemsolv.F
+      !||====================================================================
       SUBROUTINE GLBEM(X1    , Y1  , Z1    , X2  , Y2  ,
      .                 Z2    , X3  , Y3    , Z3  , X0  ,
      .                 Y0    , Z0  , TELNOR, HBEM, GBEM,
@@ -723,13 +720,12 @@ C Matrice G
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  INTANL                        source/fluid/bemsolv.F        
-Chd|-- called by -----------
-Chd|        GLBEM                         source/fluid/bemsolv.F        
-Chd|        GLBEMP                        source/fluid/bemsolvp.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    intanl   ../engine/source/fluid/bemsolv.F
+      !||--- called by ------------------------------------------------------
+      !||    glbem    ../engine/source/fluid/bemsolv.F
+      !||    glbemp   ../engine/source/fluid/bemsolvp.F
+      !||====================================================================
       SUBROUTINE INTANL(X1  , Y1  , Z1 , X2 , Y2 ,
      .                  Z2  , X3  , Y3 , Z3 , XS ,
      .                  YS  , ZS  , NRX, NRY, NRZ,

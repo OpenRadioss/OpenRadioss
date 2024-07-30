@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS44P                     source/materials/mat/mat044/sigeps44p.F
-Chd|-- called by -----------
-Chd|        MAIN_BEAM3                    source/elements/beam/main_beam3.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps44p    ../engine/source/materials/mat/mat044/sigeps44p.F
+      !||--- called by ------------------------------------------------------
+      !||    main_beam3   ../engine/source/elements/beam/main_beam3.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter       ../engine/source/tools/curve/finter.F
+      !||====================================================================
       SUBROUTINE SIGEPS44P(
      .    NEL     ,NGL     ,MAT     ,PID     ,NUPARAM ,UPARAM  ,
      .    GEO     ,OFF     ,PLA     ,AL      ,

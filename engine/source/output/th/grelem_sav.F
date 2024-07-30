@@ -20,32 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GRELEM_SAV                    source/output/th/grelem_sav.F 
-Chd|-- called by -----------
-Chd|        C3BILAN                       source/elements/sh3n/coque3n/c3bilan.F
-Chd|        CBILAN                        source/elements/shell/coque/cbilan.F
-Chd|        IGE3DBILAN                    source/elements/ige3d/ige3dbilan.F
-Chd|        PBILAN                        source/elements/beam/pbilan.F 
-Chd|        QBILAN                        source/elements/solid_2d/quad/qbilan.F
-Chd|        R23BILAN                      source/elements/spring/r23bilan.F
-Chd|        R3BILAN                       source/elements/spring/r3bilan.F
-Chd|        R5BILAN                       source/elements/spring/r5bilan.F
-Chd|        RBILAN                        source/elements/spring/rbilan.F
-Chd|        RBILAN33                      source/elements/joint/rbilan33.F
-Chd|        S10BILAN                      source/elements/solid/solide10/s10bilan.F
-Chd|        S16BILAN                      source/elements/thickshell/solide16/s16bilan.F
-Chd|        S20BILAN                      source/elements/solid/solide20/s20bilan.F
-Chd|        S4BILAN                       source/elements/solid/solide4/s4bilan.F
-Chd|        S6CBILAN                      source/elements/thickshell/solide6c/s6cbilan.F
-Chd|        S8BILAN                       source/elements/solid/solide8/s8bilan.F
-Chd|        SBILAN                        source/elements/solid/solide/sbilan.F
-Chd|        SPBILAN                       source/elements/sph/spbilan.F 
-Chd|        SR8BILAN                      source/elements/solid/solide8/sr8bilan.F
-Chd|        SRBILAN                       source/elements/solid/solide/srbilan.F
-Chd|        TBILAN                        source/elements/truss/tbilan.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    grelem_sav   ../engine/source/output/th/grelem_sav.F
+      !||--- called by ------------------------------------------------------
+      !||    c3bilan      ../engine/source/elements/sh3n/coque3n/c3bilan.F
+      !||    cbilan       ../engine/source/elements/shell/coque/cbilan.F
+      !||    ige3dbilan   ../engine/source/elements/ige3d/ige3dbilan.F
+      !||    pbilan       ../engine/source/elements/beam/pbilan.F
+      !||    qbilan       ../engine/source/elements/solid_2d/quad/qbilan.F
+      !||    r23bilan     ../engine/source/elements/spring/r23bilan.F
+      !||    r3bilan      ../engine/source/elements/spring/r3bilan.F
+      !||    r5bilan      ../engine/source/elements/spring/r5bilan.F
+      !||    rbilan       ../engine/source/elements/spring/rbilan.F
+      !||    rbilan33     ../engine/source/elements/joint/rbilan33.F
+      !||    s10bilan     ../engine/source/elements/solid/solide10/s10bilan.F
+      !||    s16bilan     ../engine/source/elements/thickshell/solide16/s16bilan.F
+      !||    s20bilan     ../engine/source/elements/solid/solide20/s20bilan.F
+      !||    s4bilan      ../engine/source/elements/solid/solide4/s4bilan.F
+      !||    s6cbilan     ../engine/source/elements/thickshell/solide6c/s6cbilan.F
+      !||    s8bilan      ../engine/source/elements/solid/solide8/s8bilan.F
+      !||    sbilan       ../engine/source/elements/solid/solide/sbilan.F
+      !||    spbilan      ../engine/source/elements/sph/spbilan.F
+      !||    sr8bilan     ../engine/source/elements/solid/solide8/sr8bilan.F
+      !||    srbilan      ../engine/source/elements/solid/solide/srbilan.F
+      !||    tbilan       ../engine/source/elements/truss/tbilan.F
+      !||====================================================================
       SUBROUTINE GRELEM_SAV(JFT   ,JLT   ,GRESAV,IGRTH ,GRTH  ,
      2                      OFF   ,EI    ,EK    ,XM    ,YM    ,
      3                      ZM    ,XMAS  ,XCG   ,YCG   ,ZCG   ,

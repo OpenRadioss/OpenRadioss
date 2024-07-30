@@ -20,25 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  EBCS_MAIN                     source/boundary_conditions/ebcs/ebcs_main.F
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|-- calls ---------------
-Chd|        EBCS0                         source/boundary_conditions/ebcs/ebcs0.F
-Chd|        EBCS1                         source/boundary_conditions/ebcs/ebcs1.F
-Chd|        EBCS10                        source/boundary_conditions/ebcs/ebcs10.F
-Chd|        EBCS4                         source/boundary_conditions/ebcs/ebcs4.F
-Chd|        EBCS5                         source/boundary_conditions/ebcs/ebcs5.F
-Chd|        EBCS6                         source/boundary_conditions/ebcs/ebcs6.F
-Chd|        EBCS7                         source/boundary_conditions/ebcs/ebcs7.F
-Chd|        EBCS_VOL2SEG                  source/boundary_conditions/ebcs/ebcs_vol2seg.F
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ebcs_main       ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain         ../engine/source/ale/alemain.F
+      !||--- calls      -----------------------------------------------------
+      !||    ebcs0           ../engine/source/boundary_conditions/ebcs/ebcs0.F
+      !||    ebcs1           ../engine/source/boundary_conditions/ebcs/ebcs1.F
+      !||    ebcs10          ../engine/source/boundary_conditions/ebcs/ebcs10.F
+      !||    ebcs4           ../engine/source/boundary_conditions/ebcs/ebcs4.F
+      !||    ebcs5           ../engine/source/boundary_conditions/ebcs/ebcs5.F
+      !||    ebcs6           ../engine/source/boundary_conditions/ebcs/ebcs6.F
+      !||    ebcs7           ../engine/source/boundary_conditions/ebcs/ebcs7.F
+      !||    ebcs_vol2seg    ../engine/source/boundary_conditions/ebcs/ebcs_vol2seg.F
+      !||--- uses       -----------------------------------------------------
+      !||    ebcs_mod        ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F
+      !||    th_surf_mod     ../common_source/modules/interfaces/th_surf_mod.F
+      !||====================================================================
       SUBROUTINE EBCS_MAIN(IGRSURF,SEGVAR,VOLMON,A,V,W,X,
      .                     FSAV,FV,WA,MS,STIFN,IPARG,ELBUF_TAB,EBCS_TAB,MULTI_FVM,IXQ,IXS,IXTG,
      .                     ITAB,NALE,FSKY,FSAVSURF)

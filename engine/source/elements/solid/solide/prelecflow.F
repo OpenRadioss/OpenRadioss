@@ -21,20 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C            CFLUID                          /resol/prelecfluid.F
-Chd|====================================================================
-Chd|  PRELECFLOW                    source/elements/solid/solide/prelecflow.F
-Chd|-- called by -----------
-Chd|        FORINT                        source/elements/forint.F      
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_E1VOIS                   source/mpi/fluid/spmd_cfd.F   
-Chd|        STARTIMEG                     source/system/timer.F         
-Chd|        STOPTIMEG                     source/system/timer.F         
-Chd|        VFLUID                        source/elements/solid/solide/vfluid.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    prelecflow     ../engine/source/elements/solid/solide/prelecflow.F
+      !||--- called by ------------------------------------------------------
+      !||    forint         ../engine/source/elements/forint.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf        ../engine/share/resol/initbuf.F
+      !||    my_barrier     ../engine/source/system/machine.F
+      !||    spmd_e1vois    ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    startimeg      ../engine/source/system/timer.F
+      !||    stoptimeg      ../engine/source/system/timer.F
+      !||    vfluid         ../engine/source/elements/solid/solide/vfluid.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod    ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE PRELECFLOW(ELBUF_TAB,NGROUNC,IGROUNC,IPARG  ,NBSDVOIS,
      1                      NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,PHI1 ,
      2                      PHI2  ,POR)

@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_SKIN_IXSKIN               source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|-- called by -----------
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|-- calls ---------------
-Chd|        H3D_PRE_SKIN_IXSKIN           source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        H3D_SOL_SKIN_IXSKIN           source/output/h3d/h3d_results/h3d_sol_skin_ixskin.F
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_skin_ixskin       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||--- called by ------------------------------------------------------
+      !||    genh3d                ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||--- calls      -----------------------------------------------------
+      !||    h3d_pre_skin_ixskin   ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||    h3d_sol_skin_ixskin   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_ixskin.F
+      !||    initbuf               ../engine/share/resol/initbuf.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    h3d_inc_mod           ../engine/share/modules/h3d_inc_mod.F
+      !||    initbuf_mod           ../engine/share/resol/initbuf.F
+      !||    loads_mod             ../common_source/modules/loads/loads_mod.F
+      !||====================================================================
       SUBROUTINE H3D_SKIN_IXSKIN(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
      .                           ITAB ,IXSKIN  ,TAG_SKINS6,IBCL  ,
      .                           ILOADP,LLOADP ,NODAL_IPART,IMAPSKP,
@@ -253,17 +254,18 @@ C------to show pressure
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  H3D_SKIN_DIM                  source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|-- called by -----------
-Chd|        LECH3D                        source/output/h3d/h3d_build_fortran/lech3d.F
-Chd|-- calls ---------------
-Chd|        H3D_SKIN_PRE_DIM              source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        H3D_SKIN_SOL_DIM              source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        H3D_SKIN_TSH_DIM              source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        SPMD_ALLGLOB_ISUM9            source/mpi/generic/spmd_allglob_isum9.F
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_skin_dim         ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||--- called by ------------------------------------------------------
+      !||    lech3d               ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
+      !||--- calls      -----------------------------------------------------
+      !||    h3d_skin_pre_dim     ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||    h3d_skin_sol_dim     ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||    h3d_skin_tsh_dim     ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
+      !||--- uses       -----------------------------------------------------
+      !||    loads_mod            ../common_source/modules/loads/loads_mod.F
+      !||====================================================================
       SUBROUTINE H3D_SKIN_DIM(IPARG ,NUMSKIN, NUMSKING,TAG_SKINS6,IBCL,
      .                       ILOADP,LLOADP ,LOADS,NUMSKINP0,NUMSKINP,IFLAG )
 C-----------------------------------------------
@@ -315,14 +317,15 @@ C
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  H3D_SKIN_TSH_DIM              source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|-- called by -----------
-Chd|        H3D_SKIN_DIM                  source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_skin_tsh_dim   ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_skin_dim       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf            ../engine/share/resol/initbuf.F
+      !||--- uses       -----------------------------------------------------
+      !||    initbuf_mod        ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE H3D_SKIN_TSH_DIM(IPARG    ,TAG_SKINS6, NUMSKIN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -372,14 +375,15 @@ C------ possible to remove(w/ TAG_SKINS6) case of several layers in mesh (even n
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  H3D_SKIN_SOL_DIM              source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|-- called by -----------
-Chd|        H3D_SKIN_DIM                  source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_skin_sol_dim   ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_skin_dim       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf            ../engine/share/resol/initbuf.F
+      !||--- uses       -----------------------------------------------------
+      !||    initbuf_mod        ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE H3D_SKIN_SOL_DIM(IPARG   ,TAG_SKINS6, NUMSKIN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -477,14 +481,14 @@ C------
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  H3D_SKIN_PRE_DIM              source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|-- called by -----------
-Chd|        H3D_SKIN_DIM                  source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|-- calls ---------------
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_skin_pre_dim   ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_skin_dim       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||--- uses       -----------------------------------------------------
+      !||    loads_mod          ../common_source/modules/loads/loads_mod.F
+      !||    pinchtype_mod      ../common_source/modules/pinchtype_mod.F
+      !||====================================================================
       SUBROUTINE H3D_SKIN_PRE_DIM(IB ,ILOADP  ,LLOADP ,LOADS, NSKIN0,NSKIN)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -723,15 +727,15 @@ C-----some segs are used > 1 times
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  H3D_PRE_SKIN_IXSKIN           source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|-- called by -----------
-Chd|        H3D_SKIN_IXSKIN               source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|-- calls ---------------
-Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_pre_skin_ixskin   ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_skin_ixskin       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_inc_mod           ../engine/share/modules/h3d_inc_mod.F
+      !||    loads_mod             ../common_source/modules/loads/loads_mod.F
+      !||    pinchtype_mod         ../common_source/modules/pinchtype_mod.F
+      !||====================================================================
       SUBROUTINE H3D_PRE_SKIN_IXSKIN(NODAL_IPART,IB ,ILOADP,LLOADP,
      .                               IXSKIN  ,NSKIN ,IMAPSKP,LOADS )
 C-----------------------------------------------
@@ -897,15 +901,16 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_NODAL_IPART               source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|-- called by -----------
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    get_nodal_ipart   ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||--- called by ------------------------------------------------------
+      !||    genh3d            ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf           ../engine/share/resol/initbuf.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod       ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE GET_NODAL_IPART(ELBUF_TAB,IPARG,IPARTC,IPARTTG,IPARTS,
      .                           IXC, IXTG, IXS,IXS10,IXS16,IXS20,
      .                           NODAL_IPART)

@@ -20,24 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SMS_BUILD_DIAG                source/ams/sms_build_diag.F   
-Chd|-- called by -----------
-Chd|        SMS_BUILD_MAT_2               source/ams/sms_build_mat_2.F  
-Chd|-- calls ---------------
-Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SMS_RBE2_NODXI                source/ams/sms_rbe2.F         
-Chd|        SMS_RBE3_NODXI                source/ams/sms_rbe3.F         
-Chd|        SPMD_ALLGLOB_ISUM9            source/mpi/generic/spmd_allglob_isum9.F
-Chd|        SPMD_EXCH_NODNX               source/mpi/ams/spmd_exch_nodnx.F
-Chd|        SPMD_EXCH_SMS                 source/mpi/ams/spmd_exch_sms.F
-Chd|        SPMD_EXCH_SMS6                source/mpi/ams/spmd_exch_sms6.F
-Chd|        SPMD_FRWALL_NN                source/mpi/kinematic_conditions/spmd_frwall_nn.F
-Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
-Chd|        SPMD_MIJ_SMS                  source/mpi/ams/spmd_sms.F     
-Chd|        SPMD_SD_CJ_2                  source/mpi/kinematic_conditions/spmd_sd_cj_2.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_build_diag       ../engine/source/ams/sms_build_diag.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_build_mat_2      ../engine/source/ams/sms_build_mat_2.F
+      !||--- calls      -----------------------------------------------------
+      !||    foat_to_6_float      ../engine/source/system/parit.F
+      !||    my_barrier           ../engine/source/system/machine.F
+      !||    sms_rbe2_nodxi       ../engine/source/ams/sms_rbe2.F
+      !||    sms_rbe3_nodxi       ../engine/source/ams/sms_rbe3.F
+      !||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
+      !||    spmd_exch_nodnx      ../engine/source/mpi/ams/spmd_exch_nodnx.F
+      !||    spmd_exch_sms        ../engine/source/mpi/ams/spmd_exch_sms.F
+      !||    spmd_exch_sms6       ../engine/source/mpi/ams/spmd_exch_sms6.F
+      !||    spmd_frwall_nn       ../engine/source/mpi/kinematic_conditions/spmd_frwall_nn.F
+      !||    spmd_ibcast          ../engine/source/mpi/generic/spmd_ibcast.F
+      !||    spmd_mij_sms         ../engine/source/mpi/ams/spmd_sms.F
+      !||    spmd_sd_cj_2         ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_2.F
+      !||====================================================================
       SUBROUTINE SMS_BUILD_DIAG(
      1             ITASK    ,NODFT   ,NODLT  ,MS      ,NODII_SMS   ,
      2             JAD_SMS ,JDI_SMS  ,LT_SMS ,DIAG_SMS,INDX1_SMS   ,

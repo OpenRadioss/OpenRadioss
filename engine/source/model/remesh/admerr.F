@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ADMERR_MOD                    source/model/remesh/admerr.F  
-Chd|-- called by -----------
-Chd|        ADMERR                        source/model/remesh/admerr.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    admerr_mod   ../engine/source/model/remesh/admerr.F
+      !||--- called by ------------------------------------------------------
+      !||    admerr       ../engine/source/model/remesh/admerr.F
+      !||====================================================================
       MODULE ADMERR_MOD
 #include "my_real.inc"
 
@@ -37,18 +36,19 @@ Chd|====================================================================
      .    DIMENSION(:), ALLOCATABLE :: 
      .      AREA_SH4, AREA_SH3
       END MODULE ADMERR_MOD
-Chd|====================================================================
-Chd|  ADMERR                        source/model/remesh/admerr.F  
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ADMTHKE                       source/model/remesh/admthke.F 
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        ADMERR_MOD                    source/model/remesh/admerr.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    admerr         ../engine/source/model/remesh/admerr.F
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    admthke        ../engine/source/model/remesh/admthke.F
+      !||    ancmsg         ../engine/source/output/message/message.F
+      !||    arret          ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    admerr_mod     ../engine/source/model/remesh/admerr.F
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ADMERR(
      .           IXC      ,IXTG    ,X       ,IPARG       ,ELBUF_TAB   ,
      .           IPART    ,IPARTC  ,IPARTTG ,ERR_THK_SH4 ,ERR_THK_SH3 ,

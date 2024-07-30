@@ -20,61 +20,66 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALEMAIN                       source/ale/alemain.F          
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        AGAUGE                        source/ale/agauge.F           
-Chd|        ALEFVM_GRAV_INIT              source/ale/alefvm/alefvm_grav_init.F
-Chd|        ALESUB1                       source/ale/subcycling/alesub1.F
-Chd|        ALETHE                        source/ale/alethe.F           
-Chd|        BFORC2                        source/ale/bimat/bforc2.F     
-Chd|        BUILD_CONNECTIVITY            source/multifluid/connectivity.F
-Chd|        EBCS_MAIN                     source/boundary_conditions/ebcs/ebcs_main.F
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        INTTI0                        source/interfaces/interf/intti0.F
-Chd|        MULTI_BUF2VAR                 source/multifluid/multi_buf2var.F
-Chd|        MULTI_COMPUTEVOLUME           source/multifluid/multi_computevolume.F
-Chd|        MULTI_COMPUTE_DT              source/multifluid/multi_compute_dt.F
-Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem.F
-Chd|        MULTI_FVM2FEM                 source/multifluid/multi_fvm2fem.F
-Chd|        MULTI_GLOBALIZE               source/multifluid/multi_globalize.F
-Chd|        MULTI_PRESSURE_EQUILIBRIUM    source/multifluid/multi_pressure_equilibrium.F
-Chd|        MULTI_TIMEEVOLUTION           source/multifluid/multi_timeevolution.F
-Chd|        MULTI_VAR2BUF                 source/multifluid/multi_var2buf.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
-Chd|        S4ALESFEM                     source/elements/solid/solide4_sfem/s4alesfem.F
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|        SEGGETV                       source/interfaces/interf/seggetv.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SINIT22_FVM                   source/interfaces/int22/sinit22_fvm.F
-Chd|        SPMD_ENVOIS                   source/mpi/fluid/spmd_cfd.F   
-Chd|        SPMD_INIT_EBCS                source/mpi/fluid/spmd_cfd.F   
-Chd|        SPMD_L11VOIS                  source/mpi/fluid/spmd_cfd.F   
-Chd|        SPMD_L51VOIS                  source/mpi/fluid/spmd_cfd.F   
-Chd|        SPMD_SEGCOM                   source/mpi/fluid/spmd_cfd.F   
-Chd|        SPMD_XVOIS                    source/mpi/fluid/spmd_cfd.F   
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        DIFFUSION_MOD                 share/modules/diffusion_mod.F 
-Chd|        DT_MOD                        share/modules/dt_mod.F        
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    alemain                      ../engine/source/ale/alemain.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                        ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    agauge                       ../engine/source/ale/agauge.F
+      !||    alefvm_grav_init             ../engine/source/ale/alefvm/alefvm_grav_init.F
+      !||    alesub1                      ../engine/source/ale/subcycling/alesub1.F
+      !||    alethe                       ../engine/source/ale/alethe.F
+      !||    bcs_wall_trigger             ../engine/source/boundary_conditions/bcs_wall_trigger.F90
+      !||    bforc2                       ../engine/source/ale/bimat/bforc2.F
+      !||    build_connectivity           ../engine/source/multifluid/connectivity.F
+      !||    ebcs_main                    ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+      !||    initbuf                      ../engine/share/resol/initbuf.F
+      !||    intti0                       ../engine/source/interfaces/interf/intti0.F
+      !||    multi_buf2var                ../engine/source/multifluid/multi_buf2var.F
+      !||    multi_compute_dt             ../engine/source/multifluid/multi_compute_dt.F
+      !||    multi_computevolume          ../engine/source/multifluid/multi_computevolume.F
+      !||    multi_face_elem_data         ../engine/source/multifluid/multi_face_data_elem.F
+      !||    multi_fvm2fem                ../engine/source/multifluid/multi_fvm2fem.F
+      !||    multi_globalize              ../engine/source/multifluid/multi_globalize.F
+      !||    multi_pressure_equilibrium   ../engine/source/multifluid/multi_pressure_equilibrium.F
+      !||    multi_timeevolution          ../engine/source/multifluid/multi_timeevolution.F
+      !||    multi_var2buf                ../engine/source/multifluid/multi_var2buf.F
+      !||    my_barrier                   ../engine/source/system/machine.F
+      !||    ns_fvm_diffusion             ../engine/source/multifluid/ns_fvm_diffusion.F
+      !||    qforc2                       ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||    s4alesfem                    ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
+      !||    s4forc3                      ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    seggetv                      ../engine/source/interfaces/interf/seggetv.F
+      !||    sforc3                       ../engine/source/elements/solid/solide/sforc3.F
+      !||    sinit22_fvm                  ../engine/source/interfaces/int22/sinit22_fvm.F
+      !||    spmd_envois                  ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_init_ebcs               ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_l11vois                 ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_l51vois                 ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_segcom                  ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_xvois                   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    startime                     ../engine/source/system/timer.F
+      !||    stoptime                     ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    ale_mod                      ../common_source/modules/ale/ale_mod.F
+      !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
+      !||    bcs_mod                      ../common_source/modules/boundary_conditions/bcs_mod.F90
+      !||    diffusion_mod                ../engine/share/modules/diffusion_mod.F
+      !||    dt_mod                       ../engine/share/modules/dt_mod.F
+      !||    ebcs_mod                     ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
+      !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+      !||    initbuf_mod                  ../engine/share/resol/initbuf.F
+      !||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F
+      !||    nlocal_reg_mod               ../common_source/modules/nlocal_reg_mod.F
+      !||    output_mod                   ../common_source/modules/output/output_mod.F90
+      !||    segvar_mod                   ../engine/share/modules/segvar_mod.F
+      !||    sensor_mod                   ../engine/share/modules/sensor_mod.F
+      !||    table_mod                    ../engine/share/modules/table_mod.F
+      !||    th_surf_mod                  ../common_source/modules/interfaces/th_surf_mod.F
+      !||====================================================================
       SUBROUTINE ALEMAIN(
      1         PM          ,GEO         ,X             ,A         ,AR        ,V               ,
      2         MS          ,WA          ,ELBUF_TAB     ,BUFMAT    ,PARTSAV   ,TF              ,

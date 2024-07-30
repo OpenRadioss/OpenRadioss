@@ -20,16 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ADMLCNT                       source/model/remesh/admlist.F 
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        MY_EXIT                       source/output/analyse/analyse.c
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    admlcnt       ../starter/source/model/remesh/admlist.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    my_exit       ../starter/source/output/analyse/analyse.c
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ADMLCNT(NIX     ,IX      ,NUMEL   ,IPARTEL ,IPART   ,
      .                   KELTREE ,ELTREE  ,KSONTREE,NSONTREE,KLEVTREE,
      .                   NLIST   ,MESS    ,IX1     ,IX2     ,INDEX   ,
@@ -161,16 +159,14 @@ C-----------------------
 
       RETURN
       END     
-Chd|====================================================================
-Chd|  ADMLIST                       source/model/remesh/admlist.F 
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        MY_EXIT                       source/output/analyse/analyse.c
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    admlist       ../starter/source/model/remesh/admlist.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    my_exit       ../starter/source/output/analyse/analyse.c
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ADMLIST(NIX     ,IX      ,NUMEL   ,IPARTEL ,IPART   ,
      .                   KELTREE ,ELTREE  ,KSONTREE,NSONTREE,KLEVTREE,
      .                   NLIST   ,MESS    ,IX1     ,IX2     ,INDEX   ,

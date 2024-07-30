@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASSEM_INT                     source/implicit/assem_int.F   
-Chd|-- called by -----------
-Chd|        I10KE3                        source/interfaces/int10/i10ke3.F
-Chd|        I24KE3                        source/interfaces/int24/i24ke3.F
-Chd|        I5KE3                         source/interfaces/inter3d/i5ke3.F
-Chd|        I7KE3                         source/interfaces/int07/i7ke3.F
-Chd|-- calls ---------------
-Chd|        ASSEM_KII                     source/implicit/imp_glob_k.F  
-Chd|        ASSEM_KIJ                     source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    assem_int   ../engine/source/implicit/assem_int.F
+      !||--- called by ------------------------------------------------------
+      !||    i10ke3      ../engine/source/interfaces/int10/i10ke3.F
+      !||    i24ke3      ../engine/source/interfaces/int24/i24ke3.F
+      !||    i5ke3       ../engine/source/interfaces/inter3d/i5ke3.F
+      !||    i7ke3       ../engine/source/interfaces/int07/i7ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_kii   ../engine/source/implicit/imp_glob_k.F
+      !||    assem_kij   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE ASSEM_INT(ND      ,NS        ,N1    ,N2    ,N3    ,
      1         N4       ,NEL       ,IDDL      ,K_DIAG    ,K_LT     ,
      2         IADK     ,JDIK      ,KI11      ,KI12      ,KJ11     ,
@@ -78,17 +78,18 @@ C-------NS,N4----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  ASS_SPMD                      source/implicit/assem_int.F   
-Chd|-- called by -----------
-Chd|        I10KE3                        source/interfaces/int10/i10ke3.F
-Chd|        I24KE3                        source/interfaces/int24/i24ke3.F
-Chd|        I7KE3                         source/interfaces/int07/i7ke3.F
-Chd|-- calls ---------------
-Chd|        ASSEM_KII                     source/implicit/imp_glob_k.F  
-Chd|        ASSFR_KIJ                     source/mpi/implicit/imp_fri.F 
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    ass_spmd    ../engine/source/implicit/assem_int.F
+      !||--- called by ------------------------------------------------------
+      !||    i10ke3      ../engine/source/interfaces/int10/i10ke3.F
+      !||    i24ke3      ../engine/source/interfaces/int24/i24ke3.F
+      !||    i7ke3       ../engine/source/interfaces/int07/i7ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_kii   ../engine/source/implicit/imp_glob_k.F
+      !||    assfr_kij   ../engine/source/mpi/implicit/imp_fri.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm    ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE ASS_SPMD(ND       ,NS        ,N1    ,N2    ,N3    ,
      1         N4       ,NEL       ,IDDL      ,K_DIAG    ,K_LT     ,
      2         IADK     ,JDIK      ,KI11      ,KI12      ,KJ11     ,
@@ -193,14 +194,14 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  ASSEM_INT11                   source/implicit/assem_int.F   
-Chd|-- called by -----------
-Chd|        I11KE3                        source/interfaces/int11/i11ke3.F
-Chd|-- calls ---------------
-Chd|        ASSEM_KII                     source/implicit/imp_glob_k.F  
-Chd|        ASSEM_KIJ                     source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    assem_int11   ../engine/source/implicit/assem_int.F
+      !||--- called by ------------------------------------------------------
+      !||    i11ke3        ../engine/source/interfaces/int11/i11ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_kii     ../engine/source/implicit/imp_glob_k.F
+      !||    assem_kij     ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE ASSEM_INT11(ND      ,N1        ,N2     ,M1        ,
      1         M2       ,NEL       ,IDDL      ,K_DIAG    ,K_LT     ,
      2         IADK     ,JDIK      ,K1I11    ,K1I12     ,K1J11    ,
@@ -248,15 +249,16 @@ C-------N2,M2----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  ASS_SPMD11                    source/implicit/assem_int.F   
-Chd|-- called by -----------
-Chd|        I11KE3                        source/interfaces/int11/i11ke3.F
-Chd|-- calls ---------------
-Chd|        ASSEM_KII                     source/implicit/imp_glob_k.F  
-Chd|        ASSFR_KIJ                     source/mpi/implicit/imp_fri.F 
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    ass_spmd11   ../engine/source/implicit/assem_int.F
+      !||--- called by ------------------------------------------------------
+      !||    i11ke3       ../engine/source/interfaces/int11/i11ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_kii    ../engine/source/implicit/imp_glob_k.F
+      !||    assfr_kij    ../engine/source/mpi/implicit/imp_fri.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm     ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE ASS_SPMD11(ND     ,N1        ,N2        ,M1       ,
      1         M2       ,NEL       ,IDDL      ,K_DIAG    ,K_LT     ,
      2         IADK     ,JDIK      ,K1I11     ,K1I12     ,K1J11    ,

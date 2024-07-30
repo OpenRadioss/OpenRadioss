@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C                                                                     12
-Chd|====================================================================
-Chd|  SCORDEF3                      source/elements/thickshell/solidec/scordef3.F
-Chd|-- called by -----------
-Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
-Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|-- calls ---------------
-Chd|        SCROTO                        source/elements/thickshell/solidec/scroto.F
-Chd|====================================================================
+      !||====================================================================
+      !||    scordef3   ../engine/source/elements/thickshell/solidec/scordef3.F
+      !||--- called by ------------------------------------------------------
+      !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    scroto     ../engine/source/elements/thickshell/solidec/scroto.F
+      !||====================================================================
       SUBROUTINE SCORDEF3(NEL,DXX,DYY,DZZ,D4,D5,D6,DIR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

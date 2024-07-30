@@ -20,25 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10KE3                        source/elements/solid/solide10/s10ke3.F
-Chd|-- called by -----------
-Chd|        IMP_GLOB_K                    source/implicit/imp_glob_k.F  
-Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|        ASSEM_S10                     source/implicit/assem_s10.F   
-Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
-Chd|        MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
-Chd|        MORTHLOCK3                    source/elements/solid/solide4/morthlock3.F
-Chd|        S10COORK                      source/elements/solid/solide10/s10coork.F
-Chd|        S10CUMG3                      source/elements/solid/solide10/s10cumg3.F
-Chd|        S10DERI3                      source/elements/solid/solide10/s10deri3.F
-Chd|        S10EOFF                       source/elements/solid/solide10/s10eoff.F
-Chd|        S10KGEO3                      source/elements/solid/solide10/s10kgeo3.F
-Chd|        SORTHDIR3                     source/elements/solid/solide/sorthdir3.F
-Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s10ke3         ../engine/source/elements/solid/solide10/s10ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
+      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_s10      ../engine/source/implicit/assem_s10.F
+      !||    mmats          ../engine/source/elements/solid/solide8z/mmats.F
+      !||    mmstifs        ../engine/source/elements/solid/solide8z/mmstifs.F
+      !||    morthlock3     ../engine/source/elements/solid/solide4/morthlock3.F
+      !||    s10coork       ../engine/source/elements/solid/solide10/s10coork.F
+      !||    s10cumg3       ../engine/source/elements/solid/solide10/s10cumg3.F
+      !||    s10deri3       ../engine/source/elements/solid/solide10/s10deri3.F
+      !||    s10eoff        ../engine/source/elements/solid/solide10/s10eoff.F
+      !||    s10kgeo3       ../engine/source/elements/solid/solide10/s10kgeo3.F
+      !||    sorthdir3      ../engine/source/elements/solid/solide/sorthdir3.F
+      !||    sreploc3       ../engine/source/elements/solid/solide/sreploc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE S10KE3(
      1   PM,       GEO,      IXS,      IXS10,
      2   X,        ELBUF_STR,ETAG,     IDDL,

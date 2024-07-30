@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FIND_EDGE_FROM_REMOTE_PROC    source/interfaces/interf/find_edge_from_remote_proc.F
-Chd|-- called by -----------
-Chd|        SPMD_EXCH_DELETED_SURF_EDGE   source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
-Chd|-- calls ---------------
-Chd|        CHECK_EDGE_STATE              source/interfaces/interf/check_edge_state.F
-Chd|        SYSFUS2                       source/system/sysfus.F        
-Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    find_edge_from_remote_proc    ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_exch_deleted_surf_edge   ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_edge_state              ../engine/source/interfaces/interf/check_edge_state.F
+      !||    sysfus2                       ../engine/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    shooting_node_mod             ../engine/share/modules/shooting_node_mod.F
+      !||====================================================================
         SUBROUTINE FIND_EDGE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_EDGE,LIST_NODE,INTBUF_TAB,ITABM1,
      .                                        NEWFRONT,IPARI,GEO,
      .                                        IXS,IXC,IXT,IXP,IXR,IXTG,IXS10,

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ACCELE                        source/assembly/accele.F      
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    accele   ../engine/source/assembly/accele.F
+      !||--- called by ------------------------------------------------------
+      !||    resol    ../engine/source/engine/resol.F
+      !||====================================================================
         SUBROUTINE ACCELE(
      1                  A       ,AR    ,V    ,MS      ,IN   ,
      2                  NODFT   ,NODLT ,SIZE_NALE      ,NALE   ,MS_2D  ,

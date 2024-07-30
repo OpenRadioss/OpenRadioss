@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBAENER                       source/elements/shell/coqueba/cbaener.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cbaener    ../engine/source/elements/shell/coqueba/cbaener.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||====================================================================
       SUBROUTINE CBAENER(FORPG,EINT ,JFT  ,JLT  ,OFF  ,
      .                   VOL  ,EXY  ,NEL  )
 C-----------------------------------------------
@@ -51,12 +50,11 @@ C=======================================================================
 c------------
        RETURN
        END
-Chd|====================================================================
-Chd|  CBAENERS                      source/elements/shell/coqueba/cbaener.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cbaeners   ../engine/source/elements/shell/coqueba/cbaener.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||====================================================================
         SUBROUTINE CBAENERS(JFT ,JLT  ,OFF ,AREA,THK0,
      .                      DEF ,FORPG,EINT,DT  ,NEL )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8

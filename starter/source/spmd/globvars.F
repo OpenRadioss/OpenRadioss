@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GLOBVARS                      source/spmd/globvars.F        
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    globvars   ../starter/source/spmd/globvars.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur     ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal     ../starter/source/spmd/node/ddtools.F
+      !||====================================================================
       SUBROUTINE GLOBVARS(IGEO,IXR,NSTRF)
 C-----------------------------------------------
 C   M o d u l e s

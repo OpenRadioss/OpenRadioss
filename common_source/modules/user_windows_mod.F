@@ -20,33 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  USER_WINDOWS_MOD              modules/user_windows_mod.F    
-Chd|-- called by -----------
-Chd|        CONTRL                        starter/source/starter/contrl.F
-Chd|        C_FRONT                       starter/source/restart/ddsplit/c_front.F
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        HM_READ_WINDOW_USER           starter/source/tools/userwi/hm_read_window_user.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        SET_USER_WINDOW_NODES         starter/source/user_interface/user_windows_tools.F
-Chd|        SPMD_USERWI_REST              starter/source/user_interface/user_windows_tools.F
-Chd|        STARTER0                      starter/source/starter/starter0.F
-Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F
-Chd|        ST_QAPRINT_USERWI             starter/source/output/qaprint/st_qaprint_userwi.F
-Chd|        W_FRONT                       starter/source/restart/ddsplit/w_front.F
-Chd|        USER_INTERFACE_MOD            starter/share/modules1/user_interface_mod.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
-Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
-Chd|        SPMD_EXCH_USERWI              engine/source/mpi/user_interface/spmd_exch_userwi.F
-Chd|        USERWI_READ                   engine/source/user_interface/userwindow_interface_routines.F
-Chd|        USERWI_WRITE                  engine/source/user_interface/userwindow_interface_routines.F
-Chd|        USER_WINDOWS_ROUTINE          engine/source/user_interface/user_windows.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|        USER_INTERFACE_MOD            engine/share/modules/user_interface_mod.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    user_windows_mod        ../common_source/modules/user_windows_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    c_front                 ../starter/source/restart/ddsplit/c_front.F
+      !||    contrl                  ../starter/source/starter/contrl.F
+      !||    ddsplit                 ../starter/source/restart/ddsplit/ddsplit.F
+      !||    hm_read_window_user     ../starter/source/tools/userwi/hm_read_window_user.F
+      !||    lectur                  ../engine/source/input/lectur.F
+      !||    rdresb                  ../engine/source/output/restart/rdresb.F
+      !||    resol                   ../engine/source/engine/resol.F
+      !||    resol_head              ../engine/source/engine/resol_head.F
+      !||    set_user_window_nodes   ../starter/source/user_interface/user_windows_tools.F
+      !||    sortie_main             ../engine/source/output/sortie_main.F
+      !||    spmd_exch_userwi        ../engine/source/mpi/user_interface/spmd_exch_userwi.F
+      !||    spmd_userwi_rest        ../starter/source/user_interface/user_windows_tools.F
+      !||    st_qaprint_driver       ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||    st_qaprint_userwi       ../starter/source/output/qaprint/st_qaprint_userwi.F
+      !||    starter0                ../starter/source/starter/starter0.F
+      !||    user_interface_mod      ../engine/share/modules/user_interface_mod.F
+      !||    user_windows_routine    ../engine/source/user_interface/user_windows.F
+      !||    userwi_read             ../engine/source/user_interface/userwindow_interface_routines.F
+      !||    userwi_write            ../engine/source/user_interface/userwindow_interface_routines.F
+      !||    w_front                 ../starter/source/restart/ddsplit/w_front.F
+      !||    wrrestp                 ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
       MODULE USER_WINDOWS_MOD
 !$COMMENT
 !       USER_WINDOWS_MOD :
@@ -84,12 +82,11 @@ C-----------------------------------------------
 
         CONTAINS 
         
-Chd|====================================================================
-Chd|  USER_WINDOWS_INIT             modules/user_windows_mod.F    
-Chd|-- called by -----------
-Chd|        STARTER0                      starter/source/starter/starter0.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    user_windows_init   ../common_source/modules/user_windows_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    starter0            ../starter/source/starter/starter0.F
+      !||====================================================================
         SUBROUTINE USER_WINDOWS_INIT(USER_WINDOW)
             TYPE(USER_WINDOWS_) :: USER_WINDOW
             USER_WINDOW%HAS_USER_WINDOW = 0
@@ -105,13 +102,12 @@ Chd|====================================================================
 
         ! Clean subroutine - deallocates all arrays
         ! -----------------------------------------
-Chd|====================================================================
-Chd|  USER_WINDOWS_CLEAN            modules/user_windows_mod.F    
-Chd|-- called by -----------
-Chd|        STARTER0                      starter/source/starter/starter0.F
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    user_windows_clean   ../common_source/modules/user_windows_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2             ../engine/source/engine/radioss2.F
+      !||    starter0             ../starter/source/starter/starter0.F
+      !||====================================================================
         SUBROUTINE USER_WINDOWS_CLEAN(USER_WINDOW)
             TYPE(USER_WINDOWS_) :: USER_WINDOW
 

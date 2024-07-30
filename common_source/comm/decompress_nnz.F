@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DECOMPRESS_I_NNZ              comm/decompress_nnz.F         
-Chd|-- called by -----------
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|        READ_I_C                      tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    decompress_i_nnz   ../common_source/comm/decompress_nnz.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb             ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
        SUBROUTINE DECOMPRESS_I_NNZ(ARRAY,LEN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -57,14 +57,14 @@ C---------------------------------------------
        END SUBROUTINE
 
 
-Chd|====================================================================
-Chd|  DECOMPRESS_R_NNZ              comm/decompress_nnz.F         
-Chd|-- called by -----------
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|        READ_DB                       tools/input_output/read_db.F  
-Chd|        READ_I_C                      tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    decompress_r_nnz   ../common_source/comm/decompress_nnz.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb             ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db            ../common_source/tools/input_output/read_db.F
+      !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
        SUBROUTINE DECOMPRESS_R_NNZ(ARRAY,LEN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

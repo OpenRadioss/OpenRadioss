@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4CUMG3                       source/elements/solid/solide4/s4cumg3.F
-Chd|-- called by -----------
-Chd|        S4KE3                         source/elements/solid/solide4/s4ke3.F
-Chd|-- calls ---------------
-Chd|        S8ZKEBG1                      source/elements/solid/solide8z/s8zkebg1.F
-Chd|        S8ZKED3                       source/elements/solid/solide8z/s8zked3.F
-Chd|        S8ZKEG3                       source/elements/solid/solide8z/s8zkeg3.F
-Chd|        S8ZKEG33                      source/elements/solid/solide8z/s8zkeg33.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s4cumg3    ../engine/source/elements/solid/solide4/s4cumg3.F
+      !||--- called by ------------------------------------------------------
+      !||    s4ke3      ../engine/source/elements/solid/solide4/s4ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    s8zkebg1   ../engine/source/elements/solid/solide8z/s8zkebg1.F
+      !||    s8zked3    ../engine/source/elements/solid/solide8z/s8zked3.F
+      !||    s8zkeg3    ../engine/source/elements/solid/solide8z/s8zkeg3.F
+      !||    s8zkeg33   ../engine/source/elements/solid/solide8z/s8zkeg33.F
+      !||====================================================================
       SUBROUTINE S4CUMG3(
      1   PX1,     PX2,     PX3,     PX4,
      2   PY1,     PY2,     PY3,     PY4,

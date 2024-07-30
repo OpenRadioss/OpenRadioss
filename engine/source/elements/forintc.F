@@ -20,38 +20,40 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FORINTC                       source/elements/forintc.F     
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|        CDK6FORC3                     source/elements/sh3n/coquedk6/cdk6forc3.F
-Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|        SEATBELT_REDUCTION_FACTOR     source/tools/seatbelts/seatbelt_reduction_factor.F
-Chd|        SECTION_3N                    source/tools/sect/section_3n.F
-Chd|        SECTION_C                     source/tools/sect/section_c.F 
-Chd|        SENSOR_ENERGY_PART            source/tools/sensor/sensor_energy_part.F
-Chd|        STARTIMEG                     source/system/timer.F         
-Chd|        STOPTIMEG                     source/system/timer.F         
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        RUPTURE_MOD                   share/modules/rupture_mod.F   
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    forintc                     ../engine/source/elements/forintc.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                       ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    c3forc3                     ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||    c3forc3_crk                 ../engine/source/elements/xfem/c3forc3_crk.F
+      !||    cbaforc3                    ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||    cdk6forc3                   ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+      !||    cdkforc3                    ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+      !||    cforc3                      ../engine/source/elements/shell/coque/cforc3.F
+      !||    cforc3_crk                  ../engine/source/elements/xfem/cforc3_crk.F
+      !||    czforc3                     ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk                 ../engine/source/elements/xfem/czforc3_crk.F
+      !||    seatbelt_reduction_factor   ../engine/source/tools/seatbelts/seatbelt_reduction_factor.F
+      !||    section_3n                  ../engine/source/tools/sect/section_3n.F
+      !||    section_c                   ../engine/source/tools/sect/section_c.F
+      !||    sensor_energy_part          ../engine/source/tools/sensor/sensor_energy_part.F
+      !||    startimeg                   ../engine/source/system/timer.F
+      !||    stoptimeg                   ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod               ../engine/share/modules/crackxfem_mod.F
+      !||    drape_mod                   ../engine/share/modules/drape_mod.F
+      !||    failwave_mod                ../common_source/modules/failwave_mod.F
+      !||    groupdef_mod                ../common_source/modules/groupdef_mod.F
+      !||    mat_elem_mod                ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    nlocal_reg_mod              ../common_source/modules/nlocal_reg_mod.F
+      !||    output_mod                  ../common_source/modules/output/output_mod.F90
+      !||    pinchtype_mod               ../common_source/modules/pinchtype_mod.F
+      !||    rupture_mod                 ../engine/share/modules/rupture_mod.F
+      !||    sensor_mod                  ../engine/share/modules/sensor_mod.F
+      !||    stack_mod                   ../engine/share/modules/stack_mod.F
+      !||    table_mod                   ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE FORINTC(
      1    PM        ,GEO       ,X         ,A         ,AR        ,
      2    V         ,VR        ,MS        ,IN        ,NLOC_DMG  ,

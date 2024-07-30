@@ -20,34 +20,34 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RESTMOD                       share/modules/restart_mod.F   
-Chd|-- called by -----------
-Chd|        UPGRADE_CAND_OPT              ../common_source/interf/upgrade_multimp.F
-Chd|        UPGRADE_LCAND_E2S             ../common_source/interf/upgrade_multimp.F
-Chd|        UPGRADE_LCAND_EDG             ../common_source/interf/upgrade_multimp.F
-Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
-Chd|        CRKXFEM_RRESTANIM             source/output/restart/rdresb.F
-Chd|        CRKXFEM_WRESTANIM             source/output/restart/wrrest.F
-Chd|        GET_USER_WINDOW_NODES         source/user_interface/userwindow_interface_routines.F
-Chd|        MAT_SOLID_GET_NOD_V           source/user_interface/uaccess.F
-Chd|        MAT_SOLID_GET_NOD_X           source/user_interface/uaccess.F
-Chd|        PREPARE_DEBUG                 share/modules/debug_mod.F     
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|        READ_JOINT                    source/output/restart/read_joint.F
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|        RESTALLOC                     source/output/restart/arralloc.F
-Chd|        RTHBUFWREST                   source/output/restart/wrrest.F
-Chd|        SPMD_CHECK_TAG                source/mpi/ams/spmd_check_tag.F
-Chd|        WRITE_JOINT                   source/output/restart/write_joint.F
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    restmod                 ../engine/share/modules/restart_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    crkxfem_rrestanim       ../engine/source/output/restart/rdresb.F
+      !||    crkxfem_wrestanim       ../engine/source/output/restart/wrrest.F
+      !||    get_user_window_nodes   ../engine/source/user_interface/userwindow_interface_routines.F
+      !||    mat_solid_get_nod_v     ../engine/source/user_interface/uaccess.F
+      !||    mat_solid_get_nod_x     ../engine/source/user_interface/uaccess.F
+      !||    prepare_debug           ../engine/share/modules/debug_mod.F
+      !||    radioss2                ../engine/source/engine/radioss2.F
+      !||    rdresb                  ../engine/source/output/restart/rdresb.F
+      !||    read_joint              ../engine/source/output/restart/read_joint.F
+      !||    resol_head              ../engine/source/engine/resol_head.F
+      !||    restalloc               ../engine/source/output/restart/arralloc.F
+      !||    rthbufwrest             ../engine/source/output/restart/wrrest.F
+      !||    spmd_check_tag          ../engine/source/mpi/ams/spmd_check_tag.F
+      !||    upgrade_cand_opt        ../common_source/interf/upgrade_multimp.F
+      !||    upgrade_lcand_e2s       ../common_source/interf/upgrade_multimp.F
+      !||    upgrade_lcand_edg       ../common_source/interf/upgrade_multimp.F
+      !||    upgrade_multimp         ../common_source/interf/upgrade_multimp.F
+      !||    write_joint             ../engine/source/output/restart/write_joint.F
+      !||    wrrestp                 ../engine/source/output/restart/wrrestp.F
+      !||--- uses       -----------------------------------------------------
+      !||    cluster_mod             ../engine/share/modules/cluster_mod.F
+      !||    failwave_mod            ../common_source/modules/failwave_mod.F
+      !||    nlocal_reg_mod          ../common_source/modules/nlocal_reg_mod.F
+      !||    sphbox                  ../engine/share/modules/sphbox.F
+      !||====================================================================
       MODULE RESTMOD
       USE CLUSTER_MOD
       USE SPHBOX
@@ -208,16 +208,15 @@ C=======================================================================
       END MODULE RESTMOD
 
 C=======================================================================
-Chd|====================================================================
-Chd|  FSKYI_MOD                     share/modules/restart_mod.F   
-Chd|-- called by -----------
-Chd|        REALLOCATE_I_SKYLINE          source/system/reallocate_skyline.F
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        RESTALLOC                     source/output/restart/arralloc.F
-Chd|        SPMD_EXCH2_A_PON              source/mpi/forces/spmd_exch2_a_pon.F
-Chd|        SPMD_I7FCOM_PON               source/mpi/forces/spmd_i7fcom_pon.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fskyi_mod              ../engine/share/modules/restart_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    reallocate_i_skyline   ../engine/source/system/reallocate_skyline.F
+      !||    resol                  ../engine/source/engine/resol.F
+      !||    restalloc              ../engine/source/output/restart/arralloc.F
+      !||    spmd_exch2_a_pon       ../engine/source/mpi/forces/spmd_exch2_a_pon.F
+      !||    spmd_i7fcom_pon        ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+      !||====================================================================
       MODULE FSKYI_MOD
         my_real,
      .  DIMENSION(:,:),ALLOCATABLE :: FSKYI,TEMP_FSKYI

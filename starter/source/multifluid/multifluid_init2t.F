@@ -20,21 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MULTIFLUID_INIT2T             source/multifluid/multifluid_init2t.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        C3VEOK3                       source/elements/sh3n/coque3n/c3veok3.F
-Chd|        M5IN2T                        source/initial_conditions/detonation/m5in2t.F
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    multifluid_init2t      ../starter/source/multifluid/multifluid_init2t.F
+      !||--- called by ------------------------------------------------------
+      !||    initia                 ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    c3veok3                ../starter/source/elements/sh3n/coque3n/c3veok3.F
+      !||    m5in2t                 ../starter/source/initial_conditions/detonation/m5in2t.F
+      !||    matini                 ../starter/source/materials/mat_share/matini.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE MULTIFLUID_INIT2T(ELBUF_STR, NEL, NSIGS, NVC, IPARG, IXTG, ALE_CONNECTIVITY,
      .     IGEO, IPART, IPARTTG, IPM, PTSH3N, NPF, ILOADP, 
      .     XGRID, PM, GEO, SIGI, SKEW, TF, BUFMAT, FACLOAD, MULTI_FVM, 

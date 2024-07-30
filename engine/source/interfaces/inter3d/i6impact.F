@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I6IPMACT                      source/interfaces/inter3d/i6impact.F
-Chd|-- called by -----------
-Chd|        I6MAIN                        source/interfaces/inter3d/i6main.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i6ipmact   ../engine/source/interfaces/inter3d/i6impact.F
+      !||--- called by ------------------------------------------------------
+      !||    i6main     ../engine/source/interfaces/inter3d/i6main.F
+      !||====================================================================
       SUBROUTINE I6IPMACT(
      1   LOLD,    IRTL,    IRTLO,   CST,
      2   IRECT,   MSR,     NSV,     V,

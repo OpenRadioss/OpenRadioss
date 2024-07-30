@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I21ASS3                       source/interfaces/int21/i21ass3.F
-Chd|-- called by -----------
-Chd|        I21MAINF                      source/interfaces/int21/i21mainf.F
-Chd|-- calls ---------------
-Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
-Chd|        STRI                          source/tools/univ/stri.F      
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i21ass3           ../engine/source/interfaces/int21/i21ass3.F
+      !||--- called by ------------------------------------------------------
+      !||    i21mainf          ../engine/source/interfaces/int21/i21mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    foat_to_6_float   ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod          ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod           ../engine/share/modules/h3d_mod.F
+      !||    intstamp_mod      ../engine/share/modules/intstamp_mod.F
+      !||    outputs_mod       ../common_source/modules/outputs_mod.F
+      !||    tri7box           ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I21ASS3(JLT     ,A        ,NIN      ,NOINT    ,FXN    ,
      2                  FYN      ,FZN      ,FXT      ,FYT      ,FZT    ,
      3                  IX1      ,IX2      ,IX3      ,IX4      ,NSVG   ,

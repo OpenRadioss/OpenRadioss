@@ -21,13 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  MRDSE2                        source/materials/mat/mat026/mrdse2.F
-Chd|-- called by -----------
-Chd|        HM_READ_EOS_SESAME            source/materials/eos/hm_read_eos_sesame.F
-Chd|        HM_READ_MAT26                 source/materials/mat/mat026/hm_read_mat26.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mrdse2               ../starter/source/materials/mat/mat026/mrdse2.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos_sesame   ../starter/source/materials/eos/hm_read_eos_sesame.F
+      !||    hm_read_mat26        ../starter/source/materials/mat/mat026/hm_read_mat26.F
+      !||====================================================================
       SUBROUTINE MRDSE2(RR,NR,TT,NT,PP,EE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

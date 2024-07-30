@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I20OPTCD                      source/interfaces/intsort/i20optcd.F
-Chd|-- called by -----------
-Chd|        I20MAIN_OPT_TRI               source/interfaces/intsort/i20main_opt_tri.F
-Chd|-- calls ---------------
-Chd|        SYNC_DATA                     source/system/machine.F       
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20optcd          ../engine/source/interfaces/intsort/i20optcd.F
+      !||--- called by ------------------------------------------------------
+      !||    i20main_opt_tri   ../engine/source/interfaces/intsort/i20main_opt_tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    sync_data         ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box           ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20OPTCD(NSV    ,CAND_E ,CAND_N ,XA     ,I_STOK ,
      2                   IRECT  ,GAP    ,GAP_S  ,GAP_M  ,IGAP   ,
      3                   STFA   ,ITASK  ,STF    ,IFQ    ,IFPEN  ,
@@ -413,14 +414,15 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I20OPTCDE                     source/interfaces/intsort/i20optcd.F
-Chd|-- called by -----------
-Chd|        I20MAIN_OPT_TRI               source/interfaces/intsort/i20main_opt_tri.F
-Chd|-- calls ---------------
-Chd|        SYNC_DATA                     source/system/machine.F       
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20optcde         ../engine/source/interfaces/intsort/i20optcd.F
+      !||--- called by ------------------------------------------------------
+      !||    i20main_opt_tri   ../engine/source/interfaces/intsort/i20main_opt_tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    sync_data         ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box           ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20OPTCDE(CAND_M,CAND_S  ,XA      ,I_STOK,
      2                    IXLINS ,IXLINM  ,GAP     ,NIN   ,
      3                    V      ,GAP_S   ,GAP_M   ,IGAP  ,

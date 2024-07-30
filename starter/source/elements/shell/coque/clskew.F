@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CLSKEW3                       source/elements/shell/coque/clskew.F
-Chd|-- called by -----------
-Chd|        CDKEVEC3                      source/elements/sh3n/coquedk/cdkevec3.F
-Chd|        CNEVECI                       source/elements/shell/coqueba/cneveci.F
-Chd|        SPCOOR3                       source/elements/solid/sconnect/spcoor3.F
-Chd|        XYZLOC3N                      source/elements/xfem/lslocal.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    clskew3    ../starter/source/elements/shell/coque/clskew.F
+      !||--- called by ------------------------------------------------------
+      !||    cdkevec3   ../starter/source/elements/sh3n/coquedk/cdkevec3.F
+      !||    cneveci    ../starter/source/elements/shell/coqueba/cneveci.F
+      !||    spcoor3    ../starter/source/elements/solid/sconnect/spcoor3.F
+      !||    xyzloc3n   ../starter/source/elements/xfem/lslocal.F
+      !||====================================================================
       SUBROUTINE CLSKEW3(JFT,JLT,IREP,
      .           RX, RY, RZ,SX, SY, SZ, 
      .           E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z, DET)

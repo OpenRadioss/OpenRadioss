@@ -20,69 +20,68 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd/        HM_READ_FAIL_TBUTCHER         source/materials/fail/tuler_bucher/hm_read_fail_tbutcher.F
-Chd|====================================================================
-Chd|  HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
-Chd|-- called by -----------
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FAIL_INIT                     source/materials/fail/fail_init.F
-Chd|        HM_GET_BOOLV                  source/devtools/hm_reader/hm_get_boolv.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        HM_READ_FAIL_ALTER            source/materials/fail/windshield_alter/hm_read_fail_alter.F
-Chd|        HM_READ_FAIL_BIQUAD           source/materials/fail/biquad/hm_read_fail_biquad.F
-Chd|        HM_READ_FAIL_CHANG            source/materials/fail/changchang/hm_read_fail_chang.F
-Chd|        HM_READ_FAIL_COCKCROFT        source/materials/fail/cockroft_latham/hm_read_fail_cockcroft.F
-Chd|        HM_READ_FAIL_CONNECT          source/materials/fail/connect/hm_read_fail_connect.F
-Chd|        HM_READ_FAIL_EMC              source/materials/fail/emc/hm_read_fail_emc.F
-Chd|        HM_READ_FAIL_ENERGY           source/materials/fail/energy/hm_read_fail_energy.F
-Chd|        HM_READ_FAIL_FABRIC           source/materials/fail/fabric/hm_read_fail_fabric.F
-Chd|        HM_READ_FAIL_FLD              source/materials/fail/fld/hm_read_fail_fld.F
-Chd|        HM_READ_FAIL_GENE1            source/materials/fail/gene1/hm_read_fail_gene1.F
-Chd|        HM_READ_FAIL_GURSON           source/materials/fail/gurson/hm_read_fail_gurson.F
-Chd|        HM_READ_FAIL_HASHIN           source/materials/fail/hashin/hm_read_fail_hashin.F
-Chd|        HM_READ_FAIL_HC_DSSE          source/materials/fail/hc_dsse/hm_read_fail_hc_dsse.F
-Chd|        HM_READ_FAIL_HOFFMAN          source/materials/fail/hoffman/hm_read_fail_hoffman.F
-Chd|        HM_READ_FAIL_INIEVO           source/materials/fail/inievo/hm_read_fail_inievo.F
-Chd|        HM_READ_FAIL_JOHNSON          source/materials/fail/johnson_cook/hm_read_fail_johnson.F
-Chd|        HM_READ_FAIL_LADEVEZE         source/materials/fail/ladeveze/hm_read_fail_ladeveze.F
-Chd|        HM_READ_FAIL_MAXSTRAIN        source/materials/fail/max_strain/hm_read_fail_maxstrain.F
-Chd|        HM_READ_FAIL_NXT              source/materials/fail/nxt/hm_read_fail_nxt.F
-Chd|        HM_READ_FAIL_ORTHBIQUAD       source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
-Chd|        HM_READ_FAIL_ORTHENERG        source/materials/fail/orthenerg/hm_read_fail_orthenerg.F
-Chd|        HM_READ_FAIL_ORTHSTRAIN       source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
-Chd|        HM_READ_FAIL_PUCK             source/materials/fail/puck/hm_read_fail_puck.F
-Chd|        HM_READ_FAIL_RTCL             source/materials/fail/rtcl/hm_read_fail_rtcl.F
-Chd|        HM_READ_FAIL_SAHRAEI          source/materials/fail/sahraei/hm_read_fail_sahraei.F
-Chd|        HM_READ_FAIL_SNCONNECT        source/materials/fail/snconnect/hm_read_fail_snconnect.F
-Chd|        HM_READ_FAIL_SPALLING         source/materials/fail/spalling/hm_read_fail_spalling.F
-Chd|        HM_READ_FAIL_SYAZWAN          source/materials/fail/syazwan/hm_read_fail_syazwan.F
-Chd|        HM_READ_FAIL_TAB1             source/materials/fail/tabulated/hm_read_fail_tab1.F
-Chd|        HM_READ_FAIL_TAB2             source/materials/fail/tabulated/hm_read_fail_tab2.F
-Chd|        HM_READ_FAIL_TAB_OLD          source/materials/fail/tabulated/hm_read_fail_tab_old.F
-Chd|        HM_READ_FAIL_TBUTCHER         source/materials/fail/tuler_butcher/hm_read_fail_tbutcher.F
-Chd|        HM_READ_FAIL_TENSSTRAIN       source/materials/fail/tensstrain/hm_read_fail_tensstrain.F
-Chd|        HM_READ_FAIL_TSAIHILL         source/materials/fail/tsaihill/hm_read_fail_tsaihill.F
-Chd|        HM_READ_FAIL_TSAIWU           source/materials/fail/tsaiwu/hm_read_fail_tsaiwu.F
-Chd|        HM_READ_FAIL_USER             source/materials/fail/failuser/hm_read_fail_user.F
-Chd|        HM_READ_FAIL_VISUAL           source/materials/fail/visual/hm_read_fail_visual.F
-Chd|        HM_READ_FAIL_WIERZBICKI       source/materials/fail/wierzbicki/hm_read_fail_wierzbicki.F
-Chd|        HM_READ_FAIL_WILKINS          source/materials/fail/wilkins/hm_read_fail_wilkins.F
-Chd|        HM_READ_MULLINS_OR            source/materials/fail/mullins_or/hm_read_fail_mullins_or.F
-Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
-Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_fail              ../starter/source/materials/fail/hm_read_fail.F
+      !||--- called by ------------------------------------------------------
+      !||    read_material_models      ../starter/source/materials/read_material_models.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                    ../starter/source/output/message/message.F
+      !||    fail_init                 ../starter/source/materials/fail/fail_init.F
+      !||    hm_get_boolv              ../starter/source/devtools/hm_reader/hm_get_boolv.F
+      !||    hm_get_intv               ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_count           ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_read_key        ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start           ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_read_fail_alter        ../starter/source/materials/fail/windshield_alter/hm_read_fail_alter.F
+      !||    hm_read_fail_biquad       ../starter/source/materials/fail/biquad/hm_read_fail_biquad.F
+      !||    hm_read_fail_chang        ../starter/source/materials/fail/changchang/hm_read_fail_chang.F
+      !||    hm_read_fail_cockcroft    ../starter/source/materials/fail/cockroft_latham/hm_read_fail_cockcroft.F
+      !||    hm_read_fail_connect      ../starter/source/materials/fail/connect/hm_read_fail_connect.F
+      !||    hm_read_fail_emc          ../starter/source/materials/fail/emc/hm_read_fail_emc.F
+      !||    hm_read_fail_energy       ../starter/source/materials/fail/energy/hm_read_fail_energy.F
+      !||    hm_read_fail_fabric       ../starter/source/materials/fail/fabric/hm_read_fail_fabric.F
+      !||    hm_read_fail_fld          ../starter/source/materials/fail/fld/hm_read_fail_fld.F
+      !||    hm_read_fail_gene1        ../starter/source/materials/fail/gene1/hm_read_fail_gene1.F
+      !||    hm_read_fail_gurson       ../starter/source/materials/fail/gurson/hm_read_fail_gurson.F
+      !||    hm_read_fail_hashin       ../starter/source/materials/fail/hashin/hm_read_fail_hashin.F
+      !||    hm_read_fail_hc_dsse      ../starter/source/materials/fail/hc_dsse/hm_read_fail_hc_dsse.F
+      !||    hm_read_fail_hoffman      ../starter/source/materials/fail/hoffman/hm_read_fail_hoffman.F
+      !||    hm_read_fail_inievo       ../starter/source/materials/fail/inievo/hm_read_fail_inievo.F
+      !||    hm_read_fail_johnson      ../starter/source/materials/fail/johnson_cook/hm_read_fail_johnson.F
+      !||    hm_read_fail_ladeveze     ../starter/source/materials/fail/ladeveze/hm_read_fail_ladeveze.F
+      !||    hm_read_fail_maxstrain    ../starter/source/materials/fail/max_strain/hm_read_fail_maxstrain.F
+      !||    hm_read_fail_nxt          ../starter/source/materials/fail/nxt/hm_read_fail_nxt.F
+      !||    hm_read_fail_orthbiquad   ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
+      !||    hm_read_fail_orthenerg    ../starter/source/materials/fail/orthenerg/hm_read_fail_orthenerg.F
+      !||    hm_read_fail_orthstrain   ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
+      !||    hm_read_fail_puck         ../starter/source/materials/fail/puck/hm_read_fail_puck.F
+      !||    hm_read_fail_rtcl         ../starter/source/materials/fail/rtcl/hm_read_fail_rtcl.F
+      !||    hm_read_fail_sahraei      ../starter/source/materials/fail/sahraei/hm_read_fail_sahraei.F
+      !||    hm_read_fail_snconnect    ../starter/source/materials/fail/snconnect/hm_read_fail_snconnect.F
+      !||    hm_read_fail_spalling     ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F
+      !||    hm_read_fail_syazwan      ../starter/source/materials/fail/syazwan/hm_read_fail_syazwan.F
+      !||    hm_read_fail_tab1         ../starter/source/materials/fail/tabulated/hm_read_fail_tab1.F
+      !||    hm_read_fail_tab2         ../starter/source/materials/fail/tabulated/hm_read_fail_tab2.F
+      !||    hm_read_fail_tab_old      ../starter/source/materials/fail/tabulated/hm_read_fail_tab_old.F
+      !||    hm_read_fail_tbutcher     ../starter/source/materials/fail/tuler_butcher/hm_read_fail_tbutcher.F
+      !||    hm_read_fail_tensstrain   ../starter/source/materials/fail/tensstrain/hm_read_fail_tensstrain.F
+      !||    hm_read_fail_tsaihill     ../starter/source/materials/fail/tsaihill/hm_read_fail_tsaihill.F
+      !||    hm_read_fail_tsaiwu       ../starter/source/materials/fail/tsaiwu/hm_read_fail_tsaiwu.F
+      !||    hm_read_fail_user         ../starter/source/materials/fail/failuser/hm_read_fail_user.F
+      !||    hm_read_fail_visual       ../starter/source/materials/fail/visual/hm_read_fail_visual.F
+      !||    hm_read_fail_wierzbicki   ../starter/source/materials/fail/wierzbicki/hm_read_fail_wierzbicki.F
+      !||    hm_read_fail_wilkins      ../starter/source/materials/fail/wilkins/hm_read_fail_wilkins.F
+      !||    hm_read_fractal_dmg       ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
+      !||    hm_read_mullins_or        ../starter/source/materials/fail/mullins_or/hm_read_fail_mullins_or.F
+      !||    init_mat_keyword          ../starter/source/materials/mat/init_mat_keyword.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbuftag_mod              ../starter/share/modules1/elbuftag_mod.F
+      !||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
+      !||    hm_read_fractal_dmg_mod   ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
+      !||    message_mod               ../starter/share/message_module/message_mod.F
+      !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
+      !||    table_mod                 ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_FAIL(MAT_PARAM,NUMMAT ,MAXFAIL ,FAIL_TAG ,
      .                        NTABLE   ,TABLE  ,FAILWAVE,NLOC_DMG ,
      .                        UNITAB  ,LSUBMODEL)

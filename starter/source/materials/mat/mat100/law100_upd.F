@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAW100_UPD_NHT                source/materials/mat/mat100/law100_upd.F
-Chd|-- called by -----------
-Chd|        UPDMAT                        source/materials/updmat.F     
-Chd|-- calls ---------------
-Chd|        FUNC_MAXY                     source/tools/curve/func_maxy.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    law100_upd_nht   ../starter/source/materials/mat/mat100/law100_upd.F
+      !||--- called by ------------------------------------------------------
+      !||    updmat           ../starter/source/materials/updmat.F
+      !||--- calls      -----------------------------------------------------
+      !||    func_maxy        ../starter/source/tools/curve/func_maxy.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||    table_mod        ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE LAW100_UPD_NHT(IOUT, TITR,MAT_ID,UPARAM,NFUNC, 
      .                        IFUNC, FUNC_ID , NPC   , PLD , PM)
 C-----------------------------------------------
@@ -88,16 +89,17 @@ C=======================================================================
       END
 cc
 c
-Chd|====================================================================
-Chd|  LAW100_UPD_AB                 source/materials/mat/mat100/law100_upd.F
-Chd|-- called by -----------
-Chd|        UPDMAT                        source/materials/updmat.F     
-Chd|-- calls ---------------
-Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
-Chd|        LAW92_NLSQF                   source/materials/mat/mat092/law92_nlsqf.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    law100_upd_ab            ../starter/source/materials/mat/mat100/law100_upd.F
+      !||--- called by ------------------------------------------------------
+      !||    updmat                   ../starter/source/materials/updmat.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||    law92_nlsqf              ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    table_mod                ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE LAW100_UPD_AB(IOUT,TITR    ,MAT_ID,UPARAM,NFUNC,
      .                      IFUNC, FUNC_ID,NPC   ,PLD   ,PM)
 C-----------------------------------------------
@@ -260,13 +262,12 @@ c-----------
       RETURN
       END
 c=================================================================================
-Chd|====================================================================
-Chd|  YMAX                          source/materials/mat/mat100/law100_upd.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    ymax          ../starter/source/materials/mat/mat100/law100_upd.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    table_mod     ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE YMAX(IDN,FAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)
 C-----------------------------------------------
 C   M o d u l e s

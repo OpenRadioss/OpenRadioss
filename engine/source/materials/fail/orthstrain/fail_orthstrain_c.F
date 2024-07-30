@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_ORTHSTRAIN_C             source/materials/fail/orthstrain/fail_orthstrain_c.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
-Chd|-- calls ---------------
-Chd|        VINTER2                       source/tools/curve/vinter.F   
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_orthstrain_c   ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc              ../engine/source/materials/mat_share/mulawc.F
+      !||    usermat_shell       ../engine/source/materials/mat_share/usermat_shell.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter              ../engine/source/tools/curve/finter.F
+      !||    vinter2             ../engine/source/tools/curve/vinter.F
+      !||====================================================================
       SUBROUTINE FAIL_ORTHSTRAIN_C(
      1     NEL      ,NUPARAM  ,NUVAR    ,UPARAM   ,UVAR     ,
      2     NFUNC    ,IFUNC    ,NPF      ,TF       ,NGL      ,

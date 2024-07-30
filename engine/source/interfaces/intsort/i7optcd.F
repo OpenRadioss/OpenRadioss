@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7OPTCD                       source/interfaces/intsort/i7optcd.F
-Chd|-- called by -----------
-Chd|        I7MAIN_OPT_TRI                source/interfaces/intsort/i7main_opt_tri.F
-Chd|-- calls ---------------
-Chd|        SYNC_DATA                     source/system/machine.F       
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7optcd          ../engine/source/interfaces/intsort/i7optcd.F
+      !||--- called by ------------------------------------------------------
+      !||    i7main_opt_tri   ../engine/source/interfaces/intsort/i7main_opt_tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    sync_data        ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I7OPTCD(NSV            ,CAND_E    ,CAND_N     ,X          ,I_STOK ,
      2                   IRECT          ,GAP       ,GAP_S      ,GAP_M      ,IGAP   ,
      3                   STFN           ,ITASK     ,STF        ,IFQ        ,IFPEN  ,

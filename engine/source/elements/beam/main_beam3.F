@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MAIN_BEAM3                    source/elements/beam/main_beam3.F
-Chd|-- called by -----------
-Chd|        PFORC3                        source/elements/beam/pforc3.F 
-Chd|-- calls ---------------
-Chd|        FAIL_BEAM3                    source/elements/beam/fail_beam3.F
-Chd|        M1LAWP                        source/materials/mat/mat001/m1lawp.F
-Chd|        M2LAWP                        source/materials/mat/mat002/m2lawp.F
-Chd|        SIGEPS44P                     source/materials/mat/mat044/sigeps44p.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    main_beam3     ../engine/source/elements/beam/main_beam3.F
+      !||--- called by ------------------------------------------------------
+      !||    pforc3         ../engine/source/elements/beam/pforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    fail_beam3     ../engine/source/elements/beam/fail_beam3.F
+      !||    m1lawp         ../engine/source/materials/mat/mat001/m1lawp.F
+      !||    m2lawp         ../engine/source/materials/mat/mat002/m2lawp.F
+      !||    sigeps44p      ../engine/source/materials/mat/mat044/sigeps44p.F
+      !||--- uses       -----------------------------------------------------
+      !||    mat_elem_mod   ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||====================================================================
       SUBROUTINE MAIN_BEAM3(
      .       ELBUF_STR,NEL      ,ILAW     ,JTHE     ,IFAIL    ,
      .       IPM      ,PM       ,GEO      ,TEMPEL   ,OFF      ,

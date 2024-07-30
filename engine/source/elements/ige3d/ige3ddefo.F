@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IGE3DDEFO                     source/elements/ige3d/ige3ddefo.F
-Chd|-- called by -----------
-Chd|        IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ige3ddefo    ../engine/source/elements/ige3d/ige3ddefo.F
+      !||--- called by ------------------------------------------------------
+      !||    ig3duforc3   ../engine/source/elements/ige3d/ig3duforc3.F
+      !||====================================================================
       SUBROUTINE IGE3DDEFO(
      1   VX,      VY,      VZ,      MATB,
      2   NCTRL,   WXX,     WYY,     WZZ,

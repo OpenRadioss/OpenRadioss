@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PRECRKXFEM                    source/elements/xfem/precrkxfem.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ADDCNE_XFE                    source/elements/xfem/precrkxfem.F
-Chd|====================================================================
+      !||====================================================================
+      !||    precrkxfem   ../starter/source/elements/xfem/precrkxfem.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur       ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    addcne_xfe   ../starter/source/elements/xfem/precrkxfem.F
+      !||====================================================================
       SUBROUTINE PRECRKXFEM(
      .           IPARG      ,IXC         ,IXTG          , NCRKXFE    ,      
      .           IEL_CRKXFEM,INOD_CRKXFEM,ADDCNE_CRKXFEM)  
@@ -84,12 +84,11 @@ c-----------
       RETURN
       END
 c
-Chd|====================================================================
-Chd|  ADDCNE_XFE                    source/elements/xfem/precrkxfem.F
-Chd|-- called by -----------
-Chd|        PRECRKXFEM                    source/elements/xfem/precrkxfem.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    addcne_xfe   ../starter/source/elements/xfem/precrkxfem.F
+      !||--- called by ------------------------------------------------------
+      !||    precrkxfem   ../starter/source/elements/xfem/precrkxfem.F
+      !||====================================================================
       SUBROUTINE ADDCNE_XFE(IEL_CRKXFEM ,KX   ,NIX  ,IX    ,ADDCNE_CRKXFEM,
      .                      INOD_CRKXFEM,LFT  ,LLT  ,NFT   ,NCRKXFE       )
 C-----------------------------------------------

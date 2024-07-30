@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TAGNOD                        source/groups/tagnod.F        
-Chd|-- called by -----------
-Chd|        HM_LECGRN                     source/groups/hm_lecgrn.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    tagnod      ../starter/source/groups/tagnod.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_lecgrn   ../starter/source/groups/hm_lecgrn.F
+      !||====================================================================
       SUBROUTINE TAGNOD(IX,NIX,NIX1,NIX2,NUMEL,IPARTE,TAGBUF,NPART)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -58,13 +57,13 @@ C=======================================================================
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  TAGNODS                       source/groups/tagnod.F        
-Chd|-- called by -----------
-Chd|        HM_LECGRN                     source/groups/hm_lecgrn.F     
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    tagnods       ../starter/source/groups/tagnod.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_lecgrn     ../starter/source/groups/hm_lecgrn.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE TAGNODS(IXS,IXS10,IXS20,IXS16,IPARTS,TAGBUF,IDGRN,TITR)
       USE MESSAGE_MOD
 C-----------------------------------------------

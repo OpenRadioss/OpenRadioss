@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TAGINT_R2R                    source/coupling/rad2rad/tagint_r2r.F
-Chd|-- called by -----------
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    tagint_r2r     ../starter/source/coupling/rad2rad/tagint_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_prelec     ../starter/source/coupling/rad2rad/r2r_prelec.F
+      !||--- uses       -----------------------------------------------------
+      !||    r2r_mod        ../starter/share/modules1/r2r_mod.F
+      !||====================================================================
       SUBROUTINE TAGINT_R2R(G1,G2,GRS,GRM,ID_INTER,
      2           TYPE2,VAL,TAG,I,COMPT,PASSE,FLAG,IGRPP_R2R,
      3           IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)

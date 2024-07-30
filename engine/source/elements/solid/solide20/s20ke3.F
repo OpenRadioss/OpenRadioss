@@ -20,25 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S20KE3                        source/elements/solid/solide20/s20ke3.F
-Chd|-- called by -----------
-Chd|        IMP_GLOB_K                    source/implicit/imp_glob_k.F  
-Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|        ASSEM_S20                     source/implicit/assem_s20.F   
-Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
-Chd|        MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
-Chd|        S20COORK                      source/elements/solid/solide20/s20coork.F
-Chd|        S20CUMG3                      source/elements/solid/solide20/s20cumg3.F
-Chd|        S20DERI3                      source/elements/solid/solide20/s20deri3.F
-Chd|        S20EOFF                       source/elements/solid/solide20/s20eoff.F
-Chd|        S20KGEO3                      source/elements/solid/solide20/s20kgeo3.F
-Chd|        S20RST                        source/elements/solid/solide20/s20rst.F
-Chd|        SORTHDIR3                     source/elements/solid/solide/sorthdir3.F
-Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s20ke3         ../engine/source/elements/solid/solide20/s20ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
+      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_s20      ../engine/source/implicit/assem_s20.F
+      !||    mmats          ../engine/source/elements/solid/solide8z/mmats.F
+      !||    mmstifs        ../engine/source/elements/solid/solide8z/mmstifs.F
+      !||    s20coork       ../engine/source/elements/solid/solide20/s20coork.F
+      !||    s20cumg3       ../engine/source/elements/solid/solide20/s20cumg3.F
+      !||    s20deri3       ../engine/source/elements/solid/solide20/s20deri3.F
+      !||    s20eoff        ../engine/source/elements/solid/solide20/s20eoff.F
+      !||    s20kgeo3       ../engine/source/elements/solid/solide20/s20kgeo3.F
+      !||    s20rst         ../engine/source/elements/solid/solide20/s20rst.F
+      !||    sorthdir3      ../engine/source/elements/solid/solide/sorthdir3.F
+      !||    sreploc3       ../engine/source/elements/solid/solide/sreploc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE S20KE3(
      1   PM,       GEO,      IXS,      IXS20,
      2   X,        ELBUF_STR,ETAG,     IDDL,

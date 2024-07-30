@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M51VOIS3                      source/materials/mat/mat051/m51vois3.F
-Chd|-- called by -----------
-Chd|        SIGEPS51                      source/materials/mat/mat051/sigeps51.F
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    m51vois3               ../engine/source/materials/mat/mat051/m51vois3.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps51               ../engine/source/materials/mat/mat051/sigeps51.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE M51VOIS3(PM     ,IPARG  ,IXS    ,ALE_CONNECT  ,ELBUF_TAB,V     ,
      2                    X      ,VN     ,W      ,VEL    ,VD2   ,
      3                    RHOV   ,PV     ,VDX    ,VDY    ,VDZ   ,

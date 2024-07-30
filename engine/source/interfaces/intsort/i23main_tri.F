@@ -20,30 +20,33 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I23MAIN_TRI                   source/interfaces/intsort/i23main_tri.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I23BUCE                       source/interfaces/intsort/i23buce.F
-Chd|        I23TRC                        source/interfaces/intsort/i23trc.F
-Chd|        I7XSAVE                       source/interfaces/intsort/i7xsave.F
-Chd|        IMP_RNUMCD                    source/implicit/imp_int_k.F   
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_RNUMCD                   source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_TRI23VOX0                source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI7GAT                  source/mpi/interfaces/spmd_int.F
-Chd|        SPMD_TRI7VOX                  source/mpi/interfaces/spmd_int.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i23main_tri                  ../engine/source/interfaces/intsort/i23main_tri.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri                       ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                       ../engine/source/output/message/message.F
+      !||    arret                        ../engine/source/system/arret.F
+      !||    check_sorting_criteria       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||    i23buce                      ../engine/source/interfaces/intsort/i23buce.F
+      !||    i23trc                       ../engine/source/interfaces/intsort/i23trc.F
+      !||    i7xsave                      ../engine/source/interfaces/intsort/i7xsave.F
+      !||    imp_rnumcd                   ../engine/source/implicit/imp_int_k.F
+      !||    my_barrier                   ../engine/source/system/machine.F
+      !||    spmd_rnumcd                  ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_tri23vox0               ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri7gat                 ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri7vox                 ../engine/source/mpi/interfaces/spmd_int.F
+      !||    startime                     ../engine/source/system/timer.F
+      !||    stoptime                     ../engine/source/system/timer.F
+      !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
+      !||--- uses       -----------------------------------------------------
+      !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+      !||    message_mod                  ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F
+      !||    tri7box                      ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I23MAIN_TRI(
      1                  IPARI   ,X       ,INTBUF_TAB,V     ,
      2                  MS      ,NIN     ,ITASK   ,MWAG    ,WEIGHT  ,

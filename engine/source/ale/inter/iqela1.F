@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IQELA1                        source/ale/inter/iqela1.F     
-Chd|-- called by -----------
-Chd|        INTAL2                        source/ale/inter/intal2.F     
-Chd|-- calls ---------------
-Chd|        SHAPEH                        source/ale/inter/shapeh.F     
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    iqela1     ../engine/source/ale/inter/iqela1.F
+      !||--- called by ------------------------------------------------------
+      !||    intal2     ../engine/source/ale/inter/intal2.F
+      !||--- calls      -----------------------------------------------------
+      !||    shapeh     ../engine/source/ale/inter/shapeh.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod   ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod    ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE IQELA1(X,SKEW,A,E,MSM,IRECT,LMSR,CRST,MSR,
      1                 NSV,ILOC,IRTL,MS,NOR,LCODE,ISKEW,FSAV,ITAB,
      2                 FCONT,FNCONT,FTCONT,H3D_DATA,NSN,NMN)

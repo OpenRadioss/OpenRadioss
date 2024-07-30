@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  REORDER_IG3D                  source/elements/ige3d/reorder_ig3d.F
-Chd|-- called by -----------
-Chd|        PRERAFIG3D                    source/elements/ige3d/prerafig3d.F
-Chd|-- calls ---------------
-Chd|        MYQSORT3D                     source/elements/ige3d/searchigeo3d.F
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|====================================================================
+      !||====================================================================
+      !||    reorder_ig3d   ../starter/source/elements/ige3d/reorder_ig3d.F
+      !||--- called by ------------------------------------------------------
+      !||    prerafig3d     ../starter/source/elements/ige3d/prerafig3d.F
+      !||--- calls      -----------------------------------------------------
+      !||    myqsort3d      ../starter/source/elements/ige3d/searchigeo3d.F
+      !||====================================================================
       SUBROUTINE REORDER_IG3D(IXIG3D, KXIG3D,KNOTLOCPC,KNOTLOCEL,
      .                        X_TMP,D_TMP,V_TMP,MS_TMP,WIGE_TMP,
      .                        TAB_REMOVE,TAB_NEWFCT,EL_CONNECT,

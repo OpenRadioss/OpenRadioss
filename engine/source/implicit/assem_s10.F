@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASSEM_S10                     source/implicit/assem_s10.F   
-Chd|-- called by -----------
-Chd|        S10KE3                        source/elements/solid/solide10/s10ke3.F
-Chd|-- calls ---------------
-Chd|        ASS10_KKII                    source/implicit/assem_s10.F   
-Chd|        ASS10_KKIJ                    source/implicit/assem_s10.F   
-Chd|        ASS10_KKJI                    source/implicit/assem_s10.F   
-Chd|        ASSEM_KII                     source/implicit/imp_glob_k.F  
-Chd|        ASSEM_KIJ                     source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    assem_s10    ../engine/source/implicit/assem_s10.F
+      !||--- called by ------------------------------------------------------
+      !||    s10ke3       ../engine/source/elements/solid/solide10/s10ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ass10_kkii   ../engine/source/implicit/assem_s10.F
+      !||    ass10_kkij   ../engine/source/implicit/assem_s10.F
+      !||    ass10_kkji   ../engine/source/implicit/assem_s10.F
+      !||    assem_kii    ../engine/source/implicit/imp_glob_k.F
+      !||    assem_kij    ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE ASSEM_S10(
      1                   IXS   ,IXS10 ,NEL   ,IDDL  ,NDOF  ,
      2                   K_DIAG,K_LT  ,IADK  ,JDIK  ,K11   ,     
@@ -443,13 +443,12 @@ C-------non diag kij-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  ASS10_KII                     source/implicit/assem_s10.F   
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ASSEM_KII1                    source/implicit/assem_s10.F   
-Chd|        ASSEM_KIJ1                    source/implicit/assem_s10.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    ass10_kii    ../engine/source/implicit/assem_s10.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_kii1   ../engine/source/implicit/assem_s10.F
+      !||    assem_kij1   ../engine/source/implicit/assem_s10.F
+      !||====================================================================
       SUBROUTINE ASS10_KII(NC   ,N1    ,N2    ,
      1                    IDDL  ,IADK  ,JDIK  ,K_DIAG,K_LT  ,
      2                    KJJ   ,ND    )
@@ -490,13 +489,12 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ASS10_KIJ                     source/implicit/assem_s10.F   
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ASSEM_KII1                    source/implicit/assem_s10.F   
-Chd|        ASSEM_KIJ1                    source/implicit/assem_s10.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    ass10_kij    ../engine/source/implicit/assem_s10.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_kii1   ../engine/source/implicit/assem_s10.F
+      !||    assem_kij1   ../engine/source/implicit/assem_s10.F
+      !||====================================================================
       SUBROUTINE ASS10_KIJ(NC   ,NI    ,NJ1   ,NJ2   ,ND    ,
      1                    IDDL  ,IADK  ,JDIK  ,K_DIAG,K_LT  ,
      2                    KIJ0  )
@@ -558,13 +556,12 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ASS10_KIJ1                    source/implicit/assem_s10.F   
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ASSEM_KII1                    source/implicit/assem_s10.F   
-Chd|        ASSEM_KIJ1                    source/implicit/assem_s10.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    ass10_kij1   ../engine/source/implicit/assem_s10.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_kii1   ../engine/source/implicit/assem_s10.F
+      !||    assem_kij1   ../engine/source/implicit/assem_s10.F
+      !||====================================================================
       SUBROUTINE ASS10_KIJ1(NC   ,NI1   ,NI2   ,NJ1   ,NJ2   ,
      1                     IDDL  ,IADK  ,JDIK  ,K_DIAG,K_LT  ,
      2                     KIJ0  ,ND    )
@@ -663,14 +660,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ASSEM_KII1                    source/implicit/assem_s10.F   
-Chd|-- called by -----------
-Chd|        ASS10_KII                     source/implicit/assem_s10.F   
-Chd|        ASS10_KIJ                     source/implicit/assem_s10.F   
-Chd|        ASS10_KIJ1                    source/implicit/assem_s10.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    assem_kii1   ../engine/source/implicit/assem_s10.F
+      !||--- called by ------------------------------------------------------
+      !||    ass10_kii    ../engine/source/implicit/assem_s10.F
+      !||    ass10_kij    ../engine/source/implicit/assem_s10.F
+      !||    ass10_kij1   ../engine/source/implicit/assem_s10.F
+      !||====================================================================
       SUBROUTINE ASSEM_KII1(NI    ,IDDL  ,IADK  ,K_DIAG,K_LT  ,
      1                      KII   ,ND    )
 C-----------------------------------------------
@@ -732,15 +728,14 @@ c#include "lockoff.inc"
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ASSEM_KIJ1                    source/implicit/assem_s10.F   
-Chd|-- called by -----------
-Chd|        ASS10_KII                     source/implicit/assem_s10.F   
-Chd|        ASS10_KIJ                     source/implicit/assem_s10.F   
-Chd|        ASS10_KIJ1                    source/implicit/assem_s10.F   
-Chd|        ASS10_KIJ2                    source/implicit/assem_s10.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    assem_kij1   ../engine/source/implicit/assem_s10.F
+      !||--- called by ------------------------------------------------------
+      !||    ass10_kii    ../engine/source/implicit/assem_s10.F
+      !||    ass10_kij    ../engine/source/implicit/assem_s10.F
+      !||    ass10_kij1   ../engine/source/implicit/assem_s10.F
+      !||    ass10_kij2   ../engine/source/implicit/assem_s10.F
+      !||====================================================================
       SUBROUTINE ASSEM_KIJ1(NI    ,NJ    ,IDDL  ,IADK,JDIK,
      1                      K_DIAG,K_LT  ,KIJ   ,ND  )
 C-----------------------------------------------
@@ -850,12 +845,11 @@ c#include "lockoff.inc"
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  ASS10_KIJ2                    source/implicit/assem_s10.F   
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ASSEM_KIJ1                    source/implicit/assem_s10.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    ass10_kij2   ../engine/source/implicit/assem_s10.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_kij1   ../engine/source/implicit/assem_s10.F
+      !||====================================================================
       SUBROUTINE ASS10_KIJ2(NC   ,NI    ,NJ1   ,NJ2   ,ND    ,
      1                    IDDL  ,IADK  ,JDIK  ,K_DIAG,K_LT  ,
      2                    KIJ0  )
@@ -893,12 +887,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ASS10_KKII                    source/implicit/assem_s10.F   
-Chd|-- called by -----------
-Chd|        ASSEM_S10                     source/implicit/assem_s10.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ass10_kkii   ../engine/source/implicit/assem_s10.F
+      !||--- called by ------------------------------------------------------
+      !||    assem_s10    ../engine/source/implicit/assem_s10.F
+      !||====================================================================
       SUBROUTINE ASS10_KKII(N1    ,N2    ,K11   ,K22   ,K12   ,
      1                      KJJ   ,ND    )
 C-----------------------------------------------
@@ -944,12 +937,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ASS10_KKIJ                    source/implicit/assem_s10.F   
-Chd|-- called by -----------
-Chd|        ASSEM_S10                     source/implicit/assem_s10.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ass10_kkij   ../engine/source/implicit/assem_s10.F
+      !||--- called by ------------------------------------------------------
+      !||    assem_s10    ../engine/source/implicit/assem_s10.F
+      !||====================================================================
       SUBROUTINE ASS10_KKIJ(NI    ,NJ1   ,NJ2   ,ND    ,
      1                      K11   ,K22   ,KI1   ,KI2   ,KIJ0  )
 C-----------------------------------------------
@@ -1018,12 +1010,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ASS10_KKJI                    source/implicit/assem_s10.F   
-Chd|-- called by -----------
-Chd|        ASSEM_S10                     source/implicit/assem_s10.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ass10_kkji   ../engine/source/implicit/assem_s10.F
+      !||--- called by ------------------------------------------------------
+      !||    assem_s10    ../engine/source/implicit/assem_s10.F
+      !||====================================================================
       SUBROUTINE ASS10_KKJI(NI    ,NJ1   ,NJ2   ,ND    ,
      1                      K11   ,K22   ,KI1   ,KI2   ,KIJ0  )
 C-----------------------------------------------

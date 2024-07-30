@@ -20,11 +20,10 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_DS_ISEND                 source/mpi/implicit/spmd_dsreso.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_ds_isend   ../engine/source/mpi/implicit/spmd_dsreso.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_DS_ISEND(BUF, SIZE, ITAG, IDEST)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -57,12 +56,12 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_DS_RSEND                 source/mpi/implicit/spmd_dsreso.F
-Chd|-- called by -----------
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_ds_rsend   ../engine/source/mpi/implicit/spmd_dsreso.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_buck        ../engine/source/implicit/imp_buck.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_DS_RSEND(BUF, SIZE, ITAG, IDEST)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -96,11 +95,10 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_DS_IRECV                 source/mpi/implicit/spmd_dsreso.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_ds_irecv   ../engine/source/mpi/implicit/spmd_dsreso.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_DS_IRECV(BUF, SIZE, ITAG, IPROV)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -133,12 +131,12 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_DS_RRECV                 source/mpi/implicit/spmd_dsreso.F
-Chd|-- called by -----------
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_ds_rrecv   ../engine/source/mpi/implicit/spmd_dsreso.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_buck        ../engine/source/implicit/imp_buck.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_DS_RRECV(BUF, SIZE, ITAG, IPROV)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -172,11 +170,10 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_DS_IEXCH                 source/mpi/implicit/spmd_dsreso.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_ds_iexch   ../engine/source/mpi/implicit/spmd_dsreso.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_DS_IEXCH(SBUF, RBUF, SIZE, MSGOFF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -224,11 +221,10 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_DS_MEXCH                 source/mpi/implicit/spmd_dsreso.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_ds_mexch   ../engine/source/mpi/implicit/spmd_dsreso.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_DS_MEXCH(MATR, N   , IEXCH, REXCH, MSGOFF,
      .                         IADS, IADR, NN   )
 C-----------------------------------------------
@@ -312,11 +308,10 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_DS_VEXCH                 source/mpi/implicit/spmd_dsreso.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_ds_vexch   ../engine/source/mpi/implicit/spmd_dsreso.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_DS_VEXCH(VECT, N   , IEXCH, REXCH, MSGOFF,
      .                         IADS, IADR, NN   , NV   )
 C-----------------------------------------------
@@ -414,11 +409,10 @@ C
 #endif
       RETURN
       END
-Chd|====================================================================
-Chd|  SPMD_DS_VDESC                 source/mpi/implicit/spmd_dsreso.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_ds_vdesc   ../engine/source/mpi/implicit/spmd_dsreso.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_DS_VDESC(V     , NDEPL, VV, NDDLC, NLOC,
      .                         MSGOFF)
 C-----------------------------------------------
@@ -517,11 +511,10 @@ C
 #endif
       RETURN
       END      
-Chd|====================================================================
-Chd|  SPMD_IWLG                     source/mpi/implicit/spmd_dsreso.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_iwlg   ../engine/source/mpi/implicit/spmd_dsreso.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_IWLG(NDDLT  , NDDLG, NDDL, LSDDL, IW,
      .                     MSGOFF)
 C-----------------------------------------------

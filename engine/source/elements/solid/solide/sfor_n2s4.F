@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SFOR_N2S4                     source/elements/solid/solide/sfor_n2s4.F
-Chd|-- called by -----------
-Chd|        S8FOR_DISTOR                  source/elements/solid/solide/s8for_distor.F
-Chd|-- calls ---------------
-Chd|        SSORT_N4                      source/elements/solid/solide/ssort_n4.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sfor_n2s4      ../engine/source/elements/solid/solide/sfor_n2s4.F
+      !||--- called by ------------------------------------------------------
+      !||    s8for_distor   ../engine/source/elements/solid/solide/s8for_distor.F
+      !||--- calls      -----------------------------------------------------
+      !||    ssort_n4       ../engine/source/elements/solid/solide/ssort_n4.F
+      !||====================================================================
       SUBROUTINE SFOR_N2S4( XI,      YI,     ZI,   STIF,     
      .                      X1,      X2,     X3,     X4,
      .                      Y1,      Y2,     Y3,     Y4,

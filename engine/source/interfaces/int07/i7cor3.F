@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7COR3                        source/interfaces/int07/i7cor3.F
-Chd|-- called by -----------
-Chd|        I10MAINF                      source/interfaces/int10/i10mainf.F
-Chd|        I18MAIN_KINE_I                source/interfaces/int18/i18main_kine.F
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|        I7MAIN_LMULT                  source/interfaces/int07/i7main_lmult.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7cor3           ../engine/source/interfaces/int07/i7cor3.F
+      !||--- called by ------------------------------------------------------
+      !||    i10mainf         ../engine/source/interfaces/int10/i10mainf.F
+      !||    i18main_kine_i   ../engine/source/interfaces/int18/i18main_kine.F
+      !||    i7main_lmult     ../engine/source/interfaces/int07/i7main_lmult.F
+      !||    i7mainf          ../engine/source/interfaces/int07/i7mainf.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I7COR3(
      1           JLT        ,X           ,IRECT      ,NSV       ,CAND_E   ,
      2           CAND_N     ,STF         ,STFN       ,X1        ,X2       ,

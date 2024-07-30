@@ -21,14 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  C_IDGLOB                      source/restart/ddsplit/c_idglob.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        REORDER_MOD                   share/modules1/reorder_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    c_idglob               ../starter/source/restart/ddsplit/c_idglob.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- uses       -----------------------------------------------------
+      !||    reorder_mod            ../starter/share/modules1/reorder_mod.F
+      !||====================================================================
       SUBROUTINE C_IDGLOB(NUMEL, NUMELS_L, NUMELQ_L, NUMELTG_L, 
      .     PROC, CEL, CEP, IPARG, ALE_CONNECTIVITY, IXS, IDGLOB_L, UIDGLOB_L)
       USE REORDER_MOD
@@ -95,12 +94,11 @@ C-----------------------------------------------
       DEALLOCATE(TAG)
       END SUBROUTINE C_IDGLOB
 C
-Chd|====================================================================
-Chd|  C_FASOLFR                     source/restart/ddsplit/c_idglob.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c_fasolfr   ../starter/source/restart/ddsplit/c_idglob.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+      !||====================================================================
       SUBROUTINE C_FASOLFR(FASOLFR, CEP, P, CEL, NFASOLFR_L)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -21,13 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  W_GEO                         source/restart/ddsplit/w_geo.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        COMPRESS_R_NNZ                ../common_source/comm/compress_nnz.F
-Chd|====================================================================
+      !||====================================================================
+      !||    w_geo            ../starter/source/restart/ddsplit/w_geo.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE W_GEO(GEO,NODLOCAL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAG_ANITH                     source/tools/lagmul/lag_anith.F
-Chd|-- called by -----------
-Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
-Chd|-- calls ---------------
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_anith   ../engine/source/tools/lagmul/lag_anith.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_mult    ../engine/source/tools/lagmul/lag_mult.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod    ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod     ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE LAG_ANITH(IADLL  ,LLL   ,JLL    ,SLL    ,XLL    ,
      2                     FANI  ,FSAV   ,NC     ,H3D_DATA)
 C-----------------------------------------------
@@ -98,15 +98,16 @@ C---
       END
 
 C routine SPMD
-Chd|====================================================================
-Chd|  LAG_ANITHP                    source/tools/lagmul/lag_anith.F
-Chd|-- called by -----------
-Chd|        LAG_MULTP                     source/tools/lagmul/lag_mult.F
-Chd|-- calls ---------------
-Chd|        SPMD_SG_FANI                  source/mpi/lag_multipliers/spmd_lag.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_anithp     ../engine/source/tools/lagmul/lag_anith.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_multp      ../engine/source/tools/lagmul/lag_mult.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_sg_fani   ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod       ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod        ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE LAG_ANITHP(IADLL  ,LLL   ,JLL  ,SLL     ,XLL    ,
      2                      FANI   ,FSAV  ,NC   ,INDEXLAG,FANIG  ,
      3                      FR_LAGF,NBNODL,LLAGF,NLAGF   ,H3D_DATA)
@@ -195,11 +196,9 @@ C---
       RETURN
       END
 
-Chd|====================================================================
-Chd|  LAGTH_RBY                     source/tools/lagmul/lag_anith.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    lagth_rby   ../engine/source/tools/lagmul/lag_anith.F
+      !||====================================================================
       SUBROUTINE LAGTH_RBY(LPBY  ,NPBY  ,FANI  ,FS   ,AF   ,AM   ,X   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

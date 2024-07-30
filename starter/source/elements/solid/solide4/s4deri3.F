@@ -21,18 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 CCgw|============================================================
-Chd|====================================================================
-Chd|  S4DERI3                       source/elements/solid/solide4/s4deri3.F
-Chd|-- called by -----------
-Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
-Chd|        INIVOID                       source/elements/initia/inivoid.F
-Chd|        MULTIFLUID_INIT3T             source/multifluid/multifluid_init3t.F
-Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
-Chd|        S4REFSTA3                     source/elements/solid/solide4/s4refsta3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s4deri3             ../starter/source/elements/solid/solide4/s4deri3.F
+      !||--- called by ------------------------------------------------------
+      !||    inirig_mat          ../starter/source/elements/initia/inirig_mat.F
+      !||    inivoid             ../starter/source/elements/initia/inivoid.F
+      !||    multifluid_init3t   ../starter/source/multifluid/multifluid_init3t.F
+      !||    s4init3             ../starter/source/elements/solid/solide4/s4init3.F
+      !||    s4refsta3           ../starter/source/elements/solid/solide4/s4refsta3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg              ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod         ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S4DERI3(VOL   ,VEUL  ,GEO   ,IGEO   ,RX     ,
      .                   RY    ,RZ    ,SX    ,SY     ,SZ     ,
      .                   TX    ,TY    ,TZ    ,

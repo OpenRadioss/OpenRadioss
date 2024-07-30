@@ -20,17 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I11TRIVOX                     source/interfaces/intsort/i11trivox.F
-Chd|-- called by -----------
-Chd|        I11BUCE_VOX                   source/interfaces/intsort/i11buce.F
-Chd|-- calls ---------------
-Chd|        I11STO_VOX                    source/interfaces/intsort/i11sto.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        REALLOC_MOD                   share/modules/realloc_mod.F   
-Chd|        TRI11                         share/modules/tri11_mod.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i11trivox     ../engine/source/interfaces/intsort/i11trivox.F
+      !||--- called by ------------------------------------------------------
+      !||    i11buce_vox   ../engine/source/interfaces/intsort/i11buce.F
+      !||--- calls      -----------------------------------------------------
+      !||    i11sto_vox    ../engine/source/interfaces/intsort/i11sto.F
+      !||    ireallocate   ../engine/share/modules/realloc_mod.F
+      !||    my_barrier    ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    realloc_mod   ../engine/share/modules/realloc_mod.F
+      !||    tri11         ../engine/share/modules/tri11_mod.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I11TRIVOX(
      1      IRECTS, IRECTM , X      , NRTM      ,NRTSR ,
      2      XYZM  , II_STOK, CAND_S , CAND_M    ,NSN4  ,

@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_ANIM_PLY_XYZNOR          source/mpi/anim/spmd_anim_ply_xyznor.F
-Chd|-- called by -----------
-Chd|        XYZNOR_PLY                    source/output/anim/generate/xyznor_ply.F
-Chd|-- calls ---------------
-Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_anim_ply_xyznor   ../engine/source/mpi/anim/spmd_anim_ply_xyznor.F
+      !||--- called by ------------------------------------------------------
+      !||    xyznor_ply             ../engine/source/output/anim/generate/xyznor_ply.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_s_c              ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_ANIM_PLY_XYZNOR( NODGLOB,IPLY,XNORM,EMPSIZPL)
 C-----------------------------------------------
 C   M o d u l e s

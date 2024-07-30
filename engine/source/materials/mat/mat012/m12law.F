@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M12LAW                        source/materials/mat/mat012/m12law.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
-Chd|        M14AMA                        source/materials/mat/mat014/m14ama.F
-Chd|        M14FTG                        source/materials/mat/mat014/m14ftg.F
-Chd|        M14GTF                        source/materials/mat/mat014/m14gtf.F
-Chd|====================================================================
+      !||====================================================================
+      !||    m12law    ../engine/source/materials/mat/mat012/m12law.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain     ../engine/source/materials/mat_share/mmain.F90
+      !||--- calls      -----------------------------------------------------
+      !||    eosmain   ../common_source/eos/eosmain.F
+      !||    m14ama    ../engine/source/materials/mat/mat014/m14ama.F
+      !||    m14ftg    ../engine/source/materials/mat/mat014/m14ftg.F
+      !||    m14gtf    ../engine/source/materials/mat/mat014/m14gtf.F
+      !||====================================================================
       SUBROUTINE M12LAW(
      1   PM,        OFF,       SIG,       EINT,
      2   PLA,       SIGF,      EPSF,      DAM,

@@ -20,6 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    get_unique_main_cell   ../engine/source/interfaces/int22/get_unique_master_cell.F
+      !||--- called by ------------------------------------------------------
+      !||    sinit22_fvm            ../engine/source/interfaces/int22/sinit22_fvm.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||====================================================================
       FUNCTION GET_UNIQUE_MAIN_CELL (
      .                    NIN,   IB,   K )
 C-----------------------------------------------

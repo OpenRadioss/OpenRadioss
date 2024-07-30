@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  W_CLUSTER                     source/output/cluster/w_cluster.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    w_cluster     ../engine/source/output/cluster/w_cluster.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp       ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db      ../common_source/tools/input_output/write_db.F
+      !||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    cluster_mod   ../engine/share/modules/cluster_mod.F
+      !||====================================================================
       SUBROUTINE W_CLUSTER(CLUSTER)
 C-----------------------------------------------
 C  Description:

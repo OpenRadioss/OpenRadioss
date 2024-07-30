@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_SD_CJ_2                  source/mpi/kinematic_conditions/spmd_sd_cj_2.F
-Chd|-- called by -----------
-Chd|        SMS_BUILD_DIAG                source/ams/sms_build_diag.F   
-Chd|        SMS_INI_KIN_1                 source/ams/sms_init.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sd_cj_2     ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_2.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_build_diag   ../engine/source/ams/sms_build_diag.F
+      !||    sms_ini_kin_1    ../engine/source/ams/sms_init.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_SD_CJ_2(NOD2ADD,LJOINT,FR_CJ,IADCJ,ICSIZE,
      2                      TAG_LNK_SMS,NODNX_SMS,INDX1_SMS)
 C envoi de p0 vers les autres procs de A, AR, V, VR

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALEMUSCL_DEALLOCATE           source/ale/alemuscl/alemuscl_deallocate.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    alemuscl_deallocate   ../engine/source/ale/alemuscl/alemuscl_deallocate.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                 ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    alemuscl_mod          ../common_source/modules/ale/alemuscl_mod.F
+      !||====================================================================
       SUBROUTINE ALEMUSCL_DEALLOCATE()
 C-----------------------------------------------
 C   M o d u l e s 

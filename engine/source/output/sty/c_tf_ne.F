@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C_TF_NE                       source/output/sty/c_tf_ne.F   
-Chd|-- called by -----------
-Chd|        OUTP_C_TF                     source/output/sty/outp_c_t.F  
-Chd|-- calls ---------------
-Chd|        LAYINI                        source/elements/shell/coque/layini.F
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    c_tf_ne        ../engine/source/output/sty/c_tf_ne.F
+      !||--- called by ------------------------------------------------------
+      !||    outp_c_tf      ../engine/source/output/sty/outp_c_t.F
+      !||--- calls      -----------------------------------------------------
+      !||    layini         ../engine/source/elements/shell/coque/layini.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod      ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    stack_mod      ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE C_TF_NE(ELBUF_STR,IHBE     ,NEL  ,NPT   ,MLW   ,
      .                   ITY      ,ISTRAIN  ,JJ   ,WA    ,IW    ,
      .                   NLAY     ,NPTR     ,NPTS ,ITHK  ,NFT   ,

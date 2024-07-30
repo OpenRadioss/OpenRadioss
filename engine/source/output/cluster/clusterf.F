@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CLUSTERF                      source/output/cluster/clusterf.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    clusterf       ../engine/source/output/cluster/clusterf.F
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    cluster_mod    ../engine/share/modules/cluster_mod.F
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    h3d_mod        ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE CLUSTERF(CLUSTER  ,ELBUF_TAB,X       ,A       ,AR       ,
      .                    SKEW     ,IXS      ,IPARG   ,FCLUSTER,MCLUSTER ,
      .                    H3D_DATA ,GEO      ) 

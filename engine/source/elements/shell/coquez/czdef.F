@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CZDEF                         source/elements/shell/coquez/czdef.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czdef         ../engine/source/elements/shell/coquez/czdef.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
+      !||====================================================================
         SUBROUTINE CZDEF(JFT ,JLT  ,AREA ,AA  ,V13   ,V24 ,
      2                   VHI ,RLXYZ,VDEF ,VHG ,X13   ,
      3                   X24 ,Y13  ,Y24  ,MX13,MX23  ,MX34,
@@ -201,14 +200,14 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZDEFRZ                       source/elements/shell/coquez/czdef.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|        CZDERIRZ                      source/elements/shell/coquez/czdef.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czdefrz       ../engine/source/elements/shell/coquez/czdef.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
+      !||--- calls      -----------------------------------------------------
+      !||    czderirz      ../engine/source/elements/shell/coquez/czdef.F
+      !||====================================================================
         SUBROUTINE CZDEFRZ(JFT ,JLT  ,AREA ,AA  ,RLZ   ,
      1                    VDEF ,VHGZK,VHGZE,X13 ,X24   ,
      2                    Y13  ,Y24  ,MX13 ,MX23,MX34  ,
@@ -288,14 +287,14 @@ C        DHY =VHG(I,2)-(-X24(I)*V13(I,3)+X13(I)*V24(I,3))*Z1(I)
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZDERIRZ                      source/elements/shell/coquez/czdef.F
-Chd|-- called by -----------
-Chd|        CZBER3                        source/elements/shell/coquez/czbe3.F
-Chd|        CZDEFRZ                       source/elements/shell/coquez/czdef.F
-Chd|-- calls ---------------
-Chd|        CBPATCH                       source/elements/shell/coqueba/cbadef.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czderirz   ../engine/source/elements/shell/coquez/czdef.F
+      !||--- called by ------------------------------------------------------
+      !||    czber3     ../engine/source/elements/shell/coquez/czbe3.F
+      !||    czdefrz    ../engine/source/elements/shell/coquez/czdef.F
+      !||--- calls      -----------------------------------------------------
+      !||    cbpatch    ../engine/source/elements/shell/coqueba/cbadef.F
+      !||====================================================================
         SUBROUTINE CZDERIRZ(JFT ,JLT  ,AREA ,X13 ,X24   ,
      2                     Y13  ,Y24  ,MX13 ,MX23,MX34  ,
      3                     MY13 ,MY23 ,MY34 ,BM0RZ,BMKRZ,
@@ -440,12 +439,11 @@ C--------BM0RZ(I,3,1)->(NxI,y+NyI,x) *A-;BM0RZ(I,4,1)->(-NxI,y+NyI,x -2NI) *A---
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZDEFT                        source/elements/shell/coquez/czdef.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czdeft    ../engine/source/elements/shell/coquez/czdef.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3   ../engine/source/elements/shell/coquez/czforc3.F
+      !||====================================================================
         SUBROUTINE CZDEFT(JFT ,JLT  ,V13   ,V24 ,RLXYZ,
      2                   VDEF ,X13   ,X24 ,Y13  ,Y24  ,
      3                   Z1   ,AA    )
@@ -483,13 +481,13 @@ C---------------
       ENDDO
       RETURN
       END
-Chd|====================================================================
-Chd|  CZDEFRZT                      source/elements/shell/coquez/czdef.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|-- calls ---------------
-Chd|        CZDERIRZT                     source/elements/shell/coquez/czdef.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czdefrzt    ../engine/source/elements/shell/coquez/czdef.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3     ../engine/source/elements/shell/coquez/czforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    czderirzt   ../engine/source/elements/shell/coquez/czdef.F
+      !||====================================================================
         SUBROUTINE CZDEFRZT(JFT ,JLT  ,AREA ,AA  ,RLXYZ ,
      1                     VDEF ,X13 ,X24   ,Y13  ,Y24  ,
      2                     MX13 ,MX23,MX34  ,MY13 ,MY23 ,
@@ -536,13 +534,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZDERIRZT                     source/elements/shell/coquez/czdef.F
-Chd|-- called by -----------
-Chd|        CZDEFRZT                      source/elements/shell/coquez/czdef.F
-Chd|-- calls ---------------
-Chd|        CBPATCH                       source/elements/shell/coqueba/cbadef.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czderirzt   ../engine/source/elements/shell/coquez/czdef.F
+      !||--- called by ------------------------------------------------------
+      !||    czdefrzt    ../engine/source/elements/shell/coquez/czdef.F
+      !||--- calls      -----------------------------------------------------
+      !||    cbpatch     ../engine/source/elements/shell/coqueba/cbadef.F
+      !||====================================================================
         SUBROUTINE CZDERIRZT(JFT ,JLT  ,AREA ,X13 ,X24   ,
      2                     Y13  ,Y24  ,MX13 ,MX23,MX34  ,
      3                     MY13 ,MY23 ,MY34 ,BM0RZ)
@@ -664,12 +662,11 @@ C      ENDDO
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZDEFTW                       source/elements/shell/coquez/czdef.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czdeftw   ../engine/source/elements/shell/coquez/czdef.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3   ../engine/source/elements/shell/coquez/czforc3.F
+      !||====================================================================
         SUBROUTINE CZDEFTW(JFT ,JLT  ,AA  ,V13   ,V24 ,
      2                    RLXYZ,X13  ,X24 ,Y13  ,Y24  ,
      3                    Z1  ,WXY)

@@ -20,22 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25FOR3                       source/interfaces/int25/i25for3.F
-Chd|-- called by -----------
-Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|-- calls ---------------
-Chd|        I25SMS2                       source/interfaces/int25/i25for3.F
-Chd|        IBCOFF                        source/interfaces/interf/ibcoff.F
-Chd|        BITGET                        source/interfaces/intsort/i20sto.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25for3          ../engine/source/interfaces/int25/i25for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i25mainf         ../engine/source/interfaces/int25/i25mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    bitget           ../engine/source/interfaces/intsort/i20sto.F
+      !||    i25sms2          ../engine/source/interfaces/int25/i25for3.F
+      !||    ibcoff           ../engine/source/interfaces/interf/ibcoff.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod         ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod          ../engine/share/modules/h3d_mod.F
+      !||    outputs_mod      ../common_source/modules/outputs_mod.F
+      !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
+      !||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
+      !||    plyxfem_mod      ../engine/share/modules/plyxfem_mod.F
+      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25FOR3(JLT ,A  ,V       ,IBCC        ,ICODT     ,
      2    FSAV        ,MS        ,VISC    ,
      3    VISCF       ,NOINT     ,STFN    ,ITAB        ,CN_LOC    ,
@@ -3394,16 +3395,17 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I25SMS2                       source/interfaces/int25/i25for3.F
-Chd|-- called by -----------
-Chd|        I25FOR3                       source/interfaces/int25/i25for3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25sms2       ../engine/source/interfaces/int25/i25for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i25for3       ../engine/source/interfaces/int25/i25for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25SMS2(JLT   ,IX1   ,IX2  ,IX3  ,IX4   ,
      2                  NSVG  ,H1    ,H2   ,H3   ,H4    ,STIF   ,
      3                  NIN   ,NOINT ,MSKYI_SMS ,ISKYI_SMS,NSMS ,

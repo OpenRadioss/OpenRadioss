@@ -21,14 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  W_TH                          source/restart/ddsplit/w_th.F 
-Chd|-- called by -----------
-Chd|        WRITE_TH_BUFFER               source/restart/ddsplit/write_th_buffer.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    w_th              ../starter/source/restart/ddsplit/w_th.F
+      !||--- called by ------------------------------------------------------
+      !||    write_th_buffer   ../starter/source/restart/ddsplit/write_th_buffer.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal            ../starter/source/spmd/node/ddtools.F
+      !||====================================================================
       SUBROUTINE W_TH(ITHGRP ,ITHBUF ,LENTHG,NODLOCAL,CEL   ,
      2                NTHGRP0,NTHGRP2,PROC    ,
      3                CELSPH, NUMLOCCLUSTER ,NBR_TH_MONVOL)

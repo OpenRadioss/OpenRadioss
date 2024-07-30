@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CZCORP5                       source/elements/shell/coquez/czcorp5.F
-Chd|-- called by -----------
-Chd|        CZCORC1                       source/elements/shell/coquez/czcorc.F
-Chd|-- calls ---------------
-Chd|        A3INVDP_V                     source/elements/shell/coquez/a3invdp_v.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czcorp5     ../engine/source/elements/shell/coquez/czcorp5.F
+      !||--- called by ------------------------------------------------------
+      !||    czcorc1     ../engine/source/elements/shell/coquez/czcorc.F
+      !||--- calls      -----------------------------------------------------
+      !||    a3invdp_v   ../engine/source/elements/shell/coquez/a3invdp_v.F
+      !||====================================================================
       SUBROUTINE CZCORP5( NUMNOD ,NEL    ,NUMELC ,VR      ,NPT    ,TOL    ,
      2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
      3                    V24    ,VHI    ,RLXYZ ,VQN    ,VQ     ,

@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CDKEPSINI                     source/elements/sh3n/coquedk/cdkepsini.F
-Chd|-- called by -----------
-Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
-Chd|-- calls ---------------
-Chd|        CDKDEFOI                      source/elements/sh3n/coquedk/cdkinit3.F
-Chd|        CDKEVEC3                      source/elements/sh3n/coquedk/cdkevec3.F
-Chd|        CDKPXPYI                      source/elements/sh3n/coquedk/cdkinit3.F
-Chd|        CMLAWI                        source/elements/shell/coque/cepsini.F
-Chd|        CORTH3                        source/elements/shell/coque/corth3.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    cdkepsini      ../starter/source/elements/sh3n/coquedk/cdkepsini.F
+      !||--- called by ------------------------------------------------------
+      !||    cdkinit3       ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    cdkdefoi       ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||    cdkevec3       ../starter/source/elements/sh3n/coquedk/cdkevec3.F
+      !||    cdkpxpyi       ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||    cmlawi         ../starter/source/elements/shell/coque/cepsini.F
+      !||    corth3         ../starter/source/elements/shell/coque/corth3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE CDKEPSINI(ELBUF_STR,MAT_PARAM,
      1           JFT  ,JLT   ,ISMSTR,ILAW  ,ITHK   ,
      2           PM   ,GEO   ,IXTG  ,X    ,XREFTG ,

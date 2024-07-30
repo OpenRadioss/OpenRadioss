@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_EXCH_IDEL                source/mpi/interfaces/spmd_exch_idel.F
-Chd|-- called by -----------
-Chd|        TAGOFF3N                      source/interfaces/interf/chkstfn3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_idel   ../engine/source/mpi/interfaces/spmd_exch_idel.F
+      !||--- called by ------------------------------------------------------
+      !||    tagoff3n         ../engine/source/interfaces/interf/chkstfn3.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_IDEL(ITAG,IAD_ELEM,FR_ELEM,SIZE,LENR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

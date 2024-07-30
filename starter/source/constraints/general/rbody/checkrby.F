@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CHECKRBY                      source/constraints/general/rbody/checkrby.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ANODSET                       source/output/analyse/analyse_node.c
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        KINSET                        source/constraints/general/kinset.F
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    checkrby      ../starter/source/constraints/general/rbody/checkrby.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur        ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    anodset       ../starter/source/output/analyse/analyse_node.c
+      !||    fretitl2      ../starter/source/starter/freform.F
+      !||    kinset        ../starter/source/constraints/general/kinset.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE CHECKRBY(RBY     ,NPBY    ,LPBY    ,ITAB    ,
      2                    IKINE   ,IDDLEVEL,NOM_OPT ,NUMSL   )
 C-------------------------------------

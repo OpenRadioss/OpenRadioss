@@ -20,6 +20,39 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    defaults_mod                  ../starter/source/modules/defaults_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    contrl                        ../starter/source/starter/contrl.F
+      !||    elbuf_ini                     ../starter/source/elements/elbuf_init/elbuf_ini.F
+      !||    hm_preread_properties         ../starter/source/properties/hm_preread_properties.F
+      !||    hm_prop_read21                ../starter/source/properties/thickshell/hm_read_prop21.F
+      !||    hm_read_defshell              ../starter/source/general_controls/default_values/hm_read_defshell.F
+      !||    hm_read_defsolid              ../starter/source/general_controls/default_values/hm_read_defsolid.F
+      !||    hm_read_prop06                ../starter/source/properties/solid/hm_read_prop06.F
+      !||    hm_read_prop11                ../starter/source/properties/shell/hm_read_prop11.F
+      !||    hm_read_prop14                ../starter/source/properties/solid/hm_read_prop14.F
+      !||    hm_read_prop14f               ../starter/source/properties/solid/hm_read_prop14.F
+      !||    hm_read_prop15                ../starter/source/properties/solid/hm_read_prop15.F
+      !||    hm_read_prop20                ../starter/source/properties/thickshell/hm_read_prop20.F
+      !||    hm_read_prop22                ../starter/source/properties/thickshell/hm_read_prop22.F
+      !||    hm_read_prop43                ../starter/source/properties/solid/hm_read_prop43.F
+      !||    hm_read_prop_generic          ../starter/source/properties/hm_read_prop_generic.F
+      !||    hm_read_properties            ../starter/source/properties/hm_read_properties.F
+      !||    inirig_mat                    ../starter/source/elements/initia/inirig_mat.F
+      !||    initia                        ../starter/source/elements/initia/initia.F
+      !||    inivoid                       ../starter/source/elements/initia/inivoid.F
+      !||    lectur                        ../starter/source/starter/lectur.F
+      !||    multifluid_init3t             ../starter/source/multifluid/multifluid_init3t.F
+      !||    s10init3                      ../starter/source/elements/solid/solide10/s10init3.F
+      !||    s4init3                       ../starter/source/elements/solid/solide4/s4init3.F
+      !||    s6cinit3                      ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+      !||    shell_offset_ini              ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
+      !||    shell_offsetp                 ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
+      !||    st_qaprint_driver             ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||    st_qaprint_general_controls   ../starter/source/output/qaprint/st_qaprint_general_controls.F
+      !||    starter0                      ../starter/source/starter/starter0.F
+      !||====================================================================
       module defaults_mod
 !=======================================================================================================================
 !!\brief default type : Hosts the variables for /DEF/xxx Starter Deck option
@@ -68,6 +101,11 @@
 !=======================================================================================================================
 !!\brief initialize first to zero all flag value of /DEF_*
 !=======================================================================================================================
+      !||====================================================================
+      !||    init_def_zero   ../starter/source/modules/defaults_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    contrl          ../starter/source/starter/contrl.F
+      !||====================================================================
           subroutine init_def_zero(this)
             implicit none
            
@@ -94,6 +132,11 @@
 !=======================================================================================================================
 !!\brief initialize to default values of /DEF_SHELL,
 !=======================================================================================================================
+      !||====================================================================
+      !||    init_def_elem   ../starter/source/modules/defaults_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    contrl          ../starter/source/starter/contrl.F
+      !||====================================================================
           subroutine init_def_elem(n2d,iimplicit,this)
             implicit none
            

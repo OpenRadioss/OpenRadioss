@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCUMUALPHA                    source/elements/thickshell/solidec/scumualpha.F
-Chd|-- called by -----------
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|-- calls ---------------
-Chd|        DTDC_MOD                      share/modules/dtdc_mod.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    scumualpha   ../engine/source/elements/thickshell/solidec/scumualpha.F
+      !||--- called by ------------------------------------------------------
+      !||    s8cforc3     ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    scforc3      ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    dtdc_mod     ../engine/share/modules/dtdc_mod.F
+      !||====================================================================
       SUBROUTINE SCUMUALPHA(
      1   OFFG,    ALPHA_E, NC1,     NC2,
      2   NC3,     NC4,     NC5,     NC6,

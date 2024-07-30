@@ -20,12 +20,24 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    th_titles_mod    ../starter/source/output/th/th_titles.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_thgrou   ../starter/source/output/th/hm_read_thgrou.F
+      !||====================================================================
       module th_titles_mod
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \th_titles define index->title correspondance
+      !||====================================================================
+      !||    th_titles        ../starter/source/output/th/th_titles.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_thgrou   ../starter/source/output/th/hm_read_thgrou.F
+      !||--- calls      -----------------------------------------------------
+      !||    origin           ../starter/source/model/remesh/build_admesh.F
+      !||====================================================================
         subroutine th_titles(nvarn1        ,nvarn1a       ,nvarn2           ,nvarnpinch        ,nvars1           ,&
           nvars2        ,nvars3        ,nvars4           ,nvars5            ,nvars6          ,&
           nvars7        ,nvars8        ,nvars9           ,nvarsnloc         ,&

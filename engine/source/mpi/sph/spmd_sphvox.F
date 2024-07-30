@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_SPHVOX                   source/mpi/sph/spmd_sphvox.F  
-Chd|-- called by -----------
-Chd|        SPHTRI0                       source/elements/sph/sphtri0.F 
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        SPMD_IALLGATHER               source/mpi/generic/spmd_iallgather.F
-Chd|        SPMD_IALLGATHER_INT           source/mpi/generic/spmd_iallgather_int.F
-Chd|        SPMD_IALLTOALLV               source/mpi/generic/spmd_ialltoallv.F
-Chd|        SPMD_IALLTOALL_INT            source/mpi/generic/spmd_ialltoall_int.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphvox           ../engine/source/mpi/sph/spmd_sphvox.F
+      !||--- called by ------------------------------------------------------
+      !||    sphtri0               ../engine/source/elements/sph/sphtri0.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
+      !||    spmd_iallgather       ../engine/source/mpi/generic/spmd_iallgather.F
+      !||    spmd_iallgather_int   ../engine/source/mpi/generic/spmd_iallgather_int.F
+      !||    spmd_ialltoall_int    ../engine/source/mpi/generic/spmd_ialltoall_int.F
+      !||    spmd_ialltoallv       ../engine/source/mpi/generic/spmd_ialltoallv.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    sphbox                ../engine/share/modules/sphbox.F
+      !||    tri7box               ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_SPHVOX(KXSP ,SPBUF,WSP2SORT,BMINMAL,X)
 C-----------------------------------------------
 C   M o d u l e s
@@ -409,16 +410,16 @@ C
 
 
 
-Chd|====================================================================
-Chd|  SPMD_SPHVOX_OLD               source/mpi/sph/spmd_sphvox.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphvox_old   ../engine/source/mpi/sph/spmd_sphvox.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg            ../engine/source/output/message/message.F
+      !||    arret             ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../engine/share/message_module/message_mod.F
+      !||    sphbox            ../engine/share/modules/sphbox.F
+      !||    tri7box           ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_SPHVOX_OLD(KXSP ,SPBUF,WSP2SORT,BMINMAL,X)
 C-----------------------------------------------
 C   M o d u l e s

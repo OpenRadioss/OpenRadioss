@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DFUNCC_CRK                    source/output/anim/generate/dfuncc_crk.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    dfuncc_crk         ../engine/source/output/anim/generate/dfuncc_crk.F
+      !||--- called by ------------------------------------------------------
+      !||    genani             ../engine/source/output/anim/generate/genani.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf            ../engine/share/resol/initbuf.F
+      !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
+      !||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod      ../engine/share/modules/crackxfem_mod.F
+      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod        ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE DFUNCC_CRK(
      .             ELBUF_TAB   ,LEN        , IFUNC  ,IPARG  ,GEO     ,
      .             IXC         ,IXTG       , MASS   ,PM     ,EL2FA   ,

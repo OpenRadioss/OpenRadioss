@@ -22,16 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C   This function uses a 3d rotation matrix to turn a point x around a
 C   center X0.
-Chd|====================================================================
-Chd|  EULER_VROT                    source/model/submodel/euler_vrot.F
-Chd|-- called by -----------
-Chd|        HM_READ_SKW                   source/tools/skew/hm_read_skw.F
-Chd|        LECSUBMOD                     source/model/submodel/lecsubmod.F
-Chd|        LECTRANS                      source/model/transformation/lectrans.F
-Chd|        SUBROTPOINT                   source/model/submodel/subrot.F
-Chd|        SUBROTVECT                    source/model/submodel/subrot.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    euler_vrot    ../starter/source/model/submodel/euler_vrot.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_skw   ../starter/source/tools/skew/hm_read_skw.F
+      !||    lecsubmod     ../starter/source/model/submodel/lecsubmod.F
+      !||    lectrans      ../starter/source/model/transformation/lectrans.F
+      !||    subrotpoint   ../starter/source/model/submodel/subrot.F
+      !||    subrotvect    ../starter/source/model/submodel/subrot.F
+      !||====================================================================
       SUBROUTINE EULER_VROT (X0,X,ROT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

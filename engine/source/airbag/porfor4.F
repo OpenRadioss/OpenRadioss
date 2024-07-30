@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PORFOR4                       source/airbag/porfor4.F       
-Chd|-- called by -----------
-Chd|        AIRBAGB1                      source/airbag/airbagb1.F      
-Chd|-- calls ---------------
-Chd|        GET_U_FUNC                    source/user_interface/ufunc.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    porfor4      ../engine/source/airbag/porfor4.F
+      !||--- called by ------------------------------------------------------
+      !||    airbagb1     ../engine/source/airbag/airbagb1.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_u_func   ../engine/source/user_interface/ufunc.F
+      !||====================================================================
       SUBROUTINE PORFOR4(SVTFAC,IM,IPM,PM,STRAIN,P,PEXT,IEL,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -75,13 +75,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  PORFORM4                      source/airbag/porfor4.F       
-Chd|-- called by -----------
-Chd|        FVVENT0                       source/airbag/fvvent0.F       
-Chd|-- calls ---------------
-Chd|        GET_U_FUNC                    source/user_interface/ufunc.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    porform4     ../engine/source/airbag/porfor4.F
+      !||--- called by ------------------------------------------------------
+      !||    fvvent0      ../engine/source/airbag/fvvent0.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_u_func   ../engine/source/user_interface/ufunc.F
+      !||====================================================================
       SUBROUTINE PORFORM4(SVTFAC,IM,IPM,PM,AREA,AREA0,P,PEXT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R13SUMG3                      source/elements/spring/r13sumg3.F
-Chd|-- called by -----------
-Chd|        R13KE3                        source/elements/spring/r13ke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    r13sumg3   ../engine/source/elements/spring/r13sumg3.F
+      !||--- called by ------------------------------------------------------
+      !||    r13ke3     ../engine/source/elements/spring/r13ke3.F
+      !||====================================================================
       SUBROUTINE R13SUMG3(JFT    ,JLT    ,AL      ,KX      ,KY     ,
      2                    KZ     ,MX     ,MY      ,MZ      ,R11    ,
      3                    R12    ,R13    ,R21     ,R22     ,R23    ,

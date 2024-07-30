@@ -20,24 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IMP_MUMPS1                    source/implicit/imp_mumps.F   
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        MUMPS_SET2                    source/implicit/imp_mumps.F   
-Chd|        PRINT_STIFF_MAT               source/implicit/imp_mumps.F   
-Chd|        SPMD_CDDL                     source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_INF_G                    source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_MUMPS_COUNT              source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_MUMPS_DEAL               source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_MUMPS_GATH               source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_MUMPS_INI                source/mpi/implicit/imp_spmd.F
-Chd|        TMPENVF                       source/system/tmpenv_c.c      
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|        IMP_KBCS                      share/modules/impbufdef_mod.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_mumps1         ../engine/source/implicit/imp_mumps.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv           ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    mumps_set2         ../engine/source/implicit/imp_mumps.F
+      !||    print_stiff_mat    ../engine/source/implicit/imp_mumps.F
+      !||    spmd_cddl          ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_inf_g         ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_count   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_deal    ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_gath    ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_ini     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    tmpenvf            ../engine/source/system/tmpenv_c.c
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm           ../engine/share/modules/imp_intm.F
+      !||    imp_kbcs           ../engine/share/modules/impbufdef_mod.F
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE IMP_MUMPS1(NDDL0  , NNZK0    , NDDL  , NNZK , NNMAX   ,
      .                      NODGLOB, IDDL     , NDOF  , INLOC, IKC     ,
      .                      IADK   , JDIK     , DIAG_K, LT_K , IAD_ELEM,
@@ -279,13 +280,13 @@ c      WRITE(IOUT,*) "NCYCLE,IT=",NCYCLE,IT
       RETURN
 #endif
       END
-Chd|====================================================================
-Chd|  PRINT_STIFF_MAT               source/implicit/imp_mumps.F   
-Chd|-- called by -----------
-Chd|        IMP_MUMPS1                    source/implicit/imp_mumps.F   
-Chd|-- calls ---------------
-Chd|        SPMD_INT_ALLREDUCE_MAX        source/mpi/implicit/imp_spmd.F
-Chd|====================================================================
+      !||====================================================================
+      !||    print_stiff_mat          ../engine/source/implicit/imp_mumps.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_mumps1               ../engine/source/implicit/imp_mumps.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_int_allreduce_max   ../engine/source/mpi/implicit/imp_spmd.F
+      !||====================================================================
       SUBROUTINE PRINT_STIFF_MAT(MUMPS_PAR, NDDL, NODGLOB, IDDL, NDOF,  
      .                           CDDLP, INLOC, IKC, NDDLG, NDDLP)
 C-----------------------------------------------
@@ -480,14 +481,14 @@ C
 #endif
       RETURN
       END                
-Chd|====================================================================
-Chd|  IMP_MUMPS2                    source/implicit/imp_mumps.F   
-Chd|-- called by -----------
-Chd|        LIN_SOLVP2                    source/implicit/lin_solv.F    
-Chd|-- calls ---------------
-Chd|        SPMD_MUMPS_EXEC               source/mpi/implicit/imp_spmd.F
-Chd|        SPMD_MUMPS_RHS                source/mpi/implicit/imp_spmd.F
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_mumps2        ../engine/source/implicit/imp_mumps.F
+      !||--- called by ------------------------------------------------------
+      !||    lin_solvp2        ../engine/source/implicit/lin_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_mumps_exec   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_rhs    ../engine/source/mpi/implicit/imp_spmd.F
+      !||====================================================================
       SUBROUTINE IMP_MUMPS2(MUMPS_PAR, CDDLP, F, X, NDDL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -540,13 +541,13 @@ C
 #endif
       END  
 
-Chd|====================================================================
-Chd|  MUMPS_SET                     source/implicit/imp_mumps.F   
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SPMD_IFRI                     source/mpi/implicit/imp_spmd.F
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    mumps_set   ../engine/source/implicit/imp_mumps.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_ifri   ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm    ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE MUMPS_SET(IADK , JDIK    , DIAG_K , LT_K  , CDDLP,
      .                     NKLOC, NKFRONT , ITK    , RTK   , IDDL ,
      .                     INLOC, IAD_ELEM, FR_ELEM, NDOF  , IKC  ,
@@ -853,15 +854,16 @@ C
       END
 
 
-Chd|====================================================================
-Chd|  MUMPS_SET2                    source/implicit/imp_mumps.F   
-Chd|-- called by -----------
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        IMP_MUMPS1                    source/implicit/imp_mumps.F   
-Chd|-- calls ---------------
-Chd|        SPMD_IFRI                     source/mpi/implicit/imp_spmd.F
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    mumps_set2   ../engine/source/implicit/imp_mumps.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_buck     ../engine/source/implicit/imp_buck.F
+      !||    imp_mumps1   ../engine/source/implicit/imp_mumps.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_ifri    ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm     ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE MUMPS_SET2(IADK , JDIK    , DIAG_K , LT_K  , CDDLP,
      .                     NKLOC, NKFRONT , ITK    , RTK   , IDDL ,
      .                     INLOC, IAD_ELEM, FR_ELEM, NDOF  , IKC  ,

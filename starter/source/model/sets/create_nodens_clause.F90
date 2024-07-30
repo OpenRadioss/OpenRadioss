@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    create_nodens_clause_mod   ../starter/source/model/sets/create_nodens_clause.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_set                     ../starter/source/model/sets/hm_set.F
+      !||====================================================================
       module create_nodens_clause_mod
       contains
 ! ======================================================================================================================
@@ -29,6 +34,20 @@
 !=======================================================================================================================
 !\brief This subroutine creates a clause from nodens
 !=======================================================================================================================
+      !||====================================================================
+      !||    create_nodens_clause        ../starter/source/model/sets/create_nodens_clause.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_set                      ../starter/source/model/sets/hm_set.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                      ../starter/source/output/message/message.F
+      !||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
+      !||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    set_usrtos                  ../starter/source/model/sets/ipartm1.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod                 ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       subroutine create_nodens_clause(clause ,itabm1 ,jclause ,is_available ,lsubmodel ,numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

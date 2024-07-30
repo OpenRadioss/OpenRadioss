@@ -20,246 +20,218 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
-Chd|        COMPRESS_I_NNZ                ../common_source/comm/compress_nnz.F
-Chd|        COMPRESS_R_NNZ                ../common_source/comm/compress_nnz.F
-Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        C_BUFEL                       source/restart/ddsplit/c_bufel.F
-Chd|        C_CLUSTER                     source/restart/ddsplit/w_cluster.F
-Chd|        C_CRKADD                      source/restart/ddsplit/c_crkadd.F
-Chd|        C_CRKEDGE                     source/restart/ddsplit/c_crkedge.F
-Chd|        C_CRKXFEM                     source/restart/ddsplit/c_crkxfem.F
-Chd|        C_DAMPVREL                    source/restart/ddsplit/c_dampvrel.F
-Chd|        C_DRAPE                       source/restart/ddsplit/c_drape.F
-Chd|        C_EIG                         source/restart/ddsplit/c_eig.F
-Chd|        C_ELIG3D                      source/restart/ddsplit/c_elig3d.F
-Chd|        C_ELMX                        source/restart/ddsplit/c_elmx.F
-Chd|        C_ELTLOC                      source/restart/ddsplit/c_eltloc.F
-Chd|        C_FASOLFR                     source/restart/ddsplit/c_idglob.F
-Chd|        C_FRONT                       source/restart/ddsplit/c_front.F
-Chd|        C_FVBAG                       source/airbag/c_fvbag.F       
-Chd|        C_FXBODY1                     source/restart/ddsplit/c_fxbody.F
-Chd|        C_FXBODY2                     source/restart/ddsplit/c_fxbody.F
-Chd|        C_FXBODY3                     source/restart/ddsplit/c_fxbody.F
-Chd|        C_FXBODY4                     source/restart/ddsplit/c_fxbody.F
-Chd|        C_GROUP_STR                   source/restart/ddsplit/c_group_str.F
-Chd|        C_IBCL                        source/restart/ddsplit/c_ibcl.F
-Chd|        C_IBCSCYC                     source/restart/ddsplit/c_ibcscyc.F
-Chd|        C_IBFT                        source/restart/ddsplit/c_ibft.F
-Chd|        C_IBFV                        source/restart/ddsplit/c_ibfv.F
-Chd|        C_IBMPC                       source/restart/ddsplit/c_ibmpc.F
-Chd|        C_IBVEL                       source/restart/ddsplit/c_ibvel.F
-Chd|        C_ICFIELD                     source/restart/ddsplit/c_icfield.F
-Chd|        C_ICNDS10                     source/restart/ddsplit/c_icnds10.F
-Chd|        C_ICONV                       source/restart/ddsplit/c_iconv.F
-Chd|        C_IDGLOB                      source/restart/ddsplit/c_idglob.F
-Chd|        C_IEBCS                       source/restart/ddsplit/c_iebcs.F
-Chd|        C_IGRAV                       source/restart/ddsplit/c_igrav.F
-Chd|        C_ILOADP                      source/restart/ddsplit/c_iloadp.F
-Chd|        C_IRADIA                      source/restart/ddsplit/c_iradia.F
-Chd|        C_IRBE2                       source/restart/ddsplit/c_irbe2.F
-Chd|        C_IRBE3                       source/restart/ddsplit/c_irbe3.F
-Chd|        C_ISLIN_STR                   source/restart/ddsplit/c_islin_str.F
-Chd|        C_ISPH                        source/restart/ddsplit/c_isph.F
-Chd|        C_ISURF_STR                   source/restart/ddsplit/c_isurf_str.F
-Chd|        C_ITHFLUX                     source/restart/ddsplit/c_ithflux.F
-Chd|        C_IXFLOC                      source/restart/ddsplit/c_ixfloc.F
-Chd|        C_JOINT_SMS                   source/constraints/general/cyl_joint/write_count_joint_sms.F
-Chd|        C_LAG                         source/restart/ddsplit/c_lag.F
-Chd|        C_LLINK                       source/restart/ddsplit/c_llink.F
-Chd|        C_MAD                         source/restart/ddsplit/c_mad.F
-Chd|        C_MULTI_VEL                   source/restart/ddsplit/c_multi_vel.F
-Chd|        C_NCRKXFEM                    source/restart/ddsplit/c_ncrkxfem.F
-Chd|        C_NGROUP                      source/restart/ddsplit/c_ngroup.F
-Chd|        C_NLOADS                      source/restart/ddsplit/c_nloads.F
-Chd|        C_PON                         source/restart/ddsplit/c_pon.F
-Chd|        C_PORO                        source/restart/ddsplit/c_poro.F
-Chd|        C_PXFEM                       source/restart/ddsplit/c_pxfem.F
-Chd|        C_RBYK                        source/restart/ddsplit/c_rbyk.F
-Chd|        C_RBYMK                       source/restart/ddsplit/c_rbymk.F
-Chd|        C_RWALL                       source/restart/ddsplit/c_rwall.F
-Chd|        C_SEATBELTS                   source/restart/ddsplit/c_seatbelts.F
-Chd|        C_SECTIO                      source/restart/ddsplit/c_sectio.F
-Chd|        C_SEGQUADFR                   source/restart/ddsplit/c_segquadfr.F
-Chd|        C_SPMD_NE_CONNECT             source/ale/spmd_ne_connect.F  
-Chd|        C_VOIS                        source/restart/ddsplit/c_vois.F
-Chd|        EIGWRESTP                     source/restart/ddsplit/wrrest.F
-Chd|        ELAPSTIME_OMP                 source/system/timer.F         
-Chd|        FILE_SIZE_C                   ../common_source/tools/input_output/write_routtines.c
-Chd|        FVWRESTP                      source/restart/ddsplit/fvwrestp.F
-Chd|        FXBWRESTP                     source/restart/ddsplit/wrrest.F
-Chd|        F_NODLOC2                     source/restart/ddsplit/f_nodloc2.F
-Chd|        INTBUF_INI_STARTER            source/interfaces/intbuf/intbuf_ini_starter.F
-Chd|        INTSTAMP_WRESTI               share/modules1/intstamp_mod.F 
-Chd|        INTSTAMP_WRESTR               share/modules1/intstamp_mod.F 
-Chd|        IPARI_L_INI                   source/restart/ddsplit/ipari_l_ini.F
-Chd|        M_FLOW                        source/restart/ddsplit/m_flow.F
-Chd|        NFWRESTP                      source/restart/ddsplit/wrrest.F
-Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
-Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/loads/pblast_mod.F
-Chd|        SETLENWA                      source/restart/ddsplit/setlenwa.F
-Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
-Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
-Chd|        SPLIT_SKEW                    source/restart/ddsplit/split_skew.F
-Chd|        SPMD_NE_CONNECT               source/ale/spmd_ne_connect.F  
-Chd|        SPMD_USERWI_REST              source/user_interface/user_windows_tools.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        TABLE_WRESTI                  source/tools/curve/table_tools.F
-Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
-Chd|        THSURF_WRITE_RESTART          ../common_source/modules/interfaces/th_surf_mod.F
-Chd|        WRCOMIP                       source/restart/ddsplit/wrcommp.F
-Chd|        WRCOMR                        source/restart/ddsplit/wrcomm.F
-Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_DPDB                    ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_ELGROUP_PARAM           source/restart/ddsplit/write_elgroup_param.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_JOINT                   source/constraints/general/cyl_joint/write_joint.F
-Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
-Chd|        WRITE_NLOC_STRUCT             source/restart/ddsplit/write_nloc_struct.F
-Chd|        WRITE_PCYL                    source/loads/general/load_pcyl/write_pcyl.F
-Chd|        WRITE_SENSORS                 source/tools/sensor/write_sensors.F
-Chd|        WRITE_TH_BUFFER               source/restart/ddsplit/write_th_buffer.F
-Chd|        WRITE_UNITS                   ../common_source/comm/write_units.F
-Chd|        WRWEIGHT_RM                   source/restart/ddsplit/wrweight_rm.F
-Chd|        W_ALELAG                      source/restart/ddsplit/w_alelag.F
-Chd|        W_ANIM_CRK                    source/restart/ddsplit/w_anim_crk.F
-Chd|        W_ANIM_PLY                    source/restart/ddsplit/w_anim_ply.F
-Chd|        W_AVUPLY                      source/restart/ddsplit/w_avuply.F
-Chd|        W_BID                         source/restart/ddsplit/w_bid.F
-Chd|        W_BUFBRIC_22                  source/interfaces/inter3d1/w_bufbric_22.F
-Chd|        W_BUFEL                       source/restart/ddsplit/w_bufel.F
-Chd|        W_CLUSTER                     source/restart/ddsplit/w_cluster.F
-Chd|        W_CRKXFEM                     source/restart/ddsplit/w_crkxfem.F
-Chd|        W_DAMPVREL                    source/restart/ddsplit/w_dampvrel.F
-Chd|        W_DISP0_VEL0_CLOAD            source/restart/ddsplit/w_disp0_vel0_cload.F
-Chd|        W_DRAPE                       source/restart/ddsplit/w_drape.F
-Chd|        W_ELBUF_STR                   source/restart/ddsplit/w_elbuf_str.F
-Chd|        W_ELIG3D                      source/restart/ddsplit/w_elig3d.F
-Chd|        W_ELMX                        source/restart/ddsplit/w_elmx.F
-Chd|        W_FAC                         source/restart/ddsplit/w_fac.F
-Chd|        W_FAILWAVE                    source/restart/ddsplit/w_failwave.F
-Chd|        W_FASOLFR                     source/restart/ddsplit/w_fasolfr.F
-Chd|        W_FBFT                        source/restart/ddsplit/w_fbft.F
-Chd|        W_FCONV                       source/restart/ddsplit/w_fconv.F
-Chd|        W_FI                          source/restart/ddsplit/w_fi.F 
-Chd|        W_FIXVEL                      source/restart/ddsplit/w_fixvel.F
-Chd|        W_FRADIA                      source/restart/ddsplit/w_fradia.F
-Chd|        W_FRBE3                       source/restart/ddsplit/w_frbe3.F
-Chd|        W_FRONT                       source/restart/ddsplit/w_front.F
-Chd|        W_FSPH                        source/restart/ddsplit/w_fsph.F
-Chd|        W_FTHFLUX                     source/restart/ddsplit/w_fthflux.F
-Chd|        W_GEO                         source/restart/ddsplit/w_geo.F
-Chd|        W_GJOINT                      source/restart/ddsplit/w_gjoint.F
-Chd|        W_GROUP_STR                   source/restart/ddsplit/w_group_str.F
-Chd|        W_IBCL                        source/restart/ddsplit/w_ibcl.F
-Chd|        W_IBCSCYC                     source/restart/ddsplit/w_ibcscyc.F
-Chd|        W_IBFT                        source/restart/ddsplit/w_ibft.F
-Chd|        W_IBFV                        source/restart/ddsplit/w_ibfv.F
-Chd|        W_IBMPC                       source/restart/ddsplit/w_ibmpc.F
-Chd|        W_IBVEL                       source/restart/ddsplit/w_ibvel.F
-Chd|        W_ICFIELD                     source/restart/ddsplit/w_icfield.F
-Chd|        W_ICNDS10                     source/restart/ddsplit/w_icnds10.F
-Chd|        W_ICONV                       source/restart/ddsplit/w_iconv.F
-Chd|        W_IELOC                       source/restart/ddsplit/w_ieloc.F
-Chd|        W_IGRAV                       source/restart/ddsplit/w_igrav.F
-Chd|        W_ILOADP                      source/restart/ddsplit/w_iloadp.F
-Chd|        W_ING2LOC                     source/restart/ddsplit/w_ing2loc.F
-Chd|        W_INLOC                       source/restart/ddsplit/w_inloc.F
-Chd|        W_IPARG                       source/restart/ddsplit/w_iparg.F
-Chd|        W_IRADIA                      source/restart/ddsplit/w_iradia.F
-Chd|        W_IRBE2                       source/restart/ddsplit/w_irbe2.F
-Chd|        W_IRBE3                       source/restart/ddsplit/w_irbe3.F
-Chd|        W_IRIVET                      source/restart/ddsplit/w_irivet.F
-Chd|        W_ISKEWSP                     source/restart/ddsplit/w_iskewsp.F
-Chd|        W_ISKN                        source/restart/ddsplit/w_iskn.F
-Chd|        W_ISLIN_STR                   source/restart/ddsplit/w_islin_str.F
-Chd|        W_ISPH                        source/restart/ddsplit/w_isph.F
-Chd|        W_ISURF_STR                   source/restart/ddsplit/w_isurf_str.F
-Chd|        W_ITABM1                      source/restart/ddsplit/w_itabm1.F
-Chd|        W_ITHFLUX                     source/restart/ddsplit/w_ithflux.F
-Chd|        W_IXALOC                      source/restart/ddsplit/w_ixaloc.F
-Chd|        W_IXBLOC                      source/restart/ddsplit/w_ixbloc.F
-Chd|        W_IXLOC                       source/restart/ddsplit/w_ixloc.F
-Chd|        W_JOINT_SMS                   source/constraints/general/cyl_joint/write_count_joint_sms.F
-Chd|        W_KNOTLOC                     source/restart/ddsplit/w_knotloc.F
-Chd|        W_LACC                        source/restart/ddsplit/w_lacc.F
-Chd|        W_LAS                         source/restart/ddsplit/w_las.F
-Chd|        W_LGAU                        source/restart/ddsplit/w_lgau.F
-Chd|        W_LLINK                       source/restart/ddsplit/w_llink.F
-Chd|        W_MAD                         source/restart/ddsplit/w_mad.F
-Chd|        W_MAIN_PROC_WEIGHT            source/restart/ddsplit/w_master_proc_weight.F
-Chd|        W_MONVOL                      source/restart/ddsplit/w_monvol.F
-Chd|        W_OUTMAXN                     source/restart/ddsplit/w_outmaxn.F
-Chd|        W_PLY_INFO                    source/restart/ddsplit/w_ply_info.F
-Chd|        W_PON                         source/restart/ddsplit/w_pon.F
-Chd|        W_PORO                        source/restart/ddsplit/w_poro.F
-Chd|        W_PXFEM                       source/restart/ddsplit/w_pxfem.F
-Chd|        W_R3NLOC                      source/restart/ddsplit/w_r3nloc.F
-Chd|        W_RBYK                        source/restart/ddsplit/w_rbyk.F
-Chd|        W_RBYMK                       source/restart/ddsplit/w_rbymk.F
-Chd|        W_RELOC                       source/restart/ddsplit/w_reloc.F
-Chd|        W_RELOC2                      source/restart/ddsplit/w_reloc2.F
-Chd|        W_RFILLOC                     source/restart/ddsplit/w_rfilloc.F
-Chd|        W_RNLOC                       source/restart/ddsplit/w_rnloc.F
-Chd|        W_RNNLOC                      source/restart/ddsplit/w_rnnloc.F
-Chd|        W_RSPH                        source/restart/ddsplit/w_rsph.F
-Chd|        W_RWALL                       source/restart/ddsplit/w_rwall.F
-Chd|        W_RWAR                        source/restart/ddsplit/w_rwar.F
-Chd|        W_SEATBELTS                   source/restart/ddsplit/w_seatbelts.F
-Chd|        W_SECBUF                      source/restart/ddsplit/w_secbuf.F
-Chd|        W_SECTIO                      source/restart/ddsplit/w_sectio.F
-Chd|        W_SEGQUADFR                   source/restart/ddsplit/w_segquadfr.F
-Chd|        W_SKWSPH                      source/restart/ddsplit/w_skwsph.F
-Chd|        W_SKWSUB                      source/restart/ddsplit/w_skwsub.F
-Chd|        W_STACK                       source/restart/ddsplit/w_stack.F
-Chd|        W_SUBSET_STR                  source/restart/ddsplit/w_subset_str.F
-Chd|        W_TABMAT_PROP                 source/restart/ddsplit/w_tabmat_prop.F
-Chd|        W_TH_SURF_LOADP               source/restart/ddsplit/w_th_surf_loadp.F
-Chd|        W_TH_SURF_PLOAD               source/restart/ddsplit/w_th_surf_pload.F
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        CLUSTER_MOD                   share/modules1/cluster_mod.F  
-Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
-Chd|        DSGRAPH_MOD                   share/modules1/dsgraph_mod.F  
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
-Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        INTSTAMP_MOD                  share/modules1/intstamp_mod.F 
-Chd|        JOINT_MOD                     share/modules1/joint_mod.F    
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
-Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        SPLIT_CFD_MOD                 share/modules1/split_cfd_mod.F
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
-Chd|        STACK_VAR_MOD                 share/modules1/stack_var_mod.F
-Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ddsplit                  ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                   ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    c_bufel                  ../starter/source/restart/ddsplit/c_bufel.F
+      !||    c_cluster                ../starter/source/restart/ddsplit/w_cluster.F
+      !||    c_crkadd                 ../starter/source/restart/ddsplit/c_crkadd.F
+      !||    c_crkedge                ../starter/source/restart/ddsplit/c_crkedge.F
+      !||    c_crkxfem                ../starter/source/restart/ddsplit/c_crkxfem.F
+      !||    c_dampvrel               ../starter/source/restart/ddsplit/c_dampvrel.F
+      !||    c_drape                  ../starter/source/restart/ddsplit/c_drape.F
+      !||    c_eig                    ../starter/source/restart/ddsplit/c_eig.F
+      !||    c_elig3d                 ../starter/source/restart/ddsplit/c_elig3d.F
+      !||    c_elmx                   ../starter/source/restart/ddsplit/c_elmx.F
+      !||    c_eltloc                 ../starter/source/restart/ddsplit/c_eltloc.F
+      !||    c_fasolfr                ../starter/source/restart/ddsplit/c_idglob.F
+      !||    c_front                  ../starter/source/restart/ddsplit/c_front.F
+      !||    c_fvbag                  ../starter/source/airbag/c_fvbag.F
+      !||    c_fxbody1                ../starter/source/restart/ddsplit/c_fxbody.F
+      !||    c_fxbody2                ../starter/source/restart/ddsplit/c_fxbody.F
+      !||    c_fxbody3                ../starter/source/restart/ddsplit/c_fxbody.F
+      !||    c_fxbody4                ../starter/source/restart/ddsplit/c_fxbody.F
+      !||    c_group_str              ../starter/source/restart/ddsplit/c_group_str.F
+      !||    c_ibcl                   ../starter/source/restart/ddsplit/c_ibcl.F
+      !||    c_ibcscyc                ../starter/source/restart/ddsplit/c_ibcscyc.F
+      !||    c_ibft                   ../starter/source/restart/ddsplit/c_ibft.F
+      !||    c_ibfv                   ../starter/source/restart/ddsplit/c_ibfv.F
+      !||    c_ibmpc                  ../starter/source/restart/ddsplit/c_ibmpc.F
+      !||    c_ibvel                  ../starter/source/restart/ddsplit/c_ibvel.F
+      !||    c_icfield                ../starter/source/restart/ddsplit/c_icfield.F
+      !||    c_icnds10                ../starter/source/restart/ddsplit/c_icnds10.F
+      !||    c_iconv                  ../starter/source/restart/ddsplit/c_iconv.F
+      !||    c_idglob                 ../starter/source/restart/ddsplit/c_idglob.F
+      !||    c_iebcs                  ../starter/source/restart/ddsplit/c_iebcs.F
+      !||    c_igrav                  ../starter/source/restart/ddsplit/c_igrav.F
+      !||    c_iloadp                 ../starter/source/restart/ddsplit/c_iloadp.F
+      !||    c_iradia                 ../starter/source/restart/ddsplit/c_iradia.F
+      !||    c_irbe2                  ../starter/source/restart/ddsplit/c_irbe2.F
+      !||    c_irbe3                  ../starter/source/restart/ddsplit/c_irbe3.F
+      !||    c_islin_str              ../starter/source/restart/ddsplit/c_islin_str.F
+      !||    c_isph                   ../starter/source/restart/ddsplit/c_isph.F
+      !||    c_isurf_str              ../starter/source/restart/ddsplit/c_isurf_str.F
+      !||    c_ithflux                ../starter/source/restart/ddsplit/c_ithflux.F
+      !||    c_ixfloc                 ../starter/source/restart/ddsplit/c_ixfloc.F
+      !||    c_joint_sms              ../starter/source/constraints/general/cyl_joint/write_count_joint_sms.F
+      !||    c_lag                    ../starter/source/restart/ddsplit/c_lag.F
+      !||    c_llink                  ../starter/source/restart/ddsplit/c_llink.F
+      !||    c_mad                    ../starter/source/restart/ddsplit/c_mad.F
+      !||    c_multi_vel              ../starter/source/restart/ddsplit/c_multi_vel.F
+      !||    c_ncrkxfem               ../starter/source/restart/ddsplit/c_ncrkxfem.F
+      !||    c_ngroup                 ../starter/source/restart/ddsplit/c_ngroup.F
+      !||    c_nloads                 ../starter/source/restart/ddsplit/c_nloads.F
+      !||    c_pon                    ../starter/source/restart/ddsplit/c_pon.F
+      !||    c_poro                   ../starter/source/restart/ddsplit/c_poro.F
+      !||    c_pxfem                  ../starter/source/restart/ddsplit/c_pxfem.F
+      !||    c_rbyk                   ../starter/source/restart/ddsplit/c_rbyk.F
+      !||    c_rbymk                  ../starter/source/restart/ddsplit/c_rbymk.F
+      !||    c_rwall                  ../starter/source/restart/ddsplit/c_rwall.F
+      !||    c_seatbelts              ../starter/source/restart/ddsplit/c_seatbelts.F
+      !||    c_sectio                 ../starter/source/restart/ddsplit/c_sectio.F
+      !||    c_segquadfr              ../starter/source/restart/ddsplit/c_segquadfr.F
+      !||    c_spmd_ne_connect        ../starter/source/ale/spmd_ne_connect.F
+      !||    c_vois                   ../starter/source/restart/ddsplit/c_vois.F
+      !||    eigwrestp                ../starter/source/restart/ddsplit/wrrest.F
+      !||    elapstime_omp            ../starter/source/system/timer.F
+      !||    f_nodloc2                ../starter/source/restart/ddsplit/f_nodloc2.F
+      !||    fvwrestp                 ../starter/source/restart/ddsplit/fvwrestp.F
+      !||    fxbwrestp                ../starter/source/restart/ddsplit/wrrest.F
+      !||    iface                    ../starter/source/ale/ale3d/iface.F
+      !||    iface2                   ../starter/source/ale/ale3d/iface.F
+      !||    intbuf_ini_starter       ../starter/source/interfaces/intbuf/intbuf_ini_starter.F
+      !||    intstamp_wresti          ../starter/share/modules1/intstamp_mod.F
+      !||    intstamp_wrestr          ../starter/share/modules1/intstamp_mod.F
+      !||    ipari_l_ini              ../starter/source/restart/ddsplit/ipari_l_ini.F
+      !||    m_flow                   ../starter/source/restart/ddsplit/m_flow.F
+      !||    nfwrestp                 ../starter/source/restart/ddsplit/wrrest.F
+      !||    setlenwa                 ../starter/source/restart/ddsplit/setlenwa.F
+      !||    split_ebcs               ../starter/source/boundary_conditions/ebcs/split_ebcs.F
+      !||    split_interfaces         ../starter/source/restart/ddsplit/split_interfaces.F
+      !||    split_skew               ../starter/source/restart/ddsplit/split_skew.F
+      !||    spmd_ne_connect          ../starter/source/ale/spmd_ne_connect.F
+      !||    spmd_userwi_rest         ../starter/source/user_interface/user_windows_tools.F
+      !||    startime                 ../starter/source/system/timer.F
+      !||    stoptime                 ../starter/source/system/timer.F
+      !||    table_wresti             ../starter/source/tools/curve/table_tools.F
+      !||    table_wrestr             ../starter/source/tools/curve/table_tools.F
+      !||    w_alelag                 ../starter/source/restart/ddsplit/w_alelag.F
+      !||    w_anim_crk               ../starter/source/restart/ddsplit/w_anim_crk.F
+      !||    w_anim_ply               ../starter/source/restart/ddsplit/w_anim_ply.F
+      !||    w_avuply                 ../starter/source/restart/ddsplit/w_avuply.F
+      !||    w_bcs_proc               ../starter/source/restart/ddsplit/w_bcs_proc.F90
+      !||    w_bid                    ../starter/source/restart/ddsplit/w_bid.F
+      !||    w_bufbric_22             ../starter/source/interfaces/inter3d1/w_bufbric_22.F
+      !||    w_bufel                  ../starter/source/restart/ddsplit/w_bufel.F
+      !||    w_cluster                ../starter/source/restart/ddsplit/w_cluster.F
+      !||    w_crkxfem                ../starter/source/restart/ddsplit/w_crkxfem.F
+      !||    w_dampvrel               ../starter/source/restart/ddsplit/w_dampvrel.F
+      !||    w_disp0_vel0_cload       ../starter/source/restart/ddsplit/w_disp0_vel0_cload.F
+      !||    w_drape                  ../starter/source/restart/ddsplit/w_drape.F
+      !||    w_elbuf_str              ../starter/source/restart/ddsplit/w_elbuf_str.F
+      !||    w_elig3d                 ../starter/source/restart/ddsplit/w_elig3d.F
+      !||    w_elmx                   ../starter/source/restart/ddsplit/w_elmx.F
+      !||    w_fac                    ../starter/source/restart/ddsplit/w_fac.F
+      !||    w_failwave               ../starter/source/restart/ddsplit/w_failwave.F
+      !||    w_fasolfr                ../starter/source/restart/ddsplit/w_fasolfr.F
+      !||    w_fbft                   ../starter/source/restart/ddsplit/w_fbft.F
+      !||    w_fconv                  ../starter/source/restart/ddsplit/w_fconv.F
+      !||    w_fi                     ../starter/source/restart/ddsplit/w_fi.F
+      !||    w_fixvel                 ../starter/source/restart/ddsplit/w_fixvel.F
+      !||    w_fradia                 ../starter/source/restart/ddsplit/w_fradia.F
+      !||    w_frbe3                  ../starter/source/restart/ddsplit/w_frbe3.F
+      !||    w_front                  ../starter/source/restart/ddsplit/w_front.F
+      !||    w_fsph                   ../starter/source/restart/ddsplit/w_fsph.F
+      !||    w_fthflux                ../starter/source/restart/ddsplit/w_fthflux.F
+      !||    w_geo                    ../starter/source/restart/ddsplit/w_geo.F
+      !||    w_gjoint                 ../starter/source/restart/ddsplit/w_gjoint.F
+      !||    w_group_str              ../starter/source/restart/ddsplit/w_group_str.F
+      !||    w_ibcl                   ../starter/source/restart/ddsplit/w_ibcl.F
+      !||    w_ibcscyc                ../starter/source/restart/ddsplit/w_ibcscyc.F
+      !||    w_ibft                   ../starter/source/restart/ddsplit/w_ibft.F
+      !||    w_ibfv                   ../starter/source/restart/ddsplit/w_ibfv.F
+      !||    w_ibmpc                  ../starter/source/restart/ddsplit/w_ibmpc.F
+      !||    w_ibvel                  ../starter/source/restart/ddsplit/w_ibvel.F
+      !||    w_icfield                ../starter/source/restart/ddsplit/w_icfield.F
+      !||    w_icnds10                ../starter/source/restart/ddsplit/w_icnds10.F
+      !||    w_iconv                  ../starter/source/restart/ddsplit/w_iconv.F
+      !||    w_ieloc                  ../starter/source/restart/ddsplit/w_ieloc.F
+      !||    w_igrav                  ../starter/source/restart/ddsplit/w_igrav.F
+      !||    w_iloadp                 ../starter/source/restart/ddsplit/w_iloadp.F
+      !||    w_ing2loc                ../starter/source/restart/ddsplit/w_ing2loc.F
+      !||    w_inloc                  ../starter/source/restart/ddsplit/w_inloc.F
+      !||    w_iparg                  ../starter/source/restart/ddsplit/w_iparg.F
+      !||    w_iradia                 ../starter/source/restart/ddsplit/w_iradia.F
+      !||    w_irbe2                  ../starter/source/restart/ddsplit/w_irbe2.F
+      !||    w_irbe3                  ../starter/source/restart/ddsplit/w_irbe3.F
+      !||    w_irivet                 ../starter/source/restart/ddsplit/w_irivet.F
+      !||    w_iskewsp                ../starter/source/restart/ddsplit/w_iskewsp.F
+      !||    w_iskn                   ../starter/source/restart/ddsplit/w_iskn.F
+      !||    w_islin_str              ../starter/source/restart/ddsplit/w_islin_str.F
+      !||    w_isph                   ../starter/source/restart/ddsplit/w_isph.F
+      !||    w_isurf_str              ../starter/source/restart/ddsplit/w_isurf_str.F
+      !||    w_itabm1                 ../starter/source/restart/ddsplit/w_itabm1.F
+      !||    w_ithflux                ../starter/source/restart/ddsplit/w_ithflux.F
+      !||    w_ixaloc                 ../starter/source/restart/ddsplit/w_ixaloc.F
+      !||    w_ixbloc                 ../starter/source/restart/ddsplit/w_ixbloc.F
+      !||    w_ixloc                  ../starter/source/restart/ddsplit/w_ixloc.F
+      !||    w_joint_sms              ../starter/source/constraints/general/cyl_joint/write_count_joint_sms.F
+      !||    w_knotloc                ../starter/source/restart/ddsplit/w_knotloc.F
+      !||    w_lacc                   ../starter/source/restart/ddsplit/w_lacc.F
+      !||    w_las                    ../starter/source/restart/ddsplit/w_las.F
+      !||    w_lgau                   ../starter/source/restart/ddsplit/w_lgau.F
+      !||    w_llink                  ../starter/source/restart/ddsplit/w_llink.F
+      !||    w_mad                    ../starter/source/restart/ddsplit/w_mad.F
+      !||    w_main_proc_weight       ../starter/source/restart/ddsplit/w_master_proc_weight.F
+      !||    w_monvol                 ../starter/source/restart/ddsplit/w_monvol.F
+      !||    w_outmaxn                ../starter/source/restart/ddsplit/w_outmaxn.F
+      !||    w_ply_info               ../starter/source/restart/ddsplit/w_ply_info.F
+      !||    w_pon                    ../starter/source/restart/ddsplit/w_pon.F
+      !||    w_poro                   ../starter/source/restart/ddsplit/w_poro.F
+      !||    w_pxfem                  ../starter/source/restart/ddsplit/w_pxfem.F
+      !||    w_r3nloc                 ../starter/source/restart/ddsplit/w_r3nloc.F
+      !||    w_rbyk                   ../starter/source/restart/ddsplit/w_rbyk.F
+      !||    w_rbymk                  ../starter/source/restart/ddsplit/w_rbymk.F
+      !||    w_reloc                  ../starter/source/restart/ddsplit/w_reloc.F
+      !||    w_reloc2                 ../starter/source/restart/ddsplit/w_reloc2.F
+      !||    w_rfilloc                ../starter/source/restart/ddsplit/w_rfilloc.F
+      !||    w_rnloc                  ../starter/source/restart/ddsplit/w_rnloc.F
+      !||    w_rnnloc                 ../starter/source/restart/ddsplit/w_rnnloc.F
+      !||    w_rsph                   ../starter/source/restart/ddsplit/w_rsph.F
+      !||    w_rwall                  ../starter/source/restart/ddsplit/w_rwall.F
+      !||    w_rwar                   ../starter/source/restart/ddsplit/w_rwar.F
+      !||    w_seatbelts              ../starter/source/restart/ddsplit/w_seatbelts.F
+      !||    w_secbuf                 ../starter/source/restart/ddsplit/w_secbuf.F
+      !||    w_sectio                 ../starter/source/restart/ddsplit/w_sectio.F
+      !||    w_segquadfr              ../starter/source/restart/ddsplit/w_segquadfr.F
+      !||    w_skwsph                 ../starter/source/restart/ddsplit/w_skwsph.F
+      !||    w_skwsub                 ../starter/source/restart/ddsplit/w_skwsub.F
+      !||    w_stack                  ../starter/source/restart/ddsplit/w_stack.F
+      !||    w_subset_str             ../starter/source/restart/ddsplit/w_subset_str.F
+      !||    w_tabmat_prop            ../starter/source/restart/ddsplit/w_tabmat_prop.F
+      !||    w_th_surf_loadp          ../starter/source/restart/ddsplit/w_th_surf_loadp.F
+      !||    w_th_surf_pload          ../starter/source/restart/ddsplit/w_th_surf_pload.F
+      !||    wrcomip                  ../starter/source/restart/ddsplit/wrcommp.F
+      !||    wrcomr                   ../starter/source/restart/ddsplit/wrcomm.F
+      !||    write_elgroup_param      ../starter/source/restart/ddsplit/write_elgroup_param.F
+      !||    write_joint              ../starter/source/constraints/general/cyl_joint/write_joint.F
+      !||    write_matparam           ../starter/source/materials/mat/write_matparam.F
+      !||    write_nloc_struct        ../starter/source/restart/ddsplit/write_nloc_struct.F
+      !||    write_pcyl               ../starter/source/loads/general/load_pcyl/write_pcyl.F
+      !||    write_sensors            ../starter/source/tools/sensor/write_sensors.F
+      !||    write_th_buffer          ../starter/source/restart/ddsplit/write_th_buffer.F
+      !||    wrweight_rm              ../starter/source/restart/ddsplit/wrweight_rm.F
+      !||--- uses       -----------------------------------------------------
+      !||    cluster_mod              ../starter/share/modules1/cluster_mod.F
+      !||    constraint_mod           ../starter/source/modules/constaint_mod.F90
+      !||    drape_mod                ../starter/share/modules1/drape_mod.F
+      !||    dsgraph_mod              ../starter/share/modules1/dsgraph_mod.F
+      !||    front_mod                ../starter/share/modules1/front_mod.F
+      !||    fvbag_mod                ../starter/share/modules1/fvbag_mod.F
+      !||    intstamp_mod             ../starter/share/modules1/intstamp_mod.F
+      !||    joint_mod                ../starter/share/modules1/joint_mod.F
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    mid_pid_mod              ../starter/share/modules1/mid_pid_mod.F
+      !||    monvol_struct_mod        ../starter/share/modules1/monvol_struct_mod.F
+      !||    sensor_mod               ../starter/share/modules1/sensor_mod.F
+      !||    split_cfd_mod            ../starter/share/modules1/split_cfd_mod.F
+      !||    stack_mod                ../starter/share/modules1/stack_mod.F
+      !||    stack_var_mod            ../starter/share/modules1/stack_var_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||    table_mod                ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE DDSPLIT(
      1   P            ,CEP          ,CEL           ,IGEO          ,MAT_ELEM    ,
      2   IPM          ,ICODE        ,ISKEW          ,ISKN         ,INSEL       ,

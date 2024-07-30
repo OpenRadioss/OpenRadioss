@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ELAS24                        source/materials/mat/mat024/elas24.F
-Chd|-- called by -----------
-Chd|        CONC24                        source/materials/mat/mat024/conc24.F
-Chd|-- calls ---------------
-Chd|        RDAM24                        source/materials/mat/mat024/rdam24.F
-Chd|====================================================================
+      !||====================================================================
+      !||    elas24   ../engine/source/materials/mat/mat024/elas24.F
+      !||--- called by ------------------------------------------------------
+      !||    conc24   ../engine/source/materials/mat/mat024/conc24.F
+      !||--- calls      -----------------------------------------------------
+      !||    rdam24   ../engine/source/materials/mat/mat024/rdam24.F
+      !||====================================================================
       SUBROUTINE ELAS24(NEL    ,PM     ,
      .                  CDAM   ,SIGC   ,DAM    ,ANG    ,EPS_F  ,CRAK   ,
      .                  C44    ,C55    ,C66    ,DE1    ,DE2    ,DE3    ,

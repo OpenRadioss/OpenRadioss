@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBAVISC                       source/elements/shell/coqueba/cbavisc.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|        CDK6FORC3                     source/elements/sh3n/coquedk6/cdk6forc3.F
-Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cbavisc     ../engine/source/elements/shell/coqueba/cbavisc.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3    ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||    cdk6forc3   ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+      !||    cdkforc3    ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+      !||====================================================================
       SUBROUTINE CBAVISC(JFT    ,JLT   ,VDEF  ,AMU  ,OFF ,
      2                   SHF    ,NU    ,RHO   ,SSP  ,AREA,
      3                   THK    ,FOR   ,MOM   ,NPT  ,MTN ,
@@ -93,12 +92,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CBAVISNP1                     source/elements/shell/coqueba/cbavisc.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cbavisnp1   ../engine/source/elements/shell/coqueba/cbavisc.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3    ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||====================================================================
       SUBROUTINE CBAVISNP1(JFT, JLT,VXYZ,RXYZ,VCORE,
      1                     AMU, OFF,RHO ,SSP ,AREA,THK  ,
      2                     G  ,DT1 ,VF  ,

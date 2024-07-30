@@ -23,14 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C     REAL
 #include "my_real.inc"
       my_real
-Chd|====================================================================
-Chd|  ALEAT                         source/system/aleat.F         
-Chd|-- called by -----------
-Chd|        IMP_INIS                      source/implicit/imp_pcg.F     
-Chd|        IMP_INISI                     source/implicit/imp_pcg.F     
-Chd|        SMS_INIS                      source/ams/sms_proj.F         
-Chd|-- calls ---------------
-Chd|====================================================================
      .      FUNCTION ALEAT()
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

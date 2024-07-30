@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPSGSYM                       source/elements/sph/spsgsym.F 
-Chd|-- called by -----------
-Chd|        FORINTP                       source/elements/forintp.F     
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spsgsym   ../engine/source/elements/sph/spsgsym.F
+      !||--- called by ------------------------------------------------------
+      !||    forintp   ../engine/source/elements/forintp.F
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox    ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPSGSYM(
      1    ISPCOND   ,XFRAME    ,ISPSYM    ,XSPSYM    ,VSPSYM    ,
      2    WA        ,WASIGSM   ,WASPACT   ,WAR       )

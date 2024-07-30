@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THERMBILAN                    source/constraints/thermic/thermbilan.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SPMD_BARRIER                  source/mpi/generic/spmd_barrier.F
-Chd|        SPMD_GLOB_RSUM_POFF           source/mpi/generic/spmd_glob_rsum_poff.F
-Chd|====================================================================
+      !||====================================================================
+      !||    thermbilan            ../engine/source/constraints/thermic/thermbilan.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                 ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_barrier          ../engine/source/mpi/generic/spmd_barrier.F
+      !||    spmd_glob_rsum_poff   ../engine/source/mpi/generic/spmd_glob_rsum_poff.F
+      !||====================================================================
       SUBROUTINE THERMBILAN()
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

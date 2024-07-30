@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IOMBR                         source/initial_conditions/detonation/iombr.F
-Chd|-- called by -----------
-Chd|        ECRAN1                        source/initial_conditions/detonation/ecran1.F
-Chd|        ECRAN2                        source/initial_conditions/detonation/ecran2.F
-Chd|-- calls ---------------
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    iombr            ../starter/source/initial_conditions/detonation/iombr.F
+      !||--- called by ------------------------------------------------------
+      !||    ecran1           ../starter/source/initial_conditions/detonation/ecran1.F
+      !||    ecran2           ../starter/source/initial_conditions/detonation/ecran2.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod   ../starter/share/modules1/detonators_mod.F
+      !||====================================================================
       INTEGER FUNCTION IOMBR(DETONATOR_WAVE_SHAPER,X,IECR,DDMX,VDET_ARG)
       USE DETONATORS_MOD
 C-----------------------------------------------

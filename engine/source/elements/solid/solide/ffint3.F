@@ -22,13 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C new subroutine for simplified flow (euler euqation
 C can be used also for Navier stocks equation
-Chd|====================================================================
-Chd|  FFINT3                        source/elements/solid/solide/ffint3.F
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ffint3    ../engine/source/elements/solid/solide/ffint3.F
+      !||--- called by ------------------------------------------------------
+      !||    sforc3    ../engine/source/elements/solid/solide/sforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod   ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
       SUBROUTINE FFINT3(
      1   SIG,     DFE,     PX1,     PX2,
      2   PX3,     PX4,     PY1,     PY2,

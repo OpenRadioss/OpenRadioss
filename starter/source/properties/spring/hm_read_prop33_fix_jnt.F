@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_PROP33_FIX_JNT        source/properties/spring/hm_read_prop33_fix_jnt.F
-Chd|-- called by -----------
-Chd|        HM_READ_PROP33                source/properties/spring/hm_read_prop33.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        SET_U_GEO                     source/user_interface/uaccess.F
-Chd|        SET_U_PNU                     source/user_interface/uaccess.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_prop33_fix_jnt   ../starter/source/properties/spring/hm_read_prop33_fix_jnt.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_prop33           ../starter/source/properties/spring/hm_read_prop33.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../starter/source/output/message/message.F
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    set_u_geo                ../starter/source/user_interface/uaccess.F
+      !||    set_u_pnu                ../starter/source/user_interface/uaccess.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_PROP33_FIX_JNT(IOUT, ITYP, SKFLAG, PARGEO,IS_ENCRYPTED,
      .                       UNITAB,IUNIT,ID,TITR,LSUBMODEL)
       USE UNITAB_MOD

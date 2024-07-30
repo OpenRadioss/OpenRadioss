@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SENSOR_DIST_SURF              source/tools/sensor/sensor_dist_surf.F
-Chd|-- called by -----------
-Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
-Chd|-- calls ---------------
-Chd|        DIST_NODE_PLANE_3N            source/tools/sensor/dist_node_plane_3n.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sensor_dist_surf     ../engine/source/tools/sensor/sensor_dist_surf.F
+      !||--- called by ------------------------------------------------------
+      !||    sensor_base          ../engine/source/tools/sensor/sensor_base.F
+      !||--- calls      -----------------------------------------------------
+      !||    dist_node_plane_3n   ../engine/source/tools/sensor/dist_node_plane_3n.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
+      !||    sensor_mod           ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SENSOR_DIST_SURF(SENSOR ,X   ,IGRSURF)
 !$COMMENT
 !       SENSOR_DIST_SURF description

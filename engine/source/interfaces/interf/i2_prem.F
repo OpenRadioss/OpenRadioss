@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2_PREM                       source/interfaces/interf/i2_prem.F
-Chd|-- called by -----------
-Chd|        DIM_NDOF_I                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i2_prem      ../engine/source/interfaces/interf/i2_prem.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_ndof_i   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE I2_PREM(IPARI,KHIE,NI2,II2,NSMAX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

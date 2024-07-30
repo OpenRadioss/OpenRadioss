@@ -20,33 +20,35 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I24MAINF                      source/interfaces/int24/i24main.F
-Chd|-- called by -----------
-Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        FRICTIONPARTS_MODEL_ISOT      source/interfaces/int07/frictionparts_model.F
-Chd|        FRICTIONPARTS_MODEL_ORTHO     source/interfaces/int07/frictionparts_model.F
-Chd|        I24CDCOR3                     source/interfaces/int24/i24main.F
-Chd|        I24COR3                       source/interfaces/int24/i24cor3.F
-Chd|        I24DST3                       source/interfaces/int24/i24dst3.F
-Chd|        I24DST3E                      source/interfaces/int24/i24dst3e.F
-Chd|        I24FOR3                       source/interfaces/int24/i24for3.F
-Chd|        I24GAP_PXFEM                  source/interfaces/int24/i24gap_pxfem.F
-Chd|        I24IPLY_PXFEM                 source/interfaces/int24/i24iply_pxfem.F
-Chd|        IMPL_SAV                      source/interfaces/int24/i24main.F
-Chd|        IMPL_SAV0                     source/interfaces/int24/i24main.F
-Chd|        IMPL_SAV1                     source/interfaces/int24/i24main.F
-Chd|        I_CORPFIT3                    source/interfaces/int24/i24cor3.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        SUM_6_FLOAT_SENS              source/system/parit.F         
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i24mainf                    ../engine/source/interfaces/int24/i24main.F
+      !||--- called by ------------------------------------------------------
+      !||    intfop2                     ../engine/source/interfaces/interf/intfop2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                      ../engine/source/output/message/message.F
+      !||    arret                       ../engine/source/system/arret.F
+      !||    frictionparts_model_isot    ../engine/source/interfaces/int07/frictionparts_model.F
+      !||    frictionparts_model_ortho   ../engine/source/interfaces/int07/frictionparts_model.F
+      !||    i24cdcor3                   ../engine/source/interfaces/int24/i24main.F
+      !||    i24cor3                     ../engine/source/interfaces/int24/i24cor3.F
+      !||    i24dst3                     ../engine/source/interfaces/int24/i24dst3.F
+      !||    i24dst3e                    ../engine/source/interfaces/int24/i24dst3e.F
+      !||    i24for3                     ../engine/source/interfaces/int24/i24for3.F
+      !||    i24gap_pxfem                ../engine/source/interfaces/int24/i24gap_pxfem.F
+      !||    i24iply_pxfem               ../engine/source/interfaces/int24/i24iply_pxfem.F
+      !||    i_corpfit3                  ../engine/source/interfaces/int24/i24cor3.F
+      !||    impl_sav                    ../engine/source/interfaces/int24/i24main.F
+      !||    impl_sav0                   ../engine/source/interfaces/int24/i24main.F
+      !||    impl_sav1                   ../engine/source/interfaces/int24/i24main.F
+      !||    startime                    ../engine/source/system/timer.F
+      !||    stoptime                    ../engine/source/system/timer.F
+      !||    sum_6_float_sens            ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod                     ../engine/share/modules/h3d_mod.F
+      !||    intbuf_fric_mod             ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||    message_mod                 ../engine/share/message_module/message_mod.F
+      !||    outputs_mod                 ../common_source/modules/outputs_mod.F
+      !||====================================================================
       SUBROUTINE I24MAINF(
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,DT2T   ,
@@ -640,13 +642,13 @@ ccc      IF(NSNE > 0) CALL MY_BARRIER()
       DEALLOCATE(INDEX2)
       RETURN
       END
-Chd|====================================================================
-Chd|  IMPL_SAV                      source/interfaces/int24/i24main.F
-Chd|-- called by -----------
-Chd|        I24MAINF                      source/interfaces/int24/i24main.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    impl_sav   ../engine/source/interfaces/int24/i24main.F
+      !||--- called by ------------------------------------------------------
+      !||    i24mainf   ../engine/source/interfaces/int24/i24main.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box    ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE IMPL_SAV(
      1                  JLT    ,CAND_N ,CAND_E ,IRTLM  ,STIF   ,
      2                  PENE   ,SUBTRIA,NS_IMP ,NE_IMP ,IND_IMP,
@@ -701,13 +703,13 @@ C-----------case sliding different to i24dist3
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  IMPL_SAV0                     source/interfaces/int24/i24main.F
-Chd|-- called by -----------
-Chd|        I24MAINF                      source/interfaces/int24/i24main.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    impl_sav0   ../engine/source/interfaces/int24/i24main.F
+      !||--- called by ------------------------------------------------------
+      !||    i24mainf    ../engine/source/interfaces/int24/i24main.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box     ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE IMPL_SAV0(
      1                  JLT    ,CAND_N ,SUBTRIA_OLD ,IRTLM  ,NSN ,NIN) 
 C-----------------------------------------------
@@ -740,12 +742,11 @@ C----------------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I24CDCOR3                     source/interfaces/int24/i24main.F
-Chd|-- called by -----------
-Chd|        I24MAINF                      source/interfaces/int24/i24main.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i24cdcor3   ../engine/source/interfaces/int24/i24main.F
+      !||--- called by ------------------------------------------------------
+      !||    i24mainf    ../engine/source/interfaces/int24/i24main.F
+      !||====================================================================
       SUBROUTINE I24CDCOR3(JLT,INDEX,CAND_E,CAND_N,CAND_T,
      .                    CAND_E_N,CAND_N_N,CAND_T_N,IEDGE)      
 C============================================================================
@@ -774,13 +775,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  IMPL_SAV1                     source/interfaces/int24/i24main.F
-Chd|-- called by -----------
-Chd|        I24MAINF                      source/interfaces/int24/i24main.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    impl_sav1   ../engine/source/interfaces/int24/i24main.F
+      !||--- called by ------------------------------------------------------
+      !||    i24mainf    ../engine/source/interfaces/int24/i24main.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box     ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE IMPL_SAV1(
      1                  JLT    ,CAND_N ,CAND_E ,IRTLM  ,STIF   ,
      2                  PENE   ,SUBTRIA,NS_IMP ,NE_IMP ,IND_IMP,

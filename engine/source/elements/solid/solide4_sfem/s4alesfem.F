@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4ALESFEM                     source/elements/solid/solide4_sfem/s4alesfem.F
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|-- calls ---------------
-Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        S4VOLNOD3                     source/elements/solid/solide4_sfem/s4volnod3.F
-Chd|        SPMD_EXCH_VOL                 source/mpi/nodes/spmd_exch_vol.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    s4alesfem         ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain           ../engine/source/ale/alemain.F
+      !||--- calls      -----------------------------------------------------
+      !||    foat_to_6_float   ../engine/source/system/parit.F
+      !||    initbuf           ../engine/share/resol/initbuf.F
+      !||    s4volnod3         ../engine/source/elements/solid/solide4_sfem/s4volnod3.F
+      !||    spmd_exch_vol     ../engine/source/mpi/nodes/spmd_exch_vol.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod       ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,VARNOD,PM,
      .                     IAD_ELEM,FR_ELEM)
 C-----------------------------------------------

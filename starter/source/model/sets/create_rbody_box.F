@@ -20,21 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CREATE_RBODY_BOX              source/model/sets/create_rbody_box.F
-Chd|-- called by -----------
-Chd|        CREATE_BOX_CLAUSE             source/model/sets/create_box_clause.F
-Chd|        CREATE_RBODY_CLAUSE           source/model/sets/create_rbody_clause.F
-Chd|-- calls ---------------
-Chd|        FILL_CLAUSE_RBODY_BOX         source/model/sets/fill_clause_rbody_box.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        READ_CLAUSE_BOX               source/model/sets/read_clause_box.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    create_rbody_box         ../starter/source/model/sets/create_rbody_box.F
+      !||--- called by ------------------------------------------------------
+      !||    create_box_clause        ../starter/source/model/sets/create_box_clause.F
+      !||    create_rbody_clause      ../starter/source/model/sets/create_rbody_clause.F
+      !||--- calls      -----------------------------------------------------
+      !||    fill_clause_rbody_box    ../starter/source/model/sets/fill_clause_rbody_box.F
+      !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    read_clause_box          ../starter/source/model/sets/read_clause_box.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE CREATE_RBODY_BOX(
      .               CLAUSE  ,IRBODYM ,JCLAUSE ,IS_AVAILABLE ,LSUBMODEL,
      .               IBOX    ,X       ,SKEW    ,SET_TITLE    ,KEYSET   ,

@@ -21,14 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  W_SECBUF                      source/restart/ddsplit/w_secbuf.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    w_secbuf   ../starter/source/restart/ddsplit/w_secbuf.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal     ../starter/source/spmd/node/ddtools.F
+      !||====================================================================
       SUBROUTINE W_SECBUF(SECBUF ,LSECBUF_L, NSTRF, PROC,
      2                    LEN_AM )
 C-----------------------------------------------

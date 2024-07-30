@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIT_INTERF_SORTING_STRATEGY  source/interfaces/init_interf_sorting_strategy.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        METRIC_MOD                    ../common_source/modules/interfaces/metric_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    init_interf_sorting_strategy   ../engine/source/interfaces/init_interf_sorting_strategy.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                          ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    metric_mod                     ../common_source/modules/interfaces/metric_mod.F
+      !||====================================================================
       SUBROUTINE INIT_INTERF_SORTING_STRATEGY(INTBUF_TAB,NINTER)
 C Bucket or voxel, depending on /PERF/ in 1.rad
 C By default, both will be tried, the best will be kept

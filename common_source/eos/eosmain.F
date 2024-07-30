@@ -20,34 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  EOSMAIN                       eos/eosmain.F                 
-Chd|-- called by -----------
-Chd|        INIGRAV_EOS                   starter/source/initial_conditions/inigrav/inigrav_eos.F
-Chd|        SOLVE_EINT                    starter/source/initial_conditions/inimap/ini_inimap1d.F
-Chd|        M12LAW                        engine/source/materials/mat/mat012/m12law.F
-Chd|        MULTI_SUBMATLAW               engine/source/multifluid/multi_submatlaw.F
-Chd|        SIGEPS75                      engine/source/materials/mat/mat075/sigeps75.F
-Chd|-- calls ---------------
-Chd|        COMPACTION                    eos/compaction.F              
-Chd|        EOSLINEAR                     eos/eoslinear.F               
-Chd|        EOSPOLYNO                     eos/eospolyno.F               
-Chd|        GRUNEISEN                     eos/gruneisen.F               
-Chd|        IDEALGAS                      eos/idealgas.F                
-Chd|        IDEALGAS_VT                   eos/idealgas_vt.F             
-Chd|        JWL                           eos/jwl.F                     
-Chd|        LSZK                          eos/lszk.F                    
-Chd|        MURNAGHAN                     eos/murnaghan.F               
-Chd|        NASG                          eos/nasg.F                    
-Chd|        NOBLE_ABEL                    eos/noble_abel.F              
-Chd|        OSBORNE                       eos/osborne.F                 
-Chd|        POWDER_BURN                   eos/powder_burn.F             
-Chd|        PUFF                          eos/puff.F                    
-Chd|        SESAME                        eos/sesame.F                  
-Chd|        STIFFGAS                      eos/stiffgas.F                
-Chd|        TABULATED                     eos/tabulated.F               
-Chd|        TILLOTSON                     eos/tillotson.F               
-Chd|====================================================================
+      !||====================================================================
+      !||    eosmain           ../common_source/eos/eosmain.F
+      !||--- called by ------------------------------------------------------
+      !||    inigrav_eos       ../starter/source/initial_conditions/inigrav/inigrav_eos.F
+      !||    m12law            ../engine/source/materials/mat/mat012/m12law.F
+      !||    mmain             ../engine/source/materials/mat_share/mmain.F90
+      !||    multi_submatlaw   ../engine/source/multifluid/multi_submatlaw.F
+      !||    sigeps75          ../engine/source/materials/mat/mat075/sigeps75.F
+      !||    solve_eint        ../engine/source/multifluid/multi_inlet_ebcs.F
+      !||--- calls      -----------------------------------------------------
+      !||    compaction        ../common_source/eos/compaction.F
+      !||    eosexponential    ../common_source/eos/eosexponential.F90
+      !||    eoslinear         ../common_source/eos/eoslinear.F
+      !||    eospolyno         ../common_source/eos/eospolyno.F
+      !||    gruneisen         ../common_source/eos/gruneisen.F
+      !||    idealgas          ../common_source/eos/idealgas.F
+      !||    idealgas_vt       ../common_source/eos/idealgas_vt.F
+      !||    jwl               ../common_source/eos/jwl.F
+      !||    lszk              ../common_source/eos/lszk.F
+      !||    murnaghan         ../common_source/eos/murnaghan.F
+      !||    nasg              ../common_source/eos/nasg.F
+      !||    noble_abel        ../common_source/eos/noble_abel.F
+      !||    osborne           ../common_source/eos/osborne.F
+      !||    powder_burn       ../common_source/eos/powder_burn.F
+      !||    puff              ../common_source/eos/puff.F
+      !||    sesame            ../common_source/eos/sesame.F
+      !||    stiffgas          ../common_source/eos/stiffgas.F
+      !||    tabulated         ../common_source/eos/tabulated.F
+      !||    tillotson         ../common_source/eos/tillotson.F
+      !||====================================================================
       SUBROUTINE EOSMAIN(IFLAG ,NEL   ,EOSTYP ,PM    ,OFF   ,EINT  ,
      2                   RHO   ,RHO0  ,MU     ,MU2   ,ESPE  ,
      3                   DVOL  ,DF    ,VNEW   ,MAT   ,PSH   ,

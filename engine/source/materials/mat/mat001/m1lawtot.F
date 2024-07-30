@@ -20,22 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M1LAWTOT                      source/materials/mat/mat001/m1lawtot.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        M1ISMSTR10_PON                source/materials/mat/mat001/m1ismstr10_pon.F
-Chd|        M1ISMSTR11                    source/materials/mat/mat001/m1ismstr11.F
-Chd|        M1TOT_STAB11                  source/elements/solid/solide8e/m1tot_stab11.F
-Chd|        M1TOT_STAB18                  source/elements/solid/solide8e/m1tot_stab18.F
-Chd|        M1TOT_STAB24                  source/elements/solid/solidez/m1tot_stab24.F
-Chd|        M1TOT_STAB_P                  source/elements/solid/solide10/m1tot_stab_p.F
-Chd|        MDTSPH                        source/materials/mat_share/mdtsph.F
-Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F
-Chd|        NSVIS_STAB                    source/elements/solid/solide10/nsvis_stab.F
-Chd|        NSVIS_STAB11                  source/elements/solid/solidez/nsvis_stab11.F
-Chd|        NSVIS_STAB18                  source/elements/solid/solide8e/nsvis_stab18.F
-Chd|====================================================================
+      !||====================================================================
+      !||    m1lawtot         ../engine/source/materials/mat/mat001/m1lawtot.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain            ../engine/source/materials/mat_share/mmain.F90
+      !||--- calls      -----------------------------------------------------
+      !||    m1ismstr10_pon   ../engine/source/materials/mat/mat001/m1ismstr10_pon.F
+      !||    m1ismstr11       ../engine/source/materials/mat/mat001/m1ismstr11.F
+      !||    m1tot_stab11     ../engine/source/elements/solid/solide8e/m1tot_stab11.F
+      !||    m1tot_stab18     ../engine/source/elements/solid/solide8e/m1tot_stab18.F
+      !||    m1tot_stab24     ../engine/source/elements/solid/solidez/m1tot_stab24.F
+      !||    m1tot_stab_p     ../engine/source/elements/solid/solide10/m1tot_stab_p.F
+      !||    mdtsph           ../engine/source/materials/mat_share/mdtsph.F
+      !||    mqviscb          ../engine/source/materials/mat_share/mqviscb.F
+      !||    nsvis_stab       ../engine/source/elements/solid/solide10/nsvis_stab.F
+      !||    nsvis_stab11     ../engine/source/elements/solid/solidez/nsvis_stab11.F
+      !||    nsvis_stab18     ../engine/source/elements/solid/solide8e/nsvis_stab18.F
+      !||====================================================================
       SUBROUTINE M1LAWTOT(
      1   PM,      OFF,     SIG,     EINT,
      2   RHO,     QOLD,    VOL,     STIFN,

@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CONC24                        source/materials/mat/mat024/conc24.F
-Chd|-- called by -----------
-Chd|        M24LAW                        source/materials/mat/mat024/m24law.F
-Chd|-- calls ---------------
-Chd|        AGLO24                        source/materials/mat/mat024/aglo24.F
-Chd|        CARM24                        source/materials/mat/mat024/carm24.F
-Chd|        CRIT24                        source/materials/mat/mat024/crit24.F
-Chd|        DAMA24                        source/materials/mat/mat024/dama24.F
-Chd|        ELAS24                        source/materials/mat/mat024/elas24.F
-Chd|        GLOA24                        source/materials/mat/mat024/gloa24.F
-Chd|        PLAS24                        source/materials/mat/mat024/plas24.F
-Chd|        PLAS24B                       source/materials/mat/mat024/plas24b.F
-Chd|        ROTLOC                        source/materials/mat/mat024/rotloc.F
-Chd|        UDAM24N                       source/materials/mat/mat024/udam24.F
-Chd|====================================================================
+      !||====================================================================
+      !||    conc24    ../engine/source/materials/mat/mat024/conc24.F
+      !||--- called by ------------------------------------------------------
+      !||    m24law    ../engine/source/materials/mat/mat024/m24law.F
+      !||--- calls      -----------------------------------------------------
+      !||    aglo24    ../engine/source/materials/mat/mat024/aglo24.F
+      !||    carm24    ../engine/source/materials/mat/mat024/carm24.F
+      !||    crit24    ../engine/source/materials/mat/mat024/crit24.F
+      !||    dama24    ../engine/source/materials/mat/mat024/dama24.F
+      !||    elas24    ../engine/source/materials/mat/mat024/elas24.F
+      !||    gloa24    ../engine/source/materials/mat/mat024/gloa24.F
+      !||    plas24    ../engine/source/materials/mat/mat024/plas24.F
+      !||    plas24b   ../engine/source/materials/mat/mat024/plas24b.F
+      !||    rotloc    ../engine/source/materials/mat/mat024/rotloc.F
+      !||    udam24n   ../engine/source/materials/mat/mat024/udam24.F
+      !||====================================================================
       SUBROUTINE CONC24(
      1   PM,      OFF,     SIG,     EINT,
      2   SIGA,    EPXA,    GAMA,    DAM,

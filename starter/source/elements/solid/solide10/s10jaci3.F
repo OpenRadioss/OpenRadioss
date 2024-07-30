@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10JACI3                      source/elements/solid/solide10/s10jaci3.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        S10JACOB                      source/elements/solid/solide10/s10deri3.F
-Chd|        S10PIJSAV                     source/elements/solid/solide10/s10deri3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s10jaci3       ../starter/source/elements/solid/solide10/s10jaci3.F
+      !||--- called by ------------------------------------------------------
+      !||    initia         ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    s10jacob       ../starter/source/elements/solid/solide10/s10deri3.F
+      !||    s10pijsav      ../starter/source/elements/solid/solide10/s10deri3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE S10JACI3(ELBUF_STR,SAV,NPT,NEL)
 C-----------------------------------------------
       USE ELBUFDEF_MOD            

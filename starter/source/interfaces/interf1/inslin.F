@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INSLIN                        source/interfaces/interf1/inslin.F
-Chd|-- called by -----------
-Chd|        LECINS                        source/interfaces/interf1/lecins.F
-Chd|        LECINT                        source/interfaces/interf1/lecint.F
-Chd|-- calls ---------------
-Chd|        COUNT3                        source/interfaces/interf1/count3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inslin    ../starter/source/interfaces/interf1/inslin.F
+      !||--- called by ------------------------------------------------------
+      !||    lecins    ../starter/source/interfaces/interf1/lecins.F
+      !||    lecint    ../starter/source/interfaces/interf1/lecint.F
+      !||--- calls      -----------------------------------------------------
+      !||    count3    ../starter/source/interfaces/interf1/count3.F
+      !||    usr2sys   ../starter/source/system/sysfus.F
+      !||====================================================================
       SUBROUTINE INSLIN(NRT,MSN,IRECT,NOINT,
      .                  SLIN_NODES,ITAB,MSV,NTAG)
 C-----------------------------------------------

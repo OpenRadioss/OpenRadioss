@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS120_CONNECT_MAIN        source/materials/mat/mat120/sigeps120_connect_main.F
-Chd|-- called by -----------
-Chd|        SUSER43                       source/elements/solid/sconnect/suser43.F
-Chd|-- calls ---------------
-Chd|        SIGEPS120_CONNECT_DP          source/materials/mat/mat120/sigeps120_connect_dp.F
-Chd|        SIGEPS120_CONNECT_TAB_DP      source/materials/mat/mat120/sigeps120_connect_tab_dp.F
-Chd|        SIGEPS120_CONNECT_TAB_VM      source/materials/mat/mat120/sigeps120_connect_tab_vm.F
-Chd|        SIGEPS120_CONNECT_VM          source/materials/mat/mat120/sigeps120_connect_vm.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps120_connect_main     ../engine/source/materials/mat/mat120/sigeps120_connect_main.F
+      !||--- called by ------------------------------------------------------
+      !||    suser43                    ../engine/source/elements/solid/sconnect/suser43.F
+      !||--- calls      -----------------------------------------------------
+      !||    sigeps120_connect_dp       ../engine/source/materials/mat/mat120/sigeps120_connect_dp.F
+      !||    sigeps120_connect_tab_dp   ../engine/source/materials/mat/mat120/sigeps120_connect_tab_dp.F
+      !||    sigeps120_connect_tab_vm   ../engine/source/materials/mat/mat120/sigeps120_connect_tab_vm.F
+      !||    sigeps120_connect_vm       ../engine/source/materials/mat/mat120/sigeps120_connect_vm.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_table_mod        ../engine/share/modules/table_mod.F
+      !||    table_mod                  ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE SIGEPS120_CONNECT_MAIN(
      1     NEL     ,NGL     ,TIME    ,TIMESTEP,UPARAM  ,OFF     ,
      2     EPSD    ,STIFM   ,JTHE    ,

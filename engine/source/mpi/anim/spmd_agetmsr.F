@@ -24,16 +24,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 C            DXYZSECT                /anim/dxyzsect.F
 C            DXWALL                  /anim/dxwall.F
-Chd|====================================================================
-Chd|  SPMD_AGETMSR                  source/mpi/anim/spmd_agetmsr.F
-Chd|-- called by -----------
-Chd|        DXWALC                        source/output/anim/generate/dxwalc.F
-Chd|        DXWALL                        source/output/anim/generate/dxwall.F
-Chd|        DXWALP                        source/output/anim/generate/dxwalp.F
-Chd|        DXWALS                        source/output/anim/generate/dxwals.F
-Chd|        DXYZSECT                      source/output/anim/generate/dxyzsect.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_agetmsr   ../engine/source/mpi/anim/spmd_agetmsr.F
+      !||--- called by ------------------------------------------------------
+      !||    dxwalc         ../engine/source/output/anim/generate/dxwalc.F
+      !||    dxwall         ../engine/source/output/anim/generate/dxwall.F
+      !||    dxwalp         ../engine/source/output/anim/generate/dxwalp.F
+      !||    dxwals         ../engine/source/output/anim/generate/dxwals.F
+      !||    dxyzsect       ../engine/source/output/anim/generate/dxyzsect.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
         SUBROUTINE SPMD_AGETMSR(FR_WALL,X,MSR,XWL,YWL,ZWL,RWL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

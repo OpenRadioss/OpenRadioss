@@ -20,25 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALE51_GRADIENT_RECONSTRUCTION2source/ale/alemuscl/ale51_gradient_reconstruction2.F
-Chd|-- called by -----------
-Chd|        ALETHE                        source/ale/alethe.F           
-Chd|-- calls ---------------
-Chd|        GRADIENT_LIMITATION2          source/ale/alemuscl/gradient_limitation2.F
-Chd|        GRADIENT_RECONSTRUCTION2      source/ale/alemuscl/gradient_reconstruction2.F
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_E1VOIS                   source/mpi/fluid/spmd_cfd.F   
-Chd|        SPMD_EXCHANGE_GRAD            source/mpi/fluid/spmd_exchange_grad.F
-Chd|        SPMD_EXCH_MIN_MAX             source/mpi/ale/spmd_exch_min_max.F
-Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
-Chd|        TRIMAT_MOD                    share/modules/trimat.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+      !||--- called by ------------------------------------------------------
+      !||    alethe                           ../engine/source/ale/alethe.F
+      !||--- calls      -----------------------------------------------------
+      !||    gradient_limitation2             ../engine/source/ale/alemuscl/gradient_limitation2.F
+      !||    gradient_reconstruction2         ../engine/source/ale/alemuscl/gradient_reconstruction2.F
+      !||    initbuf                          ../engine/share/resol/initbuf.F
+      !||    my_barrier                       ../engine/source/system/machine.F
+      !||    spmd_e1vois                      ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_exch_min_max                ../engine/source/mpi/ale/spmd_exch_min_max.F
+      !||    spmd_exchange_grad               ../engine/source/mpi/fluid/spmd_exchange_grad.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
+      !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod                      ../engine/share/resol/initbuf.F
+      !||    segvar_mod                       ../engine/share/modules/segvar_mod.F
+      !||    trimat_mod                       ../engine/share/modules/trimat.F
+      !||====================================================================
       SUBROUTINE ALE51_GRADIENT_RECONSTRUCTION2(IPARG   ,ELBUF_TAB,IXQ     ,X       ,ALE_CONNECT,
      .                                          NV46    ,NERCVOIS ,NESDVOIS,LERCVOIS,LESDVOIS   ,LENCOM, ITASK,
      .                                          IAD_ELEM,FR_ELEM  ,SEGVAR)

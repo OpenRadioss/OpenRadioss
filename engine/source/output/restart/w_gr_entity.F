@@ -21,15 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  W_GR_ENTITY                   source/output/restart/w_gr_entity.F
-Chd|-- called by -----------
-Chd|        W_GROUP_STR                   source/output/restart/w_group_str.F
-Chd|-- calls ---------------
-Chd|        FRETITL                       source/input/freform.F        
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    w_gr_entity            ../engine/source/output/restart/w_gr_entity.F
+      !||--- called by ------------------------------------------------------
+      !||    w_group_str            ../engine/source/output/restart/w_group_str.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl                ../engine/source/input/freform.F
+      !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE W_GR_ENTITY(IGR,NGR,LENIGR)
 C-----------------------------------------------
 C   M o d u l e s

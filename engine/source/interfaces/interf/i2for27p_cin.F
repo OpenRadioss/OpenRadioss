@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2FOR27P_CIN                  source/interfaces/interf/i2for27p_cin.F
-Chd|-- called by -----------
-Chd|        I2FOR27P                      source/interfaces/interf/i2for27p.F
-Chd|-- calls ---------------
-Chd|        I2CIN_ROT27                   ../common_source/interf/i2cin_rot27.F
-Chd|        I2FORCES                      source/interfaces/interf/i2forces.F
-Chd|        I2LOCEQ_27                    ../common_source/interf/i2loceq.F
-Chd|        I2REP                         ../common_source/interf/i2rep.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i2for27p_cin   ../engine/source/interfaces/interf/i2for27p_cin.F
+      !||--- called by ------------------------------------------------------
+      !||    i2for27p       ../engine/source/interfaces/interf/i2for27p.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2cin_rot27    ../common_source/interf/i2cin_rot27.F
+      !||    i2forces       ../engine/source/interfaces/interf/i2forces.F
+      !||    i2loceq_27     ../common_source/interf/i2loceq.F
+      !||    i2rep          ../common_source/interf/i2rep.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod        ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I2FOR27P_CIN(
      1           NSN    ,NMN    ,A      ,CRST   ,NSV    ,         
      2           MS     ,WEIGHT ,STIFN  ,MMASS  ,FSKYI2 ,         

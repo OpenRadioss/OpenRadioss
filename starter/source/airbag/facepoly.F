@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FACEPOLY                      source/airbag/facepoly.F      
-Chd|-- called by -----------
-Chd|        FVMESH1                       source/airbag/fvmesh.F        
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    facepoly   ../starter/source/airbag/facepoly.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh1    ../starter/source/airbag/fvmesh.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret      ../starter/source/system/arret.F
+      !||====================================================================
       SUBROUTINE FACEPOLY(QUAD  , TRI  , NTRI  , IPOLY, RPOLY  ,
      .                    N     , NORMF, NORMT , NSMAX, NNP    ,
      .                    NRPMAX, NB   , NV    , LMIN , NPOLMAX,

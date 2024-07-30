@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DEALLOCATE_JOINT              source/constraints/general/cyl_joint/deallocate_joint.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        JOINT_MOD                     share/modules/joint_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    deallocate_joint   ../engine/source/constraints/general/cyl_joint/deallocate_joint.F
+      !||--- called by ------------------------------------------------------
+      !||    resol              ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    joint_mod          ../engine/share/modules/joint_mod.F
+      !||====================================================================
         SUBROUTINE DEALLOCATE_JOINT()
 !$COMMENT
 !       DEALLOCATE_JOINT description

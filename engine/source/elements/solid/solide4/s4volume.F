@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4VOLUME                      source/elements/solid/solide4/s4volume.F
-Chd|-- called by -----------
-Chd|        ELOFF                         source/elements/eloff.F       
-Chd|        FIXFLUX                       source/constraints/thermic/fixflux.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s4volume   ../engine/source/elements/solid/solide4/s4volume.F
+      !||--- called by ------------------------------------------------------
+      !||    eloff      ../engine/source/elements/eloff.F
+      !||    fixflux    ../engine/source/constraints/thermic/fixflux.F
+      !||====================================================================
       SUBROUTINE S4VOLUME(X, VOL, NEL, NC1, NC2, NC3, NC4)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CREATE_NODE_FROM_ELEMENT      source/model/sets/create_node_from_element.F
-Chd|-- called by -----------
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|        INSERT_CLAUSE_IN_SET          source/model/sets/insert_clause_in_set.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        TAG_NODE_FROM_1D_2D_ELEM      source/model/sets/tag_node_from_1D_2D_elem.F
-Chd|        TAG_NODE_FROM_SOLID           source/model/sets/tag_node_from_solid.F
-Chd|        TAG_NODE_FROM_SPRING          source/model/sets/tag_node_from_spring.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    create_node_from_element        ../starter/source/model/sets/create_node_from_element.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_set                          ../starter/source/model/sets/hm_set.F
+      !||    insert_clause_in_set            ../starter/source/model/sets/insert_clause_in_set.F
+      !||--- calls      -----------------------------------------------------
+      !||    tag_node_from_1d_2d_elem        ../starter/source/model/sets/tag_node_from_1D_2D_elem.F
+      !||    tag_node_from_part_sphcel       ../starter/source/model/sets/tag_node_from_part_sphcel.F90
+      !||    tag_node_from_solid             ../starter/source/model/sets/tag_node_from_solid.F
+      !||    tag_node_from_spring            ../starter/source/model/sets/tag_node_from_spring.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                     ../starter/share/message_module/message_mod.F
+      !||    tag_node_from_part_sphcel_mod   ../starter/source/model/sets/tag_node_from_part_sphcel.F90
+      !||====================================================================
       SUBROUTINE CREATE_NODE_FROM_ELEMENT(
      .                            IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
      .                            IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,

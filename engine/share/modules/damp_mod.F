@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DAMP_MOD                      share/modules/damp_mod.F      
-Chd|-- called by -----------
-Chd|        RDCOMI                        source/output/restart/rdcomm.F
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|        RESTALLOC                     source/output/restart/arralloc.F
-Chd|        WRCOMI                        source/output/restart/wrcomm.F
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    damp_mod     ../engine/share/modules/damp_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    rdcomi       ../engine/source/output/restart/rdcomm.F
+      !||    rdresb       ../engine/source/output/restart/rdresb.F
+      !||    resol_head   ../engine/source/engine/resol_head.F
+      !||    restalloc    ../engine/source/output/restart/arralloc.F
+      !||    wrcomi       ../engine/source/output/restart/wrcomm.F
+      !||    wrrestp      ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
       MODULE DAMP_MOD
 C----------------------------------------------------------------------- 
 #include "my_real.inc"

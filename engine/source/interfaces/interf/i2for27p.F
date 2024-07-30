@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2FOR27P                      source/interfaces/interf/i2for27p.F
-Chd|-- called by -----------
-Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
-Chd|-- calls ---------------
-Chd|        I2FOR27P_CIN                  source/interfaces/interf/i2for27p_cin.F
-Chd|        I2FOR27P_PEN                  source/interfaces/interf/i2for27p_pen.F
-Chd|        I2MOM27P_CIN                  source/interfaces/interf/i2mom27p_cin.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i2for27p       ../engine/source/interfaces/interf/i2for27p.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2f        ../engine/source/interfaces/interf/intti2f.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2for27p_cin   ../engine/source/interfaces/interf/i2for27p_cin.F
+      !||    i2for27p_pen   ../engine/source/interfaces/interf/i2for27p_pen.F
+      !||    i2mom27p_cin   ../engine/source/interfaces/interf/i2mom27p_cin.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod        ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I2FOR27P(
      .           X           ,V           ,VR          ,A           ,AR          ,
      .           MS          ,IN          ,STIFN       ,STIFR       ,WEIGHT      ,

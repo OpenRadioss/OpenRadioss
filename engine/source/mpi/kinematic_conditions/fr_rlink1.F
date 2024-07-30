@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FR_RLINK1                     source/mpi/kinematic_conditions/fr_rlink1.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/input/lectur.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
-Chd|        SYSFUS2                       source/system/sysfus.F        
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fr_rlink1         ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur            ../engine/source/input/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg            ../engine/source/output/message/message.F
+      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_ibcast       ../engine/source/mpi/generic/spmd_ibcast.F
+      !||    sysfus2           ../engine/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE FR_RLINK1(NOD,ITABM1,FR_RL,NSN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -115,16 +116,17 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  FR_RLALE                      source/mpi/kinematic_conditions/fr_rlink1.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/input/lectur.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|        SYSFUS2                       source/system/sysfus.F        
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fr_rlale          ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur            ../engine/source/input/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg            ../engine/source/output/message/message.F
+      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    sysfus2           ../engine/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE FR_RLALE(M1,M2,NOD,ITABM1,ITAG)
 C-----------------------------------------------
 C   M o d u l e s

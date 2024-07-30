@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STORTH3                       source/elements/solid/solidez/szorth3.F
-Chd|-- called by -----------
-Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    storth3    ../starter/source/elements/solid/solidez/szorth3.F
+      !||--- called by ------------------------------------------------------
+      !||    srefsta3   ../starter/source/elements/solid/solide/srefsta3.F
+      !||====================================================================
       SUBROUTINE STORTH3(ISORTH,NEL,
      .                   G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,GAMA)
 C-----------------------------------------------
@@ -73,13 +72,13 @@ C-----------------------------------------------
 C
       RETURN
       END SUBROUTINE STORTH3
-Chd|====================================================================
-Chd|  SZORDEF3                      source/elements/solid/solidez/szorth3.F
-Chd|-- called by -----------
-Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
-Chd|-- calls ---------------
-Chd|        SROTO3                        source/elements/solid/solidez/szorth3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    szordef3   ../starter/source/elements/solid/solidez/szorth3.F
+      !||--- called by ------------------------------------------------------
+      !||    srefsta3   ../starter/source/elements/solid/solide/srefsta3.F
+      !||--- calls      -----------------------------------------------------
+      !||    sroto3     ../starter/source/elements/solid/solidez/szorth3.F
+      !||====================================================================
       SUBROUTINE SZORDEF3(NEL,DXX,DYY,DZZ,D4,D5,D6,
      .                   G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
 C-----------------------------------------------
@@ -127,12 +126,11 @@ C-----------------------------------------------
 C
       RETURN
       END SUBROUTINE SZORDEF3
-Chd|====================================================================
-Chd|  SROTO3                        source/elements/solid/solidez/szorth3.F
-Chd|-- called by -----------
-Chd|        SZORDEF3                      source/elements/solid/solidez/szorth3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sroto3     ../starter/source/elements/solid/solidez/szorth3.F
+      !||--- called by ------------------------------------------------------
+      !||    szordef3   ../starter/source/elements/solid/solidez/szorth3.F
+      !||====================================================================
       SUBROUTINE SROTO3(NEL,SIG,SIGN,
      .                  G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
 C-----------------------------------------------

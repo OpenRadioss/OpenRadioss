@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I24CORK3                      source/interfaces/int24/i24cork3.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i24cork3   ../engine/source/interfaces/int24/i24cork3.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box    ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I24CORK3(
      1               JLT     ,X      ,IRECT ,NSV   ,CAND_E ,
      2               CAND_N  ,STF    ,STFN  ,STIF  ,
@@ -478,15 +477,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I24CORP3                      source/interfaces/int24/i24cork3.F
-Chd|-- called by -----------
-Chd|        I7FORCF3                      source/interfaces/int07/i7ke3.F
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i24corp3   ../engine/source/interfaces/int24/i24cork3.F
+      !||--- called by ------------------------------------------------------
+      !||    i7forcf3   ../engine/source/interfaces/int07/i7ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret      ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm   ../engine/share/modules/imp_intm.F
+      !||    tri7box    ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I24CORP3(JLT   ,X     ,IRECT ,CAND_E  ,CAND_N  ,
      1                   STIF  ,H1    ,H2    ,H3      ,H4      ,
      2                   N1    ,N2    ,N3    ,IX1     ,IX2     ,
@@ -572,14 +572,15 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I24CORKM                      source/interfaces/int24/i24cork3.F
-Chd|-- called by -----------
-Chd|        I24KE3                        source/interfaces/int24/i24ke3.F
-Chd|-- calls ---------------
-Chd|        I24MSEGV1                     source/interfaces/int24/i24cork3.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i24corkm    ../engine/source/interfaces/int24/i24cork3.F
+      !||--- called by ------------------------------------------------------
+      !||    i24ke3      ../engine/source/interfaces/int24/i24ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    i24msegv1   ../engine/source/interfaces/int24/i24cork3.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box     ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I24CORKM(
      1               JLT     ,X      ,IRECT ,NSV   ,CAND_E ,
      2               CAND_N  ,STIF   ,STIF_IMP,XI     ,YI    ,
@@ -674,12 +675,11 @@ C
 C      
       RETURN
       END
-Chd|====================================================================
-Chd|  I24MSEGV1                     source/interfaces/int24/i24cork3.F
-Chd|-- called by -----------
-Chd|        I24CORKM                      source/interfaces/int24/i24cork3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i24msegv1   ../engine/source/interfaces/int24/i24cork3.F
+      !||--- called by ------------------------------------------------------
+      !||    i24corkm    ../engine/source/interfaces/int24/i24cork3.F
+      !||====================================================================
       SUBROUTINE I24MSEGV1(IRTLMV  ,SUBTRIA,IRTLM ,NVOISIN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

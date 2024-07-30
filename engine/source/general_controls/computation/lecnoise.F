@@ -20,26 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LECNOISE                      source/general_controls/computation/lecnoise.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/input/lectur.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        EOR_C                         ../common_source/tools/input_output/write_routtines.c
-Chd|        MY_CTIME                      source/system/timer_c.c       
-Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
-Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTDES                        source/output/th/wrtdes.F     
-Chd|        STRI                          source/tools/univ/stri.F      
-Chd|        SYSFUS2                       source/system/sysfus.F        
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lecnoise               ../engine/source/general_controls/computation/lecnoise.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                 ../engine/source/input/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||    cur_fil_c              ../common_source/tools/input_output/write_routtines.c
+      !||    eor_c                  ../common_source/tools/input_output/write_routtines.c
+      !||    my_ctime               ../engine/source/system/timer_c.c
+      !||    open_c                 ../common_source/tools/input_output/write_routtines.c
+      !||    spmd_glob_isum9        ../engine/source/mpi/interfaces/spmd_th.F
+      !||    sysfus2                ../engine/source/system/sysfus.F
+      !||    write_c_c              ../common_source/tools/input_output/write_routtines.c
+      !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+      !||    wrtdes                 ../engine/source/output/th/wrtdes.F
+      !||--- uses       -----------------------------------------------------
+      !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE LECNOISE(INOISE,ITABM1,NAMES_AND_TITLES)
 C-----------------------------------------------
 C   M o d u l e s

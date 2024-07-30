@@ -20,24 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DD_ANI                        source/output/anim/dd_ani.F   
-Chd|-- called by -----------
-Chd|        DOMDEC1                       source/spmd/domain_decomposition/domdec1.F
-Chd|-- calls ---------------
-Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
-Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
-Chd|        PARSOR                        source/output/anim/parsor.F   
-Chd|        SCANOR                        source/output/anim/scanor.F   
-Chd|        SLAGCNT                       source/output/anim/slagcnt.F  
-Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        XYZNOD                        source/output/anim/xyznod.F   
-Chd|        XYZNOR                        source/output/anim/xyznor.F   
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dd_ani          ../starter/source/output/anim/dd_ani.F
+      !||--- called by ------------------------------------------------------
+      !||    domdec1         ../starter/source/spmd/domain_decomposition/domdec1.F
+      !||--- calls      -----------------------------------------------------
+      !||    parsor          ../starter/source/output/anim/parsor.F
+      !||    scanor          ../starter/source/output/anim/scanor.F
+      !||    slagcnt         ../starter/source/output/anim/slagcnt.F
+      !||    xyznod          ../starter/source/output/anim/xyznod.F
+      !||    xyznor          ../starter/source/output/anim/xyznor.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE DD_ANI(X     ,IXS   ,IXQ  ,IXC  ,
      .                  IXT   ,IXP   ,IXR  ,IXTG ,
      .                  IPARG ,KXSP  ,IXSP )

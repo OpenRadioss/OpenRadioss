@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RCUM33P                       source/elements/joint/rcum33p.F
-Chd|-- called by -----------
-Chd|        RGJOINT                       source/elements/joint/rgjoint.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rcum33p   ../engine/source/elements/joint/rcum33p.F
+      !||--- called by ------------------------------------------------------
+      !||    rgjoint   ../engine/source/elements/joint/rgjoint.F
+      !||====================================================================
       SUBROUTINE RCUM33P(
      1   JFT,     JLT,     XL,      FSKY,
      2   FSKYV,   FORX,    FORY,    FORZ,

@@ -21,11 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_GATH_COLLECTIVE          source/mpi/generic/spmd_gath_collective.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_gath_collective   ../engine/source/mpi/generic/spmd_gath_collective.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_GATH_COLLECTIVE(SRBUF,LEN,LRECV)
 C Description: 
 C Collective communication version of SPMD_IGATH 

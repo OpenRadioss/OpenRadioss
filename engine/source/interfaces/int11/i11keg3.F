@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I11KEG3                       source/interfaces/int11/i11keg3.F
-Chd|-- called by -----------
-Chd|        I11KE3                        source/interfaces/int11/i11ke3.F
-Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i11keg3    ../engine/source/interfaces/int11/i11keg3.F
+      !||--- called by ------------------------------------------------------
+      !||    i11ke3     ../engine/source/interfaces/int11/i11ke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm   ../engine/share/modules/imp_intm.F
+      !||    tri7box    ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I11KEG3(
      1                  JLT    ,A     ,V        ,GAP    ,FRIC   ,
      2                  MS     ,CS_LOC ,CM_LOC  ,STIGLO ,STIF   ,
@@ -438,13 +438,13 @@ C---------pour temporairement diag_ss---
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I11FRF3                       source/interfaces/int11/i11keg3.F
-Chd|-- called by -----------
-Chd|        I11FORCF3                     source/interfaces/int11/i11ke3.F
-Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    i11frf3     ../engine/source/interfaces/int11/i11keg3.F
+      !||--- called by ------------------------------------------------------
+      !||    i11forcf3   ../engine/source/interfaces/int11/i11ke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm    ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE I11FRF3(JLT    ,A      ,V      ,FRIC   ,HS1    ,
      1                  HS2     ,HM1    ,HM2    ,NX     ,NY     ,
      2                  NZ      ,MS1    ,MS2    ,MM1    ,MM2    ,
@@ -607,14 +607,14 @@ C--------partie NSL-------
 C
        RETURN
       END
-Chd|====================================================================
-Chd|  I11KFOR3                      source/interfaces/int11/i11keg3.F
-Chd|-- called by -----------
-Chd|        I11FKU3                       source/interfaces/int11/i11ke3.F
-Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i11kfor3   ../engine/source/interfaces/int11/i11keg3.F
+      !||--- called by ------------------------------------------------------
+      !||    i11fku3    ../engine/source/interfaces/int11/i11ke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm   ../engine/share/modules/imp_intm.F
+      !||    tri7box    ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I11KFOR3(
      1                  JLT    ,A       ,V       ,GAP    ,MS     ,
      2                  CS_LOC ,CM_LOC  ,STIF    ,FRIC   ,

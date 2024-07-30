@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INELTS                        source/interfaces/inter3d1/inelt.F
-Chd|-- called by -----------
-Chd|        I1CHK3                        source/interfaces/inter3d1/i1chk3.F
-Chd|        I21ELS3                       source/interfaces/inter3d1/i21els3.F
-Chd|        I2CHK3                        source/interfaces/inter3d1/i2chk3.F
-Chd|        I3STI3                        source/interfaces/inter3d1/i3sti3.F
-Chd|        I7STI3                        source/interfaces/inter3d1/i7sti3.F
-Chd|        I9STI3                        source/interfaces/int09/i9sti3.F
-Chd|-- calls ---------------
-Chd|        NORMA1                        source/interfaces/inter3d1/norma1.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inelts    ../starter/source/interfaces/inter3d1/inelt.F
+      !||--- called by ------------------------------------------------------
+      !||    i1chk3    ../starter/source/interfaces/inter3d1/i1chk3.F
+      !||    i21els3   ../starter/source/interfaces/inter3d1/i21els3.F
+      !||    i2chk3    ../starter/source/interfaces/inter3d1/i2chk3.F
+      !||    i3sti3    ../starter/source/interfaces/inter3d1/i3sti3.F
+      !||    i7sti3    ../starter/source/interfaces/inter3d1/i7sti3.F
+      !||    i9sti3    ../starter/source/interfaces/int09/i9sti3.F
+      !||--- calls      -----------------------------------------------------
+      !||    norma1    ../starter/source/interfaces/inter3d1/norma1.F
+      !||====================================================================
       SUBROUTINE INELTS(X        ,IRECT ,IXS   ,NINT ,NEL       ,
      .                  I        ,AREA  ,NOINT ,IR   ,SURF_ELTYP,
      .                  SURF_ELEM)
@@ -122,18 +122,17 @@ C
  1400 FORMAT(' NODE NUMBERING OF MAIN SEGMENT',I5,' OF INTERFACE',I10,
      + ' REVERSED')
       END
-Chd|====================================================================
-Chd|  INELTC                        source/interfaces/inter3d1/inelt.F
-Chd|-- called by -----------
-Chd|        I1CHK3                        source/interfaces/inter3d1/i1chk3.F
-Chd|        I20STI3                       source/interfaces/inter3d1/i20sti3.F
-Chd|        I21ELS3                       source/interfaces/inter3d1/i21els3.F
-Chd|        I24GAPM                       source/interfaces/inter3d1/i24sti3.F
-Chd|        I2CHK3                        source/interfaces/inter3d1/i2chk3.F
-Chd|        I3STI3                        source/interfaces/inter3d1/i3sti3.F
-Chd|        I7STI3                        source/interfaces/inter3d1/i7sti3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ineltc    ../starter/source/interfaces/inter3d1/inelt.F
+      !||--- called by ------------------------------------------------------
+      !||    i1chk3    ../starter/source/interfaces/inter3d1/i1chk3.F
+      !||    i20sti3   ../starter/source/interfaces/inter3d1/i20sti3.F
+      !||    i21els3   ../starter/source/interfaces/inter3d1/i21els3.F
+      !||    i24gapm   ../starter/source/interfaces/inter3d1/i24sti3.F
+      !||    i2chk3    ../starter/source/interfaces/inter3d1/i2chk3.F
+      !||    i3sti3    ../starter/source/interfaces/inter3d1/i3sti3.F
+      !||    i7sti3    ../starter/source/interfaces/inter3d1/i7sti3.F
+      !||====================================================================
       SUBROUTINE INELTC(NELC ,NELTG ,IS ,SURF_ELTYP, SURF_ELEM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -161,13 +160,13 @@ C-----------------------------------------------
 !---
       RETURN
       END
-Chd|====================================================================
-Chd|  I20NELTS                      source/interfaces/inter3d1/inelt.F
-Chd|-- called by -----------
-Chd|        I20STI3                       source/interfaces/inter3d1/i20sti3.F
-Chd|-- calls ---------------
-Chd|        NORMA1                        source/interfaces/inter3d1/norma1.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i20nelts   ../starter/source/interfaces/inter3d1/inelt.F
+      !||--- called by ------------------------------------------------------
+      !||    i20sti3    ../starter/source/interfaces/inter3d1/i20sti3.F
+      !||--- calls      -----------------------------------------------------
+      !||    norma1     ../starter/source/interfaces/inter3d1/norma1.F
+      !||====================================================================
       SUBROUTINE I20NELTS(X        ,IRECT ,IXS   ,NINT ,NEL       ,
      .                    I        ,AREA  ,NOINT ,IR   ,SURF_ELTYP,
      .                    SURF_ELEM)
@@ -259,13 +258,13 @@ C
  1400 FORMAT(' NODE NUMBERING OF MAIN SEGMENT',I5,' OF INTERFACE',I10,
      + ' REVERSED')
       END
-Chd|====================================================================
-Chd|  INELTIGEO                     source/interfaces/inter3d1/inelt.F
-Chd|-- called by -----------
-Chd|        I7STI3                        source/interfaces/inter3d1/i7sti3.F
-Chd|-- calls ---------------
-Chd|        NORMA1                        source/interfaces/inter3d1/norma1.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ineltigeo   ../starter/source/interfaces/inter3d1/inelt.F
+      !||--- called by ------------------------------------------------------
+      !||    i7sti3      ../starter/source/interfaces/inter3d1/i7sti3.F
+      !||--- calls      -----------------------------------------------------
+      !||    norma1      ../starter/source/interfaces/inter3d1/norma1.F
+      !||====================================================================
       SUBROUTINE INELTIGEO(XE     ,IRECT  ,IXS   ,NINT     ,NELIG3D   ,
      .                     I      ,AREA   ,NOINT ,IR       ,SURF_ELTYP_IGE,
      .                     IXIG3D ,KXIG3D ,IGEO  ,SURF_ELEM_IGE)

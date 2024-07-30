@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NSVIS_SM12                    source/elements/solid/solide10/nsvis_sm12.F
-Chd|-- called by -----------
-Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    nsvis_sm12   ../engine/source/elements/solid/solide10/nsvis_sm12.F
+      !||--- called by ------------------------------------------------------
+      !||    s10forc3     ../engine/source/elements/solid/solide10/s10forc3.F
+      !||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    szforc3      ../engine/source/elements/solid/solidez/szforc3.F
+      !||====================================================================
       SUBROUTINE NSVIS_SM12(OFFG ,MU ,SSP  ,VOL  ,D1   ,
      .                      D2   ,D3  ,D4    ,D5  ,D6   ,
      .                      VOL0 ,RHO0,STI   ,NEL,SVIS   ) 

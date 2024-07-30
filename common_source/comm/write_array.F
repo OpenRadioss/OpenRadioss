@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRITE_ARRAY                   comm/write_array.F            
-Chd|-- called by -----------
-Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    write_array   ../common_source/comm/write_array.F
+      !||--- called by ------------------------------------------------------
+      !||    wrcomi        ../engine/source/output/restart/wrcomm.F
+      !||====================================================================
       SUBROUTINE WRITE_ARRAY(ARRAY,IDX1,IDX2,TABVINT, LVARINT)
 C-----------------------------------------------
 C   Description

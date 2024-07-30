@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIMU2                        source/ale/bimat/inimu2.F     
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inimu2   ../starter/source/ale/bimat/inimu2.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur   ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE INIMU2(PM,IX,F,DF)
 C
 C-----------------------------------------------

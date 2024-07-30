@@ -21,14 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  _clean      SUBROUTINE INORI2(X,IRECT,ISG,NEL,NINT,NOINT)
-Chd|====================================================================
-Chd|  INORI2                        source/interfaces/inter2d1/inori2.F
-Chd|-- called by -----------
-Chd|        I1CHK2                        source/interfaces/inter2d1/i1chk2.F
-Chd|        I3STI2                        source/interfaces/inter2d1/i3sti2.F
-Chd|        I9STI2                        source/interfaces/int09/i9sti2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inori2   ../starter/source/interfaces/inter2d1/inori2.F
+      !||--- called by ------------------------------------------------------
+      !||    i1chk2   ../starter/source/interfaces/inter2d1/i1chk2.F
+      !||    i3sti2   ../starter/source/interfaces/inter2d1/i3sti2.F
+      !||    i9sti2   ../starter/source/interfaces/int09/i9sti2.F
+      !||====================================================================
       SUBROUTINE INORI2(X    ,IRECT,ISG,NEL,NINT,
      .                  NOINT, YM1, YM2, ZM1,ZM2 ,
      .                  YE   ,ZE)

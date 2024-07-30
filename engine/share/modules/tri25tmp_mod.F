@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TRI25TMP                      share/modules/tri25tmp_mod.F  
-Chd|-- called by -----------
-Chd|        CHECK_FI                      source/mpi/interfaces/spmd_i25slide.F
-Chd|        DEALLOCATE_FI1_TMP            source/mpi/interfaces/spmd_i25slide.F
-Chd|        REALLOCATE_FI1                source/mpi/interfaces/spmd_i25slide.F
-Chd|        SPMD_I25_SLIDE_GAT            source/mpi/interfaces/spmd_i25slide.F
-Chd|-- calls ---------------
-Chd|        POINTERDEF                    share/modules/pointerdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    tri25tmp             ../engine/share/modules/tri25tmp_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    check_fi             ../engine/source/mpi/interfaces/spmd_i25slide.F
+      !||    deallocate_fi1_tmp   ../engine/source/mpi/interfaces/spmd_i25slide.F
+      !||    reallocate_fi1       ../engine/source/mpi/interfaces/spmd_i25slide.F
+      !||    spmd_i25_slide_gat   ../engine/source/mpi/interfaces/spmd_i25slide.F
+      !||--- uses       -----------------------------------------------------
+      !||    pointerdef           ../engine/share/modules/pointerdef_mod.F
+      !||====================================================================
       MODULE TRI25TMP
 #include "my_real.inc"
       USE POINTERDEF

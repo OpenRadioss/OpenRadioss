@@ -21,14 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C-----------------------------------------------
-Chd|====================================================================
-Chd|  SPMD_ANIM_PLY_VELVEC          source/mpi/anim/spmd_anim_ply_velvec.F
-Chd|-- called by -----------
-Chd|        VELVEC                        source/output/anim/generate/velvec.F
-Chd|-- calls ---------------
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_anim_ply_velvec   ../engine/source/mpi/anim/spmd_anim_ply_velvec.F
+      !||--- called by ------------------------------------------------------
+      !||    velvec                 ../engine/source/output/anim/generate/velvec.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_r_c              ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_ANIM_PLY_VELVEC( NODGLOB,IPLY,
      *                                 NOD_PXFEM, IFUNC,EMPSIZPL)
 C-----------------------------------------------

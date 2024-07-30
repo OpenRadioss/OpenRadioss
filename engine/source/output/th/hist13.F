@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HIST13                        source/output/th/hist13.F     
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        EOR_C                         ../common_source/tools/input_output/write_routtines.c
-Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTDES                        source/output/th/wrtdes.F     
-Chd|        STRI                          source/tools/univ/stri.F      
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    hist13                 ../engine/source/output/th/hist13.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2               ../engine/source/engine/radioss2.F
+      !||--- calls      -----------------------------------------------------
+      !||    cur_fil_c              ../common_source/tools/input_output/write_routtines.c
+      !||    eor_c                  ../common_source/tools/input_output/write_routtines.c
+      !||    open_c                 ../common_source/tools/input_output/write_routtines.c
+      !||    write_c_c              ../common_source/tools/input_output/write_routtines.c
+      !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+      !||    wrtdes                 ../engine/source/output/th/wrtdes.F
+      !||--- uses       -----------------------------------------------------
+      !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE HIST13(IPARG ,IXS  ,IXQ  ,IXC    ,IXT    ,
      2                  IXP   ,IXR  ,IWA  ,ITAB   ,PM     ,
      3                  NPBY  ,IXTG ,IRFE ,LACCELM,

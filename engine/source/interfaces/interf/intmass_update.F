@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTMASS_UPDATE                source/interfaces/interf/intmass_update.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    intmass_update   ../engine/source/interfaces/interf/intmass_update.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri           ../engine/source/interfaces/intsort/inttri.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../engine/share/message_module/message_mod.F
+      !||    tri25ebox        ../engine/share/modules/tri25ebox.F
+      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE INTMASS_UPDATE(NIN  , IPARI, INTBUF_TAB, MS )
 C-----------------------------------------------
 C   M o d u l e s

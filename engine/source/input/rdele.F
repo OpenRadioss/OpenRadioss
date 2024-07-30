@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RDELE                         source/input/rdele.F          
-Chd|-- called by -----------
-Chd|        FREFORM                       source/input/freform.F        
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        READ10P                       source/input/read10p.F        
-Chd|        READ5P                        source/input/read5p.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rdele         ../engine/source/input/rdele.F
+      !||--- called by ------------------------------------------------------
+      !||    freform       ../engine/source/input/freform.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||    read10p       ../engine/source/input/read10p.F
+      !||    read5p        ../engine/source/input/read5p.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE RDELE(NELOF,KEY,IREC,KEY0)
 C-----------------------------------------------
 C   M o d u l e s

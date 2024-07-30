@@ -22,16 +22,16 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 C  093 + conditions aux limites SPH, modifie les masses.
-Chd|====================================================================
-Chd|  INSPCND                       source/elements/sph/inspcnd.F 
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        GET_U_GEO                     source/user_interface/uaccess.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inspcnd        ../starter/source/elements/sph/inspcnd.F
+      !||--- called by ------------------------------------------------------
+      !||    initia         ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../starter/source/output/message/message.F
+      !||    get_u_geo      ../starter/source/user_interface/uaccess.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INSPCND(ISPCOND ,IGRNOD  ,KXSP    ,IXSP    ,
      .                   NOD2SP  ,ITAB    ,ICODE   ,ISKEW   ,ISKN    ,
      .                   SKEW    ,XFRAME  ,X       ,ISPSYM  ,ISPTAG  ,

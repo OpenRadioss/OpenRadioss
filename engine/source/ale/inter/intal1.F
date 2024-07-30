@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTAL1                        source/ale/inter/intal1.F     
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        I9MAIN2                       source/interfaces/int09/i9main2.F
-Chd|        I9MAIN3                       source/interfaces/int09/i9main3.F
-Chd|        INTAL2                        source/ale/inter/intal2.F     
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    intal1          ../engine/source/ale/inter/intal1.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    i9main2         ../engine/source/interfaces/int09/i9main2.F
+      !||    i9main3         ../engine/source/interfaces/int09/i9main3.F
+      !||    intal2          ../engine/source/ale/inter/intal2.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE INTAL1(IPARI,X      ,V       ,
      2                  A    ,ISKEW  ,SKEW    ,LCOD   ,WA      ,
      3                  MS   ,ITAB   ,FSAV    ,INTBUF_TAB      ,

@@ -20,22 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FILL_IGR                      source/model/sets/fill_igr.F  
-Chd|-- called by -----------
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|-- calls ---------------
-Chd|        FILL_GR                       source/model/sets/fill_gr.F   
-Chd|        FILL_LINE                     source/model/sets/fill_gr.F   
-Chd|        FILL_SURF                     source/model/sets/fill_gr.F   
-Chd|        FILL_SURF_ELLIPSE             source/model/sets/fill_gr_surf_ellipse.F
-Chd|        HM_GROUP_IS_USED              source/devtools/hm_reader/hm_group_is_used.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SURF_MOD                      share/modules1/surf_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    fill_igr              ../starter/source/model/sets/fill_igr.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_set                ../starter/source/model/sets/hm_set.F
+      !||--- calls      -----------------------------------------------------
+      !||    fill_gr               ../starter/source/model/sets/fill_gr.F
+      !||    fill_line             ../starter/source/model/sets/fill_gr.F
+      !||    fill_surf             ../starter/source/model/sets/fill_gr.F
+      !||    fill_surf_ellipse     ../starter/source/model/sets/fill_gr_surf_ellipse.F
+      !||    fill_surf_plane       ../starter/source/model/sets/fill_gr_surf_plane.F90
+      !||    hm_group_is_used      ../starter/source/devtools/hm_reader/hm_group_is_used.F
+      !||--- uses       -----------------------------------------------------
+      !||    fill_surf_plane_mod   ../starter/source/model/sets/fill_gr_surf_plane.F90
+      !||    hm_option_read_mod    ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod           ../starter/share/message_module/message_mod.F
+      !||    surf_mod              ../starter/share/modules1/surf_mod.F
+      !||====================================================================
       SUBROUTINE FILL_IGR(SET,
      .                    IGRSURF ,IGRNOD  ,IGRSLIN  ,IGRPART ,IGRBRIC  ,IGRQUAD,   
      .                    IGRSH4N ,IGRSH3N ,IGRTRUSS ,IGRBEAM ,IGRSPRING,BUFSF  ,

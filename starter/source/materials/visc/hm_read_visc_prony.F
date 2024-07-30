@@ -20,25 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_VISC_PRONY            source/materials/visc/hm_read_visc_prony.F
-Chd|-- called by -----------
-Chd|        HM_READ_VISC                  source/materials/visc/hm_read_visc.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
-Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
-Chd|        LM_LEAST_SQUARE_PRONY         source/materials/visc/hm_read_visc_prony.F
-Chd|        LM_LEAST_SQUARE_PRONY_2       source/materials/visc/hm_read_visc_prony.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_visc_prony         ../starter/source/materials/visc/hm_read_visc_prony.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_visc               ../starter/source/materials/visc/hm_read_visc.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                     ../starter/source/output/message/message.F
+      !||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+      !||    hm_get_floatv              ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_floatv_dim          ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
+      !||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_is_encrypted     ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||    lm_least_square_prony      ../starter/source/materials/visc/hm_read_visc_prony.F
+      !||    lm_least_square_prony_2    ../starter/source/materials/visc/hm_read_visc_prony.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod                ../starter/share/message_module/message_mod.F
+      !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
+      !||    table_mod                  ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_VISC_PRONY(VISC     ,IVISC    ,NTABLE  ,TABLE   ,MAT_ID   ,
      .                              UNITAB   ,LSUBMODEL)
 C-----------------------------------------------
@@ -389,16 +389,16 @@ C-----------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  LM_LEAST_SQUARE_PRONY         source/materials/visc/hm_read_visc_prony.F
-Chd|-- called by -----------
-Chd|        HM_READ_VISC_PRONY            source/materials/visc/hm_read_visc_prony.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ID                            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    lm_least_square_prony   ../starter/source/materials/visc/hm_read_visc_prony.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_visc_prony      ../starter/source/materials/visc/hm_read_visc_prony.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                  ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||    table_mod               ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE LM_LEAST_SQUARE_PRONY(MAT_ID   ,NPRONY   ,TABLE    ,FCT_ID   ,XGSCALE  ,YGSCALE  ,
      .                                 G        ,BETA     ,COST     ,DERIV    ,ISHAPE   ,GINFINI  )  
 C-----------------------------------------------
@@ -643,16 +643,17 @@ C
       DEALLOCATE(XI,XI_TR,JAC,FXI,DELTAY,JACTJAC,ID,JACTDY,IPIV,JACT,FXI_TR,VECT,YI,TIME,MU)      
       END
 
-Chd|====================================================================
-Chd|  LM_LEAST_SQUARE_PRONY_2       source/materials/visc/hm_read_visc_prony.F
-Chd|-- called by -----------
-Chd|        HM_READ_VISC_PRONY            source/materials/visc/hm_read_visc_prony.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ID                            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    lm_least_square_prony_2   ../starter/source/materials/visc/hm_read_visc_prony.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_visc_prony        ../starter/source/materials/visc/hm_read_visc_prony.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                    ../starter/source/output/message/message.F
+      !||    qsort                     ../starter/source/materials/visc/hm_read_visc_prony.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod               ../starter/share/message_module/message_mod.F
+      !||    table_mod                 ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE LM_LEAST_SQUARE_PRONY_2(MAT_ID   ,NPRONY   ,TABLE    ,FCT_IDS  ,XGS_SCALE,YGS_SCALE,
      .                                   FCT_IDL  ,XGL_SCALE,YGL_SCALE,G        ,BETA     ,COST     ,
      .                                   DERIV    ,ISHAPE   ,GINFINI  )  
@@ -1030,6 +1031,12 @@ C
 
 
 C---------------------------------------------------------------------------------------      
+      !||====================================================================
+      !||    qsort                     ../starter/source/materials/visc/hm_read_visc_prony.F
+      !||--- called by ------------------------------------------------------
+      !||    lm_least_square_prony_2   ../starter/source/materials/visc/hm_read_visc_prony.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       RECURSIVE SUBROUTINE QSORT(A, IDX, FIRST, LAST)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

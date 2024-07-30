@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BUILD_MSG                     source/output/message/build_msg.F
-Chd|-- called by -----------
-Chd|        EXECARGCHECK                  source/starter/execargcheck.F 
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|-- calls ---------------
-Chd|        FREDEC2IM                     source/output/message/fredec2im.F
-Chd|        FREDEC3M                      source/output/message/fredec3m.F
-Chd|        STOCK_MSG                     source/output/message/stock_msg.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    build_msg      ../starter/source/output/message/build_msg.F
+      !||--- called by ------------------------------------------------------
+      !||    execargcheck   ../starter/source/starter/execargcheck.F
+      !||    starter0       ../starter/source/starter/starter0.F
+      !||--- calls      -----------------------------------------------------
+      !||    fredec2im      ../starter/source/output/message/fredec2im.F
+      !||    fredec3m       ../starter/source/output/message/fredec3m.F
+      !||    stock_msg      ../starter/source/output/message/stock_msg.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE BUILD_MSG()
       USE MESSAGE_MOD
 C-----------------------------------------------

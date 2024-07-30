@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C-------------------------------------------------------------------------
-Chd|====================================================================
-Chd|  M24INSPH                      source/elements/sph/m24insph.F
-Chd|-- called by -----------
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m24insph   ../starter/source/elements/sph/m24insph.F
+      !||--- called by ------------------------------------------------------
+      !||    matini     ../starter/source/materials/mat_share/matini.F
+      !||====================================================================
       SUBROUTINE M24INSPH(PM     ,ANG    ,SF     ,VK0    ,ROB    ,
      .                    IPART  ,IPARTSP,NEL    )
 C-----------------------------------------------

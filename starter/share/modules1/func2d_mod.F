@@ -20,19 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FUNC2D_MOD                    share/modules1/func2d_mod.F   
-Chd|-- called by -----------
-Chd|        HM_READ_FUNC2D                source/tools/curve/hm_read_func2d.F
-Chd|        HM_READ_INIMAP2D              source/initial_conditions/inimap/hm_read_inimap2d.F
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|        INI_INIMAP2D                  stub/ini_inimap2d.F           
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        LEC_INIMAP2D_FILE             source/initial_conditions/inimap/lec_inimap2d_file.F
-Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
-Chd|        ST_QAPRINT_MODEL_TOOLS        source/output/qaprint/st_qaprint_model_tools.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    func2d_mod               ../starter/share/modules1/func2d_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_func2d           ../starter/source/tools/curve/hm_read_func2d.F
+      !||    hm_read_inimap2d         ../starter/source/initial_conditions/inimap/hm_read_inimap2d.F
+      !||    ini_inimap2d             ../starter/stub/ini_inimap2d.F
+      !||    initia                   ../starter/source/elements/initia/initia.F
+      !||    lec_inimap2d_file        ../starter/source/initial_conditions/inimap/lec_inimap2d_file.F
+      !||    lectur                   ../starter/source/starter/lectur.F
+      !||    st_qaprint_driver        ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||    st_qaprint_model_tools   ../starter/source/output/qaprint/st_qaprint_model_tools.F
+      !||====================================================================
       MODULE FUNC2D_MOD
 #include "my_real.inc"   
       TYPE FUNC2D_STRUCT

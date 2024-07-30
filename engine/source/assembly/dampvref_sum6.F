@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DAMPVREF_SUM6                 source/assembly/dampvref_sum6.F
-Chd|-- called by -----------
-Chd|        DAMPING_VREF                  source/assembly/damping_vref.F
-Chd|-- calls ---------------
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dampvref_sum6   ../engine/source/assembly/dampvref_sum6.F
+      !||--- called by ------------------------------------------------------
+      !||    damping_vref    ../engine/source/assembly/damping_vref.F
+      !||--- calls      -----------------------------------------------------
+      !||    sum_6_float     ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||====================================================================
       SUBROUTINE DAMPVREF_SUM6(IGRNOD,V,A,MS,WEIGHT,
      .                         ND,NNOD,IGR,SUML6,NGRNOD,
      .                         NUMNOD,NDAMP)

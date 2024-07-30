@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_FXB_CIN                  source/mpi/kinematic_conditions/spmd_fxb_cin.F
-Chd|-- called by -----------
-Chd|        FXBYVIT                       source/constraints/fxbody/fxbyvit.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fxb_cin   ../engine/source/mpi/kinematic_conditions/spmd_fxb_cin.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbyvit        ../engine/source/constraints/fxbody/fxbyvit.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_FXB_CIN(FXBIPM, FXBVIT, FXBACC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

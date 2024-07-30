@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SET_FAILWAVE_NOD4             source/materials/fail/failwave/set_failwave_nod4.F
-Chd|-- called by -----------
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|-- calls ---------------
-Chd|        SEG_INTERSECT                 source/materials/fail/failwave/seg_intersect.F
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    set_failwave_nod4   ../engine/source/materials/fail/failwave/set_failwave_nod4.F
+      !||--- called by ------------------------------------------------------
+      !||    cforc3              ../engine/source/elements/shell/coque/cforc3.F
+      !||    czforc3             ../engine/source/elements/shell/coquez/czforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    seg_intersect       ../engine/source/materials/fail/failwave/seg_intersect.F
+      !||--- uses       -----------------------------------------------------
+      !||    failwave_mod        ../common_source/modules/failwave_mod.F
+      !||====================================================================
       SUBROUTINE SET_FAILWAVE_NOD4(FAILWAVE   ,FWAVE_EL ,NGL      ,
      .           NEL      ,IXC      ,ITAB     ,CRKDIR   ,DIR_A    ,
      .           NROT     ,XL2      ,XL3      ,XL4      ,YL2      ,

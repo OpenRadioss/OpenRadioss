@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I6FRI3                        source/interfaces/inter3d/i6fri3.F
-Chd|-- called by -----------
-Chd|        I6MAIN                        source/interfaces/inter3d/i6main.F
-Chd|-- calls ---------------
-Chd|        NINTERP                       source/interfaces/int14/ninterp.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i6fri3    ../engine/source/interfaces/inter3d/i6fri3.F
+      !||--- called by ------------------------------------------------------
+      !||    i6main    ../engine/source/interfaces/inter3d/i6main.F
+      !||--- calls      -----------------------------------------------------
+      !||    ninterp   ../engine/source/interfaces/int14/ninterp.F
+      !||====================================================================
       SUBROUTINE I6FRI3(
      1   X,       IRECT,   MSR,     NSV,
      2   IRTL,    CST,     IRTLO,   FRIC0,

@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CHECK_SURFACE_STATE           source/interfaces/interf/check_surface_state.F
-Chd|-- called by -----------
-Chd|        FIND_SURFACE_FROM_REMOTE_PROC source/interfaces/interf/find_surface_from_remote_proc.F
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        CHECK_ACTIVE_ELEM_EDGE        source/interfaces/interf/check_active_elem_edge.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    check_surface_state             ../engine/source/interfaces/interf/check_surface_state.F
+      !||--- called by ------------------------------------------------------
+      !||    find_surface_from_remote_proc   ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
+      !||    resol                           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_active_elem_edge          ../engine/source/interfaces/interf/check_active_elem_edge.F
+      !||    my_barrier                      ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    shooting_node_mod               ../engine/share/modules/shooting_node_mod.F
+      !||====================================================================
         SUBROUTINE CHECK_SURFACE_STATE( ITASK,SURFARCE_NB,SURFACE_ID,SHIFT_INTERFACE,INTBUF_TAB,
      .                                  IPARI,GEO,
      .                                  IXS,IXC,IXT,IXP,IXR,IXTG,IXS10,

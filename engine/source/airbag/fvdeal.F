@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FVDEAL                        source/airbag/fvdeal.F        
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    fvdeal      ../engine/source/airbag/fvdeal.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2    ../engine/source/engine/radioss2.F
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod   ../engine/share/modules/fvbag_mod.F
+      !||====================================================================
       SUBROUTINE FVDEAL()            
 C-----------------------------------------------
 C   D e s c r i p t i o n

@@ -21,11 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       
-Chd|====================================================================
-Chd|  GETVLOC                       source/elements/solid/solide8s/getvloc.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    getvloc   ../engine/source/elements/solid/solide8s/getvloc.F
+      !||====================================================================
       SUBROUTINE GETVLOC(
      1   TRM,     VX1,     VX2,     VX3,
      2   VX4,     VX5,     VX6,     VX7,

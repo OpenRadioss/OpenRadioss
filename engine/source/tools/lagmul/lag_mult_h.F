@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAG_MULT_H                    source/tools/lagmul/lag_mult_h.F
-Chd|-- called by -----------
-Chd|        LAG_MULT_SOLV                 source/tools/lagmul/lag_mult_solv.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_mult_h      ../engine/source/tools/lagmul/lag_mult_h.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_mult_solv   ../engine/source/tools/lagmul/lag_mult_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE LAG_MULT_H(
      1                    NC     ,LENH   ,LHMAX  ,MS     ,IN     ,
      2                    DIAG   ,HH     ,IADLL  ,LLL    ,JLL    ,
@@ -299,16 +300,17 @@ C--------------------------------------------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  LAG_MULT_HP                   source/tools/lagmul/lag_mult_h.F
-Chd|-- called by -----------
-Chd|        LAG_MULT_SDP                  source/tools/lagmul/lag_mult_solv.F
-Chd|        LAG_MULT_SOLVP                source/tools/lagmul/lag_mult_solv.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_mult_hp      ../engine/source/tools/lagmul/lag_mult_h.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_mult_sdp     ../engine/source/tools/lagmul/lag_mult_solv.F
+      !||    lag_mult_solvp   ../engine/source/tools/lagmul/lag_mult_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg           ../engine/source/output/message/message.F
+      !||    arret            ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE LAG_MULT_HP(
      1                     NC     ,LENH   ,LHMAX  ,MS      ,IN     ,
      2                     DIAG   ,HH     ,IADLL  ,LLL     ,JLL    ,

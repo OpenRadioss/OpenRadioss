@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SMS_BCS1TH                    source/ams/sms_bcs1th.F       
-Chd|-- called by -----------
-Chd|        SMS_THBCS                     source/ams/sms_thbcs.F        
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_bcs1th   ../engine/source/ams/sms_bcs1th.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_thbcs    ../engine/source/ams/sms_thbcs.F
+      !||====================================================================
       SUBROUTINE SMS_BCS1TH(NINDX ,INDX   ,ISKEW  ,ICODT  ,A    ,
      2                      SKEW  ,FTHREAC,NODREAC,FLAG   )
 C
@@ -151,11 +150,9 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SMS_BCS1AN                    source/ams/sms_bcs1th.F       
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_bcs1an   ../engine/source/ams/sms_bcs1th.F
+      !||====================================================================
       SUBROUTINE SMS_BCS1AN(NINDX ,INDX   ,ISKEW  ,ICODT  ,A    ,
      2                      SKEW  ,FANREAC,FLAG   )
 

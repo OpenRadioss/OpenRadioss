@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ININODE_RM                    source/materials/mat/mat019/ininode_rm.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ininode_rm   ../starter/source/materials/mat/mat019/ininode_rm.F
+      !||--- called by ------------------------------------------------------
+      !||    initia       ../starter/source/elements/initia/initia.F
+      !||====================================================================
       SUBROUTINE ININODE_RM(CONNEC,IRIG_NODE,IRBY,SLN,NRB,NRSLN,
      .                      STIFN,STIFR, RMSTIFN, RMSTIFR,NUMEL,
      .                      NER)

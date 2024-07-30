@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MTHETA                        source/materials/mat_share/mtheta.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mtheta   ../engine/source/materials/mat_share/mtheta.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain    ../engine/source/materials/mat_share/mmain.F90
+      !||====================================================================
       SUBROUTINE MTHETA(
      1   PM,      EINT,    THETA,   AMU,
      2   C1,      C2,      DF,      PSH,

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_FI_SMS                   source/mpi/ams/spmd_fi_sms.F  
-Chd|-- called by -----------
-Chd|        SMS_MAV_LT1                   source/ams/sms_pcg.F          
-Chd|        SMS_MAV_LT2                   source/ams/sms_pcg.F          
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fi_sms   ../engine/source/mpi/ams/spmd_fi_sms.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_mav_lt1   ../engine/source/ams/sms_pcg.F
+      !||    sms_mav_lt2   ../engine/source/ams/sms_pcg.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_FI_SMS(V     ,NODNX_SMS,SIZE,VFI,FR_RMS,
      .                       FR_SMS,LIST_RMS ,LIST_SMS)
 C-----------------------------------------------

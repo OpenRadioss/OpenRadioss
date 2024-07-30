@@ -20,37 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DT_MOD                        share/modules/dt_mod.F        
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|        ENG_QAPRINT_DRIVER            source/output/qaprint/eng_qaprint_driver.F
-Chd|        ENG_QAPRINT_DTINPUT           source/output/qaprint/eng_qaprint_dtinput.F
-Chd|        FORINT                        source/elements/forint.F      
-Chd|        FREFORM                       source/input/freform.F        
-Chd|        LECINP                        source/input/lecinp.F         
-Chd|        LECTUR                        source/input/lectur.F         
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|        S10MALLGEO3                   source/elements/solid/solide10/s10mallgeo3.F
-Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
-Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
-Chd|        SMALLGEO3                     source/elements/solid/solide/smallgeo3.F
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|        TSHGEODEL3                    source/elements/thickshell/solidec/tshgeodel3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dt_mod                ../engine/share/modules/dt_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain               ../engine/source/ale/alemain.F
+      !||    eng_qaprint_driver    ../engine/source/output/qaprint/eng_qaprint_driver.F
+      !||    eng_qaprint_dtinput   ../engine/source/output/qaprint/eng_qaprint_dtinput.F
+      !||    forint                ../engine/source/elements/forint.F
+      !||    freform               ../engine/source/input/freform.F
+      !||    lecinp                ../engine/source/input/lecinp.F
+      !||    lectur                ../engine/source/input/lectur.F
+      !||    radioss2              ../engine/source/engine/radioss2.F
+      !||    resol                 ../engine/source/engine/resol.F
+      !||    resol_head            ../engine/source/engine/resol_head.F
+      !||    s10forc3              ../engine/source/elements/solid/solide10/s10forc3.F
+      !||    s10mallgeo3           ../engine/source/elements/solid/solide10/s10mallgeo3.F
+      !||    s16forc3              ../engine/source/elements/thickshell/solide16/s16forc3.F
+      !||    s20forc3              ../engine/source/elements/solid/solide20/s20forc3.F
+      !||    s4forc3               ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    s6cforc3              ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s8cforc3              ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3              ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8zforc3              ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    scforc3               ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||    sforc3                ../engine/source/elements/solid/solide/sforc3.F
+      !||    sgeodel3              ../engine/source/elements/solid/solide/sgeodel3.F
+      !||    smallgeo3             ../engine/source/elements/solid/solide/smallgeo3.F
+      !||    sortie_main           ../engine/source/output/sortie_main.F
+      !||    szforc3               ../engine/source/elements/solid/solidez/szforc3.F
+      !||    tshgeodel3            ../engine/source/elements/thickshell/solidec/tshgeodel3.F
+      !||====================================================================
       MODULE DT_MOD
       
         IMPLICIT NONE
@@ -67,12 +66,11 @@ Chd|====================================================================
         CONTAINS        
           
 C INITIALISATION : CALL DT%INIT_IDEL_BRICK()
-Chd|====================================================================
-Chd|  INIT_IDEL_BRICK               share/modules/dt_mod.F        
-Chd|-- called by -----------
-Chd|        FREFORM                       source/input/freform.F        
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    init_idel_brick   ../engine/share/modules/dt_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    freform           ../engine/source/input/freform.F
+      !||====================================================================
           SUBROUTINE INIT_IDEL_BRICK(THIS)
             IMPLICIT NONE
 #include    "constant.inc" 

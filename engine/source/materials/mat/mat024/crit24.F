@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CRIT24                        source/materials/mat/mat024/crit24.F
-Chd|-- called by -----------
-Chd|        CONC24                        source/materials/mat/mat024/conc24.F
-Chd|-- calls ---------------
-Chd|        FRV                           source/materials/mat/mat024/fr.F
-Chd|====================================================================
+      !||====================================================================
+      !||    crit24   ../engine/source/materials/mat/mat024/crit24.F
+      !||--- called by ------------------------------------------------------
+      !||    conc24   ../engine/source/materials/mat/mat024/conc24.F
+      !||--- calls      -----------------------------------------------------
+      !||    frv      ../engine/source/materials/mat/mat024/fr.F
+      !||====================================================================
       SUBROUTINE CRIT24(NEL,PM,SIG,VK0,VK,OFF,
      .                  ROB,NGL,SEQ,
      .                  S01,S02,S03,S04,S05,S06,

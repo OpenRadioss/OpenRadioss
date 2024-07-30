@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPONOF2                       source/elements/sph/sponof2.F 
-Chd|-- called by -----------
-Chd|        SPHPREP                       source/elements/sph/sphprep.F 
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        SPHREQS                       source/elements/sph/sphreq.F  
-Chd|        SPH_NODSEG                    source/elements/sph/sph_nodseg.F
-Chd|        SPMD_SPHGETIMP                source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETVOIS_OFF           source/mpi/elements/spmd_sph.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    sponof2               ../engine/source/elements/sph/sponof2.F
+      !||--- called by ------------------------------------------------------
+      !||    sphprep               ../engine/source/elements/sph/sphprep.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf               ../engine/share/resol/initbuf.F
+      !||    sph_nodseg            ../engine/source/elements/sph/sph_nodseg.F
+      !||    sphreqs               ../engine/source/elements/sph/sphreq.F
+      !||    spmd_sphgetimp        ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetvois_off   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod          ../common_source/modules/groupdef_mod.F
+      !||    initbuf_mod           ../engine/share/resol/initbuf.F
+      !||    sphbox                ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPONOF2(X ,V       ,D        ,MS      ,SPBUF   ,
      2             ITAB    ,KXSP    ,IXSP     ,NOD2SP  ,NPC     ,
      3             PLD     ,IPARG   ,ELBUF_TAB,ISPHIO  ,VSPHIO  ,

@@ -20,32 +20,34 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_GET_STRING_INDEX           source/devtools/hm_reader/hm_get_string_index.F
-Chd|-- called by -----------
-Chd|        HM_READ_DRAPE                 source/properties/composite_options/drape/hm_read_drape.F
-Chd|        HM_READ_FAIL_USER             source/materials/fail/failuser/hm_read_fail_user.F
-Chd|        HM_READ_MAT29_31              source/materials/mat/matuser/hm_read_mat_user29_31.F
-Chd|        HM_READ_MAT_99                source/materials/mat/matuser/hm_read_mat_user_99.F
-Chd|        HM_READ_MONVOL_TYPE11         source/airbag/hm_read_monvol_type11.F
-Chd|        HM_READ_MONVOL_TYPE7          source/airbag/hm_read_monvol_type7.F
-Chd|        HM_READ_MONVOL_TYPE8          source/airbag/hm_read_monvol_type8.F
-Chd|        HM_READ_MONVOL_TYPE9          source/airbag/hm_read_monvol_type9.F
-Chd|        HM_READ_PROP28                source/properties/xelem/hm_read_prop28.F
-Chd|        HM_READ_PROP_USER             source/properties/user_spring_solid/hm_read_prop_user.F
-Chd|        HM_READ_THGRNE                source/output/th/hm_read_thgrne.F
-Chd|        HM_READ_THGRNS                source/output/th/hm_read_thgrns.F
-Chd|        HM_READ_WINDOW_USER           source/tools/userwi/hm_read_window_user.F
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|        HM_THGRKI_VENT                source/output/th/hm_thgrki_vent.F
-Chd|        HM_THVARVENT                  source/output/th/hm_thvarent.F
-Chd|        READ_SENSOR_USER              source/tools/sensor/read_sensor_user.F
-Chd|        SORT_SET                      source/model/sets/sort_sets.F 
-Chd|        ST_QAPRINT_SET                source/output/qaprint/st_qaprint_set.F
-Chd|        HM_THVARC                     source/output/th/hm_read_thvarc.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_get_string_index     ../starter/source/devtools/hm_reader/hm_get_string_index.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_drape           ../starter/source/properties/composite_options/drape/hm_read_drape.F
+      !||    hm_read_fail_user       ../starter/source/materials/fail/failuser/hm_read_fail_user.F
+      !||    hm_read_funct_python    ../starter/source/tools/curve/hm_read_funct_python.F90
+      !||    hm_read_mat29_31        ../starter/source/materials/mat/matuser/hm_read_mat_user29_31.F
+      !||    hm_read_mat_99          ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
+      !||    hm_read_monvol_type11   ../starter/source/airbag/hm_read_monvol_type11.F
+      !||    hm_read_monvol_type7    ../starter/source/airbag/hm_read_monvol_type7.F
+      !||    hm_read_monvol_type8    ../starter/source/airbag/hm_read_monvol_type8.F
+      !||    hm_read_monvol_type9    ../starter/source/airbag/hm_read_monvol_type9.F
+      !||    hm_read_prop28          ../starter/source/properties/xelem/hm_read_prop28.F
+      !||    hm_read_prop_user       ../starter/source/properties/user_spring_solid/hm_read_prop_user.F
+      !||    hm_read_thgrne          ../starter/source/output/th/hm_read_thgrne.F
+      !||    hm_read_thgrns          ../starter/source/output/th/hm_read_thgrns.F
+      !||    hm_read_window_user     ../starter/source/tools/userwi/hm_read_window_user.F
+      !||    hm_set                  ../starter/source/model/sets/hm_set.F
+      !||    hm_thgrki_vent          ../starter/source/output/th/hm_thgrki_vent.F
+      !||    hm_thvarc               ../starter/source/output/th/hm_read_thvarc.F
+      !||    hm_thvarvent            ../starter/source/output/th/hm_thvarent.F
+      !||    read_sensor_user        ../starter/source/tools/sensor/read_sensor_user.F
+      !||    sort_set                ../starter/source/model/sets/sort_sets.F
+      !||    st_qaprint_set          ../starter/source/output/qaprint/st_qaprint_set.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE HM_GET_STRING_INDEX(NAME,SVAL,INDEX,SIZE,IS_AVAILABLE)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

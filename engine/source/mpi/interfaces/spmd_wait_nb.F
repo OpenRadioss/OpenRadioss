@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_WAIT_NB                  source/mpi/interfaces/spmd_wait_nb.F
-Chd|-- called by -----------
-Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
-Chd|-- calls ---------------
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_wait_nb         ../engine/source/mpi/interfaces/spmd_wait_nb.F
+      !||--- called by ------------------------------------------------------
+      !||    inter_prepare_sort   ../engine/source/interfaces/generic/inter_prepare_sort.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    inter_sorting_mod    ../engine/share/modules/inter_sorting_mod.F
+      !||    message_mod          ../engine/share/message_module/message_mod.F
+      !||    tri7box              ../engine/share/modules/tri7box.F
+      !||====================================================================
         SUBROUTINE SPMD_WAIT_NB(IRCVFROM,ISENDTO,NIN,SORT_COMM)
 !$COMMENT
 !       SPMD_WAIT_NB description :

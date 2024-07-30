@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_FXB_FOR                  source/mpi/kinematic_conditions/spmd_fxb_for.F
-Chd|-- called by -----------
-Chd|        FXBYFOR                       source/constraints/fxbody/fxbyfor.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fxb_for   ../engine/source/mpi/kinematic_conditions/spmd_fxb_for.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbyfor        ../engine/source/constraints/fxbody/fxbyfor.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_FXB_FOR(FXBIPM, MFEXTP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

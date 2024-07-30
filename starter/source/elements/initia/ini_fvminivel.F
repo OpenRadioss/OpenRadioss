@@ -20,14 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INI_FVMINIVEL                 source/elements/initia/ini_fvminivel.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ini_fvminivel   ../starter/source/elements/initia/ini_fvminivel.F
+      !||--- called by ------------------------------------------------------
+      !||    initia          ../starter/source/elements/initia/initia.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INI_FVMINIVEL(FVM_INIVEL ,MULTI_FVM ,IGRBRIC ,IGRQUAD ,IGRSH3N)
 C-----------------------------------------------
 C     M o d u l e s

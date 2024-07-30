@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  C_ISPH                        source/restart/ddsplit/c_isph.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c_isph    ../starter/source/restart/ddsplit/c_isph.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit   ../starter/source/restart/ddsplit/ddsplit.F
+      !||====================================================================
       SUBROUTINE C_ISPH(KXSP,CEPSP,PROC,NUMSPH_L,
      .                  SLONFSPH_L,SLPRTSPH,SLPRTSPH_L,IPARTSP,
      .      SSPHVELN_L,NSPHSOL_L,FIRST_SPHSOL_L)

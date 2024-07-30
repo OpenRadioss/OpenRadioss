@@ -20,14 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_MSIN                     source/elements/initia/spmd_msin.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        STRR                          source/tools/univ/strr.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_msin   ../starter/source/elements/initia/spmd_msin.F
+      !||--- called by ------------------------------------------------------
+      !||    initia      ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_MSIN(
      1               IXS  ,IXQ  ,IXC  ,IXT  ,IXP  ,
      2               IXR  ,IXTG ,MSS  ,MSQ  ,

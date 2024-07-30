@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  COMM_TRI7VOX_MOD              share/modules/comm_tri7vox_mod.F
-Chd|-- called by -----------
-Chd|        SPMD_SPLIT_COMM_INTER         source/mpi/interfaces/spmd_split_comm_inter.F
-Chd|        SPMD_TRI7VOX_OPTIMIZED        source/mpi/interfaces/spmd_tri7vox_optimized.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    comm_tri7vox_mod         ../engine/share/modules/comm_tri7vox_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_split_comm_inter    ../engine/source/mpi/interfaces/spmd_split_comm_inter.F
+      !||    spmd_tri7vox_optimized   ../engine/source/mpi/interfaces/spmd_tri7vox_optimized.F
+      !||====================================================================
         MODULE COMM_TRI7VOX_MOD
 #include      "my_real.inc"    
 !$COMMENT

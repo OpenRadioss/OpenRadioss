@@ -21,17 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  TRIRAP                        src/init1/trirap.F            
-Chd|-- called by -----------
-Chd|        ADD_MASS_STAT                 src/lectur1/add_mass_stat.F   
-Chd|        FIND_DT_ENGINE                src/rad2r/r2r_speedup.F       
-Chd|        OUTRI                         src/materdt/outri.F           
-Chd|        OUTRIN                        src/materdt/outri.F           
-Chd|-- calls ---------------
-Chd|        TRIINS                        src/init1/triins.F            
-Chd|        IPARTI                        src/init1/iparti.F            
-Chd|====================================================================
+      !||====================================================================
+      !||    trirap   ../common_source/tools/sort/trirap.F
+      !||--- calls      -----------------------------------------------------
+      !||    iparti   ../common_source/tools/sort/iparti.F
+      !||    triins   ../common_source/tools/sort/triins.F
+      !||====================================================================
       SUBROUTINE TRIRAP(N,TAB,N2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

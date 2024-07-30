@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BROKMANN_CRACK_INIT           source/materials/fail/alter/brokmann_crack_init.F
-Chd|-- called by -----------
-Chd|        FAIL_WIND_FRWAVE              source/materials/fail/alter/fail_wind_frwave.F
-Chd|-- calls ---------------
-Chd|        NEWMAN_RAJU                   source/materials/fail/alter/newman_raju.F
-Chd|====================================================================
+      !||====================================================================
+      !||    brokmann_crack_init   ../engine/source/materials/fail/alter/brokmann_crack_init.F
+      !||--- called by ------------------------------------------------------
+      !||    fail_wind_frwave      ../engine/source/materials/fail/alter/fail_wind_frwave.F
+      !||--- calls      -----------------------------------------------------
+      !||    newman_raju           ../engine/source/materials/fail/alter/newman_raju.F
+      !||====================================================================
       SUBROUTINE BROKMANN_CRACK_INIT(
      .     NEL       ,NUPARAM   ,NUVAR     ,IPT       ,NPT       ,
      .     UPARAM    ,UVAR      ,NGL       ,THK0      ,ALDT      ,

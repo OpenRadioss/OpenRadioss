@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25PEN3E                      source/interfaces/inter3d1/i25pen3e.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i25pen3e   ../starter/source/interfaces/inter3d1/i25pen3e.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3     ../starter/source/interfaces/inter3d1/inint3.F
+      !||====================================================================
       SUBROUTINE I25PEN3E(
      1   JLT   ,IEDGE  ,CAND_S,CAND_M,
      2   N1    ,N2     ,M1    ,M2    ,

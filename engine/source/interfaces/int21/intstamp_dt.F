@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTSTAMP_DT                   source/interfaces/int21/intstamp_dt.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    intstamp_dt    ../engine/source/interfaces/int21/intstamp_dt.F
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    intstamp_mod   ../engine/share/modules/intstamp_mod.F
+      !||====================================================================
       SUBROUTINE INTSTAMP_DT(
      1           INTSTAMP ,IPARI, NELTST ,ITYPTST ,DT2T,
      2           NODNX_SMS,DIAG_SMS,MS   ,V       ,STIFN,

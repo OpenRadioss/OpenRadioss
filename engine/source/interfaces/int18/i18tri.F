@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I18TRI                        source/interfaces/int18/i18tri.F
-Chd|-- called by -----------
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i18tri      ../engine/source/interfaces/int18/i18tri.F
+      !||--- called by ------------------------------------------------------
+      !||    i7mainf     ../engine/source/interfaces/int07/i7mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_orders   ../common_source/tools/sort/my_orders.c
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box     ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I18TRI(INDEX,I_STOK,CAND_N,ITAB, NSN ,
      2                  NSV  ,NIN   )
 C Tri des candidats suivant le numero de noeud user

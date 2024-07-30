@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_SD_ACC                   source/mpi/output/spmd_sd_acc.F
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|        SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sd_acc   ../engine/source/mpi/output/spmd_sd_acc.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2         ../engine/source/output/th/hist2.F
+      !||    sensor_spmd   ../engine/source/tools/sensor/sensor_spmd.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_SD_ACC(ACCELM,IACCP,NACCP)
 C envoi vers p0 du tableau ACCELM calcule sur chaque proc
 C-----------------------------------------------

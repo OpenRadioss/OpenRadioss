@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I14CAN                        source/interfaces/int14/i14can.F
-Chd|-- called by -----------
-Chd|        I14CMP                        source/interfaces/int14/i14cmp.F
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i14can         ../engine/source/interfaces/int14/i14can.F
+      !||--- called by ------------------------------------------------------
+      !||    i14cmp         ../engine/source/interfaces/int14/i14cmp.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+      !||====================================================================
       SUBROUTINE I14CAN(NSI     ,KSI     ,X    ,
      2                  KSURF   ,IGRSURF ,BUFSF,
      3                  G       ,

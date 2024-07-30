@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INISOLDIST                    source/initial_conditions/inivol/inisoldist.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        QCOOR2                        source/elements/solid_2d/quad/qcoor2.F
-Chd|        RATIO_FILL                    source/initial_conditions/inivol/ratio_fill.F
-Chd|        S4COOR3                       source/elements/solid/solide4/s4coor3.F
-Chd|        SCOOR3                        source/elements/solid/solide/scoor3.F
-Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inisoldist     ../starter/source/initial_conditions/inivol/inisoldist.F
+      !||--- called by ------------------------------------------------------
+      !||    init_inivol    ../starter/source/initial_conditions/inivol/init_inivol.F90
+      !||--- calls      -----------------------------------------------------
+      !||    qcoor2         ../starter/source/elements/solid_2d/quad/qcoor2.F
+      !||    ratio_fill     ../starter/source/initial_conditions/inivol/ratio_fill.F
+      !||    s4coor3        ../starter/source/elements/solid/solide4/s4coor3.F
+      !||    scoor3         ../starter/source/elements/solid/solide/scoor3.F
+      !||    srcoor3        ../starter/source/elements/solid/solide/srcoor3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
        SUBROUTINE INISOLDIST(
      .          IFILL      ,IXS       ,X         ,GEO       ,NG        ,
      .          IPARG      ,IDP       ,IPART_    ,XREFS     ,

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I20NORMN                      source/interfaces/int20/i20rcurv.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i20normn   ../engine/source/interfaces/int20/i20rcurv.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf   ../engine/source/interfaces/int20/i20mainf.F
+      !||====================================================================
       SUBROUTINE I20NORMN(NRTM,IRECT,NUMNOD,X,NOD_NORMAL,
      .                   NMN ,MSR  ,NLN,NLG)
 C-----------------------------------------------
@@ -114,14 +113,14 @@ C optimisable en spmd si ajout flag pour routine de comm, spmd_exchange_n
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I20NORMNP                     source/interfaces/int20/i20rcurv.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- calls ---------------
-Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
-Chd|        SPMD_I7CURVCOM                source/mpi/interfaces/spmd_i7curvcom.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i20normnp        ../engine/source/interfaces/int20/i20rcurv.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf         ../engine/source/interfaces/int20/i20mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    myqsort          ../common_source/tools/sort/myqsort.F
+      !||    spmd_i7curvcom   ../engine/source/mpi/interfaces/spmd_i7curvcom.F
+      !||====================================================================
       SUBROUTINE I20NORMNP(NRTM  ,IRECT   ,NUMNOD ,X    ,NOD_NORMAL,
      .                   NMN   ,MSR     ,LENT   ,MAXCC,ISDSIZ    ,
      .                   IRCSIZ,IAD_ELEM,FR_ELEM,ITAG ,NLN,NLG)
@@ -247,12 +246,11 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I20NORME                      source/interfaces/int20/i20rcurv.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i20norme   ../engine/source/interfaces/int20/i20rcurv.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf   ../engine/source/interfaces/int20/i20mainf.F
+      !||====================================================================
       SUBROUTINE I20NORME(NMNFT, NMNLT, NOD_NORMAL, MSR  ,NLN,NLG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -293,12 +291,11 @@ C-----------------------------------------------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I20RCURV                      source/interfaces/int20/i20rcurv.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i20rcurv   ../engine/source/interfaces/int20/i20rcurv.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf   ../engine/source/interfaces/int20/i20mainf.F
+      !||====================================================================
       SUBROUTINE I20RCURV(NRTMFT,NRTMLT ,X ,NOD_NORMAL ,IRECT ,
      .                   RCURV ,NRADM  ,ANGLM ,ANGLT ,NLN,NLG)
 C-----------------------------------------------

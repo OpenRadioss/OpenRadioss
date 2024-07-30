@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I12GATHCOR                    source/interfaces/interf/i12gathcor.F
-Chd|-- called by -----------
-Chd|        INTTI12A                      source/interfaces/interf/intti12.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i12gathcor   ../engine/source/interfaces/interf/i12gathcor.F
+      !||--- called by ------------------------------------------------------
+      !||    intti12a     ../engine/source/interfaces/interf/intti12.F
+      !||====================================================================
        SUBROUTINE I12GATHCOR(X,XS,XM,NSN,NMN,NSV,MSR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

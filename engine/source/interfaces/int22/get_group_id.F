@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GET_GROUP_ID                  source/interfaces/int22/get_group_id.F
-Chd|-- called by -----------
-Chd|        SINIT22_FVM                   source/interfaces/int22/sinit22_fvm.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    get_group_id   ../engine/source/interfaces/int22/get_group_id.F
+      !||--- called by ------------------------------------------------------
+      !||    sinit22_fvm    ../engine/source/interfaces/int22/sinit22_fvm.F
+      !||====================================================================
       SUBROUTINE GET_GROUP_ID(
      1             II      , NG        , IG        , IPARG     )
 C-----------------------------------------------

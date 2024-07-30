@@ -20,15 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIGRAV_EOS                   source/initial_conditions/inigrav/inigrav_eos.F
-Chd|-- called by -----------
-Chd|        INIGRAV_LOAD                  source/initial_conditions/inigrav/inigrav_load.F
-Chd|-- calls ---------------
-Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inigrav_eos        ../starter/source/initial_conditions/inigrav/inigrav_eos.F
+      !||--- called by ------------------------------------------------------
+      !||    inigrav_load       ../starter/source/initial_conditions/inigrav/inigrav_load.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INIGRAV_EOS(NELG, NEL, NG, MATID, IPM, GRAV0, RHO0, DEPTH, PM, BUFMAT,
      .                       ELBUF_TAB,PSURF,LIST,PRES,IMAT,MLW,NPF,TF,NUMMAT,MAT_PARAM)
 C-----------------------------------------------

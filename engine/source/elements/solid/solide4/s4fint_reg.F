@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4FINT_REG                    source/elements/solid/solide4/s4fint_reg.F
-Chd|-- called by -----------
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|-- calls ---------------
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s4fint_reg       ../engine/source/elements/solid/solide4/s4fint_reg.F
+      !||--- called by ------------------------------------------------------
+      !||    s4forc3          ../engine/source/elements/solid/solide4/s4forc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
+      !||====================================================================
       SUBROUTINE S4FINT_REG(
      1   NLOC_DMG,VAR_REG, NEL,     OFF,
      2   VOL,     NC1,     NC2,     NC3,

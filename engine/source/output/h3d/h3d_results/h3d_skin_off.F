@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_SKIN_OFF                  source/output/h3d/h3d_results/h3d_skin_off.F
-Chd|-- called by -----------
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_skin_off   ../engine/source/output/h3d/h3d_results/h3d_skin_off.F
+      !||--- called by ------------------------------------------------------
+      !||    genh3d         ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf        ../engine/share/resol/initbuf.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    h3d_inc_mod    ../engine/share/modules/h3d_inc_mod.F
+      !||    initbuf_mod    ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE H3D_SKIN_OFF(ELBUF_TAB,IPARG,IXS,IXS10,
      .                        TAG_SKINS6,SKIN_OFF)
 C-----------------------------------------------

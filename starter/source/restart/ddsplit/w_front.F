@@ -20,25 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  W_FRONT                       source/restart/ddsplit/w_front.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        SPLIT_CFD_MOD                 share/modules1/split_cfd_mod.F
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    w_front                ../starter/source/restart/ddsplit/w_front.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret                  ../starter/source/system/arret.F
+      !||    nlocal                 ../starter/source/spmd/node/ddtools.F
+      !||    plist_ifront           ../starter/source/spmd/node/ddtools.F
+      !||--- uses       -----------------------------------------------------
+      !||    constraint_mod         ../starter/source/modules/constaint_mod.F90
+      !||    front_mod              ../starter/share/modules1/front_mod.F
+      !||    fvbag_mod              ../starter/share/modules1/fvbag_mod.F
+      !||    split_cfd_mod          ../starter/share/modules1/split_cfd_mod.F
+      !||====================================================================
       SUBROUTINE W_FRONT(
      1   PROC    ,NBDDACC ,NBDDKIN ,NODLOCAL,
      2   NBDDPROC,NBDDBOUN,NODGLOB ,NUMNOD_L,NBDDNRB ,

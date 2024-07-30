@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_FVB_AMAX                 source/mpi/anim/spmd_fvb_amax.F
-Chd|-- called by -----------
-Chd|        DELNUMBC                      source/output/anim/generate/delnumbc.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fvb_amax   ../engine/source/mpi/anim/spmd_fvb_amax.F
+      !||--- called by ------------------------------------------------------
+      !||    delnumbc        ../engine/source/output/anim/generate/delnumbc.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_FVB_AMAX(IDCMAX, IDCMAXL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

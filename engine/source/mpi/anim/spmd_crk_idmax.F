@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_CRK_IDMAX                source/mpi/anim/spmd_crk_idmax.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_crk_idmax   ../engine/source/mpi/anim/spmd_crk_idmax.F
+      !||--- called by ------------------------------------------------------
+      !||    genani           ../engine/source/output/anim/generate/genani.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_CRK_IDMAX(IDMAX,ITAB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SHELL_ROTA                    source/output/dynain/shell_rota.F
-Chd|-- called by -----------
-Chd|        DYNAIN_C_STRSG                source/output/dynain/dynain_c_strsg.F
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    shell_rota       ../engine/source/output/dynain/shell_rota.F
+      !||--- called by ------------------------------------------------------
+      !||    dynain_c_strsg   ../engine/source/output/dynain/dynain_c_strsg.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE SHELL_ROTA(I        ,ILAY    ,NEL    ,IORTH  ,ITY      ,
      2                      IGTYP    ,MLW     ,JDIR   ,SIG    ,ELBUF_STR,
      3                      RX       ,RY      ,RZ     ,SX     ,SY       ,  
@@ -211,14 +211,15 @@ C
 C-----------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  SHELL_LOCAL_FRAME             source/output/dynain/shell_rota.F
-Chd|-- called by -----------
-Chd|        DYNAIN_C_STRSG                source/output/dynain/dynain_c_strsg.F
-Chd|-- calls ---------------
-Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    shell_local_frame   ../engine/source/output/dynain/shell_rota.F
+      !||--- called by ------------------------------------------------------
+      !||    dynain_c_strsg      ../engine/source/output/dynain/dynain_c_strsg.F
+      !||--- calls      -----------------------------------------------------
+      !||    clskew3             ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE SHELL_LOCAL_FRAME(JFT    , JLT   ,ITY      ,IHBE     ,IGTYP   ,
      2                             IXC    ,IXTG   ,NFT      ,X        ,OFFG    ,
      3                             RX     ,RY     ,RZ       ,SX       ,SY      ,  

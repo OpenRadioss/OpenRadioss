@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M1TOT_STAB_P                  source/elements/solid/solide10/m1tot_stab_p.F
-Chd|-- called by -----------
-Chd|        M1LAWTOT                      source/materials/mat/mat001/m1lawtot.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m1tot_stab_p   ../engine/source/elements/solid/solide10/m1tot_stab_p.F
+      !||--- called by ------------------------------------------------------
+      !||    m1lawtot       ../engine/source/materials/mat/mat001/m1lawtot.F
+      !||====================================================================
       SUBROUTINE M1TOT_STAB_P(SIG,G2,C1,NEL )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

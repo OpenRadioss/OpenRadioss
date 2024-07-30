@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  VALPR                         source/constraints/general/rbody/valpr.F
-Chd|-- called by -----------
-Chd|        INEPRI                        source/constraints/general/rbody/inepri.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    valpr    ../engine/source/constraints/general/rbody/valpr.F
+      !||--- called by ------------------------------------------------------
+      !||    inepri   ../engine/source/constraints/general/rbody/inepri.F
+      !||====================================================================
       SUBROUTINE VALPR (A,R,N,MV)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

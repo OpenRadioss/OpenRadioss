@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  OUTP_SP_T                     source/output/sty/outp_sp_t.F 
-Chd|-- called by -----------
-Chd|        GENOUTP                       source/output/sty/genoutp.F   
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        SPMD_RGATHER9_1COMM           source/mpi/interfaces/spmd_outp.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    outp_sp_t             ../engine/source/output/sty/outp_sp_t.F
+      !||--- called by ------------------------------------------------------
+      !||    genoutp               ../engine/source/output/sty/genoutp.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf               ../engine/share/resol/initbuf.F
+      !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod           ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE OUTP_SP_T(KEY,TEXT,ELBUF_TAB,IPARG,DD_IAD,SIZLOC,SIZP0,SIZ_WR)
 C-----------------------------------------------
 C   M o d u l e s
@@ -174,16 +175,17 @@ C
       END IF         ! ispmd = 0
       RETURN
       END
-Chd|====================================================================
-Chd|  OUTP_SP_TT                    source/output/sty/outp_sp_t.F 
-Chd|-- called by -----------
-Chd|        GENOUTP                       source/output/sty/genoutp.F   
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        SPMD_RGATHER9_1COMM           source/mpi/interfaces/spmd_outp.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    outp_sp_tt            ../engine/source/output/sty/outp_sp_t.F
+      !||--- called by ------------------------------------------------------
+      !||    genoutp               ../engine/source/output/sty/genoutp.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf               ../engine/share/resol/initbuf.F
+      !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod           ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE OUTP_SP_TT(KEY,TEXT,ELBUF_TAB,IPARG,DD_IAD,
      2           IPM  ,KXSP ,SPBUF,SIZLOC,SIZP0,SIZ_WR)
 C-----------------------------------------------
@@ -350,13 +352,12 @@ C
 C-----------             
       RETURN
       END
-Chd|====================================================================
-Chd|  COUNT_ARSZ_SPT                source/output/sty/outp_sp_t.F 
-Chd|-- called by -----------
-Chd|        GENOUTP                       source/output/sty/genoutp.F   
-Chd|        OUTP_ARSZ_SPT                 source/mpi/interfaces/spmd_outp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    count_arsz_spt   ../engine/source/output/sty/outp_sp_t.F
+      !||--- called by ------------------------------------------------------
+      !||    genoutp          ../engine/source/output/sty/genoutp.F
+      !||    outp_arsz_spt    ../engine/source/mpi/interfaces/spmd_outp.F
+      !||====================================================================
       SUBROUTINE COUNT_ARSZ_SPT(IPARG,DD_IAD,WASZ,SIZ_WRITE_LOC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -404,13 +405,12 @@ C-----------------------------------------------
 
       RETURN
       END
-Chd|====================================================================
-Chd|  COUNT_ARSZ_SPTT               source/output/sty/outp_sp_t.F 
-Chd|-- called by -----------
-Chd|        GENOUTP                       source/output/sty/genoutp.F   
-Chd|        OUTP_ARSZ_SPTT                source/mpi/interfaces/spmd_outp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    count_arsz_sptt   ../engine/source/output/sty/outp_sp_t.F
+      !||--- called by ------------------------------------------------------
+      !||    genoutp           ../engine/source/output/sty/genoutp.F
+      !||    outp_arsz_sptt    ../engine/source/mpi/interfaces/spmd_outp.F
+      !||====================================================================
       SUBROUTINE COUNT_ARSZ_SPTT(IPARG,DD_IAD,WASZ,SIZ_WRITE_LOC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

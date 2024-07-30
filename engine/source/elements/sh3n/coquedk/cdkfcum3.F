@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CDKFCUM3                      source/elements/sh3n/coquedk/cdkfcum3.F
-Chd|-- called by -----------
-Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cdkfcum3   ../engine/source/elements/sh3n/coquedk/cdkfcum3.F
+      !||--- called by ------------------------------------------------------
+      !||    cdkforc3   ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+      !||====================================================================
       SUBROUTINE CDKFCUM3(JFT,JLT,PX2,PY2,PX3,PY3,
      1              R11,R12,R13,R21,R22,R23,R31,R32,R33,
      1              F11,F12,F13,F21,F22,F23,F31,F32,F33,

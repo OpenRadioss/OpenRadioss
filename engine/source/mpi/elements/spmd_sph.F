@@ -20,12 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_EXCH_A_SOL2SPH           source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        SPLISSV                       source/elements/sph/splissv.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_a_sol2sph   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    splissv               ../engine/source/elements/sph/splissv.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait             ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_A_SOL2SPH(
      1   A6       ,ITAG   ,IAD_ELEM ,FR_ELEM,SIZE,
      2   LENR     )
@@ -189,14 +192,17 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  SPMD_SPHGETDK                 source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        SPTRIVOX                      source/elements/sph/sptrivox.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgetdk   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    sptrivox        ../engine/source/elements/sph/sptrivox.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait       ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    sphbox          ../engine/share/modules/sphbox.F
+      !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETDK(TAB_DK,ACT,REQ_RECV)
 C  Send the maximum distance of particules kept after a reduction
 C  to the remote versions of these particles.
@@ -286,13 +292,16 @@ C-----------------------------------------------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SPHGETISPH               source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        SPHPREP                       source/elements/sph/sphprep.F 
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgetisph   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    sphprep           ../engine/source/elements/sph/sphprep.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait         ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox            ../engine/share/modules/sphbox.F
+      !||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETISPH()
 C-----------------------------------------------
 C   M o d u l e s
@@ -362,13 +371,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SPHGETX                  source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        SPHPREP                       source/elements/sph/sphprep.F 
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgetx   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    sphprep        ../engine/source/elements/sph/sphprep.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox         ../engine/share/modules/sphbox.F
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETX(KXSP ,SPBUF, X, IPARTSP)
 C-----------------------------------------------
 C   M o d u l e s
@@ -469,13 +481,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SPHGETW                  source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        FORINTP                       source/elements/forintp.F     
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgetw   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    forintp        ../engine/source/elements/forintp.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox         ../engine/share/modules/sphbox.F
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETW(SPBUF,WACOMP,WA,WAR,SPH_IORD1)
 C-----------------------------------------------
 C   M o d u l e s
@@ -700,13 +715,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SPHGETSTB                source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        FORINTP                       source/elements/forintp.F     
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgetstb   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    forintp          ../engine/source/elements/forintp.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait        ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox           ../engine/share/modules/sphbox.F
+      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETSTB(STAB,STABR)
 C-----------------------------------------------
 C   M o d u l e s
@@ -802,13 +820,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SPHGETA                  source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        SPONFV                        source/elements/sph/sponfv.F  
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgeta   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    sponfv         ../engine/source/elements/sph/sponfv.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox         ../engine/share/modules/sphbox.F
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETA(KXSP,SPBUF,A,ASPHR)
 C-----------------------------------------------
 C   M o d u l e s
@@ -914,13 +935,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SPHGETF                  source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        SPLISSV                       source/elements/sph/splissv.F 
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgetf   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    splissv        ../engine/source/elements/sph/splissv.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox         ../engine/share/modules/sphbox.F
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETF(KXSP,SPBUF,A,MS,ASPHR)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1029,13 +1053,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SPHGETH                  source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        SPCLASV                       source/elements/sph/spclasv.F 
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgeth   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    spclasv        ../engine/source/elements/sph/spclasv.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox         ../engine/share/modules/sphbox.F
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETH(KXSP ,SPBUF)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1124,13 +1151,15 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_ALL_DMAX                 source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        RBYVIT                        source/constraints/general/rbody/rbyvit.F
-Chd|        SPHTRI0                       source/elements/sph/sphtri0.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_all_dmax    ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    rbyvit           ../engine/source/constraints/general/rbody/rbyvit.F
+      !||    sphtri0          ../engine/source/elements/sph/sphtri0.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_ALL_DMAX(V,LEN)
 C max tableau V de taille LEN de type my_real
       USE SPMD_MOD
@@ -1175,13 +1204,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SPHGETT                  source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        FORINTP                       source/elements/forintp.F     
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgett   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    forintp        ../engine/source/elements/forintp.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox         ../engine/share/modules/sphbox.F
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETT(WT,WTR,LAMBDA,LAMBDR)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1277,13 +1309,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SPHGETG                  source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        FORINTP                       source/elements/forintp.F     
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgetg   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    forintp        ../engine/source/elements/forintp.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox         ../engine/share/modules/sphbox.F
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETG(WGRADT,WACOMP,WGR,SPH_IORD1)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1474,13 +1509,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SPHGETWA                 source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        FORINTP                       source/elements/forintp.F     
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgetwa   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    forintp         ../engine/source/elements/forintp.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait       ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox          ../engine/share/modules/sphbox.F
+      !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETWA(WA,WAR2,KXSP)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1600,13 +1638,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SPHGETVOIS_OFF           source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        SPONOF2                       source/elements/sph/sponof2.F 
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgetvois_off   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    sponof2               ../engine/source/elements/sph/sponof2.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait             ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox                ../engine/share/modules/sphbox.F
+      !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETVOIS_OFF(OFF_SPH, TAG_SPH,
      .                               KXSP, IXSP)
 C-----------------------------------------------
@@ -1805,13 +1846,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SPHGETIMP                source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        SPONOF2                       source/elements/sph/sponof2.F 
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgetimp   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    sponof2          ../engine/source/elements/sph/sponof2.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait        ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox           ../engine/share/modules/sphbox.F
+      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETIMP(KXSP)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1898,15 +1942,18 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SPHGETD                  source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        SPONFV                        source/elements/sph/sponfv.F  
-Chd|-- calls ---------------
-Chd|        WEIGHT0                       source/elements/sph/weight.F  
-Chd|        WEIGHT1                       source/elements/sph/weight.F  
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphgetd   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    sponfv         ../engine/source/elements/sph/sponfv.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||    weight0        ../engine/source/elements/sph/weight.F
+      !||    weight1        ../engine/source/elements/sph/weight.F
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox         ../engine/share/modules/sphbox.F
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       SUBROUTINE SPMD_SPHGETD(KXSP,IXSP,ISPHIO,X,WASPACT,NOD2SP,
      .                        SPBUF,V,A,ASPHR,DSPHR)
 C-----------------------------------------------
@@ -2395,13 +2442,14 @@ c      ENDIF !ENDIF IPPVR > 0
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SPMD_SPHVOX0                  source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|        SPHTRI0                       source/elements/sph/sphtri0.F 
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sphvox0   ../engine/source/mpi/elements/spmd_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    sphtri0        ../engine/source/elements/sph/sphtri0.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||    tri7box        ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_SPHVOX0(KXSP ,SPBUF,WSP2SORT,BMINMAL,X,
      2                    NSP2SORTF,NSP2SORTL)
 C-----------------------------------------------

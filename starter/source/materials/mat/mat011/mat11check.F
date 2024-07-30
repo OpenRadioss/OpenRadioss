@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MAT11CHECK                    source/materials/mat/mat011/mat11check.F
-Chd|-- called by -----------
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    mat11check             ../starter/source/materials/mat/mat011/mat11check.F
+      !||--- called by ------------------------------------------------------
+      !||    matini                 ../starter/source/materials/mat_share/matini.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE MAT11CHECK(PM,NIX,IX,ALE_CONNECTIVITY,NUMEL,JALE_FROM_PROP,NEL,NFT,MAT_ID,NUMMAT,NPROPM)
 C-----------------------------------------------
 C   D e s c r i p t i o n

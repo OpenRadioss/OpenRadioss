@@ -20,24 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
-Chd|-- called by -----------
-Chd|        ALE_BOX_COLORATION            source/initial_conditions/inivol/ale_box_coloration.F
-Chd|        CONTRL                        source/starter/contrl.F       
-Chd|        HM_READ_INIVOL                source/initial_conditions/inivol/hm_read_inivol.F
-Chd|        HM_READ_MAT151                source/materials/mat/mat151/hm_read_mat151.F
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        QGRTAILS                      source/elements/solid_2d/quad/qgrtails.F
-Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
-Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
-Chd|        ST_QAPRINT_INIVOL             source/output/qaprint/st_qaprint_inivol.F
-Chd|        SURFACE_MIN_MAX_COMPUTATION   source/initial_conditions/inivol/surface_min_max_computation.F
-Chd|        T3GRTAILS                     source/elements/solid_2d/tria/t3grtails.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inivol_def_mod                ../starter/share/modules1/inivol_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    ale_box_coloration            ../starter/source/initial_conditions/inivol/ale_box_coloration.F
+      !||    contrl                        ../starter/source/starter/contrl.F
+      !||    hm_read_inivol                ../starter/source/initial_conditions/inivol/hm_read_inivol.F
+      !||    hm_read_mat151                ../starter/source/materials/mat/mat151/hm_read_mat151.F
+      !||    init_inivol                   ../starter/source/initial_conditions/inivol/init_inivol.F90
+      !||    init_inivol_2d_polygons       ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+      !||    initia                        ../starter/source/elements/initia/initia.F
+      !||    inivol_interf_mod             ../starter/share/modules1/inivol_mod.F
+      !||    lectur                        ../starter/source/starter/lectur.F
+      !||    qgrtails                      ../starter/source/elements/solid_2d/quad/qgrtails.F
+      !||    r2r_group                     ../starter/source/coupling/rad2rad/r2r_group.F
+      !||    r2r_prelec                    ../starter/source/coupling/rad2rad/r2r_prelec.F
+      !||    sgrtails                      ../starter/source/elements/solid/solide/sgrtails.F
+      !||    st_qaprint_inivol             ../starter/source/output/qaprint/st_qaprint_inivol.F
+      !||    surface_min_max_computation   ../starter/source/initial_conditions/inivol/surface_min_max_computation.F
+      !||    t3grtails                     ../starter/source/elements/solid_2d/tria/t3grtails.F
+      !||====================================================================
       MODULE INIVOL_DEF_MOD
 C-----------------------------------------------
 C   m y _ r e a l
@@ -86,12 +88,14 @@ C-----------------------------------------------
 
 
 
-Chd|====================================================================
-Chd|  INIVOL_INTERF_MOD             share/modules1/inivol_mod.F   
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inivol_interf_mod   ../starter/share/modules1/inivol_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur              ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||    inivol_def_mod      ../starter/share/modules1/inivol_mod.F
+      !||    submodel_mod        ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       MODULE INIVOL_INTERF_MOD
 C-----------------------------------------------
 C   m y _ r e a l

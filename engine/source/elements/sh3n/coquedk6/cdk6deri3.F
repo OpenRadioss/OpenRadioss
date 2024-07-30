@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CDK6DERI3                     source/elements/sh3n/coquedk6/cdk6deri3.F
-Chd|-- called by -----------
-Chd|        CDK6FORC3                     source/elements/sh3n/coquedk6/cdk6forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cdk6deri3   ../engine/source/elements/sh3n/coquedk6/cdk6deri3.F
+      !||--- called by ------------------------------------------------------
+      !||    cdk6forc3   ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+      !||====================================================================
       SUBROUTINE CDK6DERI3(JFT,JLT,X2,Y2,X3,Y3,AREA2,ALPE,ALDT,NU,THK2,
      1                    PX2,PY2,PX3,PY3,X4,Y4,Z4,X5,Y5,Z5,X6,Y6,Z6,
      2                    N4X,N4Y,N4Z,N5X,N5Y,N5Z,N6X,N6Y,N6Z,

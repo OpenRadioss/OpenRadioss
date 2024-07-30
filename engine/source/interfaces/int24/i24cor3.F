@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I24COR3                       source/interfaces/int24/i24cor3.F
-Chd|-- called by -----------
-Chd|        I24MAINF                      source/interfaces/int24/i24main.F
-Chd|-- calls ---------------
-Chd|        I24FIC_GETN                   source/interfaces/int24/i24for3e.F
-Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
-Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i24cor3          ../engine/source/interfaces/int24/i24cor3.F
+      !||--- called by ------------------------------------------------------
+      !||    i24mainf         ../engine/source/interfaces/int24/i24main.F
+      !||--- calls      -----------------------------------------------------
+      !||    i24fic_getn      ../engine/source/interfaces/int24/i24for3e.F
+      !||--- uses       -----------------------------------------------------
+      !||    debug_mod        ../engine/share/modules/debug_mod.F
+      !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
+      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I24COR3(
      1               JLT      ,X        ,IRECT   ,NSV     ,CAND_E   ,
      2               CAND_N   ,CAND_T   ,STF     ,STFN    ,STIF     ,
@@ -717,11 +718,9 @@ C
        ENDIF
       RETURN
       END
-Chd|====================================================================
-Chd|  I24INI_ISPT2                  source/interfaces/int24/i24cor3.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i24ini_ispt2   ../engine/source/interfaces/int24/i24cor3.F
+      !||====================================================================
       SUBROUTINE I24INI_ISPT2(
      1               JLT     ,NSV   ,CAND_N ,NSN   ,IRTSE  ,
      2               IS2SE   ,ISPT2 ,ISEGPT ,IRTLM ,NSNE   ,
@@ -801,12 +800,11 @@ C
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  I24ISPT2_INI                  source/interfaces/int24/i24cor3.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i24ispt2_ini   ../engine/source/interfaces/int24/i24cor3.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box        ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I24ISPT2_INI(
      1               JLT     ,NSV   ,CAND_N ,NSN   ,IRTSE  ,
      2               IS2SE   ,ISPT2 ,ISEGPT ,IRTLM ,NSNE   ,
@@ -880,14 +878,14 @@ C-----------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I24ISPT2_INI_OPTTRI           source/interfaces/int24/i24cor3.F
-Chd|-- called by -----------
-Chd|        I24OPTCD                      source/interfaces/intsort/i24optcd.F
-Chd|-- calls ---------------
-Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i24ispt2_ini_opttri   ../engine/source/interfaces/int24/i24cor3.F
+      !||--- called by ------------------------------------------------------
+      !||    i24optcd              ../engine/source/interfaces/intsort/i24optcd.F
+      !||--- uses       -----------------------------------------------------
+      !||    debug_mod             ../engine/share/modules/debug_mod.F
+      !||    tri7box               ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I24ISPT2_INI_OPTTRI(
      1               JFT,JLT     ,NSV   ,CAND_N ,NSN   ,IRTSE  ,
      2               IS2SE   ,ISPT2 ,ISEGPT ,IRTLM ,NSNE   ,
@@ -942,14 +940,14 @@ C-----------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I_CORPFIT3                    source/interfaces/int24/i24cor3.F
-Chd|-- called by -----------
-Chd|        I24MAINF                      source/interfaces/int24/i24main.F
-Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i_corpfit3   ../engine/source/interfaces/int24/i24cor3.F
+      !||--- called by ------------------------------------------------------
+      !||    i24mainf     ../engine/source/interfaces/int24/i24main.F
+      !||    i25mainf     ../engine/source/interfaces/int25/i25mainf.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box      ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I_CORPFIT3(
      1               JLT      ,STF     ,STFN    ,STIF     ,NSN    ,
      2               CAND_E   ,CAND_N  ,NIN     ,IGSTI   ,KMIN     ,
@@ -1034,13 +1032,13 @@ c      STIF_R(I) = MIN(STIF_S,STF(L))/MAX(EM20,STIF(I))
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I_COR_EPFIT3                  source/interfaces/int24/i24cor3.F
-Chd|-- called by -----------
-Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i_cor_epfit3   ../engine/source/interfaces/int24/i24cor3.F
+      !||--- called by ------------------------------------------------------
+      !||    i25mainf       ../engine/source/interfaces/int25/i25mainf.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box        ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I_COR_EPFIT3(
      1               JLT      ,STFE    ,STIF    ,CAND_S ,CAND_M ,
      3               NEDGE    ,NIN     ,INACTI  ,NCFIT   ,TNCY) 

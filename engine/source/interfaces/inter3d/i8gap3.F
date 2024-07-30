@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I8GAP3                        source/interfaces/inter3d/i8gap3.F
-Chd|-- called by -----------
-Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i8gap3   ../engine/source/interfaces/inter3d/i8gap3.F
+      !||--- called by ------------------------------------------------------
+      !||    intvo8   ../engine/source/interfaces/inter3d/intvo8.F
+      !||====================================================================
       SUBROUTINE I8GAP3(
      1   GAP,     THK,     AREA,    ALP,
      2   LFT,     LLT)

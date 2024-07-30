@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    damping_rby_spmdset_mod   ../starter/source/general_controls/damping/damping_rby_spmdset.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur                    ../starter/source/starter/lectur.F
+      !||====================================================================
       module damping_rby_spmdset_mod
       contains
 ! ======================================================================================================================
@@ -30,6 +35,14 @@
 !\brief This subroutine stick main node of ridid body on procs where damping nodes are present
 !=======================================================================================================================
 !
+      !||====================================================================
+      !||    damping_rby_spmdset   ../starter/source/general_controls/damping/damping_rby_spmdset.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur                ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmdset               ../starter/source/constraints/general/rbody/spmdset.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine damping_rby_spmdset(igrnod,ngrnod,ndamp,nrdamp,dampr,nnpby,nrbody,npby,nrbmerge)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

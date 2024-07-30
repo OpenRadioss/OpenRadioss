@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPHRES44B                     source/elements/sph/sphres44b.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sphres44b   ../engine/source/elements/sph/sphres44b.F
+      !||--- called by ------------------------------------------------------
+      !||    resol       ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE SPHRES44B(
      1    KXSP    ,IXSP    ,NOD2SP  ,IPARG   ,SPBUF   )
 C----6---------------------------------------------------------------7---------8

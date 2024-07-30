@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INITWG_SHELL                  source/spmd/domain_decomposition/initwg_shell.F
-Chd|-- called by -----------
-Chd|        INITWG                        source/spmd/domain_decomposition/initwg.F
-Chd|-- calls ---------------
-Chd|        BIDON                         source/system/machine.F       
-Chd|        INTERLAGRAN                   source/spmd/domain_decomposition/grid2mat.F
-Chd|        DDWEIGHTS_MOD                 share/modules1/ddweights_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    initwg_shell       ../starter/source/spmd/domain_decomposition/initwg_shell.F
+      !||--- called by ------------------------------------------------------
+      !||    initwg             ../starter/source/spmd/domain_decomposition/initwg.F
+      !||--- calls      -----------------------------------------------------
+      !||    bidon              ../starter/source/system/machine.F
+      !||    interlagran        ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||--- uses       -----------------------------------------------------
+      !||    ddweights_mod      ../starter/share/modules1/ddweights_mod.F
+      !||    mid_pid_mod        ../starter/share/modules1/mid_pid_mod.F
+      !||====================================================================
       SUBROUTINE INITWG_SHELL(WD,PM,GEO,IXC,IGEO,SIZE_IRUP,
      .            NUMELC,IPM,NUMMAT,NUMGEO,POIN_PART_SHELL,
      .            MID_PID_SHELL,IPARTC,OFF,BUFMAT,

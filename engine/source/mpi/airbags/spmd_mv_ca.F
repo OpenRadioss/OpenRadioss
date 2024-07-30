@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_MV_CA                    source/mpi/airbags/spmd_mv_ca.F
-Chd|-- called by -----------
-Chd|        MONVOL0                       source/airbag/monvol0.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_mv_ca   ../engine/source/mpi/airbags/spmd_mv_ca.F
+      !||--- called by ------------------------------------------------------
+      !||    monvol0      ../engine/source/airbag/monvol0.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_MV_CA(
      1   FR_MV ,IV    ,NAV    ,RVOLU   ,RVOLUV ,
      2   ICBAG ,NJET  ,IVOLUV ,RBAGVJET,IFLAG  ,ITYP,NGASES)

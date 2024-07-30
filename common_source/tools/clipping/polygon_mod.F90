@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    polygon_mod            ../common_source/tools/clipping/polygon_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    polygon_clipping_mod   ../common_source/tools/clipping/polygon_clipping_mod.F90
+      !||====================================================================
       module polygon_mod
         implicit none
 #include  "my_real.inc"
@@ -49,6 +54,13 @@
 ! ======================================================================================================================
 !! \brief add 'point' in poly data structure.
 !! \details  pre-condition, allocation must be correctly sized, otherwise an error message is displayed
+      !||====================================================================
+      !||    polygon_addpoint           ../common_source/tools/clipping/polygon_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod               ../common_source/modules/constant_mod.F
+      !||====================================================================
         function polygon_addpoint(poly, point) result(ierr)
           use constant_mod , only : zero
           implicit none
@@ -88,6 +100,14 @@
 ! ======================================================================================================================
 !! \brief allocate poly with size numnode and zeroing
 !! \details
+      !||====================================================================
+      !||    polygon_create             ../common_source/tools/clipping/polygon_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
+      !||    init_inivol_2d_polygons    ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod               ../common_source/modules/constant_mod.F
+      !||====================================================================
         subroutine polygon_create(poly, numnodes)
           use constant_mod , only : zero
           implicit none
@@ -113,6 +133,11 @@
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
+      !||====================================================================
+      !||    polygon_zeroing   ../common_source/tools/clipping/polygon_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod      ../common_source/modules/constant_mod.F
+      !||====================================================================
         subroutine polygon_zeroing(poly)
           use constant_mod , only : zero
           implicit none
@@ -142,6 +167,12 @@
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
+      !||====================================================================
+      !||    polygon_destroy           ../common_source/tools/clipping/polygon_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    init_inivol_2d_polygons   ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+      !||    polygon_list_destroy      ../common_source/tools/clipping/polygon_mod.F90
+      !||====================================================================
         subroutine polygon_destroy(poly)
           implicit none
 #include  "my_real.inc"
@@ -160,6 +191,13 @@
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
+      !||====================================================================
+      !||    polygon_list_destroy   ../common_source/tools/clipping/polygon_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    polygon_destroy        ../common_source/tools/clipping/polygon_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod           ../common_source/modules/constant_mod.F
+      !||====================================================================
         subroutine polygon_list_destroy(list)
           use constant_mod , only : zero
           implicit none
@@ -187,6 +225,9 @@
 ! ======================================================================================================================
 !! \brief copy Base_polygon into Target_polygon (allocated inside this subroutine)
 !! \details
+      !||====================================================================
+      !||    polygon_copy   ../common_source/tools/clipping/polygon_mod.F90
+      !||====================================================================
         subroutine polygon_copy(Base_polygon, Target_polygon)
           implicit none
 #include  "my_real.inc"

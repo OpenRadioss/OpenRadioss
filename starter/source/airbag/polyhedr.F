@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  POLYHEDR                      source/airbag/polyhedr.F      
-Chd|-- called by -----------
-Chd|        FVMESH1                       source/airbag/fvmesh.F        
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    polyhedr   ../starter/source/airbag/polyhedr.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh1    ../starter/source/airbag/fvmesh.F
+      !||====================================================================
       SUBROUTINE POLYHEDR(IPOLY, RPOLY   , POLB  , NPOLB, POLH,
      .                    NPOLH, NRPMAX  , NPHMAX, IBRIC, LMIN,
      .                    INFO , NPOLHMAX, NPPMAX)

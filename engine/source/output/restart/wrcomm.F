@@ -20,28 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRCOMI                        source/output/restart/wrcomm.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_ARRAY                   ../common_source/comm/write_array.F
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        DAMP_MOD                      share/modules/damp_mod.F      
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    wrcomi           ../engine/source/output/restart/wrcomm.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_array      ../common_source/comm/write_array.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod          ../common_source/modules/ale/ale_mod.F
+      !||    alefvm_mod       ../common_source/modules/ale/alefvm_mod.F
+      !||    alemuscl_mod     ../common_source/modules/ale/alemuscl_mod.F
+      !||    anim_mod         ../common_source/modules/output/anim_mod.F
+      !||    damp_mod         ../engine/share/modules/damp_mod.F
+      !||    drape_mod        ../engine/share/modules/drape_mod.F
+      !||    h3d_mod          ../engine/share/modules/h3d_mod.F
+      !||    loads_mod        ../common_source/modules/loads/loads_mod.F
+      !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F
+      !||    outmax_mod       ../common_source/modules/outmax_mod.F
+      !||    outputs_mod      ../common_source/modules/outputs_mod.F
+      !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
+      !||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
+      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    state_mod        ../common_source/modules/state_mod.F
+      !||====================================================================
       SUBROUTINE WRCOMI(LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .           INTER_PARAMETERS,SENSORS,LOADS)
 C-----------------------------------------------
@@ -1748,17 +1749,18 @@ C----------------------------------------------------------------
 c-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  WRCOMR                        source/output/restart/wrcomm.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
-Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    wrcomr           ../engine/source/output/restart/wrcomm.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod          ../common_source/modules/ale/ale_mod.F
+      !||    anim_mod         ../common_source/modules/output/anim_mod.F
+      !||    output_mod       ../common_source/modules/output/output_mod.F90
+      !||    outputs_mod      ../common_source/modules/outputs_mod.F
+      !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
+      !||    state_mod        ../common_source/modules/state_mod.F
+      !||====================================================================
       SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA,INTER_PARAMETERS,
      .                  OUTPUT)
 C-----------------------------------------------

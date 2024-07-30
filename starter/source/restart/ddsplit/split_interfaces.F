@@ -21,79 +21,76 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        COPYR8                        source/restart/ddsplit/copyr8.F
-Chd|        COPY_IVAL                     source/restart/ddsplit/inter_tools.F
-Chd|        COPY_IVAL_IGEO                source/restart/ddsplit/inter_tools.F
-Chd|        COPY_NODE_NODLOC              source/restart/ddsplit/inter_tools.F
-Chd|        COPY_RVAL                     source/restart/ddsplit/inter_tools.F
-Chd|        FILTER_NODE_NODLOC            source/restart/ddsplit/inter_tools.F
-Chd|        PREPARE_SPLIT_CAND            source/restart/ddsplit/inter_tools.F
-Chd|        PREPARE_SPLIT_CAND_I20_EDGE   source/restart/ddsplit/inter_tools.F
-Chd|        PREPARE_SPLIT_CAND_I21        source/restart/ddsplit/inter_tools.F
-Chd|        PREPARE_SPLIT_CAND_I25_EDGE   source/restart/ddsplit/inter_tools.F
-Chd|        PREPARE_SPLIT_I11             source/restart/ddsplit/inter_tools.F
-Chd|        PREPARE_SPLIT_I17             source/restart/ddsplit/inter_tools.F
-Chd|        PREPARE_SPLIT_I2              source/restart/ddsplit/inter_tools.F
-Chd|        PREPARE_SPLIT_I20             source/restart/ddsplit/inter_tools.F
-Chd|        PREPARE_SPLIT_I21             source/restart/ddsplit/inter_tools.F
-Chd|        PREPARE_SPLIT_I24             source/restart/ddsplit/inter_tools.F
-Chd|        PREPARE_SPLIT_I25             source/restart/ddsplit/inter_tools.F
-Chd|        PREPARE_SPLIT_I7              source/restart/ddsplit/inter_tools.F
-Chd|        PREPARE_SPLIT_I8              source/restart/ddsplit/inter_tools.F
-Chd|        PREPARE_SPLIT_I9              source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_2RY_CAND_IVAL_I21       source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_ADSKYN_25               source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_CAND_I11                source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_CAND_I20                source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_CAND_I20_EDGE           source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_CAND_I24                source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_CAND_I25                source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_CAND_I25_EDGE           source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_CAND_I7                 source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_CAND_IVAL               source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_CAND_IVAL_I21           source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_CAND_RVAL               source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_ISEGPT_IVAL             source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_LBOUND_I25              source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_LEDGE_I25               source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_NISUB_I25               source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_NISUB_I7                source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_NODE_IVAL               source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_NODE_IVAL2              source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_NODE_IVAL_I24           source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_NODE_IVAL_I25           source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_NODE_NODLOC             source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_NODE_NODLOC_P0          source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_NODE_RVAL               source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_REMNODE_I11             source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_REMNODE_I24             source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_REMNODE_I25             source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_REMNODE_I25_E2S         source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_REMNODE_I25_EDGE        source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_REMNODE_I7              source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_SEGEDGE_NODLOC_I24      source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_SEG_EDGE                source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_SEG_IELEM               source/restart/ddsplit/split_seg_ielem.F
-Chd|        SPLIT_SEG_IVAL2               source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_SEG_IVAL_I20            source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_SEG_IVAL_I20_2          source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_SEG_NODLOC              source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_SEG_NODLOC_I24          source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_SEG_SEGLOC              source/restart/ddsplit/inter_tools.F
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        W_INTBUF_SIZE                 source/restart/ddsplit/inter_tools.F
-Chd|        W_TYPE8                       source/restart/ddsplit/split_interfaces.F
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    split_interfaces              ../starter/source/restart/ddsplit/split_interfaces.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit                       ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    copy_ival                     ../starter/source/restart/ddsplit/inter_tools.F
+      !||    copy_ival_igeo                ../starter/source/restart/ddsplit/inter_tools.F
+      !||    copy_node_nodloc              ../starter/source/restart/ddsplit/inter_tools.F
+      !||    copy_rval                     ../starter/source/restart/ddsplit/inter_tools.F
+      !||    copyr8                        ../starter/source/restart/ddsplit/copyr8.F
+      !||    filter_node_nodloc            ../starter/source/restart/ddsplit/inter_tools.F
+      !||    prepare_split_cand            ../starter/source/restart/ddsplit/inter_tools.F
+      !||    prepare_split_cand_i20_edge   ../starter/source/restart/ddsplit/inter_tools.F
+      !||    prepare_split_cand_i21        ../starter/source/restart/ddsplit/inter_tools.F
+      !||    prepare_split_cand_i25_edge   ../starter/source/restart/ddsplit/inter_tools.F
+      !||    prepare_split_i11             ../starter/source/restart/ddsplit/inter_tools.F
+      !||    prepare_split_i17             ../starter/source/restart/ddsplit/inter_tools.F
+      !||    prepare_split_i2              ../starter/source/restart/ddsplit/inter_tools.F
+      !||    prepare_split_i20             ../starter/source/restart/ddsplit/inter_tools.F
+      !||    prepare_split_i21             ../starter/source/restart/ddsplit/inter_tools.F
+      !||    prepare_split_i24             ../starter/source/restart/ddsplit/inter_tools.F
+      !||    prepare_split_i25             ../starter/source/restart/ddsplit/inter_tools.F
+      !||    prepare_split_i7              ../starter/source/restart/ddsplit/inter_tools.F
+      !||    prepare_split_i8              ../starter/source/restart/ddsplit/inter_tools.F
+      !||    prepare_split_i9              ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_2ry_cand_ival_i21       ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_adskyn_25               ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_cand_i11                ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_cand_i20                ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_cand_i20_edge           ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_cand_i24                ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_cand_i25                ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_cand_i25_edge           ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_cand_i7                 ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_cand_ival               ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_cand_ival_i21           ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_cand_rval               ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_isegpt_ival             ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_lbound_i25              ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_ledge_i25               ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_nisub_i25               ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_nisub_i7                ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_node_ival               ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_node_ival2              ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_node_ival_i24           ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_node_ival_i25           ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_node_nodloc             ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_node_nodloc_p0          ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_node_rval               ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_remnode_i11             ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_remnode_i24             ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_remnode_i25             ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_remnode_i25_e2s         ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_remnode_i25_edge        ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_remnode_i7              ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_seg_edge                ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_seg_ielem               ../starter/source/restart/ddsplit/split_seg_ielem.F
+      !||    split_seg_ival2               ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_seg_ival_i20            ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_seg_ival_i20_2          ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_seg_nodloc              ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_seg_nodloc_i24          ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_seg_segloc              ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_segedge_nodloc_i24      ../starter/source/restart/ddsplit/inter_tools.F
+      !||    w_intbuf_size                 ../starter/source/restart/ddsplit/inter_tools.F
+      !||    w_type8                       ../starter/source/restart/ddsplit/split_interfaces.F
+      !||--- uses       -----------------------------------------------------
+      !||    front_mod                     ../starter/share/modules1/front_mod.F
+      !||    message_mod                   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SPLIT_INTERFACES(INTBUF_TAB, IPARI   , PROC    , INTBUF_TAB_L,
      .                            IPARI_L   , INTERCEP, NODLOCAL,
      .                            ITAB      , ITABI2M , NBDDI2M , NUMNOD_L    ,
@@ -2865,15 +2862,15 @@ C          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%VTX_BISECTOR,NADMSR_L,6,TAG_SM)
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  W_TYPE8                       source/restart/ddsplit/split_interfaces.F
-Chd|-- called by -----------
-Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    w_type8            ../starter/source/restart/ddsplit/split_interfaces.F
+      !||--- called by ------------------------------------------------------
+      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    front_mod          ../starter/share/modules1/front_mod.F
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE W_TYPE8( PROC, T8) 
 C-----------------------------------------------
 C   M o d u l e s

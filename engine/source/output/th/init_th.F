@@ -20,28 +20,30 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIT_TH                       source/output/th/init_th.F    
-Chd|-- called by -----------
-Chd|        INIT_TH0                      source/output/th/init_th0.F   
-Chd|-- calls ---------------
-Chd|        SPMD_GATHERV_INT              source/mpi/generic/spmd_gatherv_int.F
-Chd|        SPMD_GATHER_INT               source/mpi/generic/spmd_gather_int.F
-Chd|        THCOQ_COUNT                   source/output/th/thcoq_count.F
-Chd|        THNOD_COUNT                   source/output/th/thnod_count.F
-Chd|        THNST_COUNT                   source/output/th/thnst_count.F
-Chd|        THPOUT_COUNT                  source/output/th/thpout_count.F
-Chd|        THQUAD_COUNT                  source/output/th/thquad_count.F
-Chd|        THRES_COUNT                   source/output/th/thres_count.F
-Chd|        THSOL_COUNT                   source/output/th/thsol_count.F
-Chd|        THSPH_COUNT                   source/output/th/thsph_count.F
-Chd|        THTRUS_COUNT                  source/output/th/thtrus_count.F
-Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        TH_MOD                        share/modules/th_mod.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    init_th            ../engine/source/output/th/init_th.F
+      !||--- called by ------------------------------------------------------
+      !||    init_th0           ../engine/source/output/th/init_th0.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar               ../engine/source/input/nvar.F
+      !||    spmd_gather_int    ../engine/source/mpi/generic/spmd_gather_int.F
+      !||    spmd_gatherv_int   ../engine/source/mpi/generic/spmd_gatherv_int.F
+      !||    thcoq_count        ../engine/source/output/th/thcoq_count.F
+      !||    thnod_count        ../engine/source/output/th/thnod_count.F
+      !||    thnst_count        ../engine/source/output/th/thnst_count.F
+      !||    thpout_count       ../engine/source/output/th/thpout_count.F
+      !||    thquad_count       ../engine/source/output/th/thquad_count.F
+      !||    thres_count        ../engine/source/output/th/thres_count.F
+      !||    thsol_count        ../engine/source/output/th/thsol_count.F
+      !||    thsph_count        ../engine/source/output/th/thsph_count.F
+      !||    thtrus_count       ../engine/source/output/th/thtrus_count.F
+      !||--- uses       -----------------------------------------------------
+      !||    cluster_mod        ../engine/share/modules/cluster_mod.F
+      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
+      !||    stack_mod          ../engine/share/modules/stack_mod.F
+      !||    th_mod             ../engine/share/modules/th_mod.F
+      !||====================================================================
         SUBROUTINE INIT_TH(IPARG,ITHBUF,ELBUF_TAB,IGEO,IXR,
      .                     ITHGRP,NTHGRP2,ID,WEIGHT,SITHBUF)
 C-----------------------------------------------

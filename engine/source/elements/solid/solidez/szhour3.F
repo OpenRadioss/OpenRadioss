@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SZHOUR3                       source/elements/solid/solidez/szhour3.F
-Chd|-- called by -----------
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        MDAMA24                       source/elements/solid/solidez/mdama24.F
-Chd|        SZETFAC                       source/elements/solid/solidez/szetfac.F
-Chd|        SZSTRAINHG                    source/elements/solid/solidez/szstrainhg.F
-Chd|        SZSVM                         source/elements/solid/solidez/szsvm.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    szhour3        ../engine/source/elements/solid/solidez/szhour3.F
+      !||--- called by ------------------------------------------------------
+      !||    szforc3        ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    mdama24        ../engine/source/elements/solid/solidez/mdama24.F
+      !||    szetfac        ../engine/source/elements/solid/solidez/szetfac.F
+      !||    szstrainhg     ../engine/source/elements/solid/solidez/szstrainhg.F
+      !||    szsvm          ../engine/source/elements/solid/solidez/szsvm.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE SZHOUR3(
      1   ELBUF_STR,PM,       RHO,      OFF,
      2   VX1,      VX2,      VX3,      VX4,

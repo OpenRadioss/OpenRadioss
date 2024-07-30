@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TABLE_GLOB_MOD                share/modules1/table_glob_mod.F
-Chd|-- called by -----------
-Chd|        GET_U_TABLE                   source/user_interface/utable.F
-Chd|        GET_U_VTABLE                  source/user_interface/utable.F
-Chd|        INIGUSER                      source/system/iniguser.F      
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        GET_U_NUMTABLE                source/user_interface/utable.F
-Chd|-- calls ---------------
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    table_glob_mod   ../starter/share/modules1/table_glob_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    get_u_numtable   ../starter/source/user_interface/utable.F
+      !||    get_u_table      ../starter/source/user_interface/utable.F
+      !||    get_u_vtable     ../starter/source/user_interface/utable.F
+      !||    iniguser         ../starter/source/system/iniguser.F
+      !||    lectur           ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||    table_mod        ../starter/share/modules1/table_mod.F
+      !||====================================================================
       MODULE TABLE_GLOB_MOD
 C-----------------------------------------------
 C   M o d u l e s

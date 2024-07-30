@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SKTVONM4                      source/elements/solid/solide8z/sktvonm4.F
-Chd|-- called by -----------
-Chd|        SKTCONS2                      source/elements/solid/solide8z/sktcons2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sktvonm4   ../engine/source/elements/solid/solide8z/sktvonm4.F
+      !||--- called by ------------------------------------------------------
+      !||    sktcons2   ../engine/source/elements/solid/solide8z/sktcons2.F
+      !||====================================================================
       SUBROUTINE SKTVONM4(LFT ,LLT ,DD  ,SIG  ,DD1 ,
      .                    GT  ,R   )
 C-----------------------------------------------

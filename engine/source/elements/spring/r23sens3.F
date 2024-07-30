@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R23SENS3                      source/elements/spring/r23sens3.F
-Chd|-- called by -----------
-Chd|        R23LAW108                     source/elements/spring/r23law108.F
-Chd|        R23LAW113                     source/elements/spring/r23law113.F
-Chd|        R23LAW114                     source/elements/spring/r23law114.F
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    r23sens3     ../engine/source/elements/spring/r23sens3.F
+      !||--- called by ------------------------------------------------------
+      !||    r23law108    ../engine/source/elements/spring/r23law108.F
+      !||    r23law113    ../engine/source/elements/spring/r23law113.F
+      !||    r23law114    ../engine/source/elements/spring/r23law114.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE R23SENS3(
      1   GEO,       OFF,       SENSOR_TAB,DX,
      2   DY,        DZ,        X0,        Y0,

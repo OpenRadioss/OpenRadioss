@@ -21,17 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_TRI17BOX                 source/mpi/interfaces/spmd_tri17box.F
-Chd|-- called by -----------
-Chd|        I17BUCE                       source/interfaces/int17/i17buce.F
-Chd|        I17MAIN_TRI                   source/interfaces/int17/i17main_pena.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_tri17box   ../engine/source/mpi/interfaces/spmd_tri17box.F
+      !||--- called by ------------------------------------------------------
+      !||    i17buce         ../engine/source/interfaces/int17/i17buce.F
+      !||    i17main_tri     ../engine/source/interfaces/int17/i17main_pena.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../engine/source/output/message/message.F
+      !||    arret           ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_TRI17BOX(NELEMS  ,NMES    ,X      ,V    ,FROTS  ,
      2                         KS      ,BMINMAL ,WEIGHT ,NIN  ,ISENDTO,
      3                         IRCVFROM,NMESR   ,IXS    ,IXS16,EMINXS )

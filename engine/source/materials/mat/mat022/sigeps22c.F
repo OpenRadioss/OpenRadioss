@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS22C                     source/materials/mat/mat022/sigeps22c.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|-- calls ---------------
-Chd|        M22CPLR                       source/materials/mat/mat022/m22cplr.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps22c   ../engine/source/materials/mat/mat022/sigeps22c.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc      ../engine/source/materials/mat_share/mulawc.F
+      !||--- calls      -----------------------------------------------------
+      !||    m22cplr     ../engine/source/materials/mat/mat022/m22cplr.F
+      !||====================================================================
       SUBROUTINE SIGEPS22C(
      1                   JFT      ,JLT    ,PM       ,THK      ,OFF     ,
      2                   SIGY     ,DT1C   ,IPLA     ,NEL      ,OFF_OLD ,

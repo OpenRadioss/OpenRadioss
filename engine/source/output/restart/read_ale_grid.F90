@@ -26,6 +26,15 @@
 !! \brief Load buffer from restart file.
 !! \details  necessary buffer specific to family of options /ALE/GRID/...
 !
+      !||====================================================================
+      !||    read_ale_grid   ../engine/source/output/restart/read_ale_grid.F90
+      !||--- called by ------------------------------------------------------
+      !||    rdresb          ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db         ../common_source/tools/input_output/read_db.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod         ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
       subroutine read_ale_grid()
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2COR3                        source/interfaces/inter3d1/i2cor3.F
-Chd|-- called by -----------
-Chd|        I2BUC1                        source/interfaces/inter3d1/i2buc1.F
-Chd|        I2TRI                         source/interfaces/inter3d1/i2tri.F
-Chd|-- calls ---------------
-Chd|        INCOQ3                        source/interfaces/inter3d1/incoq3.F
-Chd|        INSOL3                        source/interfaces/inter3d1/insol3.F
-Chd|        VOLINT                        source/interfaces/inter3d1/volint.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i2cor3   ../starter/source/interfaces/inter3d1/i2cor3.F
+      !||--- called by ------------------------------------------------------
+      !||    i2buc1   ../starter/source/interfaces/inter3d1/i2buc1.F
+      !||    i2tri    ../starter/source/interfaces/inter3d1/i2tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    incoq3   ../starter/source/interfaces/inter3d1/incoq3.F
+      !||    insol3   ../starter/source/interfaces/inter3d1/insol3.F
+      !||    volint   ../starter/source/interfaces/inter3d1/volint.F
+      !||====================================================================
       SUBROUTINE I2COR3(X     ,IRECT ,NSV   ,CAND_E  ,CAND_N,
      2                  STF   ,STFN  ,GAPV  ,IGAP    ,GAP   ,
      3                  GAP_S ,GAP_M ,ISTF  ,NINT    ,IXC   , 

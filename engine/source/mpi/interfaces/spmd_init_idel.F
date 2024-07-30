@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_INIT_IDEL                source/mpi/interfaces/spmd_init_idel.F
-Chd|-- called by -----------
-Chd|        CHKLOAD                       source/interfaces/chkload.F   
-Chd|        CHKSTFN3N                     source/interfaces/interf/chkstfn3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_init_idel   ../engine/source/mpi/interfaces/spmd_init_idel.F
+      !||--- called by ------------------------------------------------------
+      !||    chkload          ../engine/source/interfaces/chkload.F
+      !||    chkstfn3n        ../engine/source/interfaces/interf/chkstfn3.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_INIT_IDEL(NINDEX,IRSIZE, IRECV,IAD_ELEM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

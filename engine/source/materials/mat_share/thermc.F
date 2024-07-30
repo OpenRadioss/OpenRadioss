@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THERMC                        source/materials/mat_share/thermc.F
-Chd|-- called by -----------
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    thermc        ../engine/source/materials/mat_share/thermc.F
+      !||--- called by ------------------------------------------------------
+      !||    cforc3        ../engine/source/elements/shell/coque/cforc3.F
+      !||    cforc3_crk    ../engine/source/elements/xfem/cforc3_crk.F
+      !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
+      !||====================================================================
       SUBROUTINE THERMC(JFT  ,JLT   ,PM   ,MAT   ,THK   ,IXC , 
      2                  PX1  ,PX2   ,PY1  ,PY2   ,AREA   ,DT1C ,
      3                  TEMPNC ,TEL   ,DIE  ,FPHI)

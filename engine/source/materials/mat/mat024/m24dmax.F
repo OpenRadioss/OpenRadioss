@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 c
-Chd|====================================================================
-Chd|  M24DMAX                       source/materials/mat/mat024/m24dmax.F
-Chd|-- called by -----------
-Chd|        M24LAW                        source/materials/mat/mat024/m24law.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m24dmax   ../engine/source/materials/mat/mat024/m24dmax.F
+      !||--- called by ------------------------------------------------------
+      !||    m24law    ../engine/source/materials/mat/mat024/m24law.F
+      !||====================================================================
       SUBROUTINE M24DMAX(D,DMAX,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

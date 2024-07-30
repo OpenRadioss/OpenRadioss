@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  C3VEOK3                       source/elements/sh3n/coque3n/c3veok3.F
-Chd|-- called by -----------
-Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
-Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
-Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
-Chd|        INIVOID                       source/elements/initia/inivoid.F
-Chd|        MULTIFLUID_INIT2T             source/multifluid/multifluid_init2t.F
-Chd|-- calls ---------------
-Chd|        CCOLI3                        source/elements/shell/coque/ccoli3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    c3veok3             ../starter/source/elements/sh3n/coque3n/c3veok3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3init3             ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cdkinit3            ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||    inirig_mat          ../starter/source/elements/initia/inirig_mat.F
+      !||    inivoid             ../starter/source/elements/initia/inivoid.F
+      !||    multifluid_init2t   ../starter/source/multifluid/multifluid_init2t.F
+      !||--- calls      -----------------------------------------------------
+      !||    ccoli3              ../starter/source/elements/shell/coque/ccoli3.F
+      !||====================================================================
       SUBROUTINE C3VEOK3(NVC,IX1 ,IX2 ,IX3 )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

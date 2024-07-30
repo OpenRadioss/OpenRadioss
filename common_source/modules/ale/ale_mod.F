@@ -21,120 +21,123 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C-----------------------------------------------
-Chd|====================================================================
-Chd|  ALE_MOD                       modules/ale/ale_mod.F         
-Chd|-- called by -----------
-Chd|        ALE_CONNECTIVITY_INIT         common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ALE_EULER_INIT                starter/source/materials/ale/ale_euler_init.F
-Chd|        CONTRL                        starter/source/starter/contrl.F
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        DEFINTER                      starter/source/interfaces/interf1/definter.F
-Chd|        HM_READ_ALE_GRID              starter/source/general_controls/ale_grid/hm_read_ale_grid.F
-Chd|        HM_READ_CAA                   starter/source/general_controls/computation/hm_read_caa.F
-Chd|        HM_READ_INTER_TYPE02          starter/source/interfaces/int02/hm_read_inter_type02.F
-Chd|        HM_READ_MAT11                 starter/source/materials/mat/mat011/hm_read_mat11.F
-Chd|        HM_READ_MAT11_K_EPS           starter/source/materials/mat/mat011/hm_read_mat11_k_eps.F
-Chd|        HM_READ_MAT51                 starter/source/materials/mat/mat051/hm_read_mat51.F
-Chd|        HM_READ_PART                  starter/source/model/assembling/hm_read_part.F
-Chd|        HM_READ_PROP14                starter/source/properties/solid/hm_read_prop14.F
-Chd|        HM_READ_PROP14F               starter/source/properties/solid/hm_read_prop14.F
-Chd|        HM_READ_PROP15                starter/source/properties/solid/hm_read_prop15.F
-Chd|        HM_READ_PROPERTIES            starter/source/properties/hm_read_properties.F
-Chd|        IG3DMASS3                     starter/source/elements/ige3d/ig3dmass3.F
-Chd|        INGRBRIC_NODES                starter/source/interfaces/interf1/ingrbric_nodes.F
-Chd|        LECINT                        starter/source/interfaces/interf1/lecint.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        QDLEN2                        starter/source/elements/solid_2d/quad/qdlen2.F
-Chd|        QMASI2                        starter/source/elements/solid_2d/quad/qmasi2.F
-Chd|        QMASI2B                       starter/source/elements/solid_2d/quad/qmasi2b.F
-Chd|        R2R_SPLIT                     starter/source/coupling/rad2rad/r2r_split.F
-Chd|        S4MASS3                       starter/source/elements/solid/solide4/s4mass3.F
-Chd|        SMASS3                        starter/source/elements/solid/solide/smass3.F
-Chd|        SMASS3B                       starter/source/elements/solid/solid8p/smass3b.F
-Chd|        STARTER0                      starter/source/starter/starter0.F
-Chd|        ST_QAPRINT_ALE_OPTIONS_DRIVER starter/source/output/qaprint/st_qaprint_ale_options_driver.F
-Chd|        ST_QAPRINT_GENERAL_CONTROLS   starter/source/output/qaprint/st_qaprint_general_controls.F
-Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
-Chd|        WRCOMR                        starter/source/restart/ddsplit/wrcomm.F
-Chd|        A4MOMT3                       engine/source/elements/solid/solide4/a4momt3.F
-Chd|        ACONVE                        engine/source/ale/aconve.F    
-Chd|        ALE51_ANTIDIFF2               engine/source/ale/ale51/ale51_antidiff2.F
-Chd|        ALE51_ANTIDIFF3               engine/source/ale/ale51/ale51_antidiff3.F
-Chd|        ALE51_ANTIDIFF3_INT22         engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
-Chd|        ALEMAIN                       engine/source/ale/alemain.F   
-Chd|        ALESUB1                       engine/source/ale/subcycling/alesub1.F
-Chd|        ALESUB2                       engine/source/ale/subcycling/alesub2.F
-Chd|        ALETHE                        engine/source/ale/alethe.F    
-Chd|        ALEW                          engine/source/ale/grid/alew.F 
-Chd|        ALEW1                         engine/source/ale/grid/alew1.F
-Chd|        ALEW2                         engine/source/ale/grid/alew2.F
-Chd|        ALEW4                         engine/source/ale/grid/alew4.F
-Chd|        ALEW5                         engine/source/ale/grid/alew5.F
-Chd|        ALEW7                         engine/source/ale/grid/alew7.F
-Chd|        ALEWDX                        engine/source/ale/grid/alewdx.F
-Chd|        AMOMT2                        engine/source/ale/ale2d/amomt2.F
-Chd|        AMOMT3                        engine/source/elements/solid/solide/amomt3.F
-Chd|        AMOMTN3                       engine/source/elements/solid/solide/amomtn3.F
-Chd|        ASSPAR2                       engine/source/assembly/asspar2.F
-Chd|        ASSPAR4                       engine/source/assembly/asspar4.F
-Chd|        DTNODA                        engine/source/time_step/dtnoda.F
-Chd|        EBCS10                        engine/source/boundary_conditions/ebcs/ebcs10.F
-Chd|        EBCS_VOL2SEG                  engine/source/boundary_conditions/ebcs/ebcs_vol2seg.F
-Chd|        EMOMT2                        engine/source/ale/euler2d/emomt2.F
-Chd|        EMOMT3B                       engine/source/elements/solid/solide/emomt3b.F
-Chd|        EPXLE3                        engine/source/elements/solid/solide/epxle3.F
-Chd|        FDLEN3                        engine/source/elements/solid/solide/fdlen3.F
-Chd|        FFINT3                        engine/source/elements/solid/solide/ffint3.F
-Chd|        FHVIS3                        engine/source/elements/solid/solide/fhvis3.F
-Chd|        FMQVISCB                      engine/source/materials/mat_share/fmqviscb.F
-Chd|        FORINT                        engine/source/elements/forint.F
-Chd|        FREFORM                       engine/source/input/freform.F 
-Chd|        FREUPWIND                     engine/source/input/freupwind.F
-Chd|        FREUPWM                       engine/source/input/freupwm.F 
-Chd|        FRHO3                         engine/source/elements/solid/solide/frho3.F
-Chd|        GRAVIT_FVM_FEM                engine/source/loads/general/grav/gravit_fvm_fem.F
-Chd|        I12M2S                        engine/source/interfaces/interf/i12m2s.F
-Chd|        I12NOD3                       engine/source/interfaces/interf/i12nod3.F
-Chd|        I12S2M                        engine/source/interfaces/interf/i12s2m.F
-Chd|        INIRESA                       engine/source/output/restart/rdresa.F
-Chd|        INTTI12A                      engine/source/interfaces/interf/intti12.F
-Chd|        LECTUR                        engine/source/input/lectur.F  
-Chd|        M46LAW                        engine/source/materials/mat/mat046/m46law.F
-Chd|        MANCTR                        engine/source/input/manctr.F  
-Chd|        MEINT                         engine/source/materials/mat_share/meint.F
-Chd|        MQVISCB                       engine/source/materials/mat_share/mqviscb.F
-Chd|        QDLEN2                        engine/source/elements/solid_2d/quad/qdlen2.F
-Chd|        QFORC2                        engine/source/elements/solid_2d/quad/qforc2.F
-Chd|        QHVIS2                        engine/source/elements/solid_2d/quad/qhvis2.F
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
-Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
-Chd|        RDCOMR                        engine/source/output/restart/rdcomm.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
-Chd|        R_BUFBRIC_22                  engine/source/interfaces/int22/r_bufbric_22.F
-Chd|        S4FORC3                       engine/source/elements/solid/solide4/s4forc3.F
-Chd|        SDLEN3                        engine/source/elements/solid/solide/sdlen3.F
-Chd|        SEGGETV                       engine/source/interfaces/interf/seggetv.F
-Chd|        SEGVAR_CREATE                 engine/share/modules/segvar_mod.F
-Chd|        SFINT3                        engine/source/elements/solid/solide/sfint3.F
-Chd|        SFORC3                        engine/source/elements/solid/solide/sforc3.F
-Chd|        SHVIS3                        engine/source/elements/solid/solide/shvis3.F
-Chd|        SIGEPS46                      engine/source/materials/mat/mat046/sigeps46.F
-Chd|        SPMD_SD_XV                    engine/source/mpi/nodes/spmd_sd_xv.F
-Chd|        SPMD_SEGCOM                   engine/source/mpi/fluid/spmd_cfd.F
-Chd|        SRHO3                         engine/source/elements/solid/solide/srho3.F
-Chd|        SZFORC3                       engine/source/elements/solid/solidez/szforc3.F
-Chd|        SZ_PRINT                      engine/source/output/restart/arralloc.F
-Chd|        UPWIND                        engine/source/elements/solid/solide/upwind.F
-Chd|        UPWIND4                       engine/source/elements/solid/solide4/upwind4.F
-Chd|        UPWIND_V                      engine/source/elements/solid/solide/upwind_v.F
-Chd|        VARCONDEC                     engine/source/interfaces/interf/varcondec.F
-Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
-Chd|        WRCOMR                        engine/source/output/restart/wrcomm.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ale_mod                         ../common_source/modules/ale/ale_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    a4momt3                         ../engine/source/elements/solid/solide4/a4momt3.F
+      !||    aconve                          ../engine/source/ale/aconve.F
+      !||    ale51_antidiff2                 ../engine/source/ale/ale51/ale51_antidiff2.F
+      !||    ale51_antidiff3                 ../engine/source/ale/ale51/ale51_antidiff3.F
+      !||    ale51_antidiff3_int22           ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
+      !||    ale_connectivity_init           ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    ale_euler_init                  ../starter/source/materials/ale/ale_euler_init.F
+      !||    alemain                         ../engine/source/ale/alemain.F
+      !||    alesub1                         ../engine/source/ale/subcycling/alesub1.F
+      !||    alesub2                         ../engine/source/ale/subcycling/alesub2.F
+      !||    alethe                          ../engine/source/ale/alethe.F
+      !||    alew                            ../engine/source/ale/grid/alew.F
+      !||    alew1                           ../engine/source/ale/grid/alew1.F
+      !||    alew2                           ../engine/source/ale/grid/alew2.F
+      !||    alew4                           ../engine/source/ale/grid/alew4.F
+      !||    alew5                           ../engine/source/ale/grid/alew5.F
+      !||    alew7                           ../engine/source/ale/grid/alew7.F
+      !||    alewdx                          ../engine/source/ale/grid/alewdx.F
+      !||    amomt2                          ../engine/source/ale/ale2d/amomt2.F
+      !||    amomt3                          ../engine/source/elements/solid/solide/amomt3.F
+      !||    amomtn3                         ../engine/source/elements/solid/solide/amomtn3.F
+      !||    asspar2                         ../engine/source/assembly/asspar2.F
+      !||    asspar4                         ../engine/source/assembly/asspar4.F
+      !||    contrl                          ../starter/source/starter/contrl.F
+      !||    ddsplit                         ../starter/source/restart/ddsplit/ddsplit.F
+      !||    definter                        ../starter/source/interfaces/interf1/definter.F
+      !||    dtnoda                          ../engine/source/time_step/dtnoda.F
+      !||    ebcs10                          ../engine/source/boundary_conditions/ebcs/ebcs10.F
+      !||    ebcs_vol2seg                    ../engine/source/boundary_conditions/ebcs/ebcs_vol2seg.F
+      !||    emomt2                          ../engine/source/ale/euler2d/emomt2.F
+      !||    emomt3b                         ../engine/source/elements/solid/solide/emomt3b.F
+      !||    epxle3                          ../engine/source/elements/solid/solide/epxle3.F
+      !||    fdlen3                          ../engine/source/elements/solid/solide/fdlen3.F
+      !||    ffint3                          ../engine/source/elements/solid/solide/ffint3.F
+      !||    fhvis3                          ../engine/source/elements/solid/solide/fhvis3.F
+      !||    fmqviscb                        ../engine/source/materials/mat_share/fmqviscb.F
+      !||    forint                          ../engine/source/elements/forint.F
+      !||    freform                         ../engine/source/input/freform.F
+      !||    freupwind                       ../engine/source/input/freupwind.F
+      !||    freupwm                         ../engine/source/input/freupwm.F
+      !||    frho3                           ../engine/source/elements/solid/solide/frho3.F
+      !||    gravit_fvm_fem                  ../engine/source/loads/general/grav/gravit_fvm_fem.F
+      !||    hm_read_ale_grid                ../starter/source/general_controls/ale_grid/hm_read_ale_grid.F
+      !||    hm_read_caa                     ../starter/source/general_controls/computation/hm_read_caa.F
+      !||    hm_read_inter_type02            ../starter/source/interfaces/int02/hm_read_inter_type02.F
+      !||    hm_read_mat11                   ../starter/source/materials/mat/mat011/hm_read_mat11.F
+      !||    hm_read_mat11_k_eps             ../starter/source/materials/mat/mat011/hm_read_mat11_k_eps.F
+      !||    hm_read_mat51                   ../starter/source/materials/mat/mat051/hm_read_mat51.F
+      !||    hm_read_part                    ../starter/source/model/assembling/hm_read_part.F
+      !||    hm_read_prop14                  ../starter/source/properties/solid/hm_read_prop14.F
+      !||    hm_read_prop14f                 ../starter/source/properties/solid/hm_read_prop14.F
+      !||    hm_read_prop15                  ../starter/source/properties/solid/hm_read_prop15.F
+      !||    hm_read_properties              ../starter/source/properties/hm_read_properties.F
+      !||    i12m2s                          ../engine/source/interfaces/interf/i12m2s.F
+      !||    i12nod3                         ../engine/source/interfaces/interf/i12nod3.F
+      !||    i12s2m                          ../engine/source/interfaces/interf/i12s2m.F
+      !||    ig3dmass3                       ../starter/source/elements/ige3d/ig3dmass3.F
+      !||    ingrbric_nodes                  ../starter/source/interfaces/interf1/ingrbric_nodes.F
+      !||    iniresa                         ../engine/source/output/restart/rdresa.F
+      !||    intti12a                        ../engine/source/interfaces/interf/intti12.F
+      !||    lecint                          ../starter/source/interfaces/interf1/lecint.F
+      !||    lectur                          ../engine/source/input/lectur.F
+      !||    m46law                          ../engine/source/materials/mat/mat046/m46law.F
+      !||    manctr                          ../engine/source/input/manctr.F
+      !||    meint                           ../engine/source/materials/mat_share/meint.F
+      !||    mmain                           ../engine/source/materials/mat_share/mmain.F90
+      !||    mqviscb                         ../engine/source/materials/mat_share/mqviscb.F
+      !||    qdlen2                          ../engine/source/elements/solid_2d/quad/qdlen2.F
+      !||    qforc2                          ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||    qhvis2                          ../engine/source/elements/solid_2d/quad/qhvis2.F
+      !||    qmasi2                          ../starter/source/elements/solid_2d/quad/qmasi2.F
+      !||    qmasi2b                         ../starter/source/elements/solid_2d/quad/qmasi2b.F
+      !||    r2r_split                       ../starter/source/coupling/rad2rad/r2r_split.F
+      !||    r_bufbric_22                    ../engine/source/interfaces/int22/r_bufbric_22.F
+      !||    radioss2                        ../engine/source/engine/radioss2.F
+      !||    rdcomi                          ../engine/source/output/restart/rdcomm.F
+      !||    rdcomr                          ../engine/source/output/restart/rdcomm.F
+      !||    rdresb                          ../engine/source/output/restart/rdresb.F
+      !||    read_ale_grid                   ../engine/source/output/restart/read_ale_grid.F90
+      !||    resol                           ../engine/source/engine/resol.F
+      !||    restalloc                       ../engine/source/output/restart/arralloc.F
+      !||    s4forc3                         ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    s4mass3                         ../starter/source/elements/solid/solide4/s4mass3.F
+      !||    sdlen3                          ../engine/source/elements/solid/solide/sdlen3.F
+      !||    seggetv                         ../engine/source/interfaces/interf/seggetv.F
+      !||    segvar_create                   ../engine/share/modules/segvar_mod.F
+      !||    sfint3                          ../engine/source/elements/solid/solide/sfint3.F
+      !||    sforc3                          ../engine/source/elements/solid/solide/sforc3.F
+      !||    shvis3                          ../engine/source/elements/solid/solide/shvis3.F
+      !||    sigeps46                        ../engine/source/materials/mat/mat046/sigeps46.F
+      !||    smass3                          ../starter/source/elements/solid/solide/smass3.F
+      !||    smass3b                         ../starter/source/elements/solid/solid8p/smass3b.F
+      !||    spmd_exch_flow_tracking_data    ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
+      !||    spmd_exch_flow_tracking_data2   ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
+      !||    spmd_exch_flow_tracking_data3   ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
+      !||    spmd_exch_flow_tracking_data4   ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
+      !||    spmd_sd_xv                      ../engine/source/mpi/nodes/spmd_sd_xv.F
+      !||    spmd_segcom                     ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    srho3                           ../engine/source/elements/solid/solide/srho3.F
+      !||    st_qaprint_ale_options_driver   ../starter/source/output/qaprint/st_qaprint_ale_options_driver.F
+      !||    st_qaprint_general_controls     ../starter/source/output/qaprint/st_qaprint_general_controls.F
+      !||    starter0                        ../starter/source/starter/starter0.F
+      !||    sz_print                        ../engine/source/output/restart/arralloc.F
+      !||    szforc3                         ../engine/source/elements/solid/solidez/szforc3.F
+      !||    upwind                          ../engine/source/elements/solid/solide/upwind.F
+      !||    upwind4                         ../engine/source/elements/solid/solide4/upwind4.F
+      !||    upwind_v                        ../engine/source/elements/solid/solide/upwind_v.F
+      !||    varcondec                       ../engine/source/interfaces/interf/varcondec.F
+      !||    wrcomi                          ../engine/source/output/restart/wrcomm.F
+      !||    wrcomip                         ../starter/source/restart/ddsplit/wrcommp.F
+      !||    wrcomr                          ../engine/source/output/restart/wrcomm.F
+      !||    write_ale_grid                  ../common_source/output/restart/write_ale_grid.F90
+      !||    wrrestp                         ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
       MODULE ALE_MOD
       
         IMPLICIT NONE
@@ -232,6 +235,9 @@ C-----------------------------------------------
 C-----------------------------------------------                
         
         CONTAINS        
+      !||====================================================================
+      !||    init   ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
           subroutine init(this)
             !initialization is done : - during Starter before reading Starter input file
             !                         - during Engine before reading Restart file and Engine input file.

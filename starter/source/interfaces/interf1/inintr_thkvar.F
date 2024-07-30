@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THICKVAR                      source/interfaces/interf1/inintr_thkvar.F
-Chd|-- called by -----------
-Chd|        ININTR_THKVAR                 source/interfaces/interf1/inintr_thkvar.F
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    thickvar        ../starter/source/interfaces/interf1/inintr_thkvar.F
+      !||--- called by ------------------------------------------------------
+      !||    inintr_thkvar   ../starter/source/interfaces/interf1/inintr_thkvar.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE THICKVAR(ELBUF_TAB,IPARG,THKSH4_VAR,THKSH3_VAR,THKNOD,
      .                    IXC  ,IXTG     )
 C-----------------------------------------------
@@ -83,22 +82,20 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  ININTR_THKVAR                 source/interfaces/interf1/inintr_thkvar.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        ININT3_THKVAR                 source/interfaces/inter3d1/inint3_thkvar.F
-Chd|        THICKVAR                      source/interfaces/interf1/inintr_thkvar.F
-Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        INTBUFSCRATCH_MOD             source/interfaces/interf1/intbufscratch_mod.F
-Chd|        INTSTAMP_MOD                  share/modules1/intstamp_mod.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inintr_thkvar       ../starter/source/interfaces/interf1/inintr_thkvar.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur              ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg              ../starter/source/output/message/message.F
+      !||    fretitl2            ../starter/source/starter/freform.F
+      !||    inint3_thkvar       ../starter/source/interfaces/inter3d1/inint3_thkvar.F
+      !||    thickvar            ../starter/source/interfaces/interf1/inintr_thkvar.F
+      !||--- uses       -----------------------------------------------------
+      !||    intbufscratch_mod   ../starter/source/interfaces/interf1/intbufscratch_mod.F
+      !||    intstamp_mod        ../starter/share/modules1/intstamp_mod.F
+      !||    message_mod         ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ININTR_THKVAR(ELBUF_TAB,
      1                  IPARI   ,INTBUF_TAB,INSCR   ,X       ,
      2                  IXS     ,IXC     ,PM      ,GEO     ,ITAB    ,

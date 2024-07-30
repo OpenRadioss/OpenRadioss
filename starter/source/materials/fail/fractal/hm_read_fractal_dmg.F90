@@ -25,6 +25,11 @@
 !hd|-- called by -----------
 !hd|-- calls ---------------
 !hd|====================================================================
+      !||====================================================================
+      !||    hm_read_fractal_dmg_mod   ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_fail              ../starter/source/materials/fail/hm_read_fail.F
+      !||====================================================================
       module hm_read_fractal_dmg_mod
       contains
 ! ========================================================================================
@@ -32,6 +37,19 @@
 !! \details
 ! ========================================================================================
 
+      !||====================================================================
+      !||    hm_read_fractal_dmg      ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_fail             ../starter/source/materials/fail/hm_read_fail.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
         subroutine hm_read_fractal_dmg(fail ,                                  &
           mat_id   ,fail_id  ,irupt    ,lsubmodel,unitab   ,iout  )
 !-----------------------------------------------

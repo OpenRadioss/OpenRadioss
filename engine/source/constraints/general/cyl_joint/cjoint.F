@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CJOINT                        source/constraints/general/cyl_joint/cjoint.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        TELESC                        source/constraints/general/cyl_joint/telesc.F
-Chd|        JOINT_MOD                     share/modules/joint_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    cjoint      ../engine/source/constraints/general/cyl_joint/cjoint.F
+      !||--- called by ------------------------------------------------------
+      !||    resol       ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    telesc      ../engine/source/constraints/general/cyl_joint/telesc.F
+      !||--- uses       -----------------------------------------------------
+      !||    joint_mod   ../engine/share/modules/joint_mod.F
+      !||====================================================================
         SUBROUTINE CJOINT(A    ,AR    ,V ,VR,X    ,
      2                  FSAV ,LJOINT,MS,IN,IADCJ,
      3                  FR_CJ,TAG_LNK_SMS,ITASK)

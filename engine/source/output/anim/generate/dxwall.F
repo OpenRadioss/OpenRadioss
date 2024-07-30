@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C            SPMD_AGETMSR                    /spe/mach_spmd.F
-Chd|====================================================================
-Chd|  DXWALL                        source/output/anim/generate/dxwall.F
-Chd|-- called by -----------
-Chd|        DXYZSECT                      source/output/anim/generate/dxyzsect.F
-Chd|-- calls ---------------
-Chd|        SPMD_AGETMSR                  source/mpi/anim/spmd_agetmsr.F
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    dxwall         ../engine/source/output/anim/generate/dxwall.F
+      !||--- called by ------------------------------------------------------
+      !||    dxyzsect       ../engine/source/output/anim/generate/dxyzsect.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_agetmsr   ../engine/source/mpi/anim/spmd_agetmsr.F
+      !||    write_r_c      ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE DXWALL(X ,RWL ,MSR ,
      3            XMIN ,YMIN ,ZMIN  ,XMAX ,YMAX  ,
      4            ZMAX,FR_WALL)

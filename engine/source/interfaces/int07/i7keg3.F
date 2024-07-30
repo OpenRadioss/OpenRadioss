@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7KEG3                        source/interfaces/int07/i7keg3.F
-Chd|-- called by -----------
-Chd|        I7KE3                         source/interfaces/int07/i7ke3.F
-Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    i7keg3     ../engine/source/interfaces/int07/i7keg3.F
+      !||--- called by ------------------------------------------------------
+      !||    i7ke3      ../engine/source/interfaces/int07/i7ke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm   ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE I7KEG3(JLT    ,A      ,V      ,MS    ,FRIC   ,
      1                  NX1    ,NX2    ,NX3    ,NX4   ,NY1    ,
      2                  NY2    ,NY3    ,NY4    ,NZ1   ,NZ2    ,
@@ -541,13 +541,13 @@ C
 C
        RETURN
       END
-Chd|====================================================================
-Chd|  I7FRF3                        source/interfaces/int07/i7keg3.F
-Chd|-- called by -----------
-Chd|        I7FORCF3                      source/interfaces/int07/i7ke3.F
-Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    i7frf3     ../engine/source/interfaces/int07/i7keg3.F
+      !||--- called by ------------------------------------------------------
+      !||    i7forcf3   ../engine/source/interfaces/int07/i7ke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm   ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE I7FRF3(JLT    ,A      ,V      ,MS     ,FRIC   ,
      1                  N1     ,N2     ,N3     ,H1     ,H2     ,
      2                  H3     ,H4     ,IX1    ,IX2    ,IX3    ,
@@ -700,13 +700,13 @@ C--------partie NSL-------
 C
        RETURN
       END
-Chd|====================================================================
-Chd|  I7KFOR3                       source/interfaces/int07/i7keg3.F
-Chd|-- called by -----------
-Chd|        I7FKU3                        source/interfaces/int07/i7ke3.F
-Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    i7kfor3    ../engine/source/interfaces/int07/i7keg3.F
+      !||--- called by ------------------------------------------------------
+      !||    i7fku3     ../engine/source/interfaces/int07/i7ke3.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_intm   ../engine/share/modules/imp_intm.F
+      !||====================================================================
       SUBROUTINE I7KFOR3(JLT    ,A      ,V      ,MS    ,FRIC   ,
      1                  NX1    ,NX2    ,NX3    ,NX4   ,NY1    ,
      2                  NY2    ,NY3    ,NY4    ,NZ1   ,NZ2    ,

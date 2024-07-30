@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBASTRA3                      source/elements/shell/coqueba/cbastra3.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cbastra3   ../engine/source/elements/shell/coqueba/cbastra3.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||====================================================================
       SUBROUTINE CBASTRA3(GSTR,GSTRPG,
      1                   JFT, JLT, NFT, NPG,VDEF,
      2                   EXX, EYY, EXY, EXZ, EYZ,  

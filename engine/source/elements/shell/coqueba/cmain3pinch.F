@@ -20,21 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CMAIN3PINCH                   source/elements/shell/coqueba/cmain3pinch.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|-- calls ---------------
-Chd|        MULAWGLCPINCH                 source/elements/shell/coqueba/mulawglcpinch.F
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        PINCH_LOCAL_MOD               share/modules/pinch_local_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    cmain3pinch       ../engine/source/elements/shell/coqueba/cmain3pinch.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3          ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter            ../engine/source/tools/curve/finter.F
+      !||    mulawglcpinch     ../engine/source/elements/shell/coqueba/mulawglcpinch.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod         ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    failwave_mod      ../common_source/modules/failwave_mod.F
+      !||    group_param_mod   ../common_source/modules/mat_elem/group_param_mod.F90
+      !||    pinch_local_mod   ../engine/share/modules/pinch_local_mod.F
+      !||    pinchtype_mod     ../common_source/modules/pinchtype_mod.F
+      !||    stack_mod         ../engine/share/modules/stack_mod.F
+      !||    table_mod         ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE CMAIN3PINCH (
      1           ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,
      2           NEL       ,MTN       ,IPLA      ,ITHK      ,GROUP_PARAM,

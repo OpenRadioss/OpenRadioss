@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FIND_NEWKNOT                  source/elements/ige3d/find_newknot.F
-Chd|-- called by -----------
-Chd|        PRERAFIG3D                    source/elements/ige3d/prerafig3d.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    find_newknot   ../starter/source/elements/ige3d/find_newknot.F
+      !||--- called by ------------------------------------------------------
+      !||    prerafig3d     ../starter/source/elements/ige3d/prerafig3d.F
+      !||====================================================================
       SUBROUTINE FIND_NEWKNOT(IEL,KXIG3D,KNOT,DIR,IAD_KNOT,
      .                        NKNOT1,NKNOT2,NKNOT3,IDCUT,NEWKNOT)
 C----------------------------------------------------------------------
@@ -133,11 +132,9 @@ C
       END
 C
 C
-Chd|====================================================================
-Chd|  FIND_NEIGHBOURKNOT            source/elements/ige3d/find_newknot.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    find_neighbourknot   ../starter/source/elements/ige3d/find_newknot.F
+      !||====================================================================
       SUBROUTINE FIND_NEIGHBOURKNOT(IDNEIGHBOUR,KXIG3D,TAB_OLDIDCUT,IDNBCUT,DIR,IDCUT_VOISIN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

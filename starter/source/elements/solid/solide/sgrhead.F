@@ -20,20 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SGRHEAD                       source/elements/solid/solide/sgrhead.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        CLUSTER_MOD                   share/modules1/cluster_mod.F  
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        REORDER_MOD                   share/modules1/reorder_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    sgrhead            ../starter/source/elements/solid/solide/sgrhead.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur             ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    cluster_mod        ../starter/share/modules1/cluster_mod.F
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||    r2r_mod            ../starter/share/modules1/r2r_mod.F
+      !||    reorder_mod        ../starter/share/modules1/reorder_mod.F
+      !||====================================================================
       SUBROUTINE SGRHEAD(
      1       IXS        ,PM            ,GEO       ,INUM    ,ISEL   ,
      2       ITR1       ,EADD          ,INDEX     ,ITRI    ,IPARTS ,      

@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       
-Chd|====================================================================
-Chd|  S20KGEO3                      source/elements/solid/solide20/s20kgeo3.F
-Chd|-- called by -----------
-Chd|        S20KE3                        source/elements/solid/solide20/s20ke3.F
-Chd|-- calls ---------------
-Chd|        S4KEH3                        source/elements/solid/solide4/s4keh3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s20kgeo3   ../engine/source/elements/solid/solide20/s20kgeo3.F
+      !||--- called by ------------------------------------------------------
+      !||    s20ke3     ../engine/source/elements/solid/solide20/s20ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    s4keh3     ../engine/source/elements/solid/solide4/s4keh3.F
+      !||====================================================================
       SUBROUTINE S20KGEO3(
      1   SIG,     VOL,     PX,      PY,
      2   PZ,      K11,     K12,     K13,

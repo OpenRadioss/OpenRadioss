@@ -25,16 +25,16 @@ C compute the left cauchy green MATB in 3 steps:
 C INVFPO = INVERSE (FP)
 C FE = F * INVFPO
 C MATB = FE * FET 
-Chd|====================================================================
-Chd|  CALCMATB                      source/materials/mat/mat100/calcmatb.F
-Chd|-- called by -----------
-Chd|        SIGEPS100                     source/materials/mat/mat100/sigeps100.F
-Chd|        SIGEPS95                      source/materials/mat/mat095/sigeps95.F
-Chd|-- calls ---------------
-Chd|        KMATINV3                      source/materials/tools/kmatinv.F
-Chd|        PRODAAT                       source/materials/tools/prodAAT.F
-Chd|        PRODMAT                       source/materials/tools/prodmat.F
-Chd|====================================================================
+      !||====================================================================
+      !||    calcmatb    ../engine/source/materials/mat/mat100/calcmatb.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F
+      !||    sigeps95    ../engine/source/materials/mat/mat095/sigeps95.F
+      !||--- calls      -----------------------------------------------------
+      !||    kmatinv3    ../engine/source/materials/tools/kmatinv.F
+      !||    prodaat     ../engine/source/materials/tools/prodAAT.F
+      !||    prodmat     ../engine/source/materials/tools/prodmat.F
+      !||====================================================================
        SUBROUTINE CALCMATB (NEL, F, FP, MATB)    
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25DST3_1                     source/interfaces/int25/i25dst3_1.F
-Chd|-- called by -----------
-Chd|        I25COMP_1                     source/interfaces/int25/i25comp_1.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25dst3_1   ../engine/source/interfaces/int25/i25dst3_1.F
+      !||--- called by ------------------------------------------------------
+      !||    i25comp_1   ../engine/source/interfaces/int25/i25comp_1.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box     ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25DST3_1(
      1                  JLT    ,CAND_N ,CAND_E ,
      2                  XX     ,YY     ,ZZ     ,
@@ -839,12 +839,11 @@ c     .           it,pent(i,it1),far(i,it1)
 C-----
       RETURN
       END
-Chd|====================================================================
-Chd|  I25GLOB_1                     source/interfaces/int25/i25dst3_1.F
-Chd|-- called by -----------
-Chd|        I25COMP_1                     source/interfaces/int25/i25comp_1.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i25glob_1   ../engine/source/interfaces/int25/i25dst3_1.F
+      !||--- called by ------------------------------------------------------
+      !||    i25comp_1   ../engine/source/interfaces/int25/i25comp_1.F
+      !||====================================================================
       SUBROUTINE I25GLOB_1(
      1                  JLT    ,CAND_N ,CAND_E ,
      2                  NIN    ,NSN    ,IX1    ,IX2    ,IX3    ,
@@ -890,13 +889,13 @@ C--------------------------------------------------------
       END DO
       RETURN
       END
-Chd|====================================================================
-Chd|  I25GLOB                       source/interfaces/int25/i25dst3_1.F
-Chd|-- called by -----------
-Chd|        I25COMP_2                     source/interfaces/int25/i25comp_2.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25glob     ../engine/source/interfaces/int25/i25dst3_1.F
+      !||--- called by ------------------------------------------------------
+      !||    i25comp_2   ../engine/source/interfaces/int25/i25comp_2.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box     ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25GLOB(
      1                  JLT    ,CAND_N ,CAND_E ,
      2                  NIN    ,NSN    ,IX1    ,IX2    ,IX3    ,

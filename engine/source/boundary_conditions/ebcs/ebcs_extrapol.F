@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  EBCS_EXTRAPOL                 source/boundary_conditions/ebcs/ebcs_extrapol.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        EBCS_EXTRAP2                  source/boundary_conditions/ebcs/ebcs_extrapol.F
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ebcs_extrapol   ../engine/source/boundary_conditions/ebcs/ebcs_extrapol.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ebcs_extrap2    ../engine/source/boundary_conditions/ebcs/ebcs_extrapol.F
+      !||--- uses       -----------------------------------------------------
+      !||    ebcs_mod        ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||====================================================================
       SUBROUTINE EBCS_EXTRAPOL(FV, NP, TF, EBCS_TAB)
       USE EBCS_MOD
 C-----------------------------------------------
@@ -109,12 +110,11 @@ C-----------------------------------------------
       RETURN
       END SUBROUTINE EBCS_EXTRAPOL
 
-Chd|====================================================================
-Chd|  EBCS_EXTRAP2                  source/boundary_conditions/ebcs/ebcs_extrapol.F
-Chd|-- called by -----------
-Chd|        EBCS_EXTRAPOL                 source/boundary_conditions/ebcs/ebcs_extrapol.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ebcs_extrap2    ../engine/source/boundary_conditions/ebcs/ebcs_extrapol.F
+      !||--- called by ------------------------------------------------------
+      !||    ebcs_extrapol   ../engine/source/boundary_conditions/ebcs/ebcs_extrapol.F
+      !||====================================================================
       SUBROUTINE EBCS_EXTRAP2(TF,TT,NPOINT,F)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

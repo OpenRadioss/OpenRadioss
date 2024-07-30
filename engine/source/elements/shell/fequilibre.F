@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FEQUILIBRE                    source/elements/shell/fequilibre.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fequilibre   ../engine/source/elements/shell/fequilibre.F
+      !||--- called by ------------------------------------------------------
+      !||    resol        ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE FEQUILIBRE(A,FZERO,IXC,IXTG)
 C------------------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,17 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LECINP                        source/input/lecinp.F         
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|        FREFORM                       source/input/freform.F        
-Chd|        DT_MOD                        share/modules/dt_mod.F        
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lecinp       ../engine/source/input/lecinp.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2     ../engine/source/engine/radioss2.F
+      !||--- calls      -----------------------------------------------------
+      !||    freform      ../engine/source/input/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    dt_mod       ../engine/share/modules/dt_mod.F
+      !||    h3d_mod      ../engine/share/modules/h3d_mod.F
+      !||    output_mod   ../common_source/modules/output/output_mod.F90
+      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    state_mod    ../common_source/modules/state_mod.F
+      !||====================================================================
       SUBROUTINE LECINP(IRUN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
      .                  SENSORS ,DT, OUTPUT )
 C-----------------------------------------------

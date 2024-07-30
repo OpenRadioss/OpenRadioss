@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C_FORTRAN_DGSSV               stub/superlu_stub.F           
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    c_fortran_dgssv   ../engine/stub/superlu_stub.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret             ../engine/source/system/arret.F
+      !||====================================================================
         SUBROUTINE C_FORTRAN_DGSSV(IOPT,   N,      NNZ, NRHS, VALUE_OP,
      .                     ROWIND, COLPTR, B,   LDB,  FACTORS,
      .                     PRSP,   INFLU )
@@ -46,12 +45,11 @@ C-----------------------------------------------
             CALL FLUSH(6)
             CALL ARRET(5)
         END SUBROUTINE
-Chd|====================================================================
-Chd|  C_FREEMEM                     stub/superlu_stub.F           
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    c_freemem   ../engine/stub/superlu_stub.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret       ../engine/source/system/arret.F
+      !||====================================================================
         SUBROUTINE C_FREEMEM(FACTORS)
             INTEGER(KIND=8) FACTORS(8)
 C-----------------------------------------------

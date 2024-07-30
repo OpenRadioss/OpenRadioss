@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C1BUF3                        source/elements/shell/coque/c1buf3.F
-Chd|-- called by -----------
-Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
-Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
-Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c1buf3     ../starter/source/elements/shell/coque/c1buf3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3init3    ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3   ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cdkinit3   ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||    cinit3     ../starter/source/elements/shell/coque/cinit3.F
+      !||====================================================================
       SUBROUTINE C1BUF3(GEO,THK,OFF,THKE,KSHTREE,SHTREE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

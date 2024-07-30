@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2DST3                        source/interfaces/inter3d1/i2dst3.F
-Chd|-- called by -----------
-Chd|        I2BUC1                        source/interfaces/inter3d1/i2buc1.F
-Chd|        I2TRI                         source/interfaces/inter3d1/i2tri.F
-Chd|-- calls ---------------
-Chd|        I2BAR3                        source/interfaces/inter3d1/i2dst3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i2dst3   ../starter/source/interfaces/inter3d1/i2dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i2buc1   ../starter/source/interfaces/inter3d1/i2buc1.F
+      !||    i2tri    ../starter/source/interfaces/inter3d1/i2tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2bar3   ../starter/source/interfaces/inter3d1/i2dst3.F
+      !||====================================================================
       SUBROUTINE I2DST3(GAPV,CAND_E  ,CAND_N,TZINF,IRTL,ST,DMIN,IGNORE,
      .                  THK  ,KNOD2ELS,KNOD2ELC,KNOD2ELTG,NOD2ELS,
      .                  NOD2ELC,NOD2ELTG,X,IRECT,
@@ -241,14 +241,14 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I2BAR3                        source/interfaces/inter3d1/i2dst3.F
-Chd|-- called by -----------
-Chd|        I2DST3                        source/interfaces/inter3d1/i2dst3.F
-Chd|        I2DST3_27                     source/interfaces/inter3d1/i2dst3_27.F
-Chd|-- calls ---------------
-Chd|        I7LIN3                        source/interfaces/inter3d1/i7lin3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i2bar3      ../starter/source/interfaces/inter3d1/i2dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i2dst3      ../starter/source/interfaces/inter3d1/i2dst3.F
+      !||    i2dst3_27   ../starter/source/interfaces/inter3d1/i2dst3_27.F
+      !||--- calls      -----------------------------------------------------
+      !||    i7lin3      ../starter/source/interfaces/inter3d1/i7lin3.F
+      !||====================================================================
       SUBROUTINE I2BAR3(XI,YI,ZI,XA,YA,
      .                  ZA,XB,YB,ZB,XC,
      .                  YC,ZC,NX,NY,NZ,

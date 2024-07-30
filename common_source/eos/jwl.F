@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  JWL                           eos/jwl.F                     
-Chd|-- called by -----------
-Chd|        EOSMAIN                       common_source/eos/eosmain.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    jwl       ../common_source/eos/jwl.F
+      !||--- called by ------------------------------------------------------
+      !||    eosmain   ../common_source/eos/eosmain.F
+      !||====================================================================
       SUBROUTINE JWL
      1              (IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 , 
      2               ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,

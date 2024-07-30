@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  TRIINS                        src/init1/triins.F            
-Chd|-- called by -----------
-Chd|        TRIRAP                        src/init1/trirap.F            
-Chd|-- calls ---------------
-Chd|        ECHANG                        src/init1/echang.F            
-Chd|        ICOMPC                        src/init1/icompc.F            
-Chd|====================================================================
+      !||====================================================================
+      !||    triins   ../common_source/tools/sort/triins.F
+      !||--- called by ------------------------------------------------------
+      !||    trirap   ../common_source/tools/sort/trirap.F
+      !||--- calls      -----------------------------------------------------
+      !||    echang   ../common_source/tools/sort/echang.F
+      !||    icompc   ../common_source/tools/sort/icompc.F
+      !||====================================================================
       SUBROUTINE TRIINS(N,TAB,N2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

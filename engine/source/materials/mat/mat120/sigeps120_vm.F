@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS120_VM                  source/materials/mat/mat120/sigeps120_vm.F
-Chd|-- called by -----------
-Chd|        SIGEPS120                     source/materials/mat/mat120/sigeps120.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps120_vm   ../engine/source/materials/mat/mat120/sigeps120_vm.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps120      ../engine/source/materials/mat/mat120/sigeps120.F
+      !||====================================================================
       SUBROUTINE SIGEPS120_VM(
      1      NEL     ,NGL     ,NUPARAM ,NUVAR   ,TIME    ,TIMESTEP,
      2      UPARAM  ,UVAR    ,OFF     ,PLA     ,EPSD    ,SOUNDSP ,

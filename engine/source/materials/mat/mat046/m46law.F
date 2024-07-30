@@ -20,14 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M46LAW                        source/materials/mat/mat046/m46law.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F
-Chd|        SIGEPS46                      source/materials/mat/mat046/sigeps46.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    m46law     ../engine/source/materials/mat/mat046/m46law.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain      ../engine/source/materials/mat_share/mmain.F90
+      !||--- calls      -----------------------------------------------------
+      !||    mqviscb    ../engine/source/materials/mat_share/mqviscb.F
+      !||    sigeps46   ../engine/source/materials/mat/mat046/sigeps46.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod    ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
       SUBROUTINE M46LAW(
      1   LFT,     LLT,     NFT,     MTN,
      2   PM,      OFF,     SIG,     EINT,

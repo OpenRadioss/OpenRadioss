@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PRONY_MODELC                  source/materials/mat/mat066/prony_modelc.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    prony_modelc   ../engine/source/materials/mat/mat066/prony_modelc.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc         ../engine/source/materials/mat_share/mulawc.F
+      !||====================================================================
       SUBROUTINE PRONY_MODELC(
      1     NEL  ,NUVAR  ,TIME   ,TIMESTEP,
      2     NPRONY   ,KV     ,GI , BETA     ,RHO0  ,

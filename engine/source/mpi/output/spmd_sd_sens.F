@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_SD_SENS                  source/mpi/output/spmd_sd_sens.F
-Chd|-- called by -----------
-Chd|        SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sd_sens   ../engine/source/mpi/output/spmd_sd_sens.F
+      !||--- called by ------------------------------------------------------
+      !||    sensor_spmd    ../engine/source/tools/sensor/sensor_spmd.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_SD_SENS(XSENS,RXBUF,NSENSP)
 C envoi vers p0 du tableau SKEW calcule sur chaque proc
 C-----------------------------------------------

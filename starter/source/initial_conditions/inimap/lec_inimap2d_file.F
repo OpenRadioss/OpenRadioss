@@ -20,23 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LEC_INIMAP2D_FILE             source/initial_conditions/inimap/lec_inimap2d_file.F
-Chd|-- called by -----------
-Chd|        HM_READ_INIMAP2D              source/initial_conditions/inimap/hm_read_inimap2d.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
-Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
-Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
-Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        FUNC2D_MOD                    share/modules1/func2d_mod.F   
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F 
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lec_inimap2d_file   ../starter/source/initial_conditions/inimap/lec_inimap2d_file.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_inimap2d    ../starter/source/initial_conditions/inimap/hm_read_inimap2d.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg              ../starter/source/output/message/message.F
+      !||    usr2sys             ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    func2d_mod          ../starter/share/modules1/func2d_mod.F
+      !||    inimap2d_mod        ../starter/share/modules1/inimap2d_mod.F
+      !||    message_mod         ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE LEC_INIMAP2D_FILE(INIMAP2D, FILENAME, ID, TITLE)
 C-----------------------------------------------
 C   M o d u l e s

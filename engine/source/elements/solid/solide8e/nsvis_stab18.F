@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NSVIS_STAB18                  source/elements/solid/solide8e/nsvis_stab18.F
-Chd|-- called by -----------
-Chd|        M1LAWTOT                      source/materials/mat/mat001/m1lawtot.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    nsvis_stab18   ../engine/source/elements/solid/solide8e/nsvis_stab18.F
+      !||--- called by ------------------------------------------------------
+      !||    m1lawtot       ../engine/source/materials/mat/mat001/m1lawtot.F
+      !||====================================================================
       SUBROUTINE NSVIS_STAB18(SIG  ,C1  ,G2    ,VOL  ,D1   ,
      .                      D2   ,D3  ,D4    ,D5   ,D6   ,
      .                      RHOREF,G  , NPG  ,NEL   ) 

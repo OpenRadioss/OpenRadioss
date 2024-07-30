@@ -20,38 +20,39 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CMAIN3                        source/materials/mat_share/cmain3.F
-Chd|-- called by -----------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|        CDK6FORC3                     source/elements/sh3n/coquedk6/cdk6forc3.F
-Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|        DELAMINATION                  source/properties/composite_options/stack/delamination.F
-Chd|        LAYINI                        source/elements/shell/coque/layini.F
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|        MULAWGLC                      source/materials/mat_share/mulawglc.F
-Chd|        PUT_ETFAC                     source/elements/solid/solide8z/put_etfac.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        THERMEXPC                     source/materials/mat_share/thermexpc.F
-Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MULAWC_MOD                    source/materials/mat_share/mulawc.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    cmain3           ../engine/source/materials/mat_share/cmain3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3          ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||    c3forc3_crk      ../engine/source/elements/xfem/c3forc3_crk.F
+      !||    cbaforc3         ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||    cdk6forc3        ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+      !||    cdkforc3         ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+      !||    cforc3           ../engine/source/elements/shell/coque/cforc3.F
+      !||    cforc3_crk       ../engine/source/elements/xfem/cforc3_crk.F
+      !||    czforc3          ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk      ../engine/source/elements/xfem/czforc3_crk.F
+      !||--- calls      -----------------------------------------------------
+      !||    delamination     ../engine/source/properties/composite_options/stack/delamination.F
+      !||    finter           ../engine/source/tools/curve/finter.F
+      !||    layini           ../engine/source/elements/shell/coque/layini.F
+      !||    mulawc           ../engine/source/materials/mat_share/mulawc.F
+      !||    mulawglc         ../engine/source/materials/mat_share/mulawglc.F
+      !||    put_etfac        ../engine/source/elements/solid/solide8z/put_etfac.F
+      !||    startime         ../engine/source/system/timer.F
+      !||    stoptime         ../engine/source/system/timer.F
+      !||    thermexpc        ../engine/source/materials/mat_share/thermexpc.F
+      !||    usermat_shell    ../engine/source/materials/mat_share/usermat_shell.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod        ../engine/share/modules/drape_mod.F
+      !||    failwave_mod     ../common_source/modules/failwave_mod.F
+      !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    mulawc_mod       ../engine/source/materials/mat_share/mulawc.F
+      !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
+      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    stack_mod        ../engine/share/modules/stack_mod.F
+      !||    table_mod        ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE CMAIN3 (
      1           ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,
      2           NEL       ,MTN       ,IPLA      ,ITHK      ,GROUP_PARAM,

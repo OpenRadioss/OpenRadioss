@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I24GAP_PXFEM                  source/interfaces/int24/i24gap_pxfem.F
-Chd|-- called by -----------
-Chd|        I24MAINF                      source/interfaces/int24/i24main.F
-Chd|-- calls ---------------
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i24gap_pxfem   ../engine/source/interfaces/int24/i24gap_pxfem.F
+      !||--- called by ------------------------------------------------------
+      !||    i24mainf       ../engine/source/interfaces/int24/i24main.F
+      !||--- uses       -----------------------------------------------------
+      !||    plyxfem_mod    ../engine/share/modules/plyxfem_mod.F
+      !||    tri7box        ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I24GAP_PXFEM(
      1                  NRTM     ,IRECT,CAND_E ,GAP_NM , 
      2                  MVOISIN ,NVOISIN , MSEGTYP ,INOD_PXFEM ,

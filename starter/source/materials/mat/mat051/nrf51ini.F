@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NRF51INI                      source/materials/mat/mat051/nrf51ini.F
-Chd|-- called by -----------
-Chd|        M51INIT                       source/materials/mat/mat051/m51init.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    nrf51ini               ../starter/source/materials/mat/mat051/nrf51ini.F
+      !||--- called by ------------------------------------------------------
+      !||    m51init                ../starter/source/materials/mat/mat051/m51init.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE NRF51INI(IPM             ,     PM,      X, NIX,     IX,
      .                    ALE_CONNECTIVITY, BUFMAT, UPARAM, RHO0,
      .                    UVAR            , NUVAR , NEL   , RHO , NUMEL

@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8CSIGP3                      source/elements/thickshell/solide8c/s8csigp3.F
-Chd|-- called by -----------
-Chd|        S16SIGP3                      source/elements/thickshell/solide16/s16sigp3.F
-Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8csigp3   ../engine/source/elements/thickshell/solide8c/s8csigp3.F
+      !||--- called by ------------------------------------------------------
+      !||    s16sigp3   ../engine/source/elements/thickshell/solide16/s16sigp3.F
+      !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s8cforc3   ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||====================================================================
       SUBROUTINE S8CSIGP3(SIG  ,E0  ,DEFP, FAC  ,G_PLA,NEL  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

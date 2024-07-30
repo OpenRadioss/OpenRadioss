@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CHECK_COARSE_GRID             source/interfaces/generic/check_coarse_grid.F
-Chd|-- called by -----------
-Chd|        SPMD_COARSE_CELL_EXCHANGE     source/mpi/interfaces/spmd_coarse_cell_exchange.F
-Chd|-- calls ---------------
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    check_coarse_grid           ../engine/source/interfaces/generic/check_coarse_grid.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_coarse_cell_exchange   ../engine/source/mpi/interfaces/spmd_coarse_cell_exchange.F
+      !||--- uses       -----------------------------------------------------
+      !||    inter_sorting_mod           ../engine/share/modules/inter_sorting_mod.F
+      !||====================================================================
         SUBROUTINE CHECK_COARSE_GRID(NIN,MAIN_COARSE_GRID,SORT_COMM,ITIED)
 !$COMMENT
 !       CHECK_COARSE_GRID description :

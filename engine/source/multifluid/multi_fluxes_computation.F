@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MULTI_FLUXES_COMPUTATION      source/multifluid/multi_fluxes_computation.F
-Chd|-- called by -----------
-Chd|        MULTI_TIMEEVOLUTION           source/multifluid/multi_timeevolution.F
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    multi_fluxes_computation   ../engine/source/multifluid/multi_fluxes_computation.F
+      !||--- called by ------------------------------------------------------
+      !||    multi_timeevolution        ../engine/source/multifluid/multi_timeevolution.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret                      ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod       ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    elbufdef_mod               ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod                ../engine/share/resol/initbuf.F
+      !||    multi_fvm_mod              ../common_source/modules/ale/multi_fvm_mod.F
+      !||====================================================================
       SUBROUTINE MULTI_FLUXES_COMPUTATION(NG, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .     PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, NBMAT, CURRENT_TIME, BUFMAT,
      .     ID_GLOBAL_VOIS,NPF,TF)

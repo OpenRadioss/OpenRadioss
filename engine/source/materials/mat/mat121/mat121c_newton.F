@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MAT121C_NEWTON                source/materials/mat/mat121/mat121c_newton.F
-Chd|-- called by -----------
-Chd|        SIGEPS121C                    source/materials/mat/mat121/sigeps121c.F
-Chd|-- calls ---------------
-Chd|        VINTER2                       source/tools/curve/vinter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    mat121c_newton   ../engine/source/materials/mat/mat121/mat121c_newton.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps121c       ../engine/source/materials/mat/mat121/sigeps121c.F
+      !||--- calls      -----------------------------------------------------
+      !||    vinter2          ../engine/source/tools/curve/vinter.F
+      !||====================================================================
       SUBROUTINE MAT121C_NEWTON(
      1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,NPF     ,
      2         TF      ,TIMESTEP,TIME    ,UPARAM  ,UVAR    ,RHO     ,PLA     ,

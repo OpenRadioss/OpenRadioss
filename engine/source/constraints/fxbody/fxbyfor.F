@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FXBYFOR                       source/constraints/fxbody/fxbyfor.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        FXBODFP1                      source/constraints/fxbody/fxbodfp.F
-Chd|        FXBODFP2                      source/constraints/fxbody/fxbodfp.F
-Chd|        SPMD_FXB_FOR                  source/mpi/kinematic_conditions/spmd_fxb_for.F
-Chd|        SPMD_FXB_FOR_PON              source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    fxbyfor            ../engine/source/constraints/fxbody/fxbyfor.F
+      !||--- called by ------------------------------------------------------
+      !||    resol              ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    fxbodfp1           ../engine/source/constraints/fxbody/fxbodfp.F
+      !||    fxbodfp2           ../engine/source/constraints/fxbody/fxbodfp.F
+      !||    spmd_fxb_for       ../engine/source/mpi/kinematic_conditions/spmd_fxb_for.F
+      !||    spmd_fxb_for_pon   ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod           ../common_source/modules/output/anim_mod.F
+      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    sensor_mod         ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE FXBYFOR(FXBIPM, FXBRPM,  FXBNOD , FXBMOD  , FXBGLM ,
      .                   FXBCPM, FXBCPS,  FXBLM  , FXBFLS  , FXBDLS ,
      .                   FXBDEP, FXBVIT,  FXBACC , A       , AR     ,

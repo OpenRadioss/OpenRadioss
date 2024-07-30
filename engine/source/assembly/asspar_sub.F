@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASSPAR_SUB                    source/assembly/asspar_sub.F  
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    asspar_sub   ../engine/source/assembly/asspar_sub.F
+      !||--- called by ------------------------------------------------------
+      !||    resol        ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE ASSPAR_SUB(A       ,FSKY    ,ADDCNE  ,NODFT_2 ,
      .                      NODLT_2 ,POSI    ,SIZESUB ,SIZEA   )
 C-----------------------------------------------

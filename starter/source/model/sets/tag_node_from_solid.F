@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TAG_NODE_FROM_SOLID           source/model/sets/tag_node_from_solid.F
-Chd|-- called by -----------
-Chd|        CREATE_NODE_FROM_ELEMENT      source/model/sets/create_node_from_element.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    tag_node_from_solid        ../starter/source/model/sets/tag_node_from_solid.F
+      !||--- called by ------------------------------------------------------
+      !||    create_node_from_element   ../starter/source/model/sets/create_node_from_element.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE TAG_NODE_FROM_SOLID(
      .                         IXS   ,IXS10  ,IXS20  ,IXS16  ,NUMEL,
      .                         ELEM  ,TAGNOD ,CLAUSE_NODE,IND)

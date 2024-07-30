@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  |         SPMD_R4GATHER_PART              /spe/spmd_anim.F
-Chd|====================================================================
-Chd|  TORSEUR                       source/output/anim/generate/torseur.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|-- calls ---------------
-Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    torseur            ../engine/source/output/anim/generate/torseur.F
+      !||--- called by ------------------------------------------------------
+      !||    genani             ../engine/source/output/anim/generate/genani.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
+      !||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE TORSEUR(IADG  ,IPARG,ITENS,IXT   ,IXP  ,
      .                   IXR   ,EL2FA,NBF  ,TENS  ,TORS ,
      .                   NBPART)

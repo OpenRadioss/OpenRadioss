@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I23OPTCD                      source/interfaces/int23/i23optcd.F
-Chd|-- called by -----------
-Chd|        I23MAIN_OPT_TRI               source/interfaces/intsort/i23main_opt_tri.F
-Chd|-- calls ---------------
-Chd|        SYNC_DATA                     source/system/machine.F       
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i23optcd          ../engine/source/interfaces/int23/i23optcd.F
+      !||--- called by ------------------------------------------------------
+      !||    i23main_opt_tri   ../engine/source/interfaces/intsort/i23main_opt_tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    sync_data         ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box           ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I23OPTCD(CAND_E ,CAND_N ,X      ,I_STOK  ,IRECT ,
      2                   GAP    ,GAP_S  ,IGAP    ,NSN    ,STFN   ,
      3                   ITASK  ,STF    ,INACTI  ,FTXSAV ,

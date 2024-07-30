@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STACK_VAR_MOD                 share/modules1/stack_var_mod.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|        HM_PREREAD_PROPERTIES         source/properties/hm_preread_properties.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        R2R_VOID                      source/coupling/rad2rad/r2r_void.F
-Chd|-- calls ---------------
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    stack_var_mod           ../starter/share/modules1/stack_var_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit                 ../starter/source/restart/ddsplit/ddsplit.F
+      !||    hm_preread_properties   ../starter/source/properties/hm_preread_properties.F
+      !||    lectur                  ../starter/source/starter/lectur.F
+      !||    r2r_void                ../starter/source/coupling/rad2rad/r2r_void.F
+      !||--- uses       -----------------------------------------------------
+      !||    stack_mod               ../starter/share/modules1/stack_mod.F
+      !||====================================================================
       MODULE STACK_VAR_MOD
 C
        USE STACK_MOD

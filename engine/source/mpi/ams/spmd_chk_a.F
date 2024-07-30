@@ -20,11 +20,10 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_CHK_A                    source/mpi/ams/spmd_chk_a.F   
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_chk_a    ../engine/source/mpi/ams/spmd_chk_a.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_CHK_A(A        ,ITAB ,IAD_ELEM ,FR_ELEM,LENR  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

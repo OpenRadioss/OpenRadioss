@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MONVOL_CHECK_DELETE_DUPLICATEDsource/airbag/monvol_check_delete_duplicated.F
-Chd|-- called by -----------
-Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    monvol_check_delete_duplicated   ../starter/source/airbag/monvol_check_delete_duplicated.F
+      !||--- called by ------------------------------------------------------
+      !||    init_monvol                      ../starter/source/airbag/init_monvol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                           ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                      ../starter/share/message_module/message_mod.F
+      !||    monvol_struct_mod                ../starter/share/modules1/monvol_struct_mod.F
+      !||====================================================================
       SUBROUTINE MONVOL_CHECK_DELETE_DUPLICATED(T_MONVOLN, NTG, NTGI, ITAB)
 C-----------------------------------------------
 C   M o d u l e s

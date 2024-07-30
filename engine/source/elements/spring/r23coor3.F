@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R23COOR3                      source/elements/spring/r23coor3.F
-Chd|-- called by -----------
-Chd|        R23LAW108                     source/elements/spring/r23law108.F
-Chd|        R23LAW113                     source/elements/spring/r23law113.F
-Chd|        R23LAW114                     source/elements/spring/r23law114.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    r23coor3    ../engine/source/elements/spring/r23coor3.F
+      !||--- called by ------------------------------------------------------
+      !||    r23law108   ../engine/source/elements/spring/r23law108.F
+      !||    r23law113   ../engine/source/elements/spring/r23law113.F
+      !||    r23law114   ../engine/source/elements/spring/r23law114.F
+      !||====================================================================
       SUBROUTINE R23COOR3(
      1   X,       VR,      IXR,     XDP,
      2   X1DP,    X2DP,    NGL,     X1,

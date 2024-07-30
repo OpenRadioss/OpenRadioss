@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25COR3_E2S                   source/interfaces/inter3d1/i25cor3_e2s.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules1/tri7box.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    i25cor3_e2s   ../starter/source/interfaces/inter3d1/i25cor3_e2s.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box       ../starter/share/modules1/tri7box.F
+      !||====================================================================
       SUBROUTINE I25COR3_E2S(
      1      JLT    ,LEDGE  ,IRECT  ,X      ,
      2      CAND_S ,CAND_M ,EX     ,EY     ,EZ     ,

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  AREZO3                        source/ale/ale3d/arezo3.F     
-Chd|-- called by -----------
-Chd|        AREZON                        source/ale/arezon.F           
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    arezo3                 ../engine/source/ale/ale3d/arezo3.F
+      !||--- called by ------------------------------------------------------
+      !||    arezon                 ../engine/source/ale/arezon.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||====================================================================
       SUBROUTINE AREZO3(ALE_CONNECT,VAR,NV,PHI,NDIM,FLUX,VOL,IAD22,IXS,ITRIMAT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -113,13 +113,13 @@ C NOT YET TREATED WITH INTER22(OBSOLETE), MUST STACK REZONED VALUE WITH SUPERCEL
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  AREZO3_SIG                    source/ale/ale3d/arezo3.F     
-Chd|-- called by -----------
-Chd|        AREZON                        source/ale/arezon.F           
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    arezo3_sig             ../engine/source/ale/ale3d/arezo3.F
+      !||--- called by ------------------------------------------------------
+      !||    arezon                 ../engine/source/ale/arezon.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||====================================================================
       SUBROUTINE AREZO3_SIG(ALE_CONNECT,SIG,NV,PHI,NDIM,FLUX,
      .                      VOL,IAD22,IXS,ITRIMAT,NEL)
 C-----------------------------------------------

@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTER_MINMAX_NODE             source/interfaces/generic/inter_minmax_node.F
-Chd|-- called by -----------
-Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inter_minmax_node    ../engine/source/interfaces/generic/inter_minmax_node.F
+      !||--- called by ------------------------------------------------------
+      !||    inter_prepare_sort   ../engine/source/interfaces/generic/inter_prepare_sort.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier           ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    inter_sorting_mod    ../engine/share/modules/inter_sorting_mod.F
+      !||    inter_struct_mod     ../engine/share/modules/inter_struct_mod.F
+      !||    message_mod          ../engine/share/message_module/message_mod.F
+      !||====================================================================
         SUBROUTINE INTER_MINMAX_NODE( ITASK,X )
 !$COMMENT
 !       INTER_MINMAX_NODE description :

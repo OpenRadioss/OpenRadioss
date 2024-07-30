@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I11PEN3_VOX1                  source/interfaces/inter3d1/i11pen3.F
-Chd|-- called by -----------
-Chd|        I11STO_VOX1                   source/interfaces/inter3d1/i11sto.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i11pen3_vox1   ../starter/source/interfaces/inter3d1/i11pen3.F
+      !||--- called by ------------------------------------------------------
+      !||    i11sto_vox1    ../starter/source/interfaces/inter3d1/i11sto.F
+      !||====================================================================
       SUBROUTINE I11PEN3_VOX1(JLT   ,CAND_S ,CAND_M ,GAPMIN ,DRAD   ,
      .                        MARGE ,GAP_S  ,GAP_M  ,GAP_S_L,GAP_M_L,
      .                        IGAP  ,X      ,IRECTS ,IRECTM ,PENE   ,
@@ -146,12 +145,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I11PEN3                       source/interfaces/inter3d1/i11pen3.F
-Chd|-- called by -----------
-Chd|        I11STO                        source/interfaces/inter3d1/i11sto.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i11pen3   ../starter/source/interfaces/inter3d1/i11pen3.F
+      !||--- called by ------------------------------------------------------
+      !||    i11sto    ../starter/source/interfaces/inter3d1/i11sto.F
+      !||====================================================================
       SUBROUTINE I11PEN3(JLT   ,CAND_N,CAND_E,GAP   ,X,
      .                  IRECTS  ,IRECTM ,PENE  )
 C-----------------------------------------------

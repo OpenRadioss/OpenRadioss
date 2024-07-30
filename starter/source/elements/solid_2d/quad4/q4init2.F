@@ -20,30 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  Q4INIT2                       source/elements/solid_2d/quad4/q4init2.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ATHERI                        source/ale/atheri.F           
-Chd|        ATURI2                        source/ale/ale2d/aturi2.F     
-Chd|        DTMAIN                        source/materials/time_step/dtmain.F
-Chd|        EDLEN2                        source/ale/ale2d/edlen2.F     
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|        Q4DERI2                       source/elements/solid_2d/quad4/q4deri2.F
-Chd|        Q4RCOOR2                      source/elements/solid_2d/quad4/q4coor2.F
-Chd|        Q4VOLI2                       source/elements/solid_2d/quad4/q4voli2.F
-Chd|        QCOOR2                        source/elements/solid_2d/quad/qcoor2.F
-Chd|        QDLEN2                        source/elements/solid_2d/quad/qdlen2.F
-Chd|        QMASI2                        source/elements/solid_2d/quad/qmasi2.F
-Chd|        QMORTH2                       source/elements/solid_2d/quad/qmorth2.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    q4init2                ../starter/source/elements/solid_2d/quad4/q4init2.F
+      !||--- called by ------------------------------------------------------
+      !||    initia                 ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    atheri                 ../starter/source/ale/atheri.F
+      !||    aturi2                 ../starter/source/ale/ale2d/aturi2.F
+      !||    dtmain                 ../starter/source/materials/time_step/dtmain.F
+      !||    edlen2                 ../starter/source/ale/ale2d/edlen2.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    matini                 ../starter/source/materials/mat_share/matini.F
+      !||    q4deri2                ../starter/source/elements/solid_2d/quad4/q4deri2.F
+      !||    q4rcoor2               ../starter/source/elements/solid_2d/quad4/q4coor2.F
+      !||    q4voli2                ../starter/source/elements/solid_2d/quad4/q4voli2.F
+      !||    qcoor2                 ../starter/source/elements/solid_2d/quad/qcoor2.F
+      !||    qdlen2                 ../starter/source/elements/solid_2d/quad/qdlen2.F
+      !||    qmasi2                 ../starter/source/elements/solid_2d/quad/qmasi2.F
+      !||    qmorth2                ../starter/source/elements/solid_2d/quad/qmorth2.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE Q4INIT2(ELBUF_STR  ,MS       ,IXQ          ,PM         ,X     ,
      2                  DETONATORS  ,GEO      ,VEUL         ,ALE_CONNECTIVITY  ,IPARG ,
      3                  DTELEM      ,SIGI       ,IGEO  ,

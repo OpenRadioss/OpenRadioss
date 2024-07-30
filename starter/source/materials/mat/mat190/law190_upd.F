@@ -20,22 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAW190_UPD_MOD                source/materials/mat/mat190/law190_upd.F
-Chd|-- called by -----------
-Chd|        UPDMAT                        source/materials/updmat.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    law190_upd_mod   ../starter/source/materials/mat/mat190/law190_upd.F
+      !||--- called by ------------------------------------------------------
+      !||    updmat           ../starter/source/materials/updmat.F
+      !||====================================================================
       MODULE LAW190_UPD_MOD
       CONTAINS 
-Chd|====================================================================
-Chd|  LAW190_UPD                    source/materials/mat/mat190/law190_upd.F
-Chd|-- called by -----------
-Chd|        UPDMAT                        source/materials/updmat.F     
-Chd|-- calls ---------------
-Chd|        INTERFACE_TABLE_MOD           share/modules1/table_mod.F    
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    law190_upd            ../starter/source/materials/mat/mat190/law190_upd.F
+      !||--- called by ------------------------------------------------------
+      !||    updmat                ../starter/source/materials/updmat.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_table_mod   ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE LAW190_UPD(MATPARAM ,NUMTABL ,ITABLE   ,TABLE       )
 C----------------------------------------------- 
 C   M o d u l e s

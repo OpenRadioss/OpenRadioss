@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CCURV3                        source/elements/shell/coque/ccurv3.F
-Chd|-- called by -----------
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ccurv3       ../engine/source/elements/shell/coque/ccurv3.F
+      !||--- called by ------------------------------------------------------
+      !||    cforc3       ../engine/source/elements/shell/coque/cforc3.F
+      !||    cforc3_crk   ../engine/source/elements/xfem/cforc3_crk.F
+      !||====================================================================
       SUBROUTINE CCURV3(JFT,JLT,VRL1,VRL2,VRL3,VRL4,
      1   PX1,PX2 ,PY1 ,PY2 ,AREA,
      2   RX1 ,RX2 ,RX3 ,RX4 ,RY1 ,RY2 ,RY3 ,RY4,

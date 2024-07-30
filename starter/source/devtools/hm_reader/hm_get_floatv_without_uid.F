@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_GET_FLOATV_WITHOUT_UID     source/devtools/hm_reader/hm_get_floatv_without_uid.F
-Chd|-- called by -----------
-Chd|        HM_READ_LAGMUL                source/tools/lagmul/hm_read_lagmul.F
-Chd|        HM_READ_SPHGLO                source/general_controls/computation/hm_read_sphglo.F
-Chd|        HM_READ_UNIT                  source/general_controls/computation/hm_read_unit.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_get_floatv_without_uid   ../starter/source/devtools/hm_reader/hm_get_floatv_without_uid.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_lagmul              ../starter/source/tools/lagmul/hm_read_lagmul.F
+      !||    hm_read_sphglo              ../starter/source/general_controls/computation/hm_read_sphglo.F
+      !||    hm_read_unit                ../starter/source/general_controls/computation/hm_read_unit.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                 ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE HM_GET_FLOATV_WITHOUT_UID(NAME,RVAL,IS_AVAILABLE)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

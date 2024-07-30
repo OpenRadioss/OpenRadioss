@@ -20,32 +20,35 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PFORC3                        source/elements/beam/pforc3.F 
-Chd|-- called by -----------
-Chd|        FORINT                        source/elements/forint.F      
-Chd|-- calls ---------------
-Chd|        MAIN_BEAM18                   source/elements/beam/main_beam18.F
-Chd|        MAIN_BEAM3                    source/elements/beam/main_beam3.F
-Chd|        PBILAN                        source/elements/beam/pbilan.F 
-Chd|        PCOOR3                        source/elements/beam/pcoor3.F 
-Chd|        PCURV3                        source/elements/beam/pcurv3.F 
-Chd|        PDAMP3                        source/elements/beam/pdamp3.F 
-Chd|        PDEFO3                        source/elements/beam/pdefo3.F 
-Chd|        PDLEN3                        source/elements/beam/pdlen3.F 
-Chd|        PEVEC3                        source/elements/beam/pevec3.F 
-Chd|        PFCUM3                        source/elements/beam/pfcum3.F 
-Chd|        PFCUM3P                       source/elements/beam/pfcum3p.F
-Chd|        PFINT3                        source/elements/beam/pfint3.F 
-Chd|        PMCUM3                        source/elements/beam/pmcum3.F 
-Chd|        PMCUM3P                       source/elements/beam/pmcum3p.F
-Chd|        PPXPY3                        source/elements/beam/ppxpy3.F 
-Chd|        THERMEXPPG                    source/elements/beam/thermexpp.F
-Chd|        THERMEXPPI                    source/elements/beam/thermexpp.F
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    pforc3              ../engine/source/elements/beam/pforc3.F
+      !||--- called by ------------------------------------------------------
+      !||    forint              ../engine/source/elements/forint.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter              ../engine/source/tools/curve/finter.F
+      !||    main_beam18         ../engine/source/elements/beam/main_beam18.F
+      !||    main_beam3          ../engine/source/elements/beam/main_beam3.F
+      !||    pbilan              ../engine/source/elements/beam/pbilan.F
+      !||    pcoor3              ../engine/source/elements/beam/pcoor3.F
+      !||    pcurv3              ../engine/source/elements/beam/pcurv3.F
+      !||    pdamp3              ../engine/source/elements/beam/pdamp3.F
+      !||    pdefo3              ../engine/source/elements/beam/pdefo3.F
+      !||    pdlen3              ../engine/source/elements/beam/pdlen3.F
+      !||    pevec3              ../engine/source/elements/beam/pevec3.F
+      !||    pfcum3              ../engine/source/elements/beam/pfcum3.F
+      !||    pfcum3p             ../engine/source/elements/beam/pfcum3p.F
+      !||    pfint3              ../engine/source/elements/beam/pfint3.F
+      !||    pmcum3              ../engine/source/elements/beam/pmcum3.F
+      !||    pmcum3p             ../engine/source/elements/beam/pmcum3p.F
+      !||    ppxpy3              ../engine/source/elements/beam/ppxpy3.F
+      !||    preload_axial       ../engine/source/elements/spring/preload_axial.F90
+      !||    thermexppg          ../engine/source/elements/beam/thermexpp.F
+      !||    thermexppi          ../engine/source/elements/beam/thermexpp.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
+      !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
+      !||====================================================================
       SUBROUTINE PFORC3(
      1           ELBUF_STR,JFT      ,JLT      ,NEL      ,
      2           MTN      ,ISMSTR   ,PM       ,NCC      ,

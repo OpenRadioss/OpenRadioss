@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  RAD_SPMD_SEND                 source/mpi/generic/rad_spmd_send.F
-Chd|-- called by -----------
-Chd|        ANISKEWF                      source/output/anim/generate/aniskewf.F
-Chd|        PRINTIME                      source/system/timer.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rad_spmd_send   ../engine/source/mpi/generic/rad_spmd_send.F
+      !||--- called by ------------------------------------------------------
+      !||    aniskewf        ../engine/source/output/anim/generate/aniskewf.F
+      !||    printime        ../engine/source/system/timer.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE RAD_SPMD_SEND(A,SIZ,ISPMD,IT_SPMD,MSGTAG,INTSIZE)
 C routine speciale smp
 C-----------------------------------------------

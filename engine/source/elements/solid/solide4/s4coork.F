@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4COORK                       source/elements/solid/solide4/s4coork.F
-Chd|-- called by -----------
-Chd|        S4KE3                         source/elements/solid/solide4/s4ke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s4coork   ../engine/source/elements/solid/solide4/s4coork.F
+      !||--- called by ------------------------------------------------------
+      !||    s4ke3     ../engine/source/elements/solid/solide4/s4ke3.F
+      !||====================================================================
       SUBROUTINE S4COORK(
      1   X,       IXS,     X1,      X2,
      2   X3,      X4,      Y1,      Y2,

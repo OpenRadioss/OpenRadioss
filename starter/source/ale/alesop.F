@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALESOP                        source/ale/alesop.F           
-Chd|-- called by -----------
-Chd|        ALELEC                        source/ale/alelec.F           
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    alesop                 ../starter/source/ale/alesop.F
+      !||--- called by ------------------------------------------------------
+      !||    alelec                 ../starter/source/ale/alelec.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE ALESOP(NALE,ALE_NN_CONNECT,ICODE,ITAB)
 C-----------------------------------------------
 C   Description

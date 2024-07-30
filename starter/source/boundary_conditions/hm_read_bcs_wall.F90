@@ -25,6 +25,23 @@
 ! ======================================================================================================================
 !! \brief Reader subroutine for option /BCS/WALL
 !! \details
+      !||====================================================================
+      !||    hm_read_bcs_wall     ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../starter/source/output/message/message.F
+      !||    hm_get_floatv        ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    nodgrnr5             ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    sensor_mod           ../starter/share/modules1/sensor_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       subroutine hm_read_bcs_wall(unitab, lsubmodel, igrnod, ngrnod, sensors, itabm1, numnod, multi_fvm)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

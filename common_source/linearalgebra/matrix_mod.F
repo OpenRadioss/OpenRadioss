@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MATRIX_MOD                    linearalgebra/matrix_mod.F    
-Chd|-- called by -----------
-Chd|        SET_MATRIX                    engine/share/modules/linear_solver_mod.F
-Chd|        SET_MATRIX_CG                 engine/share/modules/linear_solver_mod.F
-Chd|        SET_MATRIX_MUMPS              engine/share/modules/linear_solver_mod.F
-Chd|        DIFFUSION_MOD                 engine/share/modules/diffusion_mod.F
-Chd|        LINEAR_SOLVER_MOD             engine/share/modules/linear_solver_mod.F
-Chd|-- calls ---------------
-Chd|        VECTOR_MOD                    linearalgebra/vector_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    matrix_mod          ../common_source/linearalgebra/matrix_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    diffusion_mod       ../engine/share/modules/diffusion_mod.F
+      !||    linear_solver_mod   ../engine/share/modules/linear_solver_mod.F
+      !||    set_matrix          ../engine/share/modules/linear_solver_mod.F
+      !||    set_matrix_cg       ../engine/share/modules/linear_solver_mod.F
+      !||    set_matrix_mumps    ../engine/share/modules/linear_solver_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_dim             ../common_source/linearalgebra/vector_mod.F
+      !||====================================================================
       MODULE MATRIX_MOD
       implicit none
 #include      "my_real.inc"
@@ -56,6 +56,15 @@ Chd|====================================================================
 !     Mat vec prod     !
 !     ************     !
 
+      !||====================================================================
+      !||    prod_vec     ../common_source/linearalgebra/matrix_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    solve_cg     ../engine/share/modules/linear_solver_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_dim      ../common_source/linearalgebra/vector_mod.F
+      !||--- uses       -----------------------------------------------------
+      !||    vector_mod   ../common_source/linearalgebra/vector_mod.F
+      !||====================================================================
       subroutine prod_vec(this, xvec, bvec)
       USE VECTOR_MOD
 C-----------------------------------------------
@@ -81,6 +90,13 @@ C-----------------------------------------------
 !     Get Matrix dimension     !
 !     ********************     !
       
+      !||====================================================================
+      !||    get_dim      ../common_source/linearalgebra/vector_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    matrix_mod   ../common_source/linearalgebra/matrix_mod.F
+      !||    prod_vec     ../common_source/linearalgebra/matrix_mod.F
+      !||    vector_mod   ../common_source/linearalgebra/vector_mod.F
+      !||====================================================================
       function get_dim(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -95,6 +111,9 @@ C-----------------------------------------------
 !     Allocate arrays     !
 !     ***************     !
 
+      !||====================================================================
+      !||    matrix_create   ../common_source/linearalgebra/matrix_mod.F
+      !||====================================================================
       subroutine matrix_create(this, nn)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -110,6 +129,9 @@ C-----------------------------------------------
 !     Free allocated memory     !
 !     *********************     !
 
+      !||====================================================================
+      !||    matrix_destroy   ../common_source/linearalgebra/matrix_mod.F
+      !||====================================================================
       subroutine matrix_destroy(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -125,6 +147,9 @@ C-----------------------------------------------
 !     Pointer association     !
 !     *******************     !
 
+      !||====================================================================
+      !||    matrix_associate   ../common_source/linearalgebra/matrix_mod.F
+      !||====================================================================
       subroutine matrix_associate(this, ptr_irow, ptr_jcol, ptr_val)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

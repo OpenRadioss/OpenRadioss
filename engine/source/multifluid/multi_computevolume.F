@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MULTI_COMPUTEVOLUME           source/multifluid/multi_computevolume.F
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|        MULTI_TIMEEVOLUTION           source/multifluid/multi_timeevolution.F
-Chd|-- calls ---------------
-Chd|        QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
-Chd|        SDERI3                        source/elements/solid/solide/sderi3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    multi_computevolume   ../engine/source/multifluid/multi_computevolume.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain               ../engine/source/ale/alemain.F
+      !||    multi_timeevolution   ../engine/source/multifluid/multi_timeevolution.F
+      !||--- calls      -----------------------------------------------------
+      !||    qvolu2                ../engine/source/elements/solid_2d/quad/qvolu2.F
+      !||    sderi3                ../engine/source/elements/solid/solide/sderi3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE MULTI_COMPUTEVOLUME(NEL, NG, IPARG, SYM, 
      .     ELBUF_TAB, IXS, IXQ, IXTG, VOLNEW, XGRID)
 C-----------------------------------------------

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I6INI3                        source/interfaces/inter3d/i6ini3.F
-Chd|-- called by -----------
-Chd|        I6MAIN                        source/interfaces/inter3d/i6main.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i6ini3   ../engine/source/interfaces/inter3d/i6ini3.F
+      !||--- called by ------------------------------------------------------
+      !||    i6main   ../engine/source/interfaces/inter3d/i6main.F
+      !||====================================================================
       SUBROUTINE I6INI3(ES,EM,NSN,NMN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,28 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4REFSTA3                     source/elements/solid/solide4/s4refsta3.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
-Chd|        S4DEFO3                       source/elements/solid/solide4/s4defo3.F
-Chd|        S4DEFOT3                      source/elements/solid/solide4/s4refsta3.F
-Chd|        S4DERI3                       source/elements/solid/solide4/s4deri3.F
-Chd|        S4ORTH3                       source/elements/solid/solide4/s4orth3.F
-Chd|        S4ORTHT3                      source/elements/solid/solide4/s4orth3.F
-Chd|        S4REPISO3                     source/elements/solid/solide4/s4repiso3.F
-Chd|        S4REPISOT3                    source/elements/solid/solide4/s4repiso3.F
-Chd|        S4ROTA3                       source/elements/solid/solide4/s4rota3.F
-Chd|        S4ROTAT3                      source/elements/solid/solide4/s4rota3.F
-Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
-Chd|        SRHO3                         source/elements/solid/solide/srho3.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s4refsta3      ../starter/source/elements/solid/solide4/s4refsta3.F
+      !||--- called by ------------------------------------------------------
+      !||    initia         ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../starter/source/output/message/message.F
+      !||    fretitl2       ../starter/source/starter/freform.F
+      !||    mmain          ../starter/source/materials/mat_share/mmain.F
+      !||    s4defo3        ../starter/source/elements/solid/solide4/s4defo3.F
+      !||    s4defot3       ../starter/source/elements/solid/solide4/s4refsta3.F
+      !||    s4deri3        ../starter/source/elements/solid/solide4/s4deri3.F
+      !||    s4orth3        ../starter/source/elements/solid/solide4/s4orth3.F
+      !||    s4ortht3       ../starter/source/elements/solid/solide4/s4orth3.F
+      !||    s4repiso3      ../starter/source/elements/solid/solide4/s4repiso3.F
+      !||    s4repisot3     ../starter/source/elements/solid/solide4/s4repiso3.F
+      !||    s4rota3        ../starter/source/elements/solid/solide4/s4rota3.F
+      !||    s4rotat3       ../starter/source/elements/solid/solide4/s4rota3.F
+      !||    sortho3        ../starter/source/elements/solid/solide/sortho3.F
+      !||    srho3          ../starter/source/elements/solid/solide/srho3.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S4REFSTA3(ELBUF_STR,IXS     ,PM     ,GEO     ,IPARG   ,
      .                     IPM      ,IGEO    ,SKEW   ,X      ,XREFS   ,
      .                     NEL      ,IPARTS  ,IPART  ,BUFMAT  ,MAT_PARAM,
@@ -546,12 +546,11 @@ C ======================================================================
       RETURN
       END SUBROUTINE S4REFSTA3
 c
-Chd|====================================================================
-Chd|  S4DEFOT3                      source/elements/solid/solide4/s4refsta3.F
-Chd|-- called by -----------
-Chd|        S4REFSTA3                     source/elements/solid/solide4/s4refsta3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s4defot3    ../starter/source/elements/solid/solide4/s4refsta3.F
+      !||--- called by ------------------------------------------------------
+      !||    s4refsta3   ../starter/source/elements/solid/solide4/s4refsta3.F
+      !||====================================================================
       SUBROUTINE S4DEFOT3(
      .   PX1, PX2, PX3, PX4, PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4, VX1, VX2, VX3, VX4,

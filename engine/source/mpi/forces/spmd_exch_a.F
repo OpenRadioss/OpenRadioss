@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_EXCH_A                   source/mpi/forces/spmd_exch_a.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ACCELERATION_DP_MOD           share/modules/acceleration_dp_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_a           ../engine/source/mpi/forces/spmd_exch_a.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                 ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    acceleration_dp_mod   ../engine/share/modules/acceleration_dp_mod.F
+      !||    h3d_mod               ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_A(
      1   A        ,AR     ,STIFN,STIFR ,MS  ,
      2   IAD_ELEM ,FR_ELEM,MSNF ,IFSUBM,SIZE,

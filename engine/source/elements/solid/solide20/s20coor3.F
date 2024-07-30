@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S20COOR3                      source/elements/solid/solide20/s20coor3.F
-Chd|-- called by -----------
-Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
-Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s20coor3   ../engine/source/elements/solid/solide20/s20coor3.F
+      !||--- called by ------------------------------------------------------
+      !||    s16forc3   ../engine/source/elements/thickshell/solide16/s16forc3.F
+      !||    s20forc3   ../engine/source/elements/solid/solide20/s20forc3.F
+      !||====================================================================
       SUBROUTINE S20COOR3(
      1   X,       IXS,     IXSP,    V,
      2   W,       IPERM1,  IPERM2,  NPE,

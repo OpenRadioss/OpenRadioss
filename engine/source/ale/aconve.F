@@ -20,29 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ACONVE                        source/ale/aconve.F           
-Chd|-- called by -----------
-Chd|        ALETHE                        source/ale/alethe.F           
-Chd|-- calls ---------------
-Chd|        A22CONV3                      source/ale/alefvm/cut_cells/a22conv3.F
-Chd|        A4CONV3                       source/ale/ale3d/a4conv3.F    
-Chd|        ACONV2                        source/ale/ale2d/aconv2.F     
-Chd|        ACONV3                        source/ale/ale3d/aconv3.F     
-Chd|        BCONV2                        source/ale/ale2d/bconv2.F     
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_E1VOIS                   source/mpi/fluid/spmd_cfd.F   
-Chd|        VARCONDEC                     source/interfaces/interf/varcondec.F
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    aconve                 ../engine/source/ale/aconve.F
+      !||--- called by ------------------------------------------------------
+      !||    alethe                 ../engine/source/ale/alethe.F
+      !||--- calls      -----------------------------------------------------
+      !||    a22conv3               ../engine/source/ale/alefvm/cut_cells/a22conv3.F
+      !||    a4conv3                ../engine/source/ale/ale3d/a4conv3.F
+      !||    aconv2                 ../engine/source/ale/ale2d/aconv2.F
+      !||    aconv3                 ../engine/source/ale/ale3d/aconv3.F
+      !||    bconv2                 ../engine/source/ale/ale2d/bconv2.F
+      !||    initbuf                ../engine/share/resol/initbuf.F
+      !||    my_barrier             ../engine/source/system/machine.F
+      !||    nvar                   ../engine/source/input/nvar.F
+      !||    spmd_e1vois            ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    varcondec              ../engine/source/interfaces/interf/varcondec.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    ale_mod                ../common_source/modules/ale/ale_mod.F
+      !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    segvar_mod             ../engine/share/modules/segvar_mod.F
+      !||====================================================================
       SUBROUTINE ACONVE(
      1  IPARG       ,ELBUF_TAB ,FLUX    ,FLU1     ,PHI     ,
      2  ALE_CONNECT ,NVAR      ,ITASK   ,NERCVOIS ,NESDVOIS,

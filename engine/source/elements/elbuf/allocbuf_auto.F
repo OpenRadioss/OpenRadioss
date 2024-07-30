@@ -20,16 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALLOCBUF_AUTO                 source/elements/elbuf/allocbuf_auto.F
-Chd|-- called by -----------
-Chd|        ELBUF_INI                     source/elements/elbuf/elbuf_ini.F
-Chd|-- calls ---------------
-Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
-Chd|        READ_DPDB                     ../common_source/tools/input_output/read_db.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    allocbuf_auto   ../engine/source/elements/elbuf/allocbuf_auto.F
+      !||--- called by ------------------------------------------------------
+      !||    elbuf_ini       ../engine/source/elements/elbuf/elbuf_ini.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar            ../engine/source/input/nvar.F
+      !||    read_db         ../common_source/tools/input_output/read_db.F
+      !||    read_dpdb       ../common_source/tools/input_output/read_db.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    h3d_inc_mod     ../engine/share/modules/h3d_inc_mod.F
+      !||====================================================================
       SUBROUTINE ALLOCBUF_AUTO(ELBUF_STR,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,ISOLNOD)
 C-----------------------------------------------
 C   M o d u l e s

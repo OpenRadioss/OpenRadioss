@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10DVM12                      source/elements/solid/solide10/s10dvm12.F
-Chd|-- called by -----------
-Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s10dvm12   ../engine/source/elements/solid/solide10/s10dvm12.F
+      !||--- called by ------------------------------------------------------
+      !||    s10forc3   ../engine/source/elements/solid/solide10/s10forc3.F
+      !||====================================================================
       SUBROUTINE S10DVM12(
      .   PX, PY, PZ, VX, VY, VZ, 
      .   DVM ,OFFG,NPT ,NEL)

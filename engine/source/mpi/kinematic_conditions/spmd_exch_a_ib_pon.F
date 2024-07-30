@@ -21,11 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_EXCH_A_IB_PON            source/mpi/kinematic_conditions/spmd_exch_a_ib_pon.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_a_ib_pon   ../engine/source/mpi/kinematic_conditions/spmd_exch_a_ib_pon.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_A_IB_PON(
      1   LBVRS,FR_RBM  ,IAD_RBM,FSKYRBM,LSEND ,
      2   LRECV,LSKYRBMG)

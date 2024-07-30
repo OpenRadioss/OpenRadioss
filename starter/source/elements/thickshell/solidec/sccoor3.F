@@ -20,15 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCCOOR3                       source/elements/thickshell/solidec/sccoor3.F
-Chd|-- called by -----------
-Chd|        SCINIT3                       source/elements/thickshell/solidec/scinit3.F
-Chd|-- calls ---------------
-Chd|        MOD_CLOSE                     source/elements/solid/solide/mod_close.F
-Chd|        SCORTHO3                      source/elements/thickshell/solidec/scortho3.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sccoor3          ../starter/source/elements/thickshell/solidec/sccoor3.F
+      !||--- called by ------------------------------------------------------
+      !||    scinit3          ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    checkvolume_8n   ../starter/source/elements/solid/solide/checksvolume.F
+      !||    mod_close        ../starter/source/elements/solid/solide/mod_close.F
+      !||    scortho3         ../starter/source/elements/thickshell/solidec/scortho3.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SCCOOR3(
      .         X    ,IXS  ,GEO  ,MXT  ,NGEO ,NGL  ,                    
      .         IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8  ,

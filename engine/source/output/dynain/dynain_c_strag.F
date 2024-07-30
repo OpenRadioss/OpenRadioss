@@ -20,23 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DYNAIN_C_STRAG                source/output/dynain/dynain_c_strag.F
-Chd|-- called by -----------
-Chd|        GENDYNAIN                     source/output/dynain/gendynain.F
-Chd|-- calls ---------------
-Chd|        GET_Q4L                       source/output/sta/stat_c_strafg.F
-Chd|        GET_T3L                       source/output/sta/stat_c_strafg.F
-Chd|        LAYINI                        source/elements/shell/coque/layini.F
-Chd|        SHELL2G                       source/output/sta/stat_c_strafg.F
-Chd|        SPMD_RGATHER9_DP              source/mpi/interfaces/spmd_outp.F
-Chd|        SPMD_STAT_PGATHER             source/mpi/output/spmd_stat.F 
-Chd|        STRS_TXT50                    source/output/sta/sta_txt.F   
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dynain_c_strag      ../engine/source/output/dynain/dynain_c_strag.F
+      !||--- called by ------------------------------------------------------
+      !||    gendynain           ../engine/source/output/dynain/gendynain.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_q4l             ../engine/source/output/sta/stat_c_strafg.F
+      !||    get_t3l             ../engine/source/output/sta/stat_c_strafg.F
+      !||    layini              ../engine/source/elements/shell/coque/layini.F
+      !||    shell2g             ../engine/source/output/sta/stat_c_strafg.F
+      !||    spmd_rgather9_dp    ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
+      !||    strs_txt50          ../engine/source/output/sta/sta_txt.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod           ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    stack_mod           ../engine/share/modules/stack_mod.F
+      !||    state_mod           ../common_source/modules/state_mod.F
+      !||====================================================================
       SUBROUTINE DYNAIN_C_STRAG(
      1                  ELBUF_TAB  ,IPARG     ,IPM        ,IGEO  ,IXC    ,
      2                  IXTG       ,WA        ,WAP0       ,IPARTC,IPARTTG,

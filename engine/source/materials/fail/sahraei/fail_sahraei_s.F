@@ -20,14 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_SAHRAEI_S                source/materials/fail/sahraei/fail_sahraei_s.F
-Chd|-- called by -----------
-Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
-Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_sahraei_s   ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain            ../engine/source/materials/mat_share/mmain.F90
+      !||    mulaw            ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8           ../engine/source/materials/mat_share/mulaw8.F
+      !||    usermat_solid    ../engine/source/materials/mat_share/usermat_solid.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter           ../engine/source/tools/curve/finter.F
+      !||====================================================================
       SUBROUTINE FAIL_SAHRAEI_S(
      1     NEL   ,NFUNC ,IFUNC ,NPF   ,TF     ,
      2     TIME  ,NGL   ,UPARAM ,

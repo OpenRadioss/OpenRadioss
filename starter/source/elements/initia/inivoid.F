@@ -20,38 +20,39 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIVOID                       source/elements/initia/inivoid.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        C3COORI                       source/elements/sh3n/coque3n/c3coori.F
-Chd|        C3EVEC3                       source/elements/sh3n/coque3n/c3evec3.F
-Chd|        C3INMAS                       source/elements/sh3n/coque3n/c3inmas.F
-Chd|        C3VEOK3                       source/elements/sh3n/coque3n/c3veok3.F
-Chd|        CCOORI                        source/elements/shell/coque/ccoori.F
-Chd|        CEVECI                        source/elements/shell/coque/ceveci.F
-Chd|        CINMAS                        source/elements/shell/coque/cinmas.F
-Chd|        CVEOK3                        source/elements/shell/coque/cveok3.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        PCOORI                        source/elements/beam/pcoori.F 
-Chd|        PMASS                         source/elements/beam/pmass.F  
-Chd|        R23MASS                       source/elements/spring/rmass.F
-Chd|        S4COOR3                       source/elements/solid/solide4/s4coor3.F
-Chd|        S4DERI3                       source/elements/solid/solide4/s4deri3.F
-Chd|        S4MASS3                       source/elements/solid/solide4/s4mass3.F
-Chd|        SBULK3                        source/elements/solid/solide/sbulk3.F
-Chd|        SCOOR3                        source/elements/solid/solide/scoor3.F
-Chd|        SDERI3                        source/elements/solid/solide/sderi3.F
-Chd|        SDLEN3                        source/elements/solid/solide/sdlen3.F
-Chd|        SMASS3                        source/elements/solid/solide/smass3.F
-Chd|        TCOORI                        source/elements/truss/tcoori.F
-Chd|        TMASS                         source/elements/truss/tmass.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    inivoid        ../starter/source/elements/initia/inivoid.F
+      !||--- called by ------------------------------------------------------
+      !||    initia         ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../starter/source/output/message/message.F
+      !||    c3coori        ../starter/source/elements/sh3n/coque3n/c3coori.F
+      !||    c3evec3        ../starter/source/elements/sh3n/coque3n/c3evec3.F
+      !||    c3inmas        ../starter/source/elements/sh3n/coque3n/c3inmas.F
+      !||    c3veok3        ../starter/source/elements/sh3n/coque3n/c3veok3.F
+      !||    ccoori         ../starter/source/elements/shell/coque/ccoori.F
+      !||    ceveci         ../starter/source/elements/shell/coque/ceveci.F
+      !||    cinmas         ../starter/source/elements/shell/coque/cinmas.F
+      !||    cveok3         ../starter/source/elements/shell/coque/cveok3.F
+      !||    fretitl2       ../starter/source/starter/freform.F
+      !||    pcoori         ../starter/source/elements/beam/pcoori.F
+      !||    pmass          ../starter/source/elements/beam/pmass.F
+      !||    r23mass        ../starter/source/elements/spring/rmass.F
+      !||    s4coor3        ../starter/source/elements/solid/solide4/s4coor3.F
+      !||    s4deri3        ../starter/source/elements/solid/solide4/s4deri3.F
+      !||    s4mass3        ../starter/source/elements/solid/solide4/s4mass3.F
+      !||    sbulk3         ../starter/source/elements/solid/solide/sbulk3.F
+      !||    scoor3         ../starter/source/elements/solid/solide/scoor3.F
+      !||    sderi3         ../starter/source/elements/solid/solide/sderi3.F
+      !||    sdlen3         ../starter/source/elements/solid/solide/sdlen3.F
+      !||    smass3         ../starter/source/elements/solid/solide/smass3.F
+      !||    tcoori         ../starter/source/elements/truss/tcoori.F
+      !||    tmass          ../starter/source/elements/truss/tmass.F
+      !||--- uses       -----------------------------------------------------
+      !||    defaults_mod   ../starter/source/modules/defaults_mod.F90
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    stack_mod      ../starter/share/modules1/stack_mod.F
+      !||====================================================================
       SUBROUTINE INIVOID(ELBUF_STR   ,
      +                   IXC    ,IXS    ,IXTG   ,X      ,V      ,
      1                   PM     ,GEO    ,MS     ,IN     ,PTG    ,

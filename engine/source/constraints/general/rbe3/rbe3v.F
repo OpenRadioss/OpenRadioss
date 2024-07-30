@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RBE3V                         source/constraints/general/rbe3/rbe3v.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        PRERBE3                       source/constraints/general/rbe3/rbe3f.F
-Chd|        RBE3CL                        source/constraints/general/rbe3/rbe3f.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe3v     ../engine/source/constraints/general/rbe3/rbe3v.F
+      !||--- called by ------------------------------------------------------
+      !||    resol     ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    prerbe3   ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3cl    ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||====================================================================
       SUBROUTINE RBE3V(IRBE3 ,LRBE3 ,X    ,A     ,AR    ,
      1                 V     ,VR    ,FRBE3,SKEW  )
 C-----------------------------------------------
@@ -121,14 +121,14 @@ C
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE3_IMPD                     source/constraints/general/rbe3/rbe3v.F
-Chd|-- called by -----------
-Chd|        RECUKIN                       source/implicit/recudis.F     
-Chd|-- calls ---------------
-Chd|        PRERBE3                       source/constraints/general/rbe3/rbe3f.F
-Chd|        RBE3CL                        source/constraints/general/rbe3/rbe3f.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe3_impd   ../engine/source/constraints/general/rbe3/rbe3v.F
+      !||--- called by ------------------------------------------------------
+      !||    recukin     ../engine/source/implicit/recudis.F
+      !||--- calls      -----------------------------------------------------
+      !||    prerbe3     ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3cl      ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||====================================================================
       SUBROUTINE RBE3_IMPD(IRBE3 ,LRBE3 ,X    ,D     ,DR    ,
      1                     FRBE3 ,SKEW  )
 C-----------------------------------------------
@@ -213,13 +213,12 @@ C
 C---
       RETURN
       END
-Chd|====================================================================
-Chd|  RBE3_FRD                      source/constraints/general/rbe3/rbe3v.F
-Chd|-- called by -----------
-Chd|        FR_U2DD                       source/mpi/implicit/imp_fri.F 
-Chd|        IMP3_U2X                      source/airbag/monv_imp0.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rbe3_frd   ../engine/source/constraints/general/rbe3/rbe3v.F
+      !||--- called by ------------------------------------------------------
+      !||    fr_u2dd    ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp3_u2x   ../engine/source/airbag/monv_imp0.F
+      !||====================================================================
       SUBROUTINE RBE3_FRD(NML    ,IML    ,NS    ,D     ,DR    ,
      1                    FDSTNB ,MDSTNB ,JT    ,JR    ,IROT  )
 C-----------------------------------------------

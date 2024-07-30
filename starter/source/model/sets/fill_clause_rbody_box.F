@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FILL_CLAUSE_RBODY_BOX         source/model/sets/fill_clause_rbody_box.F
-Chd|-- called by -----------
-Chd|        CREATE_RBODY_BOX              source/model/sets/create_rbody_box.F
-Chd|-- calls ---------------
-Chd|        SET_MERGE_SIMPLE              source/model/sets/set_merge_simple.F
-Chd|        SIMPLE_RBODY_BOX              source/model/sets/simple_rbody_box.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fill_clause_rbody_box   ../starter/source/model/sets/fill_clause_rbody_box.F
+      !||--- called by ------------------------------------------------------
+      !||    create_rbody_box        ../starter/source/model/sets/create_rbody_box.F
+      !||--- calls      -----------------------------------------------------
+      !||    rbody_box               ../starter/source/model/sets/fill_clause_rbody_box.F
+      !||    set_merge_simple        ../starter/source/model/sets/set_merge_simple.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE FILL_CLAUSE_RBODY_BOX( IBOX   ,X  ,SKEW  ,SET_TITLE ,KEYSET,
      *                                 BOXLIST, BOXLIST_SIZE,
      *                                 BOXNDS, SZ_BOXNDS     ,RBY_MSN)
@@ -103,6 +103,16 @@ C-------
       END
 
 
+      !||====================================================================
+      !||    rbody_box               ../starter/source/model/sets/fill_clause_rbody_box.F
+      !||--- called by ------------------------------------------------------
+      !||    fill_clause_rbody_box   ../starter/source/model/sets/fill_clause_rbody_box.F
+      !||--- calls      -----------------------------------------------------
+      !||    set_merge_simple        ../starter/source/model/sets/set_merge_simple.F
+      !||    simple_rbody_box        ../starter/source/model/sets/simple_rbody_box.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||====================================================================
       RECURSIVE SUBROUTINE RBODY_BOX( IB  ,
      *                     IBOX ,X  ,SKEW  ,SET_TITLE ,KEYSET,
      *                     BOXNDS, SZ_BOXNDS,RBY_MSN)

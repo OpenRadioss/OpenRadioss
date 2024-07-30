@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  INIT_MID_PID_ARRAY            source/spmd/tools/init_mid_pid_array.F
-Chd|-- called by -----------
-Chd|        INITWG                        source/spmd/domain_decomposition/initwg.F
-Chd|-- calls ---------------
-Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    init_mid_pid_array   ../starter/source/spmd/tools/init_mid_pid_array.F
+      !||--- called by ------------------------------------------------------
+      !||    initwg               ../starter/source/spmd/domain_decomposition/initwg.F
+      !||--- uses       -----------------------------------------------------
+      !||    mid_pid_mod          ../starter/share/modules1/mid_pid_mod.F
+      !||====================================================================
         SUBROUTINE INIT_MID_PID_ARRAY(MODE           ,TAILLE       ,NUMMAT     ,NPART  ,CONCORDANCE_MAT,
      1                                TAB_UMP        ,PID_SHELL    ,PID_TRI    ,PID_SOL,
      2                                MID_PID_SHELL  ,MID_PID_TRI  ,MID_PID_SOL,

@@ -21,24 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  INCOQ3                        source/interfaces/inter3d1/incoq3.F
-Chd|-- called by -----------
-Chd|        I1CHK3                        source/interfaces/inter3d1/i1chk3.F
-Chd|        I20STI3                       source/interfaces/inter3d1/i20sti3.F
-Chd|        I21ELS3                       source/interfaces/inter3d1/i21els3.F
-Chd|        I23GAP3                       source/interfaces/inter3d1/i23gap3.F
-Chd|        I24GAPM                       source/interfaces/inter3d1/i24sti3.F
-Chd|        I25GAPM                       source/interfaces/inter3d1/i25sti3.F
-Chd|        I2BUC1                        source/interfaces/inter3d1/i2buc1.F
-Chd|        I2CHK3                        source/interfaces/inter3d1/i2chk3.F
-Chd|        I2COR3                        source/interfaces/inter3d1/i2cor3.F
-Chd|        I3STI3                        source/interfaces/inter3d1/i3sti3.F
-Chd|        I7STI3                        source/interfaces/inter3d1/i7sti3.F
-Chd|        ININTR_ORTHDIRFRIC            source/interfaces/interf1/inintr_orthdirfric.F
-Chd|        R2R_COUNT                     source/coupling/rad2rad/r2r_count.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    incoq3               ../starter/source/interfaces/inter3d1/incoq3.F
+      !||--- called by ------------------------------------------------------
+      !||    i1chk3               ../starter/source/interfaces/inter3d1/i1chk3.F
+      !||    i20sti3              ../starter/source/interfaces/inter3d1/i20sti3.F
+      !||    i21els3              ../starter/source/interfaces/inter3d1/i21els3.F
+      !||    i23gap3              ../starter/source/interfaces/inter3d1/i23gap3.F
+      !||    i24gapm              ../starter/source/interfaces/inter3d1/i24sti3.F
+      !||    i25gapm              ../starter/source/interfaces/inter3d1/i25sti3.F
+      !||    i2buc1               ../starter/source/interfaces/inter3d1/i2buc1.F
+      !||    i2chk3               ../starter/source/interfaces/inter3d1/i2chk3.F
+      !||    i2cor3               ../starter/source/interfaces/inter3d1/i2cor3.F
+      !||    i3sti3               ../starter/source/interfaces/inter3d1/i3sti3.F
+      !||    i7sti3               ../starter/source/interfaces/inter3d1/i7sti3.F
+      !||    inintr_orthdirfric   ../starter/source/interfaces/interf1/inintr_orthdirfric.F
+      !||    r2r_count            ../starter/source/coupling/rad2rad/r2r_count.F
+      !||====================================================================
       SUBROUTINE INCOQ3(IRECT ,IXC ,IXTG ,NINT ,NEL      ,
      .                  NELTG ,IS  ,GEO  ,PM   ,KNOD2ELC ,
      .              KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,NTY,

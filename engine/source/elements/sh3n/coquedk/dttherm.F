@@ -22,17 +22,16 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 
-Chd|====================================================================
-Chd|  DTTHERM                       source/elements/sh3n/coquedk/dttherm.F
-Chd|-- called by -----------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|        CDK6FORC3                     source/elements/sh3n/coquedk6/cdk6forc3.F
-Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dttherm     ../engine/source/elements/sh3n/coquedk/dttherm.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3     ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||    cbaforc3    ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||    cdk6forc3   ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+      !||    cdkforc3    ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+      !||    cforc3      ../engine/source/elements/shell/coque/cforc3.F
+      !||    czforc3     ../engine/source/elements/shell/coquez/czforc3.F
+      !||====================================================================
       SUBROUTINE DTTHERM(
      1   JFT,     JLT,     PM,      T,
      2   RE,      RHO,     RK,      VOL,

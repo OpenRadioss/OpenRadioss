@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  AIRBAGB1                      source/airbag/airbagb1.F      
-Chd|-- called by -----------
-Chd|        MONVOL0                       source/airbag/monvol0.F       
-Chd|-- calls ---------------
-Chd|        PORFOR4                       source/airbag/porfor4.F       
-Chd|        PORFOR5                       source/airbag/porfor5.F       
-Chd|        PORFOR6                       source/airbag/porfor6.F       
-Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|        GET_U_FUNC                    source/user_interface/ufunc.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    airbagb1        ../engine/source/airbag/airbagb1.F
+      !||--- called by ------------------------------------------------------
+      !||    monvol0         ../engine/source/airbag/monvol0.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_u_func      ../engine/source/user_interface/ufunc.F
+      !||    porfor4         ../engine/source/airbag/porfor4.F
+      !||    porfor5         ../engine/source/airbag/porfor5.F
+      !||    porfor6         ../engine/source/airbag/porfor6.F
+      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+      !||    sum_6_float     ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||====================================================================
       SUBROUTINE AIRBAGB1(
      1                 IVOLU   ,ICBAG   ,NJET     ,IBAGJET ,NVENT   , 
      2                 IBAGHOL ,RVOLU   ,RVOLUV   ,RCBAG   ,RBAGJET , 

@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAW88_UPD                     source/materials/mat/mat088/law88_upd.F
-Chd|-- called by -----------
-Chd|        UPDMAT                        source/materials/updmat.F     
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        FUNC_INTERS                   source/tools/curve/func_inters.F
-Chd|        FUNC_INTERS_C                 source/tools/curve/func_inters.F
-Chd|        FUNC_SLOPE                    source/tools/curve/func_slope.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    law88_upd       ../starter/source/materials/mat/mat088/law88_upd.F
+      !||--- called by ------------------------------------------------------
+      !||    updmat          ../starter/source/materials/updmat.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../starter/source/output/message/message.F
+      !||    arret           ../starter/source/system/arret.F
+      !||    func_inters     ../starter/source/tools/curve/func_inters.F
+      !||    func_inters_c   ../starter/source/tools/curve/func_inters.F
+      !||    func_slope      ../starter/source/tools/curve/func_slope.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    table_mod       ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE LAW88_UPD(IOUT   ,TITR   ,UPARAM ,NPC    ,PLD    ,  
      .                     NFUNC  ,IFUNC  ,MAT_ID ,FUNC_ID,PM     ,
      .                     NFUNCT )

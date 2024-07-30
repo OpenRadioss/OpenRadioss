@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIMPLE_ELT_BOX                source/model/sets/simpl_elt_box.F
-Chd|-- called by -----------
-Chd|        FILL_CLAUSE_ELT_BOX           source/model/sets/fill_clause_elt_box.F
-Chd|-- calls ---------------
-Chd|        CHECKCYL                      source/model/box/rdbox.F      
-Chd|        CHECKPARA                     source/model/box/rdbox.F      
-Chd|        CHECKSPHERE                   source/model/box/rdbox.F      
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    simple_elt_box   ../starter/source/model/sets/simpl_elt_box.F
+      !||--- called by ------------------------------------------------------
+      !||    elt_box          ../starter/source/model/sets/fill_clause_elt_box.F
+      !||--- calls      -----------------------------------------------------
+      !||    checkcyl         ../starter/source/model/box/rdbox.F
+      !||    checkpara        ../starter/source/model/box/rdbox.F
+      !||    checksphere      ../starter/source/model/box/rdbox.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SIMPLE_ELT_BOX(
      .                    IBOX    ,X      ,SKEW     ,IB      ,ELT_ARRAY,
      .                    ELT_SIZE,NIX    ,IX       ,NIX1    ,IPARTE   ,

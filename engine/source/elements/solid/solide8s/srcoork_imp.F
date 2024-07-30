@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8SCOORK_IMP                  source/elements/solid/solide8s/srcoork_imp.F
-Chd|-- called by -----------
-Chd|        S8SKE3                        source/elements/solid/solide8s/s8ske3.F
-Chd|-- calls ---------------
-Chd|        CRTRANS_IMP                   source/elements/solid/solide8s/crtrans_imp.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8scoork_imp   ../engine/source/elements/solid/solide8s/srcoork_imp.F
+      !||--- called by ------------------------------------------------------
+      !||    s8ske3         ../engine/source/elements/solid/solide8s/s8ske3.F
+      !||--- calls      -----------------------------------------------------
+      !||    crtrans_imp    ../engine/source/elements/solid/solide8s/crtrans_imp.F
+      !||====================================================================
       SUBROUTINE S8SCOORK_IMP(X,IXS,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,

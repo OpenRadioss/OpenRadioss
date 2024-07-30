@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_BOX_LIMIT_REDUCTION      source/mpi/interfaces/spmd_box_limit_reduction.F
-Chd|-- called by -----------
-Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
-Chd|-- calls ---------------
-Chd|        SPMD_ALLREDUCE_DB             source/mpi/generic/spmd_allreduce_db.F
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_box_limit_reduction   ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
+      !||--- called by ------------------------------------------------------
+      !||    inter_prepare_sort         ../engine/source/interfaces/generic/inter_prepare_sort.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_allreduce_db          ../engine/source/mpi/generic/spmd_allreduce_db.F
+      !||--- uses       -----------------------------------------------------
+      !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
+      !||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
+      !||====================================================================
         SUBROUTINE SPMD_BOX_LIMIT_REDUCTION(NB_INTER_SORTED)
 !$COMMENT
 !       SPMD_GRID_LIMIT_REDUCTION description :

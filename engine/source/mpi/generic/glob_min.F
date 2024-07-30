@@ -22,11 +22,9 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 C==========================================================================
-Chd|====================================================================
-Chd|  GLOB_MIN                      source/mpi/generic/glob_min.F 
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    glob_min   ../engine/source/mpi/generic/glob_min.F
+      !||====================================================================
       SUBROUTINE GLOB_MIN(RIN,RINOUT,LEN,TYPE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

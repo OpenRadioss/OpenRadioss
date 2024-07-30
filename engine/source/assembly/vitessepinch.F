@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  VITESSEPINCH                  source/assembly/vitessepinch.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    vitessepinch    ../engine/source/assembly/vitessepinch.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    pinchtype_mod   ../common_source/modules/pinchtype_mod.F
+      !||====================================================================
       SUBROUTINE VITESSEPINCH(
      1                        APINCH  ,  VPINCH,
      2                        NODFT   ,  NODLT )

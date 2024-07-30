@@ -20,17 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_BEAM3                    source/elements/beam/fail_beam3.F
-Chd|-- called by -----------
-Chd|        MAIN_BEAM3                    source/elements/beam/main_beam3.F
-Chd|-- calls ---------------
-Chd|        FAIL_BIQUAD_B                 source/materials/fail/biquad/fail_biquad_b.F
-Chd|        FAIL_ENERGY_B                 source/materials/fail/energy/fail_energy_b.F
-Chd|        FAIL_JOHNSON_B                source/materials/fail/johnson_cook/fail_johnson_b.F
-Chd|        FAIL_TENSSTRAIN_B             source/materials/fail/tensstrain/fail_tensstrain_b.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_beam3          ../engine/source/elements/beam/fail_beam3.F
+      !||--- called by ------------------------------------------------------
+      !||    main_beam3          ../engine/source/elements/beam/main_beam3.F
+      !||--- calls      -----------------------------------------------------
+      !||    fail_biquad_b       ../engine/source/materials/fail/biquad/fail_biquad_b.F
+      !||    fail_energy_b       ../engine/source/materials/fail/energy/fail_energy_b.F
+      !||    fail_johnson_b      ../engine/source/materials/fail/johnson_cook/fail_johnson_b.F
+      !||    fail_tensstrain_b   ../engine/source/materials/fail/tensstrain/fail_tensstrain_b.F
+      !||    nvar                ../engine/source/input/nvar.F
+      !||--- uses       -----------------------------------------------------
+      !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||====================================================================
       SUBROUTINE FAIL_BEAM3(ELBUF_STR    ,FAIL    ,NUMMAT  ,
      .                  NPROPM  ,SNPC    ,STF     ,
      .                  NEL     ,IMAT    ,JTHE    ,DPLA    ,

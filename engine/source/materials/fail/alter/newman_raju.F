@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NEWMAN_RAJU                   source/materials/fail/alter/newman_raju.F
-Chd|-- called by -----------
-Chd|        BROKMANN_CRACK_INIT           source/materials/fail/alter/brokmann_crack_init.F
-Chd|        FAIL_BROKMANN                 source/materials/fail/alter/fail_brokmann.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    newman_raju           ../engine/source/materials/fail/alter/newman_raju.F
+      !||--- called by ------------------------------------------------------
+      !||    brokmann_crack_init   ../engine/source/materials/fail/alter/brokmann_crack_init.F
+      !||    fail_brokmann         ../engine/source/materials/fail/alter/fail_brokmann.F
+      !||====================================================================
       SUBROUTINE NEWMAN_RAJU(C,A,T,B,FPI,Y)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

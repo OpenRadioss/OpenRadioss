@@ -22,12 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C==========================================================================
 C==========================================================================
-Chd|====================================================================
-Chd|  SPMD_GLOB_MINV                source/mpi/generic/spmd_glob_minv.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_glob_minv        ../engine/source/mpi/generic/spmd_glob_minv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                 ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_GLOB_MINV(DT2,ITYPTS,NELTS,VOLMON, FR_MV)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

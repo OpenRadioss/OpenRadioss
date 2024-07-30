@@ -20,17 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS120                     source/materials/mat/mat120/sigeps120.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SIGEPS120_DP                  source/materials/mat/mat120/sigeps120_dp.F
-Chd|        SIGEPS120_TAB_DP              source/materials/mat/mat120/sigeps120_tab_dp.F
-Chd|        SIGEPS120_TAB_VM              source/materials/mat/mat120/sigeps120_tab_vm.F
-Chd|        SIGEPS120_VM                  source/materials/mat/mat120/sigeps120_vm.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps120             ../engine/source/materials/mat/mat120/sigeps120.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
+      !||--- calls      -----------------------------------------------------
+      !||    sigeps120_dp          ../engine/source/materials/mat/mat120/sigeps120_dp.F
+      !||    sigeps120_tab_dp      ../engine/source/materials/mat/mat120/sigeps120_tab_dp.F
+      !||    sigeps120_tab_vm      ../engine/source/materials/mat/mat120/sigeps120_tab_vm.F
+      !||    sigeps120_vm          ../engine/source/materials/mat/mat120/sigeps120_vm.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    table_mod             ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE SIGEPS120(
      1           NEL     ,NUPARAM ,NUVAR   ,NVARTMP ,NUMTABL ,ITABLE  ,
      2           TABLE   ,TIME    ,TIMESTEP,SOUNDSP ,UVAR    ,VARTMP  ,

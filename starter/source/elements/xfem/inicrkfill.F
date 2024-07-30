@@ -20,16 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INICRKFILL                    source/elements/xfem/inicrkfill.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        LSLOCAL                       source/elements/xfem/lslocal.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inicrkfill      ../starter/source/elements/xfem/inicrkfill.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur          ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    lslocal         ../starter/source/elements/xfem/lslocal.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INICRKFILL(ELBUF_TAB,XFEM_TAB,
      .                      IXC      ,IXTG   ,IPARG    ,INICRACK,
      .                      X        ,IEL_CRK,INOD_CRK ,XREFC  ,XREFTG  ,

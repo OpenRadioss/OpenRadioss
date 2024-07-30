@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_GET_STIF25_EDG           source/mpi/interfaces/spmd_getstif25_edg.F
-Chd|-- called by -----------
-Chd|        I25MAIN_FREE                  source/interfaces/intsort/i25main_free.F
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_get_stif25_edg   ../engine/source/mpi/interfaces/spmd_getstif25_edg.F
+      !||--- called by ------------------------------------------------------
+      !||    i25main_free          ../engine/source/interfaces/intsort/i25main_free.F
+      !||    inttri                ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    tri25ebox             ../engine/share/modules/tri25ebox.F
+      !||    tri7box               ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_GET_STIF25_EDG(
      .    STFE,    NEDGE, LEDGE,
      .    NIN ,  ISENDTO, IRCVFROM, COMM, RANK, COMSIZE)

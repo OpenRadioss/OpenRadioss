@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CM58_REFSTA                   source/materials/mat/mat058/cm58_refsta.F
-Chd|-- called by -----------
-Chd|        CMLAWI                        source/elements/shell/coque/cepsini.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    cm58_refsta   ../starter/source/materials/mat/mat058/cm58_refsta.F
+      !||--- called by ------------------------------------------------------
+      !||    cmlawi        ../starter/source/elements/shell/coque/cepsini.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter        ../starter/source/tools/curve/finter.F
+      !||====================================================================
       SUBROUTINE CM58_REFSTA(NEL    ,NUPARAM,NIPARAM,UPARAM ,IPARAM ,
      2                       FOR    ,EINT   ,GSTR   ,
      3                       THK    ,DIR1   ,DIR2   ,NUVAR  ,UVAR   ,

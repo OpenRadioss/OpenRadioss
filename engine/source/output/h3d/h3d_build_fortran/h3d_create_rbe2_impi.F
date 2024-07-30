@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_CREATE_RBE2_IMPI          source/output/h3d/h3d_build_fortran/h3d_create_rbe2_impi.F
-Chd|-- called by -----------
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|-- calls ---------------
-Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_create_rbe2_impi     ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbe2_impi.F
+      !||--- called by ------------------------------------------------------
+      !||    genh3d                   ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||--- calls      -----------------------------------------------------
+      !||    c_h3d_create_rbe2_impi   ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_rbe2.cpp
+      !||    spmd_glob_isum9          ../engine/source/mpi/interfaces/spmd_th.F
+      !||====================================================================
       SUBROUTINE H3D_CREATE_RBE2_IMPI(LRBE2, IRBE2,NODGLOB,WEIGHT,NERBE2Y,
      *                         NERBE2T ,ITAB,COMPID_RBE2S)
 C-----------------------------------------------

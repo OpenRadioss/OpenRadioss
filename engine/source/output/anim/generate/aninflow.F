@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ANINFLOW                      source/output/anim/generate/aninflow.F
-Chd|-- called by -----------
-Chd|        NODALP                        source/output/anim/generate/nodalp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    aninflow   ../engine/source/output/anim/generate/aninflow.F
+      !||--- called by ------------------------------------------------------
+      !||    nodalp     ../engine/source/output/anim/generate/nodalp.F
+      !||====================================================================
       SUBROUTINE ANINFLOW(IFUNC, WA4, IFLOW, RFLOW)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

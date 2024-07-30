@@ -22,11 +22,10 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 C
-Chd|====================================================================
-Chd|  SPMD_COLLECTV                 source/mpi/output/spmd_collectv.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_collectv   ../engine/source/mpi/output/spmd_collectv.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_COLLECTV(V, ITAB, WEIGHT,NODGLOB,SIZP0)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

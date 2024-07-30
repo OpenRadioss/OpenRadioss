@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DFUNCC                        source/output/anim/dfuncc.F   
-Chd|-- called by -----------
-Chd|        GENANI1                       source/output/anim/genani1.F  
-Chd|-- calls ---------------
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dfuncc         ../starter/source/output/anim/dfuncc.F
+      !||--- called by ------------------------------------------------------
+      !||    genani1        ../starter/source/output/anim/genani1.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE DFUNCC(ELBUF_TAB,BUFEL,FUNC ,IFUNC,IPARG,                
      .                  IXQ      ,IXC  ,IXTG ,PM   ,EL2FA,                    
      .                  NBF      )                                          

@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_EXCH_NODAREAI            source/mpi/anim/spmd_exch_nodareai.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|        GPSTRA_SOLID                  source/output/outmaxsubr.F    
-Chd|        H3D_NODAL_TENSOR              source/output/h3d/h3d_results/h3d_nodal_tensor.F
-Chd|        H3D_SOL_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
-Chd|        H3D_SOL_SKIN_TENSOR           source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_nodareai    ../engine/source/mpi/anim/spmd_exch_nodareai.F
+      !||--- called by ------------------------------------------------------
+      !||    genani                ../engine/source/output/anim/generate/genani.F
+      !||    gpstra_solid          ../engine/source/output/outmaxsubr.F
+      !||    h3d_nodal_tensor      ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
+      !||    h3d_sol_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+      !||    h3d_sol_skin_tensor   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
+      !||    inter_sh_offset_ini   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_NODAREAI(
      .           NODAREAI,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
 C-----------------------------------------------

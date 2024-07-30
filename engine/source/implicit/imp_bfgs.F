@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BFGS_INI                      source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    bfgs_ini   ../engine/source/implicit/imp_bfgs.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv   ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE BFGS_INI(NDDL,MAX_BFGS) 
 C-----------------------------------------------
 C   M o d u l e s
@@ -70,13 +70,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  BFGS_0                        source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
-Chd|-- calls ---------------
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    bfgs_0     ../engine/source/implicit/imp_bfgs.F
+      !||--- called by ------------------------------------------------------
+      !||    nl_solv    ../engine/source/implicit/nl_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE BFGS_0
 C-----------------------------------------------
 C   M o d u l e s
@@ -98,13 +98,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  BFGS_LS                       source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
-Chd|-- calls ---------------
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    bfgs_ls    ../engine/source/implicit/imp_bfgs.F
+      !||--- called by ------------------------------------------------------
+      !||    nl_solv    ../engine/source/implicit/nl_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE BFGS_LS(LS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -128,14 +128,14 @@ C------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  BFGS_1                        source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        BFGS_RHD                      source/implicit/imp_bfgs.F    
-Chd|        PRODUT_W                      source/implicit/produt_v.F    
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    bfgs_1     ../engine/source/implicit/imp_bfgs.F
+      !||--- calls      -----------------------------------------------------
+      !||    bfgs_rhd   ../engine/source/implicit/imp_bfgs.F
+      !||    produt_w   ../engine/source/implicit/produt_v.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE BFGS_1(NDDL,W_DDL,F,A2,IT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -183,16 +183,16 @@ C--------W->b1*du----------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  BFGS_RHD                      source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|        BFGS_1                        source/implicit/imp_bfgs.F    
-Chd|        BFGS_1P                       source/implicit/imp_bfgs.F    
-Chd|        BFGS_2                        source/implicit/imp_bfgs.F    
-Chd|        BFGS_2P                       source/implicit/imp_bfgs.F    
-Chd|-- calls ---------------
-Chd|        PRODUT_W                      source/implicit/produt_v.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    bfgs_rhd   ../engine/source/implicit/imp_bfgs.F
+      !||--- called by ------------------------------------------------------
+      !||    bfgs_1     ../engine/source/implicit/imp_bfgs.F
+      !||    bfgs_1p    ../engine/source/implicit/imp_bfgs.F
+      !||    bfgs_2     ../engine/source/implicit/imp_bfgs.F
+      !||    bfgs_2p    ../engine/source/implicit/imp_bfgs.F
+      !||--- calls      -----------------------------------------------------
+      !||    produt_w   ../engine/source/implicit/produt_v.F
+      !||====================================================================
       SUBROUTINE BFGS_RHD(NDDL,W_DDL,BW,BV,B)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -220,13 +220,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  BFGS_2                        source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        BFGS_RHD                      source/implicit/imp_bfgs.F    
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    bfgs_2     ../engine/source/implicit/imp_bfgs.F
+      !||--- calls      -----------------------------------------------------
+      !||    bfgs_rhd   ../engine/source/implicit/imp_bfgs.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE BFGS_2(NDDL,W_DDL,U,F,A2,IT,MAX_BFGS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -297,14 +297,14 @@ C------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  BFGS_1P                       source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        BFGS_RHD                      source/implicit/imp_bfgs.F    
-Chd|        PRODUT_W                      source/implicit/produt_v.F    
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    bfgs_1p    ../engine/source/implicit/imp_bfgs.F
+      !||--- calls      -----------------------------------------------------
+      !||    bfgs_rhd   ../engine/source/implicit/imp_bfgs.F
+      !||    produt_w   ../engine/source/implicit/produt_v.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE BFGS_1P(NDDL,W_DDL,F,A2,IT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -355,13 +355,13 @@ C--------W->b1*du----------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  BFGS_2P                       source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        BFGS_RHD                      source/implicit/imp_bfgs.F    
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    bfgs_2p    ../engine/source/implicit/imp_bfgs.F
+      !||--- calls      -----------------------------------------------------
+      !||    bfgs_rhd   ../engine/source/implicit/imp_bfgs.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE BFGS_2P(NDDL,W_DDL,U,F,A2,IT,MAX_BFGS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -429,12 +429,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  NSLOAN_0                      source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    nsloan_0   ../engine/source/implicit/imp_bfgs.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE NSLOAN_0(NDDL0)
 C-----------------------------------------------
 C   M o d u l e s
@@ -458,14 +457,14 @@ C------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  NSLOAN_5                      source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        D_TO_U                        source/implicit/produt_v.F    
-Chd|        PRODUT_W                      source/implicit/produt_v.F    
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    nsloan_5   ../engine/source/implicit/imp_bfgs.F
+      !||--- calls      -----------------------------------------------------
+      !||    d_to_u     ../engine/source/implicit/produt_v.F
+      !||    produt_w   ../engine/source/implicit/produt_v.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE NSLOAN_5(NDDL  ,IDDL  ,NDOF  ,IKC   ,W_DDL  ,
      .                    DD    ,DDR   ,U     ,F     ,ICONV  )
 C-----------------------------------------------
@@ -510,12 +509,11 @@ C------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_SLIN                      source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    get_slin   ../engine/source/implicit/imp_bfgs.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE GET_SLIN(FR)
 C-----------------------------------------------
 C   M o d u l e s
@@ -539,16 +537,17 @@ C------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  BFGS_H1                       source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
-Chd|-- calls ---------------
-Chd|        BFGS_RHDH                     source/implicit/imp_bfgs.F    
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        PRODUT_H                      source/implicit/produt_v.F    
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    bfgs_h1      ../engine/source/implicit/imp_bfgs.F
+      !||--- called by ------------------------------------------------------
+      !||    lin_solv     ../engine/source/implicit/lin_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    bfgs_rhdh    ../engine/source/implicit/imp_bfgs.F
+      !||    my_barrier   ../engine/source/system/machine.F
+      !||    produt_h     ../engine/source/implicit/produt_v.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs     ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE BFGS_H1(F_DDL,L_DDL,W_DDL,F,A2,IT,ITASK)
 C-----------------------------------------------
 C   M o d u l e s
@@ -603,16 +602,16 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  BFGS_RHDH                     source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|        BFGS_H1                       source/implicit/imp_bfgs.F    
-Chd|        BFGS_H1P                      source/implicit/imp_bfgs.F    
-Chd|        BFGS_H2                       source/implicit/imp_bfgs.F    
-Chd|        BFGS_H2P                      source/implicit/imp_bfgs.F    
-Chd|-- calls ---------------
-Chd|        PRODUT_H                      source/implicit/produt_v.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    bfgs_rhdh   ../engine/source/implicit/imp_bfgs.F
+      !||--- called by ------------------------------------------------------
+      !||    bfgs_h1     ../engine/source/implicit/imp_bfgs.F
+      !||    bfgs_h1p    ../engine/source/implicit/imp_bfgs.F
+      !||    bfgs_h2     ../engine/source/implicit/imp_bfgs.F
+      !||    bfgs_h2p    ../engine/source/implicit/imp_bfgs.F
+      !||--- calls      -----------------------------------------------------
+      !||    produt_h    ../engine/source/implicit/produt_v.F
+      !||====================================================================
       SUBROUTINE BFGS_RHDH(F_DDL,L_DDL,W_DDL,BW,BV,B,ITASK)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -639,15 +638,16 @@ C------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  BFGS_H2                       source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
-Chd|-- calls ---------------
-Chd|        BFGS_RHDH                     source/implicit/imp_bfgs.F    
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    bfgs_h2      ../engine/source/implicit/imp_bfgs.F
+      !||--- called by ------------------------------------------------------
+      !||    lin_solv     ../engine/source/implicit/lin_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    bfgs_rhdh    ../engine/source/implicit/imp_bfgs.F
+      !||    my_barrier   ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs     ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE BFGS_H2(F_DDL,L_DDL,W_DDL,U,F,A2,IT,MAX_BFGS,ITASK)
 C-----------------------------------------------
 C   M o d u l e s
@@ -750,16 +750,17 @@ C---------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  BFGS_H1P                      source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
-Chd|-- calls ---------------
-Chd|        BFGS_RHDH                     source/implicit/imp_bfgs.F    
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        PRODUT_H                      source/implicit/produt_v.F    
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    bfgs_h1p     ../engine/source/implicit/imp_bfgs.F
+      !||--- called by ------------------------------------------------------
+      !||    lin_solv     ../engine/source/implicit/lin_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    bfgs_rhdh    ../engine/source/implicit/imp_bfgs.F
+      !||    my_barrier   ../engine/source/system/machine.F
+      !||    produt_h     ../engine/source/implicit/produt_v.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs     ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE BFGS_H1P(F_DDL,L_DDL,W_DDL,F,A2,IT,ITASK)
 C-----------------------------------------------
 C   M o d u l e s
@@ -824,15 +825,16 @@ C---------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  BFGS_H2P                      source/implicit/imp_bfgs.F    
-Chd|-- called by -----------
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
-Chd|-- calls ---------------
-Chd|        BFGS_RHDH                     source/implicit/imp_bfgs.F    
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    bfgs_h2p     ../engine/source/implicit/imp_bfgs.F
+      !||--- called by ------------------------------------------------------
+      !||    lin_solv     ../engine/source/implicit/lin_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    bfgs_rhdh    ../engine/source/implicit/imp_bfgs.F
+      !||    my_barrier   ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_bfgs     ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE BFGS_H2P(F_DDL,L_DDL,W_DDL,U,F,A2,IT,MAX_BFGS,ITASK)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INRCH2                        source/interfaces/inter2d1/inrch2.F
-Chd|-- called by -----------
-Chd|        I1CHK2                        source/interfaces/inter2d1/i1chk2.F
-Chd|        I3STI2                        source/interfaces/inter2d1/i3sti2.F
-Chd|        I9STI2                        source/interfaces/int09/i9sti2.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inrch2        ../starter/source/interfaces/inter2d1/inrch2.F
+      !||--- called by ------------------------------------------------------
+      !||    i1chk2        ../starter/source/interfaces/inter2d1/i1chk2.F
+      !||    i3sti2        ../starter/source/interfaces/inter2d1/i3sti2.F
+      !||    i9sti2        ../starter/source/interfaces/int09/i9sti2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INRCH2(X,IRECT,ICO,ISG,NEL,
      .                  NINT,NOINT, YM1, YM2, ZM1,
      .                  ZM2 ,YE   ,ZE,ID,TITR)

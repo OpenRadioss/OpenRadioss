@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DXYZSECT                      source/output/anim/dxyzsect.F 
-Chd|-- called by -----------
-Chd|        GENANI1                       source/output/anim/genani1.F  
-Chd|-- calls ---------------
-Chd|        DXWALC                        source/output/anim/dxwalc.F   
-Chd|        DXWALL                        source/output/anim/dxwall.F   
-Chd|        DXWALP                        source/output/anim/dxwalp.F   
-Chd|        DXWALS                        source/output/anim/dxwals.F   
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    dxyzsect    ../starter/source/output/anim/dxyzsect.F
+      !||--- called by ------------------------------------------------------
+      !||    genani1     ../starter/source/output/anim/genani1.F
+      !||--- calls      -----------------------------------------------------
+      !||    dxwalc      ../starter/source/output/anim/dxwalc.F
+      !||    dxwall      ../starter/source/output/anim/dxwall.F
+      !||    dxwalp      ../starter/source/output/anim/dxwalp.F
+      !||    dxwals      ../starter/source/output/anim/dxwals.F
+      !||====================================================================
       SUBROUTINE DXYZSECT (NSTRF,RWBUF,NPRW  ,X    , XMIN,
      2                     YMIN ,ZMIN ,XMAX ,YMAX  , ZMAX,
      3                     ITAB)

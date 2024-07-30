@@ -20,44 +20,44 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TRI25EBOX                     share/modules/tri25ebox.F     
-Chd|-- called by -----------
-Chd|        I25ASSE2                      source/interfaces/int25/i25asse.F
-Chd|        I25COR3E                      source/interfaces/int25/i25cor3e.F
-Chd|        I25COR3_E2S                   source/interfaces/int25/i25cor3_e2s.F
-Chd|        I25DST3_E2S                   source/interfaces/int25/i25dst3_e2s.F
-Chd|        I25FOR3E                      source/interfaces/int25/i25for3e.F
-Chd|        I25FOR3_E2S                   source/interfaces/int25/i25for3_e2s.F
-Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|        I25MAIN_TRI                   source/interfaces/intsort/i25main_tri.F
-Chd|        I25OPTCD_E2S                  source/interfaces/intsort/i25optcd_e2s.F
-Chd|        I25OPTCD_EDG                  source/interfaces/intsort/i25optcd_edg.F
-Chd|        I25STO_E2S                    source/interfaces/intsort/i25sto_e2s.F
-Chd|        I25STO_EDG                    source/interfaces/intsort/i25sto_edg.F
-Chd|        I25TRIVOX_EDG                 source/interfaces/intsort/i25trivox_edg.F
-Chd|        INTMASS_UPDATE                source/interfaces/interf/intmass_update.F
-Chd|        MPP_INIT                      source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_EXCH_EFRIC               source/mpi/interfaces/spmd_exch_efric.F
-Chd|        SPMD_EXCH_PRESS               source/mpi/interfaces/spmd_exch_press.F
-Chd|        SPMD_EXCH_SORTING_EFRIC       source/mpi/interfaces/spmd_exch_sorting_efric.F
-Chd|        SPMD_GET_STIF25_EDG           source/mpi/interfaces/spmd_getstif25_edg.F
-Chd|        SPMD_I25FRONT_NOR             source/mpi/interfaces/spmd_i25front.F
-Chd|        SPMD_I7FCOM_POFF              source/mpi/forces/spmd_i7fcom_poff.F
-Chd|        SPMD_I7FCOM_PON               source/mpi/forces/spmd_i7fcom_pon.F
-Chd|        SPMD_I7XVCOM2                 source/mpi/interfaces/spmd_i7xvcom2.F
-Chd|        SPMD_IFRONT                   source/mpi/interfaces/spmd_ifront.F
-Chd|        SPMD_INITFI                   source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_RNUM25_EDGE              source/mpi/interfaces/spmd_rnum25_edge.F
-Chd|        SPMD_SAVEFI                   source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_TRI25EGAT                source/mpi/interfaces/spmd_tri25egat.F
-Chd|        SPMD_TRI25VOX                 source/mpi/interfaces/spmd_tri25vox.F
-Chd|        SPMD_TRI25VOX0                source/mpi/interfaces/spmd_tri25vox0.F
-Chd|        SPMD_TRI25VOX0_EDGE           source/mpi/interfaces/spmd_tri25vox0.F
-Chd|        UPGRADE_REM_2RY               source/mpi/interfaces/spmd_i7tool.F
-Chd|-- calls ---------------
-Chd|        POINTERDEF                    share/modules/pointerdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    tri25ebox                 ../engine/share/modules/tri25ebox.F
+      !||--- called by ------------------------------------------------------
+      !||    i25asse2                  ../engine/source/interfaces/int25/i25asse.F
+      !||    i25cor3_e2s               ../engine/source/interfaces/int25/i25cor3_e2s.F
+      !||    i25cor3e                  ../engine/source/interfaces/int25/i25cor3e.F
+      !||    i25dst3_e2s               ../engine/source/interfaces/int25/i25dst3_e2s.F
+      !||    i25for3_e2s               ../engine/source/interfaces/int25/i25for3_e2s.F
+      !||    i25for3e                  ../engine/source/interfaces/int25/i25for3e.F
+      !||    i25main_tri               ../engine/source/interfaces/intsort/i25main_tri.F
+      !||    i25mainf                  ../engine/source/interfaces/int25/i25mainf.F
+      !||    i25optcd_e2s              ../engine/source/interfaces/intsort/i25optcd_e2s.F
+      !||    i25optcd_edg              ../engine/source/interfaces/intsort/i25optcd_edg.F
+      !||    i25sto_e2s                ../engine/source/interfaces/intsort/i25sto_e2s.F
+      !||    i25sto_edg                ../engine/source/interfaces/intsort/i25sto_edg.F
+      !||    i25trivox_edg             ../engine/source/interfaces/intsort/i25trivox_edg.F
+      !||    intmass_update            ../engine/source/interfaces/interf/intmass_update.F
+      !||    mpp_init                  ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_exch_efric           ../engine/source/mpi/interfaces/spmd_exch_efric.F
+      !||    spmd_exch_press           ../engine/source/mpi/interfaces/spmd_exch_press.F
+      !||    spmd_exch_sorting_efric   ../engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
+      !||    spmd_get_stif25_edg       ../engine/source/mpi/interfaces/spmd_getstif25_edg.F
+      !||    spmd_i25front_nor         ../engine/source/mpi/interfaces/spmd_i25front.F
+      !||    spmd_i7fcom_poff          ../engine/source/mpi/forces/spmd_i7fcom_poff.F
+      !||    spmd_i7fcom_pon           ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+      !||    spmd_i7xvcom2             ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
+      !||    spmd_ifront               ../engine/source/mpi/interfaces/spmd_ifront.F
+      !||    spmd_initfi               ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_rnum25_edge          ../engine/source/mpi/interfaces/spmd_rnum25_edge.F
+      !||    spmd_savefi               ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_tri25egat            ../engine/source/mpi/interfaces/spmd_tri25egat.F
+      !||    spmd_tri25vox             ../engine/source/mpi/interfaces/spmd_tri25vox.F
+      !||    spmd_tri25vox0            ../engine/source/mpi/interfaces/spmd_tri25vox0.F
+      !||    spmd_tri25vox0_edge       ../engine/source/mpi/interfaces/spmd_tri25vox0.F
+      !||    upgrade_rem_2ry           ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||--- uses       -----------------------------------------------------
+      !||    pointerdef                ../engine/share/modules/pointerdef_mod.F
+      !||====================================================================
       MODULE TRI25EBOX
       USE POINTERDEF
 #include "my_real.inc"

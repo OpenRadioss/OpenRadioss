@@ -20,82 +20,80 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INOUTFILE_MOD                 modules/inoutfile_mod.F       
-Chd|-- called by -----------
-Chd|        CHECK_DYNAIN                  starter/source/starter/check_dynain.F
-Chd|        CHECK_QEPH_STRA               starter/source/starter/check_qeph_stra.F
-Chd|        CONTRL                        starter/source/starter/contrl.F
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        DD_ANI                        starter/source/output/anim/dd_ani.F
-Chd|        DESOUT                        starter/source/output/outp/desout.F
-Chd|        EXECARGCHECK                  starter/source/starter/execargcheck.F
-Chd|        FIND_DT1BRICK_ENGINE          starter/source/starter/contrl.F
-Chd|        FIND_DT_ENGINE                starter/source/coupling/rad2rad/r2r_speedup.F
-Chd|        FIND_YIELD_ENGINE             starter/source/general_controls/computation/hm_read_sms.F
-Chd|        FREFORM                       starter/source/starter/freform.F
-Chd|        GENANI1                       starter/source/output/anim/genani1.F
-Chd|        HM_READ_EIG                   starter/source/general_controls/computation/hm_read_eig.F
-Chd|        HM_READ_EOS_SESAME            starter/source/materials/eos/hm_read_eos_sesame.F
-Chd|        HM_READ_FXB1                  starter/source/constraints/fxbody/hm_read_fxb.F
-Chd|        HM_READ_FXB2                  starter/source/constraints/fxbody/hm_read_fxb.F
-Chd|        HM_READ_REFSTA                starter/source/loads/reference_state/refsta/hm_read_refsta.F
-Chd|        HM_READ_SENSORS               starter/source/tools/sensor/hm_read_sensors.F
-Chd|        HM_SETFXRBYON                 starter/source/constraints/fxbody/hm_setfxrbyon.F
-Chd|        ININTR                        starter/source/interfaces/interf1/inintr.F
-Chd|        ININTR_THKVAR                 starter/source/interfaces/interf1/inintr_thkvar.F
-Chd|        INI_FXBODY                    starter/source/constraints/fxbody/ini_fxbody.F
-Chd|        INI_H3DTMAX_ENGINE            starter/source/starter/contrl.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        LEC_INIMAP1D_FILE             starter/source/initial_conditions/inimap/lec_inimap1d_file.F
-Chd|        LEC_INIMAP2D_FILE             starter/source/initial_conditions/inimap/lec_inimap2d_file.F
-Chd|        NLOC_DMG_INIT                 starter/source/materials/fail/nloc_dmg_init.F
-Chd|        R2R_DOMDEC                    starter/source/coupling/rad2rad/r2r_domdec.F
-Chd|        R2R_FORK                      starter/source/coupling/rad2rad/r2r_fork.F
-Chd|        R2R_GROUP                     starter/source/coupling/rad2rad/r2r_group.F
-Chd|        R2R_INPUT                     starter/source/coupling/rad2rad/r2r_input.F
-Chd|        READ_ENGINE_DTMIN             starter/source/general_controls/damping/read_engine_dtmin.F
-Chd|        READ_FLAG_ALE                 starter/source/coupling/rad2rad/r2r_fork.F
-Chd|        READ_H3DTMAX_KEY              starter/source/starter/contrl.F
-Chd|        READ_PCH_FILE                 starter/source/constraints/fxbody/read_pch_file.F
-Chd|        STARTER0                      starter/source/starter/starter0.F
-Chd|        USER_OUTPUT                   starter/source/user_interface/user_output.F
-Chd|        WRITEMESH                     starter/source/airbag/writeMesh.F
-Chd|        ADD_ELAPSED_TIME_MON_OFF      engine/source/system/timer.F  
-Chd|        ARRET                         engine/source/system/arret.F  
-Chd|        COLLECT                       engine/source/output/outfile/collect.F
-Chd|        COLLECTM                      engine/source/output/outfile/collect.F
-Chd|        COLLECTT                      engine/source/output/outfile/collect.F
-Chd|        EIG                           engine/stub/eig.F             
-Chd|        EXECARGCHECK                  engine/source/engine/execargcheck.F
-Chd|        GENANI                        engine/source/output/anim/generate/genani.F
-Chd|        GENDYNAIN                     engine/source/output/dynain/gendynain.F
-Chd|        GENH3D                        engine/source/output/h3d/h3d_results/genh3d.F
-Chd|        GENOUTP                       engine/source/output/sty/genoutp.F
-Chd|        GENSTAT                       engine/source/output/sta/genstat.F
-Chd|        HIST1                         engine/source/output/th/hist1.F
-Chd|        HIST13                        engine/source/output/th/hist13.F
-Chd|        LECNOISE                      engine/source/general_controls/computation/lecnoise.F
-Chd|        MANCTR                        engine/source/input/manctr.F  
-Chd|        PRINTIME                      engine/source/system/timer.F  
-Chd|        RADIOSS0                      engine/source/engine/radioss0.F
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
-Chd|        REPORT                        engine/source/output/report/report.F
-Chd|        SECTION_INIT                  engine/source/tools/sect/section_init.F
-Chd|        SECTION_READ                  engine/source/tools/sect/section_read.F
-Chd|        SECTION_READP                 engine/source/tools/sect/section_readp.F
-Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
-Chd|        SORTIE_MVW                    engine/source/output/report/sortie_mvw.F
-Chd|        SPMD_COLLECT                  engine/source/mpi/output/spmd_collect.F
-Chd|        SPMD_COLLECTM                 engine/source/mpi/output/spmd_collectm.F
-Chd|        SPMD_COLLECTT                 engine/source/mpi/output/spmd_collectt.F
-Chd|        SPMD_COLLECT_MULTI_FVM        engine/source/mpi/output/spmd_collect_multi_fvm.F
-Chd|        SPMD_COLLECT_NLOCAL           engine/source/mpi/output/spmd_collect_nlocal.F
-Chd|        STAT_INIMAP1D_FILE_SPMD       engine/source/output/sta/stat_inimap1d_file_spmd.F
-Chd|        STAT_INIMAP2D_FILE_SPMD       engine/source/output/sta/stat_inimap2d_file_spmd.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inoutfile_mod              ../common_source/modules/inoutfile_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    add_elapsed_time_mon_off   ../engine/source/system/timer.F
+      !||    arret                      ../engine/source/system/arret.F
+      !||    check_dynain               ../starter/source/starter/check_dynain.F
+      !||    check_qeph_stra            ../starter/source/starter/check_qeph_stra.F
+      !||    collect                    ../engine/source/output/outfile/collect.F
+      !||    collectm                   ../engine/source/output/outfile/collect.F
+      !||    collectt                   ../engine/source/output/outfile/collect.F
+      !||    contrl                     ../starter/source/starter/contrl.F
+      !||    dd_ani                     ../starter/source/output/anim/dd_ani.F
+      !||    ddsplit                    ../starter/source/restart/ddsplit/ddsplit.F
+      !||    desout                     ../starter/source/output/outp/desout.F
+      !||    eig                        ../engine/stub/eig.F
+      !||    execargcheck               ../engine/source/engine/execargcheck.F
+      !||    find_dt1brick_engine       ../starter/source/starter/contrl.F
+      !||    find_dt_engine             ../starter/source/coupling/rad2rad/r2r_speedup.F
+      !||    find_yield_engine          ../starter/source/general_controls/computation/hm_read_sms.F
+      !||    freform                    ../engine/source/input/freform.F
+      !||    genani                     ../engine/source/output/anim/generate/genani.F
+      !||    genani1                    ../starter/source/output/anim/genani1.F
+      !||    gendynain                  ../engine/source/output/dynain/gendynain.F
+      !||    genh3d                     ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||    genoutp                    ../engine/source/output/sty/genoutp.F
+      !||    genstat                    ../engine/source/output/sta/genstat.F
+      !||    hist1                      ../engine/source/output/th/hist1.F
+      !||    hist13                     ../engine/source/output/th/hist13.F
+      !||    hm_read_eig                ../starter/source/general_controls/computation/hm_read_eig.F
+      !||    hm_read_eos_sesame         ../starter/source/materials/eos/hm_read_eos_sesame.F
+      !||    hm_read_fxb1               ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_read_fxb2               ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_read_refsta             ../starter/source/loads/reference_state/refsta/hm_read_refsta.F
+      !||    hm_read_sensors            ../starter/source/tools/sensor/hm_read_sensors.F
+      !||    hm_setfxrbyon              ../starter/source/constraints/fxbody/hm_setfxrbyon.F
+      !||    ini_fxbody                 ../starter/source/constraints/fxbody/ini_fxbody.F
+      !||    ini_h3dtmax_engine         ../starter/source/starter/contrl.F
+      !||    inintr                     ../starter/source/interfaces/interf1/inintr.F
+      !||    inintr_thkvar              ../starter/source/interfaces/interf1/inintr_thkvar.F
+      !||    lec_inimap1d_file          ../starter/source/initial_conditions/inimap/lec_inimap1d_file.F
+      !||    lec_inimap2d_file          ../starter/source/initial_conditions/inimap/lec_inimap2d_file.F
+      !||    lecnoise                   ../engine/source/general_controls/computation/lecnoise.F
+      !||    lectur                     ../engine/source/input/lectur.F
+      !||    manctr                     ../engine/source/input/manctr.F
+      !||    nloc_dmg_init              ../starter/source/materials/fail/nloc_dmg_init.F
+      !||    printime                   ../engine/source/system/timer.F
+      !||    r2r_domdec                 ../starter/source/coupling/rad2rad/r2r_domdec.F
+      !||    r2r_fork                   ../starter/source/coupling/rad2rad/r2r_fork.F
+      !||    r2r_group                  ../starter/source/coupling/rad2rad/r2r_group.F
+      !||    r2r_input                  ../starter/source/coupling/rad2rad/r2r_input.F
+      !||    radioss0                   ../engine/source/engine/radioss0.F
+      !||    radioss2                   ../engine/source/engine/radioss2.F
+      !||    read_engine_dtmin          ../starter/source/general_controls/damping/read_engine_dtmin.F
+      !||    read_flag_ale              ../starter/source/coupling/rad2rad/r2r_fork.F
+      !||    read_h3dtmax_key           ../starter/source/starter/contrl.F
+      !||    read_pch_file              ../starter/source/constraints/fxbody/read_pch_file.F
+      !||    report                     ../engine/source/output/report/report.F
+      !||    section_init               ../engine/source/tools/sect/section_init.F
+      !||    section_read               ../engine/source/tools/sect/section_read.F
+      !||    section_readp              ../engine/source/tools/sect/section_readp.F
+      !||    sortie_main                ../engine/source/output/sortie_main.F
+      !||    sortie_mvw                 ../engine/source/output/report/sortie_mvw.F
+      !||    spmd_collect               ../engine/source/mpi/output/spmd_collect.F
+      !||    spmd_collect_multi_fvm     ../engine/source/mpi/output/spmd_collect_multi_fvm.F
+      !||    spmd_collect_nlocal        ../engine/source/mpi/output/spmd_collect_nlocal.F
+      !||    spmd_collectm              ../engine/source/mpi/output/spmd_collectm.F
+      !||    spmd_collectt              ../engine/source/mpi/output/spmd_collectt.F
+      !||    starter0                   ../starter/source/starter/starter0.F
+      !||    stat_inimap1d_file_spmd    ../engine/source/output/sta/stat_inimap1d_file_spmd.F
+      !||    stat_inimap2d_file_spmd    ../engine/source/output/sta/stat_inimap2d_file_spmd.F
+      !||    user_output                ../engine/source/user_interface/user_output.F
+      !||    writemesh                  ../starter/source/airbag/writeMesh.F
+      !||    wrrestp                    ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
         MODULE INOUTFILE_MOD
 
 !--------------------------------------------------------------------

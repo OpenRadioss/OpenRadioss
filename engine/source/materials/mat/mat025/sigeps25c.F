@@ -20,15 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS25C                     source/materials/mat/mat025/sigeps25c.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|-- calls ---------------
-Chd|        M25CRAK                       source/materials/mat/mat025/m25crak.F
-Chd|        PRONY25C                      source/materials/mat/mat025/prony25c.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps25c             ../engine/source/materials/mat/mat025/sigeps25c.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc                ../engine/source/materials/mat_share/mulawc.F
+      !||--- calls      -----------------------------------------------------
+      !||    m25crak               ../engine/source/materials/mat/mat025/m25crak.F
+      !||    mat25_crasurv_c       ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
+      !||    mat25_tsaiwu_c        ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
+      !||    prony25c              ../engine/source/materials/mat/mat025/prony25c.F
+      !||--- uses       -----------------------------------------------------
+      !||    mat25_crasurv_c_mod   ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
+      !||    mat25_tsaiwu_c_mod    ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
+      !||    matparam_def_mod      ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||====================================================================
       SUBROUTINE SIGEPS25C(MAT_PARAM,
      1                    NEL      ,PM       ,OFF     ,GSTR    ,
      2                    DIR      ,THLY    ,TIME     ,TIMESTEP,SHF     ,

@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SRCOORK                       source/elements/solid/solide8z/srcoork.F
-Chd|-- called by -----------
-Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
-Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
-Chd|-- calls ---------------
-Chd|        SCORTHO3                      source/elements/thickshell/solidec/scortho3.F
-Chd|        SORTHDIR17                    source/elements/solid/solide8z/sorthdir17.F
-Chd|        SORTHDIR3                     source/elements/solid/solide/sorthdir3.F
-Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
-Chd|        SREPISOT3                     source/elements/solid/solide/srepisot3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    srcoork      ../engine/source/elements/solid/solide8z/srcoork.F
+      !||--- called by ------------------------------------------------------
+      !||    s8cke3       ../engine/source/elements/thickshell/solide8c/s8cke3.F
+      !||    s8zke3       ../engine/source/elements/solid/solide8z/s8zke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    scortho3     ../engine/source/elements/thickshell/solidec/scortho3.F
+      !||    sorthdir17   ../engine/source/elements/solid/solide8z/sorthdir17.F
+      !||    sorthdir3    ../engine/source/elements/solid/solide/sorthdir3.F
+      !||    sortho3      ../engine/source/elements/solid/solide/sortho3.F
+      !||    srepisot3    ../engine/source/elements/solid/solide/srepisot3.F
+      !||====================================================================
       SUBROUTINE SRCOORK(
      1   X,       IXS,     X1,      X2,
      2   X3,      X4,      X5,      X6,

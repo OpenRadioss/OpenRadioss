@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCROTO                        source/elements/thickshell/solidec/scroto.F
-Chd|-- called by -----------
-Chd|        SCORDEF3                      source/elements/thickshell/solidec/scordef3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    scroto     ../engine/source/elements/thickshell/solidec/scroto.F
+      !||--- called by ------------------------------------------------------
+      !||    scordef3   ../engine/source/elements/thickshell/solidec/scordef3.F
+      !||====================================================================
       SUBROUTINE SCROTO(NEL,SIG,SIGN,DIR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

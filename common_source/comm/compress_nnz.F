@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  COMPRESS_C_NNZ                comm/compress_nnz.F           
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    compress_c_nnz   ../common_source/comm/compress_nnz.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
        SUBROUTINE COMPRESS_C_NNZ(ARRAY,LEN)
        IMPLICIT NONE
 C---------------------------------------------
@@ -78,14 +77,14 @@ C        WRITE(6,*) LEN,"compressed into ",J, dble(J)/dble(LEN)
        END SUBROUTINE 
 
 
-Chd|====================================================================
-Chd|  COMPRESS_I_NNZ                comm/compress_nnz.F           
-Chd|-- called by -----------
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    compress_i_nnz   ../common_source/comm/compress_nnz.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
+      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
        SUBROUTINE COMPRESS_I_NNZ(ARRAY,LEN)
        IMPLICIT NONE
 C---------------------------------------------
@@ -136,16 +135,16 @@ C        COMPR(J) = -1
 C        WRITE(6,*) LEN,"I compressed into ",J, dble(J)/dble(LEN)
        END SUBROUTINE 
 
-Chd|====================================================================
-Chd|  COMPRESS_R_NNZ                comm/compress_nnz.F           
-Chd|-- called by -----------
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        W_GEO                         starter/source/restart/ddsplit/w_geo.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      tools/input_output/write_db.F 
-Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    compress_r_nnz   ../common_source/comm/compress_nnz.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
+      !||    w_geo            ../starter/source/restart/ddsplit/w_geo.F
+      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db         ../common_source/tools/input_output/write_db.F
+      !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
        SUBROUTINE COMPRESS_R_NNZ(ARRAY,LEN)
 #include      "implicit_f.inc"
 C---------------------------------------------

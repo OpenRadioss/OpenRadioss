@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SETLENWA                      source/restart/ddsplit/setlenwa.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    setlenwa   ../starter/source/restart/ddsplit/setlenwa.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
+      !||    lectur     ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE SETLENWA(
      1      LENWA0 ,NTHWA0  ,NAIRWA0   ,NUMELS0  ,NUMELQ0,
      2      NUMELC0,NUMELTG0,NUMELT0   ,NUMELP0  ,NUMELR0,
@@ -110,12 +109,11 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  SETMULTI                      source/restart/ddsplit/setlenwa.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    setmulti   ../starter/source/restart/ddsplit/setlenwa.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur     ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE SETMULTI(IPARI)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

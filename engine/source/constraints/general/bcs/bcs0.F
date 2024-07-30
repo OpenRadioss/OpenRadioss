@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BCS0                          source/constraints/general/bcs/bcs0.F
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    bcs0       ../engine/source/constraints/general/bcs/bcs0.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2   ../engine/source/engine/radioss2.F
+      !||====================================================================
       SUBROUTINE BCS0(ICODE,ICODT,ICODR,ICODE_PLY, ICODT_PLY,IBC_PLY)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

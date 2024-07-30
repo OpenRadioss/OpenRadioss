@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ELEM_1D_LINE_BUFFER           source/model/sets/elem_1D_line_buffer.F
-Chd|-- called by -----------
-Chd|        LINE_BUFFER                   source/model/sets/line_buffer.F
-Chd|-- calls ---------------
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    elem_1d_line_buffer   ../starter/source/model/sets/elem_1D_line_buffer.F
+      !||--- called by ------------------------------------------------------
+      !||    line_buffer           ../starter/source/model/sets/line_buffer.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE ELEM_1D_LINE_BUFFER(
      .                   IX     ,NIX      ,NIX1      ,NIX2   ,IELTYP,
      .                   NSEG   ,IAD_LINE ,BUFTMPLINE,CLAUSE)

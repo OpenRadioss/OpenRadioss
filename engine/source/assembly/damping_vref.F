@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DAMPING_VREF                  source/assembly/damping_vref.F
-Chd|-- called by -----------
-Chd|        DAMPING51                     source/assembly/damping.F     
-Chd|-- calls ---------------
-Chd|        DAMPVREF_SUM6                 source/assembly/dampvref_sum6.F
-Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
-Chd|        SPMD_FR_POFF                  source/mpi/kinematic_conditions/spmd_fr_poff.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    damping_vref    ../engine/source/assembly/damping_vref.F
+      !||--- called by ------------------------------------------------------
+      !||    damping51       ../engine/source/assembly/damping.F
+      !||--- calls      -----------------------------------------------------
+      !||    dampvref_sum6   ../engine/source/assembly/dampvref_sum6.F
+      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+      !||    spmd_fr_poff    ../engine/source/mpi/kinematic_conditions/spmd_fr_poff.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||====================================================================
       SUBROUTINE DAMPING_VREF(IGRNOD,V,A,MS,DAMPR,
      .                        WEIGHT,V_REF,A_REF,NDAMP_VREL,ID_DAMP_VREL,
      .                        FR_DAMP_VREL,NGRNOD,NUMNOD,NDAMP,NRDAMP,

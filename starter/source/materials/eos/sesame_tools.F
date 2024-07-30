@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TB2SI1                        source/materials/eos/sesame_tools.F
-Chd|-- called by -----------
-Chd|        HM_READ_EOS_SESAME            source/materials/eos/hm_read_eos_sesame.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    tb2si1               ../starter/source/materials/eos/sesame_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos_sesame   ../starter/source/materials/eos/hm_read_eos_sesame.F
+      !||====================================================================
       SUBROUTINE TB2SI1(DENS,PRES,ENER,NR,NT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -74,12 +73,12 @@ C
 
 
 
-Chd|====================================================================
-Chd|  TBUSR1                        source/materials/eos/sesame_tools.F
-Chd|-- called by -----------
-Chd|        HM_READ_EOS_SESAME            source/materials/eos/hm_read_eos_sesame.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    tbusr1               ../starter/source/materials/eos/sesame_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos_sesame   ../starter/source/materials/eos/hm_read_eos_sesame.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE TBUSR1(R,P,E,NR,NT,UNITAB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

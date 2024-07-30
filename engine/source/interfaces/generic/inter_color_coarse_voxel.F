@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTER_COLOR_COARSE_VOXEL      source/interfaces/generic/inter_color_coarse_voxel.F
-Chd|-- called by -----------
-Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inter_color_coarse_voxel   ../engine/source/interfaces/generic/inter_color_coarse_voxel.F
+      !||--- called by ------------------------------------------------------
+      !||    inter_prepare_sort         ../engine/source/interfaces/generic/inter_prepare_sort.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier                 ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
+      !||====================================================================
         SUBROUTINE INTER_COLOR_COARSE_VOXEL(ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,INTBUF_TAB,
      .                                      X,SORT_COMM)
 !$COMMENT

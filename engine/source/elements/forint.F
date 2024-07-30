@@ -20,59 +20,63 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FORINT                        source/elements/forint.F      
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        PFORC3                        source/elements/beam/pforc3.F 
-Chd|        PRELECFLOW                    source/elements/solid/solide/prelecflow.F
-Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
-Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
-Chd|        R23FORC3                      source/elements/spring/r23forc3.F
-Chd|        RFORC3                        source/elements/spring/rforc3.F
-Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
-Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8FORC3                       source/elements/solid/solide8/s8forc3.F
-Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|        SECTION_P                     source/tools/sect/section_p.F 
-Chd|        SECTION_R                     source/tools/sect/section_r.F 
-Chd|        SECTION_S                     source/tools/sect/section_s.F 
-Chd|        SECTION_S4                    source/tools/sect/section_s4.F
-Chd|        SECTION_S6                    source/tools/sect/section_s6.F
-Chd|        SECTION_T                     source/tools/sect/section_t.F 
-Chd|        SENSOR_ENERGY_PART            source/tools/sensor/sensor_energy_part.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SROTA6                        source/output/anim/generate/srota6.F
-Chd|        STARTIMEG                     source/system/timer.F         
-Chd|        STOPTIMEG                     source/system/timer.F         
-Chd|        SUFORC3                       source/user_interface/suforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|        TFORC3                        source/elements/truss/tforc3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        DT_MOD                        share/modules/dt_mod.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    forint                 ../engine/source/elements/forint.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                  ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||    get_preload_axial      ../engine/source/elements/spring/preload_axial.F90
+      !||    ig3duforc3             ../engine/source/elements/ige3d/ig3duforc3.F
+      !||    initbuf                ../engine/share/resol/initbuf.F
+      !||    my_barrier             ../engine/source/system/machine.F
+      !||    pforc3                 ../engine/source/elements/beam/pforc3.F
+      !||    prelecflow             ../engine/source/elements/solid/solide/prelecflow.F
+      !||    q4forc2                ../engine/source/elements/solid_2d/quad4/q4forc2.F
+      !||    qforc2                 ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||    r23forc3               ../engine/source/elements/spring/r23forc3.F
+      !||    rforc3                 ../engine/source/elements/spring/rforc3.F
+      !||    s10forc3               ../engine/source/elements/solid/solide10/s10forc3.F
+      !||    s16forc3               ../engine/source/elements/thickshell/solide16/s16forc3.F
+      !||    s20forc3               ../engine/source/elements/solid/solide20/s20forc3.F
+      !||    s4forc3                ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    s6cforc3               ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s8cforc3               ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3               ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8forc3                ../engine/source/elements/solid/solide8/s8forc3.F
+      !||    s8sforc3               ../engine/source/elements/solid/solide8s/s8sforc3.F
+      !||    s8zforc3               ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    scforc3                ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||    section_p              ../engine/source/tools/sect/section_p.F
+      !||    section_r              ../engine/source/tools/sect/section_r.F
+      !||    section_s              ../engine/source/tools/sect/section_s.F
+      !||    section_s4             ../engine/source/tools/sect/section_s4.F
+      !||    section_s6             ../engine/source/tools/sect/section_s6.F
+      !||    section_t              ../engine/source/tools/sect/section_t.F
+      !||    sensor_energy_part     ../engine/source/tools/sensor/sensor_energy_part.F
+      !||    sforc3                 ../engine/source/elements/solid/solide/sforc3.F
+      !||    srota6                 ../engine/source/output/anim/generate/srota6.F
+      !||    startimeg              ../engine/source/system/timer.F
+      !||    stoptimeg              ../engine/source/system/timer.F
+      !||    suforc3                ../engine/source/user_interface/suforc3.F
+      !||    szforc3                ../engine/source/elements/solid/solidez/szforc3.F
+      !||    tforc3                 ../engine/source/elements/truss/tforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    ale_mod                ../common_source/modules/ale/ale_mod.F
+      !||    dt_mod                 ../engine/share/modules/dt_mod.F
+      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
+      !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    output_mod             ../common_source/modules/output/output_mod.F90
+      !||    preload_axial_mod      ../engine/source/elements/spring/preload_axial.F90
+      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE FORINT(
      1    PM        ,GEO       ,X          ,A         ,AR        ,
      2    V         ,VR        ,MS         ,IN        ,W         ,

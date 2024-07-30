@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       
-Chd|====================================================================
-Chd|  GETULOC                       source/elements/solid/solide8s/getuloc.F
-Chd|-- called by -----------
-Chd|        SRCOOR3_IMP                   source/elements/solid/solide8s/srcoor3_imp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    getuloc       ../engine/source/elements/solid/solide8s/getuloc.F
+      !||--- called by ------------------------------------------------------
+      !||    srcoor3_imp   ../engine/source/elements/solid/solide8s/srcoor3_imp.F
+      !||====================================================================
       SUBROUTINE GETULOC(
      1   SAV,     XD1,     XD2,     XD3,
      2   XD4,     XD5,     XD6,     XD7,

@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2CURVF                       source/interfaces/interf/i2curvf.F
-Chd|-- called by -----------
-Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
-Chd|-- calls ---------------
-Chd|        I2CURV_REP                    source/interfaces/interf/i2curv_rep.F
-Chd|        I2FORCES                      source/interfaces/interf/i2forces.F
-Chd|        I2_FFORM                      source/interfaces/interf/i2_fform.F
-Chd|        INV3                          source/elements/joint/rskew33.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i2curvf      ../engine/source/interfaces/interf/i2curvf.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2f      ../engine/source/interfaces/interf/intti2f.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2_fform     ../engine/source/interfaces/interf/i2_fform.F
+      !||    i2curv_rep   ../engine/source/interfaces/interf/i2curv_rep.F
+      !||    i2forces     ../engine/source/interfaces/interf/i2forces.F
+      !||    inv3         ../engine/source/elements/joint/rskew33.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod      ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I2CURVF(
      .           MS      ,IN      ,X       ,V       ,VR      ,
      .           A       ,AR      ,STIFN   ,STIFR   ,WEIGHT  ,

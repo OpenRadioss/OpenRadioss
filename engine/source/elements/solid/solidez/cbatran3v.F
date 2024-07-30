@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBATRAN3V                     source/elements/solid/solidez/cbatran3v.F
-Chd|-- called by -----------
-Chd|        C33STIF2EL                    source/elements/solid/solidez/c33stif2el.F
-Chd|        MDAMA24                       source/elements/solid/solidez/mdama24.F
-Chd|        MSTIFORTHV                    source/elements/solid/solidez/mstiforthv.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cbatran3v    ../engine/source/elements/solid/solidez/cbatran3v.F
+      !||--- called by ------------------------------------------------------
+      !||    c33stif2el   ../engine/source/elements/solid/solidez/c33stif2el.F
+      !||    mdama24      ../engine/source/elements/solid/solidez/mdama24.F
+      !||    mstiforthv   ../engine/source/elements/solid/solidez/mstiforthv.F
+      !||====================================================================
       SUBROUTINE CBATRAN3V(JFT   ,JLT    ,VQI   ,KK,VQJ,ISYM) 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"

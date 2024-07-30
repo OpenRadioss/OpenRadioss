@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CUPDT_PLY                     source/properties/composite_options/stack/cupdt_ply.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|-- calls ---------------
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    cupdt_ply     ../engine/source/properties/composite_options/stack/cupdt_ply.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3      ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
+      !||====================================================================
       SUBROUTINE CUPDT_PLY(
      1   JFT,     JLT,     NVC,     OFFG,
      2   OFF,     IADC,    IEL,     INOD,

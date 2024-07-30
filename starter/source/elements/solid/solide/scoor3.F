@@ -20,21 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCOOR3                        source/elements/solid/solide/scoor3.F
-Chd|-- called by -----------
-Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
-Chd|        INISOLDIST                    source/initial_conditions/inivol/inisoldist.F
-Chd|        INIVOID                       source/elements/initia/inivoid.F
-Chd|        MULTIFLUID_INIT3              source/multifluid/multifluid_init3.F
-Chd|        S8CINIT3                      source/elements/thickshell/solide8c/s8cinit3.F
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|        SUINIT3                       source/elements/elbuf_init/suinit3.F
-Chd|-- calls ---------------
-Chd|        MOD_CLOSE                     source/elements/solid/solide/mod_close.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    scoor3             ../starter/source/elements/solid/solide/scoor3.F
+      !||--- called by ------------------------------------------------------
+      !||    inirig_mat         ../starter/source/elements/initia/inirig_mat.F
+      !||    inisoldist         ../starter/source/initial_conditions/inivol/inisoldist.F
+      !||    inivoid            ../starter/source/elements/initia/inivoid.F
+      !||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
+      !||    s8cinit3           ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+      !||    s8zinit3           ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||    sinit3             ../starter/source/elements/solid/solide/sinit3.F
+      !||    suinit3            ../starter/source/elements/elbuf_init/suinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    checkvolume_8n     ../starter/source/elements/solid/solide/checksvolume.F
+      !||    mod_close          ../starter/source/elements/solid/solide/mod_close.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SCOOR3(
      .         X    ,XREFS,IXS  ,GEO  ,MXT  ,NGEO ,NGL  ,
      .         IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8 ,
@@ -346,12 +348,13 @@ C
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  SGSAVINI                      source/elements/solid/solide/scoor3.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sgsavini         ../starter/source/elements/solid/solide/scoor3.F
+      !||--- called by ------------------------------------------------------
+      !||    initia           ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    checkvolume_4n   ../starter/source/elements/solid/solide/checksvolume.F
+      !||====================================================================
       SUBROUTINE SGSAVINI(NPE,X,IXS,SAV,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

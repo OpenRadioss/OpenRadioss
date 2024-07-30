@@ -20,27 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASSPAR2_MOD                   source/assembly/asspar2.F     
-Chd|-- called by -----------
-Chd|        ASSPAR2                       source/assembly/asspar2.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    asspar2_mod   ../engine/source/assembly/asspar2.F
+      !||--- called by ------------------------------------------------------
+      !||    asspar2       ../engine/source/assembly/asspar2.F
+      !||====================================================================
       MODULE ASSPAR2_MOD
          INTEGER :: INTDONE
       END MODULE
-Chd|====================================================================
-Chd|  ASSPAR2                       source/assembly/asspar2.F     
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ASS2SORT                      source/assembly/ass2sort.F    
-Chd|        IDP_FREE                      source/system/machine.F       
-Chd|        IDP_LOCK                      source/system/machine.F       
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        ORDER_V                       source/assembly/asspar2.F     
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        ASSPAR2_MOD                   source/assembly/asspar2.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    asspar2       ../engine/source/assembly/asspar2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ass2sort      ../engine/source/assembly/ass2sort.F
+      !||    idp_free      ../engine/source/system/machine.F
+      !||    idp_lock      ../engine/source/system/machine.F
+      !||    my_barrier    ../engine/source/system/machine.F
+      !||    order_v       ../engine/source/assembly/asspar2.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod       ../common_source/modules/ale/ale_mod.F
+      !||    asspar2_mod   ../engine/source/assembly/asspar2.F
+      !||====================================================================
       SUBROUTINE ASSPAR2( 
      2   A          ,AR         ,ITASK      ,NODFT     ,
      3   NODLT      ,STIFN      ,STIFR      ,ITAB      ,FSKY      ,
@@ -3123,15 +3122,15 @@ C
       END
 C
 C   routines de vectorisation de asspar2
-Chd|====================================================================
-Chd|  ORDER_V                       source/assembly/asspar2.F     
-Chd|-- called by -----------
-Chd|        ASSPAR2                       source/assembly/asspar2.F     
-Chd|        ASSPAR4                       source/assembly/asspar4.F     
-Chd|-- calls ---------------
-Chd|        REALLY_ORDER_V                source/assembly/asspar2.F     
-Chd|        SHORT_ORDER_V                 source/assembly/asspar2.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    order_v          ../engine/source/assembly/asspar2.F
+      !||--- called by ------------------------------------------------------
+      !||    asspar2          ../engine/source/assembly/asspar2.F
+      !||    asspar4          ../engine/source/assembly/asspar4.F
+      !||--- calls      -----------------------------------------------------
+      !||    really_order_v   ../engine/source/assembly/asspar2.F
+      !||    short_order_v    ../engine/source/assembly/asspar2.F
+      !||====================================================================
       SUBROUTINE ORDER_V(N, MINNN_GLB, MAXNN_GLB, NN_A, IARRAY, IC)
 c------------------------------------------------------------------
 c        NEC European HPC Technology Centre
@@ -3223,12 +3222,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  SHORT_ORDER_V                 source/assembly/asspar2.F     
-Chd|-- called by -----------
-Chd|        ORDER_V                       source/assembly/asspar2.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    short_order_v   ../engine/source/assembly/asspar2.F
+      !||--- called by ------------------------------------------------------
+      !||    order_v         ../engine/source/assembly/asspar2.F
+      !||====================================================================
       SUBROUTINE SHORT_ORDER_V(N, MINNN, MAXNN, NN_A, IARRAY, IC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3261,12 +3259,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  REALLY_ORDER_V                source/assembly/asspar2.F     
-Chd|-- called by -----------
-Chd|        ORDER_V                       source/assembly/asspar2.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    really_order_v   ../engine/source/assembly/asspar2.F
+      !||--- called by ------------------------------------------------------
+      !||    order_v          ../engine/source/assembly/asspar2.F
+      !||====================================================================
       SUBROUTINE REALLY_ORDER_V(n, minnn, maxnn, nn_a, iarray, ic, ic0)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

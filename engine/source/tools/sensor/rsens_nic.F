@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RSENS_NIC                     source/tools/sensor/rsens_nic.F
-Chd|-- called by -----------
-Chd|        RFORC3                        source/elements/spring/rforc3.F
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    rsens_nic    ../engine/source/tools/sensor/rsens_nic.F
+      !||--- called by ------------------------------------------------------
+      !||    rforc3       ../engine/source/elements/spring/rforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE RSENS_NIC(NEL    ,IXR   ,FOR   ,MOM    ,SKEW     ,
      .                     NSENSOR,SENSOR_TAB)
 C-----------------------------------------------

@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  AIRBAGB                       source/airbag/airbag2.F       
-Chd|-- called by -----------
-Chd|        MONVOL0                       source/airbag/monvol0.F       
-Chd|-- calls ---------------
-Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|        GET_U_FUNC                    source/user_interface/ufunc.F 
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    airbagb         ../engine/source/airbag/airbag2.F
+      !||--- called by ------------------------------------------------------
+      !||    monvol0         ../engine/source/airbag/monvol0.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_u_func      ../engine/source/user_interface/ufunc.F
+      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+      !||    sum_6_float     ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||====================================================================
       SUBROUTINE AIRBAGB(
      1                 IVOLU   ,ICBAG   ,NJET    ,IBAGJET ,NVENT   ,
      2                 IBAGHOL ,RVOLU   ,RVOLUV  ,RCBAG   ,RBAGJET ,

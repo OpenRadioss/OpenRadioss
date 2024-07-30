@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CMAINI3                       source/elements/sh3n/coquedk/cmaini3.F
-Chd|-- called by -----------
-Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        CM27IN3                       source/materials/mat/mat027/cm27in3.F
-Chd|        CM58IN3                       source/materials/mat/mat058/cm58in3.F
-Chd|        CORTHDIR                      source/elements/shell/coque/corthdir.F
-Chd|        CORTHINI                      source/elements/shell/coque/corthini.F
-Chd|        LAW158_INIT                   source/materials/mat/mat158/law158_init.F
-Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    cmaini3        ../starter/source/elements/sh3n/coquedk/cmaini3.F
+      !||--- called by ------------------------------------------------------
+      !||    cbainit3       ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cdkinit3       ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../starter/source/output/message/message.F
+      !||    cm27in3        ../starter/source/materials/mat/mat027/cm27in3.F
+      !||    cm58in3        ../starter/source/materials/mat/mat058/cm58in3.F
+      !||    corthdir       ../starter/source/elements/shell/coque/corthdir.F
+      !||    corthini       ../starter/source/elements/shell/coque/corthini.F
+      !||    law158_init    ../starter/source/materials/mat/mat158/law158_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod      ../starter/share/modules1/drape_mod.F
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    stack_mod      ../starter/share/modules1/stack_mod.F
+      !||====================================================================
       SUBROUTINE CMAINI3(ELBUF_STR,PM      ,GEO      ,NEL      ,NLAY      ,
      .                   SKEW     ,IGEO    ,IX       ,NIX      ,NUMEL     ,
      .                   NSIGSH   ,SIGSH   ,PTSH     ,IGTYP    ,IORTHLOC  ,

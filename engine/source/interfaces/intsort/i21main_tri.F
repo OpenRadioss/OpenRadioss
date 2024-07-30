@@ -20,21 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I21MAIN_TRI                   source/interfaces/intsort/i21main_tri.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        I21BUCE                       source/interfaces/intsort/i21buce.F
-Chd|        I21FPEN                       source/interfaces/int21/i21fpen.F
-Chd|        I21XSAVE                      source/interfaces/int21/i21xsave.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        UPDATE_STRUCT_INT21           source/interfaces/int21/update_struct_int21.F
-Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
-Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    i21main_tri                  ../engine/source/interfaces/intsort/i21main_tri.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri                       ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_sorting_criteria       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||    i21buce                      ../engine/source/interfaces/intsort/i21buce.F
+      !||    i21fpen                      ../engine/source/interfaces/int21/i21fpen.F
+      !||    i21xsave                     ../engine/source/interfaces/int21/i21xsave.F
+      !||    my_barrier                   ../engine/source/system/machine.F
+      !||    startime                     ../engine/source/system/timer.F
+      !||    stoptime                     ../engine/source/system/timer.F
+      !||    update_struct_int21          ../engine/source/interfaces/int21/update_struct_int21.F
+      !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
+      !||--- uses       -----------------------------------------------------
+      !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||    intstamp_mod                 ../engine/share/modules/intstamp_mod.F
+      !||====================================================================
       SUBROUTINE I21MAIN_TRI(
      1                  IPARI   ,X       ,NIN     ,
      2                  ITASK   ,WEIGHT  ,RETRI   ,NUM_IMP ,IND_IMP ,

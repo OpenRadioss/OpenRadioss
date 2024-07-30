@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25STI_EDG                    source/interfaces/inter3d1/i25sti_edg.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i25sti_edg        ../starter/source/interfaces/inter3d1/i25sti_edg.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3            ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I25STI_EDG(
      1 NEDGE    ,LEDGE     ,STFE       ,STFM      ,IGAP      ,
      2 GAPE     ,GAP_E_L   ,GAP_M      ,GAP_M_L   ,GAP_S_L   ,

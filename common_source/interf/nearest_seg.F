@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NEAREST_SEG                   interf/nearest_seg.F          
-Chd|-- called by -----------
-Chd|        INVOI3                        starter/source/interfaces/inter3d1/invoi3.F
-Chd|        I3MSR3                        engine/source/interfaces/inter3d/i3msr3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    nearest_seg   ../common_source/interf/nearest_seg.F
+      !||--- called by ------------------------------------------------------
+      !||    i3msr3        ../engine/source/interfaces/inter3d/i3msr3.F
+      !||    invoi3        ../starter/source/interfaces/inter3d1/invoi3.F
+      !||====================================================================
       SUBROUTINE NEAREST_SEG(X, IS, M1, M2, M3, LSEG, LSEG_NEW, BMIN, BMAX)
 C  
 C  COMPUTE BARYCENTRIC COORDINATES OF PROJECTION OF NODE IS ON TRIANGLE M1 M2 M3

@@ -20,25 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NBADIGEMESH                   source/elements/ige3d/nbadigemesh.F
-Chd|-- called by -----------
-Chd|        CONTRL                        source/starter/contrl.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        CONSTIT                       source/elements/nodes/constit.F
-Chd|        FREDEC0                       source/starter/freform.F      
-Chd|        FREDEC_2KEY_4ID_T             source/starter/freform.F      
-Chd|        FREDEC_KEY_3ID_T              source/starter/freform.F      
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        PRERAFIG3D                    source/elements/ige3d/prerafig3d.F
-Chd|        NINTRI                        source/system/nintrr.F        
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESHSURFIG3D_MOD              source/elements/ige3d/meshsurfig3d_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    nbadigemesh          ../starter/source/elements/ige3d/nbadigemesh.F
+      !||--- called by ------------------------------------------------------
+      !||    contrl               ../starter/source/starter/contrl.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../starter/source/output/message/message.F
+      !||    constit              ../starter/source/elements/nodes/constit.F
+      !||    fredec0              ../starter/source/starter/freform.F
+      !||    fredec_2key_4id_t    ../starter/source/starter/freform.F
+      !||    fredec_key_3id_t     ../starter/source/starter/freform.F
+      !||    nintri               ../starter/source/system/nintrr.F
+      !||    prerafig3d           ../starter/source/elements/ige3d/prerafig3d.F
+      !||    usr2sys              ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    meshsurfig3d_mod     ../starter/source/elements/ige3d/meshsurfig3d_mod.F
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE NBADIGEMESH(LSUBMODEL,NUMNUSR)
 C----------------------------------------------------------------------
 C   ROUTINE BASEE SUR NBADMESH MAIS SPECIFIQUE AUX ELEMENTS ISOGEOMETRIQUES

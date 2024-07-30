@@ -20,15 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R2R_CLEAN_INTER               source/coupling/rad2rad/r2r_clean_inter.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        R2R_CHECK_SEG                 source/coupling/rad2rad/routines_r2r.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_clean_inter   ../starter/source/coupling/rad2rad/r2r_clean_inter.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur            ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal            ../starter/source/spmd/node/ddtools.F
+      !||    r2r_check_seg     ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    usr2sys           ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    r2r_mod           ../starter/share/modules1/r2r_mod.F
+      !||    restmod           ../starter/share/modules1/restart_mod.F
+      !||====================================================================
       SUBROUTINE R2R_CLEAN_INTER(IPARI2,INTBUF_TAB,IPARTC,IPARTG,IPARTS,ISOLNOD)
 C-----------------------------------------------
 C   M o d u l e s

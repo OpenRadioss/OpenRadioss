@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DESTROY_CELL                  source/interfaces/int22/destroy_cell.F
-Chd|-- called by -----------
-Chd|        SINIT22_FVM                   source/interfaces/int22/sinit22_fvm.F
-Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    destroy_cell     ../engine/source/interfaces/int22/destroy_cell.F
+      !||--- called by ------------------------------------------------------
+      !||    sinit22_fvm      ../engine/source/interfaces/int22/sinit22_fvm.F
+      !||--- uses       -----------------------------------------------------
+      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||====================================================================
       SUBROUTINE DESTROY_CELL(NIN,IB,ICELL_TARGET,ICELLv,IBv,J,Jv, IXS, ITASK)
 C-----------------------------------------------
 C   D e s c r i p t i o n

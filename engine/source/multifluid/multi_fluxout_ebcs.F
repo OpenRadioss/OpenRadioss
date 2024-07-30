@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MULTI_FLUXOUT_EBCS            source/multifluid/multi_fluxout_ebcs.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    multi_fluxout_ebcs   ../engine/source/multifluid/multi_fluxout_ebcs.F
+      !||--- uses       -----------------------------------------------------
+      !||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F
+      !||====================================================================
       SUBROUTINE MULTI_FLUXOUT_EBCS(MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
      .     IXS, IXQ, IXTG, XGRID, WGRID)
 C-----------------------------------------------

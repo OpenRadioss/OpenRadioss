@@ -20,26 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I24FOR3                       source/interfaces/int24/i24for3.F
-Chd|-- called by -----------
-Chd|        I24MAINF                      source/interfaces/int24/i24main.F
-Chd|-- calls ---------------
-Chd|        I24ASS0                       source/interfaces/int24/i24for3.F
-Chd|        I24ASS2                       source/interfaces/int24/i24for3.F
-Chd|        I24FOR1_FIC                   source/interfaces/int24/i24for3e.F
-Chd|        I24FOR1_FICR                  source/interfaces/int24/i24for3e.F
-Chd|        I24SMS2                       source/interfaces/int24/i24for3.F
-Chd|        I24_SAVE_SUB                  source/interfaces/int24/i24_save_sub.F
-Chd|        IBCOFF                        source/interfaces/interf/ibcoff.F
-Chd|        BITGET                        source/interfaces/intsort/i20sto.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i24for3          ../engine/source/interfaces/int24/i24for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i24mainf         ../engine/source/interfaces/int24/i24main.F
+      !||--- calls      -----------------------------------------------------
+      !||    bitget           ../engine/source/interfaces/intsort/i20sto.F
+      !||    i24_save_sub     ../engine/source/interfaces/int24/i24_save_sub.F
+      !||    i24ass0          ../engine/source/interfaces/int24/i24for3.F
+      !||    i24ass2          ../engine/source/interfaces/int24/i24for3.F
+      !||    i24for1_fic      ../engine/source/interfaces/int24/i24for3e.F
+      !||    i24for1_ficr     ../engine/source/interfaces/int24/i24for3e.F
+      !||    i24sms2          ../engine/source/interfaces/int24/i24for3.F
+      !||    ibcoff           ../engine/source/interfaces/interf/ibcoff.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod         ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod          ../engine/share/modules/h3d_mod.F
+      !||    outputs_mod      ../common_source/modules/outputs_mod.F
+      !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
+      !||    plyxfem_mod      ../engine/share/modules/plyxfem_mod.F
+      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I24FOR3(JLT ,A  ,V       ,IBCC        ,ICODT     ,
      2    FSAV        ,GAP       ,FRIC    ,MS          ,VISC      ,
      3    VISCF       ,NOINT     ,STFN    ,ITAB        ,CN_LOC    ,
@@ -3621,19 +3622,20 @@ C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I24ASS2                       source/interfaces/int24/i24for3.F
-Chd|-- called by -----------
-Chd|        I24FOR3                       source/interfaces/int24/i24for3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I24FORC_FIC                   source/interfaces/int24/i24for3e.F
-Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i24ass2       ../engine/source/interfaces/int24/i24for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i24for3       ../engine/source/interfaces/int24/i24for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||    i24forc_fic   ../engine/source/interfaces/int24/i24for3e.F
+      !||--- uses       -----------------------------------------------------
+      !||    debug_mod     ../engine/share/modules/debug_mod.F
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I24ASS2(JLT   ,IX1   ,IX2  ,IX3  ,IX4   ,
      2                  NSVG  ,H1    ,H2   ,H3   ,H4    ,STIF   ,
      3                  FX1   ,FY1   ,FZ1  ,FX2  ,FY2   ,FZ2    ,
@@ -4258,15 +4260,16 @@ cc            PLYSKYI(I)%FSKYI(NISKYL,4)=STIF(I)
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I24ASS0                       source/interfaces/int24/i24for3.F
-Chd|-- called by -----------
-Chd|        I24FOR3                       source/interfaces/int24/i24for3.F
-Chd|-- calls ---------------
-Chd|        I24FORC_FIC                   source/interfaces/int24/i24for3e.F
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i24ass0       ../engine/source/interfaces/int24/i24for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i24for3       ../engine/source/interfaces/int24/i24for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    i24forc_fic   ../engine/source/interfaces/int24/i24for3e.F
+      !||--- uses       -----------------------------------------------------
+      !||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I24ASS0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
      3                  FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,
@@ -4581,17 +4584,18 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I24SMS2                       source/interfaces/int24/i24for3.F
-Chd|-- called by -----------
-Chd|        I24FOR3                       source/interfaces/int24/i24for3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I24FORC_FIC                   source/interfaces/int24/i24for3e.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i24sms2       ../engine/source/interfaces/int24/i24for3.F
+      !||--- called by ------------------------------------------------------
+      !||    i24for3       ../engine/source/interfaces/int24/i24for3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||    i24forc_fic   ../engine/source/interfaces/int24/i24for3e.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I24SMS2(JLT   ,IX1   ,IX2  ,IX3  ,IX4   ,
      2                  NSVG  ,H1    ,H2   ,H3   ,H4    ,STIF   ,
      3                  NIN   ,NOINT ,MSKYI_SMS ,ISKYI_SMS,NSMS ,

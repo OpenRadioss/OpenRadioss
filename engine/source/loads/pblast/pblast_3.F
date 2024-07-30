@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PBLAST_3                      source/loads/pblast/pblast_3.F
-Chd|-- called by -----------
-Chd|        PBLAST                        source/loads/pblast/pblast.F  
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        PBLAST_PARAMETERS__AIR_BURST  ../common_source/modules/loads/pblast_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
-Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    pblast_3                       ../engine/source/loads/pblast/pblast_3.F
+      !||--- called by ------------------------------------------------------
+      !||    pblast                         ../engine/source/loads/pblast/pblast.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret                          ../engine/source/system/arret.F
+      !||    my_barrier                     ../engine/source/system/machine.F
+      !||    pblast_parameters__air_burst   ../common_source/modules/loads/pblast_mod.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod                   ../common_source/modules/groupdef_mod.F
+      !||    h3d_inc_mod                    ../engine/share/modules/h3d_inc_mod.F
+      !||    h3d_mod                        ../engine/share/modules/h3d_mod.F
+      !||    pblast_mod                     ../common_source/modules/loads/pblast_mod.F
+      !||    th_surf_mod                    ../common_source/modules/interfaces/th_surf_mod.F
+      !||====================================================================
       SUBROUTINE PBLAST_3(ILOADP  ,FAC      ,A       ,V         ,X       ,
      1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,
      2                    ITAB    ,H3D_DATA ,NL      ,DTMIN_LOC ,TFEXT_LOC,

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UPOFFC                        source/elements/xfem/upoffc.F 
-Chd|-- called by -----------
-Chd|        XFEOFF                        source/elements/xfem/xfeoff.F 
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    upoffc          ../engine/source/elements/xfem/upoffc.F
+      !||--- called by ------------------------------------------------------
+      !||    xfeoff          ../engine/source/elements/xfem/xfeoff.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE UPOFFC(XFEM_TAB ,NG      ,
      .                  NFT      ,JFT     ,JLT      ,IXFEM    ,IEL_CRK ,
      .                  ELCUTC   ,INOD_CRK,IADC_CRK ,IXC      ,NXLAY   ,

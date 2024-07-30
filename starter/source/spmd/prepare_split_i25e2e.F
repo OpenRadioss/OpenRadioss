@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PREPARE_SPLIT_I25E2E          source/spmd/prepare_split_i25e2e.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        LOCAL_EDGE_NUMBERING          source/spmd/prepare_split_i25e2e.F
-Chd|        ID                            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        I25_FIE_MOD                   share/modules1/i25_fie_mod.F  
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    prepare_split_i25e2e   ../starter/source/spmd/prepare_split_i25e2e.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                 ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    cpp_count_candidates   ../starter/source/spmd/cpp_split_tool.cpp
+      !||    local_edge_numbering   ../starter/source/spmd/prepare_split_i25e2e.F
+      !||--- uses       -----------------------------------------------------
+      !||    front_mod              ../starter/share/modules1/front_mod.F
+      !||    i25_fie_mod            ../starter/share/modules1/i25_fie_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE PREPARE_SPLIT_I25E2E(NSPMD, INTBUF_TAB , IPARI, INTERCEP)
 C-----------------------------------------------
 C   M o d u l e s
@@ -225,12 +226,11 @@ CC ==========
         ENDDO
       END SUBROUTINE
 
-Chd|====================================================================
-Chd|  LOCAL_EDGE_NUMBERING          source/spmd/prepare_split_i25e2e.F
-Chd|-- called by -----------
-Chd|        PREPARE_SPLIT_I25E2E          source/spmd/prepare_split_i25e2e.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    local_edge_numbering   ../starter/source/spmd/prepare_split_i25e2e.F
+      !||--- called by ------------------------------------------------------
+      !||    prepare_split_i25e2e   ../starter/source/spmd/prepare_split_i25e2e.F
+      !||====================================================================
        SUBROUTINE LOCAL_EDGE_NUMBERING(NEDGE,NRTM,NSPMD,
      .                                 LEDGE,           
      .                                 CEP_SEG,

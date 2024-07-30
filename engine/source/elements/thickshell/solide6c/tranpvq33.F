@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TRANPVQ33                     source/elements/thickshell/solide6c/tranpvq33.F
-Chd|-- called by -----------
-Chd|        SETPROJKS6                    source/elements/thickshell/solide6c/setprojks6.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    tranpvq33    ../engine/source/elements/thickshell/solide6c/tranpvq33.F
+      !||--- called by ------------------------------------------------------
+      !||    setprojks6   ../engine/source/elements/thickshell/solide6c/setprojks6.F
+      !||====================================================================
       SUBROUTINE TRANPVQ33(JFT   ,JLT    ,KD  ,PVQ ,VQ ,IS ,IT   )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"

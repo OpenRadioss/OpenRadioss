@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MMOD_NORM                     source/elements/solid/solidez/mmod_norm.F
-Chd|-- called by -----------
-Chd|        SZHOUR3_OR                    source/elements/solid/solidez/szhour3_or.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mmod_norm    ../engine/source/elements/solid/solidez/mmod_norm.F
+      !||--- called by ------------------------------------------------------
+      !||    szhour3_or   ../engine/source/elements/solid/solidez/szhour3_or.F
+      !||====================================================================
       SUBROUTINE MMOD_NORM(JFT  ,JLT   ,GG    ,CC     ,CG    ,G33     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

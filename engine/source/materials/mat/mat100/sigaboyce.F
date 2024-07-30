@@ -23,13 +23,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C   Hyperelastic model: ARRUDA BOYCE strain energy potential
 C   compute stresses using MATB which is the 
 C   left cauchy green tensor [b]=[F][FT]
-Chd|====================================================================
-Chd|  SIGABOYCE                     source/materials/mat/mat100/sigaboyce.F
-Chd|-- called by -----------
-Chd|        SIGEPS100                     source/materials/mat/mat100/sigeps100.F
-Chd|-- calls ---------------
-Chd|        MULLINS_OR                    source/materials/fail/mullins_or/fail_mullins_OR_s.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sigaboyce    ../engine/source/materials/mat/mat100/sigaboyce.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps100    ../engine/source/materials/mat/mat100/sigeps100.F
+      !||--- calls      -----------------------------------------------------
+      !||    mullins_or   ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F
+      !||====================================================================
        SUBROUTINE SIGABOYCE(
      1                NEL , MATB ,C1,C2,C3,
      3                C4  ,C5   ,MU,BETA,D ,

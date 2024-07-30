@@ -20,111 +20,107 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INITIA                        source/elements/initia/initia.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ADDMASPART                    source/tools/admas/addmaspart.F
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        ASSTIFI                       source/interfaces/inter3d1/asstifi.F
-Chd|        BINIT2                        source/ale/bimat/binit2.F     
-Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
-Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
-Chd|        CHECKMP                       source/elements/initia/initia.F
-Chd|        CHEKMP2                       source/elements/initia/initia.F
-Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|        DTNODA_STIFINT                source/interfaces/inter3d1/dtnoda_stifint.F
-Chd|        EPORIN3                       source/ale/ale3d/eporin3.F    
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        FXBSINI                       source/constraints/fxbody/fxbsini.F
-Chd|        FXBVINI                       ../common_source/fxbody/fxbvini.F
-Chd|        IG3DINIT3                     source/elements/ige3d/ig3dinit3.F
-Chd|        INIBOLTPREL                   source/loads/bolt/iniboltprel.F
-Chd|        INIGRAV_LOAD                  source/initial_conditions/inigrav/inigrav_load.F
-Chd|        ININODE_RM                    source/materials/mat/mat019/ininode_rm.F
-Chd|        ININTMASS                     source/interfaces/inter3d1/inintmass.F
-Chd|        INIRBE2                       source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|        INIRBY                        source/constraints/general/rbody/inirby.F
-Chd|        INIRBYS                       source/constraints/general/rbody/inirby.F
-Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
-Chd|        INISRF                        source/constraints/general/rbody/inisrf.F
-Chd|        INIVOID                       source/elements/initia/inivoid.F
-Chd|        INI_FVMINIVEL                 source/elements/initia/ini_fvminivel.F
-Chd|        INI_FXBODY                    source/constraints/fxbody/ini_fxbody.F
-Chd|        INI_INIMAP1D                  source/initial_conditions/inimap/ini_inimap1d.F
-Chd|        INI_INIMAP2D                  stub/ini_inimap2d.F           
-Chd|        INI_SEATBELT                  source/tools/seatbelts/ini_seatbelt.F
-Chd|        INSPCND                       source/elements/sph/inspcnd.F 
-Chd|        LASER10                       source/loads/laser/laser10.F  
-Chd|        LGMINI_RBY                    source/tools/lagmul/lgmini_rby.F
-Chd|        MODBUFEL                      source/constraints/fxbody/modbufel.F
-Chd|        MODDEPL                       source/constraints/fxbody/moddepl.F
-Chd|        MULTIFLUID_GLOBAL_TDET        source/multifluid/multifluid_global_tdet.F
-Chd|        MULTIFLUID_INIT2              source/multifluid/multifluid_init2.F
-Chd|        MULTIFLUID_INIT2T             source/multifluid/multifluid_init2t.F
-Chd|        MULTIFLUID_INIT3              source/multifluid/multifluid_init3.F
-Chd|        MULTIFLUID_INIT3T             source/multifluid/multifluid_init3t.F
-Chd|        NLOC_DMG_INIT                 source/materials/fail/nloc_dmg_init.F
-Chd|        OUTPART                       source/elements/initia/initia.F
-Chd|        OUTPART5                      source/elements/initia/initia.F
-Chd|        PINIT3                        source/elements/beam/pinit3.F 
-Chd|        Q4INIT2                       source/elements/solid_2d/quad4/q4init2.F
-Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
-Chd|        RCHECKMASS                    source/elements/spring/rcheckmass.F
-Chd|        RETRIRBY                      source/constraints/general/merge/hm_read_merge.F
-Chd|        RINI33_RB                     source/elements/joint/rjoint/rini33_rb.F
-Chd|        RINI45_RB                     source/elements/joint/rjoint/rini45_rb.F
-Chd|        RINIT3                        source/elements/spring/rinit3.F
-Chd|        S10INIT3                      source/elements/solid/solide10/s10init3.F
-Chd|        S10JACI3                      source/elements/solid/solide10/s10jaci3.F
-Chd|        S16INIT3                      source/elements/thickshell/solide16/s16init3.F
-Chd|        S20INIT3                      source/elements/solid/solide20/s20init3.F
-Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
-Chd|        S4REFSTA3                     source/elements/solid/solide4/s4refsta3.F
-Chd|        S6CINIT3                      source/elements/thickshell/solide6c/s6cinit3.F
-Chd|        S8CINIT3                      source/elements/thickshell/solide8c/s8cinit3.F
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|        SCALEINI                      source/elements/initia/scaleini.F
-Chd|        SCINIT3                       source/elements/thickshell/solidec/scinit3.F
-Chd|        SGSAVINI                      source/elements/solid/solide/scoor3.F
-Chd|        SGSAVINIEREF                  source/elements/initia/initia.F
-Chd|        SGSAVINIEREFQ                 source/elements/initia/initia.F
-Chd|        SGSAVREF                      source/elements/initia/initia.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|        SMS_AUTO_DT                   source/ams/sms_auto_dt.F      
-Chd|        SPINIT3                       source/elements/sph/spinit3.F 
-Chd|        SPMD_MSIN                     source/elements/initia/spmd_msin.F
-Chd|        SPMD_MSIN_ADDMASS             source/elements/initia/spmd_msin_addmass.F
-Chd|        SPMD_PARTSAV_PON              source/elements/initia/spmd_msin_addmass.F
-Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
-Chd|        SUINIT3                       source/elements/elbuf_init/suinit3.F
-Chd|        TINIT3                        source/elements/truss/tinit3.F
-Chd|        XINIT3                        source/elements/xelem/xinit3.F
-Chd|        STRR                          source/tools/univ/strr.F      
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
-Chd|        BPRELOAD_MOD                  share/modules1/bpreload_mod.F 
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        FUNC2D_MOD                    share/modules1/func2d_mod.F   
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
-Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 
-Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F 
-Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    initia                      ../starter/source/elements/initia/initia.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                      ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    addmaspart                  ../starter/source/tools/admas/addmaspart.F
+      !||    ancmsg                      ../starter/source/output/message/message.F
+      !||    arret                       ../starter/source/system/arret.F
+      !||    asstifi                     ../starter/source/interfaces/inter3d1/asstifi.F
+      !||    binit2                      ../starter/source/ale/bimat/binit2.F
+      !||    c3init3                     ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3                    ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cdkinit3                    ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||    checkmp                     ../starter/source/elements/initia/initia.F
+      !||    chekmp2                     ../starter/source/elements/initia/initia.F
+      !||    cinit3                      ../starter/source/elements/shell/coque/cinit3.F
+      !||    dtnoda_stifint              ../starter/source/interfaces/inter3d1/dtnoda_stifint.F
+      !||    eporin3                     ../starter/source/ale/ale3d/eporin3.F
+      !||    fretitl2                    ../starter/source/starter/freform.F
+      !||    fxbsini                     ../starter/source/constraints/fxbody/fxbsini.F
+      !||    ig3dinit3                   ../starter/source/elements/ige3d/ig3dinit3.F
+      !||    ini_fvminivel               ../starter/source/elements/initia/ini_fvminivel.F
+      !||    ini_fxbody                  ../starter/source/constraints/fxbody/ini_fxbody.F
+      !||    ini_inimap1d                ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+      !||    ini_inimap2d                ../starter/stub/ini_inimap2d.F
+      !||    ini_seatbelt                ../starter/source/tools/seatbelts/ini_seatbelt.F
+      !||    iniboltprel                 ../starter/source/loads/bolt/iniboltprel.F
+      !||    inigrav_load                ../starter/source/initial_conditions/inigrav/inigrav_load.F
+      !||    ininode_rm                  ../starter/source/materials/mat/mat019/ininode_rm.F
+      !||    inintmass                   ../starter/source/interfaces/inter3d1/inintmass.F
+      !||    inirbe2                     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    inirby                      ../starter/source/constraints/general/rbody/inirby.F
+      !||    inirbys                     ../starter/source/constraints/general/rbody/inirby.F
+      !||    inirig_mat                  ../starter/source/elements/initia/inirig_mat.F
+      !||    inisrf                      ../starter/source/constraints/general/rbody/inisrf.F
+      !||    init_bcs_wall               ../starter/source/boundary_conditions/init_bcs_wall.F90
+      !||    init_inivol                 ../starter/source/initial_conditions/inivol/init_inivol.F90
+      !||    init_seatbelt_rbodies       ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90
+      !||    inivoid                     ../starter/source/elements/initia/inivoid.F
+      !||    inspcnd                     ../starter/source/elements/sph/inspcnd.F
+      !||    laser10                     ../starter/source/loads/laser/laser10.F
+      !||    lgmini_rby                  ../starter/source/tools/lagmul/lgmini_rby.F
+      !||    modbufel                    ../starter/source/constraints/fxbody/modbufel.F
+      !||    moddepl                     ../starter/source/constraints/fxbody/moddepl.F
+      !||    multifluid_global_tdet      ../starter/source/multifluid/multifluid_global_tdet.F
+      !||    multifluid_init2            ../starter/source/multifluid/multifluid_init2.F
+      !||    multifluid_init2t           ../starter/source/multifluid/multifluid_init2t.F
+      !||    multifluid_init3            ../starter/source/multifluid/multifluid_init3.F
+      !||    multifluid_init3t           ../starter/source/multifluid/multifluid_init3t.F
+      !||    nloc_dmg_init               ../starter/source/materials/fail/nloc_dmg_init.F
+      !||    outpart                     ../starter/source/elements/initia/initia.F
+      !||    outpart5                    ../starter/source/elements/initia/initia.F
+      !||    pinit3                      ../starter/source/elements/beam/pinit3.F
+      !||    q4init2                     ../starter/source/elements/solid_2d/quad4/q4init2.F
+      !||    qinit2                      ../starter/source/elements/solid_2d/quad/qinit2.F
+      !||    rcheckmass                  ../starter/source/elements/spring/rcheckmass.F
+      !||    retrirby                    ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    rini33_rb                   ../starter/source/elements/joint/rjoint/rini33_rb.F
+      !||    rini45_rb                   ../starter/source/elements/joint/rjoint/rini45_rb.F
+      !||    rinit3                      ../starter/source/elements/spring/rinit3.F
+      !||    s10init3                    ../starter/source/elements/solid/solide10/s10init3.F
+      !||    s10jaci3                    ../starter/source/elements/solid/solide10/s10jaci3.F
+      !||    s16init3                    ../starter/source/elements/thickshell/solide16/s16init3.F
+      !||    s20init3                    ../starter/source/elements/solid/solide20/s20init3.F
+      !||    s4init3                     ../starter/source/elements/solid/solide4/s4init3.F
+      !||    s4refsta3                   ../starter/source/elements/solid/solide4/s4refsta3.F
+      !||    s6cinit3                    ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+      !||    s8cinit3                    ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+      !||    s8zinit3                    ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||    scaleini                    ../starter/source/elements/initia/scaleini.F
+      !||    scinit3                     ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||    sgsavini                    ../starter/source/elements/solid/solide/scoor3.F
+      !||    sgsavinieref                ../starter/source/elements/initia/initia.F
+      !||    sgsavinierefq               ../starter/source/elements/initia/initia.F
+      !||    sgsavref                    ../starter/source/elements/initia/initia.F
+      !||    sinit3                      ../starter/source/elements/solid/solide/sinit3.F
+      !||    sms_auto_dt                 ../starter/source/ams/sms_auto_dt.F
+      !||    spinit3                     ../starter/source/elements/sph/spinit3.F
+      !||    spmd_msin                   ../starter/source/elements/initia/spmd_msin.F
+      !||    spmd_msin_addmass           ../starter/source/elements/initia/spmd_msin_addmass.F
+      !||    spmd_partsav_pon            ../starter/source/elements/initia/spmd_msin_addmass.F
+      !||    srefsta3                    ../starter/source/elements/solid/solide/srefsta3.F
+      !||    suinit3                     ../starter/source/elements/elbuf_init/suinit3.F
+      !||    tinit3                      ../starter/source/elements/truss/tinit3.F
+      !||    uel2sys                     ../starter/source/initial_conditions/inista/yctrl.F
+      !||    xinit3                      ../starter/source/elements/xelem/xinit3.F
+      !||--- uses       -----------------------------------------------------
+      !||    bpreload_mod                ../starter/share/modules1/bpreload_mod.F
+      !||    defaults_mod                ../starter/source/modules/defaults_mod.F90
+      !||    detonators_mod              ../starter/share/modules1/detonators_mod.F
+      !||    drape_mod                   ../starter/share/modules1/drape_mod.F
+      !||    func2d_mod                  ../starter/share/modules1/func2d_mod.F
+      !||    inimap1d_mod                ../starter/share/modules1/inimap1d_mod.F
+      !||    inimap2d_mod                ../starter/share/modules1/inimap2d_mod.F
+      !||    init_seatbelt_rbodies_mod   ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90
+      !||    inivol_def_mod              ../starter/share/modules1/inivol_mod.F
+      !||    message_mod                 ../starter/share/message_module/message_mod.F
+      !||    sensor_mod                  ../starter/share/modules1/sensor_mod.F
+      !||    stack_mod                   ../starter/share/modules1/stack_mod.F
+      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE INITIA(IPARG      ,ELBUF         ,MS               ,IN             ,V         ,
      1                  X          ,IXS           ,IXQ              ,IXC            ,IXT       ,
      2                  IXP        ,IXR           ,DETONATORS       ,GEO            ,PM        ,
@@ -2134,15 +2130,16 @@ c-----------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  CHEKMP2                       source/elements/initia/initia.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    chekmp2       ../starter/source/elements/initia/initia.F
+      !||--- called by ------------------------------------------------------
+      !||    initia        ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    fretitl2      ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE CHEKMP2(NUMEL ,IPART   ,IPARTEL ,IX      ,NIX     ,
      1                  NE     ,EMAT    ,EPID    ,IPM      ,IGEO    ,
      2                  ELEM   )
@@ -2369,15 +2366,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  CHECKMP                       source/elements/initia/initia.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    checkmp       ../starter/source/elements/initia/initia.F
+      !||--- called by ------------------------------------------------------
+      !||    initia        ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    fretitl2      ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE CHECKMP(NUMEL,IX,NIX,NG,NE,EMAT,EPID,IPM,IGEO,ELEM,IPARTEL)
       USE MESSAGE_MOD
 C
@@ -2668,13 +2666,13 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  OUTPART                       source/elements/initia/initia.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    outpart    ../starter/source/elements/initia/initia.F
+      !||--- called by ------------------------------------------------------
+      !||    initia     ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl2   ../starter/source/starter/freform.F
+      !||====================================================================
       SUBROUTINE OUTPART(PARTSAV,IPART,NPART)
 C
 C-----------------------------------------------
@@ -2742,12 +2740,11 @@ C        WRITE(IOUT,'(A)')       '----'
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  SGSAVREF                      source/elements/initia/initia.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sgsavref   ../starter/source/elements/initia/initia.F
+      !||--- called by ------------------------------------------------------
+      !||    initia     ../starter/source/elements/initia/initia.F
+      !||====================================================================
       SUBROUTINE SGSAVREF(NPE,XREF,SAV,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2795,12 +2792,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  SGSAVINIEREF                  source/elements/initia/initia.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sgsavinieref   ../starter/source/elements/initia/initia.F
+      !||--- called by ------------------------------------------------------
+      !||    initia         ../starter/source/elements/initia/initia.F
+      !||====================================================================
       SUBROUTINE SGSAVINIEREF(NPE,STRAGLOB,SIGSP,NSIGI,PTSOL,SAV,OFFG,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2862,12 +2858,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  SGSAVINIEREFQ                 source/elements/initia/initia.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sgsavinierefq   ../starter/source/elements/initia/initia.F
+      !||--- called by ------------------------------------------------------
+      !||    initia          ../starter/source/elements/initia/initia.F
+      !||====================================================================
       SUBROUTINE SGSAVINIEREFQ(NPE,STRAGLOB,SIGSP,NSIGI,PTSOL,SAV,OFFG,
      .                         IXS,DR,NDR,NEL)
 C-----------------------------------------------
@@ -2929,14 +2924,14 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  OUTPART5                      source/elements/initia/initia.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    outpart5          ../starter/source/elements/initia/initia.F
+      !||--- called by ------------------------------------------------------
+      !||    initia            ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl2          ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE OUTPART5(GROUP_PARAM_TAB,IPART,IPARTS,IPARG,IGEO, GEO ,PM )
 C-----------------------------------------------
 C   M o d u l e s

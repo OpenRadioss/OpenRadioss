@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UROTO                         source/airbag/uroto.F         
-Chd|-- called by -----------
-Chd|        MULAWGLC                      source/materials/mat_share/mulawglc.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    uroto      ../engine/source/airbag/uroto.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawglc   ../engine/source/materials/mat_share/mulawglc.F
+      !||====================================================================
       SUBROUTINE UROTO(JFT,JLT,SIG,DIR,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -64,17 +63,18 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  UROTOV                        source/airbag/uroto.F         
-Chd|-- called by -----------
-Chd|        M32PLAS                       source/materials/mat/mat032/m32plas.F
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|        SIGROTA                       source/output/anim/generate/sigrota.F
-Chd|        SIGROTA_XFE                   source/output/anim/generate/sigrota_xfe.F
-Chd|        TENSORC_CRK                   source/output/anim/generate/tensorc_crk.F
-Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    urotov            ../engine/source/airbag/uroto.F
+      !||--- called by ------------------------------------------------------
+      !||    m32plas           ../engine/source/materials/mat/mat032/m32plas.F
+      !||    mat25_crasurv_c   ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
+      !||    mat25_tsaiwu_c    ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
+      !||    mulawc            ../engine/source/materials/mat_share/mulawc.F
+      !||    sigrota           ../engine/source/output/anim/generate/sigrota.F
+      !||    sigrota_xfe       ../engine/source/output/anim/generate/sigrota_xfe.F
+      !||    tensorc_crk       ../engine/source/output/anim/generate/tensorc_crk.F
+      !||    usermat_shell     ../engine/source/materials/mat_share/usermat_shell.F
+      !||====================================================================
       SUBROUTINE UROTOV(JFT,JLT,SIG,DIR,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -116,12 +116,11 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  UROTO_SIG                     source/airbag/uroto.F         
-Chd|-- called by -----------
-Chd|        SIGEPS27C                     source/materials/mat/mat027/sigeps27c.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    uroto_sig   ../engine/source/airbag/uroto.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps27c   ../engine/source/materials/mat/mat027/sigeps27c.F
+      !||====================================================================
       SUBROUTINE UROTO_SIG(JFT,JLT,SIG,DIR,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

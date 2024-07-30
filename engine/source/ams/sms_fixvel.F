@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SMS_FIXVEL                    source/ams/sms_fixvel.F       
-Chd|-- called by -----------
-Chd|        SMS_ENCIN_2                   source/ams/sms_encin_2.F      
-Chd|        SMS_MASS_SCALE_2              source/ams/sms_mass_scale_2.F 
-Chd|        SMS_PCG                       source/ams/sms_pcg.F          
-Chd|-- calls ---------------
-Chd|        VINTER                        source/tools/curve/vinter.F   
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_fixvel         ../engine/source/ams/sms_fixvel.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_encin_2        ../engine/source/ams/sms_encin_2.F
+      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+      !||    sms_pcg            ../engine/source/ams/sms_pcg.F
+      !||--- calls      -----------------------------------------------------
+      !||    vinter             ../engine/source/tools/curve/vinter.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod         ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SMS_FIXVEL(IBFV  ,A     ,V     ,NPC    ,TF     ,
      2                     VEL    ,MS    ,X     ,SKEW   ,SENSOR_TAB,
      3                     WEIGHT,D     ,IFRAME ,XFRAME ,NSENSOR,

@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STHERM                        source/elements/solid/solide/stherm.F
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    stherm    ../engine/source/elements/solid/solide/stherm.F
+      !||--- called by ------------------------------------------------------
+      !||    sforc3    ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3   ../engine/source/elements/solid/solidez/szforc3.F
+      !||====================================================================
       SUBROUTINE STHERM(
      1   PM,      MAT,     VOL,     NC1,
      2   NC2,     NC3,     NC4,     NC5,

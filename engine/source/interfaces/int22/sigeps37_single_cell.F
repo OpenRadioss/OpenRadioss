@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS37_SINGLE_CELL          source/interfaces/int22/sigeps37_single_cell.F
-Chd|-- called by -----------
-Chd|        SINIT22_FVM                   source/interfaces/int22/sinit22_fvm.F
-Chd|-- calls ---------------
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps37_single_cell   ../engine/source/interfaces/int22/sigeps37_single_cell.F
+      !||--- called by ------------------------------------------------------
+      !||    sinit22_fvm            ../engine/source/interfaces/int22/sinit22_fvm.F
+      !||--- uses       -----------------------------------------------------
+      !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE SIGEPS37_SINGLE_CELL (
      1                                 ELBUF_TAB, IXS,  BUFMAT , IPARG, IPM,
      2                                 IDLOC    , NG ,  brickID, VOL  

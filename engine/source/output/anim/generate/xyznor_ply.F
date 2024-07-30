@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  XYZNOR_PLY                    source/output/anim/generate/xyznor_ply.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|-- calls ---------------
-Chd|        SPMD_ANIM_PLY_XYZNOR          source/mpi/anim/spmd_anim_ply_xyznor.F
-Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    xyznor_ply             ../engine/source/output/anim/generate/xyznor_ply.F
+      !||--- called by ------------------------------------------------------
+      !||    genani                 ../engine/source/output/anim/generate/genani.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_anim_ply_xyznor   ../engine/source/mpi/anim/spmd_anim_ply_xyznor.F
+      !||    write_s_c              ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
+      !||====================================================================
       SUBROUTINE XYZNOR_PLY(IPLY,XNORM,NODGLOB,WEIGHT,EMPSIZPL)
 C-----------------------------------------------
       USE PLYXFEM_MOD

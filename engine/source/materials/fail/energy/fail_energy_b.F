@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_ENERGY_B                 source/materials/fail/energy/fail_energy_b.F
-Chd|-- called by -----------
-Chd|        FAIL_BEAM3                    source/elements/beam/fail_beam3.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_energy_b   ../engine/source/materials/fail/energy/fail_energy_b.F
+      !||--- called by ------------------------------------------------------
+      !||    fail_beam3      ../engine/source/elements/beam/fail_beam3.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter          ../engine/source/tools/curve/finter.F
+      !||    nvar            ../engine/source/input/nvar.F
+      !||====================================================================
       SUBROUTINE FAIL_ENERGY_B(
      .           NEL      ,NGL      ,NUPARAM  ,UPARAM   ,
      .           TIME     ,EPSD     ,OFF      ,DFMAX    ,       

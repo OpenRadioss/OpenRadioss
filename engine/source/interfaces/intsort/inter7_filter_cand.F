@@ -20,24 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTER7_FILTER_CAND_MOD        source/interfaces/intsort/inter7_filter_cand.F
-Chd|-- called by -----------
-Chd|        INTER7_CANDIDATE_PAIRS        source/interfaces/intsort/inter7_candidate_pairs.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    inter7_filter_cand_mod   ../engine/source/interfaces/intsort/inter7_filter_cand.F
+      !||--- called by ------------------------------------------------------
+      !||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||====================================================================
       MODULE INTER7_FILTER_CAND_MOD
       contains
 !! \brief broad phase filtering of candidate pairs
 !! \details input: nodes and segment sharing the same voxel, output: filtered candidate pairs
-Chd|====================================================================
-Chd|  INTER7_FILTER_CAND            source/interfaces/intsort/inter7_filter_cand.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        COLLISION_MOD                 source/interfaces/intsort/collision_mod.F
-Chd|        INTER7_GATHER_CAND_MOD        source/interfaces/int07/inter7_gather_cand.F
-Chd|        INTER7_PENETRATION_MOD        source/interfaces/intsort/inter7_penetration.F
-Chd|====================================================================
+      !||====================================================================
+      !||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F
+      !||--- called by ------------------------------------------------------
+      !||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||--- calls      -----------------------------------------------------
+      !||    inter7_gather_cand       ../engine/source/interfaces/int07/inter7_gather_cand.F
+      !||    inter7_penetration       ../engine/source/interfaces/intsort/inter7_penetration.F
+      !||--- uses       -----------------------------------------------------
+      !||    collision_mod            ../engine/source/interfaces/intsort/collision_mod.F
+      !||    constant_mod             ../common_source/modules/constant_mod.F
+      !||    inter7_gather_cand_mod   ../engine/source/interfaces/int07/inter7_gather_cand.F
+      !||    inter7_penetration_mod   ../engine/source/interfaces/intsort/inter7_penetration.F
+      !||====================================================================
         SUBROUTINE INTER7_FILTER_CAND(
      1        j_stok,irect  ,x     ,nsv   ,ii_stok,
      2        cand_n,cand_e ,mulnsn,margin  ,

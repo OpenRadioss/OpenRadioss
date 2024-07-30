@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2CURVV                       source/interfaces/interf/i2curvv.F
-Chd|-- called by -----------
-Chd|        INTTI2V                       source/interfaces/interf/intti2v.F
-Chd|-- calls ---------------
-Chd|        I2CURV_REP                    source/interfaces/interf/i2curv_rep.F
-Chd|        I2_FFORM                      source/interfaces/interf/i2_fform.F
-Chd|        INV3                          source/elements/joint/rskew33.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i2curvv      ../engine/source/interfaces/interf/i2curvv.F
+      !||--- called by ------------------------------------------------------
+      !||    intti2v      ../engine/source/interfaces/interf/intti2v.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2_fform     ../engine/source/interfaces/interf/i2_fform.F
+      !||    i2curv_rep   ../engine/source/interfaces/interf/i2curv_rep.F
+      !||    inv3         ../engine/source/elements/joint/rskew33.F
+      !||====================================================================
       SUBROUTINE I2CURVV(
      .           NSN     ,NMN     ,MS      ,V       ,A       ,
      .           AR      ,VR      ,X       ,IRECT   ,NSV     ,

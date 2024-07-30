@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ANIM_NODAL_VECTOR_FVMBAGS     source/output/anim/generate/anim_nodal_vector_fvmbags.F
-Chd|-- called by -----------
-Chd|        H3D_NODAL_VECTOR              source/output/h3d/h3d_results/h3d_nodal_vector.F
-Chd|-- calls ---------------
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    anim_nodal_vector_fvmbags   ../engine/source/output/anim/generate/anim_nodal_vector_fvmbags.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_nodal_vector            ../engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod                   ../engine/share/modules/fvbag_mod.F
+      !||    groupdef_mod                ../common_source/modules/groupdef_mod.F
+      !||====================================================================
       SUBROUTINE ANIM_NODAL_VECTOR_FVMBAGS(KEY, WA4, MONVOL,VOLMON, FVDATA, NFVBAG, SMONVOL, SVOLMON,
      .                                     AIRBAGS_TOTAL_FVM_IN_H3D, IS_WRITTEN_NODE_FVM, AIRBAGS_NODE_ID_SHIFT )
 C-----------------------------------------------

@@ -20,16 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  YCTRL                         source/initial_conditions/inista/yctrl.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    yctrl          ../starter/source/initial_conditions/inista/yctrl.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur         ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE YCTRL(IGRBRIC)
 C-----------------------------------------------
 C   M o d u l e s
@@ -398,16 +397,17 @@ cc       ENDIF
       RETURN
       END
 
-Chd|====================================================================
-Chd|  UEL2SYS                       source/initial_conditions/inista/yctrl.F
-Chd|-- called by -----------
-Chd|        HM_READ_INISTATE_D00          source/elements/initia/hm_read_inistate_d00.F
-Chd|        HM_YCTRL                      source/elements/initia/hm_yctrl.F
-Chd|        INIBOLTPREL                   source/loads/bolt/iniboltprel.F
-Chd|        LECFILL                       source/elements/initia/lecfill.F
-Chd|        LEC_INISTATE_TRI              source/elements/initia/lec_inistate_tri.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    uel2sys                ../starter/source/initial_conditions/inista/yctrl.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_inistate_d00   ../starter/source/elements/initia/hm_read_inistate_d00.F
+      !||    hm_yctrl               ../starter/source/elements/initia/hm_yctrl.F
+      !||    iniboltprel            ../starter/source/loads/bolt/iniboltprel.F
+      !||    initag_preload_a       ../starter/source/loads/general/preload/hm_read_preload_axial.F90
+      !||    initia                 ../starter/source/elements/initia/initia.F
+      !||    lec_inistate_tri       ../starter/source/elements/initia/lec_inistate_tri.F
+      !||    lecfill                ../starter/source/elements/initia/lecfill.F
+      !||====================================================================
       INTEGER FUNCTION UEL2SYS(IU,KSYSUSR,NUMEL)
 C     FONCTION DONNE N0 SYSTEME DE L'ELT USER IU (0 si IU nexiste pas)
 C-----------------------------------------------

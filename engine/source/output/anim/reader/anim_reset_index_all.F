@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ANIM_RESET_INDEX_ALL          source/output/anim/reader/anim_reset_index_all.F
-Chd|-- called by -----------
-Chd|        FREANIM                       source/output/anim/reader/freanim.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    anim_reset_index_all   ../engine/source/output/anim/reader/anim_reset_index_all.F
+      !||--- called by ------------------------------------------------------
+      !||    freanim                ../engine/source/output/anim/reader/freanim.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    stack_mod              ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE ANIM_RESET_INDEX_ALL()
 C-----------------------------------------------
 C     This routine is resetting counters in cas of /STRESS/ALL, /STRAIN/ALL, etc

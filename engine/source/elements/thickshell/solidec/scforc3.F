@@ -20,46 +20,49 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCFORC3                       source/elements/thickshell/solidec/scforc3.F
-Chd|-- called by -----------
-Chd|        FORINT                        source/elements/forint.F      
-Chd|-- calls ---------------
-Chd|        CSMALL3                       source/elements/solid/solide/csmall3.F
-Chd|        S8CSIGP3                      source/elements/thickshell/solide8c/s8csigp3.F
-Chd|        S8SAV3                        source/elements/solid/solide/s8sav3.F
-Chd|        SCDEFC3                       source/elements/thickshell/solidec/scdefc3.F
-Chd|        SCDEFO3                       source/elements/thickshell/solidec/scdefo3.F
-Chd|        SCDERI3                       source/elements/thickshell/solidec/scderi3.F
-Chd|        SCFINT3                       source/elements/thickshell/solidec/scfint3.F
-Chd|        SCFINT_REG                    source/elements/thickshell/solidec/scfint_reg.F
-Chd|        SCHOUR3_1                     source/elements/thickshell/solidec/schour3_1.F
-Chd|        SCORDEF3                      source/elements/thickshell/solidec/scordef3.F
-Chd|        SCROTO_SIG                    source/elements/thickshell/solidec/scroto_sig.F
-Chd|        SCTHERM                       source/elements/thickshell/solidec/sctherm.F
-Chd|        SCUMU3                        source/elements/solid/solide/scumu3.F
-Chd|        SCUMU3P                       source/elements/solid/solide/scumu3p.F
-Chd|        SCUMUALPHA                    source/elements/thickshell/solidec/scumualpha.F
-Chd|        SCZERO3                       source/elements/thickshell/solidec/sczero3.F
-Chd|        SDLEN3                        source/elements/solid/solide/sdlen3.F
-Chd|        SDLENSH                       source/elements/thickshell/solidec/sdlensh.F
-Chd|        SDLENSH2                      source/elements/thickshell/solidec/sdlensh2.F
-Chd|        SFILLOPT                      source/elements/solid/solide/sfillopt.F
-Chd|        SGETDIR3                      source/elements/thickshell/solidec/sgetdir3.F
-Chd|        SGPARAV3                      source/elements/solid/solide/sgparav3.F
-Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
-Chd|        SRBILAN                       source/elements/solid/solide/srbilan.F
-Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
-Chd|        SRHO3                         source/elements/solid/solide/srho3.F
-Chd|        SRROTA3                       source/elements/solid/solide/srrota3.F
-Chd|        SSTRA3                        source/elements/solid/solide/sstra3.F
-Chd|        TSHGEODEL3                    source/elements/thickshell/solidec/tshgeodel3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        DT_MOD                        share/modules/dt_mod.F        
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    scforc3                ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||--- called by ------------------------------------------------------
+      !||    forint                 ../engine/source/elements/forint.F
+      !||--- calls      -----------------------------------------------------
+      !||    csmall3                ../engine/source/elements/solid/solide/csmall3.F
+      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+      !||    s8csigp3               ../engine/source/elements/thickshell/solide8c/s8csigp3.F
+      !||    s8sav3                 ../engine/source/elements/solid/solide/s8sav3.F
+      !||    scdefc3                ../engine/source/elements/thickshell/solidec/scdefc3.F
+      !||    scdefo3                ../engine/source/elements/thickshell/solidec/scdefo3.F
+      !||    scderi3                ../engine/source/elements/thickshell/solidec/scderi3.F
+      !||    scfint3                ../engine/source/elements/thickshell/solidec/scfint3.F
+      !||    scfint_reg             ../engine/source/elements/thickshell/solidec/scfint_reg.F
+      !||    schour3_1              ../engine/source/elements/thickshell/solidec/schour3_1.F
+      !||    scordef3               ../engine/source/elements/thickshell/solidec/scordef3.F
+      !||    scroto_sig             ../engine/source/elements/thickshell/solidec/scroto_sig.F
+      !||    sctherm                ../engine/source/elements/thickshell/solidec/sctherm.F
+      !||    scumu3                 ../engine/source/elements/solid/solide/scumu3.F
+      !||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
+      !||    scumualpha             ../engine/source/elements/thickshell/solidec/scumualpha.F
+      !||    sczero3                ../engine/source/elements/thickshell/solidec/sczero3.F
+      !||    sdlen3                 ../engine/source/elements/solid/solide/sdlen3.F
+      !||    sdlensh                ../engine/source/elements/thickshell/solidec/sdlensh.F
+      !||    sdlensh2               ../engine/source/elements/thickshell/solidec/sdlensh2.F
+      !||    sfillopt               ../engine/source/elements/solid/solide/sfillopt.F
+      !||    sgetdir3               ../engine/source/elements/thickshell/solidec/sgetdir3.F
+      !||    sgparav3               ../engine/source/elements/solid/solide/sgparav3.F
+      !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
+      !||    srbilan                ../engine/source/elements/solid/solide/srbilan.F
+      !||    srcoor3                ../engine/source/elements/solid/solide/srcoor3.F
+      !||    srho3                  ../engine/source/elements/solid/solide/srho3.F
+      !||    srrota3                ../engine/source/elements/solid/solide/srrota3.F
+      !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
+      !||    tshgeodel3             ../engine/source/elements/thickshell/solidec/tshgeodel3.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    dt_mod                 ../engine/share/modules/dt_mod.F
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE SCFORC3(ELBUF_TAB,NG      ,
      1                   PM       ,GEO     ,IXS      ,X       ,
      2                   A        ,V       ,MS       ,W       ,FLUX     ,

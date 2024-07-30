@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MEOS8                         source/materials/mat_share/meos8.F
-Chd|-- called by -----------
-Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
-Chd|-- calls ---------------
-Chd|        MQVISC8                       source/materials/mat_share/mqvisc8.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    meos8          ../engine/source/materials/mat_share/meos8.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain8         ../engine/source/materials/mat_share/mmain8.F
+      !||--- calls      -----------------------------------------------------
+      !||    mqvisc8        ../engine/source/materials/mat_share/mqvisc8.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE MEOS8(
      1   PM,      OFF,     SIG,     EINT,
      2   RHO,     QOLD,    VOL,     RK,

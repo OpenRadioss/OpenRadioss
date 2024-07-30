@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FLOW_VITESSE                  source/assembly/flow_vitesse.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    flow_vitesse   ../engine/source/assembly/flow_vitesse.F
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE FLOW_VITESSE(NALE,A    ,V      ,FZERO,
      2                   NODFT,NODLT    ,W      ,VS,IFOAM)
 C----6---------------------------------------------------------------7---------8

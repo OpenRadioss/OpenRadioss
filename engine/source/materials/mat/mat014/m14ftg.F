@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M14FTG                        source/materials/mat/mat014/m14ftg.F
-Chd|-- called by -----------
-Chd|        M12LAW                        source/materials/mat/mat012/m12law.F
-Chd|        M14LAW                        source/materials/mat/mat014/m14law.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m14ftg   ../engine/source/materials/mat/mat014/m14ftg.F
+      !||--- called by ------------------------------------------------------
+      !||    m12law   ../engine/source/materials/mat/mat012/m12law.F
+      !||    m14law   ../engine/source/materials/mat/mat014/m14law.F
+      !||====================================================================
       SUBROUTINE M14FTG(SIG,AX ,AY ,AZ ,BX ,BY ,  
      2                  BZ ,CX ,CY ,CZ ,T1 ,T2 ,
      3                  T3 ,T4 ,T5 ,T6 ,NEL)

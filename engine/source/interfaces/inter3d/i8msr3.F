@@ -20,13 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I8MSR3                        source/interfaces/inter3d/i8msr3.F
-Chd|-- called by -----------
-Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
-Chd|-- calls ---------------
-Chd|        I8_NEAREST_SEG                source/interfaces/inter3d/i8_nearest_seg.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i8msr3           ../engine/source/interfaces/inter3d/i8msr3.F
+      !||--- called by ------------------------------------------------------
+      !||    intvo8           ../engine/source/interfaces/inter3d/intvo8.F
+      !||--- calls      -----------------------------------------------------
+      !||    i8_nearest_seg   ../engine/source/interfaces/inter3d/i8_nearest_seg.F
+      !||    is_sup_face_id   ../engine/source/interfaces/inter3d/is_sup_face_id.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I8MSR3(
      1   X,           IRECT,       LMSR,        MSR,
      2   NSV,         ILOC,        IRTL,        NSEG,

@@ -22,17 +22,18 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 
-Chd|====================================================================
-Chd|  SPMD_EXCH_SMST2               source/mpi/ams/spmd_exch_smst2.F
-Chd|-- called by -----------
-Chd|        SMS_INI_INT                   source/ams/sms_init.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        SPMD_CHECK_TAG                source/mpi/ams/spmd_check_tag.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_smst2   ../engine/source/mpi/ams/spmd_exch_smst2.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_ini_int       ../engine/source/ams/sms_init.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg            ../engine/source/output/message/message.F
+      !||    arret             ../engine/source/system/arret.F
+      !||    spmd_check_tag    ../engine/source/mpi/ams/spmd_check_tag.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../engine/share/message_module/message_mod.F
+      !||    tri7box           ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_SMST2(IPARI,TAG,INTLIST,NBINTC,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s

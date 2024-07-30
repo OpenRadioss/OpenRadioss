@@ -20,65 +20,67 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RFORC3                        source/elements/spring/rforc3.F
-Chd|-- called by -----------
-Chd|        FORINT                        source/elements/forint.F      
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        ENG_USERLIB_RUSER             source/user_interface/dyn_userlib.c
-Chd|        R1COOR3                       source/elements/spring/r1coor3.F
-Chd|        R1CUM3                        source/elements/spring/r1cum3.F
-Chd|        R1CUM3P                       source/elements/spring/r1cum3p.F
-Chd|        R1DEF3                        source/elements/spring/r1def3.F
-Chd|        R1LEN3                        source/elements/spring/r1len3.F
-Chd|        R1SENS3                       source/elements/spring/r1sens3.F
-Chd|        R1TORS                        source/elements/spring/r1tors.F
-Chd|        R26DEF3                       source/elements/spring/r26def3.F
-Chd|        R27DEF3                       source/elements/spring/r27def3.F
-Chd|        R2COOR3                       source/elements/spring/r2coor3.F
-Chd|        R2CUM3                        source/elements/spring/r2cum3.F
-Chd|        R2CUM3P                       source/elements/spring/r2cum3p.F
-Chd|        R2DEF3                        source/elements/spring/r2def3.F
-Chd|        R2LEN3                        source/elements/spring/r2len3.F
-Chd|        R2SENS3                       source/elements/spring/r2sens3.F
-Chd|        R2TORS                        source/elements/spring/r2tors.F
-Chd|        R3BILAN                       source/elements/spring/r3bilan.F
-Chd|        R3COOR3                       source/elements/spring/r3coor3.F
-Chd|        R3CUM3                        source/elements/spring/r3cum3.F
-Chd|        R3CUM3P                       source/elements/spring/r3cum3p.F
-Chd|        R3DEF3                        source/elements/spring/r3def3.F
-Chd|        R3LEN3                        source/elements/spring/r3len3.F
-Chd|        R3TORS                        source/elements/spring/r3tors.F
-Chd|        R4COOR3                       source/elements/spring/r4coor3.F
-Chd|        R4CUM3                        source/elements/spring/r4cum3.F
-Chd|        R4CUM3P                       source/elements/spring/r4cum3p.F
-Chd|        R4DEF3                        source/elements/spring/r4def3.F
-Chd|        R4EVEC3                       source/elements/spring/r4evec3.F
-Chd|        R4TORS                        source/elements/spring/r4tors.F
-Chd|        R5BILAN                       source/elements/spring/r5bilan.F
-Chd|        R5CUM3                        source/elements/spring/r5cum3.F
-Chd|        R5CUM3P                       source/elements/spring/r5cum3p.F
-Chd|        R5DEF3                        source/elements/spring/r5def3.F
-Chd|        R5EVEC3                       source/elements/spring/r5evec3.F
-Chd|        R5LEN3                        source/elements/spring/r5len3.F
-Chd|        R6DEF3                        source/elements/spring/r6def3.F
-Chd|        RBILAN                        source/elements/spring/rbilan.F
-Chd|        RGJOINT                       source/elements/joint/rgjoint.F
-Chd|        RSENS_NIC                     source/tools/sensor/rsens_nic.F
-Chd|        RUSER32                       source/elements/spring/ruser32.F
-Chd|        RUSER35                       source/elements/spring/ruser35.F
-Chd|        RUSER36                       source/elements/spring/ruser36.F
-Chd|        RUSER44                       source/elements/spring/ruser44.F
-Chd|        RUSER46                       source/elements/spring/ruser46.F
-Chd|        SET_SPRING_ELNUM              source/user_interface/uaccess.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    rforc3              ../engine/source/elements/spring/rforc3.F
+      !||--- called by ------------------------------------------------------
+      !||    forint              ../engine/source/elements/forint.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg              ../engine/source/output/message/message.F
+      !||    arret               ../engine/source/system/arret.F
+      !||    preload_axial       ../engine/source/elements/spring/preload_axial.F90
+      !||    r1coor3             ../engine/source/elements/spring/r1coor3.F
+      !||    r1cum3              ../engine/source/elements/spring/r1cum3.F
+      !||    r1cum3p             ../engine/source/elements/spring/r1cum3p.F
+      !||    r1def3              ../engine/source/elements/spring/r1def3.F
+      !||    r1len3              ../engine/source/elements/spring/r1len3.F
+      !||    r1sens3             ../engine/source/elements/spring/r1sens3.F
+      !||    r1tors              ../engine/source/elements/spring/r1tors.F
+      !||    r26def3             ../engine/source/elements/spring/r26def3.F
+      !||    r27def3             ../engine/source/elements/spring/r27def3.F
+      !||    r2coor3             ../engine/source/elements/spring/r2coor3.F
+      !||    r2cum3              ../engine/source/elements/spring/r2cum3.F
+      !||    r2cum3p             ../engine/source/elements/spring/r2cum3p.F
+      !||    r2def3              ../engine/source/elements/spring/r2def3.F
+      !||    r2len3              ../engine/source/elements/spring/r2len3.F
+      !||    r2sens3             ../engine/source/elements/spring/r2sens3.F
+      !||    r2tors              ../engine/source/elements/spring/r2tors.F
+      !||    r3bilan             ../engine/source/elements/spring/r3bilan.F
+      !||    r3coor3             ../engine/source/elements/spring/r3coor3.F
+      !||    r3cum3              ../engine/source/elements/spring/r3cum3.F
+      !||    r3cum3p             ../engine/source/elements/spring/r3cum3p.F
+      !||    r3def3              ../engine/source/elements/spring/r3def3.F
+      !||    r3len3              ../engine/source/elements/spring/r3len3.F
+      !||    r3tors              ../engine/source/elements/spring/r3tors.F
+      !||    r4coor3             ../engine/source/elements/spring/r4coor3.F
+      !||    r4cum3              ../engine/source/elements/spring/r4cum3.F
+      !||    r4cum3p             ../engine/source/elements/spring/r4cum3p.F
+      !||    r4def3              ../engine/source/elements/spring/r4def3.F
+      !||    r4evec3             ../engine/source/elements/spring/r4evec3.F
+      !||    r4tors              ../engine/source/elements/spring/r4tors.F
+      !||    r5bilan             ../engine/source/elements/spring/r5bilan.F
+      !||    r5cum3              ../engine/source/elements/spring/r5cum3.F
+      !||    r5cum3p             ../engine/source/elements/spring/r5cum3p.F
+      !||    r5def3              ../engine/source/elements/spring/r5def3.F
+      !||    r5evec3             ../engine/source/elements/spring/r5evec3.F
+      !||    r5len3              ../engine/source/elements/spring/r5len3.F
+      !||    r6def3              ../engine/source/elements/spring/r6def3.F
+      !||    rbilan              ../engine/source/elements/spring/rbilan.F
+      !||    rgjoint             ../engine/source/elements/joint/rgjoint.F
+      !||    rsens_nic           ../engine/source/tools/sensor/rsens_nic.F
+      !||    ruser32             ../engine/source/elements/spring/ruser32.F
+      !||    ruser35             ../engine/source/elements/spring/ruser35.F
+      !||    ruser36             ../engine/source/elements/spring/ruser36.F
+      !||    ruser44             ../engine/source/elements/spring/ruser44.F
+      !||    ruser46             ../engine/source/elements/spring/ruser46.F
+      !||    set_spring_elnum    ../engine/source/user_interface/uaccess.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
+      !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
+      !||    sensor_mod          ../engine/share/modules/sensor_mod.F
+      !||    table_mod           ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE RFORC3(
      1   ELBUF_STR, JFT,       JLT,       NEL,
      2   MTN,       IGEO,      GEO,       IXR,

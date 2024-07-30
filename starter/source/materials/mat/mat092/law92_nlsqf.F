@@ -27,19 +27,20 @@ C IOCSV=1 -> output fitting to curv.csv
 !>    @param[in]   ERRTOL      If ERRAVE < ERRTOL, data fitting converges.
 !>                                 ERRAVE = ( SUM [ ABS ( ( Y_inp-Y_fit)  )  ) / NPT
 !>    @param[out]  MUAL(1:NMUAL)   optimized material properties 
-Chd|====================================================================
-Chd|  LAW92_NLSQF                   source/materials/mat/mat092/law92_nlsqf.F
-Chd|-- called by -----------
-Chd|        LAW100_UPD_AB                 source/materials/mat/mat100/law100_upd.F
-Chd|        LAW92_UPD                     source/materials/mat/mat092/law92_upd.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRUDA_BOYCE                  source/materials/mat/mat092/law92_nlsqf.F
-Chd|        LAW92_GUESS                   source/materials/mat/mat092/law92_nlsqf.F
-Chd|        MRQMIN_LAW92                  source/materials/mat/mat092/law92_nlsqf.F
-Chd|        MY_EXIT                       source/output/analyse/analyse.c
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    law92_nlsqf     ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    law100_upd_ab   ../starter/source/materials/mat/mat100/law100_upd.F
+      !||    law92_upd       ../starter/source/materials/mat/mat092/law92_upd.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../starter/source/output/message/message.F
+      !||    arruda_boyce    ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||    law92_guess     ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||    mrqmin_law92    ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||    my_exit         ../starter/source/output/analyse/analyse.c
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE LAW92_NLSQF(STRETCH,Y,NMULA,NPT,AMULA,
      $                       NSTART, ERRTOL,ID,TITR,ITEST)
       USE MESSAGE_MOD
@@ -449,13 +450,12 @@ C-----------
       END 
 
 C Compute normal stress sig=dw/dlam_1 
-Chd|====================================================================
-Chd|  ARRUDA_BOYCE                  source/materials/mat/mat092/law92_nlsqf.F
-Chd|-- called by -----------
-Chd|        LAW92_NLSQF                   source/materials/mat/mat092/law92_nlsqf.F
-Chd|        MRQCOF_LAW92                  source/materials/mat/mat092/law92_nlsqf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    arruda_boyce   ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    law92_nlsqf    ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||    mrqcof_law92   ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||====================================================================
       SUBROUTINE ARRUDA_BOYCE(STRETCH,A, SIG,ITEST ) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -529,12 +529,11 @@ C
       RETURN  
       END SUBROUTINE ARRUDA_BOYCE
 C Compute normal stress DMu=dN/dmu, dlam = dN/dlam 
-Chd|====================================================================
-Chd|  ARRUDA_BOYCE_DYDA             source/materials/mat/mat092/law92_nlsqf.F
-Chd|-- called by -----------
-Chd|        MRQCOF_LAW92                  source/materials/mat/mat092/law92_nlsqf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    arruda_boyce_dyda   ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    mrqcof_law92        ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||====================================================================
       SUBROUTINE ARRUDA_BOYCE_DYDA(STRETCH,A,DYDA, ITEST) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -609,14 +608,14 @@ C
 C         
       RETURN  
       END SUBROUTINE ARRUDA_BOYCE_DYDA
-Chd|====================================================================
-Chd|  MRQMIN_LAW92                  source/materials/mat/mat092/law92_nlsqf.F
-Chd|-- called by -----------
-Chd|        LAW92_NLSQF                   source/materials/mat/mat092/law92_nlsqf.F
-Chd|-- calls ---------------
-Chd|        INVERSION                     source/materials/tools/nlsqf.F
-Chd|        MRQCOF_LAW92                  source/materials/mat/mat092/law92_nlsqf.F
-Chd|====================================================================
+      !||====================================================================
+      !||    mrqmin_law92   ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    law92_nlsqf    ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||--- calls      -----------------------------------------------------
+      !||    inversion      ../starter/source/materials/tools/nlsqf.F
+      !||    mrqcof_law92   ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||====================================================================
       SUBROUTINE MRQMIN_LAW92(X,Y,SIG,NDATA,A,
      .                 COVAR,ALPHA,NCA, ERRNOW, 
      .                 GAMMA,IRET,ITEST)  
@@ -733,14 +732,14 @@ C-----------
       RETURN  
       END SUBROUTINE MRQMIN_LAW92
 C-----------
-Chd|====================================================================
-Chd|  MRQCOF_LAW92                  source/materials/mat/mat092/law92_nlsqf.F
-Chd|-- called by -----------
-Chd|        MRQMIN_LAW92                  source/materials/mat/mat092/law92_nlsqf.F
-Chd|-- calls ---------------
-Chd|        ARRUDA_BOYCE                  source/materials/mat/mat092/law92_nlsqf.F
-Chd|        ARRUDA_BOYCE_DYDA             source/materials/mat/mat092/law92_nlsqf.F
-Chd|====================================================================
+      !||====================================================================
+      !||    mrqcof_law92        ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    mrqmin_law92        ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||--- calls      -----------------------------------------------------
+      !||    arruda_boyce        ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||    arruda_boyce_dyda   ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||====================================================================
       SUBROUTINE MRQCOF_LAW92(X,Y,SIG, NDATA,
      *                        A,ALPHA,BETA,NALP,ERRNOW,ITEST)  
 C-----------------------------------------------
@@ -806,12 +805,11 @@ C
       RETURN  
       END SUBROUTINE MRQCOF_LAW92
 C Compute normal stress DMu=dN/dmu, dlam = dN/dlam 
-Chd|====================================================================
-Chd|  LAW92_GUESS                   source/materials/mat/mat092/law92_nlsqf.F
-Chd|-- called by -----------
-Chd|        LAW92_NLSQF                   source/materials/mat/mat092/law92_nlsqf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    law92_guess   ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||--- called by ------------------------------------------------------
+      !||    law92_nlsqf   ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||====================================================================
       SUBROUTINE LAW92_GUESS(STRETCH,SIG,A,NDATA ) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

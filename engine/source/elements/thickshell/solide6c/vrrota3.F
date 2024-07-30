@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  VRROTA3                       source/elements/thickshell/solide6c/vrrota3.F
-Chd|-- called by -----------
-Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
-Chd|        S6RCOOR3                      source/elements/thickshell/solide6c/s6rcoor3.F
-Chd|        S6RCOORK                      source/elements/thickshell/solide6c/s6rcoork.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    vrrota3    ../engine/source/elements/thickshell/solide6c/vrrota3.F
+      !||--- called by ------------------------------------------------------
+      !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s6rcoor3   ../engine/source/elements/thickshell/solide6c/s6rcoor3.F
+      !||    s6rcoork   ../engine/source/elements/thickshell/solide6c/s6rcoork.F
+      !||====================================================================
       SUBROUTINE VRROTA3(
      1   R11,     R12,     R13,     R21,
      2   R22,     R23,     R31,     R32,

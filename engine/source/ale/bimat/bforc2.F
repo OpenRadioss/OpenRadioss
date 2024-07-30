@@ -20,46 +20,50 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BFORC2                        source/ale/bimat/bforc2.F     
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        BAFIL2                        source/ale/bimat/bafil2.F     
-Chd|        BALPH2                        source/ale/bimat/balph2.F     
-Chd|        BAMOM2                        source/ale/bimat/bamom2.F     
-Chd|        BCUMU2                        source/ale/bimat/bcumu2.F     
-Chd|        BCUMU2P                       source/ale/bimat/bcumu2.F     
-Chd|        BCUMU2PA                      source/ale/bimat/bcumu2.F     
-Chd|        BEFIL2                        source/ale/bimat/befil2.F     
-Chd|        BEMOM2                        source/ale/bimat/bemom2.F     
-Chd|        BLERO2                        source/ale/bimat/blero2.F     
-Chd|        BREST2                        source/ale/bimat/brest2.F     
-Chd|        CHECK_OFF_ALE                 source/elements/solid/solide/check_off_ale.F
-Chd|        EDEFO2                        source/ale/euler2d/edefo2.F   
-Chd|        QBILAN                        source/elements/solid_2d/quad/qbilan.F
-Chd|        QCOOR2                        source/elements/solid_2d/quad/qcoor2.F
-Chd|        QDEFO2                        source/elements/solid_2d/quad/qdefo2.F
-Chd|        QDLEN2                        source/elements/solid_2d/quad/qdlen2.F
-Chd|        QFINT2                        source/elements/solid_2d/quad/qfint2.F
-Chd|        QHVIS2                        source/elements/solid_2d/quad/qhvis2.F
-Chd|        QMASS2                        source/elements/solid_2d/quad/qmass2.F
-Chd|        QMASS2AP                      source/elements/solid_2d/quad/qmass2ap.F
-Chd|        QMASS2P                       source/elements/solid_2d/quad/qmass2p.F
-Chd|        QMASSREAL2                    source/elements/solid_2d/quad/qmassreal2.F
-Chd|        QMASSREAL2AP                  source/elements/solid_2d/quad/qmassreal2ap.F
-Chd|        QMASSREAL2P                   source/elements/solid_2d/quad/qmassreal2p.F
-Chd|        QROTA2                        source/elements/solid_2d/quad/qrota2.F
-Chd|        QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    bforc2                 ../engine/source/ale/bimat/bforc2.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain                ../engine/source/ale/alemain.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||    bafil2                 ../engine/source/ale/bimat/bafil2.F
+      !||    balph2                 ../engine/source/ale/bimat/balph2.F
+      !||    bamom2                 ../engine/source/ale/bimat/bamom2.F
+      !||    bcumu2                 ../engine/source/ale/bimat/bcumu2.F
+      !||    bcumu2p                ../engine/source/ale/bimat/bcumu2.F
+      !||    bcumu2pa               ../engine/source/ale/bimat/bcumu2.F
+      !||    befil2                 ../engine/source/ale/bimat/befil2.F
+      !||    bemom2                 ../engine/source/ale/bimat/bemom2.F
+      !||    blero2                 ../engine/source/ale/bimat/blero2.F
+      !||    brest2                 ../engine/source/ale/bimat/brest2.F
+      !||    check_off_ale          ../engine/source/elements/solid/solide/check_off_ale.F
+      !||    edefo2                 ../engine/source/ale/euler2d/edefo2.F
+      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+      !||    qbilan                 ../engine/source/elements/solid_2d/quad/qbilan.F
+      !||    qcoor2                 ../engine/source/elements/solid_2d/quad/qcoor2.F
+      !||    qdefo2                 ../engine/source/elements/solid_2d/quad/qdefo2.F
+      !||    qdlen2                 ../engine/source/elements/solid_2d/quad/qdlen2.F
+      !||    qfint2                 ../engine/source/elements/solid_2d/quad/qfint2.F
+      !||    qhvis2                 ../engine/source/elements/solid_2d/quad/qhvis2.F
+      !||    qmass2                 ../engine/source/elements/solid_2d/quad/qmass2.F
+      !||    qmass2ap               ../engine/source/elements/solid_2d/quad/qmass2ap.F
+      !||    qmass2p                ../engine/source/elements/solid_2d/quad/qmass2p.F
+      !||    qmassreal2             ../engine/source/elements/solid_2d/quad/qmassreal2.F
+      !||    qmassreal2ap           ../engine/source/elements/solid_2d/quad/qmassreal2ap.F
+      !||    qmassreal2p            ../engine/source/elements/solid_2d/quad/qmassreal2p.F
+      !||    qrota2                 ../engine/source/elements/solid_2d/quad/qrota2.F
+      !||    qvolu2                 ../engine/source/elements/solid_2d/quad/qvolu2.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    output_mod             ../common_source/modules/output/output_mod.F90
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE BFORC2(ELBUF_TAB,NG   ,
      1                   PM     ,GEO    ,IC     ,X       ,
      2                   A      ,V      ,MS     ,W      ,FLUX    ,

@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAG_GJNT                      source/tools/lagmul/lag_gjnt.F
-Chd|-- called by -----------
-Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
-Chd|-- calls ---------------
-Chd|        GJNT_DIFF                     source/tools/lagmul/gjnt_diff.F
-Chd|        GJNT_GEAR                     source/tools/lagmul/gjnt_gear.F
-Chd|        GJNT_RACK                     source/tools/lagmul/gjnt_rack.F
-Chd|        LAG_DIRECT                    source/tools/lagmul/lag_direct.F
-Chd|        ROTBMR                        source/tools/skew/rotbmr.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_gjnt     ../engine/source/tools/lagmul/lag_gjnt.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_mult     ../engine/source/tools/lagmul/lag_mult.F
+      !||--- calls      -----------------------------------------------------
+      !||    gjnt_diff    ../engine/source/tools/lagmul/gjnt_diff.F
+      !||    gjnt_gear    ../engine/source/tools/lagmul/gjnt_gear.F
+      !||    gjnt_rack    ../engine/source/tools/lagmul/gjnt_rack.F
+      !||    lag_direct   ../engine/source/tools/lagmul/lag_direct.F
+      !||    rotbmr       ../engine/source/tools/skew/rotbmr.F
+      !||====================================================================
       SUBROUTINE LAG_GJNT(GJBUFI ,GJBUFR ,X      ,VR     ,AR     ,
      2                    IADLL  ,LLL    ,JLL    ,SLL    ,XLL    ,
      3                    COMNTAG,LTSM   ,ICFTAG ,JCFTAG ,MS     ,

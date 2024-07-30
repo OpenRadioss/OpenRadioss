@@ -20,27 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  REORDER_MOD                   share/modules1/reorder_mod.F  
-Chd|-- called by -----------
-Chd|        APPLYSORT2FVM                 source/airbag/fvmesh0.F       
-Chd|        C3GRHEAD                      source/elements/sh3n/coque3n/c3grhead.F
-Chd|        C3GRTAILS                     source/elements/sh3n/coque3n/c3grtails.F
-Chd|        CGRHEAD                       source/elements/shell/coque/cgrhead.F
-Chd|        CGRTAILS                      source/elements/shell/coque/cgrtails.F
-Chd|        C_IDGLOB                      source/restart/ddsplit/c_idglob.F
-Chd|        DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
-Chd|        FVMESH0                       source/airbag/fvmesh0.F       
-Chd|        FVMESH1                       source/airbag/fvmesh.F        
-Chd|        INIT_PERMUTATION              source/starter/lectur.F       
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        PGRTAILS                      source/elements/beam/pgrtails.F
-Chd|        SGRHEAD                       source/elements/solid/solide/sgrhead.F
-Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
-Chd|        T3GRHEAD                      source/elements/solid_2d/tria/t3grhead.F
-Chd|        T3GRTAILS                     source/elements/solid_2d/tria/t3grtails.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    reorder_mod        ../starter/share/modules1/reorder_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    applysort2fvm      ../starter/source/airbag/fvmesh0.F
+      !||    c3grhead           ../starter/source/elements/sh3n/coque3n/c3grhead.F
+      !||    c3grtails          ../starter/source/elements/sh3n/coque3n/c3grtails.F
+      !||    c_idglob           ../starter/source/restart/ddsplit/c_idglob.F
+      !||    cgrhead            ../starter/source/elements/shell/coque/cgrhead.F
+      !||    cgrtails           ../starter/source/elements/shell/coque/cgrtails.F
+      !||    dometis            ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||    fvmesh0            ../starter/source/airbag/fvmesh0.F
+      !||    fvmesh1            ../starter/source/airbag/fvmesh.F
+      !||    init_permutation   ../starter/source/starter/lectur.F
+      !||    lectur             ../starter/source/starter/lectur.F
+      !||    pgrtails           ../starter/source/elements/beam/pgrtails.F
+      !||    sgrhead            ../starter/source/elements/solid/solide/sgrhead.F
+      !||    sgrtails           ../starter/source/elements/solid/solide/sgrtails.F
+      !||    t3grhead           ../starter/source/elements/solid_2d/tria/t3grhead.F
+      !||    t3grtails          ../starter/source/elements/solid_2d/tria/t3grtails.F
+      !||====================================================================
           MODULE REORDER_MOD
           
           TYPE REORDER_STRUCT_

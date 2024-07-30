@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  EPXLE3                        source/elements/solid/solide/epxle3.F
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    epxle3       ../engine/source/elements/solid/solide/epxle3.F
+      !||--- called by ------------------------------------------------------
+      !||    sforc3       ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3      ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod      ../common_source/modules/ale/ale_mod.F
+      !||    alefvm_mod   ../common_source/modules/ale/alefvm_mod.F
+      !||====================================================================
       SUBROUTINE EPXLE3(
      1   VOL,     VEUL,    X1,      X2,
      2   X3,      X4,      X5,      X6,

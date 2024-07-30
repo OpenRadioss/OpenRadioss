@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTCONTP25E                   source/mpi/interfaces/intcontp25e.F
-Chd|-- called by -----------
-Chd|        SPMD_I7FCOM_PON               source/mpi/forces/spmd_i7fcom_pon.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    intcontp25e       ../engine/source/mpi/interfaces/intcontp25e.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+      !||====================================================================
       SUBROUTINE INTCONTP25E(N,ISKY,NSNFI,ISIZENV,NSNFITOT,LEN)
 C
 C-----------------------------------------------

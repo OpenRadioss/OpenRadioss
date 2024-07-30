@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CUSERINI                      source/elements/shell/coque/cuserini.F
-Chd|-- called by -----------
-Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
-Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    cuserini       ../starter/source/elements/shell/coque/cuserini.F
+      !||--- called by ------------------------------------------------------
+      !||    c3init3        ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3       ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cinit3         ../starter/source/elements/shell/coque/cinit3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE CUSERINI(ELBUF_STR,
      1           JFT     ,JLT     ,NFT     ,NEL     ,NPT     ,
      2           ISTRAIN ,SIGSH   ,NUMEL   ,IX      ,NIX     ,

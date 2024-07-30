@@ -20,43 +20,42 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SEGVAR_MOD                    share/modules/segvar_mod.F    
-Chd|-- called by -----------
-Chd|        ACONVE                        source/ale/aconve.F           
-Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
-Chd|        ALE51_ANTIDIFF2               source/ale/ale51/ale51_antidiff2.F
-Chd|        ALE51_ANTIDIFF3               source/ale/ale51/ale51_antidiff3.F
-Chd|        ALE51_GRADIENT_RECONSTRUCTION source/ale/alemuscl/ale51_gradient_reconstruction.F
-Chd|        ALE51_GRADIENT_RECONSTRUCTION2source/ale/alemuscl/ale51_gradient_reconstruction2.F
-Chd|        ALEFVM_MAIN                   source/ale/alefvm/alefvm_main.F
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|        ALEMUSCL_UPWIND               source/ale/alemuscl/alemuscl_upwind.F
-Chd|        ALEMUSCL_UPWIND2              source/ale/alemuscl/alemuscl_upwind2.F
-Chd|        ALETHE                        source/ale/alethe.F           
-Chd|        EBCS0                         source/boundary_conditions/ebcs/ebcs0.F
-Chd|        EBCS1                         source/boundary_conditions/ebcs/ebcs1.F
-Chd|        EBCS10                        source/boundary_conditions/ebcs/ebcs10.F
-Chd|        EBCS4                         source/boundary_conditions/ebcs/ebcs4.F
-Chd|        EBCS5                         source/boundary_conditions/ebcs/ebcs5.F
-Chd|        EBCS6                         source/boundary_conditions/ebcs/ebcs6.F
-Chd|        EBCS7                         source/boundary_conditions/ebcs/ebcs7.F
-Chd|        EBCS_VOL2SEG                  source/boundary_conditions/ebcs/ebcs_vol2seg.F
-Chd|        GRADIENT_RECONSTRUCTION       source/ale/alemuscl/gradient_reconstruction.F
-Chd|        GRADIENT_RECONSTRUCTION2      source/ale/alemuscl/gradient_reconstruction2.F
-Chd|        I12M2S                        source/interfaces/interf/i12m2s.F
-Chd|        I12NOD3                       source/interfaces/interf/i12nod3.F
-Chd|        I12S2M                        source/interfaces/interf/i12s2m.F
-Chd|        INTTI0                        source/interfaces/interf/intti0.F
-Chd|        INTTI12A                      source/interfaces/interf/intti12.F
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|        RESTALLOC                     source/output/restart/arralloc.F
-Chd|        SEGGETV                       source/interfaces/interf/seggetv.F
-Chd|        SPMD_SEGCOM                   source/mpi/fluid/spmd_cfd.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    segvar_mod                       ../engine/share/modules/segvar_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    aconve                           ../engine/source/ale/aconve.F
+      !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+      !||    ale51_antidiff2                  ../engine/source/ale/ale51/ale51_antidiff2.F
+      !||    ale51_antidiff3                  ../engine/source/ale/ale51/ale51_antidiff3.F
+      !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+      !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+      !||    alefvm_main                      ../engine/source/ale/alefvm/alefvm_main.F
+      !||    alemain                          ../engine/source/ale/alemain.F
+      !||    alemuscl_upwind                  ../engine/source/ale/alemuscl/alemuscl_upwind.F
+      !||    alemuscl_upwind2                 ../engine/source/ale/alemuscl/alemuscl_upwind2.F
+      !||    alethe                           ../engine/source/ale/alethe.F
+      !||    ebcs0                            ../engine/source/boundary_conditions/ebcs/ebcs0.F
+      !||    ebcs1                            ../engine/source/boundary_conditions/ebcs/ebcs1.F
+      !||    ebcs10                           ../engine/source/boundary_conditions/ebcs/ebcs10.F
+      !||    ebcs4                            ../engine/source/boundary_conditions/ebcs/ebcs4.F
+      !||    ebcs5                            ../engine/source/boundary_conditions/ebcs/ebcs5.F
+      !||    ebcs6                            ../engine/source/boundary_conditions/ebcs/ebcs6.F
+      !||    ebcs7                            ../engine/source/boundary_conditions/ebcs/ebcs7.F
+      !||    ebcs_vol2seg                     ../engine/source/boundary_conditions/ebcs/ebcs_vol2seg.F
+      !||    gradient_reconstruction          ../engine/source/ale/alemuscl/gradient_reconstruction.F
+      !||    gradient_reconstruction2         ../engine/source/ale/alemuscl/gradient_reconstruction2.F
+      !||    i12m2s                           ../engine/source/interfaces/interf/i12m2s.F
+      !||    i12nod3                          ../engine/source/interfaces/interf/i12nod3.F
+      !||    i12s2m                           ../engine/source/interfaces/interf/i12s2m.F
+      !||    intti0                           ../engine/source/interfaces/interf/intti0.F
+      !||    intti12a                         ../engine/source/interfaces/interf/intti12.F
+      !||    radioss2                         ../engine/source/engine/radioss2.F
+      !||    resol                            ../engine/source/engine/resol.F
+      !||    resol_head                       ../engine/source/engine/resol_head.F
+      !||    restalloc                        ../engine/source/output/restart/arralloc.F
+      !||    seggetv                          ../engine/source/interfaces/interf/seggetv.F
+      !||    spmd_segcom                      ../engine/source/mpi/fluid/spmd_cfd.F
+      !||====================================================================
       MODULE SEGVAR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -91,11 +90,9 @@ C-----------------------------------------------
       
       CONTAINS
       
-Chd|====================================================================
-Chd|  SEGVAR_DESTROY                share/modules/segvar_mod.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    segvar_destroy   ../engine/share/modules/segvar_mod.F
+      !||====================================================================
       SUBROUTINE SEGVAR_DESTROY(this)
       IMPLICIT NONE
       CLASS(T_SEGVAR), INTENT(INOUT) :: this
@@ -109,12 +106,11 @@ Chd|====================================================================
         IF(ALLOCATED(this%PHASE_ALPHA)) DEALLOCATE(this%PHASE_EINT)                 
       END SUBROUTINE SEGVAR_DESTROY
       
-Chd|====================================================================
-Chd|  SEGVAR_CREATE                 share/modules/segvar_mod.F    
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    segvar_create   ../engine/share/modules/segvar_mod.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod         ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
       SUBROUTINE SEGVAR_CREATE(this,NBMAT)
       USE ALE_MOD      
       IMPLICIT NONE

@@ -20,23 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTCRIT                       source/interfaces/intsort/intcrit.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        SPMD_GET_STIF                 source/mpi/interfaces/send_cand.F
-Chd|        SPMD_GET_STIF11               source/mpi/interfaces/send_cand.F
-Chd|        SPMD_GET_STIF20               source/mpi/interfaces/send_cand.F
-Chd|        SPMD_GET_STIF20E              source/mpi/interfaces/send_cand.F
-Chd|        SPMD_GET_STIF25               source/mpi/interfaces/send_cand.F
-Chd|        SPMD_SYNC_MMXG2               source/mpi/interfaces/spmd_sync_mmxg2.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        INTERFACE_MODIFICATION_MOD    share/modules/interface_modification_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    intcrit                      ../engine/source/interfaces/intsort/intcrit.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri                       ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_get_stif                ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_get_stif11              ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_get_stif20              ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_get_stif20e             ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_get_stif25              ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_sync_mmxg2              ../engine/source/mpi/interfaces/spmd_sync_mmxg2.F
+      !||    startime                     ../engine/source/system/timer.F
+      !||    stoptime                     ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
+      !||    sensor_mod                   ../engine/share/modules/sensor_mod.F
+      !||    tri7box                      ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE INTCRIT(
      1  ERRORS, IPARI  ,NEWFRONT,ISENDTO,NSENSOR ,
      2  IRCVFROM,DT2T   ,NELTST ,ITYPTST ,ITAB   ,

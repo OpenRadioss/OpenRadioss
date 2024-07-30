@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CRK_VITESSE                   source/elements/xfem/crk_vitesse.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    crk_vitesse     ../engine/source/elements/xfem/crk_vitesse.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE CRK_VITESSE(
      .           ADDCNE_CRK,INOD_CRK ,NODLEVXF  ,NODFT     ,NODLT    ,
      .           X         ,V        ,VR        ,A         ,AR       ,
@@ -126,13 +126,13 @@ c-----------
       RETURN
       END
 c
-Chd|====================================================================
-Chd|  CRK_ZERO_ACCEL                source/elements/xfem/crk_vitesse.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    crk_zero_accel   ../engine/source/elements/xfem/crk_vitesse.F
+      !||--- called by ------------------------------------------------------
+      !||    resol            ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod    ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE CRK_ZERO_ACCEL(ADDCNE_CRK,INOD_CRK,NODFT,NODLT,NODLEVXF)
 C-----------------------------------------------
       USE CRACKXFEM_MOD
@@ -174,13 +174,13 @@ C---
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  CRK_ZERO_FSKY                 source/elements/xfem/crk_vitesse.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    crk_zero_fsky   ../engine/source/elements/xfem/crk_vitesse.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+      !||====================================================================
       SUBROUTINE CRK_ZERO_FSKY(CRKSKY,ADDCNE_CRK,INOD_CRK,NODFT,NODLT,
      .                         NODLEVXF)
 C-----------------------------------------------

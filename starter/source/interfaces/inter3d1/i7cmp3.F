@@ -20,11 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7CMP3B                       source/interfaces/inter3d1/i7cmp3.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i7cmp3b   ../starter/source/interfaces/inter3d1/i7cmp3.F
+      !||====================================================================
       SUBROUTINE I7CMP3B(I_STOK,CAND_E  ,CAND_N, PROV_E, PROV_N,
      1                   PENE)
 C============================================================================
@@ -67,22 +65,21 @@ C     CAS DECHARGEMENT
       RETURN
       END
       
-Chd|====================================================================
-Chd|  I7CMP3                        source/interfaces/inter3d1/i7cmp3.F
-Chd|-- called by -----------
-Chd|        I21BUC1                       source/interfaces/inter3d1/i21buc3.F
-Chd|        I21TRI                        source/interfaces/inter3d1/i21tri.F
-Chd|        I23BUC1                       source/interfaces/inter3d1/i23buc3.F
-Chd|        I23TRI                        source/interfaces/inter3d1/i23tri.F
-Chd|        I24BUC1                       source/interfaces/inter3d1/i24buc1.F
-Chd|        I24TRI                        source/interfaces/inter3d1/i24tri.F
-Chd|        I25TRI                        source/interfaces/inter3d1/i25tri.F
-Chd|        I7BUC1                        source/interfaces/inter3d1/i7buc1.F
-Chd|        I7BUC_VOX1                    source/interfaces/inter3d1/i7buc_vox1.F
-Chd|        I7TRI                         source/interfaces/inter3d1/i7tri.F
-Chd|        I7TRIVOX1                     source/interfaces/inter3d1/i7trivox1.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i7cmp3       ../starter/source/interfaces/inter3d1/i7cmp3.F
+      !||--- called by ------------------------------------------------------
+      !||    i21buc1      ../starter/source/interfaces/inter3d1/i21buc3.F
+      !||    i21tri       ../starter/source/interfaces/inter3d1/i21tri.F
+      !||    i23buc1      ../starter/source/interfaces/inter3d1/i23buc3.F
+      !||    i23tri       ../starter/source/interfaces/inter3d1/i23tri.F
+      !||    i24buc1      ../starter/source/interfaces/inter3d1/i24buc1.F
+      !||    i24tri       ../starter/source/interfaces/inter3d1/i24tri.F
+      !||    i25tri       ../starter/source/interfaces/inter3d1/i25tri.F
+      !||    i7buc1       ../starter/source/interfaces/inter3d1/i7buc1.F
+      !||    i7buc_vox1   ../starter/source/interfaces/inter3d1/i7buc_vox1.F
+      !||    i7tri        ../starter/source/interfaces/inter3d1/i7tri.F
+      !||    i7trivox1    ../starter/source/interfaces/inter3d1/i7trivox1.F
+      !||====================================================================
       SUBROUTINE I7CMP3(I_STOK,CAND_E  ,CAND_N, IFLAG,PENE,
      1                  PROV_N,PROV_E)
 C============================================================================

@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I21_ICRIT                     source/interfaces/intsort/i21_icrit.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|        SPMD_I21CRIT                  source/mpi/interfaces/spmd_i21crit.F
-Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    i21_icrit         ../engine/source/interfaces/intsort/i21_icrit.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri            ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_i21crit      ../engine/source/mpi/interfaces/spmd_i21crit.F
+      !||--- uses       -----------------------------------------------------
+      !||    intstamp_mod      ../engine/share/modules/intstamp_mod.F
+      !||    sensor_mod        ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE I21_ICRIT(
      1  INTBUF_TAB     ,IPARI  ,DT2T   ,NELTST ,NSENSOR ,
      2  ITYPTST,XSLV   ,XMSR   ,VSLV   ,VMSR   ,

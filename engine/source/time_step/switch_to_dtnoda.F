@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SWITCH_TO_DTNODA              source/time_step/switch_to_dtnoda.F
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    switch_to_dtnoda   ../engine/source/time_step/switch_to_dtnoda.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2           ../engine/source/engine/radioss2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../engine/source/output/message/message.F
+      !||    arret              ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SWITCH_TO_DTNODA(
      .                  IXR      ,GEO      ,PM       ,IPARG    ,ELBUF_TAB,
      .                  MS       ,IN       ,ITAB     ,IGEO     ,IPM    ,

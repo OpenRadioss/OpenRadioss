@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  XFEM_CRK_DIR                  source/elements/xfem/xfem_crk_dir.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    xfem_crk_dir    ../engine/source/elements/xfem/xfem_crk_dir.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc          ../engine/source/materials/mat_share/mulawc.F
+      !||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
+      !||====================================================================
       SUBROUTINE XFEM_CRK_DIR(NEL   ,ILAY  ,IXFEM   ,ELCRKINI,
      .                        DIR_A ,TENS  ,DIR1_CRK,DIR2_CRK,IROT)
 C-----------------------------------------------

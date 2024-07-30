@@ -20,18 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  READ_SENSORS                  source/output/restart/read_sensors.F
-Chd|-- called by -----------
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|-- calls ---------------
-Chd|        FRETITL2                      source/input/freform.F        
-Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
-Chd|        READ_DPDB                     ../common_source/tools/input_output/read_db.F
-Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    read_sensors           ../engine/source/output/restart/read_sensors.F
+      !||--- called by ------------------------------------------------------
+      !||    rdresb                 ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl2               ../engine/source/input/freform.F
+      !||    nvar                   ../engine/source/input/nvar.F
+      !||    read_db                ../common_source/tools/input_output/read_db.F
+      !||    read_dpdb              ../common_source/tools/input_output/read_db.F
+      !||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE READ_SENSORS(SENSORS)
 C-----------------------------------------------
 C   M o d u l e s

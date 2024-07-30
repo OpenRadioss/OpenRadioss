@@ -20,15 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  W_SUBSET_STR                  source/output/restart/w_subset_str.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        FRETITL                       source/input/freform.F        
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    w_subset_str           ../engine/source/output/restart/w_subset_str.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp                ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl                ../engine/source/input/freform.F
+      !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE W_SUBSET_STR(SUBSET)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,16 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PUT_ETFAC                     source/elements/solid/solide8z/put_etfac.F
-Chd|-- called by -----------
-Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
-Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
-Chd|-- calls ---------------
-Chd|        IKTMAT_INI                    source/implicit/imp_init.F    
-Chd|        IMP_KTAN                      share/modules/impbufdef_mod.F 
-Chd|        IMP_KTAN_DEF                  share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    put_etfac      ../engine/source/elements/solid/solide8z/put_etfac.F
+      !||--- called by ------------------------------------------------------
+      !||    cmain3         ../engine/source/materials/mat_share/cmain3.F
+      !||    mmain          ../engine/source/materials/mat_share/mmain.F90
+      !||    mmain8         ../engine/source/materials/mat_share/mmain8.F
+      !||--- calls      -----------------------------------------------------
+      !||    iktmat_ini     ../engine/source/implicit/imp_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
+      !||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE PUT_ETFAC(NEL     ,ET    ,MTN)
 C-----------------------------------------------
 C   M o d u l e s

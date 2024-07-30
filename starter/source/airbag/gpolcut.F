@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GPOLCUT                       source/airbag/gpolcut.F       
-Chd|-- called by -----------
-Chd|        FVMESH1                       source/airbag/fvmesh.F        
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    gpolcut   ../starter/source/airbag/gpolcut.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh1   ../starter/source/airbag/fvmesh.F
+      !||====================================================================
       SUBROUTINE GPOLCUT(IPOLY , RPOLY  , IPOLY_OLD, RPOLY_OLD , INEDGE,
      .                   RNEDGE, NBNEDGE, NX       , NY        , NZ    , 
      .                   X0    , Y0     , Z0       , INS       , RNS   ,

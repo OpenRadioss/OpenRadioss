@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RINI33                        source/elements/joint/rjoint/rini33.F
-Chd|-- called by -----------
-Chd|        RINIT3                        source/elements/spring/rinit3.F
-Chd|-- calls ---------------
-Chd|        GET_SKEW                      source/elements/joint/rjoint/rini33.F
-Chd|        GET_U_FUNC                    source/user_interface/uaccess.F
-Chd|        GET_U_GEO                     source/user_interface/uaccess.F
-Chd|        GET_U_PNU                     source/user_interface/uaccess.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    rini33        ../starter/source/elements/joint/rjoint/rini33.F
+      !||--- called by ------------------------------------------------------
+      !||    rinit3        ../starter/source/elements/spring/rinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_skew      ../starter/source/elements/joint/rjoint/rini33.F
+      !||    get_u_func    ../starter/source/user_interface/uaccess.F
+      !||    get_u_geo     ../starter/source/user_interface/uaccess.F
+      !||    get_u_pnu     ../starter/source/user_interface/uaccess.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE RINI33(NEL   ,IOUT   ,IPROP , IX    ,XL    ,
      3                  MASS   ,XINER ,STIFN  ,
      4                  STIFR ,VISCM  ,VISCR ,UVAR   ,NUVAR)
@@ -267,20 +268,21 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_SKEW                      source/elements/joint/rjoint/rini33.F
-Chd|-- called by -----------
-Chd|        RINI33                        source/elements/joint/rjoint/rini33.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        PROD_AB                       source/elements/joint/rjoint/rini33.F
-Chd|        PROD_ABT                      source/elements/joint/rjoint/rini33.F
-Chd|        PROD_ATB                      source/elements/joint/rjoint/rini33.F
-Chd|        QROT33                        source/elements/joint/rjoint/rini33.F
-Chd|        ROT12                         source/elements/joint/rjoint/rini33.F
-Chd|        GET_U_SKEW                    source/user_interface/uaccess.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_skew      ../starter/source/elements/joint/rjoint/rini33.F
+      !||--- called by ------------------------------------------------------
+      !||    rini33        ../starter/source/elements/joint/rjoint/rini33.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    get_u_skew    ../starter/source/user_interface/uaccess.F
+      !||    prod_ab       ../starter/source/elements/joint/rjoint/rini33.F
+      !||    prod_abt      ../starter/source/elements/joint/rjoint/rini33.F
+      !||    prod_atb      ../starter/source/elements/joint/rjoint/rini33.F
+      !||    qrot33        ../starter/source/elements/joint/rjoint/rini33.F
+      !||    rot12         ../starter/source/elements/joint/rjoint/rini33.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       INTEGER FUNCTION GET_SKEW(IOUT,JTYP,SKFLG,IDSK1,IDSK2,U,V,X,A,B)
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -395,12 +397,11 @@ C-----------------------------------------------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  QROT33                        source/elements/joint/rjoint/rini33.F
-Chd|-- called by -----------
-Chd|        GET_SKEW                      source/elements/joint/rjoint/rini33.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    qrot33     ../starter/source/elements/joint/rjoint/rini33.F
+      !||--- called by ------------------------------------------------------
+      !||    get_skew   ../starter/source/elements/joint/rjoint/rini33.F
+      !||====================================================================
       SUBROUTINE QROT33(SKEW, T, C, S)
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -453,12 +454,11 @@ C
       SKEW(9) =  E33  
       RETURN
       END
-Chd|====================================================================
-Chd|  ROT12                         source/elements/joint/rjoint/rini33.F
-Chd|-- called by -----------
-Chd|        GET_SKEW                      source/elements/joint/rjoint/rini33.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rot12      ../starter/source/elements/joint/rjoint/rini33.F
+      !||--- called by ------------------------------------------------------
+      !||    get_skew   ../starter/source/elements/joint/rjoint/rini33.F
+      !||====================================================================
       SUBROUTINE ROT12(SKEW, T, C, S)
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -520,12 +520,11 @@ C
       END
 
 C==================================================== 
-Chd|====================================================================
-Chd|  PROD_ABT                      source/elements/joint/rjoint/rini33.F
-Chd|-- called by -----------
-Chd|        GET_SKEW                      source/elements/joint/rjoint/rini33.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    prod_abt   ../starter/source/elements/joint/rjoint/rini33.F
+      !||--- called by ------------------------------------------------------
+      !||    get_skew   ../starter/source/elements/joint/rjoint/rini33.F
+      !||====================================================================
       SUBROUTINE PROD_ABT(A,B,X)
 #include      "implicit_f.inc"
 #include      "param_c.inc"
@@ -544,14 +543,13 @@ C
       RETURN
       END
 C==================================================== 
-Chd|====================================================================
-Chd|  PROD_ATB                      source/elements/joint/rjoint/rini33.F
-Chd|-- called by -----------
-Chd|        INIT_SKEW45                   source/elements/joint/rjoint/rini45.F
-Chd|        RINI33_RB                     source/elements/joint/rjoint/rini33_rb.F
-Chd|        GET_SKEW                      source/elements/joint/rjoint/rini33.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    prod_atb      ../starter/source/elements/joint/rjoint/rini33.F
+      !||--- called by ------------------------------------------------------
+      !||    get_skew      ../starter/source/elements/joint/rjoint/rini33.F
+      !||    init_skew45   ../starter/source/elements/joint/rjoint/rini45.F
+      !||    rini33_rb     ../starter/source/elements/joint/rjoint/rini33_rb.F
+      !||====================================================================
       SUBROUTINE PROD_ATB(A,B,X)
 #include      "implicit_f.inc"
 #include      "param_c.inc"
@@ -569,12 +567,11 @@ C
       RETURN
       END
 C==================================================== 
-Chd|====================================================================
-Chd|  PROD_AB                       source/elements/joint/rjoint/rini33.F
-Chd|-- called by -----------
-Chd|        GET_SKEW                      source/elements/joint/rjoint/rini33.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    prod_ab    ../starter/source/elements/joint/rjoint/rini33.F
+      !||--- called by ------------------------------------------------------
+      !||    get_skew   ../starter/source/elements/joint/rjoint/rini33.F
+      !||====================================================================
       SUBROUTINE PROD_AB(A,B,X)
 #include      "implicit_f.inc"
 #include      "param_c.inc"

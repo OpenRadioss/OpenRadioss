@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DT14LAW                       source/materials/time_step/dt14law.F
-Chd|-- called by -----------
-Chd|        DTMAIN                        source/materials/time_step/dtmain.F
-Chd|-- calls ---------------
-Chd|        DTEL                          source/materials/time_step/dtel.F
-Chd|        DTSPH                         source/materials/time_step/dtsph.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dt14law   ../starter/source/materials/time_step/dt14law.F
+      !||--- called by ------------------------------------------------------
+      !||    dtmain    ../starter/source/materials/time_step/dtmain.F
+      !||--- calls      -----------------------------------------------------
+      !||    dtel      ../starter/source/materials/time_step/dtel.F
+      !||    dtsph     ../starter/source/materials/time_step/dtsph.F
+      !||====================================================================
       SUBROUTINE DT14LAW (PM,GEO,PID,MAT, DELTAX, AIRE, VOL, DTX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

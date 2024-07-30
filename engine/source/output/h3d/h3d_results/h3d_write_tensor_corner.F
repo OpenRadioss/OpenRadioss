@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_WRITE_TENSOR_CORNER       source/output/h3d/h3d_results/h3d_write_tensor_corner.F
-Chd|-- called by -----------
-Chd|        H3D_SOLID_TENSOR_1            source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_write_tensor_corner   ../engine/source/output/h3d/h3d_results/h3d_write_tensor_corner.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_solid_tensor_1        ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+      !||====================================================================
         SUBROUTINE H3D_WRITE_TENSOR_CORNER(
      .                          IOK_PART  ,IS_WRITTEN ,TENSOR_CORNER ,NEL ,OFFSET ,NFT,
      .                          VALUE     ,NNOD  ,IS_WRITTEN_TENSOR)

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S10LOC_S                      source/elements/solid/solide10/s10loc_s.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s10loc_s   ../engine/source/elements/solid/solide10/s10loc_s.F
+      !||--- calls      -----------------------------------------------------
+      !||    sortho3    ../engine/source/elements/solid/solide/sortho3.F
+      !||====================================================================
       SUBROUTINE S10LOC_S(
      1   NC,      X,       R11,     R12,
      2   R13,     R21,     R22,     R23,

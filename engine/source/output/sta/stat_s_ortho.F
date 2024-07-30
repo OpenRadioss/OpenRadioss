@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STAT_S_ORTHO                  source/output/sta/stat_s_ortho.F
-Chd|-- called by -----------
-Chd|        GENSTAT                       source/output/sta/genstat.F   
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        SPMD_RGATHER9_DP              source/mpi/interfaces/spmd_outp.F
-Chd|        SPMD_STAT_PGATHER             source/mpi/output/spmd_stat.F 
-Chd|        SROTORTH                      source/elements/solid/srotorth.F
-Chd|        STRS_TXT50                    source/output/sta/sta_txt.F   
-Chd|        TAB_STRS_TXT50                source/output/sta/sta_txt.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    stat_s_ortho        ../engine/source/output/sta/stat_s_ortho.F
+      !||--- called by ------------------------------------------------------
+      !||    genstat             ../engine/source/output/sta/genstat.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf             ../engine/share/resol/initbuf.F
+      !||    spmd_rgather9_dp    ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
+      !||    srotorth            ../engine/source/elements/solid/srotorth.F
+      !||    strs_txt50          ../engine/source/output/sta/sta_txt.F
+      !||    tab_strs_txt50      ../engine/source/output/sta/sta_txt.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod         ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE STAT_S_ORTHO(ELBUF_TAB,IPARG ,IPM ,IGEO ,IXS ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,
      3                        STAT_INDXS ,X,IGLOB ,IPART,IDEL ,SIZP0)

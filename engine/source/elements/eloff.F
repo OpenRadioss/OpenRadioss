@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ELOFF                         source/elements/eloff.F       
-Chd|-- called by -----------
-Chd|        DESACTI                       source/elements/desacti.F     
-Chd|-- calls ---------------
-Chd|        S10NXT4                       source/elements/solid/solide10/s10nxt4.F
-Chd|        S4VOLUME                      source/elements/solid/solide4/s4volume.F
-Chd|        S8ETEMPER                     source/elements/solid/solide8e/s8etemper.F
-Chd|        S8EVOLUME                     source/elements/solid/solide8e/s8evolume.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    eloff          ../engine/source/elements/eloff.F
+      !||--- called by ------------------------------------------------------
+      !||    desacti        ../engine/source/elements/desacti.F
+      !||--- calls      -----------------------------------------------------
+      !||    s10nxt4        ../engine/source/elements/solid/solide10/s10nxt4.F
+      !||    s4volume       ../engine/source/elements/solid/solide4/s4volume.F
+      !||    s8etemper      ../engine/source/elements/solid/solide8e/s8etemper.F
+      !||    s8evolume      ../engine/source/elements/solid/solide8e/s8evolume.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+      !||====================================================================
        SUBROUTINE ELOFF(IXS     ,IXQ     ,IXC      ,IXP     ,IXT      ,
      .                  IXR     ,IXTG    ,IPARG    , 
      .                  IACTIV  ,TIME    ,IFLAG    ,NN      ,ELBUF_TAB,

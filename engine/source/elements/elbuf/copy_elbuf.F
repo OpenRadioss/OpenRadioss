@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  COPY_ELBUF                    source/elements/elbuf/copy_elbuf.F
-Chd|-- called by -----------
-Chd|        CP_IMPBUF                     source/implicit/produt_v.F    
-Chd|-- calls ---------------
-Chd|        COPY_ELBUF_1                  source/elements/elbuf/copy_elbuf_1.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    copy_elbuf     ../engine/source/elements/elbuf/copy_elbuf.F
+      !||--- called by ------------------------------------------------------
+      !||    cp_impbuf      ../engine/source/implicit/produt_v.F
+      !||--- calls      -----------------------------------------------------
+      !||    copy_elbuf_1   ../engine/source/elements/elbuf/copy_elbuf_1.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE COPY_ELBUF(ELBUF_SRC,ELBUF_TGT,IPARG,NGROUP)
 C-----------------------------------------------
 C   M o d u l e s

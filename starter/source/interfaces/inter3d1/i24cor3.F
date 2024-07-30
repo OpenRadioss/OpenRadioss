@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I24COR3                       source/interfaces/inter3d1/i24cor3.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i24cor3   ../starter/source/interfaces/inter3d1/i24cor3.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3    ../starter/source/interfaces/inter3d1/inint3.F
+      !||====================================================================
       SUBROUTINE I24COR3(X     ,IRECT ,NSV   ,CAND_E  ,CAND_N,
      2                  STF   ,STFN  ,GAPV  ,IGAP    ,GAP   ,
      3                  GAP_S ,GAP_M )

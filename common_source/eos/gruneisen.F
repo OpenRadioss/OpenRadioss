@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GRUNEISEN                     eos/gruneisen.F               
-Chd|-- called by -----------
-Chd|        EOSMAIN                       common_source/eos/eosmain.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    gruneisen   ../common_source/eos/gruneisen.F
+      !||--- called by ------------------------------------------------------
+      !||    eosmain     ../common_source/eos/eosmain.F
+      !||====================================================================
       SUBROUTINE GRUNEISEN(IFLAG,NEL,PM   ,OFF  ,EINT ,MU   ,MU2 , 
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,RHO0,
      3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD)

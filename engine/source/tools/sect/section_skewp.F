@@ -20,20 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SECTION_SKEWP                 source/tools/sect/section_skewp.F
-Chd|-- called by -----------
-Chd|        SECTION                       source/tools/sect/section.F   
-Chd|        SECTION_3N                    source/tools/sect/section_3n.F
-Chd|        SECTION_C                     source/tools/sect/section_c.F 
-Chd|        SECTION_P                     source/tools/sect/section_p.F 
-Chd|        SECTION_R                     source/tools/sect/section_r.F 
-Chd|        SECTION_S                     source/tools/sect/section_s.F 
-Chd|        SECTION_S4                    source/tools/sect/section_s4.F
-Chd|        SECTION_S6                    source/tools/sect/section_s6.F
-Chd|        SECTION_T                     source/tools/sect/section_t.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    section_skewp   ../engine/source/tools/sect/section_skewp.F
+      !||--- called by ------------------------------------------------------
+      !||    section         ../engine/source/tools/sect/section.F
+      !||    section_3n      ../engine/source/tools/sect/section_3n.F
+      !||    section_c       ../engine/source/tools/sect/section_c.F
+      !||    section_p       ../engine/source/tools/sect/section_p.F
+      !||    section_r       ../engine/source/tools/sect/section_r.F
+      !||    section_s       ../engine/source/tools/sect/section_s.F
+      !||    section_s4      ../engine/source/tools/sect/section_s4.F
+      !||    section_s6      ../engine/source/tools/sect/section_s6.F
+      !||    section_t       ../engine/source/tools/sect/section_t.F
+      !||====================================================================
       SUBROUTINE SECTION_SKEWP(
      1   XXC, YYC, ZZC, XX4  , YY4 , ZZ4 ,
      2   XX5, YY5, ZZ5, XX6  , YY6 , ZZ6 ,

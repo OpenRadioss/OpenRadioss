@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SRHO3                         source/elements/solid/solide/srho3.F
-Chd|-- called by -----------
-Chd|        S4REFSTA3                     source/elements/solid/solide4/s4refsta3.F
-Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    srho3       ../starter/source/elements/solid/solide/srho3.F
+      !||--- called by ------------------------------------------------------
+      !||    s4refsta3   ../starter/source/elements/solid/solide4/s4refsta3.F
+      !||    srefsta3    ../starter/source/elements/solid/solide/srefsta3.F
+      !||====================================================================
       SUBROUTINE SRHO3(PM ,VOLO    ,RHON    ,EINT    ,DXX    , 
      .            DYY     ,DZZ     ,VOLN    ,DVOL    ,MAT    )
 C-----------------------------------------------

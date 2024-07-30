@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STAT_C_ORTH_LOC               source/output/sta/stat_c_orth_loc.F
-Chd|-- called by -----------
-Chd|        GENSTAT                       source/output/sta/genstat.F   
-Chd|-- calls ---------------
-Chd|        CLSCONV3                      source/output/anim/generate/dfuncc.F
-Chd|        SPMD_RGATHER9_DP              source/mpi/interfaces/spmd_outp.F
-Chd|        SPMD_STAT_PGATHER             source/mpi/output/spmd_stat.F 
-Chd|        STRS_TXT50                    source/output/sta/sta_txt.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    stat_c_orth_loc     ../engine/source/output/sta/stat_c_orth_loc.F
+      !||--- called by ------------------------------------------------------
+      !||    genstat             ../engine/source/output/sta/genstat.F
+      !||--- calls      -----------------------------------------------------
+      !||    clsconv3            ../engine/source/output/anim/generate/dfuncc.F
+      !||    spmd_rgather9_dp    ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
+      !||    strs_txt50          ../engine/source/output/sta/sta_txt.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE STAT_C_ORTH_LOC(ELBUF_TAB,IPARG ,IPM ,IGEO ,IXC ,
      2                           IXTG  ,WA,WAP0 ,IPARTC, IPARTTG,
      3                           IPART_STATE,STAT_INDXC,STAT_INDXTG,X,IDEL,

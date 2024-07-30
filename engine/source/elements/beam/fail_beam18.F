@@ -20,18 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_BEAM18                   source/elements/beam/fail_beam18.F
-Chd|-- called by -----------
-Chd|        MAIN_BEAM18                   source/elements/beam/main_beam18.F
-Chd|-- calls ---------------
-Chd|        FAIL_BIQUAD_IB                source/materials/fail/biquad/fail_biquad_ib.F
-Chd|        FAIL_COCKROFT_IB              source/materials/fail/cockroft_latham/fail_cockroft_ib.F
-Chd|        FAIL_ENERGY_IB                source/materials/fail/energy/fail_energy_ib.F
-Chd|        FAIL_JOHNSON_IB               source/materials/fail/johnson_cook/fail_johnson_ib.F
-Chd|        FAIL_TENSSTRAIN_IB            source/materials/fail/tensstrain/fail_tensstrain_ib.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_beam18          ../engine/source/elements/beam/fail_beam18.F
+      !||--- called by ------------------------------------------------------
+      !||    main_beam18          ../engine/source/elements/beam/main_beam18.F
+      !||--- calls      -----------------------------------------------------
+      !||    fail_biquad_ib       ../engine/source/materials/fail/biquad/fail_biquad_ib.F
+      !||    fail_cockroft_ib     ../engine/source/materials/fail/cockroft_latham/fail_cockroft_ib.F
+      !||    fail_energy_ib       ../engine/source/materials/fail/energy/fail_energy_ib.F
+      !||    fail_johnson_ib      ../engine/source/materials/fail/johnson_cook/fail_johnson_ib.F
+      !||    fail_tensstrain_ib   ../engine/source/materials/fail/tensstrain/fail_tensstrain_ib.F
+      !||    nvar                 ../engine/source/input/nvar.F
+      !||--- uses       -----------------------------------------------------
+      !||    mat_elem_mod         ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||====================================================================
       SUBROUTINE FAIL_BEAM18(ELBUF_STR,FAIL     ,NUMMAT   ,NUMGEO   ,
      .                       NPROPM   ,NPROPG   ,SNPC     ,STF      ,
      .                       NEL      ,NPT      ,IMAT     ,IPROP    ,JTHE    ,

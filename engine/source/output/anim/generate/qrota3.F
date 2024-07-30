@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  QROTA3                        source/output/anim/generate/qrota3.F
-Chd|-- called by -----------
-Chd|        THQUAD                        source/output/th/thquad.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    qrota3   ../engine/source/output/anim/generate/qrota3.F
+      !||--- called by ------------------------------------------------------
+      !||    thquad   ../engine/source/output/th/thquad.F
+      !||====================================================================
       SUBROUTINE QROTA3(
      1   X,       IXQ,     KCVT,    TENS,
      2   GAMA,    ISORTH)

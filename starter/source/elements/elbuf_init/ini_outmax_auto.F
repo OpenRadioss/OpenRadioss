@@ -20,14 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INI_OUTMAX_AUTO               source/elements/elbuf_init/ini_outmax_auto.F
-Chd|-- called by -----------
-Chd|        ELBUF_INI                     source/elements/elbuf_init/elbuf_ini.F
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ini_outmax_auto   ../starter/source/elements/elbuf_init/ini_outmax_auto.F
+      !||--- called by ------------------------------------------------------
+      !||    elbuf_ini         ../starter/source/elements/elbuf_init/elbuf_ini.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE INI_OUTMAX_AUTO(ELBUF_STR,ITY,NG)
 C-----------------------------------------------
 C   M o d u l e s

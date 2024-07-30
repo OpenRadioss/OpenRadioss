@@ -20,26 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MULTI_FVM2FEM                 source/multifluid/multi_fvm2fem.F
-Chd|-- called by -----------
-Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|-- calls ---------------
-Chd|        A4MASS3                       source/elements/solid/solide4/a4mass3.F
-Chd|        A4MASS3P                      source/elements/solid/solide4/a4mass3p.F
-Chd|        AMASS3                        source/elements/solid/solide/amass3.F
-Chd|        AMASS3P                       source/elements/solid/solide/amass3p.F
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        S4CUMU3                       source/elements/solid/solide4/s4cumu3.F
-Chd|        S4CUMU3P                      source/elements/solid/solide4/s4cumu3p.F
-Chd|        SCUMU3                        source/elements/solid/solide/scumu3.F
-Chd|        SCUMU3P                       source/elements/solid/solide/scumu3p.F
-Chd|        SNORM3                        source/multifluid/snorm3.F    
-Chd|        SNORM3T                       source/multifluid/snorm3t.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    multi_fvm2fem   ../engine/source/multifluid/multi_fvm2fem.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain         ../engine/source/ale/alemain.F
+      !||--- calls      -----------------------------------------------------
+      !||    a4mass3         ../engine/source/elements/solid/solide4/a4mass3.F
+      !||    a4mass3p        ../engine/source/elements/solid/solide4/a4mass3p.F
+      !||    amass3          ../engine/source/elements/solid/solide/amass3.F
+      !||    amass3p         ../engine/source/elements/solid/solide/amass3p.F
+      !||    initbuf         ../engine/share/resol/initbuf.F
+      !||    s4cumu3         ../engine/source/elements/solid/solide4/s4cumu3.F
+      !||    s4cumu3p        ../engine/source/elements/solid/solide4/s4cumu3p.F
+      !||    scumu3          ../engine/source/elements/solid/solide/scumu3.F
+      !||    scumu3p         ../engine/source/elements/solid/solide/scumu3p.F
+      !||    snorm3          ../engine/source/multifluid/snorm3.F
+      !||    snorm3t         ../engine/source/multifluid/snorm3t.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod     ../engine/share/resol/initbuf.F
+      !||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F
+      !||====================================================================
       SUBROUTINE MULTI_FVM2FEM(TIMESTEP, ELBUF_TAB, ITASK, 
      .     IXS, IXQ, IPARG, XGRID, ACCELE, VEL, WGRID, MS, MSNF, VEUL,
      .     STIFN, FSKY, IADS, FSKYM, 
@@ -403,11 +404,9 @@ C-----------
       RETURN
       END SUBROUTINE MULTI_FVM2FEM
 
-Chd|====================================================================
-Chd|  VECTOR_PROD                   source/multifluid/multi_fvm2fem.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    vector_prod   ../engine/source/multifluid/multi_fvm2fem.F
+      !||====================================================================
       SUBROUTINE VECTOR_PROD(X, Y, RES, FAC)
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s

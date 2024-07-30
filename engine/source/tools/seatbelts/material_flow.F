@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MATERIAL_FLOW                 source/tools/seatbelts/material_flow.F
-Chd|-- called by -----------
-Chd|        R23L114DEF3                   source/elements/spring/r23l114def3.F
-Chd|-- calls ---------------
-Chd|        SOLVE_DELTA_L0                source/tools/seatbelts/material_flow.F
-Chd|        SOLVE_DELTA_L02               source/tools/seatbelts/material_flow.F
-Chd|        GET_U_FUNC                    source/user_interface/ufunc.F 
-Chd|        GET_U_FUNC_INV                source/user_interface/ufunc.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    material_flow     ../engine/source/tools/seatbelts/material_flow.F
+      !||--- called by ------------------------------------------------------
+      !||    r23l114def3       ../engine/source/elements/spring/r23l114def3.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_u_func        ../engine/source/user_interface/ufunc.F
+      !||    get_u_func_inv    ../engine/source/user_interface/ufunc.F
+      !||    solve_delta_l0    ../engine/source/tools/seatbelts/material_flow.F
+      !||    solve_delta_l02   ../engine/source/tools/seatbelts/material_flow.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    seatbelt_mod      ../common_source/modules/seatbelt_mod.F
+      !||    sensor_mod        ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE MATERIAL_FLOW(DFS,DFS_OLD,ALDP,SLIPRING_STRAND,XK,
      1                         OFF,AL0,AL02,LMIN,UPDATE_FLAG,
      2                         RING_SLIP,SLIPRING_ID,XL0,DL,DLOLD,
@@ -779,12 +780,11 @@ C
                 
       END
 
-Chd|====================================================================
-Chd|  SOLVE_DELTA_L0                source/tools/seatbelts/material_flow.F
-Chd|-- called by -----------
-Chd|        MATERIAL_FLOW                 source/tools/seatbelts/material_flow.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    solve_delta_l0   ../engine/source/tools/seatbelts/material_flow.F
+      !||--- called by ------------------------------------------------------
+      !||    material_flow    ../engine/source/tools/seatbelts/material_flow.F
+      !||====================================================================
       SUBROUTINE SOLVE_DELTA_L0(FLAG,DELTA_LO,HH,L1,L2,L01,L02,LMIN,OMEGA)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -847,12 +847,11 @@ C--   equation 4 -> friction and l1 = lmin - order 2
       RETURN
       END
 
-Chd|====================================================================
-Chd|  SOLVE_DELTA_L02               source/tools/seatbelts/material_flow.F
-Chd|-- called by -----------
-Chd|        MATERIAL_FLOW                 source/tools/seatbelts/material_flow.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    solve_delta_l02   ../engine/source/tools/seatbelts/material_flow.F
+      !||--- called by ------------------------------------------------------
+      !||    material_flow     ../engine/source/tools/seatbelts/material_flow.F
+      !||====================================================================
       SUBROUTINE SOLVE_DELTA_L02(DELTA_LO,ALPHA,BETA,XK,L,L0,LMIN,FB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

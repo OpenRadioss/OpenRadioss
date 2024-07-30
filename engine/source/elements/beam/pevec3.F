@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PEVEC3                        source/elements/beam/pevec3.F 
-Chd|-- called by -----------
-Chd|        PFORC3                        source/elements/beam/pforc3.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pevec3   ../engine/source/elements/beam/pevec3.F
+      !||--- called by ------------------------------------------------------
+      !||    pforc3   ../engine/source/elements/beam/pforc3.F
+      !||====================================================================
       SUBROUTINE PEVEC3(
      1   RLOC,    R,       AL,      NC1,
      2   NC2,     NC3,     X1,      X2,

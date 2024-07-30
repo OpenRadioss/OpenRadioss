@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  USERIN3                       source/elements/solid/solide/userin3.F
-Chd|-- called by -----------
-Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|-- calls ---------------
-Chd|        SROTA6_M1                     source/output/anim/srota6_M1.F
-Chd|====================================================================
+      !||====================================================================
+      !||    userin3     ../starter/source/elements/solid/solide/userin3.F
+      !||--- called by ------------------------------------------------------
+      !||    s4init3     ../starter/source/elements/solid/solide4/s4init3.F
+      !||    sinit3      ../starter/source/elements/solid/solide/sinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    srota6_m1   ../starter/source/output/anim/srota6_M1.F
+      !||====================================================================
       SUBROUTINE USERIN3(
      .   SIGSP   ,SIGI    ,UVAR    ,EPS     ,
      .   IX      ,NIX     ,NSIGI   ,NUVAR   ,NEL     ,
@@ -153,14 +153,14 @@ c
 c-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  USTRSIN3                      source/elements/solid/solide/userin3.F
-Chd|-- called by -----------
-Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|-- calls ---------------
-Chd|        SROTA6_M1                     source/output/anim/srota6_M1.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ustrsin3    ../starter/source/elements/solid/solide/userin3.F
+      !||--- called by ------------------------------------------------------
+      !||    s4init3     ../starter/source/elements/solid/solide4/s4init3.F
+      !||    sinit3      ../starter/source/elements/solid/solide/sinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    srota6_m1   ../starter/source/output/anim/srota6_M1.F
+      !||====================================================================
       SUBROUTINE USTRSIN3(
      .   SIGI    ,SIG     ,IX      ,NIX     ,NSIGI   ,
      .   NEL     ,STRSGLOB,JHBE    ,IGTYP   ,X       ,

@@ -20,19 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WCIUSC2                       source/input/wciusc2.F        
-Chd|-- called by -----------
-Chd|        FREBCS                        source/input/frebcs.F         
-Chd|        READ10                        source/input/read10.F         
-Chd|        READ10P                       source/input/read10p.F        
-Chd|        READ5P                        source/input/read5p.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        NVAR                          source/input/nvar.F           
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    wciusc2                ../engine/source/input/wciusc2.F
+      !||--- called by ------------------------------------------------------
+      !||    frebcs                 ../engine/source/input/frebcs.F
+      !||    read10                 ../engine/source/input/read10.F
+      !||    read10p                ../engine/source/input/read10p.F
+      !||    read5p                 ../engine/source/input/read5p.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||    nvar                   ../engine/source/input/nvar.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE WCIUSC2(IREC,NBC,N,KEY0)
 C-----------------------------------------------
 C   M o d u l e s

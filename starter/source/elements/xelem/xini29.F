@@ -20,12 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  XINI29                        source/elements/xelem/xini29.F
-Chd|-- called by -----------
-Chd|        XINIT3                        source/elements/xelem/xinit3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    xini29       ../starter/source/elements/xelem/xini29.F
+      !||--- called by ------------------------------------------------------
+      !||    xinit3       ../starter/source/elements/xelem/xinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_u_func   ../starter/source/user_interface/uaccess.F
+      !||    get_u_geo    ../starter/source/user_interface/uaccess.F
+      !||    get_u_mat    ../starter/source/user_interface/uaccess.F
+      !||    get_u_mid    ../starter/source/user_interface/uaccess.F
+      !||    get_u_mnu    ../starter/source/user_interface/uaccess.F
+      !||    get_u_pid    ../starter/source/user_interface/uaccess.F
+      !||    get_u_pnu    ../starter/source/user_interface/uaccess.F
+      !||====================================================================
       SUBROUTINE XINI29(NX    ,NAX1D  ,NAX2D ,NAX3D ,
      2                  XEL   ,VEL    ,VREL  ,
      2                  IOUT  ,IPROP  ,IMAT  ,

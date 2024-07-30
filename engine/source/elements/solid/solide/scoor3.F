@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCOOR3                        source/elements/solid/solide/scoor3.F
-Chd|-- called by -----------
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|        SORTHDIR3                     source/elements/solid/solide/sorthdir3.F
-Chd|        SREPISO3                      source/elements/solid/solide/srepiso3.F
-Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    scoor3      ../engine/source/elements/solid/solide/scoor3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8cforc3    ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3    ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8zforc3    ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    sforc3      ../engine/source/elements/solid/solide/sforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    sorthdir3   ../engine/source/elements/solid/solide/sorthdir3.F
+      !||    srepiso3    ../engine/source/elements/solid/solide/srepiso3.F
+      !||    sreploc3    ../engine/source/elements/solid/solide/sreploc3.F
+      !||====================================================================
       SUBROUTINE SCOOR3(X,IXS,V,W,GAMA0,GAMA,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,

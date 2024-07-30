@@ -20,25 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTTI1                        source/interfaces/interf/intti1.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ASSPARI2                      source/assembly/asspar4.F     
-Chd|        I2SKIP                        source/interfaces/interf/i2for3p.F
-Chd|        INT2POFF                      source/interfaces/interf/int2poff.F
-Chd|        INT2POFFH                     source/interfaces/interf/int2poff.F
-Chd|        INT2RUPT                      source/interfaces/interf/int2rupt.F
-Chd|        INTTI12F                      source/interfaces/interf/intti12.F
-Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
-Chd|        SPMD_EXCH_A_INT2              source/mpi/forces/spmd_exch_a_int2.F
-Chd|        SPMD_EXCH_A_INT2H             source/mpi/forces/spmd_exch_a_int2h.F
-Chd|        SPMD_EXCH_A_INT2H_AMS         source/mpi/forces/spmd_exch_a_int2h_ams.F
-Chd|        SPMD_EXCH_A_INT2_AMS          source/mpi/forces/spmd_exch_a_int2_ams.F
-Chd|        SPMD_EXCH_A_INT2_PON          source/mpi/forces/spmd_exch_a_int2_pon.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    intti1                  ../engine/source/interfaces/interf/intti1.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                   ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    asspari2                ../engine/source/assembly/asspar4.F
+      !||    i2skip                  ../engine/source/interfaces/interf/i2for3p.F
+      !||    int2poff                ../engine/source/interfaces/interf/int2poff.F
+      !||    int2poffh               ../engine/source/interfaces/interf/int2poff.F
+      !||    int2rupt                ../engine/source/interfaces/interf/int2rupt.F
+      !||    intti12f                ../engine/source/interfaces/interf/intti12.F
+      !||    intti2f                 ../engine/source/interfaces/interf/intti2f.F
+      !||    spmd_exch_a_int2        ../engine/source/mpi/forces/spmd_exch_a_int2.F
+      !||    spmd_exch_a_int2_ams    ../engine/source/mpi/forces/spmd_exch_a_int2_ams.F
+      !||    spmd_exch_a_int2_pon    ../engine/source/mpi/forces/spmd_exch_a_int2_pon.F
+      !||    spmd_exch_a_int2h       ../engine/source/mpi/forces/spmd_exch_a_int2h.F
+      !||    spmd_exch_a_int2h_ams   ../engine/source/mpi/forces/spmd_exch_a_int2h_ams.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod                 ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE INTTI1(
      1   IPARI    ,X        ,V        ,A       ,
      2   VR       ,AR       ,WA       ,MS      ,IN       ,WEIGHT  ,

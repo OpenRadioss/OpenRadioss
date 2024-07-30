@@ -20,12 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THRNUR                        source/output/th/thrnur.F     
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    thrnur   ../engine/source/output/th/thrnur.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2    ../engine/source/output/th/hist2.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar     ../engine/source/input/nvar.F
+      !||====================================================================
       SUBROUTINE THRNUR(IAD,NN,IADV,NVAR,IPARG,
      .                 ITHBUF,BUFEL,    WA )
 C-----------------------------------------------

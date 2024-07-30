@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SMS_RLINK10                   source/ams/sms_rlink.F        
-Chd|-- called by -----------
-Chd|        SMS_PCG                       source/ams/sms_pcg.F          
-Chd|-- calls ---------------
-Chd|        SMS_RLINK1                    source/ams/sms_rlink.F        
-Chd|        SMS_RLINK2                    source/ams/sms_rlink.F        
-Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_rlink10     ../engine/source/ams/sms_rlink.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_pcg         ../engine/source/ams/sms_pcg.F
+      !||--- calls      -----------------------------------------------------
+      !||    sms_rlink1      ../engine/source/ams/sms_rlink.F
+      !||    sms_rlink2      ../engine/source/ams/sms_rlink.F
+      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+      !||====================================================================
       SUBROUTINE SMS_RLINK10(
      1   MS    ,A     ,NLINK ,LLINK ,SKEW ,
      2   FR_RL ,WEIGHT,FRL6  ,IDOWN ,TAG_LNK_SMS,
@@ -140,16 +140,16 @@ C boucle parallele sur les threads SMP
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  SMS_RLINK11                   source/ams/sms_rlink.F        
-Chd|-- called by -----------
-Chd|        SMS_PCG                       source/ams/sms_pcg.F          
-Chd|-- calls ---------------
-Chd|        SMS_RLINK1                    source/ams/sms_rlink.F        
-Chd|        SMS_RLINK2                    source/ams/sms_rlink.F        
-Chd|        SMS_RLINK3                    source/ams/sms_rlink.F        
-Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_rlink11     ../engine/source/ams/sms_rlink.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_pcg         ../engine/source/ams/sms_pcg.F
+      !||--- calls      -----------------------------------------------------
+      !||    sms_rlink1      ../engine/source/ams/sms_rlink.F
+      !||    sms_rlink2      ../engine/source/ams/sms_rlink.F
+      !||    sms_rlink3      ../engine/source/ams/sms_rlink.F
+      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+      !||====================================================================
       SUBROUTINE SMS_RLINK11(
      1   MS    ,A     ,NNLINK,LLLINK,SKEW  ,
      2   FR_LL ,WEIGHT,FRL6  ,X     ,XFRAME,
@@ -277,14 +277,14 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  SMS_RLINK1                    source/ams/sms_rlink.F        
-Chd|-- called by -----------
-Chd|        SMS_RLINK10                   source/ams/sms_rlink.F        
-Chd|        SMS_RLINK11                   source/ams/sms_rlink.F        
-Chd|-- calls ---------------
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_rlink1    ../engine/source/ams/sms_rlink.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_rlink10   ../engine/source/ams/sms_rlink.F
+      !||    sms_rlink11   ../engine/source/ams/sms_rlink.F
+      !||--- calls      -----------------------------------------------------
+      !||    sum_6_float   ../engine/source/system/parit.F
+      !||====================================================================
       SUBROUTINE SMS_RLINK1(MS    ,A    ,NSN  ,IC      ,NOD,
      .                      WEIGHT,FRL6 ,IFLAG,IDOWN   ,PMAIN ,
      .                      FRL   ,TAG_LNK,ITAB)
@@ -440,14 +440,14 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  SMS_RLINK2                    source/ams/sms_rlink.F        
-Chd|-- called by -----------
-Chd|        SMS_RLINK10                   source/ams/sms_rlink.F        
-Chd|        SMS_RLINK11                   source/ams/sms_rlink.F        
-Chd|-- calls ---------------
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_rlink2    ../engine/source/ams/sms_rlink.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_rlink10   ../engine/source/ams/sms_rlink.F
+      !||    sms_rlink11   ../engine/source/ams/sms_rlink.F
+      !||--- calls      -----------------------------------------------------
+      !||    sum_6_float   ../engine/source/system/parit.F
+      !||====================================================================
       SUBROUTINE SMS_RLINK2(MS   ,A    ,NSN   ,IC   ,NOD  ,
      2                      SKEW,WEIGHT,FRL6  ,IFLAG,IDOWN,
      3                      PMAIN,FRL,TAG_LNK,ITAB)
@@ -622,13 +622,13 @@ C
       RETURN
       END
 
-Chd|====================================================================
-Chd|  SMS_RLINK3                    source/ams/sms_rlink.F        
-Chd|-- called by -----------
-Chd|        SMS_RLINK11                   source/ams/sms_rlink.F        
-Chd|-- calls ---------------
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_rlink3    ../engine/source/ams/sms_rlink.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_rlink11   ../engine/source/ams/sms_rlink.F
+      !||--- calls      -----------------------------------------------------
+      !||    sum_6_float   ../engine/source/system/parit.F
+      !||====================================================================
       SUBROUTINE SMS_RLINK3(MS   ,X   ,A     ,V     ,NSN  ,
      2                      IC   ,NOD ,XFRAME,WEIGHT,FRL6 ,
      3                      IFLAG,IDOWN,PMAIN,FRL,TAG_LNK,

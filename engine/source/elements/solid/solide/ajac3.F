@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  AJAC3_V                       source/elements/solid/solide/ajac3.F
-Chd|-- called by -----------
-Chd|        AMOMT3                        source/elements/solid/solide/amomt3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ajac3_v   ../engine/source/elements/solid/solide/ajac3.F
+      !||--- called by ------------------------------------------------------
+      !||    amomt3    ../engine/source/elements/solid/solide/amomt3.F
+      !||====================================================================
       SUBROUTINE AJAC3_V(
      1   V1,      V2,      V3,      AJ1,
      2   AJ2,     AJ3,     AJV,     NEL)

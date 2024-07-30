@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SEG_INTERSECT                 source/materials/fail/failwave/seg_intersect.F
-Chd|-- called by -----------
-Chd|        SET_FAILWAVE_NOD3             source/materials/fail/failwave/set_failwave_nod3.F
-Chd|        SET_FAILWAVE_NOD4             source/materials/fail/failwave/set_failwave_nod4.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    seg_intersect       ../engine/source/materials/fail/failwave/seg_intersect.F
+      !||--- called by ------------------------------------------------------
+      !||    set_failwave_nod3   ../engine/source/materials/fail/failwave/set_failwave_nod3.F
+      !||    set_failwave_nod4   ../engine/source/materials/fail/failwave/set_failwave_nod4.F
+      !||====================================================================
        INTEGER FUNCTION SEG_INTERSECT(X1    ,Y1    ,X2    ,Y2    ,X3    ,Y3    ,
      .                                X4    ,Y4    ,XINT  ,YINT  ,IDEBUG       )
 C-----------------------------------------------

@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M24C2ARM                      source/elements/solid/solidez/m24c2arm.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        GETTRANSV                     source/elements/solid/solidez/gettransv.F
-Chd|        MSTIFORTHV                    source/elements/solid/solidez/mstiforthv.F
-Chd|====================================================================
+      !||====================================================================
+      !||    m24c2arm     ../engine/source/elements/solid/solidez/m24c2arm.F
+      !||--- calls      -----------------------------------------------------
+      !||    gettransv    ../engine/source/elements/solid/solidez/gettransv.F
+      !||    mstiforthv   ../engine/source/elements/solid/solidez/mstiforthv.F
+      !||====================================================================
       SUBROUTINE M24C2ARM(NEL    ,GAMA  ,ANGDAM ,CC     ,G3     ,
      .                    C3    )
 C-----------------------------------------------

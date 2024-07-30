@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CDK6UPDT3                     source/elements/sh3n/coquedk6/cdk6updt3.F
-Chd|-- called by -----------
-Chd|        CDK6FORC3                     source/elements/sh3n/coquedk6/cdk6forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cdk6updt3   ../engine/source/elements/sh3n/coquedk6/cdk6updt3.F
+      !||--- called by ------------------------------------------------------
+      !||    cdk6forc3   ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+      !||====================================================================
       SUBROUTINE CDK6UPDT3(JFT  ,JLT ,F ,M , NVC  ,
      2                   OFFG ,OFF ,STI ,STIR,STIFN,
      3                   STIFR,IXTG,IXTG1, F11  ,
@@ -138,12 +137,11 @@ C---------sans voisins----------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CDK6UPDT3P                    source/elements/sh3n/coquedk6/cdk6updt3.F
-Chd|-- called by -----------
-Chd|        CDK6FORC3                     source/elements/sh3n/coquedk6/cdk6forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cdk6updt3p   ../engine/source/elements/sh3n/coquedk6/cdk6updt3.F
+      !||--- called by ------------------------------------------------------
+      !||    cdk6forc3    ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+      !||====================================================================
       SUBROUTINE CDK6UPDT3P(JFT,JLT ,OFFG ,OFF,STI,
      2                   STIR,FSKY,FSKYV,IADTG,IADTG1,
      4             F11    ,F12  ,F13  ,F21 ,F22 ,

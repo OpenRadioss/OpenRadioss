@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  POINTS_TO_FRAME               source/model/submodel/3points_to_frame.F
-Chd|-- called by -----------
-Chd|        LECTRANS                      source/model/transformation/lectrans.F
-Chd|        LECTRANSSUB                   source/model/submodel/lectranssub.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    points_to_frame   ../starter/source/model/submodel/3points_to_frame.F
+      !||--- called by ------------------------------------------------------
+      !||    lectrans          ../starter/source/model/transformation/lectrans.F
+      !||    lectranssub       ../starter/source/model/submodel/lectranssub.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE POINTS_TO_FRAME(X1, X2, X3 ,PP, IERROR)
 C-----------------------------------------------
 C   M o d u l e s

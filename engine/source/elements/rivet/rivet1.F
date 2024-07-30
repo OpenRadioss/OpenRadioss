@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RIVET1                        source/elements/rivet/rivet1.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rivet1   ../engine/source/elements/rivet/rivet1.F
+      !||--- called by ------------------------------------------------------
+      !||    resol    ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE RIVET1(MS    ,IN    ,A    ,AR   ,X   ,
      .                  IXRT  ,RIVET ,GEO  ,V    ,VR  ,
      .                  ITASK )

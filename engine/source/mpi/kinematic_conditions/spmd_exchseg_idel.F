@@ -22,13 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 C
-Chd|====================================================================
-Chd|  SPMD_EXCHSEG_IDEL             source/mpi/kinematic_conditions/spmd_exchseg_idel.F
-Chd|-- called by -----------
-Chd|        CHKLOAD                       source/interfaces/chkload.F   
-Chd|-- calls ---------------
-Chd|        SYSFUS2                       source/system/sysfus.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exchseg_idel   ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
+      !||--- called by ------------------------------------------------------
+      !||    chkload             ../engine/source/interfaces/chkload.F
+      !||--- calls      -----------------------------------------------------
+      !||    sysfus2             ../engine/source/system/sysfus.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCHSEG_IDEL(
      1    BUFS  ,LBUFS ,IXS    ,IXC    ,IXTG   ,
      2    IXQ   ,IPARG ,ITAGL  ,ITABM1 ,TAGEL  ,

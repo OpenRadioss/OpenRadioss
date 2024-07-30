@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPMD_SYNC_MMX                 source/mpi/interfaces/spmd_sync_mmx.F
-Chd|-- called by -----------
-Chd|        IMP_ICOMCRIT                  source/implicit/imp_int_k.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_sync_mmx   ../engine/source/mpi/interfaces/spmd_sync_mmx.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_icomcrit    ../engine/source/implicit/imp_int_k.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_SYNC_MMX(
      1    ISENDTO,IRCVFROM,NEWFRONT,XSLV_L,XMSR_L,
      2    VSLV_L ,VMSR_L  ,INTLIST ,NINTC ,TZINF ,

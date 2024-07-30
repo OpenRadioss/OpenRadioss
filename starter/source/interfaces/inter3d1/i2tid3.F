@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2TID3                        source/interfaces/inter3d1/i2tid3.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        KINSET                        source/constraints/general/kinset.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    i2tid3          ../starter/source/interfaces/inter3d1/i2tid3.F
+      !||--- called by ------------------------------------------------------
+      !||    inint3          ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../starter/source/output/message/message.F
+      !||    kinset          ../starter/source/constraints/general/kinset.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    nod2el_mod      ../starter/share/modules1/nod2el_mod.F
+      !||====================================================================
       SUBROUTINE I2TID3(X     ,IRECT ,ST    ,MSR   ,NSV  ,
      2                  IRTL  ,ITAB  ,IKINE ,IKINE1,DMIN ,
      3                  IPARI ,TZINF ,IDDLEVEL,

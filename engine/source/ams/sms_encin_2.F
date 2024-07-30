@@ -20,28 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SMS_ENCIN_2                   source/ams/sms_encin_2.F      
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SMS_BCS                       source/ams/sms_bcs.F          
-Chd|        SMS_BCSCYC                    source/ams/sms_bcscyc.F       
-Chd|        SMS_FIXVEL                    source/ams/sms_fixvel.F       
-Chd|        SMS_MAV_LT                    source/ams/sms_pcg.F          
-Chd|        SMS_RBE3T1                    source/ams/sms_rbe3.F         
-Chd|        SMS_RBE_CNDS                  source/ams/sms_rbe2.F         
-Chd|        SMS_RBE_CORR                  source/ams/sms_rbe2.F         
-Chd|        SPMD_EXCH_A_RB6               source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
-Chd|        SPMD_LIST_SMS                 source/mpi/ams/spmd_sms.F     
-Chd|        SPMD_MIJ_SMS                  source/mpi/ams/spmd_sms.F     
-Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sms_encin_2       ../engine/source/ams/sms_encin_2.F
+      !||--- called by ------------------------------------------------------
+      !||    resol             ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg            ../engine/source/output/message/message.F
+      !||    arret             ../engine/source/system/arret.F
+      !||    my_barrier        ../engine/source/system/machine.F
+      !||    sms_bcs           ../engine/source/ams/sms_bcs.F
+      !||    sms_bcscyc        ../engine/source/ams/sms_bcscyc.F
+      !||    sms_fixvel        ../engine/source/ams/sms_fixvel.F
+      !||    sms_mav_lt        ../engine/source/ams/sms_pcg.F
+      !||    sms_rbe3t1        ../engine/source/ams/sms_rbe3.F
+      !||    sms_rbe_cnds      ../engine/source/ams/sms_rbe2.F
+      !||    sms_rbe_corr      ../engine/source/ams/sms_rbe2.F
+      !||    spmd_exch_a_rb6   ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
+      !||    spmd_list_sms     ../engine/source/mpi/ams/spmd_sms.F
+      !||    spmd_mij_sms      ../engine/source/mpi/ams/spmd_sms.F
+      !||--- uses       -----------------------------------------------------
+      !||    intstamp_mod      ../engine/share/modules/intstamp_mod.F
+      !||    message_mod       ../engine/share/message_module/message_mod.F
+      !||    mod_sms_work      ../engine/source/ams/sms_mass_scale_2.F
+      !||    output_mod        ../common_source/modules/output/output_mod.F90
+      !||    sensor_mod        ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SMS_ENCIN_2(
      1        ITASK    ,NODFT    ,NODLT    ,NODXI_SMS,
      2        MS       ,JAD_SMS  ,JDI_SMS  ,LT_SMS    ,INDX1_SMS,

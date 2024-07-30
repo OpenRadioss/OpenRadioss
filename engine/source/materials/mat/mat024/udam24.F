@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UDAM24                        source/materials/mat/mat024/udam24.F
-Chd|-- called by -----------
-Chd|        M24ANIM                       source/materials/mat/mat024/m24anim.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    udam24    ../engine/source/materials/mat/mat024/udam24.F
+      !||--- called by ------------------------------------------------------
+      !||    m24anim   ../engine/source/materials/mat/mat024/m24anim.F
+      !||====================================================================
       SUBROUTINE UDAM24(SIG,ANG,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -90,12 +89,11 @@ c-----------
       END
 
 
-Chd|====================================================================
-Chd|  UDAM24N                       source/materials/mat/mat024/udam24.F
-Chd|-- called by -----------
-Chd|        CONC24                        source/materials/mat/mat024/conc24.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    udam24n   ../engine/source/materials/mat/mat024/udam24.F
+      !||--- called by ------------------------------------------------------
+      !||    conc24    ../engine/source/materials/mat/mat024/conc24.F
+      !||====================================================================
       SUBROUTINE UDAM24N(SIG,ANG,NBDAMA,DAMAI,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -21,16 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  FXBWREST                      source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        FXB_MOD                       share/modules/fxb_mod.F       
-Chd|        SCRATCHFILE_MOD               share/modules/scratchfiles_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fxbwrest          ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp           ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db          ../common_source/tools/input_output/write_db.F
+      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    fxb_mod           ../engine/share/modules/fxb_mod.F
+      !||    scratchfile_mod   ../engine/share/modules/scratchfiles_mod.F
+      !||====================================================================
       SUBROUTINE FXBWREST(ICH)
 C-----------------------------------------------
 C   M o d u l e s
@@ -111,17 +112,18 @@ C -----------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  EIGWREST                      source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|        SCRATCHFILE_MOD               share/modules/scratchfiles_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    eigwrest          ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp           ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db          ../common_source/tools/input_output/write_db.F
+      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||    wrtsqi            ../engine/source/output/tools/wrtsqi.F
+      !||    wrtsqr            ../engine/source/output/tools/wrtsqr.F
+      !||--- uses       -----------------------------------------------------
+      !||    scratchfile_mod   ../engine/share/modules/scratchfiles_mod.F
+      !||====================================================================
       SUBROUTINE EIGWREST(EIGIPM, EIGIBUF, EIGRPM)      
 C-----------------------------------------------
 C   M o d u l e s
@@ -189,16 +191,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  DSWREST                       source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    dswrest       ../engine/source/output/restart/wrrest.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db      ../common_source/tools/input_output/write_db.F
+      !||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+      !||    wrtsqi        ../engine/source/output/tools/wrtsqi.F
+      !||    wrtsqr        ../engine/source/output/tools/wrtsqr.F
+      !||--- uses       -----------------------------------------------------
+      !||    dsgraph_mod   ../engine/share/modules/dsgraph_mod.F
+      !||====================================================================
       SUBROUTINE DSWREST(GRAPHE)
 C-----------------------------------------------
 C   M o d u l e s
@@ -308,14 +310,14 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  NFWREST                       source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    nfwrest     ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp     ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db    ../common_source/tools/input_output/write_db.F
+      !||    write_i_c   ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE NFWREST(IFLOW, RFLOW)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -341,15 +343,16 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  IMPWREST                      source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
-Chd|        IMP_REST                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    impwrest   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp    ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db   ../common_source/tools/input_output/write_db.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_dyna   ../engine/share/modules/impbufdef_mod.F
+      !||    imp_rest   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE IMPWREST(NIMPR)
 C-----------------------------------------------
 C   M o d u l e s
@@ -389,13 +392,13 @@ C--------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  IMP_TRANS0                    source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        IMP_SOL_INIT                  source/implicit/imp_sol_init.F
-Chd|-- calls ---------------
-Chd|        IMP_REST                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_trans0     ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_sol_init   ../engine/source/implicit/imp_sol_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_rest       ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE IMP_TRANS0(R_IMP,NR)
 C-----------------------------------------------
 C   M o d u l e s
@@ -431,13 +434,13 @@ C--------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  IMP_TRANS                     source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        IMP_REST                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    imp_trans   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp     ../engine/source/output/restart/wrrestp.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_rest    ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE IMP_TRANS(R_IMP)
 C-----------------------------------------------
 C   M o d u l e s
@@ -462,16 +465,17 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  FVWREST                       source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fvwrest                  ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp                  ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db                 ../common_source/tools/input_output/write_db.F
+      !||    write_i_c                ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
+      !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
+      !||====================================================================
       SUBROUTINE FVWREST()
 C-----------------------------------------------
 C   M o d u l e s 
@@ -634,14 +638,14 @@ C
       END
 C
 C --- for shell heat transfer
-Chd|====================================================================
-Chd|  THCWREST                      source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    thcwrest   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp    ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db   ../common_source/tools/input_output/write_db.F
+      !||    wrtsqr     ../engine/source/output/tools/wrtsqr.F
+      !||====================================================================
       SUBROUTINE THCWREST(MCP,TEMP)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -673,14 +677,14 @@ C--------------------------------------
       END
 C
 C --- for Nitsche Method
-Chd|====================================================================
-Chd|  NITSCHEWREST                  source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    nitschewrest   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp        ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db       ../common_source/tools/input_output/write_db.F
+      !||    wrtsqr         ../engine/source/output/tools/wrtsqr.F
+      !||====================================================================
       SUBROUTINE NITSCHEWREST(FORNEQS)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -710,16 +714,16 @@ C--------------------------------------
       END
 C
 C convection flux 
-Chd|====================================================================
-Chd|  CONVWREST                     source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    convwrest   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp     ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db    ../common_source/tools/input_output/write_db.F
+      !||    write_i_c   ../common_source/tools/input_output/write_routtines.c
+      !||    wrtsqi      ../engine/source/output/tools/wrtsqi.F
+      !||    wrtsqr      ../engine/source/output/tools/wrtsqr.F
+      !||====================================================================
       SUBROUTINE CONVWREST(IBCV,FCONV)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -752,16 +756,16 @@ C--------------------------------------
       RETURN
       END
 C radiative flux 
-Chd|====================================================================
-Chd|  RADIAWREST                    source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    radiawrest   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp      ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db     ../common_source/tools/input_output/write_db.F
+      !||    write_i_c    ../common_source/tools/input_output/write_routtines.c
+      !||    wrtsqi       ../engine/source/output/tools/wrtsqi.F
+      !||    wrtsqr       ../engine/source/output/tools/wrtsqr.F
+      !||====================================================================
       SUBROUTINE RADIAWREST(IBCR,FRADIA)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -794,16 +798,16 @@ C--------------------------------------
       RETURN
       END
 C convection flux 
-Chd|====================================================================
-Chd|  FXTEMPWREST                   source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
-Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    fxtempwrest   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp       ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db      ../common_source/tools/input_output/write_db.F
+      !||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+      !||    wrtsqi        ../engine/source/output/tools/wrtsqi.F
+      !||    wrtsqr        ../engine/source/output/tools/wrtsqr.F
+      !||====================================================================
       SUBROUTINE FXTEMPWREST(IBFT,FBFT)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -836,14 +840,14 @@ C--------------------------------------
       RETURN
       END
 C for rigid_ material
-Chd|====================================================================
-Chd|  RIGMATWREST                   source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    rigmatwrest   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp       ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db      ../common_source/tools/input_output/write_db.F
+      !||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE RIGMATWREST(RBYM  ,IRBYM    ,LCRBYM,WEIGHT_RM)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -873,14 +877,14 @@ C--------------------------------------
       RETURN
       END
 C for shell composite xfem 
-Chd|====================================================================
-Chd|  PLYXFEM_WREST                 source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    plyxfem_wrest   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp         ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db        ../common_source/tools/input_output/write_db.F
+      !||    write_i_c       ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE PLYXFEM_WREST(MS_PLY,ZI_PLY,INOD,IEL,ICODE,ISKEW,MSZ2)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -916,14 +920,15 @@ C
       RETURN
       END
 C for shell composite xfem
-Chd|====================================================================
-Chd|  PLYXFEM_WRESTANIM             source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    plyxfem_wrestanim   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp             ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    plyxfem_mod         ../engine/share/modules/plyxfem_mod.F
+      !||====================================================================
       SUBROUTINE PLYXFEM_WRESTANIM()
 C-----------------------------------------------
       USE PLYXFEM_MOD
@@ -962,13 +967,13 @@ C Writing nodes infos for PLY XFEM
            CALL WRITE_I_C(IDPID_PLY,NPLYPART)
       RETURN
       END
-Chd|====================================================================
-Chd|  CRKXFEM_WREST                 source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    crkxfem_wrest   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp         ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_i_c       ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE CRKXFEM_WREST(INOD,IEL,NODLEVXF)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -995,16 +1000,17 @@ C--------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CRKXFEM_WRESTANIM             source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        RESTMOD                       share/modules/restart_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    crkxfem_wrestanim   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp             ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db            ../common_source/tools/input_output/write_db.F
+      !||    write_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod       ../engine/share/modules/crackxfem_mod.F
+      !||    restmod             ../engine/share/modules/restart_mod.F
+      !||====================================================================
       SUBROUTINE CRKXFEM_WRESTANIM(CRKEDGE,CRKSKY,INDX_CRK,XEDGE4N,XEDGE3N)
 C-----------------------------------------------
       USE CRACKXFEM_MOD
@@ -1115,14 +1121,15 @@ C---
       RETURN
       END
 C for shell composite xfem
-Chd|====================================================================
-Chd|  PLYXFEM_WRAVUPLY              source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    plyxfem_wravuply   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp            ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db           ../common_source/tools/input_output/write_db.F
+      !||--- uses       -----------------------------------------------------
+      !||    plyxfem_mod        ../engine/share/modules/plyxfem_mod.F
+      !||====================================================================
       SUBROUTINE PLYXFEM_WRAVUPLY()
 C-----------------------------------------------
       USE PLYXFEM_MOD
@@ -1151,14 +1158,15 @@ C
       RETURN
       END
 C air + faom
-Chd|====================================================================
-Chd|  ALELAG_WREST                  source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        ALEFLOW_MOD                   share/modules/aleflow_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    alelag_wrest   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp        ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db       ../common_source/tools/input_output/write_db.F
+      !||--- uses       -----------------------------------------------------
+      !||    aleflow_mod    ../engine/share/modules/aleflow_mod.F
+      !||====================================================================
       SUBROUTINE ALELAG_WREST()
 C-----------------------------------------------
       USE ALEFLOW_MOD
@@ -1184,14 +1192,15 @@ C
       END
 
 C TH output
-Chd|====================================================================
-Chd|  RTHBUFWREST                   source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        RESTMOD                       share/modules/restart_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    rthbufwrest   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp       ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db      ../common_source/tools/input_output/write_db.F
+      !||--- uses       -----------------------------------------------------
+      !||    restmod       ../engine/share/modules/restart_mod.F
+      !||====================================================================
       SUBROUTINE RTHBUFWREST ()
 C-----------------------------------------------
       USE RESTMOD
@@ -1213,14 +1222,14 @@ C
       END
 
 C STACk PART
-Chd|====================================================================
-Chd|  STACK_WREST                   source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    stack_wrest   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp       ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db      ../common_source/tools/input_output/write_db.F
+      !||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE STACK_WREST(IGEO,GEO,PM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1249,15 +1258,16 @@ C-----------------------------------------------*
         CALL WRITE_DB(PM,     LSIZ)
        RETURN
       END
-Chd|====================================================================
-Chd|  DRAPE_WREST                   source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    drape_wrest   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp       ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db      ../common_source/tools/input_output/write_db.F
+      !||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod     ../engine/share/modules/drape_mod.F
+      !||====================================================================
       SUBROUTINE DRAPE_WREST(DRAPE_SH4N,DRAPE_SH3N, DRAPEG)      
 C      
       USE DRAPE_MOD
@@ -1382,13 +1392,13 @@ C--------------------------------------
       ENDIF                    
       RETURN
       END
-Chd|====================================================================
-Chd|  PLY_INFO_WREST                source/output/restart/wrrest.F
-Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    ply_info_wrest   ../engine/source/output/restart/wrrest.F
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE PLY_INFO_WREST(PLY_INFO)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

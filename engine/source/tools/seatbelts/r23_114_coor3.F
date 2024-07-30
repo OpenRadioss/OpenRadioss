@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R23_114_COOR3                 source/tools/seatbelts/r23_114_coor3.F
-Chd|-- called by -----------
-Chd|        R23LAW114                     source/elements/spring/r23law114.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    r23_114_coor3   ../engine/source/tools/seatbelts/r23_114_coor3.F
+      !||--- called by ------------------------------------------------------
+      !||    r23law114       ../engine/source/elements/spring/r23law114.F
+      !||====================================================================
       SUBROUTINE R23_114_COOR3(
      1   X,       V,       IXR,     XDP,
      2   X3DP,    NC3,     VX3,     VY3,

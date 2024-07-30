@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IQELA2                        source/ale/inter/iqela2.F     
-Chd|-- called by -----------
-Chd|        INTAL2                        source/ale/inter/intal2.F     
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        BCS2                          source/constraints/general/bcs/bcs2.F
-Chd|        BCS4                          source/ale/inter/bcs4.F       
-Chd|        SHAPEH                        source/ale/inter/shapeh.F     
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    iqela2        ../engine/source/ale/inter/iqela2.F
+      !||--- called by ------------------------------------------------------
+      !||    intal2        ../engine/source/ale/inter/intal2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    bcs2          ../engine/source/constraints/general/bcs/bcs2.F
+      !||    bcs4          ../engine/source/ale/inter/bcs4.F
+      !||    shapeh        ../engine/source/ale/inter/shapeh.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE IQELA2(
      1                  X,SKEW,A,E,MSM,IRECT,LMSR,CRST,MSR,NSV,
      2                  ILOC,IRTL,LCODE,V,ISKEW,NOR,ITAB,NSN,NMN

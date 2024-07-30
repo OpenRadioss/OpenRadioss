@@ -20,6 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    crossprod2d            ../engine/source/interfaces/int22/i22clip_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    intersectp             ../engine/source/interfaces/int22/i22clip_tools.F
+      !||    is_on_1st_half_plane   ../engine/source/interfaces/int22/i22clip_tools.F
+      !||====================================================================
         function CrossProd2D( v1, v2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -43,6 +49,13 @@ C-----------------------------------------------
 
 
 
+      !||====================================================================
+      !||    polygonalclipping   ../engine/source/interfaces/int22/i22clip_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    i22wetsurf          ../engine/source/interfaces/int22/i22wetsurf.F
+      !||--- calls      -----------------------------------------------------
+      !||    clipedge            ../engine/source/interfaces/int22/i22clip_tools.F
+      !||====================================================================
         subroutine PolygonalClipping( basePolygon, clipPolygon, resultPolygon )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -82,6 +95,14 @@ C-----------------------------------------------
 
 
 
+      !||====================================================================
+      !||    clipedge               ../engine/source/interfaces/int22/i22clip_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    polygonalclipping      ../engine/source/interfaces/int22/i22clip_tools.F
+      !||--- calls      -----------------------------------------------------
+      !||    intersectp             ../engine/source/interfaces/int22/i22clip_tools.F
+      !||    is_on_1st_half_plane   ../engine/source/interfaces/int22/i22clip_tools.F
+      !||====================================================================
         subroutine ClipEdge( polyg, p1, p2, resultPolyg )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -156,6 +177,14 @@ C-----------------------------------------------
 
 
 
+      !||====================================================================
+      !||    intersectp             ../engine/source/interfaces/int22/i22clip_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    clipedge               ../engine/source/interfaces/int22/i22clip_tools.F
+      !||    getprojectedfacetype   ../engine/source/interfaces/int22/i22wetsurf.F
+      !||--- calls      -----------------------------------------------------
+      !||    crossprod2d            ../engine/source/interfaces/int22/i22clip_tools.F
+      !||====================================================================
         function intersectP( Seg_P1, Seg_P2, Line_P1, Line_P2, IFLG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -215,6 +244,13 @@ C-----------------------------------------------
 
 
 
+      !||====================================================================
+      !||    is_on_1st_half_plane   ../engine/source/interfaces/int22/i22clip_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    clipedge               ../engine/source/interfaces/int22/i22clip_tools.F
+      !||--- calls      -----------------------------------------------------
+      !||    crossprod2d            ../engine/source/interfaces/int22/i22clip_tools.F
+      !||====================================================================
         function IS_ON_1ST_HALF_PLANE( point, p1, p2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -252,6 +288,9 @@ C-----------------------------------------------
 
 
 
+      !||====================================================================
+      !||    setclockwisepolyg   ../engine/source/interfaces/int22/i22clip_tools.F
+      !||====================================================================
         subroutine SetClockWisePolyg( Polyg, Area )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -302,6 +341,11 @@ C-----------------------------------------------
 
 
 
+      !||====================================================================
+      !||    setcounterclockwisepolyg   ../engine/source/interfaces/int22/i22clip_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    i22wetsurf                 ../engine/source/interfaces/int22/i22wetsurf.F
+      !||====================================================================
         subroutine SetCounterClockWisePolyg( Polyg, Area )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

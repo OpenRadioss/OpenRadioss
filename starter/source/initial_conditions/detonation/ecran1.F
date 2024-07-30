@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ECRAN1                        source/initial_conditions/detonation/ecran1.F
-Chd|-- called by -----------
-Chd|        M5IN2                         source/initial_conditions/detonation/m5in2.F
-Chd|        M5IN2T                        source/initial_conditions/detonation/m5in2t.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        IOMBR                         source/initial_conditions/detonation/iombr.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ecran1           ../starter/source/initial_conditions/detonation/ecran1.F
+      !||--- called by ------------------------------------------------------
+      !||    m5in2            ../starter/source/initial_conditions/detonation/m5in2.F
+      !||    m5in2t           ../starter/source/initial_conditions/detonation/m5in2t.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg           ../starter/source/output/message/message.F
+      !||    iombr            ../starter/source/initial_conditions/detonation/iombr.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod   ../starter/share/modules1/detonators_mod.F
+      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ECRAN1(DETONATOR,X,VDET)
 C-----------------------------------------------
       USE MESSAGE_MOD

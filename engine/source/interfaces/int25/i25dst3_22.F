@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25DST3_22                    source/interfaces/int25/i25dst3_22.F
-Chd|-- called by -----------
-Chd|        I25COMP_2                     source/interfaces/int25/i25comp_2.F
-Chd|-- calls ---------------
-Chd|        INTERSECA_25                  source/interfaces/int25/i25dst3_22.F
-Chd|        INTERSECB_25                  source/interfaces/int25/i25dst3_22.F
-Chd|        INTERSECV0_25                 source/interfaces/int25/i25dst3_22.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25dst3_22      ../engine/source/interfaces/int25/i25dst3_22.F
+      !||--- called by ------------------------------------------------------
+      !||    i25comp_2       ../engine/source/interfaces/int25/i25comp_2.F
+      !||--- calls      -----------------------------------------------------
+      !||    interseca_25    ../engine/source/interfaces/int25/i25dst3_22.F
+      !||    intersecb_25    ../engine/source/interfaces/int25/i25dst3_22.F
+      !||    intersecv0_25   ../engine/source/interfaces/int25/i25dst3_22.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25DST3_22(
      1                  JLT    ,CAND_N ,CAND_E ,ISHEL  ,
      2                  XX     ,YY     ,ZZ     ,
@@ -1385,12 +1386,11 @@ c     .      TIME_SFI(NIN)%P(N-NSN),dd(i,it),ingap(i,it),intersect(i)
 
       RETURN
       END
-Chd|====================================================================
-Chd|  INTERSECA_25                  source/interfaces/int25/i25dst3_22.F
-Chd|-- called by -----------
-Chd|        I25DST3_22                    source/interfaces/int25/i25dst3_22.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    interseca_25   ../engine/source/interfaces/int25/i25dst3_22.F
+      !||--- called by ------------------------------------------------------
+      !||    i25dst3_22     ../engine/source/interfaces/int25/i25dst3_22.F
+      !||====================================================================
       SUBROUTINE INTERSECA_25(
      1                    IXX3     ,IXX4  ,INTERSECA,
      1                    V12      ,V23   ,V34    ,V41   ,
@@ -1752,12 +1752,11 @@ C----------loose tolerance for tria
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  INTERSECB_25                  source/interfaces/int25/i25dst3_22.F
-Chd|-- called by -----------
-Chd|        I25DST3_22                    source/interfaces/int25/i25dst3_22.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    intersecb_25   ../engine/source/interfaces/int25/i25dst3_22.F
+      !||--- called by ------------------------------------------------------
+      !||    i25dst3_22     ../engine/source/interfaces/int25/i25dst3_22.F
+      !||====================================================================
       SUBROUTINE INTERSECB_25(
      1                    IXX3     ,IXX4  ,INTERSECA,INTERSECB,
      1                    V12      ,V23   ,V34    ,V41   ,
@@ -2150,11 +2149,9 @@ C----------loose tolerance for tria
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  INTERSECV_25                  source/interfaces/int25/i25dst3_22.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    intersecv_25   ../engine/source/interfaces/int25/i25dst3_22.F
+      !||====================================================================
       SUBROUTINE INTERSECV_25(
      1                    IXX3     ,IXX4  ,SUBTRIA,
      1                    INTERSECT,V12   ,V23    ,V34   ,V41    ,
@@ -2541,12 +2538,11 @@ C----------loose tolerance for tria
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  INTERSECV0_25                 source/interfaces/int25/i25dst3_22.F
-Chd|-- called by -----------
-Chd|        I25DST3_22                    source/interfaces/int25/i25dst3_22.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    intersecv0_25   ../engine/source/interfaces/int25/i25dst3_22.F
+      !||--- called by ------------------------------------------------------
+      !||    i25dst3_22      ../engine/source/interfaces/int25/i25dst3_22.F
+      !||====================================================================
       SUBROUTINE INTERSECV0_25(
      1                    IXX3     ,IXX4  ,
      1                    INTERSECT,V12   ,V23    ,V34   ,V41    ,
@@ -2881,13 +2877,13 @@ c            ZOI = ZI - ADT*VZI
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I25GLOB_22                    source/interfaces/int25/i25dst3_22.F
-Chd|-- called by -----------
-Chd|        I25COMP_2                     source/interfaces/int25/i25comp_2.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25glob_22   ../engine/source/interfaces/int25/i25dst3_22.F
+      !||--- called by ------------------------------------------------------
+      !||    i25comp_2    ../engine/source/interfaces/int25/i25comp_2.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box      ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25GLOB_22(
      1                  JLT    ,CAND_N_N ,CAND_E_N ,CAND_E ,
      2                  NIN    ,NSN    ,IX1    ,IX2    ,IX3    ,

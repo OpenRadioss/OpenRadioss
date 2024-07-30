@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS44T                     source/materials/mat/mat044/sigeps44t.F
-Chd|-- called by -----------
-Chd|        TFORC3                        source/elements/truss/tforc3.F
-Chd|-- calls ---------------
-Chd|        CVMGT                         source/system/machine.F       
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps44t   ../engine/source/materials/mat/mat044/sigeps44t.F
+      !||--- called by ------------------------------------------------------
+      !||    tforc3      ../engine/source/elements/truss/tforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter      ../engine/source/tools/curve/finter.F
+      !||====================================================================
       SUBROUTINE SIGEPS44T(NEL     ,NGL     ,MAT     ,PID     ,UPARAM  ,
      .                     IPM     ,GEO     ,OFF     ,FOR     ,STI     ,
      .                     PLA     ,EINT    ,AREA    ,AL0     ,AL      ,

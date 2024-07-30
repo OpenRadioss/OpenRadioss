@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SENSOR_TEMP                   source/tools/sensor/sensor_temp.F
-Chd|-- called by -----------
-Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sensor_temp    ../engine/source/tools/sensor/sensor_temp.F
+      !||--- called by ------------------------------------------------------
+      !||    sensor_base    ../engine/source/tools/sensor/sensor_base.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+      !||    sensor_mod     ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SENSOR_TEMP(SENSOR   ,ISENS     ,IGRNOD   ) 
 c-----------------------------------------------------------------------
 !$COMMENT

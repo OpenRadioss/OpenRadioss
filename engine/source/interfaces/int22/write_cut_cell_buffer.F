@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRITE_CUT_CELL_BUFFER         source/interfaces/int22/write_cut_cell_buffer.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    write_cut_cell_buffer   ../engine/source/interfaces/int22/write_cut_cell_buffer.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier              ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    i22bufbric_mod          ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod              ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    initbuf_mod             ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE WRITE_CUT_CELL_BUFFER ()      
 C-----------------------------------------------
 C   D e s c r i p t i o n

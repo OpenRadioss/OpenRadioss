@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MODIF_TAG                     source/coupling/rad2rad/routines_r2r.F
-Chd|-- called by -----------
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
-Chd|        TAG_ELEM_VOID_R2R             source/coupling/rad2rad/tagelem_r2r.F
-Chd|        TAG_ELEM_VOID_R2R_LIN         source/coupling/rad2rad/tagelem_r2r.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    modif_tag               ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_prelec              ../starter/source/coupling/rad2rad/r2r_prelec.F
+      !||    tag_elem_void_r2r       ../starter/source/coupling/rad2rad/tagelem_r2r.F
+      !||    tag_elem_void_r2r_lin   ../starter/source/coupling/rad2rad/tagelem_r2r.F
+      !||====================================================================
       SUBROUTINE MODIF_TAG(TAG,NEW_TAG,MODIF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -52,17 +51,18 @@ C-----------
         RETURN
       END SUBROUTINE MODIF_TAG
 
-Chd|====================================================================
-Chd|  R2R_SYS                       source/coupling/rad2rad/routines_r2r.F
-Chd|-- called by -----------
-Chd|        HM_READ_THGRNE                source/output/th/hm_read_thgrne.F
-Chd|        HM_READ_XREF                  source/loads/reference_state/xref/hm_read_xref.F
-Chd|        LECREFSTA                     source/loads/reference_state/refsta/lecrefsta.F
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        USR2SYS2                      source/system/sysfus.F        
-Chd|-- calls ---------------
-Chd|        R2R_SYS2                      source/coupling/rad2rad/routines_r2r.F
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_sys          ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eref     ../starter/source/loads/reference_state/eref/hm_read_eref.F
+      !||    hm_read_thgrne   ../starter/source/output/th/hm_read_thgrne.F
+      !||    hm_read_xref     ../starter/source/loads/reference_state/xref/hm_read_xref.F
+      !||    lecrefsta        ../starter/source/loads/reference_state/refsta/lecrefsta.F
+      !||    usr2sys          ../starter/source/system/sysfus.F
+      !||    usr2sys2         ../starter/source/system/sysfus.F
+      !||--- calls      -----------------------------------------------------
+      !||    r2r_sys2         ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||====================================================================
       INTEGER FUNCTION R2R_SYS(IU,ITABM1,MESS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -128,12 +128,11 @@ C     >IU>TABM
 C
       end function R2R_SYS
 
-Chd|====================================================================
-Chd|  R2R_NIN                       source/coupling/rad2rad/routines_r2r.F
-Chd|-- called by -----------
-Chd|        HM_READ_THGRNE                source/output/th/hm_read_thgrne.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_nin          ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_thgrne   ../starter/source/output/th/hm_read_thgrne.F
+      !||====================================================================
       INTEGER FUNCTION R2R_NIN(IEXT,NTN,M,N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -160,16 +159,16 @@ C-------------------------------------------
         RETURN
       end function R2R_NIN
 
-Chd|====================================================================
-Chd|  NODGR_R2R                     source/coupling/rad2rad/routines_r2r.F
-Chd|-- called by -----------
-Chd|        HM_READ_CLOAD                 source/loads/general/cload/hm_read_cload.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    nodgr_r2r       ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_cload   ../starter/source/loads/general/cload/hm_read_cload.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    r2r_mod         ../starter/share/modules1/r2r_mod.F
+      !||====================================================================
       INTEGER FUNCTION NODGR_R2R(IGU,IGS,IBUF,IGRNOD,
      .              ITABM1 ,MESS   )
 C-----------------------------------------------
@@ -228,15 +227,15 @@ C---
         RETURN
       end function NODGR_R2R
 
-Chd|====================================================================
-Chd|  SZ_R2R                        source/coupling/rad2rad/routines_r2r.F
-Chd|-- called by -----------
-Chd|        HM_PRE_READ_LINK              source/constraints/rigidlink/hm_pre_read_rlink.F
-Chd|        HM_READ_GAUGE                 source/output/gauge/hm_read_gauge.F
-Chd|        HM_READ_LINK                  source/constraints/rigidlink/hm_read_rlink.F
-Chd|-- calls ---------------
-Chd|        NEXTSLA                       source/starter/freform.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    sz_r2r             ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_pre_read_link   ../starter/source/constraints/rigidlink/hm_pre_read_rlink.F
+      !||    hm_read_gauge      ../starter/source/output/gauge/hm_read_gauge.F
+      !||    hm_read_link       ../starter/source/constraints/rigidlink/hm_read_rlink.F
+      !||--- calls      -----------------------------------------------------
+      !||    nextsla            ../starter/source/starter/freform.F
+      !||====================================================================
       SUBROUTINE SZ_R2R(TAG,VAL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -262,34 +261,35 @@ C-----------------------------------------------
         RETURN
       END SUBROUTINE SZ_R2R
 
-Chd|====================================================================
-Chd|  HM_SZ_R2R                     source/coupling/rad2rad/routines_r2r.F
-Chd|-- called by -----------
-Chd|        HM_PRELECJOI                  source/constraints/general/cyl_joint/hm_prelecjoi.F
-Chd|        HM_PREREAD_RBE2               source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|        HM_PREREAD_RBE3               source/constraints/general/rbe3/hm_preread_rbe3.F
-Chd|        HM_PREREAD_RBODY              source/constraints/general/rbody/hm_preread_rbody.F
-Chd|        HM_READ_CYLJOINT              source/constraints/general/cyl_joint/hm_read_cyljoint.F
-Chd|        HM_READ_GJOINT                source/constraints/general/gjoint/hm_read_gjoint.F
-Chd|        HM_READ_INIVOL                source/initial_conditions/inivol/hm_read_inivol.F
-Chd|        HM_READ_INTERFACES            source/interfaces/reader/hm_read_interfaces.F
-Chd|        HM_READ_INTSUB                source/output/subinterface/hm_read_intsub.F
-Chd|        HM_READ_MPC                   source/constraints/general/mpc/hm_read_mpc.F
-Chd|        HM_READ_RBE2                  source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|        HM_READ_RBE3                  source/constraints/general/rbe3/hm_read_rbe3.F
-Chd|        HM_READ_RBODY                 source/constraints/general/rbody/hm_read_rbody.F
-Chd|        HM_READ_RBODY_LAGMUL          source/constraints/general/rbody/hm_read_rbody_lagmul.F
-Chd|        HM_READ_SPCND                 source/constraints/sph/hm_read_spcnd.F
-Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
-Chd|        PRELECSEC                     source/tools/sect/prelecsec.F 
-Chd|        PREREAD_RBODY_LAGMUL          source/constraints/general/rbody/preread_rbody_lagmul.F
-Chd|        READ_MONVOL                   source/airbag/read_monvol.F   
-Chd|        SETRBYON                      source/constraints/general/rbody/hm_read_rbody.F
-Chd|-- calls ---------------
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_sz_r2r              ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_prelecjoi           ../starter/source/constraints/general/cyl_joint/hm_prelecjoi.F
+      !||    hm_preread_rbe2        ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    hm_preread_rbe3        ../starter/source/constraints/general/rbe3/hm_preread_rbe3.F
+      !||    hm_preread_rbody       ../starter/source/constraints/general/rbody/hm_preread_rbody.F
+      !||    hm_read_cyljoint       ../starter/source/constraints/general/cyl_joint/hm_read_cyljoint.F
+      !||    hm_read_gjoint         ../starter/source/constraints/general/gjoint/hm_read_gjoint.F
+      !||    hm_read_inivol         ../starter/source/initial_conditions/inivol/hm_read_inivol.F
+      !||    hm_read_interfaces     ../starter/source/interfaces/reader/hm_read_interfaces.F
+      !||    hm_read_intsub         ../starter/source/output/subinterface/hm_read_intsub.F
+      !||    hm_read_mpc            ../starter/source/constraints/general/mpc/hm_read_mpc.F
+      !||    hm_read_rbe2           ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    hm_read_rbe3           ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+      !||    hm_read_rbody          ../starter/source/constraints/general/rbody/hm_read_rbody.F
+      !||    hm_read_rbody_lagmul   ../starter/source/constraints/general/rbody/hm_read_rbody_lagmul.F
+      !||    hm_read_spcnd          ../starter/source/constraints/sph/hm_read_spcnd.F
+      !||    lecsec42               ../starter/source/tools/sect/hm_read_sect.F
+      !||    prelecsec              ../starter/source/tools/sect/prelecsec.F
+      !||    preread_rbody_lagmul   ../starter/source/constraints/general/rbody/preread_rbody_lagmul.F
+      !||    read_monvol            ../starter/source/airbag/read_monvol.F
+      !||    setrbyon               ../starter/source/constraints/general/rbody/hm_read_rbody.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_SZ_R2R(TAG,VAL,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -315,25 +315,25 @@ C
         RETURN
       END SUBROUTINE HM_SZ_R2R
 
-Chd|====================================================================
-Chd|  R2R_EXIST                     source/coupling/rad2rad/routines_r2r.F
-Chd|-- called by -----------
-Chd|        HM_READ_THGRKI                source/output/th/hm_read_thgrki.F
-Chd|        HM_READ_THGRKI_RBODY          source/output/th/hm_read_thgrki_rbody.F
-Chd|        HM_READ_THGRPA                source/output/th/hm_read_thgrpa.F
-Chd|        HM_READ_THGRPA_SUB            source/output/th/hm_read_thgrpa.F
-Chd|        HM_READ_THGRSENS              source/output/th/hm_read_thgrsens.F
-Chd|        HM_READ_THGRSURF              source/output/th/hm_read_thgrsurf.F
-Chd|        HM_THGRKI_VENT                source/output/th/hm_thgrki_vent.F
-Chd|        R2R_LISTCNT                   source/coupling/rad2rad/routines_r2r.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        GROUP_MOD                     share/modules1/group_mod.F    
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_exist              ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_thgrki         ../starter/source/output/th/hm_read_thgrki.F
+      !||    hm_read_thgrki_rbody   ../starter/source/output/th/hm_read_thgrki_rbody.F
+      !||    hm_read_thgrpa         ../starter/source/output/th/hm_read_thgrpa.F
+      !||    hm_read_thgrpa_sub     ../starter/source/output/th/hm_read_thgrpa.F
+      !||    hm_read_thgrsens       ../starter/source/output/th/hm_read_thgrsens.F
+      !||    hm_read_thgrsurf       ../starter/source/output/th/hm_read_thgrsurf.F
+      !||    hm_thgrki_vent         ../starter/source/output/th/hm_thgrki_vent.F
+      !||    r2r_listcnt            ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    group_mod              ../starter/share/modules1/group_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
+      !||    restmod                ../starter/share/modules1/restart_mod.F
+      !||====================================================================
       INTEGER FUNCTION R2R_EXIST(TYP,ID)
 C-----------------------------------------------
 C   M o d u l e s
@@ -457,15 +457,17 @@ C-----------GAUGES------------------
         RETURN
       end function R2R_EXIST
 
-Chd|====================================================================
-Chd|  R2R_LISTCNT                   source/coupling/rad2rad/routines_r2r.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        MY_EXIT                       source/output/analyse/analyse.c
-Chd|        R2R_EXIST                     source/coupling/rad2rad/routines_r2r.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_listcnt        ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_thgrsurf   ../starter/source/output/th/hm_read_thgrsurf.F
+      !||    hm_thgrki_vent     ../starter/source/output/th/hm_thgrki_vent.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_exit            ../starter/source/output/analyse/analyse.c
+      !||    r2r_exist          ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- uses       -----------------------------------------------------
+      !||    r2r_mod            ../starter/share/modules1/r2r_mod.F
+      !||====================================================================
       INTEGER FUNCTION R2R_LISTCNT(NVAR,TYP)
 C-----------------------------------------------
 C   M o d u l e s
@@ -517,13 +519,13 @@ C-------------------------------------------------------------
       end function R2R_LISTCNT
 
 C
-Chd|====================================================================
-Chd|  GRSIZE_R2R                    source/coupling/rad2rad/routines_r2r.F
-Chd|-- called by -----------
-Chd|        PRELECSEC                     source/tools/sect/prelecsec.F 
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    grsize_r2r       ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    prelecsec        ../starter/source/tools/sect/prelecsec.F
+      !||    prelecsec4bolt   ../starter/source/tools/sect/prelecsec4bolt.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       INTEGER FUNCTION GRSIZE_R2R(IGU,IGRELEM,GRLEN,TYP)
 C-----------------------------------------------
 C   M o d u l e s
@@ -562,14 +564,15 @@ C-----------
         RETURN
       end function GRSIZE_R2R
 
-Chd|====================================================================
-Chd|  R2R_SYS2                      source/coupling/rad2rad/routines_r2r.F
-Chd|-- called by -----------
-Chd|        R2R_SYS                       source/coupling/rad2rad/routines_r2r.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_sys2      ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_sys       ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       INTEGER FUNCTION R2R_SYS2(IU,ITABM1,MESS)
         USE MESSAGE_MOD
 C-----------------------------------------------
@@ -624,14 +627,14 @@ C     >IU>TABM
         ENDIF
       end function R2R_SYS2
 
-Chd|====================================================================
-Chd|  R2R_NOM_OPT                   source/coupling/rad2rad/routines_r2r.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_nom_opt    ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur         ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||    r2r_mod        ../starter/share/modules1/r2r_mod.F
+      !||    submodel_mod   ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE R2R_NOM_OPT(NOM_OPT,INOM_OPT,IN10,IN20,SNOM_OPT_OLD)
 C-----------------------------------------------
 C   M o d u l e s
@@ -679,13 +682,13 @@ C-----------
         RETURN
       END SUBROUTINE R2R_NOM_OPT
 
-Chd|====================================================================
-Chd|  CHK_FLG_FSI                   source/coupling/rad2rad/routines_r2r.F
-Chd|-- called by -----------
-Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
-Chd|-- calls ---------------
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    chk_flg_fsi   ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_group     ../starter/source/coupling/rad2rad/r2r_group.F
+      !||--- uses       -----------------------------------------------------
+      !||    r2r_mod       ../starter/share/modules1/r2r_mod.F
+      !||====================================================================
       SUBROUTINE CHK_FLG_FSI(IXS,PM,IPARTS,ALE_EULER,IGEO)
 C-----------------------------------------------
 C   M o d u l e s
@@ -733,15 +736,15 @@ C-------------------------------------------
         RETURN
       END SUBROUTINE CHK_FLG_FSI
 
-Chd|====================================================================
-Chd|  R2R_CHECK_SEG                 source/coupling/rad2rad/routines_r2r.F
-Chd|-- called by -----------
-Chd|        R2R_CLEAN_INTER               source/coupling/rad2rad/r2r_clean_inter.F
-Chd|-- calls ---------------
-Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_check_seg     ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_clean_inter   ../starter/source/coupling/rad2rad/r2r_clean_inter.F
+      !||--- uses       -----------------------------------------------------
+      !||    nod2el_mod        ../starter/share/modules1/nod2el_mod.F
+      !||    r2r_mod           ../starter/share/modules1/r2r_mod.F
+      !||    restmod           ../starter/share/modules1/restart_mod.F
+      !||====================================================================
       SUBROUTINE R2R_CHECK_SEG(ELTAG,FACE,IPARTC,IPARTG,IPARTS,ISOLNOD)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25MAIN_NORM                  source/interfaces/int25/i25main_norm.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        I25ASSNP                      source/interfaces/int25/i25norm.F
-Chd|        I25NORMP                      source/interfaces/int25/i25norm.F
-Chd|        I25TAGN                       source/interfaces/int25/i25norm.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        MPI_COMMOD                    share/modules/mpi_comm_mod.F  
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    i25main_norm    ../engine/source/interfaces/int25/i25main_norm.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri          ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    i25assnp        ../engine/source/interfaces/int25/i25norm.F
+      !||    i25normp        ../engine/source/interfaces/int25/i25norm.F
+      !||    i25tagn         ../engine/source/interfaces/int25/i25norm.F
+      !||    my_barrier      ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    mpi_commod      ../engine/share/modules/mpi_comm_mod.F
+      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE I25MAIN_NORM(
      1                   INTLIST25,IPARI   ,INTBUF_TAB ,JTASK    ,X       ,
      2                   ITAB    ,NSENSOR  ,SENSOR_TAB,IAD_FRNOR    ,FR_NOR   ,

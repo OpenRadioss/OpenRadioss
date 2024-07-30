@@ -20,14 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  XINI30                        source/elements/xelem/xini30.F
-Chd|-- called by -----------
-Chd|        XINIT3                        source/elements/xelem/xinit3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    xini30        ../starter/source/elements/xelem/xini30.F
+      !||--- called by ------------------------------------------------------
+      !||    xinit3        ../starter/source/elements/xelem/xinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    get_u_func    ../starter/source/user_interface/uaccess.F
+      !||    get_u_geo     ../starter/source/user_interface/uaccess.F
+      !||    get_u_mat     ../starter/source/user_interface/uaccess.F
+      !||    get_u_mid     ../starter/source/user_interface/uaccess.F
+      !||    get_u_mnu     ../starter/source/user_interface/uaccess.F
+      !||    get_u_pid     ../starter/source/user_interface/uaccess.F
+      !||    get_u_pnu     ../starter/source/user_interface/uaccess.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE XINI30(NX    ,NAX1D  ,NAX2D ,NAX3D ,
      2                  XEL   ,VEL    ,VREL  ,
      2                  IOUT  ,IPROP  ,IMAT  ,

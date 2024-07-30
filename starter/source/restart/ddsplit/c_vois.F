@@ -21,17 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  C_VOIS                        source/restart/ddsplit/c_vois.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        SPLIT_CFD_MOD                 share/modules1/split_cfd_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    c_vois                 ../starter/source/restart/ddsplit/c_vois.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    nlocal                 ../starter/source/spmd/node/ddtools.F
+      !||--- uses       -----------------------------------------------------
+      !||    front_mod              ../starter/share/modules1/front_mod.F
+      !||    split_cfd_mod          ../starter/share/modules1/split_cfd_mod.F
+      !||====================================================================
       SUBROUTINE C_VOIS(NSVOIS  ,NQVOIS ,NTGVOIS, NRCVVOIS,NSNDVOIS,ILAW11 ,
      2                  NSEGFL_L,IPARG  ,CEP     ,ALE_CONNECTIVITY  ,NUMEL  ,
      3                  PROC    ,IXS    ,IXQ     ,IXTG,

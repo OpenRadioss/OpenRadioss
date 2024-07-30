@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MULAW                         source/materials/mat_share/mulaw.F
-Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
-Chd|-- calls ---------------
-Chd|        SIGEPS35                      source/materials/mat/mat035/sigeps35.F
-Chd|        SIGEPS37                      source/materials/mat/mat037/sigeps37.F
-Chd|        SIGEPS38                      source/materials/mat/mat038/sigeps38.F
-Chd|        SIGEPS42                      source/materials/mat/mat042/sigeps42.F
-Chd|        SIGEPS70                      source/materials/mat/mat070/sigeps70.F
-Chd|        SIGEPS90                      source/materials/mat/mat090/sigeps90.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    mulaw              ../starter/source/materials/mat_share/mulaw.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain              ../starter/source/materials/mat_share/mmain.F
+      !||--- calls      -----------------------------------------------------
+      !||    sigeps35           ../starter/source/materials/mat/mat035/sigeps35.F
+      !||    sigeps37           ../starter/source/materials/mat/mat037/sigeps37.F
+      !||    sigeps38           ../starter/source/materials/mat/mat038/sigeps38.F
+      !||    sigeps42           ../starter/source/materials/mat/mat042/sigeps42.F
+      !||    sigeps70           ../starter/source/materials/mat/mat070/sigeps70.F
+      !||    sigeps90           ../starter/source/materials/mat/mat090/sigeps90.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE MULAW(LFT   ,LLT   ,NFT    ,MTN   ,JCVT   ,
      2                 PM    ,OFF   ,SIG    ,EINT  ,RHO    ,
      3                 VOL   ,STRAIN,GAMA   ,

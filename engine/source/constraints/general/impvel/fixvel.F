@@ -20,15 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FIXVEL                        source/constraints/general/impvel/fixvel.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        VINTERDP                      source/tools/curve/vinterdp.F 
-Chd|        VINTER_SMOOTH                 source/tools/curve/vinter_smooth.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    fixvel                ../engine/source/constraints/general/impvel/fixvel.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                 ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    vinter_smooth         ../engine/source/tools/curve/vinter_smooth.F
+      !||    vinterdp              ../engine/source/tools/curve/vinterdp.F
+      !||--- uses       -----------------------------------------------------
+      !||    python_funct_mod      ../common_source/modules/python_mod.F90
+      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE FIXVEL(IBFV  ,A    ,V     ,NPC    ,TF   ,
      2                  VEL   ,MS   ,X     ,SKEW   ,AR   ,
      3                  VR    ,IN   ,NSENSOR,SENSOR_TAB,

@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CZCORC1                       source/elements/shell/coquez/czcorc.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
-Chd|        CORTDIR3                      source/elements/shell/coque/cortdir3.F
-Chd|        CZCORP5                       source/elements/shell/coquez/czcorp5.F
-Chd|        CZCORP5V                      source/elements/shell/coquez/czcorc.F
-Chd|        CZCORP5X                      source/elements/shell/coquez/czcorc.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czcorc1        ../engine/source/elements/shell/coquez/czcorc.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3        ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk    ../engine/source/elements/xfem/czforc3_crk.F
+      !||--- calls      -----------------------------------------------------
+      !||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+      !||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
+      !||    czcorp5        ../engine/source/elements/shell/coquez/czcorp5.F
+      !||    czcorp5v       ../engine/source/elements/shell/coquez/czcorc.F
+      !||    czcorp5x       ../engine/source/elements/shell/coquez/czcorc.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
         SUBROUTINE CZCORC1(NUMNOD ,NUMELC ,ELBUF_STR,
      1                     JFT    ,JLT    ,X      ,V      ,VR     ,
      2                     IXC    ,PM     ,PLAT   ,AREA   , 
@@ -672,13 +673,12 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  A3INVDP                       source/elements/shell/coquez/czcorc.F
-Chd|-- called by -----------
-Chd|        CZCORP5V                      source/elements/shell/coquez/czcorc.F
-Chd|        CZCORP5X                      source/elements/shell/coquez/czcorc.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    a3invdp    ../engine/source/elements/shell/coquez/czcorc.F
+      !||--- called by ------------------------------------------------------
+      !||    czcorp5v   ../engine/source/elements/shell/coquez/czcorc.F
+      !||    czcorp5x   ../engine/source/elements/shell/coquez/czcorc.F
+      !||====================================================================
       SUBROUTINE A3INVDP(D,DI)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -709,11 +709,9 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZCORP4V                      source/elements/shell/coquez/czcorc.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czcorp4v   ../engine/source/elements/shell/coquez/czcorc.F
+      !||====================================================================
       SUBROUTINE CZCORP4V(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,
      2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
      3                    V24    ,VHI    ,RLXYZV ,VQN    ,VQ     ,
@@ -922,11 +920,9 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZCORP4                       source/elements/shell/coquez/czcorc.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czcorp4   ../engine/source/elements/shell/coquez/czcorc.F
+      !||====================================================================
       SUBROUTINE CZCORP4(JFT    ,JLT    ,VR      ,NPT    ,TOL    ,
      2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
      3                    V24    ,VHI    ,RLXYZ  ,VQN    ,VQ     ,
@@ -1146,11 +1142,9 @@ C
       ENDDO
       RETURN
       END
-Chd|====================================================================
-Chd|  CZCORP4X                      source/elements/shell/coquez/czcorc.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czcorp4x   ../engine/source/elements/shell/coquez/czcorc.F
+      !||====================================================================
       SUBROUTINE CZCORP4X(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,
      2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
      3                    V24    ,VHI    ,RLXYZ  ,VQN    ,VQ     ,
@@ -1377,13 +1371,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZCORP5V                      source/elements/shell/coquez/czcorc.F
-Chd|-- called by -----------
-Chd|        CZCORC1                       source/elements/shell/coquez/czcorc.F
-Chd|-- calls ---------------
-Chd|        A3INVDP                       source/elements/shell/coquez/czcorc.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czcorp5v   ../engine/source/elements/shell/coquez/czcorc.F
+      !||--- called by ------------------------------------------------------
+      !||    czcorc1    ../engine/source/elements/shell/coquez/czcorc.F
+      !||--- calls      -----------------------------------------------------
+      !||    a3invdp    ../engine/source/elements/shell/coquez/czcorc.F
+      !||====================================================================
       SUBROUTINE CZCORP5V(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,
      2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
      3                    V24    ,VHI    ,RLXYZV ,VQN    ,VQ     ,
@@ -1701,13 +1695,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZCORP5X                      source/elements/shell/coquez/czcorc.F
-Chd|-- called by -----------
-Chd|        CZCORC1                       source/elements/shell/coquez/czcorc.F
-Chd|-- calls ---------------
-Chd|        A3INVDP                       source/elements/shell/coquez/czcorc.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czcorp5x   ../engine/source/elements/shell/coquez/czcorc.F
+      !||--- called by ------------------------------------------------------
+      !||    czcorc1    ../engine/source/elements/shell/coquez/czcorc.F
+      !||--- calls      -----------------------------------------------------
+      !||    a3invdp    ../engine/source/elements/shell/coquez/czcorc.F
+      !||====================================================================
       SUBROUTINE CZCORP5X(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,
      2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
      3                    V24    ,VHI    ,RLXYZ  ,VQN    ,VQ     ,
@@ -1987,14 +1981,15 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZCORCT                       source/elements/shell/coquez/czcorc.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|-- calls ---------------
-Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czcorct        ../engine/source/elements/shell/coquez/czcorc.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3        ../engine/source/elements/shell/coquez/czforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
         SUBROUTINE CZCORCT(ELBUF_STR,
      1                     JFT    ,JLT    ,X      ,V      ,VR     ,
      2                     IXC    ,PM     ,OFFG   ,AREA   ,AREA_I ,
@@ -2319,14 +2314,15 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZCORCHT                      source/elements/shell/coquez/czcorc.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|-- calls ---------------
-Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czcorcht       ../engine/source/elements/shell/coquez/czcorc.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3        ../engine/source/elements/shell/coquez/czforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
         SUBROUTINE CZCORCHT(ELBUF_STR,
      1                     JFT    ,JLT    ,X      ,V      ,VR     ,
      2                     IXC    ,PM     ,OFFG   ,

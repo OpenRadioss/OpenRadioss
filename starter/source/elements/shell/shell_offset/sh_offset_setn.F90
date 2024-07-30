@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    sh_offset_setn_mod   ../starter/source/elements/shell/shell_offset/sh_offset_setn.F90
+      !||--- called by ------------------------------------------------------
+      !||    shell_offsetp        ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
+      !||====================================================================
       module sh_offset_setn_mod
 
       contains
@@ -30,6 +35,12 @@
 !=======================================================================================================================
 !!\brief This subroutine compute nodal shell offset
 !=======================================================================================================================
+      !||====================================================================
+      !||    sh_offset_setn   ../starter/source/elements/shell/shell_offset/sh_offset_setn.F90
+      !||--- called by ------------------------------------------------------
+      !||    shell_offsetp    ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine sh_offset_setn(nshell,numnod,ix_offset,sh_oset,oset_n,itagn)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

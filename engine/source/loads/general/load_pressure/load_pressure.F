@@ -20,16 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LOAD_PRESSURE                 source/loads/general/load_pressure/load_pressure.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    load_pressure      ../engine/source/loads/general/load_pressure/load_pressure.F
+      !||--- called by ------------------------------------------------------
+      !||    resol              ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter             ../engine/source/tools/curve/finter.F
+      !||    get_u_numsens      ../engine/source/user_interface/usensor.F
+      !||    get_u_sens_fpar    ../engine/source/user_interface/usensor.F
+      !||    get_u_sens_ipar    ../engine/source/user_interface/usensor.F
+      !||    get_u_sens_value   ../engine/source/user_interface/usensor.F
+      !||    set_u_sens_value   ../engine/source/user_interface/usensor.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod            ../engine/share/modules/h3d_mod.F
+      !||    sensor_mod         ../engine/share/modules/sensor_mod.F
+      !||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
+      !||====================================================================
       SUBROUTINE LOAD_PRESSURE (ILOADP          ,LOADP       ,LLOADP   ,NPC     ,TF        ,
      2                          A               ,V           ,X       ,SKEW     ,SENSOR_TAB,
      3                          IADC            ,FSKY        ,FEXT    ,TAGNCONT ,NSENSOR   ,

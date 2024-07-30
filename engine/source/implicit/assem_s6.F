@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASSEM_S6                      source/implicit/assem_s6.F    
-Chd|-- called by -----------
-Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6cke3.F
-Chd|-- calls ---------------
-Chd|        ASSEM_KII                     source/implicit/imp_glob_k.F  
-Chd|        ASSEM_KIJ                     source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    assem_s6    ../engine/source/implicit/assem_s6.F
+      !||--- called by ------------------------------------------------------
+      !||    s6cke3      ../engine/source/elements/thickshell/solide6c/s6cke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_kii   ../engine/source/implicit/imp_glob_k.F
+      !||    assem_kij   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE ASSEM_S6(
      1                   IXS   ,NEL   ,IDDL  ,NDOF  ,K_DIAG,
      2                   K_LT  ,IADK  ,JDIK  ,K11   ,K12   ,     

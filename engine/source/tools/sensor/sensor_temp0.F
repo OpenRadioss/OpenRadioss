@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SENSOR_TEMP0                  source/tools/sensor/sensor_temp0.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SPMD_ALLREDUCE_DB             source/mpi/generic/spmd_allreduce_db.F
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    sensor_temp0        ../engine/source/tools/sensor/sensor_temp0.F
+      !||--- called by ------------------------------------------------------
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_allreduce_db   ../engine/source/mpi/generic/spmd_allreduce_db.F
+      !||    sum_6_float         ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod        ../common_source/modules/groupdef_mod.F
+      !||    sensor_mod          ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SENSOR_TEMP0(NSENSOR,SENSOR_TAB,IGRNOD,TEMP,WEIGHT)
 c-----------------------------------------------------------------------
 !$COMMENT

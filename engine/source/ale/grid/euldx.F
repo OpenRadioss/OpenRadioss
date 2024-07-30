@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  EULDX                         source/ale/grid/euldx.F       
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    euldx   ../engine/source/ale/grid/euldx.F
+      !||--- called by ------------------------------------------------------
+      !||    resol   ../engine/source/engine/resol.F
+      !||====================================================================
       SUBROUTINE EULDX(V,D,X,DDP,NALE,NODFT,NODLT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

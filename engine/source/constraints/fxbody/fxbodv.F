@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FXLINK                        source/constraints/fxbody/fxbodv.F
-Chd|-- called by -----------
-Chd|        FXBODVP1                      source/constraints/fxbody/fxbodvp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fxlink     ../engine/source/constraints/fxbody/fxbodv.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbodvp1   ../engine/source/constraints/fxbody/fxbodvp.F
+      !||====================================================================
       SUBROUTINE FXLINK(CR    , SR,  DT1, DT2, FXBRPM,
      .                  FXBVIT, NME)
 C-----------------------------------------------
@@ -167,12 +166,11 @@ C-----------------------------------------------
 C      
       RETURN
       END   
-Chd|====================================================================
-Chd|  SPLINK                        source/constraints/fxbody/fxbodv.F
-Chd|-- called by -----------
-Chd|        FXBODVP1                      source/constraints/fxbody/fxbodvp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    splink     ../engine/source/constraints/fxbody/fxbodv.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbodvp1   ../engine/source/constraints/fxbody/fxbodvp.F
+      !||====================================================================
       SUBROUTINE SPLINK(MT, ST, DT1, FXBRPM, FXBVIT,
      .                  DMT)
 C-----------------------------------------------
@@ -287,12 +285,11 @@ C
 C 
       RETURN
       END   
-Chd|====================================================================
-Chd|  FXSPIN                        source/constraints/fxbody/fxbodv.F
-Chd|-- called by -----------
-Chd|        FXBODVP2                      source/constraints/fxbody/fxbodvp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fxspin     ../engine/source/constraints/fxbody/fxbodv.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbodvp2   ../engine/source/constraints/fxbody/fxbodvp.F
+      !||====================================================================
       SUBROUTINE FXSPIN(FXBRPM, FXBVIT, S, R12, DT2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

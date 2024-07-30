@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I21FPEN                       source/interfaces/int21/i21fpen.F
-Chd|-- called by -----------
-Chd|        I21MAIN_TRI                   source/interfaces/intsort/i21main_tri.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i21fpen       ../engine/source/interfaces/int21/i21fpen.F
+      !||--- called by ------------------------------------------------------
+      !||    i21main_tri   ../engine/source/interfaces/intsort/i21main_tri.F
+      !||====================================================================
       SUBROUTINE I21FPEN(
      1      NSN    ,I_STOK  ,CAND_N ,CAND_E,PENI ,
      2      FTXSAV,FTYSAV ,FTZSAV,CAND_TAG,IFPEN ,

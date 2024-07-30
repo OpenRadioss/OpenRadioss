@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPONOF1                       source/elements/sph/sponof1.F 
-Chd|-- called by -----------
-Chd|        SPHPREP                       source/elements/sph/sphprep.F 
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        SPHREQS                       source/elements/sph/sphreq.F  
-Chd|        GET_U_GEO                     source/user_interface/upidmid.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sponof1        ../engine/source/elements/sph/sponof1.F
+      !||--- called by ------------------------------------------------------
+      !||    sphprep        ../engine/source/elements/sph/sphprep.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../engine/source/output/message/message.F
+      !||    arret          ../engine/source/system/arret.F
+      !||    initbuf        ../engine/share/resol/initbuf.F
+      !||    sphreqs        ../engine/source/elements/sph/sphreq.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+      !||    initbuf_mod    ../engine/share/resol/initbuf.F
+      !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||    outputs_mod    ../common_source/modules/outputs_mod.F
+      !||====================================================================
       SUBROUTINE SPONOF1(X ,V       ,D       ,MS      ,SPBUF   ,
      2             ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,NPC     ,
      3             PLD     ,IPARG   ,ELBUF_TAB,ISPHIO  ,VSPHIO  ,

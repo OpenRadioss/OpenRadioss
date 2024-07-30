@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPREPLOC                      source/elements/sph/spreploc.F
-Chd|-- called by -----------
-Chd|        SPSTRES                       source/elements/sph/spstres.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spreploc   ../engine/source/elements/sph/spreploc.F
+      !||--- called by ------------------------------------------------------
+      !||    spstres    ../engine/source/elements/sph/spstres.F
+      !||====================================================================
       SUBROUTINE SPREPLOC(
      1   REPLOC,  WXX,     WYY,     WZZ,
      2   GAMA,    NEL,     LFT,     LLT,

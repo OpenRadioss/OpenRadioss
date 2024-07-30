@@ -20,18 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BIGBOX                        source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        BOXBOX                        source/model/box/boxbox.F     
-Chd|        BOXTAGN                       source/model/box/bigbox.F     
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    bigbox          ../starter/source/model/box/bigbox.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../starter/source/output/message/message.F
+      !||    boxbox          ../starter/source/model/box/boxbox.F
+      !||    boxtagn         ../starter/source/model/box/bigbox.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE BIGBOX(X   ,FLAG,NNOD ,
      .                  SKEW,IGS    ,ISKN ,ITABM1,IBOX   ,
      .                  ID  ,IBUFBOX,IADB ,TITR,KEY,NN,
@@ -170,19 +167,19 @@ C--------------
  999  CALL FREERR(1)
       RETURN
       END
-Chd|====================================================================
-Chd|  BOXTAGN                       source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|        BIGBOX                        source/model/box/bigbox.F     
-Chd|        BOXBOX                        source/model/box/boxbox.F     
-Chd|        HM_BIGBOX                     source/model/box/hm_bigbox.F  
-Chd|-- calls ---------------
-Chd|        CHECKCYL                      source/model/box/rdbox.F      
-Chd|        CHECKPARA                     source/model/box/rdbox.F      
-Chd|        CHECKSPHERE                   source/model/box/rdbox.F      
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    boxtagn         ../starter/source/model/box/bigbox.F
+      !||--- called by ------------------------------------------------------
+      !||    bigbox          ../starter/source/model/box/bigbox.F
+      !||    boxbox          ../starter/source/model/box/boxbox.F
+      !||    hm_bigbox       ../starter/source/model/box/hm_bigbox.F
+      !||--- calls      -----------------------------------------------------
+      !||    checkcyl        ../starter/source/model/box/rdbox.F
+      !||    checkpara       ../starter/source/model/box/rdbox.F
+      !||    checksphere     ../starter/source/model/box/rdbox.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE BOXTAGN(X   ,IBUFBOX,SKEW,IADB,
      .                   IBOX,ISU ,FLAG,IBOXMAX)
 C-----------------------------------------------
@@ -277,14 +274,13 @@ C---------------
 C---------------
       RETURN
       END
-Chd|====================================================================
-Chd|  BOXASSEM1                     source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|        BOXBOX                        source/model/box/boxbox.F     
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    boxassem1       ../starter/source/model/box/bigbox.F
+      !||--- called by ------------------------------------------------------
+      !||    boxbox          ../starter/source/model/box/boxbox.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE BOXASSEM1(IBOX,IBUFBOX,IB,IADB,FLAG)
 C-----------------------------------------------
 C   M o d u l e s
@@ -402,14 +398,13 @@ C
 C------------
       RETURN
       END
-Chd|====================================================================
-Chd|  BOXASSEM2                     source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|        BOXBOX2                       source/model/box/boxbox.F     
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    boxassem2       ../starter/source/model/box/bigbox.F
+      !||--- called by ------------------------------------------------------
+      !||    boxbox2         ../starter/source/model/box/boxbox.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE BOXASSEM2(IBOX,IBUFBOX,IB,IADB,NUMEL,FLAG,IBOXMAX)
 C-----------------------------------------------
 C   M o d u l e s
@@ -527,14 +522,13 @@ C
 C------------
       RETURN
       END
-Chd|====================================================================
-Chd|  BOXASSEM3                     source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|        BOXBOXS                       source/model/box/boxbox.F     
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    boxassem3       ../starter/source/model/box/bigbox.F
+      !||--- called by ------------------------------------------------------
+      !||    boxboxs         ../starter/source/model/box/boxbox.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE BOXASSEM3(IBOX,IBUFBOX,IB  ,IADB  ,NUMEL ,
      .                     NIX    ,IX  ,NIX1   ,NIX2,ISURF0,IELTYP,
      .                     FLAG   ,IEXT)
@@ -702,15 +696,15 @@ C
 C------------
       RETURN
       END
-Chd|====================================================================
-Chd|  BOXASSEM4                     source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|        ELSTAGBOXBOX                  source/model/box/boxbox.F     
-Chd|-- calls ---------------
-Chd|        IFACE                         source/ale/ale3d/iface.F      
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    boxassem4       ../starter/source/model/box/bigbox.F
+      !||--- called by ------------------------------------------------------
+      !||    elstagboxbox    ../starter/source/model/box/boxbox.F
+      !||--- calls      -----------------------------------------------------
+      !||    iface           ../starter/source/ale/ale3d/iface.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE BOXASSEM4(IBOX,IBUFBOX,IB,IADB,FLAG,IEXT_SET)
 C-----------------------------------------------
 C   M o d u l e s
@@ -999,19 +993,19 @@ C---
 C---------------
       RETURN
       END
-Chd|====================================================================
-Chd|  BOXTAGE                       source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|        BIGBOX2                       source/model/box/bigbox.F     
-Chd|        BOXBOX2                       source/model/box/boxbox.F     
-Chd|        HM_BIGBOX2                    source/model/box/hm_bigbox2.F 
-Chd|-- calls ---------------
-Chd|        CHECKCYL                      source/model/box/rdbox.F      
-Chd|        CHECKPARA                     source/model/box/rdbox.F      
-Chd|        CHECKSPHERE                   source/model/box/rdbox.F      
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    boxtage         ../starter/source/model/box/bigbox.F
+      !||--- called by ------------------------------------------------------
+      !||    bigbox2         ../starter/source/model/box/bigbox.F
+      !||    boxbox2         ../starter/source/model/box/boxbox.F
+      !||    hm_bigbox2      ../starter/source/model/box/hm_bigbox2.F
+      !||--- calls      -----------------------------------------------------
+      !||    checkcyl        ../starter/source/model/box/rdbox.F
+      !||    checkpara       ../starter/source/model/box/rdbox.F
+      !||    checksphere     ../starter/source/model/box/rdbox.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE BOXTAGE(X      ,SKEW   ,IBOX   ,
      .                   ISU    ,BOXTYPE,IX     ,NIX   ,
      .                   NIX1   ,IPARTE ,IPART  ,KLEVTREE,ELTREE,
@@ -1213,18 +1207,15 @@ C--------------------------------
 C----------------
       RETURN
       END
-Chd|====================================================================
-Chd|  BIGBOX2                       source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        BOXBOX2                       source/model/box/boxbox.F     
-Chd|        BOXTAGE                       source/model/box/bigbox.F     
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    bigbox2         ../starter/source/model/box/bigbox.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../starter/source/output/message/message.F
+      !||    boxbox2         ../starter/source/model/box/boxbox.F
+      !||    boxtage         ../starter/source/model/box/bigbox.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE BIGBOX2(X      ,FLAG   ,NEL     ,
      .                   SKEW   ,IGS    ,ISKN    ,ITABM1,IBOX   ,
      .                   ID     ,NADMESH,NIX     ,IX    ,NIX1   ,NUMEL ,
@@ -1389,19 +1380,19 @@ C----------
  999  CALL FREERR(1)
       RETURN
       END
-Chd|====================================================================
-Chd|  BOX_SURF_SH                   source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|        BIGSBOX                       source/model/box/bigbox.F     
-Chd|        BOXBOXS                       source/model/box/boxbox.F     
-Chd|        HM_BIGSBOX                    source/groups/hm_bigsbox.F    
-Chd|-- calls ---------------
-Chd|        CHECKCYL                      source/model/box/rdbox.F      
-Chd|        CHECKPARA                     source/model/box/rdbox.F      
-Chd|        CHECKSPHERE                   source/model/box/rdbox.F      
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    box_surf_sh     ../starter/source/model/box/bigbox.F
+      !||--- called by ------------------------------------------------------
+      !||    bigsbox         ../starter/source/model/box/bigbox.F
+      !||    boxboxs         ../starter/source/model/box/boxbox.F
+      !||    hm_bigsbox      ../starter/source/groups/hm_bigsbox.F
+      !||--- calls      -----------------------------------------------------
+      !||    checkcyl        ../starter/source/model/box/rdbox.F
+      !||    checkpara       ../starter/source/model/box/rdbox.F
+      !||    checksphere     ../starter/source/model/box/rdbox.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE BOX_SURF_SH(X            ,IBUFBOX,SKEW  ,IADB   ,BOXTYPE,
      .                       IBOX         ,ISU    ,NUMEL ,NIX    ,IX     ,
      .                       NIX1         ,NIX2   ,ISURF0,IELTYP ,FLAG   ,
@@ -1583,18 +1574,15 @@ C
 C---------------
       RETURN
       END
-Chd|====================================================================
-Chd|  BIGSBOX                       source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        BOXBOXS                       source/model/box/boxbox.F     
-Chd|        BOX_SURF_SH                   source/model/box/bigbox.F     
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    bigsbox         ../starter/source/model/box/bigbox.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../starter/source/output/message/message.F
+      !||    box_surf_sh     ../starter/source/model/box/bigbox.F
+      !||    boxboxs         ../starter/source/model/box/boxbox.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE BIGSBOX(NUMEL ,IX     ,NIX    ,NIX1 ,NIX2,IELTYP,
      .                   X     ,        NSEG ,FLAG,SKEW  ,
      .                   ISKN  ,ISURF0 ,ITABM1 ,IBOX,
@@ -1793,18 +1781,17 @@ C-----------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  ELSTAGBOX                     source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|        ELSTAGBOXBOX                  source/model/box/boxbox.F     
-Chd|        SBOXBOXSURF                   source/model/box/bigbox.F     
-Chd|-- calls ---------------
-Chd|        CHECKCYL                      source/model/box/rdbox.F      
-Chd|        CHECKPARA                     source/model/box/rdbox.F      
-Chd|        CHECKSPHERE                   source/model/box/rdbox.F      
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    elstagbox       ../starter/source/model/box/bigbox.F
+      !||--- called by ------------------------------------------------------
+      !||    elstagboxbox    ../starter/source/model/box/boxbox.F
+      !||    sboxboxsurf     ../starter/source/model/box/bigbox.F
+      !||--- calls      -----------------------------------------------------
+      !||    checkcyl        ../starter/source/model/box/rdbox.F
+      !||    checkpara       ../starter/source/model/box/rdbox.F
+      !||    checksphere     ../starter/source/model/box/rdbox.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE ELSTAGBOX(IXS    ,ELSTAG ,X   ,SKEW ,BOXTYPE,
      .                     ISU    ,IBOX   )
 C-----------------------------------------------
@@ -1919,24 +1906,22 @@ C-----------
  999  CALL FREERR(1)
       RETURN
       END
-Chd|====================================================================
-Chd|  SBOXBOXSURF                   source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|        HM_READ_SURF                  source/groups/hm_read_surf.F  
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        BOXBUFILL                     source/model/box/bigbox.F     
-Chd|        ELSTAGBOX                     source/model/box/bigbox.F     
-Chd|        ELSTAGBOXBOX                  source/model/box/boxbox.F     
-Chd|        FACEBOX                       source/model/box/bigbox.F     
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    sboxboxsurf              ../starter/source/model/box/bigbox.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_surf             ../starter/source/groups/hm_read_surf.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../starter/source/output/message/message.F
+      !||    boxbufill                ../starter/source/model/box/bigbox.F
+      !||    elstagbox                ../starter/source/model/box/bigbox.F
+      !||    elstagboxbox             ../starter/source/model/box/boxbox.F
+      !||    facebox                  ../starter/source/model/box/bigbox.F
+      !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE SBOXBOXSURF(IXS     ,X      ,NSEG,
      .                       KNOD2ELS,NOD2ELS,IEXT ,FLAG,
      .                       IXS10   ,IXS16  ,IXS20,SKEW   ,IBOX,
@@ -2104,18 +2089,17 @@ C--------------------------
  999  CALL FREERR(1)
       RETURN
       END
-Chd|====================================================================
-Chd|  FACEBOX                       source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|        ELSTAGBOXBOX                  source/model/box/boxbox.F     
-Chd|        SBOXBOXSURF                   source/model/box/bigbox.F     
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        SSURF10TMP                    source/model/box/bigbox.F     
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    facebox         ../starter/source/model/box/bigbox.F
+      !||--- called by ------------------------------------------------------
+      !||    elstagboxbox    ../starter/source/model/box/boxbox.F
+      !||    sboxboxsurf     ../starter/source/model/box/bigbox.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../starter/source/output/message/message.F
+      !||    ssurf10tmp      ../starter/source/model/box/bigbox.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE FACEBOX(IXS         ,X        ,KNOD2ELS ,NOD2ELS,IEXT        ,
      .                   FLAG        ,IXS10    ,IXS16    ,IXS20  ,SKEW        ,
      .                   IBOX        ,ELSTAG   ,IBUFBOX  ,IADB   ,ISU         ,
@@ -2578,12 +2562,11 @@ C
  999  CALL FREERR(1)
       RETURN
       END
-Chd|====================================================================
-Chd|  BOXBUFILL                     source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|        SBOXBOXSURF                   source/model/box/bigbox.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    boxbufill     ../starter/source/model/box/bigbox.F
+      !||--- called by ------------------------------------------------------
+      !||    sboxboxsurf   ../starter/source/model/box/bigbox.F
+      !||====================================================================
       SUBROUTINE BOXBUFILL(IADISU,IBUFBOX,SURF_NODES,NN,NSEG0,
      .                     SURF_ELTYP,SURF_ELEM)
 C-----------------------------------------------
@@ -2620,12 +2603,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  SSURF10TMP                    source/model/box/bigbox.F     
-Chd|-- called by -----------
-Chd|        FACEBOX                       source/model/box/bigbox.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ssurf10tmp   ../starter/source/model/box/bigbox.F
+      !||--- called by ------------------------------------------------------
+      !||    facebox      ../starter/source/model/box/bigbox.F
+      !||====================================================================
       SUBROUTINE SSURF10TMP(N1,N2,N3,N4,IAD,JS,IBUFBOX,IEXT_SET) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

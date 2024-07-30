@@ -28,11 +28,23 @@
 ! chd|        finter                        source/tools/curve/finter.f   
 ! chd|====================================================================
 ! ======================================================================================================================
+      !||====================================================================
+      !||    sigeps169_connect_mod   ../engine/source/materials/mat/mat169/sigeps169_connect.F90
+      !||--- called by ------------------------------------------------------
+      !||    suser43                 ../engine/source/elements/solid/sconnect/suser43.F
+      !||====================================================================
       module sigeps169_connect_mod
       contains
 ! ======================================================================================================================
 ! material for cohesive element, elastic in normal direction, elastoplastic in shear, with coupled damage
 ! ======================================================================================================================         
+      !||====================================================================
+      !||    sigeps169_connect   ../engine/source/materials/mat/mat169/sigeps169_connect.F90
+      !||--- called by ------------------------------------------------------
+      !||    suser43             ../engine/source/elements/solid/sconnect/suser43.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod        ../common_source/modules/constant_mod.F
+      !||====================================================================
         subroutine sigeps169_connect(                                          &
           nel     ,time, uparam,iparam,                                        &
           niparam , nuparam ,stifm   ,                                         &

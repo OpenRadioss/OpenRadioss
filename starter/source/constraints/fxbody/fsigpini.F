@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FSIGPINI                      source/constraints/fxbody/fsigpini.F
-Chd|-- called by -----------
-Chd|        FXBSINI                       source/constraints/fxbody/fxbsini.F
-Chd|-- calls ---------------
-Chd|        PCURVI                        source/constraints/fxbody/fsigpini.F
-Chd|        PDEFOI                        source/constraints/fxbody/fsigpini.F
-Chd|        PEVECII                       source/constraints/fxbody/fsigpini.F
-Chd|        PM1INIF                       source/constraints/fxbody/fsigpini.F
-Chd|====================================================================
+      !||====================================================================
+      !||    fsigpini   ../starter/source/constraints/fxbody/fsigpini.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbsini    ../starter/source/constraints/fxbody/fxbsini.F
+      !||--- calls      -----------------------------------------------------
+      !||    pcurvi     ../starter/source/constraints/fxbody/fsigpini.F
+      !||    pdefoi     ../starter/source/constraints/fxbody/fsigpini.F
+      !||    pevecii    ../starter/source/constraints/fxbody/fsigpini.F
+      !||    pm1inif    ../starter/source/constraints/fxbody/fsigpini.F
+      !||====================================================================
       SUBROUTINE FSIGPINI(FXBELM, IPARG , X     , PM, IXP ,
      .                    GEO   , FXBMOD, FXBSIG, R , NELP)
 C-----------------------------------------------
@@ -172,12 +172,11 @@ C
 C
       RETURN
       END SUBROUTINE FSIGPINI
-Chd|====================================================================
-Chd|  PEVECII                       source/constraints/fxbody/fsigpini.F
-Chd|-- called by -----------
-Chd|        FSIGPINI                      source/constraints/fxbody/fsigpini.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pevecii    ../starter/source/constraints/fxbody/fsigpini.F
+      !||--- called by ------------------------------------------------------
+      !||    fsigpini   ../starter/source/constraints/fxbody/fsigpini.F
+      !||====================================================================
       SUBROUTINE PEVECII(X1 , Y1, Z1  , X2, Y2 ,
      .     Z2 , R , RLOC, AL, NEL, 
      .     E1X, E1Y, E1Z, 
@@ -300,12 +299,11 @@ C
 C
       RETURN
       END SUBROUTINE PEVECII
-Chd|====================================================================
-Chd|  PDEFOI                        source/constraints/fxbody/fsigpini.F
-Chd|-- called by -----------
-Chd|        FSIGPINI                      source/constraints/fxbody/fsigpini.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pdefoi     ../starter/source/constraints/fxbody/fsigpini.F
+      !||--- called by ------------------------------------------------------
+      !||    fsigpini   ../starter/source/constraints/fxbody/fsigpini.F
+      !||====================================================================
       SUBROUTINE PDEFOI(V  , EXX, EXY, EXZ, AL, NEL, 
      .     E1X, E1Y, E1Z, 
      .     E2X, E2Y, E2Z, 
@@ -363,12 +361,11 @@ C
 C
       RETURN
       END SUBROUTINE PDEFOI
-Chd|====================================================================
-Chd|  PCURVI                        source/constraints/fxbody/fsigpini.F
-Chd|-- called by -----------
-Chd|        FSIGPINI                      source/constraints/fxbody/fsigpini.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pcurvi     ../starter/source/constraints/fxbody/fsigpini.F
+      !||--- called by ------------------------------------------------------
+      !||    fsigpini   ../starter/source/constraints/fxbody/fsigpini.F
+      !||====================================================================
       SUBROUTINE PCURVI(V  , GEO, KXX, KYY, KZZ,
      .     EXY, EXZ, AL , NEL, MGM, 
      .     E1X, E1Y, E1Z, 
@@ -473,12 +470,11 @@ C
 C
       RETURN
       END SUBROUTINE PCURVI
-Chd|====================================================================
-Chd|  PM1INIF                       source/constraints/fxbody/fsigpini.F
-Chd|-- called by -----------
-Chd|        FSIGPINI                      source/constraints/fxbody/fsigpini.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pm1inif    ../starter/source/constraints/fxbody/fsigpini.F
+      !||--- called by ------------------------------------------------------
+      !||    fsigpini   ../starter/source/constraints/fxbody/fsigpini.F
+      !||====================================================================
       SUBROUTINE PM1INIF(PM , FOR, MOM, EINT, GEO,
      .                   EXX, EXY, EXZ, KXX , KYY,
      .                   KZZ, AL , NEL, MAT , MGM)     

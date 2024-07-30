@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  XCOOR3                        source/elements/xelem/xcoor3.F
-Chd|-- called by -----------
-Chd|        ANIMX                         source/output/anim/generate/animx.F
-Chd|        XFORC3                        source/elements/xelem/xforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    xcoor3   ../engine/source/elements/xelem/xcoor3.F
+      !||--- called by ------------------------------------------------------
+      !||    animx    ../engine/source/output/anim/generate/animx.F
+      !||    xforc3   ../engine/source/elements/xelem/xforc3.F
+      !||====================================================================
       SUBROUTINE XCOOR3(X   ,KXX  ,IXX   ,ITAB  ,NX   ,
      2                  UID ,UIX  ,XUSR  )
 C-----------------------------------------------

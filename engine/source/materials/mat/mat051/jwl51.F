@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  JWLUN51                       source/materials/mat/mat051/jwl51.F
-Chd|-- called by -----------
-Chd|        SIGEPS51                      source/materials/mat/mat051/sigeps51.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    jwlun51    ../engine/source/materials/mat/mat051/jwl51.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F
+      !||====================================================================
       SUBROUTINE JWLUN51 (TIME,XL,TBURN,UPARAM,DD,MU,MUP1,
      .          VOLUME,DVOL,V1OLD,EINT1,VISCMAX,
      .          Q1,PEXT,P1,PM1,
@@ -159,12 +158,11 @@ C
       END
 
 
-Chd|====================================================================
-Chd|  JWL51                         source/materials/mat/mat051/jwl51.F
-Chd|-- called by -----------
-Chd|        SIGEPS51                      source/materials/mat/mat051/sigeps51.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    jwl51      ../engine/source/materials/mat/mat051/jwl51.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F
+      !||====================================================================
       SUBROUTINE JWL51 (UPARAM,
      .          V1,V1OLD,MU1,MUP1,EINT1,
      .          P1OLD,PEXT,P1,PM1,

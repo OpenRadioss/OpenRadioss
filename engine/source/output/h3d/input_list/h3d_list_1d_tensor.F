@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_LIST_1D_TENSOR            source/output/h3d/input_list/h3d_list_1d_tensor.F
-Chd|-- called by -----------
-Chd|        LECH3D                        source/output/h3d/h3d_build_fortran/lech3d.F
-Chd|-- calls ---------------
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_list_1d_tensor   ../engine/source/output/h3d/input_list/h3d_list_1d_tensor.F
+      !||--- called by ------------------------------------------------------
+      !||    lech3d               ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod              ../engine/share/modules/h3d_mod.F
+      !||    message_mod          ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE H3D_LIST_1D_TENSOR(H3D_KEYWORD_ONED_TENSOR,GEO,NKEY)
 C-----------------------------------------------
 C   M o d u l e s

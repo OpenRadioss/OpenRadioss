@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I24PXFEM                      source/interfaces/int24/i24pxfem.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        I24GAP                        source/interfaces/int24/i24pxfem.F
-Chd|        SPMD_EXCH_I24_GAP             source/mpi/interfaces/spmd_exch_i24_gap.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i24pxfem            ../engine/source/interfaces/int24/i24pxfem.F
+      !||--- called by ------------------------------------------------------
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    i24gap              ../engine/source/interfaces/int24/i24pxfem.F
+      !||    spmd_exch_i24_gap   ../engine/source/mpi/interfaces/spmd_exch_i24_gap.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I24PXFEM(
      1   IPARI    ,INTBUF_TAB,WAGAP ,IAD_ELEM,FR_ELEM)
 C-----------------------------------------------
@@ -94,12 +95,11 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I24GAP                        source/interfaces/int24/i24pxfem.F
-Chd|-- called by -----------
-Chd|        I24PXFEM                      source/interfaces/int24/i24pxfem.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i24gap     ../engine/source/interfaces/int24/i24pxfem.F
+      !||--- called by ------------------------------------------------------
+      !||    i24pxfem   ../engine/source/interfaces/int24/i24pxfem.F
+      !||====================================================================
       SUBROUTINE I24GAP(
      1  NRTM,IRECT,WAGAP,GAP_MN,GAP_M,MSEGTYP, GAPMAX,NVOISIN,DGAP_MN,
      .  DGAP_M ,DGAPMAX,STFM)

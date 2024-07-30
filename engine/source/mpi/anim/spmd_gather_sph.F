@@ -22,13 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 C            dxyzsph                  /anim/dxyzsph.F
-Chd|====================================================================
-Chd|  SPMD_GATHER_SPH               source/mpi/anim/spmd_gather_sph.F
-Chd|-- called by -----------
-Chd|        DXYZSPH                       source/output/anim/generate/dxyzsph.F
-Chd|-- calls ---------------
-Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_gather_sph   ../engine/source/mpi/anim/spmd_gather_sph.F
+      !||--- called by ------------------------------------------------------
+      !||    dxyzsph           ../engine/source/output/anim/generate/dxyzsph.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE SPMD_GATHER_SPH(V,TV,NUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

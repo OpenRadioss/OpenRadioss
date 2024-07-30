@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INVOI2                        source/interfaces/inter2d/invoi2.F
-Chd|-- called by -----------
-Chd|        I9MAIN2                       source/interfaces/int09/i9main2.F
-Chd|        INTVO2                        source/interfaces/inter2d/intvo2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    invoi2    ../engine/source/interfaces/inter2d/invoi2.F
+      !||--- called by ------------------------------------------------------
+      !||    i9main2   ../engine/source/interfaces/int09/i9main2.F
+      !||    intvo2    ../engine/source/interfaces/inter2d/intvo2.F
+      !||====================================================================
       SUBROUTINE INVOI2(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,NSEG,NSN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

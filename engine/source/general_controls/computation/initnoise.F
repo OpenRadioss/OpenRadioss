@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INITNOISE                     source/general_controls/computation/initnoise.F
-Chd|-- called by -----------
-Chd|        NOISE                         source/general_controls/computation/noise.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    initnoise   ../engine/source/general_controls/computation/initnoise.F
+      !||--- called by ------------------------------------------------------
+      !||    noise       ../engine/source/general_controls/computation/noise.F
+      !||====================================================================
       SUBROUTINE INITNOISE(IN,NOIADD,IXS,IWA,LENGTH,IXQ)
 C
 C-----------------------------------------------
@@ -91,12 +90,11 @@ c-----------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  INITNOISE2                    source/general_controls/computation/initnoise.F
-Chd|-- called by -----------
-Chd|        NOISE                         source/general_controls/computation/noise.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    initnoise2   ../engine/source/general_controls/computation/initnoise.F
+      !||--- called by ------------------------------------------------------
+      !||    noise        ../engine/source/general_controls/computation/noise.F
+      !||====================================================================
       SUBROUTINE INITNOISE2(IN,ELNOI,ELG,NOIADD,IXS,IWA,IPARG,IXQ)
 C
 C-----------------------------------------------

@@ -20,22 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MULTIFLUID_INIT2              source/multifluid/multifluid_init2.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        M5IN2                         source/initial_conditions/detonation/m5in2.F
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|        QCOOR2                        source/elements/solid_2d/quad/qcoor2.F
-Chd|        QDLEN2                        source/elements/solid_2d/quad/qdlen2.F
-Chd|        QVOLI2                        source/elements/solid_2d/quad/qvoli2.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    multifluid_init2       ../starter/source/multifluid/multifluid_init2.F
+      !||--- called by ------------------------------------------------------
+      !||    initia                 ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    m5in2                  ../starter/source/initial_conditions/detonation/m5in2.F
+      !||    matini                 ../starter/source/materials/mat_share/matini.F
+      !||    qcoor2                 ../starter/source/elements/solid_2d/quad/qcoor2.F
+      !||    qdlen2                 ../starter/source/elements/solid_2d/quad/qdlen2.F
+      !||    qvoli2                 ../starter/source/elements/solid_2d/quad/qvoli2.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE MULTIFLUID_INIT2(NEL, NSIGS, 
      .     IPARG, IXQ, IPM, ALE_CONNECTIVITY, IGEO, IPART, IPARTQ, NPF,
      .     PTQUAD, ILOADP, X, PM, 

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DT18LAW                       source/materials/time_step/dt18law.F
-Chd|-- called by -----------
-Chd|        DTMAIN                        source/materials/time_step/dtmain.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dt18law   ../starter/source/materials/time_step/dt18law.F
+      !||--- called by ------------------------------------------------------
+      !||    dtmain    ../starter/source/materials/time_step/dtmain.F
+      !||====================================================================
       SUBROUTINE DT18LAW(PM,IPM,MAT,EINT,THETA,DELTAX,DTX)
 C
 C     CALCUL DES DT ELEM LOI NO 18 THERMIQUE PURE

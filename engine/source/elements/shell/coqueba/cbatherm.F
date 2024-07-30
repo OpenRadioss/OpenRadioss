@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBATHERM                      source/elements/shell/coqueba/cbatherm.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cbatherm   ../engine/source/elements/shell/coqueba/cbatherm.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||====================================================================
       SUBROUTINE CBATHERM(JFT  ,JLT   ,PM   ,MAT   ,THK   ,IXC , 
      2                  BM   ,AREA   ,DT1C  ,TEMPNC ,TEL   ,DIE  ,
      3                  NPLAT, IPLAT ,FPHI)

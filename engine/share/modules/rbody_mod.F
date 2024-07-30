@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RBODY_MOD                     share/modules/rbody_mod.F     
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|        RESTALLOC                     source/output/restart/arralloc.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    rbody_mod    ../engine/share/modules/rbody_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2     ../engine/source/engine/radioss2.F
+      !||    resol_head   ../engine/source/engine/resol_head.F
+      !||    restalloc    ../engine/source/output/restart/arralloc.F
+      !||====================================================================
       MODULE RBODY_MOD
 C-----------------------------------------------
 C   m y _ r e a l

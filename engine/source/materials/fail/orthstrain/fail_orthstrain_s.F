@@ -20,15 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_ORTHSTRAIN               source/materials/fail/orthstrain/fail_orthstrain_s.F
-Chd|-- called by -----------
-Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
-Chd|-- calls ---------------
-Chd|        JACOBIEW                      source/materials/mat/mat033/sigeps33.F
-Chd|        VINTER2                       source/tools/curve/vinter.F   
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_orthstrain   ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain             ../engine/source/materials/mat_share/mmain.F90
+      !||    mulaw             ../engine/source/materials/mat_share/mulaw.F90
+      !||    usermat_solid     ../engine/source/materials/mat_share/usermat_solid.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter            ../engine/source/tools/curve/finter.F
+      !||    jacobiew          ../engine/source/materials/mat/mat033/sigeps33.F
+      !||    vinter2           ../engine/source/tools/curve/vinter.F
+      !||====================================================================
               SUBROUTINE FAIL_ORTHSTRAIN ( 
      1        NEL      ,NUPARAM,NUVAR  ,NFUNC   ,IFUNC , 
      2        NPF      ,TF     ,TIME   ,TIMESTEP,UPARAM ,ISMSTR   , 

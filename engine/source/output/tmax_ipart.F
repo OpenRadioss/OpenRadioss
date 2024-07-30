@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TMAX_IPART                    source/output/tmax_ipart.F    
-Chd|-- called by -----------
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    tmax_ipart             ../engine/source/output/tmax_ipart.F
+      !||--- called by ------------------------------------------------------
+      !||    resol_init             ../engine/source/engine/resol_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    outmax_mod             ../common_source/modules/outmax_mod.F
+      !||====================================================================
       SUBROUTINE TMAX_IPART(IPARG ,IPART ,IPARTS ,IPARTC ,IPARTG ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s

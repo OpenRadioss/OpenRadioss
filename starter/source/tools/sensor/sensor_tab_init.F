@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SENSOR_TAB_INIT               source/tools/sensor/sensor_tab_init.F
-Chd|-- called by -----------
-Chd|        HM_READ_SENSORS               source/tools/sensor/hm_read_sensors.F
-Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    sensor_tab_init   ../starter/source/tools/sensor/sensor_tab_init.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_sensors   ../starter/source/tools/sensor/hm_read_sensors.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod        ../starter/share/modules1/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SENSOR_TAB_INIT(SENSORS)
 C-----------------------------------------------
 C   M o d u l e s

@@ -25,6 +25,11 @@
 !hd|-- called by -----------
 !hd|-- calls ---------------
 !hd|====================================================================
+      !||====================================================================
+      !||    fractal_element_neighbor_mod   ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
+      !||--- called by ------------------------------------------------------
+      !||    random_walk_dmg                ../starter/source/materials/fail/fractal/random_walk_dmg.F90
+      !||====================================================================
       module fractal_element_neighbor_mod
       contains
 ! ========================================================================================
@@ -33,6 +38,14 @@
 
 ! ========================================================================================
 
+      !||====================================================================
+      !||    fractal_element_neighbor   ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
+      !||--- called by ------------------------------------------------------
+      !||    random_walk_dmg            ../starter/source/materials/fail/fractal/random_walk_dmg.F90
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                ../starter/share/message_module/message_mod.F
+      !||====================================================================
         subroutine fractal_element_neighbor(fractal, nixc ,ixc ,nixtg ,ixtg ,numelc ,numeltg)
 !-----------------------------------------------
 !   M o d u l e s

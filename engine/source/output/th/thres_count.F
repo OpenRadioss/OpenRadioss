@@ -20,13 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THRES_COUNT                   source/output/th/thres_count.F
-Chd|-- called by -----------
-Chd|        INIT_TH                       source/output/th/init_th.F    
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    thres_count    ../engine/source/output/th/thres_count.F
+      !||--- called by ------------------------------------------------------
+      !||    init_th        ../engine/source/output/th/init_th.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar           ../engine/source/input/nvar.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE THRES_COUNT(IPARG,ITHBUF,ELBUF_TAB,IGEO,IXR, 
      .                       ITHGRP,NTHGRP2,WA_SIZE,INDEX_WA_SPRING,SITHBUF)
 C-----------------------------------------------

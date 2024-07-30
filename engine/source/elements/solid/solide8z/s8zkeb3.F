@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8ZKEB3                       source/elements/solid/solide8z/s8zkeb3.F
-Chd|-- called by -----------
-Chd|        S6CLKE3                       source/elements/thickshell/solide6c/s6clke3.F
-Chd|        S8ZLKE3                       source/elements/solid/solide8z/s8zlke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8zkeb3   ../engine/source/elements/solid/solide8z/s8zkeb3.F
+      !||--- called by ------------------------------------------------------
+      !||    s6clke3   ../engine/source/elements/thickshell/solide6c/s6clke3.F
+      !||    s8zlke3   ../engine/source/elements/solid/solide8z/s8zlke3.F
+      !||====================================================================
       SUBROUTINE S8ZKEB3(LFT,LLT,
      .   PXI, PYI ,PZI ,PXJ, PYJ, PZJ, 
      .   PXYI, PYXI ,PXZI,PZXI ,PYZI,PZYI,

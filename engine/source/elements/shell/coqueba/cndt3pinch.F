@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CNDT3PINCH                    source/elements/shell/coqueba/cndt3pinch.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cndt3pinch   ../engine/source/elements/shell/coqueba/cndt3pinch.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3     ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||====================================================================
       SUBROUTINE CNDT3PINCH(JFT   ,JLT     ,OFF  ,DT2T ,AMU  ,
      1                 NELTST,ITYPTST ,STI  ,STIR ,OFFG,
      2                 SSP   ,VISCMX  ,RHO  ,VOL0 ,THK0,THK02,

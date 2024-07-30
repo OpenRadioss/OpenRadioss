@@ -20,25 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
-Chd|-- called by -----------
-Chd|        ALLOCBUF_AUTO                 source/elements/elbuf/allocbuf_auto.F
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|        H3D_PRE_SKIN_IXSKIN           source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        H3D_PRE_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_skin_scalar.F
-Chd|        H3D_SKIN_IXSKIN               source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        H3D_SKIN_OFF                  source/output/h3d/h3d_results/h3d_skin_off.F
-Chd|        H3D_SKIN_PRE_MAP              source/output/h3d/h3d_results/h3d_skin_pre_map.F
-Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin_scalar.F
-Chd|        H3D_SKIN_VECTOR               source/output/h3d/h3d_results/h3d_skin_vector.F
-Chd|        LECH3D                        source/output/h3d/h3d_build_fortran/lech3d.F
-Chd|        PBLAST_1                      source/loads/pblast/pblast_1.F
-Chd|        PBLAST_2                      source/loads/pblast/pblast_2.F
-Chd|        PBLAST_3                      source/loads/pblast/pblast_3.F
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_inc_mod           ../engine/share/modules/h3d_inc_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    allocbuf_auto         ../engine/source/elements/elbuf/allocbuf_auto.F
+      !||    genh3d                ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||    h3d_pre_skin_ixskin   ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||    h3d_pre_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+      !||    h3d_skin_ixskin       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+      !||    h3d_skin_off          ../engine/source/output/h3d/h3d_results/h3d_skin_off.F
+      !||    h3d_skin_pre_map      ../engine/source/output/h3d/h3d_results/h3d_skin_pre_map.F
+      !||    h3d_skin_scalar       ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+      !||    h3d_skin_vector       ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
+      !||    lech3d                ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
+      !||    pblast_1              ../engine/source/loads/pblast/pblast_1.F
+      !||    pblast_2              ../engine/source/loads/pblast/pblast_2.F
+      !||    pblast_3              ../engine/source/loads/pblast/pblast_3.F
+      !||    resol_init            ../engine/source/engine/resol_init.F
+      !||====================================================================
       MODULE H3D_INC_MOD
 C-----------------------------------------------
       INTEGER NUMSKINP,NUMSKINP0

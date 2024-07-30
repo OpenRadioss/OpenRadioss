@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C-------------------------------------------------------------------------
-Chd|====================================================================
-Chd|  SPORTH3                       source/elements/sph/sporth3.F 
-Chd|-- called by -----------
-Chd|        SPINIT3                       source/elements/sph/spinit3.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sporth3   ../starter/source/elements/sph/sporth3.F
+      !||--- called by ------------------------------------------------------
+      !||    spinit3   ../starter/source/elements/sph/spinit3.F
+      !||====================================================================
       SUBROUTINE SPORTH3(IPART ,IPARTSP ,IGEO ,GAMA ,SKEW,
      .                   NEL   )
 C-----------------------------------------------

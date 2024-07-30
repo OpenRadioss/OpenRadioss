@@ -21,27 +21,28 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_I7FCOM_POFF              source/mpi/forces/spmd_i7fcom_poff.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        PUTDPDAANC                    source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_FIADD11_POFF             source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_FIADD17_POFF             source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_FIADD20E_POFF            source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_FIADD20_POFF             source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_FIADD25E_POFF            source/mpi/interfaces/spmd_fiadd25e_poff.F
-Chd|        SPMD_FIADD_POFF               source/mpi/interfaces/spmd_i7tool.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_i7fcom_poff     ../engine/source/mpi/forces/spmd_i7fcom_poff.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../engine/source/output/message/message.F
+      !||    arret                ../engine/source/system/arret.F
+      !||    putdpdaanc           ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_fiadd11_poff    ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_fiadd17_poff    ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_fiadd20_poff    ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_fiadd20e_poff   ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_fiadd25e_poff   ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
+      !||    spmd_fiadd_poff      ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
+      !||    h3d_mod              ../engine/share/modules/h3d_mod.F
+      !||    message_mod          ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F
+      !||    tri25ebox            ../engine/share/modules/tri25ebox.F
+      !||    tri7box              ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_I7FCOM_POFF(
      1   IPARI   ,A       ,STIFN   ,VISCN   ,
      2   INTLIST ,NBINTC  ,ICODT   ,SECFCUM ,NSTRF   ,

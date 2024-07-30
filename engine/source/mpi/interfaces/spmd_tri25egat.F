@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_TRI25EGAT                source/mpi/interfaces/spmd_tri25egat.F
-Chd|-- called by -----------
-Chd|        I25MAIN_TRI                   source/interfaces/intsort/i25main_tri.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_tri25egat   ../engine/source/mpi/interfaces/spmd_tri25egat.F
+      !||--- called by ------------------------------------------------------
+      !||    i25main_tri      ../engine/source/interfaces/intsort/i25main_tri.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod      ../engine/share/message_module/message_mod.F
+      !||    tri25ebox        ../engine/share/modules/tri25ebox.F
+      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_TRI25EGAT(
      1   RESULT    ,NIN        , NEDGE   ,CANDS_E2E  ,I_STOK_E2E  ,
      2   CANDS_E2S  ,I_STOK_E2S,IGAP     ,INTFRIC    ,ISTIF_MSDT  )

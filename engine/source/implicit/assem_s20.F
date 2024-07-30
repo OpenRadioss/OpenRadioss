@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ASSEM_S20                     source/implicit/assem_s20.F   
-Chd|-- called by -----------
-Chd|        S20KE3                        source/elements/solid/solide20/s20ke3.F
-Chd|-- calls ---------------
-Chd|        ASSEM_KII                     source/implicit/imp_glob_k.F  
-Chd|        ASSEM_KIJ                     source/implicit/imp_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    assem_s20   ../engine/source/implicit/assem_s20.F
+      !||--- called by ------------------------------------------------------
+      !||    s20ke3      ../engine/source/elements/solid/solide20/s20ke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_kii   ../engine/source/implicit/imp_glob_k.F
+      !||    assem_kij   ../engine/source/implicit/imp_glob_k.F
+      !||====================================================================
       SUBROUTINE ASSEM_S20(
      1                   IXS   ,IXS20 , NEL  ,IDDL  ,NDOF  ,K_DIAG,
      2                   K_LT  ,IADK  ,JDIK  ,OFF   ,     

@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_EXCHI_A_PON              source/mpi/forces/spmd_exchi_a_pon.F
-Chd|-- called by -----------
-Chd|        SPMD_EXCH2_A_PON              source/mpi/forces/spmd_exch2_a_pon.F
-Chd|-- calls ---------------
-Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exchi_a_pon   ../engine/source/mpi/forces/spmd_exchi_a_pon.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_exch2_a_pon   ../engine/source/mpi/forces/spmd_exch2_a_pon.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    plyxfem_mod        ../engine/share/modules/plyxfem_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_EXCHI_A_PON(
      1   IAD_ELEM,FR_ELEM ,SIZI   ,ISKY   ,FSKYI ,
      2   FSKYIF  ,ITAGX   ,ADSKYI ,NBIRCT ,NBISDT,

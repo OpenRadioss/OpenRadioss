@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_TBUTCHER_XFEM            source/materials/fail/tuler_butcher/fail_tbutcher_xfem.F
-Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_tbutcher_xfem   ../engine/source/materials/fail/tuler_butcher/fail_tbutcher_xfem.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc               ../engine/source/materials/mat_share/mulawc.F
+      !||    usermat_shell        ../engine/source/materials/mat_share/usermat_shell.F
+      !||====================================================================
       SUBROUTINE FAIL_TBUTCHER_XFEM(
      1     NEL      ,NUPARAM  ,UPARAM   ,NUVAR    ,UVAR     ,
      2     TIME     ,TIMESTEP ,TENS     ,DFMAX    ,TDEL     ,

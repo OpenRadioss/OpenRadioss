@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FCONT2_MAX_OUTPUT             source/output/h3d/h3d_results/fcont2_max_output.F
-Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fcont2_max_output   ../engine/source/output/h3d/h3d_results/fcont2_max_output.F
+      !||--- called by ------------------------------------------------------
+      !||    sortie_main         ../engine/source/output/sortie_main.F
+      !||====================================================================
       SUBROUTINE FCONT2_MAX_OUTPUT(FCONT,FCONT_MAX,WEIGHT)
 C-----------------------------s------------------
 C   I m p l i c i t   T y p e s

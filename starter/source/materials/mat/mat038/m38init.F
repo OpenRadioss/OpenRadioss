@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M38INIT                       source/materials/mat/mat038/m38init.F
-Chd|-- called by -----------
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|        SIGIN3B                       source/elements/solid/solid8p/sigin3b.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m38init   ../starter/source/materials/mat/mat038/m38init.F
+      !||--- called by ------------------------------------------------------
+      !||    matini    ../starter/source/materials/mat_share/matini.F
+      !||    sigin3b   ../starter/source/elements/solid/solid8p/sigin3b.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter    ../starter/source/tools/curve/finter.F
+      !||====================================================================
       SUBROUTINE M38INIT(
      1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC  , NPF   ,
      2      TF     , UPARAM , RHO0    , VOLUME , EINT   ,UVAR   ) 

@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IGE3DAIRE                     source/elements/ige3d/ig3daire.F
-Chd|-- called by -----------
-Chd|        IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
-Chd|-- calls ---------------
-Chd|        DERSBASISFUNS                 source/elements/ige3d/dersbasisfuns.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ige3daire       ../engine/source/elements/ige3d/ig3daire.F
+      !||--- called by ------------------------------------------------------
+      !||    ig3duforc3      ../engine/source/elements/ige3d/ig3duforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    dersbasisfuns   ../engine/source/elements/ige3d/dersbasisfuns.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE IGE3DAIRE(ITEL , N     , XXI   , YYI   , ZZI ,
      1                     WWI  , IDX   , IDY   , IDZ   , AIRE, 
      2                     NCTRL, GAUSSX, GAUSSY, GAUSSZ, KX  ,

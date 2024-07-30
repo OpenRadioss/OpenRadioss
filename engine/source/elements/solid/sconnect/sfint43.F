@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SFINT43                       source/elements/solid/sconnect/sfint43.F
-Chd|-- called by -----------
-Chd|        SUSER43                       source/elements/solid/sconnect/suser43.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sfint43   ../engine/source/elements/solid/sconnect/sfint43.F
+      !||--- called by ------------------------------------------------------
+      !||    suser43   ../engine/source/elements/solid/sconnect/suser43.F
+      !||====================================================================
       SUBROUTINE SFINT43(IPG   ,NPG   ,NEL   ,HH    ,AREAPG,SOFT  ,
      .     FX1   ,FX2   ,FX3   ,FX4   ,FX5   ,FX6   ,FX7   ,FX8   ,
      .     FY1   ,FY2   ,FY3   ,FY4   ,FY5   ,FY6   ,FY7   ,FY8   ,

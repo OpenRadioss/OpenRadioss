@@ -20,31 +20,32 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CZKE3                         source/elements/shell/coquez/czke3.F
-Chd|-- called by -----------
-Chd|        IMP_GLOB_K                    source/implicit/imp_glob_k.F  
-Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|        ASSEM_C4                      source/implicit/assem_c4.F    
-Chd|        C4EOFF                        source/elements/shell/coque/c4eoff.F
-Chd|        CMATC3                        source/elements/shell/coqueba/cmatc3.F
-Chd|        CMATCH3                       source/elements/shell/coqueba/cmatc3.F
-Chd|        CMATIP3                       source/elements/shell/coqueba/cmatc3.F
-Chd|        CZBE3                         source/elements/shell/coquez/czbe3.F
-Chd|        CZBER3                        source/elements/shell/coquez/czbe3.F
-Chd|        CZCOORK3                      source/elements/shell/coquez/czcoork3.F
-Chd|        CZLKEC3                       source/elements/shell/coquez/czlkec3.F
-Chd|        CZLKECG3                      source/elements/shell/coquez/czlkecg3.F
-Chd|        CZLKECR3                      source/elements/shell/coquez/czlkec3.F
-Chd|        CZLKECT3                      source/elements/shell/coquez/czlkect3.F
-Chd|        CZLKEN3                       source/elements/shell/coquez/czlken3.F
-Chd|        CZLKENR3                      source/elements/shell/coquez/czlken3.F
-Chd|        CZSUMG3                       source/elements/shell/coquez/czsumg3.F
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    czke3          ../engine/source/elements/shell/coquez/czke3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
+      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_c4       ../engine/source/implicit/assem_c4.F
+      !||    c4eoff         ../engine/source/elements/shell/coque/c4eoff.F
+      !||    cmatc3         ../engine/source/elements/shell/coqueba/cmatc3.F
+      !||    cmatch3        ../engine/source/elements/shell/coqueba/cmatc3.F
+      !||    cmatip3        ../engine/source/elements/shell/coqueba/cmatc3.F
+      !||    czbe3          ../engine/source/elements/shell/coquez/czbe3.F
+      !||    czber3         ../engine/source/elements/shell/coquez/czbe3.F
+      !||    czcoork3       ../engine/source/elements/shell/coquez/czcoork3.F
+      !||    czlkec3        ../engine/source/elements/shell/coquez/czlkec3.F
+      !||    czlkecg3       ../engine/source/elements/shell/coquez/czlkecg3.F
+      !||    czlkecr3       ../engine/source/elements/shell/coquez/czlkec3.F
+      !||    czlkect3       ../engine/source/elements/shell/coquez/czlkect3.F
+      !||    czlken3        ../engine/source/elements/shell/coquez/czlken3.F
+      !||    czlkenr3       ../engine/source/elements/shell/coquez/czlken3.F
+      !||    czsumg3        ../engine/source/elements/shell/coquez/czsumg3.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod      ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    stack_mod      ../engine/share/modules/stack_mod.F
+      !||====================================================================
        SUBROUTINE CZKE3 (
      1            JFT    ,JLT    ,NFT    ,NPT    ,MTN    ,
      2            ITHK   ,NCYCLE ,ISTRAIN,IPLA   ,PM     ,
@@ -416,12 +417,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZFKEU3                       source/elements/shell/coquez/czke3.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        CZFIKIJUJ                     source/elements/shell/coquez/czke3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czfkeu3     ../engine/source/elements/shell/coquez/czke3.F
+      !||--- calls      -----------------------------------------------------
+      !||    czfikijuj   ../engine/source/elements/shell/coquez/czke3.F
+      !||====================================================================
        SUBROUTINE CZFKEU3 (
      1            JFT    ,JLT    ,   
      8            KE11   ,KE22   ,KE33   ,KE44   ,   
@@ -598,12 +598,11 @@ C
 C      
       RETURN
       END
-Chd|====================================================================
-Chd|  CZFIKIJUJ                     source/elements/shell/coquez/czke3.F
-Chd|-- called by -----------
-Chd|        CZFKEU3                       source/elements/shell/coquez/czke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czfikijuj   ../engine/source/elements/shell/coquez/czke3.F
+      !||--- called by ------------------------------------------------------
+      !||    czfkeu3     ../engine/source/elements/shell/coquez/czke3.F
+      !||====================================================================
        SUBROUTINE CZFIKIJUJ (KEIJ   ,UJ     ,RJ     ,FI     ,MI     ,
      .                      ITRAN   )
 C-----------------------------------------------

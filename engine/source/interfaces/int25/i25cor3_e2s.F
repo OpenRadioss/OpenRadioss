@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25COR3_E2S                   source/interfaces/int25/i25cor3_e2s.F
-Chd|-- called by -----------
-Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|-- calls ---------------
-Chd|        INT_CHECKSUM                  share/modules/debug_mod.F     
-Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
-Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25cor3_e2s      ../engine/source/interfaces/int25/i25cor3_e2s.F
+      !||--- called by ------------------------------------------------------
+      !||    i25mainf         ../engine/source/interfaces/int25/i25mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    int_checksum     ../engine/share/modules/debug_mod.F
+      !||--- uses       -----------------------------------------------------
+      !||    debug_mod        ../engine/share/modules/debug_mod.F
+      !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
+      !||    tri25ebox        ../engine/share/modules/tri25ebox.F
+      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25COR3_E2S(
      1      JLT    ,LEDGE  ,IRECT  ,X      ,V      ,
      2      CAND_S ,CAND_M ,STFM   ,MS     ,EX     ,

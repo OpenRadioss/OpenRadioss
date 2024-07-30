@@ -20,13 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALEFVM_INIT                   source/ale/alefvm/alefvm_init.F
-Chd|-- called by -----------
-Chd|        RESTALLOC                     source/output/restart/arralloc.F
-Chd|-- calls ---------------
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    alefvm_init   ../engine/source/ale/alefvm/alefvm_init.F
+      !||--- called by ------------------------------------------------------
+      !||    restalloc     ../engine/source/output/restart/arralloc.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar          ../engine/source/input/nvar.F
+      !||--- uses       -----------------------------------------------------
+      !||    alefvm_mod    ../common_source/modules/ale/alefvm_mod.F
+      !||====================================================================
       SUBROUTINE ALEFVM_INIT()
 C-----------------------------------------------
 C   D e s c r i p t i o n

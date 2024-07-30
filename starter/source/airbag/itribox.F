@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ITRIBOX                       source/airbag/itribox.F       
-Chd|-- called by -----------
-Chd|        FVMESH1                       source/airbag/fvmesh.F        
-Chd|-- calls ---------------
-Chd|        POLCLIP                       source/airbag/itribox.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    itribox   ../starter/source/airbag/itribox.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh1   ../starter/source/airbag/fvmesh.F
+      !||--- calls      -----------------------------------------------------
+      !||    polclip   ../starter/source/airbag/itribox.F
+      !||====================================================================
       SUBROUTINE ITRIBOX(TRI, BOX, NORM, NVERTS, POLY, NVMAX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -107,12 +107,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  POLCLIP                       source/airbag/itribox.F       
-Chd|-- called by -----------
-Chd|        ITRIBOX                       source/airbag/itribox.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    polclip   ../starter/source/airbag/itribox.F
+      !||--- called by ------------------------------------------------------
+      !||    itribox   ../starter/source/airbag/itribox.F
+      !||====================================================================
       SUBROUTINE POLCLIP(POLYIN, NPIN, A, N, POLYOUT, NPOUT )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UPDATE_SLIPRING               source/tools/seatbelts/update_slipring.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        SHELL_LOC_COR                 source/tools/seatbelts/shell_loc_cor.F
-Chd|        SHELL_REACTIVATION            source/tools/seatbelts/shell_reactivation.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    update_slipring      ../engine/source/tools/seatbelts/update_slipring.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../engine/source/output/message/message.F
+      !||    arret                ../engine/source/system/arret.F
+      !||    shell_loc_cor        ../engine/source/tools/seatbelts/shell_loc_cor.F
+      !||    shell_reactivation   ../engine/source/tools/seatbelts/shell_reactivation.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    message_mod          ../engine/share/message_module/message_mod.F
+      !||    seatbelt_mod         ../common_source/modules/seatbelt_mod.F
+      !||====================================================================
       SUBROUTINE UPDATE_SLIPRING(IXR,IXC,IPARG,ELBUF_TAB,FLAG_SLIPRING_UPDATE,
      .                           FLAG_RETRACTOR_UPDATE,X,NPBY)
 C-----------------------------------------------

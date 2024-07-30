@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I20DST3                       source/interfaces/int20/i20dst3.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- calls ---------------
-Chd|        I20CGAP0                      source/interfaces/int20/i20dst3.F
-Chd|        I20CGAP1                      source/interfaces/int20/i20dst3.F
-Chd|        I20CMAJ                       source/interfaces/int20/i20curv.F
-Chd|        BITGET                        source/interfaces/intsort/i20sto.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i20dst3    ../engine/source/interfaces/int20/i20dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf   ../engine/source/interfaces/int20/i20mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||    bitget     ../engine/source/interfaces/intsort/i20sto.F
+      !||    i20cgap0   ../engine/source/interfaces/int20/i20dst3.F
+      !||    i20cgap1   ../engine/source/interfaces/int20/i20dst3.F
+      !||    i20cmaj    ../engine/source/interfaces/int20/i20curv.F
+      !||====================================================================
       SUBROUTINE I20DST3(
      1                  JLT    ,CAND_N ,CAND_E ,CN_LOC ,CE_LOC ,
      2                  X1     ,X2     ,X3     ,X4     ,Y1     ,
@@ -1202,12 +1202,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I20CGAP0                      source/interfaces/int20/i20dst3.F
-Chd|-- called by -----------
-Chd|        I20DST3                       source/interfaces/int20/i20dst3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i20cgap0   ../engine/source/interfaces/int20/i20dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20dst3    ../engine/source/interfaces/int20/i20dst3.F
+      !||====================================================================
       SUBROUTINE I20CGAP0(X10,Y10,Z10,X20,Y20,Z20,
      .                    X30,Y30,Z30,X40,Y40,Z40,
      .                    X1,Y1,Z1,X2,Y2,Z2,
@@ -1276,12 +1275,11 @@ C=======================================================================
 
       RETURN
       END
-Chd|====================================================================
-Chd|  I20CGAP1                      source/interfaces/int20/i20dst3.F
-Chd|-- called by -----------
-Chd|        I20DST3                       source/interfaces/int20/i20dst3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i20cgap1   ../engine/source/interfaces/int20/i20dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20dst3    ../engine/source/interfaces/int20/i20dst3.F
+      !||====================================================================
       SUBROUTINE I20CGAP1(X10,Y10,Z10,X20,Y20,Z20,
      .                    X40,Y40,Z40,
      .                    X1,Y1,Z1,X2,Y2,Z2,

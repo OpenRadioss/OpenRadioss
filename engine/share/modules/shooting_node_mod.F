@@ -20,24 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
-Chd|-- called by -----------
-Chd|        CHECK_EDGE_STATE              source/interfaces/interf/check_edge_state.F
-Chd|        CHECK_REMOTE_SURFACE_STATE    source/interfaces/interf/check_remote_surface_state.F
-Chd|        CHECK_SURFACE_STATE           source/interfaces/interf/check_surface_state.F
-Chd|        COUNT_NB_ELEM_EDGE            source/interfaces/interf/count_nb_elem_edge.F
-Chd|        DEALLOC_SHOOT_INTER           source/interfaces/interf/dealloc_shoot_inter.F
-Chd|        FIND_EDGE_FROM_REMOTE_PROC    source/interfaces/interf/find_edge_from_remote_proc.F
-Chd|        FIND_EDGE_INTER               source/interfaces/interf/find_edge_inter.F
-Chd|        FIND_SURFACE_FROM_REMOTE_PROC source/interfaces/interf/find_surface_from_remote_proc.F
-Chd|        FIND_SURFACE_INTER            source/interfaces/interf/find_surface_inter.F
-Chd|        INIT_NODAL_STATE              source/interfaces/interf/init_nodal_state.F
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        SPMD_EXCH_DELETED_SURF_EDGE   source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
-Chd|        TAGOFF3N                      source/interfaces/interf/chkstfn3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    check_edge_state                         ../engine/source/interfaces/interf/check_edge_state.F
+      !||    check_remote_surface_state               ../engine/source/interfaces/interf/check_remote_surface_state.F
+      !||    check_surface_state                      ../engine/source/interfaces/interf/check_surface_state.F
+      !||    count_nb_elem_edge                       ../engine/source/interfaces/interf/count_nb_elem_edge.F
+      !||    dealloc_shoot_inter                      ../engine/source/interfaces/interf/dealloc_shoot_inter.F
+      !||    find_edge_from_remote_proc               ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
+      !||    find_edge_inter                          ../engine/source/interfaces/interf/find_edge_inter.F
+      !||    find_surface_from_remote_proc            ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
+      !||    find_surface_inter                       ../engine/source/interfaces/interf/find_surface_inter.F
+      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
+      !||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
+      !||    resol                                    ../engine/source/engine/resol.F
+      !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+      !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||    tagoff3n                                 ../engine/source/interfaces/interf/chkstfn3.F
+      !||====================================================================
       MODULE SHOOTING_NODE_MOD
 !$COMMENT
 !       SHOOTING_NODE_MOD :

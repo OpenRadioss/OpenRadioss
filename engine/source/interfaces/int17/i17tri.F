@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I17TRI                        source/interfaces/int17/i17tri.F
-Chd|-- called by -----------
-Chd|        I17BUCE                       source/interfaces/int17/i17buce.F
-Chd|        I17BUCE_PENA                  source/interfaces/int17/i17buce.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I17CUT                        source/interfaces/int17/i17tri.F
-Chd|        I17STO                        source/interfaces/int17/i17tri.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i17tri         ../engine/source/interfaces/int17/i17tri.F
+      !||--- called by ------------------------------------------------------
+      !||    i17buce        ../engine/source/interfaces/int17/i17buce.F
+      !||    i17buce_pena   ../engine/source/interfaces/int17/i17buce.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../engine/source/output/message/message.F
+      !||    arret          ../engine/source/system/arret.F
+      !||    i17cut         ../engine/source/interfaces/int17/i17tri.F
+      !||    i17sto         ../engine/source/interfaces/int17/i17tri.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I17TRI(
      2      TZINF  ,IXS     ,IXS16    ,IXS20    ,NELEM    ,
      3      NELES  ,MAXSIZ  ,CAND_N   ,CAND_E   ,MINBOX   ,                       
@@ -170,14 +171,15 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I17CUT                        source/interfaces/int17/i17tri.F
-Chd|-- called by -----------
-Chd|        I17TRI                        source/interfaces/int17/i17tri.F
-Chd|-- calls ---------------
-Chd|        I17STO                        source/interfaces/int17/i17tri.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i17cut    ../engine/source/interfaces/int17/i17tri.F
+      !||--- called by ------------------------------------------------------
+      !||    i17tri    ../engine/source/interfaces/int17/i17tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    i17sto    ../engine/source/interfaces/int17/i17tri.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box   ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I17CUT(
      1      BPE        ,PE      ,BPN      ,PN       ,ADD      ,
      2      X          ,NB_NC   ,NB_EC    ,XYZM     ,I_ADD    ,
@@ -565,14 +567,14 @@ C=======================================================================
       RETURN
 C=======================================================================
       END
-Chd|====================================================================
-Chd|  I17STO                        source/interfaces/int17/i17tri.F
-Chd|-- called by -----------
-Chd|        I17CUT                        source/interfaces/int17/i17tri.F
-Chd|        I17TRI                        source/interfaces/int17/i17tri.F
-Chd|-- calls ---------------
-Chd|        ICONTACT_MOD                  share/modules/icontact_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    i17sto         ../engine/source/interfaces/int17/i17tri.F
+      !||--- called by ------------------------------------------------------
+      !||    i17cut         ../engine/source/interfaces/int17/i17tri.F
+      !||    i17tri         ../engine/source/interfaces/int17/i17tri.F
+      !||--- uses       -----------------------------------------------------
+      !||    icontact_mod   ../engine/share/modules/icontact_mod.F
+      !||====================================================================
       SUBROUTINE I17STO(
      1     I_STOK,I_STOK_GLOB,PROV_N  ,CAND_N,PROV_E,CAND_E,
      2     CONT  ,MX_CAND    )

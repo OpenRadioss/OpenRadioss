@@ -20,62 +20,64 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MULAW8_MOD                    source/materials/mat_share/mulaw8.F
-Chd|-- called by -----------
-Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mulaw8_mod   ../engine/source/materials/mat_share/mulaw8.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain8       ../engine/source/materials/mat_share/mmain8.F
+      !||====================================================================
       MODULE MULAW8_MOD
       CONTAINS
-Chd|====================================================================
-Chd|  MULAW8                        source/materials/mat_share/mulaw8.F
-Chd|-- called by -----------
-Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        FAIL_BIQUAD_S                 source/materials/fail/biquad/fail_biquad_s.F
-Chd|        FAIL_EMC                      source/materials/fail/emc/fail_emc.F
-Chd|        FAIL_ENERGY_S                 source/materials/fail/energy/fail_energy_s.F
-Chd|        FAIL_JOHNSON                  source/materials/fail/johnson_cook/fail_johnson.F
-Chd|        FAIL_ORTHBIQUAD_S             source/materials/fail/orthbiquad/fail_orthbiquad_s.F
-Chd|        FAIL_RTCL_S                   source/materials/fail/rtcl/fail_rtcl_s.F
-Chd|        FAIL_SAHRAEI_S                source/materials/fail/sahraei/fail_sahraei_s.F
-Chd|        FAIL_SPALLING_S               source/materials/fail/spalling/fail_spalling_s.F
-Chd|        FAIL_TAB_S                    source/materials/fail/tabulated/fail_tab_s.F
-Chd|        FAIL_TBUTCHER_S               source/materials/fail/tuler_butcher/fail_tbutcher_s.F
-Chd|        FAIL_TENSSTRAIN_S             source/materials/fail/tensstrain/fail_tensstrain_s.F
-Chd|        FAIL_VISUAL_S                 source/materials/fail/visual/fail_visual_s.F
-Chd|        FAIL_WIERZBICKI_S             source/materials/fail/wierzbicki/fail_wierzbicki_s.F
-Chd|        FAIL_WILKINS_S                source/materials/fail/wilkins/fail_wilkins_s.F
-Chd|        MQVISC8                       source/materials/mat_share/mqvisc8.F
-Chd|        MREPLOC                       source/materials/mat_share/mreploc.F
-Chd|        MROTENS                       source/materials/mat_share/mrotens.F
-Chd|        SIGEPS28                      source/materials/mat/mat028/sigeps28.F
-Chd|        SIGEPS33                      source/materials/mat/mat033/sigeps33.F
-Chd|        SIGEPS34                      source/materials/mat/mat034/sigeps34.F
-Chd|        SIGEPS35                      source/materials/mat/mat035/sigeps35.F
-Chd|        SIGEPS36                      source/materials/mat/mat036/sigeps36.F
-Chd|        SIGEPS38                      source/materials/mat/mat038/sigeps38.F
-Chd|        SIGEPS40                      source/materials/mat/mat040/sigeps40.F
-Chd|        SIGEPS41                      source/materials/mat/mat041/sigeps41.F
-Chd|        SIGEPS42                      source/materials/mat/mat042/sigeps42.F
-Chd|        SIGEPS44                      source/materials/mat/mat044/sigeps44.F
-Chd|        SIGEPS45                      source/materials/mat/mat045/sigeps45.F
-Chd|        SIGEPS48                      source/materials/mat/mat048/sigeps48.F
-Chd|        SIGEPS50                      source/materials/mat/mat050/sigeps50.F
-Chd|        SIGEPS52                      source/materials/mat/mat052/sigeps52.F
-Chd|        SIGEPS53                      source/materials/mat/mat053/sigeps53.F
-Chd|        SIGEPS56                      source/materials/mat/mat056/sigeps56.F
-Chd|        SIGEPS60                      source/materials/mat/mat060/sigeps60.F
-Chd|        SIGEPS62                      source/materials/mat/mat062/sigeps62.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    mulaw8              ../engine/source/materials/mat_share/mulaw8.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain8              ../engine/source/materials/mat_share/mmain8.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg              ../engine/source/output/message/message.F
+      !||    arret               ../engine/source/system/arret.F
+      !||    fail_biquad_s       ../engine/source/materials/fail/biquad/fail_biquad_s.F
+      !||    fail_emc            ../engine/source/materials/fail/emc/fail_emc.F
+      !||    fail_energy_s       ../engine/source/materials/fail/energy/fail_energy_s.F
+      !||    fail_johnson        ../engine/source/materials/fail/johnson_cook/fail_johnson.F
+      !||    fail_orthbiquad_s   ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
+      !||    fail_rtcl_s         ../engine/source/materials/fail/rtcl/fail_rtcl_s.F
+      !||    fail_sahraei_s      ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
+      !||    fail_spalling_s     ../engine/source/materials/fail/spalling/fail_spalling_s.F
+      !||    fail_tab_old_s      ../engine/source/materials/fail/tabulated/fail_tab_old_s.F
+      !||    fail_tab_s          ../engine/source/materials/fail/tabulated/fail_tab_s.F
+      !||    fail_tbutcher_s     ../engine/source/materials/fail/tuler_butcher/fail_tbutcher_s.F
+      !||    fail_tensstrain_s   ../engine/source/materials/fail/tensstrain/fail_tensstrain_s.F
+      !||    fail_visual_s       ../engine/source/materials/fail/visual/fail_visual_s.F
+      !||    fail_wierzbicki_s   ../engine/source/materials/fail/wierzbicki/fail_wierzbicki_s.F
+      !||    fail_wilkins_s      ../engine/source/materials/fail/wilkins/fail_wilkins_s.F
+      !||    mqvisc8             ../engine/source/materials/mat_share/mqvisc8.F
+      !||    mreploc             ../engine/source/materials/mat_share/mreploc.F
+      !||    mrotens             ../engine/source/materials/mat_share/mrotens.F
+      !||    nvar                ../engine/source/input/nvar.F
+      !||    sigeps28            ../engine/source/materials/mat/mat028/sigeps28.F
+      !||    sigeps33            ../engine/source/materials/mat/mat033/sigeps33.F
+      !||    sigeps34            ../engine/source/materials/mat/mat034/sigeps34.F
+      !||    sigeps35            ../engine/source/materials/mat/mat035/sigeps35.F
+      !||    sigeps36            ../engine/source/materials/mat/mat036/sigeps36.F
+      !||    sigeps38            ../engine/source/materials/mat/mat038/sigeps38.F
+      !||    sigeps40            ../engine/source/materials/mat/mat040/sigeps40.F
+      !||    sigeps41            ../engine/source/materials/mat/mat041/sigeps41.F
+      !||    sigeps42            ../engine/source/materials/mat/mat042/sigeps42.F
+      !||    sigeps44            ../engine/source/materials/mat/mat044/sigeps44.F
+      !||    sigeps45            ../engine/source/materials/mat/mat045/sigeps45.F
+      !||    sigeps48            ../engine/source/materials/mat/mat048/sigeps48.F
+      !||    sigeps50            ../engine/source/materials/mat/mat050/sigeps50.F
+      !||    sigeps52            ../engine/source/materials/mat/mat052/sigeps52.F
+      !||    sigeps53            ../engine/source/materials/mat/mat053/sigeps53.F
+      !||    sigeps56            ../engine/source/materials/mat/mat056/sigeps56.F
+      !||    sigeps60            ../engine/source/materials/mat/mat060/sigeps60.F
+      !||    sigeps62            ../engine/source/materials/mat/mat062/sigeps62.F
+      !||    startime            ../engine/source/system/timer.F
+      !||    stoptime            ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||    table_mod           ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE MULAW8(
      1   LFT,     LLT,     NFT,     MTN,
      2   NPT,     D1,      D2,      D3,

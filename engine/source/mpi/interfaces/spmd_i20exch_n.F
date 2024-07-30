@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_I20EXCH_N                source/mpi/interfaces/spmd_i20exch_n.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_i20exch_n   ../engine/source/mpi/interfaces/spmd_i20exch_n.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf         ../engine/source/interfaces/int20/i20mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_I20EXCH_N(XNORM,IAD_ELEM,FR_ELEM,LENR)
 C realise la sommation des normales aux points frontiere
 C-----------------------------------------------

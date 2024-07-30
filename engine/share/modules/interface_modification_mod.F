@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTERFACE_MODIFICATION_MOD    share/modules/interface_modification_mod.F
-Chd|-- called by -----------
-Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
-Chd|        MPP_INIT                      source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_INITFI                   source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_SAVEFI                   source/mpi/interfaces/spmd_i7tool.F
-Chd|-- calls ---------------
-Chd|        POINTERDEF                    share/modules/pointerdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    intcrit                      ../engine/source/interfaces/intsort/intcrit.F
+      !||    mpp_init                     ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_initfi                  ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spmd_savefi                  ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||--- uses       -----------------------------------------------------
+      !||    pointerdef                   ../engine/share/modules/pointerdef_mod.F
+      !||====================================================================
         MODULE INTERFACE_MODIFICATION_MOD
             USE POINTERDEF
             TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: NSNSI_SAV

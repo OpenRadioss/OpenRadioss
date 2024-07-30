@@ -20,36 +20,35 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  OUTMAX_MOD                    modules/outmax_mod.F          
-Chd|-- called by -----------
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        INI_H3DTMAX_ENGINE            starter/source/starter/contrl.F
-Chd|        INI_OUTMAX_AUTO               starter/source/elements/elbuf_init/ini_outmax_auto.F
-Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
-Chd|        W_OUTMAXN                     starter/source/restart/ddsplit/w_outmaxn.F
-Chd|        GENH3D                        engine/source/output/h3d/h3d_results/genh3d.F
-Chd|        H3D_NODAL_TENSOR              engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
-Chd|        H3D_NODAL_VECTOR              engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
-Chd|        I2FOR27P_PEN                  engine/source/interfaces/interf/i2for27p_pen.F
-Chd|        I2FOR27_PEN                   engine/source/interfaces/interf/i2for27_pen.F
-Chd|        I2MOM27P_CIN                  engine/source/interfaces/interf/i2mom27p_cin.F
-Chd|        I2MOM27_CIN                   engine/source/interfaces/interf/i2mom27_cin.F
-Chd|        INI_TMAX                      engine/source/output/ini_outmax.F
-Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESOL_INIT                    engine/source/engine/resol_init.F
-Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
-Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
-Chd|        TENSGPS3                      engine/source/output/anim/generate/tensor6.F
-Chd|        TENSGPSTRAIN                  engine/source/output/anim/generate/tensgpstrain.F
-Chd|        TMAX_IPART                    engine/source/output/tmax_ipart.F
-Chd|        UPD_TMAX                      engine/source/output/upd_outmax.F
-Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    outmax_mod           ../common_source/modules/outmax_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
+      !||    genh3d               ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||    h3d_nodal_tensor     ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
+      !||    h3d_nodal_vector     ../engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
+      !||    i2for27_pen          ../engine/source/interfaces/interf/i2for27_pen.F
+      !||    i2for27p_pen         ../engine/source/interfaces/interf/i2for27p_pen.F
+      !||    i2mom27_cin          ../engine/source/interfaces/interf/i2mom27_cin.F
+      !||    i2mom27p_cin         ../engine/source/interfaces/interf/i2mom27p_cin.F
+      !||    ini_h3dtmax_engine   ../starter/source/starter/contrl.F
+      !||    ini_outmax_auto      ../starter/source/elements/elbuf_init/ini_outmax_auto.F
+      !||    ini_tmax             ../engine/source/output/ini_outmax.F
+      !||    rdcomi               ../engine/source/output/restart/rdcomm.F
+      !||    rdresb               ../engine/source/output/restart/rdresb.F
+      !||    resol                ../engine/source/engine/resol.F
+      !||    resol_init           ../engine/source/engine/resol_init.F
+      !||    restalloc            ../engine/source/output/restart/arralloc.F
+      !||    sortie_main          ../engine/source/output/sortie_main.F
+      !||    tensgps3             ../engine/source/output/anim/generate/tensor6.F
+      !||    tensgpstrain         ../engine/source/output/anim/generate/tensgpstrain.F
+      !||    tmax_ipart           ../engine/source/output/tmax_ipart.F
+      !||    upd_tmax             ../engine/source/output/upd_outmax.F
+      !||    w_outmaxn            ../starter/source/restart/ddsplit/w_outmaxn.F
+      !||    wrcomi               ../engine/source/output/restart/wrcomm.F
+      !||    wrcomip              ../starter/source/restart/ddsplit/wrcommp.F
+      !||    wrrestp              ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
         MODULE OUTMAX_MOD
 
 #include "my_real.inc"

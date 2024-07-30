@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DEALLOC_SHOOT_INTER           source/interfaces/interf/dealloc_shoot_inter.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dealloc_shoot_inter   ../engine/source/interfaces/interf/dealloc_shoot_inter.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                 ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    shooting_node_mod     ../engine/share/modules/shooting_node_mod.F
+      !||====================================================================
         SUBROUTINE DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
 !$COMMENT
 !       DEALLOC_SHOOT_INTER description

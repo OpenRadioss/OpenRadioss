@@ -20,67 +20,68 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  EBCS_MOD                      modules/boundary_conditions/ebcs_mod.F
-Chd|-- called by -----------
-Chd|        C_IEBCS                       starter/source/restart/ddsplit/c_iebcs.F
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        DOMDEC2                       starter/source/spmd/domdec2.F 
-Chd|        EBCS_SET_TCARP                starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
-Chd|        FILLCNE                       starter/source/spmd/domdec2.F 
-Chd|        HM_READ_EBCS_FLUXOUT          starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
-Chd|        HM_READ_EBCS_GRADP0           starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
-Chd|        HM_READ_EBCS_INIP             starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
-Chd|        HM_READ_EBCS_INIV             starter/source/boundary_conditions/ebcs/hm_read_ebcs_iniv.F
-Chd|        HM_READ_EBCS_INLET            starter/source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
-Chd|        HM_READ_EBCS_MONVOL           starter/source/boundary_conditions/ebcs/hm_read_ebcs_monvol.F
-Chd|        HM_READ_EBCS_NORMV            starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
-Chd|        HM_READ_EBCS_NRF              starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
-Chd|        HM_READ_EBCS_PRES             starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
-Chd|        HM_READ_EBCS_VALVIN           starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
-Chd|        HM_READ_EBCS_VALVOUT          starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
-Chd|        HM_READ_EBCS_VEL              starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
-Chd|        INIEBCS                       starter/source/boundary_conditions/ebcs/iniebcs.F
-Chd|        INIEBCSP0                     starter/source/boundary_conditions/ebcs/iniebcsp0.F
-Chd|        INIEBCS_NRF_TCAR              starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
-Chd|        INIGRAV_LOAD                  starter/source/initial_conditions/inigrav/inigrav_load.F
-Chd|        INIGRAV_PART_LIST             starter/source/initial_conditions/inigrav/inigrav_part_list.F
-Chd|        INITIA                        starter/source/elements/initia/initia.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        READ_EBCS                     starter/source/boundary_conditions/ebcs/read_ebcs.F
-Chd|        SPLIT_EBCS                    starter/source/boundary_conditions/ebcs/split_ebcs.F
-Chd|        STARTER0                      starter/source/starter/starter0.F
-Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F
-Chd|        ST_QAPRINT_EBCS               starter/source/output/qaprint/st_qaprint_ebcs.F
-Chd|        W_PON                         starter/source/restart/ddsplit/w_pon.F
-Chd|        ALEMAIN                       engine/source/ale/alemain.F   
-Chd|        EBCCLAP                       engine/source/boundary_conditions/ebcs/ebcclap.F
-Chd|        EBCS0                         engine/source/boundary_conditions/ebcs/ebcs0.F
-Chd|        EBCS1                         engine/source/boundary_conditions/ebcs/ebcs1.F
-Chd|        EBCS10                        engine/source/boundary_conditions/ebcs/ebcs10.F
-Chd|        EBCS4                         engine/source/boundary_conditions/ebcs/ebcs4.F
-Chd|        EBCS5                         engine/source/boundary_conditions/ebcs/ebcs5.F
-Chd|        EBCS6                         engine/source/boundary_conditions/ebcs/ebcs6.F
-Chd|        EBCS7                         engine/source/boundary_conditions/ebcs/ebcs7.F
-Chd|        EBCS_EXTRAPOL                 engine/source/boundary_conditions/ebcs/ebcs_extrapol.F
-Chd|        EBCS_MAIN                     engine/source/boundary_conditions/ebcs/ebcs_main.F
-Chd|        EBCVIT4                       engine/source/boundary_conditions/ebcs/ebcvit4.F
-Chd|        EBCVIT5                       engine/source/boundary_conditions/ebcs/ebcvit5.F
-Chd|        EBCVIT7                       engine/source/boundary_conditions/ebcs/ebcvit7.F
-Chd|        HIST2                         engine/source/output/th/hist2.F
-Chd|        MULTI_EBCS                    engine/source/multifluid/multi_ebcs.F
-Chd|        MULTI_NRF_EBCS                engine/source/multifluid/multi_nrf_ebcs.F
-Chd|        MULTI_TIMEEVOLUTION           engine/source/multifluid/multi_timeevolution.F
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
-Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
-Chd|        SPMD_INIT_EBCS                engine/source/mpi/fluid/spmd_cfd.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        MULTI_FVM_MOD                 modules/ale/multi_fvm_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    alemain                ../engine/source/ale/alemain.F
+      !||    c_iebcs                ../starter/source/restart/ddsplit/c_iebcs.F
+      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+      !||    domdec2                ../starter/source/spmd/domdec2.F
+      !||    ebcclap                ../engine/source/boundary_conditions/ebcs/ebcclap.F
+      !||    ebcs0                  ../engine/source/boundary_conditions/ebcs/ebcs0.F
+      !||    ebcs1                  ../engine/source/boundary_conditions/ebcs/ebcs1.F
+      !||    ebcs10                 ../engine/source/boundary_conditions/ebcs/ebcs10.F
+      !||    ebcs4                  ../engine/source/boundary_conditions/ebcs/ebcs4.F
+      !||    ebcs5                  ../engine/source/boundary_conditions/ebcs/ebcs5.F
+      !||    ebcs6                  ../engine/source/boundary_conditions/ebcs/ebcs6.F
+      !||    ebcs7                  ../engine/source/boundary_conditions/ebcs/ebcs7.F
+      !||    ebcs_extrapol          ../engine/source/boundary_conditions/ebcs/ebcs_extrapol.F
+      !||    ebcs_main              ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+      !||    ebcs_set_tcarp         ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
+      !||    ebcvit4                ../engine/source/boundary_conditions/ebcs/ebcvit4.F
+      !||    ebcvit5                ../engine/source/boundary_conditions/ebcs/ebcvit5.F
+      !||    ebcvit7                ../engine/source/boundary_conditions/ebcs/ebcvit7.F
+      !||    fillcne                ../starter/source/spmd/domdec2.F
+      !||    hist2                  ../engine/source/output/th/hist2.F
+      !||    hm_read_ebcs_fluxout   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
+      !||    hm_read_ebcs_gradp0    ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
+      !||    hm_read_ebcs_inip      ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
+      !||    hm_read_ebcs_iniv      ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_iniv.F
+      !||    hm_read_ebcs_inlet     ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
+      !||    hm_read_ebcs_monvol    ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_monvol.F
+      !||    hm_read_ebcs_normv     ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
+      !||    hm_read_ebcs_nrf       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
+      !||    hm_read_ebcs_pres      ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
+      !||    hm_read_ebcs_valvin    ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
+      !||    hm_read_ebcs_valvout   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
+      !||    hm_read_ebcs_vel       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
+      !||    iniebcs                ../starter/source/boundary_conditions/ebcs/iniebcs.F
+      !||    iniebcs_nrf_tcar       ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
+      !||    iniebcsp0              ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
+      !||    inigrav_load           ../starter/source/initial_conditions/inigrav/inigrav_load.F
+      !||    inigrav_part_list      ../starter/source/initial_conditions/inigrav/inigrav_part_list.F
+      !||    initia                 ../starter/source/elements/initia/initia.F
+      !||    lectur                 ../engine/source/input/lectur.F
+      !||    multi_ebcs             ../engine/source/multifluid/multi_ebcs.F
+      !||    multi_nrf_ebcs         ../engine/source/multifluid/multi_nrf_ebcs.F
+      !||    multi_timeevolution    ../engine/source/multifluid/multi_timeevolution.F
+      !||    ns_fvm_diffusion       ../engine/source/multifluid/ns_fvm_diffusion.F
+      !||    radioss2               ../engine/source/engine/radioss2.F
+      !||    rdresb                 ../engine/source/output/restart/rdresb.F
+      !||    read_ebcs              ../starter/source/boundary_conditions/ebcs/read_ebcs.F
+      !||    resol                  ../engine/source/engine/resol.F
+      !||    resol_head             ../engine/source/engine/resol_head.F
+      !||    sortie_main            ../engine/source/output/sortie_main.F
+      !||    split_ebcs             ../starter/source/boundary_conditions/ebcs/split_ebcs.F
+      !||    spmd_init_ebcs         ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    st_qaprint_driver      ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||    st_qaprint_ebcs        ../starter/source/output/qaprint/st_qaprint_ebcs.F
+      !||    starter0               ../starter/source/starter/starter0.F
+      !||    w_pon                  ../starter/source/restart/ddsplit/w_pon.F
+      !||    wrrestp                ../engine/source/output/restart/wrrestp.F
+      !||--- uses       -----------------------------------------------------
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F
+      !||====================================================================
       MODULE EBCS_MOD
       USE MULTI_FVM_MOD
 #include "my_real.inc"
@@ -330,6 +331,9 @@ Chd|====================================================================
 !     ** Methods **     !
 !     =============     !
 
+      !||====================================================================
+      !||    ebcs_destroy   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||====================================================================
       subroutine ebcs_destroy(this)
       implicit none
       class(t_ebcs), intent(inout) :: this
@@ -357,6 +361,9 @@ Chd|====================================================================
 
 !     Allocation
 !     ----------
+      !||====================================================================
+      !||    create   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||====================================================================
       subroutine create(this, nebcs)
       implicit none
       class (t_ebcs_tab), intent(inout) :: this
@@ -371,6 +378,9 @@ Chd|====================================================================
 
 !     Creation from given type numbers
 !     --------------------------------
+      !||====================================================================
+      !||    create_from_types   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||====================================================================
       subroutine create_from_types(this, nebcs, type_tab)
       implicit none
       class (t_ebcs_tab), intent(inout) :: this
@@ -431,6 +441,9 @@ Chd|====================================================================
       end subroutine create_from_types
 !     Deallocation
 !     ----------
+      !||====================================================================
+      !||    destroy   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||====================================================================
       subroutine destroy(this)
       implicit none
       class (t_ebcs_tab), intent(inout) :: this
@@ -448,6 +461,11 @@ C All allocatable subobjects are deallocated here:
 
 !     Read and write methods
 !     ----------------------
+      !||====================================================================
+      !||    write_type_data   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine write_type_data(this, leni, lenr)
       implicit none
       class (t_ebcs_tab), intent(in) :: this
@@ -463,6 +481,11 @@ C All allocatable subobjects are deallocated here:
       leni = leni + this%nebcs
       end subroutine write_type_data
       
+      !||====================================================================
+      !||    read_type_data   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine read_type_data(nebcs, integer_data)
       implicit none
       integer, intent(in) :: nebcs
@@ -476,6 +499,9 @@ C All allocatable subobjects are deallocated here:
 
 !     Nodes and elements of the surface
 !     ---------------------------------
+      !||====================================================================
+      !||    set_nodes_elems   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||====================================================================
       subroutine set_nodes_elems(this, nelem, numnod, surf_node)
       implicit none
 !     Dummy
@@ -540,12 +566,18 @@ C All allocatable subobjects are deallocated here:
 
 !     Abstract
 !     --------
+      !||====================================================================
+      !||    write_data   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||====================================================================
       subroutine write_data(this, leni, lenr)
       implicit none
       class (t_ebcs), intent(inout) :: this
       integer, intent(inout) :: leni, lenr
       end subroutine write_data
       
+      !||====================================================================
+      !||    read_data   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||====================================================================
       subroutine read_data(this)
       implicit none
       class (t_ebcs), intent(inout) :: this
@@ -554,6 +586,12 @@ C All allocatable subobjects are deallocated here:
 !     Common write routine
 !     --------------------
 
+      !||====================================================================
+      !||    write_common_data   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db            ../common_source/tools/input_output/write_db.F
+      !||    write_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine write_common_data(this, leni, lenr)
       implicit none
       class (t_ebcs), intent(inout) :: this
@@ -737,6 +775,12 @@ C All allocatable subobjects are deallocated here:
 !     Common read routine
 !     -------------------
 
+      !||====================================================================
+      !||    read_common_data   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db            ../common_source/tools/input_output/read_db.F
+      !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine read_common_data(this)
       implicit none
       class (t_ebcs), intent(inout) :: this
@@ -908,6 +952,12 @@ C All allocatable subobjects are deallocated here:
 !     /EBCS/PRES
 !     ----------
 
+      !||====================================================================
+      !||    write_data_pres   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db          ../common_source/tools/input_output/write_db.F
+      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine write_data_pres(this, leni, lenr)
       implicit none
       class (t_ebcs_pres), intent(inout) :: this
@@ -939,6 +989,12 @@ C All allocatable subobjects are deallocated here:
       lenr = lenr + 10
       end subroutine write_data_pres
 
+      !||====================================================================
+      !||    read_data_pres   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db          ../common_source/tools/input_output/read_db.F
+      !||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine read_data_pres(this)
       implicit none
       class (t_ebcs_pres), intent(inout) :: this
@@ -970,6 +1026,12 @@ C All allocatable subobjects are deallocated here:
 !     /EBCS/VALVIN
 !     ----------
 
+      !||====================================================================
+      !||    write_data_valvin   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db            ../common_source/tools/input_output/write_db.F
+      !||    write_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine write_data_valvin(this, leni, lenr)
       implicit none
       class (t_ebcs_valvin), intent(inout) :: this
@@ -997,6 +1059,12 @@ C All allocatable subobjects are deallocated here:
       lenr = lenr + 7
       end subroutine write_data_valvin
 
+      !||====================================================================
+      !||    read_data_valvin   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db            ../common_source/tools/input_output/read_db.F
+      !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine read_data_valvin(this)
       implicit none
       class (t_ebcs_valvin), intent(inout) :: this
@@ -1022,6 +1090,12 @@ C All allocatable subobjects are deallocated here:
 !     /EBCS/VALVOUT
 !     ----------
 
+      !||====================================================================
+      !||    write_data_valvout   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db             ../common_source/tools/input_output/write_db.F
+      !||    write_i_c            ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine write_data_valvout(this, leni, lenr)
       implicit none
       class (t_ebcs_valvout), intent(inout) :: this
@@ -1049,6 +1123,12 @@ C All allocatable subobjects are deallocated here:
       lenr = lenr + 7
       end subroutine write_data_valvout
 
+      !||====================================================================
+      !||    read_data_valvout   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db             ../common_source/tools/input_output/read_db.F
+      !||    read_i_c            ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine read_data_valvout(this)
       implicit none
       class (t_ebcs_valvout), intent(inout) :: this
@@ -1074,6 +1154,12 @@ C All allocatable subobjects are deallocated here:
 !     /EBCS/GRADP0
 !     ----------
 
+      !||====================================================================
+      !||    write_data_gradp0   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db            ../common_source/tools/input_output/write_db.F
+      !||    write_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine write_data_gradp0(this, leni, lenr)
       implicit none
       class (t_ebcs_gradp0), intent(inout) :: this
@@ -1101,6 +1187,12 @@ C All allocatable subobjects are deallocated here:
       lenr = lenr + 7
       end subroutine write_data_gradp0
 
+      !||====================================================================
+      !||    read_data_gradp0   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db            ../common_source/tools/input_output/read_db.F
+      !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine read_data_gradp0(this)
       implicit none
       class (t_ebcs_gradp0), intent(inout) :: this
@@ -1126,6 +1218,12 @@ C All allocatable subobjects are deallocated here:
 !     /EBCS/VEL
 !     ----------
 
+      !||====================================================================
+      !||    write_data_vel   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db         ../common_source/tools/input_output/write_db.F
+      !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine write_data_vel(this, leni, lenr)
       implicit none
       class (t_ebcs_vel), intent(inout) :: this
@@ -1157,6 +1255,12 @@ C All allocatable subobjects are deallocated here:
       lenr = lenr + 9
       end subroutine write_data_vel
 
+      !||====================================================================
+      !||    read_data_vel   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db         ../common_source/tools/input_output/read_db.F
+      !||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine read_data_vel(this)
       implicit none
       class (t_ebcs_vel), intent(inout) :: this
@@ -1186,6 +1290,12 @@ C All allocatable subobjects are deallocated here:
 !     /EBCS/NORMV
 !     ----------
 
+      !||====================================================================
+      !||    write_data_normv   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db           ../common_source/tools/input_output/write_db.F
+      !||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine write_data_normv(this, leni, lenr)
       implicit none
       class (t_ebcs_normv), intent(inout) :: this
@@ -1213,6 +1323,12 @@ C All allocatable subobjects are deallocated here:
       lenr = lenr + 7
       end subroutine write_data_normv
 
+      !||====================================================================
+      !||    read_data_normv   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db           ../common_source/tools/input_output/read_db.F
+      !||    read_i_c          ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine read_data_normv(this)
       implicit none
       class (t_ebcs_normv), intent(inout) :: this
@@ -1238,6 +1354,11 @@ C All allocatable subobjects are deallocated here:
 !     /EBCS/INIP
 !     ----------
 
+      !||====================================================================
+      !||    write_data_inip   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db          ../common_source/tools/input_output/write_db.F
+      !||====================================================================
       subroutine write_data_inip(this, leni, lenr)
       implicit none
       class (t_ebcs_inip), intent(inout) :: this
@@ -1252,6 +1373,11 @@ C All allocatable subobjects are deallocated here:
       lenr = lenr + 3
       end subroutine write_data_inip
 
+      !||====================================================================
+      !||    read_data_inip   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db          ../common_source/tools/input_output/read_db.F
+      !||====================================================================
       subroutine read_data_inip(this)
       implicit none
       class (t_ebcs_inip), intent(inout) :: this
@@ -1267,6 +1393,11 @@ C All allocatable subobjects are deallocated here:
 !     /EBCS/INIV
 !     ----------
 
+      !||====================================================================
+      !||    write_data_iniv   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db          ../common_source/tools/input_output/write_db.F
+      !||====================================================================
       subroutine write_data_iniv(this, leni, lenr)
       implicit none
       class (t_ebcs_iniv), intent(inout) :: this
@@ -1281,6 +1412,11 @@ C All allocatable subobjects are deallocated here:
       lenr = lenr + 3
       end subroutine write_data_iniv
 
+      !||====================================================================
+      !||    read_data_iniv   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db          ../common_source/tools/input_output/read_db.F
+      !||====================================================================
       subroutine read_data_iniv(this)
       implicit none
       class (t_ebcs_iniv), intent(inout) :: this
@@ -1296,6 +1432,11 @@ C All allocatable subobjects are deallocated here:
 !     /EBCS/MONVOL
 !     ----------
 
+      !||====================================================================
+      !||    write_data_monvol   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine write_data_monvol(this, leni, lenr)
       implicit none
       class (t_ebcs_monvol), intent(inout) :: this
@@ -1309,6 +1450,11 @@ C All allocatable subobjects are deallocated here:
       leni = leni + 2
       end subroutine write_data_monvol
 
+      !||====================================================================
+      !||    read_data_monvol   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine read_data_monvol(this)
       implicit none
       class (t_ebcs_monvol), intent(inout) :: this
@@ -1323,6 +1469,12 @@ C All allocatable subobjects are deallocated here:
 !     /EBCS/INLET
 !     ----------
 
+      !||====================================================================
+      !||    write_data_inlet   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db           ../common_source/tools/input_output/write_db.F
+      !||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine write_data_inlet(this, leni, lenr)
       implicit none
       class (t_ebcs_inlet), intent(inout) :: this
@@ -1351,6 +1503,12 @@ C All allocatable subobjects are deallocated here:
       lenr = lenr + 21
       end subroutine write_data_inlet
 
+      !||====================================================================
+      !||    read_data_inlet   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db           ../common_source/tools/input_output/read_db.F
+      !||    read_i_c          ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine read_data_inlet(this)
       implicit none
       class (t_ebcs_inlet), intent(inout) :: this
@@ -1371,6 +1529,12 @@ C All allocatable subobjects are deallocated here:
 !     /EBCS/FLUXOUT
 !     ----------
 
+      !||====================================================================
+      !||    write_data_fluxout   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db             ../common_source/tools/input_output/write_db.F
+      !||    write_i_c            ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine write_data_fluxout(this, leni, lenr)
       implicit none
       class (t_ebcs_fluxout), intent(inout) :: this
@@ -1399,6 +1563,12 @@ C All allocatable subobjects are deallocated here:
       lenr = lenr + 21
       end subroutine write_data_fluxout
 
+      !||====================================================================
+      !||    read_data_fluxout   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db             ../common_source/tools/input_output/read_db.F
+      !||    read_i_c            ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine read_data_fluxout(this)
       implicit none
       class (t_ebcs_fluxout), intent(inout) :: this
@@ -1420,6 +1590,12 @@ C All allocatable subobjects are deallocated here:
 !     /EBCS/NRF
 !     ----------
 
+      !||====================================================================
+      !||    write_data_nrf   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db         ../common_source/tools/input_output/write_db.F
+      !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine write_data_nrf(this, leni, lenr)
       implicit none
       class (t_ebcs_nrf), intent(inout) :: this
@@ -1460,6 +1636,12 @@ C All allocatable subobjects are deallocated here:
        endif     
       end subroutine write_data_nrf
 
+      !||====================================================================
+      !||    read_data_nrf   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db         ../common_source/tools/input_output/read_db.F
+      !||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       subroutine read_data_nrf(this)
       implicit none
       class (t_ebcs_nrf), intent(inout) :: this

@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FV_RWL                        source/constraints/general/rwall/srw_imp.F
-Chd|-- called by -----------
-Chd|        RGWAL0_IMP                    source/constraints/general/rwall/rgwal0.F
-Chd|-- calls ---------------
-Chd|        L_DIR0                        source/constraints/general/bcs/bc_imp0.F
-Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    fv_rwl       ../engine/source/constraints/general/rwall/srw_imp.F
+      !||--- called by ------------------------------------------------------
+      !||    rgwal0_imp   ../engine/source/constraints/general/rwall/rgwal0.F
+      !||--- calls      -----------------------------------------------------
+      !||    l_dir0       ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_rwl      ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE FV_RWL(IDDL   ,IKC   ,NDOF  ,UD    ,V    ,A    )
 C-----------------------------------------------
 C   M o d u l e s
@@ -88,15 +89,16 @@ C--------allocation------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  FV_RWL0                       source/constraints/general/rwall/srw_imp.F
-Chd|-- called by -----------
-Chd|        FV_RW0                        source/constraints/general/impvel/fv_imp0.F
-Chd|-- calls ---------------
-Chd|        FV_UPDK                       source/constraints/general/impvel/fv_imp0.F
-Chd|        L_DIR                         source/constraints/general/bcs/bc_imp0.F
-Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    fv_rwl0   ../engine/source/constraints/general/rwall/srw_imp.F
+      !||--- called by ------------------------------------------------------
+      !||    fv_rw0    ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||--- calls      -----------------------------------------------------
+      !||    fv_updk   ../engine/source/constraints/general/impvel/fv_imp0.F
+      !||    l_dir     ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_rwl   ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE FV_RWL0(IDDL   ,IFIX  ,NDOF  ,IADK  ,JDIK ,
      1                   DIAG_K ,LT_K  ,UD    ,B     )
 C-----------------------------------------------
@@ -136,15 +138,16 @@ C----------------sliding RW ->FXVEL local---------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  RWL_IMPD                      source/constraints/general/rwall/srw_imp.F
-Chd|-- called by -----------
-Chd|        RECUKIN                       source/implicit/recudis.F     
-Chd|-- calls ---------------
-Chd|        BC_UPDD                       source/constraints/general/bcs/bc_imp0.F
-Chd|        L_DIR                         source/constraints/general/bcs/bc_imp0.F
-Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    rwl_impd   ../engine/source/constraints/general/rwall/srw_imp.F
+      !||--- called by ------------------------------------------------------
+      !||    recukin    ../engine/source/implicit/recudis.F
+      !||--- calls      -----------------------------------------------------
+      !||    bc_updd    ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    l_dir      ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_rwl    ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE RWL_IMPD(UD)
 C-----------------------------------------------
 C   M o d u l e s
@@ -178,16 +181,17 @@ C---------------------------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  FV_RWLR0                      source/constraints/general/rwall/srw_imp.F
-Chd|-- called by -----------
-Chd|        EXT_RHS                       source/implicit/upd_glob_k.F  
-Chd|        UPD_RHS                       source/implicit/upd_glob_k.F  
-Chd|-- calls ---------------
-Chd|        BC_UPDB                       source/constraints/general/bcs/bc_imp0.F
-Chd|        L_DIR                         source/constraints/general/bcs/bc_imp0.F
-Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    fv_rwlr0   ../engine/source/constraints/general/rwall/srw_imp.F
+      !||--- called by ------------------------------------------------------
+      !||    ext_rhs    ../engine/source/implicit/upd_glob_k.F
+      !||    upd_rhs    ../engine/source/implicit/upd_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    bc_updb    ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    l_dir      ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_rwl    ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE FV_RWLR0(IDDL   ,B     )
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25MAIN_FREE                  source/interfaces/intsort/i25main_free.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        I25EDGE_SWITCH                source/interfaces/int25/i25edge_switch.F
-Chd|        I25FREE_BOUND                 source/interfaces/int25/i25free_bound.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_GET_STIF25_EDG           source/mpi/interfaces/spmd_getstif25_edg.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25main_free          ../engine/source/interfaces/intsort/i25main_free.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri                ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    i25edge_switch        ../engine/source/interfaces/int25/i25edge_switch.F
+      !||    i25free_bound         ../engine/source/interfaces/int25/i25free_bound.F
+      !||    my_barrier            ../engine/source/system/machine.F
+      !||    spmd_get_stif25_edg   ../engine/source/mpi/interfaces/spmd_getstif25_edg.F
+      !||    startime              ../engine/source/system/timer.F
+      !||    stoptime              ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box               ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25MAIN_FREE(
      1                  ITASK, IPARI  ,INTBUF_TAB, INTLIST25, ISENDTO,
      2                  IRECVFROM)

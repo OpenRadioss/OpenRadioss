@@ -20,19 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SORTHO3                       source/elements/solid/solide/sortho3.F
-Chd|-- called by -----------
-Chd|        PRE_HEPH                      source/output/anim/generate/tensor6.F
-Chd|        S10LOC_S                      source/elements/solid/solide10/s10loc_s.F
-Chd|        S10RCOOR10                    source/elements/solid/solide10/s10rcoor10.F
-Chd|        SR10COOR3                     source/elements/solid/solide10/sr10coor3.F
-Chd|        SR8COOR3                      source/elements/solid/solide8/sr8coor3.F
-Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
-Chd|        SRCOORK                       source/elements/solid/solide8z/srcoork.F
-Chd|        SREP2GLO                      source/elements/sph/srep2glo.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sortho3      ../engine/source/elements/solid/solide/sortho3.F
+      !||--- called by ------------------------------------------------------
+      !||    pre_heph     ../engine/source/output/anim/generate/tensor6.F
+      !||    s10loc_s     ../engine/source/elements/solid/solide10/s10loc_s.F
+      !||    s10rcoor10   ../engine/source/elements/solid/solide10/s10rcoor10.F
+      !||    sr10coor3    ../engine/source/elements/solid/solide10/sr10coor3.F
+      !||    sr8coor3     ../engine/source/elements/solid/solide8/sr8coor3.F
+      !||    srcoor3      ../engine/source/elements/solid/solide/srcoor3.F
+      !||    srcoork      ../engine/source/elements/solid/solide8z/srcoork.F
+      !||    srep2glo     ../engine/source/elements/sph/srep2glo.F
+      !||====================================================================
       SUBROUTINE SORTHO3(
      1   RX,      RY,      RZ,      SX,
      2   SY,      SZ,      TX,      TY,

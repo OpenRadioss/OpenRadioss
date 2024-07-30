@@ -21,15 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  CHECK_NAN_ACC                 source/output/outfile/check_nan_acc.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        PREPARE_DEBUG                 share/modules/debug_mod.F     
-Chd|        SPMD_BARRIER                  source/mpi/generic/spmd_barrier.F
-Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    check_nan_acc   ../engine/source/output/outfile/check_nan_acc.F
+      !||--- called by ------------------------------------------------------
+      !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_isnan        ../engine/source/system/my_isnan.F
+      !||    prepare_debug   ../engine/share/modules/debug_mod.F
+      !||    spmd_barrier    ../engine/source/mpi/generic/spmd_barrier.F
+      !||--- uses       -----------------------------------------------------
+      !||    debug_mod       ../engine/share/modules/debug_mod.F
+      !||====================================================================
       SUBROUTINE CHECK_NAN_ACC(NCYCLE,A,AR)
 
       USE DEBUG_MOD

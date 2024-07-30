@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  AGLO24                        source/materials/mat/mat024/aglo24.F
-Chd|-- called by -----------
-Chd|        CONC24                        source/materials/mat/mat024/conc24.F
-Chd|        M24ANIM                       source/materials/mat/mat024/m24anim.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    aglo24    ../engine/source/materials/mat/mat024/aglo24.F
+      !||--- called by ------------------------------------------------------
+      !||    conc24    ../engine/source/materials/mat/mat024/conc24.F
+      !||    m24anim   ../engine/source/materials/mat/mat024/m24anim.F
+      !||====================================================================
       SUBROUTINE AGLO24(NEL,SIG,R11,R12,R13,
      .                  R21,R22,R23,R31,R32,R33)
 C-----------------------------------------------

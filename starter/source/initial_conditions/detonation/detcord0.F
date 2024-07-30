@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DETCORD0                      source/initial_conditions/detonation/detcord0.F
-Chd|-- called by -----------
-Chd|        READ_DFS_DETCORD              source/initial_conditions/detonation/read_dfs_detcord.F
-Chd|-- calls ---------------
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    detcord0           ../starter/source/initial_conditions/detonation/detcord0.F
+      !||--- called by ------------------------------------------------------
+      !||    read_dfs_detcord   ../starter/source/initial_conditions/detonation/read_dfs_detcord.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod     ../starter/share/modules1/detonators_mod.F
+      !||====================================================================
       SUBROUTINE DETCORD0(DETONATOR_CORD,ALT,X,VDET2,IOPT)
 C-----------------------------------------------
 C   M o d u l e s

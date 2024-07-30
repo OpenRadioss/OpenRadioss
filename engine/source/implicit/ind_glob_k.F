@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DIM_ELEMS1                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_I                     source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_elems1     ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_glob_k     ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    reorder_i      ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE DIM_ELEMS1(
      1    IGEO      ,ELBUF     ,IPARG     ,IXS       ,IXQ       ,
      2    IXC       ,IXT       ,IXP       ,IXR       ,IXTG      ,
@@ -313,16 +314,17 @@ C
       RETURN
       END
 C------version \\-----
-Chd|====================================================================
-Chd|  DIM_ELEMS3                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_ELEMAX                    source/implicit/ind_glob_k.F  
-Chd|        DIM_KINMAX                    source/implicit/ind_glob_k.F  
-Chd|        IND_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_elems3     ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_elemax     ../engine/source/implicit/ind_glob_k.F
+      !||    dim_kinmax     ../engine/source/implicit/ind_glob_k.F
+      !||    ind_glob_k     ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    reorder_a      ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE DIM_ELEMS3(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
@@ -609,14 +611,15 @@ C
   100 CONTINUE
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_ELEMS2                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_KINMAX                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_elems2     ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_kinmax     ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    reorder_a      ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE DIM_ELEMS2(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
@@ -945,14 +948,15 @@ C
       RETURN
       END
 C------version \\-----
-Chd|====================================================================
-Chd|  DIM_ELEMS4                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IND_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_elems4     ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ind_glob_k     ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    reorder_a      ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE DIM_ELEMS4(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
@@ -1291,16 +1295,17 @@ C
       RETURN
       END
 C------version \\-----
-Chd|====================================================================
-Chd|  DIM_ELEMSP                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        IND_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        INI_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_elemsp     ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_fr_k       ../engine/source/mpi/implicit/imp_fri.F
+      !||    ind_fr_k       ../engine/source/mpi/implicit/imp_fri.F
+      !||    ini_fr_k       ../engine/source/mpi/implicit/imp_fri.F
+      !||--- calls      -----------------------------------------------------
+      !||    reorder_a      ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE DIM_ELEMSP(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
@@ -1594,14 +1599,15 @@ C
   100 CONTINUE
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_ELEMAX                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        DIM_ELEMS3                    source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_elemax     ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_glob_k     ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    dim_elems3     ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE DIM_ELEMAX(
      1    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
      2    IXR       ,IXTG      ,IXTG1     ,IXS10     ,IXS20     ,
@@ -1665,12 +1671,12 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_KINE_P                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_KINMAX                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_kine_p      ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_kinmax      ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE DIM_KINE_P(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
      2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
@@ -1778,15 +1784,16 @@ C----- rigid body ------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_NDOF_I                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        I2_PREM                       source/interfaces/interf/i2_prem.F
-Chd|        RBYAC_IMP                     source/constraints/general/rbody/rbyac_imp.F
-Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_ndof_i      ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_glob_k      ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    i2_prem         ../engine/source/interfaces/interf/i2_prem.F
+      !||    intab           ../engine/source/implicit/ind_glob_k.F
+      !||    rbyac_imp       ../engine/source/constraints/general/rbody/rbyac_imp.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE DIM_NDOF_I(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
      2    IRBYAC    ,NDOF      ,NSRB      ,IPARI     ,
@@ -1891,12 +1898,12 @@ C--------case NSN=1 is treated in DIM_NDOF_II
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_NDOF_II                   source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_ndof_ii     ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_glob_k      ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE DIM_NDOF_II(
      1    NINT2     ,IINT2     ,IPARI     ,NDOF      ,
      2    NRBE3     ,IRBE3     ,LRBE3     ,NRBE2     ,IRBE2     ,
@@ -2008,13 +2015,13 @@ C--------case NSN=1 -------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_NDOF_D                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        SPMD_I2D                      source/mpi/implicit/imp_spmd.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_ndof_d   ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_glob_k   ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_i2d     ../engine/source/mpi/implicit/imp_spmd.F
+      !||====================================================================
       SUBROUTINE DIM_NDOF_D(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NDOF      ,
      2    IAD_RBY   ,FR_RBY    )
@@ -2074,13 +2081,14 @@ C-------actualise NRBYAC,IRBYAC-------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_KINE_S                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_KINMAX                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_kine_s      ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_kinmax      ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    intab           ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE DIM_KINE_S(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,NDOF      ,
@@ -2377,14 +2385,15 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_KINE_T                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_KINMAX                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_kine_t      ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_kinmax      ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    intab           ../engine/source/implicit/ind_glob_k.F
+      !||    reorder_a       ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE DIM_KINE_T(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,NDOF      ,
@@ -2728,15 +2737,16 @@ C------cherche-secnd pairs----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  IND_KINE_K                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IND_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        RMIND_IMP                     source/model/remesh/rm_imp0.F 
-Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    ind_kine_k      ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ind_glob_k      ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    intab           ../engine/source/implicit/ind_glob_k.F
+      !||    reorder_a       ../engine/source/implicit/ind_glob_k.F
+      !||    rmind_imp       ../engine/source/model/remesh/rm_imp0.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE IND_KINE_K(NPBY,LPBY,
      1    ITAB      ,NRBYAC    ,IRBYAC    ,NSC       ,ISIJ      ,
      2    NMC       ,IMIJ      ,NSS       ,ISS       ,NINT2     ,
@@ -3133,22 +3143,23 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C------computation for NNMAX,NKMAX------
-Chd|====================================================================
-Chd|  DIM_KINMAX                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        DIM_ELEMS2                    source/implicit/ind_glob_k.F  
-Chd|        DIM_ELEMS3                    source/implicit/ind_glob_k.F  
-Chd|        DIM_KINE_P                    source/implicit/ind_glob_k.F  
-Chd|        DIM_KINE_S                    source/implicit/ind_glob_k.F  
-Chd|        DIM_KINE_T                    source/implicit/ind_glob_k.F  
-Chd|        KIN_NRMAX                     source/mpi/implicit/imp_fri.F 
-Chd|        KIN_NRMAX0                    source/mpi/implicit/imp_fri.F 
-Chd|        RMDIM_IMP                     source/model/remesh/rm_imp0.F 
-Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_kinmax      ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_glob_k      ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    dim_elems2      ../engine/source/implicit/ind_glob_k.F
+      !||    dim_elems3      ../engine/source/implicit/ind_glob_k.F
+      !||    dim_kine_p      ../engine/source/implicit/ind_glob_k.F
+      !||    dim_kine_s      ../engine/source/implicit/ind_glob_k.F
+      !||    dim_kine_t      ../engine/source/implicit/ind_glob_k.F
+      !||    kin_nrmax       ../engine/source/mpi/implicit/imp_fri.F
+      !||    kin_nrmax0      ../engine/source/mpi/implicit/imp_fri.F
+      !||    rmdim_imp       ../engine/source/model/remesh/rm_imp0.F
+      !||    spmd_max_i      ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE DIM_KINMAX(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
      2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
@@ -3316,26 +3327,27 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C------estimation for NNMAX,NKMAX,NNZK, prepare data for IND_GLOB_K
-Chd|====================================================================
-Chd|  DIM_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_SOL_INIT                  source/implicit/imp_sol_init.F
-Chd|-- calls ---------------
-Chd|        DIM_ELEMAX                    source/implicit/ind_glob_k.F  
-Chd|        DIM_ELEMS1                    source/implicit/ind_glob_k.F  
-Chd|        DIM_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        DIM_KINMAX                    source/implicit/ind_glob_k.F  
-Chd|        DIM_NDOF_D                    source/implicit/ind_glob_k.F  
-Chd|        DIM_NDOF_I                    source/implicit/ind_glob_k.F  
-Chd|        DIM_NDOF_II                   source/implicit/ind_glob_k.F  
-Chd|        DIM_NRMAX                     source/mpi/implicit/imp_fri.F 
-Chd|        MONV_PREM                     source/airbag/monv_imp0.F     
-Chd|        NDOF_FV                       source/implicit/ind_glob_k.F  
-Chd|        SET_IKIN2G                    source/mpi/implicit/imp_fri.F 
-Chd|        SPMD_NDOF                     source/mpi/implicit/imp_spmd.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_glob_k      ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_sol_init    ../engine/source/implicit/imp_sol_init.F
+      !||--- calls      -----------------------------------------------------
+      !||    dim_elemax      ../engine/source/implicit/ind_glob_k.F
+      !||    dim_elems1      ../engine/source/implicit/ind_glob_k.F
+      !||    dim_fr_k        ../engine/source/mpi/implicit/imp_fri.F
+      !||    dim_kinmax      ../engine/source/implicit/ind_glob_k.F
+      !||    dim_ndof_d      ../engine/source/implicit/ind_glob_k.F
+      !||    dim_ndof_i      ../engine/source/implicit/ind_glob_k.F
+      !||    dim_ndof_ii     ../engine/source/implicit/ind_glob_k.F
+      !||    dim_nrmax       ../engine/source/mpi/implicit/imp_fri.F
+      !||    monv_prem       ../engine/source/airbag/monv_imp0.F
+      !||    ndof_fv         ../engine/source/implicit/ind_glob_k.F
+      !||    set_ikin2g      ../engine/source/mpi/implicit/imp_fri.F
+      !||    spmd_ndof       ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||====================================================================
       SUBROUTINE DIM_GLOB_K(
      1    GEO       ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
      2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
@@ -3611,13 +3623,12 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- stockage M.C.R.S + SYM- ----- 
-Chd|====================================================================
-Chd|  SET_IND_K                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IND_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|        IND_INT_K                     source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    set_ind_k    ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ind_glob_k   ../engine/source/implicit/ind_glob_k.F
+      !||    ind_int_k    ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE SET_IND_K(
      1    IDDL      ,NDOF      ,IADK      ,JDIK      ,NDDL      ,     
      2    NNZK      ,NROW      ,ICOL      ,N         ,IKPAT     )
@@ -3673,29 +3684,30 @@ C
       RETURN
       END
 C   --------- stockage M.C.R.S + SYM- ----- 
-Chd|====================================================================
-Chd|  IND_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|        IMP_SOL_INIT                  source/implicit/imp_sol_init.F
-Chd|-- calls ---------------
-Chd|        DIM_ELEMS3                    source/implicit/ind_glob_k.F  
-Chd|        DIM_ELEMS4                    source/implicit/ind_glob_k.F  
-Chd|        GET_IKIN2G                    source/mpi/implicit/imp_fri.F 
-Chd|        IND_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        IND_KINE_K                    source/implicit/ind_glob_k.F  
-Chd|        IND_KINE_KP                   source/mpi/implicit/imp_fri.F 
-Chd|        IND_NRFR                      source/mpi/implicit/imp_fri.F 
-Chd|        INI_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        KIN_NRMAX                     source/mpi/implicit/imp_fri.F 
-Chd|        REORDER_J                     source/implicit/ind_glob_k.F  
-Chd|        REORDER_L                     source/implicit/ind_glob_k.F  
-Chd|        SET_IND_K                     source/implicit/ind_glob_k.F  
-Chd|        SPC_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        ZERO_IKIN2G                   source/mpi/implicit/imp_fri.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ind_glob_k      ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_buck        ../engine/source/implicit/imp_buck.F
+      !||    imp_sol_init    ../engine/source/implicit/imp_sol_init.F
+      !||    imp_solv        ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    dim_elems3      ../engine/source/implicit/ind_glob_k.F
+      !||    dim_elems4      ../engine/source/implicit/ind_glob_k.F
+      !||    get_ikin2g      ../engine/source/mpi/implicit/imp_fri.F
+      !||    ind_fr_k        ../engine/source/mpi/implicit/imp_fri.F
+      !||    ind_kine_k      ../engine/source/implicit/ind_glob_k.F
+      !||    ind_kine_kp     ../engine/source/mpi/implicit/imp_fri.F
+      !||    ind_nrfr        ../engine/source/mpi/implicit/imp_fri.F
+      !||    ini_fr_k        ../engine/source/mpi/implicit/imp_fri.F
+      !||    kin_nrmax       ../engine/source/mpi/implicit/imp_fri.F
+      !||    reorder_j       ../engine/source/implicit/ind_glob_k.F
+      !||    reorder_l       ../engine/source/implicit/ind_glob_k.F
+      !||    set_ind_k       ../engine/source/implicit/ind_glob_k.F
+      !||    spc_fr_k        ../engine/source/mpi/implicit/imp_fri.F
+      !||    zero_ikin2g     ../engine/source/mpi/implicit/imp_fri.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE IND_GLOB_K(NPBY,LPBY,
      1    ITAB      ,NRBYAC    ,IRBYAC    ,NSC       ,ISIJ      ,
      2    NMC       ,IMIJ      ,NSS       ,ISS       ,NINT2     ,
@@ -4162,12 +4174,11 @@ C---remet positive----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  REORDER_I                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_ELEMS1                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    reorder_i    ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_elems1   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE REORDER_I(N,IC)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -4208,46 +4219,45 @@ C----delete doubles----------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_ELEMS2                    source/implicit/ind_glob_k.F  
-Chd|        DIM_ELEMS3                    source/implicit/ind_glob_k.F  
-Chd|        DIM_ELEMS4                    source/implicit/ind_glob_k.F  
-Chd|        DIM_ELEMSP                    source/implicit/ind_glob_k.F  
-Chd|        DIM_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        DIM_KINE_I                    source/implicit/ind_glob_k.F  
-Chd|        DIM_KINE_T                    source/implicit/ind_glob_k.F  
-Chd|        DIM_KTOT                      source/implicit/ind_glob_k.F  
-Chd|        DIM_SPA2                      source/implicit/ind_glob_k.F  
-Chd|        DIM_SPAN                      source/implicit/ind_glob_k.F  
-Chd|        IND_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        IND_KINE_I                    source/implicit/ind_glob_k.F  
-Chd|        IND_KINE_K                    source/implicit/ind_glob_k.F  
-Chd|        IND_KINFRK                    source/mpi/implicit/imp_fri.F 
-Chd|        IND_NRFR                      source/mpi/implicit/imp_fri.F 
-Chd|        IND_NRMAX                     source/mpi/implicit/imp_fri.F 
-Chd|        IND_SPA2                      source/implicit/ind_glob_k.F  
-Chd|        IND_SPAN                      source/implicit/ind_glob_k.F  
-Chd|        INI_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        KIN_NRMAX                     source/mpi/implicit/imp_fri.F 
-Chd|        KIN_NRMAX0                    source/mpi/implicit/imp_fri.F 
-Chd|        RMDIM_IMP                     source/model/remesh/rm_imp0.F 
-Chd|        RMIND_IMP                     source/model/remesh/rm_imp0.F 
-Chd|        ROWFR_IND                     source/mpi/implicit/imp_fri.F 
-Chd|        ROWFR_IND11                   source/mpi/implicit/imp_fri.F 
-Chd|        ROWFR_IND24                   source/mpi/implicit/imp_fri.F 
-Chd|        ROW_ADDS                      source/implicit/ind_glob_k.F  
-Chd|        ROW_INT1                      source/implicit/ind_glob_k.F  
-Chd|        ROW_INT111                    source/implicit/ind_glob_k.F  
-Chd|        ROW_INT2                      source/implicit/ind_glob_k.F  
-Chd|        ROW_INT241                    source/implicit/ind_glob_k.F  
-Chd|        ROW_INT242                    source/implicit/ind_glob_k.F  
-Chd|        ROW_INT51                     source/implicit/ind_glob_k.F  
-Chd|        ROW_INT52                     source/implicit/ind_glob_k.F  
-Chd|        SPMD_ICOL                     source/mpi/implicit/imp_spmd.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    reorder_a     ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_elems2    ../engine/source/implicit/ind_glob_k.F
+      !||    dim_elems3    ../engine/source/implicit/ind_glob_k.F
+      !||    dim_elems4    ../engine/source/implicit/ind_glob_k.F
+      !||    dim_elemsp    ../engine/source/implicit/ind_glob_k.F
+      !||    dim_fr_k      ../engine/source/mpi/implicit/imp_fri.F
+      !||    dim_kine_i    ../engine/source/implicit/ind_glob_k.F
+      !||    dim_kine_t    ../engine/source/implicit/ind_glob_k.F
+      !||    dim_ktot      ../engine/source/implicit/ind_glob_k.F
+      !||    dim_spa2      ../engine/source/implicit/ind_glob_k.F
+      !||    dim_span      ../engine/source/implicit/ind_glob_k.F
+      !||    ind_fr_k      ../engine/source/mpi/implicit/imp_fri.F
+      !||    ind_kine_i    ../engine/source/implicit/ind_glob_k.F
+      !||    ind_kine_k    ../engine/source/implicit/ind_glob_k.F
+      !||    ind_kinfrk    ../engine/source/mpi/implicit/imp_fri.F
+      !||    ind_nrfr      ../engine/source/mpi/implicit/imp_fri.F
+      !||    ind_nrmax     ../engine/source/mpi/implicit/imp_fri.F
+      !||    ind_spa2      ../engine/source/implicit/ind_glob_k.F
+      !||    ind_span      ../engine/source/implicit/ind_glob_k.F
+      !||    ini_fr_k      ../engine/source/mpi/implicit/imp_fri.F
+      !||    kin_nrmax     ../engine/source/mpi/implicit/imp_fri.F
+      !||    kin_nrmax0    ../engine/source/mpi/implicit/imp_fri.F
+      !||    rmdim_imp     ../engine/source/model/remesh/rm_imp0.F
+      !||    rmind_imp     ../engine/source/model/remesh/rm_imp0.F
+      !||    row_adds      ../engine/source/implicit/ind_glob_k.F
+      !||    row_int1      ../engine/source/implicit/ind_glob_k.F
+      !||    row_int111    ../engine/source/implicit/ind_glob_k.F
+      !||    row_int2      ../engine/source/implicit/ind_glob_k.F
+      !||    row_int241    ../engine/source/implicit/ind_glob_k.F
+      !||    row_int242    ../engine/source/implicit/ind_glob_k.F
+      !||    row_int51     ../engine/source/implicit/ind_glob_k.F
+      !||    row_int52     ../engine/source/implicit/ind_glob_k.F
+      !||    rowfr_ind     ../engine/source/mpi/implicit/imp_fri.F
+      !||    rowfr_ind11   ../engine/source/mpi/implicit/imp_fri.F
+      !||    rowfr_ind24   ../engine/source/mpi/implicit/imp_fri.F
+      !||    spmd_icol     ../engine/source/mpi/implicit/imp_spmd.F
+      !||====================================================================
       SUBROUTINE REORDER_A(N,IC,ID)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -4271,11 +4281,9 @@ C----add ID--at end--------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  REORDER_A1                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    reorder_a1   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE REORDER_A1(N,IC,ID)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -4316,11 +4324,9 @@ C----add ID--in right order--------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  REORDER_J1                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    reorder_j1   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE REORDER_J1(N,IC,NI)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -4346,14 +4352,13 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  REORDER_J                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IND_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|        IND_INT_K                     source/implicit/ind_glob_k.F  
-Chd|        IND_KINE_KP                   source/mpi/implicit/imp_fri.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    reorder_j     ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ind_glob_k    ../engine/source/implicit/ind_glob_k.F
+      !||    ind_int_k     ../engine/source/implicit/ind_glob_k.F
+      !||    ind_kine_kp   ../engine/source/mpi/implicit/imp_fri.F
+      !||====================================================================
       SUBROUTINE REORDER_J(N,IC,NI,IDDL)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -4411,15 +4416,14 @@ C      N = II
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  REORDER_L                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IND_FR_K0                     source/mpi/implicit/imp_fri.F 
-Chd|        IND_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|        IND_INT_K                     source/implicit/ind_glob_k.F  
-Chd|        IND_KINE_KP                   source/mpi/implicit/imp_fri.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    reorder_l     ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ind_fr_k0     ../engine/source/mpi/implicit/imp_fri.F
+      !||    ind_glob_k    ../engine/source/implicit/ind_glob_k.F
+      !||    ind_int_k     ../engine/source/implicit/ind_glob_k.F
+      !||    ind_kine_kp   ../engine/source/mpi/implicit/imp_fri.F
+      !||====================================================================
       SUBROUTINE REORDER_L(N,IC,NI,IDDL)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -4468,21 +4472,21 @@ C-----en ordre iddl croisante-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  INTAB                         source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DEGENES8                      source/elements/solid/solide/degenes8.F
-Chd|        DIM_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        DIM_KINE_I                    source/implicit/ind_glob_k.F  
-Chd|        DIM_KINE_S                    source/implicit/ind_glob_k.F  
-Chd|        DIM_KINE_T                    source/implicit/ind_glob_k.F  
-Chd|        DIM_NDOF_I                    source/implicit/ind_glob_k.F  
-Chd|        IMP_ICOMCRIT                  source/implicit/imp_int_k.F   
-Chd|        IND_KINE_I                    source/implicit/ind_glob_k.F  
-Chd|        IND_KINE_K                    source/implicit/ind_glob_k.F  
-Chd|        INI_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    intab          ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    degenes8       ../engine/source/elements/solid/solide/degenes8.F
+      !||    dim_fr_k       ../engine/source/mpi/implicit/imp_fri.F
+      !||    dim_kine_i     ../engine/source/implicit/ind_glob_k.F
+      !||    dim_kine_s     ../engine/source/implicit/ind_glob_k.F
+      !||    dim_kine_t     ../engine/source/implicit/ind_glob_k.F
+      !||    dim_ndof_i     ../engine/source/implicit/ind_glob_k.F
+      !||    imp_icomcrit   ../engine/source/implicit/imp_int_k.F
+      !||    ind_kine_i     ../engine/source/implicit/ind_glob_k.F
+      !||    ind_kine_k     ../engine/source/implicit/ind_glob_k.F
+      !||    ini_fr_k       ../engine/source/mpi/implicit/imp_fri.F
+      !||    intabfr        ../engine/source/mpi/implicit/imp_fri.F
+      !||====================================================================
       LOGICAL FUNCTION INTAB(NIC,IC,N)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -4507,17 +4511,18 @@ C----6---------------------------------------------------------------7---------8
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_INT7                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_SOL_INIT                  source/implicit/imp_sol_init.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        IMP_INTBUF_INI                source/implicit/imp_solv.F    
-Chd|        INTBUF_TAB_C_INI              ../common_source/interf/copy_intbuf_tab.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_int7           ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_sol_init       ../engine/source/implicit/imp_sol_init.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../engine/source/output/message/message.F
+      !||    arret              ../engine/source/system/arret.F
+      !||    imp_intbuf_ini     ../engine/source/implicit/imp_solv.F
+      !||    intbuf_tab_c_ini   ../common_source/interf/copy_intbuf_tab.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE DIM_INT7(
      1    NINTER    ,IPARI     ,INTBUF_TAB  ,NNMAX)
 C-----------------------------------------------
@@ -4612,19 +4617,20 @@ C-----------Allocate IMP_INTBUF_TAB for implicit
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_INT_K                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        DIM_KINE_I                    source/implicit/ind_glob_k.F  
-Chd|        NDDL_LOC                      source/implicit/ind_glob_k.F  
-Chd|        ROW_INT                       source/implicit/ind_glob_k.F  
-Chd|        ROW_INT11                     source/implicit/ind_glob_k.F  
-Chd|        ROW_INT24                     source/implicit/ind_glob_k.F  
-Chd|        ROW_INT5                      source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_int_k       ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
+      !||    imp_solv        ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    dim_kine_i      ../engine/source/implicit/ind_glob_k.F
+      !||    nddl_loc        ../engine/source/implicit/ind_glob_k.F
+      !||    row_int         ../engine/source/implicit/ind_glob_k.F
+      !||    row_int11       ../engine/source/implicit/ind_glob_k.F
+      !||    row_int24       ../engine/source/implicit/ind_glob_k.F
+      !||    row_int5        ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE DIM_INT_K(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -4783,21 +4789,22 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- stockage M.C.R.S + SYM- ----- 
-Chd|====================================================================
-Chd|  IND_INT_K                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        IND_KINE_I                    source/implicit/ind_glob_k.F  
-Chd|        REORDER_J                     source/implicit/ind_glob_k.F  
-Chd|        REORDER_L                     source/implicit/ind_glob_k.F  
-Chd|        ROW_INT112                    source/implicit/ind_glob_k.F  
-Chd|        ROW_INT2                      source/implicit/ind_glob_k.F  
-Chd|        ROW_INT242                    source/implicit/ind_glob_k.F  
-Chd|        ROW_INT52                     source/implicit/ind_glob_k.F  
-Chd|        SET_IND_K                     source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    ind_int_k       ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
+      !||    imp_solv        ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    ind_kine_i      ../engine/source/implicit/ind_glob_k.F
+      !||    reorder_j       ../engine/source/implicit/ind_glob_k.F
+      !||    reorder_l       ../engine/source/implicit/ind_glob_k.F
+      !||    row_int112      ../engine/source/implicit/ind_glob_k.F
+      !||    row_int2        ../engine/source/implicit/ind_glob_k.F
+      !||    row_int242      ../engine/source/implicit/ind_glob_k.F
+      !||    row_int52       ../engine/source/implicit/ind_glob_k.F
+      !||    set_ind_k       ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE IND_INT_K(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP      ,
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC      ,
@@ -4995,12 +5002,11 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- ---- 
-Chd|====================================================================
-Chd|  NDDL_LOC                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_INT_K                     source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    nddl_loc    ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_int_k   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE NDDL_LOC(
      1    NDDL      ,IDDL      ,ILOC      ,NLOC        ,NDOF       )
 C----6---------------------------------------------------------------7---------8
@@ -5038,12 +5044,11 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- ---- 
-Chd|====================================================================
-Chd|  ROW_INT                       source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_INT_K                     source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    row_int     ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_int_k   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE ROW_INT(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT    ,NSV       ,
      2    NROW      ,ILOC      ,NDOFI       ,N_IMPN   ,NSN       ,
@@ -5099,13 +5104,13 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- ---- 
-Chd|====================================================================
-Chd|  ROW_INT1                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_KINE_I                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    row_int1     ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_kine_i   ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    reorder_a    ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE ROW_INT1(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT     ,NSV        ,
      2    NROW      ,N_IMPN    ,ILOC      ,ICOL        ,NNMAX      ,
@@ -5152,13 +5157,13 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- ---- 
-Chd|====================================================================
-Chd|  ROW_INT2                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IND_INT_K                     source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    row_int2    ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ind_int_k   ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    reorder_a   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE ROW_INT2(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT     ,NSV        ,
      2    NROW      ,N_IMPN    ,ILOC      ,ICOL        ,NNMAX      ,
@@ -5241,12 +5246,11 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- ---- 
-Chd|====================================================================
-Chd|  ROW_INT5                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_INT_K                     source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    row_int5    ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_int_k   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE ROW_INT5(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT    ,NSV       ,
      2    MSR       ,NROW      ,ILOC      ,NDOFI       ,N_IMPN   ,
@@ -5298,13 +5302,13 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- ---- 
-Chd|====================================================================
-Chd|  ROW_INT51                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_KINE_I                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    row_int51    ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_kine_i   ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    reorder_a    ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE ROW_INT51(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT     ,NSV        ,
      2    MSR       ,NROW      ,N_IMPN    ,ILOC       ,ICOL        ,
@@ -5349,13 +5353,13 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- ---- 
-Chd|====================================================================
-Chd|  ROW_INT52                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IND_INT_K                     source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    row_int52   ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ind_int_k   ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    reorder_a   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE ROW_INT52(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT     ,NSV        ,
      2    MSR       ,NROW      ,N_IMPN    ,ILOC        ,ICOL       ,
@@ -5435,13 +5439,13 @@ C--------secnd node-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  ROW_INT24                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_INT_K                     source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        I24MSEGV                      source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    row_int24   ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_int_k   ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    i24msegv    ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE ROW_INT24(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT    ,NSV       ,
      2    NROW      ,ILOC      ,NDOFI       ,N_IMPN   ,NSN       ,
@@ -5505,14 +5509,14 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- ---- 
-Chd|====================================================================
-Chd|  ROW_INT241                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_KINE_I                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        I24MSEGV                      source/implicit/ind_glob_k.F  
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    row_int241   ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_kine_i   ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    i24msegv     ../engine/source/implicit/ind_glob_k.F
+      !||    reorder_a    ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE ROW_INT241(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT     ,NSV        ,
      2    NROW      ,N_IMPN    ,ILOC      ,ICOL        ,NNMAX      ,
@@ -5565,14 +5569,14 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- ---- 
-Chd|====================================================================
-Chd|  ROW_INT242                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IND_INT_K                     source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        I24MSEGV                      source/implicit/ind_glob_k.F  
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    row_int242   ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ind_int_k    ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    i24msegv     ../engine/source/implicit/ind_glob_k.F
+      !||    reorder_a    ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE ROW_INT242(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT     ,NSV        ,
      2    NROW      ,N_IMPN    ,ILOC      ,ICOL        ,NNMAX      ,
@@ -5661,18 +5665,19 @@ C--------secnd node-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_KINE_I                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_INT_K                     source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        ROW_INT1                      source/implicit/ind_glob_k.F  
-Chd|        ROW_INT111                    source/implicit/ind_glob_k.F  
-Chd|        ROW_INT241                    source/implicit/ind_glob_k.F  
-Chd|        ROW_INT51                     source/implicit/ind_glob_k.F  
-Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_kine_i      ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_int_k       ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    intab           ../engine/source/implicit/ind_glob_k.F
+      !||    reorder_a       ../engine/source/implicit/ind_glob_k.F
+      !||    row_int1        ../engine/source/implicit/ind_glob_k.F
+      !||    row_int111      ../engine/source/implicit/ind_glob_k.F
+      !||    row_int241      ../engine/source/implicit/ind_glob_k.F
+      !||    row_int51       ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE DIM_KINE_I(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,NPBY      ,LPBY      ,
      2    ITAB      ,NRBYAC    ,IRBYAC    ,NINT2     ,IINT2     ,
@@ -6115,14 +6120,15 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  IND_KINE_I                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IND_INT_K                     source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    ind_kine_i      ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ind_int_k       ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    intab           ../engine/source/implicit/ind_glob_k.F
+      !||    reorder_a       ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE IND_KINE_I(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NSS       ,ISS       ,NINT2     ,IINT2     ,IPARI     ,
@@ -6385,12 +6391,11 @@ C-----active rigid body main nodes------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  ROW_INT11                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_INT_K                     source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    row_int11   ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_int_k   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE ROW_INT11(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECTS   ,IRECTM    ,
      2    NROW      ,ILOC      ,NDOFI       ,N_IMPN   ,NSN       ,
@@ -6445,13 +6450,13 @@ C--------secnd node-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  ROW_INT111                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_KINE_I                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    row_int111   ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_kine_i   ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    reorder_a    ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE ROW_INT111(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECTS    ,IRECTM     ,
      2    NROW      ,N_IMPN    ,ILOC        ,ICOL      ,NNMAX      ,
@@ -6499,13 +6504,13 @@ C--------secnd node-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  ROW_INT112                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IND_INT_K                     source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        ROW_ADDS                      source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    row_int112   ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    ind_int_k    ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    row_adds     ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE ROW_INT112(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECTS    ,IRECTM    ,
      2    NROW      ,N_IMPN    ,ILOC        ,ICOL      ,NNMAX      ,
@@ -6549,13 +6554,13 @@ C--------secnd node-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  ROW_ADDS                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        ROW_INT112                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    row_adds     ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    row_int112   ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    reorder_a    ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE ROW_ADDS(NS    ,NM    ,ILOC  ,ISHF    ,ICOL   ,
      1                    ICOK  ,NROW  ,NNMAX ,NKMAX )
 C----6---------------------------------------------------------------7---------8
@@ -6589,16 +6594,17 @@ C----6---------------------------------------------------------------7---------8
        ENDIF
       RETURN
       END
-Chd|====================================================================
-Chd|  IDEL_INT                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        NDOF_INT                      source/implicit/ind_glob_k.F  
-Chd|        NDOF_INT11                    source/implicit/ind_glob_k.F  
-Chd|        NDOF_INT5                     source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    idel_int        ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
+      !||    imp_solv        ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    ndof_int        ../engine/source/implicit/ind_glob_k.F
+      !||    ndof_int11      ../engine/source/implicit/ind_glob_k.F
+      !||    ndof_int5       ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE IDEL_INT(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
      2    IND_IMP   ,NDOF      ,NT_IMP    )
@@ -6714,12 +6720,11 @@ C-------int5 first------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  NDOF_INT                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IDEL_INT                      source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ndof_int   ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    idel_int   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE NDOF_INT(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT    ,NSV       ,
      2    NSN       ,NDOF      ,IDEL_INT  )
@@ -6759,12 +6764,11 @@ C--------secnd node-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  NDOF_INT11                    source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IDEL_INT                      source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ndof_int11   ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    idel_int     ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE NDOF_INT11(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECTS   ,IRECTM    ,
      2    NSN       ,NDOF      ,IDEL_INT  )
@@ -6802,12 +6806,11 @@ C--------secnd node-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  NDOF_INT5                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IDEL_INT                      source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ndof_int5   ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    idel_int    ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE NDOF_INT5(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT    ,NSV       ,
      2    NSN       ,NDOF      ,IDEL_INT    ,MSR      )
@@ -6844,13 +6847,12 @@ C--------secnd node-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_SPA2                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        CP_INT                        source/implicit/produt_v.F    
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_spa2    ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    cp_int      ../engine/source/implicit/produt_v.F
+      !||    reorder_a   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE DIM_SPA2(NDDL,IADK,JDIK,L_NZ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -6880,15 +6882,14 @@ C-----------------------------------------------
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  IND_SPA2                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        CP_INT                        source/implicit/produt_v.F    
-Chd|        K_BAND                        source/implicit/imp_solv.F    
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        REORDER_M                     source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    ind_spa2    ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    cp_int      ../engine/source/implicit/produt_v.F
+      !||    k_band      ../engine/source/implicit/imp_solv.F
+      !||    reorder_a   ../engine/source/implicit/ind_glob_k.F
+      !||    reorder_m   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE IND_SPA2(NDDL,IADK,JDIK,IADM,JDIM,L_MAX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -6925,14 +6926,13 @@ C----6--------opt. envisager-creer a partir de tableux nodales--,iadm,jdim+upd_(
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  REORDER_M                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_SPAN                      source/implicit/ind_glob_k.F  
-Chd|        IND_SPA2                      source/implicit/ind_glob_k.F  
-Chd|        IND_SPAN                      source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    reorder_m   ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_span    ../engine/source/implicit/ind_glob_k.F
+      !||    ind_spa2    ../engine/source/implicit/ind_glob_k.F
+      !||    ind_span    ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE REORDER_M(N,IC)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -6967,17 +6967,18 @@ C-----en ordre croisante-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_SPAN                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_SOL_INIT                  source/implicit/imp_sol_init.F
-Chd|        INI_K0H                       source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        CP_INT                        source/implicit/produt_v.F    
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        REORDER_M                     source/implicit/ind_glob_k.F  
-Chd|        IMP_PPAT                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_span       ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_sol_init   ../engine/source/implicit/imp_sol_init.F
+      !||    ini_k0h        ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    cp_int         ../engine/source/implicit/produt_v.F
+      !||    reorder_a      ../engine/source/implicit/ind_glob_k.F
+      !||    reorder_m      ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_ppat       ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE DIM_SPAN(NN,NDDL,IADK,JDIK,L_NZ,NDMAX)
 C-----------------------------------------------
 C   M o d u l e s
@@ -7155,17 +7156,18 @@ c      print *,'DIM_NZ,nddl=',L_NZ,nddl
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  IND_SPAN                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        LIN_SOLVIH2                   source/implicit/lin_solv.F    
-Chd|-- calls ---------------
-Chd|        CP_INT                        source/implicit/produt_v.F    
-Chd|        K_BAND                        source/implicit/imp_solv.F    
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        REORDER_M                     source/implicit/ind_glob_k.F  
-Chd|        IMP_PPAT                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    ind_span      ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    lin_solvih2   ../engine/source/implicit/lin_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    cp_int        ../engine/source/implicit/produt_v.F
+      !||    k_band        ../engine/source/implicit/imp_solv.F
+      !||    reorder_a     ../engine/source/implicit/ind_glob_k.F
+      !||    reorder_m     ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_ppat      ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE IND_SPAN(NN,NDF,NDDL,IADK,JDIK,IADM,JDIM,L_MAX,NDMAX)
 C-----------------------------------------------
 C   M o d u l e s
@@ -7387,13 +7389,13 @@ C
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  FIL_SPAN0                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_SOL_INIT                  source/implicit/imp_sol_init.F
-Chd|-- calls ---------------
-Chd|        IMP_PPAT                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    fil_span0      ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_sol_init   ../engine/source/implicit/imp_sol_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_ppat       ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE FIL_SPAN0(NRBYAC,IRBYAC,NPBY,IDDL,NDOF,NDDL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -7431,13 +7433,13 @@ C
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  FIL_SPAN1                     source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        IMP_PPAT                      share/modules/impbufdef_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    fil_span1   ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv    ../engine/source/implicit/imp_solv.F
+      !||--- uses       -----------------------------------------------------
+      !||    imp_ppat    ../engine/share/modules/impbufdef_mod.F
+      !||====================================================================
       SUBROUTINE FIL_SPAN1(NRBYAC,IRBYAC,NPBY,IDDL,NDDL,IKC,NDOF,INLOC)
 C-----------------------------------------------
 C   M o d u l e s
@@ -7493,14 +7495,13 @@ C
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  DIM_KTOT                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        CP_INT                        source/implicit/produt_v.F    
-Chd|        L2G_KLOC                      source/implicit/ind_glob_k.F  
-Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    dim_ktot    ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    cp_int      ../engine/source/implicit/produt_v.F
+      !||    l2g_kloc    ../engine/source/implicit/ind_glob_k.F
+      !||    reorder_a   ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE DIM_KTOT(NDDL  ,IADK  ,JDIK  ,IADI  ,JDII  ,
      1                    ITOK  ,NDDLI ,L_NZ  ,LT_I  )
 C-----------------------------------------------
@@ -7545,14 +7546,14 @@ C
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  IND_KTOT                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ind_ktot      ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE IND_KTOT(NDDL  ,IADK  ,JDIK  ,IADI  ,JDII  ,
      1                    ITOK  ,NDDLI ,IADT  ,JDIT  ,LT_K  ,
      2                    LT_I  ,LT_T  ,NZL   )
@@ -7651,18 +7652,19 @@ C---- end of insert-----
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  L2G_KLOC                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_KTOT                      source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        CP_INT                        source/implicit/produt_v.F    
-Chd|        CP_REAL                       source/implicit/produt_v.F    
-Chd|        REORDER_KIJ                   source/implicit/ind_glob_k.F  
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    l2g_kloc      ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_ktot      ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||    cp_int        ../engine/source/implicit/produt_v.F
+      !||    cp_real       ../engine/source/implicit/produt_v.F
+      !||    reorder_kij   ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE L2G_KLOC(NDDLI ,IADI  ,JDII  ,ITOK  ,LT_I  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -7772,12 +7774,11 @@ C -------------in order----------
 C--------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  REORDER_KIJ                   source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        L2G_KLOC                      source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    reorder_kij   ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    l2g_kloc      ../engine/source/implicit/ind_glob_k.F
+      !||====================================================================
       SUBROUTINE REORDER_KIJ(N,IC,RC,IDDL)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -7825,15 +7826,16 @@ C-----en ordre iddl croisante-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  NDOF_FV                       source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        DIM_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ndof_fv       ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    dim_glob_k    ../engine/source/implicit/ind_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE NDOF_FV(IBFV  ,VEL   ,NDOF  ,IFRAME)
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -7911,16 +7913,15 @@ C          END IF
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I24MSEGV                      source/implicit/ind_glob_k.F  
-Chd|-- called by -----------
-Chd|        ROWFR_DIM24                   source/mpi/implicit/imp_fri.F 
-Chd|        ROWFR_IND24                   source/mpi/implicit/imp_fri.F 
-Chd|        ROW_INT24                     source/implicit/ind_glob_k.F  
-Chd|        ROW_INT241                    source/implicit/ind_glob_k.F  
-Chd|        ROW_INT242                    source/implicit/ind_glob_k.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i24msegv      ../engine/source/implicit/ind_glob_k.F
+      !||--- called by ------------------------------------------------------
+      !||    row_int24     ../engine/source/implicit/ind_glob_k.F
+      !||    row_int241    ../engine/source/implicit/ind_glob_k.F
+      !||    row_int242    ../engine/source/implicit/ind_glob_k.F
+      !||    rowfr_dim24   ../engine/source/mpi/implicit/imp_fri.F
+      !||    rowfr_ind24   ../engine/source/mpi/implicit/imp_fri.F
+      !||====================================================================
       SUBROUTINE I24MSEGV(IE    ,IRTLMV  ,SUBTRIA,IRTLM ,NVOISIN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

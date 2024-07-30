@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M2ITER_IMP                    source/materials/mat/mat002/m2iter_imp.F
-Chd|-- called by -----------
-Chd|        M2LAW                         source/materials/mat/mat002/m2law.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m2iter_imp   ../engine/source/materials/mat/mat002/m2iter_imp.F
+      !||--- called by ------------------------------------------------------
+      !||    m2law        ../engine/source/materials/mat/mat002/m2law.F
+      !||====================================================================
       SUBROUTINE M2ITER_IMP(
      1   SIG,     EPXE,    AJ2,     G,
      2   CA,      CB,      CN,      EPD,

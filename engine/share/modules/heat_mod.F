@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HEAT_MOD                      share/modules/heat_mod.F      
-Chd|-- called by -----------
-Chd|        REALLOCATE_I_SKYLINE          source/system/reallocate_skyline.F
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        SPMD_EXCH2_A_PON              source/mpi/forces/spmd_exch2_a_pon.F
-Chd|        SPMD_I7FCOM_PON               source/mpi/forces/spmd_i7fcom_pon.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    heat_mod               ../engine/share/modules/heat_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    reallocate_i_skyline   ../engine/source/system/reallocate_skyline.F
+      !||    resol                  ../engine/source/engine/resol.F
+      !||    spmd_exch2_a_pon       ../engine/source/mpi/forces/spmd_exch2_a_pon.F
+      !||    spmd_i7fcom_pon        ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+      !||====================================================================
       MODULE HEAT_MOD
 C-----------------------------------------------
 C   m y _ r e a l

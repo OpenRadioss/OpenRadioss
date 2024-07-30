@@ -20,25 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DTSPH                         source/materials/time_step/dtsph.F
-Chd|-- called by -----------
-Chd|        DT105LAW                      source/materials/time_step/dt105law.F
-Chd|        DT10LAW                       source/materials/time_step/dt10law.F
-Chd|        DT14LAW                       source/materials/time_step/dt14law.F
-Chd|        DT1LAW                        source/materials/time_step/dt1law.F
-Chd|        DT21LAW                       source/materials/time_step/dt21law.F
-Chd|        DT34LAW                       source/materials/time_step/dt34law.F
-Chd|        DT37LAW                       source/materials/time_step/dt37law.F
-Chd|        DT38LAW                       source/materials/time_step/dt138aw.F
-Chd|        DT3LAW                        source/materials/time_step/dt3law.F
-Chd|        DT42LAW                       source/materials/time_step/dt42law.F
-Chd|        DT51LAW                       source/materials/time_step/dt51law.F
-Chd|        DT5LAW                        source/materials/time_step/dt5law.F
-Chd|        DT6LAW                        source/materials/time_step/dt6law.F
-Chd|        DT70LAW                       source/materials/time_step/dt70law.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    dtsph      ../starter/source/materials/time_step/dtsph.F
+      !||--- called by ------------------------------------------------------
+      !||    dt105law   ../starter/source/materials/time_step/dt105law.F
+      !||    dt10law    ../starter/source/materials/time_step/dt10law.F
+      !||    dt14law    ../starter/source/materials/time_step/dt14law.F
+      !||    dt1law     ../starter/source/materials/time_step/dt1law.F
+      !||    dt21law    ../starter/source/materials/time_step/dt21law.F
+      !||    dt34law    ../starter/source/materials/time_step/dt34law.F
+      !||    dt37law    ../starter/source/materials/time_step/dt37law.F
+      !||    dt38law    ../starter/source/materials/time_step/dt138aw.F
+      !||    dt3law     ../starter/source/materials/time_step/dt3law.F
+      !||    dt42law    ../starter/source/materials/time_step/dt42law.F
+      !||    dt51law    ../starter/source/materials/time_step/dt51law.F
+      !||    dt5law     ../starter/source/materials/time_step/dt5law.F
+      !||    dt6law     ../starter/source/materials/time_step/dt6law.F
+      !||    dt70law    ../starter/source/materials/time_step/dt70law.F
+      !||====================================================================
       SUBROUTINE DTSPH(SSP,PM,GEO,PID,MAT, 
      .     RHO0, VIS, 
      .     DELTAX, VOL, DTX)

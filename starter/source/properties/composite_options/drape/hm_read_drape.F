@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_PRELECDRAPE           source/properties/composite_options/drape/hm_read_drape.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        UDOUBLE                       source/system/sysfus.F        
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_prelecdrape   ../starter/source/properties/composite_options/drape/hm_read_drape.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_option_read_key    ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start       ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    udouble               ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod    ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod           ../starter/share/message_module/message_mod.F
+      !||    submodel_mod          ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_PRELECDRAPE(IDRAPEID,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -80,28 +81,28 @@ C-------------------------------------
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  HM_READ_DRAPE                 source/properties/composite_options/drape/hm_read_drape.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_GET_FLOAT_ARRAY_2INDEXES   source/devtools/hm_reader/hm_get_float_array_2indexes.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_INT_ARRAY_2INDEXES     source/devtools/hm_reader/hm_get_int_array_2indexes.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_GET_STRING_INDEX           source/devtools/hm_reader/hm_get_string_index.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        UDOUBLE                       source/system/sysfus.F        
-Chd|        UDOUBLE3                      source/system/sysfus.F        
-Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_drape                 ../starter/source/properties/composite_options/drape/hm_read_drape.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                        ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                        ../starter/source/output/message/message.F
+      !||    hm_get_float_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_float_array_2indexes.F
+      !||    hm_get_int_array_2indexes     ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
+      !||    hm_get_int_array_index        ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    hm_get_intv                   ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_get_string_index           ../starter/source/devtools/hm_reader/hm_get_string_index.F
+      !||    hm_option_read_key            ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start               ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    udouble                       ../starter/source/system/sysfus.F
+      !||    udouble3                      ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod                     ../starter/share/modules1/drape_mod.F
+      !||    hm_option_read_mod            ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod                   ../starter/share/message_module/message_mod.F
+      !||    stack_mod                     ../starter/share/modules1/stack_mod.F
+      !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_DRAPE(DRAPE_WRK ,IWORK_T ,IWORKSH,IGRSH3N    ,IGRSH4N,
      .                         IXC   ,IXTG  ,IGEO   ,IGEO_STACK ,LSUBMODEL  ,
      .                         UNITAB, INDXSH )

@@ -20,12 +20,40 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    force_mod   ../engine/source/loads/general/force.F90
+      !||--- called by ------------------------------------------------------
+      !||    force_imp   ../engine/source/loads/general/force_imp.F
+      !||    resol       ../engine/source/engine/resol.F
+      !||====================================================================
       module force_mod
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief force : computation for loads
+      !||====================================================================
+      !||    force                 ../engine/source/loads/general/force.F90
+      !||--- called by ------------------------------------------------------
+      !||    force_imp             ../engine/source/loads/general/force_imp.F
+      !||    resol                 ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                ../engine/source/tools/curve/finter.F
+      !||    finter_smooth         ../engine/source/tools/curve/finter_smooth.F
+      !||    get_u_numsens         ../engine/source/user_interface/usensor.F
+      !||    get_u_sens_fpar       ../engine/source/user_interface/usensor.F
+      !||    get_u_sens_ipar       ../engine/source/user_interface/usensor.F
+      !||    get_u_sens_value      ../engine/source/user_interface/usensor.F
+      !||    set_u_sens_value      ../engine/source/user_interface/usensor.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod          ../common_source/modules/constant_mod.F
+      !||    h3d_mod               ../engine/share/modules/h3d_mod.F
+      !||    pinchtype_mod         ../common_source/modules/pinchtype_mod.F
+      !||    python_funct_mod      ../common_source/modules/python_mod.F90
+      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    skew_mod              ../common_source/modules/skew_mod.F90
+      !||    th_surf_mod           ../common_source/modules/interfaces/th_surf_mod.F
+      !||====================================================================
         subroutine force (                                             &
         & nibcld     ,ib         ,lfaccld    ,fac       ,snpc       ,&
         & npc        ,stf        ,tf         ,a         ,v          ,&

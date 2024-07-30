@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LECCUT                        source/tools/sect/leccut.F    
-Chd|-- called by -----------
-Chd|        LECTUR                        source/input/lectur.F         
-Chd|-- calls ---------------
-Chd|        SYSFUS                        source/system/sysfus.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    leccut   ../engine/source/tools/sect/leccut.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur   ../engine/source/input/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    sysfus   ../engine/source/system/sysfus.F
+      !||====================================================================
       SUBROUTINE LECCUT(ICUT,XCUT,ITABM1)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

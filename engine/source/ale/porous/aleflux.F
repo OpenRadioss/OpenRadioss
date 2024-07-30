@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALEFLUX                       source/ale/porous/aleflux.F   
-Chd|-- called by -----------
-Chd|        ALEFLOW                       source/ale/porous/aleflow.F   
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    aleflux                ../engine/source/ale/porous/aleflux.F
+      !||--- called by ------------------------------------------------------
+      !||    aleflow                ../engine/source/ale/porous/aleflow.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE ALEFLUX(PM ,IXS,NC1 ,NC2 ,NC3 ,NC4 ,NC5 ,
      .               NC6 , NC7,NC8 ,X1  ,X2  ,X3  ,X4 ,
      .               X5  ,X6 ,X7  ,X8  ,Y1  ,Y2  ,Y3  ,

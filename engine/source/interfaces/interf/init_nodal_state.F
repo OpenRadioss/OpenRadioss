@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIT_NODAL_STATE              source/interfaces/interf/init_nodal_state.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ALLOC_1D_ARRAY                ../common_source/modules/array_mod.F
-Chd|        COUNT_NB_ELEM_EDGE            source/interfaces/interf/count_nb_elem_edge.F
-Chd|        COUNT_REMOTE_NB_ELEM_EDGE     source/interfaces/interf/count_remote_nb_elem_edge.F
-Chd|        DEALLOC_1D_ARRAY              ../common_source/modules/array_mod.F
-Chd|        MYQSORT_INT                   ../common_source/tools/sort/myqsort_int.F
-Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
-Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    init_nodal_state            ../engine/source/interfaces/interf/init_nodal_state.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                       ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    alloc_1d_array              ../common_source/modules/array_mod.F
+      !||    count_nb_elem_edge          ../engine/source/interfaces/interf/count_nb_elem_edge.F
+      !||    count_remote_nb_elem_edge   ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
+      !||    dealloc_1d_array            ../common_source/modules/array_mod.F
+      !||    myqsort_int                 ../common_source/tools/sort/myqsort_int.F
+      !||--- uses       -----------------------------------------------------
+      !||    array_mod                   ../common_source/modules/array_mod.F
+      !||    shooting_node_mod           ../engine/share/modules/shooting_node_mod.F
+      !||====================================================================
         SUBROUTINE INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTBUF_TAB,IAD_ELEM,FR_ELEM,
      .                               ITAB,ITABM1,GEO,ADDCNEL,CNEL,
      .                               IXS,IXC,IXT,IXP,IXR,IXTG,

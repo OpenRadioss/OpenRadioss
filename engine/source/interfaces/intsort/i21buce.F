@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I21BUCE                       source/interfaces/intsort/i21buce.F
-Chd|-- called by -----------
-Chd|        I21MAIN_TRI                   source/interfaces/intsort/i21main_tri.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I21TRI                        source/interfaces/intsort/i21tri.F
-Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i21buce             ../engine/source/interfaces/intsort/i21buce.F
+      !||--- called by ------------------------------------------------------
+      !||    i21main_tri         ../engine/source/interfaces/intsort/i21main_tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg              ../engine/source/output/message/message.F
+      !||    arret               ../engine/source/system/arret.F
+      !||    i21tri              ../engine/source/interfaces/intsort/i21tri.F
+      !||--- uses       -----------------------------------------------------
+      !||    intstamp_glob_mod   ../engine/share/modules/intstamp_glob_mod.F
+      !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||    tri7box             ../engine/share/modules/tri7box.F
+      !||====================================================================
        SUBROUTINE I21BUCE(
      1   X        ,IRECT   ,NSV      ,INACTI  ,
      2   NRTM     ,NSN     ,CAND_E   ,CAND_N  ,GAP      ,

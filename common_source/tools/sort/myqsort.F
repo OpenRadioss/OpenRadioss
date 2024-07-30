@@ -20,23 +20,33 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MYQSORT                       src/resol/ass2sort.F          
-Chd|-- called by -----------
-Chd|        ASS18                         src/int18/ass18.F             
-Chd|        ASS2SORT                      src/resol/ass2sort.F          
-Chd|        ASS2SORT_PXFEM                src/resol/ass2sort.F          
-Chd|        I20NORMNP                     src/int20/i20rcurv.F          
-Chd|        I20NORMP                      src/int20/i20curv.F           
-Chd|        I20NORMSP                     src/int20/i20curv.F           
-Chd|        I7NORMNP                      src/int7/i7rcurv.F            
-Chd|        I7NORMP                       src/int7/i7curv.F             
-Chd|        SPBUC3                        src/sph/spbuc3.F              
-Chd|        SPCLASV                       src/sph/spclasv.F             
-Chd|        SPPRO3                        src/sph/sppro3.F              
-Chd|        SPSYMP                        src/sph/spsym.F               
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    myqsort                           ../common_source/tools/sort/myqsort.F
+      !||--- called by ------------------------------------------------------
+      !||    add_mass_stat                     ../starter/source/tools/admas/add_mass_stat.F
+      !||    ass18                             ../engine/source/interfaces/int18/ass18.F
+      !||    find_dt_engine                    ../starter/source/coupling/rad2rad/r2r_speedup.F
+      !||    find_dt_for_targeted_added_mass   ../engine/source/time_step/find_dt_for_targeted_added_mass.F
+      !||    hm_read_mat70                     ../starter/source/materials/mat/mat070/hm_read_mat70.F
+      !||    hm_read_slipring                  ../starter/source/tools/seatbelts/hm_read_slipring.F
+      !||    hm_read_table2_1                  ../starter/source/tools/curve/hm_read_table2_1.F
+      !||    i20normnp                         ../engine/source/interfaces/int20/i20rcurv.F
+      !||    i20normp                          ../engine/source/interfaces/int20/i20curv.F
+      !||    i20normsp                         ../engine/source/interfaces/int20/i20curv.F
+      !||    i7normnp                          ../engine/source/interfaces/int07/i7rcurv.F
+      !||    i7normp                           ../engine/source/interfaces/int07/i7curv.F
+      !||    inibcs_cy                         ../starter/source/constraints/general/bcs/lecbcscyc.F
+      !||    myqsort3d                         ../starter/source/elements/ige3d/searchigeo3d.F
+      !||    outri                             ../starter/source/materials/time_step/outri.F
+      !||    outrin                            ../starter/source/materials/time_step/outri.F
+      !||    phase_detection                   ../starter/source/initial_conditions/inivol/phase_detection.F
+      !||    spbuc3                            ../engine/source/elements/sph/spbuc3.F
+      !||    spclasv                           ../engine/source/elements/sph/spclasv.F
+      !||    sppro3                            ../engine/source/elements/sph/sppro3.F
+      !||    sppro31                           ../starter/source/elements/sph/spbuc31.F
+      !||    spsymp                            ../engine/source/elements/sph/spsym.F
+      !||    unify_abscissa_2d                 ../starter/source/materials/tools/unify_abscissas_2d.F
+      !||====================================================================
       SUBROUTINE MYQSORT(N, A, PERM, ERROR)
 C-----------------------------------------------
 c     q u i c k s o r t

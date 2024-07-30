@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I3FRI3                        source/interfaces/inter3d/i3fri3.F
-Chd|-- called by -----------
-Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
-Chd|-- calls ---------------
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i3fri3     ../engine/source/interfaces/inter3d/i3fri3.F
+      !||--- called by ------------------------------------------------------
+      !||    intvo3     ../engine/source/interfaces/inter3d/intvo3.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod   ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod    ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I3FRI3(LFT   ,LLT   ,NFT   ,
      2                  X     ,E     ,IRECT ,MSR   ,NSV   ,
      3                  IRTL  ,NTY   ,CST   ,IRTLO ,FRIC0 ,
@@ -409,14 +409,14 @@ C
       RETURN
       END
 C  054 +++
-Chd|====================================================================
-Chd|  I5FRI3                        source/interfaces/inter3d/i3fri3.F
-Chd|-- called by -----------
-Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
-Chd|-- calls ---------------
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i5fri3     ../engine/source/interfaces/inter3d/i3fri3.F
+      !||--- called by ------------------------------------------------------
+      !||    intvo3     ../engine/source/interfaces/inter3d/intvo3.F
+      !||--- uses       -----------------------------------------------------
+      !||    anim_mod   ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod    ../engine/share/modules/h3d_mod.F
+      !||====================================================================
       SUBROUTINE I5FRI3(LFT   ,LLT   ,NFT   ,IPARI ,
      2                  X     ,E     ,IRECT ,MSR   ,NSV   ,
      3                  IRTL  ,NTY   ,CST   ,IRTLO ,FRIC0 ,

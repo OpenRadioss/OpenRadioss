@@ -21,6 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
+      !||====================================================================
+      !||    is_sup_face_id   ../engine/source/interfaces/inter3d/is_sup_face_id.F
+      !||--- called by ------------------------------------------------------
+      !||    i8msr3           ../engine/source/interfaces/inter3d/i8msr3.F
+      !||    spmd_i8_irtl     ../engine/source/mpi/interfaces/spmd_i8tool.F
+      !||====================================================================
       FUNCTION IS_SUP_FACE_ID(A,B)
 C-----------------------------------------------
 C   I n f o r m a t i o n s            

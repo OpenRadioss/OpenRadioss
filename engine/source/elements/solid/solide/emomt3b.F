@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  EMOMT3B                       source/elements/solid/solide/emomt3b.F
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    emomt3b   ../engine/source/elements/solid/solide/emomt3b.F
+      !||--- called by ------------------------------------------------------
+      !||    sforc3    ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3   ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_mod   ../common_source/modules/ale/ale_mod.F
+      !||====================================================================
       SUBROUTINE EMOMT3B(
      1   PM,      RHO,     VOLGP,   F11,
      2   F21,     F31,     F12,     F22,

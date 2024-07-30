@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FCUMU3P                       source/elements/solid/solide/fcumu3p.F
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fcumu3p   ../engine/source/elements/solid/solide/fcumu3p.F
+      !||--- called by ------------------------------------------------------
+      !||    sforc3    ../engine/source/elements/solid/solide/sforc3.F
+      !||====================================================================
       SUBROUTINE FCUMU3P(
      1   OFFG,    STI,     FSKY,    IADS,
      2   F11,     F21,     F31,     F12,

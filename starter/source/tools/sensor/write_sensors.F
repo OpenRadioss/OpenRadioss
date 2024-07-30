@@ -20,18 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  WRITE_SENSORS                 source/tools/sensor/write_sensors.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|        FRETITL                       source/starter/freform.F      
-Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_DPDB                    ../common_source/tools/input_output/write_db.F
-Chd|        WRITE_INTEGER                 ../common_source/comm/write_mod.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    write_sensors   ../starter/source/tools/sensor/write_sensors.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit         ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||    fretitl         ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod      ../starter/share/modules1/sensor_mod.F
+      !||====================================================================
       SUBROUTINE WRITE_SENSORS(SENSORS,NUMNOD,NODLOCAL)
 C-----------------------------------------------
 C   M o d u l e s

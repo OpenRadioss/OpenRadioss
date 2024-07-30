@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2SMS28                       source/interfaces/interf/i2sms28.F
-Chd|-- called by -----------
-Chd|        I2FOR28P_PEN                  source/interfaces/interf/i2for28p_pen.F
-Chd|        I2FOR28_PEN                   source/interfaces/interf/i2for28_pen.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i2sms28        ../engine/source/interfaces/interf/i2sms28.F
+      !||--- called by ------------------------------------------------------
+      !||    i2for28_pen    ../engine/source/interfaces/interf/i2for28_pen.F
+      !||    i2for28p_pen   ../engine/source/interfaces/interf/i2for28p_pen.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I2SMS28(JLT   ,IX1   ,IX2  ,IX3  ,IX4   ,
      2                  NSVG  ,H      ,STIF ,NOINT ,
      3                  DMINT2,NODNX_SMS ,VIS   ,STF_MOM,DTI)

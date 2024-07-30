@@ -20,14 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CREATE_LINE_FROM_SURFACE_ALL  source/model/sets/create_line_from_surface_all.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    create_line_from_surface_all   ../starter/source/model/sets/create_line_from_surface_all.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE CREATE_LINE_FROM_SURFACE_ALL(CLAUSE)
 C-----------------------------------------------
 C   M o d u l e s

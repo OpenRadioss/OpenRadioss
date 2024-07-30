@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_EXCH_A_SCND              source/mpi/elements/spmd_exch_a_scnd.F
-Chd|-- called by -----------
-Chd|        S10CNDAMP                     source/elements/solid/solide10/s10cndf.F
-Chd|        S10CNDF1                      source/elements/solid/solide10/s10cndf.F
-Chd|        S10CNDF2                      source/elements/solid/solide10/s10cndf.F
-Chd|        S10CNIDAMP                    source/elements/solid/solide10/s10cndf.F
-Chd|        S10CNISTAT                    source/elements/solid/solide10/s10cndf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_a_scnd   ../engine/source/mpi/elements/spmd_exch_a_scnd.F
+      !||--- called by ------------------------------------------------------
+      !||    s10cndamp          ../engine/source/elements/solid/solide10/s10cndf.F
+      !||    s10cndf1           ../engine/source/elements/solid/solide10/s10cndf.F
+      !||    s10cndf2           ../engine/source/elements/solid/solide10/s10cndf.F
+      !||    s10cnidamp         ../engine/source/elements/solid/solide10/s10cndf.F
+      !||    s10cnistat         ../engine/source/elements/solid/solide10/s10cndf.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_A_SCND(
      1            A    ,STIFN ,FR_CDNM,IAD_CDNM, LCOMM,ISIZE)
 C-----------------------------------------------

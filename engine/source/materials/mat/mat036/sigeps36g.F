@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS36G                     source/materials/mat/mat036/sigeps36g.F
-Chd|-- called by -----------
-Chd|        MULAWGLC                      source/materials/mat_share/mulawglc.F
-Chd|-- calls ---------------
-Chd|        VINTER                        source/tools/curve/vinter.F   
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps36g   ../engine/source/materials/mat/mat036/sigeps36g.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawglc    ../engine/source/materials/mat_share/mulawglc.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter      ../engine/source/tools/curve/finter.F
+      !||    vinter      ../engine/source/tools/curve/vinter.F
+      !||====================================================================
       SUBROUTINE SIGEPS36G(
      1     NEL    ,NPF     ,
      2     TF     ,TIME   ,UPARAM  ,RHO0    ,

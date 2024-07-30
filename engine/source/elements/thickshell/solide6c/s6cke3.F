@@ -20,24 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S6CKE3                        source/elements/thickshell/solide6c/s6cke3.F
-Chd|-- called by -----------
-Chd|        IMP_GLOB_K                    source/implicit/imp_glob_k.F  
-Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|        ASSEM_S6                      source/implicit/assem_s6.F    
-Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
-Chd|        MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
-Chd|        S6CCUMG3                      source/elements/thickshell/solide6c/s6ccumg3.F
-Chd|        S6CDERI3                      source/elements/thickshell/solide6c/s6cderi3.F
-Chd|        S6CKGEO3                      source/elements/thickshell/solide6c/s6ckgeo3.F
-Chd|        S6CLKE3                       source/elements/thickshell/solide6c/s6clke3.F
-Chd|        S6RCOORK                      source/elements/thickshell/solide6c/s6rcoork.F
-Chd|        S8EOFF                        source/elements/solid/solide8/s8eoff.F
-Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zsigp3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s6cke3         ../engine/source/elements/thickshell/solide6c/s6cke3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
+      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_s6       ../engine/source/implicit/assem_s6.F
+      !||    mmats          ../engine/source/elements/solid/solide8z/mmats.F
+      !||    mmstifs        ../engine/source/elements/solid/solide8z/mmstifs.F
+      !||    s6ccumg3       ../engine/source/elements/thickshell/solide6c/s6ccumg3.F
+      !||    s6cderi3       ../engine/source/elements/thickshell/solide6c/s6cderi3.F
+      !||    s6ckgeo3       ../engine/source/elements/thickshell/solide6c/s6ckgeo3.F
+      !||    s6clke3        ../engine/source/elements/thickshell/solide6c/s6clke3.F
+      !||    s6rcoork       ../engine/source/elements/thickshell/solide6c/s6rcoork.F
+      !||    s8eoff         ../engine/source/elements/solid/solide8/s8eoff.F
+      !||    s8zsigp3       ../engine/source/elements/solid/solide8z/s8zsigp3.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE S6CKE3(
      1   PM,       GEO,      IXS,      X,
      2   ELBUF_STR,ETAG,     IDDL,     NDOF,

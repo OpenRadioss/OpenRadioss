@@ -20,18 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I17MAIN                       source/interfaces/int17/i17main.F
-Chd|-- called by -----------
-Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
-Chd|-- calls ---------------
-Chd|        I17BUCE                       source/interfaces/int17/i17buce.F
-Chd|        I17CRIT                       source/interfaces/int17/i17crit.F
-Chd|        I17LAGM                       source/interfaces/int17/i17lagm.F
-Chd|        I21LAGM                       source/interfaces/int17/i21lagm.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i17main         ../engine/source/interfaces/int17/i17main.F
+      !||--- called by ------------------------------------------------------
+      !||    lag_mult        ../engine/source/tools/lagmul/lag_mult.F
+      !||--- calls      -----------------------------------------------------
+      !||    i17buce         ../engine/source/interfaces/int17/i17buce.F
+      !||    i17crit         ../engine/source/interfaces/int17/i17crit.F
+      !||    i17lagm         ../engine/source/interfaces/int17/i17lagm.F
+      !||    i21lagm         ../engine/source/interfaces/int17/i21lagm.F
+      !||    my_barrier      ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||====================================================================
       SUBROUTINE I17MAIN(
      1          NIN    ,IPARI  ,INTBUF_TAB     ,X       ,
      2          V      ,A      ,ITASK  ,IGRBRIC ,

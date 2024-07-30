@@ -24,14 +24,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !!
 !! \details loop over the NVOLU airbaig and NSURF surfaces to deallote the structure
 !!
-Chd|====================================================================
-Chd|  DEALLOCATE_IGRSURF_SPLIT      source/spmd/deallocate_igrsurf_split.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    deallocate_igrsurf_split   ../starter/source/spmd/deallocate_igrsurf_split.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                     ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||    monvol_struct_mod          ../starter/share/modules1/monvol_struct_mod.F
+      !||====================================================================
         SUBROUTINE DEALLOCATE_IGRSURF_SPLIT(T_MONVOL,IGRSURF_PROC)
 !$COMMENT
 !       DEALLOCATE_IGRSURF_SPLIT description

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R27DEF3                       source/elements/spring/r27def3.F
-Chd|-- called by -----------
-Chd|        RFORC3                        source/elements/spring/rforc3.F
-Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    r27def3   ../engine/source/elements/spring/r27def3.F
+      !||--- called by ------------------------------------------------------
+      !||    rforc3    ../engine/source/elements/spring/rforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter    ../engine/source/tools/curve/finter.F
+      !||====================================================================
       SUBROUTINE R27DEF3(
      1   F,       E,       DL,      AL0,
      2   IPOS,    GEO,     IGEO,    NPF,

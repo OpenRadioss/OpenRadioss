@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CBADEFPINCH                   source/elements/shell/coqueba/cbadefpinch.F
-Chd|-- called by -----------
-Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    cbadefpinch   ../engine/source/elements/shell/coqueba/cbadefpinch.F
+      !||--- called by ------------------------------------------------------
+      !||    cbaforc3      ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||====================================================================
       SUBROUTINE CBADEFPINCH(
      1                       JFT  ,JLT  ,NG   ,VQG   ,VDEF  ,
      2                       VETA ,VKSI ,TC   ,NPLAT ,IPLAT ,

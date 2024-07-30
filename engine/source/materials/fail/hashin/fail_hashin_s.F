@@ -20,12 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_HASHIN_S                 source/materials/fail/hashin/fail_hashin_s.F
-Chd|-- called by -----------
-Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_hashin_s   ../engine/source/materials/fail/hashin/fail_hashin_s.F
+      !||--- called by ------------------------------------------------------
+      !||    mmain           ../engine/source/materials/mat_share/mmain.F90
+      !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+      !||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
+      !||====================================================================
       SUBROUTINE FAIL_HASHIN_S(
      1     NEL     ,NUVAR   ,ILAY    ,NPT0    ,
      2     TIME    ,TIMESTEP,UPARAM  ,

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I11DST3                       source/interfaces/int11/i11dst3.F
-Chd|-- called by -----------
-Chd|        I11MAINF                      source/interfaces/int11/i11mainf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i11dst3    ../engine/source/interfaces/int11/i11dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i11mainf   ../engine/source/interfaces/int11/i11mainf.F
+      !||====================================================================
       SUBROUTINE I11DST3(
      1   JLT    ,CAND_S,CAND_M,H1S   ,H2S   ,
      2   H1M    ,H2M   ,NX    ,NY    ,NZ    ,

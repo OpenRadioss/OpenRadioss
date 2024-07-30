@@ -26,6 +26,11 @@
 !chd|-- calls ---------------
 !chd|====================================================================
 
+      !||====================================================================
+      !||    mat25_tsaiwu_c_mod   ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
+      !||--- called by ------------------------------------------------------
+      !||    sigeps25c            ../engine/source/materials/mat/mat025/sigeps25c.F
+      !||====================================================================
       module mat25_tsaiwu_c_mod
       contains
 
@@ -34,6 +39,18 @@
 ! \details calculates stress-strain relationship using Tsai-Wu plasticity criterion
 
 ! ==================================================================================
+      !||====================================================================
+      !||    mat25_tsaiwu_c     ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
+      !||--- called by ------------------------------------------------------
+      !||    sigeps25c          ../engine/source/materials/mat/mat025/sigeps25c.F
+      !||--- calls      -----------------------------------------------------
+      !||    rotov              ../engine/source/airbag/roto.F
+      !||    urotov             ../engine/source/airbag/uroto.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod       ../common_source/modules/constant_mod.F
+      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||====================================================================
         subroutine mat25_tsaiwu_c(mat_param   ,                                    &
           nel     ,off     ,sig     ,                         &
           wpla    ,dir     ,crak    ,                         &

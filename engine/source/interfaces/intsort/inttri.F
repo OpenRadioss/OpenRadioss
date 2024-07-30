@@ -20,82 +20,83 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        I10MAIN_OPT_TRI               source/interfaces/intsort/i10opt_opt_tri.F
-Chd|        I10MAIN_TRI                   source/interfaces/intsort/i10main_tri.F
-Chd|        I11MAIN_CRIT_TRI              source/interfaces/intsort/i11main_crit_tri.F
-Chd|        I11MAIN_OPT_TRI               source/interfaces/intsort/i11main_opt_tri.F
-Chd|        I11MAIN_TRI                   source/interfaces/intsort/i11main_tri.F
-Chd|        I17MAIN_CRIT_TRI              source/interfaces/int17/i17main_pena.F
-Chd|        I17MAIN_TRI                   source/interfaces/int17/i17main_pena.F
-Chd|        I20MAIN_CRIT_TRI              source/interfaces/intsort/i20main_crit_tri.F
-Chd|        I20MAIN_OPT_TRI               source/interfaces/intsort/i20main_opt_tri.F
-Chd|        I20MAIN_TRI                   source/interfaces/intsort/i20main_tri.F
-Chd|        I21MAIN_CRIT_TRI              source/interfaces/intsort/i21main_crit_tri.F
-Chd|        I21MAIN_GAP                   source/interfaces/int21/i21main_gap.F
-Chd|        I21MAIN_OPT_TRI               source/interfaces/intsort/i21main_opt_tri.F
-Chd|        I21MAIN_TRI                   source/interfaces/intsort/i21main_tri.F
-Chd|        I21RESET                      source/interfaces/int21/i21reset.F
-Chd|        I21_ICRIT                     source/interfaces/intsort/i21_icrit.F
-Chd|        I22MAIN_TRI                   source/interfaces/intsort/i22main_tri.F
-Chd|        I22SUBVOL                     source/interfaces/int22/i22subvol.F
-Chd|        I23MAIN_OPT_TRI               source/interfaces/intsort/i23main_opt_tri.F
-Chd|        I23MAIN_TRI                   source/interfaces/intsort/i23main_tri.F
-Chd|        I24MAIN_CRIT_TRI              source/interfaces/intsort/i24main_crit_tri.F
-Chd|        I24MAIN_OPT_TRI               source/interfaces/intsort/i24main_opt_tri.F
-Chd|        I24MAIN_TRI                   source/interfaces/intsort/i24main_tri.F
-Chd|        I25MAIND_2                    source/interfaces/int25/i25maind_2.F
-Chd|        I25MAIN_CRIT_TRI              source/interfaces/intsort/i25main_crit_tri.F
-Chd|        I25MAIN_FREE                  source/interfaces/intsort/i25main_free.F
-Chd|        I25MAIN_GAP                   source/interfaces/int25/i25main_gap.F
-Chd|        I25MAIN_NORM                  source/interfaces/int25/i25main_norm.F
-Chd|        I25MAIN_OPT_TRI               source/interfaces/intsort/i25main_opt_tri.F
-Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
-Chd|        I25MAIN_TRI                   source/interfaces/intsort/i25main_tri.F
-Chd|        I7MAIN_CRIT_TRI               source/interfaces/intsort/i7main_crit_tri.F
-Chd|        I7MAIN_OPT_TRI                source/interfaces/intsort/i7main_opt_tri.F
-Chd|        I7MAIN_TRI                    source/interfaces/intsort/i7main_tri.F
-Chd|        INT18_LAW151_NSV_SHIFT        source/interfaces/int18/int18_law151_nsv_shift.F
-Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
-Chd|        INTER_CHECK_SORT              source/interfaces/generic/inter_check_sort.F
-Chd|        INTER_DEALLOCATE_WAIT         source/interfaces/generic/inter_deallocate_wait.F
-Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
-Chd|        INTER_SORT                    source/interfaces/generic/inter_sort.F
-Chd|        INTER_TRC_7                   source/interfaces/int07/inter_trc_7.F
-Chd|        INTMASS_UPDATE                source/interfaces/interf/intmass_update.F
-Chd|        INT_STARTIME                  source/system/timer_interf.F  
-Chd|        INT_STOPTIME                  source/system/timer_interf.F  
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_ALLGLOB_ISUM9            source/mpi/generic/spmd_allglob_isum9.F
-Chd|        SPMD_BARRIER                  source/mpi/generic/spmd_barrier.F
-Chd|        SPMD_EXCH_SORTING_EFRIC       source/mpi/interfaces/spmd_exch_sorting_efric.F
-Chd|        SPMD_GET_INACTI_GLOBAL        source/mpi/interfaces/spmd_get_inacti_global.F
-Chd|        SPMD_GET_STIF25_EDG           source/mpi/interfaces/spmd_getstif25_edg.F
-Chd|        SPMD_I25FRONT_NOR             source/mpi/interfaces/spmd_i25front.F
-Chd|        SPMD_I7ITIED_CAND             source/mpi/interfaces/spmd_i7itied_cand.F
-Chd|        SPMD_IFRONT                   source/mpi/interfaces/spmd_ifront.F
-Chd|        SPMD_IFRONT_STAMP             source/mpi/interfaces/send_cand.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
-Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
-Chd|        METRIC_MOD                    ../common_source/modules/interfaces/metric_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    inttri                    ../engine/source/interfaces/intsort/inttri.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                     ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    i10main_opt_tri           ../engine/source/interfaces/intsort/i10opt_opt_tri.F
+      !||    i10main_tri               ../engine/source/interfaces/intsort/i10main_tri.F
+      !||    i11main_crit_tri          ../engine/source/interfaces/intsort/i11main_crit_tri.F
+      !||    i11main_opt_tri           ../engine/source/interfaces/intsort/i11main_opt_tri.F
+      !||    i11main_tri               ../engine/source/interfaces/intsort/i11main_tri.F
+      !||    i17main_crit_tri          ../engine/source/interfaces/int17/i17main_pena.F
+      !||    i17main_tri               ../engine/source/interfaces/int17/i17main_pena.F
+      !||    i20main_crit_tri          ../engine/source/interfaces/intsort/i20main_crit_tri.F
+      !||    i20main_opt_tri           ../engine/source/interfaces/intsort/i20main_opt_tri.F
+      !||    i20main_tri               ../engine/source/interfaces/intsort/i20main_tri.F
+      !||    i21_icrit                 ../engine/source/interfaces/intsort/i21_icrit.F
+      !||    i21main_crit_tri          ../engine/source/interfaces/intsort/i21main_crit_tri.F
+      !||    i21main_gap               ../engine/source/interfaces/int21/i21main_gap.F
+      !||    i21main_opt_tri           ../engine/source/interfaces/intsort/i21main_opt_tri.F
+      !||    i21main_tri               ../engine/source/interfaces/intsort/i21main_tri.F
+      !||    i21reset                  ../engine/source/interfaces/int21/i21reset.F
+      !||    i22main_tri               ../engine/source/interfaces/intsort/i22main_tri.F
+      !||    i22subvol                 ../engine/source/interfaces/int22/i22subvol.F
+      !||    i23main_opt_tri           ../engine/source/interfaces/intsort/i23main_opt_tri.F
+      !||    i23main_tri               ../engine/source/interfaces/intsort/i23main_tri.F
+      !||    i24main_crit_tri          ../engine/source/interfaces/intsort/i24main_crit_tri.F
+      !||    i24main_opt_tri           ../engine/source/interfaces/intsort/i24main_opt_tri.F
+      !||    i24main_tri               ../engine/source/interfaces/intsort/i24main_tri.F
+      !||    i25main_crit_tri          ../engine/source/interfaces/intsort/i25main_crit_tri.F
+      !||    i25main_free              ../engine/source/interfaces/intsort/i25main_free.F
+      !||    i25main_gap               ../engine/source/interfaces/int25/i25main_gap.F
+      !||    i25main_norm              ../engine/source/interfaces/int25/i25main_norm.F
+      !||    i25main_opt_tri           ../engine/source/interfaces/intsort/i25main_opt_tri.F
+      !||    i25main_slid              ../engine/source/interfaces/int25/i25main_slid.F
+      !||    i25main_tri               ../engine/source/interfaces/intsort/i25main_tri.F
+      !||    i25maind_2                ../engine/source/interfaces/int25/i25maind_2.F
+      !||    i7main_crit_tri           ../engine/source/interfaces/intsort/i7main_crit_tri.F
+      !||    i7main_opt_tri            ../engine/source/interfaces/intsort/i7main_opt_tri.F
+      !||    i7main_tri                ../engine/source/interfaces/intsort/i7main_tri.F
+      !||    int18_law151_nsv_shift    ../engine/source/interfaces/int18/int18_law151_nsv_shift.F
+      !||    int_startime              ../engine/source/system/timer_interf.F
+      !||    int_stoptime              ../engine/source/system/timer_interf.F
+      !||    intcrit                   ../engine/source/interfaces/intsort/intcrit.F
+      !||    inter_check_sort          ../engine/source/interfaces/generic/inter_check_sort.F
+      !||    inter_deallocate_wait     ../engine/source/interfaces/generic/inter_deallocate_wait.F
+      !||    inter_prepare_sort        ../engine/source/interfaces/generic/inter_prepare_sort.F
+      !||    inter_sort                ../engine/source/interfaces/generic/inter_sort.F
+      !||    inter_trc_7               ../engine/source/interfaces/int07/inter_trc_7.F
+      !||    intmass_update            ../engine/source/interfaces/interf/intmass_update.F
+      !||    my_barrier                ../engine/source/system/machine.F
+      !||    spmd_allglob_isum9        ../engine/source/mpi/generic/spmd_allglob_isum9.F
+      !||    spmd_barrier              ../engine/source/mpi/generic/spmd_barrier.F
+      !||    spmd_exch_sorting_efric   ../engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
+      !||    spmd_get_inacti_global    ../engine/source/mpi/interfaces/spmd_get_inacti_global.F
+      !||    spmd_get_stif25_edg       ../engine/source/mpi/interfaces/spmd_getstif25_edg.F
+      !||    spmd_i25front_nor         ../engine/source/mpi/interfaces/spmd_i25front.F
+      !||    spmd_i7itied_cand         ../engine/source/mpi/interfaces/spmd_i7itied_cand.F
+      !||    spmd_ifront               ../engine/source/mpi/interfaces/spmd_ifront.F
+      !||    spmd_ifront_stamp         ../engine/source/mpi/interfaces/send_cand.F
+      !||    startime                  ../engine/source/system/timer.F
+      !||    stoptime                  ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod      ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod              ../common_source/modules/groupdef_mod.F
+      !||    h3d_mod                   ../engine/share/modules/h3d_mod.F
+      !||    i22bufbric_mod            ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod                ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    inter_sorting_mod         ../engine/share/modules/inter_sorting_mod.F
+      !||    inter_struct_mod          ../engine/share/modules/inter_struct_mod.F
+      !||    intstamp_mod              ../engine/share/modules/intstamp_mod.F
+      !||    metric_mod                ../common_source/modules/interfaces/metric_mod.F
+      !||    multi_fvm_mod             ../common_source/modules/ale/multi_fvm_mod.F
+      !||    outputs_mod               ../common_source/modules/outputs_mod.F
+      !||    sensor_mod                ../engine/share/modules/sensor_mod.F
+      !||    tri7box                   ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE INTTRI(
      1       IPARI    ,X       ,W       , ERRORS, 
      2       V        ,MS      ,IN      ,IAD_ELEM ,

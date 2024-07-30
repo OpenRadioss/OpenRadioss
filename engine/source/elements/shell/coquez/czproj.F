@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CZPROJ1                       source/elements/shell/coquez/czproj.F
-Chd|-- called by -----------
-Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- calls ---------------
-Chd|        CZPROJN                       source/elements/shell/coquez/czproj.F
-Chd|        CZPROJV                       source/elements/shell/coquez/czproj.F
-Chd|====================================================================
+      !||====================================================================
+      !||    czproj1       ../engine/source/elements/shell/coquez/czproj.F
+      !||--- called by ------------------------------------------------------
+      !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
+      !||--- calls      -----------------------------------------------------
+      !||    czprojn       ../engine/source/elements/shell/coquez/czproj.F
+      !||    czprojv       ../engine/source/elements/shell/coquez/czproj.F
+      !||====================================================================
       SUBROUTINE CZPROJ1(
      1            JFT    ,JLT    ,VQN    ,VQ     ,VF    ,
      2            VM     ,PLAT   ,
@@ -179,11 +179,9 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZMZL2G                       source/elements/shell/coquez/czproj.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czmzl2g   ../engine/source/elements/shell/coquez/czproj.F
+      !||====================================================================
       SUBROUTINE CZMZL2G(
      1            JFT    ,JLT    ,VQ     ,MLZ    ,M11    ,
      5            M12    ,M13    ,M14    ,M21    ,M22    ,
@@ -269,12 +267,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZPROJV                       source/elements/shell/coquez/czproj.F
-Chd|-- called by -----------
-Chd|        CZPROJ1                       source/elements/shell/coquez/czproj.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czprojv   ../engine/source/elements/shell/coquez/czproj.F
+      !||--- called by ------------------------------------------------------
+      !||    czproj1   ../engine/source/elements/shell/coquez/czproj.F
+      !||====================================================================
       SUBROUTINE CZPROJV(
      1            JFT    ,JLT    ,VQN    ,VQ     ,VF    ,
      2            VM     ,PLAT   ,
@@ -875,12 +872,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CZPROJN                       source/elements/shell/coquez/czproj.F
-Chd|-- called by -----------
-Chd|        CZPROJ1                       source/elements/shell/coquez/czproj.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    czprojn   ../engine/source/elements/shell/coquez/czproj.F
+      !||--- called by ------------------------------------------------------
+      !||    czproj1   ../engine/source/elements/shell/coquez/czproj.F
+      !||====================================================================
       SUBROUTINE CZPROJN(
      1            JFT    ,JLT    ,VQN    ,VQ     ,VF    ,
      2            VM     ,PLAT   ,

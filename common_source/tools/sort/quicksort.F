@@ -20,6 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    quicksort                 ../common_source/tools/sort/quicksort.F
+      !||--- called by ------------------------------------------------------
+      !||    fvmesh1                   ../engine/source/airbag/fvmesh.F
+      !||    stat_inimap1d_file_spmd   ../engine/source/output/sta/stat_inimap1d_file_spmd.F
+      !||    stat_inimap1d_spmd        ../engine/source/output/sta/stat_inimap1d_spmd.F
+      !||    stat_inimap2d_file_spmd   ../engine/source/output/sta/stat_inimap2d_file_spmd.F
+      !||    stat_inimap2d_spmd        ../engine/source/output/sta/stat_inimap2d_spmd.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       RECURSIVE SUBROUTINE QUICKSORT(A, IDX, FIRST, LAST)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -69,6 +79,16 @@ C-----------------------------------------------
       END SUBROUTINE 
 C________________________________________________________________________________________________________
 
+      !||====================================================================
+      !||    quicksort_i                      ../common_source/tools/sort/quicksort.F
+      !||--- called by ------------------------------------------------------
+      !||    ale_compute_connectivity         ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    ini_inimap1d                     ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+      !||    monvol_check_delete_duplicated   ../starter/source/airbag/monvol_check_delete_duplicated.F
+      !||    sensor_init                      ../engine/source/tools/sensor/sensor_init.F
+      !||    st_qaprint_model_tools           ../starter/source/output/qaprint/st_qaprint_model_tools.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       RECURSIVE SUBROUTINE QUICKSORT_I(A, FIRST, LAST)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -114,6 +134,23 @@ C-----------------------------------------------
       END SUBROUTINE 
 C________________________________________________________________________________________________________
 
+      !||====================================================================
+      !||    quicksort_i2                    ../common_source/tools/sort/quicksort.F
+      !||--- called by ------------------------------------------------------
+      !||    ale_compute_connectivity        ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    nloc_dmg_init                   ../starter/source/materials/fail/nloc_dmg_init.F
+      !||    spmd_ne_connect                 ../starter/source/ale/spmd_ne_connect.F
+      !||    st_qaprint_constraints          ../starter/source/output/qaprint/st_qaprint_constraints.F
+      !||    st_qaprint_general_controls     ../starter/source/output/qaprint/st_qaprint_general_controls.F
+      !||    st_qaprint_initial_conditions   ../starter/source/output/qaprint/st_qaprint_initial_conditions.F
+      !||    st_qaprint_loads                ../starter/source/output/qaprint/st_qaprint_loads.F
+      !||    st_qaprint_model_tools          ../starter/source/output/qaprint/st_qaprint_model_tools.F
+      !||    st_qaprint_monvol               ../starter/source/output/qaprint/st_qaprint_monvol.F
+      !||    st_qaprint_thgrou               ../starter/source/output/qaprint/st_qaprint_time_histories.F
+      !||    stat_inimap2d_file_spmd         ../engine/source/output/sta/stat_inimap2d_file_spmd.F
+      !||    stat_inimap2d_spmd              ../engine/source/output/sta/stat_inimap2d_spmd.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       RECURSIVE SUBROUTINE QUICKSORT_I2(A, IDX, FIRST, LAST)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -162,6 +199,11 @@ C-----------------------------------------------
       END SUBROUTINE 
 C________________________________________________________________________________________________________
       
+      !||====================================================================
+      !||    quicksort_integer_2arrays   ../common_source/tools/sort/quicksort.F
+      !||--- called by ------------------------------------------------------
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       RECURSIVE SUBROUTINE QUICKSORT_INTEGER_2ARRAYS(A, B, FIRST, LAST)
       ! SORT columns A,B  (key=A)
 C-----------------------------------------------
@@ -213,6 +255,11 @@ C-----------------------------------------------
       END SUBROUTINE        
 C________________________________________________________________________________________________________
       
+      !||====================================================================
+      !||    quicksort_integer_3arrays   ../common_source/tools/sort/quicksort.F
+      !||--- called by ------------------------------------------------------
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       RECURSIVE SUBROUTINE QUICKSORT_INTEGER_3ARRAYS(A, B, C, FIRST, LAST)
       ! SORT columns A,B,C  (key=A)
 C-----------------------------------------------

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CCOOR3                        source/elements/shell/coque/ccoor3.F
-Chd|-- called by -----------
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ccoor3   ../engine/source/elements/shell/coque/ccoor3.F
+      !||--- called by ------------------------------------------------------
+      !||    cforc3   ../engine/source/elements/shell/coque/cforc3.F
+      !||====================================================================
       SUBROUTINE CCOOR3(JFT ,JLT ,X   ,IXC ,GEO ,OFFG  ,
      2                  OFF ,SIGY,PID,V,VR,VL1,VL2,VL3,VL4,
      3                  VRL1,VRL2,VRL3,VRL4,MAT,DT1C,THKE,THK0,NGL,
@@ -156,12 +155,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  CCOORT3                       source/elements/shell/coque/ccoor3.F
-Chd|-- called by -----------
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ccoort3   ../engine/source/elements/shell/coque/ccoor3.F
+      !||--- called by ------------------------------------------------------
+      !||    cforc3    ../engine/source/elements/shell/coque/cforc3.F
+      !||====================================================================
       SUBROUTINE CCOORT3(JFT     ,JLT   ,X     ,IXC    ,OFFG   ,
      1                    DR     ,PX1   ,PX2   ,PY1    ,PY2    ,
      2                    E1X    ,E1Y   ,E1Z   ,E2X    ,E2Y    ,

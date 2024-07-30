@@ -21,14 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SZSTRAINHG                    source/elements/solid/solidez/szstrainhg.F
-Chd|-- called by -----------
-Chd|        SZHOUR3                       source/elements/solid/solidez/szhour3.F
-Chd|        SZHOUR3_OR                    source/elements/solid/solidez/szhour3_or.F
-Chd|        SZHOUR_CTL                    source/elements/solid/solidez/szhour_ctl.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    szstrainhg   ../engine/source/elements/solid/solidez/szstrainhg.F
+      !||--- called by ------------------------------------------------------
+      !||    szhour3      ../engine/source/elements/solid/solidez/szhour3.F
+      !||    szhour3_or   ../engine/source/elements/solid/solidez/szhour3_or.F
+      !||    szhour_ctl   ../engine/source/elements/solid/solidez/szhour_ctl.F
+      !||====================================================================
       SUBROUTINE SZSTRAINHG(
      1   JR_1,    JS_1,    JT_1,    STRHG,
      2   NEL,     HGX1,    HGX2,    HGX3,

@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I3COR3                        source/interfaces/inter3d/i3cor3.F
-Chd|-- called by -----------
-Chd|        I6MAIN                        source/interfaces/inter3d/i6main.F
-Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i3cor3   ../engine/source/interfaces/inter3d/i3cor3.F
+      !||--- called by ------------------------------------------------------
+      !||    i6main   ../engine/source/interfaces/inter3d/i6main.F
+      !||    intvo3   ../engine/source/interfaces/inter3d/intvo3.F
+      !||====================================================================
       SUBROUTINE I3COR3(
      1   X,       IRECT,   MSR,     NSV,
      2   IRTL,    IX1,     IX2,     IX3,

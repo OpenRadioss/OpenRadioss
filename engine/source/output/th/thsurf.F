@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THSURF                        source/output/th/thsurf.F     
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|        WRTDES                        source/output/th/wrtdes.F     
-Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    thsurf        ../engine/source/output/th/thsurf.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2         ../engine/source/output/th/hist2.F
+      !||--- calls      -----------------------------------------------------
+      !||    wrtdes        ../engine/source/output/th/wrtdes.F
+      !||--- uses       -----------------------------------------------------
+      !||    th_surf_mod   ../common_source/modules/interfaces/th_surf_mod.F
+      !||====================================================================
       SUBROUTINE THSURF(J1, J2, L1, L2, ITHBUF, WA, FSAVSURF, IFORM, NSURF)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TAG_NODE_FROM_SPRING          source/model/sets/tag_node_from_spring.F
-Chd|-- called by -----------
-Chd|        CREATE_NODE_FROM_ELEMENT      source/model/sets/create_node_from_element.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    tag_node_from_spring       ../starter/source/model/sets/tag_node_from_spring.F
+      !||--- called by ------------------------------------------------------
+      !||    create_node_from_element   ../starter/source/model/sets/create_node_from_element.F
+      !||====================================================================
       SUBROUTINE TAG_NODE_FROM_SPRING(IXR,GEO,NUMELR,ELEM,TAGNOD,CLAUSE_NODE,IND)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

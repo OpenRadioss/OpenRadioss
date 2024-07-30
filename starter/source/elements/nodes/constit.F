@@ -20,18 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CONSTIT                       source/elements/nodes/constit.F
-Chd|-- called by -----------
-Chd|        BUILD_ADMESH                  source/model/remesh/build_admesh.F
-Chd|        HM_READ_NODE                  source/elements/reader/hm_read_node.F
-Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
-Chd|        NBADIGEMESH                   source/elements/ige3d/nbadigemesh.F
-Chd|        NBADMESH                      source/model/remesh/nbadmesh.F
-Chd|        R2R_SPLIT                     source/coupling/rad2rad/r2r_split.F
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|====================================================================
+      !||====================================================================
+      !||    constit        ../starter/source/elements/nodes/constit.F
+      !||--- called by ------------------------------------------------------
+      !||    build_admesh   ../starter/source/model/remesh/build_admesh.F
+      !||    hm_read_node   ../starter/source/elements/reader/hm_read_node.F
+      !||    init_monvol    ../starter/source/airbag/init_monvol.F
+      !||    nbadigemesh    ../starter/source/elements/ige3d/nbadigemesh.F
+      !||    nbadmesh       ../starter/source/model/remesh/nbadmesh.F
+      !||    r2r_split      ../starter/source/coupling/rad2rad/r2r_split.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE CONSTIT(ITAB,ITABM1,NUMNOD)
 C
 C    CONSTITUTION DU TABLEAU INVERSE DES NOEUDS

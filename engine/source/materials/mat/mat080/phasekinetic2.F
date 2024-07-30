@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PHASEKINETIC2                 source/materials/mat/mat080/phasekinetic2.F
-Chd|-- called by -----------
-Chd|        SIGEPS80                      source/materials/mat/mat080/sigeps80.F
-Chd|        SIGEPS80C                     source/materials/mat/mat080/sigeps80c.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    phasekinetic2   ../engine/source/materials/mat/mat080/phasekinetic2.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps80        ../engine/source/materials/mat/mat080/sigeps80.F
+      !||    sigeps80c       ../engine/source/materials/mat/mat080/sigeps80c.F
+      !||====================================================================
       SUBROUTINE PHASEKINETIC2(NEL0,TIME,TEMPEL,TEMPO,TEMPMIN,AE1,AE3,BS,MS,FCFER,
      .  FCPER,FCBAI,FGRAIN,FRAC1,FRAC2,FRAC3,FRAC4,FRAC5,X2,X3,X4,X5,
      .     GFAC_F,PHI_F,PSI_F,CR_F,CF,GFAC_P,PHI_P,PSI_P,CR_P,CP,

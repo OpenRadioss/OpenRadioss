@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ST_QAPRINT_MULTIDOMAINS       source/output/qaprint/st_qaprint_multidomains.F
-Chd|-- called by -----------
-Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|====================================================================
+      !||====================================================================
+      !||    st_qaprint_multidomains   ../starter/source/output/qaprint/st_qaprint_multidomains.F
+      !||--- called by ------------------------------------------------------
+      !||    st_qaprint_driver         ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    r2r_mod                   ../starter/share/modules1/r2r_mod.F
+      !||====================================================================
       SUBROUTINE ST_QAPRINT_MULTIDOMAINS(IPART,IEXLNK,IGRNOD)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTER_DCOD_FUNCTION           source/interfaces/reader/inter_dcod_function.F
-Chd|-- called by -----------
-Chd|        HM_READ_INTER_TYPE07          source/interfaces/int07/hm_read_inter_type07.F
-Chd|        HM_READ_INTER_TYPE21          source/interfaces/int21/hm_read_inter_type21.F
-Chd|        HM_READ_INTER_TYPE25          source/interfaces/int25/hm_read_inter_type25.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        INTSTAMP_MOD                  share/modules1/intstamp_mod.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    inter_dcod_function    ../starter/source/interfaces/reader/inter_dcod_function.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_inter_type07   ../starter/source/interfaces/int07/hm_read_inter_type07.F
+      !||    hm_read_inter_type21   ../starter/source/interfaces/int21/hm_read_inter_type21.F
+      !||    hm_read_inter_type25   ../starter/source/interfaces/int25/hm_read_inter_type25.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    intstamp_mod           ../starter/share/modules1/intstamp_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    table_mod              ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE INTER_DCOD_FUNCTION(NTYP,NI,IPARI,NPC1,NOM_OPT,NPC,PLD)
 C-----------------------------------------------
 C     DECODE USER NUMBERS  

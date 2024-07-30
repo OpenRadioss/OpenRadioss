@@ -20,32 +20,30 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MULTIFLUID_INIT3              source/multifluid/multifluid_init3.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ATHERI                        source/ale/atheri.F           
-Chd|        ATURI3                        source/ale/ale3d/aturi3.F     
-Chd|        DTMAIN                        source/materials/time_step/dtmain.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        M5IN3                         source/initial_conditions/detonation/m5in3.F
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|        SCOOR3                        source/elements/solid/solide/scoor3.F
-Chd|        SDERI3                        source/elements/solid/solide/sderi3.F
-Chd|        SDLEN3                        source/elements/solid/solide/sdlen3.F
-Chd|        SJAC_I                        source/elements/solid/solide/sderi3.F
-Chd|        SMASS3                        source/elements/solid/solide/smass3.F
-Chd|        SMORTH3                       source/elements/solid/solide/smorth3.F
-Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
-Chd|        SVEOK3                        source/elements/solid/solide/sveok3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    multifluid_init3       ../starter/source/multifluid/multifluid_init3.F
+      !||--- called by ------------------------------------------------------
+      !||    initia                 ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    atheri                 ../starter/source/ale/atheri.F
+      !||    aturi3                 ../starter/source/ale/ale3d/aturi3.F
+      !||    dtmain                 ../starter/source/materials/time_step/dtmain.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    m5in3                  ../starter/source/initial_conditions/detonation/m5in3.F
+      !||    matini                 ../starter/source/materials/mat_share/matini.F
+      !||    scoor3                 ../starter/source/elements/solid/solide/scoor3.F
+      !||    sderi3                 ../starter/source/elements/solid/solide/sderi3.F
+      !||    sdlen3                 ../starter/source/elements/solid/solide/sdlen3.F
+      !||    sjac_i                 ../starter/source/elements/solid/solide/sderi3.F
+      !||    smass3                 ../starter/source/elements/solid/solide/smass3.F
+      !||    smorth3                ../starter/source/elements/solid/solide/smorth3.F
+      !||    srcoor3                ../starter/source/elements/solid/solide/srcoor3.F
+      !||    sveok3                 ../starter/source/elements/solid/solide/sveok3.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE MULTIFLUID_INIT3(ELBUF_STR,MAS      ,IXS    ,PM      ,X       ,
      .     GEO      ,ALE_CONNECTIVITY   ,IPARG_GR,
      .     DTELEM    ,SIGI     ,NEL    ,SKEW    ,IGEO    ,

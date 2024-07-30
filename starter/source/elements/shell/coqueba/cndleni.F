@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CNDLENI                       source/elements/shell/coqueba/cndleni.F
-Chd|-- called by -----------
-Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
-Chd|-- calls ---------------
-Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    cndleni           ../starter/source/elements/shell/coqueba/cndleni.F
+      !||--- called by ------------------------------------------------------
+      !||    cbainit3          ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE CNDLENI(PM      ,GEO     ,STIFN    ,STIFR   ,IXC     ,
      .           THK     ,IHBE    ,IGEO    ,SH4TREE ,ALDT    ,                 
      .           UPARAM  ,IPM     ,NLAY    ,PM_STACK, ISUBSTACK,               

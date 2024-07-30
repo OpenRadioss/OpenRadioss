@@ -20,76 +20,78 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I22BUFBRIC_MOD                modules/interfaces/cut-cell-search_mod.F
-Chd|-- called by -----------
-Chd|        W_BUFBRIC_22                  starter/source/interfaces/inter3d1/w_bufbric_22.F
-Chd|        A22CONV3                      engine/source/ale/alefvm/cut_cells/a22conv3.F
-Chd|        ACONVE                        engine/source/ale/aconve.F    
-Chd|        AFLUX3                        engine/source/ale/ale3d/aflux3.F
-Chd|        AFLUX3_INT22_FVM              engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
-Chd|        AFLUXT                        engine/source/ale/ale51/afluxt.F
-Chd|        ALE51_ANTIDIFF3               engine/source/ale/ale51/ale51_antidiff3.F
-Chd|        ALE51_ANTIDIFF3_INT22         engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
-Chd|        ALE51_FINISH                  engine/source/ale/ale51/ale51_finish.F
-Chd|        ALE51_INIT                    engine/source/ale/ale51/ale51_init.F
-Chd|        ALE51_UPWIND3_INT22           engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
-Chd|        ALEFVM_FRESET                 engine/source/ale/alefvm/alefvm_freset.F
-Chd|        ALEFVM_GRAVITY_INT22          engine/source/ale/alefvm/alefvm_gravity_int22.F
-Chd|        ALEFVM_SCHEME                 engine/source/ale/alefvm/alefvm_scheme.F
-Chd|        ALEFVM_SFINT3                 engine/source/ale/alefvm/alefvm_sfint3.F
-Chd|        ALEFVM_SFINT3_INT22           engine/source/ale/alefvm/alefvm_sfint3_int22.F
-Chd|        ALEFVM_STRESS_INT22           engine/source/ale/alefvm/alefvm_stress_int22.F
-Chd|        ALEMUSCL_UPWIND               engine/source/ale/alemuscl/alemuscl_upwind.F
-Chd|        ALEMUSCL_UPWIND2              engine/source/ale/alemuscl/alemuscl_upwind2.F
-Chd|        AMASS3                        engine/source/elements/solid/solide/amass3.F
-Chd|        AMASS3P                       engine/source/elements/solid/solide/amass3p.F
-Chd|        ANIM_NODAL_P_ELEMS            engine/source/output/anim/generate/anim_nodal_p_elems.F
-Chd|        DELTAX22                      engine/source/interfaces/int22/deltax22.F
-Chd|        DESTROY_CELL                  engine/source/interfaces/int22/destroy_cell.F
-Chd|        EFLUX3_INT22_FVM              engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
-Chd|        H3D_VELVECC22                 engine/source/output/h3d/h3d_results/h3d_velvecc22.F
-Chd|        H3D_VELVECZ22                 engine/source/output/h3d/h3d_results/h3d_velvecz22.F
-Chd|        I22ASS2                       engine/source/interfaces/int22/i22assembly.F
-Chd|        I22BUCE                       engine/source/interfaces/intsort/i22buce.F
-Chd|        I22COR3                       engine/source/interfaces/int22/i22cor3.F
-Chd|        I22DATAINIT                   engine/source/interfaces/int22/i22datainit.F
-Chd|        I22DATAINIT_DB                engine/source/interfaces/int22/i22datainit_db.F
-Chd|        I22FOR3                       engine/source/interfaces/int22/i22for3.F
-Chd|        I22GBIT                       engine/source/interfaces/int22/i22ident.F
-Chd|        I22GET_PREV_DATA              engine/source/interfaces/int22/i22get_prev_data.F
-Chd|        I22IDENT                      engine/source/interfaces/int22/i22ident.F
-Chd|        I22INTERSECT                  engine/source/interfaces/int22/i22intersect.F
-Chd|        I22MAIN_TRI                   engine/source/interfaces/intsort/i22main_tri.F
-Chd|        I22SOLID_GETMINMAX            engine/source/interfaces/intsort/i22main_tri.F
-Chd|        I22SUBVOL                     engine/source/interfaces/int22/i22subvol.F
-Chd|        I22TRIVOX                     engine/source/interfaces/intsort/i22trivox.F
-Chd|        I22WETSURF                    engine/source/interfaces/int22/i22wetsurf.F
-Chd|        INTTRI                        engine/source/interfaces/intsort/inttri.F
-Chd|        MQVISCB                       engine/source/materials/mat_share/mqviscb.F
-Chd|        NODALD                        engine/source/output/anim/generate/nodald.F
-Chd|        NODALT                        engine/source/output/anim/generate/nodalt.F
-Chd|        NODALVFRAC                    engine/source/output/anim/generate/nodalvfrac.F
-Chd|        NODALZVOL                     engine/source/output/anim/generate/nodalzvol.F
-Chd|        NODAL_SCHLIEREN               engine/source/output/anim/generate/nodal_schlieren.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        R_BUFBRIC_22                  engine/source/interfaces/int22/r_bufbric_22.F
-Chd|        SCOOR3_FVM                    engine/source/ale/alefvm/scoor3_fvm.F
-Chd|        SIGEPS105                     engine/source/materials/mat/mat105/sigeps105.F
-Chd|        SIGEPS51                      engine/source/materials/mat/mat051/sigeps51.F
-Chd|        SIGEPS97                      engine/source/materials/mat/mat097/sigeps97.F
-Chd|        SINIT22_FVM                   engine/source/interfaces/int22/sinit22_fvm.F
-Chd|        SRHO3                         engine/source/elements/solid/solide/srho3.F
-Chd|        VELVECC22                     engine/source/output/anim/generate/velvec.F
-Chd|        VELVECZ22                     engine/source/output/anim/generate/velvecz22.F
-Chd|        VOLN22                        engine/source/interfaces/int22/voln22.F
-Chd|        WRITE_BUF_LAW51               engine/source/materials/mat/mat051/write_buf_law51.F
-Chd|        WRITE_CUT_CELL_BUFFER         engine/source/interfaces/int22/write_cut_cell_buffer.F
-Chd|        W_BUFBRIC_22                  engine/source/interfaces/int22/w_bufbric_22.F
-Chd|        weighting_Cell_Nodes          engine/source/interfaces/int22/weighting_cell_nodes.F
-Chd|-- calls ---------------
-Chd|        i22EDGE_MOD                   modules/interfaces/cut-cell-buffer_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i22bufbric_mod               ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    a22conv3                     ../engine/source/ale/alefvm/cut_cells/a22conv3.F
+      !||    aconve                       ../engine/source/ale/aconve.F
+      !||    aflux3                       ../engine/source/ale/ale3d/aflux3.F
+      !||    aflux3_int22_fvm             ../engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
+      !||    afluxt                       ../engine/source/ale/ale51/afluxt.F
+      !||    ale51_antidiff3              ../engine/source/ale/ale51/ale51_antidiff3.F
+      !||    ale51_antidiff3_int22        ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
+      !||    ale51_finish                 ../engine/source/ale/ale51/ale51_finish.F
+      !||    ale51_init                   ../engine/source/ale/ale51/ale51_init.F
+      !||    ale51_upwind3_int22          ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
+      !||    alefvm_freset                ../engine/source/ale/alefvm/alefvm_freset.F
+      !||    alefvm_gravity_int22         ../engine/source/ale/alefvm/alefvm_gravity_int22.F
+      !||    alefvm_scheme                ../engine/source/ale/alefvm/alefvm_scheme.F
+      !||    alefvm_sfint3                ../engine/source/ale/alefvm/alefvm_sfint3.F
+      !||    alefvm_sfint3_int22          ../engine/source/ale/alefvm/alefvm_sfint3_int22.F
+      !||    alefvm_stress_int22          ../engine/source/ale/alefvm/alefvm_stress_int22.F
+      !||    alemuscl_upwind              ../engine/source/ale/alemuscl/alemuscl_upwind.F
+      !||    alemuscl_upwind2             ../engine/source/ale/alemuscl/alemuscl_upwind2.F
+      !||    amass3                       ../engine/source/elements/solid/solide/amass3.F
+      !||    amass3p                      ../engine/source/elements/solid/solide/amass3p.F
+      !||    anim_nodal_p_elems           ../engine/source/output/anim/generate/anim_nodal_p_elems.F
+      !||    deltax22                     ../engine/source/interfaces/int22/deltax22.F
+      !||    destroy_cell                 ../engine/source/interfaces/int22/destroy_cell.F
+      !||    eflux3_int22_fvm             ../engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
+      !||    get_unique_main_cell         ../engine/source/interfaces/int22/get_unique_master_cell.F
+      !||    h3d_velvecc22                ../engine/source/output/h3d/h3d_results/h3d_velvecc22.F
+      !||    h3d_velvecz22                ../engine/source/output/h3d/h3d_results/h3d_velvecz22.F
+      !||    i22ass2                      ../engine/source/interfaces/int22/i22assembly.F
+      !||    i22buce                      ../engine/source/interfaces/intsort/i22buce.F
+      !||    i22cor3                      ../engine/source/interfaces/int22/i22cor3.F
+      !||    i22datainit                  ../engine/source/interfaces/int22/i22datainit.F
+      !||    i22datainit_db               ../engine/source/interfaces/int22/i22datainit_db.F
+      !||    i22for3                      ../engine/source/interfaces/int22/i22for3.F
+      !||    i22gbit                      ../engine/source/interfaces/int22/i22ident.F
+      !||    i22get_prev_data             ../engine/source/interfaces/int22/i22get_prev_data.F
+      !||    i22ident                     ../engine/source/interfaces/int22/i22ident.F
+      !||    i22intersect                 ../engine/source/interfaces/int22/i22intersect.F
+      !||    i22main_tri                  ../engine/source/interfaces/intsort/i22main_tri.F
+      !||    i22solid_getminmax           ../engine/source/interfaces/intsort/i22main_tri.F
+      !||    i22subvol                    ../engine/source/interfaces/int22/i22subvol.F
+      !||    i22trivox                    ../engine/source/interfaces/intsort/i22trivox.F
+      !||    i22wetsurf                   ../engine/source/interfaces/int22/i22wetsurf.F
+      !||    int22listcombi               ../engine/source/interfaces/int22/int22ListCombi.F
+      !||    inttri                       ../engine/source/interfaces/intsort/inttri.F
+      !||    link_with_unique_main_cell   ../engine/source/interfaces/int22/link_with_unique_master_cell.F
+      !||    mqviscb                      ../engine/source/materials/mat_share/mqviscb.F
+      !||    nodal_schlieren              ../engine/source/output/anim/generate/nodal_schlieren.F
+      !||    nodald                       ../engine/source/output/anim/generate/nodald.F
+      !||    nodalt                       ../engine/source/output/anim/generate/nodalt.F
+      !||    nodalvfrac                   ../engine/source/output/anim/generate/nodalvfrac.F
+      !||    nodalzvol                    ../engine/source/output/anim/generate/nodalzvol.F
+      !||    r_bufbric_22                 ../engine/source/interfaces/int22/r_bufbric_22.F
+      !||    resol                        ../engine/source/engine/resol.F
+      !||    scoor3_fvm                   ../engine/source/ale/alefvm/scoor3_fvm.F
+      !||    sigeps105                    ../engine/source/materials/mat/mat105/sigeps105.F
+      !||    sigeps51                     ../engine/source/materials/mat/mat051/sigeps51.F
+      !||    sigeps97                     ../engine/source/materials/mat/mat097/sigeps97.F
+      !||    sinit22_fvm                  ../engine/source/interfaces/int22/sinit22_fvm.F
+      !||    srho3                        ../engine/source/elements/solid/solide/srho3.F
+      !||    velvecc22                    ../engine/source/output/anim/generate/velvec.F
+      !||    velvecz22                    ../engine/source/output/anim/generate/velvecz22.F
+      !||    voln22                       ../engine/source/interfaces/int22/voln22.F
+      !||    w_bufbric_22                 ../engine/source/interfaces/int22/w_bufbric_22.F
+      !||    weighting_cell_nodes         ../engine/source/interfaces/int22/weighting_cell_nodes.F
+      !||    write_buf_law51              ../engine/source/materials/mat/mat051/write_buf_law51.F
+      !||    write_cut_cell_buffer        ../engine/source/interfaces/int22/write_cut_cell_buffer.F
+      !||--- uses       -----------------------------------------------------
+      !||    i22edge_mod                  ../common_source/modules/interfaces/cut-cell-buffer_mod.F
+      !||====================================================================
       MODULE I22BUFBRIC_MOD
 C-----------------------------------------------
 C  M o d u l e s
@@ -129,79 +131,82 @@ C-----------------------------------------------
 C
 C
 C
-Chd|====================================================================
-Chd|  I22TRI_MOD                    modules/interfaces/cut-cell-search_mod.F
-Chd|-- called by -----------
-Chd|        W_BUFBRIC_22                  starter/source/interfaces/inter3d1/w_bufbric_22.F
-Chd|        A22CONV3                      engine/source/ale/alefvm/cut_cells/a22conv3.F
-Chd|        ACONV3                        engine/source/ale/ale3d/aconv3.F
-Chd|        ACONVE                        engine/source/ale/aconve.F    
-Chd|        AFLUX0                        engine/source/ale/aflux0.F    
-Chd|        AFLUX3_INT22_FVM              engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
-Chd|        AFLUXT                        engine/source/ale/ale51/afluxt.F
-Chd|        ALE51_ANTIDIFF3               engine/source/ale/ale51/ale51_antidiff3.F
-Chd|        ALE51_ANTIDIFF3_INT22         engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
-Chd|        ALE51_FINISH                  engine/source/ale/ale51/ale51_finish.F
-Chd|        ALE51_INIT                    engine/source/ale/ale51/ale51_init.F
-Chd|        ALE51_UPWIND3                 engine/source/ale/ale51/ale51_upwind3.F
-Chd|        ALE51_UPWIND3_INT22           engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
-Chd|        ALEFVM_AFLUX3                 engine/source/ale/alefvm/alefvm_aflux3.F
-Chd|        ALEFVM_EFLUX3                 engine/source/ale/alefvm/alefvm_eflux3.F
-Chd|        ALEFVM_MAIN                   engine/source/ale/alefvm/alefvm_main.F
-Chd|        ALEFVM_SCHEME                 engine/source/ale/alefvm/alefvm_scheme.F
-Chd|        ALEFVM_SFINT3                 engine/source/ale/alefvm/alefvm_sfint3.F
-Chd|        ALEFVM_SFINT3_INT22           engine/source/ale/alefvm/alefvm_sfint3_int22.F
-Chd|        ALEMUSCL_UPWIND               engine/source/ale/alemuscl/alemuscl_upwind.F
-Chd|        ALEMUSCL_UPWIND2              engine/source/ale/alemuscl/alemuscl_upwind2.F
-Chd|        ALETHE                        engine/source/ale/alethe.F    
-Chd|        ANIM_NODAL_P_ELEMS            engine/source/output/anim/generate/anim_nodal_p_elems.F
-Chd|        DELTAX22                      engine/source/interfaces/int22/deltax22.F
-Chd|        DESTROY_CELL                  engine/source/interfaces/int22/destroy_cell.F
-Chd|        DFUNCS                        engine/source/output/anim/generate/dfunc6.F
-Chd|        EFLUX3                        engine/source/ale/euler3d/eflux3.F
-Chd|        EFLUX3_INT22_FVM              engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
-Chd|        H3D_VELVECC22                 engine/source/output/h3d/h3d_results/h3d_velvecc22.F
-Chd|        H3D_VELVECZ22                 engine/source/output/h3d/h3d_results/h3d_velvecz22.F
-Chd|        I22ASS2                       engine/source/interfaces/int22/i22assembly.F
-Chd|        I22BUCE                       engine/source/interfaces/intsort/i22buce.F
-Chd|        I22COR3                       engine/source/interfaces/int22/i22cor3.F
-Chd|        I22DATAINIT                   engine/source/interfaces/int22/i22datainit.F
-Chd|        I22DATAINIT_DB                engine/source/interfaces/int22/i22datainit_db.F
-Chd|        I22FOR3                       engine/source/interfaces/int22/i22for3.F
-Chd|        I22GBIT                       engine/source/interfaces/int22/i22ident.F
-Chd|        I22GET_PREV_DATA              engine/source/interfaces/int22/i22get_prev_data.F
-Chd|        I22IDENT                      engine/source/interfaces/int22/i22ident.F
-Chd|        I22INTERSECT                  engine/source/interfaces/int22/i22intersect.F
-Chd|        I22MAINF                      engine/source/interfaces/int22/i22mainf.F
-Chd|        I22MAIN_TRI                   engine/source/interfaces/intsort/i22main_tri.F
-Chd|        I22SHELL_GETMINMAX            engine/source/interfaces/intsort/i22main_tri.F
-Chd|        I22SOLID_GETMINMAX            engine/source/interfaces/intsort/i22main_tri.F
-Chd|        I22STO                        engine/source/interfaces/intsort/i22sto.F
-Chd|        I22SUBVOL                     engine/source/interfaces/int22/i22subvol.F
-Chd|        I22TRIVOX                     engine/source/interfaces/intsort/i22trivox.F
-Chd|        I22WETSURF                    engine/source/interfaces/int22/i22wetsurf.F
-Chd|        INTTRI                        engine/source/interfaces/intsort/inttri.F
-Chd|        MQVISCB                       engine/source/materials/mat_share/mqviscb.F
-Chd|        NODALD                        engine/source/output/anim/generate/nodald.F
-Chd|        NODALT                        engine/source/output/anim/generate/nodalt.F
-Chd|        NODALVFRAC                    engine/source/output/anim/generate/nodalvfrac.F
-Chd|        NODALZVOL                     engine/source/output/anim/generate/nodalzvol.F
-Chd|        NODAL_SCHLIEREN               engine/source/output/anim/generate/nodal_schlieren.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        R_BUFBRIC_22                  engine/source/interfaces/int22/r_bufbric_22.F
-Chd|        SCOOR3_FVM                    engine/source/ale/alefvm/scoor3_fvm.F
-Chd|        SIGEPS105                     engine/source/materials/mat/mat105/sigeps105.F
-Chd|        SIGEPS51                      engine/source/materials/mat/mat051/sigeps51.F
-Chd|        SIGEPS97                      engine/source/materials/mat/mat097/sigeps97.F
-Chd|        SINIT22_FVM                   engine/source/interfaces/int22/sinit22_fvm.F
-Chd|        SPMD_TRI22VOX                 engine/source/mpi/interfaces/spmd_tri22vox.F
-Chd|        VELVECC22                     engine/source/output/anim/generate/velvec.F
-Chd|        VELVECZ22                     engine/source/output/anim/generate/velvecz22.F
-Chd|        VOLN22                        engine/source/interfaces/int22/voln22.F
-Chd|        WRITE_CUT_CELL_BUFFER         engine/source/interfaces/int22/write_cut_cell_buffer.F
-Chd|        W_BUFBRIC_22                  engine/source/interfaces/int22/w_bufbric_22.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i22tri_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    a22conv3                     ../engine/source/ale/alefvm/cut_cells/a22conv3.F
+      !||    aconv3                       ../engine/source/ale/ale3d/aconv3.F
+      !||    aconve                       ../engine/source/ale/aconve.F
+      !||    aflux0                       ../engine/source/ale/aflux0.F
+      !||    aflux3_int22_fvm             ../engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
+      !||    afluxt                       ../engine/source/ale/ale51/afluxt.F
+      !||    ale51_antidiff3              ../engine/source/ale/ale51/ale51_antidiff3.F
+      !||    ale51_antidiff3_int22        ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
+      !||    ale51_finish                 ../engine/source/ale/ale51/ale51_finish.F
+      !||    ale51_init                   ../engine/source/ale/ale51/ale51_init.F
+      !||    ale51_upwind3                ../engine/source/ale/ale51/ale51_upwind3.F
+      !||    ale51_upwind3_int22          ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
+      !||    alefvm_aflux3                ../engine/source/ale/alefvm/alefvm_aflux3.F
+      !||    alefvm_eflux3                ../engine/source/ale/alefvm/alefvm_eflux3.F
+      !||    alefvm_main                  ../engine/source/ale/alefvm/alefvm_main.F
+      !||    alefvm_scheme                ../engine/source/ale/alefvm/alefvm_scheme.F
+      !||    alefvm_sfint3                ../engine/source/ale/alefvm/alefvm_sfint3.F
+      !||    alefvm_sfint3_int22          ../engine/source/ale/alefvm/alefvm_sfint3_int22.F
+      !||    alemuscl_upwind              ../engine/source/ale/alemuscl/alemuscl_upwind.F
+      !||    alemuscl_upwind2             ../engine/source/ale/alemuscl/alemuscl_upwind2.F
+      !||    alethe                       ../engine/source/ale/alethe.F
+      !||    anim_nodal_p_elems           ../engine/source/output/anim/generate/anim_nodal_p_elems.F
+      !||    deltax22                     ../engine/source/interfaces/int22/deltax22.F
+      !||    destroy_cell                 ../engine/source/interfaces/int22/destroy_cell.F
+      !||    dfuncs                       ../engine/source/output/anim/generate/dfunc6.F
+      !||    eflux3                       ../engine/source/ale/euler3d/eflux3.F
+      !||    eflux3_int22_fvm             ../engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
+      !||    get_unique_main_cell         ../engine/source/interfaces/int22/get_unique_master_cell.F
+      !||    h3d_velvecc22                ../engine/source/output/h3d/h3d_results/h3d_velvecc22.F
+      !||    h3d_velvecz22                ../engine/source/output/h3d/h3d_results/h3d_velvecz22.F
+      !||    i22ass2                      ../engine/source/interfaces/int22/i22assembly.F
+      !||    i22buce                      ../engine/source/interfaces/intsort/i22buce.F
+      !||    i22cor3                      ../engine/source/interfaces/int22/i22cor3.F
+      !||    i22datainit                  ../engine/source/interfaces/int22/i22datainit.F
+      !||    i22datainit_db               ../engine/source/interfaces/int22/i22datainit_db.F
+      !||    i22for3                      ../engine/source/interfaces/int22/i22for3.F
+      !||    i22gbit                      ../engine/source/interfaces/int22/i22ident.F
+      !||    i22get_prev_data             ../engine/source/interfaces/int22/i22get_prev_data.F
+      !||    i22ident                     ../engine/source/interfaces/int22/i22ident.F
+      !||    i22intersect                 ../engine/source/interfaces/int22/i22intersect.F
+      !||    i22main_tri                  ../engine/source/interfaces/intsort/i22main_tri.F
+      !||    i22mainf                     ../engine/source/interfaces/int22/i22mainf.F
+      !||    i22shell_getminmax           ../engine/source/interfaces/intsort/i22main_tri.F
+      !||    i22solid_getminmax           ../engine/source/interfaces/intsort/i22main_tri.F
+      !||    i22sto                       ../engine/source/interfaces/intsort/i22sto.F
+      !||    i22subvol                    ../engine/source/interfaces/int22/i22subvol.F
+      !||    i22trivox                    ../engine/source/interfaces/intsort/i22trivox.F
+      !||    i22wetsurf                   ../engine/source/interfaces/int22/i22wetsurf.F
+      !||    int22listcombi               ../engine/source/interfaces/int22/int22ListCombi.F
+      !||    inttri                       ../engine/source/interfaces/intsort/inttri.F
+      !||    link_with_unique_main_cell   ../engine/source/interfaces/int22/link_with_unique_master_cell.F
+      !||    mqviscb                      ../engine/source/materials/mat_share/mqviscb.F
+      !||    nodal_schlieren              ../engine/source/output/anim/generate/nodal_schlieren.F
+      !||    nodald                       ../engine/source/output/anim/generate/nodald.F
+      !||    nodalt                       ../engine/source/output/anim/generate/nodalt.F
+      !||    nodalvfrac                   ../engine/source/output/anim/generate/nodalvfrac.F
+      !||    nodalzvol                    ../engine/source/output/anim/generate/nodalzvol.F
+      !||    r_bufbric_22                 ../engine/source/interfaces/int22/r_bufbric_22.F
+      !||    resol                        ../engine/source/engine/resol.F
+      !||    scoor3_fvm                   ../engine/source/ale/alefvm/scoor3_fvm.F
+      !||    sigeps105                    ../engine/source/materials/mat/mat105/sigeps105.F
+      !||    sigeps51                     ../engine/source/materials/mat/mat051/sigeps51.F
+      !||    sigeps97                     ../engine/source/materials/mat/mat097/sigeps97.F
+      !||    sinit22_fvm                  ../engine/source/interfaces/int22/sinit22_fvm.F
+      !||    spmd_tri22vox                ../engine/source/mpi/interfaces/spmd_tri22vox.F
+      !||    velvecc22                    ../engine/source/output/anim/generate/velvec.F
+      !||    velvecz22                    ../engine/source/output/anim/generate/velvecz22.F
+      !||    voln22                       ../engine/source/interfaces/int22/voln22.F
+      !||    w_bufbric_22                 ../engine/source/interfaces/int22/w_bufbric_22.F
+      !||    write_cut_cell_buffer        ../engine/source/interfaces/int22/write_cut_cell_buffer.F
+      !||--- uses       -----------------------------------------------------
+      !||    i22edge_mod                  ../common_source/modules/interfaces/cut-cell-buffer_mod.F
+      !||====================================================================
       MODULE I22TRI_MOD
 C-----------------------------------------------
 C  M o d u l e s

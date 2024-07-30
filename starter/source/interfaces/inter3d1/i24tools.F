@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ADD_ID                        source/interfaces/inter3d1/i24tools.F
-Chd|-- called by -----------
-Chd|        COMM_SEG_E                    source/interfaces/inter3d1/i24inisu_nei.F
-Chd|        I25NEIGH_SEG_E                source/interfaces/inter3d1/i25neigh.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    add_id           ../starter/source/interfaces/inter3d1/i24tools.F
+      !||--- called by ------------------------------------------------------
+      !||    comm_seg_e       ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+      !||    i25neigh_seg_e   ../starter/source/interfaces/inter3d1/i25neigh.F
+      !||====================================================================
       SUBROUTINE ADD_ID(N,IC,ID)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -51,12 +50,11 @@ C----add ID--at end--if not inside already----------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  ADD_N_ID                      source/interfaces/inter3d1/i24tools.F
-Chd|-- called by -----------
-Chd|        COMM_SEG_N                    source/interfaces/inter3d1/i24inisu_nei.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    add_n_id     ../starter/source/interfaces/inter3d1/i24tools.F
+      !||--- called by ------------------------------------------------------
+      !||    comm_seg_n   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+      !||====================================================================
       SUBROUTINE ADD_N_ID(N,IC,ID)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -76,20 +74,23 @@ C----add ID--at end----------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  INTAB                         source/interfaces/inter3d1/i24tools.F
-Chd|-- called by -----------
-Chd|        ADD_NSFIC                     source/interfaces/inter3d1/i7remnode.F
-Chd|        COMM_SEG_E                    source/interfaces/inter3d1/i24inisu_nei.F
-Chd|        I24PENMAX                     source/interfaces/inter3d1/i24pen3.F
-Chd|        I25NEIGH_SEG_E                source/interfaces/inter3d1/i25neigh.F
-Chd|        ITAGSL2                       source/interfaces/inter3d1/itagsl2.F
-Chd|        RIGMODIF_ND                   source/elements/solid/solide10/dim_s10edg.F
-Chd|        S10EDG_RLINK                  source/elements/solid/solide10/s10edg_rlink.F
-Chd|        SEG_OPP                       source/interfaces/inter3d1/i24tools.F
-Chd|        SAME_SEG                      source/interfaces/inter3d1/i24tools.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    intab              ../starter/source/interfaces/inter3d1/i24tools.F
+      !||--- called by ------------------------------------------------------
+      !||    add_nsfic          ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    comm_seg_e         ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+      !||    i24penmax          ../starter/source/interfaces/inter3d1/i24pen3.F
+      !||    i25neigh_seg_e     ../starter/source/interfaces/inter3d1/i25neigh.F
+      !||    i25neigh_seg_opp   ../starter/source/interfaces/inter3d1/i25neigh.F
+      !||    int2cy_chk         ../starter/source/constraints/general/bcs/lecbcscyc.F
+      !||    int2modif_nd       ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    itagsl2            ../starter/source/interfaces/inter3d1/itagsl2.F
+      !||    rbe2modif_nd       ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    rigmodif_nd        ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    s10edg_rlink       ../starter/source/elements/solid/solide10/s10edg_rlink.F
+      !||    same_seg           ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    seg_opp            ../starter/source/interfaces/inter3d1/i24tools.F
+      !||====================================================================
       LOGICAL FUNCTION INTAB(NIC,IC,N)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -114,17 +115,16 @@ C----6---------------------------------------------------------------7---------8
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  NORMV3                        source/interfaces/inter3d1/i24tools.F
-Chd|-- called by -----------
-Chd|        I24NORMNS                     source/interfaces/inter3d1/i24sti3.F
-Chd|        I25NEIGH_REMOVEALLBUT1        source/interfaces/inter3d1/i25neigh.F
-Chd|        NORMVEC                       source/interfaces/inter3d1/i24sti3.F
-Chd|        REMOVEIC                      source/interfaces/inter3d1/i24tools.F
-Chd|        REMOVEIC1                     source/interfaces/inter3d1/i24tools.F
-Chd|        VOISIN2                       source/interfaces/inter3d1/i24tools.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    normv3                   ../starter/source/interfaces/inter3d1/i24tools.F
+      !||--- called by ------------------------------------------------------
+      !||    i24normns                ../starter/source/interfaces/inter3d1/i24sti3.F
+      !||    i25neigh_removeallbut1   ../starter/source/interfaces/inter3d1/i25neigh.F
+      !||    normvec                  ../starter/source/interfaces/inter3d1/i24sti3.F
+      !||    removeic                 ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    removeic1                ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    voisin2                  ../starter/source/interfaces/inter3d1/i24tools.F
+      !||====================================================================
       SUBROUTINE NORMV3(V,NORM)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -151,15 +151,15 @@ C-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  VOISIN2                       source/interfaces/inter3d1/i24tools.F
-Chd|-- called by -----------
-Chd|        REMOVEIC                      source/interfaces/inter3d1/i24tools.F
-Chd|-- calls ---------------
-Chd|        NORMA4N                       source/interfaces/inter3d1/norma1.F
-Chd|        NORMA4NX                      source/interfaces/inter3d1/norma1.F
-Chd|        NORMV3                        source/interfaces/inter3d1/i24tools.F
-Chd|====================================================================
+      !||====================================================================
+      !||    voisin2    ../starter/source/interfaces/inter3d1/i24tools.F
+      !||--- called by ------------------------------------------------------
+      !||    removeic   ../starter/source/interfaces/inter3d1/i24tools.F
+      !||--- calls      -----------------------------------------------------
+      !||    norma4n    ../starter/source/interfaces/inter3d1/norma1.F
+      !||    norma4nx   ../starter/source/interfaces/inter3d1/norma1.F
+      !||    normv3     ../starter/source/interfaces/inter3d1/i24tools.F
+      !||====================================================================
       SUBROUTINE VOISIN2(NC1,NC2,X ,I1 ,I2 ,YI,YJ,INV)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -215,12 +215,11 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  RE_ORI                        source/interfaces/inter3d1/i24tools.F
-Chd|-- called by -----------
-Chd|        COMM_SEG_EN                   source/interfaces/inter3d1/i24inisu_nei.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    re_ori        ../starter/source/interfaces/inter3d1/i24tools.F
+      !||--- called by ------------------------------------------------------
+      !||    comm_seg_en   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+      !||====================================================================
       SUBROUTINE RE_ORI(I1,I2,IN,X )
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -259,14 +258,15 @@ c       print *,'---------change order-----------'
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  MSG_ERR                       source/interfaces/inter3d1/i24tools.F
-Chd|-- called by -----------
-Chd|        I24INISUR_NEI                 source/interfaces/inter3d1/i24inisu_nei.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    msg_err         ../starter/source/interfaces/inter3d1/i24tools.F
+      !||--- called by ------------------------------------------------------
+      !||    i24inisur_nei   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg          ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE MSG_ERR(I1,I2,ITAB,IRR,ID,TITR)
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -318,14 +318,14 @@ c        CALL ARRET(2)
 C-----------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  SAME_SEG                      source/interfaces/inter3d1/i24tools.F
-Chd|-- called by -----------
-Chd|        COMM_SEG_E                    source/interfaces/inter3d1/i24inisu_nei.F
-Chd|        I25NEIGH_SEG_E                source/interfaces/inter3d1/i25neigh.F
-Chd|-- calls ---------------
-Chd|        INTAB                         source/interfaces/inter3d1/i24tools.F
-Chd|====================================================================
+      !||====================================================================
+      !||    same_seg         ../starter/source/interfaces/inter3d1/i24tools.F
+      !||--- called by ------------------------------------------------------
+      !||    comm_seg_e       ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+      !||    i25neigh_seg_e   ../starter/source/interfaces/inter3d1/i25neigh.F
+      !||--- calls      -----------------------------------------------------
+      !||    intab            ../starter/source/interfaces/inter3d1/i24tools.F
+      !||====================================================================
       LOGICAL FUNCTION SAME_SEG(IRECT1,IRECT2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -364,14 +364,14 @@ C----6---------------------------------------------------------------7---------8
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  SEG_OPP                       source/interfaces/inter3d1/i24tools.F
-Chd|-- called by -----------
-Chd|        COMM_SEG_EN                   source/interfaces/inter3d1/i24inisu_nei.F
-Chd|-- calls ---------------
-Chd|        NORMA4N                       source/interfaces/inter3d1/norma1.F
-Chd|        INTAB                         source/interfaces/inter3d1/i24tools.F
-Chd|====================================================================
+      !||====================================================================
+      !||    seg_opp       ../starter/source/interfaces/inter3d1/i24tools.F
+      !||--- called by ------------------------------------------------------
+      !||    comm_seg_en   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+      !||--- calls      -----------------------------------------------------
+      !||    intab         ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    norma4n       ../starter/source/interfaces/inter3d1/norma1.F
+      !||====================================================================
       SUBROUTINE SEG_OPP(EI,EJ,IRECT,X ,IOP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -420,14 +420,13 @@ C---
 C-----------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  REMOVEIC                      source/interfaces/inter3d1/i24tools.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        NORMA4N                       source/interfaces/inter3d1/norma1.F
-Chd|        NORMV3                        source/interfaces/inter3d1/i24tools.F
-Chd|        VOISIN2                       source/interfaces/inter3d1/i24tools.F
-Chd|====================================================================
+      !||====================================================================
+      !||    removeic   ../starter/source/interfaces/inter3d1/i24tools.F
+      !||--- calls      -----------------------------------------------------
+      !||    norma4n    ../starter/source/interfaces/inter3d1/norma1.F
+      !||    normv3     ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    voisin2    ../starter/source/interfaces/inter3d1/i24tools.F
+      !||====================================================================
       SUBROUTINE REMOVEIC(N,IC,ISELF,IRECT,X ,I1,I2,IASYM,IRR)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -535,15 +534,15 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Chd|====================================================================
-Chd|  REMOVEIC1                     source/interfaces/inter3d1/i24tools.F
-Chd|-- called by -----------
-Chd|        COMM_SEG_EN                   source/interfaces/inter3d1/i24inisu_nei.F
-Chd|-- calls ---------------
-Chd|        NORMA4N                       source/interfaces/inter3d1/norma1.F
-Chd|        NORMV3                        source/interfaces/inter3d1/i24tools.F
-Chd|        VOISIN1                       source/interfaces/inter3d1/voisin1.F
-Chd|====================================================================
+      !||====================================================================
+      !||    removeic1     ../starter/source/interfaces/inter3d1/i24tools.F
+      !||--- called by ------------------------------------------------------
+      !||    comm_seg_en   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+      !||--- calls      -----------------------------------------------------
+      !||    norma4n       ../starter/source/interfaces/inter3d1/norma1.F
+      !||    normv3        ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    voisin1       ../starter/source/interfaces/inter3d1/voisin1.F
+      !||====================================================================
       SUBROUTINE REMOVEIC1(N,IC,ISELF,IRECT,X ,I1,I2,IASYM,IRR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

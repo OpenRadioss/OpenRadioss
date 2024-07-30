@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DSRGCNT                       source/output/anim/dsrgcnt.F  
-Chd|-- called by -----------
-Chd|        GENANI1                       source/output/anim/genani1.F  
-Chd|-- calls ---------------
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dsrgcnt        ../starter/source/output/anim/dsrgcnt.F
+      !||--- called by ------------------------------------------------------
+      !||    genani1        ../starter/source/output/anim/genani1.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE DSRGCNT(IGRSURF, NSURG,NESRG,NNSRG,NESBW)
 C-----------------------------------------------
 C   M o d u l e s

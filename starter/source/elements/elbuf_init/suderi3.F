@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SUDERI3                       source/elements/elbuf_init/suderi3.F
-Chd|-- called by -----------
-Chd|        SUINIT3                       source/elements/elbuf_init/suinit3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    suderi3   ../starter/source/elements/elbuf_init/suderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    suinit3   ../starter/source/elements/elbuf_init/suinit3.F
+      !||====================================================================
       SUBROUTINE SUDERI3(NEL   ,VOL  ,
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .              Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAW42_UPD                     source/materials/mat/mat042/law42_upd.F
-Chd|-- called by -----------
-Chd|        UPDMAT                        source/materials/updmat.F     
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    law42_upd     ../starter/source/materials/mat/mat042/law42_upd.F
+      !||--- called by ------------------------------------------------------
+      !||    updmat        ../starter/source/materials/updmat.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    table_mod     ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE LAW42_UPD(IOUT,TITR    ,MAT_ID,UPARAM, PM, GAMA_INF)
 C-----------------------------------------------
 C   M o d u l e s

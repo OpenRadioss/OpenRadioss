@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NORCUT                        source/tools/sect/norcut.F    
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|-- calls ---------------
-Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|====================================================================
+      !||====================================================================
+      !||    norcut      ../engine/source/tools/sect/norcut.F
+      !||--- called by ------------------------------------------------------
+      !||    genani      ../engine/source/output/anim/generate/genani.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_s_c   ../common_source/tools/input_output/write_routtines.c
+      !||====================================================================
       SUBROUTINE NORCUT(VN,LASTN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

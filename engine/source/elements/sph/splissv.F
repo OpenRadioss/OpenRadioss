@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MOD_SPLISSV                   source/elements/sph/splissv.F 
-Chd|-- called by -----------
-Chd|        SPLISSV                       source/elements/sph/splissv.F 
-Chd|        SPONFV                        source/elements/sph/sponfv.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mod_splissv   ../engine/source/elements/sph/splissv.F
+      !||--- called by ------------------------------------------------------
+      !||    splissv       ../engine/source/elements/sph/splissv.F
+      !||    sponfv        ../engine/source/elements/sph/sponfv.F
+      !||====================================================================
       MODULE MOD_SPLISSV
       implicit none
 #include      "my_real.inc"
@@ -37,26 +36,26 @@ Chd|====================================================================
      .       , DIMENSION(:,:), ALLOCATABLE :: ASPHR
       INTEGER, DIMENSION(:), ALLOCATABLE ::  ITAG
       END MODULE MOD_SPLISSV
-Chd|====================================================================
-Chd|  SPLISSV                       source/elements/sph/splissv.F 
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_EXCH_A_SOL2SPH           source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETF                  source/mpi/elements/spmd_sph.F
-Chd|        STARTIMEG                     source/system/timer.F         
-Chd|        STOPTIMEG                     source/system/timer.F         
-Chd|        WEIGHT0                       source/elements/sph/weight.F  
-Chd|        GET_U_GEO                     source/user_interface/upidmid.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MOD_SPLISSV                   source/elements/sph/splissv.F 
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    splissv               ../engine/source/elements/sph/splissv.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                 ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
+      !||    foat_to_6_float       ../engine/source/system/parit.F
+      !||    my_barrier            ../engine/source/system/machine.F
+      !||    spmd_exch_a_sol2sph   ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetf          ../engine/source/mpi/elements/spmd_sph.F
+      !||    startimeg             ../engine/source/system/timer.F
+      !||    stoptimeg             ../engine/source/system/timer.F
+      !||    weight0               ../engine/source/elements/sph/weight.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    mod_splissv           ../engine/source/elements/sph/splissv.F
+      !||    sphbox                ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPLISSV(
      1    X       ,V       ,MS      ,A       ,SPBUF   ,
      2    WA      ,ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,

@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I11MAIN_OPT_TRI               source/interfaces/intsort/i11main_opt_tri.F
-Chd|-- called by -----------
-Chd|        IMP_TRIPI                     source/implicit/imp_int_k.F   
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        I11OPTCD                      source/interfaces/intsort/i11optcd.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i11main_opt_tri   ../engine/source/interfaces/intsort/i11main_opt_tri.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_tripi         ../engine/source/implicit/imp_int_k.F
+      !||    inttri            ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    i11optcd          ../engine/source/interfaces/intsort/i11optcd.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE I11MAIN_OPT_TRI(
      1                  IPARI   ,INTBUF_TAB  ,X     ,V      ,
      2                  NIN     ,ITASK,COUNT_REMSLV)

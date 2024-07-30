@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M97INIT                       source/materials/mat/mat097/m97init.F
-Chd|-- called by -----------
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|-- calls ---------------
-Chd|        M5IN2                         source/initial_conditions/detonation/m5in2.F
-Chd|        M5IN3                         source/initial_conditions/detonation/m5in3.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    m97init          ../starter/source/materials/mat/mat097/m97init.F
+      !||--- called by ------------------------------------------------------
+      !||    matini           ../starter/source/materials/mat_share/matini.F
+      !||--- calls      -----------------------------------------------------
+      !||    m5in2            ../starter/source/initial_conditions/detonation/m5in2.F
+      !||    m5in3            ../starter/source/initial_conditions/detonation/m5in3.F
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod   ../starter/share/modules1/detonators_mod.F
+      !||====================================================================
       SUBROUTINE M97INIT(
      .               IPM     ,DETONATORS,PM      ,
      .               NGL     ,NUVAR     ,UVAR    ,UPARAM  ,X       ,

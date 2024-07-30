@@ -20,17 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DOMETIS2                      source/spmd/domain_decomposition/domdecs.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        INITWG                        source/spmd/domain_decomposition/initwg.F
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    dometis2           ../starter/source/spmd/domain_decomposition/domdecs.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../starter/source/output/message/message.F
+      !||    initwg             ../starter/source/spmd/domain_decomposition/initwg.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||    mid_pid_mod        ../starter/share/modules1/mid_pid_mod.F
+      !||====================================================================
       SUBROUTINE DOMETIS2(
      1  IXS   , IXQ   , IXC     , IXT     , IXP   ,
      2  IXR   , IXTG    , CEP     , GEO   ,

@@ -20,37 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S4INIT3                       source/elements/solid/solide4/s4init3.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ATHERI                        source/ale/atheri.F           
-Chd|        ATURI3                        source/ale/ale3d/aturi3.F     
-Chd|        DTMAIN                        source/materials/time_step/dtmain.F
-Chd|        FAILINI                       source/elements/solid/solide/failini.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        M115_PERTURB                  source/materials/mat/mat115/m115_perturb.F
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|        S4COOR3                       source/elements/solid/solide4/s4coor3.F
-Chd|        S4DERI3                       source/elements/solid/solide4/s4deri3.F
-Chd|        S4JACI3                       source/elements/solid/solide4/s4jaci3.F
-Chd|        S4MASS3                       source/elements/solid/solide4/s4mass3.F
-Chd|        SBOLTINI                      source/loads/bolt/sboltini.F  
-Chd|        SBULK3                        source/elements/solid/solide/sbulk3.F
-Chd|        SMORTH3                       source/elements/solid/solide/smorth3.F
-Chd|        SOLTOSPHV4                    source/elements/sph/soltosph.F
-Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
-Chd|        USERIN3                       source/elements/solid/solide/userin3.F
-Chd|        USTRSIN3                      source/elements/solid/solide/userin3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        BPRELOAD_MOD                  share/modules1/bpreload_mod.F 
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s4init3                ../starter/source/elements/solid/solide4/s4init3.F
+      !||--- called by ------------------------------------------------------
+      !||    initia                 ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    atheri                 ../starter/source/ale/atheri.F
+      !||    aturi3                 ../starter/source/ale/ale3d/aturi3.F
+      !||    dtmain                 ../starter/source/materials/time_step/dtmain.F
+      !||    failini                ../starter/source/elements/solid/solide/failini.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    m115_perturb           ../starter/source/materials/mat/mat115/m115_perturb.F
+      !||    matini                 ../starter/source/materials/mat_share/matini.F
+      !||    s4coor3                ../starter/source/elements/solid/solide4/s4coor3.F
+      !||    s4deri3                ../starter/source/elements/solid/solide4/s4deri3.F
+      !||    s4jaci3                ../starter/source/elements/solid/solide4/s4jaci3.F
+      !||    s4mass3                ../starter/source/elements/solid/solide4/s4mass3.F
+      !||    sboltini               ../starter/source/loads/bolt/sboltini.F
+      !||    sbulk3                 ../starter/source/elements/solid/solide/sbulk3.F
+      !||    smorth3                ../starter/source/elements/solid/solide/smorth3.F
+      !||    soltosphv4             ../starter/source/elements/sph/soltosph.F
+      !||    sreploc3               ../starter/source/elements/solid/solide/sreploc3.F
+      !||    userin3                ../starter/source/elements/solid/solide/userin3.F
+      !||    ustrsin3               ../starter/source/elements/solid/solide/userin3.F
+      !||--- uses       -----------------------------------------------------
+      !||    bpreload_mod           ../starter/share/modules1/bpreload_mod.F
+      !||    defaults_mod           ../starter/source/modules/defaults_mod.F90
+      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S4INIT3(
      1   ELBUF_STR,MAS     ,IXS     ,PM      ,X       ,
      2   DETONATORS,GEO     ,VEUL    ,ALE_CONNECTIVITY   ,IPARG_GR,

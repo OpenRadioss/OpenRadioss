@@ -20,13 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  i22EDGE_MOD                   modules/interfaces/cut-cell-buffer_mod.F
-Chd|-- called by -----------
-Chd|        I22BUFBRIC_MOD                common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i22edge_mod          ../common_source/modules/interfaces/cut-cell-buffer_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    anim_nodal_p_elems   ../engine/source/output/anim/generate/anim_nodal_p_elems.F
+      !||    h3d_velvecc22        ../engine/source/output/h3d/h3d_results/h3d_velvecc22.F
+      !||    h3d_velvecz22        ../engine/source/output/h3d/h3d_results/h3d_velvecz22.F
+      !||    i22buce              ../engine/source/interfaces/intsort/i22buce.F
+      !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22cor3              ../engine/source/interfaces/int22/i22cor3.F
+      !||    i22get_prev_data     ../engine/source/interfaces/int22/i22get_prev_data.F
+      !||    i22ident             ../engine/source/interfaces/int22/i22ident.F
+      !||    i22intersect         ../engine/source/interfaces/int22/i22intersect.F
+      !||    i22subvol            ../engine/source/interfaces/int22/i22subvol.F
+      !||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22trivox            ../engine/source/interfaces/intsort/i22trivox.F
+      !||    int22listcombi       ../engine/source/interfaces/int22/int22ListCombi.F
+      !||    nodal_schlieren      ../engine/source/output/anim/generate/nodal_schlieren.F
+      !||    nodald               ../engine/source/output/anim/generate/nodald.F
+      !||    nodalt               ../engine/source/output/anim/generate/nodalt.F
+      !||    nodalvfrac           ../engine/source/output/anim/generate/nodalvfrac.F
+      !||    nodalzvol            ../engine/source/output/anim/generate/nodalzvol.F
+      !||    resol                ../engine/source/engine/resol.F
+      !||    velvecc22            ../engine/source/output/anim/generate/velvec.F
+      !||    velvecz22            ../engine/source/output/anim/generate/velvecz22.F
+      !||====================================================================
       MODULE i22EDGE_MOD
       
 #include "my_real.inc"

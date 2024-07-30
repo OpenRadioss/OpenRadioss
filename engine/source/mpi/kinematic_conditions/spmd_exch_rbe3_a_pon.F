@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_EXCH_RBE3_A_PON          source/mpi/kinematic_conditions/spmd_exch_rbe3_a_pon.F
-Chd|-- called by -----------
-Chd|        SMS_RBE3T1                    source/ams/sms_rbe3.F         
-Chd|        SMS_RBE3_PREC                 source/ams/sms_rbe3.F         
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_exch_rbe3_a_pon   ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3_a_pon.F
+      !||--- called by ------------------------------------------------------
+      !||    sms_rbe3_prec          ../engine/source/ams/sms_rbe3.F
+      !||    sms_rbe3t1             ../engine/source/ams/sms_rbe3.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_EXCH_RBE3_A_PON(
      1   A    ,FR_M   ,IAD_M ,LCOMM  ,ISIZE)
 C-----------------------------------------------

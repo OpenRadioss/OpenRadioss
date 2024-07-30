@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ANICON0                       source/output/anim/generate/anicon0.F
-Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    anicon0       ../engine/source/output/anim/generate/anicon0.F
+      !||--- called by ------------------------------------------------------
+      !||    sortie_main   ../engine/source/output/sortie_main.F
+      !||====================================================================
       SUBROUTINE ANICON0(CONT, N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

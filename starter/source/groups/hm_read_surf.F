@@ -20,43 +20,42 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_SURF                  source/groups/hm_read_surf.F  
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        DEALLOCATE_SURF_ELM           source/groups/init_surf_elm.F 
-Chd|        HM_BIGSBOX                    source/groups/hm_bigsbox.F    
-Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        HM_SUBMODPART                 source/groups/hm_submodpart.F 
-Chd|        HM_SURFGR2                    source/groups/hm_surfgr2.F    
-Chd|        HM_TAGPART2                   source/groups/hm_tagpart2.F   
-Chd|        INIT_SURF_ELM                 source/groups/init_surf_elm.F 
-Chd|        QSURFTAG                      source/groups/qsurftag.F      
-Chd|        SBOXBOXSURF                   source/model/box/bigbox.F     
-Chd|        SEGSURF                       source/groups/tsurftag.F      
-Chd|        SSURFTAG                      source/groups/ssurftag.F      
-Chd|        SSURFTAGIGEO                  source/groups/ssurftagigeo.F  
-Chd|        SUBROTPOINT                   source/model/submodel/subrot.F
-Chd|        SURFTAG                       source/groups/surftag.F       
-Chd|        SURFTAGADM                    source/groups/surftag.F       
-Chd|        SURFTAGE                      source/groups/surftage.F      
-Chd|        TSURFTAG                      source/groups/tsurftag.F      
-Chd|        UDOUBLE_IGR                   source/system/sysfus.F        
-Chd|        USR2SYS                       source/system/sysfus.F        
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MAPPING_OPTION_MOD            share/modules1/dichotomy_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|        SURF_MOD                      share/modules1/surf_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_surf             ../starter/source/groups/hm_read_surf.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                   ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../starter/source/output/message/message.F
+      !||    deallocate_surf_elm      ../starter/source/groups/init_surf_elm.F
+      !||    hm_bigsbox               ../starter/source/groups/hm_bigsbox.F
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key       ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start          ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_submodpart            ../starter/source/groups/hm_submodpart.F
+      !||    hm_surfgr2               ../starter/source/groups/hm_surfgr2.F
+      !||    hm_tagpart2              ../starter/source/groups/hm_tagpart2.F
+      !||    init_surf_elm            ../starter/source/groups/init_surf_elm.F
+      !||    qsurftag                 ../starter/source/groups/qsurftag.F
+      !||    sboxboxsurf              ../starter/source/model/box/bigbox.F
+      !||    segsurf                  ../starter/source/groups/tsurftag.F
+      !||    ssurftag                 ../starter/source/groups/ssurftag.F
+      !||    ssurftagigeo             ../starter/source/groups/ssurftagigeo.F
+      !||    subrotpoint              ../starter/source/model/submodel/subrot.F
+      !||    surftag                  ../starter/source/groups/surftag.F
+      !||    surftagadm               ../starter/source/groups/surftag.F
+      !||    surftage                 ../starter/source/groups/surftage.F
+      !||    tsurftag                 ../starter/source/groups/tsurftag.F
+      !||    udouble_igr              ../starter/source/system/sysfus.F
+      !||    usr2sys                  ../starter/source/system/sysfus.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+      !||    mapping_option_mod       ../starter/share/modules1/dichotomy_mod.F
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||    surf_mod                 ../starter/share/modules1/surf_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_SURF(
      1           ITAB    ,ITABM1  ,
      2           IGRSURF ,IXS     ,IXQ     ,IXC     ,IXT     ,

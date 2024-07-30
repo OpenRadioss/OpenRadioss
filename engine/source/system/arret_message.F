@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ARRET_MESSAGE                 source/system/arret_message.F 
-Chd|-- called by -----------
-Chd|        UPGRADE_LCAND_E2S             ../common_source/interf/upgrade_multimp.F
-Chd|        UPGRADE_LCAND_EDG             ../common_source/interf/upgrade_multimp.F
-Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    arret_message       ../engine/source/system/arret_message.F
+      !||--- called by ------------------------------------------------------
+      !||    upgrade_lcand_e2s   ../common_source/interf/upgrade_multimp.F
+      !||    upgrade_lcand_edg   ../common_source/interf/upgrade_multimp.F
+      !||    upgrade_multimp     ../common_source/interf/upgrade_multimp.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg              ../engine/source/output/message/message.F
+      !||    arret               ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ARRET_MESSAGE(ITY,INTID,IPENMAX)
 C-----------------------------------------------
 C   M o d u l e s
@@ -57,15 +58,16 @@ C-----------------------------------------------
       CALL ARRET(2)
 
       END
-Chd|====================================================================
-Chd|  ARRET_MESSAGE_SLID            source/system/arret_message.F 
-Chd|-- called by -----------
-Chd|        UPGRADE_CAND_OPT              ../common_source/interf/upgrade_multimp.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    arret_message_slid   ../engine/source/system/arret_message.F
+      !||--- called by ------------------------------------------------------
+      !||    upgrade_cand_opt     ../common_source/interf/upgrade_multimp.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg               ../engine/source/output/message/message.F
+      !||    arret                ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod          ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE ARRET_MESSAGE_SLID(ITY,INTID)
 C-----------------------------------------------
 C   M o d u l e s

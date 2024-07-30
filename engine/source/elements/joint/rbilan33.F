@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RBILAN33                      source/elements/joint/rbilan33.F
-Chd|-- called by -----------
-Chd|        RGJOINT                       source/elements/joint/rgjoint.F
-Chd|-- calls ---------------
-Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    rbilan33     ../engine/source/elements/joint/rbilan33.F
+      !||--- called by ------------------------------------------------------
+      !||    rgjoint      ../engine/source/elements/joint/rgjoint.F
+      !||--- calls      -----------------------------------------------------
+      !||    grelem_sav   ../engine/source/output/th/grelem_sav.F
+      !||====================================================================
       SUBROUTINE RBILAN33(
      1   JFT,     JLT,     EINT,    PARTSAV,
      2   UMAS,    V,       IPARTR,  GRESAV,

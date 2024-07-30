@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8ZJAC_IC                     source/elements/solid/solide8e/s8zjac_ic.F
-Chd|-- called by -----------
-Chd|        S8_IS17JAC_I                  source/elements/solid/solide8e/s8_is17jac_i.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8zjac_ic      ../engine/source/elements/solid/solide8e/s8zjac_ic.F
+      !||--- called by ------------------------------------------------------
+      !||    s8_is17jac_i   ../engine/source/elements/solid/solide8e/s8_is17jac_i.F
+      !||====================================================================
         SUBROUTINE S8ZJAC_IC(
      .              XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .              YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,

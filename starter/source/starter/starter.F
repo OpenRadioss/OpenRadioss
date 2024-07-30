@@ -30,6 +30,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                      ____S_T_A_R_T_E_R
 !_______________________________________________________________________
 
+      !||====================================================================
+      !||    starter            ../starter/source/starter/starter.F
+      !||--- calls      -----------------------------------------------------
+      !||    set_stack_values   ../starter/source/system/machine.F
+      !||    starter0           ../starter/source/starter/starter0.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
        PROGRAM STARTER
 
        USE QA_OUT_MOD

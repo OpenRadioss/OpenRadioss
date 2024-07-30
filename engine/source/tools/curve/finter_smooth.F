@@ -21,23 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #include "my_real.inc"
-Chd|====================================================================
-Chd|  FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
-Chd|-- called by -----------
-Chd|        DAASOLV                       source/fluid/daasolv.F        
-Chd|        DAASOLVP                      source/fluid/daasolvp.F       
-Chd|        FORCEFINGEO                   source/loads/general/forcefingeo.F
-Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
-Chd|        GRAVIT                        source/loads/general/grav/gravit.F
-Chd|        GRAVIT_FVM_FEM                source/loads/general/grav/gravit_fvm_fem.F
-Chd|        GRAVIT_IMP                    source/loads/general/grav/gravit_imp.F
-Chd|        H3D_PRE_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_skin_scalar.F
-Chd|        H3D_SKIN_VECTOR               source/output/h3d/h3d_results/h3d_skin_vector.F
-Chd|        INCPFLOW                      source/fluid/incpflow.F       
-Chd|        LAG_FXV                       source/tools/lagmul/lag_fxv.F 
-Chd|        LAG_FXVP                      source/tools/lagmul/lag_fxv.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    finter_smooth         ../engine/source/tools/curve/finter_smooth.F
+      !||--- called by ------------------------------------------------------
+      !||    daasolv               ../engine/source/fluid/daasolv.F
+      !||    daasolvp              ../engine/source/fluid/daasolvp.F
+      !||    force                 ../engine/source/loads/general/force.F90
+      !||    forcefingeo           ../engine/source/loads/general/forcefingeo.F
+      !||    forcepinch            ../engine/source/loads/general/forcepinch.F
+      !||    gravit                ../engine/source/loads/general/grav/gravit.F
+      !||    gravit_fvm_fem        ../engine/source/loads/general/grav/gravit_fvm_fem.F
+      !||    gravit_imp            ../engine/source/loads/general/grav/gravit_imp.F
+      !||    h3d_pre_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+      !||    h3d_skin_vector       ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
+      !||    incpflow              ../engine/source/fluid/incpflow.F
+      !||    lag_fxv               ../engine/source/tools/lagmul/lag_fxv.F
+      !||    lag_fxvp              ../engine/source/tools/lagmul/lag_fxv.F
+      !||====================================================================
       my_real FUNCTION FINTER_SMOOTH(IFUNC,XX,NPF,TF,DERI)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -101,12 +101,11 @@ C-----------------------------------------------
 !---
       RETURN
       END
-Chd|====================================================================
-Chd|  FINTER2_SMOOTH                source/tools/curve/finter_smooth.F
-Chd|-- called by -----------
-Chd|        FIXFINGEO                     source/constraints/general/impvel/fixfingeo.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    finter2_smooth   ../engine/source/tools/curve/finter_smooth.F
+      !||--- called by ------------------------------------------------------
+      !||    fixfingeo        ../engine/source/constraints/general/impvel/fixfingeo.F
+      !||====================================================================
       my_real FUNCTION FINTER2_SMOOTH(TF,IAD,IPOS,ILEN,XX,DYDX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

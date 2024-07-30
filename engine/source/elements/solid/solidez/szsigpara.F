@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SZSIGPARA                     source/elements/solid/solidez/szsigpara.F
-Chd|-- called by -----------
-Chd|        STRS_TENSCOR3                 source/output/h3d/h3d_results/strs_tenscor3.F
-Chd|        TENSGPS3                      source/output/anim/generate/tensor6.F
-Chd|        TENSGPS_SKIN                  source/output/anim/generate/tensor6.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    szsigpara       ../engine/source/elements/solid/solidez/szsigpara.F
+      !||--- called by ------------------------------------------------------
+      !||    strs_tenscor3   ../engine/source/output/h3d/h3d_results/strs_tenscor3.F
+      !||    tensgps3        ../engine/source/output/anim/generate/tensor6.F
+      !||    tensgps_skin    ../engine/source/output/anim/generate/tensor6.F
+      !||====================================================================
       SUBROUTINE SZSIGPARA(JR0  ,JS0  ,JT0  ,FHOUR  ,SIG0 ,
      .                     SIG  ,KSI  ,ETA  ,ZETA   ,NU   ,
      .                     NEL  ,I  )

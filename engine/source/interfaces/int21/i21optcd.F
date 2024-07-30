@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I21OPTCD                      source/interfaces/int21/i21optcd.F
-Chd|-- called by -----------
-Chd|        I21MAIN_OPT_TRI               source/interfaces/intsort/i21main_opt_tri.F
-Chd|-- calls ---------------
-Chd|        I21DST3                       source/interfaces/int21/i21dst3.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    i21optcd          ../engine/source/interfaces/int21/i21optcd.F
+      !||--- called by ------------------------------------------------------
+      !||    i21main_opt_tri   ../engine/source/interfaces/intsort/i21main_opt_tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    i21dst3           ../engine/source/interfaces/int21/i21dst3.F
+      !||    my_barrier        ../engine/source/system/machine.F
+      !||    startime          ../engine/source/system/timer.F
+      !||====================================================================
       SUBROUTINE I21OPTCD(CAND_E ,CAND_N ,XLOC  ,I_STOK  ,IRECT  ,
      2                   GAP    ,GAP_S  ,IGAP    ,NSN    ,STFN   ,
      3                   ITASK  ,STF    ,INACTI  ,IFPEN  ,FTXSAV ,

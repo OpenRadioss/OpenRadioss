@@ -21,29 +21,28 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  ZEROIN                        source/system/zeroin.F        
-Chd|-- called by -----------
-Chd|        C3GRTAILS                     source/elements/sh3n/coque3n/c3grtails.F
-Chd|        CGRTAILS                      source/elements/shell/coque/cgrtails.F
-Chd|        HM_READ_THGRKI                source/output/th/hm_read_thgrki.F
-Chd|        HM_READ_THGRKI_RBODY          source/output/th/hm_read_thgrki_rbody.F
-Chd|        HM_READ_THGRNE                source/output/th/hm_read_thgrne.F
-Chd|        HM_READ_THGRNS                source/output/th/hm_read_thgrns.F
-Chd|        HM_READ_THGRSENS              source/output/th/hm_read_thgrsens.F
-Chd|        HM_READ_THGRSURF              source/output/th/hm_read_thgrsurf.F
-Chd|        HM_THGRKI_VENT                source/output/th/hm_thgrki_vent.F
-Chd|        IG3DGRTAILS                   source/elements/ige3d/ig3dgrtails.F
-Chd|        PGRTAILS                      source/elements/beam/pgrtails.F
-Chd|        QGRTAILS                      source/elements/solid_2d/quad/qgrtails.F
-Chd|        RGRTAILS                      source/elements/spring/rgrtails.F
-Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
-Chd|        SPGRTAILS                     source/elements/sph/spgrtails.F
-Chd|        T3GRTAILS                     source/elements/solid_2d/tria/t3grtails.F
-Chd|        TGRTAILS                      source/elements/truss/tgrtails.F
-Chd|        XGRTAILS                      source/elements/xelem/xgrtails.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    zeroin                 ../starter/source/system/zeroin.F
+      !||--- called by ------------------------------------------------------
+      !||    c3grtails              ../starter/source/elements/sh3n/coque3n/c3grtails.F
+      !||    cgrtails               ../starter/source/elements/shell/coque/cgrtails.F
+      !||    hm_read_thgrki         ../starter/source/output/th/hm_read_thgrki.F
+      !||    hm_read_thgrki_rbody   ../starter/source/output/th/hm_read_thgrki_rbody.F
+      !||    hm_read_thgrne         ../starter/source/output/th/hm_read_thgrne.F
+      !||    hm_read_thgrns         ../starter/source/output/th/hm_read_thgrns.F
+      !||    hm_read_thgrsens       ../starter/source/output/th/hm_read_thgrsens.F
+      !||    hm_read_thgrsurf       ../starter/source/output/th/hm_read_thgrsurf.F
+      !||    hm_thgrki_vent         ../starter/source/output/th/hm_thgrki_vent.F
+      !||    ig3dgrtails            ../starter/source/elements/ige3d/ig3dgrtails.F
+      !||    pgrtails               ../starter/source/elements/beam/pgrtails.F
+      !||    qgrtails               ../starter/source/elements/solid_2d/quad/qgrtails.F
+      !||    rgrtails               ../starter/source/elements/spring/rgrtails.F
+      !||    sgrtails               ../starter/source/elements/solid/solide/sgrtails.F
+      !||    spgrtails              ../starter/source/elements/sph/spgrtails.F
+      !||    t3grtails              ../starter/source/elements/solid_2d/tria/t3grtails.F
+      !||    tgrtails               ../starter/source/elements/truss/tgrtails.F
+      !||    xgrtails               ../starter/source/elements/xelem/xgrtails.F
+      !||====================================================================
       SUBROUTINE ZEROIN(N1,N2,MA)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,34 +20,37 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
-Chd|-- called by -----------
-Chd|        FORINT                        source/elements/forint.F      
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        IG3DAVERAGE                   source/elements/ige3d/ig3daverage.F
-Chd|        IG3DCUMU3                     source/elements/ige3d/ig3dcumu3.F
-Chd|        IG3DDERISHAP                  source/elements/ige3d/ig3dderishap.F
-Chd|        IG3DFINT                      source/elements/ige3d/ig3dfint.F
-Chd|        IG3DONEDERIV                  source/elements/ige3d/ig3donederiv.F
-Chd|        IGE3DAIRE                     source/elements/ige3d/ig3daire.F
-Chd|        IGE3DBILAN                    source/elements/ige3d/ige3dbilan.F
-Chd|        IGE3DDEFO                     source/elements/ige3d/ige3ddefo.F
-Chd|        IGE3DZERO                     source/elements/ige3d/ige3dzero.F
-Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
-Chd|        SRHO3                         source/elements/solid/solide/srho3.F
-Chd|        SROTA3                        source/elements/solid/solide/srota3.F
-Chd|        SSTRA3                        source/elements/solid/solide/sstra3.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    ig3duforc3             ../engine/source/elements/ige3d/ig3duforc3.F
+      !||--- called by ------------------------------------------------------
+      !||    forint                 ../engine/source/elements/forint.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||    ig3daverage            ../engine/source/elements/ige3d/ig3daverage.F
+      !||    ig3dcumu3              ../engine/source/elements/ige3d/ig3dcumu3.F
+      !||    ig3dderishap           ../engine/source/elements/ige3d/ig3dderishap.F
+      !||    ig3dfint               ../engine/source/elements/ige3d/ig3dfint.F
+      !||    ig3donederiv           ../engine/source/elements/ige3d/ig3donederiv.F
+      !||    ige3daire              ../engine/source/elements/ige3d/ig3daire.F
+      !||    ige3dbilan             ../engine/source/elements/ige3d/ige3dbilan.F
+      !||    ige3ddefo              ../engine/source/elements/ige3d/ige3ddefo.F
+      !||    ige3dzero              ../engine/source/elements/ige3d/ige3dzero.F
+      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+      !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
+      !||    srho3                  ../engine/source/elements/solid/solide/srho3.F
+      !||    srota3                 ../engine/source/elements/solid/solide/srota3.F
+      !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
+      !||    startime               ../engine/source/system/timer.F
+      !||    stoptime               ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE IG3DUFORC3(
      1   ELBUF_TAB,   NG,          LFT,         LLT,
      2   NFT,         NEL,         IXS,         PM,

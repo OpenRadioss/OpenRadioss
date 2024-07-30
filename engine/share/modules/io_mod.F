@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  IO_MOD                        share/modules/io_mod.F        
-Chd|-- called by -----------
-Chd|        SPMD_CHKW                     source/mpi/generic/spmd_chkw.F
-Chd|        SPMD_WIOUT                    source/mpi/generic/spmd_wiout.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    io_mod       ../engine/share/modules/io_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    spmd_chkw    ../engine/source/mpi/generic/spmd_chkw.F
+      !||    spmd_wiout   ../engine/source/mpi/generic/spmd_wiout.F
+      !||====================================================================
           MODULE IO_MOD
           INTEGER :: IWIOUT_SAVE
           END MODULE IO_MOD

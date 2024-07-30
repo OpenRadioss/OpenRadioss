@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I22STO                        source/interfaces/intsort/i22sto.F
-Chd|-- called by -----------
-Chd|        I22TRIVOX                     source/interfaces/intsort/i22trivox.F
-Chd|-- calls ---------------
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i22sto       ../engine/source/interfaces/intsort/i22sto.F
+      !||--- called by ------------------------------------------------------
+      !||    i22trivox    ../engine/source/interfaces/intsort/i22trivox.F
+      !||--- uses       -----------------------------------------------------
+      !||    i22tri_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||====================================================================
       SUBROUTINE I22STO(
      1      J_STOK ,IRECT   ,X       ,II_STOK ,CAND_B,
      2      CAND_E ,MULNSN  ,NOINT   ,MARGE   ,I_MEM ,

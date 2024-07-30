@@ -20,22 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ALEANIM_MOD                   share/modules/aleanim_mod.F   
-Chd|-- called by -----------
-Chd|        DFUNCS                        source/output/anim/generate/dfunc6.F
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|        H3D_SOLID_SCALAR              source/output/h3d/h3d_results/h3d_solid_scalar.F
-Chd|        H3D_SOLID_SCALAR_1            source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-Chd|        H3D_SOLID_VECTOR              source/output/h3d/h3d_results/h3d_solid_vector.F
-Chd|        I18FOR3                       source/interfaces/int18/i18for3.F
-Chd|        INIRESA                       source/output/restart/rdresa.F
-Chd|        RESTALLOC                     source/output/restart/arralloc.F
-Chd|        SDEFO3                        source/elements/solid/solide/sdefo3.F
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    aleanim_mod          ../engine/share/modules/aleanim_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    dfuncs               ../engine/source/output/anim/generate/dfunc6.F
+      !||    genani               ../engine/source/output/anim/generate/genani.F
+      !||    genh3d               ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||    h3d_solid_scalar     ../engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
+      !||    h3d_solid_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+      !||    h3d_solid_vector     ../engine/source/output/h3d/h3d_results/h3d_solid_vector.F
+      !||    i18for3              ../engine/source/interfaces/int18/i18for3.F
+      !||    iniresa              ../engine/source/output/restart/rdresa.F
+      !||    restalloc            ../engine/source/output/restart/arralloc.F
+      !||    sdefo3               ../engine/source/elements/solid/solide/sdefo3.F
+      !||    sortie_main          ../engine/source/output/sortie_main.F
+      !||====================================================================
       MODULE ALEANIM_MOD
       
 #include "my_real.inc"

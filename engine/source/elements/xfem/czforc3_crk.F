@@ -20,42 +20,43 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
-Chd|-- called by -----------
-Chd|        FORINTC                       source/elements/forintc.F     
-Chd|-- calls ---------------
-Chd|        CBILAN                        source/elements/shell/coque/cbilan.F
-Chd|        CCOOR3Z_CRK                   source/elements/xfem/ccoor3z_crk.F
-Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
-Chd|        CNCOEF3B                      source/elements/sh3n/coquedk/cncoef3.F
-Chd|        CNCOEFORT                     source/elements/sh3n/coquedk/cncoef3.F
-Chd|        CNDT3                         source/elements/sh3n/coquedk/cndt3.F
-Chd|        CUPDTN3_CRK                   source/elements/xfem/xfemfsky.F
-Chd|        CZCORC1                       source/elements/shell/coquez/czcorc.F
-Chd|        CZDEF                         source/elements/shell/coquez/czdef.F
-Chd|        CZDEFRZ                       source/elements/shell/coquez/czdef.F
-Chd|        CZFINTCE                      source/elements/shell/coquez/czfintce.F
-Chd|        CZFINTCRZ                     source/elements/shell/coquez/czfintce.F
-Chd|        CZFINTN1                      source/elements/shell/coquez/czfintn.F
-Chd|        CZFINTNM                      source/elements/shell/coquez/czfintn.F
-Chd|        CZFINTNRZ_OR                  source/elements/shell/coquez/czfintn.F
-Chd|        CZFINTN_OR                    source/elements/shell/coquez/czfintn.F
-Chd|        CZPROJ1                       source/elements/shell/coquez/czproj.F
-Chd|        CZSTRA3                       source/elements/shell/coquez/czstra3.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        TEMPCG                        source/materials/mat_share/tempcg.F
-Chd|        THERMC                        source/materials/mat_share/thermc.F
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    czforc3_crk      ../engine/source/elements/xfem/czforc3_crk.F
+      !||--- called by ------------------------------------------------------
+      !||    forintc          ../engine/source/elements/forintc.F
+      !||--- calls      -----------------------------------------------------
+      !||    cbilan           ../engine/source/elements/shell/coque/cbilan.F
+      !||    ccoor3z_crk      ../engine/source/elements/xfem/ccoor3z_crk.F
+      !||    cmain3           ../engine/source/materials/mat_share/cmain3.F
+      !||    cncoef3b         ../engine/source/elements/sh3n/coquedk/cncoef3.F
+      !||    cncoefort        ../engine/source/elements/sh3n/coquedk/cncoef3.F
+      !||    cndt3            ../engine/source/elements/sh3n/coquedk/cndt3.F
+      !||    cupdtn3_crk      ../engine/source/elements/xfem/xfemfsky.F
+      !||    czcorc1          ../engine/source/elements/shell/coquez/czcorc.F
+      !||    czdef            ../engine/source/elements/shell/coquez/czdef.F
+      !||    czdefrz          ../engine/source/elements/shell/coquez/czdef.F
+      !||    czfintce         ../engine/source/elements/shell/coquez/czfintce.F
+      !||    czfintcrz        ../engine/source/elements/shell/coquez/czfintce.F
+      !||    czfintn1         ../engine/source/elements/shell/coquez/czfintn.F
+      !||    czfintn_or       ../engine/source/elements/shell/coquez/czfintn.F
+      !||    czfintnm         ../engine/source/elements/shell/coquez/czfintn.F
+      !||    czfintnrz_or     ../engine/source/elements/shell/coquez/czfintn.F
+      !||    czproj1          ../engine/source/elements/shell/coquez/czproj.F
+      !||    czstra3          ../engine/source/elements/shell/coquez/czstra3.F
+      !||    startime         ../engine/source/system/timer.F
+      !||    stoptime         ../engine/source/system/timer.F
+      !||    tempcg           ../engine/source/materials/mat_share/tempcg.F
+      !||    thermc           ../engine/source/materials/mat_share/thermc.F
+      !||--- uses       -----------------------------------------------------
+      !||    crackxfem_mod    ../engine/share/modules/crackxfem_mod.F
+      !||    drape_mod        ../engine/share/modules/drape_mod.F
+      !||    failwave_mod     ../common_source/modules/failwave_mod.F
+      !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
+      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    stack_mod        ../engine/share/modules/stack_mod.F
+      !||    table_mod        ../engine/share/modules/table_mod.F
+      !||====================================================================
        SUBROUTINE CZFORC3_CRK(XFEM_STR   ,
      1            JFT    ,JLT    ,NFT    ,ITYPTST,
      2            IPARI  ,MTN    ,IPRI   ,ITHK   ,NELTST ,

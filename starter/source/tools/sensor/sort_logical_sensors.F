@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SORT_LOGICAL_SENSORS          source/tools/sensor/sort_logical_sensors.F
-Chd|-- called by -----------
-Chd|        INISEN                        source/tools/sensor/inisen.F  
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    sort_logical_sensors   ../starter/source/tools/sensor/sort_logical_sensors.F
+      !||--- called by ------------------------------------------------------
+      !||    inisen                 ../starter/source/tools/sensor/inisen.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
+      !||====================================================================
       SUBROUTINE SORT_LOGICAL_SENSORS(SENSOR_TAB,NSENSOR)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

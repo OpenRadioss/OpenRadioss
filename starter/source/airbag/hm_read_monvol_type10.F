@@ -20,26 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  HM_READ_MONVOL_TYPE10         source/airbag/hm_read_monvol_type10.F
-Chd|-- called by -----------
-Chd|        READ_MONVOL                   source/airbag/read_monvol.F   
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        CHECK_FUNCTION_ID             source/tools/curve/check_function.F
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        MONVOL_CHECK_SURFCLOSE        share/modules1/monvol_struct_mod.F
-Chd|        MONVOL_COMPUTE_VOLUME         share/modules1/monvol_struct_mod.F
-Chd|        MONVOL_ORIENT_SURF            share/modules1/monvol_struct_mod.F
-Chd|        MONVOL_REVERSE_NORMALS        share/modules1/monvol_struct_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    hm_read_monvol_type10    ../starter/source/airbag/hm_read_monvol_type10.F
+      !||--- called by ------------------------------------------------------
+      !||    read_monvol              ../starter/source/airbag/read_monvol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../starter/source/output/message/message.F
+      !||    check_function_id        ../starter/source/tools/curve/check_function.F
+      !||    freerr                   ../starter/source/starter/freform.F
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_floatv_dim        ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
+      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    monvol_check_surfclose   ../starter/share/modules1/monvol_struct_mod.F
+      !||    monvol_compute_volume    ../starter/share/modules1/monvol_struct_mod.F
+      !||    monvol_orient_surf       ../starter/share/modules1/monvol_struct_mod.F
+      !||    monvol_reverse_normals   ../starter/share/modules1/monvol_struct_mod.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    monvol_struct_mod        ../starter/share/modules1/monvol_struct_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE HM_READ_MONVOL_TYPE10(T_MONVOLN, IPM, IGEO, ITABM1, 
      .     NPT, PLD,
      .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG,

@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  I1CHK2                        source/interfaces/inter2d1/i1chk2.F
-Chd|-- called by -----------
-Chd|        ININT2                        source/interfaces/inter2d1/inint2.F
-Chd|-- calls ---------------
-Chd|        INORI2                        source/interfaces/inter2d1/inori2.F
-Chd|        INRCH2                        source/interfaces/inter2d1/inrch2.F
-Chd|        LOCAL_INDEX                   source/interfaces/interf1/local_index.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i1chk2        ../starter/source/interfaces/inter2d1/i1chk2.F
+      !||--- called by ------------------------------------------------------
+      !||    inint2        ../starter/source/interfaces/inter2d1/inint2.F
+      !||--- calls      -----------------------------------------------------
+      !||    inori2        ../starter/source/interfaces/inter2d1/inori2.F
+      !||    inrch2        ../starter/source/interfaces/inter2d1/inrch2.F
+      !||    local_index   ../starter/source/interfaces/interf1/local_index.F
+      !||====================================================================
       SUBROUTINE I1CHK2(X,IRECT,IXQ,NRT,NINT,NSN,NSV,NOINT,ID,TITR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

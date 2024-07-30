@@ -20,42 +20,38 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RESTMOD                       share/modules1/restart_mod.F  
-Chd|-- called by -----------
-Chd|        UPGRADE_CAND_OPT              ../common_source/interf/upgrade_multimp.F
-Chd|        UPGRADE_LCAND_E2S             ../common_source/interf/upgrade_multimp.F
-Chd|        UPGRADE_LCAND_EDG             ../common_source/interf/upgrade_multimp.F
-Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
-Chd|        CONTRL                        source/starter/contrl.F       
-Chd|        LECLAS                        source/loads/laser/leclas.F   
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        NEW_LINK                      source/coupling/rad2rad/new_link.F
-Chd|        R2R_CHECK                     source/coupling/rad2rad/r2r_check.F
-Chd|        R2R_CHECK_SEG                 source/coupling/rad2rad/routines_r2r.F
-Chd|        R2R_CLEAN_INTER               source/coupling/rad2rad/r2r_clean_inter.F
-Chd|        R2R_COUNT                     source/coupling/rad2rad/r2r_count.F
-Chd|        R2R_DOMDEC                    source/coupling/rad2rad/r2r_domdec.F
-Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
-Chd|        R2R_INPUT                     source/coupling/rad2rad/r2r_input.F
-Chd|        R2R_MONVOL                    source/coupling/rad2rad/r2r_prelec.F
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
-Chd|        R2R_PRELEC_NAME               source/coupling/rad2rad/r2r_prelec_name.F
-Chd|        R2R_SPLIT                     source/coupling/rad2rad/r2r_split.F
-Chd|        R2R_VOID                      source/coupling/rad2rad/r2r_void.F
-Chd|        R2R_VOID_1D                   source/coupling/rad2rad/r2r_void.F
-Chd|        READ_EBCS                     source/boundary_conditions/ebcs/read_ebcs.F
-Chd|        SET_USER_WINDOW_NODES         source/user_interface/user_windows_tools.F
-Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
-Chd|        ST_QAPRINT_EBCS               source/output/qaprint/st_qaprint_ebcs.F
-Chd|        TAGNOD_R2R_S                  source/coupling/rad2rad/tagnod_r2r.F
-Chd|        TAG_ELEM_VOID_R2R             source/coupling/rad2rad/tagelem_r2r.F
-Chd|        TAG_ELEM_VOID_R2R_LIN         source/coupling/rad2rad/tagelem_r2r.F
-Chd|        UELT_SPMD_ADDITIONAL_NODE     source/user_interface/uaccess.F
-Chd|        UPGRADE_REMNODE2              source/interfaces/interf1/upgrade_remnode.F
-Chd|        R2R_EXIST                     source/coupling/rad2rad/routines_r2r.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    restmod                     ../starter/share/modules1/restart_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    contrl                      ../starter/source/starter/contrl.F
+      !||    leclas                      ../starter/source/loads/laser/leclas.F
+      !||    lectur                      ../starter/source/starter/lectur.F
+      !||    new_link                    ../starter/source/coupling/rad2rad/new_link.F
+      !||    r2r_check                   ../starter/source/coupling/rad2rad/r2r_check.F
+      !||    r2r_check_seg               ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    r2r_clean_inter             ../starter/source/coupling/rad2rad/r2r_clean_inter.F
+      !||    r2r_count                   ../starter/source/coupling/rad2rad/r2r_count.F
+      !||    r2r_domdec                  ../starter/source/coupling/rad2rad/r2r_domdec.F
+      !||    r2r_exist                   ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    r2r_group                   ../starter/source/coupling/rad2rad/r2r_group.F
+      !||    r2r_input                   ../starter/source/coupling/rad2rad/r2r_input.F
+      !||    r2r_monvol                  ../starter/source/coupling/rad2rad/r2r_prelec.F
+      !||    r2r_prelec                  ../starter/source/coupling/rad2rad/r2r_prelec.F
+      !||    r2r_prelec_name             ../starter/source/coupling/rad2rad/r2r_prelec_name.F
+      !||    r2r_split                   ../starter/source/coupling/rad2rad/r2r_split.F
+      !||    r2r_void                    ../starter/source/coupling/rad2rad/r2r_void.F
+      !||    r2r_void_1d                 ../starter/source/coupling/rad2rad/r2r_void.F
+      !||    read_ebcs                   ../starter/source/boundary_conditions/ebcs/read_ebcs.F
+      !||    set_user_window_nodes       ../starter/source/user_interface/user_windows_tools.F
+      !||    split_ebcs                  ../starter/source/boundary_conditions/ebcs/split_ebcs.F
+      !||    st_qaprint_ebcs             ../starter/source/output/qaprint/st_qaprint_ebcs.F
+      !||    tag_elem_void_r2r           ../starter/source/coupling/rad2rad/tagelem_r2r.F
+      !||    tag_elem_void_r2r_lin       ../starter/source/coupling/rad2rad/tagelem_r2r.F
+      !||    tagnod_r2r_s                ../starter/source/coupling/rad2rad/tagnod_r2r.F
+      !||    uelt_spmd_additional_node   ../starter/source/user_interface/uaccess.F
+      !||    upgrade_remnode2            ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       MODULE RESTMOD
 #include "my_real.inc"
 
@@ -215,18 +211,17 @@ C UNITS
 C
       END MODULE RESTMOD
 
-Chd|====================================================================
-Chd|  INTBUFMOD                     share/modules1/restart_mod.F  
-Chd|-- called by -----------
-Chd|        ININTR                        source/interfaces/interf1/inintr.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        UPGRADE_REMNODE               source/interfaces/interf1/upgrade_remnode.F
-Chd|        UPGRADE_REMNODE2              source/interfaces/interf1/upgrade_remnode.F
-Chd|        UPGRADE_REMNODE_E2S           source/interfaces/interf1/upgrade_remnode.F
-Chd|        UPGRADE_REMNODE_EDG           source/interfaces/interf1/upgrade_remnode.F
-Chd|        UPGRADE_REMNODE_EDG2          source/interfaces/interf1/upgrade_remnode.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    intbufmod              ../starter/share/modules1/restart_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    inintr                 ../starter/source/interfaces/interf1/inintr.F
+      !||    lectur                 ../starter/source/starter/lectur.F
+      !||    upgrade_remnode        ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||    upgrade_remnode2       ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||    upgrade_remnode_e2s    ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||    upgrade_remnode_edg    ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||    upgrade_remnode_edg2   ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||====================================================================
       MODULE INTBUFMOD
 #include "my_real.inc"
 ! module a cleaner dans le code

@@ -20,16 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7PEN3                        source/interfaces/intsort/i7pen3.F
-Chd|-- called by -----------
-Chd|        I10STO                        source/interfaces/intsort/i10sto.F
-Chd|        I20STO                        source/interfaces/intsort/i20sto.F
-Chd|        I21STO                        source/interfaces/int21/i21sto.F
-Chd|        I23STO                        source/interfaces/int23/i23sto.F
-Chd|        I7STO                         source/interfaces/intsort/i7sto.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i7pen3   ../engine/source/interfaces/intsort/i7pen3.F
+      !||--- called by ------------------------------------------------------
+      !||    i10sto   ../engine/source/interfaces/intsort/i10sto.F
+      !||    i20sto   ../engine/source/interfaces/intsort/i20sto.F
+      !||    i21sto   ../engine/source/interfaces/int21/i21sto.F
+      !||    i23sto   ../engine/source/interfaces/int23/i23sto.F
+      !||    i7sto    ../engine/source/interfaces/intsort/i7sto.F
+      !||====================================================================
       SUBROUTINE I7PEN3(JLT   ,MARGE ,X1    ,X2     ,X3   ,
      .                  X4    ,Y1    ,Y2    ,Y3     ,Y4   ,
      .                  Z1    ,Z2    ,Z3    ,Z4     ,XI   ,

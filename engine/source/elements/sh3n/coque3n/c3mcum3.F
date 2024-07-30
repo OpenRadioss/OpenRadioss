@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C3MCUM3                       source/elements/sh3n/coque3n/c3mcum3.F
-Chd|-- called by -----------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c3mcum3       ../engine/source/elements/sh3n/coque3n/c3mcum3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
+      !||====================================================================
       SUBROUTINE C3MCUM3(JFT,JLT,M,
      .           M11,M12,M13,M21,M22,M23,M31,M32,M33,
      .           E1X      ,E1Y      ,E1Z     ,E2X      ,                 
@@ -76,13 +75,12 @@ C=======================================================================
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  C3MZCUM3                      source/elements/sh3n/coque3n/c3mcum3.F
-Chd|-- called by -----------
-Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
-Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c3mzcum3      ../engine/source/elements/sh3n/coque3n/c3mcum3.F
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
+      !||====================================================================
       SUBROUTINE C3MZCUM3(
      1            JFT    ,JLT    ,MLZ    ,E3X    ,E3Y    ,
      2            E3Z    ,M11    ,M12    ,M13    ,M21    ,

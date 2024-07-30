@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPLIT_SEG_IELEM               source/restart/ddsplit/split_seg_ielem.F
-Chd|-- called by -----------
-Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
-Chd|-- calls ---------------
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    split_seg_ielem    ../starter/source/restart/ddsplit/split_seg_ielem.F
+      !||--- called by ------------------------------------------------------
+      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    front_mod          ../starter/share/modules1/front_mod.F
+      !||====================================================================
       SUBROUTINE SPLIT_SEG_IELEM(IELEM_M    ,PROC_MVOISIN  ,MVOISIN  ,NRTM      ,
      .                           NRTM_L     ,TAG_SEG       ,CEP      ,CEL       ,
      .                           IDEL_SOLID,INTERCEP       ,PROC     ,NUMELS    )

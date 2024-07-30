@@ -20,11 +20,33 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    inter_sh_offset_ini_mod   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol_init                ../engine/source/engine/resol_init.F
+      !||====================================================================
       module inter_sh_offset_ini_mod
       contains
 !=======================================================================================================================
 !!\brief This subroutine do the initialization for offset treatment
 !=======================================================================================================================
+      !||====================================================================
+      !||    inter_sh_offset_ini       ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol_init                ../engine/source/engine/resol_init.F
+      !||--- calls      -----------------------------------------------------
+      !||    foat_to_6_float           ../engine/source/system/parit.F
+      !||    inter_sh_offset_dim       ../engine/source/interfaces/shell_offset/inter_offset_dim.F90
+      !||    spmd_exch_nodarea         ../engine/source/mpi/anim/spmd_exch_nodarea.F
+      !||    spmd_exch_nodareai        ../engine/source/mpi/anim/spmd_exch_nodareai.F
+      !||    spmd_exch_vnpon           ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod              ../common_source/modules/constant_mod.F
+      !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    inter_sh_offset_dim_mod   ../engine/source/interfaces/shell_offset/inter_offset_dim.F90
+      !||    inter_sh_offset_mod       ../engine/source/modules/interfaces/sh_offset_mod.F90
+      !||    spmd_exch_vnpon_mod       ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
+      !||====================================================================
         subroutine inter_sh_offset_ini(                                        &                                    
                        ngroup,    nparg,      iparg,        npropg,            &
                        numgeo,      geo,     numelc,          nixc,            &

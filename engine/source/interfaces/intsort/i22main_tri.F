@@ -20,35 +20,38 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I22MAIN_TRI                   source/interfaces/intsort/i22main_tri.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I22BUCE                       source/interfaces/intsort/i22buce.F
-Chd|        I22SHELL_GETMINMAX            source/interfaces/intsort/i22main_tri.F
-Chd|        I22SOLID_GETMINMAX            source/interfaces/intsort/i22main_tri.F
-Chd|        I22XSAVE                      source/interfaces/intsort/i22xsave.F
-Chd|        IMP_RNUMCD                    source/implicit/imp_int_k.F   
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_LAGBOUNDS_EXCH_I22       source/mpi/interfaces/spmd_lagbounds_exch_i22.F
-Chd|        SPMD_TRI22VOX                 source/mpi/interfaces/spmd_tri22vox.F
-Chd|        SPMD_TRI22VOX0                source/mpi/interfaces/spmd_tri22vox0.F
-Chd|        SPMD_TRI7GAT                  source/mpi/interfaces/spmd_int.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i22main_tri                  ../engine/source/interfaces/intsort/i22main_tri.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri                       ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                       ../engine/source/output/message/message.F
+      !||    arret                        ../engine/source/system/arret.F
+      !||    check_sorting_criteria       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||    i22buce                      ../engine/source/interfaces/intsort/i22buce.F
+      !||    i22shell_getminmax           ../engine/source/interfaces/intsort/i22main_tri.F
+      !||    i22solid_getminmax           ../engine/source/interfaces/intsort/i22main_tri.F
+      !||    i22xsave                     ../engine/source/interfaces/intsort/i22xsave.F
+      !||    imp_rnumcd                   ../engine/source/implicit/imp_int_k.F
+      !||    my_barrier                   ../engine/source/system/machine.F
+      !||    spmd_lagbounds_exch_i22      ../engine/source/mpi/interfaces/spmd_lagbounds_exch_i22.F
+      !||    spmd_tri22vox                ../engine/source/mpi/interfaces/spmd_tri22vox.F
+      !||    spmd_tri22vox0               ../engine/source/mpi/interfaces/spmd_tri22vox0.F
+      !||    spmd_tri7gat                 ../engine/source/mpi/interfaces/spmd_int.F
+      !||    startime                     ../engine/source/system/timer.F
+      !||    stoptime                     ../engine/source/system/timer.F
+      !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
+      !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+      !||    i22bufbric_mod               ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    message_mod                  ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F
+      !||    tri7box                      ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I22MAIN_TRI(
      1                  IPARI   ,X       ,V       ,
      2                  MS      ,NIN     ,ITASK   ,MWAG    ,WEIGHT    ,
@@ -702,14 +705,14 @@ C--------------------------------------------------------------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  I22SOLID_GETMINMAX            source/interfaces/intsort/i22main_tri.F
-Chd|-- called by -----------
-Chd|        I22MAIN_TRI                   source/interfaces/intsort/i22main_tri.F
-Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i22solid_getminmax   ../engine/source/interfaces/intsort/i22main_tri.F
+      !||--- called by ------------------------------------------------------
+      !||    i22main_tri          ../engine/source/interfaces/intsort/i22main_tri.F
+      !||--- uses       -----------------------------------------------------
+      !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||====================================================================
       SUBROUTINE I22SOLID_GETMINMAX(
      1                                  X,   IXS, BUFBRIC, NBRIC, 
      2                               ITAB,  ITASK, NIN       )
@@ -794,14 +797,14 @@ C-----------------------------------------------
       END SUBROUTINE
 C-----------------------------------------------
 
-Chd|====================================================================
-Chd|  I22SHELL_GETMINMAX            source/interfaces/intsort/i22main_tri.F
-Chd|-- called by -----------
-Chd|        I22MAIN_TRI                   source/interfaces/intsort/i22main_tri.F
-Chd|-- calls ---------------
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i22shell_getminmax   ../engine/source/interfaces/intsort/i22main_tri.F
+      !||--- called by ------------------------------------------------------
+      !||    i22main_tri          ../engine/source/interfaces/intsort/i22main_tri.F
+      !||--- uses       -----------------------------------------------------
+      !||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    tri7box              ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I22SHELL_GETMINMAX(
      1                                X, IRECT,    NRTM,   STFE, ITASK,
      2                             ITAB, ESHIFT, BMINMA, MARGE  )

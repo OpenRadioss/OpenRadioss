@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ADMREGUL                      source/model/remesh/admregul.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ADMMAP3                       source/model/remesh/admmap3.F 
-Chd|        ADMMAP4                       source/model/remesh/admmap4.F 
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        SYNC_DATA                     source/system/machine.F       
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    admregul       ../engine/source/model/remesh/admregul.F
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    admmap3        ../engine/source/model/remesh/admmap3.F
+      !||    admmap4        ../engine/source/model/remesh/admmap4.F
+      !||    my_barrier     ../engine/source/system/machine.F
+      !||    my_orders      ../common_source/tools/sort/my_orders.c
+      !||    sync_data      ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    remesh_mod     ../engine/share/modules/remesh_mod.F
+      !||====================================================================
       SUBROUTINE ADMREGUL(IXC  ,IPARTC  ,IXTG ,IPARTTG,IPART,
      .                    ITASK,IPARG   ,X    ,MS     ,IN   ,
      .                    ELBUF_TAB,NODFT  ,NODLT ,IGEO   ,IPM  ,

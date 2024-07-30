@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S_USER                        source/output/sty/s_user.F    
-Chd|-- called by -----------
-Chd|        OUTP_C_S                      source/output/sty/outp_c_s.F  
-Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s_user         ../engine/source/output/sty/s_user.F
+      !||--- called by ------------------------------------------------------
+      !||    outp_c_s       ../engine/source/output/sty/outp_c_s.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE S_USER(NBX,IMX,IHBE,NEL,NPT,MLW,IPM,IGEO, IXC,
      .                  ITY,JJ,ELBUF_TAB,WA,NFT, FUNC,
      .                  NLAY,NPTR,NPTS)

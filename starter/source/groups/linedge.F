@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LINEDGE                       source/groups/linedge.F       
-Chd|-- called by -----------
-Chd|        HM_READ_LINES                 source/groups/hm_read_lines.F 
-Chd|-- calls ---------------
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|====================================================================
+      !||====================================================================
+      !||    linedge         ../starter/source/groups/linedge.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_lines   ../starter/source/groups/hm_read_lines.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE LINEDGE(NSEG0  ,NSEG        ,BUFTMP   ,SLIN_NODES ,KEY,
      .                   FLAG   ,SLIN_ELTYP  ,SLIN_ELEM,LINE_NSEG0)
 C-----------------------------------------------

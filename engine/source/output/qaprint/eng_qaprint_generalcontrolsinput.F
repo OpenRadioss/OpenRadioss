@@ -20,13 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ENG_QAPRINT_GENERALCONTROLSINPUTsource/output/qaprint/eng_qaprint_generalcontrolsinput.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    eng_qaprint_generalcontrolsinput   ../engine/source/output/qaprint/eng_qaprint_generalcontrolsinput.F
+      !||--- called by ------------------------------------------------------
+      !||    eng_qaprint_driver                 ../engine/source/output/qaprint/eng_qaprint_driver.F
+      !||--- calls      -----------------------------------------------------
+      !||    qaprint                            ../common_source/qa/qa_out_mod.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                        ../engine/share/message_module/message_mod.F
+      !||    output_mod                         ../common_source/modules/output/output_mod.F90
+      !||    qa_out_mod                         ../common_source/qa/qa_out_mod.F
+      !||    sensor_mod                         ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE ENG_QAPRINT_GENERALCONTROLSINPUT(IRUNN,OUTPUT,IPARIT,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s

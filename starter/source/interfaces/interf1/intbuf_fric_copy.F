@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTBUF_FRIC_COPY              source/interfaces/interf1/intbuf_fric_copy.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    intbuf_fric_copy   ../starter/source/interfaces/interf1/intbuf_fric_copy.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur             ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INTBUF_FRIC_COPY(
      .          TABCOUPLEPARTS_FRIC_TMP  ,TABCOEF_FRIC_TMP  ,
      .          TABPARTS_FRIC_TMP,NSETINIT,IFRICORTH_TMP,INTBUF_FRIC_TAB)

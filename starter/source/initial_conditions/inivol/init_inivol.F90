@@ -30,6 +30,24 @@
 !! \details  both methods may be exist in the same INIVOL option depending on the type of provided surface (surf_id)
 !! \details when all surfaces of INIVOL option are treated then volume fraction are adjested (KVOL) so that remaining space is filled with submaterial #1
 
+      !||====================================================================
+      !||    init_inivol                    ../starter/source/initial_conditions/inivol/init_inivol.F90
+      !||--- called by ------------------------------------------------------
+      !||    initia                         ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ale_box_coloration             ../starter/source/initial_conditions/inivol/ale_box_coloration.F
+      !||    ale_box_creation               ../starter/source/initial_conditions/inivol/ale_box_creation.F
+      !||    ale_element_size_computation   ../starter/source/initial_conditions/inivol/ale_element_size_computation.F
+      !||    connesurf                      ../starter/source/initial_conditions/inivol/connesurf.F
+      !||    getphase                       ../starter/source/initial_conditions/inivol/getphase.F
+      !||    inifill                        ../starter/source/initial_conditions/inivol/inifill.F
+      !||    inisoldist                     ../starter/source/initial_conditions/inivol/inisoldist.F
+      !||    init_inivol_2d_polygons        ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+      !||    inivol_set                     ../starter/source/initial_conditions/inivol/inivol_set.F
+      !||    surface_min_max_computation    ../starter/source/initial_conditions/inivol/surface_min_max_computation.F
+      !||--- uses       -----------------------------------------------------
+      !||    inivol_def_mod                 ../starter/share/modules1/inivol_mod.F
+      !||====================================================================
      subroutine init_inivol(    NUM_INIVOL,   inivol,   nsurf, igrsurf, &
                                 nparg     ,   ngroup,   iparg,  numnod, npart,&
                                 numels    ,     nixs,     ixs,&

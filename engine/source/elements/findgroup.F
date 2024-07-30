@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FINDGROUPC                    source/elements/findgroup.F   
-Chd|-- called by -----------
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    findgroupc   ../engine/source/elements/findgroup.F
+      !||--- called by ------------------------------------------------------
+      !||    resol_init   ../engine/source/engine/resol_init.F
+      !||====================================================================
       SUBROUTINE  FINDGROUPC(
      1     IPARG, IGROUC, NGROUC, IGROUPC, IGROUPTG)
 C----6---------------------------------------------------------------7---------8
@@ -66,12 +65,11 @@ C
 C
        RETURN
        END
-Chd|====================================================================
-Chd|  FINDGROUPS                    source/elements/findgroup.F   
-Chd|-- called by -----------
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    findgroups   ../engine/source/elements/findgroup.F
+      !||--- called by ------------------------------------------------------
+      !||    resol_init   ../engine/source/engine/resol_init.F
+      !||====================================================================
       SUBROUTINE  FINDGROUPS(IPARG, IGROUPS)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s

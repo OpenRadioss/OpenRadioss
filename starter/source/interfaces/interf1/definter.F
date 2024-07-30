@@ -20,27 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DEFINTER                      source/interfaces/interf1/definter.F
-Chd|-- called by -----------
-Chd|        HM_READ_DEFINTER_TYPE02       source/general_controls/default_values/hm_read_definter_type02.F
-Chd|        HM_READ_DEFINTER_TYPE07       source/general_controls/default_values/hm_read_definter_type07.F
-Chd|        HM_READ_DEFINTER_TYPE11       source/general_controls/default_values/hm_read_definter_type11.F
-Chd|        HM_READ_DEFINTER_TYPE19       source/general_controls/default_values/hm_read_definter_type19.F
-Chd|        HM_READ_DEFINTER_TYPE24       source/general_controls/default_values/hm_read_definter_type24.F
-Chd|        HM_READ_DEFINTER_TYPE25       source/general_controls/default_values/hm_read_definter_type25.F
-Chd|        HM_READ_INTER_LAGDT_TYPE07    source/interfaces/int07/hm_read_inter_lagdt_type07.F
-Chd|        HM_READ_INTER_LAGMUL_TYPE02   source/interfaces/int02/hm_read_inter_lagmul_type02.F
-Chd|        HM_READ_INTER_TYPE02          source/interfaces/int02/hm_read_inter_type02.F
-Chd|        HM_READ_INTER_TYPE07          source/interfaces/int07/hm_read_inter_type07.F
-Chd|        HM_READ_INTER_TYPE11          source/interfaces/int11/hm_read_inter_type11.F
-Chd|        HM_READ_INTER_TYPE24          source/interfaces/int24/hm_read_inter_type24.F
-Chd|        HM_READ_INTER_TYPE25          source/interfaces/int25/hm_read_inter_type25.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    definter                      ../starter/source/interfaces/interf1/definter.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_definter_type02       ../starter/source/general_controls/default_values/hm_read_definter_type02.F
+      !||    hm_read_definter_type07       ../starter/source/general_controls/default_values/hm_read_definter_type07.F
+      !||    hm_read_definter_type11       ../starter/source/general_controls/default_values/hm_read_definter_type11.F
+      !||    hm_read_definter_type19       ../starter/source/general_controls/default_values/hm_read_definter_type19.F
+      !||    hm_read_definter_type24       ../starter/source/general_controls/default_values/hm_read_definter_type24.F
+      !||    hm_read_definter_type25       ../starter/source/general_controls/default_values/hm_read_definter_type25.F
+      !||    hm_read_inter_lagdt_type07    ../starter/source/interfaces/int07/hm_read_inter_lagdt_type07.F
+      !||    hm_read_inter_lagmul_type02   ../starter/source/interfaces/int02/hm_read_inter_lagmul_type02.F
+      !||    hm_read_inter_type02          ../starter/source/interfaces/int02/hm_read_inter_type02.F
+      !||    hm_read_inter_type07          ../starter/source/interfaces/int07/hm_read_inter_type07.F
+      !||    hm_read_inter_type11          ../starter/source/interfaces/int11/hm_read_inter_type11.F
+      !||    hm_read_inter_type24          ../starter/source/interfaces/int24/hm_read_inter_type24.F
+      !||    hm_read_inter_type25          ../starter/source/interfaces/int25/hm_read_inter_type25.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE DEFINTER(KEY,IVAL,FLAG,IPRINT,
      .                    ITYP ,DEF_INTER)
 C-----------------------------------------------

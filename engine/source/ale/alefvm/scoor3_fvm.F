@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCOOR3_FVM                    source/ale/alefvm/scoor3_fvm.F
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|        SREPISO3                      source/elements/solid/solide/srepiso3.F
-Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    scoor3_fvm       ../engine/source/ale/alefvm/scoor3_fvm.F
+      !||--- called by ------------------------------------------------------
+      !||    sforc3           ../engine/source/elements/solid/solide/sforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    srepiso3         ../engine/source/elements/solid/solide/srepiso3.F
+      !||    sreploc3         ../engine/source/elements/solid/solide/sreploc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||====================================================================
       SUBROUTINE SCOOR3_FVM(X,IXS,V,W,GAMA0,GAMA,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,

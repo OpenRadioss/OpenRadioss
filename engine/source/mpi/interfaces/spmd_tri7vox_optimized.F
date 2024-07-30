@@ -20,21 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_TRI7VOX_OPTIMIZED        source/mpi/interfaces/spmd_tri7vox_optimized.F
-Chd|-- called by -----------
-Chd|        I7MAIN_TRI                    source/interfaces/intsort/i7main_tri.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        SPMD_IALLGATHERV              source/mpi/generic/spmd_iallgatherv.F
-Chd|        SPMD_IALLGATHERV_INT          source/mpi/generic/spmd_iallgatherv_int.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        COMM_TRI7VOX_MOD              share/modules/comm_tri7vox_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_tri7vox_optimized   ../engine/source/mpi/interfaces/spmd_tri7vox_optimized.F
+      !||--- called by ------------------------------------------------------
+      !||    i7main_tri               ../engine/source/interfaces/intsort/i7main_tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../engine/source/output/message/message.F
+      !||    arret                    ../engine/source/system/arret.F
+      !||    spmd_iallgatherv         ../engine/source/mpi/generic/spmd_iallgatherv.F
+      !||    spmd_iallgatherv_int     ../engine/source/mpi/generic/spmd_iallgatherv_int.F
+      !||    startime                 ../engine/source/system/timer.F
+      !||    stoptime                 ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    comm_tri7vox_mod         ../engine/share/modules/comm_tri7vox_mod.F
+      !||    message_mod              ../engine/share/message_module/message_mod.F
+      !||    tri7box                  ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPMD_TRI7VOX_OPTIMIZED(
      1   NSV     ,NSN      ,X      ,V     ,MS     ,
      2   BMINMAL ,WEIGHT   ,STIFN  ,NIN   ,ISENDTO,

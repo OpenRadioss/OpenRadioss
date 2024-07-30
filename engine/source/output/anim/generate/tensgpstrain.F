@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  TENSGPSTRAIN                  source/output/anim/generate/tensgpstrain.F
-Chd|-- called by -----------
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|        GPSTRA_SOLID                  source/output/outmaxsubr.F    
-Chd|        H3D_NODAL_TENSOR              source/output/h3d/h3d_results/h3d_nodal_tensor.F
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        SROTA6                        source/output/anim/generate/srota6.F
-Chd|        SZSTRAINGPS                   source/elements/solid/solidez/szstraingps.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    tensgpstrain       ../engine/source/output/anim/generate/tensgpstrain.F
+      !||--- called by ------------------------------------------------------
+      !||    genani             ../engine/source/output/anim/generate/genani.F
+      !||    gpstra_solid       ../engine/source/output/outmaxsubr.F
+      !||    h3d_nodal_tensor   ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf            ../engine/share/resol/initbuf.F
+      !||    srota6             ../engine/source/output/anim/generate/srota6.F
+      !||    szstraingps        ../engine/source/elements/solid/solidez/szstraingps.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod        ../engine/share/resol/initbuf.F
+      !||    outmax_mod         ../common_source/modules/outmax_mod.F
+      !||====================================================================
       SUBROUTINE TENSGPSTRAIN(ELBUF_TAB,FUNC1   ,FUNC2   ,IPARG   ,GEO     ,
      .                    IXS      ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
      .                    IXC      ,IXTG    ,IXT     ,IXP     ,IXR     ,
@@ -658,18 +659,19 @@ c
 C-----------------------------------------------
       RETURN
       END SUBROUTINE TENSGPSTRAIN
-Chd|====================================================================
-Chd|  GPSSTRAIN_SKIN                source/output/anim/generate/tensgpstrain.F
-Chd|-- called by -----------
-Chd|        H3D_SOL_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
-Chd|        H3D_SOL_SKIN_TENSOR           source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
-Chd|-- calls ---------------
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        SROTA6                        source/output/anim/generate/srota6.F
-Chd|        SZSTRAINGPS                   source/elements/solid/solidez/szstraingps.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    gpsstrain_skin        ../engine/source/output/anim/generate/tensgpstrain.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_sol_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+      !||    h3d_sol_skin_tensor   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
+      !||--- calls      -----------------------------------------------------
+      !||    initbuf               ../engine/share/resol/initbuf.F
+      !||    srota6                ../engine/source/output/anim/generate/srota6.F
+      !||    szstraingps           ../engine/source/elements/solid/solidez/szstraingps.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod           ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE GPSSTRAIN_SKIN(ELBUF_TAB,FUNC1   ,FUNC2   ,IPARG   ,
      .                    IXS      ,IXS10   ,IXS16   ,IXS20   ,X        ,
      .                    ITAGPS  ,PM    ,TAG_SKIN_ND )

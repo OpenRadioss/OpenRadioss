@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I20TRI                        source/interfaces/intsort/i20tri.F
-Chd|-- called by -----------
-Chd|        I20BUCE                       source/interfaces/intsort/i20buce.F
-Chd|-- calls ---------------
-Chd|        I20STO                        source/interfaces/intsort/i20sto.F
-Chd|        I7DSTK                        source/interfaces/intsort/i7dstk.F
-Chd|        SPMD_OLDNUMCD                 source/mpi/interfaces/spmd_i7tool.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20tri          ../engine/source/interfaces/intsort/i20tri.F
+      !||--- called by ------------------------------------------------------
+      !||    i20buce         ../engine/source/interfaces/intsort/i20buce.F
+      !||--- calls      -----------------------------------------------------
+      !||    i20sto          ../engine/source/interfaces/intsort/i20sto.F
+      !||    i7dstk          ../engine/source/interfaces/intsort/i7dstk.F
+      !||    spmd_oldnumcd   ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20TRI(
      1      ADD   ,NSN    ,RENUM  ,NSNR     ,ISZNSNR  ,
      2      IRECT ,XA     ,STF    ,STFA     ,XYZM     ,
@@ -653,16 +654,17 @@ C-------------------------------------------------------------------------
 C-------------------------------------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  I20TRI_EDGE                   source/interfaces/intsort/i20tri.F
-Chd|-- called by -----------
-Chd|        I20BUC_EDGE                   source/interfaces/intsort/i20buce.F
-Chd|-- calls ---------------
-Chd|        I20STO_EDGE                   source/interfaces/intsort/i20sto.F
-Chd|        I7DSTK                        source/interfaces/intsort/i7dstk.F
-Chd|        I11INSID                      source/interfaces/intsort/i11tri.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i20tri_edge   ../engine/source/interfaces/intsort/i20tri.F
+      !||--- called by ------------------------------------------------------
+      !||    i20buc_edge   ../engine/source/interfaces/intsort/i20buce.F
+      !||--- calls      -----------------------------------------------------
+      !||    i11insid      ../engine/source/interfaces/intsort/i11tri.F
+      !||    i20sto_edge   ../engine/source/interfaces/intsort/i20sto.F
+      !||    i7dstk        ../engine/source/interfaces/intsort/i7dstk.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I20TRI_EDGE(
      1      ADD   ,XA    ,NLG   ,
      2      IXLINS,IXLINM,NLINMA,NLINSR,

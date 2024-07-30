@@ -20,41 +20,43 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|-- called by -----------
-Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        FRICTIONPARTS_MODEL_ISOT      source/interfaces/int07/frictionparts_model.F
-Chd|        FRICTIONPARTS_MODEL_ORTHO     source/interfaces/int07/frictionparts_model.F
-Chd|        I25ASS3                       source/interfaces/int25/i25ass3.F
-Chd|        I25CDCOR3                     source/interfaces/int25/i25mainf.F
-Chd|        I25CDCOR3_E2S                 source/interfaces/int25/i25mainf.F
-Chd|        I25COR3E                      source/interfaces/int25/i25cor3e.F
-Chd|        I25COR3_3                     source/interfaces/int25/i25cor3.F
-Chd|        I25COR3_E2S                   source/interfaces/int25/i25cor3_e2s.F
-Chd|        I25DST3E                      source/interfaces/int25/i25dst3e.F
-Chd|        I25DST3_3                     source/interfaces/int25/i25dst3_3.F
-Chd|        I25DST3_E2S                   source/interfaces/int25/i25dst3_e2s.F
-Chd|        I25FOR3                       source/interfaces/int25/i25for3.F
-Chd|        I25FOR3E                      source/interfaces/int25/i25for3e.F
-Chd|        I25FOR3_E2S                   source/interfaces/int25/i25for3_e2s.F
-Chd|        I25KEEPF                      source/interfaces/int25/i25slid.F
-Chd|        I25THERM                      source/interfaces/int25/i25therm.F
-Chd|        I_CORPFIT3                    source/interfaces/int24/i24cor3.F
-Chd|        I_COR_EPFIT3                  source/interfaces/int24/i24cor3.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        SUM_6_FLOAT_SENS              source/system/parit.F         
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25mainf                    ../engine/source/interfaces/int25/i25mainf.F
+      !||--- called by ------------------------------------------------------
+      !||    intfop2                     ../engine/source/interfaces/interf/intfop2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                      ../engine/source/output/message/message.F
+      !||    arret                       ../engine/source/system/arret.F
+      !||    frictionparts_model_isot    ../engine/source/interfaces/int07/frictionparts_model.F
+      !||    frictionparts_model_ortho   ../engine/source/interfaces/int07/frictionparts_model.F
+      !||    i25ass3                     ../engine/source/interfaces/int25/i25ass3.F
+      !||    i25cdcor3                   ../engine/source/interfaces/int25/i25mainf.F
+      !||    i25cdcor3_e2s               ../engine/source/interfaces/int25/i25mainf.F
+      !||    i25cor3_3                   ../engine/source/interfaces/int25/i25cor3.F
+      !||    i25cor3_e2s                 ../engine/source/interfaces/int25/i25cor3_e2s.F
+      !||    i25cor3e                    ../engine/source/interfaces/int25/i25cor3e.F
+      !||    i25dst3_3                   ../engine/source/interfaces/int25/i25dst3_3.F
+      !||    i25dst3_e2s                 ../engine/source/interfaces/int25/i25dst3_e2s.F
+      !||    i25dst3e                    ../engine/source/interfaces/int25/i25dst3e.F
+      !||    i25for3                     ../engine/source/interfaces/int25/i25for3.F
+      !||    i25for3_e2s                 ../engine/source/interfaces/int25/i25for3_e2s.F
+      !||    i25for3e                    ../engine/source/interfaces/int25/i25for3e.F
+      !||    i25keepf                    ../engine/source/interfaces/int25/i25slid.F
+      !||    i25therm                    ../engine/source/interfaces/int25/i25therm.F
+      !||    i_cor_epfit3                ../engine/source/interfaces/int24/i24cor3.F
+      !||    i_corpfit3                  ../engine/source/interfaces/int24/i24cor3.F
+      !||    my_barrier                  ../engine/source/system/machine.F
+      !||    startime                    ../engine/source/system/timer.F
+      !||    stoptime                    ../engine/source/system/timer.F
+      !||    sum_6_float_sens            ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod                     ../engine/share/modules/h3d_mod.F
+      !||    intbuf_fric_mod             ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||    message_mod                 ../engine/share/message_module/message_mod.F
+      !||    outputs_mod                 ../common_source/modules/outputs_mod.F
+      !||    tri25ebox                   ../engine/share/modules/tri25ebox.F
+      !||    tri7box                     ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25MAINF(
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,DT2T   ,
@@ -1149,13 +1151,12 @@ C-----------------------------------------------------------------------
       DEALLOCATE(INDEX2)
       RETURN
       END
-Chd|====================================================================
-Chd|  I25CDCOR3                     source/interfaces/int25/i25mainf.F
-Chd|-- called by -----------
-Chd|        I25COMP_2                     source/interfaces/int25/i25comp_2.F
-Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i25cdcor3   ../engine/source/interfaces/int25/i25mainf.F
+      !||--- called by ------------------------------------------------------
+      !||    i25comp_2   ../engine/source/interfaces/int25/i25comp_2.F
+      !||    i25mainf    ../engine/source/interfaces/int25/i25mainf.F
+      !||====================================================================
       SUBROUTINE I25CDCOR3(JLT,INDEX,CAND_E,CAND_N,
      .                    CAND_E_N,CAND_N_N)      
 C============================================================================
@@ -1178,12 +1179,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I25CDCOR3_E2S                 source/interfaces/int25/i25mainf.F
-Chd|-- called by -----------
-Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i25cdcor3_e2s   ../engine/source/interfaces/int25/i25mainf.F
+      !||--- called by ------------------------------------------------------
+      !||    i25mainf        ../engine/source/interfaces/int25/i25mainf.F
+      !||====================================================================
       SUBROUTINE I25CDCOR3_E2S(JLT,INDEX,CAND_E,CAND_N,
      .                    CAND_E_N,CAND_N_N)      
 C============================================================================

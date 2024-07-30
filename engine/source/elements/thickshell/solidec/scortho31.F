@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SCORTHO31                     source/elements/thickshell/solidec/scortho31.F
-Chd|-- called by -----------
-Chd|        SROTA6                        source/output/anim/generate/srota6.F
-Chd|        SROTORTH                      source/elements/solid/srotorth.F
-Chd|        THSOL                         source/output/th/thsol.F      
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    scortho31   ../engine/source/elements/thickshell/solidec/scortho31.F
+      !||--- called by ------------------------------------------------------
+      !||    srota6      ../engine/source/output/anim/generate/srota6.F
+      !||    srotorth    ../engine/source/elements/solid/srotorth.F
+      !||    thsol       ../engine/source/output/th/thsol.F
+      !||====================================================================
       SUBROUTINE SCORTHO31(
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,

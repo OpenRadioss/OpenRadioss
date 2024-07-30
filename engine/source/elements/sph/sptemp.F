@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPGRADT                       source/elements/sph/sptemp.F  
-Chd|-- called by -----------
-Chd|        FORINTP                       source/elements/forintp.F     
-Chd|-- calls ---------------
-Chd|        WEIGHT1                       source/elements/sph/weight.F  
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spgradt   ../engine/source/elements/sph/sptemp.F
+      !||--- called by ------------------------------------------------------
+      !||    forintp   ../engine/source/elements/forintp.F
+      !||--- calls      -----------------------------------------------------
+      !||    weight1   ../engine/source/elements/sph/weight.F
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox    ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPGRADT(
      1   X,       MS,      SPBUF,   KXSP,
      2   IXSP,    NOD2SP,  ISPSYM,  XSPSYM,
@@ -228,14 +229,15 @@ C------
 C-----------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  SPLAPLT                       source/elements/sph/sptemp.F  
-Chd|-- called by -----------
-Chd|        FORINTP                       source/elements/forintp.F     
-Chd|-- calls ---------------
-Chd|        WEIGHT1                       source/elements/sph/weight.F  
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    splaplt   ../engine/source/elements/sph/sptemp.F
+      !||--- called by ------------------------------------------------------
+      !||    forintp   ../engine/source/elements/forintp.F
+      !||--- calls      -----------------------------------------------------
+      !||    weight1   ../engine/source/elements/sph/weight.F
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox    ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPLAPLT(
      1   X,       MS,      SPBUF,   KXSP,
      2   IXSP,    NOD2SP,  ISPSYM,  XSPSYM,
@@ -645,13 +647,13 @@ C------
 C-----------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  SPGTSYM                       source/elements/sph/sptemp.F  
-Chd|-- called by -----------
-Chd|        FORINTP                       source/elements/forintp.F     
-Chd|-- calls ---------------
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
+      !||====================================================================
+      !||    spgtsym   ../engine/source/elements/sph/sptemp.F
+      !||--- called by ------------------------------------------------------
+      !||    forintp   ../engine/source/elements/forintp.F
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox    ../engine/share/modules/sphbox.F
+      !||====================================================================
       SUBROUTINE SPGTSYM(
      1   ISPCOND, XFRAME,  ISPSYM,  XSPSYM,
      2   WGRADT,  WGRADTSM,WASPACT, WGR,
@@ -780,12 +782,11 @@ C----------------------------------
       ENDDO
       RETURN
       END
-Chd|====================================================================
-Chd|  SPTEMPEL                      source/elements/sph/sptemp.F  
-Chd|-- called by -----------
-Chd|        SPSTRES                       source/elements/sph/spstres.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sptempel   ../engine/source/elements/sph/sptemp.F
+      !||--- called by ------------------------------------------------------
+      !||    spstres    ../engine/source/elements/sph/spstres.F
+      !||====================================================================
       SUBROUTINE SPTEMPEL(
      1   KXSP,    TEMP,    TEMPEL,  LFT,
      2   LLT,     NFT)

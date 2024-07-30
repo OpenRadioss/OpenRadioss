@@ -20,14 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PORFOR5                       source/airbag/porfor5.F       
-Chd|-- called by -----------
-Chd|        AIRBAGB1                      source/airbag/airbagb1.F      
-Chd|-- calls ---------------
-Chd|        ROTO                          source/airbag/roto.F          
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    porfor5        ../engine/source/airbag/porfor5.F
+      !||--- called by ------------------------------------------------------
+      !||    airbagb1       ../engine/source/airbag/airbagb1.F
+      !||--- calls      -----------------------------------------------------
+      !||    roto           ../engine/source/airbag/roto.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE PORFOR5(SVTFAC,IM,IPM,PM,ELBUF_STR,P,PEXT,IEL,NEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -109,14 +110,15 @@ C
       ENDIF
       RETURN
       END
-Chd|====================================================================
-Chd|  PORFORM5                      source/airbag/porfor5.F       
-Chd|-- called by -----------
-Chd|        FVVENT0                       source/airbag/fvvent0.F       
-Chd|-- calls ---------------
-Chd|        ROTO                          source/airbag/roto.F          
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    porform5       ../engine/source/airbag/porfor5.F
+      !||--- called by ------------------------------------------------------
+      !||    fvvent0        ../engine/source/airbag/fvvent0.F
+      !||--- calls      -----------------------------------------------------
+      !||    roto           ../engine/source/airbag/roto.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||====================================================================
       SUBROUTINE PORFORM5(SVTFAC,IM,IPM,PM,ELBUF_STR,P,PEXT,IEL,NEL)
 C-----------------------------------------------
 C   M o d u l e s

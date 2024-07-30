@@ -20,72 +20,63 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CONTRL                        source/starter/contrl.F       
-Chd|-- called by -----------
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        CONTRBE2                      source/constraints/general/rbe2/hm_read_rbe2.F
-Chd|        CONTRBE3                      source/constraints/general/rbe3/contrbe3.F
-Chd|        FIND_DT1BRICK_ENGINE          source/starter/contrl.F       
-Chd|        FMT_DEF                       source/starter/fmt_def.F      
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        HM_ELEM_COUNT                 source/devtools/hm_reader/hm_elem_count.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_STRING                 source/devtools/hm_reader/hm_get_string.F
-Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_NEXT                source/devtools/hm_reader/hm_option_next.F
-Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
-Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        HM_PRELCE16S                  source/elements/reader/hm_read_solid.F
-Chd|        HM_PREREAD_NODE               source/elements/reader/hm_preread_node.F
-Chd|        HM_PREREAD_PART               source/model/assembling/hm_read_part.F
-Chd|        HM_PREREAD_PROPERTIES         source/properties/hm_preread_properties.F
-Chd|        HM_READ_ALE_GRID              source/general_controls/ale_grid/hm_read_ale_grid.F
-Chd|        HM_READ_ALE_MUSCL             source/general_controls/ale_cfd/hm_read_ale_muscl.F
-Chd|        HM_READ_ALE_SOLVER            source/general_controls/ale_cfd/hm_read_ale_solver.F
-Chd|        HM_READ_ANALY                 source/general_controls/computation/hm_read_analy.F
-Chd|        HM_READ_CAA                   source/general_controls/computation/hm_read_caa.F
-Chd|        HM_READ_DEFINTER              source/general_controls/default_values/hm_read_definter.F
-Chd|        HM_READ_DEFSHELL              source/general_controls/default_values/hm_read_defshell.F
-Chd|        HM_READ_DEFSOLID              source/general_controls/default_values/hm_read_defsolid.F
-Chd|        HM_READ_IMPLICIT              source/general_controls/computation/hm_read_implicit.F
-Chd|        HM_READ_INISTA                source/initial_conditions/inista/hm_read_inista.F
-Chd|        HM_READ_IOFLAG                source/general_controls/inputoutput/hm_read_ioflag.F
-Chd|        HM_READ_LAGMUL                source/tools/lagmul/hm_read_lagmul.F
-Chd|        HM_READ_REFSTA                source/loads/reference_state/refsta/hm_read_refsta.F
-Chd|        HM_READ_SMS                   source/general_controls/computation/hm_read_sms.F
-Chd|        HM_READ_SPHGLO                source/general_controls/computation/hm_read_sphglo.F
-Chd|        HM_READ_SPMD                  source/general_controls/computation/hm_read_spmd.F
-Chd|        HM_READ_UNIT                  source/general_controls/computation/hm_read_unit.F
-Chd|        HM_READ_UPWIND                source/general_controls/computation/hm_read_upwind.F
-Chd|        NBADIGEMESH                   source/elements/ige3d/nbadigemesh.F
-Chd|        NBADMESH                      source/model/remesh/nbadmesh.F
-Chd|        NBSPH                         source/elements/sph/nbsph.F   
-Chd|        ID                            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
-Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        GRP_SIZE_MOD                  share/modules1/grp_size_mod.F 
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        REFSTA_MOD                    share/modules1/refsta_mod.F   
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    contrl                  ../starter/source/starter/contrl.F
+      !||--- called by ------------------------------------------------------
+      !||    starter0                ../starter/source/starter/starter0.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                  ../starter/source/output/message/message.F
+      !||    arret                   ../starter/source/system/arret.F
+      !||    contrbe2                ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    contrbe3                ../starter/source/constraints/general/rbe3/contrbe3.F
+      !||    find_dt1brick_engine    ../starter/source/starter/contrl.F
+      !||    fmt_def                 ../starter/source/starter/fmt_def.F
+      !||    hm_elem_count           ../starter/source/devtools/hm_reader/hm_elem_count.F
+      !||    hm_get_intv             ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_get_string           ../starter/source/devtools/hm_reader/hm_get_string.F
+      !||    hm_option_count         ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_next          ../starter/source/devtools/hm_reader/hm_option_next.F
+      !||    hm_option_read_key      ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start         ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_prelce16s            ../starter/source/elements/reader/hm_read_solid.F
+      !||    hm_preread_node         ../starter/source/elements/reader/hm_preread_node.F
+      !||    hm_preread_part         ../starter/source/model/assembling/hm_read_part.F
+      !||    hm_preread_properties   ../starter/source/properties/hm_preread_properties.F
+      !||    hm_read_ale_grid        ../starter/source/general_controls/ale_grid/hm_read_ale_grid.F
+      !||    hm_read_ale_muscl       ../starter/source/general_controls/ale_cfd/hm_read_ale_muscl.F
+      !||    hm_read_ale_solver      ../starter/source/general_controls/ale_cfd/hm_read_ale_solver.F
+      !||    hm_read_analy           ../starter/source/general_controls/computation/hm_read_analy.F
+      !||    hm_read_caa             ../starter/source/general_controls/computation/hm_read_caa.F
+      !||    hm_read_definter        ../starter/source/general_controls/default_values/hm_read_definter.F
+      !||    hm_read_defshell        ../starter/source/general_controls/default_values/hm_read_defshell.F
+      !||    hm_read_defsolid        ../starter/source/general_controls/default_values/hm_read_defsolid.F
+      !||    hm_read_implicit        ../starter/source/general_controls/computation/hm_read_implicit.F
+      !||    hm_read_inista          ../starter/source/initial_conditions/inista/hm_read_inista.F
+      !||    hm_read_ioflag          ../starter/source/general_controls/inputoutput/hm_read_ioflag.F
+      !||    hm_read_lagmul          ../starter/source/tools/lagmul/hm_read_lagmul.F
+      !||    hm_read_refsta          ../starter/source/loads/reference_state/refsta/hm_read_refsta.F
+      !||    hm_read_sms             ../starter/source/general_controls/computation/hm_read_sms.F
+      !||    hm_read_sphglo          ../starter/source/general_controls/computation/hm_read_sphglo.F
+      !||    hm_read_spmd            ../starter/source/general_controls/computation/hm_read_spmd.F
+      !||    hm_read_unit            ../starter/source/general_controls/computation/hm_read_unit.F
+      !||    hm_read_upwind          ../starter/source/general_controls/computation/hm_read_upwind.F
+      !||    init_def_elem           ../starter/source/modules/defaults_mod.F90
+      !||    init_def_zero           ../starter/source/modules/defaults_mod.F90
+      !||    istr                    ../starter/source/tools/univ/istr.F
+      !||    nbadigemesh             ../starter/source/elements/ige3d/nbadigemesh.F
+      !||    nbadmesh                ../starter/source/model/remesh/nbadmesh.F
+      !||    nbsph                   ../starter/source/elements/sph/nbsph.F
+      !||--- uses       -----------------------------------------------------
+      !||    defaults_mod            ../starter/source/modules/defaults_mod.F90
+      !||    detonators_mod          ../starter/share/modules1/detonators_mod.F
+      !||    grp_size_mod            ../starter/share/modules1/grp_size_mod.F
+      !||    hm_option_read_mod      ../starter/share/modules1/hm_option_read_mod.F
+      !||    inivol_def_mod          ../starter/share/modules1/inivol_mod.F
+      !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||    refsta_mod              ../starter/share/modules1/refsta_mod.F
+      !||    restmod                 ../starter/share/modules1/restart_mod.F
+      !||    submodel_mod            ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,NAMES_AND_TITLES,LIPART1,DEFAULTS)
 C----------------------------------------------------------
 C   M o d u l e s
@@ -1691,15 +1682,15 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
  999  CALL FREERR(1)
       RETURN
       END
-Chd|====================================================================
-Chd|  FIND_DT1BRICK_ENGINE          source/starter/contrl.F       
-Chd|-- called by -----------
-Chd|        CONTRL                        source/starter/contrl.F       
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    find_dt1brick_engine   ../starter/source/starter/contrl.F
+      !||--- called by ------------------------------------------------------
+      !||    contrl                 ../starter/source/starter/contrl.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE FIND_DT1BRICK_ENGINE()
 C-----------------------------------------------
 C   M o d u l e s
@@ -1785,16 +1776,15 @@ C
 C------------------------------------------- 
       RETURN
       END
-Chd|====================================================================
-Chd|  INI_H3DTMAX_ENGINE            source/starter/contrl.F       
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        READ_H3DTMAX_KEY              source/starter/contrl.F       
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    ini_h3dtmax_engine   ../starter/source/starter/contrl.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_h3dtmax_key     ../starter/source/starter/contrl.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE INI_H3DTMAX_ENGINE(IPARG,IPART,IPARTS,IPARTC,IPARTG,IDDLEVEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1989,14 +1979,13 @@ C
 C------------------------------------------- 
       RETURN
       END
-Chd|====================================================================
-Chd|  READ_H3DTMAX_KEY              source/starter/contrl.F       
-Chd|-- called by -----------
-Chd|        INI_H3DTMAX_ENGINE            source/starter/contrl.F       
-Chd|-- calls ---------------
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    read_h3dtmax_key     ../starter/source/starter/contrl.F
+      !||--- called by ------------------------------------------------------
+      !||    ini_h3dtmax_engine   ../starter/source/starter/contrl.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE READ_H3DTMAX_KEY(KEY_TM,KEY_LEN,IFUND,NTM_PART,IPART)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  NFACETTE                      source/initial_conditions/inivol/nfacette.F
-Chd|-- called by -----------
-Chd|        GETPHASE                      source/initial_conditions/inivol/getphase.F
-Chd|        IN_OUT_SIDE                   source/initial_conditions/inivol/in_out_side.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    nfacette      ../starter/source/initial_conditions/inivol/nfacette.F
+      !||--- called by ------------------------------------------------------
+      !||    getphase      ../starter/source/initial_conditions/inivol/getphase.F
+      !||    in_out_side   ../starter/source/initial_conditions/inivol/in_out_side.F
+      !||====================================================================
       SUBROUTINE NFACETTE(XFAS,NX,NY,NZ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CREATE_LINE_FROM_SURFACE      source/model/sets/create_line_from_surface.F
-Chd|-- called by -----------
-Chd|        CREATE_BOX_CLAUSE             source/model/sets/create_box_clause.F
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|        INSERT_CLAUSE_IN_SET          source/model/sets/insert_clause_in_set.F
-Chd|-- calls ---------------
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SET_SCRATCH_MOD               ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    create_line_from_surface           ../starter/source/model/sets/create_line_from_surface.F
+      !||--- called by ------------------------------------------------------
+      !||    create_box_clause                  ../starter/source/model/sets/create_box_clause.F
+      !||    hm_set                             ../starter/source/model/sets/hm_set.F
+      !||    insert_clause_in_set               ../starter/source/model/sets/insert_clause_in_set.F
+      !||--- calls      -----------------------------------------------------
+      !||    create_line_from_surface_ext_all   ../starter/source/model/sets/create_line_from_ext_surface_ext_all.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE CREATE_LINE_FROM_SURFACE(CLAUSE     ,KEYSET,OPT_A,OPT_E,DELBUF,
      .                                    GO_IN_ARRAY)
 C-----------------------------------------------

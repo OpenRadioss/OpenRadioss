@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INIT_MLAW_TAG                 source/elements/elbuf_init/init_mlaw_tag.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    init_mlaw_tag   ../starter/source/elements/elbuf_init/init_mlaw_tag.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur          ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbuftag_mod    ../starter/share/modules1/elbuftag_mod.F
+      !||====================================================================
       SUBROUTINE INIT_MLAW_TAG(MLAW_TAG,MY_SIZE)
 C-----------------------------------------------
 C   M o d u l e s

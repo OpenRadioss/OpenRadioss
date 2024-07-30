@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SR8COOR3                      source/elements/solid/solide8/sr8coor3.F
-Chd|-- called by -----------
-Chd|        S8FORC3                       source/elements/solid/solide8/s8forc3.F
-Chd|-- calls ---------------
-Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
-Chd|        SREPISOT3                     source/elements/solid/solide/srepisot3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sr8coor3    ../engine/source/elements/solid/solide8/sr8coor3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8forc3     ../engine/source/elements/solid/solide8/s8forc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    sortho3     ../engine/source/elements/solid/solide/sortho3.F
+      !||    srepisot3   ../engine/source/elements/solid/solide/srepisot3.F
+      !||====================================================================
       SUBROUTINE SR8COOR3(OFFG,OFF,X,V,IXS,
      .                   XLOC,YLOC,ZLOC,VXLOC,VYLOC,VZLOC,
      .                   MXT,NC,NGL,PID,

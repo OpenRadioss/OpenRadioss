@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  XINIT3                        source/elements/xelem/xinit3.F
-Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        XINI1U                        source/elements/xelem/xinit3.F
-Chd|        XINI28                        source/elements/xelem/xini28.F
-Chd|        XINI29                        source/elements/xelem/xini29.F
-Chd|        XINI2U                        source/elements/xelem/xinit3.F
-Chd|        XINI30                        source/elements/xelem/xini30.F
-Chd|        XINI31                        source/elements/xelem/xini31.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    xinit3         ../starter/source/elements/xelem/xinit3.F
+      !||--- called by ------------------------------------------------------
+      !||    initia         ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg         ../starter/source/output/message/message.F
+      !||    fretitl2       ../starter/source/starter/freform.F
+      !||    xini1u         ../starter/source/elements/xelem/xinit3.F
+      !||    xini28         ../starter/source/elements/xelem/xini28.F
+      !||    xini29         ../starter/source/elements/xelem/xini29.F
+      !||    xini2u         ../starter/source/elements/xelem/xinit3.F
+      !||    xini30         ../starter/source/elements/xelem/xini30.F
+      !||    xini31         ../starter/source/elements/xelem/xini31.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE XINIT3(ELBUF_STR,KXX    ,IXX    ,X      ,V      ,
      2                  VR       ,XMAS   ,XIN    ,
      3                  SKEW     ,DTELEM ,NEL    ,STIFN  ,STIFR  ,
@@ -224,12 +224,11 @@ C Update nodal masses and global variables for TH
 C------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  XINI1U                        source/elements/xelem/xinit3.F
-Chd|-- called by -----------
-Chd|        XINIT3                        source/elements/xelem/xinit3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    xini1u   ../starter/source/elements/xelem/xinit3.F
+      !||--- called by ------------------------------------------------------
+      !||    xinit3   ../starter/source/elements/xelem/xinit3.F
+      !||====================================================================
       SUBROUTINE XINI1U(X    ,V    ,VR    ,
      2                  OFF  ,KXX  ,IXX   ,ITAB   ,NX    ,
      3                  UID  ,UIX  ,XUSR  ,VUSR   ,VRUSR )
@@ -276,12 +275,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  XINI2U                        source/elements/xelem/xinit3.F
-Chd|-- called by -----------
-Chd|        XINIT3                        source/elements/xelem/xinit3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    xini2u   ../starter/source/elements/xelem/xinit3.F
+      !||--- called by ------------------------------------------------------
+      !||    xinit3   ../starter/source/elements/xelem/xinit3.F
+      !||====================================================================
       SUBROUTINE XINI2U(KXX,IXX,UMASS,UINER,MS,
      .                  XIN,PARTSAV,X,V,IPART)
 C----------------------------------------------

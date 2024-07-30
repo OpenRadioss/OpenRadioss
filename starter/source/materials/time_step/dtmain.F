@@ -20,47 +20,47 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DTMAIN                        source/materials/time_step/dtmain.F
-Chd|-- called by -----------
-Chd|        IG3DINIT3                     source/elements/ige3d/ig3dinit3.F
-Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
-Chd|        MULTIFLUID_INIT3              source/multifluid/multifluid_init3.F
-Chd|        Q4INIT2                       source/elements/solid_2d/quad4/q4init2.F
-Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
-Chd|        S10INIT3                      source/elements/solid/solide10/s10init3.F
-Chd|        S16INIT3                      source/elements/thickshell/solide16/s16init3.F
-Chd|        S20INIT3                      source/elements/solid/solide20/s20init3.F
-Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
-Chd|        S6CINIT3                      source/elements/thickshell/solide6c/s6cinit3.F
-Chd|        S8CINIT3                      source/elements/thickshell/solide8c/s8cinit3.F
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|        SCINIT3                       source/elements/thickshell/solidec/scinit3.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|        SPINIT3                       source/elements/sph/spinit3.F 
-Chd|        SUINIT3                       source/elements/elbuf_init/suinit3.F
-Chd|-- calls ---------------
-Chd|        DT105LAW                      source/materials/time_step/dt105law.F
-Chd|        DT10LAW                       source/materials/time_step/dt10law.F
-Chd|        DT11LAW                       source/materials/time_step/dt11law.F
-Chd|        DT14LAW                       source/materials/time_step/dt14law.F
-Chd|        DT15LAW                       source/materials/time_step/dt15law.F
-Chd|        DT16LAW                       source/materials/time_step/dt16law.F
-Chd|        DT18LAW                       source/materials/time_step/dt18law.F
-Chd|        DT1LAW                        source/materials/time_step/dt1law.F
-Chd|        DT21LAW                       source/materials/time_step/dt21law.F
-Chd|        DT25LAW                       source/materials/time_step/dt25law.F
-Chd|        DT34LAW                       source/materials/time_step/dt34law.F
-Chd|        DT37LAW                       source/materials/time_step/dt37law.F
-Chd|        DT38LAW                       source/materials/time_step/dt138aw.F
-Chd|        DT3LAW                        source/materials/time_step/dt3law.F
-Chd|        DT42LAW                       source/materials/time_step/dt42law.F
-Chd|        DT51LAW                       source/materials/time_step/dt51law.F
-Chd|        DT5LAW                        source/materials/time_step/dt5law.F
-Chd|        DT6LAW                        source/materials/time_step/dt6law.F
-Chd|        DT70LAW                       source/materials/time_step/dt70law.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dtmain             ../starter/source/materials/time_step/dtmain.F
+      !||--- called by ------------------------------------------------------
+      !||    ig3dinit3          ../starter/source/elements/ige3d/ig3dinit3.F
+      !||    inirig_mat         ../starter/source/elements/initia/inirig_mat.F
+      !||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
+      !||    q4init2            ../starter/source/elements/solid_2d/quad4/q4init2.F
+      !||    qinit2             ../starter/source/elements/solid_2d/quad/qinit2.F
+      !||    s10init3           ../starter/source/elements/solid/solide10/s10init3.F
+      !||    s16init3           ../starter/source/elements/thickshell/solide16/s16init3.F
+      !||    s20init3           ../starter/source/elements/solid/solide20/s20init3.F
+      !||    s4init3            ../starter/source/elements/solid/solide4/s4init3.F
+      !||    s6cinit3           ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+      !||    s8cinit3           ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+      !||    s8zinit3           ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||    scinit3            ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||    sinit3             ../starter/source/elements/solid/solide/sinit3.F
+      !||    spinit3            ../starter/source/elements/sph/spinit3.F
+      !||    suinit3            ../starter/source/elements/elbuf_init/suinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    dt105law           ../starter/source/materials/time_step/dt105law.F
+      !||    dt10law            ../starter/source/materials/time_step/dt10law.F
+      !||    dt11law            ../starter/source/materials/time_step/dt11law.F
+      !||    dt14law            ../starter/source/materials/time_step/dt14law.F
+      !||    dt15law            ../starter/source/materials/time_step/dt15law.F
+      !||    dt16law            ../starter/source/materials/time_step/dt16law.F
+      !||    dt18law            ../starter/source/materials/time_step/dt18law.F
+      !||    dt1law             ../starter/source/materials/time_step/dt1law.F
+      !||    dt21law            ../starter/source/materials/time_step/dt21law.F
+      !||    dt25law            ../starter/source/materials/time_step/dt25law.F
+      !||    dt34law            ../starter/source/materials/time_step/dt34law.F
+      !||    dt37law            ../starter/source/materials/time_step/dt37law.F
+      !||    dt38law            ../starter/source/materials/time_step/dt138aw.F
+      !||    dt3law             ../starter/source/materials/time_step/dt3law.F
+      !||    dt42law            ../starter/source/materials/time_step/dt42law.F
+      !||    dt51law            ../starter/source/materials/time_step/dt51law.F
+      !||    dt5law             ../starter/source/materials/time_step/dt5law.F
+      !||    dt6law             ../starter/source/materials/time_step/dt6law.F
+      !||    dt70law            ../starter/source/materials/time_step/dt70law.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE DTMAIN(GEO  ,PM   ,IPM   ,PID   ,MAT   ,FV    ,
      .                  EINT ,TEMP ,DELTAX,RK    ,RE    ,BUFMAT, DDELTAX, AIRE, VOL, DTX,
      .                  IGEO ,IGTYP)

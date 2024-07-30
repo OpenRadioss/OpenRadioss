@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25ASSE0                      source/interfaces/int25/i25asse.F
-Chd|-- called by -----------
-Chd|        I25FOR3E                      source/interfaces/int25/i25for3e.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25asse0   ../engine/source/interfaces/int25/i25asse.F
+      !||--- called by ------------------------------------------------------
+      !||    i25for3e   ../engine/source/interfaces/int25/i25for3e.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box    ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25ASSE0(JLT  ,CS_LOC,N1   ,N2   ,M1   ,
      2                   M2   ,HS1   ,HS2  ,HM1  ,HM2  ,
      3                   FX1  ,FY1   ,FZ1  ,FX2  ,FY2  ,
@@ -139,13 +139,13 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I25ASSE05                     source/interfaces/int25/i25asse.F
-Chd|-- called by -----------
-Chd|        I25FOR3E                      source/interfaces/int25/i25for3e.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25asse05   ../engine/source/interfaces/int25/i25asse.F
+      !||--- called by ------------------------------------------------------
+      !||    i25for3e    ../engine/source/interfaces/int25/i25for3e.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box     ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25ASSE05(JLT  ,CS_LOC ,N1    ,N2   ,M1   ,
      2                    M2   ,HS1   ,HS2   ,HM1  ,HM2  ,
      3                    FX1  ,FY1   ,FZ1   ,FX2  ,FY2  ,
@@ -270,17 +270,18 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I25ASSE2                      source/interfaces/int25/i25asse.F
-Chd|-- called by -----------
-Chd|        I25FOR3E                      source/interfaces/int25/i25for3e.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25asse2      ../engine/source/interfaces/int25/i25asse.F
+      !||--- called by ------------------------------------------------------
+      !||    i25for3e      ../engine/source/interfaces/int25/i25for3e.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||    tri25ebox     ../engine/share/modules/tri25ebox.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25ASSE2(JLT   ,CS_LOC ,N1    ,N2    ,M1      ,
      2                   M2    ,HS1    ,HS2   ,HM1   ,HM2     ,
      3                   FX1   ,FY1    ,FZ1   ,FX2   ,FY2     ,
@@ -497,16 +498,17 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  I25ASSE25                     source/interfaces/int25/i25asse.F
-Chd|-- called by -----------
-Chd|        I25FOR3E                      source/interfaces/int25/i25for3e.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25asse25     ../engine/source/interfaces/int25/i25asse.F
+      !||--- called by ------------------------------------------------------
+      !||    i25for3e      ../engine/source/interfaces/int25/i25for3e.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||    tri7box       ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I25ASSE25(JLT   ,CS_LOC ,N1    ,N2      ,M1    ,
      2                    M2    ,HS1    ,HS2   ,HM1     ,HM2   ,
      3                    FX1   ,FY1    ,FZ1   ,FX2     ,FY2   ,

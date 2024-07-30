@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FINDELE                       source/boundary_conditions/ebcs/findele.F
-Chd|-- called by -----------
-Chd|        INIEBCS                       source/boundary_conditions/ebcs/iniebcs.F
-Chd|-- calls ---------------
-Chd|        NORMA1                        source/interfaces/inter3d1/norma1.F
-Chd|        IFACE                         source/ale/ale3d/iface.F      
-Chd|        IFACE2                        source/ale/ale3d/iface.F      
-Chd|        IFACE2T                       source/ale/ale3d/iface.F      
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    findele                ../starter/source/boundary_conditions/ebcs/findele.F
+      !||--- called by ------------------------------------------------------
+      !||    iniebcs                ../starter/source/boundary_conditions/ebcs/iniebcs.F
+      !||--- calls      -----------------------------------------------------
+      !||    iface                  ../starter/source/ale/ale3d/iface.F
+      !||    iface2                 ../starter/source/ale/ale3d/iface.F
+      !||    iface2t                ../starter/source/ale/ale3d/iface.F
+      !||    norma1                 ../starter/source/interfaces/inter3d1/norma1.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE FINDELE(ALE_CONNECTIVITY, NNODE, NIX,  IDSU,ID,NSEG,IX,
      .                   ISEG,IELE,ITYPE,IFAC,SURF_NODES,IADD,INVC,PM,X,TYPE,IGEO)
 C-----------------------------------------------

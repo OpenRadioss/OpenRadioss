@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INITWG_SOLID                  source/spmd/domain_decomposition/initwg_solid.F
-Chd|-- called by -----------
-Chd|        INITWG                        source/spmd/domain_decomposition/initwg.F
-Chd|-- calls ---------------
-Chd|        BIDON                         source/system/machine.F       
-Chd|        DDWEIGHTS_MOD                 share/modules1/ddweights_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    initwg_solid       ../starter/source/spmd/domain_decomposition/initwg_solid.F
+      !||--- called by ------------------------------------------------------
+      !||    initwg             ../starter/source/spmd/domain_decomposition/initwg.F
+      !||--- calls      -----------------------------------------------------
+      !||    bidon              ../starter/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    ddweights_mod      ../starter/share/modules1/ddweights_mod.F
+      !||    mid_pid_mod        ../starter/share/modules1/mid_pid_mod.F
+      !||====================================================================
       SUBROUTINE INITWG_SOLID(WD,PM,GEO,IXS,IGEO,ISOLNOD,
      .            NUMELS,IPM, SIZE_IRUP,
      .            NUMMAT,NUMGEO,

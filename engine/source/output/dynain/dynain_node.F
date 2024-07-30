@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DYNAIN_NODE                   source/output/dynain/dynain_node.F
-Chd|-- called by -----------
-Chd|        GENDYNAIN                     source/output/dynain/gendynain.F
-Chd|-- calls ---------------
-Chd|        SPMD_DSTAT_VGATH              source/mpi/output/spmd_stat.F 
-Chd|        STRS_TXT50                    source/output/sta/sta_txt.F   
-Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    dynain_node        ../engine/source/output/dynain/dynain_node.F
+      !||--- called by ------------------------------------------------------
+      !||    gendynain          ../engine/source/output/dynain/gendynain.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_dstat_vgath   ../engine/source/mpi/output/spmd_stat.F
+      !||    strs_txt50         ../engine/source/output/sta/sta_txt.F
+      !||--- uses       -----------------------------------------------------
+      !||    state_mod          ../common_source/modules/state_mod.F
+      !||====================================================================
       SUBROUTINE DYNAIN_NODE(X   ,NUMNOD  ,ITAB  ,ITABG  ,LENG  ,
      .                    NODGLOB,WEIGHT  ,NODTAG,DYNAIN_DATA)
 C-----------------------------------------------

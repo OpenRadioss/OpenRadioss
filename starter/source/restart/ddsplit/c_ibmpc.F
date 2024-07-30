@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  C_IBMPC                       source/restart/ddsplit/c_ibmpc.F
-Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    c_ibmpc   ../starter/source/restart/ddsplit/c_ibmpc.F
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit   ../starter/source/restart/ddsplit/ddsplit.F
+      !||====================================================================
       SUBROUTINE C_IBMPC(IMPCNC,IMPCNN,IMPCDL,IMPCSKW,DD_LAGF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

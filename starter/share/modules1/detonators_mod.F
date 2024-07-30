@@ -20,60 +20,59 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|-- called by -----------
-Chd|        BINIT2                        source/ale/bimat/binit2.F     
-Chd|        CONTRL                        source/starter/contrl.F       
-Chd|        DETCORD                       source/initial_conditions/detonation/detcord.F
-Chd|        DETCORD0                      source/initial_conditions/detonation/detcord0.F
-Chd|        ECRAN1                        source/initial_conditions/detonation/ecran1.F
-Chd|        ECRAN2                        source/initial_conditions/detonation/ecran2.F
-Chd|        FREFORM                       source/starter/freform.F      
-Chd|        IG3DINIT3                     source/elements/ige3d/ig3dinit3.F
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        M105INIT                      source/materials/mat/mat105/m105init.F
-Chd|        M51INIT                       source/materials/mat/mat051/m51init.F
-Chd|        M5IN2                         source/initial_conditions/detonation/m5in2.F
-Chd|        M5IN2T                        source/initial_conditions/detonation/m5in2t.F
-Chd|        M5IN3                         source/initial_conditions/detonation/m5in3.F
-Chd|        M97INIT                       source/materials/mat/mat097/m97init.F
-Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|        MULTIFLUID_INIT2              source/multifluid/multifluid_init2.F
-Chd|        MULTIFLUID_INIT2T             source/multifluid/multifluid_init2t.F
-Chd|        MULTIFLUID_INIT3              source/multifluid/multifluid_init3.F
-Chd|        MULTIFLUID_INIT3T             source/multifluid/multifluid_init3t.F
-Chd|        PRELECDET                     source/initial_conditions/detonation/prelecdet.F
-Chd|        PRINTSTSZ                     source/spmd/node/st_array_size.F
-Chd|        Q4INIT2                       source/elements/solid_2d/quad4/q4init2.F
-Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
-Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
-Chd|        READ_DETONATORS               source/initial_conditions/detonation/read_detonators.F
-Chd|        READ_DFS_DETCORD              source/initial_conditions/detonation/read_dfs_detcord.F
-Chd|        READ_DFS_DETLINE              source/initial_conditions/detonation/read_dfs_detline.F
-Chd|        READ_DFS_DETPLAN              source/initial_conditions/detonation/read_dfs_detplan.F
-Chd|        READ_DFS_DETPOINT             source/initial_conditions/detonation/read_dfs_detpoint.F
-Chd|        READ_DFS_WAVE_SHAPER          source/initial_conditions/detonation/read_dfs_wave_shaper.F
-Chd|        S10INIT3                      source/elements/solid/solide10/s10init3.F
-Chd|        S16INIT3                      source/elements/thickshell/solide16/s16init3.F
-Chd|        S20INIT3                      source/elements/solid/solide20/s20init3.F
-Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
-Chd|        S6CINIT3                      source/elements/thickshell/solide6c/s6cinit3.F
-Chd|        S8CINIT3                      source/elements/thickshell/solide8c/s8cinit3.F
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|        SCINIT3                       source/elements/thickshell/solidec/scinit3.F
-Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
-Chd|        SPINIT3                       source/elements/sph/spinit3.F 
-Chd|        STARTER0                      source/starter/starter0.F     
-Chd|        ST_QAPRINT_DFS_DETONATORS     source/output/qaprint/st_qaprint_dfs_detonators.F
-Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
-Chd|        ST_QAPRINT_INTERNAL_GROUPS    source/output/qaprint/st_qaprint_internal_groups.F
-Chd|        SUINIT3                       source/elements/elbuf_init/suinit3.F
-Chd|        IOMBR                         source/initial_conditions/detonation/iombr.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    detonators_mod               ../starter/share/modules1/detonators_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    binit2                       ../starter/source/ale/bimat/binit2.F
+      !||    contrl                       ../starter/source/starter/contrl.F
+      !||    detcord                      ../starter/source/initial_conditions/detonation/detcord.F
+      !||    detcord0                     ../starter/source/initial_conditions/detonation/detcord0.F
+      !||    ecran1                       ../starter/source/initial_conditions/detonation/ecran1.F
+      !||    ecran2                       ../starter/source/initial_conditions/detonation/ecran2.F
+      !||    freform                      ../starter/source/starter/freform.F
+      !||    ig3dinit3                    ../starter/source/elements/ige3d/ig3dinit3.F
+      !||    initia                       ../starter/source/elements/initia/initia.F
+      !||    iombr                        ../starter/source/initial_conditions/detonation/iombr.F
+      !||    lectur                       ../starter/source/starter/lectur.F
+      !||    m105init                     ../starter/source/materials/mat/mat105/m105init.F
+      !||    m51init                      ../starter/source/materials/mat/mat051/m51init.F
+      !||    m5in2                        ../starter/source/initial_conditions/detonation/m5in2.F
+      !||    m5in2t                       ../starter/source/initial_conditions/detonation/m5in2t.F
+      !||    m5in3                        ../starter/source/initial_conditions/detonation/m5in3.F
+      !||    m97init                      ../starter/source/materials/mat/mat097/m97init.F
+      !||    matini                       ../starter/source/materials/mat_share/matini.F
+      !||    multifluid_init2             ../starter/source/multifluid/multifluid_init2.F
+      !||    multifluid_init2t            ../starter/source/multifluid/multifluid_init2t.F
+      !||    multifluid_init3             ../starter/source/multifluid/multifluid_init3.F
+      !||    multifluid_init3t            ../starter/source/multifluid/multifluid_init3t.F
+      !||    prelecdet                    ../starter/source/initial_conditions/detonation/prelecdet.F
+      !||    printstsz                    ../starter/source/spmd/node/st_array_size.F
+      !||    q4init2                      ../starter/source/elements/solid_2d/quad4/q4init2.F
+      !||    qinit2                       ../starter/source/elements/solid_2d/quad/qinit2.F
+      !||    r2r_group                    ../starter/source/coupling/rad2rad/r2r_group.F
+      !||    r2r_prelec                   ../starter/source/coupling/rad2rad/r2r_prelec.F
+      !||    read_detonators              ../starter/source/initial_conditions/detonation/read_detonators.F
+      !||    read_dfs_detcord             ../starter/source/initial_conditions/detonation/read_dfs_detcord.F
+      !||    read_dfs_detline             ../starter/source/initial_conditions/detonation/read_dfs_detline.F
+      !||    read_dfs_detplan             ../starter/source/initial_conditions/detonation/read_dfs_detplan.F
+      !||    read_dfs_detpoint            ../starter/source/initial_conditions/detonation/read_dfs_detpoint.F
+      !||    read_dfs_wave_shaper         ../starter/source/initial_conditions/detonation/read_dfs_wave_shaper.F
+      !||    s10init3                     ../starter/source/elements/solid/solide10/s10init3.F
+      !||    s16init3                     ../starter/source/elements/thickshell/solide16/s16init3.F
+      !||    s20init3                     ../starter/source/elements/solid/solide20/s20init3.F
+      !||    s4init3                      ../starter/source/elements/solid/solide4/s4init3.F
+      !||    s6cinit3                     ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+      !||    s8cinit3                     ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+      !||    s8zinit3                     ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||    scinit3                      ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||    sinit3                       ../starter/source/elements/solid/solide/sinit3.F
+      !||    spinit3                      ../starter/source/elements/sph/spinit3.F
+      !||    st_qaprint_dfs_detonators    ../starter/source/output/qaprint/st_qaprint_dfs_detonators.F
+      !||    st_qaprint_driver            ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||    st_qaprint_internal_groups   ../starter/source/output/qaprint/st_qaprint_internal_groups.F
+      !||    starter0                     ../starter/source/starter/starter0.F
+      !||    suinit3                      ../starter/source/elements/elbuf_init/suinit3.F
+      !||====================================================================
       MODULE DETONATORS_MOD
 C-----------------------------------------------
 #include      "my_real.inc"
@@ -166,12 +165,11 @@ C-----------------------------------------------
         
       CONTAINS
 
-Chd|====================================================================
-Chd|  DEALLOCATE_DETONATORS         share/modules1/detonators_mod.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    deallocate_detonators   ../starter/share/modules1/detonators_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur                  ../starter/source/starter/lectur.F
+      !||====================================================================
       SUBROUTINE DEALLOCATE_DETONATORS(DETONATORS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

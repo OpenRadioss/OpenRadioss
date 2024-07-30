@@ -20,16 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CHECK_OFF_ALE                 source/elements/solid/solide/check_off_ale.F
-Chd|-- called by -----------
-Chd|        BFORC2                        source/ale/bimat/bforc2.F     
-Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    check_off_ale   ../engine/source/elements/solid/solide/check_off_ale.F
+      !||--- called by ------------------------------------------------------
+      !||    bforc2          ../engine/source/ale/bimat/bforc2.F
+      !||    qforc2          ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||    s4forc3         ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    sforc3          ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3         ../engine/source/elements/solid/solidez/szforc3.F
+      !||====================================================================
         SUBROUTINE CHECK_OFF_ALE(F11,F21,F31,F12,F22,
      1                           F32,F13,F23,F33,F14,
      2                           F24,F34,F15,F25,F35,

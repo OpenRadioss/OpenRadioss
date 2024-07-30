@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PCOOR3                        source/elements/beam/pcoor3.F 
-Chd|-- called by -----------
-Chd|        PFORC3                        source/elements/beam/pforc3.F 
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    pcoor3   ../engine/source/elements/beam/pcoor3.F
+      !||--- called by ------------------------------------------------------
+      !||    pforc3   ../engine/source/elements/beam/pforc3.F
+      !||====================================================================
       SUBROUTINE PCOOR3(
      1   X,       NCC,     MAT,     PID,
      2   NGL,     NC1,     NC2,     NC3,

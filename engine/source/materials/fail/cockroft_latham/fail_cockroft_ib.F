@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FAIL_COCKROFT_IB              source/materials/fail/cockroft_latham/fail_cockroft_ib.F
-Chd|-- called by -----------
-Chd|        FAIL_BEAM18                   source/elements/beam/fail_beam18.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fail_cockroft_ib   ../engine/source/materials/fail/cockroft_latham/fail_cockroft_ib.F
+      !||--- called by ------------------------------------------------------
+      !||    fail_beam18        ../engine/source/elements/beam/fail_beam18.F
+      !||====================================================================
       SUBROUTINE FAIL_COCKROFT_IB(                                         
      .          NEL      ,NGL      ,NUPARAM  ,UPARAM  ,
      .          TIME     ,DPLA     ,OFF      ,DFMAX,  

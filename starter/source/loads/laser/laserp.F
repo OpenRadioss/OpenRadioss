@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  46d11+++
-Chd|====================================================================
-Chd|  LASERP1                       source/loads/laser/laserp.F   
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        LASERP2                       source/loads/laser/laserp.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    laserp1   ../starter/source/loads/laser/laserp.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur    ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    laserp2   ../starter/source/loads/laser/laserp.F
+      !||====================================================================
       SUBROUTINE LASERP1(LAS ,CEP, IXQ)
 C
 C-----------------------------------------------
@@ -57,12 +57,11 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  LASERP2                       source/loads/laser/laserp.F   
-Chd|-- called by -----------
-Chd|        LASERP1                       source/loads/laser/laserp.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    laserp2   ../starter/source/loads/laser/laserp.F
+      !||--- called by ------------------------------------------------------
+      !||    laserp1   ../starter/source/loads/laser/laserp.F
+      !||====================================================================
       SUBROUTINE LASERP2(NL ,LAS ,CEP ,IXQ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -101,13 +100,13 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  LASERP3                       source/loads/laser/laserp.F   
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        LASERP4                       source/loads/laser/laserp.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    laserp3   ../starter/source/loads/laser/laserp.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur    ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    laserp4   ../starter/source/loads/laser/laserp.F
+      !||====================================================================
       SUBROUTINE LASERP3(LAS ,IPARG)
 C
 C-----------------------------------------------
@@ -138,12 +137,11 @@ C
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  LASERP4                       source/loads/laser/laserp.F   
-Chd|-- called by -----------
-Chd|        LASERP3                       source/loads/laser/laserp.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    laserp4   ../starter/source/loads/laser/laserp.F
+      !||--- called by ------------------------------------------------------
+      !||    laserp3   ../starter/source/loads/laser/laserp.F
+      !||====================================================================
       SUBROUTINE LASERP4(NL ,LAS ,IPARG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

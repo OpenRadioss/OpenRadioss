@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS34T                     source/materials/mat/mat034/sigeps34t.F
-Chd|-- called by -----------
-Chd|        TFORC3                        source/elements/truss/tforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps34t   ../engine/source/materials/mat/mat034/sigeps34t.F
+      !||--- called by ------------------------------------------------------
+      !||    tforc3      ../engine/source/elements/truss/tforc3.F
+      !||====================================================================
       SUBROUTINE SIGEPS34T(NEL     ,NGL     ,MAT     ,PID     ,UPARAM  ,
      .                     IPM     ,GEO     ,OFF     ,FOR     ,STI     ,
      .                     EINT    ,AREA    ,AL0     ,AL      ,EPSP    ,

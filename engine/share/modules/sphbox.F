@@ -20,64 +20,63 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPHBOX                        share/modules/sphbox.F        
-Chd|-- called by -----------
-Chd|        FORINTP                       source/elements/forintp.F     
-Chd|        SOLTOSPH_ON1                  source/elements/sph/soltosph_on1.F
-Chd|        SOLTOSPH_ON12                 source/elements/sph/soltosph_on1.F
-Chd|        SOLTOSPH_ON2                  source/elements/sph/soltosph_on2.F
-Chd|        SPADASM                       source/elements/sph/spadasm.F 
-Chd|        SPADASM0                      source/elements/sph/spadasm.F 
-Chd|        SPBUC3                        source/elements/sph/spbuc3.F  
-Chd|        SPCLASV                       source/elements/sph/spclasv.F 
-Chd|        SPCOMPL                       source/elements/sph/spcompl.F 
-Chd|        SPDENS                        source/elements/sph/spdens.F  
-Chd|        SPFORCP                       source/elements/sph/spforcp.F 
-Chd|        SPGAUGE                       source/elements/sph/spgauge.F 
-Chd|        SPGRADT                       source/elements/sph/sptemp.F  
-Chd|        SPGTSYM                       source/elements/sph/sptemp.F  
-Chd|        SPHTRI                        source/elements/sph/sphtri.F  
-Chd|        SPLAPLT                       source/elements/sph/sptemp.F  
-Chd|        SPLISSV                       source/elements/sph/splissv.F 
-Chd|        SPMD_INISPH                   source/mpi/sph/spmd_sptool.F  
-Chd|        SPMD_SAVESPH                  source/mpi/sph/spmd_sptool.F  
-Chd|        SPMD_SPAMAJ                   source/mpi/sph/spmd_spamaj.F  
-Chd|        SPMD_SPHGAT                   source/mpi/sph/spmd_sphgat.F  
-Chd|        SPMD_SPHGAT_old               source/mpi/sph/spmd_sphgat.F  
-Chd|        SPMD_SPHGETA                  source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETD                  source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETDK                 source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETF                  source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETG                  source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETH                  source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETIMP                source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETISPH               source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETSTB                source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETT                  source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETV                  source/mpi/sph/spmd_sphgetv.F 
-Chd|        SPMD_SPHGETVOIS_OFF           source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETV_OLD              source/mpi/sph/spmd_sphgetv.F 
-Chd|        SPMD_SPHGETW                  source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETWA                 source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHGETX                  source/mpi/elements/spmd_sph.F
-Chd|        SPMD_SPHVOX                   source/mpi/sph/spmd_sphvox.F  
-Chd|        SPMD_SPHVOX_OLD               source/mpi/sph/spmd_sphvox.F  
-Chd|        SPONFPRS                      source/elements/sph/sponfprs.F
-Chd|        SPONFRO                       source/elements/sph/sponfro.F 
-Chd|        SPONFV                        source/elements/sph/sponfv.F  
-Chd|        SPONOF2                       source/elements/sph/sponof2.F 
-Chd|        SPPRO3                        source/elements/sph/sppro3.F  
-Chd|        SPSCOMP                       source/elements/sph/spcompl.F 
-Chd|        SPSGSYM                       source/elements/sph/spsgsym.F 
-Chd|        SPSTABS                       source/elements/sph/spstab.F  
-Chd|        SPSTABW                       source/elements/sph/spstab.F  
-Chd|        SPSYMP                        source/elements/sph/spsym.F   
-Chd|        SPSYM_ALLOC                   source/elements/sph/spsym_alloc.F
-Chd|        SPTRIVOX                      source/elements/sph/sptrivox.F
-Chd|        RESTMOD                       share/modules/restart_mod.F   
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    sphbox                ../engine/share/modules/sphbox.F
+      !||--- called by ------------------------------------------------------
+      !||    forintp               ../engine/source/elements/forintp.F
+      !||    restmod               ../engine/share/modules/restart_mod.F
+      !||    soltosph_on1          ../engine/source/elements/sph/soltosph_on1.F
+      !||    soltosph_on12         ../engine/source/elements/sph/soltosph_on1.F
+      !||    soltosph_on2          ../engine/source/elements/sph/soltosph_on2.F
+      !||    spadasm               ../engine/source/elements/sph/spadasm.F
+      !||    spadasm0              ../engine/source/elements/sph/spadasm.F
+      !||    spbuc3                ../engine/source/elements/sph/spbuc3.F
+      !||    spclasv               ../engine/source/elements/sph/spclasv.F
+      !||    spcompl               ../engine/source/elements/sph/spcompl.F
+      !||    spdens                ../engine/source/elements/sph/spdens.F
+      !||    spforcp               ../engine/source/elements/sph/spforcp.F
+      !||    spgauge               ../engine/source/elements/sph/spgauge.F
+      !||    spgradt               ../engine/source/elements/sph/sptemp.F
+      !||    spgtsym               ../engine/source/elements/sph/sptemp.F
+      !||    sphtri                ../engine/source/elements/sph/sphtri.F
+      !||    splaplt               ../engine/source/elements/sph/sptemp.F
+      !||    splissv               ../engine/source/elements/sph/splissv.F
+      !||    spmd_inisph           ../engine/source/mpi/sph/spmd_sptool.F
+      !||    spmd_savesph          ../engine/source/mpi/sph/spmd_sptool.F
+      !||    spmd_spamaj           ../engine/source/mpi/sph/spmd_spamaj.F
+      !||    spmd_sphgat           ../engine/source/mpi/sph/spmd_sphgat.F
+      !||    spmd_sphgat_old       ../engine/source/mpi/sph/spmd_sphgat.F
+      !||    spmd_sphgeta          ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetd          ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetdk         ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetf          ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetg          ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgeth          ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetimp        ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetisph       ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetstb        ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgett          ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetv          ../engine/source/mpi/sph/spmd_sphgetv.F
+      !||    spmd_sphgetv_old      ../engine/source/mpi/sph/spmd_sphgetv.F
+      !||    spmd_sphgetvois_off   ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetw          ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetwa         ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetx          ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphvox           ../engine/source/mpi/sph/spmd_sphvox.F
+      !||    spmd_sphvox_old       ../engine/source/mpi/sph/spmd_sphvox.F
+      !||    sponfprs              ../engine/source/elements/sph/sponfprs.F
+      !||    sponfro               ../engine/source/elements/sph/sponfro.F
+      !||    sponfv                ../engine/source/elements/sph/sponfv.F
+      !||    sponof2               ../engine/source/elements/sph/sponof2.F
+      !||    sppro3                ../engine/source/elements/sph/sppro3.F
+      !||    spscomp               ../engine/source/elements/sph/spcompl.F
+      !||    spsgsym               ../engine/source/elements/sph/spsgsym.F
+      !||    spstabs               ../engine/source/elements/sph/spstab.F
+      !||    spstabw               ../engine/source/elements/sph/spstab.F
+      !||    spsym_alloc           ../engine/source/elements/sph/spsym_alloc.F
+      !||    spsymp                ../engine/source/elements/sph/spsym.F
+      !||    sptrivox              ../engine/source/elements/sph/sptrivox.F
+      !||====================================================================
       MODULE SPHBOX
 #include "my_real.inc"
       TYPE real_pointer5

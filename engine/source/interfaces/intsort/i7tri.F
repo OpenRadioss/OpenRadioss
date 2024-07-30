@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7TRI                         source/interfaces/intsort/i7tri.F
-Chd|-- called by -----------
-Chd|        I7BUCE                        source/interfaces/intsort/i7buce.F
-Chd|-- calls ---------------
-Chd|        I7DSTK                        source/interfaces/intsort/i7dstk.F
-Chd|        I7STO                         source/interfaces/intsort/i7sto.F
-Chd|        SPMD_OLDNUMCD                 source/mpi/interfaces/spmd_i7tool.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i7tri           ../engine/source/interfaces/intsort/i7tri.F
+      !||--- called by ------------------------------------------------------
+      !||    i7buce          ../engine/source/interfaces/intsort/i7buce.F
+      !||--- calls      -----------------------------------------------------
+      !||    i7dstk          ../engine/source/interfaces/intsort/i7dstk.F
+      !||    i7sto           ../engine/source/interfaces/intsort/i7sto.F
+      !||    spmd_oldnumcd   ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I7TRI(
      1      ADD   ,NSN    ,RENUM  ,NSNR     ,ISZNSNR  ,
      2      IRECT ,X      ,STF    ,STFN     ,XYZM     ,

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  M27PLAS                       source/materials/mat/mat027/m27plas.F
-Chd|-- called by -----------
-Chd|        SIGEPS27C                     source/materials/mat/mat027/sigeps27c.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    m27plas     ../engine/source/materials/mat/mat027/m27plas.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps27c   ../engine/source/materials/mat/mat027/sigeps27c.F
+      !||====================================================================
       SUBROUTINE M27PLAS(JFT    ,JLT    ,PM     ,OFF    ,SIG   ,
      2                   EPSEQ  ,IMAT   ,DT1C   ,IPLA   ,EZZ   ,
      3                   EPSP   ,ISRATE ,YLD    ,ETSE   ,DPLA  ,

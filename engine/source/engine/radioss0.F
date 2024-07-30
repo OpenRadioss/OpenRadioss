@@ -20,17 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  RADIOSS0                      source/engine/radioss0.F      
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        EXECARGCHECK                  source/engine/execargcheck.F  
-Chd|        INIT_DYN_LIB_STRUC            share/modules/dynlib_mod.F    
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RADIOSS_SET_ENV_VARIABLE      ../common_source/comm/radioss_set_env_variable.c
-Chd|        DYNLIB_MOD                    share/modules/dynlib_mod.F    
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    radioss0                   ../engine/source/engine/radioss0.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss                    ../engine/source/engine/radioss.F
+      !||--- calls      -----------------------------------------------------
+      !||    execargcheck               ../engine/source/engine/execargcheck.F
+      !||    init_dyn_lib_struc         ../engine/share/modules/dynlib_mod.F
+      !||    radioss2                   ../engine/source/engine/radioss2.F
+      !||    radioss_set_env_variable   ../common_source/comm/radioss_set_env_variable.c
+      !||--- uses       -----------------------------------------------------
+      !||    dynlib_mod                 ../engine/share/modules/dynlib_mod.F
+      !||    inoutfile_mod              ../common_source/modules/inoutfile_mod.F
+      !||====================================================================
       SUBROUTINE  RADIOSS0
 C-----------------------------------------------
 C   M o d u l e s

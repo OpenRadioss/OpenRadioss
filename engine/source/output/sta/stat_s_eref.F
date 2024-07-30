@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STAT_S_EREF                   source/output/sta/stat_s_eref.F
-Chd|-- called by -----------
-Chd|        GENSTAT                       source/output/sta/genstat.F   
-Chd|-- calls ---------------
-Chd|        GETCONFIG                     source/output/sta/stat_s_eref.F
-Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        SPMD_RGATHER9_DP              source/mpi/interfaces/spmd_outp.F
-Chd|        SPMD_STAT_PGATHER             source/mpi/output/spmd_stat.F 
-Chd|        STRS_TXT50                    source/output/sta/sta_txt.F   
-Chd|        TAB_STRS_TXT50                source/output/sta/sta_txt.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    stat_s_eref         ../engine/source/output/sta/stat_s_eref.F
+      !||--- called by ------------------------------------------------------
+      !||    genstat             ../engine/source/output/sta/genstat.F
+      !||--- calls      -----------------------------------------------------
+      !||    getconfig           ../engine/source/output/sta/stat_s_eref.F
+      !||    initbuf             ../engine/share/resol/initbuf.F
+      !||    spmd_rgather9_dp    ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
+      !||    strs_txt50          ../engine/source/output/sta/sta_txt.F
+      !||    tab_strs_txt50      ../engine/source/output/sta/sta_txt.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod         ../engine/share/resol/initbuf.F
+      !||====================================================================
       SUBROUTINE STAT_S_EREF(ELBUF_TAB,IPARG ,IPM ,IGEO ,IXS ,
      1                        IXS10,IXS16,IXS20,X   ,DR  ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,
@@ -316,12 +317,11 @@ c---
 c-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  GETCONFIG                     source/output/sta/stat_s_eref.F
-Chd|-- called by -----------
-Chd|        STAT_S_EREF                   source/output/sta/stat_s_eref.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    getconfig     ../engine/source/output/sta/stat_s_eref.F
+      !||--- called by ------------------------------------------------------
+      !||    stat_s_eref   ../engine/source/output/sta/stat_s_eref.F
+      !||====================================================================
       SUBROUTINE GETCONFIG(IFT,ILT,NPE,ISMSTR,X0, Y0, Z0, SAV,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

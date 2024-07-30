@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CHVIS3                        source/elements/shell/coque/chvis3.F
-Chd|-- called by -----------
-Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
-Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    chvis3       ../engine/source/elements/shell/coque/chvis3.F
+      !||--- called by ------------------------------------------------------
+      !||    cforc3       ../engine/source/elements/shell/coque/cforc3.F
+      !||    cforc3_crk   ../engine/source/elements/xfem/cforc3_crk.F
+      !||====================================================================
       SUBROUTINE CHVIS3(
      2   JFT ,JLT ,THK ,HOUR,OFF ,PX1 ,PX2 ,PY1 ,PY2 ,
      3   IXC ,DT1C,SSP ,RHO ,STI ,VX1 ,VX2 ,VX3 ,VX4 ,VY1 ,

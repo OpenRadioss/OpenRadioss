@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I25EDGE_SWITCH                source/interfaces/int25/i25edge_switch.F
-Chd|-- called by -----------
-Chd|        I25MAIN_FREE                  source/interfaces/intsort/i25main_free.F
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i25edge_switch   ../engine/source/interfaces/int25/i25edge_switch.F
+      !||--- called by ------------------------------------------------------
+      !||    i25main_free     ../engine/source/interfaces/intsort/i25main_free.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier       ../engine/source/system/machine.F
+      !||====================================================================
       SUBROUTINE I25EDGE_SWITCH(
      .                    JTASK,
      .                    STIFM,

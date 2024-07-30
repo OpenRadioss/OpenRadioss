@@ -20,62 +20,65 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SORTIE_MAIN                   source/output/sortie_main.F   
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ANICON0                       source/output/anim/generate/anicon0.F
-Chd|        ANICON2                       source/output/anim/generate/anicon2.F
-Chd|        ANI_PCONT                     source/output/anim/generate/ani_pcont.F
-Chd|        ANI_PCONT21                   source/output/anim/generate/ani_pcont.F
-Chd|        CNDMASI2                      source/elements/solid/solide10/s10cndf.F
-Chd|        ECRIT                         source/output/ecrit.F         
-Chd|        ENG_QAPRINT_DRIVER            source/output/qaprint/eng_qaprint_driver.F
-Chd|        FCONT2_MAX_OUTPUT             source/output/h3d/h3d_results/fcont2_max_output.F
-Chd|        FCONT2_MIN_OUTPUT             source/output/h3d/h3d_results/fcont2_min_output.F
-Chd|        FCONT_MAX_OUTPUT              source/output/h3d/h3d_results/fcont_max_output.F
-Chd|        FLUXSW                        source/fluid/fluxsw.F         
-Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|        GENDYNAIN                     source/output/dynain/gendynain.F
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|        GENOUTP                       source/output/sty/genoutp.F   
-Chd|        GENSTAT                       source/output/sta/genstat.F   
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|        NOISE                         source/general_controls/computation/noise.F
-Chd|        S10MVND                       source/elements/solid/solide10/s10cndv.F
-Chd|        SENSOR_ENERGY_TOTAL           source/tools/sensor/sensor_energy_total.F
-Chd|        SPMD_EXCH_ADM                 source/mpi/anim/spmd_exch_adm.F
-Chd|        SPMD_SD_SKW_ANIM              source/mpi/output/spmd_sd_skw.F
-Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
-Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        DT_MOD                        share/modules/dt_mod.F        
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
-Chd|        GENANI_MOD                    source/output/anim/generate/genani.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
-Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    sortie_main              ../engine/source/output/sortie_main.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                    ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ani_pcont                ../engine/source/output/anim/generate/ani_pcont.F
+      !||    ani_pcont21              ../engine/source/output/anim/generate/ani_pcont.F
+      !||    anicon0                  ../engine/source/output/anim/generate/anicon0.F
+      !||    anicon2                  ../engine/source/output/anim/generate/anicon2.F
+      !||    cndmasi2                 ../engine/source/elements/solid/solide10/s10cndf.F
+      !||    ecrit                    ../engine/source/output/ecrit.F
+      !||    eng_qaprint_driver       ../engine/source/output/qaprint/eng_qaprint_driver.F
+      !||    fcont2_max_output        ../engine/source/output/h3d/h3d_results/fcont2_max_output.F
+      !||    fcont2_min_output        ../engine/source/output/h3d/h3d_results/fcont2_min_output.F
+      !||    fcont_max_output         ../engine/source/output/h3d/h3d_results/fcont_max_output.F
+      !||    file_size                ../common_source/tools/input_output/write_routtines.c
+      !||    fluxsw                   ../engine/source/fluid/fluxsw.F
+      !||    genani                   ../engine/source/output/anim/generate/genani.F
+      !||    gendynain                ../engine/source/output/dynain/gendynain.F
+      !||    genh3d                   ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||    genoutp                  ../engine/source/output/sty/genoutp.F
+      !||    genstat                  ../engine/source/output/sta/genstat.F
+      !||    hist2                    ../engine/source/output/th/hist2.F
+      !||    noise                    ../engine/source/general_controls/computation/noise.F
+      !||    s10mvnd                  ../engine/source/elements/solid/solide10/s10cndv.F
+      !||    sensor_energy_total      ../engine/source/tools/sensor/sensor_energy_total.F
+      !||    spmd_exch_adm            ../engine/source/mpi/anim/spmd_exch_adm.F
+      !||    spmd_sd_skw_anim         ../engine/source/mpi/output/spmd_sd_skw.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod     ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    aleanim_mod              ../engine/share/modules/aleanim_mod.F
+      !||    anim_mod                 ../common_source/modules/output/anim_mod.F
+      !||    cluster_mod              ../engine/share/modules/cluster_mod.F
+      !||    crackxfem_mod            ../engine/share/modules/crackxfem_mod.F
+      !||    drape_mod                ../engine/share/modules/drape_mod.F
+      !||    dt_mod                   ../engine/share/modules/dt_mod.F
+      !||    ebcs_mod                 ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||    ecnd_mod                 ../engine/share/modules/ecdn_mod.F
+      !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
+      !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
+      !||    genani_mod               ../engine/source/output/anim/generate/genani.F
+      !||    groupdef_mod             ../common_source/modules/groupdef_mod.F
+      !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
+      !||    inoutfile_mod            ../common_source/modules/inoutfile_mod.F
+      !||    loads_mod                ../common_source/modules/loads/loads_mod.F
+      !||    mat_elem_mod             ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    message_mod              ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F
+      !||    outmax_mod               ../common_source/modules/outmax_mod.F
+      !||    output_mod               ../common_source/modules/output/output_mod.F90
+      !||    outputs_mod              ../common_source/modules/outputs_mod.F
+      !||    pinchtype_mod            ../common_source/modules/pinchtype_mod.F
+      !||    sensor_mod               ../engine/share/modules/sensor_mod.F
+      !||    stack_mod                ../engine/share/modules/stack_mod.F
+      !||    state_mod                ../common_source/modules/state_mod.F
+      !||    table_mod                ../engine/share/modules/table_mod.F
+      !||    th_surf_mod              ../common_source/modules/interfaces/th_surf_mod.F
+      !||    user_windows_mod         ../common_source/modules/user_windows_mod.F
+      !||====================================================================
       SUBROUTINE SORTIE_MAIN(
      1            PM        ,D           ,V          ,ALE_CONNECT,W        ,
      2            ELBUF     ,IPARG       ,IXS        ,IXQ       ,IXC      ,         

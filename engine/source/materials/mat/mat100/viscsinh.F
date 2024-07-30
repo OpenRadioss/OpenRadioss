@@ -23,12 +23,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C Non linear viscous model based on HYPERBOLIC SINE
 C output: the creep strain increment DGAMMA
 C-----------------------------------------------
-Chd|====================================================================
-Chd|  VISCSINH                      source/materials/mat/mat100/viscsinh.F
-Chd|-- called by -----------
-Chd|        SIGEPS100                     source/materials/mat/mat100/sigeps100.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    viscsinh    ../engine/source/materials/mat/mat100/viscsinh.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F
+      !||====================================================================
         SUBROUTINE VISCSINH ( NEL, TBNORM,  A1, B0 ,EXPN, DGAMMA ) !HYPERBOLIC SINE
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S

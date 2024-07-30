@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  S8ZDERI3                      source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8CINIT3                      source/elements/thickshell/solide8c/s8cinit3.F
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8zderi3      ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8cinit3      ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+      !||    s8zinit3      ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S8ZDERI3(VOL,VEUL,GEO,
      .    KSI,ETA,ZETA,WI,
      .    HX, HY, HZ,   
@@ -120,15 +121,16 @@ C
       ENDDO
       RETURN
       END
-Chd|====================================================================
-Chd|  S8ZDERIC3                     source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8CINIT3                      source/elements/thickshell/solide8c/s8cinit3.F
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8zderic3     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8cinit3      ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+      !||    s8zinit3      ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S8ZDERIC3(VOL,
      .     HX, HY, HZ,   
      .     JAC1,JAC2,JAC3,
@@ -298,13 +300,13 @@ C----surface max mediane-- *16
       RETURN
 C
       END
-Chd|====================================================================
-Chd|  S8ZJAC_IC                     source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8zjac_ic     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8zinit3      ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
         SUBROUTINE S8ZJAC_IC(
      .              XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .              YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
@@ -462,13 +464,13 @@ C
       RETURN
 C
       END
-Chd|====================================================================
-Chd|  S8ZPIJ_IC                     source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8zpij_ic     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8zinit3      ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
         SUBROUTINE S8ZPIJ_IC(
      .              XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .              YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
@@ -650,13 +652,13 @@ C
       RETURN
 C
       END
-Chd|====================================================================
-Chd|  S8ZJAC_I3                     source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8zjac_i3     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8zinit3      ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S8ZJAC_I3(
      .    KSI,ETA,ZETA,WI,
      .    HX, HY, HZ,   
@@ -911,19 +913,19 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  S8E_PIJ                       source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|-- calls ---------------
-Chd|        S8EDERIL2G                    source/elements/solid/solide8z/s8zderi3.F
-Chd|        S8EDERISH2                    source/elements/solid/solide8z/s8zderi3.F
-Chd|        S8EDERI_BIJ                   source/elements/solid/solide8z/s8zderi3.F
-Chd|        S8EGETPIJ                     source/elements/solid/solide8z/s8zderi3.F
-Chd|        S8ESELECSH                    source/elements/solid/solide8z/s8zderi3.F
-Chd|        SETMATRANS                    source/elements/solid/solide8z/s8zderi3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8e_pij        ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8zinit3       ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    s8ederi_bij    ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||    s8ederil2g     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||    s8ederish2     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||    s8egetpij      ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||    s8eselecsh     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||    setmatrans     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE S8E_PIJ(NPTR,NPTS,NPTT,NNPT,NEL,
      .                   PXC1, PXC2, PXC3, PXC4, 
      .                   PYC1, PYC2, PYC3, PYC4, 
@@ -1130,12 +1132,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  S8EGETPIJ                     source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8E_PIJ                       source/elements/solid/solide8z/s8zderi3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8egetpij   ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8e_pij     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||====================================================================
       SUBROUTINE S8EGETPIJ(
      .    PX1, PX2, PX3, PX4,
      .    PX5, PX6, PX7, PX8,
@@ -1200,12 +1201,11 @@ C-----------------------------------------------
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  S8ESELECSH                    source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8E_PIJ                       source/elements/solid/solide8z/s8zderi3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8eselecsh   ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8e_pij      ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||====================================================================
       SUBROUTINE S8ESELECSH(NPTR,NPTS,NPTT,NNPT,
      .    PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
      .    PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
@@ -1344,13 +1344,13 @@ C
 C
       RETURN
        END
-Chd|====================================================================
-Chd|  S8EDERISH2                    source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8E_PIJ                       source/elements/solid/solide8z/s8zderi3.F
-Chd|-- calls ---------------
-Chd|        S8EA2BP8                      source/elements/solid/solide8z/s8zderi3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8ederish2   ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8e_pij      ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- calls      -----------------------------------------------------
+      !||    s8ea2bp8     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||====================================================================
       SUBROUTINE S8EDERISH2(
      .   PXY1,PXY2,PXY3,PXY4,PXY5,PXY6,PXY7,PXY8,
      .   PYX1,PYX2,PYX3,PYX4,PYX5,PYX6,PYX7,PYX8,
@@ -1429,12 +1429,11 @@ C                                                                     12
 C
       RETURN
        END
-Chd|====================================================================
-Chd|  S8EA2BP8                      source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8EDERISH2                    source/elements/solid/solide8z/s8zderi3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8ea2bp8     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8ederish2   ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||====================================================================
       SUBROUTINE S8EA2BP8(
      .    PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
      .    P0X1, P0X2, P0X3, P0X4, P0X5, P0X6, P0X7, P0X8)
@@ -1471,12 +1470,11 @@ C
 C
       RETURN
        END
-Chd|====================================================================
-Chd|  S8EDERI_BIJ                   source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8E_PIJ                       source/elements/solid/solide8z/s8zderi3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8ederi_bij   ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8e_pij       ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||====================================================================
       SUBROUTINE S8EDERI_BIJ(
      .    PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
      .    PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
@@ -1722,12 +1720,11 @@ C
 C      
       RETURN
       END
-Chd|====================================================================
-Chd|  SETMATRANS                    source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8E_PIJ                       source/elements/solid/solide8z/s8zderi3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    setmatrans   ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8e_pij      ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||====================================================================
       SUBROUTINE SETMATRANS(
      .                    E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .                    QT   ,QC   ,QGC  ) 
@@ -1792,13 +1789,13 @@ C
 C      
       RETURN
       END
-Chd|====================================================================
-Chd|  BMTRL2G                       source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8EL2GNJ                      source/elements/solid/solide8z/s8zderi3.F
-Chd|-- calls ---------------
-Chd|        CKKTRAN3V                     source/elements/solid/solide8z/s8zderi3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    bmtrl2g     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8el2gnj    ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ckktran3v   ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||====================================================================
       SUBROUTINE BMTRL2G(BM   ,BC   ,QC  ,QGC    ,QT    ) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1837,13 +1834,13 @@ C----------Qc^t[BM]Qt;  QGc^t[BC]Qt
 C      
       RETURN
       END
-Chd|====================================================================
-Chd|  S8EDERIL2G                    source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8E_PIJ                       source/elements/solid/solide8z/s8zderi3.F
-Chd|-- calls ---------------
-Chd|        S8EL2GNJ                      source/elements/solid/solide8z/s8zderi3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8ederil2g   ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8e_pij      ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- calls      -----------------------------------------------------
+      !||    s8el2gnj     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||====================================================================
       SUBROUTINE S8EDERIL2G(
      .    PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
      .    PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
@@ -2045,13 +2042,13 @@ C
 C      
       RETURN
       END
-Chd|====================================================================
-Chd|  S8EL2GNJ                      source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8EDERIL2G                    source/elements/solid/solide8z/s8zderi3.F
-Chd|-- calls ---------------
-Chd|        BMTRL2G                       source/elements/solid/solide8z/s8zderi3.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8el2gnj     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8ederil2g   ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- calls      -----------------------------------------------------
+      !||    bmtrl2g      ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||====================================================================
       SUBROUTINE S8EL2GNJ(
      .    PX1,  PY1,  PZ1, 
      .    PXY1, PYX1, PXZ1, PZX1, PYZ1, PZY1,
@@ -2128,12 +2125,11 @@ C --- n1
 C      
       RETURN
       END
-Chd|====================================================================
-Chd|  CKKTRAN3V                     source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        BMTRL2G                       source/elements/solid/solide8z/s8zderi3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    ckktran3v   ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    bmtrl2g     ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||====================================================================
       SUBROUTINE CKKTRAN3V(JFT   ,JLT    ,VQI   ,KK,VQJ) 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
@@ -2174,12 +2170,11 @@ C
 C      
       RETURN
       END
-Chd|====================================================================
-Chd|  S8EJACIP3                     source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    s8ejacip3   ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8zinit3    ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||====================================================================
       SUBROUTINE S8EJACIP3(
      .    HX,    HY,    HZ,   
      .    CJ1,CJ2,CJ3,
@@ -2364,14 +2359,15 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  S8EDERI3                      source/elements/solid/solide8z/s8zderi3.F
-Chd|-- called by -----------
-Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    s8ederi3      ../starter/source/elements/solid/solide8z/s8zderi3.F
+      !||--- called by ------------------------------------------------------
+      !||    s8zinit3      ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE S8EDERI3(VOL,VEUL,GEO,WI,
      .    JACP1,JACP2,JACP3,
      .    JACP4,JACP5,JACP6,

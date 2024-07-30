@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MMODUL24C                     source/elements/solid/solidez/mmodul24c.F
-Chd|-- called by -----------
-Chd|        MDAMA24                       source/elements/solid/solidez/mdama24.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    mmodul24c   ../engine/source/elements/solid/solidez/mmodul24c.F
+      !||--- called by ------------------------------------------------------
+      !||    mdama24     ../engine/source/elements/solid/solidez/mdama24.F
+      !||====================================================================
       SUBROUTINE MMODUL24C(NEL    ,PM     ,DAM    ,CRAK   ,
      .                     CDAM   ,G3     ,ANG    ,DAMANG ,NBDAMA)
 C-----------------------------------------------

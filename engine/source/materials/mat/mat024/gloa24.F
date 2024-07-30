@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  GLOA24                        source/materials/mat/mat024/gloa24.F
-Chd|-- called by -----------
-Chd|        CONC24                        source/materials/mat/mat024/conc24.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    gloa24   ../engine/source/materials/mat/mat024/gloa24.F
+      !||--- called by ------------------------------------------------------
+      !||    conc24   ../engine/source/materials/mat/mat024/conc24.F
+      !||====================================================================
       SUBROUTINE GLOA24(NEL,STRAIN,DT1,ARM1,ARM2,ARM3,
      .            D1,D2,D3,D4,D5,D6,
      .            R11,R12,R13,R21,R22,

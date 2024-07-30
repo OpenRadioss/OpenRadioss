@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  QNORM2T                       source/multifluid/qnorm2t.F   
-Chd|-- called by -----------
-Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem.F
-Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|====================================================================
+      !||====================================================================
+      !||    qnorm2t                ../engine/source/multifluid/qnorm2t.F
+      !||--- called by ------------------------------------------------------
+      !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
+      !||--- calls      -----------------------------------------------------
+      !||    arret                  ../engine/source/system/arret.F
+      !||====================================================================
       SUBROUTINE QNORM2T (NEL, NFT, JALE, SYM, IXTG, XGRID, WGRID, 
      .     NORM, WFAC, SURF)
 C-----------------------------------------------

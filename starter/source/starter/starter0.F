@@ -20,70 +20,54 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  STARTER0                      source/starter/starter0.F     
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ANINIT                        source/output/analyse/analyse.c
-Chd|        BUILD_MSG                     source/output/message/build_msg.F
-Chd|        CHECK_MESSAGE_DEFINITION      ../common_source/modules/check_mod.F
-Chd|        CONTRL                        source/starter/contrl.F       
-Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        DYN_USERLIB_INIT              source/user_interface/dyn_userlib.c
-Chd|        EXECARGCHECK                  source/starter/execargcheck.F 
-Chd|        FREFORM                       source/starter/freform.F      
-Chd|        GET_FILE_NAME_INFO            source/system/get_file_name_info.F
-Chd|        HM_CONVERT_2D_ELEMENTS_SEATBELTsource/devtools/hm_reader/hm_convert_2d_elements_seatbelt.F
-Chd|        HM_CONVERT_FAIL_TAB           source/devtools/hm_reader/hm_convert_fail_tab.F
-Chd|        HM_CONVERT_INTER_TYPE19       source/devtools/hm_reader/hm_convert_inter_type19.F
-Chd|        HM_COUNT_2D_ELEMENT_SEATBELT  source/devtools/hm_reader/hm_count_2d_element_seatbelt.F
-Chd|        HM_GET_MAX_ID                 source/devtools/hm_reader/hm_get_max_id.F
-Chd|        HM_MESSAGES                   source/devtools/hm_reader/hm_messages.F
-Chd|        HM_READ_SUBMODEL              source/model/assembling/hm_read_submodel.F
-Chd|        INICOD                        source/tools/univ/inicod.F    
-Chd|        INICONSTANT                   source/system/iniconstant.F   
-Chd|        INITIME                       source/system/timer.F         
-Chd|        INI_MSG                       source/output/message/inimsg.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        MY_EXIT                       source/output/analyse/analyse.c
-Chd|        NAMES_AND_TITLE_INIT          ../common_source/modules/names_and_titles_mod.F
-Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
-Chd|        PRHELPINFO                    source/starter/execargcheck.F 
-Chd|        PRINTCENTER                   source/starter/radioss_title.F
-Chd|        PRINTCPU                      source/system/printcpu.F      
-Chd|        PRINTIME                      source/system/timer.F         
-Chd|        R2R_FORK                      source/coupling/rad2rad/r2r_fork.F
-Chd|        RADIOSS_SET_ENV_VARIABLE      ../common_source/comm/radioss_set_env_variable.c
-Chd|        RADIOSS_TITLE                 source/starter/radioss_title.F
-Chd|        SETIGNORECORE                 source/system/traceback_handler.c
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ST_UACCESS_DUM                source/user_interface/uaccess.F
-Chd|        ST_UTABLE_DUM                 source/user_interface/utable.F
-Chd|        TH_CLEAN                      ../common_source/modules/output/time_history_mod.F
-Chd|        TITRE1                        source/output/outfile/titre1.F
-Chd|        TRACE_IN1                     source/system/trace_back.F    
-Chd|        TRACE_OUT1                    source/system/trace_back.F    
-Chd|        USER_WINDOWS_CLEAN            ../common_source/modules/user_windows_mod.F
-Chd|        USER_WINDOWS_INIT             ../common_source/modules/user_windows_mod.F
-Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        ANEND                         source/output/analyse/analyse_arret.F
-Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
-Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|        USER_INTERFACE_MOD            share/modules1/user_interface_mod.F
-Chd|        USER_SENSOR_MOD               share/modules1/user_interface_mod.F
-Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    starter0                          ../starter/source/starter/starter0.F
+      !||--- called by ------------------------------------------------------
+      !||    starter                           ../starter/source/starter/starter.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                            ../starter/source/output/message/message.F
+      !||    anend                             ../starter/source/output/analyse/analyse_arret.F
+      !||    aninit                            ../starter/source/output/analyse/analyse.c
+      !||    build_msg                         ../starter/source/output/message/build_msg.F
+      !||    contrl                            ../starter/source/starter/contrl.F
+      !||    execargcheck                      ../starter/source/starter/execargcheck.F
+      !||    freform                           ../starter/source/starter/freform.F
+      !||    get_file_name_info                ../starter/source/system/get_file_name_info.F
+      !||    hm_convert_2d_elements_seatbelt   ../starter/source/devtools/hm_reader/hm_convert_2d_elements_seatbelt.F
+      !||    hm_convert_fail_tab               ../starter/source/devtools/hm_reader/hm_convert_fail_tab.F
+      !||    hm_convert_inter_type19           ../starter/source/devtools/hm_reader/hm_convert_inter_type19.F
+      !||    hm_count_2d_element_seatbelt      ../starter/source/devtools/hm_reader/hm_count_2d_element_seatbelt.F
+      !||    hm_get_max_id                     ../starter/source/devtools/hm_reader/hm_get_max_id.F
+      !||    hm_messages                       ../starter/source/devtools/hm_reader/hm_messages.F
+      !||    hm_read_submodel                  ../starter/source/model/assembling/hm_read_submodel.F
+      !||    ini_msg                           ../starter/source/output/message/inimsg.F
+      !||    inicod                            ../starter/source/tools/univ/inicod.F
+      !||    iniconstant                       ../starter/source/system/iniconstant.F
+      !||    initime                           ../starter/source/system/timer.F
+      !||    lectur                            ../starter/source/starter/lectur.F
+      !||    my_exit                           ../starter/source/output/analyse/analyse.c
+      !||    prhelpinfo                        ../starter/source/starter/execargcheck.F
+      !||    printcenter                       ../starter/source/starter/radioss_title.F
+      !||    printcpu                          ../starter/source/system/printcpu.F
+      !||    printime                          ../starter/source/system/timer.F
+      !||    r2r_fork                          ../starter/source/coupling/rad2rad/r2r_fork.F
+      !||    radioss_title                     ../starter/source/starter/radioss_title.F
+      !||    setignorecore                     ../starter/source/system/traceback_handler.c
+      !||    st_uaccess_dum                    ../starter/source/user_interface/uaccess.F
+      !||    st_utable_dum                     ../starter/source/user_interface/utable.F
+      !||    startime                          ../starter/source/system/timer.F
+      !||    stoptime                          ../starter/source/system/timer.F
+      !||    titre1                            ../starter/source/output/outfile/titre1.F
+      !||    trace_in1                         ../starter/source/system/trace_back.F
+      !||    trace_out1                        ../starter/source/system/trace_back.F
+      !||--- uses       -----------------------------------------------------
+      !||    defaults_mod                      ../starter/source/modules/defaults_mod.F90
+      !||    detonators_mod                    ../starter/share/modules1/detonators_mod.F
+      !||    message_mod                       ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                      ../starter/share/modules1/submodel_mod.F
+      !||    user_interface_mod                ../starter/share/modules1/user_interface_mod.F
+      !||    user_sensor_mod                   ../starter/share/modules1/user_interface_mod.F
+      !||====================================================================
       SUBROUTINE STARTER0   
 C-----------------------------------------------
 C   M o d u l e s

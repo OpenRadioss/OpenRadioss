@@ -20,26 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  C3KE3                         source/elements/sh3n/coque3n/c3ke3.F
-Chd|-- called by -----------
-Chd|        IMP_GLOB_K                    source/implicit/imp_glob_k.F  
-Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
-Chd|-- calls ---------------
-Chd|        ASSEM_C3                      source/implicit/assem_c3.F    
-Chd|        C3BE3                         source/elements/sh3n/coque3n/c3be3.F
-Chd|        C3COORK3                      source/elements/sh3n/coque3n/c3coork3.F
-Chd|        C3DERIRZ                      source/elements/sh3n/coque3n/c3defo3.F
-Chd|        C3EOFF                        source/elements/sh3n/coque3n/c3eoff.F
-Chd|        C3LKE3                        source/elements/sh3n/coque3n/c3lke3.F
-Chd|        C3LKERZ3                      source/elements/sh3n/coque3n/c3lke3.F
-Chd|        C3SUMG3                       source/elements/sh3n/coque3n/c3sumg3.F
-Chd|        CMATC3                        source/elements/shell/coqueba/cmatc3.F
-Chd|        CMATIP3                       source/elements/shell/coqueba/cmatc3.F
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    c3ke3          ../engine/source/elements/sh3n/coque3n/c3ke3.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
+      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+      !||--- calls      -----------------------------------------------------
+      !||    assem_c3       ../engine/source/implicit/assem_c3.F
+      !||    c3be3          ../engine/source/elements/sh3n/coque3n/c3be3.F
+      !||    c3coork3       ../engine/source/elements/sh3n/coque3n/c3coork3.F
+      !||    c3derirz       ../engine/source/elements/sh3n/coque3n/c3defo3.F
+      !||    c3eoff         ../engine/source/elements/sh3n/coque3n/c3eoff.F
+      !||    c3lke3         ../engine/source/elements/sh3n/coque3n/c3lke3.F
+      !||    c3lkerz3       ../engine/source/elements/sh3n/coque3n/c3lke3.F
+      !||    c3sumg3        ../engine/source/elements/sh3n/coque3n/c3sumg3.F
+      !||    cmatc3         ../engine/source/elements/shell/coqueba/cmatc3.F
+      !||    cmatip3        ../engine/source/elements/shell/coqueba/cmatc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    drape_mod      ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    stack_mod      ../engine/share/modules/stack_mod.F
+      !||====================================================================
       SUBROUTINE C3KE3(
      1            JFT    ,JLT    ,NFT    ,NPT    ,MTN    ,
      2            ITHK   ,NCYCLE ,

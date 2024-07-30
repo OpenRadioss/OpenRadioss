@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_I20CURVSZ                source/mpi/interfaces/spmd_i20curvsz.F
-Chd|-- called by -----------
-Chd|        I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_i20curvsz   ../engine/source/mpi/interfaces/spmd_i20curvsz.F
+      !||--- called by ------------------------------------------------------
+      !||    i20mainf         ../engine/source/interfaces/int20/i20mainf.F
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPMD_I20CURVSZ(NRTM  ,IRECT ,NUMNOD,IAD_ELEM,FR_ELEM,
      2                         ISDSIZ,IRCSIZ,ITAG  ,LENR    ,LENT   ,
      3                         MAXCC ,NLN   ,NLG   )

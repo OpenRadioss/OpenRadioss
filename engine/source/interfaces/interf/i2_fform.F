@@ -20,14 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I2_FFORM                      source/interfaces/interf/i2_fform.F
-Chd|-- called by -----------
-Chd|        I2CURVF                       source/interfaces/interf/i2curvf.F
-Chd|        I2CURVFP                      source/interfaces/interf/i2curvfp.F
-Chd|        I2CURVV                       source/interfaces/interf/i2curvv.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i2_fform   ../engine/source/interfaces/interf/i2_fform.F
+      !||--- called by ------------------------------------------------------
+      !||    i2curvf    ../engine/source/interfaces/interf/i2curvf.F
+      !||    i2curvfp   ../engine/source/interfaces/interf/i2curvfp.F
+      !||    i2curvv    ../engine/source/interfaces/interf/i2curvv.F
+      !||====================================================================
       SUBROUTINE I2_FFORM(
      .   NIR,S,T,H,HH,HRS,HRT,HPS,HPT,HPRS,HPRT,
      .   HXS,HXT,LS1,LS2,LT1,LT2,LS,LT)

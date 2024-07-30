@@ -21,33 +21,34 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  |---- version non //------------
-Chd|====================================================================
-Chd|  NL_SOLV                       source/implicit/nl_solv.F     
-Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|-- calls ---------------
-Chd|        AL_CONSTRAINT1_HP             source/implicit/nl_solv.F     
-Chd|        AL_CONSTRAINT2_HP             source/implicit/nl_solv.F     
-Chd|        BFGS_0                        source/implicit/imp_bfgs.F    
-Chd|        BFGS_LS                       source/implicit/imp_bfgs.F    
-Chd|        CP_REAL                       source/implicit/produt_v.F    
-Chd|        CRIT_ITE                      source/implicit/nl_solv.F     
-Chd|        FRAC_DD_HP                    source/implicit/integrator.F  
-Chd|        FRAC_D_HP                     source/implicit/integrator.F  
-Chd|        GET_MAX                       source/implicit/nl_solv.F     
-Chd|        IMP_STOP                      source/implicit/imp_solv.F    
-Chd|        INTEGRATOR2_HP                source/implicit/integrator.F  
-Chd|        LINE_S                        source/implicit/nl_solv.F     
-Chd|        LINE_S1                       source/implicit/nl_solv.F     
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
-Chd|        PRODUT_HP                     source/implicit/produt_v.F    
-Chd|        PRODUT_UHP                    source/implicit/produt_v.F    
-Chd|        PRODUT_UHP2                   source/implicit/produt_v.F    
-Chd|        PRODUT_VMHP                   source/implicit/produt_v.F    
-Chd|        VAXPY_HP                      source/implicit/produt_v.F    
-Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    nl_solv             ../engine/source/implicit/nl_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    imp_solv            ../engine/source/implicit/imp_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    al_constraint1_hp   ../engine/source/implicit/nl_solv.F
+      !||    al_constraint2_hp   ../engine/source/implicit/nl_solv.F
+      !||    bfgs_0              ../engine/source/implicit/imp_bfgs.F
+      !||    bfgs_ls             ../engine/source/implicit/imp_bfgs.F
+      !||    cp_real             ../engine/source/implicit/produt_v.F
+      !||    crit_ite            ../engine/source/implicit/nl_solv.F
+      !||    frac_d_hp           ../engine/source/implicit/integrator.F
+      !||    frac_dd_hp          ../engine/source/implicit/integrator.F
+      !||    get_max             ../engine/source/implicit/nl_solv.F
+      !||    imp_stop            ../engine/source/implicit/imp_solv.F
+      !||    integrator2_hp      ../engine/source/implicit/integrator.F
+      !||    lin_solv            ../engine/source/implicit/lin_solv.F
+      !||    line_s              ../engine/source/implicit/nl_solv.F
+      !||    line_s1             ../engine/source/implicit/nl_solv.F
+      !||    produt_hp           ../engine/source/implicit/produt_v.F
+      !||    produt_uhp          ../engine/source/implicit/produt_v.F
+      !||    produt_uhp2         ../engine/source/implicit/produt_v.F
+      !||    produt_vmhp         ../engine/source/implicit/produt_v.F
+      !||    vaxpy_hp            ../engine/source/implicit/produt_v.F
+      !||--- uses       -----------------------------------------------------
+      !||    dsgraph_mod         ../engine/share/modules/dsgraph_mod.F
+      !||    groupdef_mod        ../common_source/modules/groupdef_mod.F
+      !||====================================================================
       SUBROUTINE NL_SOLV(NDDL  ,IDDL  ,NDOF  ,IKC   ,D     ,
      1                   DR    ,NNZ   ,IADK  ,JDIK  ,DIAG_K,
      2                   LT_K  ,F     ,NDDLI ,IADI  ,JDII  ,   
@@ -798,12 +799,11 @@ c     .          ' |du|/|u|,|r|/|r0|,|dE|/|E|=',3E11.4)
 #endif
       END
 
-Chd|====================================================================
-Chd|  CRIT_ITE                      source/implicit/nl_solv.F     
-Chd|-- called by -----------
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    crit_ite   ../engine/source/implicit/nl_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    nl_solv    ../engine/source/implicit/nl_solv.F
+      !||====================================================================
       SUBROUTINE CRIT_ITE(IT,UR,RR,ER,NDIV,TOL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -885,12 +885,11 @@ C------divergence-----------
 C-----------------------------------------------
       RETURN
       END
-Chd|====================================================================
-Chd|  LINE_S                        source/implicit/nl_solv.F     
-Chd|-- called by -----------
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    line_s    ../engine/source/implicit/nl_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    nl_solv   ../engine/source/implicit/nl_solv.F
+      !||====================================================================
       SUBROUTINE LINE_S(R0,S0,R1,S,DTOL,IDIV,IINT,PREC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -951,13 +950,13 @@ C------extrapolation-------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  GET_MAX                       source/implicit/nl_solv.F     
-Chd|-- called by -----------
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
-Chd|-- calls ---------------
-Chd|        SPMD_MAX_S                    source/mpi/implicit/imp_spmd.F
-Chd|====================================================================
+      !||====================================================================
+      !||    get_max      ../engine/source/implicit/nl_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    nl_solv      ../engine/source/implicit/nl_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_max_s   ../engine/source/mpi/implicit/imp_spmd.F
+      !||====================================================================
       SUBROUTINE GET_MAX(N,D,VMAX,I)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -996,12 +995,11 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  LINE_S1                       source/implicit/nl_solv.F     
-Chd|-- called by -----------
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    line_s1   ../engine/source/implicit/nl_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    nl_solv   ../engine/source/implicit/nl_solv.F
+      !||====================================================================
       SUBROUTINE LINE_S1(E1,S,EP,SP,EN,SN,IDIV,DTOL,ICONT,ICONT0,IRIKS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1108,15 +1106,14 @@ c        STMP = HALF*(S2-SQRT(S2*S2-FOUR*EP))
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  AL_CONSTRAINT1                source/implicit/nl_solv.F     
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        FRAC_DD                       source/implicit/integrator.F  
-Chd|        INTEGRATOR2                   source/implicit/integrator.F  
-Chd|        PRODUT_U                      source/implicit/produt_v.F    
-Chd|        PRODUT_U2                     source/implicit/produt_v.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    al_constraint1   ../engine/source/implicit/nl_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    frac_dd          ../engine/source/implicit/integrator.F
+      !||    integrator2      ../engine/source/implicit/integrator.F
+      !||    produt_u         ../engine/source/implicit/produt_v.F
+      !||    produt_u2        ../engine/source/implicit/produt_v.F
+      !||====================================================================
       SUBROUTINE AL_CONSTRAINT1(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                          DD    ,DDR   ,DG    ,DGR   ,DI    ,
      .                          DIR   ,W_DDL ,L_A   ,LAMDA ,SW2   ,
@@ -1187,13 +1184,12 @@ C-------DD< DI+DD
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  AL_CONSTRAINT2                source/implicit/nl_solv.F     
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        PRODUT_U                      source/implicit/produt_v.F    
-Chd|        PRODUT_U2                     source/implicit/produt_v.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    al_constraint2   ../engine/source/implicit/nl_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    produt_u         ../engine/source/implicit/produt_v.F
+      !||    produt_u2        ../engine/source/implicit/produt_v.F
+      !||====================================================================
       SUBROUTINE AL_CONSTRAINT2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                          DD    ,DDR   ,DG    ,DGR   ,DI    ,
      .                          DIR   ,W_DDL ,L_A   ,LAMDA ,SW2   )
@@ -1229,11 +1225,9 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  B_CORRECT                     source/implicit/nl_solv.F     
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    b_correct   ../engine/source/implicit/nl_solv.F
+      !||====================================================================
       SUBROUTINE B_CORRECT(NDDL  ,F   ,FEXT  ,DLAMDA )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1256,11 +1250,9 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  B_CORRECT_H                   source/implicit/nl_solv.F     
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    b_correct_h   ../engine/source/implicit/nl_solv.F
+      !||====================================================================
       SUBROUTINE B_CORRECT_H(F_DDL  ,L_DDL  ,F   ,FEXT  ,DLAMDA )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1284,16 +1276,15 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  AL_CONSTRAINTH1               source/implicit/nl_solv.F     
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        FRAC_DD                       source/implicit/integrator.F  
-Chd|        INTEGRATOR2                   source/implicit/integrator.F  
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        PRODUT_UH                     source/implicit/produt_v.F    
-Chd|        PRODUT_UH2                    source/implicit/produt_v.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    al_constrainth1   ../engine/source/implicit/nl_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    frac_dd           ../engine/source/implicit/integrator.F
+      !||    integrator2       ../engine/source/implicit/integrator.F
+      !||    my_barrier        ../engine/source/system/machine.F
+      !||    produt_uh         ../engine/source/implicit/produt_v.F
+      !||    produt_uh2        ../engine/source/implicit/produt_v.F
+      !||====================================================================
       SUBROUTINE AL_CONSTRAINTH1(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                          DD    ,DDR   ,DG    ,DGR   ,DI    ,
      .                          DIR   ,W_DDL ,L_A   ,LAMDA ,SW2   ,
@@ -1376,14 +1367,13 @@ C---------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  AL_CONSTRAINTH2               source/implicit/nl_solv.F     
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        PRODUT_UH                     source/implicit/produt_v.F    
-Chd|        PRODUT_UH2                    source/implicit/produt_v.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    al_constrainth2   ../engine/source/implicit/nl_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier        ../engine/source/system/machine.F
+      !||    produt_uh         ../engine/source/implicit/produt_v.F
+      !||    produt_uh2        ../engine/source/implicit/produt_v.F
+      !||====================================================================
       SUBROUTINE AL_CONSTRAINTH2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                          DD    ,DDR   ,DG    ,DGR   ,DI    ,
      .                          DIR   ,W_DDL ,L_A   ,LAMDA ,SW2   ,
@@ -1426,12 +1416,11 @@ C---------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  B_CORRECT_HP                  source/implicit/nl_solv.F     
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        IMP_SMPINI                    source/implicit/imp_solv.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    b_correct_hp   ../engine/source/implicit/nl_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    imp_smpini     ../engine/source/implicit/imp_solv.F
+      !||====================================================================
       SUBROUTINE B_CORRECT_HP(NDDL  ,F   ,FEXT  ,DLAMDA )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1459,16 +1448,16 @@ C-----------------------------------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  AL_CONSTRAINT1_HP             source/implicit/nl_solv.F     
-Chd|-- called by -----------
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
-Chd|-- calls ---------------
-Chd|        FRAC_DD_HP                    source/implicit/integrator.F  
-Chd|        INTEGRATOR2_HP                source/implicit/integrator.F  
-Chd|        PRODUT_UHP                    source/implicit/produt_v.F    
-Chd|        PRODUT_UHP2                   source/implicit/produt_v.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    al_constraint1_hp   ../engine/source/implicit/nl_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    nl_solv             ../engine/source/implicit/nl_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    frac_dd_hp          ../engine/source/implicit/integrator.F
+      !||    integrator2_hp      ../engine/source/implicit/integrator.F
+      !||    produt_uhp          ../engine/source/implicit/produt_v.F
+      !||    produt_uhp2         ../engine/source/implicit/produt_v.F
+      !||====================================================================
       SUBROUTINE AL_CONSTRAINT1_HP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                           DD    ,DDR   ,DG    ,DGR   ,DI    ,
      .                           DIR   ,W_DDL ,L_A   ,LAMDA ,SW2   ,
@@ -1540,14 +1529,14 @@ C---------------------
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  AL_CONSTRAINT2_HP             source/implicit/nl_solv.F     
-Chd|-- called by -----------
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
-Chd|-- calls ---------------
-Chd|        PRODUT_UHP                    source/implicit/produt_v.F    
-Chd|        PRODUT_UHP2                   source/implicit/produt_v.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    al_constraint2_hp   ../engine/source/implicit/nl_solv.F
+      !||--- called by ------------------------------------------------------
+      !||    nl_solv             ../engine/source/implicit/nl_solv.F
+      !||--- calls      -----------------------------------------------------
+      !||    produt_uhp          ../engine/source/implicit/produt_v.F
+      !||    produt_uhp2         ../engine/source/implicit/produt_v.F
+      !||====================================================================
       SUBROUTINE AL_CONSTRAINT2_HP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                             DD    ,DDR   ,DG    ,DGR   ,DI    ,
      .                             DIR   ,W_DDL ,L_A   ,LAMDA ,SW2   )

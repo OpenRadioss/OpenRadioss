@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SRMALLA11                     source/elements/solid/solide/srmalla11.F
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    srmalla11   ../engine/source/elements/solid/solide/srmalla11.F
+      !||--- called by ------------------------------------------------------
+      !||    sforc3      ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3     ../engine/source/elements/solid/solidez/szforc3.F
+      !||====================================================================
       SUBROUTINE SRMALLA11(
      1   SAV,     OFFG,    WXX,     WYY,
      2   WZZ,     R11,     R12,     R13,

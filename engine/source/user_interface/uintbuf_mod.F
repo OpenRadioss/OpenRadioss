@@ -20,13 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  UINTBUF_MOD                   source/user_interface/uintbuf_mod.F
-Chd|-- called by -----------
-Chd|        I2RUPT                        source/interfaces/interf/int2rupt.F
-Chd|        RUPTINT2                      source/interfaces/interf/ruptint2.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    uintbuf_mod   ../engine/source/user_interface/uintbuf_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    i2rupt        ../engine/source/interfaces/interf/int2rupt.F
+      !||    ruptint2      ../engine/source/interfaces/interf/ruptint2.F
+      !||====================================================================
       MODULE UINTBUF_MOD
 C-----------------------------------------------
 #include      "my_real.inc"

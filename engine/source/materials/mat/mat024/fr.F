@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FRV                           source/materials/mat/mat024/fr.F
-Chd|-- called by -----------
-Chd|        CRIT24                        source/materials/mat/mat024/crit24.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    frv      ../engine/source/materials/mat/mat024/fr.F
+      !||--- called by ------------------------------------------------------
+      !||    crit24   ../engine/source/materials/mat/mat024/crit24.F
+      !||====================================================================
       SUBROUTINE FRV(S1,S2,S3,S4,S5,S6,
      .               SM,VK0,VK,ROB,FC,RT,RC,
      .               RCT1,RCT2,AA,AC,BC,BT,

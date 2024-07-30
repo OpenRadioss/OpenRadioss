@@ -20,17 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  ST_QAPRINT_INITIAL_CONDITIONS source/output/qaprint/st_qaprint_initial_conditions.F
-Chd|-- called by -----------
-Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
-Chd|-- calls ---------------
-Chd|        INIGRAV                       share/modules1/inigrav_mod.F  
-Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 
-Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F 
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    st_qaprint_initial_conditions   ../starter/source/output/qaprint/st_qaprint_initial_conditions.F
+      !||--- called by ------------------------------------------------------
+      !||    st_qaprint_driver               ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    inigrav                         ../starter/share/modules1/inigrav_mod.F
+      !||    inimap1d_mod                    ../starter/share/modules1/inimap1d_mod.F
+      !||    inimap2d_mod                    ../starter/share/modules1/inimap2d_mod.F
+      !||====================================================================
       SUBROUTINE ST_QAPRINT_INITIAL_CONDITIONS(
      1     NOM_OPT   ,INOM_OPT  ,ITAB      ,V         ,VR        ,
      2     W         ,TEMP      ,INICRACK  ,FVM_INIVEL, 

@@ -20,12 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SIGEPS96                      source/materials/mat/mat096/sigeps96.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        VINTER2                       source/tools/curve/vinter.F   
-Chd|====================================================================
+      !||====================================================================
+      !||    sigeps96   ../engine/source/materials/mat/mat096/sigeps96.F
+      !||--- called by ------------------------------------------------------
+      !||    mulaw      ../engine/source/materials/mat_share/mulaw.F90
+      !||--- calls      -----------------------------------------------------
+      !||    vinter2    ../engine/source/tools/curve/vinter.F
+      !||====================================================================
       SUBROUTINE SIGEPS96 (
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   , 
      2     NPF     ,TF      ,UPARAM  ,UVAR    ,JTHE    ,

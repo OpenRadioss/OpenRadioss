@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SMALLGEO3                     source/elements/solid/solide/smallgeo3.F
-Chd|-- called by -----------
-Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        DT_MOD                        share/modules/dt_mod.F        
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    smallgeo3     ../engine/source/elements/solid/solide/smallgeo3.F
+      !||--- called by ------------------------------------------------------
+      !||    s10forc3      ../engine/source/elements/solid/solide10/s10forc3.F
+      !||    s4forc3       ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    dt_mod        ../engine/share/modules/dt_mod.F
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE SMALLGEO3(
      1   NGL,     OFFG,    VOLG,    DELTAX,
      2   VOLG0,   ITET,    NEL,     ISMSTR,DT  )

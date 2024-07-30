@@ -20,15 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I20DST3                       source/interfaces/inter3d1/i20dst3.F
-Chd|-- called by -----------
-Chd|        I20INI3                       source/interfaces/inter3d1/i20ini3.F
-Chd|-- calls ---------------
-Chd|        I20CGAP0                      source/interfaces/inter3d1/i20dst3.F
-Chd|        I20CGAP1                      source/interfaces/inter3d1/i20dst3.F
-Chd|        BITGET                        source/interfaces/inter3d1/bitget.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i20dst3    ../starter/source/interfaces/inter3d1/i20dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20ini3    ../starter/source/interfaces/inter3d1/i20ini3.F
+      !||--- calls      -----------------------------------------------------
+      !||    bitget     ../starter/source/interfaces/inter3d1/bitget.F
+      !||    bitset     ../starter/source/interfaces/inter3d1/bitget.F
+      !||    bitunset   ../starter/source/interfaces/inter3d1/bitget.F
+      !||    i20cgap0   ../starter/source/interfaces/inter3d1/i20dst3.F
+      !||    i20cgap1   ../starter/source/interfaces/inter3d1/i20dst3.F
+      !||====================================================================
       SUBROUTINE I20DST3(IGAP,GAP_SH,CAND_E,CAND_N,GAPV,
      2                   GAP ,GAP_S ,GAP_M ,GAPMAX,GAPMIN,
      3                   IRECT  ,NLN    ,NLG  ,SOLIDN_NORMAL,NSV,
@@ -650,12 +652,11 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I20CGAP0                      source/interfaces/inter3d1/i20dst3.F
-Chd|-- called by -----------
-Chd|        I20DST3                       source/interfaces/inter3d1/i20dst3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i20cgap0   ../starter/source/interfaces/inter3d1/i20dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20dst3    ../starter/source/interfaces/inter3d1/i20dst3.F
+      !||====================================================================
       SUBROUTINE I20CGAP0(X10,Y10,Z10,X20,Y20,Z20,
      .                    X30,Y30,Z30,X40,Y40,Z40,
      .                    X1,Y1,Z1,X2,Y2,Z2,
@@ -724,12 +725,11 @@ C=======================================================================
 
       RETURN
       END
-Chd|====================================================================
-Chd|  I20CGAP1                      source/interfaces/inter3d1/i20dst3.F
-Chd|-- called by -----------
-Chd|        I20DST3                       source/interfaces/inter3d1/i20dst3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i20cgap1   ../starter/source/interfaces/inter3d1/i20dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20dst3    ../starter/source/interfaces/inter3d1/i20dst3.F
+      !||====================================================================
       SUBROUTINE I20CGAP1(X10,Y10,Z10,X20,Y20,Z20,
      .                    X40,Y40,Z40,
      .                    X1,Y1,Z1,X2,Y2,Z2,
@@ -785,13 +785,15 @@ C=======================================================================
 
       RETURN
       END
-Chd|====================================================================
-Chd|  I20GAP1                       source/interfaces/inter3d1/i20dst3.F
-Chd|-- called by -----------
-Chd|        I20INI3                       source/interfaces/inter3d1/i20ini3.F
-Chd|-- calls ---------------
-Chd|        BITGET                        source/interfaces/inter3d1/bitget.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i20gap1    ../starter/source/interfaces/inter3d1/i20dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20ini3    ../starter/source/interfaces/inter3d1/i20ini3.F
+      !||--- calls      -----------------------------------------------------
+      !||    bitget     ../starter/source/interfaces/inter3d1/bitget.F
+      !||    bitset     ../starter/source/interfaces/inter3d1/bitget.F
+      !||    bitunset   ../starter/source/interfaces/inter3d1/bitget.F
+      !||====================================================================
       SUBROUTINE I20GAP1(NRTM,NSN,NLN,GAP_M,GAP_SH,
      2                   GAP_S,NBINFLG,NSV,NLG,TAG)
 C-----------------------------------------------
@@ -834,12 +836,11 @@ c ici NVS donne encore le noeud global, NSV sera modifie dans I20NLG
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I20NORM                       source/interfaces/inter3d1/i20dst3.F
-Chd|-- called by -----------
-Chd|        I20INI3                       source/interfaces/inter3d1/i20ini3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i20norm   ../starter/source/interfaces/inter3d1/i20dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20ini3   ../starter/source/interfaces/inter3d1/i20ini3.F
+      !||====================================================================
       SUBROUTINE I20NORM(NRTM,IRECT,NUMNOD,X,SOLIDN_NORMAL,
      .                  NMN ,MSR  ,NLN,NLG,GAP_SH)
 C-----------------------------------------------
@@ -982,12 +983,11 @@ c      END DO
 
       RETURN
       END
-Chd|====================================================================
-Chd|  I20DST3E                      source/interfaces/inter3d1/i20dst3.F
-Chd|-- called by -----------
-Chd|        I20INI3                       source/interfaces/inter3d1/i20ini3.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i20dst3e   ../starter/source/interfaces/inter3d1/i20dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i20ini3    ../starter/source/interfaces/inter3d1/i20ini3.F
+      !||====================================================================
       SUBROUTINE I20DST3E(JLT   ,GAP   ,CAND_S,CAND_M,IRECTS  ,
      .                  IRECTM ,NX,NY,NZ,
      .                  N1,N2,M1,M2,JLT_NEW,

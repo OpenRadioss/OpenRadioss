@@ -20,19 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  INTER_DEALLOCATE_WAIT         source/interfaces/generic/inter_deallocate_wait.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
-Chd|        METRIC_MOD                    ../common_source/modules/interfaces/metric_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    inter_deallocate_wait   ../engine/source/interfaces/generic/inter_deallocate_wait.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri                  ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier              ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod                 ../engine/share/modules/h3d_mod.F
+      !||    inter_sorting_mod       ../engine/share/modules/inter_sorting_mod.F
+      !||    inter_struct_mod        ../engine/share/modules/inter_struct_mod.F
+      !||    metric_mod              ../common_source/modules/interfaces/metric_mod.F
+      !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F
+      !||    sensor_mod              ../engine/share/modules/sensor_mod.F
+      !||====================================================================
         SUBROUTINE INTER_DEALLOCATE_WAIT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,
      1                          NSENSOR,IRECVFROM,SENSOR_TAB,INTER_STRUCT,SORT_COMM )
 !$COMMENT

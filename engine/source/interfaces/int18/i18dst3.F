@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I18DST3                       source/interfaces/int18/i18dst3.F
-Chd|-- called by -----------
-Chd|        I18MAIN_KINE_I                source/interfaces/int18/i18main_kine.F
-Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
-Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i18dst3                ../engine/source/interfaces/int18/i18dst3.F
+      !||--- called by ------------------------------------------------------
+      !||    i18main_kine_i         ../engine/source/interfaces/int18/i18main_kine.F
+      !||    i7mainf                ../engine/source/interfaces/int07/i7mainf.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F
+      !||    tri7box                ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I18DST3(
      1                  JLT    ,CAND_N   , CAND_E ,CN_LOC ,CE_LOC        ,
      2                  X1     ,X2       , X3     ,X4     ,Y1            ,

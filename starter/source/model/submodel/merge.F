@@ -20,16 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  MERGE                         source/model/submodel/merge.F 
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|        MERGE_CNOD_CNOD               source/model/submodel/merge_cnod_cnod.F
-Chd|        USRTOS                        source/system/sysfus.F        
-Chd|        USRTOSC                       source/model/submodel/merge.F 
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    merge             ../starter/source/model/submodel/merge.F
+      !||--- called by ------------------------------------------------------
+      !||    lectur            ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    merge_cnod_cnod   ../starter/source/model/submodel/merge_cnod_cnod.F
+      !||    usrtos            ../starter/source/system/sysfus.F
+      !||    usrtosc           ../starter/source/model/submodel/merge.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod       ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE MERGE(X      ,ITAB   ,ITABM1 ,CMERGE ,IMERGE,
      .                 IMERGE2,IADMERGE2,NMERGE_TOT)
       USE MESSAGE_MOD
@@ -459,14 +460,14 @@ C--------
       RETURN
       END
 C------------------------------------------------------------
-Chd|====================================================================
-Chd|  USRTOSC                       source/model/submodel/merge.F 
-Chd|-- called by -----------
-Chd|        MERGE                         source/model/submodel/merge.F 
-Chd|        MERGE_BUCKET_SEARCH           source/elements/nodes/merge_bucket_search.F
-Chd|        MERGE_CNOD_CNOD               source/model/submodel/merge_cnod_cnod.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    usrtosc               ../starter/source/model/submodel/merge.F
+      !||--- called by ------------------------------------------------------
+      !||    merge                 ../starter/source/model/submodel/merge.F
+      !||    merge_bucket_search   ../starter/source/elements/nodes/merge_bucket_search.F
+      !||    merge_cnod_cnod       ../starter/source/model/submodel/merge_cnod_cnod.F
+      !||    merge_node            ../starter/source/elements/nodes/merge_node.F
+      !||====================================================================
       INTEGER FUNCTION USRTOSC(IU,ITABM1)
 C      IDENTIQUE A USR2SYS, SANS GENERER D'ERREUR
 C      FONCTION DONNE N0 SYSTEME DU NOEUD USER IU

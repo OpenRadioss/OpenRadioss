@@ -20,13 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  THFXMOD                       source/output/th/thfxmod.F    
-Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
-Chd|-- calls ---------------
-Chd|        WRTDES                        source/output/th/wrtdes.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    thfxmod   ../engine/source/output/th/thfxmod.F
+      !||--- called by ------------------------------------------------------
+      !||    hist2     ../engine/source/output/th/hist2.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar      ../engine/source/input/nvar.F
+      !||    wrtdes    ../engine/source/output/th/wrtdes.F
+      !||====================================================================
       SUBROUTINE THFXMOD(IAD   , NNE   , ITHBUF, IADV  , NVAR, 
      .                   FXBIPM, FXBDEP, FXBVIT, FXBACC,IFORM)
 C-----------------------------------------------

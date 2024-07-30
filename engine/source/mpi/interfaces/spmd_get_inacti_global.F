@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPMD_GET_INACTI_GLOBAL        source/mpi/interfaces/spmd_get_inacti_global.F
-Chd|-- called by -----------
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|-- calls ---------------
-Chd|        SPMD_IALLREDUCE_INT_COMM      source/mpi/generic/spmd_iallreduce_int_comm.F
-Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
-Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_get_inacti_global     ../engine/source/mpi/interfaces/spmd_get_inacti_global.F
+      !||--- called by ------------------------------------------------------
+      !||    inttri                     ../engine/source/interfaces/intsort/inttri.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_iallreduce_int_comm   ../engine/source/mpi/generic/spmd_iallreduce_int_comm.F
+      !||--- uses       -----------------------------------------------------
+      !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
+      !||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
+      !||====================================================================
         SUBROUTINE SPMD_GET_INACTI_GLOBAL(IPARI,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)
 
         USE INTER_STRUCT_MOD

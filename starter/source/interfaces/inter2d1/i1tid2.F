@@ -21,14 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  I1TID2                        source/interfaces/inter2d1/i1tid2.F
-Chd|-- called by -----------
-Chd|        ININT2                        source/interfaces/inter2d1/inint2.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i1tid2        ../starter/source/interfaces/inter2d1/i1tid2.F
+      !||--- called by ------------------------------------------------------
+      !||    inint2        ../starter/source/interfaces/inter2d1/inint2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I1TID2(X,IRECT,CRST,MSR,NSV,ILOC,IRTL,NSN,ITAB,
      .                  ID,TITR)
       USE MESSAGE_MOD

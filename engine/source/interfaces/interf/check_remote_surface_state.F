@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CHECK_REMOTE_SURFACE_STATE    source/interfaces/interf/check_remote_surface_state.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ALLOC_2D_ARRAY                ../common_source/modules/array_mod.F
-Chd|        DEALLOC_2D_ARRAY              ../common_source/modules/array_mod.F
-Chd|        SURFACE_DEACTIVATION          source/interfaces/interf/surface_deactivation.F
-Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
-Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
+      !||--- called by ------------------------------------------------------
+      !||    resol                        ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    alloc_2d_array               ../common_source/modules/array_mod.F
+      !||    dealloc_2d_array             ../common_source/modules/array_mod.F
+      !||    surface_deactivation         ../engine/source/interfaces/interf/surface_deactivation.F
+      !||--- uses       -----------------------------------------------------
+      !||    array_mod                    ../common_source/modules/array_mod.F
+      !||    shooting_node_mod            ../engine/share/modules/shooting_node_mod.F
+      !||====================================================================
         SUBROUTINE CHECK_REMOTE_SURFACE_STATE( SURFARCE_NB,SURFACE_ID,SHIFT_INTERFACE,INTBUF_TAB,
      .                                  IPARI,IAD_ELEM,SHOOT_STRUCT )
 !$COMMENT

@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I7BUCE_CRIT                   source/interfaces/intsort/i7buce_crit.F
-Chd|-- called by -----------
-Chd|        I7MAIN_CRIT_TRI               source/interfaces/intsort/i7main_crit_tri.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i7buce_crit       ../engine/source/interfaces/intsort/i7buce_crit.F
+      !||--- called by ------------------------------------------------------
+      !||    i7main_crit_tri   ../engine/source/interfaces/intsort/i7main_crit_tri.F
+      !||====================================================================
        SUBROUTINE I7BUCE_CRIT(
      1       X       ,NSV   ,MSR   ,NSN   ,NMN     ,
      2       ITASK   ,XSAV  ,NIN   ,STFN  ,V       ,

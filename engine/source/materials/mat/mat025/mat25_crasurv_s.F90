@@ -26,6 +26,11 @@
 !Chd|-- calls ---------------
 !Chd|====================================================================
 
+      !||====================================================================
+      !||    mat25_crasurv_s_mod   ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
+      !||--- called by ------------------------------------------------------
+      !||    m25law                ../engine/source/materials/mat/mat025/m25law.F
+      !||====================================================================
       module mat25_crasurv_s_mod
       contains
 
@@ -35,6 +40,14 @@
 
 ! ======================================================================================================================
 
+      !||====================================================================
+      !||    mat25_crasurv_s    ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
+      !||--- called by ------------------------------------------------------
+      !||    m25law             ../engine/source/materials/mat/mat025/m25law.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod       ../common_source/modules/constant_mod.F
+      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||====================================================================
         subroutine mat25_crasurv_s(mat_param   ,                     &
           nel  ,ngl ,off  ,flay,                            &
           s1  ,s2  ,s3, s4  ,s5  ,s6  ,                     &

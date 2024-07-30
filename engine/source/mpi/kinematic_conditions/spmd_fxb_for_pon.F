@@ -21,12 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #ifdef MPI
-Chd|====================================================================
-Chd|  SPMD_FXB_FOR_PON              source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
-Chd|-- called by -----------
-Chd|        FXBYFOR                       source/constraints/fxbody/fxbyfor.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fxb_for_pon   ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbyfor            ../engine/source/constraints/fxbody/fxbyfor.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar               ../engine/source/input/nvar.F
+      !||====================================================================
       SUBROUTINE SPMD_FXB_FOR_PON(FXBIPM, MFEXTP, FSKYFXB, DSKY, IADN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -157,12 +158,13 @@ C
 
 
 C version simplifiee pour mono non SPMD
-Chd|====================================================================
-Chd|  SPMD_FXB_FOR_PON              source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
-Chd|-- called by -----------
-Chd|        FXBYFOR                       source/constraints/fxbody/fxbyfor.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fxb_for_pon   ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbyfor            ../engine/source/constraints/fxbody/fxbyfor.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar               ../engine/source/input/nvar.F
+      !||====================================================================
       SUBROUTINE SPMD_FXB_FOR_PON(FXBIPM, MFEXTP, FSKYFXB, DSKY, IADN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

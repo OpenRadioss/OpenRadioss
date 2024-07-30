@@ -20,17 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I16TRI                        source/interfaces/int16/i16tri.F
-Chd|-- called by -----------
-Chd|        I16BUCE                       source/interfaces/int16/i16buce.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I16CUT                        source/interfaces/int16/i16tri.F
-Chd|        I16STO                        source/interfaces/int16/i16tri.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i16tri        ../engine/source/interfaces/int16/i16tri.F
+      !||--- called by ------------------------------------------------------
+      !||    i16buce       ../engine/source/interfaces/int16/i16buce.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg        ../engine/source/output/message/message.F
+      !||    arret         ../engine/source/system/arret.F
+      !||    i16cut        ../engine/source/interfaces/int16/i16tri.F
+      !||    i16sto        ../engine/source/interfaces/int16/i16tri.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I16TRI(
      1      BPE    ,PE      ,BPN      ,PN       ,NSN      ,
      2      TZINF  ,IXS     ,IXS16    ,IXS20    ,NELEM    ,
@@ -196,13 +197,13 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  I16CUT                        source/interfaces/int16/i16tri.F
-Chd|-- called by -----------
-Chd|        I16TRI                        source/interfaces/int16/i16tri.F
-Chd|-- calls ---------------
-Chd|        I16STO                        source/interfaces/int16/i16tri.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i16cut   ../engine/source/interfaces/int16/i16tri.F
+      !||--- called by ------------------------------------------------------
+      !||    i16tri   ../engine/source/interfaces/int16/i16tri.F
+      !||--- calls      -----------------------------------------------------
+      !||    i16sto   ../engine/source/interfaces/int16/i16tri.F
+      !||====================================================================
       SUBROUTINE I16CUT(
      1      BPE        ,PE      ,BPN      ,PN       ,ADD      ,
      2      X          ,NB_NC   ,NB_EC    ,XYZM     ,I_ADD    ,
@@ -587,13 +588,12 @@ C=======================================================================
       RETURN
 C=======================================================================
       END
-Chd|====================================================================
-Chd|  I16STO                        source/interfaces/int16/i16tri.F
-Chd|-- called by -----------
-Chd|        I16CUT                        source/interfaces/int16/i16tri.F
-Chd|        I16TRI                        source/interfaces/int16/i16tri.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    i16sto   ../engine/source/interfaces/int16/i16tri.F
+      !||--- called by ------------------------------------------------------
+      !||    i16cut   ../engine/source/interfaces/int16/i16tri.F
+      !||    i16tri   ../engine/source/interfaces/int16/i16tri.F
+      !||====================================================================
       SUBROUTINE I16STO(
      1     I_STOK,I_STOK_GLOB,PROV_N,CAND_N,PROV_E,CAND_E,
      2     CONT  ,MX_CAND    )

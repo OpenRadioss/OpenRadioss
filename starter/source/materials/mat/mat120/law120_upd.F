@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAW120_UPD                    source/materials/mat/mat120/law120_upd.F
-Chd|-- called by -----------
-Chd|        UPDMAT                        source/materials/updmat.F     
-Chd|-- calls ---------------
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    law120_upd   ../starter/source/materials/mat/mat120/law120_upd.F
+      !||--- called by ------------------------------------------------------
+      !||    updmat       ../starter/source/materials/updmat.F
+      !||--- uses       -----------------------------------------------------
+      !||    table_mod    ../starter/share/modules1/table_mod.F
+      !||====================================================================
       SUBROUTINE LAW120_UPD(NUPARAM ,NUMTABL ,ITABLE ,TABLE ,UPARAM)
 C-----------------------------------------------
 C   M o d u l e s

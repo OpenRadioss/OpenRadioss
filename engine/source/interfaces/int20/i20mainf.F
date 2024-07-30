@@ -20,42 +20,43 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I20MAINF                      source/interfaces/int20/i20mainf.F
-Chd|-- called by -----------
-Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        I11CDCOR3                     source/interfaces/int11/i11cdcor3.F
-Chd|        I20COR3                       source/interfaces/int20/i20cor3.F
-Chd|        I20COR3E                      source/interfaces/int20/i20cor3.F
-Chd|        I20DST3                       source/interfaces/int20/i20dst3.F
-Chd|        I20DST3E                      source/interfaces/int20/i20cor3.F
-Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
-Chd|        I20FOR3C                      source/interfaces/int20/i20for3.F
-Chd|        I20FOR3E                      source/interfaces/int20/i20for3.F
-Chd|        I20NORM                       source/interfaces/int20/i20curv.F
-Chd|        I20NORMCNT                    source/interfaces/int20/i20curv.F
-Chd|        I20NORME                      source/interfaces/int20/i20rcurv.F
-Chd|        I20NORMN                      source/interfaces/int20/i20rcurv.F
-Chd|        I20NORMNP                     source/interfaces/int20/i20rcurv.F
-Chd|        I20NORMP                      source/interfaces/int20/i20curv.F
-Chd|        I20NORMS                      source/interfaces/int20/i20curv.F
-Chd|        I20RCURV                      source/interfaces/int20/i20rcurv.F
-Chd|        I7CDCOR3                      source/interfaces/int07/i7cdcor3.F
-Chd|        I7THERM                       source/interfaces/int07/i7therm.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_EXCH_N                   source/mpi/generic/spmd_exch_n.F
-Chd|        SPMD_I20CURVSZ                source/mpi/interfaces/spmd_i20curvsz.F
-Chd|        SPMD_I20EXCH_N                source/mpi/interfaces/spmd_i20exch_n.F
-Chd|        SPMD_I20NORMF                 source/mpi/interfaces/spmd_i20normf.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        SUM_6_FLOAT_SENS              source/system/parit.F         
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    i20mainf           ../engine/source/interfaces/int20/i20mainf.F
+      !||--- called by ------------------------------------------------------
+      !||    intfop2            ../engine/source/interfaces/interf/intfop2.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../engine/source/output/message/message.F
+      !||    arret              ../engine/source/system/arret.F
+      !||    i11cdcor3          ../engine/source/interfaces/int11/i11cdcor3.F
+      !||    i20cor3            ../engine/source/interfaces/int20/i20cor3.F
+      !||    i20cor3e           ../engine/source/interfaces/int20/i20cor3.F
+      !||    i20dst3            ../engine/source/interfaces/int20/i20dst3.F
+      !||    i20dst3e           ../engine/source/interfaces/int20/i20cor3.F
+      !||    i20for3            ../engine/source/interfaces/int20/i20for3.F
+      !||    i20for3c           ../engine/source/interfaces/int20/i20for3.F
+      !||    i20for3e           ../engine/source/interfaces/int20/i20for3.F
+      !||    i20norm            ../engine/source/interfaces/int20/i20curv.F
+      !||    i20normcnt         ../engine/source/interfaces/int20/i20curv.F
+      !||    i20norme           ../engine/source/interfaces/int20/i20rcurv.F
+      !||    i20normn           ../engine/source/interfaces/int20/i20rcurv.F
+      !||    i20normnp          ../engine/source/interfaces/int20/i20rcurv.F
+      !||    i20normp           ../engine/source/interfaces/int20/i20curv.F
+      !||    i20norms           ../engine/source/interfaces/int20/i20curv.F
+      !||    i20rcurv           ../engine/source/interfaces/int20/i20rcurv.F
+      !||    i7cdcor3           ../engine/source/interfaces/int07/i7cdcor3.F
+      !||    i7therm            ../engine/source/interfaces/int07/i7therm.F
+      !||    my_barrier         ../engine/source/system/machine.F
+      !||    spmd_exch_n        ../engine/source/mpi/generic/spmd_exch_n.F
+      !||    spmd_i20curvsz     ../engine/source/mpi/interfaces/spmd_i20curvsz.F
+      !||    spmd_i20exch_n     ../engine/source/mpi/interfaces/spmd_i20exch_n.F
+      !||    spmd_i20normf      ../engine/source/mpi/interfaces/spmd_i20normf.F
+      !||    startime           ../engine/source/system/timer.F
+      !||    stoptime           ../engine/source/system/timer.F
+      !||    sum_6_float_sens   ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod            ../engine/share/modules/h3d_mod.F
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE I20MAINF(
      1       IPARI     ,X         ,A         ,
      2       ICODT     ,FSAV      ,V         ,MS        ,DT2T      ,

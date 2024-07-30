@@ -20,11 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SZSIGH_OR                     source/elements/solid/solidez/szsigh_or.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    szsigh_or   ../engine/source/elements/solid/solidez/szsigh_or.F
+      !||====================================================================
       SUBROUTINE SZSIGH_OR(
      1   KSI,     ETA,     ZETA,    JR0,
      2   JS0,     JT0,     CC,      CG,

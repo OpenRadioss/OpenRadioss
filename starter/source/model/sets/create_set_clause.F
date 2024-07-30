@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  CREATE_SET_ARRAY              source/model/sets/create_set_clause.F
-Chd|-- called by -----------
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|        SORT_SET                      source/model/sets/sort_sets.F 
-Chd|-- calls ---------------
-Chd|        CREATE_SET_LIST               source/model/sets/create_set_clause.F
-Chd|        CREATE_SET_LIST_G             source/model/sets/create_set_clause.F
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    create_set_array     ../starter/source/model/sets/create_set_clause.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_set               ../starter/source/model/sets/hm_set.F
+      !||    sort_set             ../starter/source/model/sets/sort_sets.F
+      !||--- calls      -----------------------------------------------------
+      !||    create_set_list      ../starter/source/model/sets/create_set_clause.F
+      !||    create_set_list_g    ../starter/source/model/sets/create_set_clause.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE CREATE_SET_ARRAY(SET_ARRAY ,ARRAY_SIZE, 
      .                            ISETM  , NSET_GENERAL,
      .                            JCLAUSE ,OPT_G ,IS_AVAILABLE ,
@@ -89,21 +89,20 @@ C-----------------------------------------------
         ENDIF
 C-----------------------------------------------
       END
-Chd|====================================================================
-Chd|  CREATE_SET_LIST               source/model/sets/create_set_clause.F
-Chd|-- called by -----------
-Chd|        CREATE_SET_ARRAY              source/model/sets/create_set_clause.F
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        HM_GET_INT_ARRAY_2INDEXES     source/devtools/hm_reader/hm_get_int_array_2indexes.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        SET_USRTOS                    source/model/sets/ipartm1.F   
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    create_set_list             ../starter/source/model/sets/create_set_clause.F
+      !||--- called by ------------------------------------------------------
+      !||    create_set_array            ../starter/source/model/sets/create_set_clause.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                      ../starter/source/output/message/message.F
+      !||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
+      !||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    set_usrtos                  ../starter/source/model/sets/ipartm1.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod                 ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE CREATE_SET_LIST(
      .               ARRAY, ARRAY_SIZE, ISETM ,NSET_GENERAL ,JCLAUSE ,IS_AVAILABLE ,LSUBMODEL,
      .               CLAUSE,FLAG)
@@ -217,19 +216,19 @@ C-------------------------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  CREATE_SET_LIST_G             source/model/sets/create_set_clause.F
-Chd|-- called by -----------
-Chd|        CREATE_SET_ARRAY              source/model/sets/create_set_clause.F
-Chd|-- calls ---------------
-Chd|        HM_GET_INT_ARRAY_2INDEXES     source/devtools/hm_reader/hm_get_int_array_2indexes.F
-Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        SET_USRTOS_NEAREST            source/model/sets/ipartm1.F   
-Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|====================================================================
+      !||====================================================================
+      !||    create_set_list_g           ../starter/source/model/sets/create_set_clause.F
+      !||--- called by ------------------------------------------------------
+      !||    create_set_array            ../starter/source/model/sets/create_set_clause.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
+      !||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+      !||    set_usrtos_nearest          ../starter/source/model/sets/ipartm1.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod                 ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
       SUBROUTINE CREATE_SET_LIST_G(
      .               ARRAY, ARRAY_SIZE,  ISETM, NSET_GENERAL, JCLAUSE ,IS_AVAILABLE ,LSUBMODEL)
 C-----------------------------------------------
@@ -335,15 +334,14 @@ C=======================================================================
       DEALLOCATE (SET_READ_TMP)
       DEALLOCATE (RESULT)
       END
-Chd|====================================================================
-Chd|  CREATE_SET_CLAUSE             source/model/sets/create_set_clause.F
-Chd|-- called by -----------
-Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|-- calls ---------------
-Chd|        INSERT_CLAUSE_IN_SET          source/model/sets/insert_clause_in_set.F
-Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
-Chd|        SET_SCRATCH_MOD               ../common_source/modules/setdef_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    create_set_clause      ../starter/source/model/sets/create_set_clause.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_set                 ../starter/source/model/sets/hm_set.F
+      !||--- calls      -----------------------------------------------------
+      !||    insert_clause_in_set   ../starter/source/model/sets/insert_clause_in_set.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE CREATE_SET_CLAUSE(SET,
      .                             SETL,SETL_SIZE,
      .                             CLAUSE,

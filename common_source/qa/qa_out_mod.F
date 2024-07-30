@@ -20,6 +20,61 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    qa_out_mod                         ../common_source/qa/qa_out_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    arret                              ../engine/source/system/arret.F
+      !||    cgrtails                           ../starter/source/elements/shell/coque/cgrtails.F
+      !||    eng_qaprint_animinput              ../engine/source/output/qaprint/eng_qaprint_animinput.F
+      !||    eng_qaprint_driver                 ../engine/source/output/qaprint/eng_qaprint_driver.F
+      !||    eng_qaprint_dtinput                ../engine/source/output/qaprint/eng_qaprint_dtinput.F
+      !||    eng_qaprint_generalcontrolsinput   ../engine/source/output/qaprint/eng_qaprint_generalcontrolsinput.F
+      !||    fill_igr                           ../starter/source/model/sets/fill_igr.F
+      !||    fill_surf                          ../starter/source/model/sets/fill_gr.F
+      !||    fill_surf_ellipse                  ../starter/source/model/sets/fill_gr_surf_ellipse.F
+      !||    qa_print_groups                    ../starter/source/output/qaprint/st_qaprint_groups.F
+      !||    qa_print_surf                      ../starter/source/output/qaprint/st_qaprint_surf.F
+      !||    r2r_fork                           ../starter/source/coupling/rad2rad/r2r_fork.F
+      !||    radioss2                           ../engine/source/engine/radioss2.F
+      !||    sgrtails                           ../starter/source/elements/solid/solide/sgrtails.F
+      !||    st_qaprint_admesh                  ../starter/source/output/qaprint/st_qaprint_admesh.F
+      !||    st_qaprint_ale_options_driver      ../starter/source/output/qaprint/st_qaprint_ale_options_driver.F
+      !||    st_qaprint_clusters                ../starter/source/output/qaprint/st_qaprint_clusters.F
+      !||    st_qaprint_composite_options       ../starter/source/output/qaprint/st_qaprint_composite_options.F
+      !||    st_qaprint_constraints             ../starter/source/output/qaprint/st_qaprint_constraints.F
+      !||    st_qaprint_dfs_detonators          ../starter/source/output/qaprint/st_qaprint_dfs_detonators.F
+      !||    st_qaprint_dfs_lasers              ../starter/source/output/qaprint/st_qaprint_dfs_lasers.F
+      !||    st_qaprint_driver                  ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||    st_qaprint_ebcs                    ../starter/source/output/qaprint/st_qaprint_ebcs.F
+      !||    st_qaprint_element                 ../starter/source/output/qaprint/st_qaprint_element.F
+      !||    st_qaprint_friction                ../starter/source/output/qaprint/st_qaprint_friction.F
+      !||    st_qaprint_general_controls        ../starter/source/output/qaprint/st_qaprint_general_controls.F
+      !||    st_qaprint_groups                  ../starter/source/output/qaprint/st_qaprint_groups.F
+      !||    st_qaprint_initial_conditions      ../starter/source/output/qaprint/st_qaprint_initial_conditions.F
+      !||    st_qaprint_initial_state           ../starter/source/output/qaprint/st_qaprint_initial_state.F
+      !||    st_qaprint_inivol                  ../starter/source/output/qaprint/st_qaprint_inivol.F
+      !||    st_qaprint_interfaces              ../starter/source/output/qaprint/st_qaprint_interfaces.F
+      !||    st_qaprint_internal_groups         ../starter/source/output/qaprint/st_qaprint_internal_groups.F
+      !||    st_qaprint_loads                   ../starter/source/output/qaprint/st_qaprint_loads.F
+      !||    st_qaprint_madymo                  ../starter/source/output/qaprint/st_qaprint_madymo.F
+      !||    st_qaprint_materials               ../starter/source/output/qaprint/st_qaprint_materials.F
+      !||    st_qaprint_model_tools             ../starter/source/output/qaprint/st_qaprint_model_tools.F
+      !||    st_qaprint_monvol                  ../starter/source/output/qaprint/st_qaprint_monvol.F
+      !||    st_qaprint_multidomains            ../starter/source/output/qaprint/st_qaprint_multidomains.F
+      !||    st_qaprint_nodes                   ../starter/source/output/qaprint/st_qaprint_nodes.F
+      !||    st_qaprint_output_databases        ../starter/source/output/qaprint/st_qaprint_output_databases.F
+      !||    st_qaprint_properties              ../starter/source/output/qaprint/st_qaprint_properties.F
+      !||    st_qaprint_reference_state         ../starter/source/output/qaprint/st_qaprint_reference_state.F
+      !||    st_qaprint_refsta                  ../starter/source/output/qaprint/st_qaprint_refsta.F
+      !||    st_qaprint_seatbelts               ../starter/source/output/qaprint/st_qaprint_seatbelts.F
+      !||    st_qaprint_set                     ../starter/source/output/qaprint/st_qaprint_set.F
+      !||    st_qaprint_surf                    ../starter/source/output/qaprint/st_qaprint_surf.F
+      !||    st_qaprint_thgrou                  ../starter/source/output/qaprint/st_qaprint_time_histories.F
+      !||    st_qaprint_time_histories          ../starter/source/output/qaprint/st_qaprint_time_histories.F
+      !||    st_qaprint_transformations         ../starter/source/output/qaprint/st_qaprint_transformations.F
+      !||    st_qaprint_userwi                  ../starter/source/output/qaprint/st_qaprint_userwi.F
+      !||    starter                            ../starter/source/starter/starter.F
+      !||====================================================================
       module QA_OUT_MOD
 
 !#if CPP_mach == CPP_p4win64 
@@ -65,6 +120,14 @@ C     At least one card is one char, so we do 1039 / 2 (one char one comma...)
 !>    @purpose 
 !>       open QA extract file
 !>    @ingroup utl_qa
+      !||====================================================================
+      !||    qaopen          ../common_source/qa/qa_out_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    radioss2        ../engine/source/engine/radioss2.F
+      !||    starter         ../starter/source/starter/starter.F
+      !||--- calls      -----------------------------------------------------
+      !||    qagetqakeyenv   ../common_source/qa/qa_out_mod.F
+      !||====================================================================
       subroutine qaopen (step)
 #include "implicit_f.inc"
       integer preci
@@ -145,6 +208,14 @@ C     Get possible defined env variable QAKEY
 !>    @purpose 
 !>       get and store the possible values of the QAKEY env variable
 !>    @ingroup utl_qa
+      !||====================================================================
+      !||    qagetqakeyenv                 ../common_source/qa/qa_out_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    qaopen                        ../common_source/qa/qa_out_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    is_value_in_qakeylist_avail   ../common_source/qa/qa_out_mod.F
+      !||    myqakey                       ../common_source/qa/qa_out_mod.F
+      !||====================================================================
       subroutine qagetqakeyenv ()
 #include "implicit_f.inc"
         integer QAKEY_ENV_len, QAKEY_ENV_status, QAKEY_SPECIFIC_len, QAKEY_SPECIFIC_status, i, j, k
@@ -240,6 +311,11 @@ C         enddo
 ! ----------------------------------------------------------------------
 !>    @purpose 
 !>       replace blank char with _ for a given string
+      !||====================================================================
+      !||    blank2underscore   ../common_source/qa/qa_out_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    qaprint            ../common_source/qa/qa_out_mod.F
+      !||====================================================================
       subroutine blank2underscore(textin,textout)
 #include      "implicit_f.inc"
           character(len=*), intent(in) :: textin
@@ -264,6 +340,52 @@ C         enddo
 !>    example of call for integer print
 !>      CALL QAPRINT('MY_LABEL',123456,0.0_8)  (2nd argument is the integer value to be printed, 3rd must be 0.0_8)
 !>    @ingroup utl_qa
+      !||====================================================================
+      !||    qaprint                            ../common_source/qa/qa_out_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    eng_qaprint_animinput              ../engine/source/output/qaprint/eng_qaprint_animinput.F
+      !||    eng_qaprint_dtinput                ../engine/source/output/qaprint/eng_qaprint_dtinput.F
+      !||    eng_qaprint_generalcontrolsinput   ../engine/source/output/qaprint/eng_qaprint_generalcontrolsinput.F
+      !||    qa_print_groups                    ../starter/source/output/qaprint/st_qaprint_groups.F
+      !||    qa_print_surf                      ../starter/source/output/qaprint/st_qaprint_surf.F
+      !||    qaclose                            ../common_source/qa/qa_out_mod.F
+      !||    st_qaprint_admesh                  ../starter/source/output/qaprint/st_qaprint_admesh.F
+      !||    st_qaprint_ale_options_driver      ../starter/source/output/qaprint/st_qaprint_ale_options_driver.F
+      !||    st_qaprint_clusters                ../starter/source/output/qaprint/st_qaprint_clusters.F
+      !||    st_qaprint_composite_options       ../starter/source/output/qaprint/st_qaprint_composite_options.F
+      !||    st_qaprint_constraints             ../starter/source/output/qaprint/st_qaprint_constraints.F
+      !||    st_qaprint_dfs_detonators          ../starter/source/output/qaprint/st_qaprint_dfs_detonators.F
+      !||    st_qaprint_dfs_lasers              ../starter/source/output/qaprint/st_qaprint_dfs_lasers.F
+      !||    st_qaprint_ebcs                    ../starter/source/output/qaprint/st_qaprint_ebcs.F
+      !||    st_qaprint_element                 ../starter/source/output/qaprint/st_qaprint_element.F
+      !||    st_qaprint_friction                ../starter/source/output/qaprint/st_qaprint_friction.F
+      !||    st_qaprint_general_controls        ../starter/source/output/qaprint/st_qaprint_general_controls.F
+      !||    st_qaprint_initial_conditions      ../starter/source/output/qaprint/st_qaprint_initial_conditions.F
+      !||    st_qaprint_initial_state           ../starter/source/output/qaprint/st_qaprint_initial_state.F
+      !||    st_qaprint_inivol                  ../starter/source/output/qaprint/st_qaprint_inivol.F
+      !||    st_qaprint_interfaces              ../starter/source/output/qaprint/st_qaprint_interfaces.F
+      !||    st_qaprint_internal_groups         ../starter/source/output/qaprint/st_qaprint_internal_groups.F
+      !||    st_qaprint_loads                   ../starter/source/output/qaprint/st_qaprint_loads.F
+      !||    st_qaprint_madymo                  ../starter/source/output/qaprint/st_qaprint_madymo.F
+      !||    st_qaprint_materials               ../starter/source/output/qaprint/st_qaprint_materials.F
+      !||    st_qaprint_model_tools             ../starter/source/output/qaprint/st_qaprint_model_tools.F
+      !||    st_qaprint_monvol                  ../starter/source/output/qaprint/st_qaprint_monvol.F
+      !||    st_qaprint_multidomains            ../starter/source/output/qaprint/st_qaprint_multidomains.F
+      !||    st_qaprint_nodes                   ../starter/source/output/qaprint/st_qaprint_nodes.F
+      !||    st_qaprint_output_databases        ../starter/source/output/qaprint/st_qaprint_output_databases.F
+      !||    st_qaprint_properties              ../starter/source/output/qaprint/st_qaprint_properties.F
+      !||    st_qaprint_reference_state         ../starter/source/output/qaprint/st_qaprint_reference_state.F
+      !||    st_qaprint_refsta                  ../starter/source/output/qaprint/st_qaprint_refsta.F
+      !||    st_qaprint_seatbelts               ../starter/source/output/qaprint/st_qaprint_seatbelts.F
+      !||    st_qaprint_set                     ../starter/source/output/qaprint/st_qaprint_set.F
+      !||    st_qaprint_thgrou                  ../starter/source/output/qaprint/st_qaprint_time_histories.F
+      !||    st_qaprint_transformations         ../starter/source/output/qaprint/st_qaprint_transformations.F
+      !||    st_qaprint_userwi                  ../starter/source/output/qaprint/st_qaprint_userwi.F
+      !||    starter                            ../starter/source/starter/starter.F
+      !||--- calls      -----------------------------------------------------
+      !||    blank2underscore                   ../common_source/qa/qa_out_mod.F
+      !||    lastchar                           ../common_source/qa/qa_out_mod.F
+      !||====================================================================
       subroutine qaprint ( name, idin, value )
 #include "implicit_f.inc"
 
@@ -371,6 +493,13 @@ C       If the value (double precision) variable is 0.0 we consider using the id
 !>    @purpose 
 !>       print one entry to QA extract file in an energy style (<value> <value max>)
 !>    @ingroup utl_qa
+      !||====================================================================
+      !||    qaprint2   ../common_source/qa/qa_out_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    qaclose    ../common_source/qa/qa_out_mod.F
+      !||--- calls      -----------------------------------------------------
+      !||    lastchar   ../common_source/qa/qa_out_mod.F
+      !||====================================================================
       subroutine qaprint2 ( name, idin, value, value2 )
 #include "implicit_f.inc"
 
@@ -440,6 +569,9 @@ C       If the value (double precision) variable is 0.0 we consider using the id
 !>    @purpose 
 !>      get QA status
 !>    @ingroup utl_qa 
+      !||====================================================================
+      !||    qastatus   ../common_source/qa/qa_out_mod.F
+      !||====================================================================
       subroutine qastatus (istatus)
 #include "implicit_f.inc"
       integer istatus
@@ -456,6 +588,9 @@ C       If the value (double precision) variable is 0.0 we consider using the id
 !>    @purpose 
 !>      write an integer value in standard values array qa_storage
 !>    @ingroup utl_qa 
+      !||====================================================================
+      !||    qaseti   ../common_source/qa/qa_out_mod.F
+      !||====================================================================
       subroutine qaseti (pos,title,i)
 #include "implicit_f.inc"
       integer          pos
@@ -474,6 +609,9 @@ C       If the value (double precision) variable is 0.0 we consider using the id
 !>    @purpose 
 !>      write a real value in standard values array qa_storage
 !>    @ingroup utl_qa 
+      !||====================================================================
+      !||    qasetr   ../common_source/qa/qa_out_mod.F
+      !||====================================================================
       subroutine qasetr (pos,title,r)
 #include "implicit_f.inc"
       integer          pos
@@ -493,6 +631,14 @@ C       If the value (double precision) variable is 0.0 we consider using the id
 !>      close QA extract file
 !>    @ingroup utl_qa 
 !>    Care when routine is called from Fortran (because of binding)
+      !||====================================================================
+      !||    qaclose    ../common_source/qa/qa_out_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    arret      ../engine/source/system/arret.F
+      !||--- calls      -----------------------------------------------------
+      !||    qaprint    ../common_source/qa/qa_out_mod.F
+      !||    qaprint2   ../common_source/qa/qa_out_mod.F
+      !||====================================================================
       subroutine qaclose ( ) bind ( C, name="qaclose_" )
 #include "implicit_f.inc"
       integer i
@@ -543,6 +689,11 @@ C             A trick to pass an integer is to use idin (2nd parameter) and valu
 !>    Useful to make a condition on a qaprint
 !>    Return true or false
 !>    @ingroup utl_qa 
+      !||====================================================================
+      !||    myqakey         ../common_source/qa/qa_out_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    qagetqakeyenv   ../common_source/qa/qa_out_mod.F
+      !||====================================================================
       function myqakey ( value ) result (tf)
 #include "implicit_f.inc"
       integer i
@@ -570,6 +721,11 @@ C         Remove leading blank if any
 !>    Useful to check if a qakey is allowed/available
 !>    Return true or false (false = program must exit with an error)
 !>    @ingroup utl_qa 
+      !||====================================================================
+      !||    is_value_in_qakeylist_avail   ../common_source/qa/qa_out_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    qagetqakeyenv                 ../common_source/qa/qa_out_mod.F
+      !||====================================================================
       function is_value_in_qakeylist_avail ( value ) result (tf)
 #include "implicit_f.inc"
       integer i,len1,len2
@@ -594,6 +750,12 @@ C         Remove leading blank if any
       end function is_value_in_qakeylist_avail
 
 ! ----------------------------------------------------------------------
+      !||====================================================================
+      !||    lastchar   ../common_source/qa/qa_out_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    qaprint    ../common_source/qa/qa_out_mod.F
+      !||    qaprint2   ../common_source/qa/qa_out_mod.F
+      !||====================================================================
       integer function lastchar(a)
 #include "implicit_f.inc"
       character *(*) a

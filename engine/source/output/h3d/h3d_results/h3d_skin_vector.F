@@ -20,22 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  H3D_SKIN_VECTOR               source/output/h3d/h3d_results/h3d_skin_vector.F
-Chd|-- called by -----------
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|-- calls ---------------
-Chd|        PRESS_SEG3                    source/loads/general/load_pcyl/press_seg3.F
-Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
-Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
-Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    h3d_skin_vector        ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
+      !||--- called by ------------------------------------------------------
+      !||    genh3d                 ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                 ../engine/source/tools/curve/finter.F
+      !||    finter_smooth          ../engine/source/tools/curve/finter_smooth.F
+      !||    get_u_numsens          ../engine/source/user_interface/usensor.F
+      !||    get_u_sens_fpar        ../engine/source/user_interface/usensor.F
+      !||    get_u_sens_ipar        ../engine/source/user_interface/usensor.F
+      !||    get_u_sens_value       ../engine/source/user_interface/usensor.F
+      !||    press_seg3             ../engine/source/loads/general/load_pcyl/press_seg3.F
+      !||    set_u_sens_value       ../engine/source/user_interface/usensor.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_inc_mod            ../engine/share/modules/h3d_inc_mod.F
+      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
+      !||    loads_mod              ../common_source/modules/loads/loads_mod.F
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    pblast_mod             ../common_source/modules/loads/pblast_mod.F
+      !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
+      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    table_mod              ../engine/share/modules/table_mod.F
+      !||====================================================================
       SUBROUTINE H3D_SKIN_VECTOR(SKIN_VECTOR,NODAL_IPART,NSENSOR,
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,
      .                   IB ,ILOADP,LLOADP,FAC ,NPC,TF ,SENSOR_TAB,

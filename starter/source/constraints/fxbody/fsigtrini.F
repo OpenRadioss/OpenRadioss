@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  FSIGTRINI                     source/constraints/fxbody/fsigtrini.F
-Chd|-- called by -----------
-Chd|        FXBSINI                       source/constraints/fxbody/fxbsini.F
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    fsigtrini   ../starter/source/constraints/fxbody/fsigtrini.F
+      !||--- called by ------------------------------------------------------
+      !||    fxbsini     ../starter/source/constraints/fxbody/fxbsini.F
+      !||====================================================================
       SUBROUTINE FSIGTRINI(FXBELM, IPARG , X     , PM  , IXT ,
      .                     GEO   , FXBMOD, FXBSIG, NELT)
 C-----------------------------------------------

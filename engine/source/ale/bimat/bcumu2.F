@@ -20,12 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BCUMU2                        source/ale/bimat/bcumu2.F     
-Chd|-- called by -----------
-Chd|        BFORC2                        source/ale/bimat/bforc2.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    bcumu2   ../engine/source/ale/bimat/bcumu2.F
+      !||--- called by ------------------------------------------------------
+      !||    bforc2   ../engine/source/ale/bimat/bforc2.F
+      !||====================================================================
       SUBROUTINE BCUMU2(ALPH,ALPHC,E,FILL,
      .                  SIG,EINT,RHO,BULK,BULKT,
      .                  SIGT,EINTT,RHOT,TEMPT,TEMP,
@@ -143,12 +142,11 @@ C-------------------------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  BCUMU2P                       source/ale/bimat/bcumu2.F     
-Chd|-- called by -----------
-Chd|        BFORC2                        source/ale/bimat/bforc2.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    bcumu2p   ../engine/source/ale/bimat/bcumu2.F
+      !||--- called by ------------------------------------------------------
+      !||    bforc2    ../engine/source/ale/bimat/bforc2.F
+      !||====================================================================
       SUBROUTINE BCUMU2P(ALPH,ALPHC,FILL,
      .                   SIG,EINT,RHO,BULK,BULKT,
      .                   SIGT,EINTT,RHOT,TEMPT,TEMP,
@@ -307,12 +305,11 @@ C-------------------------
       RETURN
       END
 
-Chd|====================================================================
-Chd|  BCUMU2PA                      source/ale/bimat/bcumu2.F     
-Chd|-- called by -----------
-Chd|        BFORC2                        source/ale/bimat/bforc2.F     
-Chd|-- calls ---------------
-Chd|====================================================================
+      !||====================================================================
+      !||    bcumu2pa   ../engine/source/ale/bimat/bcumu2.F
+      !||--- called by ------------------------------------------------------
+      !||    bforc2     ../engine/source/ale/bimat/bforc2.F
+      !||====================================================================
       SUBROUTINE BCUMU2PA(ALPH,ALPHC,FILL,
      .                    SIG,EINT,RHO,BULK,BULKT,
      .                    SIGT,EINTT,RHOT,TEMPT,TEMP,

@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    inter_offset_itag_mod   ../starter/source/elements/shell/shell_offset/inter_offset_itag.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur                  ../starter/source/starter/lectur.F
+      !||====================================================================
       module inter_offset_itag_mod
 
       contains
@@ -30,6 +35,12 @@
 !=======================================================================================================================
 !!\brief This subroutine tag the shells used for contact : Option DEF_SHELL / IOFFSET=1
 !=======================================================================================================================
+      !||====================================================================
+      !||    inter_offset_itag   ../starter/source/elements/shell/shell_offset/inter_offset_itag.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur              ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine inter_offset_itag(                                          &
           ninter,    ipari,      npari,       igrsurf,            &
           nsurf,   numelc,    numeltg,        itagsh)

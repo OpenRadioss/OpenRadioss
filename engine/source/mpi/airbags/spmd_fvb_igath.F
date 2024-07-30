@@ -21,14 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-Chd|====================================================================
-Chd|  SPMD_FVB_IGATH                source/mpi/airbags/spmd_fvb_igath.F
-Chd|-- called by -----------
-Chd|        FVBAG1                        source/airbag/fvbag1.F        
-Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
-Chd|-- calls ---------------
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|====================================================================
+      !||====================================================================
+      !||    spmd_fvb_igath   ../engine/source/mpi/airbags/spmd_fvb_igath.F
+      !||--- called by ------------------------------------------------------
+      !||    fv_up_switch     ../engine/source/airbag/fv_up_switch.F
+      !||    fvbag1           ../engine/source/airbag/fvbag1.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    fvbag_mod        ../engine/share/modules/fvbag_mod.F
+      !||====================================================================
       SUBROUTINE SPMD_FVB_IGATH(IFV, ITABS, ITABG)
 C-----------------------------------------------
 C   M o d u l e s

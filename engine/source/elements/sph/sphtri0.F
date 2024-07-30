@@ -20,20 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  SPHTRI0                       source/elements/sph/sphtri0.F 
-Chd|-- called by -----------
-Chd|        SPHPREP                       source/elements/sph/sphprep.F 
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_ALL_DMAX                 source/mpi/elements/spmd_sph.F
-Chd|        SPMD_BARRIER                  source/mpi/generic/spmd_barrier.F
-Chd|        SPMD_SPHVOX                   source/mpi/sph/spmd_sphvox.F  
-Chd|        SPMD_SPHVOX0                  source/mpi/elements/spmd_sph.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    sphtri0         ../engine/source/elements/sph/sphtri0.F
+      !||--- called by ------------------------------------------------------
+      !||    sphprep         ../engine/source/elements/sph/sphprep.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier      ../engine/source/system/machine.F
+      !||    spmd_all_dmax   ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_barrier    ../engine/source/mpi/generic/spmd_barrier.F
+      !||    spmd_sphvox     ../engine/source/mpi/sph/spmd_sphvox.F
+      !||    spmd_sphvox0    ../engine/source/mpi/elements/spmd_sph.F
+      !||    startime        ../engine/source/system/timer.F
+      !||    stoptime        ../engine/source/system/timer.F
+      !||--- uses       -----------------------------------------------------
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPHTRI0(X   , SPBUF, KXSP, WSP2SORT,BMINMA , DMAX,
      2                 NSP2SORTF,NSP2SORTL,NMN,ITASK, DBUC)  
 C============================================================================

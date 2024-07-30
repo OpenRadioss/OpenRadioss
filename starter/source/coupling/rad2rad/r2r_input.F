@@ -20,15 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  R2R_INPUT                     source/coupling/rad2rad/r2r_input.F
-Chd|-- called by -----------
-Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
-Chd|-- calls ---------------
-Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|====================================================================
+      !||====================================================================
+      !||    r2r_input       ../starter/source/coupling/rad2rad/r2r_input.F
+      !||--- called by ------------------------------------------------------
+      !||    r2r_group       ../starter/source/coupling/rad2rad/r2r_group.F
+      !||--- uses       -----------------------------------------------------
+      !||    r2r_mod         ../starter/share/modules1/r2r_mod.F
+      !||    restmod         ../starter/share/modules1/restart_mod.F
+      !||====================================================================
       SUBROUTINE R2R_INPUT(IEXTER)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  I21COR3                       source/interfaces/int21/i21cor3.F
-Chd|-- called by -----------
-Chd|        I21MAINF                      source/interfaces/int21/i21mainf.F
-Chd|-- calls ---------------
-Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    i21cor3             ../engine/source/interfaces/int21/i21cor3.F
+      !||--- called by ------------------------------------------------------
+      !||    i21mainf            ../engine/source/interfaces/int21/i21mainf.F
+      !||--- uses       -----------------------------------------------------
+      !||    intstamp_glob_mod   ../engine/share/modules/intstamp_glob_mod.F
+      !||    tri7box             ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE I21COR3(JLT   ,NIN    ,X       ,IRECT ,NSN   ,
      2                NSV      ,CAND_E ,CAND_N  ,STF   ,STFN  ,
      3                XM0      ,NOD_NORMAL,IRTLM ,CSTS ,MSR   ,

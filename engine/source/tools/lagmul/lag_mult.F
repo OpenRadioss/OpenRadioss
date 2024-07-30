@@ -20,37 +20,39 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  LAG_MULT                      source/tools/lagmul/lag_mult.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        I16MAIN                       source/interfaces/int16/i16main.F
-Chd|        I17MAIN                       source/interfaces/int17/i17main.F
-Chd|        I7MAIN_LMULT                  source/interfaces/int07/i7main_lmult.F
-Chd|        INIT_INT                      source/tools/lagmul/lag_ntag.F
-Chd|        INIT_INTV                     source/tools/lagmul/lag_ntag.F
-Chd|        LAG_ANITH                     source/tools/lagmul/lag_anith.F
-Chd|        LAG_BCS                       source/tools/lagmul/lag_bcs.F 
-Chd|        LAG_FXV                       source/tools/lagmul/lag_fxv.F 
-Chd|        LAG_GJNT                      source/tools/lagmul/lag_gjnt.F
-Chd|        LAG_I2MAIN                    source/tools/lagmul/lag_i2main.F
-Chd|        LAG_MPC                       source/tools/lagmul/lag_mpc.F 
-Chd|        LAG_MULT_SOLV                 source/tools/lagmul/lag_mult_solv.F
-Chd|        LAG_RBY                       source/tools/lagmul/lag_rby.F 
-Chd|        LAG_RWALL                     source/tools/lagmul/lag_rwall.F
-Chd|        LTAG_BCS                      source/tools/lagmul/lag_ntag.F
-Chd|        LTAG_FXV                      source/tools/lagmul/lag_ntag.F
-Chd|        LTAG_GJNT                     source/tools/lagmul/lag_ntag.F
-Chd|        LTAG_I2MAIN                   source/tools/lagmul/lag_ntag.F
-Chd|        LTAG_MPC                      source/tools/lagmul/lag_ntag.F
-Chd|        LTAG_RBY                      source/tools/lagmul/lag_ntag.F
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        RBY_DECOND                    source/tools/lagmul/lag_rby_cond.F
-Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_mult           ../engine/source/tools/lagmul/lag_mult.F
+      !||--- called by ------------------------------------------------------
+      !||    resol              ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    i16main            ../engine/source/interfaces/int16/i16main.F
+      !||    i17main            ../engine/source/interfaces/int17/i17main.F
+      !||    i7main_lmult       ../engine/source/interfaces/int07/i7main_lmult.F
+      !||    init_int           ../engine/source/tools/lagmul/lag_ntag.F
+      !||    init_intv          ../engine/source/tools/lagmul/lag_ntag.F
+      !||    lag_anith          ../engine/source/tools/lagmul/lag_anith.F
+      !||    lag_bcs            ../engine/source/tools/lagmul/lag_bcs.F
+      !||    lag_fxv            ../engine/source/tools/lagmul/lag_fxv.F
+      !||    lag_gjnt           ../engine/source/tools/lagmul/lag_gjnt.F
+      !||    lag_i2main         ../engine/source/tools/lagmul/lag_i2main.F
+      !||    lag_mpc            ../engine/source/tools/lagmul/lag_mpc.F
+      !||    lag_mult_solv      ../engine/source/tools/lagmul/lag_mult_solv.F
+      !||    lag_rby            ../engine/source/tools/lagmul/lag_rby.F
+      !||    lag_rwall          ../engine/source/tools/lagmul/lag_rwall.F
+      !||    ltag_bcs           ../engine/source/tools/lagmul/lag_ntag.F
+      !||    ltag_fxv           ../engine/source/tools/lagmul/lag_ntag.F
+      !||    ltag_gjnt          ../engine/source/tools/lagmul/lag_ntag.F
+      !||    ltag_i2main        ../engine/source/tools/lagmul/lag_ntag.F
+      !||    ltag_mpc           ../engine/source/tools/lagmul/lag_ntag.F
+      !||    ltag_rby           ../engine/source/tools/lagmul/lag_ntag.F
+      !||    my_barrier         ../engine/source/system/machine.F
+      !||    rby_decond         ../engine/source/tools/lagmul/lag_rby_cond.F
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
+      !||    h3d_mod            ../engine/share/modules/h3d_mod.F
+      !||    python_funct_mod   ../common_source/modules/python_mod.F90
+      !||    sensor_mod         ../engine/share/modules/sensor_mod.F
+      !||====================================================================
       SUBROUTINE LAG_MULT(
      1       IPARI  ,X        ,A        ,
      2       WAT    ,V       ,MS      ,IN       ,VR       ,
@@ -396,28 +398,30 @@ C---
       RETURN
       END
 C
-Chd|====================================================================
-Chd|  LAG_MULTP                     source/tools/lagmul/lag_mult.F
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        INIT_INT                      source/tools/lagmul/lag_ntag.F
-Chd|        INIT_INTV                     source/tools/lagmul/lag_ntag.F
-Chd|        LAG_ANITHP                    source/tools/lagmul/lag_anith.F
-Chd|        LAG_FXVP                      source/tools/lagmul/lag_fxv.F 
-Chd|        LAG_I2MAIN                    source/tools/lagmul/lag_i2main.F
-Chd|        LAG_MPCP                      source/tools/lagmul/lag_mpc.F 
-Chd|        LAG_MULT_SOLVP                source/tools/lagmul/lag_mult_solv.F
-Chd|        RBY_DECOND                    source/tools/lagmul/lag_rby_cond.F
-Chd|        SPMD_EXCH_MULT                source/mpi/lag_multipliers/spmd_lag.F
-Chd|        SPMD_GET_MULT                 source/mpi/lag_multipliers/spmd_lag.F
-Chd|        SPMD_GG_MULT                  source/mpi/lag_multipliers/spmd_lag.F
-Chd|        SPMD_SG_MULT                  source/mpi/lag_multipliers/spmd_lag.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    lag_multp          ../engine/source/tools/lagmul/lag_mult.F
+      !||--- called by ------------------------------------------------------
+      !||    resol              ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../engine/source/output/message/message.F
+      !||    arret              ../engine/source/system/arret.F
+      !||    init_int           ../engine/source/tools/lagmul/lag_ntag.F
+      !||    init_intv          ../engine/source/tools/lagmul/lag_ntag.F
+      !||    lag_anithp         ../engine/source/tools/lagmul/lag_anith.F
+      !||    lag_fxvp           ../engine/source/tools/lagmul/lag_fxv.F
+      !||    lag_i2main         ../engine/source/tools/lagmul/lag_i2main.F
+      !||    lag_mpcp           ../engine/source/tools/lagmul/lag_mpc.F
+      !||    lag_mult_solvp     ../engine/source/tools/lagmul/lag_mult_solv.F
+      !||    rby_decond         ../engine/source/tools/lagmul/lag_rby_cond.F
+      !||    spmd_exch_mult     ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||    spmd_get_mult      ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||    spmd_gg_mult       ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||    spmd_sg_mult       ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||--- uses       -----------------------------------------------------
+      !||    h3d_mod            ../engine/share/modules/h3d_mod.F
+      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    python_funct_mod   ../common_source/modules/python_mod.F90
+      !||====================================================================
       SUBROUTINE LAG_MULTP(
      1       IPARI  ,X        ,A        ,
      2       WAT    ,V       ,MS      ,IN       ,VR       ,

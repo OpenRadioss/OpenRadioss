@@ -20,15 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  BALPH2                        source/ale/bimat/balph2.F     
-Chd|-- called by -----------
-Chd|        BFORC2                        source/ale/bimat/bforc2.F     
-Chd|-- calls ---------------
-Chd|        IDP_FREE                      source/system/machine.F       
-Chd|        IDP_LOCK                      source/system/machine.F       
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
+      !||====================================================================
+      !||    balph2        ../engine/source/ale/bimat/balph2.F
+      !||--- called by ------------------------------------------------------
+      !||    bforc2        ../engine/source/ale/bimat/bforc2.F
+      !||--- calls      -----------------------------------------------------
+      !||    idp_free      ../engine/source/system/machine.F
+      !||    idp_lock      ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||====================================================================
       SUBROUTINE BALPH2(PM,ALPH1,ALPH2,VOLT,FILL,
      .                  SIG1,EINT1,VOLO1,RHON1,FLUX1,FLU11,OFF1,
      .                  SIG2,EINT2,VOLO2,RHON2,FLUX2,FLU12,OFF2,

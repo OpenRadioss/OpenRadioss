@@ -20,6 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    ie_bound         ../starter/source/materials/mat/mat051/ie_bound.F
+      !||--- called by ------------------------------------------------------
+      !||    fill_buffer_51   ../starter/source/materials/mat/mat051/fill_buffer_51.F
+      !||    hm_read_mat51    ../starter/source/materials/mat/mat051/hm_read_mat51.F
+      !||====================================================================
       FUNCTION IE_BOUND(PEXT,PM,C0,C1,C2,C3,C4,C5,E0)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -21,17 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-Chd|====================================================================
-Chd|  SPTRIVOX                      source/elements/sph/sptrivox.F
-Chd|-- called by -----------
-Chd|        SPBUC3                        source/elements/sph/spbuc3.F  
-Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_SPHGETDK                 source/mpi/elements/spmd_sph.F
-Chd|        SPPRO3                        source/elements/sph/sppro3.F  
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|        TRI7BOX                       share/modules/tri7box.F       
-Chd|====================================================================
+      !||====================================================================
+      !||    sptrivox        ../engine/source/elements/sph/sptrivox.F
+      !||--- called by ------------------------------------------------------
+      !||    spbuc3          ../engine/source/elements/sph/spbuc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    my_barrier      ../engine/source/system/machine.F
+      !||    spmd_sphgetdk   ../engine/source/mpi/elements/spmd_sph.F
+      !||    sppro3          ../engine/source/elements/sph/sppro3.F
+      !||--- uses       -----------------------------------------------------
+      !||    sphbox          ../engine/share/modules/sphbox.F
+      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||====================================================================
       SUBROUTINE SPTRIVOX(
      1      NSN    ,NSNR    ,X       ,BMINMA  ,NOD2SP  ,
      2      NBX    ,NBY     ,NBZ     ,MARGE   ,ITASK   ,
