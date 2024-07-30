@@ -117,7 +117,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,IP,ISK,IREP,JCVT,
      .    NPT,NPTR,NPTS,NPTT,ITET4,IET,ISTR,IHBE_OLD,ITET10,
-     .    ISHEAR,ISORTH
+     .    ISHEAR,ISORTH,ICONTROL_D,ICONTROL
 C     REAL
       my_real
      .    CVIS,QA,QB,QH,VX,VY,VZ,ANGLE,DTMIN,PX,PY,PZ,VN,
@@ -140,6 +140,7 @@ C-----------------------------------------------
       ITET4_D=  DEFAULTS_SOLID%ITETRA4
       ITET10_D= DEFAULTS_SOLID%ITETRA10
       IFRAME_DS= DEFAULTS_SOLID%IFRAME
+      ICONTROL_D=DEFAULTS_SOLID%ICONTROL
 C======================================================================|
 C
       GEO(3)=ISMSTR
@@ -178,6 +179,7 @@ c      CALL HM_GET_INTV('Istrain',ISTR,IS_AVAILABLE,LSUBMODEL)
 c      CALL HM_GET_INTV('IHKT',IET,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Ndir',NSPHDIR,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('SPHPART_ID',ID_PARTSPH,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV('Icontrol',ICONTROL,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -427,6 +429,8 @@ C---- error-out if Vj=0+IP=23,24
       ENDIF
 C   Istrain
 c      IF (ISTR == 0)ISTR =ISTRA_D
+      IF (ICONTROL==0) ICONTROL=ICONTROL_D
+      IF (ICONTROL>1) ICONTROL=0
 C----
       IGEO(2)  = IP
       IGEO(4)  = NPT
@@ -441,6 +445,7 @@ C----
       IGEO(16) = JCVT-1
       IGEO(37) = NSPHDIR
       IGEO(38) = IPARTSPH
+      IGEO(97) = ICONTROL
 C
       GEO(1)  = ANGLE
       GEO(7)  = VX
@@ -460,10 +465,10 @@ C----
       IF(.NOT. IS_ENCRYPTED)THEN
         IF(IGEO(31) == 1)THEN
           WRITE(IOUT,1100)IG,IHBE,ISMSTR,IPLAS,NPT,JCVT,ITET4,ITET10,
-     .                ICPRE,ICSTR,CVIS,QA,QB,QH,DTMIN,IREP,ISTR
+     .                ICPRE,ICSTR,CVIS,QA,QB,QH,DTMIN,IREP,ISTR,ICONTROL
         ELSE
           WRITE(IOUT,1000)IG,IHBE,ISMSTR,IPLAS,NPT,JCVT,ITET4,ITET10,
-     .                ICPRE,ICSTR,CVIS,QA,QB,QH,DTMIN,IREP,ISTR
+     .                ICPRE,ICSTR,CVIS,QA,QB,QH,DTMIN,IREP,ISTR,ICONTROL
         ENDIF
         IF((VDEFMIN+VDEFMAX+ASPMAX+ASPTET)>ZERO) THEN
           IF (VDEFMAX==ZERO) VDEFMAX=EP10
@@ -549,7 +554,8 @@ C---
      & 5X,'HOURGLASS VISCOSITY . . . . . . . . . .=',1PG20.13/,
      & 5X,'BRICK MINIMUM TIME STEP................=',1PG20.13/,
      & 5X,'LOCAL ORTHOTROPY SYSTEM FORMULATION . .=',I10/,
-     & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/)
+     & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/,
+     & 5X,'SOLID DISTORTION CONTROL FLAG . . . . .=',I10/)
  1099 FORMAT(
      & 5X,'ORTHOTROPIC SOLID PROPERTY SET'/,
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I8/,
@@ -576,7 +582,8 @@ C---
      & 5X,'HOURGLASS VISCOSITY . . . . . . . . . .=',1PG20.13/,
      & 5X,'BRICK MINIMUM TIME STEP................=',1PG20.13/,
      & 5X,'LOCAL ORTHOTROPY SYSTEM FORMULATION . .=',I10/,
-     & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/)
+     & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/,
+     & 5X,'SOLID DISTORTION CONTROL FLAG . . . . .=',I10/)
  1001 FORMAT(
      & 5X,'ORTHOTROPIC SKEW FRAME. . . . . . . . .=',I10)
  1002 FORMAT(

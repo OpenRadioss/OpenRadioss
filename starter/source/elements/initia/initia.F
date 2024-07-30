@@ -2964,7 +2964,7 @@ C-----------------------------------------------
      .        IHBE,ISMSTR,ICPRE,JCVT,IINT,IHKT,ITET4,ITET10,IMATVIS,NPT,NLY,
      .        ICSTR,IDRIL,ITHK,IPLAS,I2GEO(NUMGEO),NG2,NG1,NG0,JG,ETYE,
      .        IH4,IH3,IGMAT,I2GEO1(NUMGEO),I2GEO2(NUMGEO),IHBE0,
-     .        IP,NFT,IP2NG1(NPART),IP2NG2(NPART),LST
+     .        IP,NFT,IP2NG1(NPART),IP2NG2(NPART),LST,ICONTROL
       my_real
      .   MAS,SM,XX,YY,ZZ,XY,YZ,ZX,XG,YG,ZG,
      .   IXX,IXY,IYY,IYZ,IZZ,IZX,EK,VX,VY,VZ,HM,HR,HF,DN,QA,QB,QH,
@@ -3103,6 +3103,7 @@ C-------We suppose the orders of IPART/IPARG are the same
         MID = NINT(PM(19,IMID)) 
         NPT =IGEO(4,IPID)
         IHBE0 =IGEO(10,IPID)
+        ICONTROL = IGEO(97,IPID)
 c        MID = IPM(2,IMID)
         NG0 = I2GEO(IPID)
         NG2=0
@@ -3324,8 +3325,8 @@ C------  IPARG(6,NG)= NPG after elbuf_ini
           ELSE
 c2345678+-------+-------+-------+-------+-------+-------+-------+-------+-------+  
 c---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
-           WRITE(IOUT,'(A)')'  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS'
-           WRITE(IOUT,'(8I8)')IHBE,Ismstr, Icpre, JCVT,  IHKT ,Itet4, Itet10,IMATVIS
+           WRITE(IOUT,'(A)')'  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS,ICONTROL'
+           WRITE(IOUT,'(9I8)')IHBE,Ismstr, Icpre, JCVT,  IHKT ,Itet4, Itet10,IMATVIS,ICONTROL
           END IF
           WRITE(IOUT,'(A)') '--      qa        qb   lamda_v      mu_v         h        dn'
           WRITE(IOUT,'(6F10.4,/)')QA,QB,NS_A,NS_B,QH,DN   
