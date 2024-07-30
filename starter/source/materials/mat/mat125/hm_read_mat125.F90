@@ -332,16 +332,18 @@
       m1t = one 
       al1c = ep20
       m1c = one 
-      if(e1 > zero) then
-        if(em11t /= zero )then
+      if(e1 > zero ) then
+        if(xt > zero )then
           ef11t  = xt/e1
+          if(em11t == zero) em11t = ONEP2*ef11t
           m1t = -one/log(ef11t/em11t)     
           al1t = m1t*(em11t/ef11t)**m1t
           damage = 1
         endif 
       
-        if(em11c /= 0  )then
+        if(xc > zero  )then
           ef11c  = xc/e1
+          if(em11c <= zero)em11c = ONEP2*ef11c
           m1c = -one/log(ef11c/em11c)     
           al1c = m1c*(em11c/ef11c)**m1c
         endif
@@ -351,14 +353,16 @@
       al2c = ep20
       m2c = one 
       if(e2 > zero) then
-        if(em22t /= zero )then
+        if(yt > zero )then
           ef22t  = yt/e2
+          if(em22t <= zero) em22t = ONEP2*ef22t
           m2t = -one/log(ef22t/em22t)     
           al2t = m2t*(em22t/ef22t)**m2t
         endif 
         !
-        if(em22c /= 0  )then
+        if(yc  > zero  )then
           ef22c  = yc/e1
+          if(em22c == zero  )em22c = ONEP2*ef22c 
           m2c = -one/log(ef22c/em22c)     
           al2c = m2c*(em22c/ef22c)**m2c
         endif
@@ -368,15 +372,17 @@
       al3c = ep20
       m3c = one     
       if(e3 > zero) then
-        if(em33t /= zero )then
+        if(zt  > zero )then
           ef33t  = zt/e3
+          if(em33t == zero )em33t = ONEP2*ef33t
           m3t = -one/log(ef33t/em33t)     
           al3t = m3t*(em33t/ef33t)**m3t
           !!if(ef11t < em11t ) 'error message'
         endif 
         !
-        if(em33c /= 0  )then
+        if(zc > zero )then
           ef33c  = zc/e3
+          if(em33c == zero  )em33c = ONEP2*ef33c
           m3c = -one/log(ef33c/em33c)     
           al3c = m3c*(em33c/ef33c)**m3c
         endif
@@ -386,37 +392,61 @@
        efs = zero
       if(fs == -1) then
          ! plane shear 
-        if(g12 > zero .and. tau > zero .and. gamma  > zero )then
+        if(g12 > zero ) then
+          if(tau > zero  )then
             efs  = tau /g12
+            if(gamma <= zero ) gamma = ONEP2*efs 
             ms = -one/log(efs/gamma) ! one/ln(epsm/epsf)    
             als = ms*(gamma/efs)**ms
-        else 
+          else 
            ! adding error messsage   
-        endif
+           fs = 1
+          endif
+         endif   
          ! transverse shear 13 (only for solid)
         ms13 = one
         als13 = ep20
         efs13 = zero
-        if(g13 > zero .and. tau2 > zero .and. gamma2 > 0 )then
-          efs13  = tau2 /g13
-          ms13 = -one/log(efs13/gamma2) ! one/ln(epsm/epsf)    
-          als13 = ms*(gamma2/efs13)**ms13
-        else 
+        if(g13 > zero ) then 
+          if( tau2 > zero ) then 
+           efs13  = tau2 /g13
+           if(gamma2 <= 0 ) gamma2 = ONEP2*efs13 
+           ms13 = -one/log(efs13/gamma2) ! one/ln(epsm/epsf)    
+           als13 = ms*(gamma2/efs13)**ms13
+          else 
            ! adding error messsage   
-        endif 
+         endif
+        endif   
         ! transverse shear 23 (only for solid)
         ms23 = one
         als23 = ep20
         efs23 = zero
-        if(g23 > zero .and. tau3 > zero .and. gamma3 > 0 )then
-          efs23  = tau3 /g23
-          ms23 = -one/log(efs23/gamma3) ! one/ln(epsm/epsf)    
-          als23 = ms23*(gamma3/efs23)**ms23
-        else 
+        if(g23 > zero ) then
+          if(tau3 > zero ) then
+           efs23  = tau3 /g23
+           if(gamma2 <= zero) gamma2 = ONEP2*efs23
+           ms23 = -one/log(efs23/gamma3) ! one/ln(epsm/epsf)    
+           als23 = ms23*(gamma3/efs23)**ms23
+         else 
            ! adding error messsage   
-        endif 
+         endif 
+       endif  
 
       endif ! fs = -1
+      if(ems <= gamma) ems = two*gamma
+      if(ems13 <= gamma2) ems13 = two*gamma2
+      if(ems23 <= gamma3) ems23 = two*gamma3
+
+
+      if(sc == zero ) sc = ep10
+      if(sc13 == zero) sc13 = ep10
+      if(sc23 == zero) sc23 = ep10
+      !
+      if(sc <= tau ) sc = two*tau
+      if(sc13 <= tau2) sc13 = two*tau2
+      if(sc23 <= tau3) sc23 = two*tau3  
+      if(fs == 2) damage = 0
+
       ! material parameters
       matparam%uparam(1)  = e1
       matparam%uparam(2)  = e2
@@ -433,7 +463,7 @@
       matparam%uparam(12)  = xt
       matparam%uparam(13)  = slimt1
       matparam%uparam(14)  = em11c
-      matparam%uparam(15)  = yt
+      matparam%uparam(15)  = xc
       matparam%uparam(16) = slimc1
      !
       matparam%uparam(17)  = em22t
@@ -467,6 +497,7 @@
       matparam%uparam(41)  = ems23
       matparam%uparam(42)  = sc23
       matparam%uparam(43)  = slims23
+
 
       matparam%uparam(44)  = gammaf
       matparam%uparam(45)  = gammar
@@ -510,10 +541,11 @@
       
       matparam%uparam(76) = fs
       matparam%uparam(77) = damage
+      
       !
       matparam%uparam(78)  = nu21
-      matparam%uparam(70)  = nu31
-      matparam%uparam(80) = nu32   
+      matparam%uparam(79)  = nu31
+      matparam%uparam(80)  = nu32  
       ! function ids
       ifunc(1)  = ifem11t 
       ifunc(2)  = ifxt
@@ -567,7 +599,7 @@
           ! parameters used outside the law
 !-----------------------------------------
           pm(9)  = asrate            !  mat_param%asrate
-          pm(20) = a11               !  mat_param%young
+          pm(20) = young               !  mat_param%young
           pm(21) = nu                !  mat_param%nu
           pm(22) = max(g12,g12,g23)  !  mat_param%shear
           pm(24) = a11
@@ -588,7 +620,7 @@
           ! parmat table
         israte     = 1
         parmat(1)  = c1
-        parmat(2)  = c1
+        parmat(2)  = young
         parmat(3)  = nu
         parmat(4)  = israte
         parmat(5)  = fcut
@@ -625,6 +657,7 @@
       ! properties compatibility
       call init_mat_keyword(matparam,"SOLID_ORTHOTROPIC")
       call init_mat_keyword(matparam,"SHELL_ORTHOTROPIC")
+      call init_mat_keyword(matparam,"SOLID_ALL")
 !------------------------- 
 !     parameters printout
 !-------------------------- 

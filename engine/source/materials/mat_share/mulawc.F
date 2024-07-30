@@ -145,6 +145,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nlocal_reg_mod            ../common_source/modules/nlocal_reg_mod.F
       !||    sensor_mod                ../engine/share/modules/sensor_mod.F
       !||    sigeps125c_mod            ../engine/source/materials/mat/mat125/sigeps125c.F90
+      !||    sigeps127c_mod            ../engine/source/materials/mat/mat127/sigeps127c.F90
       !||    stack_mod                 ../engine/share/modules/stack_mod.F
       !||    table_mod                 ../engine/share/modules/table_mod.F
       !||====================================================================
@@ -180,6 +181,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE SENSOR_MOD
       USE SIGEPS125C_MOD
+      USE SIGEPS127C_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
 C-----------------------------------------------
@@ -1701,18 +1703,37 @@ c
             ! IJ(K) = NEL*(K-1)
                SIGOXX(I) =  LBUF%SIG(NEL*(1-1)+I)   
                SIGOYY(I) =  LBUF%SIG(NEL*(2-1)+I)         
-               ! SIGOXY(I) =  LBUF%SIG(NEL*(3-1)+I)      
-               ! SIGOYZ(I) =  LBUF%SIG(NEL*(4-1)+I)      
-               ! SIGOZX(I) =  LBUF%SIG(NEL*(5-1)+I)       
+               SIGOXY(I) =  LBUF%SIG(NEL*(3-1)+I)      
+               SIGOYZ(I) =  LBUF%SIG(NEL*(4-1)+I)      
+               SIGOZX(I) =  LBUF%SIG(NEL*(5-1)+I)       
             ENDDO       
             !---
-            CALL SIGEPS125C(
-     1         JLT      ,MATPARAM   ,NUVAR    ,UVAR     ,
-     2         RHO      ,THKN       ,THKLYL   , SHF     , 
+             CALL SIGEPS125C(
+     1         JLT      ,MATPARAM   ,NUVAR    ,UVAR      ,
+     2         RHO      ,THKN       ,THKLYL   , SHF      ,
      4         EPSXX    ,EPSYY      ,EPSXY    ,EPSYZ    ,EPSZX   ,
-     5         SIGOXX   ,SIGOYY     ,
-     6         SIGNXX   ,SIGNYY     ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
+     5         SIGOXX   ,SIGOYY                                  ,
+     6         SIGNXX   ,SIGNYY     ,SIGNXY   ,SIGNZX   ,SIGNYZ  ,
      7         OFF      ,SIGY       ,ETSE     ,SSP  )
+C
+       ELSEIF (ILAW == 127) THEN 
+           !---
+            DO I=JFT,JLT                                               
+            ! IJ(K) = NEL*(K-1)
+               SIGOXX(I) =  LBUF%SIG(NEL*(1-1)+I)   
+               SIGOYY(I) =  LBUF%SIG(NEL*(2-1)+I)         
+               SIGOXY(I) =  LBUF%SIG(NEL*(3-1)+I)      
+               SIGOYZ(I) =  LBUF%SIG(NEL*(4-1)+I)      
+               SIGOZX(I) =  LBUF%SIG(NEL*(5-1)+I)       
+            ENDDO       
+            !---
+            CALL SIGEPS127C(
+     1         JLT      ,MATPARAM   ,NUVAR    ,UVAR      ,
+     2         RHO      ,THKN       ,THKLYL   , SHF      ,
+     3         DEPSXX   ,DEPSYY     ,DEPSXY   ,DEPSYZ  ,DEPSZX  ,
+     5         SIGOXX   ,SIGOYY     ,SIGOXY   ,SIGOZX   ,SIGOYZ  ,
+     6         SIGNXX   ,SIGNYY     ,SIGNXY   ,SIGNZX   ,SIGNYZ   ,
+     7         OFF      ,SIGY       ,ETSE     ,SSP  )     
 c     
           ELSEIF (ILAW == 158) THEN
 

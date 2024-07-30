@@ -44,13 +44,13 @@
            rho     ,thk       ,thkly     , shf ,                  &
            epsxx   ,epsyy      ,epsxy   ,epsyz   ,epszx ,         &    
            sigoxx  ,sigoyy     ,                                  &
-           signxx  ,signyy     ,signxy  ,signyz   ,signzx  ,      &
+           signxx  ,signyy     ,signxy  ,signzx   ,signyz  ,      &
            off     ,sigy       ,etse    ,ssp   ) 
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
           use matparam_def_mod 
-          use constant_mod      
+          use constant_mod  
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
@@ -62,6 +62,7 @@
 !-----------------------------------------------
           integer, intent(in) :: nel !< number of elements in the group
           integer, intent(in) :: nuvar !< number of user variables
+
           my_real, dimension(nel,nuvar), intent(inout) :: uvar !< user variables
           type(matparam_struct_), intent(in) :: mat_param !< material parameters data
           my_real, dimension(nel), intent(in) :: rho !< material density
@@ -70,8 +71,8 @@
           my_real, dimension(nel), intent(inout) :: thk !< shell thikness 
           my_real, dimension(nel), intent(in)    :: thkly !< ply thikness  
           my_real, dimension(nel), intent(inout) :: etse !< ratio of rigidity  
-          my_real, dimension(nel), intent(in) :: sigoxx !< initial stress xx 
-          my_real, dimension(nel), intent(in) :: sigoyy !< initial stress yy
+          my_real, dimension(nel), intent(in) :: sigoxx !< old stress xx 
+          my_real, dimension(nel), intent(in) :: sigoyy !< old stress yy
           my_real, dimension(nel), intent(in) :: epsxx !< total strain xx 
           my_real, dimension(nel), intent(in) :: epsyy !< total strain yy
           my_real, dimension(nel), intent(in) :: epsxy !< total strain xy 
@@ -87,15 +88,18 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer fs, i,damage,updat,updat1,updat2
+      integer fs, i,damage,updat,updat1,updat2,nkey
       my_real                                                       &
        e1,e2,nu12,nu21,em11t,xt,slimt1,em11c,xc,slimc1,             &
        em22t,yt,slimt2,em22c,yc,slimc2,gamma,tau,ems,sc,            &
        slims,gammaf,gammar, tsdm, erods,tsize,ef11t,ef11c,          &
        m1t,m1c,al1t,al2t,al2c,als,mfs,ms,e1d,e2d,g12d,d,            &
        w11,w22,w12,al1c,ef22c,ef22t,e12d,efs,invd,m2c,m2t,          &
-       e21d,g12,limit_sig, eint, deint,a11,tauxy,g13,g23
-      my_real , dimension(nel) ::  dezz,check
+       e21d,g12,limit_sig, eint, deint,a11,tauxy,g13,g23,tag
+      my_real , dimension(nel) ::  dezz,check,xc_r
+
+      !
+      logical :: abit_t,abit_c,abit_s
 !!======================================================================
 !
        FS = 0 ! type of failure yield surface method
@@ -117,6 +121,7 @@
        slimt1 = mat_param%uparam(13) 
        em11c  = mat_param%uparam(14) 
        xc     = mat_param%uparam(15)
+       xc_r(1:nel) = xc
        slimc1 = mat_param%uparam(16)
       ! Matrix direction
        em22t  = mat_param%uparam(17) 
@@ -160,10 +165,8 @@
        fs = nint(mat_param%uparam(76))
        damage = nint(mat_param%uparam(77))
        ! 
-       select  case (damage)
-         case(1) ! with damage 
       ! membrane computing FS = 0, 1, -1 
-          do i=1,nel
+        do i=1,nel
       ! computing damage by direction
             ! dir 
              check(i) = one
@@ -174,8 +177,8 @@
              d = (one - w11*w22*nu12*nu21)
              e1d = w11*e1
              e2d = w22*e2
-             e12d = w11*w22*nu12*e2
-             e21d = w11*w22*nu21*e2
+             e12d = w11*w22*nu21*e1
+             e21d = w11*w22*nu12*e2
              invd = one/d
              signxx(i) = invd*(e1d*epsxx(i) + e12d*epsyy(i))
              signyy(i) = invd*(e21d*epsxx(i)+ e2d*epsyy(i))
@@ -190,8 +193,8 @@
                 if(uvar(i,6) /= zero .and. eint >= uvar(i,6)) check(i) = one
              else 
                 check(i) = one  
-            endif  
-            if(check(i) >= zero ) then
+             endif  
+             if(check(i) >= zero ) then
                uvar(i,5) = one
               if(damage > 0 ) then
                if(epsxx(i) >= zero )then
@@ -223,8 +226,8 @@
              d = (one - w11*w22*nu12*nu21)
              e1d = w11*e1
              e2d = w22*e2
-             e12d = w11*w22*nu12*e1
-             e21d = w11*w22*nu21*e2
+             e12d = w11*w22*nu21*e1
+             e21d = w11*w22*nu12*e2
              invd = one/d
              signxx(i) = invd*(e1d*epsxx(i) + e12d*epsyy(i))
              signyy(i) = invd*(e21d*epsxx(i)+ e2d*epsyy(i))
@@ -235,19 +238,21 @@
                if(epsxx(i) >= em11t  ) then
                  limit_sig = slimt1*xt
                  signxx(i) = max(limit_sig, signxx(i))
-               elseif(abs(epsxx(i)) >= em11c)then 
+               elseif(abs(epsxx(i)) >= em11c .and. epsxx(i) < zero)then 
                  limit_sig = slimc1*xc
                  signxx(i) = -max(limit_sig, abs(signxx(i)))
                endif  
-               if(abs(signxx(i)) ==  limit_sig) w11 = signxx(i) / epsxx(i)/e1
+               if(abs(signxx(i)) ==  limit_sig  .and. epsxx(i) /= zero)                &
+                                                   w11 = signxx(i) / epsxx(i)/e1
                if(epsyy(i) >= em22t)then 
                  limit_sig = slimt2*yt
                  signyy(i) = max(limit_sig, signyy(i))
-               elseif(abs(epsyy(i)) >= em22c)then 
+               elseif(abs(epsyy(i)) >= em22c .and. epsyy(i) < zero)then 
                  limit_sig = slimc2*yc
                  signyy(i) = - max(limit_sig, abs(signyy(i)))
                endif 
-               if(abs(signyy(i)) ==  limit_sig) w22 = signyy(i) / epsyy(i)/e2
+               if(abs(signyy(i)) ==  limit_sig .and. epsyy(i) /= zero)                   &
+                                                        w22 = signyy(i) / epsyy(i)/e2
               ! save w11 & w22
                uvar(i,1)= w11
                uvar(i,2)= w22
@@ -272,13 +277,14 @@
                    w12 = abs(epsxy(i))/efs
                    w12 = exp(ms*log(w12))/als  ! (esp/epsf)^m/alpha
                    w12 = exp(-w12)
+            
                  else
                    w12 = uvar(i,3)
                    uvar(i,5) = -one 
                  endif    
                   g12d = w12*g12
                   signxy(i) = g12d*epsxy(i)
-                  if(abs(signxy(i)) >= tau ) then
+                  if(abs(signxy(i)) >= tau .and. gamma*tau > zero) then
                     tauxy = abs(epsxy(i)/gamma)
                     tauxy = tau + tauxy*(sc - tau)/(ems - gamma)
                     signxy(i) = sign(tauxy,signxy(i))
@@ -291,6 +297,7 @@
                     endif 
                   endif   
                   uvar(i,3)= w12
+                 
                enddo ! nel loop
              case(0)  ! fs = 0 TO CHECK
                do i=1,nel
@@ -329,25 +336,6 @@
                   endif   
                enddo ! nel loop
             end select ! FS
-         case(0) ! with out damage (lineare behavior)
-            do i=1,nel
-             d = (one - nu12*nu21)
-             invd = one/d
-             signxx(i) = invd*(e1*epsxx(i) + nu12*e1*epsyy(i))
-             signyy(i) = invd*(nu21*e2*epsxx(i)+ e2*epsyy(i))
-             signxy(i) = g12*epsxy(i)
-             signzx(i) = shf(i)*g13*epszx(i) 
-             signyz(i) = shf(i)*g23*epsyz(i) 
-             etse(i)   = one
-             a11       = max(e1,e2)/(one - nu12**2) 
-             a11       = max(e1,e2)
-             ssp(i) = sqrt(a11/rho(i))
-             sigy(i)    = min(slimt1*xt,slimt2*yt, slimc1*xc,slimc2*yc)
-            ! computation of the thickness variation 
-             dezz(i)  = -(nu12/e1)*(signxx(i)-sigoxx(i))-(nu12/e2)*(signyy(i)-sigoyy(i)) 
-             thk(i)     = thk(i) + dezz(i)*thkly(i)*off(i) 
-           enddo ! nel loop
-          end select ! damage
 !-------------------------------------------------------------------------------------------
          end subroutine sigeps125c
-      end module sigeps125c_mod  
+      end module sigeps125c_mod
