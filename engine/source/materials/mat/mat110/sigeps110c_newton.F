@@ -882,7 +882,11 @@ c
         ! USR Outputs
         SEQ(I)     = SIGVG(I) ! SIGEQ
         ! Coefficient for hourglass
-        ET(I)      = HARDP(I) / (HARDP(I) + YOUNG)
+        IF (DPLA(I) > ZERO) THEN
+          ET(I)    = HARDP(I) / (HARDP(I) + YOUNG)
+        ELSE
+          ET(I)    = ONE
+        ENDIF
         ! Computation of the sound speed   
         SOUNDSP(I) = SQRT(A11/RHO(I))
         ! Storing the yield stress

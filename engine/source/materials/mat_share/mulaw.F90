@@ -1123,7 +1123,7 @@
             &ssp ,vis ,uvar,off  ,ngl  ,0   ,&
             &ipm ,mat ,epsd,ipla ,sigy ,defp,&
             &dpla,amu ,israte ,asrate,nvartmp,&
-            &vartmp )
+            &vartmp,et    )
           elseif (mtn == 45) then
             call sigeps45(nel ,npar,nuvar,nfunc,ifunc,&
             &npf ,tf  ,tt,dt1,uparam,&
@@ -1492,7 +1492,7 @@
             &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,&
             &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
             &epsd     ,lbuf%dmg ,ssp      ,uvar     ,off      ,amu      ,&
-            &idel7nok )
+            &idel7nok ,et       )
 !
           elseif (mtn == 80) then
             call sigeps80(&
@@ -1965,7 +1965,7 @@
             call mstrain_rate(nel    ,israte ,asrate ,epsd   ,idev   ,&
             &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
             call sigeps126(&
-            &nel      ,nuvar    ,uvar     ,matparam ,tt       ,&
+            &nel      ,nuvar    ,uvar     ,matparam ,tt       ,et       ,&
             &rho0     ,ngl      ,sigy     ,dpla     ,defp     ,amu      ,&
             &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,&
             &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,&

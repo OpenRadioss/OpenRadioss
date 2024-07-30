@@ -378,7 +378,11 @@ C
         ! Sound-speed
         SOUNDSP(I) = SQRT((BULK + FOUR_OVER_3*G)/RHO0(I)) 
         ! Coefficient for hourglass
-        ETSE(I)    = H(I) / (H(I) + E)
+        IF (DPLA(I) > ZERO) THEN 
+          ETSE(I)  = H(I) / (H(I) + E)
+        ELSE
+          ETSE(I)  = ONE
+        ENDIF
       ENDDO 
 C
       ! Printout element deletion

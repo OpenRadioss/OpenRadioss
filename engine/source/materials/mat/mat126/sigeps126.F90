@@ -40,7 +40,7 @@
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
         subroutine sigeps126(                                          &
-          nel      ,nuvar    ,uvar     ,matparam ,tt       ,           &
+          nel      ,nuvar    ,uvar     ,matparam ,tt       ,et       , &
           rho0     ,ngl      ,sigy     ,dpla     ,defp     ,amu      , &
           depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   , &
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   , &
@@ -66,6 +66,7 @@
           my_real, dimension(nel,nuvar), intent(inout) :: uvar !< user variables
           type(matparam_struct_), intent(in) :: matparam !< material parameters data
           my_real, intent(in) :: tt !< current time
+          my_real, dimension(nel), intent(inout) :: et ! Coefficient for hourglass
           my_real, dimension(nel), intent(in) :: rho0 !< material density
           integer, dimension(nel), intent(in) :: ngl !< element user IDs index table
           my_real, dimension(nel), intent(inout) :: sigy !< yield stress
@@ -374,6 +375,8 @@
                 varnl(i) = zero
               endif 
             endif 
+            ! Coefficient for hourglass 
+            et(i) = one
           enddo          
 !     
           !========================================================================

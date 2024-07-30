@@ -900,15 +900,15 @@ c
           UVAR(I,1) = ASRATE * DPDT + (ONE - ASRATE) * UVAR(I,1)
           EPSP(I)   = UVAR(I,1)
         ENDIF
-        ! USR Outputs
+        ! USR Outputs & coefficient for hourglass
         IF (DPLA(I) > ZERO) THEN 
           UVAR(I,2) = PHI(I)  ! Yield function value
+          ET(I)     = HARDP(I) / (HARDP(I) + YOUNG) 
         ELSE
           UVAR(I,2) = ZERO
+          ET(I)     = ONE
         ENDIF
         SEQ(I)     = SIGVG(I) ! SIGEQ
-        ! Coefficient for hourglass
-        ET(I)      = HARDP(I) / (HARDP(I) + YOUNG) 
         ! Computation of the sound speed   
         SOUNDSP(I) = SQRT(A11/RHO(I))
         ! Storing the yield stress
