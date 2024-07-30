@@ -80,6 +80,7 @@
           integer ::  itetra10  !< tet10 elem formulations
           integer ::  imas      !< nodal mass distribution method
           integer ::  iframe    !< elementary coordinate system
+          integer ::  icontrol  !< distortion control
 ! old obsolet flags : IPLA_DS: fixed to 2     
         end type  solid_defaults_
 
@@ -126,6 +127,7 @@
             this%solid%itetra10 = 0
             this%solid%imas     = 0
             this%solid%iframe   = 0
+            this%solid%icontrol = 0
 ! interf                                                           
             this%interface%DEF_INTER(1:100)   = 0
           end subroutine init_def_zero                  

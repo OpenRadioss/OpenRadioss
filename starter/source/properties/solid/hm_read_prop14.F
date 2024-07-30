@@ -99,7 +99,7 @@ C-----------------------------------------------
       INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,JCVT,NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID
       INTEGER I8PT,ITET4,ITET4_PREV,NSPHDIR,ID_SENS,ID_PARTSPH,IPARTSPH,J,ITET10,I_ALE_FLAG,IHBE_PR
       my_real CVIS,QA,QB,QH,VNS1,VNS2,DTMIN,VDEFMIN,VDEFMAX,ASPMAX,ASPTET 
-      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D
+      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,ICONTROL_D,ICONTROL
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED, lFOUND
       CHARACTER*ncharline :: MSGLINE
 C-----------------------------------------------
@@ -116,6 +116,7 @@ C-----------------------------------------------
       ITET4_D=  DEFAULTS_SOLID%ITETRA4
       ITET10_D= DEFAULTS_SOLID%ITETRA10
       IFRAME_DS= DEFAULTS_SOLID%IFRAME
+      ICONTROL_D=DEFAULTS_SOLID%ICONTROL
 C--------------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
@@ -133,6 +134,7 @@ C--------------------------------------------------
       CALL HM_GET_INTV('Inpts_R',NPTR,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Inpts_S',NPTS,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Inpts_T',NPTT,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV('Icontrol',ICONTROL,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -336,12 +338,8 @@ C--------------------------------------------------
          IHBE=0                                                        
          CALL ANCMSG(MSGID=324, MSGTYPE=MSGWARNING,  ANMODE=ANINFO_BLIND_2, I1=ID,  C1=TITR, I2=IHBE_OLD, I3=IHBE)
       ENDIF                                                            
-C--- temporarly using DTMIN   
-      IGEO(97) = 0
-      IF (DTMIN<ZERO) THEN
-        IGEO(97) = 1
-        DTMIN=ZERO
-      END IF
+      IF (ICONTROL==0) ICONTROL=ICONTROL_D
+      IF (ICONTROL>1) ICONTROL=0
 
       ! --default QA,QB (PSEUDO VISCOSITY)  ---  
       ! igeo(31)  flag for default qa qb for law 70  can be used for other law
@@ -383,6 +381,7 @@ C--------------------------------------------------
       IGEO(38) = IPARTSPH
       IGEO(39) = ID_SENS
       IGEO(62) = I_ALE_FLAG
+      IGEO(97) = ICONTROL
       
       GEO(14)  = QA
       GEO(15)  = QB
@@ -401,9 +400,11 @@ C--------------------------------------------------
       IF (IHBE==1.AND.IINT==3) IHBE_PR=5
       IF(.NOT.IS_ENCRYPTED)THEN
         IF(IGEO(31) == 1) THEN   
-          WRITE(IOUT,1100)IG,IHBE_PR,ISMSTR,I_ALE_FLAG,IPLAS,JCVT,ITET4,ITET10,ICPRE,ICSTR,CVIS,QA,QB,QH,VNS1,VNS2,DTMIN, ISTRAIN
+          WRITE(IOUT,1100)IG,IHBE_PR,ISMSTR,I_ALE_FLAG,IPLAS,JCVT,ITET4,
+     .                    ITET10,ICPRE,ICSTR,CVIS,QA,QB,QH,VNS1,VNS2,DTMIN, ISTRAIN,ICONTROL
         ELSE
-          WRITE(IOUT,1000)IG,IHBE_PR,ISMSTR,I_ALE_FLAG,IPLAS,JCVT,ITET4,ITET10,ICPRE,ICSTR,CVIS,QA,QB,QH,VNS1,VNS2,DTMIN, ISTRAIN
+          WRITE(IOUT,1000)IG,IHBE_PR,ISMSTR,I_ALE_FLAG,IPLAS,JCVT,ITET4,
+     .                    ITET10,ICPRE,ICSTR,CVIS,QA,QB,QH,VNS1,VNS2,DTMIN, ISTRAIN,ICONTROL
         ENDIF
         IF((VDEFMIN+VDEFMAX+ASPMAX+ASPTET)>ZERO) THEN
           IF (VDEFMAX==ZERO) VDEFMAX=EP10
@@ -482,7 +483,8 @@ C---
      & 5X,'NUMERICAL NAVIER STOKES VISCO. LAMBDA .=',1PG20.13/,
      & 5X,'NUMERICAL NAVIER STOKES VISCOSITY MU. .=',1PG20.13/,
      & 5X,'BRICK MINIMUM TIME STEP................=',1PG20.13/,
-     & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/)
+     & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/,
+     & 5X,'SOLID DISTORTION CONTROL FLAG . . . . .=',I10/)
  1001 FORMAT(
      & 5X,'NUMBER OF INTEGRATION POINTS. .  . .  .=',I3,
      &    ' (',I3,')'/)
@@ -515,7 +517,8 @@ C---
      & 5X,'NUMERICAL NAVIER STOKES VISCO. LAMBDA .=',1PG20.13/,
      & 5X,'NUMERICAL NAVIER STOKES VISCOSITY MU. .=',1PG20.13/,
      & 5X,'BRICK MINIMUM TIME STEP................=',1PG20.13/,
-     & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/)
+     & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/,
+     & 5X,'SOLID DISTORTION CONTROL FLAG . . . . .=',I10/)
  2010 FORMAT(
      & 5X,'HOURGLASS MODULUS FLAG. . . . . . . . .=',I10/)   
  2020 FORMAT(
