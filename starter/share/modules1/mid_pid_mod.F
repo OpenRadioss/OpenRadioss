@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
       !||    dometis              ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    dometis2             ../starter/source/spmd/domain_decomposition/domdecs.F
       !||    init_mid_pid_array   ../starter/source/spmd/tools/init_mid_pid_array.F
       !||    initwg               ../starter/source/spmd/domain_decomposition/initwg.F
       !||    initwg_shell         ../starter/source/spmd/domain_decomposition/initwg_shell.F

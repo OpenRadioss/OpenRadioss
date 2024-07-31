@@ -99,7 +99,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fill_surf_ellipse                 ../starter/source/model/sets/fill_gr_surf_ellipse.F
       !||    fill_surf_plane                   ../starter/source/model/sets/fill_gr_surf_plane.F90
       !||    fillcne                           ../starter/source/spmd/domdec2.F
-      !||    filter_sae211                     ../engine/source/tools/sensor/filter_sae211.F
       !||    find_dt_for_targeted_added_mass   ../engine/source/time_step/find_dt_for_targeted_added_mass.F
       !||    forint                            ../engine/source/elements/forint.F
       !||    forintc                           ../engine/source/elements/forintc.F

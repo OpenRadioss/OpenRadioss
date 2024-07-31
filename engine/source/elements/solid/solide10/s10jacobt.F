@@ -21,9 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    s10jacobt    ../engine/source/elements/solid/solide10/s10jacobt.F
-      !||--- called by ------------------------------------------------------
-      !||    s10derito3   ../engine/source/elements/solid/solide10/s10derito3.F
+      !||    s10jacobt   ../engine/source/elements/solid/solide10/s10jacobt.F
       !||====================================================================
       SUBROUTINE S10JACOBT(
      1   ALPH,    BETA,    W,       PX1,

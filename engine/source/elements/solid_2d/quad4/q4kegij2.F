@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    q4kegij2   ../engine/source/elements/solid_2d/quad4/q4kegij2.F
-      !||--- called by ------------------------------------------------------
-      !||    q4keg2     ../engine/source/elements/solid_2d/quad4/q4keg2.F
       !||====================================================================
       SUBROUTINE Q4KEGIJ2 (LFT, LLT, 
      .                     PYI, PZI, PYJ, PZJ, AYS, KIJ, 

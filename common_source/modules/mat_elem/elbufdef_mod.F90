@@ -149,7 +149,6 @@
       !||    czcorcht                            ../engine/source/elements/shell/coquez/czcorc.F
       !||    czcorct                             ../engine/source/elements/shell/coquez/czcorc.F
       !||    czke3                               ../engine/source/elements/shell/coquez/czke3.F
-      !||    czkel3                              ../engine/source/elements/shell/coquez/czkel3.F
       !||    deallocate_elbuf                    ../starter/source/elements/elbuf_init/deallocate_buffer.F
       !||    deallocate_one_element_group        ../starter/source/elements/elbuf_init/deallocate_one_element_group.F
       !||    deltax22                            ../engine/source/interfaces/int22/deltax22.F
@@ -435,7 +434,6 @@
       !||    ruser32ke3                          ../engine/source/elements/spring/ruser32ke3.F
       !||    s10deri3                            ../engine/source/elements/solid/solide10/s10deri3.F
       !||    s10derit3                           ../engine/source/elements/solid/solide10/s10derit3.F
-      !||    s10derito3                          ../engine/source/elements/solid/solide10/s10derito3.F
       !||    s10init3                            ../starter/source/elements/solid/solide10/s10init3.F
       !||    s10jaci3                            ../starter/source/elements/solid/solide10/s10jaci3.F
       !||    s10ke3                              ../engine/source/elements/solid/solide10/s10ke3.F

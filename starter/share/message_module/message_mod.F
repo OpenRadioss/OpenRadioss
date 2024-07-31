@@ -157,7 +157,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    definter                            ../starter/source/interfaces/interf1/definter.F
       !||    domdec2                             ../starter/source/spmd/domdec2.F
       !||    dometis                             ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    dometis2                            ../starter/source/spmd/domain_decomposition/domdecs.F
       !||    dtnoda_stifint                      ../starter/source/interfaces/inter3d1/dtnoda_stifint.F
       !||    ecran1                              ../starter/source/initial_conditions/detonation/ecran1.F
       !||    ecrsub2                             ../starter/source/model/assembling/hm_read_subset.F
@@ -766,7 +765,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i25sors                             ../starter/source/interfaces/inter3d1/i25sors.F
       !||    i25sti3                             ../starter/source/interfaces/inter3d1/i25sti3.F
       !||    i25surfi                            ../starter/source/interfaces/inter3d1/i25surfi.F
-      !||    i25tri                              ../starter/source/interfaces/inter3d1/i25tri.F
       !||    i2buc1                              ../starter/source/interfaces/inter3d1/i2buc1.F
       !||    i2chk3                              ../starter/source/interfaces/inter3d1/i2chk3.F
       !||    i2surfs                             ../starter/source/interfaces/inter3d1/i2surfs.F
@@ -895,13 +893,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lecacc                              ../starter/source/tools/accele/lecacc.F
       !||    lecextlnk                           ../starter/source/coupling/rad2rad/lecextlnk.F
       !||    lecfill                             ../starter/source/elements/initia/lecfill.F
-      !||    lecg47                              ../starter/source/properties/ige3d/lecgeo47.F
       !||    lecggroup                           ../starter/source/groups/lecggroup.F
       !||    lecig3d                             ../starter/source/elements/ige3d/lecig3d.F
       !||    lecins                              ../starter/source/interfaces/interf1/lecins.F
       !||    lecint                              ../starter/source/interfaces/interf1/lecint.F
       !||    lecm51__check_initial_state         ../starter/source/materials/mat/mat051/lecm51__check_initial_state.F
-      !||    lecm91                              ../starter/source/materials/mat/mat091/lecm91.F
       !||    lecrefsta                           ../starter/source/loads/reference_state/refsta/lecrefsta.F
       !||    lecsec42                            ../starter/source/tools/sect/hm_read_sect.F
       !||    lecsec4bolt                         ../starter/source/tools/sect/lecsec4bolt.F

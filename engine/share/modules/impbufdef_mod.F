@@ -200,7 +200,6 @@ c---------------
       !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
       !||    ktbuf_ini      ../engine/source/implicit/imp_init.F
       !||    mmats          ../engine/source/elements/solid/solide8z/mmats.F
-      !||    nul_etfac_s    ../engine/source/elements/solid/solide8z/nul_etfac_s.F
       !||    put_etfac      ../engine/source/elements/solid/solide8z/put_etfac.F
       !||    putsignor3     ../engine/source/elements/solid/solide8z/putsignor3.F
       !||    putsignorc3    ../engine/source/elements/shell/coqueba/cmatc3.F
@@ -667,7 +666,6 @@ C
       !||    iktmat_ini     ../engine/source/implicit/imp_init.F
       !||    ktbuf_ini      ../engine/source/implicit/imp_init.F
       !||    mmats          ../engine/source/elements/solid/solide8z/mmats.F
-      !||    nul_etfac_s    ../engine/source/elements/solid/solide8z/nul_etfac_s.F
       !||    put_etfac      ../engine/source/elements/solid/solide8z/put_etfac.F
       !||    putsignor3     ../engine/source/elements/solid/solide8z/putsignor3.F
       !||    putsignorc3    ../engine/source/elements/shell/coqueba/cmatc3.F

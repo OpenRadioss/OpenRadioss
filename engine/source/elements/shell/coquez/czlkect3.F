@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    czlkect3   ../engine/source/elements/shell/coquez/czlkect3.F
       !||--- called by ------------------------------------------------------
       !||    czke3      ../engine/source/elements/shell/coquez/czke3.F
-      !||    czkel3     ../engine/source/elements/shell/coquez/czkel3.F
       !||====================================================================
         SUBROUTINE CZLKECT3(JFT ,JLT  ,VOL  ,HC   ,RX   ,
      4                    RY   ,SX    ,SY   ,RX2  ,RY2  ,

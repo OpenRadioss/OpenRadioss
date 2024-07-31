@@ -41,7 +41,6 @@
       !||    check_mat_elem_prop_compatibility   ../starter/source/materials/mat/check_mat_elem_prop_compatibility.F
       !||    cinit3                              ../starter/source/elements/shell/coque/cinit3.F
       !||    dometis                             ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    dometis2                            ../starter/source/spmd/domain_decomposition/domdecs.F
       !||    eig                                 ../engine/stub/eig.F
       !||    eig1                                ../engine/stub/eig1.F
       !||    eigp                                ../engine/stub/eigp.F

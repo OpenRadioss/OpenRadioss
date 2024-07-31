@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    czsumg3      ../engine/source/elements/shell/coquez/czsumg3.F
       !||--- called by ------------------------------------------------------
       !||    czke3        ../engine/source/elements/shell/coquez/czke3.F
-      !||    czkel3       ../engine/source/elements/shell/coquez/czkel3.F
       !||--- calls      -----------------------------------------------------
       !||    cbatran2     ../engine/source/elements/shell/coqueba/cbasumg3.F
       !||    cbatran223   ../engine/source/elements/shell/coqueba/cbasumg3.F

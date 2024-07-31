@@ -132,7 +132,6 @@ C-----------------------------------------------
       !||    i25s1s2   ../starter/source/interfaces/inter3d1/i25sto.F
       !||--- called by ------------------------------------------------------
       !||    i25sto    ../starter/source/interfaces/inter3d1/i25sto.F
-      !||    i25tri    ../starter/source/interfaces/inter3d1/i25tri.F
       !||--- calls      -----------------------------------------------------
       !||    bitget    ../starter/source/interfaces/inter3d1/bitget.F
       !||====================================================================

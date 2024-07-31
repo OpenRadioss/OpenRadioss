@@ -21,10 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    czbe3    ../engine/source/elements/shell/coquez/czbe3.F
+      !||    czbe3   ../engine/source/elements/shell/coquez/czbe3.F
       !||--- called by ------------------------------------------------------
-      !||    czke3    ../engine/source/elements/shell/coquez/czke3.F
-      !||    czkel3   ../engine/source/elements/shell/coquez/czkel3.F
+      !||    czke3   ../engine/source/elements/shell/coquez/czke3.F
       !||====================================================================
         SUBROUTINE CZBE3(JFT ,JLT  ,AREA ,A_I  ,X13  ,
      2                  X24  ,Y13  ,Y24  ,MX13 ,MX23 ,
@@ -110,7 +109,6 @@ C
       !||    czber3     ../engine/source/elements/shell/coquez/czbe3.F
       !||--- called by ------------------------------------------------------
       !||    czke3      ../engine/source/elements/shell/coquez/czke3.F
-      !||    czkel3     ../engine/source/elements/shell/coquez/czkel3.F
       !||--- calls      -----------------------------------------------------
       !||    czderirz   ../engine/source/elements/shell/coquez/czdef.F
       !||====================================================================

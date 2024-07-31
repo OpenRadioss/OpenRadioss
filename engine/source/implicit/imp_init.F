@@ -342,7 +342,6 @@ C-----
       !||    iktmat_ini     ../engine/source/implicit/imp_init.F
       !||--- called by ------------------------------------------------------
       !||    get_etfac_s    ../engine/source/elements/solid/solide8z/get_etfac_s.F
-      !||    nul_etfac_s    ../engine/source/elements/solid/solide8z/nul_etfac_s.F
       !||    put_etfac      ../engine/source/elements/solid/solide8z/put_etfac.F
       !||--- uses       -----------------------------------------------------
       !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F

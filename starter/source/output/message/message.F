@@ -97,7 +97,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    definter                            ../starter/source/interfaces/interf1/definter.F
       !||    domdec2                             ../starter/source/spmd/domdec2.F
       !||    dometis                             ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    dometis2                            ../starter/source/spmd/domain_decomposition/domdecs.F
       !||    ecran1                              ../starter/source/initial_conditions/detonation/ecran1.F
       !||    elstagboxbox                        ../starter/source/model/box/boxbox.F
       !||    error_alloc                         ../starter/source/system/error_alloc.F
@@ -538,7 +537,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i25sors                             ../starter/source/interfaces/inter3d1/i25sors.F
       !||    i25sti3                             ../starter/source/interfaces/inter3d1/i25sti3.F
       !||    i25surfi                            ../starter/source/interfaces/inter3d1/i25surfi.F
-      !||    i25tri                              ../starter/source/interfaces/inter3d1/i25tri.F
       !||    i2buc1                              ../starter/source/interfaces/inter3d1/i2buc1.F
       !||    i2chk3                              ../starter/source/interfaces/inter3d1/i2chk3.F
       !||    i2surfs                             ../starter/source/interfaces/inter3d1/i2surfs.F

@@ -25,7 +25,6 @@ C NOUVELLE ROUTINE POUR REMPLIR LE TABLEAU DES POIDS
       !||    initwg               ../starter/source/spmd/domain_decomposition/initwg.F
       !||--- called by ------------------------------------------------------
       !||    dometis              ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    dometis2             ../starter/source/spmd/domain_decomposition/domdecs.F
       !||--- calls      -----------------------------------------------------
       !||    init_mid_pid_array   ../starter/source/spmd/tools/init_mid_pid_array.F
       !||    initwg_poutre        ../starter/source/spmd/domain_decomposition/initwg_poutre.F

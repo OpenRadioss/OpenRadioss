@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    s10rrota10   ../engine/source/elements/solid/solide10/s10rrota10.F
-      !||--- called by ------------------------------------------------------
-      !||    sr10coor3    ../engine/source/elements/solid/solide10/sr10coor3.F
       !||====================================================================
       SUBROUTINE S10RROTA10(
      1   R11,     R12,     R13,     R21,

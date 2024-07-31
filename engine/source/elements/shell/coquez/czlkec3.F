@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    czlkec3   ../engine/source/elements/shell/coquez/czlkec3.F
       !||--- called by ------------------------------------------------------
       !||    czke3     ../engine/source/elements/shell/coquez/czke3.F
-      !||    czkel3    ../engine/source/elements/shell/coquez/czkel3.F
       !||====================================================================
         SUBROUTINE CZLKEC3(JFT ,JLT   ,VOL  ,THK0 ,THK2 ,
      2                     HM  ,HF    ,HZ   ,A_I  ,Z1   ,
@@ -633,7 +632,6 @@ C
       !||    czlkecr3   ../engine/source/elements/shell/coquez/czlkec3.F
       !||--- called by ------------------------------------------------------
       !||    czke3      ../engine/source/elements/shell/coquez/czke3.F
-      !||    czkel3     ../engine/source/elements/shell/coquez/czkel3.F
       !||====================================================================
         SUBROUTINE CZLKECR3(JFT ,JLT   ,VOL  ,THK0 ,THK2 ,
      2                     HM  ,HF    ,HZ   ,A_I  ,Z1   ,

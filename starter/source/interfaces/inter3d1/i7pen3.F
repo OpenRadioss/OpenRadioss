@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i23tri       ../starter/source/interfaces/inter3d1/i23tri.F
       !||    i24buc1      ../starter/source/interfaces/inter3d1/i24buc1.F
       !||    i24tri       ../starter/source/interfaces/inter3d1/i24tri.F
-      !||    i25tri       ../starter/source/interfaces/inter3d1/i25tri.F
       !||    i7buc1       ../starter/source/interfaces/inter3d1/i7buc1.F
       !||    i7buc_vox1   ../starter/source/interfaces/inter3d1/i7buc_vox1.F
       !||    i7tri        ../starter/source/interfaces/inter3d1/i7tri.F

@@ -40,7 +40,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    czforc3            ../engine/source/elements/shell/coquez/czforc3.F
       !||    czforc3_crk        ../engine/source/elements/xfem/czforc3_crk.F
       !||    czke3              ../engine/source/elements/shell/coquez/czke3.F
-      !||    czkel3             ../engine/source/elements/shell/coquez/czkel3.F
       !||    drape_rrest        ../engine/source/output/restart/rdresb.F
       !||    drape_wrest        ../engine/source/output/restart/wrrest.F
       !||    dynain_c_strag     ../engine/source/output/dynain/dynain_c_strag.F

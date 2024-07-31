@@ -429,7 +429,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lecfill                         ../starter/source/elements/initia/lecfill.F
       !||    lecgroup                        ../starter/source/groups/lecgroup.F
       !||    lecint                          ../starter/source/interfaces/interf1/lecint.F
-      !||    lecm91                          ../starter/source/materials/mat/mat091/lecm91.F
       !||    lecrefsta                       ../starter/source/loads/reference_state/refsta/lecrefsta.F
       !||    lecsec42                        ../starter/source/tools/sect/hm_read_sect.F
       !||    lecsec4bolt                     ../starter/source/tools/sect/lecsec4bolt.F

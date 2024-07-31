@@ -45,7 +45,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_savesph          ../engine/source/mpi/sph/spmd_sptool.F
       !||    spmd_spamaj           ../engine/source/mpi/sph/spmd_spamaj.F
       !||    spmd_sphgat           ../engine/source/mpi/sph/spmd_sphgat.F
-      !||    spmd_sphgat_old       ../engine/source/mpi/sph/spmd_sphgat.F
       !||    spmd_sphgeta          ../engine/source/mpi/elements/spmd_sph.F
       !||    spmd_sphgetd          ../engine/source/mpi/elements/spmd_sph.F
       !||    spmd_sphgetdk         ../engine/source/mpi/elements/spmd_sph.F
@@ -57,13 +56,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_sphgetstb        ../engine/source/mpi/elements/spmd_sph.F
       !||    spmd_sphgett          ../engine/source/mpi/elements/spmd_sph.F
       !||    spmd_sphgetv          ../engine/source/mpi/sph/spmd_sphgetv.F
-      !||    spmd_sphgetv_old      ../engine/source/mpi/sph/spmd_sphgetv.F
       !||    spmd_sphgetvois_off   ../engine/source/mpi/elements/spmd_sph.F
       !||    spmd_sphgetw          ../engine/source/mpi/elements/spmd_sph.F
       !||    spmd_sphgetwa         ../engine/source/mpi/elements/spmd_sph.F
       !||    spmd_sphgetx          ../engine/source/mpi/elements/spmd_sph.F
       !||    spmd_sphvox           ../engine/source/mpi/sph/spmd_sphvox.F
-      !||    spmd_sphvox_old       ../engine/source/mpi/sph/spmd_sphvox.F
       !||    sponfprs              ../engine/source/elements/sph/sponfprs.F
       !||    sponfro               ../engine/source/elements/sph/sponfro.F
       !||    sponfv                ../engine/source/elements/sph/sponfv.F

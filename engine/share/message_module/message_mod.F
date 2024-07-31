@@ -338,7 +338,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    s10cndf2                           ../engine/source/elements/solid/solide10/s10cndf.F
       !||    s10deri3                           ../engine/source/elements/solid/solide10/s10deri3.F
       !||    s10derit3                          ../engine/source/elements/solid/solide10/s10derit3.F
-      !||    s10derito3                         ../engine/source/elements/solid/solide10/s10derito3.F
       !||    s16deri3                           ../engine/source/elements/thickshell/solide16/s16deri3.F
       !||    s20deri3                           ../engine/source/elements/solid/solide20/s20deri3.F
       !||    s4jac_i                            ../engine/source/elements/solid/solide4/s4jac_i.F
@@ -443,10 +442,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_rst_check                     ../engine/source/mpi/init/spmd_rst_check.F
       !||    spmd_sd_xv                         ../engine/source/mpi/nodes/spmd_sd_xv.F
       !||    spmd_sphgat                        ../engine/source/mpi/sph/spmd_sphgat.F
-      !||    spmd_sphgat_old                    ../engine/source/mpi/sph/spmd_sphgat.F
       !||    spmd_sphgetdk                      ../engine/source/mpi/elements/spmd_sph.F
       !||    spmd_sphvox                        ../engine/source/mpi/sph/spmd_sphvox.F
-      !||    spmd_sphvox_old                    ../engine/source/mpi/sph/spmd_sphvox.F
       !||    spmd_tri10box                      ../engine/source/mpi/interfaces/spmd_int.F
       !||    spmd_tri10gat                      ../engine/source/mpi/interfaces/spmd_int.F
       !||    spmd_tri11gat                      ../engine/source/mpi/interfaces/spmd_int.F

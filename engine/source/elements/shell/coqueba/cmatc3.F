@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    c3ke3          ../engine/source/elements/sh3n/coque3n/c3ke3.F
       !||    cbake3         ../engine/source/elements/shell/coqueba/cbake3.F
       !||    czke3          ../engine/source/elements/shell/coquez/czke3.F
-      !||    czkel3         ../engine/source/elements/shell/coquez/czkel3.F
       !||--- calls      -----------------------------------------------------
       !||    cctoglob       ../engine/source/elements/shell/coqueba/cmatc3.F
       !||    gepm_lc        ../engine/source/elements/shell/coqueba/cmatc3.F

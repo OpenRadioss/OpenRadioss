@@ -21,13 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    s8bicp11     ../engine/source/elements/solid/solide8e/s8bicp11.F
+      !||    s8bicp11    ../engine/source/elements/solid/solide8e/s8bicp11.F
       !||--- called by ------------------------------------------------------
-      !||    s8ederi3     ../engine/source/elements/solid/solide8e/s8ederi3.F
-      !||    s8ederi_2    ../engine/source/elements/solid/solide8e/s8ederi_2.F
-      !||    s8ederio3    ../engine/source/elements/solid/solide8e/s8ederio3.F
-      !||    s8ederiom3   ../engine/source/elements/solid/solide8e/s8ederiom3.F
-      !||    s8ederiot3   ../engine/source/elements/solid/solide8e/s8ederiot3.F
+      !||    s8ederi_2   ../engine/source/elements/solid/solide8e/s8ederi_2.F
       !||====================================================================
       SUBROUTINE S8BICP11(
      1   PX1,     PX2,     PX3,     PX4,

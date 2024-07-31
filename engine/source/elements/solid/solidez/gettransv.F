@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    gettransv   ../engine/source/elements/solid/solidez/gettransv.F
       !||--- called by ------------------------------------------------------
-      !||    m24c2arm    ../engine/source/elements/solid/solidez/m24c2arm.F
       !||    mdama24     ../engine/source/elements/solid/solidez/mdama24.F
       !||    mmodul      ../engine/source/elements/solid/solidez/mmodul.F
       !||====================================================================
