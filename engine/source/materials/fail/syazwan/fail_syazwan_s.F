@@ -173,7 +173,6 @@ c
             UELR(I)     = UELR(I) + ONE
             IF (NINT(UELR(I)) >= FAILIP) THEN 
               OFF(I)    = FOUR_OVER_5
-              IDEL7NOK  = 1   
               TDELE(I)  = TIME
               NINDX2    = NINDX2 + 1 
               INDX2(NINDX2) = I

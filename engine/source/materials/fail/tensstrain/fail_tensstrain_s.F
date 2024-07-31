@@ -650,7 +650,6 @@ c---------------
 c--------------------------
 c
       IF (NINDXF > 0 .AND. IMCONV == 1) THEN
-        IDEL7NOK = 1    
         DO J=1,NINDXF
 #include "lockon.inc"
           WRITE(IOUT, 1000) NGL(INDXF(J))

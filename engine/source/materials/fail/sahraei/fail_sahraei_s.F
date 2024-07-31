@@ -454,7 +454,6 @@ c
       !=======================================================================        
       ! Volumetric strain failure
       IF (NINDX1 > 0)THEN 
-        IDEL7NOK = 1
         DO J=1,NINDX1
           I = INDX1(J)
 #include "lockon.inc"
@@ -465,7 +464,6 @@ c
       ENDIF
       ! Compression limit failure
       IF (NINDX2 > 0)THEN 
-        IDEL7NOK = 1
         DO J=1,NINDX2
           I = INDX2(J)
           IF (MAX_COMP_STRAIN > ZERO) THEN

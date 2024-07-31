@@ -100,7 +100,7 @@ C-----------------------------------------------
       INTEGER :: I,J,IPT,IPID,IPLA,NPAR,IADBUF,NFUNC,ISRATE,IPY,IPZ,IPA,II(3)
       my_real :: DTINV,ASRATE,EPSDI,DMPM,DMPF,SPE,SPG,RHO,FACT,AREA,
      .           DMM,DMPFL,IXX,IYY,IZZ,G,E,DAMAGE_LOC,DFXX,DFXY,DFXZ
-      my_real ,DIMENSION(NEL ):: DEGMB,DEGSH,DEGFX,YPT,ZPT,APT
+      my_real ,DIMENSION(NEL ):: DEGMB,DEGSH,DEGFX,YPT,ZPT,APT,OFF_OLD
       my_real ,DIMENSION(:,:) ,ALLOCATABLE :: DPLA
 C=======================================================================
       IPY  = 200        
@@ -124,6 +124,9 @@ c     calculate total strain rate on neutral fiber position
           EPSD(I)= EPSDI
         ENDIF                                                   
       ENDDO
+c
+      ! Save old OFF value
+      OFF_OLD(1:NEL) = OFF(1:NEL)
 c-------------------
 c     STRAIN
 c-------------------
@@ -283,7 +286,6 @@ c     Check element erosion (IMCONV = 1 => convergence of implicit)
 c----------------------------
       DO I = 1,NEL
         IF (OFF(I) == FOUR_OVER_5 .AND. IMCONV == 1) THEN 
-          IDEL7NOK = 1            
 #include "lockon.inc"
           WRITE(IOUT, 1000) NGL(I)
           WRITE(ISTDO,1100) NGL(I),TIME
@@ -294,6 +296,15 @@ C
       DO I = 1,NEL
         IF (OFF(I) < EM01)  OFF(I) = ZERO
         IF (OFF(I) < ONE )  OFF(I) = OFF(I)*FOUR_OVER_5
+      ENDDO 
+c
+c--------------------------------------------------------
+c     SHOOTING NODES ALGORITHM ACTIVATION
+c--------------------------------------------------------
+      DO I = 1,NEL
+        IF ((OFF_OLD(I) > ZERO) .AND. (OFF(I) == ZERO)) THEN 
+          IDEL7NOK = 1
+        ENDIF
       ENDDO      
 c
       DEALLOCATE (DPLA)

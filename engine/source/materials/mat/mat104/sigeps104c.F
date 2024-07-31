@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THK     ,SIGY    ,
      7     ET      ,VARNL   ,DMG     ,L_DMG   ,TEMP    ,SEQ     ,INLOC   ,
      8     NPTR    ,NPTS    ,NPTT    ,BUFLY   ,PLA_NL  ,L_PLANL ,PLAP_NL ,
-     9     L_EPSDNL,IOFF_DUCT,IDEL7NOK)
+     9     L_EPSDNL,IOFF_DUCT)
      
       USE ELBUFDEF_MOD
 C-----------------------------------------------
@@ -88,7 +88,6 @@ c
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
       TYPE(BUF_LAY_), INTENT(IN) :: BUFLY
-      INTEGER, INTENT(INOUT) :: IDEL7NOK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -217,7 +216,6 @@ c--------------------------
           IF (OFFL(I) == FOUR_OVER_5) THEN
             NINDX      = NINDX+1
             INDX(NINDX)= I
-            IDEL7NOK   = 1
           ENDIF
         ENDDO
         IF (NINDX>0) THEN

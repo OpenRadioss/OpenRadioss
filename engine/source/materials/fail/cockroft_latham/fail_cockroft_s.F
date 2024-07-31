@@ -230,7 +230,6 @@ c!   principal stress calculation
             TDELE(I)    = TIME  
             NINDX       = NINDX+1
             INDX(NINDX) = I              
-            IDEL7NOK    = 1   
             
             OFF(I) = FOUR_OVER_5
 

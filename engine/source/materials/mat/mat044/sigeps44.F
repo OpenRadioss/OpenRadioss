@@ -421,7 +421,6 @@ C----------------------------------
 C
       DO I=1,NEL
         SIGY(I) = MAX(SIGY(I),YLD(I))
-        IF(OFF(I)<ONE) IDEL7NOK = 1
         IF (DPLA1(I) > ZERO) THEN
           ET(I) = H(I) / (H(I) + E)
         ELSE

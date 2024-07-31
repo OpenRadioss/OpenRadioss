@@ -355,7 +355,6 @@ c             IF(IOFF == 6 .AND. NFIS3(I) == NPT) JOFF=1
                     WRITE(ISTDO,1100) NGL(I),TT
 #include "lockoff.inc"
                  ENDIF
-                 IDEL7NOK = 1
              ENDIF
           ENDIF
        ENDDO

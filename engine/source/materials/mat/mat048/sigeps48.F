@@ -333,9 +333,6 @@ c        P = C1(I) * (RHO(I)/RHO0(I)- ONE)
       ENDDO
 C
       DO I=1,NEL
-        IF(OFF(I)<ONE) IDEL7NOK = 1
-      ENDDO
-      DO I=1,NEL
         SIGY(I)=MAX(SIGY(I),YLD(I))
         DEFP(I)=UVAR(I,1)
       ENDDO

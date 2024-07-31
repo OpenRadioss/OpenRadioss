@@ -901,8 +901,8 @@ C
      A                  GRESAV       ,GRTH         ,IGRTH       ,TABLE     ,IGEO     ,
      B                  VOLN         ,ITASK        ,MS_2D       ,FSKYM     ,IOUTPRT  ,MAT_ELEM,
      C              H3D_DATA%STRAIN  ,SZ_BUFVOIS   ,SNPC        ,STF       ,SBUFMAT  ,
-     D                  SVIS,NSVOIS,IDTMINS        ,IRESP       ,TT        ,DT1,      
-     .                  IDEL7NG      ,IDEL7NOK     ,IDTMIN      ,MAXFUNC,  
+     D                  SVIS,NSVOIS,IRESP       ,TT        ,DT1,      
+     .                  IDEL7NOK     ,IDTMIN      ,MAXFUNC,  
      .                  IMON_MAT,USERL_AVAIL, heat_meca, impl_s,     idyna) 
 c
                  ELSEIF (ITY == 2 .AND. JMULT /= 0) THEN
@@ -917,8 +917,8 @@ c
      8                  IPM ,BUFVOIS,
      9                  GRESAV,GRTH , IGRTH         , TABLE     , IGEO            ,
      O                  VOLN  ,ITASK, MS_2D         , FSKYM     , MAT_ELEM        ,
-     B                  IBID,OUTPUT,SZ_BUFVOIS      ,SNPC,STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,IRESP,
-     C                  IDEL7NG     , IDEL7NOK      ,IDTMIN     ,MAXFUNC,
+     B                  IBID,OUTPUT,SZ_BUFVOIS      ,SNPC,STF,SBUFMAT,SVIS,NSVOIS,IRESP,
+     C                  IDEL7NOK    ,IDTMIN         ,MAXFUNC,
      E                  IMON_MAT    , USERL_AVAIL   ,heat_meca  ,impl_s,
      F                  idyna)
                  ENDIF

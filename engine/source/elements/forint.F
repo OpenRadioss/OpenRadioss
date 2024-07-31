@@ -1167,8 +1167,8 @@ C----6---------------------------------------------------------------7---------8
      A        GRESAV  ,GRTH   ,IGRTH(OFF_IGRTH+NF1),TABLE,IGEO ,
      B        VOLN    ,ITASK  ,MS_2D   ,FSKYM     ,IPRI        ,
      C        MAT_ELEM,H3D_DATA%STRAIN,SBID,SNPC,STF,SBUFMAT,
-     D        SVIS,NSVOIS,IDTMINS,IRESP,TT,DT1,      
-     .        IDEL7NG,     IDEL7NOK,    IDTMIN,     MAXFUNC,  
+     D        SVIS,NSVOIS,IRESP,TT,DT1,      
+     .        IDEL7NOK,    IDTMIN,     MAXFUNC,  
      .        IMON_MAT,USERL_AVAIL, heat_meca, impl_s,     idyna)
 
           ENDIF

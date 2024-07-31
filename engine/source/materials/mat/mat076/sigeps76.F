@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4           SIGOXX  ,SIGOYY  ,SIGOZZ   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
      5           SIGNXX  ,SIGNYY  ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      6           OFF     ,EPSD    ,PLA      ,INLOC    ,L_PLANL  ,PLANL    ,
-     7           DMG     ,IDEL7NOK,NVARTMP ,VARTMP  )
+     7           DMG     ,NVARTMP ,VARTMP  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,7 +56,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 C=======================================================================
       INTEGER, INTENT(IN) :: NEL,NFUNC,NUPARAM,NUVAR,INLOC,L_PLANL
-      INTEGER, INTENT(INOUT) :: IDEL7NOK
       INTEGER ,INTENT(IN)    :: NVARTMP
       INTEGER, DIMENSION(NFUNC), INTENT(IN) :: IFUNC
       INTEGER, DIMENSION(NEL), INTENT(IN) :: NGL
@@ -165,7 +164,6 @@ c
             DMG(I) = ONE
             IF (OFF(I) == ONE) THEN 
               OFF(I)      = FOUR_OVER_5
-              IDEL7NOK    = 1
               NINDX       = NINDX+1
               INDX(NINDX) = I
             ENDIF
@@ -182,7 +180,6 @@ c
           IF (DMG(I) >= ONE) THEN 
             IF (OFF(I) == ONE) THEN 
               OFF(I)      = FOUR_OVER_5
-              IDEL7NOK    = 1
               NINDX       = NINDX+1
               INDX(NINDX) = I
             ENDIF

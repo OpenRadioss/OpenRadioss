@@ -363,7 +363,6 @@ C
           IF (DAM(I) >= DC) THEN
             DAM(I) = DC
             OFF(I) = FOUR_OVER_5
-            IDEL7NOK = 1
             NINDX = NINDX+1
             INDX(NINDX)=I
           ENDIF  

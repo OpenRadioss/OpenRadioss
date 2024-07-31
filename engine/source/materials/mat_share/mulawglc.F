@@ -109,6 +109,7 @@ C-----------------------------------------------
      .   ETSE(MVSIZ)  ,EPSPL(MVSIZ),EPSP_LOC(MVSIZ)
       my_real,DIMENSION(:) ,POINTER :: UVAR
       my_real, DIMENSION(MVSIZ) :: DT_INV
+      my_real, DIMENSION(NEL) :: OFF_OLD
 C-------------------------------------
       INTEGER, DIMENSION(:), POINTER :: VARTMP
       TYPE(L_BUFEL_) ,POINTER :: LBUF
@@ -145,7 +146,8 @@ C
         DT_INV(I) = DT1C(I)/MAX(DT1C(I)**2,EM20)
       ENDDO
 !
-      ETSE(1:MVSIZ) = ZERO      
+      ETSE(1:MVSIZ) = ZERO   
+      OFF_OLD(1:NEL) = OFF(1:NEL)   
 C-----------------------------------------------------------
 C     EPS POINT EQUIVALENT (au sens energetique)
 C-----------------------------------------------------------
@@ -564,8 +566,16 @@ C----------------------------
           INDX(NINDX)=I
         ENDIF
       ENDDO
+c--------------------------------------------------------
+c     SHOOTING NODES ALGORITHM ACTIVATION
+c--------------------------------------------------------
+      DO I = 1,NEL
+        IF ((OFF_OLD(I) > ZERO) .AND. (OFF(I) == ZERO)) THEN 
+          IDEL7NOK = 1
+        ENDIF
+      ENDDO       
+c--------------------------------------------------------
       IF (NINDX > 0) THEN
-        IDEL7NOK = 1
         IF (IMCONV == 1) THEN
           DO I = 1, NINDX
 #include "lockon.inc"

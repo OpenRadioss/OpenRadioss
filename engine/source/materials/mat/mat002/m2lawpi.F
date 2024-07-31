@@ -288,7 +288,6 @@ C
         DO  I=JFT,JLT
           IF (LBUF%PLA(I) >= EPMX(I) .AND. OFF(I) == ONE) THEN
             OFF(I)=FOUR_OVER_5
-            IDEL7NOK = 1
           ENDIF
         ENDDO                                          
 C-----------

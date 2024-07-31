@@ -349,7 +349,6 @@ c
             SIGPRV(I,1)=ZERO
             SIGPRV(I,2)=ZERO
             SIGPRV(I,3)=ZERO
-            IF(OFF(I)/=ZERO) IDEL7NOK = 1
             OFF(I)=ZERO
           ENDIF
         ENDDO

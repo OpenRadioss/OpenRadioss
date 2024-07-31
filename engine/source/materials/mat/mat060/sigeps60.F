@@ -603,7 +603,6 @@ C
           OFF(I)= FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
-          IDEL7NOK = 1
         ENDIF
       ENDDO
       IF(NINDX>0)THEN

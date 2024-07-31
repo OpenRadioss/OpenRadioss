@@ -471,6 +471,7 @@
           my_real :: fisokin
           my_real, dimension(nel), target :: vecnul
           my_real, dimension(:), pointer  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
+          my_real, dimension(nel) :: off_old
 !=======================================================================
           gbuf   => elbuf_tab(ng)%gbuf
           lbuf   => elbuf_tab(ng)%bufly(ilay)%lbuf(iptr,ipts,iptt)
@@ -556,6 +557,9 @@
           else
             defp0(1:nel) = zero
           endif
+!
+          ! Save old value of OFF flag
+          off_old(1:nel) = off(1:nel)
 
 
           if (mtn == 67) then
@@ -1453,7 +1457,7 @@
             &so1      ,so2      ,so3      ,so4      ,so5      ,so6       ,&
             &s1       ,s2       ,s3       ,s4       ,s5       ,s6        ,&
             &off      ,epsd     ,defp     ,inloc    ,l_planl  ,lbuf%planl,&
-            &lbuf%dmg ,idel7nok ,nvartmp  ,vartmp   )
+            &lbuf%dmg ,nvartmp  ,vartmp   )
 !
           elseif (mtn == 78) then
             call sigeps78(nel ,npar,nuvar,nfunc,ifunc,npf ,&
@@ -1492,7 +1496,7 @@
             &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,&
             &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
             &epsd     ,lbuf%dmg ,ssp      ,uvar     ,off      ,amu      ,&
-            &idel7nok ,et       )
+            &et       )
 !
           elseif (mtn == 80) then
             call sigeps80(&
@@ -1970,7 +1974,7 @@
             &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,&
             &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,&
             &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-            &epsd     ,lbuf%dmg ,ssp      ,off      ,idel7nok ,inloc    ,&
+            &epsd     ,lbuf%dmg ,ssp      ,off      ,inloc    ,&
             &varnl    ,l_planl  ,lbuf%planl)
 !
           elseif (mtn == 187) then !barlat 2000
@@ -2404,7 +2408,7 @@
                 &npg      ,ipg      ,ilay     ,off      ,lbuf%off ,gbuf%noff,&
                 &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,&
                 &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-                &tt       ,tdel     ,dfmax    ,deltax   ,lbuf%dmgscl,idel7nok)
+                &tt       ,tdel     ,dfmax    ,deltax   ,lbuf%dmgscl)
 !
               endif
             enddo ! ir = 1,nfail
@@ -2437,6 +2441,15 @@
             &sv6     ,s3      ,es3     ,rho0    ,rhoref )
           endif
 !=======================================================================
+!--------------------------------------------------------
+!     Shooting nodes algorithm activation
+!--------------------------------------------------------
+          do i = 1,nel
+            if ((off_old(i) > zero) .and. (off(i) == zero)) then 
+              idel7nok = 1
+            endif
+          enddo 
+!          
 !--------------------------------------------------------
 !     damaged stresses
 !---------------------------------------------------------

@@ -71,8 +71,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A                  GRESAV   ,GRTH    ,IGRTH       ,TABLE    ,IGEO    ,
      B                  VOLN     ,ITASK   ,MS_2D       ,FSKYM    ,IOUTPRT ,
      C                  MAT_ELEM ,H3D_STRAIN,SZ_BUFVOIS,SNPC,STF,SBUFMAT  ,
-     D                  SVIS,NSVOIS,IDTMINS,IRESP,TT,DT1,      
-     .                  IDEL7NG,     IDEL7NOK,    IDTMIN,     MAXFUNC,  
+     D                  SVIS,NSVOIS,IRESP,TT,DT1,      
+     .                  IDEL7NOK,    IDTMIN,     MAXFUNC,  
      .                  IMON_MAT,USERL_AVAIL, heat_meca, impl_s,     idyna)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -139,9 +139,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: STF
       INTEGER, INTENT(IN) :: SBUFMAT
       INTEGER, INTENT(IN) :: NSVOIS
-      INTEGER, INTENT(IN) :: IDTMINS
       INTEGER ,INTENT(IN) :: IRESP
-      INTEGER ,INTENT(IN) :: IDEL7NG
       INTEGER ,INTENT(INOUT) :: IDEL7NOK
       integer,dimension(102) :: IDTMIN
       INTEGER ,INTENT(IN) :: MAXFUNC
@@ -426,11 +424,11 @@ c
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BUFVOIS,
      S                SNPC,        STF,         SBUFMAT,
-     T   SVIS,        SZ_IX,       IDTMINS,     IRESP,
+     T   SVIS,        SZ_IX,       IRESP,
      U   N2D,         TH_STRAIN,   NGROUP,      TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,            
-     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
      .   idyna)
 C--------------------------

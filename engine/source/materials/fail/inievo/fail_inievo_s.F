@@ -438,7 +438,6 @@ c
             LOFF(I)     = ZERO
             IF (NINT(UELR(I)) >= FAILIP) THEN 
               OFF(I)    = ZERO
-              IDEL7NOK  = 1   
               TDELE(I)  = TIME
             ENDIF
           ENDIF

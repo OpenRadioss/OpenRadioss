@@ -1572,7 +1572,6 @@ c
           ENDIF
         END IF
         IF (NINDX > 0 .AND. IMCONV == 1) THEN
-          IDEL7NOK = 1
           DO J=1,NINDX
 #include "lockon.inc"
             WRITE(IOUT, 1000) NGL(INDX(J))

@@ -45,7 +45,7 @@
           depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   , &
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   , &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   , &
-          epsd     ,dmg      ,ssp      ,off      ,idel7nok ,inloc    , &
+          epsd     ,dmg      ,ssp      ,off      ,inloc    , &
           varnl    ,l_planl  ,planl    )
 !-----------------------------------------------
 !   M o d u l e s
@@ -95,7 +95,6 @@
           my_real, dimension(nel), intent(inout) :: dmg !< damage variable 
           my_real, dimension(nel), intent(inout) :: ssp !< sound speed
           my_real, dimension(nel), intent(inout) :: off !< element deletion flag
-          integer, intent(inout) :: idel7nok !< flag for element deletion in interface type 7
           integer, intent(in) :: inloc !< non-local method flag
           my_real, dimension(nel), intent(inout) :: varnl !< non-local variable increment
           integer, intent(in) :: l_planl !< size of the non-local plastic strain table
@@ -195,28 +194,24 @@
                     off(i) = four_over_5
                     nindx  = nindx + 1
                     indx(nindx) = i
-                    idel7nok = 1
                   endif 
                 elseif (idel == 2) then 
                   if (planl(i) > emax) then 
                     off(i) = four_over_5
                     nindx  = nindx + 1
                     indx(nindx) = i
-                    idel7nok = 1
                   endif
                 elseif (idel == 3) then 
                   if (uvar(i,4) <= zero) then 
                     off(i) = four_over_5
                     nindx  = nindx + 1
                     indx(nindx) = i
-                    idel7nok = 1
                   endif   
                 elseif (idel == 4) then 
                   if (dmg(i) >= one) then 
                     off(i) = four_over_5
                     nindx  = nindx + 1
                     indx(nindx) = i
-                    idel7nok = 1
                   endif          
                 endif
               endif
@@ -319,28 +314,24 @@
                     off(i) = four_over_5
                     nindx  = nindx + 1
                     indx(nindx) = i
-                    idel7nok = 1
                   endif 
                 elseif (idel == 2) then 
                   if (defp(i) > emax) then 
                     off(i) = four_over_5
                     nindx  = nindx + 1
                     indx(nindx) = i
-                    idel7nok = 1
                   endif
                 elseif (idel == 3) then 
                   if (fc*sigy(i) <= zero) then 
                     off(i) = four_over_5
                     nindx  = nindx + 1
                     indx(nindx) = i
-                    idel7nok = 1
                   endif   
                 elseif (idel == 4) then 
                   if (dmg(i) >= one) then 
                     off(i) = four_over_5
                     nindx  = nindx + 1
                     indx(nindx) = i
-                    idel7nok = 1
                   endif          
                 endif
               endif
