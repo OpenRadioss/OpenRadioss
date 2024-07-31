@@ -355,7 +355,7 @@ void syserr();
          com->sr_buf = shm + offset + 18*local_len;
          com->vx_buf = shm + offset + 19*local_len;
          com->vr_buf = shm + offset + 22*local_len;
-         com->dx_buf = shm + offset + 25*local_len;
+         com->dx_buf = (double*) (shm + offset + 25*local_len);
          com->buf    = shmi + offseti ;
          com->itagr  = shmi + offseti + 10;
          com->itagr2 = shmi + offseti + 10 + local_len;
