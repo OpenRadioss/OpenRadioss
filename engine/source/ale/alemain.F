@@ -307,34 +307,36 @@ C  IOUTPRT (assembly report)
       !---------------------------------------------
       !     INTERFACE 18 - VARIABLE GAP
       !---------------------------------------------
-       IF(INTER18_IS_VARIABLE_GAP_DEFINED)THEN
-          NEED_COMM_INTER18 = .TRUE.
-          DO NG=ITASK+1,NGROUP,NTHREAD
-             IF (TT > ZERO .AND. IPARG(76, NG) == 1) CYCLE ! --> OFF
-             IF(IPARG(8,NG) == 1) CYCLE
-             ISOLNOD=IPARG(28,NG)
-             CALL INITBUF(
-     1          IPARG   ,NG      ,
-     2          MTN     ,NEL     ,NFT     ,IAD      ,ITY     ,
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL     ,JTUR    ,
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE     ,JIVF    ,
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE   ,IPLA    ,
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT    ,ISROT   ,
-     7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE ,JSMS    )
-             IF (ITY == 1 .AND. ISOLNOD /= 4) THEN    
-               DO I=1,NEL                             
-                 XCELL(1,I+NFT)=EXP(LOG(ELBUF_TAB(NG)%GBUF%VOL(I))/THREE)
-                 XCELL(2,I+NFT)=ZERO
-                 XCELL(3,I+NFT)=ZERO      
-               ENDDO      
-             ENDIF                                    
-          ENDDO
-      CALL MY_BARRIER
-        IF(NSPMD>1)THEN
-           LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
-           CALL SPMD_ENVOIS(3, XCELL, NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)    
+      IF(INTER18_IS_VARIABLE_GAP_DEFINED)THEN
+        NEED_COMM_INTER18 = .TRUE.
+        DO NG=ITASK+1,NGROUP,NTHREAD
+           IF (TT > ZERO .AND. IPARG(76, NG) == 1) CYCLE ! --> OFF
+           IF(IPARG(8,NG) == 1) CYCLE
+           ISOLNOD=IPARG(28,NG)
+           CALL INITBUF(
+     1        IPARG   ,NG      ,
+     2        MTN     ,NEL     ,NFT     ,IAD      ,ITY     ,
+     3        NPT     ,JALE    ,ISMSTR  ,JEUL     ,JTUR    ,
+     4        JTHE    ,JLAG    ,JMULT   ,JHBE     ,JIVF    ,
+     5        NVAUX   ,JPOR    ,JCVT    ,JCLOSE   ,IPLA    ,
+     6        IREP    ,IINT    ,IGTYP   ,ISRAT    ,ISROT   ,
+     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE ,JSMS    )
+           IF (ITY == 1 .AND. ISOLNOD /= 4) THEN
+             DO I=1,NEL
+               XCELL(1,I+NFT)=EXP(LOG(ELBUF_TAB(NG)%GBUF%VOL(I))/THREE)
+               XCELL(2,I+NFT)=ZERO
+               XCELL(3,I+NFT)=ZERO
+             ENDDO
+           ENDIF
+        ENDDO
+        CALL MY_BARRIER
+        IF(NSPMD > 1)THEN
+!$OMP SINGLE
+          LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
+          CALL SPMD_ENVOIS(3, XCELL, NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
+!$OMP END SINGLE
         ENDIF
-      ENDIF      
+      ENDIF
 
       !--------------------------------------------------------
       ! F L U I D E
@@ -350,8 +352,8 @@ C  IOUTPRT (assembly report)
             ALE%SUB%IFSUB  = 0
             ALE%SUB%IFSUBM = 1
             ALE%SUB%DT1SAVE= DT1
-            DT1    = TT-T1S
-            T1S    = TT
+            DT1 = TT-T1S
+            T1S = TT
           ELSE
             ALE%SUB%IFSUB=1
             ALE%SUB%IFSUBM=0
@@ -364,13 +366,11 @@ C  IOUTPRT (assembly report)
           DT2SAVE = DT2T
           DT2T    = EP30
         ENDIF
-        CALL ALESUB1(
-     1               ALE_CONNECTIVITY%NALE,V,W,DSAVE,ICODT,ISKEW,SKEW,D,
-     2               ITASK,NODFT,NODLT,FSKY,FSKY      )
+        CALL ALESUB1(ALE_CONNECTIVITY%NALE,V,W,DSAVE,ICODT,ISKEW,SKEW,D,ITASK,NODFT,NODLT,FSKY,FSKY)
       ENDIF
       IF(ALE%SUB%IALESUB == 0  .AND. ITASK == 0)THEN
         ALE%SUB%IFSUB = 0
-        T1S   = TT
+        T1S = TT
       ENDIF
       !-----      
       
@@ -387,9 +387,7 @@ C
           MS(N) = MS(N)*WEIGHT(N)
           MSNF(N) = MSNF(N)*WEIGHT(N)
         ENDDO
-C
         CALL MY_BARRIER
-C
       ENDIF
 C---------------------------------------------------------
 C       ALE - EULER  + 2D : update masses 
@@ -398,9 +396,7 @@ C---------------------------------------------------------
         DO N = NODFT, NODLT
           MS_2D(N) = ZERO
         ENDDO
-C
         CALL MY_BARRIER
-C
       ENDIF
 C
       IF(ALE%SUB%IFSUB == 0)THEN
@@ -409,9 +405,8 @@ C
           IF(ALE%GLOBAL%INCOMP == 0) THEN
             IF(NSEGFLU > 0 .AND. N2D == 0) THEN
               CALL SEGGETV(IPARG,ELBUF_TAB,ALE_CONNECTIVITY,ITASK,SEGVAR)
-C             Comm SPMD SEGVAR Pi -> P0
+              ! Comm SPMD SEGVAR Pi -> P0
               IF(NSPMD > 1) THEN
-
 !$OMP SINGLE
                 CALL SPMD_SEGCOM(SEGVAR,NPSEGCOM,LSEGCOM,NPSEGCOM(NSPMD+1),0)
 !$OMP END SINGLE
@@ -421,11 +416,10 @@ C             Comm SPMD SEGVAR Pi -> P0
             ! INTERFACE CONVECTIONS                          !
             !------------------------------------------------!  
             IF(NINTER /= 0)THEN
-C              element from Interface type 12 calculated on proc_0 + sending X proc_i -> proc_0
-C              Envoi X pour interface type 12 ?
+               !element from Interface type 12 calculated on proc_0 + sending X proc_i -> proc_0
+               !Sending X for interface type 12 ?
                IF (ITASK == 0 .AND. ISPMD == 0)
-     .           CALL INTTI0(IPARI ,X      ,V    ,WA    ,
-     .                       ITAB  ,IPARG,IXS,SEGVAR,SKEW,ISKWN,INTBUF_TAB)
+     .           CALL INTTI0(IPARI ,X ,V ,WA ,ITAB ,IPARG ,IXS ,SEGVAR ,SKEW ,ISKWN ,INTBUF_TAB)
                CALL MY_BARRIER
             ENDIF
             !------------------------------------------------!
@@ -779,9 +773,11 @@ C
          ! /ALE/GRID/FLOW-TRACKING - INIT BUFFER
          !---------------------------------------------
           IF(ALE%GRID%NWALE == 7) THEN
+!$OMP SINGLE
              ALE%GRID%flow_tracking_data%EP(1:9)=ZERO
              ALE%GRID%flow_tracking_data%SUM_M = ZERO
              ALE%GRID%flow_tracking_data%NUM_ELEM_ALE = 0
+!$OMP END SINGLE
           ENDIF
 
          !---------------------------------------------
