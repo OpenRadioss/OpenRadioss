@@ -426,19 +426,19 @@ void u_vinter2_(int *jad,int *jpos,int *jlen,int *llt,my_real_c *xx, my_real_c *
 
 void u_vinter2(jad,jpos,jlen,llt,xx,dydx,yy)
 int *jad, *jpos, *jlen,*llt;
-double *xx,*dydx,*yy;
+my_real_c *xx,*dydx,*yy;
 {u_vinter2_(jad,jpos,jlen,llt,xx,dydx,yy);}
 
 
 void _FCALL U_VINTER2(jad,jpos,jlen,llt,xx,dydx,yy)
 int *jad, *jpos, *jlen,*llt;
-double *xx,*dydx,*yy;
+my_real_c *xx,*dydx,*yy;
 {u_vinter2_(jad,jpos,jlen,llt,xx,dydx,yy);}
 
 
 void u_vinter2__(jad,jpos,jlen,llt,xx,dydx,yy)
 int *jad, *jpos, *jlen,*llt;
-double *xx,*dydx,*yy;
+my_real_c *xx,*dydx,*yy;
 {u_vinter2_(jad,jpos,jlen,llt,xx,dydx,yy);}
 
 
@@ -459,19 +459,19 @@ double *xx,*dydx,*yy;
 
 void u_vinter2dp(jad,jpos,jlen,llt,xx,dydx,yy)
 int *jad, *jpos, *jlen,*llt;
-double *xx,*dydx,*yy;
+my_real_c *xx,*dydx,*yy;
 {u_vinter2dp_(jad,jpos,jlen,llt,xx,dydx,yy);}
 
 
 void _FCALL U_VINTER2DP(jad,jpos,jlen,llt,xx,dydx,yy)
 int *jad, *jpos, *jlen,*llt;
-double *xx,*dydx,*yy;
+my_real_c *xx,*dydx,*yy;
 {u_vinter2dp_(jad,jpos,jlen,llt,xx,dydx,yy);}
 
 
 void u_vinter2dp__(jad,jpos,jlen,llt,xx,dydx,yy)
 int *jad, *jpos, *jlen,*llt;
-double *xx,*dydx,*yy;
+my_real_c *xx,*dydx,*yy;
 {u_vinter2dp_(jad,jpos,jlen,llt,xx,dydx,yy);}
 
 
