@@ -193,7 +193,6 @@ c         yp= 3 x^2 + c
 cc          UVAR(I,2)=UVAR(I,2) + TIMESTEP  
          IF (UVAR(I,1)>TBK) THEN
           OFF(I) = FOUR_OVER_5
-          IDEL7NOK = 1
           NINDX=NINDX+1
           INDX(NINDX)=I
           TDELE(I) = TIME  

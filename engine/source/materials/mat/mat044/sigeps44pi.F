@@ -203,7 +203,6 @@ c--------------------------------
 c         test strain failure
           IF (DMG == ZERO .or. PLA(I) >= EPMAX(I)) THEN
             OFF(I)   = FOUR_OVER_5
-            IDEL7NOK = 1
           ENDIF
           IF (VFLAG(I) == 1) THEN 
             ALPHA   = MIN(ONE, ASRATE(I)*DT1)

@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           OFF      ,NPG      ,STACK    ,ISUBSTACK,
      .           IGTYP    ,FAILWAVE ,FWAVE_EL ,NLAY_MAX ,
      .           LAYNPT_MAX,NUMGEO  ,IPG      ,NUMSTACK ,
-     .           IGEO     ,IDEL7NOK )
+     .           IGEO     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,7 +73,6 @@ C-----------------------------------------------
       TYPE (FAILWAVE_STR_), INTENT(IN), TARGET      :: FAILWAVE 
       INTEGER, DIMENSION(NEL), INTENT(INOUT)        :: FWAVE_EL
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
-      INTEGER, INTENT(INOUT) :: IDEL7NOK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -186,7 +185,6 @@ c
               ENDDO ! |-> IG
               IF (COUNTPG == 0) THEN
                 OFF(IEL)  = FOUR_OVER_5  
-                IDEL7NOK  = 1  
                 FAIL_NAME = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(FAIL_NUM(IEL))%KEYWORD 
 #include      "lockon.inc"                           
                 WRITE(IOUT, 1000) TRIM(FAIL_NAME),NGL(IEL)
@@ -297,7 +295,6 @@ c
             IF (((THFACT >= P_THICKG*NORM).AND.(P_THICKG > ZERO)).OR.
      .          ((NPFAIL >= ABS(P_THICKG)).AND.(P_THICKG < ZERO))) THEN
               OFF(IEL) = FOUR_OVER_5  
-              IDEL7NOK = 1                                                           
               IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1                                 
             ENDIF                                                                       
           ENDIF                                                                         
@@ -434,7 +431,6 @@ c
               IF (((THFACT >= P_THICKG*NORM).AND.(P_THICKG > ZERO)).OR.
      .            ((THFACT >= ABS(P_THICKG)).AND.(P_THICKG < ZERO))) THEN
                 OFF(IEL) = FOUR_OVER_5
-                IDEL7NOK = 1  
                 IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1
               ENDIF
             ENDIF

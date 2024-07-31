@@ -216,7 +216,6 @@ C
      .      ABS(EPSYZ(I)/TWO)>EMX23.OR.                             
      .      ABS(EPSZX(I)/TWO)>EMX31).AND.OFF(I)/=ZERO) THEN       
           OFF(I) = ZERO                                            
-          IDEL7NOK = 1                                             
           NINDX=NINDX+1  
           INDX(NINDX)=I  
         ENDIF                                                      

@@ -718,11 +718,11 @@ C Compute stresses according to the material law
      Q   ITASK,       NLOC_DMG,    VAR_REG,     MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH, SZ_BUFVOIS,
      S                SNPC,        STF,         SBUFMAT,
-     T   SVIS,        SZ_IX,       IDTMINS,     IRESP, 
+     T   SVIS,        SZ_IX,       IRESP, 
      *   N2D,         TH_STRAIN,   NGROUP,      TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,      
-     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,idyna   )
 
       IF (ISTRAIN == 1)THEN 

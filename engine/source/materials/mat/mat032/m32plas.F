@@ -376,7 +376,6 @@ C
         ENDIF  !  IF (NINDX > 0) THEN
 c---
         IF (NINDX > 0) THEN
-          IDEL7NOK = 1
           IF (IMCONV == 1) THEN
             DO I = 1, NINDX
 #include   "lockon.inc"

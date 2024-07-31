@@ -320,7 +320,6 @@ c     tension cut
            T(I,1) = ZERO                                                   
            T(I,2) = ZERO                                                   
            T(I,3) = ZERO                                                   
-           IF (OFF(I) /= ZERO) IDEL7NOK = 1                                 
            OFF(I) = ZERO                                                     
         ENDIF
       ENDDO

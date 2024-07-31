@@ -263,7 +263,6 @@ c
               ENDIF  
               !Integration point failure
               IF (LOFF(I) == FOUR_OVER_5) THEN
-                IDEL7NOK      = 1
                 NINDX2        = NINDX2+1
                 INDX2(NINDX2) = I
               ENDIF

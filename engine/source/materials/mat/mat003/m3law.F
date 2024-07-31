@@ -216,7 +216,6 @@ C---------------------------
 #include "lockon.inc"
        WRITE(IOUT,1000) NGL(I)
 #include "lockoff.inc"
-       IDEL7NOK = 1
       ENDDO
       DO I=1,NEL
        SIG(I,1)=SIG(I,1)*OFF(I)

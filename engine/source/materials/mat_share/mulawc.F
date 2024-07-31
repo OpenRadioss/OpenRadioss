@@ -1459,7 +1459,7 @@ c
      6         SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      7         SSP      ,THKN     ,THKLYL   ,LBUF%PLA ,EPSP     ,
      8         ETSE     ,GS       ,SIGY     ,INLOC    ,BUFLY%L_PLANL,
-     9         LBUF%PLANL,VARNL(1,IT),LBUF%DMG,IDEL7NOK,
+     9         LBUF%PLANL,VARNL(1,IT),LBUF%DMG,
      A         NVARTMP  ,VARTMP   ,LBUF%OFF)
 c
                EPSPL(1:NEL) = EPSP(1:NEL)
@@ -1611,7 +1611,7 @@ c
      6         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKN     ,SIGY     ,
      7         ETSE    ,VARNL(1,IT),LBUF%DMG,BUFLY%L_DMG,LBUF%TEMP,LBUF%SEQ,INLOC,
      8         ELBUF_STR%NPTR,ELBUF_STR%NPTS,ELBUF_STR%NPTT,BUFLY    ,LBUF%PLANL,
-     9         BUFLY%L_PLANL ,LBUF%EPSDNL,BUFLY%L_EPSDNL,IOFF_DUCT   ,IDEL7NOK )
+     9         BUFLY%L_PLANL ,LBUF%EPSDNL,BUFLY%L_EPSDNL,IOFF_DUCT   )
 !
           ELSEIF (ILAW == 107 )THEN
             CALL SIGEPS107C(
@@ -1692,7 +1692,7 @@ c
      6         THKN     ,THKLYL   ,OFF      ,SIGY     ,ETSE     ,
      7         LBUF%DMG ,LBUF%SEQ ,SHF      ,SSP      ,
      8         EPSP     ,NFUNC    ,IFUNC    ,NPF      ,TF       ,
-     9         NVARTMP  ,VARTMP   ,IOFF_DUCT,IDEL7NOK )
+     9         NVARTMP  ,VARTMP   ,IOFF_DUCT)
 c
         ELSEIF (ILAW == 125) THEN 
            !---
@@ -2616,7 +2616,7 @@ c--------------------------------------------------
      .                       THK_LY   ,THKLY    ,OFF      ,STACK    ,
      .                       ISUBSTACK,IGTYP    ,FAILWAVE ,FWAVE_EL ,
      .                       NLAY_MAX ,LAYNPT_MAX,NUMGEO  ,NUMSTACK ,
-     .                       IGEO     ,IDEL7NOK )
+     .                       IGEO     )
         ELSE
           CALL FAIL_SETOFF_NPG_C(
      .                       ELBUF_STR,MAT_ELEM ,GEO      ,PID(1)   ,
@@ -2625,7 +2625,7 @@ c--------------------------------------------------
      .                       OFF      ,NPG      ,STACK    ,ISUBSTACK, 
      .                       IGTYP    ,FAILWAVE ,FWAVE_EL ,NLAY_MAX ,
      .                       LAYNPT_MAX,NUMGEO  ,IPG      ,NUMSTACK ,
-     .                       IGEO     ,IDEL7NOK )
+     .                       IGEO     )
         ENDIF
       ENDIF  
 c---
@@ -2637,7 +2637,6 @@ c---
      .        OFF(I) > ZERO   .and. OFF(I) < ONE .and. DMG_FLAG == 1 .and. 
      .        DMG_GLOB_SCALE(I) < EM02) THEN  
             OFF(I) = ZERO
-            IDEL7NOK = 1
             IF (NLAY > 1) THEN 
               NINDX  = NINDX + 1
               INDX(NINDX) = I
@@ -2645,6 +2644,14 @@ c---
           ENDIF
         ENDDO
       ENDIF
+c--------------------------------------------------------
+c     SHOOTING NODES ALGORITHM ACTIVATION
+c--------------------------------------------------------
+      DO I = 1,NEL
+        IF ((OFF_OLD(I) > ZERO) .AND. (OFF(I) == ZERO)) THEN 
+          IDEL7NOK = 1
+        ENDIF
+      ENDDO 
 c------------------------------------------------------------------
 C     MEMBRANE VISCOSITY
 C---------------------------                                              
@@ -2800,7 +2807,6 @@ c---  Shell failure print out
 c
       IOFC = NINDX  !  INDX used before in IELOF - check if still useful
       IF (NINDX > 0 .and. IXEL == 0) THEN
-        IDEL7NOK = 1
         IF (IMCONV == 1) THEN
           DO II = 1,NINDX
             I = INDX(II)

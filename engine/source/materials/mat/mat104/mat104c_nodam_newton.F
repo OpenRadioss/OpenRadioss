@@ -469,7 +469,7 @@ c
           SIG_DFDSIG = SIGNXX(I) * NORMXX
      .               + SIGNYY(I) * NORMYY
      .               + SIGNXY(I) * NORMXY
-          IF (SIG_DFDSIG > ZERO) THEN
+          IF (SIG_DFDSIG > EM01) THEN
             DLAM_NL = (YLD(I)*DPLANL(I))/SIG_DFDSIG
             DEZZ(I) = DEZZ(I) + NNU*(DLAM_NL*NORMXX)
      .                        + NNU*(DLAM_NL*NORMYY)

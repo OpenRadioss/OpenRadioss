@@ -430,7 +430,6 @@ C....COMPUTE F*.....
          ENDIF 
          IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
           OFF(I)=FOUR_OVER_5
-          IDEL7NOK = 1
           WRITE(IOUT, 1000) NGL(I)
           WRITE(ISTDO,1100) NGL(I),TT
          ENDIF
@@ -610,7 +609,6 @@ C
          ENDIF 
          IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
           OFF(I)=FOUR_OVER_5
-          IDEL7NOK = 1
           WRITE(IOUT, 1000) NGL(I)
           WRITE(ISTDO,1100) NGL(I),TT
          ENDIF        
@@ -794,7 +792,6 @@ C
 CCsm41w11 +++
          IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
           OFF(I)=FOUR_OVER_5
-          IDEL7NOK = 1
           WRITE(IOUT, 1000) NGL(I)
           WRITE(ISTDO,1100) NGL(I),TT
          ENDIF
@@ -963,7 +960,6 @@ C....COMPUTE F*.....
          ENDIF
          IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
           OFF(I)=FOUR_OVER_5
-          IDEL7NOK = 1
           WRITE(IOUT, 1000) NGL(I)
           WRITE(ISTDO,1100) NGL(I),TT
          ENDIF

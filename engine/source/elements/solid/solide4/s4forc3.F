@@ -621,11 +621,11 @@ Cpour le fluide en SPMD : BUFVOIS LOI11
      Q   ITASK,       NLOC_DMG,    VAR_REG,     MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BUFVOIS,
      T                SNPC,        STF,         SBUFMAT,
-     U   SVIS,        SZ_IX,       IDTMINS,     IRESP,
+     U   SVIS,        SZ_IX,       IRESP,
      V   N2D,         TH_STRAIN,   NGROUP,      TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,
-     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
      .   idyna)
 c

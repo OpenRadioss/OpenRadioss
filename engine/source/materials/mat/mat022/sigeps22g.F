@@ -272,7 +272,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       ENDDO
 !
       IF (NINDX > 0) THEN
-        IDEL7NOK = 1
         IF (INCONV == 1) THEN
           DO J=1,NINDX
 #include "lockon.inc"

@@ -145,7 +145,6 @@ C
           OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
-          IDEL7NOK = 1  
           TDELE(I) = TIME                  
          ENDIF
         ENDIF 
@@ -240,7 +239,6 @@ C...Spalling
           OFF(I)= FOUR_OVER_5
           NINDEX=NINDEX+1
           INDEX(NINDEX)=I
-          IDEL7NOK = 1  
           TDELE(I) = TIME  
         ENDIF 
         ENDDO

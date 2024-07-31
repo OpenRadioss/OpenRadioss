@@ -548,7 +548,6 @@ c     update and filter plastic strain rate for VP=1
       ENDDO
 !
       IF (NINDX > 0) THEN
-        IDEL7NOK = 1
         IF (INCONV == 1) THEN
           DO J=1,NINDX
 #include "lockon.inc"

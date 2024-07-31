@@ -331,9 +331,6 @@ c         AMU = ONE /DF - ONE
 C-----------------------------
 C  A VOIR .....
       DO I=1,NEL0
-        IF(OFF(I)<ONE) IDEL7NOK = 1
-      ENDDO
-      DO I=1,NEL0
         DEFP(I)=UVAR(I,1)
       ENDDO
 C-------------------------

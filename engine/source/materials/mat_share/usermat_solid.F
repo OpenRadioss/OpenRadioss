@@ -242,6 +242,7 @@ C----
       CHARACTER OPTION*256
       INTEGER SIZE
       CHARACTER(LEN=NCHARLINE100)::IUSER_KEY 
+      MY_REAL, DIMENSION(NEL) :: OFF_OLD
 C=======================================================================
       GBUF   => ELBUF_TAB(NG)%GBUF           
       LBUF   => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IPTR,IPTS,IPTT)
@@ -310,6 +311,10 @@ c
       ELSE
           DEFP0(LFT:LLT) = ZERO
       ENDIF
+
+!
+      ! Save old value of OFF flag
+      OFF_OLD(1:NEL) = OFF(1:NEL)
 
 
       IF (JTHE == 0 .and. ELBUF_TAB(NG)%BUFLY(ILAY)%L_TEMP > 0) THEN            
@@ -1650,7 +1655,7 @@ c---- Orthotropic energy failure
      2          NPG      ,IPG      ,ILAY     ,OFF      ,LBUF%OFF ,GBUF%NOFF,
      3          DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6      ,
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
-     6          TT       ,TDEL     ,DFMAX    ,DELTAX   ,LBUF%DMGSCL,IDEL7NOK)
+     6          TT       ,TDEL     ,DFMAX    ,DELTAX   ,LBUF%DMGSCL)
 c         
           ENDIF
         ENDDO ! IR = 1,NFAIL
@@ -1680,6 +1685,14 @@ C
      4             SV1     ,SV2     ,SV3     ,SV4     ,SV5    ,
      5             SV6     ,S3      ,ES3     ,RHO0    ,RHOREF )
       ENDIF 
+c--------------------------------------------------------
+c     Shooting nodes algorithm activation
+c--------------------------------------------------------
+      DO I = 1,NEL
+        IF ((OFF_OLD(I) > ZERO) .AND. (OFF(I) == ZERO)) THEN 
+          IDEL7NOK = 1
+        ENDIF
+      ENDDO 
 c--------------------------------------------------------
 c     DAMAGED STRESSES
 c---------------------------------------------------------

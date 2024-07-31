@@ -1007,11 +1007,11 @@ C
      P   FQVIS,       IPARG1,      IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VAR_REG,     MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BUFVOIS,
-     T           SNPC,STF,SBUFMAT,SVIS,          SZ_IX,
-     U   IDTMINS,IRESP, N2D,         TH_STRAIN,   NGROUP,TT, 
+     T   SNPC,        STF,         SBUFMAT,     SVIS,SZ_IX,
+     U   IRESP,       N2D,         TH_STRAIN,   NGROUP,TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,            
-     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
      .   idyna)
 C

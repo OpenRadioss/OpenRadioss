@@ -1987,7 +1987,7 @@ c--------------------------------------------------
      .                       THK_LY   ,THKLY    ,OFF      ,STACK    ,
      .                       ISUBSTACK,IGTYP    ,FAILWAVE ,FWAVE_EL ,
      .                       NLAY_MAX ,LAYNPT_MAX,NUMGEO  ,NUMSTACK ,
-     .                       IGEO     ,IDEL7NOK )
+     .                       IGEO     )
         ELSE
           CALL FAIL_SETOFF_NPG_C(
      .                       ELBUF_STR,MAT_ELEM ,GEO      ,PID(1)   ,
@@ -1996,7 +1996,7 @@ c--------------------------------------------------
      .                       OFF      ,NPG      ,STACK    ,ISUBSTACK, 
      .                       IGTYP    ,FAILWAVE ,FWAVE_EL ,NLAY_MAX ,
      .                       LAYNPT_MAX,NUMGEO  ,IPG      ,NUMSTACK ,
-     .                       IGEO     ,IDEL7NOK )
+     .                       IGEO     )
         ENDIF
       ENDIF  
 c---
@@ -2008,7 +2008,6 @@ c---
      .        OFF(I) > ZERO   .and. OFF(I) < ONE .and. DMG_FLAG == 1 .and. 
      .        DMG_GLOB_SCALE(I) < EM02) THEN  
             OFF(I) = ZERO
-            IDEL7NOK = 1
             IF (NLAY > 1) THEN 
               NINDX  = NINDX + 1
               INDX(NINDX) = I
@@ -2016,6 +2015,14 @@ c---
           ENDIF
         ENDDO
       ENDIF
+c--------------------------------------------------------
+c     SHOOTING NODES ALGORITHM ACTIVATION
+c--------------------------------------------------------
+      DO I = 1,NEL
+        IF ((OFF_OLD(I) > ZERO) .AND. (OFF(I) == ZERO)) THEN 
+          IDEL7NOK = 1
+        ENDIF
+      ENDDO 
 c------------------------------------------------------------------
 C     VISCOSITE DE MEMBRANE
 C---------------------------                                              
@@ -2159,7 +2166,6 @@ c---  Shell rupture print out
 c
       IOFC = NINDX  !  INDX used before in IELOF - check if still useful
       IF (NINDX > 0 .and. IXEL == 0) THEN
-        IDEL7NOK = 1
         IF (IMCONV == 1) THEN
           DO II = 1,NINDX
             I = INDX(II)

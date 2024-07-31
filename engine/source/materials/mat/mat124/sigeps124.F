@@ -914,7 +914,6 @@ c
             IF (IDEL > 1) THEN 
               NINDX3   = NINDX3 + 1
               INDX3(NINDX3) = I
-              IDEL7NOK = 1
               OFF(I)   = ZERO 
             ENDIF  
           ENDIF

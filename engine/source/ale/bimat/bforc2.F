@@ -76,7 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9                   GRESAV ,GRTH   ,IGRTH  ,TABLE  ,IGEO    ,
      O                   VOLN   ,ITASK  ,MS_2D  ,FSKYM  ,MAT_ELEM,
      B                   H3D_STRAIN,OUTPUT,SZ_BUFVOIS,SNPC,STF,SBUFMAT,SVIS,
-     C                   NSVOIS, IDTMINS,IRESP, IDEL7NG,     IDEL7NOK, 
+     C                   NSVOIS, IRESP,     IDEL7NOK, 
      D                   IDTMIN, MAXFUNC, IMON_MAT,   
      E                   USERL_AVAIL, heat_meca,   impl_s,      idyna)
 C-----------------------------------------------
@@ -112,13 +112,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER OFFSET,NEL,NG,NSVOIS,IDTMINS
+      INTEGER OFFSET,NEL,NG,NSVOIS
       INTEGER,INTENT(IN) :: SZ_BUFVOIS
       INTEGER,INTENT(IN) :: SNPC
       INTEGER,INTENT(IN) :: STF
       INTEGER, INTENT(IN) :: SBUFMAT
       INTEGER, INTENT(IN) :: IRESP
-      INTEGER ,INTENT(IN) :: IDEL7NG
       INTEGER ,INTENT(INOUT) :: IDEL7NOK
       integer,dimension(102) :: IDTMIN
       INTEGER ,INTENT(IN) :: MAXFUNC
@@ -362,10 +361,10 @@ C-----------------------------------------------------
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BUFVOIS,
      T           SNPC,STF,SBUFMAT,SVIS,          SZ_IX,
-     U   IDTMINS,IRESP, N2D,         TH_STRAIN,   NGROUP,TT, 
+     U   IRESP,       N2D,         TH_STRAIN,   NGROUP,TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,            
-     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
      .   idyna)
 C----------------------------------
@@ -580,11 +579,11 @@ C-----------------------------------------------------
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   TH_STRAIN,   JPLASOL,     JSPH,        SZ_BUFVOIS,
      S                SNPC,        STF,         SBUFMAT, 
-     *   SVIS,        SZ_IX,       IDTMINS,     IRESP,
+     *   SVIS,        SZ_IX,       IRESP,
      T   N2D,         TH_STRAIN,   NGROUP,      TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,
-     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
      .   idyna )
 C----------------------------------

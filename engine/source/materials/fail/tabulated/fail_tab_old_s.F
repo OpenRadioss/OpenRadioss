@@ -170,7 +170,6 @@ C
               OFF(I)=FOUR_OVER_5
               NINDX=NINDX+1
               INDX(NINDX)=I
-              IDEL7NOK = 1 
               TDELE(I) = TIME                  
             ENDIF         
           ENDIF 

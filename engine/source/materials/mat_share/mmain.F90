@@ -165,7 +165,7 @@
       !||====================================================================
         subroutine mmain(&
         &elbuf_tab,   ng,          pm,          geo,&
-        &            ale_connect, ix,          iparg,&
+        &ale_connect, ix,          iparg,&
         &v,           tf,          npf,         bufmat,&
         &stifn,       x,           dt2t,        neltst,&
         &ityptst,     offset,      nel,         w,&
@@ -192,11 +192,11 @@
         &itask,       nloc_dmg,    varnl,       mat_elem,&
         &h3d_strain,  jplasol,     jsph,        sz_bufvois,&
         &             snpc,        stf,         sbufmat,&
-        &svis,        sz_ix,       idtmins,     iresp,&
+        &svis,        sz_ix,       iresp,&
         &n2d,         th_strain,   ngroup,      tt,&
         &dt1,         ntable,      numelq,      nummat,&
         &numgeo,      numnod,      numels,            &
-        &idel7ng,     idel7nok,    idtmin,      maxfunc,&
+        &idel7nok,    idtmin,      maxfunc,&
         &imon_mat,    userl_avail, heat_meca,   impl_s,&
         &idyna,       opt_mtn,      opt_jcvt,   opt_isorth,&
         &opt_isorthg   )
@@ -229,7 +229,6 @@
           my_real, intent(in) :: dt1
           my_real, intent(in) :: tt
           integer,dimension(102) :: idtmin
-          integer, intent(in) :: idel7ng
           integer, intent(inout) :: idel7nok
           integer, intent(in) :: maxfunc
           integer, intent(in) :: ntable
@@ -249,7 +248,6 @@
           integer, intent(in) :: stf
           integer, intent(in) :: sbufmat
           integer, intent(in) ::  sz_ix
-          integer, intent(in) ::  idtmins
           integer, intent(in) :: iresp
           integer, intent(in) :: imon_mat
           integer, intent(in) :: userl_avail
@@ -379,7 +377,7 @@
           my_real pnew(mvsiz)
           my_real psh(mvsiz)
           my_real p0(mvsiz)
-          my_real offold(mvsiz),amu(mvsiz), amu2(mvsiz), c1(mvsiz), c2(mvsiz),  &
+          my_real off_old(mvsiz),amu(mvsiz), amu2(mvsiz), c1(mvsiz), c2(mvsiz), &
           &       c3(mvsiz), c4(mvsiz), c5(mvsiz),c6(mvsiz),                    &
           &       einc(mvsiz), rho0(mvsiz),vol_avg(mvsiz),                      &
           &       df(mvsiz), pc(mvsiz),espe(mvsiz),tmu(mvsiz),                  &
@@ -579,9 +577,7 @@
 !-----
 
 ! flag idel
-          if(idel7ng>=1.or.idtmins>=1) then
-            offold(1:nel)=off(1:nel)
-          end if
+          off_old(1:nel) = off(1:nel)
 !
           if (jthe < 0) then
             die(1:nel) = lbuf%eint(1:nel)
@@ -2534,7 +2530,7 @@
                 &npg      ,ipg      ,ilay     ,off      ,lbuf%off ,gbuf%noff,&
                 &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
-                &tt       ,tdel     ,dfmax    ,deltax   ,lbuf%dmgscl,idel7nok)
+                &tt       ,tdel     ,dfmax    ,deltax   ,lbuf%dmgscl)
 !---------
               endif ! irupt
 !
@@ -2665,15 +2661,15 @@
               lbuf%temp(i) = tempel(i)
             enddo
           endif
-!     flag idel, test global sur changement de valeur de off
-          if(idel7ng>=1.or.idtmins>=1) then
-            do i=1,nel
-!          if(offold(i)>=1.and.off(i)/=offold(i).and.off(i)>=0.and.off(i)<1)then
-              if(offold(i)>=1.and.off(i)>=0.and.off(i)<1)then
-                idel7nok = 1
-              end if
-            end do
-          end if
+!----------------------------------------------------------------
+!     Shooting nodes algorithm activation
+!----------------------------------------------------------------
+          do i = 1,nel
+            if ((off_old(i) > zero) .and. (off(i) == zero)) then
+              idel7nok = 1
+            end if
+          end do
+!----------------------------------------------------------------
           if (impl_s > 0) then
             call put_etfac(nel ,et  ,mtn)
             call putsignor3(1,nel ,mtn,iptr,ipts,iptt,al_imp ,signor)

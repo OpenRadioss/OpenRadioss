@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7     SOUNDSP ,THK     ,THKLY   ,PLA     ,EPSP    ,
      8     ETSE    ,GS      ,YLD     ,INLOC   ,L_PLANL ,
-     9     PLANL   ,DPLANL  ,DMG     ,IDEL7NOK,
+     9     PLANL   ,DPLANL  ,DMG     ,
      A     NVARTMP ,VARTMP  ,LOFF    )
 C-----------------------------------------------
 C   M o d u l e s
@@ -61,7 +61,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN)    :: NEL,NFUNC,NUPARAM,NUVAR,INLOC,L_PLANL
-      INTEGER ,INTENT(INOUT) :: IDEL7NOK
       INTEGER ,INTENT(IN)    :: NVARTMP
       INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
       INTEGER ,DIMENSION(NFUNC), INTENT(IN) :: IFUNC
@@ -190,7 +189,6 @@ c
             DMG(I) = ONE
             IF (OFF(I) == ONE) THEN 
               OFF(I) = FOUR_OVER_5
-              IDEL7NOK    = 1
               NINDX       = NINDX+1
               INDX(NINDX) = I
             ENDIF
@@ -206,7 +204,6 @@ c
           IF (DMG(I) >= ONE) THEN 
             IF (OFF(I) == ONE) THEN 
               OFF(I) = FOUR_OVER_5
-              IDEL7NOK    = 1
               NINDX       = NINDX+1
               INDX(NINDX) = I
             ENDIF

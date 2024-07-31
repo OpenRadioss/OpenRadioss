@@ -653,7 +653,6 @@ c
             INDX2(NINDX2) = I
             DFMAX(I,1)    = ONE 
             OFF(I)        = ZERO
-            IDEL7NOK      = 1   
             TDELE(I)      = TIME
           ENDIF
         ENDDO
@@ -685,7 +684,6 @@ c
                 NINDX3        = NINDX3 + 1
                 INDX3(NINDX3) = I
                 VFAIL(I)      = VDAM/VTOT
-                IDEL7NOK      = 1   
                 TDELE(I)      = TIME
                 OFF(I)        = ZERO
               ENDIF

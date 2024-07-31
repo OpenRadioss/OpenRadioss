@@ -196,7 +196,6 @@ C        WPLAMX(I) = WPLAMX(I)*EPSP
         IF (SIGMY(I)==SIGMX .AND. OFF(I)==ONE) THEN
           OFF(I)=ZEP99
           KD4(I)=2
-          IDEL7NOK = 1
           NINDX=NINDX+1
           INDEX(NINDX)=I
         ENDIF

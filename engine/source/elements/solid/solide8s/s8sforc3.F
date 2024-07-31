@@ -849,11 +849,11 @@ c
      Q   ITASK,        NLOC_DMG,     VAR_REG(1,IP),MAT_ELEM,
      R   H3D_STRAIN,   JPLASOL,      JSPH,         SZ_R1_FREE,
      S                 SNPC,         STF,          SBUFMAT,
-     *   SVIS,         SZ_IX,        IDTMINS,      IRESP,
+     *   SVIS,         SZ_IX,        IRESP,
      T   N2D,          TH_STRAIN,    NGROUP,       TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,
-     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
      .   idyna)
 C

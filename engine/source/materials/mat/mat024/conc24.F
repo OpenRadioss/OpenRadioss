@@ -288,7 +288,6 @@ C
       ENDIF
 c-----------------------
       IF (I1/=0) THEN
-        IDEL7NOK = 1
         DO J = 1, I1
           I = INDEX1(J)
 #include "lockon.inc"

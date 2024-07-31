@@ -204,7 +204,6 @@ c         yp= 3 x^2 + c
           UVAR(I,1) = UVAR(I,1) + W1*W2*DPLA(I)
           IF(UVAR(I,1)>=DC) THEN    
            OFF(I) = FOUR_OVER_5
-           IDEL7NOK = 1
            NINDX=NINDX+1
            INDX(NINDX)=I
            TDELE(I) = TIME  

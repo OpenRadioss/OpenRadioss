@@ -192,7 +192,6 @@ c--------------------------
               NINDX       = NINDX+1
               INDX(NINDX) = I
               OFF(I)      = ZERO
-              IDEL7NOK    = 1
             ENDIF
           ENDIF
         ENDDO

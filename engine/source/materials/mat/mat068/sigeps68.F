@@ -262,7 +262,6 @@ C
             OFF(I) = ZERO
             NINDX=NINDX+1  
             INDEX(NINDX)=I  
-            IDEL7NOK = 1
           ENDIF
       ENDDO
       IF(NINDX>0)THEN

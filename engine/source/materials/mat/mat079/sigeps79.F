@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4      SIGOXX   ,SIGOYY   ,SIGOZZ   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
      5      SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      6      EPSD     ,DMG      ,SOUNDSP  ,UVAR     ,OFF      ,AMU      ,
-     7      IDEL7NOK ,ET       )      
+     7      ET       )      
 C
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -49,8 +49,6 @@ C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
       INTEGER,INTENT(IN) :: 
      .      NEL,NUPARAM,NUVAR,NGL(NEL)
-      INTEGER, INTENT(INOUT) :: 
-     .      IDEL7NOK 
       my_real,INTENT(IN) :: 
      .      TIME,TIMESTEP,UPARAM(NUPARAM),RHO0(NEL),RHO(NEL),
      .      DEPSXX(NEL),DEPSYY(NEL),DEPSZZ(NEL),
@@ -244,21 +242,18 @@ c
               OFF(I) = FOUR_OVER_5
               NINDX  = NINDX + 1
               INDX(NINDX) = I
-              IDEL7NOK = 1
             ENDIF 
           ELSEIF (IDEL == 2) THEN 
             IF (DEFP(I) > EPSMAX) THEN 
               OFF(I) = FOUR_OVER_5
               NINDX  = NINDX + 1
               INDX(NINDX) = I
-              IDEL7NOK = 1
             ENDIF
           ELSEIF (IDEL == 3) THEN 
             IF (DMG(I) == ONE) THEN 
               OFF(I) = FOUR_OVER_5
               NINDX  = NINDX + 1
               INDX(NINDX) = I
-              IDEL7NOK = 1
             ENDIF            
           ENDIF
         ENDIF

@@ -102,7 +102,6 @@ C
           WRITE(IOUT, *)
      +        ' TOTAL ELEMENT TENSION FAILURE, ELEMENT #',NGL(I)
 #include "lockoff.inc"
-          IDEL7NOK = 1
         ENDIF
       ENDDO
 C

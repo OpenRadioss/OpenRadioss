@@ -420,7 +420,6 @@ C
 #include "lockon.inc"
               WRITE(IOUT,1000) NGL(I)
 #include "lockoff.inc"
-            IDEL7NOK = 1
           ENDIF
         ENDDO
       ENDIF
