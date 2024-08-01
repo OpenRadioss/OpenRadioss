@@ -1344,6 +1344,7 @@ C         For solid elements time step computation :
           IPM(252,I)= NINT(PARMAT(16))   ! IFORMDT = 0,1,2  
           PM(105,I) = PARMAT(17)         ! GFAC factor
 C---------
+!-------         
           IPM(7,I)   = IADBUF
           IPM(8,I)   = NUVAR
           IPM(9,I)   = NUPARAM
@@ -1380,6 +1381,9 @@ c
           BUFLEN = BUFLEN + NUPARAM
 c           
         ENDIF ! ILAW>=28 
+!------- high stiffness for contact          
+         PM(107,I) = TWO*MAX(PM(32,I),PM(100,I))
+         IF (ILAW==1.OR.ILAW==62) PM(107,I) = HUNDRED*PM(107,I)
 c
         IPM(1,I)   = MAT_ID
         IPM(2,I)   = ILAW

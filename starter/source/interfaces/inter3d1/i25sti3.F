@@ -780,7 +780,7 @@ C-----------------------------------------------
       INTEGER I, J, INRT, NELS, MT, JJ, JJJ, NELC,
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IAD,NREV,IGTYP,IPGMAT,IGMAT,
-     .   ISUBSTACK,IPL,IPG,ISOL,NINV,NSOL_INT,NELS2,MT2,OFC,OFTG
+     .   ISUBSTACK,IPL,IPG,ISOL,NINV,NSOL_INT,NELS2,MT2,OFC,OFTG,ICONTR
       INTEGER, DIMENSION(:),ALLOCATABLE  :: TAGELEMS,INDEXE
       LOGICAL :: PRINT_ERROR
       INTEGER, DIMENSION(4) :: NODE_ID
@@ -788,7 +788,7 @@ C     REAL
       my_real
      .   AREA, VOL, DX, GAPM, DDX,
      .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
-     .   XL,STIFC, STV, STC,STF2,STF1,VOL2
+     .   XL,STIFC, STV, STC,STF2,STF1,VOL2,BULK
 C----------------------
       ISOL = 0
       NREV=0
@@ -842,6 +842,8 @@ C----------------------
 
         IF(NELS/=0) THEN
           MT=IXS(1,NELS)
+          MG=IXS(NIXS-1,NELS)
+          ICONTR = IGEO(97,MG)
           IF(INTTH > 0 ) IELEM(I) = MT
           IF(INTTH > 0 ) INRTIE(NELS) = I
           IF(MT>0)THEN
@@ -852,7 +854,12 @@ C----------------------
               ZC(JJ)=X(3,JJJ)
             ENDDO
             CALL VOLINT(VOL)
-            STF(I)=SLSFAC*FILLSOL(NELS)*AREA*AREA*PM(32,MT)/VOL
+            IF (ICONTR==1 ) THEN
+              BULK = PM(107,MT)
+            ELSE
+              BULK = PM(32,MT)
+            END IF
+            STF(I)=SLSFAC*FILLSOL(NELS)*AREA*AREA*BULK/VOL
             IF(IELEM_M(2,I) > 0) THEN ! If internal segment shared between 2 elements
               NELS2 =IELEM_M(2,I) 
               MT2=IXS(1,NELS2)

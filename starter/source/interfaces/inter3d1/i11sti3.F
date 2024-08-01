@@ -113,12 +113,12 @@ C-----------------------------------------------
      .        MG, NELTG,NELT,NELP,NELR,
      .        IGTYP, IP,N1,N2,K,T,P,R,NELX,IPGMAT,IGMAT,IE,
      .        JJ1,JJ2,IEC,K1,K2,IPL,IPC,
-     .        IE1(50,2),IE2(50,2),ISUBSTACK,IPG,N3,N4,N5,N6,N7,N8
+     .        IE1(50,2),IE2(50,2),ISUBSTACK,IPG,N3,N4,N5,N6,N7,N8,ICONTR
       my_real DXM, GAPMX, GAPMN, AREASS, VOL, DX,GAP1,GAPS1,GAPTMP,XL,
      .        SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
      .        X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,X5,Y5,Z5,X6,Y6,Z6,X7,Y7,Z7,X8,Y8,Z8,
      .        XX1(4),XX2(4), XX3(4) ,FACE(6),
-     .        N_1, N_2, N_3,DX1,XL2
+     .        N_1, N_2, N_3,DX1,XL2,BULK
 C-----------------------------------------------
       my_real,EXTERNAL :: GET_U_GEO
 C-----------------------------------------------
@@ -147,6 +147,8 @@ C----------------------
         CALL I11SOL(X,IRECT,IXS,NINTR,NELS,INRT,AREASS,NOINT,KNOD2ELS,NOD2ELS,IXS10)
         IF(NELS /= 0) THEN
           MT=IXS(1,NELS)
+          MG=IXS(NIXS-1,NELS)
+          ICONTR = IGEO(97,MG)
           IF(MT > 0)THEN
             DO JJ=1,8
               JJJ=IXS(JJ+1,NELS)
@@ -155,8 +157,13 @@ C----------------------
               ZC(JJ)=X(3,JJJ)
             ENDDO
             CALL VOLINT(VOL)
+            IF (ICONTR==1 ) THEN
+              BULK = PM(107,MT)
+            ELSE
+              BULK = PM(32,MT)
+            END IF
             IF(XL2 > 0.0)THEN
-              STF(I)=SLSFAC*FILLSOL(NELS)*VOL*PM(32,MT)/XL2
+              STF(I)=SLSFAC*FILLSOL(NELS)*VOL*BULK/XL2
             ELSE
               STF(I)=ZERO
             ENDIF
