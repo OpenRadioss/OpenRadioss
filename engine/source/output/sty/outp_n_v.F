@@ -105,6 +105,10 @@ C
       !||====================================================================
       SUBROUTINE OUTP_N_V2(FOPT ,NPBY ,NOM_SECT ,NOM_WALL )
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+C
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -122,16 +126,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPBY(NNPBY,*),NOM_SECT(LNOPT1,*),NOM_WALL(LNOPT1,*)
-      my_real
-     .   FOPT(6,*)
+      my_real FOPT(6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N
 C-----------------------------------------------
       IF(NSPMD > 1)THEN
-         CALL SPMD_GLOB_DSUM9(
-     .        FOPT,6*(NSECT+NRBODY+NRWALL))
+         CALL SPMD_GLOB_DSUM9(FOPT,6*(NSECT+NRBODY+NRWALL))
          IF (ISPMD/=0) THEN
            DO N=1,NSECT+NRBODY+NRWALL
              DO I=1,6

@@ -77,6 +77,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE MESSAGE_MOD
       USE DEFAULTS_MOD
+      USE FORMAT_MOD , ONLY : FMT_10I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

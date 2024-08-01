@@ -109,10 +109,9 @@ C-----------------------------------------------
      .   KNOD2ELQ(*),NOD2ELQ(*),SEGQUADFR(2,*),TAGPRT_FRIC(*),IPARTT(*),
      .   IPARTP(*),IPARTX(*),IPARTR(*),NSN_MULTI_CONNEC,T2_NB_CONNEC(*),
      .   ICODE(*), ISKEW(*)
-      my_real
-     .   X(3,*),V(3,*), PM(*), GEO(*), MS(*), RWA(6,*),
-     .   THK(*),THK_PART(*),FRIGAP(NPARIR,*),
-     .   LELX(*), FILLSOL(*),PM_STACK(*)
+      my_real X(3,*),V(3,*), PM(*), GEO(*), MS(*), RWA(6,*),
+     .        THK(*),THK_PART(*),FRIGAP(NPARIR,*),
+     .        LELX(*), FILLSOL(*),PM_STACK(*)
       INTEGER NOM_OPT(LNOPT1,*),KXX(*),IXX(*)
       TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)

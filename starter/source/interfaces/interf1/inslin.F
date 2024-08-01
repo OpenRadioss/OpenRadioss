@@ -29,18 +29,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    count3    ../starter/source/interfaces/interf1/count3.F
       !||    usr2sys   ../starter/source/system/sysfus.F
       !||====================================================================
-      SUBROUTINE INSLIN(NRT,MSN,IRECT,NOINT,
-     .                  SLIN_NODES,ITAB,MSV,NTAG)
+      SUBROUTINE INSLIN(NRT,MSN,IRECT,NOINT,SLIN_NODES,ITAB,MSV,NTAG)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C     READING SURFACE AND NUMBERING SEGMENTS
+C           IN : NRT
+C           OUT :IRECT
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-C-----------------------------------------------------------------------
-C     LECTURE DES SURFACES ET DECOMPTE DES SEGMENTS
-C           ENTREE : 
-C                    NRT NOMBRE DE RENSEIGNEMENTS A LIRE
-C           SORTIE : 
-C                    IRECT 
-C-----------------------------------------------------------------------
+        USE FORMAT_MOD , ONLY : FMW_4I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

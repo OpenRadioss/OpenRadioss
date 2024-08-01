@@ -37,7 +37,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
-C----------------------------------------------------------------
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -51,8 +51,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC, IADLL(*), JLL(*), LLL(*),IBCSLAG(5,*)
-      my_real
-     .        MASS(*),INER(*)
+      my_real MASS(*),INER(*)
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
@@ -61,8 +60,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IK, IG, IGR, CT, CR, ISK, NN
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,TITR
 C======================================================================|
       DO I=1,NBCSLAG
         IGR = IBCSLAG(1,I)
@@ -70,8 +68,7 @@ C======================================================================|
         CR  = IBCSLAG(3,I)
         ISK = IBCSLAG(4,I)
         ID=NOM_OPT(1,I)
-        CALL FRETITL2(TITR,
-     .       NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
+        CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
         DO IG=1,IGRNOD(IGR)%NENTITY
           NN=IGRNOD(IGR)%ENTITY(IG)
           IF(MASS(NN)/=0.0)THEN

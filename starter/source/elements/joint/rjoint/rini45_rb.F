@@ -83,7 +83,7 @@ C-----------------------------------------------
 C=======================================================================
 
       ID=IGEO(1)
-      CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)  
+      CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
 C
       DO IEL=1,NEL
         L2 = 0.

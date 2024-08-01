@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD , only : SURF_
       USE MESSAGE_MOD , only : ANCMSG, aninfo_blind_1, MSGERROR
       USE SUBMODEL_MOD , only : SUBMODEL_DATA, NSUBMOD
+      USE FORMAT_MOD , ONLY : FMW_I_A
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

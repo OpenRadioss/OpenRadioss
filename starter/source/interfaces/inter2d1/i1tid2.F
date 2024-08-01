@@ -33,7 +33,7 @@ C
       SUBROUTINE I1TID2(X,IRECT,CRST,MSR,NSV,ILOC,IRTL,NSN,ITAB,
      .                  ID,TITR)
       USE MESSAGE_MOD
-C
+      USE FORMAT_MOD , ONLY : FMW_5I_F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

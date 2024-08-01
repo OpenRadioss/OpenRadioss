@@ -62,8 +62,7 @@ C-----------------------------------------------
 C======================================================================| 
       DO N=1,NFXVEL
         ID=NOM_OPT(1,IBFV(12,N))
-        CALL FRETITL2(TITR,
-     .       NOM_OPT(LNOPT1-LTITR+1,IBFV(12,N)),LTITR)
+        CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,IBFV(12,N)),LTITR)
         IF (IBFV(8,N)/=0) THEN
           NNO = IABS(IBFV(1,N))
           ISK = IBFV(2,N)/10

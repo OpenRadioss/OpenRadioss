@@ -64,9 +64,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NFUNCT, NPTS_ALLOC
       INTEGER NPC(*),FUNCRYPT(*)
-C     REAL
-      my_real
-     .   PLD(NPTS_ALLOC)
+      my_real PLD(NPTS_ALLOC)
       TYPE(TTABLE) TABLE(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -76,11 +74,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,L,FUNC_ID,NPTS,STAT,N,II,ISMOOTH
       INTEGER :: IPYTHON ! is it a FUNCT_PYTHON
-C     REAL
-      my_real
-     .   TIME, FUNCT, BID, F5(5)
-      my_real
-     .   XSCALE,YSCALE,XSHIFT,YSHIFT
+      my_real TIME, FUNCT, BID, F5(5)
+      my_real XSCALE,YSCALE,XSHIFT,YSHIFT
       CHARACTER TITR*nchartitle,MESS*40,KEY*20
       DATA MESS/' FUNCTION & TABLES DEFINITION           '/
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE

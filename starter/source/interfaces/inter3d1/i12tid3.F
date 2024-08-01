@@ -35,7 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                   ILOC, IRTL , NSN , ITAB, ALP, 
      3                   ID  , TITR
      .                   )
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMW_7I_2F
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------

@@ -55,20 +55,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(*) , NOD2RTMS(*), NOD2RTMM(*), KAD(*), TAGLINS(*), TAGLINM(*), 
-     .        IADD(*) 
+      INTEGER ITAB(*) , NOD2RTMS(*), NOD2RTMM(*), KAD(*), TAGLINS(*), TAGLINM(*), IADD(*)
       INTEGER NRTM, NRTM0, NSN, NISUBS, NISUBM, NOINT, NI, NT19, NRTS, NTY, MAXRTMS
       INTEGER NOM_OPT(LNOPT1,*)
-
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,JGRN,ISU,ISU1,ISU2,
-     .   JSUB, KSUB, NNE, IS, ISV, CUR, ID1,
-     .   NEXT, IM, KM, JAD, IN, II, N,STAT,K1,K2,INOD,IFNRT
-      CHARACTER*nchartitle,
-     .   TITR,TITR1
+      INTEGER I,J,K,JGRN,ISU,ISU1,ISU2,JSUB, KSUB, NNE, IS, ISV, CUR, ID1,NEXT, IM, KM, JAD, IN, II, N,STAT,K1,K2,INOD,IFNRT
+      CHARACTER*nchartitle,TITR,TITR1
       INTEGER ISLIN1,ISLIN2,FOUND,FOUND_LINE
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
@@ -128,10 +123,8 @@ C
         KSUB=0
         DO JSUB=1,NINTSUB
            ID1=NOM_OPT(1,NINTER+JSUB)
-           CALL FRETITL2(TITR1,
-     .              NOM_OPT(LNOPT1-LTITR+1,NINTER+JSUB),LTITR)
-           IF(NOM_OPT(2,NINTER+JSUB)==NOINT
-     .           .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
+           CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,NINTER+JSUB),LTITR)
+           IF(NOM_OPT(2,NINTER+JSUB) == NOINT .AND. NOM_OPT(5,NINTER+JSUB) == 1)THEN
                KSUB=KSUB+1
 C      LISUB(KSUB)=JSUB no interne de la sous-interface
                INTBUF_TAB(NI)%LISUB(KSUB) = JSUB

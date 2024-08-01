@@ -49,8 +49,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NOM_OPT(LNOPT1,SNOM_OPT1), INOM_OPT(SINOM_OPT)
       INTEGER, INTENT(IN) :: LACCELM(3, NACCELM)
-      my_real, INTENT(IN) ::  
-     .                        ACCELM(LLACCELM, NACCELM)
+      my_real, INTENT(IN) :: ACCELM(LLACCELM, NACCELM)
       INTEGER, INTENT(IN) :: LGAUGE(3,NBGAUGE)
       my_real, INTENT(IN) :: GAUGE(LLGAUGE,NBGAUGE)
 C--------------------------------------------------

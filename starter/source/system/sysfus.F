@@ -852,8 +852,7 @@ C     CAS D ONE WARNING STATUS Negatif
             ELSE
 C     CAS D UNE ERREUR STATUS Positif
                ID1=NOM_OPT(1,I)
-               CALL FRETITL2(TITR,
-     .                       NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
+               CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
                CALL ANCMSG(MSGID=ERRID,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=STATUS,I1=ID1,C1=TITR,I2=TAB(ID))

@@ -42,6 +42,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE FORMAT_MOD , ONLY : FMW_10I
 C-----------------------------------
 C     CHECK ELEMENT FOR TYPE 12
 C------------------------------------

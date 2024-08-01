@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      USE FORMAT_MOD , ONLY : LFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,10 +76,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER ISKN(LISKN,*), ITAB(*), ITABM1(*)
-C     REAL
-      my_real
-     .   X(3,*), XFRAME(NXFRAME,*),
-     .   RTRANS(NTRANSF,*)
+      my_real X(3,*), XFRAME(NXFRAME,*),RTRANS(NTRANSF,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
@@ -87,9 +85,7 @@ C-----------------------------------------------
       INTEGER I, IMOV, INOD, J, N1, N2, N3, K, NSK,
      .        IUN, JJ, SUB_ID,
      .        IDIR,IFLAGUNIT,ID,UID,CPT
-C     REAL
-      my_real
-     .   P(12), PNOR1, PNOR2, PNORM1, DET1, DET2, DET3, DET, PP,BID
+      my_real P(12), PNOR1, PNOR2, PNORM1, DET1, DET2, DET3, DET, PP,BID
       CHARACTER NOMFG*nchartitle
       CHARACTER TITR*nchartitle,MESS*40,MESSF*40,KEY*ncharkey
       CHARACTER DIR*ncharfield
@@ -124,8 +120,7 @@ C
 C     Global Frame ID is set to -1
       ISKN(4,JJ)=-1
       NOM_OPT(1,NUMSKW+2)=-1
-      CALL FRETITL(NOMFG,NOM_OPT(LNOPT1-LTITR+1,
-     .                           NUMSKW+2),LTITR)
+      CALL FRETITL(NOMFG,NOM_OPT(LNOPT1-LTITR+1,NUMSKW+2),LTITR)
 C
       IF(NUMFRAM==0)GOTO 900
 C--------------------------------------------------

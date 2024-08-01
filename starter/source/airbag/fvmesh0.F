@@ -78,10 +78,7 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,*), IXC(NIXC,*), IXTG(NIXTG,*)
       INTEGER IPM(NPROPMI,*), ITAB(*)
       INTEGER NOM_OPT(LNOPT1,*), NB_NODE
-     
-      my_real
-     .        XYZINI(3,NB_NODE), PM(NPROPM,*), 
-     .        XYZREF(3,NB_NODE)
+      my_real XYZINI(3,NB_NODE), PM(NPROPM,*), XYZREF(3,NB_NODE)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -95,15 +92,13 @@ C-----------------------------------------------
       INTEGER I
       INTEGER J, IEL, IBID
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGVENT,TMP
-      CHARACTER*nchartitle,
-     .        TITR
+      CHARACTER(LEN=nchartitle) :: TITR
       INTEGER, DIMENSION(:), ALLOCATABLE :: MINUS_SIGN_REVERSE
 C
-      my_real
-     .        DIRX,DIRY,DIRZ,DIR2X,DIR2Y,DIR2Z,ORIGX,ORIGY,ORIGZ,
+      my_real DIRX,DIRY,DIRZ,DIR2X,DIR2Y,DIR2Z,
+     .        ORIGX,ORIGY,ORIGZ,
      .        LX,LY,LZ
-      my_real
-     .        X(3,NB_NODE)
+      my_real X(3,NB_NODE)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       PFLAG = 0
       IFV=0

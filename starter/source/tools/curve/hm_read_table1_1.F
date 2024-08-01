@@ -56,9 +56,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NTABLE, NTABLE1,L,NFUNCT,NPC(*)
-C     REAL
-      my_real
-     .    PLD(*)
+      my_real PLD(*)
       TYPE(TTABLE) TABLE(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL

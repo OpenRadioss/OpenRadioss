@@ -46,6 +46,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      USE FORMAT_MOD , ONLY : FMW_10I, FMW_4I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -429,6 +430,7 @@ C-----------------------------------------------
 #ifndef HYPERMESH_LIB
       USE MESSAGE_MOD
 #endif
+      USE FORMAT_MOD , ONLY : FMW_4I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -694,7 +696,7 @@ C             IXWORK(5,NL)=+-1 ! bord on
         ENDIF
 C
       ELSE
-C       pas de surfaces
+        ! no surface
         NL = 0
       ENDIF
 c---------------------------------------
@@ -720,18 +722,8 @@ c             print *,'edge I,J=',itab(IXWORK(1,L)),itab(IXWORK(2,L)),L
               J=I6+IADM
               MBINFLG(J) = BITSET(MBINFLG(J),I7)
               IF(IXWORK(5,L) == 1)MBINFLG(J) = BITSET(MBINFLG(J),6)
-c              MBINFLG(J) = BITSET(MBINFLG(J),8)
              END IF
             ENDIF
-c only one of both segments connected to an edge is tagged
-c            IF(IXWORK(5,L) == -1)THEN
-c              I3 = IXWORK(6,L)
-c              I4 = IXWORK(7,L)
-c              J=I3+IADM
-c              MBINFLG(J) = BITSET(MBINFLG(J),I4)
-c              IF(IXWORK(5,L) == 1)MBINFLG(J) = BITSET(MBINFLG(J),6)
-c              MBINFLG(J) = BITSET(MBINFLG(J),8)
-c            ENDIF
         ENDDO
       ENDIF
 c---------------------------------------
@@ -1179,6 +1171,7 @@ C-----------------------------------------------
 #ifndef HYPERMESH_LIB
       USE MESSAGE_MOD
 #endif
+      USE FORMAT_MOD , ONLY : FMW_4I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

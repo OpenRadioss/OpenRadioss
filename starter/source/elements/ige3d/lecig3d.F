@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   KXIG3D  ,IXIG3D  ,ITABM1  ,NCTRLMAX, TABCONPATCH)
       USE MESSAGE_MOD
       USE MESHSURFIG3D_MOD
+      USE FORMAT_MOD , ONLY : FMT_10I, FMT_8I, FMT_2I
 C----------------------------------------------------------
 C     LECTURE ELEMENT ISO GEOMETRIQUE
 C-----------------------------------------------
@@ -85,8 +86,7 @@ C-----------------------------------------------
      .        NRAFX,NRAFY,NRAFZ,NBIG3D_PATCH
       INTEGER TABIDS(NUMELIG3D0),J10(10)
       CHARACTER MESS*40
-      my_real
-     .   BID 
+      my_real BID
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

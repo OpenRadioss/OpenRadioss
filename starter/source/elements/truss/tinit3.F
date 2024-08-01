@@ -114,12 +114,7 @@ C-----------------------------
       DO I=1,NEL
         XNOR=(X1(I)-X2(I))**2+(Y1(I)-Y2(I))**2+(Z1(I)-Z2(I))**2
         IF (XNOR <= 1.E-20) THEN
-           CALL ANCMSG(MSGID=269,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 I2=IC(5,I+NFT))
+           CALL ANCMSG(MSGID=269, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR, I2=IC(5,I+NFT))
         ENDIF
         GBUF%LENGTH(I) = SQRT(XNOR)
       END DO
@@ -140,12 +135,7 @@ C------------------------------------------
       DO I=1,NEL
         IGTYP=GEO(12,IC(4,I+NFT))
         IF (IGTYP /= 2 .AND. INVERS > 14) THEN
-          CALL ANCMSG(MSGID=270,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=ID,
-     .                C1=TITR,
-     .                I2=IC(NIXT,I),I3=IGTYP)
+          CALL ANCMSG(MSGID=270, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1, I1=ID, C1=TITR, I2=IC(NIXT,I),I3=IGTYP)
         ENDIF
         XX = (X1(I) - X2(I))*(X1(I) - X2(I))
         YY = (Y1(I) - Y2(I))*(Y1(I) - Y2(I))

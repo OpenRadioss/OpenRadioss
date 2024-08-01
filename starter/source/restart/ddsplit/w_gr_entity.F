@@ -249,7 +249,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE GROUPDEF_MOD
+      USE GROUPDEF_MOD , ONLY : GROUP_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -286,8 +286,7 @@ C-----------------------------------------------
       INTEGER I,J,ID,IGU,NOD,NNOD,GRTYPE,TRI,GRPGRP,LEVEL,R2R_ALL,
      .        R2R_SHARE,L_GROUP,ERR,ITITLE3(LTITR),NNOD_LOC(NGR),
      .        IGU1,IGU2
-      my_real
-     .        CODE
+      my_real CODE
       CHARACTER TITR*nchartitle
       INTEGER, ALLOCATABLE, DIMENSION (:)  ::  IGROUP_L
 C-----------------------------------------------

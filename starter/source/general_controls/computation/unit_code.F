@@ -30,6 +30,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE UNIT_CODE(LENGTH,FIELD,KEY,FAC,IERR1,ID)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMT_F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,7 +105,7 @@ C---
             FAC=EM15                                       
         CASE ('n ')        
             FAC=EM09                                       
-        CASE ('µ ','mu', 'u ')      
+        CASE ('ï¿½ ','mu', 'u ')      
             FAC=EM06                                       
         CASE ('m ')
             FAC=EM03                                       

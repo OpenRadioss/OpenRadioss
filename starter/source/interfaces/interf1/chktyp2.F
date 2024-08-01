@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE CHKTYP2(IPARI   ,ITAB,
      .                   NOM_OPT ,INTBUF_TAB, NATIV_SMS)
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,7 +47,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), ITAB(*)
       INTEGER NOM_OPT(LNOPT1,*),NATIV_SMS(*)
-
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s

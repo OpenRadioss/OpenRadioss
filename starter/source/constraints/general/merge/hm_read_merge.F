@@ -95,10 +95,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE RBMERGE_MOD
-      USE GROUPDEF_MOD
-      USE SUBMODEL_MOD
+      USE RBMERGE_MOD , ONLY : RBMERGE_
+      USE GROUPDEF_MOD , ONLY : GROUP_
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : nchartitle, ncharkey
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -115,12 +116,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MGRBY(NMGRBY,*),NPBY(NNPBY,*),LPBY(*),
      .        SLRBODY,SMGRBY,ITABM1(*),ITAB(*)
-C     REAL
-      my_real
-     .   RBY(NRBY,*)
+      my_real RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*),PTR_NOPT_RBMERGE
       INTEGER IGRV(NIGRV,*),IBGR(*)
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
@@ -130,16 +129,16 @@ C-----------------------------------------------
      .        N,NOPT,UID, II, NOBJ
       INTEGER, DIMENSION(:) , ALLOCATABLE :: INDEX
       INTEGER, DIMENSION(:,:) , ALLOCATABLE :: INUM
-
       INTEGER IMAIN,ISECONDARY,FLAGG_OPT, FLAG_BOUCLE, FLAG_ERROR, 
      .        FLAG_DOUBLON, FLAG_DOUBLEMAIN, M_TYPE, S_TYPE, ID_OPT,
      .        IDNODE, NN, PRT_OPT
       INTEGER TABRB(NRBYKIN,2)
-      INTEGER NB_MAIN(NRBYKIN),NSECONDARY(NRBYKIN),
-     .        TAG1(NRBYKIN),TAG2(NRBYKIN)
+      INTEGER NB_MAIN(NRBYKIN),NSECONDARY(NRBYKIN),TAG1(NRBYKIN),TAG2(NRBYKIN)
       INTEGER TABBOUCLE(NRBYKIN+1), IDBOUCLE, LEVEL
       CHARACTER MYSTRING*100,MYLOOP*200
-      CHARACTER MESS*40,MESS2*40,TITR*nchartitle,KEY2*ncharkey
+      CHARACTER MESS*40,MESS2*40
+      CHARACTER(LEN=nchartitle) :: TITR
+      CHARACTER(LEN=ncharkey) :: KEY2
       TYPE(RBMERGE_), DIMENSION(:), ALLOCATABLE :: RBMERGE
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG, WORK
       INTEGER IWORK(70000)
@@ -166,11 +165,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS OF /RBODY/... LINE
 C--------------------------------------------------
-        CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                       OPTION_ID = ID,
-     .                       UNIT_ID = UID,
-     .                       OPTION_TITR = TITR,
-     .                       KEYWORD2 = KEY2)
+        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, UNIT_ID = UID, OPTION_TITR = TITR, KEYWORD2 = KEY2)
 
 C--------------------------------------------------
 C WRITE TITLE IN OUT FILE
@@ -755,9 +750,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPBY(NNPBY,*),LPBY(*),SLRBODY,ITAB(*)
       TYPE (RBMERGE_)   , DIMENSION(NRBYKIN)   :: RBMERGE
-C     REAL
-      my_real
-     .   RBY(NRBY,*)
+      my_real RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER IGRV(NIGRV,*),IBGR(*)
 C-----------------------------------------------
@@ -768,11 +761,8 @@ C-----------------------------------------------
      .        INDEX(NRBYKIN),LPBY_TMP(SLRBODY),
      .        NOM_OPT_TMP(LNOPT1,NRBYKIN),INODE, IKREM,ISPHER,
      .        ICDG,CNT,NN,IAD
-C     REAL
-      my_real
-     .   RBY_TMP(NRBY,NRBYKIN)
-      my_real
-     .     BID, DX, DY, DZ, DMSTR, DELT, DTMP
+      my_real RBY_TMP(NRBY,NRBYKIN)
+      my_real BID, DX, DY, DZ, DMSTR, DELT, DTMP
       INTEGER NBSECONDARY, IDIR, NSL, NSL_XTRA
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
       INTEGER, DIMENSION(NXTRA_NODE) :: LIST_XTRA 
@@ -1084,9 +1074,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPBY(NNPBY,*),LPBY(*)
-C     REAL
-      my_real
-     .   RBY(NRBY,*)
+      my_real RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1096,9 +1084,7 @@ C-----------------------------------------------
      .        INDEX(NRBYKIN+NRBYLAG),
      .        NOM_OPT_TMP(LNOPT1,NRBYKIN+NRBYLAG),
      .        NEW_SIZE,CPT_RBY,CPT_RBY_SECONDARY
-C     REAL
-      my_real
-     .   RBY_TMP(NRBY,NRBYKIN+NRBYLAG)
+      my_real RBY_TMP(NRBY,NRBYKIN+NRBYLAG)
 C-----------------------------------------------
 C
       NEW_SIZE = 0       

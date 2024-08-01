@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SEATBELT_MOD
       USE BPRELOAD_MOD
+      USE FORMAT_MOD , ONLY : FMT_10I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -237,8 +238,7 @@ C-----------------
             DO K=1,IADMERGE2(ITMP+1) - IADMERGE2(ITMP)
               KK = KK + 1
               IF (KK  ==  10) THEN
-                WRITE (IOUT,FMT=FMT_10I)
-     .         (ITAB(IMERGE2(IADMERGE2(ITMP)+KK1)),KK1=0,KK-1)
+                WRITE (IOUT,FMT=FMT_10I)(ITAB(IMERGE2(IADMERGE2(ITMP)+KK1)),KK1=0,KK-1)
                 KK = 0
               ENDIF
             ENDDO

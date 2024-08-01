@@ -31,6 +31,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                   NY    ,NZ    ,GAPV  ,GAP_S ,GAP_M ,
      5                   PENIS ,PENIM ,IGAP  ,PRINT_WARNING)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE FORMAT_MOD , ONLY : FMW_4I, FMW_I_3F
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -41,14 +45,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(*),CAND_M(*),CAND_S(*),INACTI,IGAP  ,
-     4        N1(*) ,N2(*) ,M1(*) ,M2(*)        
+      INTEGER ITAB(*),CAND_M(*),CAND_S(*),INACTI,IGAP, N1(*) ,N2(*) ,M1(*) ,M2(*)
       INTEGER NSV(*),IWPENE
       LOGICAL PRINT_WARNING
-C     REAL
-      my_real
-     .   STFS(*),STFM(*),X(3,*),GAP_S(*) ,GAP_M(*),PENIS(2,*) , 
-     .   PENIM(2,*),NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),GAPV(*)
+      my_real STFS(*),STFM(*),X(3,*),GAP_S(*) ,GAP_M(*),PENIS(2,*), PENIM(2,*),NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),GAPV(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -60,10 +60,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IS, IM,JWARN
-C     REAL
-      my_real
-     .     PENE(MVSIZ), 
-     .     PENEOLD, S2, D, PPLUS
+      my_real PENE(MVSIZ), PENEOLD, S2, D, PPLUS
 C-----------------------------------------------
 C
       JWARN = 0

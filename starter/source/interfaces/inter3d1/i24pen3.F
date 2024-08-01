@@ -45,6 +45,7 @@ C
 #ifndef HYPERMESH_LIB
       USE MESSAGE_MOD
 #endif
+      USE FORMAT_MOD , ONLY : FMT_I_3F
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -62,16 +63,11 @@ C-----------------------------------------------
       INTEGER IWPENE,TAG(*),INACTI,NSV(*),NSN,MSEGTYP(*),IWPENE0,
      .        MVOISN(4,*),ILEV,KNOD2ELS(*),NOD2ELS(*),IPARTNS(*),NRTM
 C----  IWPENE0 : nb of tiny initial pene;  IWPENE nb of initial pene
-C     REAL
-      my_real
-     .   GAPV(*)
+      my_real GAPV(*)
       INTEGER IRECT(4,*), ITAB(*),CAND_E(*),CAND_N(*),IRTLM(2,*)
       INTEGER IXS(NIXS,*),IXS10(6,*), IXS16(8,*), IXS20(12,*),ICONT_I(*),
      .        IRTSE(*) ,IS2SE(*)
-C     REAL
-      my_real
-     .   X(3,*),PMIN(*),GAP_N(12,*),PENMAX,PENMIN,PEN_OLD(5,NSN),
-     .   XFIC(3,*)
+      my_real X(3,*),PMIN(*),GAP_N(12,*),PENMAX,PENMIN,PEN_OLD(5,NSN),XFIC(3,*)
 C--------GAP_N(1,*) stock temporarily characteristic length for Pen_max
       INTEGER ID,IPEN0
       CHARACTER*nchartitle,
@@ -232,28 +228,6 @@ C----------elimine wrong contact
              END IF
             END IF
            END IF
-C------------shell          
-c           IF (MSEGTYP(L)/=0 ) THEN
-c            IF (TAG(NS)==0.AND.PEN > ZERO) THEN
-c             IF(INACTI /= 1) THEN
-c              IRTLM(1,NI)=L
-c              IRTLM(2,NI)=1
-c             END IF!(INACTI /= 1) THEN
-c             IWPENE0=IWPENE0+1
-c             IWPENE=IWPENE+1
-c             TAG(NS)=NI
-c            END IF
-c           ELSE
-c            IF (TAG(NS)==0) THEN
-c             IF(INACTI /= 1) THEN
-c              IRTLM(1,NI)=L
-c              IRTLM(2,NI)=1
-c             END IF!(INACTI /= 1) THEN
-c             IWPENE0=IWPENE0+1
-c             IWPENE=IWPENE+1
-c             TAG(NS)=NI
-c            END IF
-c           END IF !(MSEGTYP(L)/=0 ) THEN
           ELSEIF(PEN > PENMAX) THEN
 C----------warning w/o treatment
 #ifndef HYPERMESH_LIB
@@ -333,8 +307,7 @@ C-------change SECONDARY node
                XFIC(2,NS1) = YI + DPEN*NN(2)
                XFIC(3,NS1) = ZI + DPEN*NN(3)
 #ifndef HYPERMESH_LIB
-              WRITE(IOUT,FMT=FMT_I_3F)(ITAB(NUMNOD)+NS1),
-     +                        XFIC(1,NS1),XFIC(2,NS1),XFIC(3,NS1)
+              WRITE(IOUT,FMT=FMT_I_3F)(ITAB(NUMNOD)+NS1),XFIC(1,NS1),XFIC(2,NS1),XFIC(3,NS1)
 #endif
              ELSE
               X(1,NS) = XI + DPEN*NN(1)

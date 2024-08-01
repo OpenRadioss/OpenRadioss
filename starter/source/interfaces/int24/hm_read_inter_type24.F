@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SENSOR_MOD
       USE PARAMETERS_MOD
+      USE FORMAT_MOD , ONLY : FMT_I_2F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

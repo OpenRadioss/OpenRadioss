@@ -77,8 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER PID,MID,SID,ID,I,IMID,IPID,ISID,K,ITH,IGTYP,N,
-     .   GR,IGR
+      INTEGER PID,MID,SID,ID,I,IMID,IPID,ISID,K,ITH,IGTYP,N,GR,IGR
       CHARACTER TITR*nchartitle,MESS*40,TYP*6
       INTEGER IDS, CNT, FLAG_FMT, FLAG_FMT_TMP, IFIX_TMP,NGROU,ITYP
       CHARACTER*nchartitle,TITR1

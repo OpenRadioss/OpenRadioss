@@ -34,11 +34,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-C     LECTURE DES SURFACES ET DECOMPTE DES SEGMENTS
-C           ENTREE : 
-C                    NRT NOMBRE DE RENSEIGNEMENTS A LIRE
-C           SORTIE : 
-C                    IRECT 
+        USE FORMAT_MOD , ONLY : FMW_4I
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C     READING SURFACE AND NUMBERING SEGMENTS
+C           IN :  NRT NOMBRE DE RENSEIGNEMENTS A LIRE
+C           OUT : IRECT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,15 +59,12 @@ C-----------------------------------------------
       INTEGER NRT, NOINT, IR, MSN, NRTNEW
       INTEGER IRECT(4,*), ITAB(*), MSV(*),SURF_NODES(NRT,4)
       INTEGER, DIMENSION(2*NUMNOD+1), INTENT(INOUT) ::  NTAG
-      my_real
-     .       X(3,*)
+      my_real X(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N23, IT, J, NSGOLD,ITG,K,IR1,K4,
-     .        N1,N2,N3,N4
-      my_real
-     .   X13,Y13,Z13,X24,Y24,Z24,D1,D2
+      INTEGER I, N23, IT, J, NSGOLD,ITG,K,IR1,K4,N1,N2,N3,N4
+      my_real X13,Y13,Z13,X24,Y24,Z24,D1,D2
 C=======================================================================
       NRTNEW=0
 
@@ -75,45 +74,11 @@ C=======================================================================
         N2=SURF_NODES(J,2)
         N3=SURF_NODES(J,3)
         N4=SURF_NODES(J,4)
-C       IF(N4==0.OR.N4==N3)THEN 
-         NRTNEW=NRTNEW+1
-         IRECT(1,NRTNEW)=N1           
-         IRECT(2,NRTNEW)=N2           
-         IRECT(3,NRTNEW)=N3           
-         IRECT(4,NRTNEW)=N4           
-C       ELSE
-C         X13=X(1,N1)-X(1,N3)
-C         Y13=X(2,N1)-X(2,N3)
-C         Z13=X(3,N1)-X(3,N3)
-C         D1=X13*X13+Y13*Y13+Z13*Z13
-C         X24=X(1,N2)-X(1,N4)
-C         Y24=X(2,N2)-X(2,N4)
-C         Z24=X(3,N2)-X(3,N4)
-C         D2=X24*X24+Y24*Y24+Z24*Z24
-C         IF(D1 <= D2)THEN
-C           NRTNEW=NRTNEW+1
-C           IRECT(1,NRTNEW)=N1  
-C           IRECT(2,NRTNEW)=N2  
-C           IRECT(3,NRTNEW)=N3  
-C           IRECT(4,NRTNEW)=N3  
-C           NRTNEW=NRTNEW+1
-C           IRECT(1,NRTNEW)=N1  
-C           IRECT(2,NRTNEW)=N3  
-C           IRECT(3,NRTNEW)=N3  
-C           IRECT(4,NRTNEW)=N4  
-C         ELSE
-C           NRTNEW=NRTNEW+1
-C           IRECT(1,NRTNEW)=N1  
-C           IRECT(2,NRTNEW)=N2  
-C           IRECT(3,NRTNEW)=N4  
-C           IRECT(4,NRTNEW)=N4  
-C           NRTNEW=NRTNEW+1
-C           IRECT(1,NRTNEW)=N2  
-C           IRECT(2,NRTNEW)=N3  
-C           IRECT(3,NRTNEW)=N4  
-C           IRECT(4,NRTNEW)=N4  
-C         END IF
-c       END IF                                          
+        NRTNEW=NRTNEW+1
+        IRECT(1,NRTNEW)=N1
+        IRECT(2,NRTNEW)=N2
+        IRECT(3,NRTNEW)=N3
+        IRECT(4,NRTNEW)=N4
       ENDDO                                                 
 C-------          
       IF(IPRI>=1) THEN                                              

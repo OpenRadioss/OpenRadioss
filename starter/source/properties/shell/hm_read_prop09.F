@@ -388,10 +388,6 @@ C
       ENDIF
 
 C-----------------------------
-c        IF (FLAG_FMT /= 0) THEN
-c          CALL FMT_DEF(INVERS_INIT,IFIX_INIT)
-c        ENDIF
-C-----------------------------
 C       IHBE IPLA ISTRAIN - shells
 C-----------------------------
 

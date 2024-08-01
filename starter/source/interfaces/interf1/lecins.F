@@ -176,8 +176,7 @@ C-----Isogeometric elements
         IF(NTYP==7 .AND. INACTI==7)TYPE18=.TRUE.
 C-------------------------------------------
         ID=NOM_OPT(1,NI)
-        CALL FRETITL2(TITR,
-     .                NOM_OPT(LNOPT1-LTITR+1,NI),LTITR)
+        CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,NI),LTITR)
 C-------------------------------------------
         INTBUF_TAB(NI)%STFAC(1) = STFAC(NI)
         DO J = 1,NPARIR

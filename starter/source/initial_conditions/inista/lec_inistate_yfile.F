@@ -31,6 +31,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  ISIGSH    ,IUSER     ,
      4                  ID_SIGSH  , ID_SOLID_SIGI, ID_QUAD_SIGI  )
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE FORMAT_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"

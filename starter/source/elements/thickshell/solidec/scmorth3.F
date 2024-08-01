@@ -57,13 +57,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PID(*),IGEO(NPROPGI,*),IREP,NGL(*),NSIGI,NSIGS,
-     .   IXS(NIXS,*),ILAY,IPID,ORTHOGLOB(*),PT(*),NEL
-C     REAL
-      my_real
-     .   GEO(NPROPG,*),SKEW(LSKEW,*),GAMA(NEL,6),ANGLE(*),
-     .   RX(*) ,RY(*) ,RZ(*) ,SX(*) ,SY(*) ,SZ(*) ,TX(*) ,TY(*) ,TZ(*),
-     .   E1X(*),E1Y(*),E1Z(*),E2X(*),E2Y(*),E2Z(*),E3X(*),E3Y(*),E3Z(*),
-     .   SIGSP(NSIGI,*),SIGI(NSIGS,*)
+     .        IXS(NIXS,*),ILAY,IPID,ORTHOGLOB(*),PT(*),NEL
+      my_real GEO(NPROPG,*),SKEW(LSKEW,*),GAMA(NEL,6),ANGLE(*),
+     .        RX(*) ,RY(*) ,RZ(*) ,SX(*) ,SY(*) ,SZ(*) ,TX(*) ,TY(*) ,TZ(*),
+     .        E1X(*),E1Y(*),E1Z(*),E2X(*),E2Y(*),E2Z(*),E3X(*),E3Y(*),E3Z(*),
+     .        SIGSP(NSIGI,*),SIGI(NSIGS,*)
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR

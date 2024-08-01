@@ -54,11 +54,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT,NFT,NEL,IR,IS,NPT,NUMEL,NIX,ISTRAIN,NSIGSH,NUMSH,
-     . IGTYP,IGEO(NPROPGI,*),NLAY,NPG,IPG
+      INTEGER JFT,JLT,NFT,NEL,IR,IS,NPT,NUMEL,NIX,ISTRAIN,NSIGSH,NUMSH,IGTYP,IGEO(NPROPGI,*),NLAY,NPG,IPG
       INTEGER IX(NIX,*),PTSH(*)
-      my_real
-     . SIGSH(NSIGSH,*)
+      my_real SIGSH(NSIGSH,*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -101,12 +99,7 @@ C for IGTYP == 51, usually NPT <= NPTI (NPTI = NTPP --> for all layers)
           IPID1=IX(NIX-1,NFT+I)
           PID1=IGEO(1,IPID1)
           CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)
-          CALL ANCMSG(MSGID=1215,
-     .                ANMODE=ANINFO,
-     .                MSGTYPE=MSGERROR,
-     .                C1=TITR,
-     .                I1=PID1,
-     .                I2=N)
+          CALL ANCMSG(MSGID=1215, ANMODE=ANINFO, MSGTYPE=MSGERROR, C1=TITR, I1=PID1, I2=N)
 C
         ELSE
           IF (NPGI > 0) THEN

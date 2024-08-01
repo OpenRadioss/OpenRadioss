@@ -518,9 +518,6 @@ C--------------------------------------------------------------
        KR0 = NSTRF(K0+25)
        K0  = NSTRF(K0+24)
 C-------------------------------------------------------------
-        !IF (FLAG_FMT /= 0) THEN
-        !  CALL FMT_DEF(INVERS_INIT,IFIX_INIT)
-        !ENDIF
         NODTAG = 0
         TAGELEMS  = 0
       ENDDO

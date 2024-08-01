@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE OPTIONDEF_MOD
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1228,6 +1229,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE OPTIONDEF_MOD
+      USE FORMAT_MOD , ONLY : FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1247,11 +1249,9 @@ C-----------------------------------------------
      .        NIX,IX(NIX,*),NIX1,NUMEL,IPARTE(*),IPART(LIPART1,*),
      .        KLEVTREE,KELTREE,ELTREE(KELTREE,*),
      .        BUFTMP(NUMEL*5),NGRELE,NN,IBOXMAX,IADB,IBUFBOX(*)
-      my_real
-     .        X(3,*),SKEW(LSKEW,*)
+      my_real X(3,*),SKEW(LSKEW,*)
       CHARACTER KEY*4,MES*40
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,TITR
 C-----------------------------------------------
       TYPE (GROUP_), DIMENSION(NGRELE) :: IGRELEM
       TYPE (BOX_)  , DIMENSION(NBBOX)  :: IBOX
@@ -1595,6 +1595,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE OPTIONDEF_MOD
+      USE FORMAT_MOD , ONLY : FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1613,11 +1614,9 @@ C-----------------------------------------------
      .        NSEG,FLAG,ISKN(LISKN,*),ISURF0,
      .        ITABM1(*),IBUFBOX(*),
      .        IADB,SBUFBOX,TAGSHELLBOX(*),NN
-      MY_REAL
-     .        X(3,*),SKEW(LSKEW,*)
+      MY_REAL X(3,*),SKEW(LSKEW,*)
       CHARACTER KEY*4,MESS*40
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,TITR
 C-----------------------------------------------
       TYPE (SURF_) :: ISURFLIN
       TYPE (BOX_)  , DIMENSION(NBBOX)  :: IBOX
@@ -1625,10 +1624,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,JJ,K,K1,J,JREC,ISK,BOXTYPE,ISU,TAGN(NUMEL),
-     .    ITYPE,IADBOX,IDB,NBOX,ID,IDBX,BOXSEG,IADISU,
-     .    ICOUNT,ITER,FLAGG,NIXEL
-      MY_REAL
-     .    DIAM,XP1,YP1,ZP1,XP2,YP2,ZP2,NODINB(3)
+     .        ITYPE,IADBOX,IDB,NBOX,ID,IDBX,BOXSEG,IADISU,
+     .        ICOUNT,ITER,FLAGG,NIXEL
+      MY_REAL DIAM,XP1,YP1,ZP1,XP2,YP2,ZP2,NODINB(3)
       CHARACTER BOX*3
       LOGICAL BOOL
 C=======================================================================

@@ -83,10 +83,7 @@ C-----------------------------------------------
      .        IKINE(*), IMERGE(*),ITAGND(*),IKINE1(3*NUMNOD),
      .        IXS(NIXS,*),IXQ(NIXQ,*),NPC(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-C     REAL
-      my_real
-     .   RWL(NRWLP,*), MS(*), V(3,*), X(3,*),
-     .   RTRANS(NTRANSF,*)
+      my_real RWL(NRWLP,*), MS(*), V(3,*), X(3,*),RTRANS(NTRANSF,*)
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD

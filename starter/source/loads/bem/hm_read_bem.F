@@ -295,12 +295,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IFLOW(*),
-     .        NPC(*)
+      INTEGER IFLOW(*),NPC(*)
       INTEGER NOM_OPT(LNOPT1,*), LGAUGE(3,*), IGRV(NIGRV,*)
       INTEGER(KIND=8) MEMFLOW(*)
-      my_real
-     .        RFLOW(*), X(3,*)
+      my_real RFLOW(*), X(3,*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
@@ -309,20 +307,19 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IADI, IADR, I, ID, ITYP, II, NINOUT, ISU, J, IPIMP,
-     .     NN, IAD, ITAG(NUMNOD), IAD1, IAD2, J1, J2, J3, J4, ISH34,
-     .     NNO, ITABINV(NUMNOD), NEL, IVFREE, IFVEL, IFPRES,
-     .     K, IFUNC, L, IFPA, IADMATI, IADMATR, III, IGR, NNN,
-     .     NBLOC, IFORM, ILVOUT, ITAGIO(NUMNOD), NG1, NG2, NG3, NG4,
-     .     N1, N2, N3, N4, PROD, NPROW, NPCOL, ITEST, IVINI, IFVINI,
-     .     IINSIDE, NRMAX, NR, ISUIO,NFLOW0, NBLOCMAX, UID,
-     .     IFLAGUNIT,IUNIT
+     .        NN, IAD, ITAG(NUMNOD), IAD1, IAD2, J1, J2, J3, J4, ISH34,
+     .        NNO, ITABINV(NUMNOD), NEL, IVFREE, IFVEL, IFPRES,
+     .        K, IFUNC, L, IFPA, IADMATI, IADMATR, III, IGR, NNN,
+     .        NBLOC, IFORM, ILVOUT, ITAGIO(NUMNOD), NG1, NG2, NG3, NG4,
+     .        N1, N2, N3, N4, PROD, NPROW, NPCOL, ITEST, IVINI, IFVINI,
+     .        IINSIDE, NRMAX, NR, ISUIO,NFLOW0, NBLOCMAX, UID,
+     .        IFLAGUNIT,IUNIT
       INTEGER JFORM, KFORM, II1, II2, II3, II4, II5, II6
       INTEGER IR1, IR2, IR3,IR4, IR5, IR6, IR7, IR8, IR9, IR10, IR11
       INTEGER IPRES, IWAVE, INTEGR, FREESURF, AFTERFLOW, GRAV_ID, NELMAX, IBID, HG
       INTEGER, DIMENSION(:), ALLOCATABLE :: N_SHELL
-      my_real
-     .     SFPA, SFVEL, SFPRES, SCALT, DTSUB, RHO, TOLE, SCALT_PA,
-     .     SFVINI, DIRX, DIRY, DIRZ, NORM, RNSPMD, SCALT_VI
+      my_real SFPA, SFVEL, SFPRES, SCALT, DTSUB, RHO, TOLE, SCALT_PA,
+     .        SFVINI, DIRX, DIRY, DIRZ, NORM, RNSPMD, SCALT_VI
       my_real XC, YC, ZC, XS, YS, ZS, SSP, PMAX, THETA
       my_real APMAX, ATHETA, PMIN
       my_real XA, YA, ZA, XD, YD, ZD, TT

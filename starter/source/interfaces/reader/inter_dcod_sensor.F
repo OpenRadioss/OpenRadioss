@@ -65,9 +65,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID,IERR1,IERR2
-      CHARACTER*nchartitle,
-     .   TITR
-C     DATA IUN/1/
+      CHARACTER*nchartitle, TITR
 C
 C=======================================================================
 C
