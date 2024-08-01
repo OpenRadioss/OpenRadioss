@@ -28,8 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    airbaga1                   ../engine/source/airbag/airbaga1.F
       !||    aleflow                    ../engine/source/ale/porous/aleflow.F
       !||    alefvm_grav_init           ../engine/source/ale/alefvm/alefvm_grav_init.F
-      !||    alefvm_gravity             ../engine/source/ale/alefvm/alefvm_gravity.F
-      !||    alefvm_gravity_int22       ../engine/source/ale/alefvm/alefvm_gravity_int22.F
       !||    cfield_1                   ../engine/source/loads/general/load_centri/cfield.F
       !||    cfield_imp                 ../engine/source/loads/general/load_centri/cfield_imp.F
       !||    cmain3                     ../engine/source/materials/mat_share/cmain3.F

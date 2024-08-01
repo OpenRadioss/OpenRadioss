@@ -21,6 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
+      !||    h3d_oned_scalar_mod   ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F
+      !||--- called by ------------------------------------------------------
+      !||    genh3d                ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||====================================================================
+      MODULE H3D_ONED_SCALAR_MOD
+        CONTAINS
+      !||====================================================================
       !||    h3d_oned_scalar        ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F
       !||--- called by ------------------------------------------------------
       !||    genh3d                 ../engine/source/output/h3d/h3d_results/genh3d.F
@@ -30,8 +37,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||====================================================================
-      MODULE H3D_ONED_SCALAR_MOD
-        CONTAINS
       SUBROUTINE H3D_ONED_SCALAR(
      .                  ELBUF_TAB      , IPARG    , GEO   , IXT     ,
      .                  IXP            , IXR     , PM    , ANIM    ,

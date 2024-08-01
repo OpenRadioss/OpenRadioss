@@ -21,14 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    rgwal1         ../engine/source/ale/grid/rgwal1.F
+      !||    rgwal1                ../engine/source/ale/grid/rgwal1.F
       !||--- called by ------------------------------------------------------
-      !||    alewdx         ../engine/source/ale/grid/alewdx.F
+      !||    alewdx                ../engine/source/ale/grid/alewdx.F
       !||--- calls      -----------------------------------------------------
-      !||    interp         ../engine/source/tools/curve/interp.F
-      !||    rgwath         ../engine/source/interfaces/int09/rgwath.F
+      !||    interp                ../engine/source/tools/curve/interp.F
+      !||    rgwath                ../engine/source/interfaces/int09/rgwath.F
       !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    python_funct_mod      ../common_source/modules/python_mod.F90
       !||====================================================================
       SUBROUTINE RGWAL1(X       ,A  ,V    ,W    ,RWBUF   ,
      2                  LPRW    ,NPRW  , PYTHON,  

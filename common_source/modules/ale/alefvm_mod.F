@@ -53,7 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    dfuncs                 ../engine/source/output/anim/generate/dfunc6.F
       !||    eflux3_int22_fvm       ../engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
       !||    epxle3                 ../engine/source/elements/solid/solide/epxle3.F
-      !||    h3d_quad_scalar        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+      !||    h3d_quad_scalar_1      ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
       !||    h3d_quad_vector        ../engine/source/output/h3d/h3d_results/h3d_quad_vector.F
       !||    h3d_shell_scalar_1     ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
       !||    h3d_shell_vector_1     ../engine/source/output/h3d/h3d_results/h3d_shell_vector_1.F

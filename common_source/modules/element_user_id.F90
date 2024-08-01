@@ -20,9 +20,19 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    user_id_mod       ../common_source/modules/element_user_id.F90
+      !||--- called by ------------------------------------------------------
+      !||    python_register   ../engine/source/tools/curve/python_register.F90
+      !||====================================================================
       module user_id_mod
       contains
 !! \brief Returns the user id and group id of all the elements
+      !||====================================================================
+      !||    element_user_id   ../common_source/modules/element_user_id.F90
+      !||--- called by ------------------------------------------------------
+      !||    python_register   ../engine/source/tools/curve/python_register.F90
+      !||====================================================================
         subroutine element_user_id(user_id, group_id, local_id, nelem, &
           ixs, nixs, numels, &
           ixc, nixc, numelc, &

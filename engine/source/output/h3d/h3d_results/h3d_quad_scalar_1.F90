@@ -20,9 +20,35 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    h3d_quad_scalar_1_mod          ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
+      !||--- called by ------------------------------------------------------
+      !||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
+      !||    h3d_quad_scalar                ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+      !||====================================================================
       module h3d_quad_scalar_1_mod
       contains
 !! \brief fill the scalar values for the quad elements
+      !||====================================================================
+      !||    h3d_quad_scalar_1              ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
+      !||--- called by ------------------------------------------------------
+      !||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
+      !||    h3d_quad_scalar                ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+      !||--- calls      -----------------------------------------------------
+      !||    h3d_write_scalar               ../engine/source/output/h3d/h3d_results/h3d_write_scalar.F
+      !||    initbuf                        ../engine/share/resol/initbuf.F
+      !||    output_div_u                   ../engine/source/output/anim/generate/output_div_u.F
+      !||    output_schlieren               ../engine/source/output/anim/generate/output_schlieren.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod           ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    alefvm_mod                     ../common_source/modules/ale/alefvm_mod.F
+      !||    constant_mod                   ../common_source/modules/constant_mod.F
+      !||    elbufdef_mod                   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod                    ../engine/share/resol/initbuf.F
+      !||    multi_fvm_mod                  ../common_source/modules/ale/multi_fvm_mod.F
+      !||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
+      !||    schlieren_mod                  ../engine/share/modules/schlieren_mod.F
+      !||====================================================================
         subroutine h3d_quad_scalar_1(called_from_python, ng, &
         &  n0phas, nvphas,ngroup, n2d, numelq, nummat, numnod, nparg, npropm, npropmi, ispmd,&
         &  elbuf_tab   ,quad_scalar, quad_scalar_size, iparg        ,&

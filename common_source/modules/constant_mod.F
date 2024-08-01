@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
       !||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
       !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
+      !||    h3d_quad_scalar_1                        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
       !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
       !||    hm_read_eos_exponential                  ../starter/source/materials/eos/hm_read_eos_exponential.F90
       !||    hm_read_fractal_dmg                      ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90

@@ -21,24 +21,25 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    h3d_shell_scalar_1     ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
+      !||    h3d_shell_scalar_1             ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
       !||--- called by ------------------------------------------------------
-      !||    h3d_shell_scalar       ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
+      !||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
+      !||    h3d_shell_scalar               ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
       !||--- calls      -----------------------------------------------------
-      !||    h3d_write_scalar       ../engine/source/output/h3d/h3d_results/h3d_write_scalar.F
-      !||    initbuf                ../engine/share/resol/initbuf.F
-      !||    output_div_u           ../engine/source/output/anim/generate/output_div_u.F
-      !||    output_schlieren       ../engine/source/output/anim/generate/output_schlieren.F
+      !||    h3d_write_scalar               ../engine/source/output/h3d/h3d_results/h3d_write_scalar.F
+      !||    initbuf                        ../engine/share/resol/initbuf.F
+      !||    output_div_u                   ../engine/source/output/anim/generate/output_div_u.F
+      !||    output_schlieren               ../engine/source/output/anim/generate/output_schlieren.F
       !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod            ../engine/share/resol/initbuf.F
-      !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||    schlieren_mod          ../engine/share/modules/schlieren_mod.F
-      !||    stack_mod              ../engine/share/modules/stack_mod.F
+      !||    ale_connectivity_mod           ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    alefvm_mod                     ../common_source/modules/ale/alefvm_mod.F
+      !||    elbufdef_mod                   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod                    ../engine/share/resol/initbuf.F
+      !||    matparam_def_mod               ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    multi_fvm_mod                  ../common_source/modules/ale/multi_fvm_mod.F
+      !||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
+      !||    schlieren_mod                  ../engine/share/modules/schlieren_mod.F
+      !||    stack_mod                      ../engine/share/modules/stack_mod.F
       !||====================================================================
       SUBROUTINE H3D_SHELL_SCALAR_1( CALLED_FROM_PYTHON,
      .                  ELBUF_TAB   ,SHELL_SCALAR,IPARG       ,GEO        ,

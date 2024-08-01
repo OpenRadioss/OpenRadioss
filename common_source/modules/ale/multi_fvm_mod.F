@@ -46,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eigcond                          ../engine/stub/eigcond.F
       !||    eigp                             ../engine/stub/eigp.F
       !||    freform                          ../engine/source/input/freform.F
+      !||    funct_python_update_elements     ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    genani                           ../engine/source/output/anim/generate/genani.F
       !||    genh3d                           ../engine/source/output/h3d/h3d_results/genh3d.F
       !||    genstat                          ../engine/source/output/sta/genstat.F
@@ -55,6 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_list_solid_scalar            ../engine/source/output/h3d/input_list/h3d_list_solid_scalar.F
       !||    h3d_nodal_scalar                 ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
       !||    h3d_quad_scalar                  ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+      !||    h3d_quad_scalar_1                ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
       !||    h3d_quad_vector                  ../engine/source/output/h3d/h3d_results/h3d_quad_vector.F
       !||    h3d_shell_scalar                 ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
       !||    h3d_shell_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F

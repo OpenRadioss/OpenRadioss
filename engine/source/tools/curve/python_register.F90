@@ -22,8 +22,26 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !! \brief Register the python functions saved in the python structure into the python interpreter dictionary
+      !||====================================================================
+      !||    python_register_mod   ../engine/source/tools/curve/python_register.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                 ../engine/source/engine/resol.F
+      !||====================================================================
       module python_register_mod
       contains
+      !||====================================================================
+      !||    python_register                        ../engine/source/tools/curve/python_register.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                                  ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    element_user_id                        ../common_source/modules/element_user_id.F90
+      !||    python_element_init                    ../engine/source/mpi/python_spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    python_element_mod                     ../common_source/modules/python_element_mod.F90
+      !||    python_funct_mod                       ../common_source/modules/python_mod.F90
+      !||    python_spmd_mod                        ../engine/source/mpi/python_spmd_mod.F90
+      !||    user_id_mod                            ../common_source/modules/element_user_id.F90
+      !||====================================================================
         subroutine python_register(py, itab, numnod,&
         & ixs, nixs, numels, &
         & ixc, nixc, numelc, &

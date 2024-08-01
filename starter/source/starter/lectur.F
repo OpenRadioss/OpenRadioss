@@ -356,6 +356,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    printbcs                            ../starter/source/constraints/general/bcs/printbcs.F
       !||    printgroup                          ../starter/source/output/outfile/printgroup.F
       !||    printstsz                           ../starter/source/spmd/node/st_array_size.F
+      !||    python_duplicate_nodes              ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90
       !||    qgrhead                             ../starter/source/elements/solid_2d/quad/qgrhead.F
       !||    qgrtails                            ../starter/source/elements/solid_2d/quad/qgrtails.F
       !||    r2r_check                           ../starter/source/coupling/rad2rad/r2r_check.F

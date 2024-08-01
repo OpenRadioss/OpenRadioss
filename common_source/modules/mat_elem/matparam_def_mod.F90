@@ -48,6 +48,7 @@
       !||    failini                             ../starter/source/elements/solid/solide/failini.F
       !||    fill_buffer_51_0                    ../starter/source/materials/mat/mat051/fill_buffer_51_0.F
       !||    func_comp                           ../starter/source/materials/mat/mat076/law76_upd.F
+      !||    funct_python_update_elements        ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    genani                              ../engine/source/output/anim/generate/genani.F
       !||    genh3d                              ../engine/source/output/h3d/h3d_results/genh3d.F
       !||    h3d_shell_scalar                    ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F

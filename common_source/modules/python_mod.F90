@@ -21,30 +21,48 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    python_funct_mod       ../common_source/modules/python_mod.F90
+      !||    python_funct_mod               ../common_source/modules/python_mod.F90
       !||--- called by ------------------------------------------------------
-      !||    daasolv                ../engine/source/fluid/daasolv.F
-      !||    daasolvp               ../engine/source/fluid/daasolvp.F
-      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
-      !||    execargcheck           ../engine/source/engine/execargcheck.F
-      !||    fixvel                 ../engine/source/constraints/general/impvel/fixvel.F
-      !||    flow0                  ../engine/source/fluid/flow0.F
-      !||    force                  ../engine/source/loads/general/force.F90
-      !||    gravit                 ../engine/source/loads/general/grav/gravit.F
-      !||    gravit_fvm_fem         ../engine/source/loads/general/grav/gravit_fvm_fem.F
-      !||    hm_read_funct_python   ../starter/source/tools/curve/hm_read_funct_python.F90
-      !||    incpflow               ../engine/source/fluid/incpflow.F
-      !||    lag_fxv                ../engine/source/tools/lagmul/lag_fxv.F
-      !||    lag_fxvp               ../engine/source/tools/lagmul/lag_fxv.F
-      !||    lag_mult               ../engine/source/tools/lagmul/lag_mult.F
-      !||    lag_multp              ../engine/source/tools/lagmul/lag_mult.F
-      !||    lectur                 ../engine/source/input/lectur.F
-      !||    radioss2               ../engine/source/engine/radioss2.F
-      !||    rdresb                 ../engine/source/output/restart/rdresb.F
-      !||    resol                  ../engine/source/engine/resol.F
-      !||    resol_head             ../engine/source/engine/resol_head.F
-      !||    wrrestp                ../engine/source/output/restart/wrrestp.F
+      !||    alefvm_grav_init               ../engine/source/ale/alefvm/alefvm_grav_init.F
+      !||    alemain                        ../engine/source/ale/alemain.F
+      !||    alewdx                         ../engine/source/ale/grid/alewdx.F
+      !||    cfield_1                       ../engine/source/loads/general/load_centri/cfield.F
+      !||    convec                         ../engine/source/constraints/thermic/convec.F
+      !||    daasolv                        ../engine/source/fluid/daasolv.F
+      !||    daasolvp                       ../engine/source/fluid/daasolvp.F
+      !||    ddsplit                        ../starter/source/restart/ddsplit/ddsplit.F
+      !||    execargcheck                   ../engine/source/engine/execargcheck.F
+      !||    fixflux                        ../engine/source/constraints/thermic/fixflux.F
+      !||    fixvel                         ../engine/source/constraints/general/impvel/fixvel.F
+      !||    flow0                          ../engine/source/fluid/flow0.F
+      !||    force                          ../engine/source/loads/general/force.F90
+      !||    forcefingeo                    ../engine/source/loads/general/forcefingeo.F
+      !||    forcepinch                     ../engine/source/loads/general/forcepinch.F
+      !||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
+      !||    gravit                         ../engine/source/loads/general/grav/gravit.F
+      !||    gravit_fvm_fem                 ../engine/source/loads/general/grav/gravit_fvm_fem.F
+      !||    hm_read_funct_python           ../starter/source/tools/curve/hm_read_funct_python.F90
+      !||    incpflow                       ../engine/source/fluid/incpflow.F
+      !||    lag_fxv                        ../engine/source/tools/lagmul/lag_fxv.F
+      !||    lag_fxvp                       ../engine/source/tools/lagmul/lag_fxv.F
+      !||    lag_mult                       ../engine/source/tools/lagmul/lag_mult.F
+      !||    lag_multp                      ../engine/source/tools/lagmul/lag_mult.F
+      !||    lectur                         ../engine/source/input/lectur.F
+      !||    load_pressure                  ../engine/source/loads/general/load_pressure/load_pressure.F
+      !||    pfluid                         ../engine/source/loads/general/pfluid/pfluid.F
+      !||    python_duplicate_nodes         ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90
+      !||    python_element_init            ../engine/source/mpi/python_spmd_mod.F90
+      !||    python_register                ../engine/source/tools/curve/python_register.F90
+      !||    radiation                      ../engine/source/constraints/thermic/radiation.F
+      !||    radioss2                       ../engine/source/engine/radioss2.F
+      !||    rdresb                         ../engine/source/output/restart/rdresb.F
+      !||    resol                          ../engine/source/engine/resol.F
+      !||    resol_head                     ../engine/source/engine/resol_head.F
+      !||    rgwal1                         ../engine/source/ale/grid/rgwal1.F
+      !||    timfun                         ../engine/source/tools/curve/timfun.F
+      !||    wrrestp                        ../engine/source/output/restart/wrrestp.F
       !||--- uses       -----------------------------------------------------
+      !||    python_element_mod             ../common_source/modules/python_element_mod.F90
       !||====================================================================
       module python_funct_mod
         use iso_c_binding
@@ -479,6 +497,13 @@
         end subroutine
 
 !! \brief update variables known by python functions
+      !||====================================================================
+      !||    python_update_nodal_entity     ../common_source/modules/python_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    python_update_nodal_entities   ../common_source/modules/python_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine python_update_nodal_entity(numnod, name, name_len, val)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
@@ -513,6 +538,14 @@
 
 
 !! \brief update variables known by python functions
+      !||====================================================================
+      !||    python_update_nodal_entities   ../common_source/modules/python_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                          ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    python_update_nodal_entity     ../common_source/modules/python_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine python_update_nodal_entities(numnod,X, A, D, DR, V, VR, AR)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module

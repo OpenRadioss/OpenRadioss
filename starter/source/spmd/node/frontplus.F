@@ -80,6 +80,7 @@ C-----------------------------------------------------
       !||    lecstamp                    ../starter/source/interfaces/interf1/lecstamp.F
       !||    lectur                      ../starter/source/starter/lectur.F
       !||    pornod                      ../starter/source/ale/pornod.F
+      !||    python_duplicate_nodes      ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90
       !||    r2r_domdec                  ../starter/source/coupling/rad2rad/r2r_domdec.F
       !||    read_dfs_detcord            ../starter/source/initial_conditions/detonation/read_dfs_detcord.F
       !||    read_dfs_wave_shaper        ../starter/source/initial_conditions/detonation/read_dfs_wave_shaper.F

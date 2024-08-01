@@ -57,6 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    get_unique_main_cell             ../engine/source/interfaces/int22/get_unique_master_cell.F
       !||    gpsstrain_skin                   ../engine/source/output/anim/generate/tensgpstrain.F
       !||    h3d_quad_scalar                  ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+      !||    h3d_quad_scalar_1                ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
       !||    h3d_quad_vector                  ../engine/source/output/h3d/h3d_results/h3d_quad_vector.F
       !||    h3d_shell_scalar                 ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
       !||    h3d_shell_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
@@ -188,7 +189,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    forints                          ../engine/source/elements/forints.F
       !||    get_nodal_ipart                  ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
       !||    gpsstrain_skin                   ../engine/source/output/anim/generate/tensgpstrain.F
-      !||    h3d_quad_scalar                  ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+      !||    h3d_quad_scalar_1                ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
       !||    h3d_quad_vector                  ../engine/source/output/h3d/h3d_results/h3d_quad_vector.F
       !||    h3d_shell_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
       !||    h3d_shell_vector_1               ../engine/source/output/h3d/h3d_results/h3d_shell_vector_1.F

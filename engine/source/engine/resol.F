@@ -141,6 +141,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    forintp                                      ../engine/source/elements/forintp.F
       !||    forints                                      ../engine/source/elements/forints.F
       !||    free_pinch                                   ../common_source/modules/pinchtype_mod.F
+      !||    funct_python_update_elements                 ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    fv_switch_crit                               ../engine/source/airbag/fvdim.F
       !||    fvbag0                                       ../engine/source/airbag/fvbag0.F
       !||    fvcopy                                       ../engine/source/airbag/fvcopy.F
@@ -237,7 +238,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    printime                                     ../engine/source/system/timer.F
       !||    printime_interf                              ../engine/source/system/timer_interf.F
       !||    printimeg                                    ../engine/source/system/timer.F
-      !||    python_register                              ../common_source/modules/python_mod.F90
+      !||    python_register                              ../engine/source/tools/curve/python_register.F90
+      !||    python_update_nodal_entities                 ../common_source/modules/python_mod.F90
       !||    r2r_block_c                                  ../engine/source/coupling/rad2rad/rad2rad_c.c
       !||    r2r_exchange                                 ../engine/source/coupling/rad2rad/r2r_exchange.F
       !||    r2r_getdata                                  ../engine/source/coupling/rad2rad/r2r_getdata.F
@@ -408,6 +410,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    acceleration_dp_mod                          ../engine/share/modules/acceleration_dp_mod.F
       !||    ale_connectivity_mod                         ../common_source/modules/ale/ale_connectivity_mod.F
       !||    ale_mod                                      ../common_source/modules/ale/ale_mod.F
+      !||    aleanim_mod                                  ../engine/share/modules/aleanim_mod.F
       !||    aleflow_mod                                  ../engine/share/modules/aleflow_mod.F
       !||    alefvm_mod                                   ../common_source/modules/ale/alefvm_mod.F
       !||    alemuscl_mod                                 ../common_source/modules/ale/alemuscl_mod.F
@@ -430,6 +433,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    failwave_mod                                 ../common_source/modules/failwave_mod.F
       !||    force_mod                                    ../engine/source/loads/general/force.F90
       !||    fskyi_mod                                    ../engine/share/modules/restart_mod.F
+      !||    funct_python_update_elements_mod             ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    fvbag_mod                                    ../engine/share/modules/fvbag_mod.F
       !||    get_neighbour_surface_mod                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
       !||    groupdef_mod                                 ../common_source/modules/groupdef_mod.F
@@ -462,6 +466,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pinchtype_mod                                ../common_source/modules/pinchtype_mod.F
       !||    plyxfem_mod                                  ../engine/share/modules/plyxfem_mod.F
       !||    python_funct_mod                             ../common_source/modules/python_mod.F90
+      !||    python_register_mod                          ../engine/source/tools/curve/python_register.F90
       !||    rad2r_mod                                    ../engine/share/modules/rad2r.F
       !||    remesh_mod                                   ../engine/share/modules/remesh_mod.F
       !||    resolsav_mod                                 ../engine/share/modules/resol_mod.F

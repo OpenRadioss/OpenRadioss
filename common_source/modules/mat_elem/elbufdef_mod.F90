@@ -197,6 +197,7 @@
       !||    fail_gene1_s                        ../engine/source/materials/fail/gene1/fail_gene1_s.F
       !||    failini                             ../starter/source/elements/solid/solide/failini.F
       !||    forints                             ../engine/source/elements/forints.F
+      !||    funct_python_update_elements        ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    fv_up_switch                        ../engine/source/airbag/fv_up_switch.F
       !||    fvbag0                              ../engine/source/airbag/fvbag0.F
       !||    fvbag1                              ../engine/source/airbag/fvbag1.F
@@ -229,6 +230,7 @@
       !||    h3d_oned_vector                     ../engine/source/output/h3d/h3d_results/h3d_oned_vector.F
       !||    h3d_quad_off                        ../engine/source/output/h3d/spmd/spmd_h3d_quad_off.F
       !||    h3d_quad_scalar                     ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+      !||    h3d_quad_scalar_1                   ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
       !||    h3d_quad_tensor                     ../engine/source/output/h3d/h3d_results/h3d_quad_tensor.F
       !||    h3d_quad_vector                     ../engine/source/output/h3d/h3d_results/h3d_quad_vector.F
       !||    h3d_shell_off                       ../engine/source/output/h3d/spmd/spmd_h3d_shell_off.F

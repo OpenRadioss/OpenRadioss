@@ -76,6 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    freoutp                        ../engine/source/input/freoutp.F
       !||    frestat                        ../engine/source/input/frestat.F
       !||    freupwm                        ../engine/source/input/freupwm.F
+      !||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    genh3d                         ../engine/source/output/h3d/h3d_results/genh3d.F
       !||    groupdef_mod                   ../common_source/modules/groupdef_mod.F
       !||    h3d_gene_keyword               ../engine/source/output/h3d/input_list/h3d_gene_keyword.F
@@ -88,6 +89,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_oned_vector                ../engine/source/output/h3d/h3d_results/h3d_oned_vector.F
       !||    h3d_pre_skin_scalar            ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
       !||    h3d_quad_scalar                ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+      !||    h3d_quad_scalar_1              ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
       !||    h3d_quad_tensor                ../engine/source/output/h3d/h3d_results/h3d_quad_tensor.F
       !||    h3d_quad_vector                ../engine/source/output/h3d/h3d_results/h3d_quad_vector.F
       !||    h3d_read                       ../engine/source/output/h3d/h3d_build_fortran/h3d_read.F

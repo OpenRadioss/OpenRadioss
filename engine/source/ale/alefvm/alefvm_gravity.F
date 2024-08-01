@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alefvm_gravity   ../engine/source/ale/alefvm/alefvm_gravity.F
       !||--- called by ------------------------------------------------------
       !||    sforc3           ../engine/source/elements/solid/solide/sforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter           ../engine/source/tools/curve/finter.F
       !||--- uses       -----------------------------------------------------
       !||    alefvm_mod       ../common_source/modules/ale/alefvm_mod.F
       !||====================================================================

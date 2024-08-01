@@ -23,6 +23,8 @@
       !||====================================================================
       !||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
       !||--- called by ------------------------------------------------------
+      !||    python_element_init             ../engine/source/mpi/python_spmd_mod.F90
+      !||    python_element_sync             ../engine/source/mpi/python_spmd_mod.F90
       !||    resol                           ../engine/source/engine/resol.F
       !||    spmd_all_dmax                   ../engine/source/mpi/elements/spmd_sph.F
       !||    spmd_e1vois                     ../engine/source/mpi/fluid/spmd_cfd.F
@@ -335,10 +337,12 @@
 
 !!\brief get MPI rank
       !||====================================================================
-      !||    spmd_comm_rank   ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_comm_rank        ../engine/source/mpi/spmd_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    python_element_init   ../engine/source/mpi/python_spmd_mod.F90
       !||--- calls      -----------------------------------------------------
-      !||    spmd_in          ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_out         ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in               ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
         subroutine spmd_comm_rank(rank, comm)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -378,10 +382,12 @@
 
 !!\brief get MPI size
       !||====================================================================
-      !||    spmd_comm_size   ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_comm_size        ../engine/source/mpi/spmd_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    python_element_init   ../engine/source/mpi/python_spmd_mod.F90
       !||--- calls      -----------------------------------------------------
-      !||    spmd_in          ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_out         ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in               ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
         subroutine spmd_comm_size(rank, comm)
 ! ----------------------------------------------------------------------------------------------------------------------

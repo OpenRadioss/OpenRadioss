@@ -21,22 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    schlieren_buffer_gathering   ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
+      !||    schlieren_buffer_gathering     ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
       !||--- called by ------------------------------------------------------
-      !||    dfunc0                       ../engine/source/output/anim/generate/dfunc0.F
-      !||    dfuncc                       ../engine/source/output/anim/generate/dfuncc.F
-      !||    dfuncs                       ../engine/source/output/anim/generate/dfunc6.F
-      !||    h3d_quad_scalar              ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
-      !||    h3d_shell_scalar             ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
-      !||    h3d_solid_scalar             ../engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
+      !||    dfunc0                         ../engine/source/output/anim/generate/dfunc0.F
+      !||    dfuncc                         ../engine/source/output/anim/generate/dfuncc.F
+      !||    dfuncs                         ../engine/source/output/anim/generate/dfunc6.F
+      !||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
+      !||    h3d_quad_scalar                ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+      !||    h3d_shell_scalar               ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
+      !||    h3d_solid_scalar               ../engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
       !||--- calls      -----------------------------------------------------
-      !||    initbuf                      ../engine/share/resol/initbuf.F
-      !||    spmd_e1vois                  ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    initbuf                        ../engine/share/resol/initbuf.F
+      !||    spmd_e1vois                    ../engine/source/mpi/fluid/spmd_cfd.F
       !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod                  ../engine/share/resol/initbuf.F
-      !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F
-      !||    schlieren_mod                ../engine/share/modules/schlieren_mod.F
+      !||    elbufdef_mod                   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod                    ../engine/share/resol/initbuf.F
+      !||    multi_fvm_mod                  ../common_source/modules/ale/multi_fvm_mod.F
+      !||    schlieren_mod                  ../engine/share/modules/schlieren_mod.F
       !||====================================================================
       SUBROUTINE SCHLIEREN_BUFFER_GATHERING(
      1                     NERCVOIS , NESDVOIS  ,LERCVOIS   ,LESDVOIS ,

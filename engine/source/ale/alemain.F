@@ -75,6 +75,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F
       !||    nlocal_reg_mod               ../common_source/modules/nlocal_reg_mod.F
       !||    output_mod                   ../common_source/modules/output/output_mod.F90
+      !||    python_funct_mod             ../common_source/modules/python_mod.F90
       !||    segvar_mod                   ../engine/share/modules/segvar_mod.F
       !||    sensor_mod                   ../engine/share/modules/sensor_mod.F
       !||    table_mod                    ../engine/share/modules/table_mod.F

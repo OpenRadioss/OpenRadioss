@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    radiation    ../engine/source/constraints/thermic/radiation.F
+      !||    radiation             ../engine/source/constraints/thermic/radiation.F
       !||--- called by ------------------------------------------------------
-      !||    resol        ../engine/source/engine/resol.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    finter       ../engine/source/tools/curve/finter.F
+      !||    finter                ../engine/source/tools/curve/finter.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    python_funct_mod      ../common_source/modules/python_mod.F90
+      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
       !||====================================================================
       SUBROUTINE RADIATION(IBCR   ,FRADIA    ,NPC       ,TF     , X  ,
      1                     TEMP   ,NSENSOR   ,SENSOR_TAB,FTHE   ,IAD ,

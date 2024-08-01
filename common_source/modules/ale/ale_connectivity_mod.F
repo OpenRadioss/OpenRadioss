@@ -112,12 +112,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eporin3                          ../starter/source/ale/ale3d/eporin3.F
       !||    findele                          ../starter/source/boundary_conditions/ebcs/findele.F
       !||    forint                           ../engine/source/elements/forint.F
+      !||    funct_python_update_elements     ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    genani                           ../engine/source/output/anim/generate/genani.F
       !||    genh3d                           ../engine/source/output/h3d/h3d_results/genh3d.F
       !||    gradient_reconstruction          ../engine/source/ale/alemuscl/gradient_reconstruction.F
       !||    gradient_reconstruction2         ../engine/source/ale/alemuscl/gradient_reconstruction2.F
       !||    h3d_nodal_scalar                 ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
       !||    h3d_quad_scalar                  ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+      !||    h3d_quad_scalar_1                ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
       !||    h3d_shell_scalar                 ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
       !||    h3d_shell_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
       !||    h3d_solid_scalar                 ../engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
