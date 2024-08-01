@@ -1132,6 +1132,32 @@ C        get actual configuration from x(3,*) for small strain option
      .      Z1,       Z2,       Z3,       Z4,      
      .      Z5,       Z6,       Z7,       Z8,      
      .       X,      XDP,   NUMNOD,     NEL )
+         DO I=1,NEL
+            VX1(I)=V(1,NC1(I))
+            VY1(I)=V(2,NC1(I))
+            VZ1(I)=V(3,NC1(I))
+            VX2(I)=V(1,NC2(I))
+            VY2(I)=V(2,NC2(I))
+            VZ2(I)=V(3,NC2(I))
+            VX3(I)=V(1,NC3(I))
+            VY3(I)=V(2,NC3(I))
+            VZ3(I)=V(3,NC3(I))
+            VX4(I)=V(1,NC4(I))
+            VY4(I)=V(2,NC4(I))
+            VZ4(I)=V(3,NC4(I))
+            VX5(I)=V(1,NC5(I))
+            VY5(I)=V(2,NC5(I))
+            VZ5(I)=V(3,NC5(I))
+            VX6(I)=V(1,NC6(I))
+            VY6(I)=V(2,NC6(I))
+            VZ6(I)=V(3,NC6(I))
+            VX7(I)=V(1,NC7(I))
+            VY7(I)=V(2,NC7(I))
+            VZ7(I)=V(3,NC7(I))
+            VX8(I)=V(1,NC8(I))
+            VY8(I)=V(2,NC8(I))
+            VZ8(I)=V(3,NC8(I))
+         ENDDO
          CALL S8FOR_DISTOR(
      .   X1,      X2,      X3,      X4,      
      .   X5,      X6,      X7,      X8,      
