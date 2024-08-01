@@ -109,7 +109,7 @@
           integer, intent(inout) :: iparg(nparg, ngroup) !< integer values for the groups
           integer, intent(inout) :: ixq(nixq, numelq) !< quad connectivity
           integer, intent(inout) :: ipm(npropmi, nummat) !< material properties
-          integer, intent(inout) :: id_elem(nixq) !< element ids
+          integer, intent(inout) :: id_elem(numelq) !< element ids
           integer, intent(inout) :: is_written_quad(numelq) !< flag to indicate if the value is written
           integer, intent(inout) :: ipartq(numelq) !< part ids
           integer, intent(inout) :: h3d_part(numelq) !< h3d part ids ?
