@@ -115,13 +115,13 @@ C-----------------------------------------------
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IGTYP,IPGMAT,IGMAT,
      .   ISUBSTACK,NELIG3D, COIN_IGE(8), IPID, PX, PY, PZ, IAD ,IPFMAX,IPL,
-     .   IPFLMAX,IPG,NINV
+     .   IPFLMAX,IPG,NINV,ICONTR
       INTEGER JPERM(4)
       LOGICAL TYPE18
       my_real
      .   DXM, GAPMX, GAPMN, AREA, VOL, DX, GAPM, DDX, 
      .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
-     .   SLSFAC,XL,IELEM(2)
+     .   SLSFAC,XL,IELEM(2),BULK
       my_real, dimension(:), allocatable :: GAP_S_L_TMP
       INTEGER, DIMENSION(:),ALLOCATABLE  :: TAGELEMS,INDEXE
       LOGICAL :: PRINT_ERROR
@@ -417,6 +417,8 @@ C----------------------
         !----------------!
         IF(NELS /= 0)THEN
           MT=IXS(1,NELS)
+          MG=IXS(NIXS-1,NELS)
+          ICONTR = IGEO(97,MG)
           IF(MT > 0)THEN
             DO JJ=1,8
               JJJ=IXS(JJ+1,NELS)
@@ -425,7 +427,12 @@ C----------------------
               ZC(JJ)=X(3,JJJ)
             END DO
             CALL VOLINT(VOL)
-            STF(I)=SLSFAC*FILLSOL(NELS)*AREA*AREA*PM(32,MT)/VOL
+            IF (ICONTR==1 ) THEN
+              BULK = PM(107,MT)
+            ELSE
+              BULK = PM(32,MT)
+            END IF
+            STF(I)=SLSFAC*FILLSOL(NELS)*AREA*AREA*BULK/VOL
           ELSE
             IF(NINT >= 0) THEN
                CALL ANCMSG(MSGID=95,

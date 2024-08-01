@@ -50,7 +50,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      H PM_STACK, IWORKSH ,INTFRIC ,TAGPRT_FRIC,IPARTFRICS,
      G IPARTFRICM,INTBUF_FRIC_TAB ,INTNITSCHE,NRTS,IRECTS,
      I IELNRTS ,ADRECTS ,FACNRTS  ,NMN       ,MSR ,
-     J IPARTT ,IPARTP   ,IPARTR   ,ELEM_LINKED_TO_SEGMENT)
+     J IPARTT ,IPARTP   ,IPARTR   ,ELEM_LINKED_TO_SEGMENT,
+     K IGSTI  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -74,7 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRT, NINT, NTY, NOINT,NSN,IGAP,INTFRIC,NMN,
+      INTEGER NRT, NINT, NTY, NOINT,NSN,IGAP,INTFRIC,NMN,IGSTI,
      .        INACTI,NRT_SH ,ILEV ,IGAP0,INTNITSCHE,NRTS,IGEO(NPROPGI,*)
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*), IXT(NIXT,*), IXP(NIXP,*),
@@ -744,7 +745,7 @@ C------------ISU1 first
      F GAPMX  , GAPMN  ,GAPSCALE  ,NSHIF   ,GAPMAX_M,
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT    ,
      H PM_STACK, IWORKSH,INTFRIC ,TAGPRT_FRIC,IPARTFRICS,
-     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT)
+     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT,IGSTI)
        NRT2=IGRSURF%NSEG
        NSHIF = NRT1
        CALL I24GAPM(
@@ -763,7 +764,7 @@ C------------ISU1 first
      F GAPMX  , GAPMN  ,GAPSCALE  ,NSHIF   ,GAPMAX_M,
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT  ,
      H PM_STACK , IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
-     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT)
+     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT,IGSTI)
       ELSE
        CALL I24GAPM(
      1 X     ,IRECT ,STF   ,IXS   ,PM    ,
@@ -780,7 +781,7 @@ C------------ISU1 first
      F GAPMX  , GAPMN  ,GAPSCALE  ,NSHIF   ,GAPMAX_M,
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT ,
      H PM_STACK , IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
-     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT)
+     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT,IGSTI)
       END IF
 
 
@@ -1094,7 +1095,7 @@ C-----------------------------------------------
      F GAPMX  , GAPMN  ,GAPSCALE  ,NSHIFT  ,GAPMAX_M,
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT    ,
      H PM_STACK , IWORKSH ,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
-     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,ELEM_LINKED_TO_SEGMENT)
+     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,ELEM_LINKED_TO_SEGMENT,IGSTI)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1118,7 +1119,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRT, NINT, NTY, NOINT,NSN,IGAP, NDDIM,NDX,INTFRIC
+      INTEGER NRT, NINT, NTY, NOINT,NSN,IGAP, NDDIM,NDX,INTFRIC,IGSTI
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*), IXT(NIXT,*), IXP(NIXP,*),
      .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
@@ -1149,13 +1150,13 @@ C-----------------------------------------------
       INTEGER I, J, INRT, NELS, MT, JJ, JJJ, NELC,
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IAD,NREV,IGTYP,IPGMAT,IGMAT,
-     .   ISUBSTACK,IPL,IPG,NINV
+     .   ISUBSTACK,IPL,IPG,NINV,ICONTR
       INTEGER, DIMENSION(:),ALLOCATABLE  :: TAGELEMS,INDEXE
 C     REAL
       my_real
      .   AREA, VOL, DX, GAPM, DDX, 
      .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
-     .   XL,STIFC,ST,IELEM(2)
+     .   XL,STIFC,ST,IELEM(2),BULK
       LOGICAL :: PRINT_ERROR
       INTEGER, DIMENSION(4) :: NODE_ID
 C----------------------
@@ -1182,6 +1183,8 @@ C-----------------to avoid too much print-out in 0.out file
      .                IGRSURF%ELEM)
        IF(NELS/=0)THEN
         MT=IXS(1,NELS)
+        MG=IXS(NIXS-1,NELS)
+        ICONTR = IGEO(97,MG)
         IF(MT>0)THEN
           DO JJ=1,8
             JJJ=IXS(JJ+1,NELS)
@@ -1190,7 +1193,13 @@ C-----------------to avoid too much print-out in 0.out file
             ZC(JJ)=X(3,JJJ)
           END DO
           CALL VOLINT(VOL)
-          STF(I)=SLSFAC*FILLSOL(NELS)*AREA*AREA*PM(32,MT)/VOL
+          IF (ICONTR==1 .OR. IGSTI>0) THEN
+            BULK = PM(107,MT)
+!            IF (ICONTR==1 ) BULK = HUNDRED*BULK
+          ELSE
+            BULK = PM(32,MT)
+          END IF
+          STF(I)=SLSFAC*FILLSOL(NELS)*AREA*AREA*BULK/VOL
         ELSE
           IF(NINT>=0) THEN
              CALL ANCMSG(MSGID=95,

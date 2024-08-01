@@ -610,6 +610,7 @@ C-----------------------------------------------
       USE RANDOM_WALK_DEF_MOD
       use constraint_mod , only : constraint_,alloc_constraint_struct,dealloc_constraint_struct
       use split_rwall_mod , only : split_rwall
+      use stifint_icontrol_mod, only : stifint_icontrol
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -9108,8 +9109,16 @@ C----------------------------------
       ERR_CATEGORY='INTERFACES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       IF(NINTER>0)THEN
-        IF(I7STIFS/=0)
-     .    CALL ININTR1 (IPARI   ,STIFINT, INTBUF_TAB ,STFAC)
+        IF (I7STIFS/=0) THEN
+          CALL STIFINT_ICONTROL(
+     1                 NUMNOD,    STIFINT,      NPARI,        NINTER,
+     2                  IPARI,    NPROPGI,     NUMGEO,          IGEO, 
+     3                 NUMELS,       NIXS,        IXS,       NUMELS8, 
+     4               NUMELS10,      IXS10,   NUMELS16,         IXS16, 
+     5               NUMELS20,      IXS20,     NPROPM,        NUMMAT, 
+     6                     PM, INTBUF_TAB)
+          CALL ININTR1 (IPARI   ,STIFINT, INTBUF_TAB ,STFAC)
+        END IF
         DEALLOCATE(STFAC)
       ENDIF
       CALL TRACE_OUT1()
