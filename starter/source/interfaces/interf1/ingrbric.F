@@ -31,6 +31,10 @@ C-----------------------------------------------------------------------
 C This subroutine lists all brick in the /GRBRICK
 C (for example it is used with /inter/type22 which recquires a grbrick_id)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE FORMAT_MOD , ONLY : FMW_10I
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"

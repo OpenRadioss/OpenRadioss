@@ -551,12 +551,6 @@ C
         GEO(M1)=GEO(M1)*PI/HUNDRED80
       ENDDO
 C-----------------------------
-C switch I8/I10 TO BE DELETED WHEN USING HM READER
-C-----------------------------
-c      IF (FLAG_FMT /= 0) THEN
-c        CALL FMT_DEF(INVERS_INIT,IFIX_INIT)
-c      ENDIF
-C-----------------------------
 C     IHBE IPLA ISTRAIN - shells
 C-----------------------------
       IHBE=NINT(GEO(171))

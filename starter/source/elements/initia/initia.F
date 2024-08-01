@@ -1755,8 +1755,7 @@ C-------------------------------------------
          ISENS=NPBY(4,N)
          RBYID= NPBY(6,N)
          ID=NOM_OPT(1,N)
-         CALL FRETITL2(TITR,
-     .                 NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
+         CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
          IF(ISENS/=0)THEN
            CALL INIRBYS(N    ,RBY    ,M   ,LPBY ,
      .             MS,IN     ,X      ,ITAB   ,SKEW,
@@ -2144,7 +2143,6 @@ C
      1                  NE     ,EMAT    ,EPID    ,IPM      ,IGEO    ,
      2                  ELEM   )
       USE MESSAGE_MOD
-C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2378,7 +2376,6 @@ C
       !||====================================================================
       SUBROUTINE CHECKMP(NUMEL,IX,NIX,NG,NE,EMAT,EPID,IPM,IGEO,ELEM,IPARTEL)
       USE MESSAGE_MOD
-C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2674,7 +2671,6 @@ C
       !||    fretitl2   ../starter/source/starter/freform.F
       !||====================================================================
       SUBROUTINE OUTPART(PARTSAV,IPART,NPART)
-C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2688,8 +2684,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPART,IPART(LIPART1,*)
-      my_real
-     .   PARTSAV(20,*)
+      my_real PARTSAV(20,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2936,7 +2931,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE GROUP_PARAM_MOD            
+      USE GROUP_PARAM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    contrbe2                ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
       !||    contrbe3                ../starter/source/constraints/general/rbe3/contrbe3.F
       !||    find_dt1brick_engine    ../starter/source/starter/contrl.F
-      !||    fmt_def                 ../starter/source/starter/fmt_def.F
       !||    hm_elem_count           ../starter/source/devtools/hm_reader/hm_elem_count.F
       !||    hm_get_intv             ../starter/source/devtools/hm_reader/hm_get_intv.F
       !||    hm_get_string           ../starter/source/devtools/hm_reader/hm_get_string.F
@@ -104,6 +103,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,LTITLE,NCHARLINE,NCHARTITLE
       USE BCS_MOD , only : BCS
       USE DEFAULTS_MOD
+      USE FORMAT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -273,7 +273,6 @@ c
         CALL HM_GET_INTV('INVERS', INVERS, IS_AVAILABLE, LSUBMODEL)
         INVERS_SRC = INVERS
         INVERS_INIT = INVERS
-        CALL FMT_DEF(INVERS,0)
 
         CALL HM_GET_STRING('length_inputunit_code',KEYLI,SCHAR,IS_AVAILABLE)
         CALL HM_GET_STRING('mass_inputunit_code',KEYMI,SCHAR,IS_AVAILABLE)

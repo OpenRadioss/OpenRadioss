@@ -35,6 +35,7 @@ C   M o d u l e s
 C-----------------------------------------------                     
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMT_2I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -134,9 +135,6 @@ C
        NUSHELL = 0
        NVSHELL1 = 0
        NVSHELL2 = 0
-cc       NGAUSS = 0       
-cc       NLAYER = 0
-cc       NVSHELL = 0
        IUSOLID = 0
        NUSOLID = 0
        NVSOLID1 = 0     
@@ -145,8 +143,6 @@ cc       NVSHELL = 0
        NVSOLID4 = 0
        NVSOLID5 = 0
        NVSOLID6 = 0
-cc       NPSOLID = 0
-cc       NVSOLID = 0
       REWIND(IIN4)
  400  READ(IIN4,FMT='(A)',END=449,ERR=449)LINE
        IF(LINE(1:8)=='/ENDDATA')THEN
@@ -170,9 +166,6 @@ C
          ELSE 
           READ(LINE,FMT='(4I10)')IHBE,NIP,NPG,NUVAR
          ENDIF
-cc          NGAUSS = MAX(NPG,NGAUSS)
-cc          NLAYER = MAX(NIP,NLAYER)
-cc          NVSHELL   = MAX(NUVAR,NVSHELL)
           NUSHELL = MAX(NUSHELL,MAX(1,NPG)*MAX(1,NIP)*NUVAR + NUSHELL0)
           ND = MOD(NUVAR,6)
           NU = (NUVAR - ND)/6
@@ -390,9 +383,7 @@ cc       ENDIF
 !-----------
       RETURN
  399  CONTINUE
-       CALL ANCMSG(MSGID=557,
-     .             MSGTYPE=MSGERROR,
-     .             ANMODE=ANINFO_BLIND_1)
+       CALL ANCMSG(MSGID=557, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1)
  999  CALL FREERR(3)
       RETURN
       END
@@ -409,7 +400,7 @@ cc       ENDIF
       !||    lecfill                ../starter/source/elements/initia/lecfill.F
       !||====================================================================
       INTEGER FUNCTION UEL2SYS(IU,KSYSUSR,NUMEL)
-C     FONCTION DONNE N0 SYSTEME DE L'ELT USER IU (0 si IU nexiste pas)
+C     INTERNAL ID FROM USER ID IU (0 IF IT DOES NOT EXIST)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -434,14 +425,14 @@ C-----------------------------------------------
         RETURN
       ENDIF
       IF((IU-KSYSUSR(J))==0)THEN
-C     >CAS IU=USR FIN DE LA RECHERCHE
+C     >CASE IU=USR  SEARCH IS ENDING
          UEL2SYS=KSYSUSR(J+NUMEL)
          RETURN
       ELSE IF (IU-KSYSUSR(J)<0) THEN
-C     >CAS IU<USR
+C     >CASE IU<USR
          JSUP=J-1
       ELSE
-C     >CAS IU>USR
+C     >CASE IU>USR
          JINF=J+1
       ENDIF
       J=MAX(1,(JSUP+JINF)/2)

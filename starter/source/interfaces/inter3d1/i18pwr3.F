@@ -31,6 +31,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  IX1,IX2,IX3,IX4,NSVG,
      4                  PENE)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+       USE FORMAT_MOD , ONLY : FMW_5I
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -57,8 +61,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
-      my_real:: PENEOLD
+      INTEGER :: I
+      my_real :: PENEOLD
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

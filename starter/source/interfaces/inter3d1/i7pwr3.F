@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8                  Z3 ,Z4 ,XI ,YI ,ZI  ,
      9                  N1 ,N2 ,N3 ,PENE)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMW_5I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,14 +60,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(*),CAND_E(*),CAND_N(*),CAND_EN(*),CAND_NN(*),
-     .   KREMNODE(*),REMNODE(*)
+      INTEGER ITAB(*),CAND_E(*),CAND_N(*),CAND_EN(*),CAND_NN(*),KREMNODE(*),REMNODE(*)
       INTEGER NSV(*),TAG(*),IWPENE,INACTI,NOINT,NTY,ITIED, ISTOK
-      my_real
-     .   STF(*),STFN(*),X(3,*),CAND_P(*),GAPV(*), FPENMAX
+      my_real STF(*),STFN(*),X(3,*),CAND_P(*),GAPV(*), FPENMAX
       INTEGER ID,IDDLEVEL,IREMNODE
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle, TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: IX1,IX2,IX3,IX4,NSVG
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4
@@ -78,10 +76,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,JWARN,J,K,L,TAGNOD
-      my_real
-     .     PENEOLD, PENMAX, PENE0
-      my_real
-     .  DN
+      my_real PENEOLD, PENMAX, PENE0
+      my_real DN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

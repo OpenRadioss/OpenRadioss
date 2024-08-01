@@ -58,8 +58,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGEO(NPROPGI,*),IX(NIX,*),NIX,IPM(NPROPMI,*),NLAY,IR,IS,IMAT
-      my_real
-     .   GEO(NPROPG,*),PM(NPROPM,*)
+      my_real GEO(NPROPG,*),PM(NPROPM,*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -81,14 +80,7 @@ C======================================================================|
         MLN = NINT(PM(19,IMID))
         CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,PID),LTITR)
         CALL FRETITL2(TITR1,IPM(NPROPMI-LTITR+1,IMID),LTITR)
-        CALL ANCMSG(MSGID=23,
-     .              ANMODE=ANINFO,
-     .              MSGTYPE=MSGERROR,
-     .              I1=PID,
-     .              C1=TITR,
-     .              I2=MID,
-     .              C2=TITR1,
-     .              I3=27)
+        CALL ANCMSG(MSGID=23, ANMODE=ANINFO, MSGTYPE=MSGERROR, I1=PID, C1=TITR, I2=MID, C2=TITR1, I3=27)
       ENDIF
 C
       IGTYP=NINT(GEO(12,IMAT))

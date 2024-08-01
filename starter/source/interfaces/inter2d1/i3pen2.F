@@ -34,6 +34,7 @@ C
      1                  CST,IRTLO,FRIC0,FRIC,GAP,IWPENE,
      2                  ITAB,NINT,ID,TITR)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMW_5I_F, FMW_5I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

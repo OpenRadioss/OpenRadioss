@@ -30,6 +30,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE OUTP_MT(PM,NPART,PARTSAV,IPART,IPM)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+C
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -46,18 +50,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPM(NPROPMI,*)
-C     REAL
-      my_real
-     .   PM(NPROPM,*),PARTSAV(NPSAV,*)
+      my_real PM(NPROPM,*),PARTSAV(NPSAV,*)
       INTEGER NPART,IPART(LIPART1,*)
       INTEGER LEN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,USRMID,K,I1,M
-      my_real
-     .   MAS,XM,YM,ZM,IE,KE,
-     .   PARTSAV2(NPSAV,NPART)
+      my_real MAS,XM,YM,ZM,IE,KE,PARTSAV2(NPSAV,NPART)
       CHARACTER*100 CARD
 C
       DO M=1,NPSAV

@@ -42,6 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMW_7I_2F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,13 +57,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN
-      INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*),
-     .   ITAB(*),IKINE(*),IKINE1(*),ILEV,NTY
-      my_real
-     .   X(3,*), CRST(2,*), CSTS_BIS(2,*)
+      INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), ITAB(*),IKINE(*),IKINE1(*),ILEV,NTY
+      my_real X(3,*), CRST(2,*), CSTS_BIS(2,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

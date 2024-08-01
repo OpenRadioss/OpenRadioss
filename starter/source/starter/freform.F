@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE CHECK_MOD
       USE INOUTFILE_MOD
       USE DETONATORS_MOD
+      USE FORMAT_MOD  , ONLY : LFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -928,6 +929,7 @@ C
       !||====================================================================
       SUBROUTINE FREDEC0(ID)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : LFIELD, FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1014,6 +1016,7 @@ C
       !||====================================================================
       SUBROUTINE FREDEC5(COPT,ID)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : LFIELD, FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1724,6 +1727,7 @@ C-----------------------------------------------
       !||====================================================================
       SUBROUTINE FREDEC_2KEY_ID_OR_KEY_ID(KEY2,KEY3,UID,SUB_ID)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1937,6 +1941,7 @@ C---
       !||====================================================================
       SUBROUTINE FREDEC_2KEY_4ID_T(KEY2,ID,UID,VERS,SUB_ID,TITR)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2038,6 +2043,7 @@ C---
       !||====================================================================
       SUBROUTINE FREDEC_KEY_3ID_T(ID,UID,VERS,TITR)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2116,6 +2122,7 @@ C---
       !||====================================================================
       SUBROUTINE FREDEC_2KEY_4ID(KEY2,ID,UID,VERS,SUB_ID)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -67,12 +67,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER ITABM1(*), LGAUGE(3,*),
-     .   IXC(NIXC,*),ISKN(LISKN,*)
+      INTEGER ITABM1(*), LGAUGE(3,*), IXC(NIXC,*),ISKN(LISKN,*)
       INTEGER NOM_OPT(LNOPT1,*)
-C     REAL
-      my_real
-     .   GAUGE(LLGAUGE,*)
+      my_real GAUGE(LLGAUGE,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C-----------------------------------------------
       LOGICAL IS_AVAILABLE

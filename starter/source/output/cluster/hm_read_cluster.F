@@ -48,7 +48,7 @@ C-----------------------------------------------
       USE CLUSTER_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,8 +65,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER ISKN(LISKN,*),
-     .   IXS(NIXS,NUMELS),IXR(NIXR,NUMELR),NOM_OPT(LNOPT1,*)
+      INTEGER ISKN(LISKN,*),IXS(NIXS,NUMELS),IXR(NIXR,NUMELR),NOM_OPT(LNOPT1,*)
       TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTERS
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
 C-----------------------------------------------

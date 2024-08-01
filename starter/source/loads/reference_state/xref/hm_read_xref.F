@@ -50,7 +50,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
-      USE HM_OPTION_READ_MOD       
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -218,12 +218,7 @@ C
               IF(MTN /= 35 .AND.MTN /= 38 .AND. MTN /= 42 .AND.
      .             MTN /= 70 .AND. MTN /= 90)THEN
                    CALL FRETITL2(TITR1,IPM(NPROPMI-LTITR+1,IMID),LTITR)
-                   CALL ANCMSG(MSGID=2014,
-     .                       MSGTYPE=MSGERROR,
-     .                       ANMODE=ANSTOP,
-     .                       I1=MAT_ID,
-     .                       C1=TITR1,
-     .                       I2=MTN )
+                   CALL ANCMSG(MSGID=2014, MSGTYPE=MSGERROR, ANMODE=ANSTOP, I1=MAT_ID, C1=TITR1, I2=MTN )
                END IF
                NPT = IGEO(4,IPID)
                ISMSTR = IGEO(5,IPID)

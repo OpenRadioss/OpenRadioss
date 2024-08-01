@@ -109,8 +109,7 @@ C
         NT19 =IPARI(71,NI)
         ID=NOM_OPT(1,NI)
 C
-        CALL FRETITL2(TITR,
-     .                NOM_OPT(LNOPT1-LTITR+1,NI),LTITR)
+        CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,NI),LTITR)
 C
 C------------------------------------------
 C         Interface type 25

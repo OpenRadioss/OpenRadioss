@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE R2R_MOD
       USE OPTIONDEF_MOD
+      USE FORMAT_MOD , ONLY : FMW_10I, FMW_6I, FMW_2I_X_F, FMW_4I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,8 +58,7 @@ C-----------------------------------------------
      .        IXTG(NIXTG,*),IXS10(6,*),IXS20(12,*),IXS16(8,*),
      .        IPART(LIPART1,*),IXQ(NIXQ,*),
      .        KXX(NIXX,*),KXIG3D(NIXIG3D,*),IXIG3D(*)
-      my_real
-     .        BUFSF(*)
+      my_real BUFSF(*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -86,8 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,II,KK,NEL,NNOD,NSEG,IAD0,DGR,ITYP,SRFTYP,NE,
-     .        KR,IADR,NSEGIGE,ID
+      INTEGER I,J,K,L,II,KK,NEL,NNOD,NSEG,IAD0,DGR,ITYP,SRFTYP,NE,KR,IADR,NSEGIGE,ID
       CHARACTER TITR*nchartitle,MESS*40,FMTT*15
 C-----------------------------------------------
       IF (IPRI >= 0) THEN

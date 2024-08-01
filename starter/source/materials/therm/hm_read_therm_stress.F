@@ -46,7 +46,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,10 +91,7 @@ c
 c--------------------------------------------------
       DO ITH = 1,NTHERM_ST
 c
-         CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                          OPTION_ID   = MAT_ID ,
-     .                          OPTION_TITR = TITR   ,
-     .                          KEYWORD2    = KEY    )
+         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = MAT_ID , OPTION_TITR = TITR , KEYWORD2 = KEY )
 
 
          IF(KEY(1:3) == 'MAT')THEN   
@@ -109,11 +106,7 @@ c
                  IF(JTHE==0) THEN
                     IMAT = IPM(1,I)
                     CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)
-                    CALL ANCMSG(MSGID=1129,
-     .                          MSGTYPE=MSGERROR,
-     .                          ANMODE=ANINFO,
-     .                          I1=IMAT,
-     .                          C1=TITR)
+                    CALL ANCMSG(MSGID=1129, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=IMAT, C1=TITR)
                  ENDIF
                  IPM(218,I)   = 1
                  IPM(219,I)   = IFUNC_ALPHA

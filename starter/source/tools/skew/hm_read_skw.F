@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      USE FORMAT_MOD , ONLY : LFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,12 +75,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB
       INTEGER ISKN(LISKN,*), ITAB(*), ITABM1(*), NSN(*)
-C     REAL
-      my_real
-     .   SKEW(LSKEW,*), X(3,*),
-     .   RTRANS(NTRANSF,*)
+      my_real SKEW(LSKEW,*), X(3,*), RTRANS(NTRANSF,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
@@ -89,10 +87,7 @@ C-----------------------------------------------
      .        IUN, SUB_ID,
      .        IDSUB,ITY,L,READPT,J1,J2,NUMSPH_TMP,SUB_LEVEL,CUR_SUBMOD,
      .        IDIR,IFLAGUNIT,ID,UID,CPT
-C     REAL
-      my_real
-     .   P(12), PNOR1, PNOR2, PNORM1, DET1, DET2, DET3, DET, PP,BID,
-     .   X0(3),ROT(9)
+      my_real P(12), PNOR1, PNOR2, PNORM1, DET1, DET2, DET3, DET, PP,BID, X0(3),ROT(9)
       CHARACTER NOMSG*nchartitle
       CHARACTER TITR*nchartitle,MESS*40,KEY*ncharkey
       CHARACTER DIR*ncharfield

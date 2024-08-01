@@ -86,13 +86,10 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NRBE3L,NRBE3), INTENT(IN) :: IRBE3
       INTEGER, DIMENSION(SLRBE3), INTENT(IN) :: LRBE3
       INTEGER IPARI(NPARI,*), IXS(*), IXQ(*),
-     .    IXC(*), INTC(*), ITAB(*), NPBY(*), LPBY(*), MWA(*),
-     .    IKINE(*), I2NSNT,INOD_PXFEM(*),ITAGND(*),ICNDS10(3,*),
-     .    NSTRF(*),ITAGCYC(*)
-C     REAL
-      my_real
-     .  X(*), PM(*), GEO(*), MS(*), IN(*), STIFN(*),STIFINT(*),
-     .  MS_PLY(*),STIFINTR(*),MS_B(*),IN_B(*)
+     .        IXC(*), INTC(*), ITAB(*), NPBY(*), LPBY(*), MWA(*),
+     .        IKINE(*), I2NSNT,INOD_PXFEM(*),ITAGND(*),ICNDS10(3,*),
+     .        NSTRF(*),ITAGCYC(*)
+      my_real X(*), PM(*), GEO(*), MS(*), IN(*), STIFN(*),STIFINT(*),MS_PLY(*),STIFINTR(*),MS_B(*),IN_B(*)
       INTEGER NOM_OPT(LNOPT1,*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -101,11 +98,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, JINSCR, NINT, NTY,NRTM,NRTM0,
-     .        NRTM_SH,INTPLY,KFI,ILEV,SWITCH,NSN,NREMN(NINTER),NINT2
+      INTEGER N, JINSCR, NINT, NTY,NRTM,NRTM0,NRTM_SH,INTPLY,KFI,ILEV,SWITCH,NSN,NREMN(NINTER),NINT2
       INTEGER ID,I,K,J1,J2
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,TITR
       INTEGER :: FLAG_OUTPUT !< flag for output
       INTEGER :: SKIP_TYPE25_EDGE_2_EDGE !< flag to activate only the computation of interface type 25 with edge to edge
 C=======================================================================
@@ -155,8 +150,7 @@ C
         NINT=N
        
         ID=NOM_OPT(1,NINT)
-        CALL FRETITL2(TITR,
-     .                NOM_OPT(LNOPT1-LTITR+1,NINT),LTITR)
+        CALL FRETITL2(TITR, NOM_OPT(LNOPT1-LTITR+1,NINT),LTITR)
         IF (N2D == 0) THEN
           CALL INIEND(
      1    INSCR(N)%WA  ,X            ,IXS  ,

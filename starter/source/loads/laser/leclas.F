@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE RESTMOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE FORMAT_MOD , ONLY : FMW_A_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,9 +128,7 @@ C-----------------------------------------------
           CALL HM_GET_FLOATV('SLAS'  ,FI       ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
           CALL HM_GET_INTV  ('fct_IDLAS'  ,IFUNC    ,IS_AVAILABLE, LSUBMODEL)                
           CALL HM_GET_FLOATV('STAR' ,ALPHA    ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
-          CALL HM_GET_INTV  ('fct_IDTAR' ,IAFUNC   ,IS_AVAILABLE, LSUBMODEL)                
-          !CALL HM_GET_INTV  ('N/A'    ,ITYP     ,IS_AVAILABLE, LSUBMODEL)                
-          !CALL HM_GET_FLOATV('N/A'    ,TIMESCAL ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
+          CALL HM_GET_INTV  ('fct_IDTAR' ,IAFUNC   ,IS_AVAILABLE, LSUBMODEL)
 
           CALL HM_GET_FLOATV('Hn'     ,HNUK     ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
           CALL HM_GET_FLOATV('VCp'     ,CHALEUR  ,IS_AVAILABLE, LSUBMODEL, UNITAB)        

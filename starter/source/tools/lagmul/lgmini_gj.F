@@ -48,18 +48,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NC, IADLL(*), JLL(*), LLL(*), GJBUFI(LKJNI,*),
-     .        ITAB(*)
-      my_real
-     .        MASS(*), INER(*)        
+      INTEGER NC, IADLL(*), JLL(*), LLL(*), GJBUFI(LKJNI,*), ITAB(*)
+      my_real MASS(*), INER(*)
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, JTYP, N0, N1, N2, N3, J  
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle, TITR
 C======================================================================|
       DO I=1,NGJOINT
         JTYP= GJBUFI(2,I)           
@@ -69,8 +66,7 @@ C======================================================================|
         N3  = GJBUFI(6,I)    
 C
         ID=NOM_OPT(1,I)
-        CALL FRETITL2(TITR,
-     .       NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
+        CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
         DO J=3,6
             IF(GJBUFI(J,I)/=0)THEN
               IF(MASS(GJBUFI(J,I))==0)THEN

@@ -50,7 +50,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JHBE,NEL
       INTEGER PID(*),IGEO(NPROPGI,*)
-C     REAL
       my_real
      .   GEO(NPROPG,*),GAMA(NEL,6),
      .   RY(*) ,RZ(*) ,SY(*) ,SZ(*),
@@ -75,8 +74,7 @@ C=======================================================================
       DO I=LFT,LLT
         IG = PID(I)
         ID=IGEO(1,IG)
-        CALL FRETITL2(TITR,
-     .                IGEO(NPROPGI-LTITR+1,IG),LTITR)
+        CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IG),LTITR)
         IPNUM = IGEO(2,IG)
         VX  = GEO(7,IG)
         VY  = GEO(8,IG)

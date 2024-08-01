@@ -51,10 +51,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NC, IADLL(*), JLL(*), LLL(*),
-     .        IPARI(NPARI,NINTER),ITAB(*)
-      my_real
-     .        MASS(*) 
+      INTEGER NC, IADLL(*), JLL(*), LLL(*), IPARI(NPARI,NINTER),ITAB(*)
+      my_real MASS(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -64,13 +62,11 @@ C-----------------------------------------------
      .        ILAGM, NRTS, NRTM, NSN, NMN,IRECT ,NSV ,IRTL, IADDB,
      .        NIR, NTY, NDL, IAD, I, J, NN0, NM0
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,TITR
 C======================================================================|
       DO N=1,NINTER
         ID=NOM_OPT(1,N)
-        CALL FRETITL2(TITR,
-     .       NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
+        CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
         NTY   = IPARI(7 ,N)
         ILAGM = IPARI(33,N)
         IF (NTY == 2 .AND. ILAGM == 1)THEN

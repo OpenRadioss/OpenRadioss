@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  IRECT,XM0   ,GAPMIN,GAPMAX,DEPTH,
      4                  NSN  ,ITAG  ,DRAD  ,ID,TITR)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMW_5I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,22 +49,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(*),CAND_E(*),CAND_N(*), IRECT(4,*), IRTLM(2,*),
-     .        ITAG(*)
+      INTEGER ITAB(*),CAND_E(*),CAND_N(*), IRECT(4,*), IRTLM(2,*),ITAG(*)
       INTEGER I_STOK,NSV(*),MSR(*),IWPENE,INACTI,NOINT,NTY,NSN
-C     REAL
-      my_real
-     .   STFN(*),X(3,*),PENI(*),GAP_S(*),XM0(3,*),
-     .   GAPMIN,GAPMAX,DEPTH,DRAD
+      my_real STFN(*),X(3,*),PENI(*),GAP_S(*),XM0(3,*),GAPMIN,GAPMAX,DEPTH,DRAD
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, L,JWARN
       INTEGER IX1, IX2, IX3, IX4, NSVG
-C     REAL
 C-----------------------------------------------
        JWARN = 0
         DO 100 I=1,I_STOK
@@ -78,10 +73,7 @@ C-----------------------------------------------
             NSVG=NSV(J)
             IF(PENI(J)>ZERO)THEN
               IF(IPRI>=1)THEN
-                WRITE(IOUT,FMT=FMW_5I)
-     1           ITAB(NSVG),
-     2           ITAB(IX1),ITAB(IX2),
-     3           ITAB(IX3),ITAB(IX4)
+                WRITE(IOUT,FMT=FMW_5I) ITAB(NSVG), ITAB(IX1),ITAB(IX2), ITAB(IX3),ITAB(IX4)
               END IF
 c              IF(PENI(J)>ZERO)THEN
                 WRITE(IOUT,1000)PENI(J)

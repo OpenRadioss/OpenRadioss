@@ -41,6 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      USE FORMAT_MOD , ONLY : FMW_10I, FMW_4I, FMW_5I, FMW_I_3F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,8 +62,7 @@ C-----------------------------------------------
      .        IRECT(4,*), NSV(*),IXLINS(2,*),
      .        IXLINM(2,*),MSR(*),ITAB(*),NSVE(*),MSRE(*),
      .        ISLINS(2,*),ISLINM(2,*),NLG(*),NBINFLG(*),MBINFLG(*)
-      my_real
-     .   X(3,*),FRIGAP(*)
+      my_real X(3,*),FRIGAP(*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -75,8 +75,7 @@ C-----------------------------------------------
      .        NLINS,NLINM,LINE1,LINE2,STAT,IL,IG
       INTEGER TAG(NUMNOD),TAGS(NUMNOD),NEXTK(4),IWORK(70000),
      .        LNTAG(NUMNOD),TAGB(NUMNOD)
-      my_real
-     .   EDG_COS
+      my_real EDG_COS
       DATA NEXTK/1,1,1,-3/
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -334,6 +333,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMW_4I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -352,21 +352,16 @@ C-----------------------------------------------
       INTEGER IXLINE(2,*),ITAB(*),MSVE(*),
      .        LNTAG(*) ,TAGB(*),ISLINE(2,*),SURF_NODES(NSEG0,4),
      .        SLIN_NODES(NLIN0,2)
-      my_real
-     .   X(3,*),EDG_COS
+      my_real X(3,*),EDG_COS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,NLMAX,STAT,LL,I1,I2,I3,I4,I5,I1M,I2M,NL,IS
       INTEGER NEXTK(4),IWORK(70000),NLL
-      my_real
-     .   NX,NY,NZ,MX,MY,MZ,AAA,D1X,D1Y,D1Z,D2X,D2Y,D2Z
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: 
-     .   LINEIX,LINEIX2,IXWORK
-      INTEGER, DIMENSION(:), ALLOCATABLE :: 
-     .   INDEX,TAG
-      my_real, DIMENSION(:,:), ALLOCATABLE :: 
-     .   XLINEIX
+      my_real NX,NY,NZ,MX,MY,MZ,AAA,D1X,D1Y,D1Z,D2X,D2Y,D2Z
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: LINEIX,LINEIX2,IXWORK
+      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,TAG
+      my_real, DIMENSION(:,:), ALLOCATABLE :: XLINEIX
 
       INTEGER BITSET
       EXTERNAL BITSET

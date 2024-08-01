@@ -48,18 +48,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPBYL(NNPBY,*), LPBYL(*), ITAB(*)
-      my_real
-     .        RBYL(NRBY,*),MASS(*),INER(*),X(3,*), V(3,*), VR(3,*)
+      my_real RBYL(NRBY,*),MASS(*),INER(*),X(3,*), V(3,*), VR(3,*)
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,NN,M,IK,IC,MSL,NSL,TNSL,ICDG
-      my_real
-     .        RX,RY,RZ,MASRB
+      my_real RX,RY,RZ,MASRB
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,TITR
 C======================================================================|
       TNSL = 0
       DO N=1,NRBYLAG
@@ -70,8 +67,7 @@ C======================================================================|
         MASS(M) = MASS(M) + RBYL(1,N)
         INER(M) = INER(M) + RBYL(2,N)
         ID=NOM_OPT(1,NRBYKIN+N)
-        CALL FRETITL2(TITR,
-     .                NOM_OPT(LNOPT1-LTITR+1,NRBYKIN+N),LTITR)
+        CALL FRETITL2(TITR, NOM_OPT(LNOPT1-LTITR+1,NRBYKIN+N),LTITR)
         IF(MASS(M)==ZERO.OR.INER(M)==ZERO) THEN
            CALL ANCMSG(MSGID=273,
      .                 MSGTYPE=MSGWARNING,

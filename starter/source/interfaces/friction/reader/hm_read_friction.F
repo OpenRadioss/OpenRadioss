@@ -68,10 +68,9 @@ C-----------------------------------------------
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER NIF ,IFLAG ,MFROT ,IFQ ,FRICFORM ,NSET ,ORTHFRIC , NGRPF,LENG,NOINTF
       INTEGER IPART(LIPART1,*) ,TAGPRT_FRIC(*),
-     .   TABCOUPLEPARTS_FRIC_TMP(NINTERFRIC,*),IFRICORTH_TMP(NINTERFRIC,*),
-     .   LENGRPF(*)
-      my_real
-     .   XFILTR
+     .        TABCOUPLEPARTS_FRIC_TMP(NINTERFRIC,*),IFRICORTH_TMP(NINTERFRIC,*),
+     .        LENGRPF(*)
+      my_real XFILTR
       my_real TABCOEF_FRIC_TMP(NINTERFRIC,*)
       CHARACTER TITR*nchartitle
 C-----------------------------------------------
@@ -161,19 +160,9 @@ C
            IF (MOD(IFQ,10)==2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
            IF (MOD(IFQ,10)==3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
            IF (XFILTR<ZERO) THEN
-              CALL ANCMSG(MSGID=1591,
-     .                    MSGTYPE=MSGERROR,
-     .                    ANMODE=ANINFO_BLIND_1,
-     .                    I1=NOINTF,
-     .                    C1=TITR,
-     .                    R1=ALPHA)
+              CALL ANCMSG(MSGID=1591, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1, I1=NOINTF, C1=TITR, R1=ALPHA)
            ELSEIF (XFILTR>1.AND.MOD(IFQ,10)<=2) THEN
-                CALL ANCMSG(MSGID=1591,
-     .                      MSGTYPE=MSGERROR,
-     .                      ANMODE=ANINFO_BLIND_1,
-     .                      I1=NOINTF,
-     .                      C1=TITR,
-     .                      R1=ALPHA)
+                CALL ANCMSG(MSGID=1591, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1, I1=NOINTF, C1=TITR, R1=ALPHA)
             ENDIF
        ELSE
            XFILTR = ZERO

@@ -30,6 +30,10 @@ C   Input for secnd side is a GRBRIC.
       !||====================================================================
       SUBROUTINE INGRBRIC_CENTROIDS(IBUFSSG,MSV, IXS, NBRIC)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE FORMAT_MOD , ONLY : FMW_10I
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"

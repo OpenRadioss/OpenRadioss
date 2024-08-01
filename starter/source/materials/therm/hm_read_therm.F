@@ -114,11 +114,7 @@ c
 c--------------------------------------------------
       DO ITH = 1,NTHERM
 c
-        CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                          OPTION_ID   = MAT_ID ,
-     .                          OPTION_TITR = TITR   ,
-     .                          UNIT_ID     = UID    ,
-     .                          KEYWORD2    = KEY    )
+        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=MAT_ID , OPTION_TITR=TITR , UNIT_ID=UID , KEYWORD2=KEY )
 c--------------------------------------------------
 c       Check MAT_Id
 c--------------------------------------------------

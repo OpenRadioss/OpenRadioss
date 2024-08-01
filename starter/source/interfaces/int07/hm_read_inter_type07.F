@@ -71,10 +71,8 @@ C-----------------------------------------------
       INTEGER NOM_OPT(LNOPT1,*), NOM_OPTFRIC(LNOPT1,*)
       INTEGER NI,NOINT,ID_TYPE19
       INTEGER IPARI(*),DEF_INTER(*),NPC1(*),NPC(*)
-      my_real
-     .   STFAC,XFILTR
-      my_real
-     .   FRIGAP(*),FRIC_P(*),TF(*)
+      my_real STFAC,XFILTR
+      my_real FRIGAP(*),FRIC_P(*),TF(*)
       CHARACTER TITR*nchartitle
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)

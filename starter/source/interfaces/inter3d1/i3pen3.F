@@ -35,6 +35,7 @@ C
      1                  IRTL ,CST   ,IRTL0,GAP  ,NSN  ,
      2                  ITAB ,IWPENE,ID,TITR)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMW_7I, FMW_7I_2F, FMW_I_3F
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -50,17 +51,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,IWPENE
-C     REAL
-      my_real
-     .   GAP
-      INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), IRTL0(*),
-     .   ITAB(*)
-C     REAL
-      my_real
-     .   X(3,*), CST(2,*)
+      my_real GAP
+      INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), IRTL0(*),ITAB(*)
+      my_real X(3,*), CST(2,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -138,7 +133,7 @@ C
       SUBROUTINE I5PWR3(X    ,IRECT ,MSR  ,NSV  ,ILOC ,
      1                  IRTL ,CST   ,IRTL0,GAP  ,NSN  ,
      2                  ITAB ,INACTI)
-C
+       USE FORMAT_MOD , ONLY : FMW_I_3F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -147,12 +142,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,INACTI
-      my_real
-     .   GAP
-      INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), IRTL0(*),
-     .   ITAB(*)
-      my_real
-     .   X(3,*), CST(2,*)
+      my_real GAP
+      INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), IRTL0(*), ITAB(*)
+      my_real X(3,*), CST(2,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -162,9 +154,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, I, J, K, L, JJ, NN, IER
-C     REAL
-      my_real
-     .   N1, N2, N3, PEN, ALP
+      my_real N1, N2, N3, PEN, ALP
       my_real ::   XX1(4), XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

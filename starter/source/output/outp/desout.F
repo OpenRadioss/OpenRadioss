@@ -37,6 +37,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INOUTFILE_MOD
       USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,NCHARTITLE !< NAMES_AND_TITLES host the input deck names and titles for outputs
+      USE FORMAT_MOD , ONLY : FMT_3I, FMT_8I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,9 +59,7 @@ C-----------------------------------------------
      .   IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*),IXS10(6,*),ITAB(*),
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),
      .   KXSP(NISP,*),IPART(LIPART1,*),IPARTSP(*)
-C     REAL
-      my_real
-     .   X(3,*),MS(*), PM(NPROPM,*), GEO(NPROPG,*)
+      my_real X(3,*),MS(*), PM(NPROPM,*), GEO(NPROPG,*)
       TYPE(NAMES_AND_TITLES_),INTENT(IN):: NAMES_AND_TITLES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

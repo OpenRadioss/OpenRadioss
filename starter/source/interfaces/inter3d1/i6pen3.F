@@ -36,6 +36,7 @@ C
      2                  ITAB  ,IWPENE ,PENI   ,ICOR  ,ID    ,
      3                  INACTI,TITR   )
       USE MESSAGE_MOD
+      USE FORMAT_MOd , ONLY : FMW_7I, FMW_7I_2F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

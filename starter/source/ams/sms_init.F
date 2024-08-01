@@ -76,7 +76,6 @@ C-----------------------------------------------
      .   IPART(LIPART1,*), IGEO(NPROPGI,*), IPM(NPROPMI,*), NATIV_SMS(*),
      .   NPBY(NNPBY,*), LPBY(*), TAGMSR_RBY_SMS(*), TAGSLV_RBY_SMS(*)
       INTEGER NOM_OPT(LNOPT1,*)
-C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

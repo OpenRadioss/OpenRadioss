@@ -44,6 +44,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INOUTFILE_MOD
+      USE FORMAT_MOD , ONLY : FMW_10I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,10 +62,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(*),FXBIPM(NBIPM,*),FXBNOD(*),FXB_MATRIX_ADD(4,*),FXB_LAST_ADRESS(*),ICODE(*),
-     .        NOM_OPT(LNOPT1,*)
-      my_real 
-     .        X(3,*),MS(*),IN(*),
+      INTEGER ITAB(*),FXBIPM(NBIPM,*),FXBNOD(*),FXB_MATRIX_ADD(4,*),FXB_LAST_ADRESS(*),ICODE(*),NOM_OPT(LNOPT1,*)
+      my_real X(3,*),MS(*),IN(*),
      .        FXBRPM(*), FXBGLM(*), FXBCPM(*), FXBCPS(*), 
      .        FXBLM(*),  FXBFLS(*), FXBDLS(*), FXBMOD(*),
      .        FXB_MATRIX(*)
@@ -82,8 +81,8 @@ C-----------------------------------------------
      .        FREQ,BETA,OMEGA,DTC1,DTC2,BID,XM(3),ZZ,RHO_INVMK,UNSN,NORM,FAC,FAC2,MSTOT,TOLE,
      .        KT,KR,RR,SKEW(9),RDUM1,MIN_DIAG_STIF,FAC2X,FAC2Y,FAC2Z,DT_MINI,DT_CST,OMEGA_MIN,
      .        INMIN,INMAX,OMEGA_MAX,MAX_FREQ,ALPHA,FREQ_RANGE,MIN_CUT_OFF_FREQ
-      CHARACTER TITR*nchartitle,MESS*40,MESS1*40,NWLINE*100,
-     .          FXBFILE*100
+      CHARACTER(LEN=nchartitle) :: TITR
+      CHARACTER MESS*40,MESS1*40,NWLINE*100,FXBFILE*100
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TABSL,ITAG_DOF
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,LISTN
       INTEGER IFLAGI1,IFLAGDBL,IRB,CPT,REST,NLIGNE,M,INFO2,LWORK,NBDYN,NDDL,IM,NMOD0,NMST0

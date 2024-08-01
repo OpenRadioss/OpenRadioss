@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE GROUPDEF_MOD
+      USE GROUPDEF_MOD , ONLY : SUBSET_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,7 +47,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LEN_IA
-!
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

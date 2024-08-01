@@ -30,8 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod     ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE LGMINI_I7( IPARI, INTBUF_TAB, MASS, ITAB, IGRNOD, 
-     .                      NOM_OPT)
+      SUBROUTINE LGMINI_I7( IPARI, INTBUF_TAB, MASS, ITAB, IGRNOD, NOM_OPT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,8 +52,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IPARI(NPARI,NINTER),ITAB(*)   
-      my_real
-     .         MASS(*)
+      my_real MASS(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -62,11 +60,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, NTY , NN0, NSN, ILAGM, NRTS,NRTM, NMN,
-     .        NAD, IGN
+      INTEGER I, N, NTY , NN0, NSN, ILAGM, NRTS,NRTM, NMN, NAD, IGN
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,TITR
 C======================================================================|
       DO N=1,NINTER
         ID=NOM_OPT(1,N)

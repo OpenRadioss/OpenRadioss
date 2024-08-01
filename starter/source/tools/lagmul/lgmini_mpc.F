@@ -69,8 +69,7 @@ C======================================================================|
         NUMC = IBUFNC(I)
         NK = 0
         ID=NOM_OPT(1,I)
-        CALL FRETITL2(TITR,
-     .       NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
+        CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
         IF(NC>LAG_NCF)THEN
           CALL ANCMSG(MSGID=468,
      .                MSGTYPE=MSGERROR,

@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE MESHSURFIG3D_MOD  
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE FORMAT_MOD , ONLY : FMT_10I, FMT_8I, FMT_I, FMT_6I, FMT_5F, FMT_2I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +72,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NUMNUSR
-C     REAL
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

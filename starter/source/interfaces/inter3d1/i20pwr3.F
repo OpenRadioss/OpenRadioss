@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                   N1    ,N2    ,M1    ,M2    ,NX    ,
      4                   NY    ,NZ    ,GAPV  ,GAP_S ,GAP_M ,
      5                   IGAP  ,X     ,FPENMAX)
+       USE FORMAT_MOD , ONLY : FMW_4I, FMW_I_3F, FMW_5I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,12 +45,9 @@ C-----------------------------------------------
       INTEGER ITAB(*),CAND_M(*),CAND_S(*),INACTI,IGAP  ,
      4        N1(*) ,N2(*) ,M1(*) ,M2(*)        
       INTEGER NSV(*),IWPENE
-C     REAL
-      my_real
-     .   FPENMAX
-      my_real
-     .   STFS(*),STFM(*),XANEW(3,*),X(3,*),GAP_S(*) ,GAP_M(*),
-     .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),GAPV(*)
+      my_real FPENMAX
+      my_real STFS(*),STFM(*),XANEW(3,*),X(3,*),GAP_S(*) ,GAP_M(*),
+     .        NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),GAPV(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -175,6 +173,7 @@ C
      7                  Z4 ,XI ,YI ,ZI ,N1,
      8                  N2 ,N3 ,PENE,NSVG)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMW_5I, FMW_I_3F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -188,14 +187,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITAB(*),CAND_E(*),CAND_N(*),CAND_EN(*),CAND_NN(*)
       INTEGER NSV(*),TAG(*),IWPENE,INACTI,NOINT,NTY,ITIED,IWRN
-C     REAL
-      my_real
-     .   FPENMAX
-      my_real
-     .   STF(*),STFN(*),XANEW(3,*),GAPV(*)
+      my_real FPENMAX
+      my_real STF(*),STFN(*),XANEW(3,*),GAPV(*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,TITR
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -411,6 +406,7 @@ C
      5                   IX3 ,IX4,N1  ,N2 ,N3 ,
      6                   PENE,NSVG)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMW_5I, FMW_4I, FMW_I_3F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -430,25 +426,18 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITAB(*),CAND_E(*),CAND_N(*),CAND_EN(*),CAND_NN(*)
-      INTEGER NSV(*),TAG(*),IWPENE,INACTI,NOINT,NTY,ITIED,IWRN,
-     .        IGAP
-C     REAL
-      my_real
-     .   STF(*),STFN(*),X(3,*),GAPV(*),PENIS(2,*) ,PENIM(2,*),GAP_S(*)
+      INTEGER NSV(*),TAG(*),IWPENE,INACTI,NOINT,NTY,ITIED,IWRN,IGAP
+      my_real STF(*),STFN(*),X(3,*),GAPV(*),PENIS(2,*) ,PENIM(2,*),GAP_S(*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: IX1,IX2,IX3,IX4,NSVG
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: N1,N2,N3,PENE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IS,IM,JWARN
-C     REAL
-      my_real
-     .   PENEOLD,PPLUS,AAA
-      my_real
-     .  DN
+      my_real PENEOLD,PPLUS,AAA
+      my_real DN
 C-----------------------------------------------
       JWARN = 0
         DO 100 I=LFT,LLT
@@ -552,6 +541,7 @@ C
      3                   N1    ,N2    ,M1    ,M2    ,NX    ,
      4                   NY    ,NZ    ,GAPV  ,GAP_S ,GAP_M ,
      5                   PENIS ,PENIM ,IGAP  )
+        USE FORMAT_MOD , ONLY : FMW_4I, FMW_I_3F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -563,13 +553,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(*),CAND_M(*),CAND_S(*),INACTI,IGAP  ,
-     4        N1(*) ,N2(*) ,M1(*) ,M2(*)        
+      INTEGER ITAB(*),CAND_M(*),CAND_S(*),INACTI,IGAP  ,N1(*) ,N2(*) ,M1(*) ,M2(*)
       INTEGER NSV(*),IWPENE
-C     REAL
-      my_real
-     .   STFS(*),STFM(*),X(3,*),GAP_S(*) ,GAP_M(*),PENIS(2,*) , 
-     .   PENIM(2,*),NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),GAPV(*)
+      my_real STFS(*),STFM(*),X(3,*),GAP_S(*) ,GAP_M(*),PENIS(2,*) , PENIM(2,*),NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),GAPV(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------

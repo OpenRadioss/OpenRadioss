@@ -50,7 +50,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INOUTFILE_MOD
       USE HM_OPTION_READ_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,12 +65,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NOM_OPT(LNOPT1,*),FXBIPM(NBIPM,*),FXBNOD(*),FXB_MATRIX_ADD(4,*),NMANIM,ITAB(*),
-     .        ITABM1(*)
-      my_real
-     .        FXB_MATRIX(*)
+      INTEGER NOM_OPT(LNOPT1,*),FXBIPM(NBIPM,*),FXBNOD(*),FXB_MATRIX_ADD(4,*),NMANIM,ITAB(*),ITABM1(*)
+      my_real FXB_MATRIX(*)
       CHARACTER, DIMENSION(NFXBODY) :: FXBFILE_TAB*2148
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

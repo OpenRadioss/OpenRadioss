@@ -48,6 +48,7 @@ C
         USE MESSAGE_MOD
         USE SUBMODEL_MOD
         USE HM_OPTION_READ_MOD
+        USE FORMAT_MOD , ONLY : FMW_I_A
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -228,8 +229,7 @@ C
           DO K=IAD1,IAD1+N-1
              CALL FRETITL2(TITR,ITHBUF(IAD2),40)
              IAD2=IAD2+40
-             WRITE(IOUT,FMT=FMW_I_A)NOM_OPT(1,INOPT1+ITHBUF(K)),
-     .                              TITR(1:40)
+             WRITE(IOUT,FMT=FMW_I_A)NOM_OPT(1,INOPT1+ITHBUF(K)),TITR(1:40)
           ENDDO
 C
         ENDIF

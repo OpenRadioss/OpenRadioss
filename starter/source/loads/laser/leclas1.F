@@ -34,8 +34,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE HM_OPTION_READ_MOD
+      USE FORMAT_MOD , ONLY : FMT_10I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,7 +46,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN)    :: NC, NL
       INTEGER,INTENT(INOUT) :: LAS(2,*)
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------

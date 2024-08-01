@@ -28,11 +28,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod   ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE ADMLCNT(NIX     ,IX      ,NUMEL   ,IPARTEL ,IPART   ,
-     .                   KELTREE ,ELTREE  ,KSONTREE,NSONTREE,KLEVTREE,
-     .                   NLIST   ,MESS    ,IX1     ,IX2     ,INDEX   ,
-     .                   KK      ,NEL     ,TYPE    ,ID      ,TITR)
+      SUBROUTINE ADMLCNT(NIX     ,IX      ,NUMEL       ,IPARTEL ,IPART   ,
+     .                   KELTREE ,ELTREE  ,KSONTREE    ,NSONTREE,KLEVTREE,
+     .                   NLIST   ,MESS    ,IX1         ,IX2     ,INDEX   ,
+     .                   KK      ,NEL     ,charTYPE    ,ID      ,TITR)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMT_10I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,8 +51,7 @@ C-----------------------------------------------
      .        NLIST,IX1(*), IX2(*), INDEX(*), KK, NEL, LEVEL
       CHARACTER MESS*40
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR,TYPE
+      CHARACTER*nchartitle,TITR,charTYPE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -124,7 +124,7 @@ C-----------------------
            CALL ANCMSG(MSGID=70,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
-     .                 C1=TYPE,
+     .                 C1=charTYPE,
      .                 I1=ID,
      .                 C2=TITR,
      .                 I2=LIST(I))
@@ -167,12 +167,13 @@ C-----------------------
       !||--- uses       -----------------------------------------------------
       !||    message_mod   ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE ADMLIST(NIX     ,IX      ,NUMEL   ,IPARTEL ,IPART   ,
-     .                   KELTREE ,ELTREE  ,KSONTREE,NSONTREE,KLEVTREE,
-     .                   NLIST   ,MESS    ,IX1     ,IX2     ,INDEX   ,
-     .                   KK      ,NEL     ,NELT    ,TYPE    ,ID      ,
+      SUBROUTINE ADMLIST(NIX     ,IX      ,NUMEL   ,IPARTEL     ,IPART   ,
+     .                   KELTREE ,ELTREE  ,KSONTREE,NSONTREE    ,KLEVTREE,
+     .                   NLIST   ,MESS    ,IX1     ,IX2         ,INDEX   ,
+     .                   KK      ,NEL     ,NELT    ,charTYPE    ,ID      ,
      .                   TITR)
       USE MESSAGE_MOD
+      USE FORMAT_MOD , ONLY : FMT_10I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -191,8 +192,7 @@ C-----------------------------------------------
      .        NLIST, IX1(*), IX2(*), INDEX(*), KK, NEL, NELT(*)
       CHARACTER MESS*40
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR,TYPE
+      CHARACTER*nchartitle,TITR,charTYPE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -263,13 +263,7 @@ C-----------------------
         IF(LIST(I)==IX1(J))THEN
           LIST(I)=IX2(J)
         ELSE
-           CALL ANCMSG(MSGID=70,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO,
-     .                 C1=TYPE,
-     .                 I1=ID,
-     .                 C2=TITR,
-     .                 I2=LIST(I))
+           CALL ANCMSG(MSGID=70, MSGTYPE=MSGERROR, ANMODE=ANINFO, C1=charTYPE, I1=ID, C2=TITR, I2=LIST(I))
            RETURN
         ENDIF
       ENDDO
