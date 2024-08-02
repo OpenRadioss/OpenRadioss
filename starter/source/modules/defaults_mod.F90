@@ -29,19 +29,27 @@
       !||    hm_prop_read21                ../starter/source/properties/thickshell/hm_read_prop21.F
       !||    hm_read_defshell              ../starter/source/general_controls/default_values/hm_read_defshell.F
       !||    hm_read_defsolid              ../starter/source/general_controls/default_values/hm_read_defsolid.F
+      !||    hm_read_prop01                ../starter/source/properties/shell/hm_read_prop01.F
       !||    hm_read_prop06                ../starter/source/properties/solid/hm_read_prop06.F
+      !||    hm_read_prop09                ../starter/source/properties/shell/hm_read_prop09.F
+      !||    hm_read_prop10                ../starter/source/properties/shell/hm_read_prop10.F
       !||    hm_read_prop11                ../starter/source/properties/shell/hm_read_prop11.F
       !||    hm_read_prop14                ../starter/source/properties/solid/hm_read_prop14.F
       !||    hm_read_prop14f               ../starter/source/properties/solid/hm_read_prop14.F
       !||    hm_read_prop15                ../starter/source/properties/solid/hm_read_prop15.F
+      !||    hm_read_prop16                ../starter/source/properties/shell/hm_read_prop16.F
+      !||    hm_read_prop17                ../starter/source/properties/shell/hm_read_prop17.F
       !||    hm_read_prop20                ../starter/source/properties/thickshell/hm_read_prop20.F
       !||    hm_read_prop22                ../starter/source/properties/thickshell/hm_read_prop22.F
       !||    hm_read_prop43                ../starter/source/properties/solid/hm_read_prop43.F
+      !||    hm_read_prop51                ../starter/source/properties/shell/hm_read_prop51.F
       !||    hm_read_prop_generic          ../starter/source/properties/hm_read_prop_generic.F
       !||    hm_read_properties            ../starter/source/properties/hm_read_properties.F
+      !||    hm_read_stack                 ../starter/source/stack/hm_read_stack.F
       !||    inirig_mat                    ../starter/source/elements/initia/inirig_mat.F
       !||    initia                        ../starter/source/elements/initia/initia.F
       !||    inivoid                       ../starter/source/elements/initia/inivoid.F
+      !||    lecstack_ply                  ../starter/source/properties/composite_options/stack/lecstack_ply.F
       !||    lectur                        ../starter/source/starter/lectur.F
       !||    multifluid_init3t             ../starter/source/multifluid/multifluid_init3t.F
       !||    s10init3                      ../starter/source/elements/solid/solide10/s10init3.F

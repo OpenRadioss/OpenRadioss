@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    usr2sys              ../starter/source/system/sysfus.F
       !||    vdouble              ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
+      !||    defaults_mod         ../starter/source/modules/defaults_mod.F90
       !||    elbuftag_mod         ../starter/share/modules1/elbuftag_mod.F
       !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
       !||    message_mod          ../starter/share/message_module/message_mod.F
