@@ -252,7 +252,7 @@
                 &       ipm         ,                                                        &
                 &       x         ,v         ,w           ,ale_connect      ,                &
                 &       id_elem   ,                                                          &
-                &       is_written,ipartq,layer_input ,                                 &
+                &       is_written,ipartq,layer_input , npart,                                &
                 &       iuvar_input,h3d_part  ,keyword   ,                                   &
                 &       bufmat      ,multi_fvm,                                              &
                 &       id          )

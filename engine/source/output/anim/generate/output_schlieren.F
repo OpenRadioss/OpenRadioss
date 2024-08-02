@@ -225,7 +225,7 @@ C-----------------------------------------------
           ELSE IF (ELBUF_TAB(NG)%GBUF%G_AREA >= I) THEN
             AREA(I)=ELBUF_TAB(NG)%GBUF%AREA(I)
           ELSE
-            AREA(I) = ZERO
+            AREA(I) = ONE
           ENDIF
         ENDDO                                                                                                                       
       ELSEIF(N2D>0 .AND. ITYP==7)THEN !triangles

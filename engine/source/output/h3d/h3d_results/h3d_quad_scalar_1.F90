@@ -57,7 +57,7 @@
         &  ipm         ,&
         &  x         ,v         ,w           ,ale_connect      ,&
         &  id_elem   ,&
-        &  is_written_quad,ipartq,layer_input ,&
+        &  is_written_quad,ipartq,layer_input , npart,&
         &  iuvar_input,h3d_part  ,keyword   ,&
         &  bufmat      ,multi_fvm ,&
         &  id          )
@@ -100,6 +100,7 @@
           integer, intent(in) :: ispmd !< MPI rank of the processor
           integer, intent(in) :: id !< used for failure?
           integer, intent(in) :: quad_scalar_size !< size of the quad_scalar array
+          integer, intent(in) :: npart
           my_real, intent(inout) :: quad_scalar(quad_scalar_size) !< results array containing the scalar values
           my_real, intent(inout) :: x(3, numnod) !< coordinates of the nodes
           my_real, intent(inout) :: v(3, numnod) !< velocity of the nodes
@@ -112,7 +113,7 @@
           integer, intent(inout) :: id_elem(numelq) !< element ids
           integer, intent(inout) :: is_written_quad(numelq) !< flag to indicate if the value is written
           integer, intent(inout) :: ipartq(numelq) !< part ids
-          integer, intent(inout) :: h3d_part(numelq) !< h3d part ids ?
+          integer, intent(inout) :: h3d_part(npart) !< h3d part ids ?
           integer, intent(inout) :: layer_input !< layer id
           integer, intent(inout) :: iuvar_input !< ?
           type(elbuf_struct_), dimension(ngroup), target :: elbuf_tab !< buffer for the elements

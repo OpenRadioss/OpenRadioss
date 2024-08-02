@@ -2965,7 +2965,7 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                       X         ,V             ,W            ,ALE_CONNECT,
      .                       NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
      .                       QUAD_ID  ,
-     .                       IS_WRITEN_QUAD,IPARTQ ,LAYER        ,
+     .                       IS_WRITEN_QUAD,IPARTQ ,LAYER        , NPART, 
      .                       IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,
      .                       BUFMAT     ,MULTI_FVM ,IR           ,IS           ,IT         ,
      .                       OBJECT_ID  )
