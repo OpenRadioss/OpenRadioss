@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  X         ,V         ,W           ,ALE_CONNECT      ,
      .                  NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
      .                  ID_ELEM   , 
-     .                  IS_WRITTEN_QUAD,IPARTQ,LAYER_INPUT ,
+     .                  IS_WRITTEN_QUAD,IPARTQ,LAYER_INPUT , NPART1,
      .                  IUVAR_INPUT,H3D_PART  ,KEYWORD   ,
      .                  BUFMAT      ,MULTI_FVM ,IR_INPUT  ,IS_INPUT    ,IT_INPUT  ,
      .                  ID          )
@@ -90,7 +90,7 @@ C-----------------------------------------------
      .   ID_ELEM(*),
      .   IS_WRITTEN_QUAD(*),IPARTQ(*),H3D_PART(*),
      .   LAYER_INPUT ,IUVAR_INPUT,
-     .   IR_INPUT,IS_INPUT,IT_INPUT
+     .   IR_INPUT,IS_INPUT,IT_INPUT,NPART1
       INTEGER, INTENT(IN) :: ID
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       CHARACTER(LEN=NCHARLINE100):: KEYWORD
@@ -130,7 +130,7 @@ C-----------
      .                  IPM         ,
      .                  X         ,V         ,W           ,ALE_CONNECT      ,
      .                  ID_ELEM   , 
-     .                  IS_WRITTEN_QUAD,IPARTQ,LAYER_INPUT ,
+     .                  IS_WRITTEN_QUAD,IPARTQ,LAYER_INPUT , NPART1,
      .                  IUVAR_INPUT,H3D_PART  ,KEYWORD   ,
      .                  BUFMAT      ,MULTI_FVM ,
      .                  ID          )
