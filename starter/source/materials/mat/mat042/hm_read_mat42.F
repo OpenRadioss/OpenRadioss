@@ -37,9 +37,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_MAT42(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,PARMAT   ,IMATVIS  ,UNITAB   ,
-     .           ID       ,TITR     ,LSUBMODEL,PM       ,MATPARAM )
+     .           MATPARAM ,NUVAR    ,MAXFUNC  ,NFUNC    ,IFUNC    ,
+     .           PARMAT   ,IMATVIS  ,UNITAB   ,LSUBMODEL,ID       ,
+     .           TITR     ,PM       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,13 +71,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN)      :: ID,MAXFUNC
+      INTEGER, INTENT(INOUT)   :: NUVAR
+      INTEGER, INTENT(INOUT)   :: NFUNC
+      INTEGER, INTENT(INOUT)   :: IMATVIS
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER, INTENT(IN)    :: ID,MAXUPARAM,MAXFUNC
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM     
       CHARACTER*nchartitle ,INTENT(IN) :: TITR
-      INTEGER, INTENT(INOUT)   :: IMATVIS,NUPARAM,NUVAR,NFUNC
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT) :: IFUNC
-      my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)   :: UPARAM
       my_real, DIMENSION(100),INTENT(INOUT) :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
@@ -85,11 +86,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER :: I,J,K,IFORM,IFLAG,IFUNC_BLK,NPRONY,IVISC,ILAW
-      my_real :: RHO0,RHOR,BULK,SMAX,GS,MU,NU,GVMAX,C1,ZEP495,FSCAL,FSCAL_UNIT,
-     .           AL1,AL2,AL3,AL4,AL5,AL6,AL7,AL8,AL9,AL10,
-     .           MU1,MU2,MU3,MU4,MU5,MU6,MU7,MU8,MU9,MU10       
-      my_real, DIMENSION(100) ::  GI,TAUX
+      INTEGER :: I,IFORM,IFUNC_BLK,NPRONY,NUPARAM,NIPARAM,NORDER,ILAW
+      my_real :: RHO0,RHOR,BULK,SMAX,GS,MU0,NU,GVMAX,C1,ZEP495,FSCAL,FSCAL_UNIT
+      my_real, DIMENSION(10)  :: MU,AL
+      my_real, DIMENSION(100) :: GI,TAUX
 C=======================================================================
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
@@ -109,24 +109,36 @@ c
       CALL HM_GET_INTV  ('ORDER'      ,NPRONY   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV  ('IFORM'      ,IFORM    ,IS_AVAILABLE,LSUBMODEL)      
 !card3 - Shear hyperelastic modulus parameters
-      CALL HM_GET_FLOATV('MAT_MUE1'   ,MU1      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_MUE2'   ,MU2      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_MUE3'   ,MU3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_MUE4'   ,MU4      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_MUE5'   ,MU5      ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-!card4 - Material exponents
-      CALL HM_GET_FLOATV('MAT_ALPHA11',AL1      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_ALPHA22',AL2      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_ALPHA33',AL3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_ALPHA44',AL4      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_ALPHA55',AL5      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-!card5 - Prony series      
+      CALL HM_GET_FLOATV('MAT_MUE1'   ,MU(1)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_MUE2'   ,MU(2)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_MUE3'   ,MU(3)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_MUE4'   ,MU(4)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_MUE5'   ,MU(5)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
+!card4 - Shear hyperelastic modulus parameters
+      CALL HM_GET_FLOATV('MAT_MUE6'   ,MU(6)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_MUE7'   ,MU(7)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_MUE8'   ,MU(8)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_MUE9'   ,MU(9)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_MUE10'  ,MU(10)   ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
+!card5 - Material exponents
+      CALL HM_GET_FLOATV('MAT_ALPHA11',AL(1)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA22',AL(2)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA33',AL(3)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA44',AL(4)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA55',AL(5)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+!card6 - Material exponents
+      CALL HM_GET_FLOATV('MAT_ALPHA6 ',AL(6)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA7 ',AL(7)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA8 ',AL(8)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA9 ',AL(9)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA10',AL(10)   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+!card7 - Prony series      
       IF (NPRONY > 0) THEN
-        DO J=1,NPRONY    
-          CALL HM_GET_FLOAT_ARRAY_INDEX('Gamma_arr',GI(J)  ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        DO I=1,NPRONY    
+          CALL HM_GET_FLOAT_ARRAY_INDEX('Gamma_arr',GI(I)  ,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
         ENDDO
-        DO J=1,NPRONY     
-          CALL HM_GET_FLOAT_ARRAY_INDEX('Tau_arr'  ,TAUX(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        DO I=1,NPRONY     
+          CALL HM_GET_FLOAT_ARRAY_INDEX('Tau_arr'  ,TAUX(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)
         ENDDO
       ENDIF
 c
@@ -143,7 +155,6 @@ c
 c 
       ! Tensile stress limit
       IF (SMAX <= ZERO)  SMAX  = EP20
-      IFLAG = 0
 c
       ! Scale factor for bulk tabulation
       CALL HM_GET_FLOATV_DIM('MAT_FScale',FSCAL_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -156,36 +167,52 @@ c
 c
       ! Ground state shear modulus
       GVMAX = ZERO
-      DO K=1,NPRONY
-        GVMAX = GVMAX + GI(K)
+      DO I=1,NPRONY
+        GVMAX = GVMAX + GI(I)
       ENDDO      
-      GS = MU1*AL1+MU2*AL2+MU3*AL3+MU4*AL4+MU5*AL5
+c 
+      ! Viscosity parameters
+      IMATVIS = 1
+      IF (NPRONY > 0 ) THEN
+        IMATVIS = 3
+      ENDIF
+!------------------------------------------------------------
+!     Check Ogden parameter order (skip zero values of mu)
+!------------------------------------------------------------
+      NORDER = 0
+      DO I = 1,10
+        IF (MU(I) /= ZERO) THEN
+          NORDER = NORDER + 1
+          MU(NORDER) = MU(I)
+          AL(NORDER) = AL(I)
+        END IF
+      END DO
+!
+      GS = ZERO
+      DO I = 1,NORDER
+        GS = GS + MU(I)*AL(I)
+      END DO
       IF (GS <= ZERO) THEN
-        CALL ANCMSG(MSGID=828,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO,
+        CALL ANCMSG(MSGID=828, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .              I1=ID,
      .              C1=TITR)
       END IF
 c 
       ! Initial shear and bulk modulus
-      MU   = GS/TWO
+      MU0  = GS/TWO
       BULK = GS*(ONE+NU)/MAX(EM20,THREE*(ONE-TWO*NU))
-c 
-      ! Viscosity parameters
-      IVISC   = 0  
-      IMATVIS = 1
-      IF (NPRONY > 0 ) THEN
-        IVISC   = 1
-        IMATVIS = 3
-      ENDIF
-c
 c--------------------------
 c     Filling buffer tables
 c-------------------------- 
       ! Number of material parameters
-      NUPARAM = 17
+      NIPARAM = 3
+      NUPARAM = 24
       IF (NPRONY > 0) NUPARAM = NUPARAM + 2*NPRONY
+      MATPARAM%NIPARAM = NIPARAM
+      MATPARAM%NUPARAM = NUPARAM
+      ALLOCATE (MATPARAM%IPARAM(NIPARAM))
+      ALLOCATE (MATPARAM%UPARAM(NUPARAM))
+      
       ! Number of functions
       NFUNC   = 1
       ! Number of user variables 
@@ -193,27 +220,38 @@ c--------------------------
       IF (NPRONY > 0) NUVAR   = NUVAR   + 6*NPRONY 
 c          
       ! Material parameters
-      UPARAM(1)  = MU1
-      UPARAM(2)  = MU2
-      UPARAM(3)  = MU3
-      UPARAM(4)  = MU4
-      UPARAM(5)  = MU5
-      UPARAM(6)  = AL1
-      UPARAM(7)  = AL2
-      UPARAM(8)  = AL3
-      UPARAM(9)  = AL4
-      UPARAM(10) = AL5
-      UPARAM(11) = BULK
-      UPARAM(12) = SMAX
-      UPARAM(13) = IFLAG
-      UPARAM(14) = NU
-      UPARAM(15) = FSCAL
-      UPARAM(16) = NPRONY
-      UPARAM(17) = IFORM
+      MATPARAM%IPARAM(1)  = NORDER
+      MATPARAM%IPARAM(2)  = NPRONY
+      MATPARAM%IPARAM(3)  = IFORM
+      
+      MATPARAM%UPARAM(1)  = MU(1)   
+      MATPARAM%UPARAM(2)  = MU(2)   
+      MATPARAM%UPARAM(3)  = MU(3)   
+      MATPARAM%UPARAM(4)  = MU(4)   
+      MATPARAM%UPARAM(5)  = MU(5)   
+      MATPARAM%UPARAM(6)  = MU(6)   
+      MATPARAM%UPARAM(7)  = MU(7)   
+      MATPARAM%UPARAM(8)  = MU(8)   
+      MATPARAM%UPARAM(9)  = MU(9)   
+      MATPARAM%UPARAM(10) = MU(10)  
+      MATPARAM%UPARAM(11) = AL(1)   
+      MATPARAM%UPARAM(12) = AL(2)   
+      MATPARAM%UPARAM(13) = AL(3)   
+      MATPARAM%UPARAM(14) = AL(4)   
+      MATPARAM%UPARAM(15) = AL(5)   
+      MATPARAM%UPARAM(16) = AL(6)   
+      MATPARAM%UPARAM(17) = AL(7)   
+      MATPARAM%UPARAM(18) = AL(8)   
+      MATPARAM%UPARAM(19) = AL(9)   
+      MATPARAM%UPARAM(20) = AL(10)  
+      MATPARAM%UPARAM(21) = BULK  
+      MATPARAM%UPARAM(22) = NU    
+      MATPARAM%UPARAM(23) = SMAX
+      MATPARAM%UPARAM(24) = FSCAL 
       IF (NPRONY > 0) THEN
-        DO K=1,NPRONY
-          UPARAM(17 + K) = GI(K) 
-          UPARAM(17 + NPRONY + K) = TAUX(K)
+        DO I=1,NPRONY
+          MATPARAM%UPARAM(24 + I) = GI(I) 
+          MATPARAM%UPARAM(24 + NPRONY + I) = TAUX(I)
         ENDDO
       ENDIF
 c
@@ -229,10 +267,11 @@ c
       PARMAT(16) = 2
       PARMAT(17) = GS/(C1 + TWO_THIRD*GS)
 c
-      ! PM table
-      PM(1)  = RHOR
-      PM(2)  = GS
-      PM(89) = RHO0
+      ! PM /matparam common parameters
+      
+      MATPARAM%RHO  = RHOR
+      MATPARAM%RHO0 = RHO0
+      PM(2)  = GS      
       PM(100)= BULK      
 c      
       ! MATPARAM keywords
@@ -254,12 +293,15 @@ c--------------------------
       ELSE
         WRITE(IOUT,1200) RHO0
         WRITE(IOUT,1300) NU,SMAX,IFUNC_BLK,FSCAL,IFORM
-        WRITE(IOUT,1400) MU1,MU2,MU3,MU4,MU5
-        WRITE(IOUT,1500) AL1,AL2,AL3,AL4,AL5,MU,BULK
+        WRITE(IOUT,1400) NORDER
+        DO I = 1,NORDER
+          WRITE(IOUT,1500) I,MU(I),AL(I) 
+        ENDDO 
+        WRITE(IOUT,1600) MU0,BULK
         IF (NPRONY > 0) THEN 
-          WRITE(IOUT,1600) NPRONY
-          DO K = 1, NPRONY
-            WRITE(IOUT,1700) K,GI(K),TAUX(K) 
+          WRITE(IOUT,1700) NPRONY
+          DO I = 1, NPRONY
+            WRITE(IOUT,1800) I,GI(I),TAUX(I) 
           ENDDO 
         ENDIF
       ENDIF     
@@ -285,29 +327,23 @@ C-----------------
      & 5X,'  IFORM = 1: STANDARD STRAIN ENERGY DENSITY (DEFAULT)',/,
      & 5X,'  IFORM = 2: MODIFIED STRAIN ENERGY DENSITY          ',/)
  1400 FORMAT(
-     & 5X,'SHEAR HYPERELASTIC MODULUS PARAMETERS:            ',/,
-     & 5X,'--------------------------------------            ',/,
-     & 5X,'1ST PARAM. MU1. . . . . . . . . . . . . . . . . .=',1PG20.13/, 
-     & 5X,'2ND PARAM. MU2. . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'3RD PARAM. MU3. . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'4TH PARAM. MU4. . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'5TH PARAM. MU5. . . . . . . . . . . . . . . . . .=',1PG20.13/)
+     & 5X,'OGDEN MODEL PARAMETERS:                           ',/,
+     & 5X,'------------------------                          ',/,
+     & 5X,'                                                  ',/,
+     & 5X,'NUMBER OF TERMS IN OGDEN MODEL. . . . . . . . . .=',I8/)
  1500 FORMAT(
-     & 5X,'MATERIAL EXPONENTS:                               ',/,
-     & 5X,'-------------------                               ',/,
-     & 5X,'1ST EXPO. AL1 . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'2ND EXPO. AL2 . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'3RD EXPO. AL3 . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'4TH EXPO. AL4 . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'5TH EXPO. AL5 . . . . . . . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'OGDEN TERM NUMBER # '                              ,I8/,
+     & 5X,'GROUND SHEAR MODULUS. . . . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'EXPONENT ALPHA. . . . . . . . . . . . . . . . . .=',1PG20.13/)  
+ 1600 FORMAT(
      & 5X,'INITIAL SHEAR MODULUS . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'BULK MODULUS  . . . . . . . . . . . . . . . . . .=',1PG20.13/) 
- 1600 FORMAT(
+ 1700 FORMAT(
      & 5X,'PRONY SERIES PARAMETERS:                          ',/,
      & 5X,'------------------------                          ',/,
      & 5X,'                                                  ',/,
      & 5X,'NUMBER OF TERMS IN PRONY SERIES M . . . . . . . .=',I8/)
- 1700 FORMAT(
+ 1800 FORMAT(
      & 5X,'PRONY TERM NUMBER # '                              ,I8/,
      & 5X,'SHEAR STIFFNESS . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'RELAXATION TIME . . . . . . . . . . . . . . . . .=',1PG20.13/)  

@@ -317,7 +317,7 @@ C-----------------------------------------------
      .             AREA ,DT  ,X31 ,Y31 ,Z31 ,
      .             E1X  ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,
      .             E1Z  ,E2Z ,E3Z ,X2L ,X3L ,Y3L ,
-     .             GROUP_PARAM)
+     .             GROUP_PARAM,NUMMAT,MAT_PARAM)
 C
       CALL C1BUF3(GEO,GBUF%THK,GBUF%OFF,THK,KSH3TREE,SH3TREE)
 C

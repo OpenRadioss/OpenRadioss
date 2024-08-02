@@ -31,11 +31,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           UPARAM  ,IPM     ,NLAY    ,PM_STACK, ISUBSTACK,               
      .           STRC    ,AREA    ,IMAT    ,IPROP   ,DTEL    ,  
      .           X2L     ,X3L     ,X4L     ,Y2L     ,Y3L     ,Y4L    ,
-     .           IGEO_STACK       ,GROUP_PARAM)        
+     .           IGEO_STACK       ,GROUP_PARAM,NUMMAT,MAT_PARAM)        
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUP_PARAM_MOD            
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,6 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER IMAT, IPROP
       INTEGER IXC(NIXC,*),IGEO(NPROPGI,*),IHBE, SH4TREE(KSH4TREE,*),
      .   IPM(NPROPMI,*),NLAY,ISUBSTACK,IGEO_STACK(4*NPT_STACK+2,*)
@@ -65,7 +67,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, IMT, IPMAT, IGTYP,IADB,
+      INTEGER I, J, N, IMT, IPMAT, IGTYP,IADB,NORDER,
      .        I1,I3,IPTHK,IPPOS,I2,MATLY,IPGMAT,IGMAT,IPOS,NIP,MLAWLY
       my_real
      .   AREA(MVSIZ),SSP(MVSIZ), AL1(MVSIZ), 
@@ -76,6 +78,7 @@ C-----------------------------------------------
      .   X13,X24,Y13,Y24,L13,L24,C1,C2,THKLY,POSLY,
      .   FAC,VISCE,RX,RY,SX,SY,S1,FAC1,FAC2,FACI,FAC11,BULK,GMAX,Z0
        my_real, DIMENSION(MVSIZ) ::   ZOFFSET
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C=======================================================================
       FAC = TWO
 C
@@ -119,7 +122,23 @@ C
                    SSP(I)=MAX(SSP(I),PM(27,IMT))
                  ENDDO
                ENDDO
-             ELSEIF (MTN == 42 .OR. MTN  == 69) THEN
+             ELSEIF (MTN == 42) THEN
+               DO I=LFT,LLT
+                 DO N=1,NIP
+                   IMT  = IGEO(IPMAT+N,IPROP)
+                   NORDER = MAT_PARAM(IMT)%IPARAM(1)
+                   BULK   = MAT_PARAM(IMT)%UPARAM(21)
+                   NU     = MAT_PARAM(IMT)%UPARAM(22)
+                   GMAX   = ZERO
+                   DO J=1,NORDER
+                     GMAX = GMAX + MAT_PARAM(IMT)%UPARAM(J)*MAT_PARAM(IMT)%UPARAM(J+10)
+                   END DO
+                   RHO  = PM(1,IMT)
+                   A11 = GMAX*(ONE + NU)/(ONE - NU**2)
+                   SSP(I)=MAX(SSP(I), SQRT(A11/RHO)) 
+                 ENDDO
+               ENDDO
+             ELSEIF (MTN  == 69) THEN
                DO I=LFT,LLT
                  DO N=1,NIP
                    J=I+(N-1)*LLT
@@ -171,10 +190,25 @@ CCC
                    SSP(I)=MAX(SSP(I),PM(27,IMT))
                  ENDDO
                ENDDO
-             ELSEIF (MTN == 42 .OR. MTN  == 69) THEN
+             ELSEIF (MTN == 42) THEN
                DO I=LFT,LLT
                  DO N=1,NIP
-                   J=I+(N-1)*LLT
+                   IMT  = IGEO_STACK(IPMAT + N,ISUBSTACK)
+                   NORDER = MAT_PARAM(IMT)%IPARAM(1)
+                   BULK   = MAT_PARAM(IMT)%UPARAM(21)
+                   NU     = MAT_PARAM(IMT)%UPARAM(22)
+                   GMAX   = ZERO
+                   DO J=1,NORDER
+                     GMAX = GMAX + MAT_PARAM(IMT)%UPARAM(J)*MAT_PARAM(IMT)%UPARAM(J+10)
+                   END DO
+                   RHO  = PM(1,IMT)
+                   A11 = GMAX*(ONE + NU)/(ONE - NU**2)
+                   SSP(I)=MAX(SSP(I), SQRT(A11/RHO)) 
+                 ENDDO
+               ENDDO
+             ELSEIF (MTN  == 69) THEN
+               DO I=LFT,LLT
+                 DO N=1,NIP
                    IMT  = IGEO_STACK(IPMAT + N,ISUBSTACK)
                    IADB = IPM(7,IMT)-1                                      
                    BULK = UPARAM(IADB+11)                                     
@@ -220,7 +254,19 @@ CCC
               MLAWLY = NINT(PM(19,IMT))
               IF (MLAWLY <= 28) THEN
                 SSP(I)=MAX(SSP(I),PM(27,IMT))
-              ELSEIF (MLAWLY == 42 .OR. MLAWLY  == 69) THEN
+              ELSEIF (MLAWLY == 42) THEN
+                IADB = IPM(7,IMT)-1                                         
+                NORDER = MAT_PARAM(IMT)%IPARAM(1)
+                BULK   = MAT_PARAM(IMT)%UPARAM(21)
+                NU     = MAT_PARAM(IMT)%UPARAM(22)
+                GMAX   = ZERO
+                DO J=1,NORDER
+                  GMAX = GMAX + MAT_PARAM(IMT)%UPARAM(J)*MAT_PARAM(IMT)%UPARAM(J+10)
+                END DO
+                RHO  = PM(1,IMT)
+                A11 = GMAX*(ONE + NU)/(ONE - NU**2)
+                SSP(I)=MAX(SSP(I), SQRT(A11/RHO)) 
+              ELSEIF (MLAWLY  == 69) THEN
                 IADB = IPM(7,IMT)-1                                         
                 BULK = UPARAM(IADB+11)                                        
                 NU = UPARAM(IADB+14)
@@ -242,8 +288,8 @@ CCC
                 NU   =PM(21,IMT)
                 SSP(I)=MAX(SSP(I), SQRT(YOUNG/(ONE-NU*NU)/RHO))
               ENDIF
-              ENDDO
             ENDDO
+          ENDDO
       ELSEIF (IGTYP == 11 .AND. IGMAT > 0) THEN
           DO I=LFT,LLT
             SSP(I) = GEO(IPGMAT +9 ,IPROP)
@@ -257,20 +303,33 @@ CCC
           DO I=LFT,LLT
             SSP(I)=PM(27,IMAT)
           ENDDO
-      ELSEIF (MTN == 42 .OR. MTN  == 69) THEN
-          DO I=LFT,LLT
-            IADB = IPM(7,IMAT)-1                                             
-            BULK = UPARAM(IADB+11)                                             
-            NU = UPARAM(IADB+14)         
-            GMAX = UPARAM(IADB+1)*UPARAM(IADB+6)               
-     .           + UPARAM(IADB+2)*UPARAM(IADB+7) 
-     .           + UPARAM(IADB+3)*UPARAM(IADB+8) 
-     .           + UPARAM(IADB+4)*UPARAM(IADB+9) 
-     .           + UPARAM(IADB+5)*UPARAM(IADB+10) 
-             RHO  = PM(1,IMAT) 
-             A11 = GMAX*(ONE + NU)/(ONE - NU**2)                                
-             SSP(I)=MAX(SSP(I), SQRT(A11/RHO))    
-          ENDDO
+      ELSEIF (MTN == 42) THEN
+        DO I=LFT,LLT
+          NORDER = MAT_PARAM(IMAT)%IPARAM(1)                                             
+          BULK   = MAT_PARAM(IMAT)%UPARAM(21)                                            
+          NU     = MAT_PARAM(IMAT)%UPARAM(22)                                            
+          GMAX   = ZERO                                                                  
+          DO J=1,NORDER                                                                  
+            GMAX = GMAX + MAT_PARAM(IMAT)%UPARAM(J)*MAT_PARAM(IMAT)%UPARAM(J+10)         
+          END DO                                                                         
+          RHO   = PM(1,IMAT)                                                              
+          A11   = GMAX*(ONE + NU)/(ONE - NU**2)                                            
+          SSP(I)=MAX(SSP(I), SQRT(A11/RHO))                                              
+        ENDDO
+      ELSEIF (MTN  == 69) THEN
+        DO I=LFT,LLT
+          IADB = IPM(7,IMAT)-1                                             
+          BULK = UPARAM(IADB+11)                                             
+          NU = UPARAM(IADB+14)         
+          GMAX = UPARAM(IADB+1)*UPARAM(IADB+6)               
+     .         + UPARAM(IADB+2)*UPARAM(IADB+7) 
+     .         + UPARAM(IADB+3)*UPARAM(IADB+8) 
+     .         + UPARAM(IADB+4)*UPARAM(IADB+9) 
+     .         + UPARAM(IADB+5)*UPARAM(IADB+10) 
+           RHO  = PM(1,IMAT) 
+           A11 = GMAX*(ONE + NU)/(ONE - NU**2)                                
+           SSP(I)=MAX(SSP(I), SQRT(A11/RHO))    
+        ENDDO
       ELSEIF (MTN == 65) THEN
           DO I=LFT,LLT
             RHO  =PM(1,IMAT)

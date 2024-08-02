@@ -302,7 +302,7 @@ C---------------------------
      .            BUFMAT   ,IPM     ,NLAY    ,STACK%PM,ISUBSTACK,
      .            STRC(NFT+1),AREA  ,IMAT    ,IPROP   ,DTEL     , 
      .            X2L ,X3L ,X4L ,Y2L ,Y3L ,Y4L ,
-     .            STACK%IGEO ,GROUP_PARAM)
+     .            STACK%IGEO ,GROUP_PARAM,NUMMAT,MAT_PARAM)
       CALL C1BUF3(GEO,GBUF%THK,GBUF%OFF,THKE,KSH4TREE,SH4TREE)
 c---------------------------
       IF (IXFEM > 0) THEN

@@ -251,9 +251,9 @@ C ====================================================================
      .                  RBID,ISMSTR,MFXX,MFXY,MFXZ,MFYX, 
      .                  MFYY ,MFYZ ,MFZX ,MFZY,MFZZ)
       ELSEIF(MTN==42)THEN
-          CALL SIGEPS42(LLT ,NPAR,NUVAR,NFUNC,IFUNC ,
-     2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT(IADBUF),
-     3                  RHO0,RHO ,VOLN ,EINT ,
+          CALL SIGEPS42(LLT ,NUVAR,NFUNC,IFUNC ,
+     2                  NPF ,TF  ,TIME,TIMESTEP,
+     3                  RHO0,RHO ,VOLN ,EINT ,MATPARAM(IMAT),
      4                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
      5                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
      6                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,

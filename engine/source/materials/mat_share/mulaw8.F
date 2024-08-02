@@ -156,7 +156,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NPAR,IADBUF,NFUNC,I,J,IPT,JPT,IR,ISRATE,
+      INTEGER NPAR,NUPARAM,NIPARAM,IADBUF,NFUNC,I,J,IPT,JPT,IR,ISRATE,
      .  IFUNC(MAXFUNC),IDUM1,IRUPT,IMAT,NTABL_FAIL,
      .  NVARF, IEXPAN8,JJ(6),INLOC,IEOS,DMG_FLAG
       my_real 
@@ -179,9 +179,9 @@ C-----------------------------------------------
      .   SS5,SS6,Q1,Q2,Q3,ASRATE,EPSP,
      .   BID,DUM1,BIDON,BIDON1,BIDON2,BIDON3,BIDON4,BIDON5
       my_real TT_LOCAL     
-      my_real,
-     .  DIMENSION(:)  ,POINTER :: SIGP,SIGLP,STRAIN,UVAR,UVARF,DFMAX,TDELE,UPARAM,UPARAMF
-      INTEGER, DIMENSION(:), POINTER :: VARTMP,ITABL_FAIL
+      my_real, DIMENSION(:), POINTER :: SIGP,SIGLP,STRAIN,UVAR,UVARF,DFMAX,TDELE
+      my_real, DIMENSION(:), POINTER :: UPARAM0,UPARAM,UPARAMF
+      INTEGER, DIMENSION(:), POINTER :: VARTMP,ITABL_FAIL,IPARAM
       TYPE(L_BUFEL_)  ,POINTER :: LBUF
 !
       CHARACTER OPTION*256
@@ -191,15 +191,19 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL), TARGET :: VECNUL
       my_real, DIMENSION(:), POINTER  :: SIGBXX,SIGBYY,SIGBZZ,SIGBXY,SIGBYZ,SIGBZX
 C=======================================================================
-      IMAT = MAT(LFT)
-      INLOC  = MAT_PARAM(IMAT)%NLOC
-      IEOS   = MAT_PARAM(IMAT)%IEOS
-      NPAR   = IPM(9,IMAT)
-      IADBUF = IPM(7,IMAT)
-      NFUNC  = IPM(10,IMAT)
-      NUVAR  = BUFLY%NVAR_MAT
-      NVARTMP= BUFLY%NVARTMP
-      UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)
+      IMAT    = MAT(LFT)
+      IADBUF  =  IPM(7,IMAT)
+      INLOC   =  MAT_PARAM(IMAT)%NLOC
+      IEOS    =  MAT_PARAM(IMAT)%IEOS
+      NUPARAM =  MAT_PARAM(IMAT)%NUPARAM
+      NIPARAM =  MAT_PARAM(IMAT)%NIPARAM
+      IPARAM  => MAT_PARAM(IMAT)%IPARAM
+      UPARAM  => MAT_PARAM(IMAT)%UPARAM
+      NPAR    =  IPM(9,IMAT)
+      UPARAM0 => BUFMAT(IADBUF:IADBUF+NPAR)
+      NFUNC   =  IPM(10,IMAT)
+      NUVAR   =  BUFLY%NVAR_MAT
+      NVARTMP =  BUFLY%NVARTMP
       DMG_FLAG = BUFLY%L_DMGSCL
 C
       DO J=1,6
@@ -563,8 +567,8 @@ C-------------------
           ENDIF
         ENDDO
 
-        NRATE = NINT(UPARAM(1))
-        FISOKIN = UPARAM(6+2*NRATE+8)
+        NRATE = NINT(UPARAM0(1))
+        FISOKIN = UPARAM0(6+2*NRATE+8)
         IF(FISOKIN>0) THEN
           SIGBXX => LBUF%SIGB(1      :  NEL) 
           SIGBYY => LBUF%SIGB(NEL+1  :2*NEL)
@@ -584,7 +588,7 @@ C-------------------
 
         CALL SIGEPS36(
      2    LLT      ,NUVAR    ,NFUNC    ,IFUNC    ,NPF ,
-     3    TF       ,TT       ,DT1      ,UPARAM   ,RHO0,
+     3    TF       ,TT       ,DT1      ,UPARAM0   ,RHO0,
      5    DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6   ,
      6    ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6   ,
      7    SO1      ,SO2      ,SO3      ,SO4      ,SO5      ,SO6   ,
@@ -636,7 +640,7 @@ c
      .    LBUF%TEMP)
       ELSEIF(MTN == 42)THEN
         CALL SIGEPS42(
-     1       LLT     ,NPAR    ,NUVAR   ,NFUNC   ,IFUNC   ,NPF     ,
+     1       LLT     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,NPF     ,
      2       TF      ,TT      ,DT1     ,BUFMAT(IADBUF),RHO0,RHO   ,
      3       VOLN    ,EINT    ,UVAR    ,OFF     ,OFFG    ,SSPP    ,
      4       EP1     ,EP2     ,EP3     ,EP4     ,EP5     ,EP6     ,
@@ -644,7 +648,7 @@ c
      6       S1      ,S2      ,S3      ,S4      ,S5      ,S6      ,
      7       BIDON   ,BIDON   ,BIDON   ,BIDON   ,BIDON   ,BIDON   ,
      8       BIDON   ,BIDON   ,BIDON   ,VIS     ,ISMSTR  ,ET      ,
-     9       IHET    ,BIDON   ,IEXPAN8 )
+     9       IHET    ,BIDON   ,IEXPAN8 ,NIPARAM ,IPARAM  )
 c
       ELSEIF(MTN == 44)THEN
 C
@@ -667,7 +671,7 @@ C
 !         ENDDO
         CALL SIGEPS44(
      2    LLT      ,NPAR     ,NUVAR    ,NFUNC    ,IFUNC    ,NPF      ,
-     3    TF       ,TT       ,DT1      ,UPARAM   ,RHO0     ,RHO      ,
+     3    TF       ,TT       ,DT1      ,UPARAM0   ,RHO0     ,RHO      ,
      4    VOLN     ,EINT     ,IEOS     ,BIDV     ,
      5    EP1      ,EP2      ,EP3      ,EP4      ,EP5      ,EP6   ,
      6    DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6   ,
@@ -677,7 +681,8 @@ C
      A    SV1      ,SV2      ,SV3      ,SV4      ,SV5      ,SV6   ,
      B    SSPP     ,VIS      ,UVAR     ,OFF      ,NGL      ,IPT   ,
      C    IPM      ,MAT      ,EPSD     ,IPLA     ,SIGY     ,LBUF%PLA  ,
-     D    DPLA     ,AMU      ,ISRATE   ,ASRATE   ,NVARTMP  ,VARTMP)
+     D    DPLA     ,AMU      ,ISRATE   ,ASRATE   ,NVARTMP  ,VARTMP,
+     E    ET       )
         DEFP(1:LLT)   =  LBUF%PLA(1:LLT)
       ELSEIF(MTN == 45)THEN
         CALL SIGEPS45(

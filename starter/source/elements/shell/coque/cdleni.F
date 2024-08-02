@@ -30,13 +30,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  PX1 ,PX2 ,PY1   ,PY2  ,THK,
      .                  IGEO,DT  ,SH4TREE,ALDT,UPARAM ,
      .                  IPM ,NLAY,PM_STACK,ISUBSTACK,STRC,
-     .                  AREA    ,IMAT    ,IPROP   ,
+     .                  AREA    ,IMAT    ,IPROP   ,NUMMAT,
      .                  X2L ,X3L ,X4L  ,Y2L ,Y3L  ,Y4L     ,
-     .                  IGEO_STACK ,GROUP_PARAM)
+     .                  IGEO_STACK ,GROUP_PARAM,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUP_PARAM_MOD            
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,6 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER IMAT,IPROP
       INTEGER IXC(NIXC,*), IGEO(NPROPGI,*), SH4TREE(KSH4TREE,*),
      .   IPM(NPROPMI,*),NLAY,ISUBSTACK,IGEO_STACK(4*NPT_STACK+2,*)
@@ -63,17 +65,18 @@ C-----------------------------------------------
      .   AREA(MVSIZ), STRC(*),
      .   X2L(MVSIZ),X3L(MVSIZ),X4L(MVSIZ),Y2L(MVSIZ),Y3L(MVSIZ),Y4L(MVSIZ)
       TYPE (GROUP_PARAM_)  :: GROUP_PARAM
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, IMT, IPMAT, IGTYP,IPPID,IADB,
+      INTEGER I, J, N, IMT, IPMAT, IGTYP,IPPID,IADB,NORDER,
      .        I1,I3,IPTHK,IPPOS,I2,MATLY,IGMAT,IPGMAT,IPOS,NIP,MLAWLY
       my_real
      .   SSP(MVSIZ), AL1(MVSIZ),AL(MVSIZ), ALMIN(MVSIZ),
      .   AL2(MVSIZ), AL3(MVSIZ), AL4(MVSIZ), AL5(MVSIZ), AL6(MVSIZ)
       my_real
      .   VISCMX,A11,A11R,A12,B1,B2,C1,VV,STI,STIR,VISCDEF,DTDYN,RHO, 
-     .   YOUNG,NU,BULK,GMAX,THKLY,POSLY,FAC,Z0
+     .   YOUNG,NU,BULK,GMAX,FAC,Z0
        my_real, DIMENSION(MVSIZ) :: ZOFFSET
 C======================================================================|
       IGTYP = NINT(GEO(12,IPROP))
@@ -113,7 +116,23 @@ c
               SSP(I)=MAX(SSP(I),PM(27,IMT))
             ENDDO
           ENDDO
-        ELSEIF (MTN == 42 .OR. MTN  == 69) THEN
+        ELSEIF (MTN == 42) THEN
+          DO I=LFT,LLT
+            DO N=1,NPT
+              IMT = IGEO(IPMAT+N,IPROP)
+              NORDER = MAT_PARAM(IMT)%IPARAM(1)
+              BULK   = MAT_PARAM(IMT)%UPARAM(21)
+              NU     = MAT_PARAM(IMT)%UPARAM(22)
+              GMAX   = ZERO
+              DO J=1,NORDER
+                GMAX = GMAX + MAT_PARAM(IMT)%UPARAM(J)*MAT_PARAM(IMT)%UPARAM(J+10)
+              END DO
+              RHO  = PM(1,IMT)
+              A11 = GMAX*(ONE + NU)/(ONE - NU**2)
+              SSP(I)=MAX(SSP(I), SQRT(A11/RHO)) 
+            ENDDO
+          ENDDO
+        ELSEIF (MTN  == 69) THEN
           DO I=LFT,LLT
             DO N=1,NPT
               J=I+(N-1)*LLT
@@ -174,10 +193,25 @@ c
               SSP(I)=MAX(SSP(I),PM(27,IMT))
             ENDDO
           ENDDO
-        ELSEIF (MTN == 42 .OR. MTN  == 69) THEN
+        ELSEIF (MTN == 42) THEN
           DO I=LFT,LLT
             DO N=1,NIP
-              J=I+(N-1)*LLT
+              IMT = IGEO_STACK(IPMAT + N,ISUBSTACK)
+              NORDER = MAT_PARAM(IMT)%IPARAM(1)
+              BULK   = MAT_PARAM(IMT)%UPARAM(21)
+              NU     = MAT_PARAM(IMT)%UPARAM(22)
+              GMAX   = ZERO
+              DO J=1,NORDER
+                GMAX = GMAX + MAT_PARAM(IMT)%UPARAM(J)*MAT_PARAM(IMT)%UPARAM(J+10)
+              END DO
+              RHO  = PM(1,IMT)
+              A11 = GMAX*(ONE + NU)/(ONE - NU**2)
+              SSP(I)=MAX(SSP(I), SQRT(A11/RHO)) 
+            ENDDO
+          ENDDO
+        ELSEIF (MTN  == 69) THEN
+          DO I=LFT,LLT
+            DO N=1,NIP
               IMT = IGEO_STACK(IPMAT + N,ISUBSTACK)
               IADB = IPM(7,IMT)-1                                           
               BULK = UPARAM(IADB+11)
@@ -223,7 +257,18 @@ c
             MLAWLY = NINT(PM(19,IMT))
             IF (MLAWLY <= 28) THEN
               SSP(I)=MAX(SSP(I),PM(27,IMT))
-            ELSEIF (MLAWLY == 42 .OR. MLAWLY  == 69) THEN
+            ELSEIF (MLAWLY == 42) THEN
+              NORDER = MAT_PARAM(IMT)%IPARAM(1)
+              BULK   = MAT_PARAM(IMT)%UPARAM(21)
+              NU     = MAT_PARAM(IMT)%UPARAM(22)
+              GMAX   = ZERO
+              DO J=1,NORDER
+                GMAX = GMAX + MAT_PARAM(IMT)%UPARAM(J)*MAT_PARAM(IMT)%UPARAM(J+10)
+              END DO
+              RHO  = PM(1,IMT)
+              A11 = GMAX*(ONE + NU)/(ONE - NU**2)
+              SSP(I)=MAX(SSP(I), SQRT(A11/RHO)) 
+            ELSEIF (MLAWLY  == 69) THEN
               IADB = IPM(7,IMT)-1                                           
               BULK = UPARAM(IADB+11)                                          
               NU = UPARAM(IADB+14)
@@ -252,7 +297,20 @@ c
         DO I=LFT,LLT
           SSP(I)=PM(27,IMAT)
         ENDDO
-      ELSEIF (MTN == 42 .OR. MTN  == 69) THEN
+      ELSEIF (MTN == 42) THEN
+        DO I=LFT,LLT
+          NORDER = MAT_PARAM(IMAT)%IPARAM(1)
+          BULK   = MAT_PARAM(IMAT)%UPARAM(21)
+          NU     = MAT_PARAM(IMAT)%UPARAM(22)
+          GMAX   = ZERO
+          DO J=1,NORDER
+            GMAX = GMAX + MAT_PARAM(IMAT)%UPARAM(J)*MAT_PARAM(IMAT)%UPARAM(J+10)
+          END DO
+          RHO  = PM(1,IMAT)
+          A11 = GMAX*(ONE + NU)/(ONE - NU**2)
+          SSP(I)=MAX(SSP(I), SQRT(A11/RHO)) 
+        ENDDO
+      ELSEIF (MTN  == 69) THEN
         DO I=LFT,LLT
           IADB = IPM(7,IMAT)-1 
           BULK = UPARAM(IADB+11) 

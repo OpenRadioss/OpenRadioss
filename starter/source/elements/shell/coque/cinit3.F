@@ -294,9 +294,9 @@ C-----------------------------------------------
      .            PX1G    ,PX2G    ,PY1G    ,PY2G    ,THK         ,
      .            IGEO    ,DT      ,SH4TREE ,ALDT    ,BUFMAT      ,
      .            IPM     ,NLAY    ,STACK%PM,ISUBSTACK,STRC(NFT+1),
-     .            AREA    ,IMAT    ,IPROP   ,
+     .            AREA    ,IMAT    ,IPROP   ,NUMMAT,
      .            X2L     ,X3L     ,X4L     ,Y2L     ,Y3L     ,Y4L ,
-     .            STACK%IGEO,GROUP_PARAM)
+     .            STACK%IGEO,GROUP_PARAM    ,MAT_PARAM)
       CALL C1BUF3(GEO,GBUF%THK,GBUF%OFF,THK,KSH4TREE,SH4TREE)
 C-----------------------------------------------
       IF (IXFEM > 0) THEN

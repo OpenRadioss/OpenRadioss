@@ -34,11 +34,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   AREA ,DT  ,X31G,Y31G,Z31G,
      .                   E1X  ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,
      .                   E1Z  ,E2Z ,E3Z ,X2  ,X3  ,Y3  ,
-     .                   GROUP_PARAM)
+     .                   GROUP_PARAM,NUMMAT,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUP_PARAM_MOD            
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,6 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER JFT, JLT, ILEV,ISUBSTACK,IMAT,IPROP
       INTEGER IXTG(NIXTG,*), SH3TREE(KSH3TREE,*),IPM(NPROPMI,*),
      .         IGEO(NPROPGI,*)
@@ -70,16 +72,14 @@ C     REAL
      .     E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
      .     E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ)
       TYPE (GROUP_PARAM_)  :: GROUP_PARAM
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, IADB,I1,I3,IPTHK,IPPOS,IGTYP,I2,
-     .        IPMAT,MATLY,IPGMAT,IGMAT,IPOS
+      INTEGER I,J,N, IADB,IGTYP,NORDER,IPGMAT,IGMAT
       my_real ALDTV(MVSIZ)
       my_real VISCMX, A11, G, STI,STIR,SHF,VISCDEF,
-     .     AL1, AL2, AL3, ALMAX, SSP,YOUNG,NU,RHO,BULK,GMAX,
-     .     C1,IZ,THICKT,THKLY,POSLY,A1THK,C1THK,
-     .     GTHK,A11R,FAC,A12,E,ETHK,NUTHK,A12THK,RHOG
+     .     AL1,AL2,AL3,ALMAX, SSP,YOUNG,NU,RHO,BULK,GMAX,C1,A11R,FAC,E
 C=======================================================================
       SSP = ZERO 
       
@@ -110,30 +110,41 @@ C
      .       ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0 )) THEN
            SSP = PM_STACK(9 ,ISUBSTACK)
         ELSE
-         IF (MTN<=28) THEN
-          SSP=PM(27,IMAT)
-         ELSEIF (MTN == 42 .OR. MTN  == 69 ) THEN
-          IADB = IPM(7,IMAT)-1                                               
-          BULK = UPARAM(IADB+11) 
-          NU   = UPARAM(IADB+14)                             
-          GMAX = UPARAM(IADB+1)*UPARAM(IADB+6)                 
-     .         + UPARAM(IADB+2)*UPARAM(IADB+7)
-     .         + UPARAM(IADB+3)*UPARAM(IADB+8) 
-     .         + UPARAM(IADB+4)*UPARAM(IADB+9) 
-     .         + UPARAM(IADB+5)*UPARAM(IADB+10) 
-          RHO  = PM(1,IMAT)      
-          A11 = GMAX*(ONE + NU)/(ONE - NU**2)                             
-          SSP=MAX(SSP, SQRT(A11/RHO))     
-         ELSEIF (MTN == 65) THEN
-          RHO  =PM(1,IMAT)
-          YOUNG=PM(20,IMAT)
-          SSP=SQRT(YOUNG/RHO)
-         ELSE
-          RHO  =PM(1,IMAT)
-          YOUNG=PM(20,IMAT)
-          NU   =PM(21,IMAT)
-          SSP=SQRT(YOUNG/(ONE-NU*NU)/RHO)
-         ENDIF
+          IF (MTN<=28) THEN
+            SSP = PM(27,IMAT)
+          ELSEIF (MTN == 42) THEN
+            NORDER = MAT_PARAM(IMAT)%IPARAM(1)
+            BULK   = MAT_PARAM(IMAT)%UPARAM(21)
+            NU     = MAT_PARAM(IMAT)%UPARAM(22)
+            GMAX   = ZERO
+            DO J=1,NORDER
+              GMAX = GMAX + MAT_PARAM(IMAT)%UPARAM(J)*MAT_PARAM(IMAT)%UPARAM(J+10)
+            END DO
+            RHO = PM(1,IMAT)
+            A11 = GMAX*(ONE + NU)/(ONE - NU**2)
+            SSP = MAX(SSP, SQRT(A11/RHO)) 
+          ELSEIF (MTN  == 69 ) THEN
+           IADB = IPM(7,IMAT)-1                                               
+           BULK = UPARAM(IADB+11) 
+           NU   = UPARAM(IADB+14)                             
+           GMAX = UPARAM(IADB+1)*UPARAM(IADB+6)                 
+     .          + UPARAM(IADB+2)*UPARAM(IADB+7)
+     .          + UPARAM(IADB+3)*UPARAM(IADB+8) 
+     .          + UPARAM(IADB+4)*UPARAM(IADB+9) 
+     .          + UPARAM(IADB+5)*UPARAM(IADB+10) 
+           RHO  = PM(1,IMAT)      
+           A11 = GMAX*(ONE + NU)/(ONE - NU**2)                             
+           SSP=MAX(SSP, SQRT(A11/RHO))     
+          ELSEIF (MTN == 65) THEN
+           RHO  =PM(1,IMAT)
+           YOUNG=PM(20,IMAT)
+           SSP=SQRT(YOUNG/RHO)
+          ELSE
+           RHO  =PM(1,IMAT)
+           YOUNG=PM(20,IMAT)
+           NU   =PM(21,IMAT)
+           SSP=SQRT(YOUNG/(ONE-NU*NU)/RHO)
+          ENDIF
         ENDIF 
         VISCMX = GROUP_PARAM%VISC_DM
         IF (VISCMX == ZERO) VISCMX = VISCDEF

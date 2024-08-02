@@ -247,7 +247,7 @@ C------------
       CALL CDKDERII(LFT,LLT,PM,GEO,PX2,PY2,PX3,PY3,
      .             STIFN   ,STIFR   ,IXTG(1,NFT+1),THK, SH3TREE,
      .             ALDT    ,BUFMAT  ,IPM ,IGEO,STACK%PM, 
-     .             ISUBSTACK,STRTG(NFT+1),GROUP_PARAM, 
+     .             ISUBSTACK,STRTG(NFT+1),GROUP_PARAM,NUMMAT,MAT_PARAM, 
      .             IMAT ,IPROP,AREA,   DT  ,
      .             X1   ,X2  ,X3  ,Y1  ,Y2  ,Y3  ,
      .             Z1   ,Z2  ,Z3  ,E1X ,E2X ,E3X ,

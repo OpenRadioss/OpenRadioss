@@ -28,12 +28,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod   ../starter/share/message_module/message_mod.F
       !||    table_mod     ../starter/share/modules1/table_mod.F
       !||====================================================================
-      SUBROUTINE LAW42_UPD(IOUT,TITR    ,MAT_ID,UPARAM, PM, GAMA_INF)
+
+      SUBROUTINE LAW42_UPD(MAT_PARAM,IOUT,TITR    ,MAT_ID,PM, GAMA_INF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE TABLE_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,14 +50,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*nchartitle  :: TITR
       INTEGER MAT_ID,IOUT
-      my_real 
-     .         UPARAM(*)
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM  
       my_real , INTENT(IN)  :: GAMA_INF
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NDATA,I,K,INDX
+      INTEGER I,K,NDATA,INDX,NORDER
       my_real
      .   MU(5),AL(5),LAM_MIN,LAM_MAX,STRAIN_MIN,STRAIN_MAX,
      .   D11,D22,D12,LAM1,LAM2,LAM3,LAM12,INVD1,INVD2,GS,BULK,YOUNG,
@@ -66,21 +67,23 @@ C-----------------------------------------------
 C=======================================================================
 !       CHECK the material stability (Drucker proguer conditions)
 !====================================================================
-       NDATA = 10000  ! La=0.1,10, EM3!!
-       LAM_MIN = EM3                                         
-       LAM_MAX = TEN 
-       GS = ZERO
+      NDATA = 10000  ! La=0.1,10, EM3!!
+      LAM_MIN = EM3                                         
+      LAM_MAX = TEN
+        
+      NORDER = MAT_PARAM%IPARAM(1)   ! Order of Ogden model
 C      
-       IF(GAMA_INF <  ONE) THEN 
-         DO I=1,5
-           UPARAM(I) = UPARAM(I)/GAMA_INF
-           MU(I) = UPARAM(I)
-           AL(I) = UPARAM(5+I)
+       GS = ZERO
+       IF (GAMA_INF <  ONE) THEN 
+         DO I=1,NORDER
+           MAT_PARAM%UPARAM(I) = MAT_PARAM%UPARAM(I)/GAMA_INF
+           MU(I) = MAT_PARAM%UPARAM(I)
+           AL(I) = MAT_PARAM%UPARAM(10+I)
            GS = GS + MU(I)*AL(I)
          ENDDO 
-         NU = UPARAM(14)
+         NU = MAT_PARAM%UPARAM(22)
          BULK = GS*(ONE+NU)/MAX(EM20,THREE*(ONE-TWO*NU)) 
-         UPARAM(11) = BULK
+         MAT_PARAM%UPARAM(21) = BULK
          !! parameters 
           YOUNG  = GS*(ONE + NU)                                              
           PM(20) = YOUNG                                                
@@ -95,9 +98,9 @@ C     Formulation for solid elements time step computation.
          WRITE(IOUT,2100) HALF*GS,BULK
          WRITE(IOUT,2200) MU(1),MU(2),MU(3),MU(4),MU(5)          
        ELSE
-         DO I=1,5
-           MU(I) = UPARAM(I)
-           AL(I) = UPARAM(5+I)
+         DO I=1,NORDER
+           MU(I) = MAT_PARAM%UPARAM(I)
+           AL(I) = MAT_PARAM%UPARAM(10+I)
          ENDDO  
        ENDIF 
 C

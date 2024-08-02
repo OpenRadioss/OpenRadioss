@@ -232,7 +232,7 @@ c-------------------------
      .                    MTAG   ,NFUNCT )        
 c-------------------------
           CASE (42) 
-            CALL LAW42_UPD(IOUT,TITR,MAT_ID,UPARAM,PM(1,IMAT),GAMA_INF)        
+            CALL LAW42_UPD(MAT_PARAM(IMAT),IOUT,TITR,MAT_ID,PM(1,IMAT),GAMA_INF)        
 c-------------------------
           CASE (50) 
             CALL LAW50_UPD(MATPARAM,NPARAM,UPARAM,NFUNC,IFUNC,SNPC,STF,NPC,PLD)        
