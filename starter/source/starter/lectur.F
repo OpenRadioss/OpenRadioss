@@ -431,6 +431,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stackgroup_drape                    ../starter/source/stack/stackgroup_drape.F
       !||    startime                            ../starter/source/system/timer.F
       !||    state_admesh                        ../starter/source/model/remesh/state_admesh.F
+      !||    stifint_icontrol                    ../starter/source/interfaces/interf1/stifint_icontrol.F90
       !||    stifn0_nd                           ../starter/source/elements/solid/solide10/dim_s10edg.F
       !||    stifn1_nd                           ../starter/source/elements/solid/solide10/dim_s10edg.F
       !||    stoptime                            ../starter/source/system/timer.F
@@ -510,6 +511,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    split_rwall_mod                     ../starter/source/constraints/general/rwall/split_rwall.F90
       !||    stack_mod                           ../starter/share/modules1/stack_mod.F
       !||    stack_var_mod                       ../starter/share/modules1/stack_var_mod.F
+      !||    stifint_icontrol_mod                ../starter/source/interfaces/interf1/stifint_icontrol.F90
       !||    submodel_mod                        ../starter/share/modules1/submodel_mod.F
       !||    table_glob_mod                      ../starter/share/modules1/table_glob_mod.F
       !||    updfail_mod                         ../starter/source/materials/updfail.F90

@@ -91,6 +91,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_exch_flow_tracking_data3            ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
       !||    spmd_exch_flow_tracking_data4            ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
       !||    spmd_update_frontier_int25               ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
+      !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
       !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
       !||    updfail                                  ../starter/source/materials/updfail.F90
       !||====================================================================
