@@ -1026,11 +1026,6 @@ C heat transfer
 C Static condensation
       NEXT=NEXT+1
       ISTATCND=TABVINT(NEXT)
-C Defense Lic Flag
-      NEXT   = NEXT + 1
-      LIDFS  = TABVINT(NEXT)
-      NEXT   = NEXT + 1
-      LIRNUR = TABVINT(NEXT)
 C Unit info
       NEXT   = NEXT + 1
       LUNIT  = TABVINT(NEXT)

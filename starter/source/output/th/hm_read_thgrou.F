@@ -85,6 +85,7 @@ C-----------------------------------------------
       USE th_titles_mod
       USE write_thnms1_mod
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2703,8 +2704,8 @@ C          frame numbers user -> internal
                   TITR1(J+5:J+5) = TITR(J:J)                        
                 ENDDO                                               
           CALL FRETITL(TITR1,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)    
-          ITHGRP(1,IGS)=ID_TH_AUTO                                
-          ID_TH_AUTO = ID_TH_AUTO + 1                             
+          ITHGRP(1,IGS)=ID_LIMIT%TH
+          ID_LIMIT%TH  = ID_LIMIT%TH  + 1
           CALL HM_THGRKI_VENT(                                       
      1      ITYP      ,KEY       ,PTR_NOPT_MONV,                        
      3      IAD       ,IFI       ,ITHGRP(1,IGS),ITHBUF ,                

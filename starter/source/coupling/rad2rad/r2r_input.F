@@ -35,6 +35,8 @@ C-----------------------------------------------
         USE RESTMOD
         USE R2R_MOD
         USE INOUTFILE_MOD
+        USE READER_OLD_MOD , ONLY : NSLASH
+        USE READER_OLD_MOd , ONLY : KR2R
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,17 +69,16 @@ C-----------------------------------------------
 C-----Creation of arrays for Links---
 
         COMPT = 1
+        START = NSLASH(KR2R)+1
 
         DO I=0,NSUBDOM
           ADDRESS(I+1)=COMPT
-          START = NSLASH(KR2R)+1
           DO J=START,NR2RLNK
             IF ((IEXTER(3,J)==I).OR.(IEXTER(4,J)==I)) THEN
               TAB_TMP(COMPT)=IEXTER(2,J)
               COMPT = COMPT+1
             ENDIF
           END DO
-
           NB(I+1)=COMPT-ADDRESS(I+1)
         END DO
 

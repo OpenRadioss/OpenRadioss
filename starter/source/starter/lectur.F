@@ -1202,8 +1202,6 @@ c=======================================================================
       NXLAYMAX = 0   ! max layer nb in parts xfem
 C     /DAMP/VREL + RBY      
       NDAMP_VREL_RBY = 0
-C lic. Init
-      LIDFS = 0
 C bc heat
       NUMCONV = 0
       NFXTEMP = 0

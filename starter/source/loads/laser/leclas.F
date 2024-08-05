@@ -93,7 +93,6 @@ C-----------------------------------------------
       K2 = 1
       WRITE(IOUT,'(/,A)')  ' LASER BEAM IMPACT'
       WRITE(IOUT,'(A)')    ' -----------------'
-      LIDFS = 0
 
       CALL HM_OPTION_START('/DFS/LASER')
 

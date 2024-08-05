@@ -186,6 +186,7 @@ C-----------------------------------------------
       USE HM_READ_MAT125_MOD
       USE HM_READ_MAT126_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : nchartitle, ncharline
+      USE READER_OLD_MOD , ONLY : KCUR, KLINE, LINE, KEY0, KCUR
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

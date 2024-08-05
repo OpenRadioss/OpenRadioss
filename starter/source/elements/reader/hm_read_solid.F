@@ -823,7 +823,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
+      USE READER_OLD_MOD , ONLY : LINE
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -839,7 +841,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPART(LIPART1,*), IGEO(NPROPGI,*), IXS(NIXS,*), NSPHSOL
 C     REAL
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       INTEGER,INTENT(IN)::IS_DYNA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -889,7 +891,7 @@ C--------------------------------------------------
         ENDIF 
         IPARTS(I) = INDEX_PART 
 C--------------------------------------------------
-        IF (IXS(11,I)>ID_LIMIT) THEN
+        IF (IXS(11,I)>ID_LIMIT%GLOBAL) THEN
           CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1=IXS(11,I),C1=LINE,C2='/SOLID')
         ENDIF
@@ -937,7 +939,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C
           NSPHDIR=IGEO(37,IPART(2,IPARTS(I)))
-          IF (IXS(11,I)>ID_LIMIT) THEN
+          IF (IXS(11,I)>ID_LIMIT%GLOBAL) THEN
             CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXS(11,I),C1=LINE,C2='/SOLID')
           ENDIF
@@ -966,7 +968,7 @@ C--------------------------------------------------
           IPARTS(I) = INDEX_PART 
 C--------------------------------------------------
           NSPHDIR=IGEO(37,IPARTS(I-NUMBRICK))
-          IF (IXS(11,I)>ID_LIMIT) THEN
+          IF (IXS(11,I)>ID_LIMIT%GLOBAL) THEN
             CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXS(11,I),C1=LINE,C2='/SOLID')
           ENDIF

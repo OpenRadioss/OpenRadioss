@@ -66,7 +66,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
+      USE READER_OLD_MOD , ONLY : LINE
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,7 +96,7 @@ C INPUT ARGUMENTS
       INTEGER,INTENT(IN)::ITABM1(*)
       INTEGER,INTENT(IN)::IPART(LIPART1,*)
       INTEGER,INTENT(IN)::IGEO(NPROPGI,*)
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
 C OUTPUT ARGUMENTS
       INTEGER,INTENT(OUT)::IXRI(4,*)
 C INPUT/OUTPUT ARGUMENTS
@@ -113,8 +115,7 @@ C-----------------------------------------------
       INTEGER I, I1, I2, PID,MT,IPID,J,N,STAT,P,IF1,IF2
       INTEGER CPT,INDEX_PART
       CHARACTER MESS*40, MESS2*40
-      my_real
-     .   BID 
+      my_real BID
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_RIVET,IPART_RIVET
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -126,14 +127,10 @@ C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
       ALLOCATE (SUB_RIVET(NRIVET),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_RIVET') 
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SUB_RIVET')
       SUB_RIVET(1:NRIVET) = 0
       ALLOCATE (IPART_RIVET(NRIVET),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='IPART_RIVET') 
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='IPART_RIVET')
       IPART_RIVET(1:NRIVET) = 0
       INDEX_PART = 1
 C--------------------------------------------------
@@ -153,9 +150,7 @@ C--------------------------------------------------
           ENDDO  
         ENDIF
         IF(IPART(4,INDEX_PART) /= IPART_RIVET(I)) THEN
-          CALL ANCMSG(MSGID=402,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND_1,
+          CALL ANCMSG(MSGID=402,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
      .                C1="RIVET",
      .                I1=IPART_RIVET(I),
      .                I2=IPART_RIVET(I),
@@ -165,16 +160,12 @@ C--------------------------------------------------
         MT=IPART(1,INDEX_PART)                         
         IPID=IPART(2,INDEX_PART)  
         IXRI(1,I)=IPID   
-        IF (IXRI(4,I)>ID_LIMIT) THEN               
-          CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                I1=IXRI(4,I),C1=LINE,C2='/RIVET')
+        IF (IXRI(4,I)>ID_LIMIT%GLOBAL) THEN
+          CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=IXRI(4,I),C1=LINE,C2='/RIVET')
         ENDIF
       ENDDO
 C--------------------------------------------------
-      CALL ANCMSG(MSGID=402,                 
-     .            MSGTYPE=MSGERROR,         
-     .            ANMODE=ANINFO_BLIND_1,    
-     .            PRMOD=MSG_PRINT)
+      CALL ANCMSG(MSGID=402,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,PRMOD=MSG_PRINT)
 C-------------------------------------------------- 
 
       DO J=1,NRIVET
@@ -209,21 +200,20 @@ C-------------------------------------
         ENDIF      
       ENDDO
       CALL RIVET0(V,VR,MS,IN,IXRI,RIVET,GEO,ITAB,IKINE)
-C
+
       I1=1
       I2=MIN0(50,NRIVET)
-C
+
    90 WRITE (IOUT,300)
       DO I=I1,I2
          PID=IGEO(1,IXRI(1,I))
-         WRITE (IOUT,270) I,IXRI(4,I),PID,
-     .                 ITAB(IXRI(2,I)),ITAB(IXRI(3,I))
+         WRITE (IOUT,270) I,IXRI(4,I),PID,ITAB(IXRI(2,I)),ITAB(IXRI(3,I))
       ENDDO
       IF(I2==NRIVET)RETURN
       I1=I1+50
       I2=MIN0(I2+50,NRIVET)
       GOTO 90
-c
+
       IF(ALLOCATED(SUB_RIVET)) DEALLOCATE(SUB_RIVET)
       IF(ALLOCATED(IPART_RIVET)) DEALLOCATE(IPART_RIVET)
 C-------------------------------------

@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD   
       USE HM_OPTION_READ_MOD
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -174,7 +175,7 @@ C
      .                              SUBMODEL_INDEX = SUB_INDEX)
             IF (SUB_INDEX /= 0) THEN
               NBUNIT_SUB = NBUNIT_SUB + 1
-              LSUBMODEL(SUB_INDEX)%UID = ID_UNIT_AUTO + NBUNIT_SUB
+              LSUBMODEL(SUB_INDEX)%UID = ID_LIMIT%UNIT + NBUNIT_SUB
             ENDIF
           ENDDO
 c

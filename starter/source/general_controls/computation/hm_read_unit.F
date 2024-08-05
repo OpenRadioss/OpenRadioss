@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_F
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -289,7 +290,7 @@ C---
               CALL UNIT_CODE(LEN,KEYLISUB,'LENGTH',FAC_L_SUB, IERR1, 0)
               CALL UNIT_CODE(LEN,KEYTISUB,'TIME'  ,FAC_T_SUB, IERR1, 0)
 
-              UNITAB%UNIT_ID(NUNITS) = ID_UNIT_AUTO + NBUNIT_SUB
+              UNITAB%UNIT_ID(NUNITS) = ID_LIMIT%UNIT + NBUNIT_SUB
               UNITAB%FAC_M(NUNITS)   = FAC_M_SUB  
               UNITAB%FAC_L(NUNITS)   = FAC_L_SUB  
               UNITAB%FAC_T(NUNITS)   = FAC_T_SUB 

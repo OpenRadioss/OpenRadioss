@@ -237,7 +237,6 @@ C        Nos systeme dans le Y000, des elts du D00
 C
 C BRICK
 C
-!!       IF(NSLASH(KINIBRI)/=0)THEN
         IF(NUMSOL>0)THEN
 C
 C        tri des elts de SIGI par ID croissant
@@ -343,7 +342,6 @@ C        Nos systeme dans le Y000, des elts du D00
 C
 C QUAD 2D
 C
-!!       IF(NSLASH(KINIQUA)/=0)THEN
         IF(NUMQUAD>0)THEN
 C
 C        tri des elts de SIGI par ID croissant

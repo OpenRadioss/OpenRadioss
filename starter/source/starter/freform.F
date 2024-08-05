@@ -20,903 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    freform                ../starter/source/starter/freform.F
-      !||--- called by ------------------------------------------------------
-      !||    starter0               ../starter/source/starter/starter0.F
-      !||--- uses       -----------------------------------------------------
-      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
-      !||    format_mod             ../starter/share/modules1/format_mod.F90
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
-      SUBROUTINE FREFORM(MULTI_FVM,LSUBMODEL,ISUB_HIERARCHY,TRALL_MAXVAL,DETONATORS)
-      USE MESSAGE_MOD
-      USE MULTI_FVM_MOD
-      USE SUBMODEL_MOD
-      USE CHECK_MOD
-      USE INOUTFILE_MOD
-      USE DETONATORS_MOD
-      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
-      USE FORMAT_MOD  , ONLY : LFIELD
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "scr17_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      INTEGER ISUB_HIERARCHY,TRALL_MAXVAL(7)
-      TYPE(DETONATORS_STRUCT_)::DETONATORS
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I, J, J1, J2, IST, ID, ID1, KOPT, NCART,LC
-      INTEGER IFILNAM(13)
-      INTEGER IRFL0, IRFE, IRFL,NCHARMAX,ISUBMOD
-      CHARACTER(LEN=NCHARLINE) :: CART
-      CHARACTER KEY*10,CHRUN*2, CHRUN0*2
-C-----------------------------------------------
-C   L o c a l   P a r a m e t e r s
-C-----------------------------------------------
-      INTEGER NOPT,K
-      INTEGER :: LEN_TMP_NAME
-      CHARACTER(len=2148) :: TMP_NAME
-C=======================================================================
-C
-C-------------------------------------------------------------------
-C      STARTER D00
-C-------------------------------------------------------------------
-C     FACILEMENT DES OPTIONS FUTURES. 
-C     L' ORDRE DES OPTION EST L' ORDRE DE TRAITEMENT PAR LE STARTER,
-C     L'ORDRE D' INPUT DU D00 EST QUELCONQUE. (SAUF /END = FIN DES DONNEES)
-C     L'OPTION 'END' KEND DOIT ETRE EN FIN DE LISTE.
-C-------------------------------------------------------------------
-      K=1
-
-      KEY0(K)='TITLE'
-      LKEY0(K)=5
-      KTITL=K
-      K=K+1
-
-      KEY0(K)='MEMOR'
-      LKEY0(K)=5
-      KMEMOR=K
-      K=K+1
-
-      KEY0(K)='ARCH'
-      LKEY0(K)=4
-      KARCH=K
-      K=K+1 
-
-      KEY0(K)='SPMD'
-      LKEY0(K)=4
-      KPARAL=K
-      K=K+1
-
-      KEY0(K)='CAA'
-      LKEY0(K)=3
-      KCAA=K
-      K=K+1
-C
-      KEY0(K)='IOFLA'
-      LKEY0(K)=5
-      KIOFLA=K
-      K=K+1
-C
-      KEY0(K)='REFSTA'
-      LKEY0(K)=6
-      KREFSTA=K
-      K=K+1
-C
-      KEY0(K)='XREF'
-      LKEY0(K)=4
-      KXREF=K
-      K=K+1
-C
-      KEY0(K)='EREF'
-      LKEY0(K)=4
-      KEREF=K
-      K=K+1
-C
-      KEY0(K)='ANALY'
-      LKEY0(K)=5
-      KANALY=K
-      K=K+1
-C
-      KEY0(K)='DEF_SOLI'
-      LKEY0(K)=6
-      KDEFSO=K
-      K=K+1
-C
-      KEY0(K)='DEF_SHEL'
-      LKEY0(K)=6
-      KDEFSH=K
-      K=K+1
-      
-      KEY0(K)='ALE'
-      LKEY0(K)=3
-      KALE=K
-      K=K+1
-
-      KEY0(K)='UPWIND'
-      LKEY0(K)=6
-      KUPWIND=K
-      K=K+1
-C
-      KEY0(K)='EULER'
-      LKEY0(K)=5
-      KEULER=K
-      K=K+1
-
-      KEY0(K)='EBCS'
-      LKEY0(K)=4
-      KEBCS=K
-      K=K+1
-C
-      KEY0(K)='HEAT'
-      LKEY0(K)=4
-      KTHERM=K
-      K=K+1
-C
-C  thermal material expansion
-C
-      KEY0(K)='THERM_ST'
-      LKEY0(K)=8
-      KTHERM_ST=K
-      K=K+1
-C
-      KEY0(K)='DFS'
-      LKEY0(K)=3
-      KDFS=K
-      K=K+1
-C
-      KEY0(K)='RANDOM'
-      LKEY0(K)=6
-      KRAND=K
-      K=K+1
-C
-      KEY0(K)='LAGMUL'
-      LKEY0(K)=6
-      KLAGM=K
-      K=K+1
-C--------------------------
-      KEY0(K)='MAT'
-      LKEY0(K)=3
-      KMAT=K
-      K=K+1
-C--------------------------
-      KEY0(K)='NODE'
-      LKEY0(K)=4
-      KNODE=K
-      K=K+1
-C--------------------------
-      KEY0(K)='BCS'
-      LKEY0(K)=3
-      KBCS=K
-      K=K+1
-C--------------------------
-      KEY0(K)='SKEW'
-      LKEY0(K)=4
-      KSKEW=K
-      K=K+1
-C--------------------------
-      KEY0(K)='PART'
-      LKEY0(K)=4
-      KPART=K
-      K=K+1
-C--------------------------
-      KEY0(K)='THPART'
-      LKEY0(K)=6
-      KTHPART=K
-      K=K+1
-C--------------------------
-      KEY0(K)='BRICK'
-      LKEY0(K)=5
-      KBRICK=K
-      K=K+1
-
-      KEY0(K)='TETRA4'
-      LKEY0(K)=6
-      KTETRA4=K
-      K=K+1
-C
-      KEY0(K)='TETRA1'
-      LKEY0(K)=6
-      KTETRA10=K
-      K=K+1
-
-      KEY0(K)='BRIC20'
-      LKEY0(K)=6
-      KBRICK20=K
-      K=K+1
-
-      KEY0(K)='SHEL16'
-      LKEY0(K)=6
-      KSHELL16=K
-      K=K+1  
-
-      KEY0(K)='QUAD'
-      LKEY0(K)=4
-      KQUAD=K
-      K=K+1
-C
-      KEY0(K)='SHELL'
-      LKEY0(K)=5
-      KSHELL=K
-      K=K+1
-
-      KEY0(K)='SH3N'
-      LKEY0(K)=4
-      KSH_3N=K
-      K=K+1
-
-      KEY0(K)='SHFRA'
-      LKEY0(K)=5
-      KSHFRA=K
-      K=K+1
-
-      KEY0(K)='TRUSS'
-      LKEY0(K)=5
-      KTRUSS=K
-      K=K+1
-
-      KEY0(K)='BEAM'
-      LKEY0(K)=4
-      KBEAM=K
-      K=K+1
-
-      KEY0(K)='SPRING'
-      LKEY0(K)=6
-      KSPRIN=K
-      K=K+1
-C--------------------------
-      KEY0(K)='LIAISO'
-      LKEY0(K)=6
-      KLIAISON=K
-      K=K+1
-C--------------------------
-      KEY0(K)='GRNOD'
-      LKEY0(K)=5
-      KGRNOD=K
-      K=K+1
-C--------------------------
-      KEY0(K)='SUBSET'
-      LKEY0(K)=6
-      KSUBSET=K
-      K=K+1
-C--------------------------
-      KEY0(K)='SURF'
-      LKEY0(K)=4
-      KSURF=K
-      K=K+1
-C--------------------------
-      KEY0(K)='LINE'
-      LKEY0(K)=4
-      KSLIN=K
-      K=K+1
-C--------------------------
-      KEY0(K)='PROP'
-      LKEY0(K)=4
-      KPROP=K
-      K=K+1
-C--------------------------
-      KEY0(K)='FUNCT'
-      LKEY0(K)=5
-      KFUNCT=K
-      K=K+1
-C--------------------------
-      KEY0(K)='FUNC_2D'
-      LKEY0(K)=7
-      KFUNC2D=K
-      K=K+1
-C--------------------------
-      KEY0(K)='MOVE_FUN'
-      LKEY0(K)=8
-      KMFUNCT=K
-      K=K+1
-C--------------------------
-      KEY0(K)='CLOAD'
-      LKEY0(K)=5
-      KCLOAD=K
-      K=K+1
-
-      KEY0(K)='PLOAD'
-      LKEY0(K)=5
-      KPLOAD=K
-      K=K+1
-
-      KEY0(K)='GRAV'
-      LKEY0(K)=4
-      KGRAV=K
-      K=K+1
-C--------------------------
-      KEY0(K)='EXTERN'
-      LKEY0(K)=6
-      KR2R=K
-      K=K+1
-C--------------------------
-      KEY0(K)='SUBDOMAIN'
-      LKEY0(K)=9
-      KSUBDOM=K
-      K=K+1      
-
-      KEY0(K)='INIVEL'
-      LKEY0(K)=6
-      KINIV=K
-      K=K+1
-
-      KEY0(K)='ACCEL'
-      LKEY0(K)=5
-      KACCEL=K
-      K=K+1
-
-      KEY0(K)='SENSOR'
-      LKEY0(K)=6
-      KSENSO=K
-      K=K+1
-C--------------------------
-      KEY0(K)='IBVEL'
-      LKEY0(K)=5
-      KIBVEL=K
-      K=K+1
-C--------------------------
-      KEY0(K)='ACTIV'
-      LKEY0(K)=5
-      KACTIV=K
-      K=K+1
-C--------------------------
-      KEY0(K)='GJOINT'
-      LKEY0(K)=6
-      KGJOIN=K
-      K=K+1
-C--------------------------
-      KEY0(K)='MPC'
-      LKEY0(K)=3
-      KMPC=K
-      K=K+1
-
-      KEY0(K)='INTER'
-      LKEY0(K)=5
-      KINTER=K
-      K=K+1
-
-      KEY0(K)='FRICTION'
-      LKEY0(K)=8
-      KFRICTION=K
-      K=K+1
-
-      KEY0(K)='FRIC_ORIEN'
-      LKEY0(K)=10
-      KFRIC_ORIENT=K
-      K=K+1
-
-      KEY0(K)='RWALL'
-      LKEY0(K)=5
-      KRWALL=K
-      K=K+1
-
-      KEY0(K)='RBODY'
-      LKEY0(K)=5
-      KRBODY=K
-      K=K+1
-
-      KEY0(K)='FXBODY'
-      LKEY0(K)=6
-      KFXBOD=K
-      K=K+1  
-
-      KEY0(K)='RLINK'
-      LKEY0(K)=5
-      KRLINK=K
-      K=K+1
-
-      KEY0(K)='MADYMO'
-      LKEY0(K)=6
-      KRCONX=K
-      K=K+1
-
-      KEY0(K)='ADMAS'
-      LKEY0(K)=5
-      KADMAS=K
-      K=K+1
-C---------IMP REMPLACE FIX POUR VEL ET DIS
-      KEY0(K)='IMPVEL'
-      LKEY0(K)=6
-      KIMPVEL=K
-      K=K+1
-C--- fixVEL doit suivre IMPvel
-      KEY0(K)='FIXVEL'
-      LKEY0(K)=6
-      KFIXVEL=K
-      K=K+1
-C--- fixdis doit suivre fixvel
-      KEY0(K)='FIXDIS'
-      LKEY0(K)=6
-      KFIXDIS=K
-      K=K+1
-C--- IMPdis doit suivre fixDIS
-      KEY0(K)='IMPDIS'
-      LKEY0(K)=6
-      KIMPDIS=K
-      K=K+1
-C--------------------------
-      KEY0(K)='IMPACC'
-      LKEY0(K)=6
-      KIMPACC=K
-      K=K+1
-
-      KEY0(K)='RIVET'
-      LKEY0(K)=5
-      KRIVET=K
-      K=K+1
-
-      KEY0(K)='SECT'
-      LKEY0(K)=4
-      KSECT=K
-      K=K+1
-
-      KEY0(K)='CYL_JO'
-      LKEY0(K)=6
-      KCJOIN=K
-      K=K+1
-
-      KEY0(K)='MONVOL'
-      LKEY0(K)=6
-      KMONVO=K
-      K=K+1
-
-      KEY0(K)='TH'
-      LKEY0(K)=2
-      KTH=K
-      K=K+1
-
-      KEY0(K)='INISTA'
-      LKEY0(K)=6
-      KINISTA=K
-      K=K+1
-
-      KEY0(K)='INIMAP1D'
-      LKEY0(K)=8
-      KINIMAP1D=K
-      K=K+1
-
-      KEY0(K)='INIMAP2D'
-      LKEY0(K)=8
-      KINIMAP2D=K
-      K=K+1
-
-      KEY0(K)='XELEM'
-      LKEY0(K)=5
-      KXELEM=K
-      K=K+1
-
-      KEY0(K)='USERW'
-      LKEY0(K)=5
-      KUSERW=K
-      K=K+1
-
-      KEY0(K)='DAMP'
-      LKEY0(K)=4
-      KDAMP=K
-      K=K+1
-
-      KEY0(K)='FRAME'
-      LKEY0(K)=5
-      KFRAM=K
-      K=K+1
-
-      KEY0(K)='SPHCEL'
-      LKEY0(K)=6
-      KXSPH=K
-      K=K+1
-
-      KEY0(K)='SPHGLO'
-      LKEY0(K)=6
-      KSPGLO=K
-      K=K+1
-
-      KEY0(K)='SPHBCS'
-      LKEY0(K)=6
-      KSPCOND=K
-      K=K+1
-
-      KEY0(K)='INISHE'
-      LKEY0(K)=6
-      KINISHE=K
-      K=K+1
-
-      KEY0(K)='INISH3'
-      LKEY0(K)=6
-      KINISH3=K
-      K=K+1
-
-      KEY0(K)='INIBRI'
-      LKEY0(K)=6
-      KINIBRI=K
-      K=K+1
-
-      KEY0(K)='INIQUA'
-      LKEY0(K)=6
-      KINIQUA=K
-      K=K+1
-
-      KEY0(K)='INIBEA'
-      LKEY0(K)=6
-      KINIBEA=K
-      K=K+1
-
-      KEY0(K)='INITRU'
-      LKEY0(K)=6
-      KINITRU=K
-      K=K+1
-C--------------------------
-      KEY0(K)='SPH'
-      LKEY0(K)=3
-      KSPHOPT=K
-      K=K+1
-C--------------------------
-      KEY0(K)='ATH'
-      LKEY0(K)=3
-      KTH1(1)=K
-      K=K+1 
-     
-      KEY0(K)='BTH'
-      LKEY0(K)=3
-      KTH1(2)=K
-      K=K+1 
-      
-      KEY0(K)='CTH'
-      LKEY0(K)=3
-      KTH1(3)=K
-      K=K+1 
-      
-      KEY0(K)='DTH'
-      LKEY0(K)=3
-      KTH1(4)=K
-      K=K+1 
-      
-      KEY0(K)='ETH'
-      LKEY0(K)=3
-      KTH1(5)=K
-      K=K+1 
-      
-      KEY0(K)='FTH'
-      LKEY0(K)=3
-      KTH1(6)=K
-      K=K+1 
-      
-      KEY0(K)='GTH'
-      LKEY0(K)=3
-      KTH1(7)=K
-      K=K+1 
-      
-      KEY0(K)='HTH'
-      LKEY0(K)=3
-      KTH1(8)=K
-      K=K+1 
-               
-      KEY0(K)='ITH'
-      LKEY0(K)=3
-      KTH1(9)=K
-      K=K+1 
-
-      KEY0(K)='PENTA6'
-      LKEY0(K)=6
-      KPENTA6=K
-      K=K+1  
-
-      KEY0(K)='EIG'
-      LKEY0(K)=3
-      KEIG=K
-      K=K+1
-
-      KEY0(K)='UNIT'
-      LKEY0(K)=4
-      KUNIT=K
-      K=K+1
-
-      KEY0(K)='FAIL'
-      LKEY0(K)=4
-      KFAIL=K
-      K=K+1  
- 
-      KEY0(K)='KEY'
-      LKEY0(K)=3
-      KKEY = K
-      K=K+1 
-
-      KEY0(K)='ENCRYPT'
-      LKEY0(K)=7
-      KKEY_ENCRYPT = K
-      K=K+1 
-
-      KEY0(K)='IMPLICIT'
-      LKEY0(K)=8
-      KIMPLICIT=K
-      K=K+1
-
-      KEY0(K)='IMPL'
-      LKEY0(K)=4
-      KIMPL=K
-      K=K+1
-
-      KEY0(K)='BEM'
-      LKEY0(K)=3
-      KBEM=K
-      K=K+1
-
-      KEY0(K)='ANIM'
-      LKEY0(K)=4
-      KANIM=K
-      K=K+1
-      KEY0(K)='BEGIN'
-      LKEY0(K)=5
-      K=K+1
-C-------------------------------------------------------------------
-      KEY0(K)='PREPRO'
-      LKEY0(K)=6
-      K=K+1
-      KEY0(K)='CNODE'
-      LKEY0(K)=5
-      KCNODE=K
-      K=K+1  
-C-------------------------------------------------------------------
-      KEY0(K)='TRANSF'
-      LKEY0(K)=6
-      KTRANSF =K
-      K=K+1
-C
-      KEY0(K)='/SUBMOD'
-      LKEY0(K)=6
-      KSUBMOD =K
-      K=K+1
-C
-      KEY0(K)='/ENDSU'
-      LKEY0(K)=6
-      KENDSU =K
-      K=K+1
-C-------------------------------------------------------------------
-      KEY0(k)='LEVSET'
-      LKEY0(K)=6
-      KLEVSET=K
-      K=K+1
-C-------------------------------------------------------------------
-      KEY0(K)='ADMESH'
-      LKEY0(K)=6
-      KADMESH =K
-      K=K+1
-C
-      KEY0(K)='INITEM'
-      LKEY0(K)=6
-      KINTEMP=K
-      K=K+1
-C
-      KEY0(K)='IMPTEM'
-      LKEY0(K)=6
-      KIMPTEMP=K
-      K=K+1
-C
-      KEY0(K)='IMPFLUX'
-      LKEY0(K)=7
-      KIMPFLUX=K
-      K=K+1
-C
-      KEY0(K)='CONVEC'
-      LKEY0(K)=6
-      KCONVEC=K
-      K=K+1
-C-------------------------------------------------------------------
-      KEY0(K)='STAMPING'
-      LKEY0(K)=8
-      KSTAMPING=K
-      K=K+1
-      KEY0(K)='RBE2'
-      LKEY0(K)=4
-      KRBE2 =K
-      K=K+1
-      KEY0(K)='RBE3'
-      LKEY0(K)=4
-      KRBE3 =K
-      K=K+1
-      KEY0(K)='INTTHICK'
-      LKEY0(K)=8
-      KINTTHICK=K
-      K=K+1
-C      
-      KEY0(K)='PLYXFEM'
-      LKEY0(K)=7
-      KPLYXFEM=K
-      K=K+1         
-C---------------------
-      KEY0(K)='AMS'
-      LKEY0(K)=3
-      KSMS=K
-      K=K+1
-C      
-      KEY0(K)='VISC'
-      LKEY0(K)=4
-      KVISC=K
-      K=K+1      
-C---------------------
-      KEY0(K)='RADIATION'
-      LKEY0(K)=9
-      KRADIA=K
-      K=K+1
-C---------------------
-      KEY0(K)='TABLE'
-      LKEY0(K)=5
-      KTABLE=K
-      K=K+1
-C---------------------
-C new box option
-      KEY0(K)='BOX'
-      LKEY0(K)=3
-      KBOX=K
-      K=K+1
-C
-      KEY0(K)='STATE'
-      LKEY0(K)=5
-      KSTATE=K
-      K=K+1
-C---------------------
-      KEY0(K)='INIVOL'
-      LKEY0(K)=6
-      KINIVOL=K
-      K=K+1
-C---------------------
-      KEY0(K)='GAUGE'
-      LKEY0(K)=5
-      KGAUGE=K
-      K=K+1
-C---------------------
-      KEY0(K)='EOS'
-      LKEY0(K)=3
-      KEOS=K
-      K=K+1
-C---------------------
-      KEY0(K)='LOAD'
-      LKEY0(K)=4
-      KLOAD=K
-      K=K+1
-C---------------------
-      KEY0(K)='LEAK'
-      LKEY0(K)=4
-      KLEAK=K
-      K=K+1
-C---------------------
-      KEY0(K)='CRASH'
-      LKEY0(K)=5
-      KCRASH=K
-      K=K+1
-C---------------------
-      KEY0(K)='INICRACK'
-      LKEY0(K)=8
-      KINICRACK=K
-      K=K+1
-C---------------------
-      KEY0(K)='CLUSTER'
-      LKEY0(K)=7
-      KCLUSTER=K
-      K=K+1
-C
-      KEY0(K)='DEFAULT'
-      LKEY0(K)=7
-      KDEFAULT=K
-      K=K+1
-C---------------------
-      KEY0(K)='IGE3D'
-      LKEY0(K)=5
-      KIGE3D=K
-      K=K+1
-C---------------------
-      KEY0(K)='PRIVATE'
-      LKEY0(K)=7
-      KPRIVATE=K
-      K=K+1
-C---------------------
-      KEY0(K)='PERTURB'
-      LKEY0(K)=7
-      KPERTURB=K
-      K=K+1
-C---------------------
-      KEY0(K)='STACK'
-      LKEY0(K)=5
-      KSTACK=K
-      K=K+1 
-C---------------------  
-      KEY0(K)='PLY'
-      LKEY0(K)=3
-      KPLY=K
-      K=K+1
-C---------------------
-      KEY0(K)='DRAPE'
-      LKEY0(K)=5
-      KDRAPE=K
-      K=K+1
-C---------------------
-      KEY0(K)='INT2'
-      LKEY0(K)=4
-      KINT2=K
-      K=K+1
-C---------------------
-      KEY0(K)='INISPRI'
-      LKEY0(K)=7
-      KINISPRI=K
-      K=K+1
-C---------------------
-      KEY0(K)='SH_3NFRA'
-      LKEY0(K)=8
-      KSH3NFRA=K
-      K=K+1
-C---------------------
-      KEY0(K)='S17_OLD'
-      LKEY0(K)=7
-      KS17_OLD=K
-      K=K+1
-C--------------------------
-      KEY0(K)='NBCS'
-      LKEY0(K)=3
-      KNBCS=K
-      K=K+1
-C---------------------
-      KEY0(K)='PRELOAD'   ! For bolt preloading
-      LKEY0(K)=7
-      KPRELOAD=K
-      K=K+1
-C---------------------
-      KEY0(K)='INIGRAV'
-      LKEY0(K)=7
-      KINIGRAV=K
-      K=K+1
-C---------------------
-      KEY0(K)='TRIA'
-      LKEY0(K)=4
-      KTRIA=K
-      K=K+1
-C--------------------------
-      KEY0(K)='MERGE'
-      LKEY0(K)=5
-      KMERGE=K
-      K=K+1
-C--------------------------
-      KEY0(K)='SET'
-      LKEY0(K)=3
-      KSET=K
-      K=K+1
-C--------------------------
-      KEY0(K)='CHECK'
-      LKEY0(K)=5
-      KCHECK_STARTER=K
-      K=K+1
-C-------------------------------------------------------------------
-      KEY0(K)='END'
-      LKEY0(K)=3
-      KEND=K
-      NOPT=K
-      IF(NOPT>MAXNOPT)STOP 999
-C-------------------------------------------------------------------
-C
-      CART=' '
-
-      DO KOPT=1,NOPT
-        KOPTAD(KOPT)=0
-        NLINE(KOPT)=0
-        NSLASH(KOPT+2)=0
-      ENDDO
-      KOPTAD(1)=1
-      KOPTAD(2)=1
-
-      RETURN
- 999  CALL FREERR(1)
-      RETURN
-      END
 C
       !||====================================================================
       !||    fredec0                ../starter/source/starter/freform.F
@@ -938,6 +41,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
       USE FORMAT_MOD , ONLY : LFIELD, FMT_I
+      USE READER_OLD_MOD , ONLY : KLINE
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -963,7 +68,7 @@ C-----------------------------------------------
       J1=I
       MOT1=KLINE(J1:J1-1+LFIELD)
       READ(MOT1,ERR=999,FMT=FMT_I)ID
-      IF (ID>ID_LIMIT.OR.ID<=0) THEN
+      IF (ID>ID_LIMIT%GLOBAL.OR.ID<=0) THEN
         CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              I1=ID,C1=KLINE)
       ENDIF
@@ -984,6 +89,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD, NCHARLINE
+      USE READER_OLD_MOD , ONLY : KLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1029,9 +135,14 @@ C
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE FREDEC5(COPT,ID)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE READER_OLD_MOD , ONLY : KLINE
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY, NCHARFIELD,NCHARLINE
       USE FORMAT_MOD , ONLY : LFIELD, FMT_I
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1083,7 +194,7 @@ C
 
       READ(MOT1,ERR=999,FMT=FMT_I)ID
 C
-      IF (ID>ID_LIMIT.OR.ID<=0) THEN
+      IF (ID>ID_LIMIT%GLOBAL.OR.ID<=0) THEN
         CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              I1=ID,C1=KLINE)
       ENDIF
@@ -1104,6 +215,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY,NCHARLINE
+      USE READER_OLD_MOD , ONLY : KLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1387,6 +499,10 @@ C
       !||    message_mod             ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE FREERR(IT)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE READER_OLD_MOD , ONLY : KLINE, LINE, KEY0, KCUR, IREC
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1722,6 +838,10 @@ C-----------------------------------------------
       !||====================================================================
       SUBROUTINE NEXTSLA
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE READER_OLD_MOD , ONLY : LINE, KLINE, KEY0, KCUR, LKEY0, IREC
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -1747,6 +867,7 @@ C-----------------------------------------------
  999  CALL FREERR(1)
       CALL MY_EXIT(2)
       END
+      
       !||====================================================================
       !||    fredec_2key_id_or_key_id   ../starter/source/starter/freform.F
       !||--- calls      -----------------------------------------------------
@@ -1763,6 +884,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD, NCHARLINE
       USE FORMAT_MOD , ONLY : FMT_I
+      USE READER_OLD_MOD , ONLY : KLINE
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1821,7 +944,7 @@ C     Read KEY2
      .        KLINE(J1:MIN(JMAX,J1+3))/='EREF'    .AND.
      .        KLINE(J1:MIN(JMAX,J1+3))/='ENER'    ) THEN
            READ(MOT1,ERR=999,FMT=FMT_I)UID
-           IF (UID > ID_LIMIT .OR. UID < 0) THEN
+           IF (UID > ID_LIMIT%GLOBAL .OR. UID < 0) THEN
              CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=UID,C1=KLINE)
              RETURN
            ENDIF
@@ -1892,7 +1015,7 @@ C     Read KEY3
         IF (KLINE(J2:MIN(JMAX,J2+5))/='STRA_F'.AND.
      .      KLINE(J2:MIN(JMAX,J2+5))/='STRS_F') THEN
           READ(MOT1,ERR=999,FMT=FMT_I)UID
-          IF (UID > ID_LIMIT .OR. UID < 0) THEN
+          IF (UID > ID_LIMIT%GLOBAL .OR. UID < 0) THEN
             CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=UID,C1=KLINE)
             RETURN
@@ -1945,7 +1068,7 @@ C---  read UID
       ENDDO
       MOT1=KLINE(J1:I-1)
       READ(MOT1,ERR=999,FMT=FMT_I)UID
-      IF (UID > ID_LIMIT .OR. UID < 0) THEN
+      IF (UID > ID_LIMIT%GLOBAL .OR. UID < 0) THEN
         CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              I1=UID,C1=KLINE)
       ENDIF
@@ -1976,9 +1099,14 @@ C---
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE FREDEC_2KEY_4ID_T(KEY2,ID,UID,VERS,SUB_ID,TITR)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE READER_OLD_MOD , ONLY : KLINE, IREC
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_I
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2024,9 +1152,8 @@ C---  read ID
       J2 = I-1
       MOT1=KLINE(J1:J2)
       READ(MOT1,ERR=999,FMT=FMT_I)ID
-      IF (ID > ID_LIMIT .OR. ID <= 0) THEN
-        CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .              I1=ID,C1=KLINE)
+      IF (ID > ID_LIMIT%GLOBAL .OR. ID <= 0) THEN
+        CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID,C1=KLINE)
       ENDIF
       I =I+1
 C---  read UID
@@ -2038,9 +1165,8 @@ C---  read UID
       J2 = I-1
       MOT1=KLINE(J1:J2)
       READ(MOT1,ERR=999,FMT=FMT_I)UID
-      IF (UID > ID_LIMIT .OR. UID < 0) THEN
-        CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .              I1=UID,C1=KLINE)
+      IF (UID > ID_LIMIT%GLOBAL .OR. UID < 0) THEN
+        CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=UID,C1=KLINE)
       ENDIF
       I =I+1
 C---  read VERS
@@ -2087,6 +1213,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_I
+      USE READER_OLD_MOD , ONLY : KLINE, IREC
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2120,9 +1248,8 @@ C---  read ID
       J2 = I-1
       MOT1=KLINE(J1:J2)
       READ(MOT1,ERR=999,FMT=FMT_I)ID
-      IF (ID > ID_LIMIT .OR. ID <= 0) THEN
-        CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .              I1=ID,C1=KLINE)
+      IF (ID > ID_LIMIT%GLOBAL .OR. ID <= 0) THEN
+        CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID,C1=KLINE)
       ENDIF
       I =I+1
 C---  read UID
@@ -2134,9 +1261,8 @@ C---  read UID
       J2 = I-1
       MOT1=KLINE(J1:J2)
       READ(MOT1,ERR=999,FMT=FMT_I)UID
-      IF (UID > ID_LIMIT .OR. UID < 0) THEN
-        CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .              I1=UID,C1=KLINE)
+      IF (UID > ID_LIMIT%GLOBAL .OR. UID < 0) THEN
+        CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=UID,C1=KLINE)
       ENDIF
       I =I+1
 C---  read VERS
@@ -2172,6 +1298,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_I
+      USE READER_OLD_MOD , ONLY : KLINE
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2215,7 +1343,7 @@ C---  read ID
       J2 = I-1
       MOT1=KLINE(J1:J2)
       READ(MOT1,ERR=999,FMT=FMT_I)ID
-      IF (ID > ID_LIMIT .OR. ID <= 0) THEN
+      IF (ID > ID_LIMIT%GLOBAL .OR. ID <= 0) THEN
         CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              I1=ID,C1=KLINE)
       ENDIF
@@ -2229,7 +1357,7 @@ C---  read UID
       J2 = I-1
       MOT1=KLINE(J1:J2)
       READ(MOT1,ERR=999,FMT=FMT_I)UID
-      IF (UID > ID_LIMIT .OR. UID < 0) THEN
+      IF (UID > ID_LIMIT%GLOBAL .OR. UID < 0) THEN
         CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              I1=UID,C1=KLINE)
       ENDIF

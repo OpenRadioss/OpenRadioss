@@ -58,7 +58,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
+      USE READER_OLD_MOD , ONLY : LINE
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,7 +85,7 @@ C INPUT ARGUMENTS
       INTEGER,INTENT(IN)::IPART(LIPART1,*)
       INTEGER,INTENT(IN)::IGEO(NPROPGI,*)
       INTEGER,INTENT(IN)::IPM(NPROPMI,*)
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
 C OUTPUT ARGUMENTS
       INTEGER,INTENT(OUT)::IXP(NIXP,*)
       INTEGER,INTENT(OUT)::IPARTP(*)
@@ -93,8 +95,7 @@ C-----------------------------------------------
       INTEGER I, I1, I2, MID, PID,MT,IPID,ID,IDS,J,N,JC,STAT
       INTEGER CPT,INDEX_PART
       CHARACTER MESS*40, MESS2*40
-      my_real
-     .   BID 
+      my_real BID
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_BEAM
       INTEGER N2,N3,N4
 C-----------------------------------------------
@@ -109,9 +110,7 @@ C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
       ALLOCATE (SUB_BEAM(NUMELP),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_BEAM') 
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SUB_BEAM')
       SUB_BEAM(1:NUMELP) = 0
       INDEX_PART = 1
 C--------------------------------------------------
@@ -131,13 +130,7 @@ C--------------------------------------------------
           ENDDO  
         ENDIF
         IF(IPART(4,INDEX_PART) /= IPARTP(I)) THEN
-          CALL ANCMSG(MSGID=402,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                C1="BEAM",
-     .                I1=IPARTP(I),
-     .                I2=IPARTP(I),
-     .                PRMOD=MSG_CUMU)
+          CALL ANCMSG(MSGID=402,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,C1="BEAM",I1=IPARTP(I),I2=IPARTP(I),PRMOD=MSG_CUMU)
         ENDIF             
         IPARTP(I) = INDEX_PART
 C--------------------------------------------------
@@ -145,19 +138,12 @@ C--------------------------------------------------
         IPID=IPART(2,INDEX_PART)  
         IXP(1,I)=MT                               
         IXP(5,I)=IPID 
-        IF (IXP(6,I)>ID_LIMIT) THEN               
-          CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                I1=IXP(6,I),C1=LINE,C2='/BEAM')
+        IF (IXP(6,I)>ID_LIMIT%GLOBAL) THEN
+          CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=IXP(6,I),C1=LINE,C2='/BEAM')
         ENDIF
 C optional Node 3 
-        IF (IXP(4,I)==0 .OR. IXP(4,I)==IXP(2,I)
-     .      .OR. IXP(4,I)==IXP(3,I)) THEN
-          CALL ANCMSG(MSGID=2093,
-     .                MSGTYPE=MSGINFO,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=IPART(4,INDEX_PART),
-     .                I2=IXP(6,I),
-     .                PRMOD=MSG_CUMU)
+        IF (IXP(4,I) == 0 .OR. IXP(4,I) == IXP(2,I) .OR. IXP(4,I) == IXP(3,I)) THEN
+          CALL ANCMSG(MSGID=2093,MSGTYPE=MSGINFO,ANMODE=ANINFO_BLIND_1,I1=IPART(4,INDEX_PART),I2=IXP(6,I),PRMOD=MSG_CUMU)
           IXP(4,I) = IXP(3,I)                    
         ENDIF
         DO J=2,4                                            
@@ -171,27 +157,17 @@ C Node 3 is just a used node, to define directions (CHECK_USED)
       ENDDO
       IF(ALLOCATED(SUB_BEAM)) DEALLOCATE(SUB_BEAM)
 C-----------
-      CALL ANCMSG(MSGID=402,                 
-     .            MSGTYPE=MSGERROR,         
-     .            ANMODE=ANINFO_BLIND_1,    
-     .            PRMOD=MSG_PRINT) 
+      CALL ANCMSG(MSGID=402,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1, PRMOD=MSG_PRINT)
 C     
-      CALL ANCMSG(MSGID=2093,                 
-     .            MSGTYPE=MSGINFO,         
-     .            ANMODE=ANINFO_BLIND_1,    
-     .            PRMOD=MSG_PRINT) 
+      CALL ANCMSG(MSGID=2093,MSGTYPE=MSGINFO,ANMODE=ANINFO_BLIND_1,PRMOD=MSG_PRINT)
 C-------------------------------------
 C Recherche des ID doubles
 C-------------------------------------
       IDS = 79
       I = 0
       J = 0
-c      CALL ANCNTS(IDS,I)
       CALL VDOUBLE(IXP(NIXP,1),NIXP,NUMELP,MESS,0,BID)
-c      CALL ANCNTG(IDS,I,J)
       IDS = 28
-c      CALL ANCHECK(IDS)
-C
       I1=1
       I2=MIN0(50,NUMELP)
 C-------------------------------------
@@ -217,6 +193,4 @@ C-------------------------------------
  300  FORMAT(/' BEAM ELEMENTS'/
      +        ' -------------'/
      + '  LOC-EL  GLO-EL   MATER     GEOM   NODE1   NODE2   NODE3')
- 310  FORMAT(' BEAM ELEMENT TH SELECTION'/
-     +       ' -------------------------'/)
       END

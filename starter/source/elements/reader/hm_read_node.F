@@ -68,6 +68,7 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_I_3F
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -365,8 +366,8 @@ C--------------------------------------------------
 c KSPHRES by proc
         DO J=1,KSPHRES*NSPMD
           I    =I+1
-          ITAB(I)=IDLT_NODE_AUTO
-          IDLT_NODE_AUTO=IDLT_NODE_AUTO+1
+          ITAB(I)=ID_LIMIT%ADMESH_LT_NODE_AUTO
+          ID_LIMIT%ADMESH_LT_NODE_AUTO=ID_LIMIT%ADMESH_LT_NODE_AUTO+1
           X(1,I)=X1
           X(2,I)=X2
           X(3,I)=X3
@@ -377,8 +378,8 @@ C     Solids TO SPH
       FIRSTNOD_SPHSOL=I+1
       DO N=1,NSPHSOL
         I=I+1
-        ITAB(I)=IDLT_NODE_AUTO
-        IDLT_NODE_AUTO=IDLT_NODE_AUTO+1
+        ITAB(I)=ID_LIMIT%ADMESH_LT_NODE_AUTO
+        ID_LIMIT%ADMESH_LT_NODE_AUTO=ID_LIMIT%ADMESH_LT_NODE_AUTO+1
         X(1,I)  =ZERO
         X(2,I)  =ZERO
         X(3,I)  =ZERO
@@ -392,7 +393,7 @@ C     TABN for additional nodes
      .                ANMODE=ANINFO)
         ENDIF
         DO N=NUMNOD0+1,NUMNOD
-          ITAB(N)=ID_LIMIT_ADMESH+N-NUMNOD0-NUMCNOD
+          ITAB(N)=ID_LIMIT%ADMESH+N-NUMNOD0-NUMCNOD
         END DO
       END IF
 C--------------------------------------------------
@@ -406,12 +407,12 @@ C--------------------------------------------------
      .                ANMODE=ANINFO)
         ENDIF
         DO N=NUMNODIGE0+1,NUMNOD
-          ITAB(N)=ID_LIMIT_ADMESH+N-NUMNODIGE0
+          ITAB(N)=ID_LIMIT%ADMESH+N-NUMNODIGE0
         END DO
       END IF
 C--------------------------------------------------
       DO N=1,64*NUMELIG3D
-        IDLT_NODE_AUTO=IDLT_NODE_AUTO+1
+        ID_LIMIT%ADMESH_LT_NODE_AUTO=ID_LIMIT%ADMESH_LT_NODE_AUTO+1
       END DO
 C--------------------------------------------------
       CALL CONSTIT(ITAB,ITABM1,NUMNOD)

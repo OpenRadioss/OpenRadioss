@@ -67,7 +67,9 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
+      USE READER_OLD_MOD , ONLY : LINE
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C--------------------------------------------------------
 C     LECTURE DES ELEMENTS COQUES TRIANGULAIRE
 C--------------------------------------------------------
@@ -98,24 +100,19 @@ C INPUT ARGUMENTS
       INTEGER,INTENT(IN)::IPART(LIPART1,*)
       INTEGER,INTENT(IN)::IGEO(NPROPGI,NUMGEO)
       INTEGER,INTENT(IN)::IPM(NPROPMI,*)
-      my_real,
-     .  INTENT(IN)::GEO(NPROPG,*)
-      my_real,
-     .  INTENT(IN)::PM(NPROPM,*)
+      my_real,INTENT(IN)::GEO(NPROPG,*)
+      my_real,INTENT(IN)::PM(NPROPM,*)
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C OUTPUT ARGUMENTS
       INTEGER,INTENT(OUT)::IXTG(NIXTG,*)
       INTEGER,INTENT(OUT)::IPARTTG(*)
       INTEGER,INTENT(OUT)::ICNOD(*)
-      my_real,
-     .  INTENT(OUT)::ANGLE(*)
-      my_real,
-     .  INTENT(OUT)::THK(*)
+      my_real,INTENT(OUT)::ANGLE(*)
+      my_real,INTENT(OUT)::THK(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .   BID,FAC_L
+      my_real BID,FAC_L
       INTEGER I, J, I1, I2, ID,IDS,IPID,MT,N,MID,PID,UID,JC,STAT,IPARTTG_TMP
       INTEGER INDEX_PART
       CHARACTER*40 MESS
@@ -129,35 +126,22 @@ C   FUNCTION
 C-----------------------------------------------
       INTEGER USR2SYS
       INTEGER NINTRN
-C=======================================================================
 C--------------------------------------------------
 C      ALLOCS & INITS
 c      use NUMELTG0 IN PLACE OF NUMELTG ( NBADMESH routine is modifying NUMELTG )
 C--------------------------------------------------
       ALLOCATE (SUB_SH3N(NUMELTG0),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_SH3N') 
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SUB_SH3N')
       ALLOCATE (UID_SH3N(NUMELTG0),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='UID_SH3N') 
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='UID_SH3N')
       ALLOCATE (HM_THK(NUMELTG0),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='HM_THK') 
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='HM_THK')
       ALLOCATE (HM_ANGLE(NUMELTG0),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='HM_ANGLE') 
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='HM_ANGLE')
       ALLOCATE (TMP_IXTG(NIXTG,NUMELTG0),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='TMP_IXTG') 
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='TMP_IXTG')
       ALLOCATE (TMP_IPARTTG(NUMELTG0),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='TMP_IPARTTG')
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='TMP_IPARTTG')
       SUB_SH3N(1:NUMELTG0) = 0
       UID_SH3N(1:NUMELTG0) = 0
       TMP_IXTG(1:NIXTG,1:NUMELTG0) = 0
@@ -204,8 +188,7 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
             IF(SUB_SH3N(N) /= 0)THEN
-              IF(UID_SH3N(N) == 0 .AND. LSUBMODEL(SUB_SH3N(N))%UID /= 0) 
-     .             UID_SH3N(N) = LSUBMODEL(SUB_SH3N(N))%UID
+              IF(UID_SH3N(N) == 0 .AND. LSUBMODEL(SUB_SH3N(N))%UID /= 0) UID_SH3N(N) = LSUBMODEL(SUB_SH3N(N))%UID
             ENDIF
 C--------------------------------------------------
 C      UNITS
@@ -220,8 +203,7 @@ C--------------------------------------------------
                 ENDIF                               
               ENDDO                             
               IF (UID/=0.AND.IFLAGUNIT==0) THEN
-                CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                      I1=UID,C1='/SH3N')
+                CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=UID,C1='/SH3N')
               ENDIF 
             ENDIF   
             THK(I) = THK(I) * FAC_L
@@ -234,13 +216,7 @@ C--------------------------------------------------
               ENDDO  
             ENDIF
             IF( IPART(4,INDEX_PART) /= IPARTTG(I) ) THEN
-              CALL ANCMSG(MSGID=402,
-     .                    MSGTYPE=MSGERROR,
-     .                    ANMODE=ANINFO_BLIND_1,
-     .                    C1="SH3N",
-     .                    I1=IPARTTG(I),
-     .                    I2=IPARTTG(I),
-     .                    PRMOD=MSG_CUMU)
+              CALL ANCMSG(MSGID=402,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,C1="SH3N",I1=IPARTTG(I),I2=IPARTTG(I),PRMOD=MSG_CUMU)
             ENDIF             
             IPARTTG(I) = INDEX_PART
 C--------------------------------------------------           
@@ -248,12 +224,10 @@ C--------------------------------------------------
             IPID=IPART(2,INDEX_PART)                                
             IXTG(1,I)=MT                                
             IXTG(5,I)=IPID
-            IF (IXTG(NIXTG,I)>ID_LIMIT)THEN
-                CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                      I1=IXTG(NIXTG,I),C1=LINE,C2='/SH3N')
-            ELSEIF (NADMESH/=0.AND.IXTG(NIXTG,I)>ID_LIMIT_ADMESH)THEN
-                CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                      I1=IXTG(NIXTG,I),C1=LINE,C2='/SH3N')
+            IF (IXTG(NIXTG,I)>ID_LIMIT%GLOBAL)THEN
+                CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=IXTG(NIXTG,I),C1=LINE,C2='/SH3N')
+            ELSEIF (NADMESH/=0.AND.IXTG(NIXTG,I)>ID_LIMIT%ADMESH)THEN
+                CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=IXTG(NIXTG,I),C1=LINE,C2='/SH3N')
             ENDIF                                                                   
             IF(THK(I)>0) THEN                       
                CALL APARTSET(INDEX_PART, CHECK_THICK_SHELL)   
@@ -285,8 +259,7 @@ C
       I2=MIN0(50,NUMELTG0)
 C
       IF(IPRI>=5)THEN
-  90   WRITE (IOUT,'(//A/A//A/)')' TRIANGULAR SHELL ELEMENTS ',
-     & ' ELEMENT INTERNAL   MATER   PRSET   NODE1   NODE2   NODE3'
+  90   WRITE (IOUT,'(//A/A//A/)')' TRIANGULAR SHELL ELEMENTS ',' ELEMENT INTERNAL   MATER   PRSET   NODE1   NODE2   NODE3'
        DO I=I1,I2
          MID = IPM (1,IXTG(1,I))
          PID = IGEO(1,IXTG(5,I))
@@ -301,21 +274,15 @@ C
 C
  200  CONTINUE
 C-----------
-      CALL ANCMSG(MSGID=402,                 
-     .            MSGTYPE=MSGERROR,         
-     .            ANMODE=ANINFO_BLIND_1,    
-     .            PRMOD=MSG_PRINT) 
+      CALL ANCMSG(MSGID=402,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,PRMOD=MSG_PRINT)
 C-------------------------------------
 C Recherche des ID doubles
 C-------------------------------------
       IDS = 79
       I = 0
       J = 0
-c
       CALL VDOUBLE(IXTG(NIXTG,1),NIXTG,NUMELTG0,MESS,0,BID)
-c      CALL ANCNTG(IDS,I,J)
       IDS = 44
-c      CALL ANCHECK(IDS)
 C
       RETURN
       END

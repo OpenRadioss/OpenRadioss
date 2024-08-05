@@ -38,6 +38,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
       USE FORMAT_MOD , ONLY : FMT_2I
+      USE READER_OLD_MOD , ONLY : LINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

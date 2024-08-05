@@ -44,9 +44,10 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE ELBUFTAG_MOD !MAXEOS
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE READER_OLD_MOD , ONLY : IREC
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
