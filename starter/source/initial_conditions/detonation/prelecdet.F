@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD         
       USE HM_OPTION_READ_MOD
       USE DETONATORS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,11 +64,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER SIZ_ECRAN, SIZ_DETCORD
-      INTEGER              :: I,J,K,ID,USER_ID,INTERNAL_ID,NN,STAT
-      INTEGER              :: NNOD_DETCORD, NNOD_WAV_SHA,NUM
-      CHARACTER*ncharkey   :: KEY,KEY2,KEY3
-      CHARACTER*nchartitle :: TITR
-      LOGICAL              :: IS_AVAILABLE
+      INTEGER I,J,K,ID,USER_ID,INTERNAL_ID,NN,STAT
+      INTEGER NNOD_DETCORD, NNOD_WAV_SHA,NUM
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2,KEY3
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

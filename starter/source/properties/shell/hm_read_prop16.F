@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -74,7 +75,7 @@ C     REAL
       my_real
      .   RTRANS(NTRANSF,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      CHARACTER IDTITL*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::IDTITL
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(SHELL_DEFAULTS_), INTENT(IN)  :: DEFAULTS_SHELL
 C-----------------------------------------------
@@ -92,10 +93,9 @@ C     REAL
      .    ZSHIFT
       INTEGER ISH3N,IRP
       INTEGER ID,IUN
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       INTEGER     IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
      .           ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D
-      CHARACTER*nchartitle,
-     .   TITR,TITR1
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   D a t a
@@ -117,15 +117,15 @@ c
       IPOS = 0
       IREP = 2
       IRP = 0
-!      
-      IHBE_D =  DEFAULTS_SHELL%ishell     
-      ISH3N_D=  DEFAULTS_SHELL%ish3n      
-      ISST_D =  DEFAULTS_SHELL%ismstr     
-      IPLA_D =  DEFAULTS_SHELL%iplas      
-      ITHK_D =  DEFAULTS_SHELL%ithick     
-      IDRIL_D=  DEFAULTS_SHELL%idrill 
-      ISHEA_D = 0  
-      NPTS_D = 0  
+!
+      IHBE_D =  DEFAULTS_SHELL%ishell
+      ISH3N_D=  DEFAULTS_SHELL%ish3n
+      ISST_D =  DEFAULTS_SHELL%ismstr
+      IPLA_D =  DEFAULTS_SHELL%iplas
+      ITHK_D =  DEFAULTS_SHELL%ithick
+      IDRIL_D=  DEFAULTS_SHELL%idrill
+      ISHEA_D = 0
+      NPTS_D = 0
       ISTRA_D = 1
 C----------------------
 C HIDDEN FLAGS

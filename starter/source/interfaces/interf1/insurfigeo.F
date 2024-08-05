@@ -38,6 +38,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_4I
 C-----------------------------------------------------------------------
 C     LECTURE DES SURFACES ET DECOMPTE DES SEGMENTS
@@ -62,8 +63,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,*),
      .        ITAB(*), MSV(*),NIGE_TMP(*),NIGE(*),SURF_NODES_IGE(NRT_IGE,4)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       my_real
      .   RIGE(3,*),XIGE(3,*),VIGE(3,*),
      .   RIGE_TMP(3,*),XIGE_TMP(3,*),VIGE_TMP(3,*)

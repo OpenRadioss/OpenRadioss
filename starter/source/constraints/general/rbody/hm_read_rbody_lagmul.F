@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,7 +84,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J,K,L,N,NR,MM,ID,IGU,IGS,
      .        NSKEW,NSL,MSL,SUB_INDEX,NRB,NRB_R2R
-      CHARACTER MESS*40,TITR*nchartitle,KEY*ncharkey
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY
       LOGICAL IS_AVAILABLE
       DATA MESS/'RIGID BODY DEFINITIONS'/
 C-----------------------------------------------

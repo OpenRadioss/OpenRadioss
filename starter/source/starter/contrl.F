@@ -100,7 +100,7 @@ C-----------------------------------------------
       USE USER_WINDOWS_MOD
       USE ALE_MOD
       USE MAT_ELEM_MOD
-      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,LTITLE,NCHARLINE,NCHARTITLE
+      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,LTITLE,NCHARLINE,NCHARTITLE,NCHARFIELD
       USE BCS_MOD , only : BCS
       USE DEFAULTS_MOD
       USE FORMAT_MOD
@@ -1789,6 +1789,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INOUTFILE_MOD
       USE OUTMAX_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1817,7 +1818,7 @@ C-----------------------------------------------
       INTEGER IH3D,NG,ITY,NFT,IKEY,K_LEN
 
       INTEGER :: TMAX_IPART(NPART),NKPART(NPART+1,NKEYMAX+1)
-      CHARACTER CARTE*ncharline
+      CHARACTER(LEN=NCHARLINE) :: CARTE
 C-----------------------------------------------
       IF (ALLOCATED(IKEYMAX)) DEALLOCATE(IKEYMAX)
       IF (ALLOCATED(IPART_OK)) DEALLOCATE(IPART_OK)
@@ -1989,6 +1990,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INOUTFILE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2014,7 +2016,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, N ,NELC , NELTG , IP , NPRT , IPRT
       INTEGER IH3D,NG,ITY,NFT,IO_ERR1,LEN_C,IC
-      CHARACTER FILNAM*109, KEYA*80, KEYA2*80,CARTE*ncharline
+      CHARACTER FILNAM*109, KEYA*80, KEYA2*80
+      CHARACTER(LEN=NCHARLINE) :: CARTE
 
       INTEGER :: LEN_TMP_NAME,TMAX_IPART(NPART)
       CHARACTER(len=4096) :: TMP_NAME

@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,10 +88,10 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NFXVEL)   :: NODENUM
       INTEGER ,DIMENSION(3*NUMNOD) :: IKINE1
       my_real :: YSCALE,TSTART,TSTOP,XSCALE,FSCAL_T,FSCAL_V
-      CHARACTER(2)           :: X,Y,Z,XX,YY,ZZ
-      CHARACTER(ncharfield)  :: XYZ
-      CHARACTER(ncharkey)    :: KEY
-      CHARACTER(nchartitle)  :: TITR,MESS
+      CHARACTER(LEN=2)           :: X,Y,Z,XX,YY,ZZ
+      CHARACTER(LEN=NCHARFIELD)  :: XYZ
+      CHARACTER(LEN=NCHARKEY)    :: KEY
+      CHARACTER(LEN=NCHARTITLE)  :: TITR,MESS
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

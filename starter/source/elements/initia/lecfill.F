@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE UNITAB_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,8 +61,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*)
-      my_real
-     .      FILLSOL(*)
+      my_real FILLSOL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C-----------------------------------------------
@@ -72,9 +72,9 @@ C-----------------------------------------------
      .      IFLAGUNIT,IUNIT,NB_ELEMENTS
       INTEGER WORKS(70000)
       INTEGER, DIMENSION(:), ALLOCATABLE :: KSYSUSRS,INDEXS,ITRIS
-      CHARACTER MESS*40,KEY*ncharkey
-      my_real
-     .      FILL
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      my_real FILL
       LOGICAL IS_AVAILABLE
       INTEGER UEL2SYS
       EXTERNAL UEL2SYS

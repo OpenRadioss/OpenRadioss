@@ -43,7 +43,8 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD  
-      USE INOUTFILE_MOD          
+      USE INOUTFILE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -85,7 +86,7 @@ C-----------------------------------------------
       CHARACTER FILE*(ncharline),FILE_TMP*(ncharline)
       INTEGER :: FILE_LEN
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
-      CHARACTER*nchartitle TITR        
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

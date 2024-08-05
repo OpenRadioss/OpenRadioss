@@ -36,6 +36,7 @@ C-----------------------------------------------
       USE SENSOR_MOD , ONLY : SENSORS_, SENSOR_STR_, LOGICAL_SENSORS_LIST, 
      .                        ISENBUF, LSENBUF, NSENPARR, NSENPARI, LOGICAL_SENSOR_COUNT
       USE WRITE_MOD, ONLY : WRITE_INTEGER
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

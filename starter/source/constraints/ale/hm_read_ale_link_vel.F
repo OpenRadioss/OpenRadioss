@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
       USE FORMAT_MOD , ONLY : LFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -79,10 +80,10 @@ C-----------------------------------------------
      .        NOSYS, J,J10(10),IGR,IGRS,ISU,IBCALE,J3(3),K,
      .        IC0, IC01, IC02, IC03, IC04, ID ,ILAGM, NBCSLAG,
      .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IKINE1(3*NUMNOD),IGRNS
-      CHARACTER(LEN=ncharkey) :: KEY,KEY2
-      CHARACTER(LEN=ncharfield) :: STRING,CHAR_XYZ
-      CHARACTER(LEN=nchartitle) :: TITR
-      CHARACTER OPT*8,MESS*40
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
+      CHARACTER(LEN=NCHARFIELD) :: STRING, CHAR_XYZ
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER :: OPT*8,MESS*40
       my_real TSTART,TSTOP
       LOGICAL :: IS_AVAILABLE
       INTEGER :: WX, WY, WZ

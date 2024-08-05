@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SEATBELT_MOD
       USE BPRELOAD_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMT_10I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -144,8 +145,7 @@ C     REAL
       my_real 
      .     NOISE,BIDON,MAS2,UNDAMP
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
       CHARACTER OPTION*50
 C
       TYPE(G_BUFEL_),POINTER :: GBUF

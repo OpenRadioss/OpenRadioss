@@ -42,9 +42,13 @@ C
      6                   ID,TITR ,ILEV ,PEN_OLD,KNOD2ELS,
      7                   NOD2ELS,IPARTNS,IPEN0 ,ICONT_I ,
      8                   XFIC   ,NRTM ,IRTSE   ,IS2SE)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
 #ifndef HYPERMESH_LIB
       USE MESSAGE_MOD
 #endif
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMT_I_3F
 C
 C-----------------------------------------------
@@ -70,8 +74,7 @@ C----  IWPENE0 : nb of tiny initial pene;  IWPENE nb of initial pene
       my_real X(3,*),PMIN(*),GAP_N(12,*),PENMAX,PENMIN,PEN_OLD(5,NSN),XFIC(3,*)
 C--------GAP_N(1,*) stock temporarily characteristic length for Pen_max
       INTEGER ID,IPEN0
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

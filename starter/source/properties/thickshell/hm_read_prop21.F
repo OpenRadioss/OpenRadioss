@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE DEFAULTS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +79,7 @@ C-----------------------------------------------
      .    CVIS,QA,QB,VX,VY,VZ,ANGLE,DTMIN,PUN,VDEFMIN,VDEFMAX,ASPMAX,ASPTET
       INTEGER J,IHBE_DS,ISST_DS
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
-      CHARACTER IDTITL*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::IDTITL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

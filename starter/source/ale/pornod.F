@@ -41,6 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +68,7 @@ C-----------------------------------------------
       INTEGER IG,N,I,J,K,IC,IC1,IC2,IC3,IC4,JWARN,IRB,KRB,P
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: INDEX
       INTEGER SORT,IWORK(70000),IT
-      CHARACTER*nchartitle,TITR
+      CHARACTER(len=nchartitle) :: TITR
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

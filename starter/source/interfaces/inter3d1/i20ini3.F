@@ -68,6 +68,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
       USE INTER_CAND_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -111,8 +112,7 @@ C     REAL
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(INTER_CAND_), INTENT(inout) :: INTER_CAND !< struture of pair of candidate
 C-----------------------------------------------

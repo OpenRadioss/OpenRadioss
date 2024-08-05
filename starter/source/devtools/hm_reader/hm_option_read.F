@@ -51,14 +51,11 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD       
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -73,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,OFFSET_CATEGORY,S_KEYWORD,S_TITR_TMP,POS
-      CHARACTER*ncharline KEYWORD,TITR_TMP
+      CHARACTER(LEN=NCHARLINE) :: KEYWORD,TITR_TMP
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

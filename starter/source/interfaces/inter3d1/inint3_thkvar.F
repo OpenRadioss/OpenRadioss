@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTSTAMP_MOD
       USE INTBUFDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,8 +90,7 @@ C-----------------------------------------------
      .   SKEW(LSKEW,*), MS(*), IN(*), V(3,*), VR(3,*), RBY(NRBY,*),
      .   THK_PART(*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

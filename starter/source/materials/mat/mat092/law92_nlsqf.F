@@ -44,6 +44,7 @@ C IOCSV=1 -> output fitting to curv.csv
       SUBROUTINE LAW92_NLSQF(STRETCH,Y,NMULA,NPT,AMULA,
      $                       NSTART, ERRTOL,ID,TITR,ITEST)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,8 +68,7 @@ C-----------------------------------------------
       my_real YOGD,XOGD
 
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER MINITER_LM, MAXITER_LM
       DATA MINITER_LM /10/
       SAVE MINITER_LM

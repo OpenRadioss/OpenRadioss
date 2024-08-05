@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NTYP , SUB_ID ,I
-      CHARACTER KEY*ncharkey,KEY2*ncharkey
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
 C============================================================================
 C       READING INTERFACES DEFAULT VALUES
 C============================================================================

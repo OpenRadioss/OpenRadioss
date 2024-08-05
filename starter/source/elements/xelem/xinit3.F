@@ -48,6 +48,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,8 +83,7 @@ C-----------------------------------------------
      .   IADNOD, IMAT, IPROP, NX, K, UID,
      .   NAX1D, NAX2D, NAX3D,IPID1,KVAR,KVARN
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
 C
       my_real
      .   DT, DTC, XK, XC, XKR, XCR, XM, XINE, A,

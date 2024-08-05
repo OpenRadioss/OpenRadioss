@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +61,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NUMNUSR
-C     REAL
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
 C-----------------------------------------------
@@ -72,8 +72,9 @@ C-----------------------------------------------
      .        N,IP,ID,I,J,NLEV,NMUL,STAT,INDEX_PART,NPART_ADM
       INTEGER USR2SYS,NUMNUSR1,IDS,NI,NJ,NK,NL,K,L,P,Q,QQ,
      .        NN,UID,IP0,ID_IP
-C     REAL
-      CHARACTER MESS*40,TITR*nchartitle,KEY*ncharkey
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY
       INTEGER , DIMENSION(:), ALLOCATABLE :: IPARTC, SHELL_ID
       INTEGER , DIMENSION(:), ALLOCATABLE :: IPARTTG, SH3N_ID
       REAL*8 , DIMENSION(:), ALLOCATABLE :: SH_ANGLE, SH_THK

@@ -60,15 +60,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F                  SEGQUADFR,TAGPRT_FRIC,INTBUF_FRIC_TAB  ,IPARTT   ,
      G                  IPARTP    ,IPARTX   ,IPARTR  ,NSN_MULTI_CONNEC,T2_NB_CONNEC,
      H                  ICODE     ,ISKEW    ,MULTI_FVM,S_NOD2ELS)
-C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFMOD
       USE FRONT_MOD
-      USE INTBUFDEF_MOD 
-!!      USE STACK_MOD 
+      USE INTBUFDEF_MOD
       USE INTBUFSCRATCH_MOD
       USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
@@ -76,6 +74,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MULTI_FVM_MOD
       USE INTER_CAND_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -115,7 +114,6 @@ C-----------------------------------------------
       INTEGER NOM_OPT(LNOPT1,*),KXX(*),IXX(*)
       TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-!!      TYPE (STACK_PLY) :: STACK
       TYPE(SCRATCH_STRUCT_) INSCR(*)
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
 C-----------------------------------------------
@@ -133,8 +131,7 @@ C-----------------------------------------------
      .        NREMN(NINTER),NREMN_OLD(NINTER),IEDG,IEDGN,ST2_CONNEC,
      .        REMNODE_SIZE,LEN_FILNAM,REMNODE_SIZE_EDG,IREMNODE_EDG
       CHARACTER*(2148) FILNAM
-      CHARACTER*nchartitle,
-     .        TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(:),ALLOCATABLE :: REMNODE,KREMNODE,T2_ADD_CONNEC,T2_CONNEC,IKINE1
       
       INTEGER :: NS

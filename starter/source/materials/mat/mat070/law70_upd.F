@@ -40,6 +40,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD      
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +59,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NFUNCT) ,INTENT(IN) :: FUNC_ID
       INTEGER ,INTENT(IN)  :: NPC(*)
       my_real ,INTENT(IN)  :: PLD(*) 
-      CHARACTER*nchartitle ,INTENT(IN):: TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN):: TITR
       my_real ,DIMENSION(NPROPM)  ,INTENT(INOUT) :: PM
       my_real ,DIMENSION(NUPARAM) ,INTENT(INOUT) :: UPARAM
       TYPE (MATPARAM_STRUCT_)     ,INTENT(INOUT) :: MAT_PARAM

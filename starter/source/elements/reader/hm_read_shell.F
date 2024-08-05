@@ -66,6 +66,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C--------------------------------------------------------
 C     LECTURE DES ELEMENTS COQUES 4 NOEUDS
 C     VERSIION NUMEROTATION DES NOEUDS LIBRE/MARS 90/DIM
@@ -113,7 +114,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, I1, I2, ID,IDS,IPID,MT,N,MID,PID,UID,NDEGEN,JC,STAT,
      .   IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,ISHXFEM,IOUTN,IERROR,INDEX_PART
-      CHARACTER MESS*40, MESS2*40,TITR*nchartitle
+      CHARACTER MESS*40, MESS2*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       my_real
      .   BID,FAC_L
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_SHELL,UID_SHELL

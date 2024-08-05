@@ -43,6 +43,7 @@ C----------------------------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C----------------------------------------------------------------
 C  I M P L I C I T   T Y P E S 
 C----------------------------------------------------------------
@@ -64,7 +65,7 @@ C----------------------------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN)                 :: UNITAB      
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM       
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
-      CHARACTER*nchartitle ,INTENT(IN)             :: TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)             :: TITR
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -76,8 +77,8 @@ C-----------------------------------------------
      . DC13, DC14, DC1, DC2, DLAMBDA, RHOA, CV, THETA0, BETA0, BTHETA0,
      . FACTOR, TEMP_OPT, THETAI, THETAG,STIFINT,
      . C1,C2,C3,C4,C5,MU,LM,D,BETA,FACPL, SCALE1, SCALE2
-      CHARACTER  STRING*ncharfield
-      CHARACTER KEY*nchartitle,KEYNET*ncharfield      
+      CHARACTER(LEN=NCHARFIELD) ::STRING,KEYNET
+      CHARACTER(LEN=NCHARTITLE) ::  KEY
       INTEGER ILAW
 C     
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED

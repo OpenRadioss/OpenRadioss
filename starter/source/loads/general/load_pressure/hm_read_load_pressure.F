@@ -57,6 +57,7 @@ C-----------------------------------------------
         USE SUBMODEL_MOD
         USE HM_OPTION_READ_MOD
         USE SENSOR_MOD
+        USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,9 +101,10 @@ C-----------------------------------------------
         INTEGER, DIMENSION(:), ALLOCATABLE :: ID_INTER,INTER_TYP
         my_real
      .          FCX,FCY,FAC_FCX,FAC_FCY,GAP_I
-        CHARACTER MESS*40, DIR*ncharfield,
-     .            char_X*1, char_Y*1, char_Z*1
-        CHARACTER TITR*nchartitle,KEY*ncharline
+        CHARACTER MESS*40, char_X*1, char_Y*1, char_Z*1
+        CHARACTER(LEN=NCHARFIELD) ::DIR
+        CHARACTER(LEN=NCHARTITLE) :: TITR
+        CHARACTER(LEN=NCHARLINE) :: KEY
         LOGICAL IS_AVAILABLE
 
 

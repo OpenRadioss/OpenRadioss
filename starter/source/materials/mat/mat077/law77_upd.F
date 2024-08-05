@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD      
       USE MATPARAM_DEF_MOD
       USE TABLE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +54,7 @@ C-----------------------------------------------
       INTEGER :: NPC(*)
       my_real PLD(*)
       my_real UPARAM(NUPARAM)
-      CHARACTER*nchartitle  :: TITR 
+      CHARACTER(LEN=NCHARTITLE)  :: TITR 
       TYPE(MATPARAM_STRUCT_) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

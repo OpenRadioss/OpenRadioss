@@ -33,7 +33,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod    ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE BUILD_MSG()
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,11 +49,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      CHARACTER*ncharline BUFMSG(100)
+      CHARACTER(LEN=NCHARLINE) :: BUFMSG(100)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER*ncharline LINE1,KEY,KEYST
+      CHARACTER(LEN=NCHARLINE) :: LINE1,KEY,KEYST
       INTEGER I,J,ID,ITYPE,INDX,SBUFMSG,ISTYPE
 C predim
       SMESSAGES=1

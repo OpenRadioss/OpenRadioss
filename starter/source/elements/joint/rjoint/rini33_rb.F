@@ -37,7 +37,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE RINI33_RB(NEL,NUVAR,IPROP,IXR,NPBY,LPBY,RBY,STIFR,
      1                     UVAR,ITAB,IGEO,IXR_KJ,GMASS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,8 +77,7 @@ C
      .   XSK1,XSK2,LEN
 C
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
       INTEGER FIND_RBY
       EXTERNAL GET_U_GEO,RESET_U_GEO,GET_U_SKEW

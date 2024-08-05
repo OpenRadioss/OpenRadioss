@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE REORDER_MOD
       USE MATPARAM_DEF_MOD
       USE BPRELOAD_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -106,8 +107,7 @@ C-----------------------------------------------
      .        ITAG(2*NUMELT+2*NUMELP+3*NUMELR),
      .        NGP(NSPMD+1),IPARTR2R,NUVAR,IE,ID1,IPRLD
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR,TITR1
+      CHARACTER(LEN=NCHARTITLE)::TITR,TITR1
       INTEGER WORK(70000)
       DATA NFIX/13/
 C=======================================================================

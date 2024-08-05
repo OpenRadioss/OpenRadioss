@@ -65,6 +65,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE ALE_MOD
       USE DEFAULTS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,7 +86,7 @@ C INPUT ARGUMENTS
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER,INTENT(IN)::IG,IGTYP
       INTEGER,INTENT(IN)::IPART(LIPART1,*)
-      CHARACTER*nchartitle,INTENT(IN)::TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)::TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
       TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM      
 C MODIFIED ARGUMENT
@@ -101,7 +102,7 @@ C-----------------------------------------------
       my_real CVIS,QA,QB,QH,VNS1,VNS2,DTMIN,VDEFMIN,VDEFMAX,ASPMAX,ASPTET 
       INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,ICONTROL_D,ICONTROL
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED, lFOUND
-      CHARACTER*ncharline :: MSGLINE
+      CHARACTER(LEN=NCHARLINE) ::  MSGLINE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -577,6 +578,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE ALE_MOD
       USE DEFAULTS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -594,7 +596,7 @@ C-----------------------------------------------
 C INPUT ARGUMENTS
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER,INTENT(IN)::IG,IGTYP
-      CHARACTER*nchartitle,INTENT(IN)::TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)::TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
       TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM      
 C MODIFIED ARGUMENT

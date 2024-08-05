@@ -47,7 +47,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD 
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,8 +68,7 @@ C-----------------------------------------------
       my_real
      .        X(3,*),GAP_S(*),GAP_M(*),GAP_S_L(*),GAP_M_L(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -942,6 +942,7 @@ C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_10I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -976,8 +977,7 @@ C-----------------------------------------------
      .        KI,KL,JJ,IEDGE,NEDGE
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGD
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 
       INTEGER :: COMPTEUR,I2NODE_SIZE,I,L,L1,IS,IIS,NS,IADA
       INTEGER :: TYP25_USE
@@ -2008,6 +2008,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE INTBUFDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2032,7 +2033,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,I_STOK,NTY,ID
-      CHARACTER*nchartitle,TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C----remove pene_ini of int24 with Irem_i2 
 C------INTBUF_TAB(N)%CAND_E,INTBUF_TAB(N)%CAND_N
@@ -2069,6 +2070,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_10I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2084,8 +2086,9 @@ C-----------------------------------------------
 C-----------------------------------------------
       INTEGER I_STOK,CAND_E(*),CAND_N(*),KREMNODE(*),IRTLM(2,*),REMNOD(*),
      *        NSV(*),ID,ITAB(*)
-      my_real PENE_OLD(5,*)
-      CHARACTER*nchartitle, TITR
+      my_real
+     .   PENE_OLD(5,*)
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

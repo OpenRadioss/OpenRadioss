@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../SCR17/
-#include "nchar_c.inc"
+
       INTEGER MAXNOPT
       PARAMETER (MAXNOPT = 220)
       INTEGER LKEY0,KOPTAD,NLINE,NSLASH,KCUR,IREC,KREC,ID_LIMIT,
@@ -85,8 +85,7 @@ C
      .        KFRICTION,KTRIA,KGRTRIA,IDT1TET10,KKEY_ENCRYPT,KMERGE,KFRIC_ORIENT,
      .        KSET,IDT1SH,IDTS6,ID_UNIT_AUTO,IDTTSH
 C
-      CHARACTER KEY0(MAXNOPT)*ncharkey,KLINE*ncharline,LINE*ncharline
-
+      CHARACTER KEY0(MAXNOPT)*10,KLINE*500,LINE*500
       COMMON /SCR17C/ KEY0      ,KLINE       ,LINE
 
        INTEGER

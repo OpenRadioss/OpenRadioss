@@ -76,6 +76,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE MULTI_FVM_MOD
       USE DEFAULTS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -105,7 +106,7 @@ C
       my_real,INTENT(INOUT) :: GEO(NPROPG)
       my_real,INTENT(IN) :: RTRANS(NTRANSF,NRTRANS)
 C
-      CHARACTER,INTENT(IN) :: IDTITL*nchartitle
+      CHARACTER(LEN=NCHARTITLE),INTENT(IN) :: IDTITL
 C
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP),INTENT(INOUT) :: PROP_TAG
       TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM
@@ -118,7 +119,6 @@ C-----------------------------------------------
       INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,IP,ISK,IREP,JCVT,
      .    NPT,NPTR,NPTS,NPTT,ITET4,IET,ISTR,IHBE_OLD,ITET10,
      .    ISHEAR,ISORTH,ICONTROL_D,ICONTROL
-C     REAL
       my_real
      .    CVIS,QA,QB,QH,VX,VY,VZ,ANGLE,DTMIN,PX,PY,PZ,VN,
      .    VDEFMIN,VDEFMAX,ASPMAX,ASPTET

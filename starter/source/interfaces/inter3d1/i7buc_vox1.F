@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE TRI7BOX
       USE FRONT_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,8 +96,7 @@ C-----------------------------------------------
      .   GAP_S_L(*),GAP_M_L(*),BGAPSMX, DRAD
       my_real , INTENT(IN) :: DGAPLOAD
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE(INTERSURFP) :: INTERCEP(3,NINTER) 
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: PROV_N, PROV_E,NSVG
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX11,IX12,IX13,IX14

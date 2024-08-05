@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE XFEM2DEF_MOD
       USE ELBUFDEF_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +87,7 @@ C
       TYPE (XFEM_SHELL_)  , DIMENSION(NLEVMAX)     :: CRKSHELL
       TYPE (XFEM_EDGE_)   , DIMENSION(NXLAYMAX)    :: CRKEDGE       
       TYPE (XFEM_PHANTOM_), DIMENSION(NXLAYMAX)    :: XFEM_PHANTOM  
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

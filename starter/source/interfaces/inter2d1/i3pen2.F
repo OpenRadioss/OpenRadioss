@@ -34,6 +34,7 @@ C
      1                  CST,IRTLO,FRIC0,FRIC,GAP,IWPENE,
      2                  ITAB,NINT,ID,TITR)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_5I_F, FMW_5I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -57,8 +58,7 @@ C     REAL
       my_real
      .   X(3,*), CST(2,*), FRIC0(3,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

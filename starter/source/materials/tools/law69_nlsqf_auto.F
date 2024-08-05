@@ -36,7 +36,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE LAW69_NLSQF_AUTO(LAWID,STRETCH,Y,MA,NMUAL,NPT,MUAL,
      $                            ICHECK, NSTART, ERRTOL,ID,TITR)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
     !-----------------------------------------------
     !   I m p l i c i t   T y p e s
     !-----------------------------------------------
@@ -54,7 +58,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       my_real ,  INTENT(IN)    :: ERRTOL
       my_real , DIMENSION(NPT) , INTENT(IN) :: Y,STRETCH
       my_real , DIMENSION(10), INTENT(INOUT) :: MUAL
-      CHARACTER*nchartitle, INTENT(IN) ::   TITR
+      CHARACTER(LEN=NCHARTITLE),INTENT(IN) ::    TITR
     !-----------------------------------------------
     !   L o c a l   V a r i a b l e s
     !----------------------------------------------- 

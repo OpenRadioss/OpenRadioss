@@ -149,6 +149,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE ALE_CONNECTIVITY_MOD
       USE INTER_CAND_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -202,7 +203,7 @@ C-----------------------------------------------
       INTEGER, INTENT(in) :: S_APPEND_ARRAY !< size of X/MASS _APPEND
       my_real, DIMENSION(3*S_APPEND_ARRAY), TARGET :: X_APPEND !< extended position array for interface 18 + law 151
       my_real, DIMENSION(S_APPEND_ARRAY), TARGET :: MASS_APPEND !< extended mass array for interface 18 + law 151
-      CHARACTER*nchartitle, TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
       TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
       TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB !< interface data 
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)

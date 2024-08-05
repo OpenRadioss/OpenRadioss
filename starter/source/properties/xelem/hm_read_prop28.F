@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,15 +96,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IOUT,NUVAR(*),IGTYP,IUNIT
-      my_real   
-     .        PARGEO(*)
+      my_real PARGEO(*)
       INTEGER SET_U_PNU,SET_U_GEO,
      .        KFUNC
       EXTERNAL SET_U_PNU,SET_U_GEO
       PARAMETER (KFUNC=29)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C-----------------------------------------------
@@ -115,8 +114,8 @@ C-----------------------------------------------
      .  XK,XVTYP,RHO, XC, DMN, DMX, MU1, MU2, FRIC,Y_SCAL,X_SCAL
       my_real
      .   FAC_M, FAC_L, FAC_T
-      CHARACTER KEYWORD*ncharfield
-      CHARACTER CART*ncharline
+      CHARACTER(LEN=NCHARFIELD) :: KEYWORD
+      CHARACTER(LEN=NCHARLINE) :: CART
       INTEGER IP
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 

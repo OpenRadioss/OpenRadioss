@@ -38,6 +38,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -133,7 +134,7 @@ C-----------------------------------------------
       INTEGER I,IS,IPRE, MY_ID, MY_LOAD,J,K0,NSMAX,NS,LPRELOADTAB,
      .        IDS(NSPHIO),IDX(NSPHIO),II,MY_SPHIO,LVAD(NSPHIO),
      .        IADSPHIO_1,IADSPHIO_2,FIRST,LAST
-      CHARACTER *nchartitle TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
       LOGICAL :: OK_QA 

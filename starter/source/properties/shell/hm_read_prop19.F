@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +71,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: IMID, J, DRAPE_ID, ID
       my_real :: THICKT, FAC_GEN, PUN
-      CHARACTER(LEN = nchartitle) :: TITR, TITR1, IDTITL
+      CHARACTER(LEN = NCHARTITLE) :: TITR, TITR1, IDTITL
       LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED, LFOUND
 C-------------------------------------------------
 C     B e g i n n i n g   o f  S u b r o u t i n e

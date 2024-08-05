@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE MAPPING_OPTION_MOD
       USE STACK_MOD
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -161,8 +162,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: KSYSUSRTG ,KSYSUSRS,INDEXS,ITRIS,
      . KSYSUSRQ,INDEXQ,ITRIQ,IES2IPARG,MLAW_LY,ITRISPH,INDEXSPH,KSYSUSRSPH
 
-      CHARACTER KEY2*ncharkey,KEY3*ncharkey
-      CHARACTER*nchartitle,TITR,TITR1  
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2,KEY3
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       CHARACTER*15,KEYWORD 
       INTEGER NONEXIST
 C-----------------------------------------------
@@ -170,7 +171,7 @@ C-----------------------------------------------
       INTEGER  UEL2SYS
 C-----------------------------------------------
       LOGICAL IS_AVAILABLE,GLOB
-      CHARACTER KEY*ncharkey
+
       INTEGER  NB_INIBRI,NB_INISHE,NB_INISH3,NB_ELEMENTS,ID_ELEM,
      . ELT,ELTP,INI,K0,NB_INITRUSS,NB_INIBEAM,NB_INISPRI,NB_INIQUA,
      . SUB_INDEX,IDOUB,ISTRSF,ISTRSFG,ISTRAF,ISTRAFG,ISTAT,NB_INISPHCEL

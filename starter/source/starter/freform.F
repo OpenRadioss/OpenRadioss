@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE CHECK_MOD
       USE INOUTFILE_MOD
       USE DETONATORS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
       USE FORMAT_MOD  , ONLY : LFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -58,7 +59,8 @@ C-----------------------------------------------
       INTEGER I, J, J1, J2, IST, ID, ID1, KOPT, NCART,LC
       INTEGER IFILNAM(13)
       INTEGER IRFL0, IRFE, IRFL,NCHARMAX,ISUBMOD
-      CHARACTER CART*ncharline, KEY*10,CHRUN*2, CHRUN0*2
+      CHARACTER(LEN=NCHARLINE) :: CART
+      CHARACTER KEY*10,CHRUN*2, CHRUN0*2
 C-----------------------------------------------
 C   L o c a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -928,7 +930,11 @@ C
       !||    message_mod   ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE FREDEC0(ID)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
       USE FORMAT_MOD , ONLY : LFIELD, FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -940,7 +946,7 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 C-----------------------------------------------
       INTEGER IOP,ID
-      CHARACTER MOT1*ncharfield
+      CHARACTER(LEN=NCHARFIELD) :: MOT1
       INTEGER I,J1,J2
 C-----------------------------------------------
 C   /KEYW/int_id
@@ -972,6 +978,10 @@ C
       !||====================================================================
       SUBROUTINE FREDEC4(COPT)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD, NCHARLINE
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -980,7 +990,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 C
-      CHARACTER COPT*ncharfield
+      CHARACTER(LEN=NCHARFIELD) :: COPT
 C
       INTEGER I,J1,J2,J
 C-----------------------------------------------
@@ -1016,6 +1026,7 @@ C
       !||====================================================================
       SUBROUTINE FREDEC5(COPT,ID)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY, NCHARFIELD,NCHARLINE
       USE FORMAT_MOD , ONLY : LFIELD, FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1027,9 +1038,9 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 C-----------------------------------------------
       INTEGER ID
-      CHARACTER COPT*ncharkey
+      CHARACTER(LEN=NCHARKEY) ::  COPT
 C-----------------------------------------------
-      CHARACTER MOT1*ncharfield
+      CHARACTER(LEN=NCHARFIELD) :: MOT1
       INTEGER I,J1,J2,J
 C-----------------------------------------------
 C   /KEYW    ou
@@ -1085,6 +1096,10 @@ C
       !||====================================================================
       SUBROUTINE FREDEC6(COPT,COPT2)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY,NCHARLINE
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -1093,7 +1108,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 C-----------------------------------------------
-      CHARACTER*ncharkey COPT,COPT2
+      CHARACTER(LEN=NCHARKEY) :: COPT,COPT2
 C-----------------------------------------------
       INTEGER I,J1,J2,J
 C-----------------------------------------------
@@ -1476,6 +1491,10 @@ C=======================================================================
       !||====================================================================
       SUBROUTINE FRETITL(TITR,IASC,L)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -1656,6 +1675,10 @@ C-----------------------------------------------
       !||====================================================================
       SUBROUTINE FRETITL2(TITR,IASC,L)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -1726,7 +1749,11 @@ C-----------------------------------------------
       !||    message_mod                ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE FREDEC_2KEY_ID_OR_KEY_ID(KEY2,KEY3,UID,SUB_ID)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD, NCHARLINE
       USE FORMAT_MOD , ONLY : FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1738,10 +1765,11 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 C-----------------------------------------------
       INTEGER UID,SUB_ID
-      CHARACTER TITR*nchartitle,KEY2*ncharkey,KEY3*ncharkey
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY2,KEY3
 C-----------------------------------------------
       INTEGER I,J1,J2,J3,J, JMAX
-      CHARACTER MOT1*ncharfield
+      CHARACTER(LEN=NCHARFIELD) :: MOT1
 C-----------------------------------------------
 C   /KEYW/KEY2/KEY3/u_id
 C   /KEYW/KEY2/u_id
@@ -1786,8 +1814,7 @@ C     Read KEY2
      .        KLINE(J1:MIN(JMAX,J1+3))/='ENER'    ) THEN
            READ(MOT1,ERR=999,FMT=FMT_I)UID
            IF (UID > ID_LIMIT .OR. UID < 0) THEN
-             CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                   I1=UID,C1=KLINE)
+             CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=UID,C1=KLINE)
              RETURN
            ENDIF
            RETURN
@@ -1941,6 +1968,7 @@ C---
       !||====================================================================
       SUBROUTINE FREDEC_2KEY_4ID_T(KEY2,ID,UID,VERS,SUB_ID,TITR)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1953,10 +1981,11 @@ C-----------------------------------------------
 #include      "units_c.inc"
 C-----------------------------------------------
       INTEGER ID,UID,VERS,SUB_ID
-      CHARACTER TITR*nchartitle,KEY2*ncharkey
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY2
 C-----------------------------------------------
       INTEGER I,J1,J2,J
-      CHARACTER MOT1*ncharfield
+      CHARACTER(LEN=NCHARFIELD) :: MOT1
 C-----------------------------------------------
 C   /KEYW/KEY2/int_id/u_id/VERS
 C + char_title
@@ -2042,7 +2071,11 @@ C---
       !||    message_mod        ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE FREDEC_KEY_3ID_T(ID,UID,VERS,TITR)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2055,7 +2088,8 @@ C-----------------------------------------------
 #include      "units_c.inc"
 C-----------------------------------------------
       INTEGER IOP,ID,UID,VERS
-      CHARACTER MOT1*ncharfield,TITR*nchartitle
+      CHARACTER(LEN=NCHARFIELD) :: MOT1
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER I,J1,J2
 C-----------------------------------------------
 C   /KEYW/int_id/uid/VERS
@@ -2121,7 +2155,11 @@ C---
       !||    message_mod       ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE FREDEC_2KEY_4ID(KEY2,ID,UID,VERS,SUB_ID)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2133,10 +2171,11 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 C-----------------------------------------------
       INTEGER ID,UID,VERS,SUB_ID
-      CHARACTER TITR*nchartitle,KEY2*ncharkey
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY2
 C-----------------------------------------------
       INTEGER I,J1,J2,J
-      CHARACTER MOT1*ncharfield
+      CHARACTER(LEN=NCHARFIELD) :: MOT1
 C-----------------------------------------------
 C   /KEYW/KEY2/int_id/u_id/VERS
 C-----------------------------------------------

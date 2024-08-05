@@ -40,6 +40,7 @@ C-----------------------------------------------
       USE R2R_MOD   
       USE HM_OPTION_READ_MOD    
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +62,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NLD,ISEC,NN,ID,UID,NDEB,NFIN,IS,K0  !,ISU,ISS
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
-      CHARACTER TITR*nchartitle,KEY*ncharline
+      CHARACTER(LEN=NCHARTITLE)::TITR
+      CHARACTER(LEN=NCHARLINE)::KEY
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

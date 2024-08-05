@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD, NCHARKEY
       USE FORMAT_MOD , ONLY : LFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -86,9 +87,11 @@ C-----------------------------------------------
      .        IUN, JJ, SUB_ID,
      .        IDIR,IFLAGUNIT,ID,UID,CPT
       my_real P(12), PNOR1, PNOR2, PNORM1, DET1, DET2, DET3, DET, PP,BID
-      CHARACTER NOMFG*nchartitle
-      CHARACTER TITR*nchartitle,MESS*40,MESSF*40,KEY*ncharkey
-      CHARACTER DIR*ncharfield
+      CHARACTER(LEN=NCHARTITLE) ::  NOMFG
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER :: MESS*40,MESSF*40
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      CHARACTER(LEN=NCHARFIELD) :: DIR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

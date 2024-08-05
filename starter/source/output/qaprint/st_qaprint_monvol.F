@@ -34,6 +34,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE MONVOL_STRUCT_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,8 +46,6 @@ C-----------------------------------------------
 #include "com04_c.inc"
 !     NIMV
 #include "param_c.inc"
-!     nchartitle
-#include "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

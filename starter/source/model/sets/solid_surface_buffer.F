@@ -37,6 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SETDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,7 +52,7 @@ C-----------------------------------------------
      .        KNOD2ELS(*),NOD2ELS(*),KNOD2ELC(*),NOD2ELC(*),
      .        KNOD2ELTG(*),NOD2ELTG(*),BUFTMPSURF(*),IPARTS(*),
      .        IPARTC(*),IPARTG(*)
-      CHARACTER KEYSET*ncharfield
+      CHARACTER(LEN=NCHARFIELD) :: KEYSET
 !
       TYPE (SET_) ::  CLAUSE
 C-----------------------------------------------

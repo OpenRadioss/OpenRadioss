@@ -48,6 +48,7 @@ C
         USE MESSAGE_MOD
         USE SUBMODEL_MOD
         USE HM_OPTION_READ_MOD
+        USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
         USE FORMAT_MOD , ONLY : FMW_I_A
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -80,7 +81,7 @@ C-----------------------------------------------
      .          OK,IGRS,NSU,K,L,JREC,CONT,IAD0,IADV,NTRI,
      .          IFITMP,IADFIN,NVAR,M,N,IAD1,IAD2,ISK,IPROC,
      .          IDSMAX,IDS
-        CHARACTER TITR*nchartitle
+        CHARACTER(LEN=NCHARTITLE)::TITR
         CHARACTER, DIMENSION(10) :: VAR
         LOGICAL, DIMENSION(:), ALLOCATABLE :: FOUND
         LOGICAL :: IS_AVAILABLE

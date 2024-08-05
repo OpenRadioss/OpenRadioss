@@ -84,6 +84,7 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE th_titles_mod
       USE write_thnms1_mod
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -140,8 +141,9 @@ C-----------------------------------------------
      .        OK,IGS,IGRS,NSU,K,L,CONT,IAD0,IADV,NTRI,NL,
      .        IFITMP,IADFIN,NUMEL,NV,NVAR,M,N,IAD2,IAD,NSNE,NNE,ISK,
      .        NVALL,TAGP,TAGS,IFIX_TMP,IBID,NIN
-      CHARACTER TITR*nchartitle,MESS*40,KEY*ncharline,COPT*ncharline,
-     .        TITR1*nchartitle
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARLINE) :: KEY,COPT
       INTEGER NVARN,NVARN1,NVARN1A,NVARN2,NVARNPINCH,NVARS,NVARC,NVART,NVARP,NVARR,NVARUR
       INTEGER NVARS1,NVARS2,NVARS3,NVARS4,NVARS5,NVARS6,NVARS7,NVARS8,NVARS9,NVARSNLOC
       INTEGER NVARNS,NVARSPH

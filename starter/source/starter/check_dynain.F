@@ -35,6 +35,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INOUTFILE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,9 +65,9 @@ C
       INTEGER WORK(70000)
       INTEGER ,  DIMENSION(:),ALLOCATABLE :: NELIDC ,NELIDTG,
      .        CLEFC ,CLEFTG ,INDXC ,INDXTG ,IDWARN ,NELIDCG ,NELIDTGG
-      my_real
-     .   T0,DT0
-      CHARACTER FILNAM*109, KEYA*80, KEYA2*80 ,CARTE*ncharline
+      my_real T0,DT0
+      CHARACTER FILNAM*109, KEYA*80, KEYA2*80
+      CHARACTER(LEN=NCHARLINE) ::CARTE
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=4096) :: TMP_NAME
 C-------------------------------------------------------------------------------
@@ -101,10 +102,8 @@ C
 C
 10     READ(71,'(A)',END=20) KEYA
 
-
         IF(KEYA(1:1)=='#')GOTO 10
         IF(KEYA(1:1)=='$')GOTO 10
-
 C
 C--     Check dynain file is requested --
         DYNAIN_CHECK = 1

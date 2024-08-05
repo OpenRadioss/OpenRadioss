@@ -144,6 +144,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD
       USE MAT_ELEM_MOD
       USE DEFAULTS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -375,7 +376,7 @@ C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MY_ID, MY_PID, MY_MAT, MY_RBODY, MY_LOAD
-      CHARACTER *nchartitle TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
 C-----------------------------------------------

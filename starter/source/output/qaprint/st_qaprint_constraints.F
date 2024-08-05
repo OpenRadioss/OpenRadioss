@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE QA_OUT_MOD
       USE R2R_MOD
       USE BCS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -147,7 +148,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, MY_ID, MY_RBODY, MY_CONSTRAINT, MY_NODE, MY_RWALL, POSI(NRWALL+1),
      .        MY_MERGE, TNSL, K, NS, MY_FXBODY
-      CHARACTER *nchartitle TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
       INTEGER TEMP_INTEGER

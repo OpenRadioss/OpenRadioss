@@ -45,6 +45,7 @@ C-----------------------------------------------
         USE MESSAGE_MOD
         USE SUBMODEL_MOD
         USE HM_OPTION_READ_MOD
+        USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,8 +70,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N,TH_ID,PART_ID,NVAR,ITYP,NUMOBJ
-      CHARACTER KEY*ncharkey
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARKEY)::KEY
+      CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -161,6 +162,7 @@ C-----------------------------------------------
         USE SUBMODEL_MOD
         USE GROUPDEF_MOD
         USE HM_OPTION_READ_MOD
+        USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -185,8 +187,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N,TH_ID,SUBS_ID,NVAR,ITYP,NUMOBJ
-      CHARACTER TITR*nchartitle
-      CHARACTER KEY*ncharkey
+      CHARACTER(LEN=NCHARTITLE)::TITR
+      CHARACTER(LEN=NCHARKEY)::KEY
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

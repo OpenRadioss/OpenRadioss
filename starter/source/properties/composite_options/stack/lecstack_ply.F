@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -81,12 +82,13 @@ C-----------------------------------------------
       my_real GEO_STACK(NPROPG,NUMSTACK+NUMPLY), X(*), PM(NPROPM,NUMMAT),PLD(*),RTRANS(NTRANSF,*)
       TYPE(STACK_INFO_ ) , DIMENSION (1:NPROP_STACK) :: STACK_INFO
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      TYPE(DEFAULTS_)    , INTENT(IN)     :: DEFAULTS             
+      TYPE(DEFAULTS_)    , INTENT(IN)     :: DEFAULTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL lFOUND
-      CHARACTER IDTITL*nchartitle, MESS*40, TITR1*nchartitle
+      CHARACTER(LEN=NCHARTITLE) ::  IDTITL,TITR1
+      CHARACTER MESS*40
       INTEGER I, IG,IGTYP,J,IP,ISTRAIN,I8PT,ISK,ITU,IRB,IHON,IHBE,IPLAST,ITHK,K,N,IDS, IUNIT,UID,ISORTH
       INTEGER NSTACK,ISTACK,NUMS,IFLAGUNIT,JPID,N1,SUB_ID,PID1,JPID1,JPID2,NISUB,II,IPOS
       my_real ANGL,RBID,FAC_L,ZSHIFT

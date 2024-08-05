@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,7 +95,9 @@ C-----------------------------------------------
       my_real :: XSCALE1_UNIT,XSCALE2_UNIT,NN(3),NORM,N1(3),N2(3),N3(3),SCAL,ALEA_MAX,TOLE_2,NORMJ
       my_real :: DIST_MIN,VECT(3),VECTJ(3)
       my_real , DIMENSION(:), ALLOCATABLE:: DIST
-      CHARACTER             :: TITR*nchartitle,KEY*ncharkey,MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      CHARACTER MESS*40
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 !
       LOGICAL :: IS_AVAILABLE

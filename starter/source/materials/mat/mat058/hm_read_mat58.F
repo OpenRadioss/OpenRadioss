@@ -46,7 +46,8 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -72,7 +73,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN)    :: MAT_ID,MAXFUNC
-      CHARACTER*nchartitle ,INTENT(IN)             :: TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)             :: TITR
       INTEGER, INTENT(INOUT)                       :: NUVAR,NFUNC
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT) :: IFUNC
       my_real, DIMENSION(100)       ,INTENT(INOUT) :: PARMAT

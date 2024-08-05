@@ -78,7 +78,11 @@ C
       INTEGER FUNCTION NINTLST (LIST,NLIST,IX,NIX,NUMEL,MESS,
      .                          IX1,IX2,INDEX,KK,
      .                          TYPE,ID,TITR)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C      FONCTION DONNE N0 SYSTEME D'UNE LISTE D'ELEMENTS USER
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -95,8 +99,7 @@ C-----------------------------------------------
       CHARACTER MESS*40
       INTEGER LIST(*),IX(NIX,*),INDEX(*),IX1(*),IX2(*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TYPE,TITR
+      CHARACTER(LEN=NCHARTITLE) :: TYPE,TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -324,6 +327,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE HM_CURRENT_OPTION_MOD
+            USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -340,7 +344,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, ID
-      CHARACTER KEY*ncharkey,TITR*nchartitle
+      CHARACTER(LEN=NCHARKEY) ::  KEY
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C----------------------------------------------- 
@@ -793,6 +798,7 @@ C
       INTEGER FUNCTION NINTLSTN(LIST,NLIST,IXX_S,NIX,NUMEL,MESS,
      .                          IXX_S_IND,INDEX,TYPE,ID,TITR)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C      FONCTION DONNE N0 SYSTEME D'UNE LISTE D'ELEMENTS USER
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -805,8 +811,7 @@ C-----------------------------------------------
       CHARACTER MESS*40
       INTEGER LIST(*),IXX_S(*),INDEX(*),IXX_S_IND(*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER TYPE*4
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

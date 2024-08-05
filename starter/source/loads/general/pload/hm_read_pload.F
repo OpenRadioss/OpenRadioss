@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE PINCHTYPE_MOD
       USE LOADS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,9 +83,9 @@ C-----------------------------------------------
      .        IAD,ID,J,UID,IFLAGUNIT,IFIX_TMP,
      .        CAPT,H,SUB_INDEX,FLAG_PINCH,KPINCH,IDEL,IFUNCTYPE
       INTEGER N1,N2,N3,N4
-      my_real
-     .   FCX,FCY,FAC_FCX,FAC_FCY
-      CHARACTER MESS*40,TITR*nchartitle
+      my_real FCX,FCY,FAC_FCX,FAC_FCY
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

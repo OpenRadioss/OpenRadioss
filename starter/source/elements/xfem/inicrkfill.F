@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE XFEM2DEF_MOD
       USE ELBUFDEF_MOD
       USE OPTIONDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,7 +76,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:)   ,ALLOCATABLE :: NTAG
       INTEGER, DIMENSION(:)   ,ALLOCATABLE :: KNOD2ELC,TAGEDGE
       my_real ,DIMENSION(:)   ,ALLOCATABLE :: RATIOLS
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C=======================================================================
       ALLOCATE(KNOD2ELC(NUMNOD+1))
       ALLOCATE(TAGSKYC(4,NUMELC))

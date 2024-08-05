@@ -59,6 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1      LC2    ,LC3    ,LC4,S   ,T         ,
      2      ILEV)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C============================================================================
 C  cette routine est appelee par : I2BUC1(/inter3d1/i2buc1.F)
 C----------------------------------------------------------------------------
@@ -98,8 +99,7 @@ C     REAL
      .   MAXBOX,MINBOX, XMAX, YMAX, ZMAX,THK(*),THK_PART(*),GEO(*),
      .   PM(*),DSEARCH,PM_STACK(*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: PROV_N,PROV_E,NSVG
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: N11,N12,N13

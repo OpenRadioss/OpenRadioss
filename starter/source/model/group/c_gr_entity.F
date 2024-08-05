@@ -49,7 +49,6 @@ C-----------------------------------------------
      .        R2R_SHARE,L_GROUP,ENTITY,
      .       NENTITY_L(NGR)
       CHARACTER TITR*40
-!      CHARACTER TITR*nchartitle
 C-----------------------------------------------
 !
       L_GROUP = 0
@@ -129,7 +128,7 @@ C-----------------------------------------------
       INTEGER I,J,ID,IGU,NENTITY,GRTYPE,TRI,GRPGRP,LEVEL,R2R_ALL,
      .        R2R_SHARE,L_GROUP,ERR,ITITLE(40),ENTITY,NENTITY_L
       CHARACTER TITR*40
-!      CHARACTER TITR*nchartitle
+!      CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER LTITR
 C-----------------------------------------------
 !
@@ -233,7 +232,7 @@ C-----------------------------------------------
       my_real
      .        CODE
       CHARACTER TITR*40
-!      CHARACTER TITR*nchartitle
+!      CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
       L_GROUP = 0
 !

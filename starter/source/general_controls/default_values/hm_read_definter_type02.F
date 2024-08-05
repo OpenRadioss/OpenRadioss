@@ -40,6 +40,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,9 +62,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  IGNORE,ILEV,IBUC,IDEL2,
-     .   IGSTI,IPRINT,IASSIGN
-      CHARACTER OPT*ncharkey,KEY*ncharkey,KEY1*ncharkey
+      INTEGER  IGNORE,ILEV,IBUC,IDEL2,IGSTI,IPRINT,IASSIGN
+      CHARACTER(LEN=NCHARKEY) :: OPT,KEY,KEY1
       LOGICAL IS_AVAILABLE
 C============================================================================
 C       READING DEFAULT VALUES INTERFACE TYPE02 (/DEFAULT/INTER/TYPE02)

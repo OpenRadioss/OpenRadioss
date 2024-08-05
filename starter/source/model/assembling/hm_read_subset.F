@@ -93,7 +93,8 @@ C-----------------------------------------------
       INTEGER J10(10)
       INTEGER, DIMENSION(NPART+NSUBS) :: BUFTMP
       my_real BID
-      CHARACTER TITR*nchartitle,MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER MESS*40
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -395,6 +396,7 @@ c
       SUBROUTINE ECRSUB2(SUBSET,NSUBS,ISU,IPART,NIVMAX)
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -415,7 +417,7 @@ C-----------------------------------------------
       INTEGER I,K,K2,L,LL,NP,IP,ID,NIVEAU,NIVMAX,TITLEN
       INTEGER CNT(0:33)
       CHARACTER LIGNE*132,LIGN2*132,BAR(33)*10,BLI*21
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
       DATA BAR /33*'|         '/
       DATA BLI /'|____________________'/
       DATA CNT /34*0/

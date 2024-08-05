@@ -68,6 +68,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD          
       USE HM_OPTION_READ_MOD 
       USE TABLE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,7 +95,7 @@ C-----------------------------------------------
       my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)  :: IFUNC
       INTEGER, DIMENSION(MAXTABL)   ,INTENT(INOUT)  :: ITABLE
-      CHARACTER*nchartitle,INTENT(IN) :: TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       TYPE (SUBMODEL_DATA),INTENT(IN)      :: LSUBMODEL(*)
       TYPE (MLAW_TAG_)    ,INTENT(INOUT)   :: MTAG

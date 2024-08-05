@@ -45,6 +45,7 @@ C-----------------------------------------------
         USE R2R_MOD
         USE SUBMODEL_MOD
         USE HM_OPTION_READ_MOD
+        USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +64,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,NUSER,N,RLEN,STAT,DEB,K,FLAG_FMT,ID,NEL
-        CHARACTER KEY*ncharkey,LOCNAME*nchartitle,TITR*nchartitle
+        CHARACTER(LEN=NCHARKEY)::KEY
+        CHARACTER(LEN=NCHARTITLE)::LOCNAME,TITR
         LOGICAL IS_AVAILABLE
 C=======================================================================
 C

@@ -34,6 +34,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SETDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,7 +47,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGS,SET_ID,ISET_TYPE
-      CHARACTER SET_TITLE*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::SET_TITLE
 C-----------------------------------------------
       TYPE (SET_), DIMENSION(NSETS)   :: SET
 C-----------------------------------------------

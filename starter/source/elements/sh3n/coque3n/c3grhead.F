@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE DRAPE_MOD
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -96,7 +97,6 @@ C-----------------------------------------------
      .    SH3TREE(KSH3TREE,*), NOD2ELTG(*), SH3TRIM(*),
      .    TAGPRT_SMS(*),IWORKSH(3,*)
       INTEGER , DIMENSION(NUMELTG) , INTENT(INOUT):: PTSH3N
-C     REAL OU REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*), XNUM(*), THK(*), RNOISE(NPERTURB,*),
      .    SH3ANG(*)
@@ -129,8 +129,7 @@ C-----------------------------------------------
      .   NB_LAW58,IPMAT,IPERT,STAT,IALEL, MT,NSLICE,KK,NPT_DRP,IE,
      .   IE0
 C     REAL OU REAL*8
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2, INUM_PTSH3N
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: INUM_WORKSH ! 3,NUMELTG

@@ -59,6 +59,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE MONVOL_STRUCT_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,12 +93,10 @@ C-----------------------------------------------
       INTEGER I
       INTEGER J, IEL, IBID
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGVENT,TMP
-      CHARACTER(LEN=nchartitle) :: TITR
+      CHARACTER(len=nchartitle) :: TITR
       INTEGER, DIMENSION(:), ALLOCATABLE :: MINUS_SIGN_REVERSE
-C
-      my_real DIRX,DIRY,DIRZ,DIR2X,DIR2Y,DIR2Z,
-     .        ORIGX,ORIGY,ORIGZ,
-     .        LX,LY,LZ
+
+      my_real DIRX,DIRY,DIRZ,DIR2X,DIR2Y,DIR2Z,ORIGX,ORIGY,ORIGZ,LX,LY,LZ
       my_real X(3,NB_NODE)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       PFLAG = 0

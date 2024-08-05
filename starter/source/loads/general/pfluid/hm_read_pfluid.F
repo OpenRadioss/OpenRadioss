@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE SENSOR_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,9 +86,9 @@ C-----------------------------------------------
      .        FUN_HSP,FUN_CX,FUN_VEL,IFRA1,IFRA2,ICFIELD8,ICFIELD12,ICFIELD9,ICFIELD13,
      .        NCUR_HSP,NCUR_VEL,NCUR_CX,
      .        H, CAPT
-      CHARACTER MESS*40, XYZ*ncharfield, XYZ1*ncharfield,
-     .          char_X*1, char_Y*1, char_Z*1, char_XX*2, char_YY*2, char_ZZ*2
-      CHARACTER TITR*nchartitle
+      CHARACTER MESS*40,char_X*1, char_Y*1, char_Z*1, char_XX*2, char_YY*2, char_ZZ*2
+      CHARACTER(LEN=NCHARFIELD) :: XYZ, XYZ1
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 
       DATA char_X/'X'/

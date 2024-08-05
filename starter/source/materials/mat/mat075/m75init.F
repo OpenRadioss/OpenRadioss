@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2      TF     , UPARAM , RHO0    , VOLUME , EINT   ,UVAR   ,
      3      PM     ,ID       ,TITR) 
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -74,8 +75,7 @@ C----------------------------------------------------------------
      .      UPARAM(NUPARAM), RHO0(NEL), VOLUME(NEL), EINT(NEL),
      .      PM(NPROPM,*)                
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------

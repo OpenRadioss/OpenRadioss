@@ -42,10 +42,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       MODULE INIVOL_DEF_MOD
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE NAMES_AND_TITLES_MOD , ONLY : nchartitle
+C-----------------------------------------------
 C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
@@ -64,13 +67,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 
         TYPE INIVOL_STRUCT_
-          CHARACTER :: TITLE*nchartitle
-          INTEGER   :: ID
-          INTEGER   :: PART_ID
-          INTEGER   :: SIZE
-          INTEGER   :: NUM_CONTAINER
-          LOGICAL   :: REQUIRED_MONTE_CARLO_METHOD   !set to true if at least one container is using this method
-          LOGICAL   :: REQUIRED_2D_POLYGON_CLIPPING  !set to true if at least one container is using this method
+          CHARACTER(len=nchartitle) :: TITLE
+          INTEGER :: ID
+          INTEGER :: PART_ID
+          INTEGER :: SIZE
+          INTEGER :: NUM_CONTAINER
+          LOGICAL :: REQUIRED_MONTE_CARLO_METHOD   !set to true if at least one container is using this method
+          LOGICAL :: REQUIRED_2D_POLYGON_CLIPPING  !set to true if at least one container is using this method
           TYPE (CONTAINER_) ,DIMENSION(:) ,ALLOCATABLE :: CONTAINER
         END TYPE INIVOL_STRUCT_
 

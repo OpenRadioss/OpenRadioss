@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -72,7 +73,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       my_real GEO(*),RTRANS(NTRANSF,*)
 
-      CHARACTER IDTITL*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::IDTITL
 
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(SHELL_DEFAULTS_), INTENT(IN)  :: DEFAULTS_SHELL
@@ -88,13 +89,12 @@ C-----------------------------------------------
       INTEGER ISH3N,ISROT,SUB_ID,IRP,IDSK,ISK,IUN,IPOS
       INTEGER    IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
      .           ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D
-      
+
       my_real
      .    ANGL,PUN,CVIS,RBID,VX,VY,VZ,
      .    PTHK, AN, PHI,ZSHIFT
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -117,14 +117,14 @@ C=======================================================================
         IS_ENCRYPTED = .FALSE.
         IS_AVAILABLE = .FALSE.
 
-        IHBE_D =  DEFAULTS_SHELL%ishell     
-        ISH3N_D=  DEFAULTS_SHELL%ish3n      
-        ISST_D =  DEFAULTS_SHELL%ismstr     
-        IPLA_D =  DEFAULTS_SHELL%iplas      
-        ITHK_D =  DEFAULTS_SHELL%ithick     
-        IDRIL_D=  DEFAULTS_SHELL%idrill 
-        ISHEA_D = 0  
-        NPTS_D = 0  
+        IHBE_D =  DEFAULTS_SHELL%ishell
+        ISH3N_D=  DEFAULTS_SHELL%ish3n
+        ISST_D =  DEFAULTS_SHELL%ismstr
+        IPLA_D =  DEFAULTS_SHELL%iplas
+        ITHK_D =  DEFAULTS_SHELL%ithick
+        IDRIL_D=  DEFAULTS_SHELL%idrill
+        ISHEA_D = 0
+        NPTS_D = 0
         ISTRA_D = 1
 C HIDDEN FLAGS
 C----------------------

@@ -71,6 +71,7 @@ C-----------------------------------------------
       USE SURF_MOD
       USE HM_OPTION_READ_MOD
       USE MAPPING_OPTION_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -117,10 +118,10 @@ C-----------------------------------------------
       my_real
      .        XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,BID,FAC_L,
      .        DIAM,XP1,YP1,ZP1,XP2,YP2,ZP2
-      CHARACTER TITR*nchartitle,KEY*ncharkey,MESS*40,KEY2*ncharkey
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1,STRING
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
+      CHARACTER MESS*40
       INTEGER, DIMENSION(:),ALLOCATABLE :: BUFBOX, BUFTMP, INDX,TAGT ,TAGP
-      CHARACTER*nchartitle,
-     .   TITR1,STRING
       LOGICAL :: FLAG_GRBRIC
       INTEGER :: MODE, NENTITY
       TYPE(PART_TYPE), DIMENSION(:), ALLOCATABLE :: SURF_ELM

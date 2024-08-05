@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,8 +101,7 @@ C     REAL
       INTEGER, DIMENSION(NUMELT), INTENT(IN) :: IPARTT
       INTEGER, DIMENSION(NUMELP), INTENT(IN) :: IPARTP
       INTEGER, DIMENSION(NUMELR), INTENT(IN) :: IPARTR
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       INTEGER  , INTENT(INOUT) :: IDEL_SOLID
       INTEGER  , INTENT(INOUT) :: IELEM_M(2,NRT+NRT_SH)
@@ -732,6 +732,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD
       USE MY_ALLOC_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -758,18 +759,15 @@ C-----------------------------------------------
      .   IGEO(NPROPGI,*),NRTT,IWORKSH(3,*),TAGPRT_FRIC(*),IPARTFRICS(*),
      .   IPARTFRICM(*) ,IPARTSM(*),INRTIE(*)
       INTEGER  , INTENT(IN) :: IVIS2
-C     REAL
       my_real
      .   STFAC, GAP,BGAPSMX,GAPS1 ,GAPS2,GAPMX ,GAPMN ,GAPSCALE
-C     REAL
       my_real
      .   X(3,*), STF(*), PM(NPROPM,*), GEO(NPROPG,*), STFN(*),
      .   MS(*),GAP_M(*),GAP_N(4,*),
      .   AREAS(*),THK(*),THK_PART(*),SLSFAC,DXM ,GAPMAX_M, FILLSOL(*),
      .   PM_STACK(20,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       INTEGER  , INTENT(INOUT) :: IELEM_M(2,NRTT)
       INTEGER  , INTENT(INOUT) :: IDEL_SOLID

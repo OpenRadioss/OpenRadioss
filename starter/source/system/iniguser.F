@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE INIGUSER(BUFGEO,IGEO,IPM,NPC)
       USE MESSAGE_MOD
       USE TABLE_GLOB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,8 +59,7 @@ C-----------------------------------------------
       INTEGER I,J, II, NJFUNC, ILAW,
      .        JFUNC, NUPARAM, NUVAR,IINU,JTAB
       INTEGER NJMAT, JMAT,NJPID,JPID,NJTAB
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C=======================================================================
       DO II=1,NUMGEO
         IGTYP = IGEO(11,II)

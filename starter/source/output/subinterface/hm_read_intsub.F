@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
       USE R2R_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,7 +80,10 @@ C-----------------------------------------------
       INTEGER UID,SUB_ID,ID1,ID2,ID3,INTSUB_TYP(NINTSUB),ISLIN1,ISLIN2,ISU1,ISU2,ISURF1,ISURF2,NFLAG,STAT
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_INTER,FLAG_INTER
       my_real BID
-      CHARACTER TITR*nchartitle,MESS*40,KEY*ncharline,KEY2*ncharfield,COPT*ncharline
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARLINE) :: KEY,COPT
+      CHARACTER(LEN=NCHARFIELD) :: KEY2
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       INTEGER :: II, NVAR, IDSMAX, NTHINTER,IVAR,NB,ID_TYPE19,OKSURF
       LOGICAL IS_AVAILABLE

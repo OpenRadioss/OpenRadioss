@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE LOADS_MOD
       USE TABLE_MOD
       USE SENSOR_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,7 +86,8 @@ C-----------------------------------------------
         INTEGER I,J,LOAD_ID,TABLE_ID,SURF_ID,SENS_ID,FRAME_ID,UID,ISENS,ISS,
      .          NOFRA,SUB_INDX,NSEG,ITABLE,STAT,NLOAD_CYL,IMOV
         my_real :: X_R,X_T,YFAC,FAC_R,FAC_T,FAC_P
-        CHARACTER MESS*40,TITR*nchartitle
+        CHARACTER MESS*40
+        CHARACTER(LEN=NCHARTITLE) :: TITR
         LOGICAL IS_AVAILABLE
         DATA MESS/'CYLINDRICAL PRESSURE LOADS DEFINITION   '/
 C-----------------------------------------------

@@ -40,6 +40,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C INITIALISE LES DIRECTIONS DE FISSURES
 C INITIALISE LES EPAISSEURS ET LES MATERIAUX DES COUCHES
@@ -66,7 +67,7 @@ C-----------------------------------------------
       INTEGER IPTHK,IPMAT,IPPOS,MID,MLN,IMID,IPID,PID
       INTEGER I,N,I1,I2,I3,J,IGTYP,II,L_DMG,ILAYER,IT,NPTT
       my_real THKL,POS0,DP
-      CHARACTER*nchartitle, TITR,TITR1
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       my_real, DIMENSION(:), POINTER :: DIR_DMG
 C
       TYPE(BUF_LAY_) ,POINTER :: BUFLY

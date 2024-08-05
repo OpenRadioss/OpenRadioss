@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE STACK_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -77,7 +78,7 @@ C-----------------------------------------------
       INTEGER :: ISKN(LISKN,*)
       my_real, INTENT(INOUT) :: GEO(NPROPG)
       my_real, INTENT(IN) ::  PM(NPROPM,*),RTRANS(NTRANSF,*)
-      CHARACTER(LEN = nchartitle) :: TITR
+      CHARACTER(LEN = NCHARTITLE) :: TITR
       TYPE (PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE (UNIT_TYPE_), INTENT(IN) :: UNITAB
       TYPE (SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -105,15 +106,15 @@ c
       CVIS    = ZERO
       IRP = 0
       IDSK = 0
-!      
-      IHBE_D =  DEFAULTS_SHELL%ishell     
-      ISH3N_D=  DEFAULTS_SHELL%ish3n      
-      ISST_D =  DEFAULTS_SHELL%ismstr     
-      IPLA_D =  DEFAULTS_SHELL%iplas      
-      ITHK_D =  DEFAULTS_SHELL%ithick     
-      IDRIL_D=  DEFAULTS_SHELL%idrill 
-      ISHEA_D = 0  
-      NPTS_D = 0  
+!
+      IHBE_D =  DEFAULTS_SHELL%ishell
+      ISH3N_D=  DEFAULTS_SHELL%ish3n
+      ISST_D =  DEFAULTS_SHELL%ismstr
+      IPLA_D =  DEFAULTS_SHELL%iplas
+      ITHK_D =  DEFAULTS_SHELL%ithick
+      IDRIL_D=  DEFAULTS_SHELL%idrill
+      ISHEA_D = 0
+      NPTS_D = 0
       ISTRA_D = 1
 c--------------------------------------------
 c     check encryption

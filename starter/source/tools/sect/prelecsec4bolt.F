@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,8 +78,9 @@ C-----------------------------------------------
      .   ID,UID,FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,L,ISTYP,
      .   FLAG_R2R,N1,N2,N3,POS_SEC_R2R,NSEG0,NSEG,
      .   COMPT,NG
-      CHARACTER TITR*nchartitle
-      CHARACTER KEY2*ncharkey,MESS*40   
+      CHARACTER(LEN=NCHARTITLE)::TITR
+      CHARACTER(LEN=NCHARKEY)::KEY2
+      CHARACTER MESS*40
       LOGICAL IS_AVAILABLE  
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

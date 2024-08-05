@@ -54,29 +54,25 @@ C     KEYWORD4        OPTIONAL : KEYWORD4 OF THE OPTION
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD       
+      USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE, NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(OUT) :: OPTION_ID,UNIT_ID
-      CHARACTER*(ncharkey),INTENT(OUT) :: KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4
-      CHARACTER*(nchartitle),INTENT(OUT) :: OPTION_TITR
-      OPTIONAL ::
-     .   OPTION_ID,UNIT_ID,KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4,OPTION_TITR
+      CHARACTER(len=ncharkey),INTENT(OUT) :: KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4
+      CHARACTER(len=nchartitle),INTENT(OUT) :: OPTION_TITR
+      OPTIONAL :: OPTION_ID,UNIT_ID,KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4,OPTION_TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,CPT,CPT1,CPT2,IOK,S_KEYWORD,S_TITR_TMP,
      .        TMP_OPTION_ID,TMP_UNIT_ID,TMP_SUBMODEL_INDEX,MY_POSITION
-      CHARACTER*ncharline KEYWORD,TITR_TMP
+      CHARACTER(LEN=NCHARLINE) :: KEYWORD,TITR_TMP
 C-----------------------------------------------
       KEYWORD=''
       TMP_OPTION_ID = 0

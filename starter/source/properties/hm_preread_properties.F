@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE DEFAULTS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD, NCHARKEY, NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,10 +78,11 @@ C-----------------------------------------------
       my_real
      .    FN, FT, DX, ANGL,PUN,HTEST,HCLOS,CVIS,RBID,VX,VY,VZ,
      .    KNOT1,KNOT2,KNOT3,R5(5),DN
-      CHARACTER IDTITL*nchartitle,MESS*40,KEY*ncharline, 
-     .          STRING*ncharfield,CHROT*7,SOLVERKEYWORD*ncharline
-      INTEGER ISH3N,ITET4,IPLAS,NPT,ISROT,NP,LAMIN,NSUB_STACK,NISUB_STACK,
-     .        NPLY_STACK,NPLY_SUB,ITET4_D
+      CHARACTER(LEN=NCHARTITLE) :: IDTITL
+      CHARACTER(LEN=NCHARLINE) :: KEY, SOLVERKEYWORD
+      CHARACTER(LEN=NCHARFIELD) :: STRING
+      CHARACTER :: CHROT*7,MESS*40
+      INTEGER ISH3N,ITET4,IPLAS,NPT,ISROT,NP,LAMIN,NSUB_STACK,NISUB_STACK,NPLY_STACK,NPLY_SUB,ITET4_D
       LOGICAL IS_AVAILABLE
      
 !!      TYPE(STACK_INFO_ ) , DIMENSION(:), POINTER :: STACK_INFO

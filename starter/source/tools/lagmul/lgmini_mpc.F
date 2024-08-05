@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                      IBUFDL ,IBUFSK ,NC, MASS, INER, ITAB   ,
      .                      NOM_OPT)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C----------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,8 +60,7 @@ C-----------------------------------------------
       INTEGER I, J, IK, KF, NK, ISK, NN, NDL, NUMC
       my_real COEF
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C======================================================================|
       KF = 0
       DO I=1,NUMMPC

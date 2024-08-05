@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE ALE_MOD
       USE INTERFACES_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------      
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -136,7 +137,7 @@ C-----------------------------------------------
       INTEGER KD(50),JD(50),IBID,NRTM_SH,ETYP,INTPLY
       INTEGER, DIMENSION(:), ALLOCATABLE :: IRECTS,IRECTM,NSV,MSR
       INTEGER ID,ISL, GRBRIC_ID
-      CHARACTER*nchartitle :: TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       my_real RBID,AUTO_RHO,AUTO_LENGTH, STIFF_STAT(3)
 
       INTEGER, DIMENSION(:), ALLOCATABLE, TARGET ::  NTAG_TARGET

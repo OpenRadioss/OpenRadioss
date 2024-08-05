@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE SENSOR_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE, NCHARKEY
       USE FORMAT_MOD ,ONLY :  FMT_F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -85,7 +86,7 @@ C-----------------------------------------------
       CHARACTER(LEN=4096) :: SCR_FILE_NAME
       INTEGER SCR_FILE_NAME_LEN
 !
-      CHARACTER IUSER_KEY*ncharline
+      CHARACTER(LEN=NCHARLINE) :: IUSER_KEY
       CHARACTER OPTION*256
       INTEGER SIZE
 C=======================================================================

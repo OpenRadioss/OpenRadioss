@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -91,7 +92,9 @@ C-----------------------------------------------
      .        IC,IC1,IC2,IROT,ISKS,IADS,IERR1,NC,ID,IDIR,
      .        IKINE1(3*NUMNOD),IRAD,NRB,ICP,IER,NMOVE,SUB_INDEX
       INTEGER, DIMENSION(NUMNOD) :: ITAGM,ITAGIC
-      CHARACTER TITR*nchartitle,KEY*ncharkey,MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      CHARACTER :: MESS*40
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -330,6 +333,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -351,7 +355,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,IGU,IGS,NI,NN,NJ,JJ, NUSER, NUM,NRB
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER NGR2USRN,ISK
       LOGICAL IS_AVAILABLE
 C========================================================================|
@@ -721,6 +725,7 @@ C
      .                   YGT    ,ZGT   ,B1    ,B2   ,B3    ,
      .                   B5    ,B6    ,B9     ,NOM_OPT,ITAGND )
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -747,10 +752,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J ,N, K, NSL,M, NC,NS,ICT,ICR,IC,IAD,ID,J6(6),IRAD
 C
-      my_real
-     .     XX, XY, XZ, YY, YZ, ZZ,IXX,IYY,IZZ,DD,MASRB,INRB,INS,INS0
-      CHARACTER*nchartitle,
-     .   TITR
+      my_real XX, XY, XZ, YY, YZ, ZZ,IXX,IYY,IZZ,DD,MASRB,INRB,INS,INS0
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C========================================================================|
       CALL RBE2_MERGE(IRBE2  ,LRBE2  )
       CALL REORBE2(IRBE2  ,LRBE2  ,NC )
@@ -1000,6 +1003,7 @@ C   M o d u l e s
 C-----------------------------------------------  
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1019,7 +1023,8 @@ C-----------------------------------------------
       INTEGER I, N, K, NSL, NSLT, ITYP, NUSER,  NM,M, NI,
      .        ISK, ISENS, INGU, IGM, J, P,IAD,NS,NN,J6(6),JJ,II,
      .        IC,IC1,IC2,IROT,ISKS,IADS,IERR1,NC,ID,IRAD
-      CHARACTER TITR*nchartitle,KEY*ncharkey
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -1182,6 +1187,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-------------------------------------
 C    PRE LECTURE STRUCTURE RIGIDES POUR OPTIMIZATION
 C-----------------------------------------------
@@ -1206,7 +1212,8 @@ C-----------------------------------------------
       INTEGER NR, IDUM, I, L, ISENS, IGS,NSN,IAD,II,NALL,
      .        IGU,ID,ILAGM,ISU,UID,IRBYON,
      .        ITAG(NUMNOD),NN,NM, NUSER, NUM,M,J6(6),IC
-      CHARACTER TITR*nchartitle,MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER :: MESS*40
       INTEGER NGR2USRN
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------

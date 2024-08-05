@@ -41,6 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SURF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +57,7 @@ C-----------------------------------------------
      .        KNOD2ELC(*),NOD2ELC(*),KNOD2ELTG(*),NOD2ELTG(*),
      .        IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),IPARTTG(*)
       INTEGER IEXT,NSEG,FLAG,IFRE,NSEG0
-      CHARACTER KEY*ncharkey
+      CHARACTER(LEN=NCHARKEY) :: KEY
       INTEGER :: NINDX, NINDX_SOL, NINDX_SOL10
       INTEGER, DIMENSION(*) :: INDX,INDX_SOL, INDX_SOL10
       TYPE(PART_TYPE), DIMENSION(*) :: SURF_ELM

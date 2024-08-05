@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,8 +83,8 @@ C-----------------------------------------------
       my_real              :: XC, YC, ZC, ALT, XC1, YC1, ZC1, XC2, YC2, ZC2, NX, NY, NZ, BID, VCJ
       CHARACTER*40         :: MESS
       CHARACTER*64         :: chain1,chain2
-      CHARACTER*ncharkey   :: KEY, KEY2
-      CHARACTER*nchartitle :: TITR
+      CHARACTER(LEN=NCHARKEY)   :: KEY, KEY2
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL              :: IS_ENCRYPTED, IS_AVAILABLE
       LOGICAL              :: IS_NODE_DEFINED
       INTEGER              :: NDETPS,NDETSG,NECRAN,NDETPL,NDETCORD

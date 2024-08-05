@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +77,8 @@ C-----------------------------------------------
       INTEGER :: IPYTHON ! is it a FUNCT_PYTHON
       my_real TIME, FUNCT, BID, F5(5)
       my_real XSCALE,YSCALE,XSHIFT,YSHIFT
-      CHARACTER TITR*nchartitle,MESS*40,KEY*20
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER MESS*40,KEY*20
       DATA MESS/' FUNCTION & TABLES DEFINITION           '/
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
       INTEGER :: NB_FUNCT, NB_FUNCT_SMOOTH, IPT, NPT

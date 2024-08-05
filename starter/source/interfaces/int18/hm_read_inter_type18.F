@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE UNITAB_MOD
       USE MULTI_FVM_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +69,7 @@ C-----------------------------------------------
       INTEGER ISU1,ISU2,IS1,IS2,NI,NOINT
       INTEGER IPARI(NPARI)
       my_real FRIGAP(*),FRIC_P(*),STFAC,XFILTR
-      CHARACTER,INTENT(IN) :: TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE),INTENT(IN) :: TITR
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
 C-----------------------------------------------
       TYPE(GROUP_),TARGET, DIMENSION(NGRNOD) :: IGRNOD
@@ -90,7 +91,8 @@ C-----------------------------------------------
       INTEGER GRBRIC_ID,GRQUAD_ID,GRTRIA_ID,IBAG,IDEL7N,IGAP,IGAP0,IDUM,NTYP,INACTI,
      .        IDELKEEP,ISU1_user,ISU2_user,ISU3_user,ISTIFF
       my_real GAP,STARTT,STOPT,BUMULT,VISC,FRIC,VREF,SCALE
-      CHARACTER MESS*40, MSGTITL*nchartitle
+      CHARACTER(LEN=40)::MESS
+      CHARACTER(LEN=NCHARTITLE)::MSGTITL
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       INTEGER,EXTERNAL :: NGR2USR
       LOGICAL :: IS_AVAILABLE,

@@ -45,7 +45,8 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,13 +60,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER            ,INTENT(IN) :: FAIL_ID       ! failure model ID
-      INTEGER            ,INTENT(IN) :: MAT_ID        ! material law ID
-      INTEGER            ,INTENT(IN) :: IRUPT         ! failure model number
-      CHARACTER          ,INTENT(IN) :: TITR*nchartitle
-      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
-      TYPE (FAIL_PARAM_) ,INTENT(INOUT) :: FAIL
+      INTEGER            ,INTENT(IN)       :: FAIL_ID       ! failure model ID
+      INTEGER            ,INTENT(IN)       :: MAT_ID        ! material law ID
+      INTEGER            ,INTENT(IN)       :: IRUPT         ! failure model number
+      CHARACTER(LEN=NCHARTITLE),INTENT(IN) :: TITR
+      TYPE(UNIT_TYPE_)   ,INTENT(IN)       :: UNITAB        ! table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN)       :: LSUBMODEL(*)
+      TYPE (FAIL_PARAM_) ,INTENT(INOUT)    :: FAIL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

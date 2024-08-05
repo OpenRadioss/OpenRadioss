@@ -47,6 +47,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,8 +75,7 @@ C-----------------------------------------------
       INTEGER ID
       my_real
      .   X(3,*), EDG_COS
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER  , INTENT(IN) :: IDEL_SOLID         ! solid erosion
       INTEGER  , INTENT(IN) :: IELEM_M(2,NRTM)    ! elements connected to the segment ( espacially solid)
 C-----------------------------------------------

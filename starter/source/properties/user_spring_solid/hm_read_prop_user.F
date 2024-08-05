@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE ELBUFTAG_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,11 +93,11 @@ C-----------------------------------------------
       my_real, DIMENSION(4) :: UNITAB_SUB
       LOGICAL :: IS_AVAILABLE
       INTEGER J,NLINES
-      CHARACTER(LEN=ncharline) :: RLINE
+      CHARACTER(LEN=NCHARLINE) :: RLINE
       CHARACTER (LEN=4) :: CSPRI
       CHARACTER(LEN=4096) :: SCR_FILE_NAME
       INTEGER SCR_FILE_NAME_LEN
-      CHARACTER IUSER_KEY*ncharline
+      CHARACTER(LEN=NCHARLINE) :: IUSER_KEY
 !
       CHARACTER OPTION*256
       INTEGER SIZE

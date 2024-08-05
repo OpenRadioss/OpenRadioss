@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE SENSOR_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,7 +65,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
       INTEGER ,DIMENSION(LISKN,SISKWN) ,INTENT(IN)  :: ISKN
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)                :: TITR
       TYPE (SENSOR_STR_)   ,INTENT(OUT)        :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (SUBSET_)       ,DIMENSION(NSUBS)   :: SUBSET
@@ -76,7 +77,7 @@ C-----------------------------------------------
      .   NPARIS,NPARRS,NVAR
       my_real :: TDEL,TMIN,NIJMAX,FTENS,FCOMP,MFLEX,MEXT,ALPHA,CFC,
      .           FAC_FORC,FAC_MOM
-      CHARACTER F_DIR*ncharfield, M_DIR*ncharfield
+      CHARACTER(LEN=NCHARFIELD) :: F_DIR, M_DIR
       LOGICAL :: IS_AVAILABLE
 c--------------------------------
 c     SENSOR BASED ON NECK INJURY CRITERION FOR SAFETY

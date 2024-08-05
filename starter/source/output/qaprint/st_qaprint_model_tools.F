@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE FUNC2D_MOD
       USE SUBMODEL_MOD , ONLY : NSUBMOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,8 +72,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ISKWN(LISKN,*)
       my_real, INTENT(IN) :: SKEW(LSKEW,*)
       my_real, INTENT(IN) :: XFRAME(NXFRAME,*)
-      my_real, INTENT(IN) ::
-     .                        PLD(*)
+      my_real, INTENT(IN) :: PLD(*)
       INTEGER, INTENT(IN) :: IACTIV(LACTIV,*)
       my_real, INTENT(IN) :: FACTIV(LRACTIV,*)
       TYPE(TTABLE) TABLE(*)

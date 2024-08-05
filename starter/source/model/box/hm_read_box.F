@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE OPTIONDEF_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +79,7 @@ C-----------------------------------------------
       INTEGER :: IWORK(70000)
       INTEGER INDEX(NBBOX*3),IX1(NBBOX),IX2(NBBOX)
       INTEGER, DIMENSION(:)   ,ALLOCATABLE :: BUFTMP,IBOXTMP
-      CHARACTER(ncharkey)    :: KEY,KEY2
+      CHARACTER(LEN=NCHARKEY)    :: KEY,KEY2
       CHARACTER(nchartitle)  :: TITR,MESS
       LOGICAL :: IS_AVAILABLE
 c

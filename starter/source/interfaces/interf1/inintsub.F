@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD  
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,8 +77,7 @@ C-----------------------------------------------
      .   NEXT, IM, KM, JAD, IN, II, N,STAT,K1,K2,NT19,INOD
       CHARACTER MESS*40
       INTEGER ID,ID1
-      CHARACTER*nchartitle,
-     .   TITR,TITR1
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF

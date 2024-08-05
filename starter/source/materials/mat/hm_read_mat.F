@@ -185,6 +185,7 @@ C-----------------------------------------------
       USE HM_READ_MAT169_ARUP_MOD
       USE HM_READ_MAT125_MOD
       USE HM_READ_MAT126_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : nchartitle, ncharline
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -225,11 +226,14 @@ C-----------------------------------------------
       PARAMETER (MAXUPARAM = 1048576) 
       PARAMETER (MAXFUNC  = 128, MAXTABL = 9)
       my_real :: RHO,RHO0,RHOR,YOUNG,NU,C1,G,SSP,ASRATE,RBID,RHO_MAX
-      INTEGER ,DIMENSION(MAXFUNC)  :: IFUNC
-      INTEGER ,DIMENSION(MAXTABL)  :: ITABLE
+      INTEGER ,DIMENSION(MAXFUNC) :: IFUNC
+      INTEGER ,DIMENSION(MAXTABL) :: ITABLE
       my_real ,DIMENSION(:), ALLOCATABLE :: UPARAM
-      my_real ,DIMENSION(128)      :: PARMAT   
-      CHARACTER TITR*nchartitle,KEY*ncharline,SOLVERKEYWORD*ncharline,MESS*40
+      my_real ,DIMENSION(128) :: PARMAT
+      CHARACTER(LEN=nchartitle) :: TITR
+      CHARACTER(LEN=ncharline) :: KEY
+      CHARACTER(LEN=ncharline) :: SOLVERKEYWORD
+      CHARACTER MESS*40
       CHARACTER(LEN = ncharline) :: KEY2
 C
       TYPE(ULAWBUF) :: USERBUF

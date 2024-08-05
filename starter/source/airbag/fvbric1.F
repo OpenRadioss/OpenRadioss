@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   ELTG , X     , TITR, NB_NODE)
       USE MESSAGE_MOD
       USE MONVOL_STRUCT_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,10 +62,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(2, NBRIC), INTENT(IN) :: TBRIC
       INTEGER, DIMENSION(12, NBRIC), INTENT(INOUT) :: TFAC
       INTEGER, DIMENSION(NEL + NELI), INTENT(IN) :: ELTG
-      my_real
-     .        X(3,*)
-      CHARACTER*nchartitle,
-     .        TITR
+      my_real X(3,*)
+      CHARACTER(len=nchartitle) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

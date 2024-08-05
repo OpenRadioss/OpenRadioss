@@ -59,6 +59,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD      
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -109,8 +110,7 @@ C-----------------------------------------------
      .        IPROP(MVSIZ) ,IMAT(MVSIZ) ,SID(MVSIZ),
      .        NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
-      CHARACTER*nchartitle,
-     .   TITR1
+      CHARACTER(LEN=NCHARTITLE)::TITR1
       CHARACTER*50 OPTION
       my_real
      .   BID, FV, V8LOC(51,MVSIZ), VOLU(MVSIZ), DTX(MVSIZ),

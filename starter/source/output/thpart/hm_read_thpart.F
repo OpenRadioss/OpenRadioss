@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,10 +79,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER PID,MID,SID,ID,I,IMID,IPID,ISID,K,ITH,IGTYP,N,GR,IGR
-      CHARACTER TITR*nchartitle,MESS*40,TYP*6
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      CHARACTER MESS*40,TYP*6
       INTEGER IDS, CNT, FLAG_FMT, FLAG_FMT_TMP, IFIX_TMP,NGROU,ITYP
-      CHARACTER*nchartitle,TITR1
-      CHARACTER*ncharkey KEY
+      CHARACTER(LEN=NCHARKEY) :: KEY
       LOGICAL IS_ENCRYPTED,IS_AVAILABLE,IS_FOUND_SURF
       my_real BID
 C-----------------------------------------------

@@ -35,6 +35,7 @@ C
      1                  IRTL ,CST   ,IRTL0,GAP  ,NSN  ,
      2                  ITAB ,IWPENE,ID,TITR)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_7I, FMW_7I_2F, FMW_I_3F
 C
 C-----------------------------------------------
@@ -55,7 +56,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), IRTL0(*),ITAB(*)
       my_real X(3,*), CST(2,*)
       INTEGER ID
-      CHARACTER*nchartitle,TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

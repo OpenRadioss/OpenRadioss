@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C----------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -69,12 +70,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ID,
-     .  N,IP,I,J,INILEV,NPART_ADM,ID_IP
-C     REAL
-      my_real
-     .  ANGL,ANGLDEGR,THKERR
-      CHARACTER MESS*40,TITR*nchartitle,KEY*ncharkey,KEY2*ncharkey
+      INTEGER ID, N,IP,I,J,INILEV,NPART_ADM,ID_IP
+      my_real ANGL,ANGLDEGR,THKERR
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
 
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------

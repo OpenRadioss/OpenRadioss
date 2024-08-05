@@ -39,7 +39,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6         Y0       ,Z0     ,XN1    ,YN1    ,ZN1    ,
      7         XN2      ,YN2    ,ZN2    ,XN3    ,YN3    ,
      8         ZN3      ,XN4    ,YN4    ,ZN4      )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,8 +63,7 @@ C-----------------------------------------------
       my_real
      .        X(3,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(OUT) :: IX1,IX2,IX3,IX4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4

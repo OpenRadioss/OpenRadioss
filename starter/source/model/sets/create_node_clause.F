@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
       USE OPTIONDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD, NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +72,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "nchar_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -80,9 +80,9 @@ C-----------------------------------------------
       INTEGER JCLAUSE,OPT_G,OPT_B
       LOGICAL :: IS_AVAILABLE
       INTEGER, INTENT(IN), DIMENSION(NUMNOD,2) :: ITABM1
-      my_real
-     .        X(3,*),SKEW(LSKEW,*)
-      CHARACTER KEYSET*ncharfield,SET_TITLE*nchartitle
+      my_real X(3,*),SKEW(LSKEW,*)
+      CHARACTER(LEN=NCHARFIELD) :: KEYSET
+      CHARACTER(LEN=NCHARTITLE) :: SET_TITLE
 C-----------------------------------------------
       TYPE (SET_) ::  CLAUSE
       TYPE(SUBMODEL_DATA),INTENT(IN):: LSUBMODEL(*)

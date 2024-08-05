@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
       USE JOINT_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,8 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LJOINT(*), ITABM1(*), IKINE(*),
-     .        ITAB(*)
+      INTEGER LJOINT(*), ITABM1(*), IKINE(*), ITAB(*)
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
       TYPE (GROUP_)  ,DIMENSION(NGRNOD)   :: IGRNOD
@@ -84,9 +84,9 @@ C-----------------------------------------------
       INTEGER K, I, NS, J, LJ, NU, IDIR,ID,N1,N2,IGU,IKINE1(3*NUMNOD),
      .        IFLAGUNIT,FLAG_FMT_TMP,IFIX_TMP,UID,NY,SUB_ID,
      .        IGS
-      my_real
-     .   BID 
-      CHARACTER MESS*40,TITR*nchartitle
+      my_real BID
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

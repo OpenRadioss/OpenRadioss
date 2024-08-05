@@ -103,6 +103,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE GROUPDEF_MOD
       USE INOUTFILE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -177,8 +178,9 @@ C
      .        CDG(3), WAFT(SWAFT), XMIN, YMIN, ZMIN, XMAX, YMAX, ZMAX,
      .        XNORM(SXNORM), XFUNC1(SFUNC1), MAS(SMAS), RID
       REAL    R4, WA4(SWA4)
-      CHARACTER  FILNAM*103, CHANIM*3, CHANIM1*4, TITL*nchartitle, CTMOD*100
+      CHARACTER FILNAM*103, CHANIM*3, CHANIM1*4,  CTMOD*100
       CHARACTER*80 STR
+      CHARACTER(LEN=NCHARTITLE) :: TITL
 Cf51e11 +2
       INTEGER OFF
       my_real

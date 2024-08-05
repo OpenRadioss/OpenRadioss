@@ -87,7 +87,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE OUTPUT_MOD
       USE MAT_ELEM_MOD
-      USE NAMES_AND_TITLES_MOD, only: NAMES_AND_TITLES_
+      USE NAMES_AND_TITLES_MOD, only: NAMES_AND_TITLES_, NCHARLINE
       USE DEFAULTS_MOD, only: DEFAULTS_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -158,7 +158,7 @@ C
       CHARACTER ALTDOCTAG*256,CHECKSUM*256
       CHARACTER*2048 FNAME,VAL
 C
-      CHARACTER*ncharline ERR_MSG  
+      CHARACTER(LEN=NCHARLINE) :: ERR_MSG
       CHARACTER(len=8)  :: STARTDATE
       CHARACTER(len=10) :: STARTTIME
       CHARACTER(len=2048) :: TMP_NAME 
@@ -173,7 +173,7 @@ C
       TYPE(OUTPUT_)                                   :: OUTPUT
 c      TYPE(SENSORS_) :: SENSORS    ! declared as global in USER_SENSOR_MOD
       TYPE(MAT_ELEM_)                                 :: MAT_ELEM
-      CHARACTER CWD*ncharline
+      CHARACTER(LEN=NCHARLINE) :: CWD
       CHARACTER GLOBAL_PATH*(ncharline+2048)
       INTEGER :: LEN_CWD
       INTEGER*4 GETCWD, STATUS_CWD

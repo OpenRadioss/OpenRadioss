@@ -57,6 +57,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -121,14 +122,12 @@ C-----------------------------------------------
      .        IRECT(4,*), VOXEL(NBX+2,NBY+2,NBZ+2),ISTF,
      .        I_STOK ,MULTIMP,PROV_N(*),PROV_E(*),J_STOK,
      .        INDEX(*),KREMNODE(*),REMNODE(*)
-C     REAL
       my_real
      .   X(3,*),XYZM(6,2),STF(*),STFN(*),GAP_S(*),GAP_M(*),
      .   TZINF,MARGE,GAP,GAPMIN,GAPMAX,BGAPSMX,DRAD,
      .   CURV_MAX(*),GAP_S_L(*),GAP_M_L(*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX11,IX12,IX13,IX14,NSVG
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4

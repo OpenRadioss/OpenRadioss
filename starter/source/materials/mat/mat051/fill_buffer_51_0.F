@@ -34,7 +34,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE MATPARAM_DEF_MOD      
+      USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -62,7 +63,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II,ILAW,IFORM,IADBUF,MAT_ID,NPAR
-      CHARACTER*nchartitle TITR     
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       my_real, DIMENSION(:), POINTER :: UPARAM       
 C-----------------------------------------------
 C   S o u r c e   L i n e s

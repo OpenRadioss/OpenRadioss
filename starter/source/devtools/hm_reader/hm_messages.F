@@ -47,11 +47,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,NBMESSAGES,MSG_ID,MSG_TYPE,LINE_NB
-      CHARACTER*ncharline FILE_NAME 
+      CHARACTER(LEN=NCHARLINE) :: FILE_NAME
       CHARACTER*1000 MSG_DESCR,MSG_BLOCK,MSG_LINE
       INTEGER  IS_READER_KO,FILE_END,NB_INCLUDE_DYNA
 C-----------------------------------------------

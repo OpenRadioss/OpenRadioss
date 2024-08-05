@@ -54,14 +54,11 @@ C-----------------------------------------------
       USE MESSAGE_MOD       
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -74,7 +71,7 @@ C-----------------------------------------------
       INTEGER I,J,ID,SUBMODEL_INDEX,OFFSET,NB_PART,
      .        NB_MAT,NB_MAT_119,MAT_ID,NB_SHELLS_PART
       INTEGER, DIMENSION(:), ALLOCATABLE :: PART_MAT119,MAT119_IDS
-      CHARACTER KEY*ncharline
+      CHARACTER(LEN=NCHARLINE) :: KEY
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
       NB_MAT_119 = 0

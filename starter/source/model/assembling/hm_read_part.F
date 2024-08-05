@@ -74,7 +74,8 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE ELBUFTAG_MOD 
       USE ALE_MOD
-      USE MAT_ELEM_MOD            
+      USE MAT_ELEM_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -110,7 +111,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER MESS*40
-      CHARACTER*nchartitle,TITR,TITR1,TITR2,LINE1
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1,TITR2,LINE1
       CHARACTER*5 CHAR_PROP,CHAR_MAT
       CHARACTER*7::CHAR_MAT_TYPE,CHAR_PROP_TYPE
       LOGICAL IS_AVAILABLE, USER_LAW, IS_ASSOCIATED_LAW51
@@ -527,6 +528,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD       
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -547,7 +549,7 @@ C-----------------------------------------------
       INTEGER PID,ID,I,IPID,UID,SUB_INDEX
       CHARACTER MESS*40
       INTEGER  IFIX_TMP
-      CHARACTER*nchartitle,TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------

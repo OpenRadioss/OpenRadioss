@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE STACK_MOD
       USE DRAPE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,7 +96,7 @@ C-----------------------------------------------
      . IE, IP,IPID_PLY,N3,N4
       my_real V(MVSIZ),E11,E12,E13,NE1,VX0,VY0,VZ0,
      .        XC(MVSIZ),YC(MVSIZ),ZC(MVSIZ)
-      CHARACTER*nchartitle, TITR1
+      CHARACTER(LEN=NCHARTITLE)::TITR1
       
       TYPE (DRAPE_PLY_)  , POINTER :: DRAPE_PLY 
 C=======================================================================

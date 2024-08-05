@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE SENSOR_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +59,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
       TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (UNIT_TYPE_)    ,INTENT(IN) :: UNITAB 
@@ -67,7 +68,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: SECT_ID,IDIR,NPARIS,NPARRS,NVAR,SENS_TYPE
       my_real :: TDEL,TMIN,FMIN,FMAX
-      CHARACTER DIR*ncharkey
+      CHARACTER(LEN=NCHARKEY) ::  DIR
       LOGICAL :: IS_AVAILABLE
 C--------------------------------
 C     SENSOR BASED ON SECTION FORCE

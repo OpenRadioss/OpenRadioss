@@ -39,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +69,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   XKM, XCM, XKR, XCR
-      CHARACTER  TITL*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITL
 C-----------------------------------------------------
 C     Check for springs with stiffness but no mass
 C-----------------------------------------------------

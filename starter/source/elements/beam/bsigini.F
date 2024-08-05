@@ -38,6 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,8 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGTYP,NEL,NSIGBEAM
       INTEGER PTBEAM(*),IXP(NIXP,*),IGEO(NPROPGI,*)
-      my_real
-     .   SIGBEAM(NSIGBEAM,*)
+      my_real SIGBEAM(NSIGBEAM,*)
 !
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C-----------------------------------------------
@@ -62,8 +62,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,II,JJ,IPT,IR,IS,PT,KK(3),ILAY,NPTI,PID,IPID
 !
-      CHARACTER*nchartitle,
-     .   TITR1
+      CHARACTER(LEN=NCHARTITLE)::TITR1
 !
       TYPE(G_BUFEL_),POINTER :: GBUF
       TYPE(L_BUFEL_),POINTER :: LBUF

@@ -48,7 +48,8 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
-      USE HM_OPTION_READ_MOD  
+      USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +77,9 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNOD
       INTEGER  I,IX(8),IE,J,IN,ID,IP,IR,NN,PARTID,UID,ITYP
       INTEGER  SUB_ID,MM, NEL
-      CHARACTER TITLE*ncharline,KEY1*ncharkey,KEY*ncharkey,MESS*40
+      CHARACTER(LEN=NCHARLINE) :: TITLE
+      CHARACTER(LEN=NCHARKEY) :: KEY1,KEY
+      CHARACTER MESS*40
       LOGICAL :: IS_AVAILABLE
       DATA MESS/'EREF ELEMENT REFERENCE GEOMETRY'/              
 C-----------------------------------------------

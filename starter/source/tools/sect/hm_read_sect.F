@@ -71,6 +71,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -131,8 +132,10 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGELEMS ! 1+NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG
       INTEGER, DIMENSION(:), ALLOCATABLE :: NODTAG ! NUMNOD
 
-      CHARACTER MESS*40,TITR*nchartitle,CHAR8*ncharline
-      CHARACTER KEY2*ncharfield
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARLINE) ::CHAR8
+      CHARACTER(LEN=NCHARFIELD) :: KEY2
       my_real BID, XM, YM, ZM, X1, Y1, Z1, X2, Y2, Z2, NORM
       my_real X3, Y3, Z3, N3, PNOR1, PNOR2, PNORM1, DET, DET1, DET2, DET3
       LOGICAL :: IS_AVAILABLE
@@ -962,6 +965,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -981,7 +985,7 @@ C-----------------------------------------------
       INTEGER I, TYPE, NBINTER
       LOGICAL IS_AVAILABLE
       INTEGER ID
-      CHARACTER*ncharline TITR
+      CHARACTER(LEN=NCHARLINE) :: TITR
 C-----------------------------------------------
 C   S o u r c e   F i l e s
 C-----------------------------------------------

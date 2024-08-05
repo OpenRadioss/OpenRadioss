@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE UNITAB_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------      
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,8 +89,7 @@ C-----------------------------------------------
      .      FLAGP ,FLAGGRP ,GRPART ,IDPART ,N ,KK ,IDTGRS ,IPL ,J ,IP ,
      .      IPG ,SUB_ID ,NINPUT ,NL 
       my_real AN ,VX ,VY ,VZ ,PHI 
-      CHARACTER*nchartitle,
-     .   TITR 
+      CHARACTER(LEN=NCHARTITLE) :: TITR 
       LOGICAL IS_AVAILABLE        
 C
 C=======================================================================

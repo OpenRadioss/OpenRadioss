@@ -63,7 +63,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD      
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD     
-      USE ALEMUSCL_MOD , only:ALEMUSCL_Param     
+      USE ALEMUSCL_MOD , only:ALEMUSCL_Param
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,7 +88,7 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT)          :: ISRATE,IMATVIS,NFUNC,MAXFUNC,MAXUPARAM,NUPARAM,NUVAR
       TYPE(MLAW_TAG_),INTENT(INOUT)   :: MTAG
       INTEGER,INTENT(IN)              :: ID
-      CHARACTER*nchartitle,INTENT(IN) :: TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
       my_real,INTENT(INOUT)           :: STIFINT
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(NSUBMOD)
       INTEGER,INTENT(IN)              :: MAT_ID

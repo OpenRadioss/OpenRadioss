@@ -38,6 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +62,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  IGSTI,IGAP,IBAG,IDEL7N,FLAGREMNOD,IREM7I2,INACTI,MODFR,
      .         IPRINT,IASSIGN,IEDGE
-      CHARACTER KEY1*ncharkey
+      CHARACTER(LEN=NCHARKEY) :: KEY1
       LOGICAL IS_AVAILABLE
 
 CC============================================================================

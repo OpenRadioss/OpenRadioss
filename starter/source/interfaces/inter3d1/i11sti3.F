@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE R2R_MOD
       USE INTBUF_FRIC_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,7 +105,7 @@ C-----------------------------------------------
      .                      LELX(*), FILLSOL(*),PM_STACK(20,*)
       my_real,INTENT(IN) :: SLSFAC,GAP0,PERCENT_SIZE
       my_real,INTENT(INOUT) :: GAP_L(*),STF(*),GAP_SM(*),AREA(*),DRAD,GAPINF,GAPMAX,GAPMIN,BGAPSMX
-      CHARACTER*nchartitle,INTENT(IN) :: TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
       TYPE(INTBUF_FRIC_STRUCT_),INTENT(IN) :: INTBUF_FRIC_TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

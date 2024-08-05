@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE SUBMODEL_MOD
       USE DEFAULTS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +77,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     INPUT ARGUMENTS
-      CHARACTER,INTENT(IN):: IDTITL*nchartitle, KEYTYPE*ncharline
+      CHARACTER(LEN=NCHARTITLE),INTENT(IN):: IDTITL
+      CHARACTER(LEN=NCHARLINE) :: KEYTYPE
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER,INTENT(IN):: IG,ISKN(LISKN,*),SUB_ID,IUNIT,SUB_INDEX
       my_real  ,INTENT(IN):: RTRANS(NTRANSF,*)
@@ -99,8 +101,7 @@ C-----------------------------------------------
       my_real QA,QB
       CHARACTER FILNAM*512,CLAW*4
       INTEGER LEN_FILNAM
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C=======================================================================
 c------------------------------
 C     User properties are read w/old reader

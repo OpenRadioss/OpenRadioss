@@ -451,7 +451,11 @@ c       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
       SUBROUTINE I12SOL3(X,IRECT,IXS,NINT,NEL,I,
      .                  AREA,NOINT,IADD,INVC,NF,ITAB,
      .                  KNOD2ELS,NOD2ELS,NTY,ID,TITR)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -466,22 +470,18 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NINT, NEL, I, NOINT,IR, ITAB(*), KNOD2ELS(*), NOD2ELS(*)
-C     REAL
       my_real
      .   AREA
       INTEGER IRECT(4,*), IXS(NIXS,*), IADD(*), INVC(*),NF,NTY
-C     REAL
       my_real
      .   X(3,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .        TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
      .        NUSER, NUSERM,IP(8),CON(8),IBID,MSEGTYP(NUMELS10)
-C     REAL
       my_real
      .   N1, N2, N3, DDS
       my_real :: XX1(4), XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC

@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE SETDEF_MOD
       USE MESSAGE_MOD
       USE SET_SCRATCH_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,9 +60,8 @@ C-----------------------------------------------
      .  KNOD2ELS(*),KNOD2ELC(*),KNOD2ELTG(*),NOD2ELS(*),NOD2ELC(*),
      .  NOD2ELTG(*),IPARTS(*),IPARTC(*),IPARTG(*),SH4TREE(*),SH3TREE(*),
      .  IPART(LIPART1,*),KNOD2ELQ(*),NOD2ELQ(*),IXQ(NIXQ,*)
-      my_real
-     .  X(3,*)
-      CHARACTER KEYSET*ncharfield
+      my_real X(3,*)
+      CHARACTER(LEN=NCHARFIELD) :: KEYSET
 !
       TYPE (SET_) :: CLAUSE
       TYPE (SET_SCRATCH) ::  DELBUF

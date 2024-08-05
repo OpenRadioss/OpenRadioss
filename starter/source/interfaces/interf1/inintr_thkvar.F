@@ -114,6 +114,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE INTBUFSCRATCH_MOD
       USE INOUTFILE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -158,8 +159,7 @@ C-----------------------------------------------
      .   DIMENSION(:),ALLOCATABLE:: THKSH4_VAR,THKSH3_VAR,THKNOD
       CHARACTER*2148 FILNAM
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
       I_MEM = 0
       RESORT = 0

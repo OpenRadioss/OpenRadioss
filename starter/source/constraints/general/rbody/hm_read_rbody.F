@@ -67,6 +67,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE SENSOR_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -96,9 +97,7 @@ C-----------------------------------------------
      .        ISKN(LISKN,*),NUMSL,
      .        KNOD2ELS(*),KNOD2ELC(*),KNOD2ELTG(*),KNOD2EL1D(*),KNOD2ELQ(*),
      .        ITAGND(*),ICDNS10(*), ICFIELD(SIZFIELD,*), LCFIELD(*)
-C     REAL
-      my_real
-     .   RBY(NRBY,*)
+      my_real RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
@@ -113,9 +112,10 @@ C-----------------------------------------------
      .   JC,UID,IFLAGUNIT,SUB_INDEX,NRB,
      .   IFAIL,NRB_R2R
       INTEGER IDSURF, ISU, NN, IAD, M, IOPT, IEXPAMS, NEL
-      CHARACTER MESS*40,TITR*nchartitle,TITR1*nchartitle,KEY*ncharkey
-      my_real
-     .     BID, MASS, I1, I2, I3, I12, I23, I13, FN, FT, EXPN, EXPT
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARTITLE)::TITR,TITR1
+      CHARACTER(LEN=NCHARKEY)::KEY
+      my_real BID, MASS, I1, I2, I3, I12, I23, I13, FN, FT, EXPN, EXPT
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TABSL
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
@@ -573,6 +573,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -597,10 +598,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, ISENS, IG, NSN, II, NALL,
-     .        IGU, N, ID, IRBYON, IOPT, NN, JJ, NRB
+      INTEGER I, L, ISENS, IG, NSN, II, NALL, IGU, N, ID, IRBYON, IOPT, NN, JJ, NRB
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
-      CHARACTER MESS*40,TITR*nchartitle
+      CHARACTER :: MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------
 C

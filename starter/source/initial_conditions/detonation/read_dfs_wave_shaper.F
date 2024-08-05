@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
       USE DETONATORS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       USE FORMAT_MOD , ONLY : FMW_10I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -85,8 +86,8 @@ C-----------------------------------------------
       my_real              :: XC, YC, ZC, ALT, XC1, YC1, ZC1, XC2, YC2, ZC2, NX, NY, NZ, BID, VCJ, VDET
       CHARACTER*40         :: MESS
       CHARACTER*64         :: chain1,chain2
-      CHARACTER*ncharkey   :: KEY, KEY2
-      CHARACTER*nchartitle :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY, KEY2
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL              :: IS_ENCRYPTED, IS_AVAILABLE
       INTEGER,POINTER,DIMENSION(:) :: IECRAN
       my_real,POINTER,DIMENSION(:) :: DECRAN
@@ -94,8 +95,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER,EXTERNAL     :: NODGRNR5, USR2SYS, NINTRI
-      INTEGER              :: UNUSED_MAT_DETONATOR
+      INTEGER,EXTERNAL  :: NODGRNR5, USR2SYS, NINTRI
+      INTEGER           :: UNUSED_MAT_DETONATOR
       DATA MESS/'DETONATORS DEFINITION                   '/      
 C-----------------------------------------------
 C   S o u r c e   L i n e s

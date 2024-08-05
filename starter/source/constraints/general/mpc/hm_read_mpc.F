@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +83,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, J, ID, NOD, IDDL, ISKW, NUMC, KF, NOSYS, NMP
       my_real COEF
-      CHARACTER TITR*nchartitle,KEY*ncharkey,MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      CHARACTER :: MESS*40
       DATA MESS/'MULTI-POINT CONSTRAINTS          '/
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
@@ -196,6 +199,7 @@ C---
 C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -213,7 +217,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, ID, NUMC 
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 C======================================================================|
       IS_AVAILABLE = .FALSE.

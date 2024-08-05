@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +72,7 @@ C-----------------------------------------------
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
       INTEGER J,NSEG,J10(10),IGS,JREC,IADV,ISU,K,L,IPP,NUMA,KK,JJ,NENTITY
       CHARACTER MOT*4
-      CHARACTER*nchartitle,TITR,TITR1
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       INTEGER,DIMENSION(:),ALLOCATABLE :: LIST_ENTITY
 C-----------------------------------------------
       INTERFACE

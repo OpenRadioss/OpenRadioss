@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,14 +86,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER MESS*40, KEY2*ncharline, TITR*nchartitle
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARLINE) :: KEY2
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER :: II, JJ, LL, IFUNC1, IFUNC2, IFUNC3, LNODID1, LNODID2, LNODID3, KK, ID, UID, J
       my_real :: NORM
       DATA MESS/'INFILE'/
       INTEGER :: GRBRICID_LOC, GRQUADID_LOC, GRSH3NID_LOC, IAD1, IAD2, SIZE
       my_real :: X0(3), X1(3), X2(3), VEC3(3), FAC1, FAC2, FAC_VEL
       LOGICAL :: FOUND
-      CHARACTER FILENAME*ncharline
+      CHARACTER(LEN=NCHARLINE) :: FILENAME
       CHARACTER MSG_DESCRIPTION*32
       LOGICAL :: IS_AVAILABLE
 

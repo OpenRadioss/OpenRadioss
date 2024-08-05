@@ -40,6 +40,7 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +69,7 @@ C-----------------------------------------------
       INTEGER I,J,N,NTY,ILEV,NSN,NMN,ISL,NKIN,NOINT,NINT,KCOND,IML,NNOD,NBINTER,TYP,K0
       INTEGER, DIMENSION(:), ALLOCATABLE :: PENTAG,TAGNOS,ITAGMD
       INTEGER, DIMENSION(:), ALLOCATABLE :: IKINE1
-      CHARACTER*nchartitle, TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER II,N1,N2,IAD,M
       LOGICAL IS1,IS2
 C-----------------------------------------------

@@ -48,6 +48,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE MULTI_FVM_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +66,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: IBUFSSG(*), IXS(NIXS,NUMELS), IPM(NPROPMI,NUMMAT)
       my_real,INTENT(INOUT) :: GLOBAL_GAP
       my_real,INTENT(IN) :: X(3,NUMNOD)
-      CHARACTER*nchartitle,INTENT(IN) :: TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
       LOGICAL, INTENT(INOUT) :: IS_GAP_COMPUTED
       my_real , INTENT(IN) :: PM(NPROPM,NUMMAT)
       my_real, INTENT(INOUT) :: AUTO_RHO, AUTO_LENGTH
@@ -82,7 +83,7 @@ C-----------------------------------------------
       my_real :: DIAG, DIAG_MAX , MAX_RATIO, LEN_EDGE(12), LMAX, LMIN, RATIO2
       my_real :: RHO_MAX, RHO0
       LOGICAL :: CHECK_ASPECT 
-      CHARACTER*nchartitle :: MSGTITL
+      CHARACTER(LEN=NCHARTITLE) :: MSGTITL
       CHARACTER*10 :: CHAR_ID
 C-----------------------------------------------
 C   S o u r c e   L i n e s

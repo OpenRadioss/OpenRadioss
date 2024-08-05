@@ -59,6 +59,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD          
       USE HM_OPTION_READ_MOD 
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,7 +76,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN)    :: MAT_ID,MAXUPARAM
       TYPE(UNIT_TYPE_), INTENT(in) :: UNITAB
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
-      CHARACTER*nchartitle ,INTENT(IN)             :: TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)             :: TITR
       INTEGER, INTENT(INOUT)  :: NUPARAM,NUVAR,ISRATE,NFUNC
       my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)   :: UPARAM
       my_real, DIMENSION(100),INTENT(INOUT)          :: PARMAT

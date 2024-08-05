@@ -31,6 +31,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INOUTFILE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,7 +40,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr15_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
       INTEGER , INTENT(INOUT) :: ISTR_24
@@ -47,7 +47,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,IO_ERR1,IFUND,LEN_TMP_NAME
-      CHARACTER FILNAM*109, KEYA*80, KEYA2*80,CARTE*ncharline
+      CHARACTER FILNAM*109, KEYA*80, KEYA2*80
+      CHARACTER(LEN=NCHARLINE) :: CARTE
       CHARACTER(len=4096) :: TMP_NAME
 C-----------------------------------------------
       IFUND=0
@@ -59,24 +60,18 @@ C-----------------------------------------------
 
       TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:ROOTLEN+9)
       LEN_TMP_NAME = INFILE_NAME_LEN+ROOTLEN+9
-      OPEN(UNIT=71,FILE=TMP_NAME(1:LEN_TMP_NAME),
-     .        ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
+      OPEN(UNIT=71,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
 
       DO WHILE (IO_ERR1 == 0 .AND. IFUND==0)
-C
-        READ(71,FMT='(A)',END=20) KEYA
-
-        IF (KEYA(1:25)=='/DYNAIN/SHELL/STRAIN/FULL') THEN
-          IFUND = 1
-c        ELSEIF (KEYA(1:24)=='/STATE/SHELL/STRAIN/FULL') THEN
-c          IFUND = 1
-        ELSEIF (KEYA(1:25)=='/STATE/SHELL/STRAIN/GLOBF') THEN
-          IFUND = 1
-        END IF
-C        
+        READ(71,FMT='(A)',iostat=IO_ERR1) KEYA
+        IF(IO_ERR1 == 0)THEN
+          IF (KEYA(1:25)=='/DYNAIN/SHELL/STRAIN/FULL') THEN
+            IFUND = 1
+          ELSEIF (KEYA(1:25)=='/STATE/SHELL/STRAIN/GLOBF') THEN
+            IFUND = 1
+          END IF
+        ENDIF
       END DO
-C
- 20   CONTINUE
 
       CLOSE(71)
       IF (IFUND==1) ISTR_24 = 1

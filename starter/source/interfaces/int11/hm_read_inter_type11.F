@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE UNITAB_MOD
       USE SENSOR_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,7 +73,7 @@ C-----------------------------------------------
      .   STFAC
       my_real
      .   FRIGAP(*)
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
@@ -101,7 +102,7 @@ C-----------------------------------------------
      .   PERCENT_SIZE,VISC,VISCF,TINT,KTHE, XTHE,
      .    FRAD, DRAD,DTMIN,XTHE_UNIT,STFAC_UNIT,
      .    EDGE_SCALE_GAP
-      CHARACTER KEY1*ncharkey
+      CHARACTER(LEN=NCHARKEY) ::  KEY1
       LOGICAL IS_AVAILABLE
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR

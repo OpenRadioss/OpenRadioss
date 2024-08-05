@@ -32,8 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    st_qaprint_initial_conditions   ../starter/source/output/qaprint/st_qaprint_initial_conditions.F
       !||====================================================================
       MODULE INIMAP2D_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : nchartitle
 #include "my_real.inc"
-#include "nchar_c.inc"
 
         TYPE FUNC_DATA
           my_real, ALLOCATABLE, DIMENSION(:,:) :: RHO
@@ -51,7 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNODE
           my_real, DIMENSION(3) :: VEC1, VEC2, VEC3
 
-          CHARACTER*nchartitle :: TITLE
+          CHARACTER(len=nchartitle) :: TITLE
           LOGICAL :: FILE
           INTEGER :: NUM_CENTROIDS, NUM_NODE_VEL
           LOGICAL :: CORRECTLY_READ          

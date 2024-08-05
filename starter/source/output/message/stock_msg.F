@@ -32,6 +32,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,7 +45,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: ID,ITYPE,SBUFMSG
-      CHARACTER*ncharline, INTENT(IN) :: BUFMSG(SBUFMSG)
+      CHARACTER(LEN=NCHARLINE), INTENT(IN) :: BUFMSG(SBUFMSG)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

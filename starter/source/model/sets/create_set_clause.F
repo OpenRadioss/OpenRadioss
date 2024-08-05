@@ -374,6 +374,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE SETDEF_MOD
       USE SET_SCRATCH_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -398,9 +399,8 @@ C
      .        SH4TREE(*),SH3TREE(*),KNOD2ELS(*),KNOD2ELC(*),KNOD2ELTG(*),
      .        KNOD2ELQ(*),NOD2ELS(*),NOD2ELC(*),NOD2ELTG(*),NOD2ELQ(*),
      .        IPARTS(*),IPARTC(*),IPARTG(*),IPART(LIPART1,*)
-      my_real
-     .    GEO(NPROPG,*),X(3,*)
-      CHARACTER KEYSET*ncharfield
+      my_real GEO(NPROPG,*),X(3,*)
+      CHARACTER(LEN=NCHARFIELD) :: KEYSET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

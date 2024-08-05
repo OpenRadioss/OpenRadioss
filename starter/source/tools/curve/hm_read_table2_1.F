@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +87,9 @@ C     REAL
      .        DIMENSION(:),ALLOCATABLE :: XV1, XSTOR1, XSTOR2
       my_real,
      .        DIMENSION(:,:),ALLOCATABLE :: XV2
-      CHARACTER TITR*nchartitle, MESS*40, KEY*ncharfield
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARFIELD) :: KEY
       DATA MESS/' FUNCTION & TABLE DEFINITION            '/
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C======================================================================|

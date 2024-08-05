@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE BPRELOAD_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,8 +91,7 @@ C-----------------------------------------------
      .   DELTAX(MVSIZ),XX,YY,ZZ, DTX(MVSIZ)
       INTEGER IDMIN,IDMAX
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
       DATA IDMIN /-1/, IDMAX /-1/
       my_real
      .     LGTHMIN, LGTHMAX,XNOR,UNDAMP,CC1

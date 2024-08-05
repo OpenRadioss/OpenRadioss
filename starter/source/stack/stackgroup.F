@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -106,8 +107,7 @@ c    .         INDEX_T3(NUMELTG)
       INTEGER , DIMENSION(:,:), ALLOCATABLE :: ACTIV_PLY
       TYPE (STACK_PLY) :: STACK, IWORKS
       TYPE(STACK_INFO_ ) , DIMENSION (1:NPROP_STACK) :: STACK_INFO
-      CHARACTER*nchartitle,
-     .   TITR,TITR1
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
 C-----------------------------------------------
       my_real
      .  A_GAUSS(9,9),W_GAUSS(9,9)

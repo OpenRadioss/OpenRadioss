@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE R2R_MOD
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,12 +83,10 @@ C-----------------------------------------------
      .        WORK(70000),INUM(13,NUMSPH),INDEX(2*NUMSPH),
      .        NGP(NSPMD+1),K,J,II, MX, NFAIL, IR, IP, STAT,
      .        IPARTR2R, NOD, JALE_FROM_MAT, JALE_FROM_PROP
-C     REAL
       my_real
      .        RNUM(NSPBUF,NUMSPH)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
       DATA IUN/1/
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

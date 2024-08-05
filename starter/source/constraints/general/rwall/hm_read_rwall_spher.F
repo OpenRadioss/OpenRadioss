@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +87,6 @@ C-----------------------------------------------
       INTEGER NPRW(*), LPRW(*), ITAB(*), ITABM1(*),
      .        IKINE(*), IMERGE(*),ITAGND(*),IKINE1(3*NUMNOD)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-C     REAL
       my_real
      .   RWL(NRWLP,*), MS(*), V(3,*), X(3,*),
      .   RTRANS(NTRANSF,*)
@@ -102,7 +102,9 @@ C-----------------------------------------------
       my_real
      .   DIST, FRIC, DIAM, XMAS, VX, VY, VZ,
      .   X1, Y1, Z1, DISN, X2, Y2, Z2, X3, FREQ, ALPHA, FAC_M_R2R
-      CHARACTER MESS*40,OPT*ncharkey, TITR*nchartitle
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARKEY) :: OPT
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

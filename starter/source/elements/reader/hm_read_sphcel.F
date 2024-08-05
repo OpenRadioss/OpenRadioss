@@ -83,6 +83,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -119,9 +120,9 @@ C-----------------------------------------------
      .        NBP,ITAG(NUMNOD),IT,NT,NP,NN,ITOPO,STAT,
      .        INDEX_PART,UID,IFLAGUNIT
 C     REAL
-      my_real
-     .       BID,FAC_M
-      CHARACTER MESS*40,KEY*ncharkey
+      my_real BID,FAC_M
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARKEY) :: KEY
       LOGICAL IS_AVAILABLE
 
       LOGICAL :: CHECK_LAW
@@ -129,8 +130,8 @@ C     REAL
       INTEGER :: LAW_SPH,LAW_SOL
       INTEGER :: ERROR_NUM
       INTEGER :: I1,I2,I3,I4,I5
-      CHARACTER(len=nchartitle) :: C1
-      CHARACTER(len=nchartitle) :: TITR
+      CHARACTER(LEN=NCHARTITLE) :: C1
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER :: USER_PART_SPH,USER_PART_SOL
       INTEGER :: USER_MID_SPH,USER_MID_SOL
       LOGICAL, DIMENSION(NPART) :: TAG_PART

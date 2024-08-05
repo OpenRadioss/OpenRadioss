@@ -38,6 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,8 +68,8 @@ C-----------------------------------------------
      .   GAPSCALE,PERCENT_SIZE,
      .   PENMIN,FRIC,GAP,STARTT,STOPT,VISC,VISCF,
      .   BUMULT,ALPHA,PMAX
-      CHARACTER 
-     .  BCFLAG*ncharfield, BCFLAGM*ncharfield,KEY*ncharkey,KEY1*ncharkey
+      CHARACTER(LEN=NCHARFIELD) :: BCFLAG, BCFLAGM
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY1
       LOGICAL IS_AVAILABLE
 
 C============================================================================

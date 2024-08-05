@@ -32,6 +32,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                         NVOISIN,MSEGLO ,MSEGTYP,ITAB ,X ,
      3                         ID,TITR,IGEO )
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -48,8 +52,7 @@ C-----------------------------------------------
      .        MSEGLO(NRTM),IRTLM(2,NSN),MSEGTYP(NRTM),ITAB(*),
      .        IGEO(NPROPGI,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

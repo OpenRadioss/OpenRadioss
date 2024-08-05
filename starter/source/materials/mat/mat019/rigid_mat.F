@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   STIFR, X, V     ,MS    ,IN   ,
      .                    RBYM, IRBYM ,LCRBM,NOM_OPT)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C=======================================================================
 C    RBY    EN SORTIE DE INIRBY
 C a voir 
@@ -52,8 +53,6 @@ C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
 #include      "scr17_c.inc"
-
-
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -73,8 +72,8 @@ C-----------------------------------------------
       my_real XG(3), XM0(3), XMG, XX, XY, XZ, YY, YZ, ZZ, XIIN, INMIN,
      .        MASRB,DD,TOL, II1,II2,II3,II4,II5,II6,II7,II8,II9,RBY(20)
       INTEGER ID
-      CHARACTER*nchartitle,TITR
-
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+C
       TOL=ONE+EM04
       KK = 0
       DO NR = 1, NRB 

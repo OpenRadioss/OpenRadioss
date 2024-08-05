@@ -46,6 +46,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,8 +87,7 @@ C-----------------------------------------------
      .        N2, N3, N4, N5, N6
       INTEGER M, MSR, KI, NSMS(2), IWSMS, NSNW, NHI
       INTEGER J1, IPERM1(6), IPERM2(6),IPENTA6(6)
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(len=nchartitle) :: TITR
       DATA ILOC4/1,3,6,5/
       DATA IPERM1/1,2,3,1,2,3/
       DATA IPERM2/2,3,1,4,4,4/

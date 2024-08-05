@@ -35,6 +35,7 @@ C   M o d u l e s
 C-----------------------------------------------                     
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
       USE FORMAT_MOD , ONLY : FMT_2I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -65,7 +66,8 @@ C-----------------------------------------------
      .      UID,SUB_ID,NLAY,NPTR,NPTS,NPTT,IFAIL,IRUPT_TYP,NVAR_RUPT,
      .      ILAY,IMAT,NPT_MAX,NUBEAM0,NVSH_STRA,ISMSTR
       INTEGER IGBR, JGBR, IOK
-      CHARACTER MESS*40,KEY2*ncharkey,KEY3*ncharkey
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARKEY) :: KEY2, KEY3
 C=======================================================================
       NFILSOL=0
       NUMSOL =0

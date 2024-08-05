@@ -85,6 +85,7 @@ C-----------------------------------------------
       USE SURF_MOD
       USE HM_OPTION_READ_MOD
       USE MAPPING_OPTION_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -148,12 +149,13 @@ C-----------------------------------------------
             my_real
      .        XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,BID,
      .        S_A,S_B,S_C,XG,YG,ZG,FAC_L,DIAM,XP1,YP1,ZP1,XP2,YP2,ZP2
-      CHARACTER TITR*nchartitle,MESS*40,KEY*ncharkey,KEY2*ncharkey,
-     .          KEY3*ncharkey,STRING*nchartitle
+      CHARACTER(LEN=NCHARTITLE) :: TITR,STRING
+      CHARACTER :: MESS*40
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2,KEY3
       INTEGER, DIMENSION(:),ALLOCATABLE :: BUFBOX, BUFTMP, INDX ,TAGSHELLBOXC,TAGSHELLBOXG
       my_real :: VECTX,VECTY,VECTZ,VECT
       DOUBLE PRECISION RSBUFBOX
-      CHARACTER*nchartitle,TITR1
+      CHARACTER(LEN=NCHARTITLE) :: TITR1
       LOGICAL :: FLAG_GRBRIC, lFOUND, IS_AVAILABLE, IS_ENCRYPTED, lERROR, l1104
       INTEGER :: ID_PART,MODE
       INTEGER :: IBID

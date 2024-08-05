@@ -43,6 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       INTEGER FUNCTION NINTRN (IEXT,NTN,M,N,ID,TITR)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -58,8 +59,7 @@ C-----------------------------------------------
       INTEGER IEXT, M, N
       INTEGER NTN(M,N)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

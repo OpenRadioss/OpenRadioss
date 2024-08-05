@@ -23,7 +23,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    anstckc   ../starter/source/output/analyse/analyse_char.F
       !||====================================================================
-      SUBROUTINE ANSTCKC(LEN, STR)
+      SUBROUTINE ANSTCKC(LEN_, STR)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -35,15 +39,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LEN
-      CHARACTER STR*ncharline
+      INTEGER LEN_
+      CHARACTER(LEN=NCHARLINE) :: STR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, B, E, LENGTH
 C
 C-----------------------------------------------
-      LENGTH = LEN
+      LENGTH = LEN_
       B = 1
       E = LENGTH
       I = 1 
