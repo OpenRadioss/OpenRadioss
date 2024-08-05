@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A   FLAY,      NGL,       NEL,       NFT,             
      B   ILAY,      NPT,       IPG,
      C   JCVT,      JSPH,      ISORTH,    DMG,
-     D   L_DMG)
+     D   L_DMG,     OUTV )
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
@@ -81,6 +81,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ISORTH
       INTEGER, INTENT(IN) :: L_DMG
       INTEGER NGL(MVSIZ),ILAY,NEL,IPG
+      INTEGER, INTENT(INOUT) :: OUTV(NEL)
 C     REAL
       my_real
      .   PM(NPROPM),OFF(*), SIG(NEL,6), WPLA(*), GAMA(MVSIZ,6), 
@@ -205,7 +206,7 @@ C-----------------------------------------------------------
      4                    EPST   ,NFIS1,NFIS2 ,NFIS3,
      5                    WPLAR  ,EPSP ,WPLA  ,SIGL ,ILAY ,IPG  ,
      6                    TSAIWU ,TT   ,IMCONV,MVSIZ,IOUT ,DMG  ,
-     7                    L_DMG  )
+     7                    L_DMG  ,OUTV)
       
       ELSE    ! Crasurv 
       
@@ -216,7 +217,7 @@ C-----------------------------------------------------------
      4             EPST ,NFIS1,NFIS2,NFIS3,
      5             WPLAR,EPSP, WPLA, SIGL, ILAY,
      6             IPG  ,TSAIWU,TT,IMCONV  ,MVSIZ   ,IOUT,
-     7             DMG  ,L_DMG )
+     7             DMG  ,L_DMG ,OUTV)
 
       END IF
 !-----------------------------------------------------------------------
