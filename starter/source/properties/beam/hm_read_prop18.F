@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE defbeam_sect_new_mod
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,17 +70,17 @@ C-----------------------------------------------
       INTEGER IGTYP,IG,NBADI 
       my_real
      .   GEO(*)
-      CHARACTER IDTITL*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::IDTITL
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER STRING*ncharfield,CHROT*7
+      CHARACTER(LEN=NCHARFIELD) :: STRING
+      CHARACTER CHROT*7
       INTEGER I,J,IP,INTR,INTS,NIP,NIPMAX,NC,NS,IPY,IPZ,IPA,IREF,ISECT,
      .        IRX,IR1X,IR1Y,IR1Z,IR2X,IR2Y,IR2Z,ISS
       INTEGER IHBE,ISMSTR,ISHEAR,NB_DIM,ID_FORMAT,INTR_MAX
-C     REAL
       my_real
      .    DM,DR,PY,PZ,AI,YI,ZI,WI,AREA,Y0,Z0,L(6),PUN
       my_real
@@ -411,6 +412,7 @@ C
      .                        AREA,L,IG,IDTITL)
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -423,21 +425,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ISECT,INTR,NIP,IG
-C     REAL
-      my_real
-     .   AREA,L(6)
-      my_real
-     .   GEO(NPROPG)
-      CHARACTER IDTITL*nchartitle
+      my_real AREA,L(6)
+      my_real  GEO(NPROPG)
+      CHARACTER(LEN=NCHARTITLE)::IDTITL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IP,NC,NS,IPY,IPZ,IPA 
-C     REAL
-      my_real
-     .    AI,YI,ZI,WI,PHI,DPHI,R1,R2,R3,R4,D2, D3, D4
-      my_real
-     +  W_GAUSS(9,9),A_GAUSS(9,9),W_LOBATTO(9,9),A_LOBATTO(9,9),LEN(10)
+      INTEGER I,J,IP,NC,NS,IPY,IPZ,IPA
+      my_real AI,YI,ZI,WI,PHI,DPHI,R1,R2,R3,R4,D2, D3, D4
+      my_real W_GAUSS(9,9),A_GAUSS(9,9),W_LOBATTO(9,9),A_LOBATTO(9,9),LEN(10)
 C-----------------------------------------------
       DATA W_GAUSS / 
      1 2.               ,0.               ,0.               ,

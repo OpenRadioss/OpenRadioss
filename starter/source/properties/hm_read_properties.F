@@ -94,6 +94,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE ALE_MOD
       USE DEFAULTS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARKEY, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -142,9 +143,12 @@ C-----------------------------------------------
      .        CPT1,SUB_INDEX
       my_real FN, FT, DX, ANGL,PUN,HTEST,HCLOS,CVIS,RBID,VX,VY,VZ,
      .        FAC_L,FAC_T,FAC_M, TMIN,TMAX,DT,THICKT,IERREL,DN_P,ZSHIFT,PTHK
-      CHARACTER IDTITL*ncharline, MESS*40,KEY*ncharline, KEY2*ncharkey,
-     .          STRING*ncharfield,TITR1*nchartitle,
-     .          CHROT*7,SOLVERKEYWORD*ncharline
+      CHARACTER(LEN=NCHARLINE) :: IDTITL,KEY,SOLVERKEYWORD
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARKEY) :: KEY2
+      CHARACTER(LEN=NCHARFIELD) ::STRING
+      CHARACTER(LEN=NCHARTITLE) :: TITR1
+      CHARACTER CHROT*7
       DATA NSHELL /0/, NSHSUP /0/, NSHINF /0/
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

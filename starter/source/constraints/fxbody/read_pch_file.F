@@ -39,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INOUTFILE_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,16 +52,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ID,ITABM1(*),ITAG(*),MATRIX_ADD(4,*), CPT_STIFF,CPT_MASS,FLAG
-      my_real 
-     .        MATRIX(*)
-      CHARACTER PCH_FILE*100,TITR*nchartitle
+      my_real MATRIX(*)
+      CHARACTER PCH_FILE*100
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NFX,REF,IFO,TIN,TOUT,POLAR,NCOL,DUM,DUM2,SIZE,TRIANGLE,
-     .        ID_NOD1,ID_NOD2,J,K,ISTOP
-      my_real 
-     .        RELL
+      INTEGER I,NFX,REF,IFO,TIN,TOUT,POLAR,NCOL,DUM,DUM2,SIZE,TRIANGLE,ID_NOD1,ID_NOD2,J,K,ISTOP
+      my_real RELL
       CHARACTER DEBUT*8,NAME*8,MATRIX_TYPE*16,NWLINE*100,MESS*40
 
       INTEGER :: LEN_TMP_NAME,I_ERR

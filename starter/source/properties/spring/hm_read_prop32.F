@@ -43,7 +43,8 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD
-      USE SUBMODEL_MOD 
+      USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,8 +100,7 @@ C-----------------------------------------------
       EXTERNAL SET_U_PNU,SET_U_GEO
       PARAMETER (KFUNC=29)
       INTEGER IG
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C=======================================================================
@@ -355,6 +355,7 @@ C
      4                  STIFR ,VISCM  ,VISCR ,UVAR   ,NUVAR ,
      5                  ID,TITR,EINT,NPF,TF)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-------------------------------------------------------------------------
 C     This subroutine initialize springs using user properties.
 C-------------------------------------------------------------------------
@@ -428,9 +429,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
@@ -446,8 +444,7 @@ C-----------------------------------------------
      .         GET_U_MID
       PARAMETER (KFUNC=29)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

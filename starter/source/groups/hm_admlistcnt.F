@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +56,7 @@ C-----------------------------------------------
      .        NLIST,IX1(*), IX2(*), INDEX(*), LL, NEL, LEVEL
       CHARACTER MESS*40
       INTEGER ID
-      CHARACTER*nchartitle,TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
       CHARACTER :: ELKEY*4
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
 C-----------------------------------------------

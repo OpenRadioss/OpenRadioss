@@ -29,9 +29,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod     ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE SURFMAS(MS,IBUFN,ITY,AMASU,X,ID,ADDMAS,
-     .                   ADMID,TITR)
-      USE MESSAGE_MOD
+      SUBROUTINE SURFMAS(MS,IBUFN,ITY,AMASU,X,ID,ADDMAS,ADMID,TITR)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE MESSAGE_MOD
+        USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,14 +47,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBUFN(*),ITY,ID,ADMID
-      my_real
-     .   MS(*),AMASU,X(3,*),ADDMAS
-      CHARACTER TITR*nchartitle
+      my_real MS(*),AMASU,X(3,*),ADDMAS
+      CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K
-C     REAL
       my_real
      .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .   X21,Y21,Z21,X31,Y31,Z31,X42,Y42,Z42,

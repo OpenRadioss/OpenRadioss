@@ -32,13 +32,13 @@ C This allows to use the option -flush_rst_to_txt at the starter
       !||    fretitl2          ../starter/source/starter/freform.F
       !||====================================================================
       SUBROUTINE WRITE_I_C_DEBUG(A,N,SA)
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 ! Do not replace IMPLICIT NONE by an include here
       IMPLICIT NONE
-#include "nchar_c.inc"
 #include "debug_rst.inc"
       INTEGER :: A(N),N
       CHARACTER(len=*) ::  SA
-      CHARACTER*nchartitle:: TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER :: I,IT,J
       INTEGER :: NT
 #if defined(_OPENMP)
@@ -78,7 +78,6 @@ C This allows to use the option -flush_rst_to_txt at the starter
       SUBROUTINE WRITE_DB_DEBUG(A,N,SA)
 ! Do not replace IMPLICIT NONE by an include here
       IMPLICIT NONE
-#include "nchar_c.inc"
 #include "debug_rst.inc"
       INTEGER :: N
       DOUBLE PRECISION :: A(N)

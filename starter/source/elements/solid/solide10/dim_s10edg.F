@@ -865,7 +865,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -893,7 +894,7 @@ C-----------------------------------------------
       INTEGER I,J,N,NTY,NSN,NMN,ISL,NKIN,NOINT,IMODI,II,N1,N2,ND
       INTEGER K,ILEV,NUVAR,IDEL7N,INTTH,IPR,IML,ICOM
       INTEGER, DIMENSION(NUMNOD) :: ITAGS,ITAGMD
-      CHARACTER*nchartitle, TITR
+      CHARACTER(LEN=NCHARTITLE):: TITR
       LOGICAL IS1,IS2,ISD
 C=======================================================================
 C--------done before : switch to penalty if only ND is secnd (N1,N2 not)

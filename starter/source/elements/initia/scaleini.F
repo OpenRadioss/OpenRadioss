@@ -39,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD      
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,8 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER I,J,IIP,JPT, II, JJ, IPT, IPP,IUS,IPSU,N,IPID1,
      .        IFLAGINI,NVAR_TMP,IR,IS,IT,NPTT,NPTS,NPTR,PID1,IGTYP,
      .        IIS,IPT_ALL,ILAY,NLAY,KK,NPT,NPS,NPR,NLAYI,JHBET

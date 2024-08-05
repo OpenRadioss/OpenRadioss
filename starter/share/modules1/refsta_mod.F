@@ -28,10 +28,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    st_qaprint_refsta   ../starter/source/output/qaprint/st_qaprint_refsta.F
       !||====================================================================
       MODULE REFSTA_MOD
+        USE NAMES_AND_TITLES_MOD , ONLY : ncharline
 #include "my_real.inc"
-#include "nchar_c.inc"
 
-         CHARACTER*ncharline REFSTA_FILENAME
+         CHARACTER(len=ncharline) :: REFSTA_FILENAME
          LOGICAL IS_REFSTA
 
       END MODULE REFSTA_MOD

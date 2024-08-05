@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE LINEDGE(NSEG0  ,NSEG        ,BUFTMP   ,SLIN_NODES ,KEY,
      .                   FLAG   ,SLIN_ELTYP  ,SLIN_ELEM,LINE_NSEG0)
+        USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,7 +43,7 @@ C-----------------------------------------------
       INTEGER NSEG0,NSEG,FLAG,LINE_NSEG0
       INTEGER BUFTMP(6,*),SLIN_NODES(LINE_NSEG0,*),SLIN_ELTYP(*),
      .        SLIN_ELEM(*)
-      CHARACTER KEY*ncharkey
+      CHARACTER(LEN=NCHARKEY) :: KEY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -49,6 +49,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,8 +78,7 @@ C     REAL
      .   X(3,*), PM(NPROPM,*), GEO(NPROPG,*), AREAS(*),THK(*),
      .   AS(*), BS(*),PM_STACK(*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE (SURF_) :: IGRSURFS
       TYPE (SURF_) :: IGRSURFM
 C-----------------------------------------------

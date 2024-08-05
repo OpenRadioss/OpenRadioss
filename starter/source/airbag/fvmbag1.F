@@ -425,6 +425,7 @@ C
      .     LX , LY , LZ, IBUF , IBUFA, TAGELA,
      .     TITR)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -441,7 +442,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(3, NELA), INTENT(IN) :: ELEMA
       INTEGER, INTENT(IN) :: IBUF(*), IBUFA(*), TAGELA(*)
       my_real, INTENT(INOUT) :: LX, LY, LZ
-      CHARACTER(LEN = nchartitle), INTENT(IN) :: TITR
+      CHARACTER(LEN=nchartitle), INTENT(IN) :: TITR
       my_real X(3,NUMNOD), VX3, VY3, VZ3, VX1, VY1, VZ1, XB0, YB0, ZB0
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

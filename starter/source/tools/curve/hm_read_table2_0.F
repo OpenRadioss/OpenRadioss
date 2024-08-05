@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,18 +73,14 @@ C-----------------------------------------------
      .        JREC, NPTS, STAT, IDS, LL, LX(2)
       INTEGER,DIMENSION(:),ALLOCATABLE :: JPERM1,JPERM2
       INTEGER,DIMENSION(:,:),ALLOCATABLE :: ITAG
-      INTEGER IERROR, NF  
-C     REAL
-      my_real
-     .   BID, XK, XX, X1, X2, X234(3), YY, Y1, Y2, R, XMIN, XMAX,
-     .    TIME, FUNCT,SCALEY
-      my_real,
-     .        DIMENSION(2) :: XD2
-      my_real,
-     .        DIMENSION(:),ALLOCATABLE :: XV1, XSTOR1, XSTOR2
-      my_real,
-     .        DIMENSION(:,:),ALLOCATABLE :: XV2
-      CHARACTER TITR*nchartitle, MESS*40, KEY*ncharfield
+      INTEGER IERROR, NF
+      my_real  BID, XK, XX, X1, X2, X234(3), YY, Y1, Y2, R, XMIN, XMAX,TIME, FUNCT,SCALEY
+      my_real, DIMENSION(2) :: XD2
+      my_real, DIMENSION(:),ALLOCATABLE :: XV1, XSTOR1, XSTOR2
+      my_real,DIMENSION(:,:),ALLOCATABLE :: XV2
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARFIELD) :: KEY
       DATA MESS/' FUNCTION & TABLE DEFINITION            '/
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C======================================================================|

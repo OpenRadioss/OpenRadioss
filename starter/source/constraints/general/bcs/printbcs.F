@@ -38,6 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,9 +71,10 @@ C-----------------------------------------------
      .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,SUB_ID,
      .        CHKCOD,ISERR,NOD
       INTEGER IUN
-      CHARACTER MESS*40,KEY*ncharkey,STRING*ncharfield,CODE*7,
-     .        KEY2*ncharkey
-      CHARACTER TITR*nchartitle,OPT*8
+      CHARACTER MESS*40,CODE*7,OPT*8
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
+      CHARACTER(LEN=NCHARFIELD) :: STRING
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

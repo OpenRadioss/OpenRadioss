@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,12 +91,12 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID
       INTEGER  I,J,IE,IN,IP,IR,NN,NITER,PARTID,UID,ITYP,ICOMPA
       INTEGER  SUB_ID,NNOD,SUB_INDEX,IMID, MAT_ID,MTN,NSOLID,NPT,ISMSTR
-C     REAL
       my_real
      .  XTMP(3,NUMNOD)
       my_real, DIMENSION(:), ALLOCATABLE ::
      .  XX,YY,ZZ
-      CHARACTER MESS*40,TITR*nchartitle,TITR1*nchartitle
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       DATA MESS/'XREF'/
       LOGICAL :: IS_AVAILABLE,FOUND      
 C-----------------------------------------------

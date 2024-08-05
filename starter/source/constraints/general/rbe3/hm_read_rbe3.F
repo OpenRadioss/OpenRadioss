@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,8 +81,7 @@ C-----------------------------------------------
      .        ISKN(LISKN,*),LXINTD,
      .        IDDLEVEL,IKINE(*),ITAGND(*)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real
-     .     FRBE3(6,*)
+      my_real FRBE3(6,*)
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
@@ -94,8 +94,10 @@ C-----------------------------------------------
      .        ISK, ISENS, INGU, IGM, J, P,IAD,NS,NN,J6(6),JJ,II,
      .        IC,IC1,IC2,IROT,ISKS,IADS,IERR1,ISKEW0(SLRBE3/2),IMODIF,
      .        IDIR,IKINE1(3*NUMNOD),NRB,ID,UID,SUB_INDEX
-      CHARACTER TITR*nchartitle,KEY*ncharkey,MESS*40
-      CHARACTER STRING*ncharfield,CODE*7
+      CHARACTER(LEN=NCHARTITLE) ::  TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      CHARACTER(LEN=NCHARFIELD) :: STRING
+      CHARACTER :: CODE*7,MESS*40
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -103,8 +105,7 @@ C-----------------------------------------------
       INTEGER USR2SYS,NODGRNR5
 C
       DATA MESS/'INTERPOLATION CONSTRAINT BODY  '/
-      my_real
-     .   WI(6,NUMNOD),W
+      my_real WI(6,NUMNOD),W
 C-----------------------------------------------
 C     IRBE3(1,I) : IAD0 for LRBE3 and FRBE3
 C     IRBE3(2,I) : TYPE         usr' id temporaire (print)
@@ -361,6 +362,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------   
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -391,11 +393,9 @@ C-----------------------------------------------
       INTEGER I, N, K, NSL,NM, NI, NMT,M,IROT,IMO,ICR,
      .        J, P,IAD,NS,NN,J6(6),JJ,II,IADS,IERR1,NP,IC,ICT
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
 C
-      my_real
-     .   W,WMIN,IN_T
+      my_real W,WMIN,IN_T
 C-----------------------------------------------
 C     FRBE3(1-3,I) : tw(i)
 C     FRBE3(4-6,I) : rw(i)
@@ -1487,6 +1487,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1511,10 +1512,8 @@ C-----------------------------------------------
 C
       INTEGER ID, INDEX(NRBE3),ITAG(NUMNOD),NZ,IAD1,IADS,
      .        LCOPY(SLRBE3),ICOPY(NRBE3L,NRBE3)
-      CHARACTER*nchartitle,
-     .   TITR
-      my_real
-     .        FCOPY(SLRBE3*3)
+      CHARACTER(LEN=NCHARTITLE)::TITR
+      my_real FCOPY(SLRBE3*3)
 C========================================================================|
 C-----only one level of hierarchy is allowed
       ITAG(1:NUMNOD)=0

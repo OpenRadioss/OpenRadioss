@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  NOM_OPT,PTR_NOPT_RWALL,PTR_NOPT_RBE2,
      3                  PTR_NOPT_RBE3,ITAGCYC)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD, ONLY : FMW_A_I_A, FMW_10I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -71,8 +72,7 @@ C-----------------------------------------------
      .        NS,NM,M,IAD,NUN,JJ,NIKRW
       INTEGER, DIMENSION(:), ALLOCATABLE :: NKINDOUBLE,NKIN,IKRW
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------------------------
       ALLOCATE(NKINDOUBLE(NUMNOD),NKIN(NUMNOD),IKRW(NUMNOD))
       MARQ2  = 0

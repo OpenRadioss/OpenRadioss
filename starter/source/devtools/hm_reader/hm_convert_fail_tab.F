@@ -53,14 +53,11 @@ C-----------------------------------------------
       USE MESSAGE_MOD       
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -71,7 +68,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NBFAILTAB,OFFSET,ISFIRST,IS_CONVERT,CPT
-      CHARACTER KEY*ncharline
+      CHARACTER(LEN=NCHARLINE) :: KEY
 C-----------------------------------------------
       IS_CONVERT = 0
       CALL HM_OPTION_COUNT('/FAIL/TAB', NBFAILTAB)

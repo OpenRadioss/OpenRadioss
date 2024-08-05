@@ -66,6 +66,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,7 +95,8 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NUMMAT) :: ITHERM_FOR
       my_real :: UPWM,UPWO,T0,T1,RHO_CP,AS,BS,AL,BL,RHO_CPM1,EFRAC
       my_real :: RCP_UNIT,AS_UNIT
-      CHARACTER TITR*nchartitle,KEY*80
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER :: KEY*80
       LOGICAL IS_AVAILABLE,IS_AVAILABLE_IFORM
 C=======================================================================
       ITHERM_FE = 0      ! com01_c.inc

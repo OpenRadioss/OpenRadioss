@@ -43,6 +43,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1         ZN3      ,XN4    ,YN4    ,ZN4      )
       USE MESSAGE_MOD
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -63,7 +67,7 @@ C-----------------------------------------------
       INTEGER              :: NRTM, IRECT(4,*), NOINT, ITAB(*), NBRIC, IXS(NIXS,*),  BRICS(*)
       my_real              :: X(3,*), PM(NPROPM,*)    
       INTEGER              :: ID, IMESG
-      CHARACTER*nchartitle :: TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4

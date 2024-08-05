@@ -80,6 +80,7 @@ C-----------------------------------------------
       USE LAW19_UPD_MOD  
       USE LAW190_UPD_MOD  
       USE VISC_PARAM_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -117,7 +118,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), POINTER :: IFUNC,ITABLE
       my_real, DIMENSION(:), POINTER :: UPARAM,UPARF,UPARAM_VISC
       TYPE(MLAW_TAG_), POINTER :: MTAG
-      CHARACTER*nchartitle, TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
       TYPE (VISC_PARAM_)     , POINTER :: VISC
 C=======================================================================

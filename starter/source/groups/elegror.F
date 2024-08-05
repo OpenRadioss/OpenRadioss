@@ -36,6 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,8 +58,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER MESS*40,MOT*4
       INTEGER I,J,K,IG,L,IE,IADV
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
       ELEGROR=0
       IF(IGU==0)RETURN

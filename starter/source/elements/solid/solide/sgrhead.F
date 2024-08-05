@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE CLUSTER_MOD
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -119,7 +120,7 @@ C-----------------------------------------------
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER ID, JALE_FROM_MAT, JALE_FROM_PROP
-      CHARACTER*nchartitle :: TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2
       INTEGER :: CLUSTER_TYP,CLUSTER_NEL
       INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_CLUSTER

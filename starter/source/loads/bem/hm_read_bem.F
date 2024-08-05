@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +77,7 @@ C-----------------------------------------------
       INTEGER JFORM, FREESURF, NELMAX, HG
       my_real
      .        RBID
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL :: IS_AVAILABLE
       INTEGER :: HM_NDAA, HM_NFLOW
       
@@ -278,6 +279,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -325,7 +327,8 @@ C-----------------------------------------------
       my_real XA, YA, ZA, XD, YD, ZD, TT
       my_real, DIMENSION(:,:), ALLOCATABLE :: CBEM
       my_real :: FAC_GEN
-      CHARACTER KEY*ncharkey,TITR*nchartitle
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL :: IS_AVAILABLE
       INTEGER :: HM_NDAA, HM_NFLOW
       

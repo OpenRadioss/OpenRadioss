@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE SENSOR_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY, NCHARFIELD
       USE FORMAT_MOD , ONLY : LFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -72,7 +73,7 @@ C-----------------------------------------------
      .   NPOINT,NPARIS,NPARRS,NVAR
       my_real :: TDEL,PERIOD,HIC_CRIT,DEF_GRAVITY,GRAVITY,TMIN,
      .   FAC_GRAV,Time_Unit
-      CHARACTER(len=ncharkey) :: DIR
+      CHARACTER(LEN=NCHARKEY) :: DIR
       LOGICAL :: IS_AVAILABLE
       DATA DEF_GRAVITY/9.80665/
 C--------------------------------

@@ -60,6 +60,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,8 +94,7 @@ C     REAL
      .   MS(*),WA(*),GAP_S(*),GAP_M(*),GAP_SH(*),AREAS(*),
      .   THK(*),THK_PART(*),XANEW(3,*),PM_STACK(20,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE (SURF_) :: IGRSURF1
       TYPE (SURF_) :: IGRSURF2
 C-----------------------------------------------
@@ -872,7 +872,11 @@ C------------
      7 ID    ,TITR  ,KXX   ,IXX   ,IGEO,
      8 NOD2EL1D,KNOD2EL1D,KNOD2ELS,KNOD2ELC,KNOD2ELTG,
      9 NOD2ELS,NOD2ELC,NOD2ELTG   ,LELX ,PM_STACK,IWORKSH)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -906,8 +910,7 @@ C     REAL
      .   MS(*),GAP_SM(*),XL2, GAPINF,THK(*),THK_PART(*),LELX(*),
      .   PM_STACK(20,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

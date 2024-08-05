@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE SENSOR_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,9 +89,9 @@ C-----------------------------------------------
      .        UID,IAD,ID,IFLAGUNIT,NCURS,TSENS,IFRAS, IVAR, ISU, IDIR,
      .        SUB_INDEX, SUB_ID
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
-      CHARACTER MESS*40, XYZ*ncharfield, 
-     .          char_X*1, char_Y*1, char_Z*1, char_XX*2, char_YY*2, char_ZZ*2
-      CHARACTER TITR*nchartitle
+      CHARACTER MESS*40,char_X*1, char_Y*1, char_Z*1, char_XX*2, char_YY*2, char_ZZ*2
+      CHARACTER(LEN=NCHARFIELD) :: XYZ
+      CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL IS_AVAILABLE
 
       DATA char_X/'X'/

@@ -66,6 +66,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD     
       USE DETONATORS_MOD             
       USE ALE_CONNECTIVITY_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -111,8 +112,7 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        IX5(MVSIZ), IX6(MVSIZ), IX7(MVSIZ), IX8(MVSIZ)
       INTEGER  MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ) , MAT0(MVSIZ)
-      CHARACTER*nchartitle,
-     .   TITR1
+      CHARACTER(LEN=NCHARTITLE)::TITR1
       my_real
      .   BID, FV, STI, ZI,WI
       my_real

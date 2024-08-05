@@ -38,6 +38,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE ALE_MOD
       USE DEFAULTS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,10 +76,10 @@ C-----------------------------------------------
       INTEGER I,II,J,IPERT,MY_ID, MY_DAMP, MY_CONSTRAINT,TEMP_INT,
      .        MY_RAND, MY_UNIT, MY_DEFAULTINTER,LENRNOISE,
      .        IDS(NPERTURB),IDX(NPERTURB),IDSEIG(NEIG),IDXEIG(NEIG),MY_EIG
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,IMAS_DS,
      .            IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
      .            ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D,IOFFSET,DEF_INTER(100)
-      CHARACTER *nchartitle TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
       LOGICAL :: OK_QA
@@ -93,15 +94,15 @@ C-----------------------------------------------
       IMAS_DS=  DEFAULTS%SOLID%IMAS
       IFRAME_DS= DEFAULTS%SOLID%IFRAME
       ISTRA_D = 1
-      IHBE_D =  DEFAULTS%SHELL%ishell     
-      ISH3N_D=  DEFAULTS%SHELL%ish3n      
-      ISST_D =  DEFAULTS%SHELL%ismstr     
-      IPLA_D =  DEFAULTS%SHELL%iplas      
-      ITHK_D =  DEFAULTS%SHELL%ithick     
-      IDRIL_D=  DEFAULTS%SHELL%idrill 
-      ISHEA_D = 0  
-      NPTS_D = 0  
-!         
+      IHBE_D =  DEFAULTS%SHELL%ishell
+      ISH3N_D=  DEFAULTS%SHELL%ish3n
+      ISST_D =  DEFAULTS%SHELL%ismstr
+      IPLA_D =  DEFAULTS%SHELL%iplas
+      ITHK_D =  DEFAULTS%SHELL%ithick
+      IDRIL_D=  DEFAULTS%SHELL%idrill
+      ISHEA_D = 0
+      NPTS_D = 0
+!
 C-----------------------------------------------
 C     /DAMP
 C-----------------------------------------------
@@ -486,7 +487,7 @@ C     /DEFAULT/INTER
 C----------------------------------------------
       IF (MYQAKEY('/DEFAULT/INTER')) THEN
 C
-        DEF_INTER(1:100) = DEFAULTS%interface%DEF_INTER(1:100) 
+        DEF_INTER(1:100) = DEFAULTS%interface%DEF_INTER(1:100)
         CALL QAPRINT('/DEFAULT/INTER', 0,0.0_8)
 
         DO MY_DEFAULTINTER=1,100

@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE ALE_MOD
       USE DEFAULTS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,7 +70,7 @@ C-----------------------------------------------
       INTEGER IGTYP , IGEO(*) ,ISKN(LISKN,*) ,ITABM1(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       my_real GEO(*)
-      CHARACTER IDTITL*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::IDTITL
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(SOLID_DEFAULTS_), INTENT(IN) :: DEFAULTS_SOLID
 C-----------------------------------------------
@@ -81,8 +82,9 @@ C-----------------------------------------------
       INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS
      
       my_real  ANGL,PUN,CVIS,RBID,VX,VY,VZ,FAC_L,FAC_T,FAC_M, PTHK, AN, PHI
-      CHARACTER*nchartitle,TITR
-      CHARACTER MESS*40,KEY*ncharkey
+      CHARACTER(LEN=NCHARTITLE)::TITR
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARKEY)::KEY
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

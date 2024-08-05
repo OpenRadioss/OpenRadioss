@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE OPTIONDEF_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -59,10 +60,8 @@ C-----------------------------------------------
      .        ID,IBUFBOX(*),IADB,NN,IBOXMAX
       my_real
      .        X(3,*),SKEW(LSKEW,*)
-      CHARACTER*nchartitle,
-     .   TITR
-      CHARACTER*ncharfield,
-     .   KEY
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARFIELD) :: KEY
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
       TYPE (BOX_)    , DIMENSION(NBBOX)  :: IBOX
 C-----------------------------------------------
@@ -1251,7 +1250,7 @@ C-----------------------------------------------
      .        BUFTMP(NUMEL*5),NGRELE,NN,IBOXMAX,IADB,IBUFBOX(*)
       my_real X(3,*),SKEW(LSKEW,*)
       CHARACTER KEY*4,MES*40
-      CHARACTER*nchartitle,TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
       TYPE (GROUP_), DIMENSION(NGRELE) :: IGRELEM
       TYPE (BOX_)  , DIMENSION(NBBOX)  :: IBOX
@@ -1616,7 +1615,7 @@ C-----------------------------------------------
      .        IADB,SBUFBOX,TAGSHELLBOX(*),NN
       MY_REAL X(3,*),SKEW(LSKEW,*)
       CHARACTER KEY*4,MESS*40
-      CHARACTER*nchartitle,TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
       TYPE (SURF_) :: ISURFLIN
       TYPE (BOX_)  , DIMENSION(NBBOX)  :: IBOX
@@ -1956,8 +1955,7 @@ C-----------------------------------------------
       MY_REAL
      .        X(3,*),SKEW(LSKEW,*)
       CHARACTER KEY*4
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE (SURF_) :: IGRSURF
       TYPE (BOX_)  , DIMENSION(NBBOX)  :: IBOX
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
@@ -2109,6 +2107,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE OPTIONDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2129,7 +2128,7 @@ C-----------------------------------------------
      .        NOD2ELTG(*),IXTG(NIXTG,*),TAGSHELLBOXG(*)
       MY_REAL
      .        X(3,*),SKEW(LSKEW,*)
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
       TYPE (BOX_)  , DIMENSION(NBBOX)  :: IBOX
 C-----------------------------------------------

@@ -61,6 +61,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MULTI_FVM_MOD
       USE INTERFACES_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -115,8 +116,7 @@ C-----------------------------------------------
       LOGICAL TYPE18
       CHARACTER MESS*40
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       DATA MESS/'INTERFACE INPUT                         '/
 C=======================================================================
        ALLOCATE(NTAG_TARGET(2*NUMNOD+1), STAT=Stat)

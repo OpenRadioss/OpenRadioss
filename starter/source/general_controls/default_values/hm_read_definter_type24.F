@@ -38,6 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,8 +67,8 @@ C-----------------------------------------------
       my_real
      .   ETEN_M,EDG_ANGL,GAPMAX_S,GAPMAX_M,STMIN,STMAX,PENMAX,PENMIN,
      .   VISC,VISCF,BUMULT,ALPHA,GAP,STARTT,STOPT,STFAC,FRIC
-      CHARACTER 
-     .   BCFLAG*ncharfield, BCFLAGM*ncharfield,KEY*ncharkey,KEY1*ncharkey
+      CHARACTER(LEN=NCHARFIELD)::BCFLAG, BCFLAGM
+      CHARACTER(LEN=NCHARKEY)::KEY,KEY1
       LOGICAL IS_AVAILABLE
 !
 C============================================================================

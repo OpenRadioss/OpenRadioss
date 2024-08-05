@@ -36,6 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -59,7 +60,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "param_c.inc"
 #include "com04_c.inc"
-#include "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: USER_ID, INTERNAL_ID
       my_real,TARGET :: PM(NPROPM,NUMMAT),BUFMAT(*)
       my_real        :: UPARAM(*)
-      CHARACTER*nchartitle, INTENT(IN) :: TITR
+      CHARACTER(LEN=NCHARTITLE),INTENT(IN) ::  TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C-----------------------------------------------
       my_real, EXTERNAL              :: IE_BOUND
       my_real, DIMENSION(:), POINTER :: UPARAM_
 
-      CHARACTER*nchartitle :: chain1
+      CHARACTER(LEN=NCHARTITLE) :: chain1
 
       !====================================POLYNOMIAL EOS
       my_real :: RHO,C0,C1,C2,C3,C4,C5,E0,PSH,P0,DPDMU,SSP

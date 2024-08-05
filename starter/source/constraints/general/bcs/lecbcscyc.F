@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD    
       USE SUBMODEL_MOD        
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +66,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IGR1,IGR2,IGRS1,IGRS2,NBCS_CY_N,ID,SUB_INDEX
-      CHARACTER KEY*ncharkey,TITR*nchartitle
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -426,7 +428,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -451,7 +454,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,NTY,NSN,NMN,ISL,NKIN,NOINT,IMODI,II,N1,N2,ND
       INTEGER K,ILEV,NUVAR,IDEL7N,INTTH,IPR,IML,ICOM
-      CHARACTER*nchartitle, TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS1,IS2,ISD
 C=======================================================================
        DO N=1,NINTER

@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE ALE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +66,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(MLAW_TAG_), DIMENSION(NUMMAT), INTENT(INOUT)  :: MLAW_TAG
-      CHARACTER*nchartitle, INTENT(INOUT) :: TITR,TITR1,TITR2
+      CHARACTER(LEN=NCHARTITLE), INTENT(INOUT) :: TITR,TITR1,TITR2
       INTEGER,INTENT(INOUT)::IGEO(NPROPGI,NUMGEO)      
       INTEGER,INTENT(IN) :: ID,IMID,PID,IPID,IGTYP,ILAW
       INTEGER,INTENT(INOUT) :: MID,JALE_FROM_PROP,JALE_FROM_MAT

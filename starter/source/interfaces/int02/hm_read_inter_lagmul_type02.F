@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +62,7 @@ C-----------------------------------------------
       INTEGER IPARI(*),DEF_INTER(*)
       my_real
      .   FRIGAP(*) , STFAC
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
@@ -79,7 +80,7 @@ C-----------------------------------------------
      .    IDEL2,IBUC,INTKG,IS1,IS2
       my_real
      .   STARTT,STOPT,DSEARCH
-      CHARACTER KEY1*ncharkey
+      CHARACTER(LEN=NCHARKEY) ::  KEY1
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------

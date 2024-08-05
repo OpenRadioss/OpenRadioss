@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,7 +65,7 @@ C-----------------------------------------------
       INTEGER IGTYP,IG
       my_real
      .   GEO(*)
-      CHARACTER IDTITL*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::IDTITL
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C-----------------------------------------------
@@ -75,7 +76,8 @@ C-----------------------------------------------
      .   IR1X, IR1Y, IR1Z, IR2X, IR2Y, IR2Z,IRX 
       my_real
      .    PUN,CVIS
-      CHARACTER STRING*ncharfield,CHROT*7
+      CHARACTER(LEN=NCHARFIELD) :: STRING
+      CHARACTER CHROT*7
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

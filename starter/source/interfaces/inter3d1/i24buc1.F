@@ -61,9 +61,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1   LC2,LC3,LC4,N11,N21,
      2   N31,DGAPLOAD,S_KREMNODE,S_REMNODE,
      3   KREMNODE,REMNODE,FLAG_REMOVED_NODE)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
 #ifndef HYPERMESH_LIB
       USE MESSAGE_MOD
 #endif
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -103,8 +107,7 @@ C     REAL
       INTEGER, INTENT(in) :: S_REMNODE !< size of REMNODE   
       INTEGER, DIMENSION(S_KREMNODE), INTENT(in) :: KREMNODE 
       INTEGER, DIMENSION(S_REMNODE), INTENT(in) :: REMNODE
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) ::PROV_N,PROV_E
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4,NSVG
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4

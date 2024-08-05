@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE REFSTA_MOD
       USE INOUTFILE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER TMP_NAME*ncharline
+      CHARACTER(LEN=NCHARLINE) :: TMP_NAME
       INTEGER LEN_TMP_NAME,J, I, LEN_
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------

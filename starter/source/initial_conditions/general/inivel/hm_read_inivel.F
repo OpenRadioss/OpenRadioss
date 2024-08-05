@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
 C----------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -114,7 +115,10 @@ C-----------------------------------------------
       INTEGER :: FVM_GRBRIC_USER_ID(NINVEL), FVM_GRQUAD_USER_ID(NINVEL), FVM_GRTRIA_USER_ID(NINVEL) ! printout only
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNO_RBY
       my_real :: V1, V2, V3, V4, V5, V6, VL1, VL2, VL3,VRA, OX, OY, OZ, NIXJ(6),VR1,VR2,VR3,VRL1,VRL2,VRL3,BID
-      CHARACTER MESS*40,LLINE*ncharline,TITR*nchartitle,KEY*ncharkey,XYZ*ncharfield
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      CHARACTER(LEN=NCHARFIELD) ::XYZ
       LOGICAL LV,LVR
       LOGICAL IS_AVAILABLE, IS_FOUND_UNIT_ID, IS_FOUND
 C-----------------------------------------------

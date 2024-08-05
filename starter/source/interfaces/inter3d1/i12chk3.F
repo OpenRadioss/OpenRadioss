@@ -42,6 +42,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_10I
 C-----------------------------------
 C     CHECK ELEMENT FOR TYPE 12
@@ -67,8 +68,7 @@ C-----------------------------------------------
      .   ITAB(*), FCOUNT(*), KNOD2ELS(*), NOD2ELS(*)
       my_real
      .   X(3,*),GEO(NPROPG,*), PM(NPROPM,*)
-      CHARACTER*nchartitle,
-     .        TITR
+      CHARACTER(LEN=NCHARTITLE) ::  TITR
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

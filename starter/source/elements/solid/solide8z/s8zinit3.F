@@ -76,6 +76,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD      
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,8 +128,7 @@ C-----------------------------------------------
       INTEGER NF1, I, IL, IGTYP,IPID1,NCC,IDEF,NREFSTA,
      .     IP,IR, IS, IT,JHBE,IREP,MPT,NLAY,NPTR,NPTS,NPTT,NUVAR,
      .     L_PLA,L_SIGB,NSPHDIR, NCELF, NCELL,IBOLTP,L_JAC,NNPT
-      CHARACTER*nchartitle,
-     .   TITR1
+      CHARACTER(LEN=NCHARTITLE)::TITR1
       my_real
      .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),X5(MVSIZ),X6(MVSIZ),
      .   X7(MVSIZ),X8(MVSIZ),Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),Y4(MVSIZ),

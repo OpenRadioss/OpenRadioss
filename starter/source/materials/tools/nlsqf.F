@@ -563,6 +563,7 @@ C=======================================================================
       SUBROUTINE LAW69_NLSQF(LAWID,STRETCH,Y,MA,NMUAL,NPT,MUAL,
      $                       ICHECK, NSTART, ERRTOL,ID,TITR)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -586,8 +587,7 @@ C-----------------------------------------------
       my_real YOGD,XOGD
 
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER MINITER_LM, MAXITER_LM
       DATA MINITER_LM /5/
       SAVE MINITER_LM

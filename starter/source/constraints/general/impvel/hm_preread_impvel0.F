@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,12 +60,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER                :: I,OPTID,UID,NIMDISP
-      CHARACTER(2)           :: XX,YY,ZZ
-      CHARACTER(ncharfield)  :: XYZ
-      CHARACTER(ncharkey)    :: KEY
-      CHARACTER(nchartitle)  :: TITR
-      LOGICAL                :: IS_AVAILABLE
+      INTEGER  :: I,OPTID,UID,NIMDISP
+      CHARACTER(LEN=2) :: XX,YY,ZZ
+      CHARACTER(LEN=NCHARFIELD) :: XYZ
+      CHARACTER(LEN=NCHARKEY)  :: KEY
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   D a t a
 C-----------------------------------------------

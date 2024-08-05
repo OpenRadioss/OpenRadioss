@@ -39,6 +39,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +54,7 @@ C-----------------------------------------------
      .        KXIG3D(NIXIG3D,*),IPARTIG3D(*),IXIG3D(*),
      .        KNOD2ELIG3D(*),NOD2ELIG3D(*),NIGE(*)
       INTEGER IEXT,NSEG,FLAG,IFRE,NSEGIGE,IGEO(NPROPGI,*),IADTABIGE,DECALIGEO
-      CHARACTER KEY*ncharkey
+      CHARACTER(LEN=NCHARKEY) :: KEY
       my_real
      .   X(3,*),V(3,*),WIGE(*),KNOT(*),RIGE(3,*),XIGE(3,*),VIGE(3,*),
      .   KNOTLOCPC(*),KNOTLOCEL(2,3,*)

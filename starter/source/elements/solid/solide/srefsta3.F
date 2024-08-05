@@ -50,7 +50,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MAT_ELEM_MOD
-      USE MESSAGE_MOD             
+      USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,7 +73,6 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER IXS(NIXS,*), IPARG(*),IPARTS(*), IGEO(*),
      .    IPM(NPROPMI,*),IPART(LIPART1,*), NEL, NPF(*)
-C     REAL
       my_real
      .   PM(NPROPM,*), X(3,*), XREFS(8,3,*), GEO(NPROPG,*),
      .   SKEW(LSKEW,*), BUFMAT(*), TF(*)
@@ -129,7 +129,7 @@ C-----------------------------------------------
      .   FAC, XT, YT, ZT
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF 
-      CHARACTER*nchartitle , TITR
+      CHARACTER(LEN=NCHARTITLE):: TITR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================

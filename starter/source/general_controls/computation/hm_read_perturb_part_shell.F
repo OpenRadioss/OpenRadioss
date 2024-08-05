@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD, NCHARKEY
       USE FORMAT_MOD , ONLY : LFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -86,7 +87,9 @@ C-----------------------------------------------
      .   CPT_PART,NB_RANDOM,I_SEED,DISTRIB(50),
      .   II,NB_INTERV,IGRPRT,N,IOK,SEED,SEED_RANDOM,
      .   ITYP,L,I_PERTURB_VAR,SIZEY,EMPTY
-      CHARACTER TITR*nchartitle,KEY*ncharkey,MES*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      CHARACTER MES*40
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAB_PART
       INTEGER, DIMENSION(:),   ALLOCATABLE :: A_SEED
       INTEGER, DIMENSION(1:8) :: DT_SEED
@@ -97,7 +100,8 @@ C-----------------------------------------------
       CHARACTER*100 CHAR(100)
       CHARACTER*100 CHAR1(100)
       CHARACTER*100 CHAR2
-      CHARACTER MESS*40,CHVAR*(2*ncharfield)
+      CHARACTER MESS*40
+      CHARACTER(LEN=2*NCHARFIELD)::CHVAR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

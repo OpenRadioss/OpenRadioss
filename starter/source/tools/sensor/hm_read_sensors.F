@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE SENSOR_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -112,7 +113,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISEN,IUNIT,IFLAGUNIT,NS,TYP,UNIT_ID,SENS_ID
       my_real :: BID
-      CHARACTER TITR*nchartitle,KEY*40,MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER KEY*40,MESS*40
       INTEGER ,DIMENSION(:) ,ALLOCATABLE   :: SID
       TYPE (SENSOR_STR_)    ,POINTER :: SENSOR_PTR
       DATA MESS/'SENSOR DEFINITION                       '/

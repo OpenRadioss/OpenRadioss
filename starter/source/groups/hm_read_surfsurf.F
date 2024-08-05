@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,8 +72,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:) , ALLOCATABLE :: ITRI
       INTEGER, DIMENSION(:) , ALLOCATABLE :: INDEX,BUFTMP
 
-      CHARACTER TITR*nchartitle,KEY*ncharkey,KEY2*ncharkey,
-     .          KEY3*ncharkey
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2,KEY3
       INTEGER :: NB_IDS, NB_NEG_IDS
       INTEGER, DIMENSION(:), ALLOCATABLE :: IDS
       LOGICAL :: IS_AVAILABLE

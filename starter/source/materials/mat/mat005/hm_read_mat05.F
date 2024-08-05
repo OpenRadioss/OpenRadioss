@@ -62,6 +62,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD          
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,7 +81,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN)                   :: UID
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
       INTEGER,INTENT(IN)                    :: MAT_ID
-      CHARACTER*nchartitle,INTENT(IN)       :: TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
       TYPE(UNIT_TYPE_), INTENT(IN)          :: UNITAB
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(NSUBMOD)
       TYPE(MATPARAM_STRUCT_),INTENT(INOUT)  :: MATPARAM

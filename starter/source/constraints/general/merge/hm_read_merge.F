@@ -114,8 +114,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MGRBY(NMGRBY,*),NPBY(NNPBY,*),LPBY(*),
-     .        SLRBODY,SMGRBY,ITABM1(*),ITAB(*)
+      INTEGER MGRBY(NMGRBY,*),NPBY(NNPBY,*),LPBY(*),SLRBODY,SMGRBY,ITABM1(*),ITAB(*)
       my_real RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*),PTR_NOPT_RBMERGE
       INTEGER IGRV(NIGRV,*),IBGR(*)
@@ -166,7 +165,6 @@ C--------------------------------------------------
 C EXTRACT DATAS OF /RBODY/... LINE
 C--------------------------------------------------
         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, UNIT_ID = UID, OPTION_TITR = TITR, KEYWORD2 = KEY2)
-
 C--------------------------------------------------
 C WRITE TITLE IN OUT FILE
 C--------------------------------------------------
@@ -733,6 +731,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE RBMERGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : nchartitle
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -766,7 +765,8 @@ C-----------------------------------------------
       INTEGER NBSECONDARY, IDIR, NSL, NSL_XTRA
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
       INTEGER, DIMENSION(NXTRA_NODE) :: LIST_XTRA 
-      CHARACTER MESS*40,TITR*nchartitle    
+      CHARACTER MESS*40
+      CHARACTER(LEN=nchartitle) :: TITR
 C-----------------------------------------------
 !   RBMERGE(IRBM)%ID   :: Rigid body identifier
 !   RBMERGE(IRBM)%NBSECONDARY   :: Number of SECONDARY rigid body

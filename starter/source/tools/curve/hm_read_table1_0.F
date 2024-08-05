@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +57,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER L,NTABLE,NTABLE0,NFUNCT,NPC(*)
-      my_real PLD(*)
+      my_real  PLD(*)
       TYPE(TTABLE) TABLE(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -70,14 +71,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITYPE, IBID, NFUNCT0
-      INTEGER I, J, K, II, N,  NDIM, NX(4), NY,
-     .        JREC, NPTS, STAT, LL
+      INTEGER I, J, K, II, N,  NDIM, NX(4), NY, JREC, NPTS, STAT, LL
       INTEGER IERROR, NF, IDFUNC, NP
-C     REAL
-      my_real
-     .   BID, F5(5), TIME, FUNCT
-      CHARACTER TITR*nchartitle, MESS*40, KEY*ncharfield,
-     .          TITR1*nchartitle
+      my_real BID, F5(5), TIME, FUNCT
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      CHARACTER(LEN=NCHARFIELD) :: KEY
+      CHARACTER MESS*40
       DATA MESS/' FUNCTION & TABLE DEFINITION            '/
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C======================================================================|

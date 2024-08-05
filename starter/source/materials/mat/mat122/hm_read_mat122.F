@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD 
       USE ELBUFTAG_MOD
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e sXM
 C-----------------------------------------------
@@ -56,10 +57,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "nchar_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
-C
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -73,7 +72,7 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN)                 :: UNITAB 
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM   
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL  
-      CHARACTER*nchartitle ,INTENT(IN)             :: TITR
+      CHARACTER(LEN=NCHARTITLE),INTENT(IN)         :: TITR
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT)        :: MATPARAM
 C     
 C-----------------------------------------------

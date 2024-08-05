@@ -89,6 +89,7 @@ C-----------------------------------------------
       USE DRAPE_MOD        
       USE RANDOM_WALK_DEF_MOD
       USE FRACTAL_DMG_INIT_mod
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -155,7 +156,7 @@ c
      .                              E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,
      .                              X2S,Y2S,X3S,Y3S,X4S,Y4S,
      .                              X2L,X3L,X4L,Y2L,Y3L,Y4L
-      CHARACTER*nchartitle, TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
 c
       my_real, ALLOCATABLE, DIMENSION(:) :: DIR_A,DIR_B
       my_real , DIMENSION(:) ,POINTER   :: UVAR

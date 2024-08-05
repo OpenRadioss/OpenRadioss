@@ -45,6 +45,7 @@ C-----------------------------------------------
        USE HM_OPTION_READ_MOD
        USE SUBMODEL_MOD
        USE GROUPDEF_MOD
+       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +67,8 @@ C-----------------------------------------------
 
       INTEGER I,IG,IGS,ID
       INTEGER IFIX_TMP
-      CHARACTER KEY*ncharline,TITR*nchartitle
+      CHARACTER(LEN=NCHARLINE) :: KEY
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   P a r a m e t e r s
 C-----------------------------------------------

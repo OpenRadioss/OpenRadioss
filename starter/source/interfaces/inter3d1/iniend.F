@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE FRONT_MOD
       USE INTBUFDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,8 +68,7 @@ C     REAL
       my_real
      .   X(*), PM(*), GEO(*), MS(*), IN(*), STIFINT(*),STIFINTR(*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------

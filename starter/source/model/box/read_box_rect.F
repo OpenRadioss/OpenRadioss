@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE OPTIONDEF_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,8 +80,8 @@ C-----------------------------------------------
       INTEGER :: I,J,N1,N2,UID,BOXID,SUB_ID,SKEW_ID,ISK,IUNIT,FLAGUNIT,
      .           SUB_INDEX 
       my_real :: FAC_L,XP1,YP1,ZP1,XP2,YP2,ZP2
-      CHARACTER(ncharkey)    :: KEY
-      CHARACTER(nchartitle)  :: TITR,MESS
+      CHARACTER(LEN=NCHARKEY)    :: KEY
+      CHARACTER(LEN=NCHARTITLE)  :: TITR,MESS
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

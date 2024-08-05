@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD    
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,7 +85,9 @@ C-----------------------------------------------
      .  MFITMP, IVAD, LVAD, ITYPE, IDSURF, IFTEMP,
      .  IFVITS,IFDENS, IFPRES, IFENER,SKIP,
      .  IAD,IN1,IN2,IN3,IN4, IUN,NBOX,NBOY,NBOZ,NBAND
-      CHARACTER MESS*40,TITR*nchartitle,KEY*ncharkey
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY
       my_real
      .   BID,RHOIN,PIN,EIN,DIST,
      .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,

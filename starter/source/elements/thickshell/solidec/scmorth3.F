@@ -37,7 +37,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .       E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .       NGL  ,ANGLE,NSIGI,SIGSP,NSIGS,SIGI ,IXS  ,ILAY ,
      .       ORTHOGLOB  ,PT,NEL)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,8 +67,7 @@ C-----------------------------------------------
      .        E1X(*),E1Y(*),E1Z(*),E2X(*),E2Y(*),E2Z(*),E3X(*),E3Y(*),E3Z(*),
      .        SIGSP(NSIGI,*),SIGI(NSIGS,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE LOADS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,9 +75,7 @@ C-----------------------------------------------
       INTEGER NUM
       INTEGER IBCL(NIBCLD,*), ITAB(*), ITABM1(*),NWORK(*),
      .        ISKN(LISKN,*)
-C     REAL
-      my_real
-     .   FORC(LFACCLD,*)
+      my_real FORC(LFACCLD,*)
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       TYPE (LOADS_),INTENT(INOUT) :: LOADS
 C-----------------------------------------------
@@ -89,9 +88,9 @@ C-----------------------------------------------
       INTEGER I,J,K,K1,K2,NOD, NCUR, NOSKEW, ISENS,NLD0,NN,IGU,IGS,
      .        UID,IAD,NS,IWA,ID,NUM0,IFLAGUNIT,COMPT,SUB_INDEX,IDIR,IFUNCTYPE
       INTEGER NNB
-      CHARACTER MESS*40, XYZ*ncharfield,
-     .          X*1, Y*1, Z*1, XX*2, YY*2, ZZ*2
-      CHARACTER TITR*nchartitle
+      CHARACTER MESS*40,X*1, Y*1, Z*1, XX*2, YY*2, ZZ*2
+      CHARACTER(LEN=NCHARFIELD) :: XYZ
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

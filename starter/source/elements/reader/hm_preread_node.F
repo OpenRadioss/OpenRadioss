@@ -41,6 +41,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,16 +63,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,I,J,IERROR, STAT
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IFLAGUNIT, UID, ID
-C     REAL
-      my_real
-     .    FAC_L
+      my_real FAC_L
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_NOD,UID_NOD
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAB
-      my_real, DIMENSION(:,:), ALLOCATABLE ::
-     .                                       X
+      my_real, DIMENSION(:,:), ALLOCATABLE :: X
       REAL*8, DIMENSION(:,:), ALLOCATABLE :: HM_X
       REAL*8, DIMENSION(:), ALLOCATABLE :: DMERGE
-      CHARACTER KEY*ncharfield
+      CHARACTER(LEN=NCHARFIELD) :: KEY
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------      
       FAC_L = ONE

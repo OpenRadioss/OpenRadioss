@@ -59,6 +59,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE DRAPE_MOD
       USE QA_OUT_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -142,8 +143,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISTOR,INUM_WORKSH
 C     REAL OU REAL*8
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR,TITR1,TITR2
+      CHARACTER(LEN=NCHARTITLE)::TITR,TITR1,TITR2
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
       INTEGER :: NB_NODES, LDIM, OFFSET
       

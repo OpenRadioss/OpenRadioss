@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -76,7 +77,7 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT)                       :: MAT_ID
       INTEGER, INTENT(INOUT)                       :: ISRATE
       INTEGER, DIMENSION(NPROPMI) ,INTENT(INOUT)   :: IPM
-      CHARACTER*nchartitle ,INTENT(IN)             :: TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)             :: TITR
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG6,MTAG17

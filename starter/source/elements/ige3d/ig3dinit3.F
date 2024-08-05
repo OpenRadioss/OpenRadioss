@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE DETONATORS_MOD      
       USE ALE_CONNECTIVITY_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,8 +100,7 @@ C-----------------------------------------------
      .        EL_ID(MVSIZ),N1,N2,N3,NKNOT1,NKNOT2,NKNOT3,
      .        IDX(MVSIZ),IDY(MVSIZ),IDZ(MVSIZ),
      .        IDX2(MVSIZ),IDY2(MVSIZ),IDZ2(MVSIZ)
-      CHARACTER*nchartitle,
-     .   TITR1
+      CHARACTER(LEN=NCHARTITLE)::TITR1
       my_real
      .   BID, FV, V8LOC(51,MVSIZ), VOLU(MVSIZ), DTX(MVSIZ),DTX0(MVSIZ),
      .   MASS(NCTRL,NEL),INN(MVSIZ,8),XX(NCTRL,MVSIZ),

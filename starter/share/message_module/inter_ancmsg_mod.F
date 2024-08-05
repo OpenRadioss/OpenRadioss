@@ -37,17 +37,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  C1    ,C2    ,C3    ,C4    ,
      .                  C5    ,C6    ,C7    ,C8    ,C9    ,   
      .                  PRMOD )   
-c     .                  PRMOD ,IOPTION,IOPTION_TYPE)
+       USE NAMES_AND_TITLES_MOD , ONLY : ncharkey, nchartitle, ncharline, ncharline100, line120, ncharfield
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MSGID,ANMODE,MSGTYPE,PRMOD
-c      INTEGER MSGID,ANMODE,MSGTYPE,PRMOD,IOPTION,IOPTION_TYPE
       INTEGER
      .                 I1,I2,I3,I4,I5,
      .                 I6,I7,I8,I9,I10,
@@ -69,7 +67,6 @@ c      INTEGER MSGID,ANMODE,MSGTYPE,PRMOD,IOPTION,IOPTION_TYPE
      .                 C1,C2,C3,C4,
      .                 C5,C6,C7,C8,C9,
      .                 PRMOD
-c     .                 PRMOD,IOPTION,IOPTION_TYPE
       END SUBROUTINE
       END INTERFACE
 C=======================================================================

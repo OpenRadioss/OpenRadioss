@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,8 +87,8 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NUMNOD) :: NOD1
       my_real ,DIMENSION(NUMNOD) :: XF,YF,ZF
       my_real :: TSTART,TSTOP,XSCALE,FSCAL_T,FSCAL_V,DIST,XI,YI,ZI,XRF,YRF,ZRF
-      CHARACTER(ncharkey)    :: KEY
-      CHARACTER(nchartitle)  :: TITR,MESS
+      CHARACTER(LEN=NCHARKEY)    :: KEY
+      CHARACTER(LEN=NCHARTITLE)  :: TITR,MESS
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

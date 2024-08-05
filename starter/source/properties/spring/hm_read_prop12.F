@@ -43,7 +43,8 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD   
-      USE SUBMODEL_MOD     
+      USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,8 +63,7 @@ C-----------------------------------------------
       INTEGER  IGEO(NPROPGI),IGTYP,IG
 C     REAL
       my_real GEO(NPROPG)
-      CHARACTER*nchartitle,
-     .   IDTITL
+      CHARACTER(LEN=NCHARTITLE) :: IDTITL
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C-----------------------------------------------
@@ -77,8 +77,7 @@ C     REAL
      .  YSCALEF,XSCALEF,FMAX,FMIN
       my_real
      .   A_UNIT,D_UNIT,E_UNIT,F_UNIT,LSCALE_UNIT,GF3_UNIT,RUP_UNIT,XSCALE_UNIT,FMIN_UNIT
-      CHARACTER*nchartitle,
-     .   SLASH
+      CHARACTER(LEN=NCHARTITLE) :: SLASH
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C=======================================================================
 c

@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE MY_ALLOC_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,8 +62,7 @@ C-----------------------------------------------
       CHARACTER VAR*10
         INTEGER JREC,TRU,N,L,M,I,J,K,OK
       INTEGER ID,NMONV,IMONV,NLABEL
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER NVAR
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       LOGICAL IS_AVAILABLE

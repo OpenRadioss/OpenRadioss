@@ -41,6 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      CHARACTER S0FILE*ncharline
+      CHARACTER(LEN=NCHARLINE) :: S0FILE
       INTEGER ISIGI,IOUTP_FMT,IROOTYY_R
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C-----------------------------------------------

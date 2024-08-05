@@ -33,15 +33,12 @@ C
       !||====================================================================
       SUBROUTINE INVOI3(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,NSEG,NSN,NMN,ITAB,ID,TITR,NRT)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -49,7 +46,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN)  :: IRECT(4,*), LMSR(*), MSR(*), NSV(*), NSEG(*), ITAB(*)
       INTEGER, INTENT(INOUT) :: ILOC(*), IRTL(*)
       my_real, INTENT(IN)  :: X(3,*)
-      CHARACTER*nchartitle, TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

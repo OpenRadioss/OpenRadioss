@@ -65,6 +65,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 #ifndef HYPERMESH_LIB
       USE MESSAGE_MOD
 #endif
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,8 +105,7 @@ C     REAL
       INTEGER, DIMENSION(S_KREMNODE), INTENT(in) :: KREMNODE 
       INTEGER, DIMENSION(S_REMNODE), INTENT(in) :: REMNODE
       INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: TAG_REMOVED_NODE
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) ::PROV_N,PROV_E
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4,NSVG
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4

@@ -52,6 +52,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE R2R_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +75,6 @@ C-----------------------------------------------
       INTEGER NPBY(NNPBY,*), M, ISPH, NRB
       INTEGER ITAB(*), RBYID,ITAGND(*)
       INTEGER, TARGET :: LPBY(*)
-C     REAL
       my_real
      .   RBY(NRBY,*), MS(*), IN(*), X(3,*), SKEW(LSKEW,*),
      .   B1, B2, B3, B5, B6, B9,TOTMAS ,XGT ,YGT ,
@@ -82,8 +82,7 @@ C     REAL
      .   II1,II2,II3,II4,II5,II6,II7,II8,II9,
      .   RBY_R2R(9),RBY_INIAXIS(7,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1122,6 +1121,7 @@ C
      .                   ZGT ,NPBY ,IWA   ,V   ,VR, 
      .                   RBYID,ID  ,TITR  ,ITAGND ,RBY_INIAXIS)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C=======================================================================
 C    RBY    EN SORTIE DE INIRBY
 C     1 -> 9 :  MATRICE ROTATION
@@ -1155,8 +1155,7 @@ C     REAL
      .   B1, B2, B3, B5, B6, B9,TOTMAS ,XGT ,YGT ,
      .   ZGT,RBY_INIAXIS(7,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

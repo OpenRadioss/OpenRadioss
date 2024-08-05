@@ -38,6 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,11 +65,9 @@ C-----------------------------------------------
      .        ILAY,IR,IS,PID,IPID,IGTYP
       INTEGER KN,PT,J1,JJ1,K
 !
-      CHARACTER*nchartitle,
-     .   TITR1
+      CHARACTER(LEN=NCHARTITLE)::TITR1
 !
-      my_real,
-     .   DIMENSION(:), POINTER :: UVAR
+      my_real, DIMENSION(:), POINTER :: UVAR
 C=======================================================================
 !---
 !     INITIAL USER VARIABLES

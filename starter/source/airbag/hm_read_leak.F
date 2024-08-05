@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD 
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,23 +62,21 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       INTEGER IPM(NPROPMI,*)
-C     REAL
-      my_real
-     .   PM(NPROPM,*)
+      my_real PM(NPROPM,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER UID,HM_NLEAK,IFLAGUNIT,IUNIT
       INTEGER I, K, ILAW, IMID, IMAT, ILEAKAGE, IFTLC, IFTAC, IFTACP,
-     .        NFUNC 
-C     REAL
+     .        NFUNC
       my_real 
      .   ASCALET, ASCALEP, SCALELC, SCALEAC, FLC, FAC,
      .   X0, X1, X2, X3,
      .   LR1,LR2,FTHK,C1,C2,C3,
      .   FACP, SCALEACP
 C
-      CHARACTER TITR*nchartitle,LINESAVE*ncharline     
+      CHARACTER(len=nchartitle) :: TITR
+      CHARACTER(len=ncharline) :: LINESAVE
       LOGICAL :: IS_AVAILABLE
       IS_AVAILABLE = .FALSE.
 C=================================================================================

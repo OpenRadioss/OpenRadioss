@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE FAIL_PARAM_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,7 +73,7 @@ C-----------------------------------------------
       INTEGER USERL_AVAIL
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
       my_real, DIMENSION(4)           :: UNITAB_SUB
-      CHARACTER IUSER_KEY*ncharline
+      CHARACTER(LEN=NCHARLINE) :: IUSER_KEY
       TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

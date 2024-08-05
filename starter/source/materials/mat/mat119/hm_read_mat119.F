@@ -62,7 +62,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD          
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,7 +80,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(INOUT)  :: NUPARAM,NUVAR,NUMTABL,ISRATE
       INTEGER ,INTENT(IN)   :: MAT_ID,MAXUPARAM,MAXTABL
       INTEGER, DIMENSION(MAXTABL) ,INTENT(INOUT) :: ITABLE
-      CHARACTER*nchartitle,INTENT(IN)::TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)::TITR
       my_real ,INTENT(INOUT):: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       TYPE (UNIT_TYPE_)      ,INTENT(IN)    :: UNITAB 
       TYPE(SUBMODEL_DATA)    ,INTENT(IN)    :: LSUBMODEL(*)

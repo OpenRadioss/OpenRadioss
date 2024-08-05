@@ -42,7 +42,8 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD
-      USE SUBMODEL_MOD 
+      USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +72,7 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IOUT,NUVAR,ISKN(LISKN,*),IG,IGTYP,SUB_ID
       my_real GEO(*),PARGEO(*)
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       INTEGER SET_U_PNU,SET_U_GEO,
      .        KFUNC,KUMAT,KUPROP

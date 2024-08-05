@@ -36,6 +36,7 @@ C
      2                  ITAB  ,IWPENE ,PENI   ,ICOR  ,ID    ,
      3                  INACTI,TITR   )
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOd , ONLY : FMW_7I, FMW_7I_2F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -55,7 +56,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), IRTL0(*),ITAB(*)
       my_real X(3,*), CST(2,*)
       INTEGER ID
-      CHARACTER*nchartitle,TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

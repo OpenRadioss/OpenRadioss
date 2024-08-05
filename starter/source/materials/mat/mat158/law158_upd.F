@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE TABLE_MOD
       USE SENSOR_MOD
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      CHARACTER*nchartitle            ,INTENT(IN)    :: TITR
+      CHARACTER(LEN=NCHARTITLE)       ,INTENT(IN)    :: TITR
       INTEGER                         ,INTENT(IN)    :: MAT_ID,NFUNC,NFUNL
       INTEGER ,DIMENSION(NFUNC)       ,INTENT(IN)    :: FUNC_ID
       INTEGER ,DIMENSION(NFUNC+NFUNL) ,INTENT(INOUT) :: IFUNC

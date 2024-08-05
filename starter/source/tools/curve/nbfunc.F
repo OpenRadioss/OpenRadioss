@@ -39,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,7 +58,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IT,ID,NPARAM,NPT,NFUNCT0,IBID,NTABLE0,NTABLE1,NTABLETOT
 C     REAL
-      CHARACTER TITR*nchartitle,KEY*20,MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER :: KEY*20,MESS*40
       DATA MESS/' FUNCTION COUNTING                      '/
       INTEGER :: IFUN,N1
       INTEGER :: IPYTHON

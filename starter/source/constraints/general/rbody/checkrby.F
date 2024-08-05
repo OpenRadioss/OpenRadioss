@@ -40,6 +40,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,9 +61,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPBY(NNPBY,*), LPBY(*), ITAB(*)
       INTEGER IKINE(*), IDDLEVEL, NUMSL
-C     REAL
-      my_real
-     .   RBY(NRBY,*)
+      my_real RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -70,7 +69,7 @@ C-----------------------------------------------
       INTEGER I,J,L,K,KK,M,N,NSL,NSKEW,IC,
      .   ISPHER,IDIR,P,IG,ID,ICDG,NSL_XTRA,
      .   NRB,NUMSL_TMP
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TABSL
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,IKINE1
       INTEGER IWORK(70000),IOLD

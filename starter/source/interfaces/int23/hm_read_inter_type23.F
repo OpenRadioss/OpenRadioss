@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +64,7 @@ C-----------------------------------------------
      .   STFAC,XFILTR
       my_real
      .   FRIGAP(*),FRIC_P(*)
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------

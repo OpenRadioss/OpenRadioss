@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE INIVOL_DEF_MOD , ONLY : INIVOL_STRUCT_, NUM_INIVOL
       USE QA_OUT_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -129,8 +130,7 @@ C-----------------------------------------------
        DATA IPMAT /100/
        INTEGER, DIMENSION(:), ALLOCATABLE :: INDEXS2
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER :: CLUSTER_TYP,CLUSTER_NEL
       INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_CLUSTER
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE

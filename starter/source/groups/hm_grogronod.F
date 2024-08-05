@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +71,9 @@ C-----------------------------------------------
      .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,SKIPFLAG,UID,NN,NENTITY
       INTEGER J10(10),BUFTMP(NUMNOD*2)
       INTEGER,DIMENSION(:),ALLOCATABLE :: LIST_ENTITY
-      CHARACTER TITR*nchartitle,KEY*ncharkey,ELKEY*4,KEY2*ncharkey
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
+      CHARACTER ELKEY*4
       LOGICAL IS_AVAILABLE   
       INTERFACE
        SUBROUTINE GROUPS_GET_ELEM_LIST(arg1,arg2,arg3)

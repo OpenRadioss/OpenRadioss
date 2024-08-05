@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SENSOR_MOD
       USE PARAMETERS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_I_2F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -69,11 +70,9 @@ C-----------------------------------------------
       INTEGER NOM_OPT(LNOPT1,*), NOM_OPTFRIC(LNOPT1,*)
       INTEGER ISU1,ISU2,NI
       INTEGER IPARI(*),DEF_INTER(*)
-      my_real
-     .   STFAC,XFILTR
-      my_real
-     .   FRIGAP(*),FRIC_P(*)
-      CHARACTER TITR*nchartitle,TITR1*nchartitle
+      my_real STFAC,XFILTR
+      my_real FRIGAP(*),FRIC_P(*)
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
@@ -107,9 +106,10 @@ C-----------------------------------------------
      .    PERCENT_SIZE,GAPMAX_S,GAPMAX_M,PENMAX,PENMIN,VISC,VISCF,
      .    ETEN_M,PADM,ANGLADM,RSTH,FHEAT,TINT,CADM,TPFIT,STFACM,
      .    DTSTIF
-      CHARACTER MESS*40, MSGTITL*nchartitle
-      CHARACTER OPT*ncharkey,KEY*ncharkey,KEY1*ncharkey,
-     .          BCFLAG*ncharfield, BCFLAGM*ncharfield
+      CHARACTER(LEN=40)::MESS
+      CHARACTER(LEN=NCHARTITLE)::MSGTITL
+      CHARACTER(LEN=NCHARKEY)::OPT,KEY,KEY1
+      CHARACTER(LEN=NCHARFIELD)::BCFLAG,BCFLAGM
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C-----------------------------------------------

@@ -62,6 +62,7 @@ C-----------------------------------------------
       USE MONVOL_STRUCT_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_I_A
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -97,7 +98,8 @@ C-----------------------------------------------
      .        NBMONVOL,NBVENT,NVAR_TMP,ITYP_MONV,
      .        NVENT(NVOLU),NBVENT_MAX,N_BAK,IDSMAX,
      .        K1,K2,KIBJET,KIBHOL
-      CHARACTER TITR*nchartitle,MESS*40,TITR1*nchartitle,TMP_CHAR*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      CHARACTER MESS*40,TMP_CHAR*40
       CHARACTER*20 VENT_NAME(10,NVOLU)
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------

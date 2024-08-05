@@ -39,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE TABLE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      CHARACTER*nchartitle  :: TITR
+      CHARACTER(LEN=NCHARTITLE)  :: TITR
       INTEGER MAT_ID,IOUT,NFUNC
       INTEGER NPC(*), FUNC_ID(*),IFUNC(NFUNC)
       my_real UPARAM(*),PLD(*),PM(NPROPM)
@@ -64,7 +65,7 @@ C-----------------------------------------------
       my_real
      .        XK,HARD,X1,X2,Y1,Y2,LSCALE,XK_INI,DERI,H,E_OFFSET,
      .        X1_UL,X2_UL,Y1_UL,Y2_UL,DERI_UL,Y,Y_UL,EPS,Y_EPS
-      CHARACTER*nchartitle  :: TITR1
+      CHARACTER(LEN=NCHARTITLE)  :: TITR1
 C=======================================================================
 c     Transform FUNC_ID ->  Function number , leakmat only
 C

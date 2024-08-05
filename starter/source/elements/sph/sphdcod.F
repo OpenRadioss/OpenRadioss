@@ -32,7 +32,11 @@ C
       !||    message_mod   ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE SPHDCOD(NPC,ISPHIO,NOM_OPT)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C     OPTIONS SPH (INLET/OUTLET CONDITIONS,..):
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -54,8 +58,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, IS, J, I, K
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
 C=======================================================================
 C     (I) TRAITEMENT DES FCTS
 C=======================================================================

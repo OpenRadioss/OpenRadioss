@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,8 +78,7 @@ C-----------------------------------------------
       INTEGER :: ID_LOCAL
       INTEGER, DIMENSION(:), ALLOCATABLE :: ENTITY_POS,ENTITY_NEG
       CHARACTER MOT*4
-      CHARACTER*nchartitle,
-     .   TITR,TITR1
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       LOGICAL IS_AVAILABLE,IS_ENCRYPTED
       INTEGER SET_USRTOS
       EXTERNAL SET_USRTOS

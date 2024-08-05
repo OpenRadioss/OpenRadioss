@@ -599,7 +599,7 @@ C-----------------------------------------------
       USE READ_FUNCT_PYTHON_MOD
       USE PYTHON_FUNCT_MOD
       USE INTER_CAND_MOD
-      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_
+      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,NCHARLINE
       USE damping_rby_spmdset_mod
       USE HM_READ_PRELOAD_AXIAL_MOD
       USE BCS_MOD, ONLY : BCS, BCS_STRUCT_
@@ -1012,7 +1012,7 @@ C======================================================================|
       INTEGER SRWORK
       INTEGER LXINTD
       my_real TOTADDMAS
-      CHARACTER*ncharline ERR_MSG
+      CHARACTER(LEN=NCHARLINE) ::ERR_MSG
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBORDEDGE,INOM_OPT
       DOUBLE PRECISION RSIBUFSSG,RNIGE,RRIGE,RXIGE,RVIGE
       INTEGER INTMAX, LLINAL,ITET4_10

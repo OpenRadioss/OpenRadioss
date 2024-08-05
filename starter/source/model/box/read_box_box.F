@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE OPTIONDEF_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,8 +64,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,KK,BOXID,SUB_ID,IDNEG,NLIST,NBOX_POS,NBOX_NEG
-      CHARACTER(ncharkey)    :: KEY
-      CHARACTER(nchartitle)  :: TITR
+      CHARACTER(LEN=NCHARKEY)    :: KEY
+      CHARACTER(LEN=NCHARTITLE)  :: TITR
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C     IBOX(I)%ID       : BOX IDENTIFIER

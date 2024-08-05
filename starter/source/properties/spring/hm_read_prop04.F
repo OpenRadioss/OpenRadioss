@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD           
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,9 +76,8 @@ C     REAL
       my_real
      .   A0, A, B, D, E, F, XM, XIN, XK, XC, DN, DX, PUN, 
      .   LSCALE,GF3,A_UNIT,B_UNIT,D_UNIT,E_UNIT,F_UNIT,LSCALE_UNIT,GF3_UNIT
-      CHARACTER*nchartitle,
-     .   TITR      
-      CHARACTER IDTITL*nchartitle
+      CHARACTER(LEN=NCHARTITLE) :: TITR      
+      CHARACTER(LEN=NCHARTITLE)::IDTITL
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

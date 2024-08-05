@@ -65,6 +65,7 @@ C-----------------------------------------------
       USE ALE_EBCS_MOD
       USE EBCS_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,8 +92,8 @@ C-----------------------------------------------
       INTEGER :: LOCAL_ID
       INTEGER :: ID,TYP,UID
       INTEGER :: II, SURF_ID, JJ, SUB_INDEX
-      CHARACTER*nchartitle :: TITR    
-      CHARACTER*ncharkey :: KEY, KEY2
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY, KEY2
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s

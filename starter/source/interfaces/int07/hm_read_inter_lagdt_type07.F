@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,7 +70,7 @@ C-----------------------------------------------
      .   STFAC,XFILTR
       my_real
      .   FRIGAP(*),FRIC_P(*)
-      CHARACTER TITR*nchartitle,TITR1*nchartitle
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
@@ -94,7 +95,7 @@ C-----------------------------------------------
      .   VISC,VISCF
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
-      CHARACTER KEY1*ncharkey
+      CHARACTER(LEN=NCHARKEY) ::  KEY1
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

@@ -42,7 +42,8 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
-      USE NOD2EL_MOD 
+      USE NOD2EL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,8 +66,7 @@ C     REAL
       my_real
      .   X(3,*),ST(2,*),DMIN(*),TZINF,DSEARCH,STB(2,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------

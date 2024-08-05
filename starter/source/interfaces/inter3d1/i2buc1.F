@@ -59,6 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2   LC2    ,LC3    ,LC4,S   ,T         ,
      2   ILEV)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C============================================================================
 C  cette routine est appelee par : ININT3(/inter3d1/inint3.F)
 C----------------------------------------------------------------------------
@@ -97,8 +98,7 @@ C     REAL
      .   X(3,*),XYZM(6,*),ST(*),DMIN(*),TZINF05,THK(*),THK_PART(*),
      .   GEO(NPROPG,*),PM(*),PM_STACK(*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: PROV_N,PROV_E,NSVG
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: N11,N12,N13

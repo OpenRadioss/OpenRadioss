@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD , only : SURF_
       USE MESSAGE_MOD , only : ANCMSG, aninfo_blind_1, MSGERROR
       USE SUBMODEL_MOD , only : SUBMODEL_DATA, NSUBMOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_I_A
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -88,7 +89,8 @@ C-----------------------------------------------
      .        IFITMP,IADFIN,NVAR,M,N,IAD1,IAD2,ISK,IPROC,ITITLE(LTITR),
      .        IDS,IDSMAX,
      .        NUM_FOUND
-      CHARACTER TITR*nchartitle,MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER MESS*40
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

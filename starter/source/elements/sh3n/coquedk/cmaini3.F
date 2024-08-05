@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD           
       USE STACK_MOD          
       USE DRAPE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,8 +96,7 @@ C-----------------------------------------------
       my_real
      .   COOR1(NPT_ALL,MVSIZ),COOR2(NPT_ALL,MVSIZ),COOR3(NPT_ALL,MVSIZ),
      .   COOR4(NPT_ALL,MVSIZ)
-      CHARACTER*nchartitle,
-     .   TITR,TITR1
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       my_real,
      .   DIMENSION(:),POINTER :: UVAR,DIR1,DIR2
       TYPE(G_BUFEL_) ,POINTER :: GBUF     

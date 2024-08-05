@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  NINT,NOINT, YM1, YM2, ZM1,
      .                  ZM2 ,YE   ,ZE,ID,TITR)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C------------------------------------------------
 C     RECHERCHE DU NUMERO D'ELEMENT DU SEGMENT
 C     CALCUL DES VARIABLES DE /SCR07/
@@ -57,8 +58,7 @@ C     REAL
       my_real
      .   X(3,*), YM1, YM2, ZM1, ZM2,YE(4) ,ZE(4)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -69,7 +70,9 @@ C-----------------------------------------------
       INTEGER I,ID,N,IWRITE,IERR0,LEN,I1,J,K,IREELM,IREELL,IREELT,
      .        IERR1,ID_OPT(NUNIT0+1),IS_M_STRING,IS_L_STRING,IS_T_STRING
       my_real  FAC,UNITE,BID,M_UNIT,L_UNIT,T_UNIT
-      CHARACTER KEY*ncharfield,KEY1*ncharline, CFAC*ncharfield, CUNIT
+      CHARACTER(LEN=NCHARFIELD)::KEY,CFAC
+      CHARACTER(LEN=NCHARLINE)::KEY1
+      CHARACTER CUNIT
       CHARACTER*20 FIELD1,FIELD2,FIELD3
       CHARACTER*20 FIELD11(NUNIT0+NSUBMOD),FIELD22(NUNIT0+NSUBMOD),FIELD33(NUNIT0+NSUBMOD),
      .             KEYMSUB,KEYLSUB,KEYTSUB,KEYMISUB,KEYLISUB,KEYTISUB
@@ -121,7 +124,7 @@ C
       L_UNIT = ZERO
       T_UNIT = ZERO    
       IERR1 = 1
-      LEN = ncharfield*2
+      LEN = ncharfield
       ID_OPT(1:NUNIT0) = 0
 C     Chaque unite globale doit etre definie une seule fois
 C     (input vers <= 90)

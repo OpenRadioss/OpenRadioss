@@ -32,7 +32,12 @@ C
       !||====================================================================
       SUBROUTINE I1TID2(X,IRECT,CRST,MSR,NSV,ILOC,IRTL,NSN,ITAB,
      .                  ID,TITR)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+C
       USE FORMAT_MOD , ONLY : FMW_5I_F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -53,8 +58,7 @@ C     REAL
       my_real
      .   X(3,*), CRST(2,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

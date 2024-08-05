@@ -38,6 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,8 +67,8 @@ C-----------------------------------------------
       my_real
      .   STMIN,STMAX,PERCENT_SIZE,DTMIN,STFAC,FRIC,GAP,STARTT,STOPT,VISC,
      .   VISCF,BUMULT
-      CHARACTER 
-     .   BCFLAG*ncharfield, BCFLAGM*ncharfield,KEY*ncharkey,KEY1*ncharkey
+      CHARACTER(LEN=NCHARFIELD) :: BCFLAG, BCFLAGM
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY1
       LOGICAL IS_AVAILABLE
 C============================================================================
 C       READING DEFAULT VALUES INTERFACE TYPE11 (/DEFAULT/INTER/TYPE11)

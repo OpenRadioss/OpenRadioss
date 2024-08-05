@@ -107,10 +107,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !               * SENSOR_STR   : general sensor structure with dynamic allocation
 !$ENDCOMMENT
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE NAMES_AND_TITLES_MOD , ONLY : nchartitle
+C-----------------------------------------------
 C   m y _ r e a l
 C-----------------------------------------------
 #include "my_real.inc"
-#include "nchar_c.inc"
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------

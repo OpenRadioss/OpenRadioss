@@ -37,7 +37,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
-C-----------------------------------------------
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+C----------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -60,7 +61,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IK, IG, IGR, CT, CR, ISK, NN
       INTEGER ID
-      CHARACTER*nchartitle,TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C======================================================================|
       DO I=1,NBCSLAG
         IGR = IBCSLAG(1,I)

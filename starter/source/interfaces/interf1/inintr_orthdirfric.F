@@ -66,7 +66,6 @@ c     .        IDFRICORIENT(*),
      .        PM_STACK(20,*) ,THK(*) ,SKEW(LSKEW,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
-c      CHARACTER*ncharline ,  TITFRICORIENT(*)
 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -79,8 +78,6 @@ C-----------------------------------------------
      .   RX ,RY ,RZ ,SX ,SY ,SZ ,SUMA ,S1 ,S2 ,VR ,VS ,CP , SP ,
      .   AA ,BB ,D1 ,D2 ,S ,DET ,PHI ,U1X ,U1Y ,U2X ,U2Y ,W1X ,W1Y ,W2X ,W2Y ,
      .   TORTH , SUM
-c      CHARACTER*nchartitle,
-c     .   TITR 
 C-----------------------------------------------
 
 C----
@@ -213,7 +210,6 @@ C-----------------------------------------------
      .        I ,IREP ,IP ,
      .        IRECTM(4,*),ITAB(*),IPART(LIPART1,*)
       my_real VX ,VY ,VZ ,PHI ,X(3,*), DIR_FRICM(2,*)
-c      CHARACTER*ncharline ,  TITFRICORIENT(*)
 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

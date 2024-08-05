@@ -63,6 +63,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SENSOR_MOD
       USE INTERFACES_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------      
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -106,11 +107,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,P,NI,NIN,ILAGM,NOINT,NB,UID,SUB_ID,IDINT7,IDINT7B,IDINT11,
-     .   IFLAGUNIT,K
-      CHARACTER KEY*ncharkey, KEY2*ncharkey, STR_TMP*ncharkey
-      CHARACTER*nchartitle,
-     .   TITR
+      INTEGER I,J,P,NI,NIN,ILAGM,NOINT,NB,UID,SUB_ID,IDINT7,IDINT7B,IDINT11,IFLAGUNIT,K
+      CHARACTER(LEN=NCHARKEY) ::  KEY, KEY2, STR_TMP
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

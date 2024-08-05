@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,8 +65,8 @@ C-----------------------------------------------
       INTEGER IPARI(*),DEF_INTER(*)
       my_real STFAC
       my_real FRIGAP(*)
-      CHARACTER TITR*nchartitle
-      CHARACTER KEY*ncharkey
+      CHARACTER(LEN=NCHARTITLE)::TITR
+      CHARACTER(LEN=NCHARKEY)::KEY
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRBRIC) :: IGRBRIC

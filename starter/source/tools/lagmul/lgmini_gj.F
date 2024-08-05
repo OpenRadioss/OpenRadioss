@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE LGMINI_GJ(IADLL  ,JLL   ,LLL   ,GJBUFI ,NC, MASS,
      .                      INER,ITAB    ,NOM_OPT)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C----------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +57,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, JTYP, N0, N1, N2, N3, J  
       INTEGER ID
-      CHARACTER*nchartitle, TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C======================================================================|
       DO I=1,NGJOINT
         JTYP= GJBUFI(2,I)           

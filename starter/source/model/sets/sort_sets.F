@@ -70,14 +70,11 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SETDEF_MOD
       USE MAPPING_OPTION_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD, NCHARKEY, NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -101,8 +98,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     Characters
       CHARACTER MESS*40
-      CHARACTER KEYSET*ncharfield,SET_TYPE*ncharfield,KEY*ncharkey,KEY_TYPE*ncharfield
-      CHARACTER TITLE*nchartitle,SET_TITLE*nchartitle,KEYPART*ncharkey,TITLE2*nchartitle
+      CHARACTER(LEN=NCHARFIELD) :: KEYSET,SET_TYPE,KEY_TYPE
+      CHARACTER(LEN=NCHARTITLE) :: TITLE,TITLE2,SET_TITLE
+      CHARACTER(LEN=NCHARKEY) :: KEYPART,KEY
 C-----------------------------------------------
       IDEBUG=0
 

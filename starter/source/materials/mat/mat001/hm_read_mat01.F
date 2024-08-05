@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +77,7 @@ C-----------------------------------------------
 C INPUT ARGUMENTS
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER,INTENT(IN)::ID
-      CHARACTER*nchartitle,INTENT(IN)::TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)::TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C MODIFIED ARGUMENT
       INTEGER,INTENT(INOUT)::IPM(NPROPMI),ISRATE

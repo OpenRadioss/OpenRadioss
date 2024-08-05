@@ -38,6 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : nchartitle
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,8 +57,7 @@ C-----------------------------------------------
      .        NB_NODE,IBRIC,ITYP, FVTYPE
       INTEGER, DIMENSION(2, NBRIC), INTENT(INOUT) :: TBRIC
       INTEGER, DIMENSION(12, NBRIC), INTENT(INOUT) :: TFAC
-      CHARACTER*nchartitle,
-     .        TITR
+      CHARACTER(len=nchartitle) :: TITR
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
 C-----------------------------------------------

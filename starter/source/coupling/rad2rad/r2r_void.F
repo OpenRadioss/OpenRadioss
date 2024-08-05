@@ -45,6 +45,7 @@ C-----------------------------------------------
         USE MESSAGE_MOD
         USE DDWEIGHTS_MOD
         USE STACK_VAR_MOD
+        USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +71,7 @@ C-----------------------------------------------
      .          COMPT_STACK_REMOV
         INTEGER, DIMENSION(:), ALLOCATABLE :: NUMGEOSTACK1_TEMP,NUMGEOSTACK2_TEMP
         INTEGER, DIMENSION(:,:), ALLOCATABLE :: IPM_TEMP,IGEO_TEMP
-        CHARACTER TITR*nchartitle
+        CHARACTER(LEN=NCHARTITLE) TITR
         my_real
      .      ALPHAI
         my_real

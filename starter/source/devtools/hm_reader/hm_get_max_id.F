@@ -53,14 +53,11 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD       
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -75,7 +72,7 @@ C-----------------------------------------------
       INTEGER I,VALUE_TYPE,SUB_ID,NBOPTION,OPTION_ID,UNIT_ID,SUBMODEL_INDEX,
      .        S_KEYWORD,S_TITR,OFFSET_CATEGORY,MY_POSITION,
      .        OFF_EL,OFF_NOD,OFF_PART,OFF_MAT,OFF_PROP,OFF_DEF
-      CHARACTER*ncharline KEYWORD,TITR
+      CHARACTER(LEN=NCHARLINE) :: KEYWORD,TITR
 C-----------------------------------------------
       OFFSET_CATEGORY = 0 
       VALUE_TYPE = 0

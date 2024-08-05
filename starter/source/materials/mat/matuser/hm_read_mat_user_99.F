@@ -66,6 +66,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE LAW_USER
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
       USE FORMAT_MOD , ONLY : FMT_2F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -93,20 +94,19 @@ C-----------------------------------------------
       my_real, DIMENSION(MAXUPARAM)   :: UPARAM
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM
       TYPE(ULAWBUF) :: USERBUF
-      CHARACTER IUSER_KEY*ncharline
+      CHARACTER(LEN=NCHARLINE) :: IUSER_KEY
       TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER(LEN=4096) :: SCR_FILE_NAME
-      CHARACTER(LEN=ncharline) :: RLINE
+      CHARACTER(LEN=NCHARLINE) :: RLINE
       CHARACTER (LEN=4) :: CLAW
-      CHARACTER(LEN=nchartitle) :: TITLE
+      CHARACTER(LEN=NCHARTITLE) :: TITLE
       LOGICAL :: IS_AVAILABLE
       INTEGER NLINES,J,MAT_ID
       INTEGER SCR_FILE_NAME_LEN
       my_real RHO0,RHOR
-!
       CHARACTER OPTION*256
       INTEGER SIZE
 C-----------------------------------------------

@@ -33,6 +33,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE GROUPDEF_MOD , ONLY : SURF_
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +56,7 @@ C-----------------------------------------------
       INTEGER ISU,I,J,K,ERR,NSEG,ELTYP,ELEM,P,
      .        L_SLIN,ID,TYPE,LEVEL,NSEG_R2R_ALL,
      .        NSEG_R2R_SHARE,NOD,ITITLE(LTITR),NSEG_L(NSLIN)
-      CHARACTER(LEN=nchartitle) :: TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, ALLOCATABLE, DIMENSION (:) :: IGRSLIN_L
 C-----------------------------------------------
 !=======================================================================

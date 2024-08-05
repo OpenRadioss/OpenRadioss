@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE MY_ALLOC_MOD 
       USE INTBUF_FRIC_MOD  
       USE GROUPDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,8 +101,7 @@ C     REAL
       INTEGER, DIMENSION(NUMELP), INTENT(IN) :: IPARTP
       INTEGER, DIMENSION(NUMELR), INTENT(IN) :: IPARTR
       INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE (SURF_) :: IGRSURF
       TYPE (SURF_) :: IGRSURF2
@@ -1140,8 +1140,7 @@ C     REAL
      .   AREAS(*),THK(*),THK_PART(*),SLSFAC,DXM ,GAPMAX_M, FILLSOL(*),
      .   PM_STACK(3,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*) 
       TYPE (SURF_) :: IGRSURF
 C-----------------------------------------------

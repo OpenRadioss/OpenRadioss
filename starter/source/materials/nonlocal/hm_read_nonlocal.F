@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE ELBUFTAG_MOD            
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: INL,FLAGMAT,FLAGUNIT,IUNIT,UID,MAT_ID,IMAT,ILAW,NNLOC
       my_real :: RLEN,LE_MAX
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL IS_AVAILABLE
 C=======================================================================
       IS_AVAILABLE = .FALSE.

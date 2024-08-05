@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD          
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -63,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      CHARACTER*nchartitle ,INTENT(IN) :: TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(UNIT_TYPE_), INTENT(in) :: UNITAB
       INTEGER, INTENT(IN) :: MAT_ID

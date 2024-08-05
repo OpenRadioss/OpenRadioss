@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE OPTIONDEF_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,8 +70,7 @@ C-----------------------------------------------
       MY_REAL
      .        X(3,*),SKEW(LSKEW,*)
       CHARACTER KEY*4,MESS*40
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
       TYPE (SURF_) :: ISURFLIN
       TYPE (BOX_)  , DIMENSION(NBBOX)  :: IBOX

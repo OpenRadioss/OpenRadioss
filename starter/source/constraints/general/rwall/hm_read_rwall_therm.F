@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,7 +98,9 @@ C-----------------------------------------------
      .   DIST, FRIC, DIAM, XMAS, VX, VY, VZ, XM1, YM1, ZM1,
      .   XN, X1, Y1, Z1, DISN, X2, Y2, Z2, X3, FREQ, ALPHA, FAC_M_R2R,
      .   TEMP,TSTIF,FHEAT,FACX,FAC_TSTIF
-      CHARACTER MESS*40,OPT*ncharkey,TITR*nchartitle
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARKEY) :: OPT
+      CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

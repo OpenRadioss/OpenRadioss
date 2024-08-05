@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +75,8 @@ C-----------------------------------------------
       my_real
      .   FCX, FCY, FAC_L, FAC_T, FAC_M, EMI, SIGMA, TSTART, TSTOP,
      .   EMISS(NUMRADIA),FCX_DIM,FCY_DIM,TSTOP_DIM
-      CHARACTER MESS*40,TITR*nchartitle
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

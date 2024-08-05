@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,10 +76,10 @@ C-----------------------------------------------
      .        NN,IDMIN,IDMAX,OFFSET,NENTITY
       INTEGER J10(10),BUFTMP(NSUBS+NPART),INDX(NSUBS+NPART),
      .        LIST_IGR(NGRPRT),UID,KK
-      my_real
-     . BID
-      CHARACTER TITR*nchartitle,KEY*ncharkey,KEY2*ncharkey,MES*40
-      CHARACTER*nchartitle,TITR1
+      my_real BID
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
+      CHARACTER :: MES*40
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
       DATA MES/' PART GROUP'/

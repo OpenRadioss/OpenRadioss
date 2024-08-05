@@ -39,7 +39,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                  Y2 ,Y3 ,Y4 ,Z1 ,Z2  ,
      8                  Z3 ,Z4 ,XI ,YI ,ZI  ,
      9                  N1 ,N2 ,N3 ,PENE)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_5I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -64,7 +68,7 @@ C-----------------------------------------------
       INTEGER NSV(*),TAG(*),IWPENE,INACTI,NOINT,NTY,ITIED, ISTOK
       my_real STF(*),STFN(*),X(3,*),CAND_P(*),GAPV(*), FPENMAX
       INTEGER ID,IDDLEVEL,IREMNODE
-      CHARACTER*nchartitle, TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: IX1,IX2,IX3,IX4,NSVG
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4

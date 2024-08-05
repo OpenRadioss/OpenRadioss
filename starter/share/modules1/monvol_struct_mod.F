@@ -66,13 +66,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       MODULE MONVOL_STRUCT_MOD
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE NAMES_AND_TITLES_MOD , ONLY : nchartitle
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "my_real.inc"
 C-----------------------------------------------
-C     C o m m o n   B l o c k s
-C-----------------------------------------------
-#include "nchar_c.inc"
       TYPE MONVOL_METADATA_
       INTEGER :: NVOLU
 !     Temporary
@@ -660,6 +661,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : nchartitle
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -679,7 +681,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(MONVOL_STRUCT_), INTENT(IN) :: T_MONVOLN
-      CHARACTER, INTENT(IN) :: TITLE*nchartitle
+      CHARACTER(LEN = nchartitle), INTENT(IN) :: TITLE
       INTEGER, INTENT(IN) :: IVOLU(NIMV), ITAB(*), IXC(NIXC, *), IXTG(NIXTG, *)
       TYPE(SURF_), INTENT(IN) :: SURF
       my_real, INTENT(IN) :: NODE_COORD(3, *), GEO(NPROPG, *), PM(NPROPM, *)

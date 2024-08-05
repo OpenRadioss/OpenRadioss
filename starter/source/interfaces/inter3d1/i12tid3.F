@@ -35,6 +35,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                   ILOC, IRTL , NSN , ITAB, ALP, 
      3                   ID  , TITR
      .                   )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE MESSAGE_MOD
       USE FORMAT_MOD , ONLY : FMW_7I_2F
 C-----------------------------------------------
@@ -56,7 +61,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)    :: IRECT(4,*) , MSR(*), NSV(*), ILOC(*), IRTL(*),ITAB(*)
       my_real,INTENT(IN)    :: X(3,NUMNOD), ALP
       my_real,INTENT(INOUT) :: CRST(2,*)
-      CHARACTER*nchartitle,INTENT(INOUT) :: TITR
+      CHARACTER(LEN=NCHARTITLE),INTENT(INOUT) :: TITR
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------

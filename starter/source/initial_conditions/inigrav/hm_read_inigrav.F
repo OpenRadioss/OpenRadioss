@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,8 +81,9 @@ C-----------------------------------------------
       INTEGER I, NOD, NCUR, NOSKEW,NSKW,NN,IGS,UID,
      .        IAD,NS,IWA,J,K,ID,K1,K2,NCURS,N1,N2,NC,L,
      .        ITAG, IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IADPL
-      CHARACTER XYZ*ncharfield, X*1, Y*1, Z*1, XX*2, YY*2, ZZ*2, MESS*40
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARFIELD) :: XYZ
+      CHARACTER X*1, Y*1, Z*1, XX*2, YY*2, ZZ*2, MESS*40
+      CHARACTER(LEN=NCHARTITLE)::TITR
       
       INTEGER     :: IGU,ISU,IGRAV,IBID, IG, IS, IDIR, PN1, ICURS, IIGRAV,IIG,IIS
       my_real     :: BX_,BY_,BZ_, GRAV0,NX,NY,NZ,NORM,PSURF,BID

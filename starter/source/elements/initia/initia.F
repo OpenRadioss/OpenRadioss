@@ -208,6 +208,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE RANDOM_WALK_DEF_MOD
       USE DEFAULTS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -376,7 +377,7 @@ C      INTEGER *8 I8MI(6,NUMNOD)
 
       my_real ADDEDMS(NPART), MST3(MVSIZ),PTTRIA(MVSIZ)
       INTEGER ID,ISTOT, NF1,NNOD,NSROT,IDRAPE,ICPRE
-      CHARACTER*nchartitle, TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL :: ERROR_THROWN
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
@@ -2142,7 +2143,11 @@ C
       SUBROUTINE CHEKMP2(NUMEL ,IPART   ,IPARTEL ,IX      ,NIX     ,
      1                  NE     ,EMAT    ,EPID    ,IPM      ,IGEO    ,
      2                  ELEM   )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2162,8 +2167,7 @@ C     REAL
 c      my_real
 c     .   PM(NPROPM,*)
       CHARACTER *(*) ELEM
-      CHARACTER*nchartitle,
-     .   TITR2
+      CHARACTER(LEN=NCHARTITLE)::TITR2
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2375,7 +2379,11 @@ C
       !||    message_mod   ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE CHECKMP(NUMEL,IX,NIX,NG,NE,EMAT,EPID,IPM,IGEO,ELEM,IPARTEL)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2396,8 +2404,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MT, IG
-      CHARACTER*nchartitle,
-     .   TITR,TITR2
+      CHARACTER(LEN=NCHARTITLE)::TITR,TITR2
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------
@@ -2672,6 +2679,10 @@ C
       !||====================================================================
       SUBROUTINE OUTPART(PARTSAV,IPART,NPART)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -2689,10 +2700,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-      my_real
-     .   MAS,SM,XX,YY,ZZ,XY,YZ,ZX,XG,YG,ZG,
-     .   IXX,IXY,IYY,IYZ,IZZ,IZX,EK,VX,VY,VZ
-      CHARACTER TEXT*nchartitle
+      my_real MAS,SM,XX,YY,ZZ,XY,YZ,ZX,XG,YG,ZG,IXX,IXY,IYY,IYZ,IZZ,IZX,EK,VX,VY,VZ
+      CHARACTER(LEN=NCHARTITLE) :: TEXT
 C======================================================================|
 C
       WRITE(IOUT,'(//,A)')'PART MASS & INERTIA'
@@ -2932,6 +2941,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUP_PARAM_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2964,8 +2974,8 @@ C-----------------------------------------------
      .   MAS,SM,XX,YY,ZZ,XY,YZ,ZX,XG,YG,ZG,
      .   IXX,IXY,IYY,IYZ,IZZ,IZX,EK,VX,VY,VZ,HM,HR,HF,DN,QA,QB,QH,
      .   NS_A,NS_B,DM,QF,QM,QR,DF
-      CHARACTER(len=nchartitle) TEXT
-      CHARACTER(len=23), DIMENSION(27) :: EL_TYP
+      CHARACTER(LEN=NCHARTITLE) TEXT
+      CHARACTER(LEN=23), DIMENSION(27) :: EL_TYP
       DATA EL_TYP / 'SOLID-HEXA ', 
      .    'TETRA4 ',
      .    'TETRA10 ',

@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   LC1 ,LC2 ,  LC3,  LC4,
      .   P0a          )
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -67,7 +68,7 @@ C-----------------------------------------------
      . P0a(4)
       INTEGER IEXP, IFLG,PLA(4)
       INTEGER ID
-      CHARACTER*nchartitle,TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

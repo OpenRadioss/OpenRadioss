@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,7 +80,9 @@ C-----------------------------------------------
       INTEGER I,J,JJ,KK,ID,UID,JTYP,N1,N2,N3,N0,NG,SUB_ID
       my_real R1(3),R2(3),R3(3),
      .        ALPHA,MS0,MS1,MS2,MS3,IN0,IN1,IN2,IN3,L1,L2,L3
-      CHARACTER TITR*nchartitle,KEY*ncharkey,MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      CHARACTER MESS*40
       DATA MESS/'GEAR JOINTS DEFINITION          '/
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------

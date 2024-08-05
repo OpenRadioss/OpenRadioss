@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,10 +78,9 @@ C-----------------------------------------------
       INTEGER I,J,K,II,JJ,KK,N,CLID,UID,ICLUS,IAD,IG,IGR,ISK,IFAIL,
      .   IEL,NEL,NNOD,IFLAGUNIT,VAL,NNOD0,ITY,NELMAX
       INTEGER NOD1(2000),NOD2(2000),SUB_INDEX,ISK_L
-      my_real
-     .   BID(1),AX(4),NX(4),FMAX(2),MMAX(2)
-      CHARACTER TITR*nchartitle
-      CHARACTER KEY *ncharfield
+      my_real BID(1),AX(4),NX(4),FMAX(2),MMAX(2)
+      CHARACTER(LEN=NCHARTITLE)::TITR
+      CHARACTER(LEN=NCHARFIELD) :: KEY
       PARAMETER (NELMAX = 500)
       LOGICAL :: IS_AVAILABLE,FOUND
 C=======================================================================

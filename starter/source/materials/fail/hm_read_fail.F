@@ -98,6 +98,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE TABLE_MOD
       USE HM_READ_FRACTAL_DMG_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -107,7 +108,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "com_xfem1.inc"
-#include      "nchar_c.inc"
 #include      "userlib.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -128,10 +128,11 @@ C-----------------------------------------------
       INTEGER I,J,N,IMAT,IFAIL,IFL,ILAW,MAT_ID,FAIL_ID,
      .   ILOC,IRUPT,IFAILWAVE,UNIT_ID,IXFEM,HM_NBFAIL,IUNIT,IFLAGUNIT
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: FAIL_MAT_NUM
-      CHARACTER KEY*20,MESS*40,TITR*nchartitle
+      CHARACTER KEY*20,MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C----------------------------------      
       my_real UNITAB_SUB(4)
-      CHARACTER IUSER_KEY*ncharline
+      CHARACTER(LEN=NCHARLINE) :: IUSER_KEY
 C----------------------------------      
       LOGICAL :: IS_AVAILABLE,IS_ID_LINE
 C----------------------------------      

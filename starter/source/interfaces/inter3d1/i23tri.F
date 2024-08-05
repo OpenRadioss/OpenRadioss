@@ -55,6 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9      LB4   ,LC1   ,LC2    ,LC3,LC4,
      1      N11   ,N21   ,N31    ,PENE)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,8 +86,7 @@ C     REAL
      .   GAP, GAP_S(*), GAP_M(*),
      .   GAPMIN, GAPMAX, MARGE, GAPSMX, BGAPSMX
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) ::PROV_N,PROV_E
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4,NSVG
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4

@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                   NOINT    ,NTY     ,IRECT   ,ID     ,TITR   ,
      4                   CAND_M_G ,CAND_S_G,CAND_P_G)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,8 +56,7 @@ C     REAL
       my_real
      .   PENE(4,*), CAND_P(4,*), CAND_P_G(4,*)
       INTEGER ID, EJ
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

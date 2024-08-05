@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                    KNOD2ELS,NOD2ELS,NTY,NSV ,MSEGTYP,ID,TITR)
 C
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,15 +42,13 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IXS10(6,*),IRECT(4,*),NOINT,NRTM,
      .        ITAB(*), KNOD2ELS(*), NOD2ELS(*),NTY,NSV(*),MSEGTYP(*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

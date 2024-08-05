@@ -66,6 +66,7 @@ C-----------
       !||====================================================================
       SUBROUTINE TAGNODS(IXS,IXS10,IXS20,IXS16,IPARTS,TAGBUF,IDGRN,TITR)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,8 +81,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARTS(*),IXS10(6,*),IXS20(12,*),IXS16(8,*),
      1      TAGBUF(*),IDGRN
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

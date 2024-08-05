@@ -44,7 +44,8 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD
-      USE SUBMODEL_MOD 
+      USE SUBMODEL_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C----------+---------+---+---+--------------------------------------------
 C  Crushable frame spring property (old uer type spring)
 C----------+---------+---+---+--------------------------------------------
@@ -79,8 +80,7 @@ C-----------------------------------------------
       my_real   
      .        PARGEO(*)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

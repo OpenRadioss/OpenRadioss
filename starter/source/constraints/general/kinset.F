@@ -55,7 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE KINSET(IK,NODE,IKINE,IDIR,ISK,IKINE1)
       USE MESSAGE_MOD
-C
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +76,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER*200 TYPE
       CHARACTER*20 DIRECT
-      CHARACTER*ncharline ERR_CATEGORY_TMP
+      CHARACTER(LEN=NCHARLINE) :: ERR_CATEGORY_TMP
 
       INTEGER JWARN, ISKWT, ISKWR, ITRAN, IROTA, NK, I,
      .        JDIR(7), KDIR(7,3),LTYPE, LTYPEB, LDIRECT

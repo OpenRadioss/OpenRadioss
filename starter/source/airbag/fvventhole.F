@@ -39,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,8 +59,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NEL), INTENT(INOUT) :: ITAGEL
       INTEGER NB_NODE
       INTEGER, DIMENSION(NEL), INTENT(IN) :: ELTG
-      CHARACTER*nchartitle,
-     .        TITR
+      CHARACTER(len=nchartitle) :: TITR
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

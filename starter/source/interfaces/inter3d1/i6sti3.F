@@ -34,7 +34,11 @@ C
       SUBROUTINE I6STI3(IRECT,STF  ,NRT   ,STFN  ,NSN    ,
      .                  NSV  ,XMAS ,MS    ,NPBY  ,LPBY   ,
      .                  NOINT,ITAB ,ID    ,TITR  )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,7 +47,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "nchar_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -57,8 +60,7 @@ C     REAL
       my_real
      .   STF(*), STFN(*), MS(*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -43,6 +43,7 @@ C
      E IXR    ,ITAB,BGAPSMX ,IXS10  ,IXS16   ,IXS20    ,
      F ID,TITR,IGEO , PM_STACK , IWORKSH)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -76,8 +77,7 @@ C     REAL
      .   AREAS(*),THK(*),THK_PART(*),
      .   GAP_S_L(*),GAP_M_L(*),PM_STACK(20,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

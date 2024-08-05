@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE MESHSURFIG3D_MOD  
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       USE FORMAT_MOD , ONLY : FMT_10I, FMT_8I, FMT_I, FMT_6I, FMT_5F, FMT_2I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -91,8 +92,9 @@ C-----------------------------------------------
      .        NKNOT1,NKNOT2,NKNOT3,ITGEO,PX,PY,PZ,PID,IPID,MAXNUMGEO,
      .        NBRAFX,NBRAFY,NBRAFZ,NBIG3D_PATCH
       INTEGER OFF_NOD(NSUBMOD), OFF_DEF(NSUBMOD)
-C     REAL
-      CHARACTER MESS*40,TITR*nchartitle,KEY*ncharkey,IDTITL*nchartitle
+      CHARACTER MESS*40
+      CHARACTER(LEN=nchartitle) :: TITR,IDTITL
+      CHARACTER(LEN=ncharkey) :: KEY
       my_real R5(5),RBID
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

@@ -65,7 +65,8 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,7 +84,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN)    :: ID,MAXUPARAM,MAXFUNC,IFORM
       INTEGER, INTENT(INOUT) :: IPM(NPROPMI),IMATVIS,ISRATE
       my_real, INTENT(INOUT) :: PM(NPROPM)     
-      CHARACTER*nchartitle,INTENT(IN) :: TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       INTEGER, INTENT(INOUT) :: NUPARAM,NUVAR,NFUNC
       INTEGER, DIMENSION(MAXFUNC), INTENT(INOUT) :: IFUNC

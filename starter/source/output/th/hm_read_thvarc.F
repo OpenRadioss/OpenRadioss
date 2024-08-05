@@ -47,7 +47,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD   
+      USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +62,7 @@ C-----------------------------------------------
       INTEGER NV,NVG,IVAR(*),IVARG(18,*),NV0
       CHARACTER*10,TARGET :: VARE(NV),VARG(NVG)
       INTEGER ID
-      CHARACTER*nchartitle TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

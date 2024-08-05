@@ -56,6 +56,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD    
       USE ELBUFTAG_MOD          
       USE TABLE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,7 +76,7 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT)                :: IFUNC(MAXFUNC), NFUNC, MAXFUNC, MAXUPARAM, 
      .     NUPARAM, NUVAR,NVARTMP, ISRATE_IN, ITABLE(MAXTABL), NUMTABL
       INTEGER, INTENT(IN)                    :: MAT_ID, MAXTABL
-      CHARACTER*nchartitle,INTENT(IN)       :: TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)       :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(*)
       TYPE(MLAW_TAG_), INTENT(INOUT)   :: MTAG
       TYPE(TTABLE) TABLE(NTABLE)

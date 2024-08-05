@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE SENSOR_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,8 +101,9 @@ C-----------------------------------------------
       INTEGER I, NOD, NCUR, NOSKEW,NSKW, ISENS,NN,IGU,IGS,IG,UID,
      .        IAD,NS,IWA,J,K,ID,K1,K2,NCURS,N1,N2,NC,L,
      .        ITAG, TSENS, IFLAGUNIT, SUB_INDEX
-      CHARACTER XYZ*ncharfield, X*1, Y*1, Z*1, XX*2, YY*2, ZZ*2, MESS*40
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARFIELD) :: XYZ
+      CHARACTER :: X*1, Y*1, Z*1, XX*2, YY*2, ZZ*2, MESS*40
+      CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

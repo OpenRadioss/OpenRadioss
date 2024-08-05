@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARLINE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,8 +60,7 @@ C-----------------------------------------------
       INTEGER   TAGBUF(*),ISUBMOD(*),IPART(LIPART1,*), INDX(*)
       INTEGER   ID,FLAG,NINDX
       CHARACTER MESS(*)
-      CHARACTER*nchartitle,
-     .   TITR,TITR1
+      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -68,8 +68,9 @@ C-----------------------------------------------
       INTEGER I,J,K,ISU,JREC,PARTID,CUR_SUBMOD,ISELECT,IOK,
      .        ID_SUB,IDU,ID1,UID1,SUB_INDEX,KK,JJ
       INTEGER  TAGS(NSUBMOD)
-      CHARACTER KEY*ncharkey,CART*ncharline,VERS_IN*ncharfield
-      CHARACTER TITR2*ncharline
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      CHARACTER(LEN=NCHARFIELD) :: VERS_IN
+      CHARACTER(LEN=NCHARLINE) :: TITR2,CART
       LOGICAL IS_AVAILABLE,IS_ENCRYPTED
       INTEGER,DIMENSION(:),ALLOCATABLE :: LIST_ELEM
       INTEGER :: NENTITY      

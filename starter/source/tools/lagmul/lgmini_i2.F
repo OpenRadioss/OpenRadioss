@@ -37,6 +37,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD 
       USE INTBUFDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C----------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,7 +63,7 @@ C-----------------------------------------------
      .        ILAGM, NRTS, NRTM, NSN, NMN,IRECT ,NSV ,IRTL, IADDB,
      .        NIR, NTY, NDL, IAD, I, J, NN0, NM0
       INTEGER ID
-      CHARACTER*nchartitle,TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C======================================================================|
       DO N=1,NINTER
         ID=NOM_OPT(1,N)

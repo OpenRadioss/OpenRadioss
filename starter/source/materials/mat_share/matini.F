@@ -85,6 +85,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD   
       USE DETONATORS_MOD   
       USE ALE_CONNECTIVITY_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -123,7 +124,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER*nchartitle, TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER I,IADBUF,NPAR,NFUNC,NUVAR,IFORM,NUMEL
       INTEGER IFUNC(MAXFUNC)
       INTEGER ID

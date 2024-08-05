@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARKEY, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,8 +75,10 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNODSUB ! NUMNOD
       INTEGER :: WORK(70000)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,INDEX1,TAGNODSUB_TMP,IDNODSUB
-      CHARACTER  KEY*ncharkey,CART*ncharline,MESS*ncharline,
-     .           TITR*nchartitle,VERS_IN*ncharfield,STRING*ncharfield
+      CHARACTER(LEN=NCHARKEY) ::  KEY
+      CHARACTER(LEN=NCHARLINE) ::CART,MESS
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARFIELD) ::VERS_IN,STRING
       MY_REAL
      .        BID
       my_real

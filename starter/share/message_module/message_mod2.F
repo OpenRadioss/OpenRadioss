@@ -27,11 +27,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod    ../starter/share/message_module/message_mod.F
       !||====================================================================
       MODULE MESSAGE_MOD2
-#include "nchar_c.inc"
+      USE NAMES_AND_TITLES_MOD , ONLY : ncharline
       TYPE TMESSAGE
 C message size
         INTEGER SMESSAGE
-        CHARACTER*ncharline,DIMENSION(:), ALLOCATABLE :: MESSAGE
+        CHARACTER(len=ncharline),DIMENSION(:), ALLOCATABLE :: MESSAGE
 C dimension : size
       END TYPE TMESSAGE
 c
@@ -68,8 +68,8 @@ C
       PARAMETER (MSG_CUMU=0)
       PARAMETER (MSG_PRINT=1)
 
-      CHARACTER*ncharline, DIMENSION(:), ALLOCATABLE :: MESSAGESFILE
-      CHARACTER*ncharline ERR_CATEGORY
+      CHARACTER(len=ncharline), DIMENSION(:), ALLOCATABLE :: MESSAGESFILE
+      CHARACTER(len=ncharline) :: ERR_CATEGORY
       INTEGER SMESSAGESFILE
 
       INTEGER NCHAROUT

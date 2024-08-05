@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SETDEF_MOD
       USE R2R_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,8 +91,10 @@ C-----------------------------------------------
       INTEGER SRFTYP,FAC,K,ICUMU,IMAT,IADBUF,NUPARAM,ISUBMAT,STAT,KK,N_R2R
       my_real VFRAC,ILAW
       my_real, DIMENSION(:),POINTER :: UPARAM
-      CHARACTER TITR*nchartitle,MESS*40,KEY*ncharkey
-      CHARACTER*ncharline ERR_MSG
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      CHARACTER(LEN=NCHARLINE) ERR_MSG
       DATA MESS/'INITIAL VOLUME FRACTION                 '/
       LOGICAL IS_ENCRYPTED,IS_AVAILABLE
       LOGICAL DETECTED_ERROR

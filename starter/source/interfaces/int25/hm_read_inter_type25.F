@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE INTBUFDEF_MOD
       USE PARAMETERS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +77,7 @@ C-----------------------------------------------
      .   STFAC,XFILTR
       my_real
      .   FRIGAP(*),FRIC_P(*),TF(*)
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
@@ -109,7 +110,8 @@ C-----------------------------------------------
      .    GAPMAX_S,GAPMAX_M,PENMAX,PENMIN,SIGMAXADH,VISCADHFACT,
      .    VISCFLUID,PMAX,KTHE,TINT,XTHE,FRAD,DRAD,FHEATS,
      .    FHEATM,DCOND,XTHE_UNIT,TPFIT,STFACM,DTSTIF
-      CHARACTER KEY1*ncharkey,BCFLAG*ncharfield
+      CHARACTER(LEN=NCHARKEY) ::  KEY1
+      CHARACTER(LEN=NCHARFIELD) ::BCFLAG
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE

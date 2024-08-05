@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,7 +65,8 @@ C-----------------------------------------------
       INTEGER  I,K,L,J,ID,IGS,IGRS,JREC,IAD0,IADV,NSEG,NSEGV,
      .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,SKIPFLAG,UID,NSEG_TOT,
      .        NSETS,NENTITY,KK,JJ
-      CHARACTER TITR*nchartitle,KEY*ncharkey,KEY2*ncharkey
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
 !
       TYPE (SURF_)   , DIMENSION(NSLIN+NSETS)   :: IGRSLIN
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED

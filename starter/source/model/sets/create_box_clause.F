@@ -71,6 +71,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE OPTIONDEF_MOD
       USE SET_SCRATCH_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,7 +103,8 @@ C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE
       my_real
      .        X(3,*),SKEW(LSKEW,*)
-      CHARACTER KEYSET*ncharfield,SET_TITLE*nchartitle
+      CHARACTER(LEN=NCHARFIELD) :: KEYSET
+      CHARACTER(LEN=NCHARTITLE) :: SET_TITLE
       TYPE (SET_SCRATCH) ::  DELBUF
 C-----------------------------------------------
       TYPE (SET_) ::  CLAUSE

@@ -35,6 +35,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C      FONCTION DONNE N0 SYSTEME D'UNE LISTE DE BOXES USER
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -49,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NLIST,KK,NBBOX,ID
       INTEGER LIST(NLIST),INDEX(NBBOX*3),IBOXTMP(NBBOX),IX1(NBBOX),IX2(NBBOX)
-      CHARACTER(nchartitle) ,INTENT(IN) :: TITR
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -338,6 +338,8 @@ C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -375,8 +377,7 @@ C-----------------------------------------------
        INTEGER(8) :: SIZE_INSERTED_EDG
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGD_EDG
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
         INTEGER, DIMENSION(:), ALLOCATABLE :: NBR_INSERT_II,ADRESS_II
         INTEGER, DIMENSION(:), ALLOCATABLE :: KREMNODE_EDG_SAVE,INSERTED_EDG,REMNODE_EDG,TMP_EDG
         INTEGER, DIMENSION(:),ALLOCATABLE :: INOD2LIN,NOD2LIN,KNOD2LIN

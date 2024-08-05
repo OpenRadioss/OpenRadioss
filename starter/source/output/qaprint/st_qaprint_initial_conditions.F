@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE INIMAP1D_MOD
       USE INIMAP2D_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -124,7 +125,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,JJ,MY_ID,MY_NODE,POSI(NINIGRAV+1),IDS(NINIGRAV),IDX(NINIGRAV),
      .        IDS2(NINICRACK),IDX2(NINICRACK)
-      CHARACTER *nchartitle TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
       LOGICAL :: DO_QA

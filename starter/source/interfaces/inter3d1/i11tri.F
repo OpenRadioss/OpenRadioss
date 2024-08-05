@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6      MAXBOX,MINBOX,J_STOK,ADDCM,CHAINE,
      7      PROV_S,PROV_M,II_STOK,MULTIMP,ID,TITR)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C============================================================================
 C  cette routine est appelee par : I11BUC1(/inter3d1/i11buc1.F)
 C----------------------------------------------------------------------------
@@ -71,8 +72,7 @@ C-----------------------------------------------
      .   X(3,*),XYZM(6,*),TZINF,DBUC,
      .   MAXBOX,MINBOX
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

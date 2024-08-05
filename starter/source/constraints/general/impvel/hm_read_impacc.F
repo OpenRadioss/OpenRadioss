@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,10 +72,10 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER ,INTENT(INOUT) :: NIMPACC,NUM
       INTEGER ,INTENT(IN)    :: NFXVEL0
-      INTEGER ,DIMENSION(NIFV,NFXVEL0)   :: IBFV
-      INTEGER ,DIMENSION(LISKN,*)        :: ISKN
-      INTEGER ,DIMENSION(*)              :: ITAB,ITABM1,IKINE
-      my_real            ,DIMENSION(LFXVELR,*) ,INTENT(INOUT) :: FAC
+      INTEGER ,DIMENSION(NIFV,NFXVEL0) :: IBFV
+      INTEGER ,DIMENSION(LISKN,*)      :: ISKN
+      INTEGER ,DIMENSION(*)            :: ITAB,ITABM1,IKINE
+      my_real,DIMENSION(LFXVELR,*) ,INTENT(INOUT) :: FAC
 
       TYPE (GROUP_)      ,DIMENSION(NGRNOD)    ,INTENT(IN)    :: IGRNOD
       TYPE(SUBMODEL_DATA),DIMENSION(*)         ,INTENT(IN)    :: LSUBMODEL
@@ -86,10 +87,10 @@ C-----------------------------------------------
      .        L_XYZ,SUBID,NOSUB,NODENUM(NFXVEL0)
       INTEGER ,DIMENSION(3*NUMNOD) :: IKINE1
       LOGICAL IS_AVAILABLE
-      CHARACTER(ncharfield)  :: XYZ
-      CHARACTER(nchartitle)  :: TITR,MESS
+      CHARACTER(LEN=NCHARFIELD) :: XYZ
+      CHARACTER(LEN=NCHARTITLE) :: TITR,MESS
       INTEGER ,DIMENSION(:),ALLOCATABLE  :: IACCIDS
-      CHARACTER(2)           :: X,Y,Z,XX,YY,ZZ
+      CHARACTER(LEN=2) :: X,Y,Z,XX,YY,ZZ
       my_real :: FAC1,FAC2,FAC3,FACX,FSCAL_T,FSCAL_A,BID
 C-----------------------------------------------
 C   D a t a

@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE RESTMOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       USE FORMAT_MOD , ONLY : FMW_A_I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -67,8 +68,8 @@ C-----------------------------------------------
       my_real              :: FAC_M, FAC_L, FAC_T
       INTEGER              :: K1, K2, I, J, MFK, IFK, NL, NC, IFUNC, IAFUNC, K, ID, ITYP
       INTEGER              :: UID, IFLAGUNIT, STAT
-      CHARACTER*ncharkey   :: KEY,KEY2
-      CHARACTER*nchartitle :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   P r e - C o n d i t i o n

@@ -40,6 +40,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,7 +60,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ID
-      CHARACTER TITR*nchartitle,MESS*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER MESS*40
       DATA MESS/'DRAPE DEFINITION                        '/
 c      REAL ou REAL*8
       my_real
@@ -116,6 +118,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,7 +138,6 @@ C-----------------------------------------------
       INTEGER ::  IWORKSH(3,*),IXC(NIXC,*),
      .            IXTG(NIXTG,*),IGEO(NPROPGI,*),
      .            IGEO_STACK(NPROPGI,*),INDXSH(NUMELC+NUMELTG)
-c      REAL ou REAL*8
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N  
       TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
@@ -152,12 +154,10 @@ C-----------------------------------------------
      . NIS,NO_ISH,NO_ISHEUSED_DRAPE,NUMS,NPT,IPPID,ISL,NPT_DRP,NSLICE,
      . SLICELIST,NPT_SLICE,MAT_ID,NO_USED_DRAPE
       INTEGER , DIMENSION(NDRAPE) :: DRP_SHEL, DRP_SH3N,DRAPE_ID
-c      REAL ou REAL*8
       my_real
      .    THINNING,THETA_DRAPE,BID
-      CHARACTER TITR*nchartitle,DRAPE_ENTITY*nchartitle,
-     .          MESS*40,MESS1*40,MESS2*40,
-     .          MESS3*40,MESS4*40,MESS5*40
+      CHARACTER(LEN=NCHARTITLE) :: TITR,DRAPE_ENTITY
+      CHARACTER MESS*40,MESS1*40,MESS2*40, MESS3*40,MESS4*40,MESS5*40
       DATA MESS/'DRAPE DEFINITION                        '/
       DATA MESS1/'SHELL                                   '/
       DATA MESS2/'GRSHEL                                  '/

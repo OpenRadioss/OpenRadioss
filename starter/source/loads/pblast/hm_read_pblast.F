@@ -67,6 +67,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,9 +98,9 @@ C-----------------------------------------------
       LOGICAL :: BOOL_UNDERGROUND_CURRENT_LOAD, BOOL_UNDERGROUND_CURRENT_SEG
       LOGICAL :: IS_ITA_SHIFT,IS_DECAY_TO_BE_COMPUTED
 
-      CHARACTER*ncharline :: MSGOUT1
-      CHARACTER*ncharline :: MSGOUT2
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARLINE) ::  MSGOUT1
+      CHARACTER(LEN=NCHARLINE) ::  MSGOUT2
+      CHARACTER(LEN=NCHARTITLE)::TITR
 
       my_real XDET,YDET,ZDET,TDET,WTNT,PMIN
       my_real Dx,Dy,Dz, Z, W13, DNORM,LAMBDA,cos_theta,T_A

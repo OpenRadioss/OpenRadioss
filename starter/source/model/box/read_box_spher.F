@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE OPTIONDEF_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,8 +75,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,N1,UID,BOXID,SUB_ID,IUNIT,FLAGUNIT
       my_real :: FAC_L,XP1,YP1,ZP1,DIAM
-      CHARACTER(ncharkey)    :: KEY
-      CHARACTER(nchartitle)  :: TITR,MESS
+      CHARACTER(LEN=NCHARKEY)    :: KEY
+      CHARACTER(LEN=NCHARTITLE)  :: TITR,MESS
       LOGICAL :: IS_AVAILABLE
       DATA MESS/'MULTI-BOX DEFINITION                    '/
 C-----------------------------------------------

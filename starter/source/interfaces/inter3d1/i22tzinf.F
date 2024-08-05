@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7   GAPMAX ,INACTI ,GAP_S_L ,GAP_M_L ,I_MEM    ,
      8   ID     ,TITR   ,BUFBRIC ,NBRIC   ,IXS)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,8 +64,7 @@ C-----------------------------------------------
      .   GAP_S_L(*),GAP_M_L(*), XX(8),YY(8), ZZ(8), CoorMIN(3), CoorMAX(3), DDmax
      
       INTEGER ID, BUFBRIC(*), NBRIC
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

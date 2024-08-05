@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,8 +91,10 @@ C-----------------------------------------------
      .   VR(3),X0(3),X1(3),X2(3),X3(3),X4(3),X5(3),X6(3),
      .   ROT(9),PP(3,3),QQ(3,3),P(3),NORM1, NORM2, NORM3, SCAL1, 
      .   SCAL2, SCAL3, EPS,XC(3)
-      CHARACTER KEY*10,CART*ncharline,TITR*nchartitle,
-     .   VERS_IN*ncharfield,STRING*ncharfield,SOLVERKEYWORD*ncharline
+      CHARACTER KEY*10
+      CHARACTER(LEN=NCHARLINE) ::CART,SOLVERKEYWORD
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARFIELD) ::VERS_IN,STRING
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE

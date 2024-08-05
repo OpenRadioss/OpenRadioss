@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE SENSOR_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +61,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
       INTEGER ,DIMENSION(3,*) ,INTENT(IN) :: LACCELM
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
       TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB 
@@ -71,7 +72,7 @@ C-----------------------------------------------
       my_real :: TDEL
       INTEGER ,DIMENSION(6) :: ACC_ID,IACC,IDIR
       my_real ,DIMENSION(6) :: ACC,TMIN
-      CHARACTER DIR(6)*ncharkey,DIRACC*ncharkey
+      CHARACTER(LEN=NCHARKEY) ::  DIR(6),DIRACC
       LOGICAL :: IS_AVAILABLE
 C--------------------------------
 C     ACCELEROMETER BASED SENSOR

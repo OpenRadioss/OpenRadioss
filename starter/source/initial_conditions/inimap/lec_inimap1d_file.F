@@ -38,7 +38,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE MULTI_FVM_MOD
-      USE INOUTFILE_MOD            
+      USE INOUTFILE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,13 +54,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(INIMAP1D_STRUCT), INTENT(INOUT) :: INIMAP1D
-      CHARACTER*ncharline,INTENT(INOUT) :: FILENAME
+      CHARACTER(LEN=NCHARLINE),INTENT(INOUT) :: FILENAME
       INTEGER, INTENT(IN) :: ID
-      CHARACTER TITLE*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITLE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER MESS*40,BUFFER*14,ROOTNAME*ncharline
+      CHARACTER MESS*40,BUFFER*14
+      CHARACTER(LEN=NCHARLINE) :: ROOTNAME
       DATA MESS/'INFILE'/
       INTEGER NUM_CENTROIDS,N_CYCLE,K,ISUBMAT,NBMAT,NUM_NODE_VEL,INPUT_VERSION
       my_real X_SCALE,Y_SCALE,X_SHIFT,Y_SHIFT,TT

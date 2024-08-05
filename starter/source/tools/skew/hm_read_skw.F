@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
       USE FORMAT_MOD , ONLY : LFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -87,10 +88,13 @@ C-----------------------------------------------
      .        IUN, SUB_ID,
      .        IDSUB,ITY,L,READPT,J1,J2,NUMSPH_TMP,SUB_LEVEL,CUR_SUBMOD,
      .        IDIR,IFLAGUNIT,ID,UID,CPT
-      my_real P(12), PNOR1, PNOR2, PNORM1, DET1, DET2, DET3, DET, PP,BID, X0(3),ROT(9)
-      CHARACTER NOMSG*nchartitle
-      CHARACTER TITR*nchartitle,MESS*40,KEY*ncharkey
-      CHARACTER DIR*ncharfield
+      my_real  P(12), PNOR1, PNOR2, PNORM1, DET1, DET2, DET3, DET, PP,BID,
+     .         X0(3),ROT(9)
+      CHARACTER(LEN=NCHARTITLE)::NOMSG
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER MESS*40
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      CHARACTER(LEN=NCHARFIELD) :: DIR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

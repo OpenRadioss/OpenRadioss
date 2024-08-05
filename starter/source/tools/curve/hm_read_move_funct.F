@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE TABLE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,8 +52,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NFUNCT, NTABLE
       INTEGER NPC(*),FUNCRYPT(*)
-      my_real
-     .   PLD(*)
+      my_real PLD(*)
       TYPE(TTABLE) TABLE(*)
       TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -65,12 +65,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,ID,IFIX_TMP,CPT
-      my_real
-     .   SCX,SCY,SHX,SHY
+      my_real SCX,SCY,SHX,SHY
       my_real, DIMENSION(:),ALLOCATABLE :: PLD_TMP
       INTEGER :: NMOVE_FUNCT
       LOGICAL :: IS_AVAILABLE
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 !     ***************************    !
 !     * Count /MOVE_FUNCT cards *    !
 !     ***************************    !

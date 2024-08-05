@@ -77,6 +77,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE MESSAGE_MOD
       USE DEFAULTS_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMT_10I
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -159,8 +160,7 @@ C-----------------------------------------------
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),VOLDP(MVSIZ)
-       CHARACTER*nchartitle,
-     .   TITR
+       CHARACTER(LEN=NCHARTITLE) :: TITR
 C
       TYPE(ELBUF_STRUCT_) ,POINTER :: BIDBUF
       TYPE (STACK_PLY) :: STACK

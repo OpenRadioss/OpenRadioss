@@ -34,6 +34,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_4I
 C-----------------------------------------------
 C     LECTURE DES SURFACES ET DECOMPTE DES SEGMENTS
@@ -61,8 +62,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,SIRECT/4), ITAB(NUMNOD), MSV(S_MSV),SURF_NODES(NRT,4)
       INTEGER ID
       my_real, INTENT(INOUT) :: X(3,NUMNOD)
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(2*NUMNOD+1), INTENT(INOUT) ::  NTAG
       my_real, INTENT(INOUT) :: STIFF_STAT(3)
       INTEGER,INTENT(IN) :: NOINT

@@ -173,6 +173,7 @@ C
      7                  Z4 ,XI ,YI ,ZI ,N1,
      8                  N2 ,N3 ,PENE,NSVG)
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_5I, FMW_I_3F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -190,7 +191,7 @@ C-----------------------------------------------
       my_real FPENMAX
       my_real STF(*),STFN(*),XANEW(3,*),GAPV(*)
       INTEGER ID
-      CHARACTER*nchartitle,TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -405,7 +406,11 @@ C
      4                   IGAP,ID ,TITR,IX1,IX2,
      5                   IX3 ,IX4,N1  ,N2 ,N3 ,
      6                   PENE,NSVG)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_5I, FMW_4I, FMW_I_3F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -429,7 +434,7 @@ C-----------------------------------------------
       INTEGER NSV(*),TAG(*),IWPENE,INACTI,NOINT,NTY,ITIED,IWRN,IGAP
       my_real STF(*),STFN(*),X(3,*),GAPV(*),PENIS(2,*) ,PENIM(2,*),GAP_S(*)
       INTEGER ID
-      CHARACTER*nchartitle,TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: IX1,IX2,IX3,IX4,NSVG
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: N1,N2,N3,PENE
 C-----------------------------------------------

@@ -49,6 +49,7 @@ C----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +87,8 @@ C-----------------------------------------------
       INTEGER N, NS
       my_real :: F, BID ,DIST
       CHARACTER MESS*40
-      CHARACTER TITR*nchartitle, KEY2*ncharkey
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY2
       LOGICAL :: IS_AVAILABLE, FOUND
 C-----------------------------------------------
 C   D a t a

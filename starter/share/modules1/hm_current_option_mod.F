@@ -27,21 +27,22 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       MODULE HM_CURRENT_OPTION_MOD
       INTERFACE
-      SUBROUTINE HM_GET_CURRENT_OPTION(OPTION_ID,UNIT_ID,OPTION_TITR,
-     .                              KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4)  
+      SUBROUTINE HM_GET_CURRENT_OPTION(OPTION_ID,UNIT_ID,OPTION_TITR,KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4)
+C-----------------------------------------------
+C   M o d u l es
+C-----------------------------------------------
+      USE NAMES_AND_TITLES_MOD , ONLY : ncharkey, nchartitle
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER OPTION_ID,UNIT_ID
       CHARACTER*(ncharkey) KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4
       CHARACTER*(nchartitle) OPTION_TITR
-      OPTIONAL ::
-     .   OPTION_ID,UNIT_ID,KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4,OPTION_TITR
+      OPTIONAL :: OPTION_ID,UNIT_ID,KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4,OPTION_TITR
 
       END SUBROUTINE
       END INTERFACE

@@ -68,6 +68,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD                
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -145,7 +146,7 @@ C-----------------------------------------------
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)     
       INTEGER NLYMAX, IPMAT,IPANG
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
       PARAMETER (NLYMAX = 200,IPMAT = 100,IPANG = 200)
 C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER :: LBUF     

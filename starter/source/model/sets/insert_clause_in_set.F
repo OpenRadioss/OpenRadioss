@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE SETDEF_MOD
       USE MESSAGE_MOD
       USE SET_SCRATCH_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,7 +96,7 @@ C-----------------------------------------------
      .        IPARTS(*),IPARTC(*),IPARTG(*),IPART(LIPART1,*)
       my_real
      .    GEO(NPROPG,*),X(3,*)
-      CHARACTER KEYSET*ncharfield
+      CHARACTER(LEN=NCHARFIELD) :: KEYSET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

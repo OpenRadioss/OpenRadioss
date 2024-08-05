@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE DRAPE_MOD
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -132,9 +133,7 @@ C-----------------------------------------------
      .   IEL, IEL0
        my_real
      . ANGLE(NUMELTG)
-C     REAL OU REAL*8
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR
 C
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2, INUM_PTSH3N
 
@@ -352,9 +351,6 @@ C
         ELSEIF (IGTYP == 17) THEN
           NPN = IWORKSH(1,NUMELC + II)
           ISUBSTACK =IWORKSH(3,NUMELC + II)
-!!          IIGEO   =  40 + 5*(ISUBSTACK - 1) 
-!!          IADI    = IGEO(IIGEO + 3,PID)
-!!          IPPID   = IADI
           IPPID = 2
           DO IPT = 1, NPN
             IPID = STACK%IGEO(IPPID+IPT,ISUBSTACK)

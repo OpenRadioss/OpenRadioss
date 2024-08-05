@@ -55,13 +55,13 @@
         use multi_fvm_mod , only : multi_fvm_struct
         use bcs_mod , only : bcs
         use constant_mod , only : zero, em20, ep20
+        use names_and_titles_mod , only : nchartitle
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
         implicit none
 #include "my_real.inc"
 #include "units_c.inc"
-#include "nchar_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -85,7 +85,7 @@
         !logical :: l_tagnod(numnod)
         logical :: is_available_sensor,is_available_tstart,is_available_tstop,is_available_grnod
         logical :: is_found
-        character*nchartitle :: titr
+        character(len=nchartitle) :: titr
         character :: label*31, mess*40
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External Functions

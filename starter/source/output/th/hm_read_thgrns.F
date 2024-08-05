@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,7 +73,7 @@ C-----------------------------------------------
      .        IFI,IAD,NV,NVG,IVARG(18,*),NSNE,
      .        IVNS2R(18,*),NV0,ITHVAR(*),FLAGABF,NVARABF
       CHARACTER*10 VARE(NV),KEY,VARG(NVG)
-      CHARACTER TITR*nchartitle
+      CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -80,7 +81,8 @@ C-----------------------------------------------
      .        OK,IGS,IGRS,NSU,K,L,JREC,CONT,IAD0,IADV,NTRI,NL,
      .        IFITMP,IADFIN,NVAR,M,N,IAD1,IAD2,ISK,IPROC,
      .        IDNS, INS, IUN, IST, NST, IDST
-      CHARACTER TITLE*nchartitle,MESS*40,CSTRAND1*9,CSTRAND2*13
+      CHARACTER(LEN=NCHARTITLE) :: TITLE
+      CHARACTER :: MESS*40,CSTRAND1*9,CSTRAND2*13
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)      
       LOGICAL IS_AVAILABLE
       INTEGER LENTRIM

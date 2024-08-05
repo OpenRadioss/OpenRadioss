@@ -943,10 +943,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER             IBUF(20)
       my_real             RBUF(10)
-      CHARACTER*ncharline CBUF(10)
+      CHARACTER(LEN=NCHARLINE) CBUF(10)
 C
-      CHARACTER*ncharline TMPLINE,MYFMT,TMPBUF
-      CHARACTER*ncharline TMPOUT,TMPIN,TMPIN2,TMPIN3
+      CHARACTER(LEN=NCHARLINE):: TMPLINE,MYFMT,TMPBUF
+      CHARACTER(LEN=NCHARLINE):: TMPOUT,TMPIN,TMPIN2,TMPIN3
       CHARACTER*20 CMSGTYPE
       CHARACTER*15 CTYPE
       INTEGER ITYPE,ILINE,I,I0,J,J0,SBUFMSG(2),IFILE,IOLD,
@@ -955,35 +955,23 @@ C
      *        INT_TMP,ITMP,INDXI_INC,INDXR_INC,INDXC_INC,INDXD_INC,
      *        NB_IBUF,NB_RBUF,NB_CBUF,MODE, WORK(70000),K,
      *        NB_MESSAGES,ITAG,NO_PRINT,ISAV
-      my_real
-     *        REAL_TMP
+      my_real REAL_TMP
       INTEGER NCOUNT,ID_NUM,KEY_LEN
-      CHARACTER*ncharline KEY
-      CHARACTER*ncharline BUFMSG(2,100),BUFFMT(2,100),CHAR_TMP
+      CHARACTER(LEN=NCHARLINE) KEY, BUFMSG(2,100),BUFFMT(2,100),CHAR_TMP
       CHARACTER*2304 OPTION_NAME_DYNA,DYNA_TITLE
       INTEGER S_OPTION_NAME_DYNA,SDYNA_TITLE,DYNA_ID
 C
       INTEGER, DIMENSION(:), ALLOCATABLE :: TMP_INTEGER
       my_real, DIMENSION(:), ALLOCATABLE :: TMP_REAL
-      CHARACTER*ncharline, DIMENSION(:), ALLOCATABLE :: TMP_CHAR
-      CHARACTER*ncharline, DIMENSION(:), ALLOCATABLE :: TMP_I
+      CHARACTER(LEN=NCHARLINE), DIMENSION(:), ALLOCATABLE :: TMP_CHAR
+      CHARACTER(LEN=NCHARLINE), DIMENSION(:), ALLOCATABLE :: TMP_I
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,MES_DOUBLE
 C-----------------------------------------------
        CHARACTER*2 NL 
        EXTERNAL NL
 C-----------------------------------------------
-C
-c      IF((PRESENT(IOPTION)))THEN
-c        CONTINUE
-c      ELSE
-c        IOPTION = 0
-c      ENDIF
-c      IF((PRESENT(IOPTION_TYPE)))THEN
-c        CONTINUE
-c      ELSE
-c        IOPTION_TYPE = 0
-c      ENDIF
+
       NBREPET = 0
 C
       IF(PRESENT(PRMODE))THEN
@@ -2281,7 +2269,11 @@ c
       !||--- called by ------------------------------------------------------
       !||    ancmsg                ../starter/source/output/message/message.F
       !||====================================================================
-      SUBROUTINE MESS_EXTRACT_FORMAT(TMPLINE,LINE_SIZE,NCOUNT,ID_NUM,KEY,KEY_LEN) 
+      SUBROUTINE MESS_EXTRACT_FORMAT(TMPLINE,LINE_SIZE,NCOUNT,ID_NUM,KEY,KEY_LEN)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2294,7 +2286,7 @@ C-----------------------------------------------
 
       INTEGER, INTENT(OUT)                        :: NCOUNT         ! format length
       INTEGER, INTENT(OUT)                        :: ID_NUM         ! processed ID indice
-      CHARACTER, INTENT(OUT),DIMENSION(ncharline) :: KEY            ! output string with option type
+      CHARACTER, INTENT(OUT),DIMENSION(NCHARLINE) :: KEY            ! output string with option type
       INTEGER, INTENT(OUT)                        :: KEY_LEN        ! output string with option type
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

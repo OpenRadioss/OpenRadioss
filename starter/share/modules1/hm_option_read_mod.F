@@ -404,12 +404,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       INTERFACE
       SUBROUTINE HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID,UNIT_ID,SUBMODEL_INDEX,SUBMODEL_ID,OPTION_TITR,
      .                              KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4,OPT_POS)  
-      USE SUBMODEL_MOD
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -417,8 +419,7 @@ C-----------------------------------------------
       CHARACTER*(*) KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4
       CHARACTER*(*) OPTION_TITR
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      OPTIONAL ::
-     .   OPTION_ID,UNIT_ID,SUBMODEL_INDEX,SUBMODEL_ID,KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4,OPTION_TITR,OPT_POS
+      OPTIONAL :: OPTION_ID,UNIT_ID,SUBMODEL_INDEX,SUBMODEL_ID,KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4,OPTION_TITR,OPT_POS
 
       END SUBROUTINE
       END INTERFACE
