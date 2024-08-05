@@ -54,11 +54,12 @@
           epst  ,nfis1 ,nfis2 ,nfis3 ,                       &
           wplar ,epsp  ,wpla  ,sigl  ,ilay  ,ipg   ,         &
           tsaiwu,time  ,imconv,mvsiz ,iout  ,dmg   ,         &
-          l_dmg )
+          l_dmg ,outv)
 !-----------------------------------------------
 !   m o d u l e s
 !-----------------------------------------------
           use matparam_def_mod
+          use message_mod
           use constant_mod ,only : zero,half,one,two,four,four_over_5
           use constant_mod ,only : em10,em15,em20,ep20
 ! ---------------------------------------------------------------------------------
@@ -83,6 +84,7 @@
           integer ,dimension(nel) ,intent(inout) :: nfis1  !< failure counter in 1st direction
           integer ,dimension(nel) ,intent(inout) :: nfis2  !< failure counter in 2nd direction
           integer ,dimension(nel) ,intent(inout) :: nfis3  !< failure counter in 3rd direction
+          integer ,dimension(nel) ,intent(inout) :: outv   !< outp counter
           my_real ,intent(in)    :: time                   !< current time
           my_real ,intent(inout) :: off(mvsiz)             !< element activation coefficient
           my_real ,intent(inout) :: wpla(mvsiz)            !< plastic work
@@ -112,8 +114,8 @@
           integer :: i,j,fail,ioff,icc,nindx
           integer :: fail_old(mvsiz),index(mvsiz),icas(mvsiz),isoft(mvsiz)
           my_real :: e11,e22,e33,nu12,nu21,g12,g23,g31,wplaref,cc,epdr
-          my_real :: scale, cnn, scale1, scale2, dam1, dam2
-          my_real :: strp12,coefa,coefb,delta,dwpla,e1,e2,e3,e4,e5,e6
+          my_real :: scale, cnn, scale1, scale2, dam1, dam2,b1,b2
+          my_real :: strp12,coefa,coefb,delta,dwpla,e1,e2,e3,e4,e5,e6 
           my_real                                                            &
             dp1(mvsiz), dp2(mvsiz), dp3(mvsiz),cb(mvsiz),cn(mvsiz),          &
             fmax(mvsiz),ds1(mvsiz), ds2(mvsiz), ds3(mvsiz),                  &
@@ -130,7 +132,7 @@
             dmax(mvsiz),fyld(mvsiz),                                         &
             f1(mvsiz), f2(mvsiz), f12(mvsiz), f11(mvsiz), f22(mvsiz),        &
             f33(mvsiz),epsf1(mvsiz),epsf2(mvsiz),eps(mvsiz,6)
-          my_real :: soft(3)
+          my_real :: soft(3),beta(mvsiz)
 !=======================================================================
           ioff   = mat_param%iparam(2)
           icc    = mat_param%iparam(3)
@@ -352,16 +354,58 @@
 !
           do i=1,nel
             if (wvec(i) > fyld(i).and.off(i)  ==  one) coef(i)=one
-            cnn=cn(i)-one
             wvec(i)=zero
-            if(wpla(i) > zero.and.fyld(i) < fmax(i))                 &
-              wvec(i)=epsp(i)*exp(cnn*log(wpla(i)))
           enddo
-!
+!       
+          nindx = 0
           do i=1,nel
-            so1(i)= s1(i)
-            so2(i)= s2(i)
-            so3(i)= s4(i)
+            beta(i) = one
+            if (coef(i) == one) then
+              coefa = f11(i)*t1(i)*t1(i) + f22(i)*t2(i)*t2(i)       &
+                + f33(i)*t3(i)*t3(i) + two*f12(i)*t1(i)*t2(i)
+              coefb = f1(i)*t1(i) + f2(i)*t2(i)
+              delta = coefb*coefb + four*coefa
+              if (delta >= zero) then
+                delta = sqrt(delta)
+
+                if (abs(coefa) > em15 .or. abs(coefa) <= em15 .and. abs(coefb) > em15) then
+                  if (abs(coefa) <= em15 .and. abs(coefb) > em15) then
+                    beta(i) = one/coefb
+                  endif
+                  b1 = half * (coefb - delta) / coefa
+                  b2 = half * (coefb + delta) / coefa
+                  if (abs(one + b1) <= abs(one + b2)) then
+                    beta(i) = -b1
+                  else
+                    beta(i) = -b2
+                  endif
+                  delta = (f1(i) * t1(i) + f2(i) * t2(i)            &
+                    + f11(i) * beta(i)*t1(i)*t1(i)              &
+                    + f22(i) * beta(i)*t2(i)*t2(i)              &
+                    + f33(i) * beta(i)*t3(i)*t3(i)              &
+                    + two*f12(i)*beta(i)*t1(i)*t2(i)) * beta(i)
+
+                 else if (imconv==1 .and. outv(i) == 0) then  ! coefa<em15 & coefb<em15
+                   nindx = nindx + 1
+                   index(nindx) = i   
+                endif
+
+              else if (imconv == 1 .and. outv (i) == 0) then   ! delta < 0
+                   nindx = nindx + 1
+                   index(nindx) = i   
+              endif   ! delta > 0
+            end if    ! coef == 1
+          enddo
+          if(nindx > 0) then
+             do j=1,nindx
+                call ancmsg(msgid=244,anmode=aninfo, i1=ngl(index(j)))            
+           end do
+          endif
+!-----------------------------------------------------------------------
+          do i=1,nel
+            so1(i)=beta(i)*t1(i)
+            so2(i)=beta(i)*t2(i)
+            so3(i)=beta(i)*t3(i)
           enddo
 !
           do  i=1,nel
@@ -379,11 +423,10 @@
           do  i=1,nel
             lamda(i)=(dp1(i)*ds1(i)+dp2(i)*ds2(i)+dp3(i)*DS3(I))*COEF(I)
             if (lamda(i) /= zero) then
-              lamda(i)=lamda(i)*coef(i)/                                     &
-                (dp1(i)*(a11(i)*dp1(i)+a12(i)*dp2(i))+                         &
-                dp2(i)*(a12(i)*dp1(i)+a22(i)*dp2(i))+                          &
-                two*dp3(i)*g12*de1(i)*de2(i)*dp3(i)+                        &
-                (so1(i)*dp1(i)+so2(i)*dp2(i)+two*so3(i)*DP3(I))*cn(i)*cb(i)*wvec(i) )
+              lamda(i)=lamda(i)*coef(i)/                                    &
+                (dp1(i)*(a11(i)*dp1(i)+a12(i)*dp2(i))+                      &
+                 dp2(i)*(a12(i)*dp1(i)+a22(i)*dp2(i))+                      &
+                 two*dp3(i)*g12*de1(i)*de2(i)*dp3(i) )
             endif
           enddo
 !

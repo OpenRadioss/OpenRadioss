@@ -55,11 +55,12 @@
           epst,nfis1,nfis2,nfis3,                           &
           wplar,epsp , wpla, sigl, ilay,                    &
           ipg,tsaiwu,time,imconv  ,mvsiz   ,iout,           &
-          dmg,l_dmg )
+          dmg,l_dmg ,outv)
 !-----------------------------------------------
 !   m o d u l e s
 !-----------------------------------------------
           use matparam_def_mod
+          use message_mod
           use constant_mod ,only : zero,half,one,two,four,four_over_5
           use constant_mod ,only : em10,em15,em20,ep20
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -84,6 +85,7 @@
           integer ,dimension(nel) ,intent(inout) :: nfis1  !< failure counter in 1st direction
           integer ,dimension(nel) ,intent(inout) :: nfis2  !< failure counter in 2nd direction
           integer ,dimension(nel) ,intent(inout) :: nfis3  !< failure counter in 3rd direction
+          integer ,dimension(nel) ,intent(inout) :: outv   !< outp counter
           my_real ,intent(in)    :: time                   !< current time
           my_real ,intent(inout) :: off(mvsiz)             !< element activation coefficient
           my_real ,intent(inout) :: wpla(mvsiz)            !< plastic work
@@ -117,7 +119,7 @@
           my_real :: e11,e22,e33,nu12,nu21,g12,g23,g31,wplaref,cc,epdr
           my_real :: e1,e2,e3,e4,e5,e6,alpha,strp12,coefa,coefb,delta,dwpla
           my_real :: log_wpla,b1,b2,wpla1,wpla2,wpla3
-          my_real :: cnn,scale,scale1,scale2,dam1,dam2
+          my_real ::  scale,scale1,scale2,dam1,dam2
           my_real :: sigyt1,sigyt2,sigyc1,sigyc2,sigyt12
           my_real :: sigy0_t1,sigy0_t2,sigy0_c1,sigy0_c2,sigy0_t12
           my_real :: sigmxt1,sigmxt2,sigmxc1,sigmxc2,sigmxt12
@@ -140,7 +142,7 @@
             f1(mvsiz),f2(mvsiz),f12(mvsiz),f11(mvsiz),f22(mvsiz),f33(mvsiz),   &
             epsf1(mvsiz),epsf2(mvsiz),eps(mvsiz,6),soft(3),                    &
             wplamxt1(mvsiz),wplamxt2(mvsiz),wplamxc1(mvsiz),wplamxc2(mvsiz),   &
-            wplamxt12(mvsiz)
+            wplamxt12(mvsiz),beta(mvsiz)
 !=======================================================================
           iflag  = mat_param%iparam(1)
           ioff   = mat_param%iparam(2)
@@ -186,7 +188,7 @@
             eps1c1(i)  = mat_param%uparam(29)
             eps1c2(i)  = mat_param%uparam(30)
             eps1t12(i) = mat_param%uparam(31)
-
+            
             eps2t1(i)  = mat_param%uparam(32)
             eps2t2(i)  = mat_param%uparam(33)
             eps2c1(i)  = mat_param%uparam(34)
@@ -455,7 +457,7 @@
               ! -> failure index in tension
             elseif (epst(i,1) >= zero .and. epst(i,1) < eps1t1(i)) then
               dmg(i,5) = min(epst(i,1)/eps1t1(i),one)
-            elseif (eps(i,1) >= eps1t1(i)) then
+            elseif (epst(i,1) >= eps1t1(i)) then
               soft(1)  = min(one,(epst(i,1)-eps1t1(i))/(eps2t1(i)-eps1t1(i)))
               dmg(i,5) = min(one + soft(1),1.95d0)
             endif
@@ -518,17 +520,58 @@
 !
           do i=1,nel
             if (wvec(i) > one .and. off(i) == one) coef(i)=one
-            cnn=cn(i)-one
             wvec(i)=zero
-!        fyld(i)= one
-!        fmax(i)= one
-!        if(wpla(i) > zero.and. fyld(i) < fmax(i)) wvec(i)=epsp(i)*exp(cnn*log(wpla(i)))
           enddo
 !
+         nindx = 0
+         do i=1,nel
+            beta(i) = one
+            if (coef(i) == one) then
+              coefa = f11(i)*t1(i)*t1(i) + f22(i)*t2(i)*t2(i)       &
+                + f33(i)*t3(i)*t3(i) + two*f12(i)*t1(i)*t2(i)
+              coefb = f1(i)*t1(i) + f2(i)*t2(i)
+              delta = coefb*coefb + four*coefa
+              if (delta >= zero) then
+                delta = sqrt(delta)
+
+                if (abs(coefa) > em15 .or. abs(coefa) <= em15 .and. abs(coefb) > em15) then
+                  if (abs(coefa) <= em15 .and. abs(coefb) > em15) then
+                    beta(i) = one/coefb
+                  endif
+                  b1 = half * (coefb - delta) / coefa
+                  b2 = half * (coefb + delta) / coefa
+                  if (abs(one + b1) <= abs(one + b2)) then
+                    beta(i) = -b1
+                  else
+                    beta(i) = -b2
+                  endif
+                  delta = (f1(i) * t1(i) + f2(i) * t2(i)            &
+                    + f11(i) * beta(i)*t1(i)*t1(i)              &
+                    + f22(i) * beta(i)*t2(i)*t2(i)              &
+                    + f33(i) * beta(i)*t3(i)*t3(i)              &
+                    + two*f12(i)*beta(i)*t1(i)*t2(i)) * beta(i)
+
+                 else if (imconv==1 .and. outv(i) == 0) then  ! coefa<em15 & coefb<em15   
+                   nindx = nindx + 1
+                   index(nindx) = i              
+                endif
+              else if (imconv == 1 .and. outv (i) == 0) then   ! delta < 0
+                   nindx = nindx + 1
+                   index(nindx) = i
+                  outv(i) = 1                 
+              endif   ! delta > 0
+            end if    ! coef == 1
+          enddo
+          if(nindx > 0) then
+           do j=1,nindx       
+              call ancmsg(msgid=244,anmode=aninfo, i1=ngl(index(j)))
+           end do
+          endif
+!-----------------------------------------------------------------------
           do i=1,nel
-            so1(i)=s1(i)
-            so2(i)=s2(i)
-            so3(i)=s4(i)
+            so1(i)=beta(i)*t1(i)
+            so2(i)=beta(i)*t2(i)
+            so3(i)=beta(i)*t3(i)
           enddo
 !
           do  i=1,nel
@@ -538,9 +581,9 @@
           enddo
 !
           do  i=1,nel
-            ds1(i)=t1(i)-so1(i)
-            ds2(i)=t2(i)-so2(i)
-            ds3(i)=t3(i)-so3(i)
+            ds1(i)=t1(i) - so1(i)
+            ds2(i)=t2(i) - so2(i)
+            ds3(i)=t3(i) - so3(i)
           enddo
 !
           do  i=1,nel
@@ -548,10 +591,8 @@
             if(lamda(i) /= zero) then
               lamda(i)=lamda(i)*coef(i)/                             &
                 (dp1(i)*(a11(i)*dp1(i)+a12(i)*dp2(i))+               &
-                dp2(i)*(a12(i)*dp1(i)+a22(i)*dp2(i))+               &
-                two*dp3(i)*g12*de1(i)*de2(i)*dp3(i)+                &
-                (so1(i)*dp1(i)+so2(i)*dp2(i)+two*so3(i)*DP3(I))      &
-                *cn(i)*cb(i)*wvec(i) )
+                 dp2(i)*(a12(i)*dp1(i)+a22(i)*dp2(i))+               &
+                 two*dp3(i)*g12*de1(i)*de2(i)*dp3(i)  )
             endif
           enddo
 !
@@ -818,8 +859,8 @@
 !-------------------
 !     plasticity end
 !------------------------------------------------------------------------
-3000      format('no real solution for delta =',f11.4)
-3010      format('cannot project stresses on criteria, COEFB =',F11.4)
+3000      format(' ** WARNING : MATERIAL LAW 25 - ELEMENT ID =',i10)
+3010      format('cannot project stresses on criteria')
 !------------------------------------------------------------------------
           return
         end subroutine mat25_crasurv_s

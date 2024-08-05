@@ -1629,7 +1629,7 @@
             &lbuf%off,   ngl,        nel,        nft,&
             &ilay,       npt,        ipg,&
             &jcvt,       jsph,       isorth,     lbuf%dmg,&
-            &elbuf_tab(ng)%bufly(ilay)%l_dmg)
+            &elbuf_tab(ng)%bufly(ilay)%l_dmg,gbuf%ierr)
 !
             if (jsph == 0) then
               call mqviscb(&
