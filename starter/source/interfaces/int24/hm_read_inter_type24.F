@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE PARAMETERS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_I_2F
+      USE READER_OLD_MOD , ONLY : LINE, IREC
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

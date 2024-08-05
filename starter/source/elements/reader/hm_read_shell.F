@@ -65,8 +65,10 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE READER_OLD_MOD , ONLY : LINE
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C--------------------------------------------------------
 C     LECTURE DES ELEMENTS COQUES 4 NOEUDS
 C     VERSIION NUMEROTATION DES NOEUDS LIBRE/MARS 90/DIM
@@ -100,7 +102,7 @@ C INPUT ARGUMENTS
       INTEGER,INTENT(IN)::IPART(LIPART1,*)
       INTEGER,INTENT(IN)::IGEO(NPROPGI,*)
       INTEGER,INTENT(IN)::IPM(NPROPMI,*)
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
 C OUTPUT ARGUMENTS
       INTEGER,INTENT(OUT)::IXC(NIXC,*)
       INTEGER,INTENT(OUT)::IPARTC(*)
@@ -217,10 +219,10 @@ C--------------------------------------------------
         IPID=IPART(2,INDEX_PART)                                 
         IXC(1,I)=MT                                
         IXC(6,I)=IPID 
-        IF (IXC(NIXC,I)>ID_LIMIT)THEN
+        IF (IXC(NIXC,I)>ID_LIMIT%GLOBAL)THEN
             CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXC(NIXC,I),C1=LINE,C2='/SHELL')
-        ELSEIF (NADMESH/=0.AND.IXC(NIXC,I)>ID_LIMIT_ADMESH)THEN
+        ELSEIF (NADMESH/=0.AND.IXC(NIXC,I)>ID_LIMIT%ADMESH)THEN
             CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXC(NIXC,I),C1=LINE,C2='/SHELL')
         ENDIF                            

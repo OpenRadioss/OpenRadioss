@@ -34,5 +34,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
          CHARACTER(len=ncharline) :: REFSTA_FILENAME
          LOGICAL IS_REFSTA
+         INTEGER RS0_FMT
 
       END MODULE REFSTA_MOD

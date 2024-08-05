@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE FORMAT_MOD , ONLY : FMT_10I
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE READER_OLD_MOD , ONLY : LINE, IREC
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -184,6 +185,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMT_10I
+      USE READER_OLD_MOD , ONLY : LINE, IREC
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

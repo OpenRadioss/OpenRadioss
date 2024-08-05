@@ -65,6 +65,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_I_A
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -268,8 +269,8 @@ C
         DO K=1,NBMONVOL
          DO I=1,NBVENT
           N=ITHBUF(IAD)
-          ITHBUF(IAD+2*NNE)=ID_TH_AUTO
-          ID_TH_AUTO = ID_TH_AUTO + 1
+          ITHBUF(IAD+2*NNE)=ID_LIMIT%TH
+          ID_LIMIT%TH  = ID_LIMIT%TH  + 1
 
           DO J=1,20
             ITHBUF(IAD2+J-1)=NOM_OPT(J+LNOPT1-LTITR,INOPT1+N)

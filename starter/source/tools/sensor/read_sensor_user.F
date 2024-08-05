@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE, NCHARKEY
       USE FORMAT_MOD ,ONLY :  FMT_F
+      USE READER_OLD_MOD , ONLY : KEY0, KCUR, KLINE, LINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -248,12 +249,7 @@ C           global activation time
       ENDIF ! IF(NLINES > 0)THEN
 C-----------
       RETURN
- 999  CALL ANCMSG(MSGID=55,
-     .            ANMODE=ANINFO,
-     .            MSGTYPE=MSGERROR,
-     .            C1=KEY0(KCUR),
-     .            C2=KLINE,
-     .            C3=LINE)
+ 999  CALL ANCMSG(MSGID=55,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1=KEY0(KCUR),C2=KLINE,C3=LINE)
       CALL ARRET(2)
 C-----------
       RETURN

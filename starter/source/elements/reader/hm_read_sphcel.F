@@ -81,9 +81,11 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE UNITAB_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      USE READER_OLD_MOD , ONLY : LINE, KCUR, KSPHOPT, IREC, KOPTAD
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -105,9 +107,8 @@ C-----------------------------------------------
      .        ITAB(*),ITABM1(*),IPART(LIPART1,*),IPARTSP(*),
      .        RESERVEP(NBPARTINLET), IXS(NIXS,*), IPARTS(*), ISOLNOD(*),
      .        SPH2SOL(*), SOL2SPH(2,*), IRST(3,NSPHSOL),SOL2SPH_TYP(*)
-      my_real
-     .        X(3,*)
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
+      my_real X(3,*)
+      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       my_real, INTENT(INOUT) :: SPBUF(NSPBUF,NUMSPH)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER, INTENT(IN) :: IPRI
@@ -119,7 +120,6 @@ C-----------------------------------------------
      .        NSPHCEL,NCELL,IDNOD,INOD,IDMAX,KSPHRES,
      .        NBP,ITAG(NUMNOD),IT,NT,NP,NN,ITOPO,STAT,
      .        INDEX_PART,UID,IFLAGUNIT
-C     REAL
       my_real BID,FAC_M
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARKEY) :: KEY
@@ -246,7 +246,7 @@ C         meme identifiant que le noeud.
         KXSP(NISP,NCELL)=IDNOD
         IDMAX=MAX(IDMAX,IDNOD)
 C--------------------------------------------------
-        IF (KXSP(NISP,I)>ID_LIMIT)THEN
+        IF (KXSP(NISP,I)>ID_LIMIT%GLOBAL)THEN
             CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=KXSP(NISP,I),C1=LINE,C2='/SPHCEL')
         ENDIF

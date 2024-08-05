@@ -1164,11 +1164,6 @@ C heat trasfert
 C     Static condensation
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=ISTATCND
-C Defense Lic Flag
-      LVARINT=LVARINT+1
-      TABVINT(LVARINT)=LIDFS
-      LVARINT=LVARINT+1
-      TABVINT(LVARINT)=LIRNUR
 C     Unit info
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= 4 ! old LUNIT, deprecated 

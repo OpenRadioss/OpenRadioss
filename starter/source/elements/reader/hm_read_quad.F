@@ -60,8 +60,10 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE READER_OLD_MOD , ONLY : LINE
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C--------------------------------------------------------
 C     LECTURE DES ELEMENTS QUAD 4 NOEUDS
 C     VERSIION NUMEROTATION DES NOEUDS LIBRE/MARS 90/DIM
@@ -95,7 +97,7 @@ C INPUT ARGUMENTS
       INTEGER,INTENT(IN)::IPART(LIPART1,*)
       INTEGER,INTENT(IN)::IGEO(NPROPGI,*)
       INTEGER,INTENT(IN)::IPM(NPROPMI,*)
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
 C OUTPUT ARGUMENTS
       INTEGER,INTENT(OUT)::IXQ(NIXQ,*)
       INTEGER,INTENT(OUT)::IPARTQ(*)
@@ -121,13 +123,9 @@ C      ALLOCS & INITS
 c      use NUMELQ IN PLACE OF NUMELC ( NBADMESH routine is modifying NUMELC )
 C--------------------------------------------------
       ALLOCATE (SUB_QUAD(NUMELQ),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_QUAD') 
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SUB_QUAD')
       ALLOCATE (UID_QUAD(NUMELQ),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='UID_QUAD')
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='UID_QUAD')
       SUB_QUAD(1:NUMELQ) = 0
       UID_QUAD(1:NUMELQ) = 0
       NDEGEN = 0
@@ -145,8 +143,7 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_QUAD(I) /= 0)THEN
-          IF(UID_QUAD(I) == 0 .AND. LSUBMODEL(SUB_QUAD(I))%UID /= 0) 
-     .         UID_QUAD(I) = LSUBMODEL(SUB_QUAD(I))%UID
+          IF(UID_QUAD(I) == 0 .AND. LSUBMODEL(SUB_QUAD(I))%UID /= 0) UID_QUAD(I) = LSUBMODEL(SUB_QUAD(I))%UID
         ENDIF
 C--------------------------------------------------
 C      UNITS
@@ -161,8 +158,7 @@ C--------------------------------------------------
             ENDIF                               
           ENDDO                                  
           IF (UID/=0.AND.IFLAGUNIT==0) THEN
-            CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                  I1=UID,C1='/QUAD')
+            CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=UID,C1='/QUAD')
           ENDIF 
         ENDIF   
 C--------------------------------------------------
@@ -174,13 +170,7 @@ C--------------------------------------------------
           ENDDO  
         ENDIF
         IF(IPART(4,INDEX_PART) /= IPARTQ(I)) THEN
-          CALL ANCMSG(MSGID=402,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                C1="QUAD",
-     .                I1=IPARTQ(I),
-     .                I2=IPARTQ(I),
-     .                PRMOD=MSG_CUMU)
+          CALL ANCMSG(MSGID=402,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,C1="QUAD",I1=IPARTQ(I),I2=IPARTQ(I),PRMOD=MSG_CUMU)
         ENDIF 
         IPARTQ(I) = INDEX_PART
 C--------------------------------------------------
@@ -188,21 +178,14 @@ C--------------------------------------------------
         IPID=IPART(2,INDEX_PART)                                 
         IXQ(1,I)=MT                                
         IXQ(6,I)=IPID 
-        IF (IXQ(NIXQ,I)>ID_LIMIT)THEN
-            CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                  I1=IXQ(NIXQ,I),C1=LINE,C2='/QUAD')
-        ELSEIF (NADMESH/=0.AND.IXQ(NIXQ,I)>ID_LIMIT_ADMESH)THEN
-            CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                  I1=IXQ(NIXQ,I),C1=LINE,C2='/QUAD')
+        IF (IXQ(NIXQ,I)>ID_LIMIT%GLOBAL)THEN
+            CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=IXQ(NIXQ,I),C1=LINE,C2='/QUAD')
+        ELSEIF (NADMESH/=0.AND.IXQ(NIXQ,I)>ID_LIMIT%ADMESH)THEN
+            CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=IXQ(NIXQ,I),C1=LINE,C2='/QUAD')
         ENDIF                            
-        IF(  ( IXQ(4,I) == IXQ(5,I)) .OR.        
-     .       ( IXQ(5,I) == 0 )) THEN             
+        IF(( IXQ(4,I) == IXQ(5,I)) .OR. ( IXQ(5,I) == 0 )) THEN
            NDEGEN = NDEGEN + 1                     
-           CALL ANCMSG(MSGID=430,
-     .                 MSGTYPE=MSGWARNING,
-     .                 I1=IXQ(NIXQ,I),
-     .                 ANMODE=ANINFO_BLIND_2,
-     .                 PRMOD=MSG_CUMU)
+           CALL ANCMSG(MSGID=430,MSGTYPE=MSGWARNING,I1=IXQ(NIXQ,I),ANMODE=ANINFO_BLIND_2,PRMOD=MSG_CUMU)
         ENDIF  
                                
         DO J=2,5                                                 
@@ -211,20 +194,19 @@ C--------------------------------------------------
         ENDDO
 
       ENDDO
-c
+
       IF(ALLOCATED(SUB_QUAD)) DEALLOCATE(SUB_QUAD)
       IF(ALLOCATED(UID_QUAD)) DEALLOCATE(UID_QUAD)
-C
+
       I1=1
       I2=MIN0(50,NUMELQ)
-C
+
       IF(IPRI>=5)THEN
    90  WRITE (IOUT,'(//A/A//A,A/)')TITRE(110),TITRE(111),TITRE(102),TITRE(105)
        DO I=I1,I2
          MID = IPM(1,IXQ(1,I))
          PID = IGEO(1,IXQ(6,I)) 
-         WRITE (IOUT,FMT='(8(I10,1X),1PG20.13,1X,1PG20.13)') IXQ(NIXQ,I),I,MID,PID,
-     .                      (ITAB(IXQ(J,I)),J=2,5)
+         WRITE (IOUT,FMT='(8(I10,1X),1PG20.13,1X,1PG20.13)') IXQ(NIXQ,I),I,MID,PID,(ITAB(IXQ(J,I)),J=2,5)
        ENDDO
        IF(I2==NUMELQ)GOTO 200
        I1=I1+50
@@ -234,10 +216,7 @@ C
 C
  200  CONTINUE
 C-----------
-      CALL ANCMSG(MSGID=402,                 
-     .            MSGTYPE=MSGERROR,         
-     .            ANMODE=ANINFO_BLIND_1,    
-     .            PRMOD=MSG_PRINT) 
+      CALL ANCMSG(MSGID=402,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,PRMOD=MSG_PRINT)
 C-------------------------------------
 C Search Duplicated Ids
 C-------------------------------------

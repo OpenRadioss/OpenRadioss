@@ -108,6 +108,10 @@ C-----------------------------------------------
       !||====================================================================
       RECURSIVE SUBROUTINE IDENTSON4(LEVEL,NN,IXC,SH4TREE)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE USER_ID_MOD , ONLY : ID_LIMIT
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -127,7 +131,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER PP
       IF(LEVEL==0)THEN
-        ID=ID_LIMIT_ADMESH+(NN-1)*((4**(LEVELMAX+1)-1)/3-1)
+        ID=ID_LIMIT%ADMESH+(NN-1)*((4**(LEVELMAX+1)-1)/3-1)
       END IF
       PP=SH4TREE(2,NN)
       IF(PP/=0) THEN
@@ -159,6 +163,10 @@ C-----------------------------------------------
       !||====================================================================
       RECURSIVE SUBROUTINE IDENTSON3(LEVEL,NN,IXTG,SH3TREE)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE USER_ID_MOD , ONLY : ID_LIMIT
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -178,7 +186,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER PP
       IF(LEVEL==0)THEN
-        ID=ID_LIMIT_ADMESH+(NN-1)*((4**(LEVELMAX+1)-1)/3-1)
+        ID=ID_LIMIT%ADMESH+(NN-1)*((4**(LEVELMAX+1)-1)/3-1)
       END IF
       PP=SH3TREE(2,NN)
       IF(PP/=0) THEN

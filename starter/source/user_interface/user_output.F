@@ -34,7 +34,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE USER_OUTPUT(IOUT,ILAW,ROOTN,ROOTLEN,INPF)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE INOUTFILE_MOD
+      USE READER_OLD_MOD , ONLY : LINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,10 +71,7 @@ C-----------------------------------------------
        TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_FILNAM)    
        LEN_TMP_NAME = OUTFILE_NAME_LEN+LEN_FILNAM 
 
-       OPEN(UNIT=INPUTF,
-     .     FORM='FORMATTED',
-     .     FILE=TMP_NAME(1:LEN_TMP_NAME),
-     .     ACTION='READ' )      
+       OPEN(UNIT=INPUTF,FORM='FORMATTED',FILE=TMP_NAME(1:LEN_TMP_NAME),ACTION='READ' )
      
        TEST=.TRUE.
        DO WHILE(TEST)
@@ -83,7 +84,6 @@ C-----------------------------------------------
        CLOSE(UNIT=INPUTF)
 
 C Delete  Output file
-!       CALL DELETE_USER_FILE(FILNAM,LEN_FILNAM)
        CALL DELETE_USER_FILE(TMP_NAME,LEN_TMP_NAME)
 
        IF(INPF==1)THEN

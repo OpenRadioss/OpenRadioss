@@ -38,14 +38,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE LECEXTLNK(IEXTER,IPART,LSUBMODEL)
-        USE MESSAGE_MOD
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+        USE MESSAGE_MOD
         USE R2R_MOD
         USE SUBMODEL_MOD
         USE HM_OPTION_READ_MOD
         USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+        USE READER_OLD_MOD , ONLY : IREC
 C-------------------------------------
 C     Read radioss link for external process coupling.
 C-----------------------------------------------
@@ -65,7 +66,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER IEXTER(NR2R,*),IPART(LIPART1,*)
         TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
-C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -113,17 +113,11 @@ C------------------------------------------------------------------
 C
           IS_AVAILABLE = .FALSE.
           CALL HM_OPTION_START('/EXTERN/LINK')
-C
+
           DO I=1,NR2RLNK
-C
-            CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                              OPTION_ID = NUSER,
-     .                              OPTION_TITR = TITR)
-C
+            CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID = NUSER,OPTION_TITR = TITR)
             CALL HM_GET_INTV('grnod_id',IGR,IS_AVAILABLE,LSUBMODEL)
 C-------- CHECK NODE GROUP
-C         IGRS = GRFIND (IGR,IGRN,MESS)
-C         IF (IGRS==0) IERR=IERR+1
             IEXTER(1,I) = IGR
             IEXTER(2,I) = NUSER
             IEXTER(3,I) = -1
@@ -141,27 +135,18 @@ C------------------------------------------------------------------
 C
           IS_AVAILABLE = .FALSE.
           CALL HM_OPTION_START('/SUBDOMAIN')
-C
           ALLOCATE (ISUBDOM_PART(NB_PART_SUB),STAT=stat)
           ALLOCATE (ID_SUB_TEMP(NB_PART_SUB),STAT=stat)
-C
           SET = 0
           R2R_FLAG_ERR_OFF = 0
-C
+
           DO I=1,NSUBDOM
-C
-            CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                              OPTION_ID = NUSER,
-     .                              OPTION_TITR = TITR,
-     .                              KEYWORD2 = KEY)
-C
+            CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID = NUSER,OPTION_TITR = TITR,KEYWORD2 = KEY)
             CALL HM_GET_INTV('idsmax',NEL,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_INTV('negativeIdsmax',NELN,IS_AVAILABLE,LSUBMODEL)
-C
             IF (I>1) SET = SET+ISUBDOM(1,I-1)
             ISUBDOM(3,I)=SET
             COMPT = 0
-C
             DO J=1,NEL
               CALL HM_GET_INT_ARRAY_INDEX('ids',ID,J,IS_AVAILABLE,LSUBMODEL)
               COMPT=COMPT+1
@@ -175,15 +160,9 @@ C----- CHECK PART ID
                 END IF
               END DO
               IF (FLAG_OK==0) THEN
-                CALL ANCMSG(MSGID=783,
-     .                      MSGTYPE=MSGERROR,
-     .                      ANMODE=ANINFO,
-     .                      I1=NUSER,
-     .                      C1=TITR,
-     .                      I2=ID)
+                CALL ANCMSG(MSGID=783,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NUSER,C1=TITR,I2=ID)
               ENDIF
             END DO
-C
 C--       if ID < 0 in list of part -> error message for size of interface is deactivated
             IF (NELN > 0) R2R_FLAG_ERR_OFF = 1
 C
@@ -208,10 +187,9 @@ C------------------------------------------------------------------
             DO I=1,ISUBDOM(1,1)
               ID_SUB_TEMP(I) = ISUBDOM_PART(I)
             END DO
-C
+
             DEALLOCATE (ISUBDOM_PART)
             ALLOCATE (ISUBDOM_PART(NB_PART_SUB),STAT=stat)
-C
             COMPT = 0
             DO I=1,NPART
               FOUND = 0
@@ -223,7 +201,7 @@ C
               ISUBDOM_PART(COMPT) = I
             END DO
             ISUBDOM(1,1) = COMPT
-C
+
           ENDIF
 
           DEALLOCATE (ID_SUB_TEMP)
@@ -232,7 +210,7 @@ C
 
 C------------------------------------------------------------------
         IREC=IREC+1
- 800    CONTINUE
+
         RETURN
 C------------------------------------------------------------------
  1000   FORMAT(

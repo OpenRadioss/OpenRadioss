@@ -26,6 +26,18 @@
       !||    python_register   ../engine/source/tools/curve/python_register.F90
       !||====================================================================
       module user_id_mod
+
+        type id_limits_
+          integer :: global = 1100000000                !< maximum identifier
+          integer :: admesh = 899999999                 !< related to /ADMESH option
+          integer :: admesh_ft_node_auto = 1000000000   !< related to /ADMESH option
+          integer :: admesh_lt_node_auto = 1000000000   !< related to /ADMESH option
+          integer :: th = 1000000000                    !< related to /MONVOL option
+          integer :: unit = 1000000000                  !< related to /UNIT option
+        end type id_limits_
+
+        type(id_limits_) :: id_limit
+
       contains
 !! \brief Returns the user id and group id of all the elements
       !||====================================================================

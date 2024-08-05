@@ -39,9 +39,11 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
+      USE READER_OLD_MOD , ONLY : LINE
+      USE USER_ID_MOD , ONLY : ID_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +57,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN)  :: UNITAB 
-      TYPE(SUBMODEL_DATA),INTENT(IN):: LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN):: LSUBMODEL(NSUBMOD)
       INTEGER,INTENT(IN)   :: NUMNUSR
       INTEGER,INTENT(IN)   :: IS_DYNA
 C-----------------------------------------------
@@ -76,30 +78,18 @@ C-----------------------------------------------
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
-      ALLOCATE (ITAB(NUMNUSR+NUMCNOD)       ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='ITAB')
-      ALLOCATE (X(3,NUMNUSR+NUMCNOD)       ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='X')
+      ALLOCATE (ITAB(NUMNUSR+NUMCNOD),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='ITAB')
+      ALLOCATE (X(3,NUMNUSR+NUMCNOD),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='X')
       ALLOCATE (SUB_NOD(NUMNUSR+NUMCNOD),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_NOD') 
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SUB_NOD')
       ALLOCATE (UID_NOD(NUMNUSR+NUMCNOD),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='UID_NOD')  
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='UID_NOD')
       ALLOCATE (HM_X(3,NUMNUSR+NUMCNOD),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='HM_X') 
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='HM_X')
       ALLOCATE (DMERGE(NUMCNOD),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                             C1='DMERGE') 
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='DMERGE')
       SUB_NOD(1:NUMNUSR+NUMCNOD) = 0
       UID_NOD(1:NUMNUSR+NUMCNOD) = 0
       DMERGE(1:NUMCNOD) = ZERO
@@ -119,12 +109,10 @@ C--------------------------------------------------
         X(3,N) = HM_X(3,N)
 C--------------------------------------------------
         IF(SUB_NOD(N) /= 0)THEN
-          IF(UID_NOD(N) == 0 .AND. LSUBMODEL(SUB_NOD(N))%UID /= 0) 
-     .        UID_NOD(N) = LSUBMODEL(SUB_NOD(N))%UID
+          IF(UID_NOD(N) == 0 .AND. LSUBMODEL(SUB_NOD(N))%UID /= 0) UID_NOD(N) = LSUBMODEL(SUB_NOD(N))%UID
         ENDIF
-        IF ( ITAB(N) > ID_LIMIT )THEN
-          CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                I1=ITAB(N),C1=LINE,C2='/NODE')
+        IF ( ITAB(N) > ID_LIMIT%GLOBAL )THEN
+          CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ITAB(N),C1=LINE,C2='/NODE')
         ENDIF                    
 C--------------------------------------------------
 C      UNITS
@@ -134,17 +122,15 @@ C--------------------------------------------------
           IFLAGUNIT = 0          
           DO J=1,UNITAB%NUNITS                   
             IF (UNITAB%UNIT_ID(J) == UID) THEN  
-              FAC_L = UNITAB%FAC_L(J)                 
+              FAC_L = UNITAB%FAC_L(J)
               IFLAGUNIT = 1                 
               EXIT                              
             ENDIF                               
           ENDDO                    
           IF (UID/=0 .AND. IFLAGUNIT==0 .AND. I <= NUMNUSR)THEN
-            CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                  I1=UID,C1='/NODE')
+            CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=UID,C1='/NODE')
           ELSEIF (UID/=0 .AND. IFLAGUNIT==0 .AND. I > NUMNUSR)THEN
-            CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                  I1=UID,C1='/CNODE')
+            CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=UID,C1='/CNODE')
           ENDIF 
         ENDIF
         X(1,N) = X(1,N)*FAC_L  

@@ -56,9 +56,10 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD            
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE DEFAULTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
+      USE READER_OLD_MOD , ONLY : KLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +83,7 @@ C     INPUT ARGUMENTS
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER,INTENT(IN):: IG,ISKN(LISKN,*),SUB_ID,IUNIT,SUB_INDEX
       my_real  ,INTENT(IN):: RTRANS(NTRANSF,*)
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
 C     OUTPUT ARGUMENTS
       INTEGER,INTENT(OUT):: IGTYP
 C     MODIFIED ARGUMENT
@@ -103,31 +104,6 @@ C-----------------------------------------------
       INTEGER LEN_FILNAM
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C=======================================================================
-c------------------------------
-C     User properties are read w/old reader
-C     When using a dynamic (user) library, one should write in a real scratch file.
-c------------------------------
-c      IF(USERL_AVAIL==1 .AND. (IGTYP==29.OR.IGTYP==30.OR.IGTYP==31.OR.
-c     *                           IGTYP==37.OR.IGTYP==38.OR.IGTYP==39.OR.
-c     *                           IGTYP==40.OR.IGTYP==41.OR.IGTYP==42))
-c     *                           THEN
-C
-c      WRITE(CLAW,'(I4.4)')IGTYP
-c      FILNAM  ='SI'//ROOTNAM(1:ROOTLEN)//'_'//CLAW//'.scr'
-c      LEN_FILNAM=LEN_TRIM(FILNAM)
-c
-c      OPEN(UNIT=30,FILE=FILNAM(1:LEN_FILNAM),
-c     . FORM='FORMATTED',RECL=ncharline)
-c
-c      LINE=' '
-c      DO WHILE(LINE(1:1) /= '/')
-c       IREC=IREC+1
-c       READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-c       WRITE(30,FMT='(A)')LINE
-c      ENDDO
-c      IREC=IREC-1
-c      CLOSE(UNIT=30)
-c
 c------------------------------
       DO I = 1,100
        PARGEO(I) = ZERO
@@ -297,8 +273,7 @@ C
 C-----------
       IADBUF  = IADTAB + NJTAB
 C-----------
-      IF (IGTYP > 28 .and. IGTYP < 32 .or. 
-     .          IGTYP > 36 .and. IGTYP < 43) THEN   ! prop user
+      IF (IGTYP > 28 .and. IGTYP < 32 .or.  IGTYP > 36 .and. IGTYP < 43) THEN   ! prop user
           PROP_TAG(IGTYP)%G_SIG  = 6
           PROP_TAG(IGTYP)%G_VOL  = 1
           PROP_TAG(IGTYP)%G_EINT = 1
@@ -316,16 +291,7 @@ C-----------
       ENDIF ! IF (IGTYP)
 C-----------
       RETURN
- 999  CALL ANCMSG(MSGID=54,
-     .            ANMODE=ANINFO,
-     .            MSGTYPE=MSGERROR,
-     .            C1=KLINE)
+
       RETURN
- 1000 FORMAT(
-     & 5X,'USER PROPERTY SET'/,
-     & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10)
- 1100 FORMAT(
-     & 5X,'SPH PROPERTY SET'/,
-     & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10)
       END
 

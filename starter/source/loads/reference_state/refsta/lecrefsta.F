@@ -34,8 +34,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE LECREFSTA(ITABM1  ,UNITAB,IXC   ,IXTG  ,IXS   ,
      .                     XYZREF  ,XREFC ,XREFTG,XREFS ,TAGNOD,
      .                     IDDLEVEL,TAGREF )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE READER_OLD_MOD , ONLY : IREC, NSLASH
       USE UNITAB_MOD
       USE MESSAGE_MOD
+      USE REFSTA_MOD , ONLY : RS0_FMT
+      USE READER_OLD_MOD , ONLY : LINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,16 +63,12 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER ITABM1(*),IXC(NIXC,*),IXTG(NIXTG,*),IXS(NIXS,*),TAGNOD(*)
       INTEGER IDDLEVEL,TAGREF(*)
-      my_real
-     .  XREFC(4,3,*),XREFTG(3,3,*),XREFS(8,3,*),
-     .  XYZREF(3,*)
+      my_real XREFC(4,3,*),XREFTG(3,3,*),XREFS(8,3,*),XYZREF(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,IE,IN,ID,NN,IFLAGUNIT,NNOD
-C     REAL
-      my_real
-     .  XX,YY,ZZ,FAC_L
+      my_real XX,YY,ZZ,FAC_L
       CHARACTER MESS*40
       DATA MESS/'REFSTA'/      
 C-----------------------------------------------

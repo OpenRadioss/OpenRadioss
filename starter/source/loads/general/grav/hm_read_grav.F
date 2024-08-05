@@ -50,10 +50,11 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE HM_OPTION_READ_MOD
       USE SENSOR_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
+      USE READER_OLD_MOD , ONLY : IREC
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +75,7 @@ C-----------------------------------------------
      .        NPC(*), ISKN(LISKN,*), ITAGND(*)
       my_real
      .   GRAV(LFACGRV,NGRAV)
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C     IGRV(LIBRV,NGRAV) 

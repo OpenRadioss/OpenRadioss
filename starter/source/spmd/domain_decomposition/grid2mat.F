@@ -3185,6 +3185,10 @@ c        END IF
       !||====================================================================
       SUBROUTINE PRELEC_DDW(FILNAM,LEN_FILNAM,MARQUEUR3)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE READER_OLD_MOD , ONLY : LINE
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -3251,6 +3255,10 @@ C        Prelecture des poids couple Mat/Prop
       !||====================================================================
       SUBROUTINE LEC_DDW(FILNAM,LEN_FILNAM,TAB_UMP_OLD,CPUTIME_MP_OLD)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE READER_OLD_MOD , ONLY : LINE
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -3297,6 +3305,10 @@ C     Lecture des poids couple Mat/Prop
       !||====================================================================
       SUBROUTINE PRELEC_DDW_POIN(FILNAM,LEN_FILNAM)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE READER_OLD_MOD , ONLY : LINE
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -3331,6 +3343,10 @@ C     Lecture du pointer
       !||    lectur         ../starter/source/starter/lectur.F
       !||====================================================================
       SUBROUTINE LEC_DDW_POIN(FILNAM,LEN_FILNAM,POIN_UMP_OLD)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE READER_OLD_MOD , ONLY : LINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
