@@ -1193,7 +1193,7 @@ C-----------------to avoid too much print-out in 0.out file
             ZC(JJ)=X(3,JJJ)
           END DO
           CALL VOLINT(VOL)
-          IF (ICONTR==1 .OR. IGSTI>0) THEN
+          IF (ICONTR==1 .OR. IGSTI==-1) THEN
             BULK = PM(107,MT)
 !            IF (ICONTR==1 ) BULK = HUNDRED*BULK
           ELSE
