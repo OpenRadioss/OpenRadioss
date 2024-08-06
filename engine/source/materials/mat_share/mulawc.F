@@ -1113,18 +1113,14 @@ C
      E          SIGBXX,SIGBYY,SIGBXY,LBUF%OFF) 
           ELSEIF (ILAW == 42) THEN
            CALL SIGEPS42C(
-     1         JLT    , NUPARAM0, NUVAR   , NFUNC , IFUNC , NPF   ,
-     2         NPT    , IPT    , 
-     2         TF     , TT     , DT1C    , UPARAM0, RHO  , 
-     3         AREA   , EINT   , THKLYL  ,
-     4         EPSPXX , EPSPYY , EPSPXY  , EPSPYZ, EPSPZX, 
-     5         DEPSXX , DEPSYY , DEPSXY  , DEPSYZ, DEPSZX,
-     6         EPSXX  , EPSYY  , EPSXY   , EPSYZ , EPSZX ,
-     7         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
-     8         SIGNXX , SIGNYY , SIGNXY  , SIGNYZ, SIGNZX,
-     9         SIGVXX , SIGVYY , SIGVXY  , SIGVYZ, SIGVZX,
-     A         SSP    , VISCMX , THKN    , UVAR   ,
-     B         OFF    , NGL    , ISMSTR  , IPM   , GS)
+     1         NEL    , NUPARAM, NIPARAM , NUVAR   , ISMSTR  ,
+     2         TT     , DT1    , UPARAM  , IPARAM  , RHO     , 
+     3         DEPSXX , DEPSYY , DEPSXY  , DEPSYZ  , DEPSZX  ,
+     4         EPSXX  , EPSYY  , EPSXY   , THKN    , THKLYL  ,
+     5         SIGNXX , SIGNYY , SIGNXY  , SIGNYZ  , SIGNZX  ,
+     6         LBUF%SIG(IJ4),LBUF%SIG(IJ5),SSP     ,GS,  UVAR,
+     7         OFF    )
+
           ELSEIF (ILAW == 43) THEN
            CALL SIGEPS43C(
      1        JLT    ,NUPARAM0,NUVAR   ,NPF      ,TF      ,

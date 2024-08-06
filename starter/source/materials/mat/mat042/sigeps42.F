@@ -30,17 +30,20 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    valpvecdp   ../starter/source/materials/tools/matrix.F
       !||====================================================================
       SUBROUTINE SIGEPS42(
-     1      NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,NPF      ,
-     2      TF       ,TIME     ,TIMESTEP ,UPARAM   ,RHO0     ,RHO      ,
-     3      VOLUME   ,EINT     ,
-     4      EPSPXX   ,EPSPYY   ,EPSPZZ   ,EPSPXY   ,EPSPYZ   ,EPSPZX   , 
-     5      DEPSXX   ,DEPSYY   ,DEPSZZ   ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
-     6      EPSXX    ,EPSYY    ,EPSZZ    ,EPSXY    ,EPSYZ    ,EPSZX    ,
-     7      SIGOXX   ,SIGOYY   ,SIGOZZ   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
-     8      SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     A      SOUNDSP  ,VISCMAX  ,UVAR     ,OFF      ,WXXDT    ,WYYDT    ,
-     B      WZZDT    ,ISMSTR   ,MFXX     ,MFXY     ,MFXZ     ,MFYX     ,    
-     C      MFYY     ,MFYZ     ,MFZX     ,MFZY     ,MFZZ     )
+     1      MAT_PARAM,NEL      ,NUVAR    ,NFUNC    ,IFUNC    ,NPF      ,
+     2      TF       ,TIME     ,TIMESTEP ,RHO0     ,RHO      ,
+     3      EPSPXX   ,EPSPYY   ,EPSPZZ   ,EPSPXY   ,EPSPYZ   ,EPSPZX   ,
+     4      DEPSXX   ,DEPSYY   ,DEPSZZ   ,DEPSXY   ,DEPSYZ   ,DEPSZX   , 
+     5      EPSXX    ,EPSYY    ,EPSZZ    ,EPSXY    ,EPSYZ    ,EPSZX    ,
+     6      SIGOXX   ,SIGOYY   ,SIGOZZ   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
+     7      SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
+     8      SOUNDSP  ,VISCMAX  ,UVAR     ,OFF      ,WXXDT    ,WYYDT    ,
+     A      WZZDT    ,ISMSTR   ,MFXX     ,MFXY     ,MFXZ     ,MFYX     ,
+     B      MFYY     ,MFYZ     ,MFZX     ,MFZY     ,MFZZ     )              
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -57,10 +60,10 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,ISMSTR
+      INTEGER, INTENT(IN) :: NEL,NUVAR,ISMSTR
       my_real, INTENT(IN) ::
-     .      TIME       , TIMESTEP   , UPARAM(NUPARAM),
-     .      RHO   (NEL), RHO0  (NEL), VOLUME(NEL), EINT(NEL),
+     .      TIME       , TIMESTEP   ,
+     .      RHO   (NEL), RHO0  (NEL), 
      .      EPSPXX(NEL), EPSPYY(NEL), EPSPZZ(NEL),
      .      EPSPXY(NEL), EPSPYZ(NEL), EPSPZX(NEL),
      .      DEPSXX(NEL), DEPSYY(NEL), DEPSZZ(NEL),
@@ -73,6 +76,7 @@ C----------------------------------------------------------------
      .      MFYX(NEL)  ,   MFYY(NEL),   MFYZ(NEL),
      .      MFZX(NEL)  ,   MFZY(NEL),   MFZZ(NEL),    
      .      WZZDT(MVSIZ),WYYDT(MVSIZ),WXXDT(MVSIZ)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MAT_PARAM
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
@@ -94,10 +98,9 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER I,J,K,KFP,IFORM
-      my_real
-     .  MU1,MU2,MU3,MU4,MU5,AL1,AL2,AL3,AL4,AL5,         
-     .  TENSIONCUT,GMAX,FFAC
+      INTEGER I,J,K,KFP,IFORM,NORDER
+      my_real :: TENSIONCUT,GMAX,FFAC
+      my_real, DIMENSION(10) :: MU,AL
       my_real
      .  SIGPRV(3,MVSIZ),EV(3,MVSIZ),EVM(3,MVSIZ),DWDL(3,MVSIZ),
      .  T1(3,MVSIZ),SUMDWDL(MVSIZ),RV(MVSIZ),P(MVSIZ),
@@ -107,28 +110,26 @@ C----------------------------------------------------------------
       !=======================================================================
       ! - RECOVERING MATERIAL PARAMETERS
       !=======================================================================
-      ! Shear hyperelastic modulus parameters
-      MU1 = UPARAM(1)
-      MU2 = UPARAM(2)
-      MU3 = UPARAM(3)
-      MU4 = UPARAM(4)
-      MU5 = UPARAM(5)
-      ! Material exponents
-      AL1 = UPARAM(6)
-      AL2 = UPARAM(7)
-      AL3 = UPARAM(8)
-      AL4 = UPARAM(9)
-      AL5 = UPARAM(10)
+       
+      NORDER = MAT_PARAM%IPARAM(1)   ! number of Ogden terms
+      IFORM  = MAT_PARAM%IPARAM(3)   ! Flag for strain energy density formulation
+!
+      ! Shear hyperelastic modulus parameters and material exponents
+      DO I=1,NORDER
+        MU(I) = MAT_PARAM%UPARAM(I)
+        AL(I) = MAT_PARAM%UPARAM(10+I)
+      END DO
       ! Shear modulus
-      GMAX = MU1*AL1+MU2*AL2+MU3*AL3+MU4*AL4+MU5*AL5
+      GMAX = ZERO
+      DO I=1,NORDER
+        GMAX = GMAX + MU(I) * AL(I)
+      END DO
       ! Bulk modulus
-      RBULK = UPARAM(11)
+      RBULK = MAT_PARAM%UPARAM(21)
       ! Cutoff stress in tension
-      TENSIONCUT = UPARAM(12)
+      TENSIONCUT = MAT_PARAM%UPARAM(23)
       ! Bulk function scale factor
-      FFAC = UPARAM(15)
-      ! Flag for strain energy density formulation
-      IFORM = UPARAM(17)
+      FFAC = MAT_PARAM%UPARAM(24)
       ! Tabulated bulk function ID
       KFP = IFUNC(1)
 c
@@ -202,11 +203,14 @@ c
       ! Isochoric strain energy density derivation
       ! Note: here, the table DWDL(:,J) corresponds to the product EVM(J)*DWDEVM(:,J)
       DO I=1,NEL
-        DO J=1,3
-          DWDL(J,I) = (MU1*(EVM(J,I)**AL1-1) + MU2*(EVM(J,I)**AL2-1) +
-     .                 MU3*(EVM(J,I)**AL3-1) + MU4*(EVM(J,I)**AL4-1) +
-     .                 MU5*(EVM(J,I)**AL5-1))
-        ENDDO
+        DWDL(1,I) = ZERO          
+        DWDL(2,I) = ZERO          
+        DWDL(3,I) = ZERO          
+        DO J=1,NORDER                                                
+          DWDL(1,I) = DWDL(1,I) + MU(J)*(EVM(1,I)**AL(J) - ONE)        
+          DWDL(2,I) = DWDL(2,I) + MU(J)*(EVM(2,I)**AL(J) - ONE)         
+          DWDL(3,I) = DWDL(3,I) + MU(J)*(EVM(3,I)**AL(J) - ONE) 
+        END DO        
       ENDDO
 c 
       ! Volumic strain energy density derivation + trace of isochoric derivative

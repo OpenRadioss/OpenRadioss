@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6      SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7      MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,  
      8      MFZX    ,MFZY    ,MFZZ    ,VISCMAX ,ISMSTR  ,ET      ,
-     9      IHET    ,EPSTH3  ,IEXPAN  )
+     9      IHET    ,EPSTH3  ,IEXPAN  ,NIPARAM ,IPARAM  )
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -60,8 +60,11 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,ISMSTR,IHET,IEXPAN
+      INTEGER, INTENT(IN) :: NUPARAM
+      INTEGER, INTENT(IN) :: NIPARAM
+      INTEGER, INTENT(IN) :: NEL,NUVAR,ISMSTR,IHET,IEXPAN
       my_real, INTENT(IN) :: TIME, TIMESTEP
+      INTEGER, DIMENSION(NIPARAM), INTENT(IN) :: IPARAM(NIPARAM)
       my_real, DIMENSION(NUPARAM), INTENT(IN) :: UPARAM(NUPARAM)
       my_real, DIMENSION(NEL), INTENT(IN) ::RHO,RHO0,VOLUME,EINT,
      .  OFFG,EPSTH3,EPSP1,EPSP2,EPSP3,EPSP4,EPSP5,EPSP6,                  
@@ -86,11 +89,11 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I A B L E S
 C----------------------------------------------------------------
-      INTEGER I,II,J,K,KFP,NPRONY,IFORM
+      INTEGER I,II,J,K,KFP,NPRONY,NORDER,IFORM
       my_real TENSIONCUT,AMAX,GVMAX,GMAX,FFAC,TRACE,RBULK,DPDMU,
      .  AA,CC,FAC,INVE,ETV,RV_PUI,AMIN,NU_1
-      my_real, DIMENSION(3) :: LAM_AL,FFT
-      my_real, DIMENSION(5) :: AL_TAB,MU_TAB
+      my_real, DIMENSION(3)   :: LAM_AL,FFT
+      my_real, DIMENSION(10)  :: AL,MU
       my_real, DIMENSION(100) :: GI,TAUX
       my_real, DIMENSION(NEL) :: SUMDWDL,RV,J2THIRD,P,DWDRV,ETI,GTMAX 
       my_real, DIMENSION(3,3) :: A
@@ -109,25 +112,26 @@ c
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=======================================================================
       ! Recovering model parameters
+!
+      NORDER = IPARAM(1)   ! Order of Ogden model
+      NPRONY = IPARAM(2)   ! Number of Prony Series
+      IFORM  = IPARAM(3)   ! Flag for strain energy density formulation
+      
       GMAX = ZERO
-      DO I=1,5
+      DO I=1,NORDER
         !  -> Shear hyperelastic modulus parameters
-        MU_TAB(I) = UPARAM(I)
+        MU(I) = UPARAM(I)
         !  -> Material exponents
-        AL_TAB(I) = UPARAM(5+I)
+        AL(I) = UPARAM(10+I)
         !  -> Shear modulus
-        GMAX = GMAX + MU_TAB(I)*AL_TAB(I)
+        GMAX = GMAX + MU(I)*AL(I)
       ENDDO
       ! Bulk modulus
-      RBULK = UPARAM(11)
+      RBULK = UPARAM(21)
       ! Cutoff stress in tension
-      TENSIONCUT = UPARAM(12)
+      TENSIONCUT = UPARAM(23)
       ! Bulk function scale factor
-      FFAC = UPARAM(15)
-      ! Number of Prony Series
-      NPRONY = UPARAM(16)
-      ! Flag for strain energy density formulation
-      IFORM  = UPARAM(17)
+      FFAC = UPARAM(24)
       ! Tabulated bulk function ID
       KFP   = IFUNC(1)
       ! Prony series parameters
@@ -135,8 +139,8 @@ c
       ETV   = ZERO
       IF (NPRONY > 0) THEN
         DO I=1,NPRONY
-          TAUX(I) = UPARAM(17 + NPRONY + I)
-          GI(I)   = UPARAM(17 + I)
+          TAUX(I) = UPARAM(24 + NPRONY + I)
+          GI(I)   = UPARAM(24 + I)
           GVMAX   = GVMAX + GI(I)
         ENDDO
         ETV = MIN(GVMAX,RBULK)/GMAX
@@ -177,7 +181,7 @@ c
             EV(I,1) = SQRT(EVV(I,1) + ONE)
             EV(I,2) = SQRT(EVV(I,2) + ONE)
             EV(I,3) = SQRT(EVV(I,3) + ONE)
-              ELSE
+          ELSE
             EV(I,1) = EVV(I,1) + ONE
             EV(I,2) = EVV(I,2) + ONE
             EV(I,3) = EVV(I,3) + ONE
@@ -195,20 +199,19 @@ c
       ! Implicit simulation - Hourglass for HEPH
       IF (IMPL_S > 0 .OR. IHET > 1) THEN
         DO J = 1,3
-          ! ETI = sum[MU(i)*AL(i)*AMAX**(AL(i)-1)] (i=1,5)
+          ! ETI = sum[MU(i)*AL(i)*AMAX**(AL(i)-1)] (i=1,norder)
           ! AMAX = 0 --> ETI = 0
-          ! else     --> ETI = sum[MU(i)*AL(i)*exp( (AL(i)-1)*ln(AMAX) ) ] ; (i=1,5)
+          ! else     --> ETI = sum[MU(i)*AL(i)*exp( (AL(i)-1)*ln(AMAX) ) ] ; (i=1,norder)
           ETI(1:NEL) = ZERO
-          DO II = 1,5
-           IF(MU_TAB(II)*AL_TAB(II)/=ZERO) THEN
+          DO II = 1,NORDER
+           IF(MU(II)*AL(II)/=ZERO) THEN
               DO I=1,NEL
                 AMAX = EV(I,J)                
                 IF(AMAX/=ZERO) THEN
-                  IF((AL_TAB(II)-ONE)/=ZERO) THEN
-                    ETI(I) = ETI(I) + MU_TAB(II)*AL_TAB(II) * 
-     .                    EXP((AL_TAB(II)-ONE)*LOG(AMAX))
+                  IF((AL(II)-ONE)/=ZERO) THEN
+                    ETI(I) = ETI(I) + MU(II)*AL(II) * EXP((AL(II)-ONE)*LOG(AMAX))
                   ELSE
-                    ETI(I) = ETI(I) + MU_TAB(II)*AL_TAB(II)
+                    ETI(I) = ETI(I) + MU(II)*AL(II)
                   ENDIF
                 ENDIF
               ENDDO
@@ -272,12 +275,12 @@ c
       GTMAX(1:NEL) = GMAX + GVMAX
       ETI(1:NEL) = ZERO
       CII(1:NEL,1:3) = ZERO
-      DO II = 1,5
-        IF (MU_TAB(II)*AL_TAB(II) /= ZERO) THEN
+      DO II = 1,NORDER
+        IF (MU(II)*AL(II) /= ZERO) THEN
           DO I=1,NEL
-            LAM_AL(1:3) = EXP(AL_TAB(II)*LOG(EVM(I,1:3)))
+            LAM_AL(1:3) = EXP(AL(II)*LOG(EVM(I,1:3)))
             AMAX = THIRD*(LAM_AL(1)+LAM_AL(2)+LAM_AL(3))
-            CII(I,1:3) = CII(I,1:3) + MU_TAB(II)*AL_TAB(II)*(LAM_AL(1:3)+AMAX)
+            CII(I,1:3) = CII(I,1:3) + MU(II)*AL(II)*(LAM_AL(1:3)+AMAX)
           ENDDO
         ENDIF
       ENDDO
@@ -298,19 +301,16 @@ c
       ! Note: here, the table DWDL(:,J) corresponds to the product EVM(J)*DWDEVM(:,J)
       DO J=1,3
         DWDL(1:NEL,J)=ZERO
-        DO II=1,5
-          IF(MU_TAB(II)/=ZERO) THEN
-            DO I=1,NEL
-              IF(EVM(I,J)/=ZERO) THEN
-                IF(AL_TAB(II)/=ZERO) THEN
-                  DWDL(I,J) = DWDL(I,J) + MU_TAB(II) *
-     .                        EXP(AL_TAB(II)*LOG(EVM(I,J)))
-                ELSE
-                  DWDL(I,J) = DWDL(I,J) + MU_TAB(II)
-                ENDIF
+        DO II=1,NORDER
+          DO I=1,NEL
+            IF (EVM(I,J)/=ZERO) THEN
+              IF (AL(II)/=ZERO) THEN
+                DWDL(I,J) = DWDL(I,J) + MU(II) * EXP(AL(II)*LOG(EVM(I,J)))
+              ELSE
+                DWDL(I,J) = DWDL(I,J) + MU(II)
               ENDIF
-            ENDDO
-          ENDIF
+            ENDIF
+          ENDDO
         ENDDO
       ENDDO
 c 
