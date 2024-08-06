@@ -77,7 +77,7 @@ C-----------------------------------------------
      .        IPMAT,MATLY,IPGMAT,IGMAT,IPOS
       my_real ALDTV(MVSIZ)
       my_real VISCMX, A11, G, STI,STIR,SHF,VISCDEF,
-     .     AL1, AL2, AL3, ALMAX, SSP,YOUNG,NU,RHO,BULK,GMAX,
+     .     AL1, AL2, AL3, ALMAX, SSP,YOUNG,NU,RHO,GMAX,
      .     C1,IZ,THICKT,THKLY,POSLY,A1THK,C1THK,
      .     GTHK,A11R,FAC,A12,E,ETHK,NUTHK,A12THK,RHOG
 C=======================================================================
@@ -112,9 +112,14 @@ C
         ELSE
          IF (MTN<=28) THEN
           SSP=PM(27,IMAT)
-         ELSEIF (MTN == 42 .OR. MTN  == 69 ) THEN
+         ELSEIF (MTN == 42) THEN
+           RHO  = PM(1 ,IMAT)
+           NU   = PM(21,IMAT)
+           GMAX = PM(22,IMAT) 
+           A11  = GMAX*(ONE + NU)/(ONE - NU**2)
+           SSP  = MAX(SSP, SQRT(A11/RHO)) 
+         ELSEIF (MTN == 69) THEN
           IADB = IPM(7,IMAT)-1                                               
-          BULK = UPARAM(IADB+11) 
           NU   = UPARAM(IADB+14)                             
           GMAX = UPARAM(IADB+1)*UPARAM(IADB+6)                 
      .         + UPARAM(IADB+2)*UPARAM(IADB+7)

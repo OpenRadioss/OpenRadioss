@@ -420,7 +420,7 @@
           integer :: nuvarr
 
           integer nv46, numel, inloc
-          integer i,npar,nparf,iadbuf,iadvis,nfunc,numtabl,israte,ipg,nptr,npts,&
+          integer i,npar,nuparam,niparam,nparf,iadbuf,iadvis,nfunc,numtabl,israte,ipg,nptr,npts,&
           &ibid,ibidon1,ibidon2,ibidon3,ibidon4 ,n48,nix,ilaw_user,igtyp,&
           &nvarf,ir,irupt,imat,isvis,ivisc,nuvarv,nuparv,iseq,idev,ntabl_fail,&
           &l_planl,l_epsdnl,l_dmg
@@ -451,7 +451,7 @@
           my_real tt_local
           my_real, dimension(nel), target  :: le_max
 !----
-          my_real, dimension(:), pointer   :: uparam,uparf,uparvis,uvarf,dfmax,&
+          my_real, dimension(:), pointer   :: uparam,uparam0,uparf,uparvis,uvarf,dfmax,&
           &tdel,el_temp,yldfac,dam,el_len,&
           &el_pla,damini
           my_real, dimension(:), allocatable ,target  :: bufzero
@@ -461,7 +461,7 @@
           type(matparam_struct_) , pointer :: matparam
           logical :: logical_userl_avail
           my_real :: user_uelr(mvsiz)
-          integer, dimension(:) ,pointer   :: fld_idx,foff,ifunc,itable,itabl_fail,iparf
+          integer, dimension(:) ,pointer   :: fld_idx,foff,ifunc,itable,itabl_fail,iparf,iparam
           integer                          :: mat_comp,mat_smstr,mat_formu
           integer                          :: dmg_flag,lf_dammx,niparf
 !
@@ -512,11 +512,15 @@
           iadbuf = ipm(7,imat)
           nfunc  = ipm(10,imat)
           numtabl= ipm(226,imat)
-          uparam => bufmat(iadbuf:iadbuf+npar-1)
-          ifunc  => ipm(10+1:10+nfunc,imat)
-          itable => ipm(226+1:226+numtabl,imat)
+          uparam0  => bufmat(iadbuf:iadbuf+npar-1)  ! old uparam stored in bufmat
+          ifunc    => ipm(10+1:10+nfunc,imat)
+          itable   => ipm(226+1:226+numtabl,imat)
           matparam => mat_elem%mat_param(imat)
-          nuvarr = ipm(221,imat)
+          nuparam = mat_elem%mat_param(imat)%nuparam
+          niparam = mat_elem%mat_param(imat)%niparam
+          uparam  => mat_elem%mat_param(imat)%uparam
+          iparam  => mat_elem%mat_param(imat)%iparam
+          nuvarr  = ipm(221,imat)
           !==================================================
           ! recovering data from matparam data structure
           ! material compressibility
@@ -982,7 +986,7 @@
             &ipm ,mat ,amu )
           elseif (mtn == 33) then
             call sigeps33(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -993,7 +997,7 @@
             &ssp ,vis ,uvar,off  )
           elseif (mtn == 34) then
             call sigeps34(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1004,7 +1008,7 @@
             &ssp ,vis ,uvar,off  )
           elseif (mtn == 35) then
             call sigeps35(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1019,8 +1023,8 @@
             call mstrain_rate(nel    ,israte ,asrate ,epsd   ,idev   ,&
             &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
 !
-            nrate = nint(uparam(1))
-            fisokin = uparam(6+2*nrate+8)
+            nrate = nint(uparam0(1))
+            fisokin = uparam0(6+2*nrate+8)
             if(fisokin>0) then
               sigbxx => lbuf%sigb(1      :  nel)
               sigbyy => lbuf%sigb(nel+1  :2*nel)
@@ -1038,7 +1042,7 @@
               sigbzx => vecnul(1:nel)
             endif
             call sigeps36(nel    ,nuvar  ,nfunc  ,ifunc  ,npf ,&
-            &tf     ,tt     ,dt1    ,uparam ,rho0,&
+            &tf     ,tt     ,dt1    ,uparam0 ,rho0,&
             &de1    ,de2    ,de3    ,de4    ,de5    ,de6   ,&
             &es1    ,es2    ,es3    ,es4    ,es5    ,es6   ,&
             &so1    ,so2    ,so3    ,so4    ,so5    ,so6   ,&
@@ -1058,7 +1062,7 @@
               nix = nixq
             endif
             call sigeps37(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1070,7 +1074,7 @@
             &nft)
           elseif (mtn == 38) then
             call sigeps38(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1084,7 +1088,7 @@
             &ihet ,gbuf%off,epsd )
           elseif (mtn == 40) then
             call sigeps40(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1095,7 +1099,7 @@
             &ssp ,vis ,uvar,off  )
           elseif (mtn == 41) then
             call sigeps41(nel ,npar,nuvar,&
-            &tt,dt1,uparam,&
+            &tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,&
             &so1 ,so2 ,so3 ,&
             &s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,&
@@ -1104,19 +1108,19 @@
             &lbuf%temp)
           elseif (mtn == 42) then
             call sigeps42(&
-            &nel     ,npar    ,nuvar   ,nfunc   ,ifunc   ,npf     ,&
-            &tf      ,tt      ,dt1     ,uparam,rho0,rho   ,&
+            &nel     ,nuparam ,nuvar   ,nfunc   ,ifunc   ,npf     ,&
+            &tf      ,tt      ,dt1     ,uparam  ,rho0    ,rho     ,&
             &voln    ,eint    ,uvar    ,off     ,gbuf%off,ssp     ,&
             &ep1     ,ep2     ,ep3     ,ep4     ,ep5     ,ep6     ,&
             &es1     ,es2     ,es3     ,es4     ,es5     ,es6     ,&
             &s1      ,s2      ,s3      ,s4      ,s5      ,s6      ,&
             &mfxx    ,mfxy    ,mfxz    ,mfyx    ,mfyy    ,mfyz    ,&
             &mfzx    ,mfzy    ,mfzz    ,vis     ,ismstr  ,et      ,&
-            &ihet    ,epsth3  ,iexpan  )
+            &ihet    ,epsth3  ,iexpan  ,niparam ,iparam  )
 !
           elseif (mtn == 44) then
             call sigeps44(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,rho0,rho ,&
+            &npf ,tf  ,tt,dt1,uparam0,rho0,rho ,&
             &voln,eint,matparam%ieos,dpdm   ,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1130,7 +1134,7 @@
             &vartmp,et    )
           elseif (mtn == 45) then
             call sigeps45(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1159,7 +1163,7 @@
             &amu )
           elseif (mtn == 50) then
             call sigeps50(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,nvartmp ,vartmp  ,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1183,7 +1187,7 @@
             !numerical viscosity is managed inside sigeps51.f
             !facq0 = zero
             call sigeps51(nel       ,npar        ,nuvar   ,nfunc ,ifunc     ,&
-            &npf       ,tf          ,tt      ,dt1   ,uparam    ,numel     ,&
+            &npf       ,tf          ,tt      ,dt1   ,uparam0    ,numel     ,&
             &rho       ,vol         ,eint    ,vk    ,&
             &ep1       ,ep2         ,ep3     ,ep4   ,ep5       ,ep6       ,&
             &de1       ,de2         ,de3     ,de4   ,de5       ,de6       ,&
@@ -1262,7 +1266,7 @@
             &dpla ,amu )
           elseif (mtn == 62) then
             call sigeps62(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1320,7 +1324,7 @@
             &amu )
           elseif (mtn == 67) then
             call sigeps67(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1355,7 +1359,7 @@
             end if
 
             call sigeps69(nel  ,npar,nuvar,nfunc,ifunc,npf  ,&
-            &tf   ,tt,dt1,uparam,rho0 ,rho  ,&
+            &tf   ,tt,dt1,uparam0,rho0 ,rho  ,&
             &voln ,eint,ivisc,nuparv,uparvis ,&
             &ep1  ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1  ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1398,7 +1402,7 @@
 !
           elseif (mtn == 71) then
             call sigeps71(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1410,7 +1414,7 @@
             &mat ,jthe,tempel,ismstr,et)!,et
           elseif (mtn == 72) then
             call sigeps72(nel      ,npar     ,nuvar    ,&
-            &tt       ,dt1      ,uparam   ,rho0     ,rho      ,&
+            &tt       ,dt1      ,uparam0   ,rho0     ,rho      ,&
             &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,&
             &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,&
             &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
@@ -1437,7 +1441,7 @@
 !
           elseif (mtn == 75) then
             call sigeps75(nel     ,npar   ,nuvar ,nfunc ,ifunc ,&
-            &npf     ,tf     ,tt    ,dt1   ,uparam,&
+            &npf     ,tf     ,tt    ,dt1   ,uparam0,&
             &rho0    ,rho    ,voln  ,eint  ,muold ,&
             &ep1     ,ep2    ,ep3   ,ep4   ,ep5   ,ep6 ,&
             &de1     ,de2    ,de3   ,de4   ,de5   ,de6 ,&
@@ -1451,7 +1455,7 @@
 !
           elseif (mtn == 76) then
             call sigeps76(nel      ,npar     ,nuvar    ,nfunc    ,ifunc    ,ngl       ,&
-            &npf      ,tf       ,tt       ,dt1      ,uparam   ,matparam  ,&
+            &npf      ,tf       ,tt       ,dt1      ,uparam0   ,matparam  ,&
             &rho0     ,dpla     ,et       ,ssp      ,sigy     ,uvar      ,&
             &de1      ,de2      ,de3      ,de4      ,de5      ,de6       ,&
             &so1      ,so2      ,so3      ,so4      ,so5      ,so6       ,&
@@ -1461,7 +1465,7 @@
 !
           elseif (mtn == 78) then
             call sigeps78(nel ,npar,nuvar,nfunc,ifunc,npf ,&
-            &tf  ,tt,dt1,uparam,rho0,rho ,&
+            &tf  ,tt,dt1,uparam0,rho0,rho ,&
             &lbuf%siga,lbuf%sigb,lbuf%sigc,uvar,defp,dpla,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
             &so1 ,so2 ,so3 ,so4  ,so5  ,so6 ,&
@@ -1473,7 +1477,7 @@
             &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
 !
             call sigeps77(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1490,7 +1494,7 @@
             &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
 !
             call sigeps79(&
-            &nel      ,npar     ,nuvar    ,tt       ,dt1      ,uparam   ,&
+            &nel      ,npar     ,nuvar    ,tt       ,dt1      ,uparam0   ,&
             &rho0     ,rho      ,ngl      ,sigy     ,dpla     ,defp     ,&
             &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,&
             &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,&
@@ -1502,7 +1506,7 @@
             call sigeps80(&
             &nel,     npar,    nuvar,   nfunc,&
             &ifunc,   npf,     tf,      tt,&
-            &dt1,     uparam,  rho0,    rho,&
+            &dt1,     uparam0,  rho0,    rho,&
             &voln,    eint,    ep1,     ep2,&
             &ep3,     ep4,     ep5,     ep6,&
             &de1,     de2,     de3,     de4,&
@@ -1525,7 +1529,7 @@
 
           elseif (mtn == 81) then
             call sigeps81(nel   ,npar ,nuvar,nfunc ,ifunc ,ngl   ,&
-            &npf   ,tf   ,tt   ,uparam,rho0  ,rho   ,&
+            &npf   ,tf   ,tt   ,uparam0,rho0  ,rho   ,&
             &voln  ,amu  ,defp ,ssp   ,vis   ,uvar  ,&
             &ep1   ,ep2  ,ep3  ,ep4   ,ep5   ,ep6   ,&
             &de1   ,de2  ,de3  ,de4   ,de5   ,de6   ,&
@@ -1537,7 +1541,7 @@
 
           elseif (mtn == 82) then
             call sigeps82(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,ngl,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1553,7 +1557,7 @@
             call sigeps84(&
             &nel,     npar,    nuvar,   nfunc,&
             &ifunc,   npf,     tf,      tt,&
-            &dt1,     uparam,  rho0,    rho,&
+            &dt1,     uparam0,  rho0,    rho,&
             &voln,    eint,    tempel,  ngl,&
             &ep1,     ep2,     ep3,     ep4,&
             &ep5,     ep6,     de1,     de2,&
@@ -1569,7 +1573,7 @@
             &ipm,     mat,     jthe)
           elseif (mtn == 88) then
             call sigeps88(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,ngl,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1586,7 +1590,7 @@
 !     visco-hypereslatic law defined by stress strain curve
 !-------------------
             call sigeps90(nel ,nuvar,nfunc,ifunc,npf ,&
-            &tf  ,tt,uparam,rho0,&
+            &tf  ,tt,uparam0,rho0,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,&
             &s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,&
@@ -1595,7 +1599,7 @@
 !
           elseif (mtn == 92) then
             call sigeps92(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,ngl,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1607,7 +1611,7 @@
             &ihet,gbuf%off ,epsth3,iexpan, lbuf%epsa)
           elseif (mtn == 94) then
             call sigeps94(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,ngl,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1619,7 +1623,7 @@
             &ihet,gbuf%off,epsth3,iexpan )
           elseif (mtn == 93) then
             call sigeps93(nel    ,npar   ,nuvar  ,nfunc  ,ifunc  ,&
-            &npf    ,tf     ,tt     ,dt1    ,uparam ,&
+            &npf    ,tf     ,tt     ,dt1    ,uparam0 ,&
             &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6    ,&
             &de1    ,de2    ,de3    ,de4    ,de5    ,de6    ,&
             &so1    ,so2    ,so3    ,so4    ,so5    ,so6    ,&
@@ -1641,7 +1645,7 @@
               uparf => vec0
             endif
             call sigeps95(nel  ,npar ,nuvar,nfunc,ifunc,&
-            &npf  ,tf   ,tt   ,dt1  ,uparam,&
+            &npf  ,tf   ,tt   ,dt1  ,uparam0,&
             &rho0 ,rho  ,voln ,eint ,ngl,&
             &ep1  ,ep2  ,ep3  ,ep4  ,ep5  ,ep6 ,&
             &de1  ,de2  ,de3  ,de4  ,de5  ,de6 ,&
@@ -1659,7 +1663,7 @@
           elseif (mtn == 96) then
             call sigeps96(&
             &nel     ,ngl     ,npar    ,nuvar    ,nfunc   ,ifunc   ,&
-            &npf     ,tf      ,uparam,uvar,jthe   ,&
+            &npf     ,tf      ,uparam0,uvar,jthe   ,&
             &rho     ,tempel  ,defp    ,ssp      ,gbuf%off,epsd    ,&
             &ep1     ,ep2     ,ep3     ,ep4      ,ep5     ,ep6     ,&
             &de1     ,de2     ,de3     ,de4      ,de5     ,de6     ,&
@@ -1675,7 +1679,7 @@
               nix = nixq
             endif
             call sigeps97(nel       ,npar   ,nuvar    ,nfunc  ,ifunc     ,lbuf%tb   ,&
-            &npf       ,tf     ,tt       ,dt1    ,uparam    ,lbuf%bfrac,&
+            &npf       ,tf     ,tt       ,dt1    ,uparam0    ,lbuf%bfrac,&
             &rho0      ,rho    ,vol      ,eint   ,sigy      ,deltax    ,&
             &ep1       ,ep2    ,ep3      ,ep4    ,ep5       ,ep6       ,&
             &de1       ,de2    ,de3      ,de4    ,de5       ,de6       ,&
@@ -1705,7 +1709,7 @@
             endif
 !
             call sigeps100(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,ngl,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
             &es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,&
@@ -1761,7 +1765,7 @@
             &upsxx  ,upsyy    , upszz  , upsxy  , upsyz  ,&
             &upsxz  )
             call sigeps101(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,ngl,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
             &es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,&
@@ -1777,7 +1781,7 @@
 
           elseif (mtn == 102) then
 
-            call sigeps102(nel    ,npar    ,nuvar  ,uparam , rho0     ,rho    ,&
+            call sigeps102(nel    ,npar    ,nuvar  ,uparam0 , rho0     ,rho    ,&
             &de1    ,de2     ,de3    ,de4    , de5      ,de6    ,&
             &so1    ,so2     ,so3    ,so4    , so5      ,so6    ,&
             &s1     ,s2      ,s3     ,s4     , s5       ,s6     ,&
@@ -1791,7 +1795,7 @@
             &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
 !
             call sigeps103(nel    ,npar     ,nuvar  ,nfunc  , ifunc         ,&
-            &npf    ,tf       ,tt     ,dt1    , uparam,&
+            &npf    ,tf       ,tt     ,dt1    , uparam0,&
             &rho0   ,rho      ,voln   ,eint   ,&
             &de1    ,de2      ,de3    ,de4    , de5           ,de6  ,&
             &es1    ,es2      ,es3    ,es4    , es5           ,es6  ,&
@@ -1805,7 +1809,7 @@
           elseif (mtn == 104) then
 !
             call sigeps104(nel    ,ngl    ,npar   ,nuvar  ,npg    ,gbuf%uelr,&
-            &tt     ,dt1    ,uparam ,uvar   ,jthe   ,lbuf%off,&
+            &tt     ,dt1    ,uparam0 ,uvar   ,jthe   ,lbuf%off,&
             &rho0   ,rho    ,defp   ,dpla   ,epsd   ,ssp    ,&
             &de1    ,de2    ,de3    ,de4    ,de5    ,de6    ,&
             &so1    ,so2    ,so3    ,so4    ,so5    ,so6    ,&
@@ -1823,7 +1827,7 @@
               nix = nixq
             endif
             call sigeps105(nel       ,npar   ,nuvar    ,nfunc      ,ifunc           ,lbuf%tb   ,&
-            &npf       ,tf     ,tt       ,dt1        ,uparam  ,lbuf%bfrac,&
+            &npf       ,tf     ,tt       ,dt1        ,uparam0  ,lbuf%bfrac,&
             &rho0      ,rho    ,vol      ,eint       ,sigy            ,deltax    ,&
             &ep1       ,ep2    ,ep3      ,ep4        ,ep5             ,ep6       ,&
             &de1       ,de2    ,de3      ,de4        ,de5             ,de6       ,&
@@ -1844,7 +1848,7 @@
             &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
 !
             call sigeps106(nel    ,npar     ,nuvar  ,nfunc  , ifunc         ,&
-            &npf    ,tf       ,tt     ,dt1    , uparam,&
+            &npf    ,tf       ,tt     ,dt1    , uparam0,&
             &rho0   ,rho      ,voln   ,eint   ,&
             &de1    ,de2      ,de3    ,de4    , de5           ,de6  ,&
             &es1    ,es2      ,es3    ,es4    , es5           ,es6  ,&
@@ -1857,7 +1861,7 @@
           elseif (mtn == 107) then
 !
             call sigeps107(nel    ,ngl    ,npar   ,nuvar  ,tt     ,dt1    ,&
-            &uparam ,uvar   ,jthe   ,off    ,rho0   ,rho    ,&
+            &uparam0 ,uvar   ,jthe   ,off    ,rho0   ,rho    ,&
             &lbuf%pla,dpla  ,lbuf%epsd,ssp    ,&
             &de1    ,de2    ,de3    ,de4    ,de5    ,de6    ,&
             &so1    ,so2    ,so3    ,so4    ,so5    ,so6    ,&
@@ -1868,7 +1872,7 @@
           elseif (mtn == 109) then
             call sigeps109(&
             &nel      ,ngl     ,npar     ,nuvar    ,nvartmp  ,numtabl  ,&
-            &uparam   ,uvar    ,vartmp   ,itable   ,table    ,jthe     ,&
+            &uparam0   ,uvar    ,vartmp   ,itable   ,table    ,jthe     ,&
             &tt       ,dt1     ,off      ,rho0     ,lbuf%pla ,dpla     ,&
             &ssp      ,sigy    ,et       ,el_temp  ,epsd     ,dpdm     ,&
             &de1      ,de2     ,de3      ,de4      ,de5      ,de6      ,&
@@ -1878,7 +1882,7 @@
 !
           elseif (mtn == 111) then
             call sigeps111(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam,&
+            &npf ,tf  ,tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,ngl,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
@@ -1894,7 +1898,7 @@
           elseif (mtn == 112) then
 !
             call sigeps112(nel    ,ngl    ,npar   ,nuvar  ,tt     ,dt1    ,&
-            &uparam ,uvar   ,jthe   ,off    ,rho0   ,rho    ,&
+            &uparam0 ,uvar   ,jthe   ,off    ,rho0   ,rho    ,&
             &lbuf%pla,dpla  ,lbuf%epsd      ,ssp    ,es3    ,&
             &de1    ,de2    ,de3    ,de4    ,de5    ,de6    ,&
             &so1    ,so2    ,so3    ,so4    ,so5    ,so6    ,&
@@ -1905,7 +1909,7 @@
           elseif (mtn == 115) then
 !
             call sigeps115(nel    ,ngl    ,npar   ,nuvar  ,gbuf%rho,&
-            &tt     ,dt1    ,uparam ,uvar   ,off    ,sigy   ,&
+            &tt     ,dt1    ,uparam0 ,uvar   ,off    ,sigy   ,&
             &rho0   ,defp   ,dpla   ,ssp    ,et     ,lbuf%seq,&
             &de1    ,de2    ,de3    ,de4    ,de5    ,de6    ,&
             &so1    ,so2    ,so3    ,so4    ,so5    ,so6    ,&
@@ -1916,7 +1920,7 @@
 
             call sigeps120(nel    ,npar   ,nuvar  ,nvartmp,numtabl,itable ,&
             &table  ,tt     ,dt1    ,ssp    ,uvar   ,vartmp ,&
-            &uparam ,ngl    ,off    ,defp   ,epsd   ,tempel ,&
+            &uparam0 ,ngl    ,off    ,defp   ,epsd   ,tempel ,&
             &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6    ,&
             &de1    ,de2    ,de3    ,de4    ,de5    ,de6    ,&
             &so1    ,so2    ,so3    ,so4    ,so5    ,so6    ,&
@@ -1926,7 +1930,7 @@
           elseif (mtn == 121) then
 !
             call sigeps121(nel    ,ngl    ,npar   ,nuvar  ,nfunc  ,ifunc  ,&
-            &npf    ,tf     ,dt1    ,tt     ,uparam ,uvar   ,&
+            &npf    ,tf     ,dt1    ,tt     ,uparam0 ,uvar   ,&
             &rho    ,defp   ,dpla   ,ssp    ,epsd   ,off    ,&
             &lbuf%off,&
             &de1    ,de2    ,de3    ,de4    ,de5    ,de6    ,&
@@ -1942,7 +1946,7 @@
             call mstrain_rate(nel    ,israte ,asrate ,epsd   ,idev   ,&
             &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
 !
-            call sigeps122(nel    ,npar   ,nuvar  ,uparam ,uvar   ,rho0   ,&
+            call sigeps122(nel    ,npar   ,nuvar  ,uparam0 ,uvar   ,rho0   ,&
             &es1    ,es2    ,es3    ,defp   ,dpla   ,&
             &de1    ,de2    ,de3    ,de4    ,de5    ,de6    ,&
             &so2    ,so3    ,so4    ,so5    ,so6    ,&
@@ -1957,7 +1961,7 @@
             call mstrain_rate(nel    ,israte ,asrate ,epsd   ,idev   ,&
             &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
             call sigeps124(nel    ,ngl    ,npar   ,nuvar  ,dt1    ,tt     ,&
-            &uparam ,uvar   ,rho    ,defp   ,dpla   ,&
+            &uparam0 ,uvar   ,rho    ,defp   ,dpla   ,&
             &ssp    ,epsd   ,off    ,lbuf%off,ipg   ,npg    ,&
             &de1    ,de2    ,de3    ,de4    ,de5    ,de6    ,&
             &es1    ,es2    ,es3    ,es4    ,es5    ,es6    ,&
@@ -1979,7 +1983,7 @@
 !
           elseif (mtn == 187) then !barlat 2000
             call sigeps187(nel   ,npar  ,nuvar ,nfunc ,ifunc ,&
-            &npf   ,tf    ,tt    ,dt1   ,uparam,&
+            &npf   ,tf    ,tt    ,dt1   ,uparam0,&
             &rho0  ,rho   ,voln  ,eint  ,tempel,ngl   ,&
             &ep1   ,ep2   ,ep3   ,ep4   ,ep5   ,ep6   ,&
             &de1   ,de2   ,de3   ,de4   ,de5   ,de6   ,&

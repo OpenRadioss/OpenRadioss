@@ -28,13 +28,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    table_mod              ../starter/share/modules1/table_mod.F
       !||====================================================================
-      SUBROUTINE LAW42_UPD(IOUT,TITR    ,MAT_ID,UPARAM, PM, GAMA_INF)
+      SUBROUTINE LAW42_UPD(MAT_PARAM,IOUT,TITR    ,MAT_ID,PM, GAMA_INF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE TABLE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,56 +50,55 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE)  :: TITR
       INTEGER MAT_ID,IOUT
-      my_real 
-     .         UPARAM(*)
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM  
       my_real , INTENT(IN)  :: GAMA_INF
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NDATA,I,K,INDX
-      my_real
-     .   MU(5),AL(5),LAM_MIN,LAM_MAX,STRAIN_MIN,STRAIN_MAX,
-     .   D11,D22,D12,LAM1,LAM2,LAM3,LAM12,INVD1,INVD2,GS,BULK,YOUNG,
-     .   NU
+      INTEGER I,K,NDATA,INDX,NORDER
+      my_real :: MU(10),AL(10)
+      my_real :: LAM_MIN,LAM_MAX,STRAIN_MIN,STRAIN_MAX,
+     .   D11,D22,D12,LAM1,LAM2,LAM3,LAM12,INVD1,INVD2,GS,BULK,YOUNG,NU
       my_real , DIMENSION(:), ALLOCATABLE :: STRESS,STRETCH
       INTEGER , DIMENSION(:), ALLOCATABLE :: ITAB_ON_A,INDEX
 
 C=======================================================================
 !       CHECK the material stability (Drucker proguer conditions)
 !====================================================================
-       NDATA = 10000  ! La=0.1,10, EM3!!
-       LAM_MIN = EM3                                         
-       LAM_MAX = TEN 
-       GS = ZERO
+      NDATA = 10000  ! La=0.1,10, EM3!!
+      LAM_MIN = EM3                                         
+      LAM_MAX = TEN
+        
+      NORDER = MAT_PARAM%IPARAM(1)   ! Order of Ogden model
 C      
-       IF(GAMA_INF <  ONE) THEN 
-         DO I=1,5
-           UPARAM(I) = UPARAM(I)/GAMA_INF
-           MU(I) = UPARAM(I)
-           AL(I) = UPARAM(5+I)
+       IF (GAMA_INF <  ONE) THEN 
+         GS = ZERO
+         DO I=1,NORDER
+           MU(I) = MAT_PARAM%UPARAM(I) / GAMA_INF
+           AL(I) = MAT_PARAM%UPARAM(10+I)
            GS = GS + MU(I)*AL(I)
          ENDDO 
-         NU = UPARAM(14)
+         NU = MAT_PARAM%UPARAM(22)
          BULK = GS*(ONE+NU)/MAX(EM20,THREE*(ONE-TWO*NU)) 
-         UPARAM(11) = BULK
+         MAT_PARAM%UPARAM(21) = BULK
          !! parameters 
-          YOUNG  = GS*(ONE + NU)                                              
-          PM(20) = YOUNG                                                
-          PM(22) = GS !! TWO*G                                                  
-          PM(24) = YOUNG/(ONE - NU**2)                                   
-          PM(32) = BULK                                                
+          YOUNG   = GS*(ONE + NU)                                             
+          PM(20)  = YOUNG                                               
+          PM(22)  = GS !! TWO*G                                                 
+          PM(24)  = YOUNG/(ONE - NU**2)                                  
+          PM(32)  = BULK                                               
           PM(100) = BULK 
 C     Formulation for solid elements time step computation.
          PM(105) = GS/(BULK + TWO_THIRD*GS) 
          !!
          WRITE(IOUT,2000) MAT_ID
          WRITE(IOUT,2100) HALF*GS,BULK
-         WRITE(IOUT,2200) MU(1),MU(2),MU(3),MU(4),MU(5)          
+         WRITE(IOUT,2200) MU(1),MU(2),MU(3),MU(4),MU(5),MU(6),MU(7),MU(8),MU(9),MU(10)          
        ELSE
-         DO I=1,5
-           MU(I) = UPARAM(I)
-           AL(I) = UPARAM(5+I)
+         DO I=1,NORDER
+           MU(I) = MAT_PARAM%UPARAM(I)
+           AL(I) = MAT_PARAM%UPARAM(10+I)
          ENDDO  
        ENDIF 
 C
@@ -124,11 +124,11 @@ C  Tension/compression
           LAM2 = ONE/SQRT(LAM1)
           LAM3 = LAM2
 C            
-          DO K=1,5 
-             LAM12 = (lAM1*LAM2)**(-AL(K))
-             D11=D11+ AL(K)*MU(K) * (LAM1**AL(K) + LAM12 )
-             D22=D22+ AL(K)*MU(K) * (LAM2**AL(K) + LAM12 )
-             D12=D12+ AL(K)*MU(K) * LAM12
+          DO K=1,NORDER 
+            LAM12 = (lAM1*LAM2)**(-AL(K))
+            D11 = D11 + AL(K)*MU(K) * (LAM1**AL(K) + LAM12 )
+            D22 = D22 + AL(K)*MU(K) * (LAM2**AL(K) + LAM12 )
+            D12 = D12 + AL(K)*MU(K) * LAM12
           ENDDO
           
            INVD1 = D11 + D22
@@ -162,11 +162,11 @@ C  Biaxial
           LAM2 = LAM1
           LAM3 = ONE/LAM1/LAM1
 C            
-          DO K=1,5 
+          DO K=1,NORDER 
              LAM12 = (lAM1*LAM2)**(-AL(K))
-             D11=D11+ AL(K)*MU(K) * (LAM1**AL(K) + LAM12 )
-             D22=D22+ AL(K)*MU(K) * (LAM2**AL(K) + LAM12 )
-             D12=D12+ AL(K)*MU(K) * LAM12
+             D11 = D11 + AL(K)*MU(K) * (LAM1**AL(K) + LAM12 )
+             D22 = D22 + AL(K)*MU(K) * (LAM2**AL(K) + LAM12 )
+             D12 = D12 + AL(K)*MU(K) * LAM12
           ENDDO
           
            INVD1 = D11 + D22
@@ -200,11 +200,11 @@ C shear test
           LAM2 = ONE
           LAM3 = ONE/LAM1
 C            
-          DO K=1,5 
+          DO K=1,NORDER 
              LAM12 = (lAM1*LAM2)**(-AL(K))
-             D11=D11+ AL(K)*MU(K) * (LAM1**AL(K) + LAM12 )
-             D22=D22+ AL(K)*MU(K) * (LAM2**AL(K) + LAM12 )
-             D12=D12+ AL(K)*MU(K) * LAM12
+             D11 = D11 + AL(K)*MU(K) * (LAM1**AL(K) + LAM12 )
+             D22 = D22 + AL(K)*MU(K) * (LAM2**AL(K) + LAM12 )
+             D12 = D12 + AL(K)*MU(K) * LAM12
           ENDDO
           
            INVD1 = D11 + D22
@@ -262,6 +262,11 @@ C
      &  5X,  'MU2 . . . . . . . . . . . . . . . . . .=',1PG20.13/
      &  5X,  'MU3 . . . . . . . . . . . . . . . . . .=',1PG20.13/
      &  5X,  'MU4 . . . . . . . . . . . . . . . . . .=',1PG20.13/
-     &  5X,  'MU5 . . . . . . . . . . . . . . . . . .=',1PG20.13/)
+     &  5X,  'MU5 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     &  5X,  'MU6 . . . . . . . . . . . . . . . . . .=',1PG20.13/ 
+     &  5X,  'MU7 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     &  5X,  'MU8 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     &  5X,  'MU9 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     &  5X,  'MU10. . . . . . . . . . . . . . . . . .=',1PG20.13/)
 c-----------
       END

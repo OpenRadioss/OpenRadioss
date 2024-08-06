@@ -251,17 +251,17 @@ C ====================================================================
      .                  RBID,ISMSTR,MFXX,MFXY,MFXZ,MFYX, 
      .                  MFYY ,MFYZ ,MFZX ,MFZY,MFZZ)
       ELSEIF(MTN==42)THEN
-          CALL SIGEPS42(LLT ,NPAR,NUVAR,NFUNC,IFUNC ,
-     2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT(IADBUF),
-     3                  RHO0,RHO ,VOLN ,EINT ,
-     4                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
-     5                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
-     6                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
-     7                  SO1 ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,
-     8                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
-     A                  SSP ,VIS ,UVAR,OFF  ,WXX  ,WYY ,
-     .                  WZZ ,ISMSTR,MFXX,MFXY,MFXZ,MFYX, 
-     .                  MFYY ,MFYZ ,MFZX ,MFZY,MFZZ)
+          CALL SIGEPS42(MATPARAM(IMAT),LLT ,NUVAR,NFUNC,IFUNC ,
+     2                  NPF ,TF  ,TIME,TIMESTEP,RHO0,RHO ,
+     3                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
+     4                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
+     5                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
+     6                  SO1 ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,
+     7                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
+     8                  SSP ,VIS ,UVAR,OFF  ,WXX  ,WYY ,
+     A                  WZZ ,ISMSTR,MFXX,MFXY,MFXZ,MFYX,
+     .                  MFYY ,MFYZ ,MFZX ,MFZY,MFZZ)     
+
       ELSEIF(MTN==70)THEN
         CALL SIGEPS70(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
      2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT,
