@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G   NEL,     IPM,     RHOREF,  RHOSP,
      H   IPG,     DMG,     ITY,     JTUR,
      I   JTHE,    JSPH,    ISMSTR,  JSMS,
-     J   PLAP,    NPG )
+     J   PLAP,    NPG ,    IEOS  ,  DPDM )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,12 +69,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NPG
       INTEGER, INTENT(IN) :: ISMSTR
       INTEGER, INTENT(IN) :: JSMS
       INTEGER, INTENT(IN) :: ITY
       INTEGER, INTENT(IN) :: JTUR
       INTEGER, INTENT(IN) :: JTHE
-      INTEGER, INTENT(IN) :: JSPH,NPG
+      INTEGER, INTENT(IN) :: JSPH
+      INTEGER, INTENT(IN) :: IEOS
 C
       INTEGER NELTST,ITYPTST,PID(*),G_DT,NEL,IPG
       INTEGER MAT(*),NGL(*),IPLA, IPM(NPROPMI,*)
@@ -93,6 +95,7 @@ C
      .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ),
      .   SOLD4(MVSIZ), SOLD5(MVSIZ), SOLD6(MVSIZ),
      .   TSTAR(MVSIZ), DPLA1(MVSIZ), EPSP(MVSIZ), DMG(NEL)
+      my_real, DIMENSION(MVSIZ) ,INTENT(IN) :: DPDM
 C
       my_real
      .   SIGY(*) ,DEFP(*),ETSE(*), MSSA(*), DMELS(*), TEMPEL(*),
@@ -107,7 +110,7 @@ C-----------------------------------------------
      .   RHO0, PLAP1,
      .   EPD(MVSIZ),
      .   G(MVSIZ), AK(MVSIZ),
-     .   PC(MVSIZ), QH(MVSIZ), C1,T(MVSIZ),
+     .   PC(MVSIZ), QH(MVSIZ), BULK,T(MVSIZ),
      .   AJ2(MVSIZ), DAV(MVSIZ),
      .   P, EPMX, 
      .   CA(MVSIZ), CB(MVSIZ), CC, CN,
@@ -130,7 +133,7 @@ C
 C
       MX      = MAT(1)
       RHO0    = PM( 1,MX)
-      C1      = PM(32,MX)
+      BULK    = PM(32,MX)
       CN      = PM(40,MX)
       CC      = PM(43,MX)
       ICC     = NINT(PM(49,MX))
@@ -185,7 +188,7 @@ C
        DAV(I)=-THIRD*(D1(I)+D2(I)+D3(I))
        G1=DT1*G(I)
        G2=TWO*G1
-       SSP(I)=SQRT((ONEP333*G(I)+C1)/RHO0)
+       SSP(I)=SQRT((ONEP333*G(I)+BULK)/RHO0)
 C-------------------------------
 C     CONTRAINTES DEVIATORIQUES
 C-------------------------------
@@ -524,30 +527,43 @@ C
       NINDX = 0
       INDX(1:NEL) = 0
       DO I=1,NEL
-       IF ((EPXE(I) > EPMX).AND.(DMG(I)==ZERO)) THEN 
-         NINDX = NINDX + 1
-         INDX(NINDX) = I
-         DMG(I) = ONE
-       ENDIF
-       PNEW(I)=C1*AMU(I)
-       SIG(I,1)=(SIG(I,1)-PNEW(I))*OFF(I)
-       SIG(I,2)=(SIG(I,2)-PNEW(I))*OFF(I)
-       SIG(I,3)=(SIG(I,3)-PNEW(I))*OFF(I)
-       SIG(I,4)= SIG(I,4)*OFF(I)
-       SIG(I,5)= SIG(I,5)*OFF(I)
-       SIG(I,6)= SIG(I,6)*OFF(I)
+        IF ((EPXE(I) > EPMX).AND.(DMG(I)==ZERO)) THEN 
+          NINDX = NINDX + 1
+          INDX(NINDX) = I
+          DMG(I) = ONE
+        ENDIF
       ENDDO
+ 
+      IF (IEOS == 0) THEN !  add pressure to the deviatoric stress
+        DO I=1,NEL
+          PNEW(I)  = BULK*AMU(I)
+          SIG(I,1) =(SIG(I,1) - PNEW(I))*OFF(I)
+          SIG(I,2) =(SIG(I,2) - PNEW(I))*OFF(I)
+          SIG(I,3) =(SIG(I,3) - PNEW(I))*OFF(I)
+          SIG(I,4) = SIG(I,4) * OFF(I)
+          SIG(I,5) = SIG(I,5) * OFF(I)
+          SIG(I,6) = SIG(I,6) * OFF(I)
+        ENDDO
+      ELSE
+        ! if EOS is used, material law calculates only deviatoric stress tensor
+        !                 sound speed depends on pressure derivative over volume change
+        !                 calculated in EOS
+        DO I = 1, NEL
+          SSP(I) = SQRT((DPDM(I) + FOUR*G(I)/THREE)/RHO0)
+        ENDDO       
+      END IF 
+      
 !       split the loop in two parts in order to improve the vectorization
       DO I=1,NEL
-       E1=D1(I)*(SOLD1(I)+SIG(I,1))
-       E2=D2(I)*(SOLD2(I)+SIG(I,2))
-       E3=D3(I)*(SOLD3(I)+SIG(I,3))
-       E4=D4(I)*(SOLD4(I)+SIG(I,4))
-       E5=D5(I)*(SOLD5(I)+SIG(I,5))
-       E6=D6(I)*(SOLD6(I)+SIG(I,6))
+        E1=D1(I)*(SOLD1(I)+SIG(I,1))
+        E2=D2(I)*(SOLD2(I)+SIG(I,2))
+        E3=D3(I)*(SOLD3(I)+SIG(I,3))
+        E4=D4(I)*(SOLD4(I)+SIG(I,4))
+        E5=D5(I)*(SOLD5(I)+SIG(I,5))
+        E6=D6(I)*(SOLD6(I)+SIG(I,6))
 C
-       EINC = VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - HALF*DVOL(I)*(QOLD(I)+QNEW(I))
-       EINT(I)=(EINT(I)+EINC*OFF(I)) / MAX(EM15,VOL(I))
+        EINC = VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - HALF*DVOL(I)*(QOLD(I)+QNEW(I))
+        EINT(I)=(EINT(I)+EINC*OFF(I)) / MAX(EM15,VOL(I))
       ENDDO
 C
       DO I=1,NEL
@@ -558,6 +574,9 @@ C
        DO I=1,NEL
          IF(DPLA1(I)>0) ETSE(I)= HALF*QH(I)*OFF(I)/MAX(G(I),EM15)
        ENDDO
+!----------------------------------------------------------------     
+!     implicit
+!----------------------------------------------------------------     
       IF (IMPL_S>0) THEN
        IF (IKT==0) RETURN
        IF(IPLA/=2.AND.IKFLG==0)THEN
@@ -602,8 +621,8 @@ c ...... Parameter alpha of consistent matrix
          AL_IMP(I)=ONE
         ENDIF
        ENDDO
-      ENDIF
-
+      ENDIF  ! implicit
+!----------------------------------------------------------------     
 
 c     update and filter plastic strain rate for VP=1
       IF (VP== 1) THEN
@@ -612,9 +631,9 @@ c     update and filter plastic strain rate for VP=1
           PLAP(I) = ASRATE * PLAP1 + (ONE - ASRATE) * PLAP(I)
         ENDDO
       ENDIF
-
-C
+!----------------------------------------------------------------     
       ! Printout element deletion
+!
       IF(NINDX>0)THEN
         DO J=1,NINDX
 #include "lockon.inc"
@@ -623,12 +642,12 @@ C
 #include "lockoff.inc"
         ENDDO
       ENDIF
-!---
+!----------------------------------------------------------------     
  1000 FORMAT(1X,'EXCEEDED EPS_MAX ON SOLID ELEMENT NUMBER ',I10,
      . ': DEVIATORIC STRESS SET TO 0 ON INTEGRATION POINT ',I5 )
  1100 FORMAT(1X,'EXCEEDED EPS_MAX ON SOLID ELEMENT NUMBER ',I10,
      . ': DEVIATORIC STRESS SET TO 0 ON INTEGRATION POINT ',I5 ,
      .          ' AT TIME :',G11.4)  
-C
+!-----------
       RETURN
       END

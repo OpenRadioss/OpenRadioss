@@ -847,7 +847,7 @@
             &nel,      ipm,      rhoref,   rhosp,&
             &ipg,      lbuf%dmg, ity,      jtur,&
             &jthe,     jsph,     ismstr,   jsms,&
-            &lbuf%epsq,npg )
+            &lbuf%epsq,npg ,mat_elem%mat_param(imat)%ieos ,dpdm  )
 !----------------
             if (istrain > 0 .and.&
             &(h3d_strain == 1 .or. th_strain == 1 )) then
