@@ -47,7 +47,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE UNITAB_MOD
       USE HM_OPTION_READ_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_F
 C-----------------------------------------------
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_) ::UNITAB
-      TYPE (SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE (SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -71,24 +71,20 @@ C-----------------------------------------------
       INTEGER I,ID,N,IWRITE,IERR0,LEN,I1,J,K,IREELM,IREELL,IREELT,
      .        IERR1,ID_OPT(NUNIT0+1),IS_M_STRING,IS_L_STRING,IS_T_STRING
       my_real  FAC,UNITE,BID,M_UNIT,L_UNIT,T_UNIT
-      CHARACTER(LEN=NCHARFIELD)::KEY,CFAC
-      CHARACTER(LEN=NCHARLINE)::KEY1
-      CHARACTER CUNIT
-      CHARACTER*20 FIELD1,FIELD2,FIELD3
-      CHARACTER*20 FIELD11(NUNIT0+NSUBMOD),FIELD22(NUNIT0+NSUBMOD),FIELD33(NUNIT0+NSUBMOD),
-     .             KEYMSUB,KEYLSUB,KEYTSUB,KEYMISUB,KEYLISUB,KEYTISUB
-
+      CHARACTER(LEN=NCHARFIELD) :: KEY
+      CHARACTER(LEN=NCHARFIELD) :: FIELD1,FIELD2,FIELD3
+      CHARACTER*20 FIELD11(NUNIT0+NSUBMOD),
+     .             FIELD22(NUNIT0+NSUBMOD),
+     .             FIELD33(NUNIT0+NSUBMOD),
+     .             KEYMSUB, KEYLSUB, KEYTSUB, KEYMISUB, KEYLISUB, KEYTISUB
       CHARACTER*40 MESS
       LOGICAL :: IS_AVAILABLE
-      CHARACTER*20 UNIT_NAME
+      CHARACTER(LEN=NCHARFIELD) :: UNIT_NAME
       INTEGER NB_BEGIN,SCHAR,SUB_INDEX,NBUNIT_SUB
       my_real  FAC_M_SUB,FAC_L_SUB,FAC_T_SUB
-C---------------------------
-C     UNITAB(1)         unit ID
-C     UNITAB(2)         Mass unit
-C     UNITAB(3)         Length unit
-C     UNITAB(4)         Time unit
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       UNITE = 0
       DO I = 1, NUNIT0+NSUBMOD
 C                     12345678901234567890
@@ -100,7 +96,7 @@ C                     12345678901234567890
       IS_AVAILABLE = .FALSE.
 C----------------------------------------------
       WRITE(IOUT,1000)
-C
+
       UNITE = 0
       UNITAB%NUNITS = NUNIT0+NSUBMOD+1
       UNITAB%NUNIT0 = NUNIT0
@@ -108,7 +104,7 @@ C
       ALLOCATE(UNITAB%FAC_M  (NUNIT0+NSUBMOD+1))
       ALLOCATE(UNITAB%FAC_L  (NUNIT0+NSUBMOD+1))
       ALLOCATE(UNITAB%FAC_T  (NUNIT0+NSUBMOD+1))
-C
+
       FAC_M_INPUT = ZERO
       FAC_L_INPUT = ZERO
       FAC_T_INPUT = ZERO  
@@ -127,25 +123,16 @@ C
       IERR1 = 1
       LEN = ncharfield
       ID_OPT(1:NUNIT0) = 0
-C     Chaque unite globale doit etre definie une seule fois
+C     global unit must be defined once
 C     (input vers <= 90)
       IF ( FLAG_KEY_M > 1) THEN
-        CALL ANCMSG(MSGID=575,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_1,
-     .                    C1='GLOBAL UNIT')
+        CALL ANCMSG(MSGID=575,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,C1='GLOBAL UNIT')
       ENDIF
       IF ( FLAG_KEY_L > 1) THEN
-        CALL ANCMSG(MSGID=575,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_1,
-     .                    C1='GLOBAL UNIT')
+        CALL ANCMSG(MSGID=575,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,C1='GLOBAL UNIT')
       ENDIF
       IF ( FLAG_KEY_T > 1) THEN
-        CALL ANCMSG(MSGID=575,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_1,
-     .                    C1='GLOBAL UNIT')
+        CALL ANCMSG(MSGID=575,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,C1='GLOBAL UNIT')
       ENDIF
 C      
       CALL UNIT_CODE(LEN,KEYMI,'MASS'  ,FAC_M_INPUT, IERR1, 0)
@@ -160,7 +147,7 @@ C
       CALL UNIT_CODE(LEN,KEYT ,'TIME'  ,FAC_T_WORK , IERR1, 0)
       IF (FAC_T_INPUT == ZERO) FAC_T_INPUT = FAC_T_WORK
       IF (FAC_T_WORK  == ZERO) FAC_T_WORK  = FAC_T_INPUT
-C
+
       FAC_MASS   = FAC_M_WORK
       FAC_LENGTH = FAC_L_WORK
       FAC_TIME   = FAC_T_WORK
@@ -174,24 +161,20 @@ C
       UNITAB%FAC_T_WORK = FAC_T_WORK
       NUNITS     = 1
       IWRITE     = 1
-C
+
       IF (FAC_M_INPUT /= FAC_M_WORK .OR.
      .    FAC_L_INPUT /= FAC_L_WORK .OR.
      .    FAC_T_INPUT /= FAC_T_WORK) THEN                       
-        CALL ANCMSG(MSGID=754,
-     .              MSGTYPE=MSGWARNING,
-     .              ANMODE=ANINFO)
+        CALL ANCMSG(MSGID=754,MSGTYPE=MSGWARNING,ANMODE=ANINFO)
       ENDIF
-C
+
       CALL HM_OPTION_START('/UNIT')
-C     
+C
       DO N=1,NUNIT0
-         CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                       OPTION_ID = ID,
-     .                       KEYWORD2 = KEY)
+         CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID = ID,KEYWORD2 = KEY)
 c
          UNIT_NAME = ''
-         CALL HM_GET_STRING('UNIT_NAME',UNIT_NAME,2*ncharfield,IS_AVAILABLE)
+         CALL HM_GET_STRING('UNIT_NAME',UNIT_NAME,ncharfield,IS_AVAILABLE)
          IF(UNIT_NAME /= 'LENGTH' .AND. UNIT_NAME /= 'MASS' .AND. UNIT_NAME /= 'TIME') THEN
            IERR0  = 1
            NUNITS = NUNITS + 1
@@ -199,19 +182,19 @@ c
           
            CALL HM_GET_INTV('IS_M_STRING',IS_M_STRING,IS_AVAILABLE,LSUBMODEL)
            IF(IS_M_STRING == 1) THEN
-             CALL HM_GET_STRING('MUNIT_S',FIELD1,2*ncharfield,IS_AVAILABLE)
+             CALL HM_GET_STRING('MUNIT_S',FIELD1,ncharfield,IS_AVAILABLE)
            ELSE
              CALL HM_GET_FLOATV_WITHOUT_UID('MUNIT',M_UNIT,IS_AVAILABLE)
            ENDIF
            CALL HM_GET_INTV('IS_L_STRING',IS_L_STRING,IS_AVAILABLE,LSUBMODEL)
            IF(IS_L_STRING == 1) THEN
-             CALL HM_GET_STRING('LUNIT_S',FIELD2,2*ncharfield,IS_AVAILABLE)
+             CALL HM_GET_STRING('LUNIT_S',FIELD2,ncharfield,IS_AVAILABLE)
            ELSE
              CALL HM_GET_FLOATV_WITHOUT_UID('LUNIT',L_UNIT,IS_AVAILABLE)
            ENDIF
            CALL HM_GET_INTV('IS_T_STRING',IS_T_STRING,IS_AVAILABLE,LSUBMODEL)
            IF(IS_T_STRING == 1) THEN
-             CALL HM_GET_STRING('TUNIT_S',FIELD3,2*ncharfield,IS_AVAILABLE)
+             CALL HM_GET_STRING('TUNIT_S',FIELD3,ncharfield,IS_AVAILABLE)
            ELSE
              CALL HM_GET_FLOATV_WITHOUT_UID('TUNIT',T_UNIT,IS_AVAILABLE)
            ENDIF
@@ -252,35 +235,23 @@ C
       ENDDO
 C---
       IF (FAC_MASS == ZERO) THEN
-         CALL ANCMSG(MSGID=574,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
-     .               I1=ID,
-     .               C1='WORK MASS')
+         CALL ANCMSG(MSGID=574,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1='WORK MASS')
       ENDIF
       IF (FAC_LENGTH == ZERO) THEN
-         CALL ANCMSG(MSGID=574,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
-     .               I1=ID,
-     .               C1='WORK LENGTH')
+         CALL ANCMSG(MSGID=574,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1='WORK LENGTH')
       ENDIF
       IF (FAC_TIME == ZERO) THEN
-         CALL ANCMSG(MSGID=574,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
-     .               I1=ID,
-     .               C1='WORK TIME')
+         CALL ANCMSG(MSGID=574,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1='WORK TIME')
       ENDIF
-C
+
       UNITAB%UNIT_ID(1) = 0
       UNITAB%FAC_M(1)   = FAC_MASS  
       UNITAB%FAC_L(1)   = FAC_LENGTH  
       UNITAB%FAC_T(1)   = FAC_TIME 
-C
+
       MESS = 'UNITS                                   '
       CALL UDOUBLE_WO_TITLE(ID_OPT,1,NUNITS,MESS,0,BID)
-C
+
       IF(NSUBMOD > 0)THEN
         CALL HM_OPTION_COUNT('/BEGIN',NB_BEGIN)
         SCHAR = 20
@@ -288,8 +259,7 @@ C
         IF (NB_BEGIN /= 0) THEN
           CALL HM_OPTION_START('/BEGIN')
           DO I=1,NB_BEGIN
-            CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                              SUBMODEL_INDEX = SUB_INDEX)
+            CALL HM_OPTION_READ_KEY(LSUBMODEL,SUBMODEL_INDEX = SUB_INDEX)
             IF (SUB_INDEX /= 0) THEN
               NBUNIT_SUB = NBUNIT_SUB + 1
               NUNITS = NUNITS + 1
@@ -300,6 +270,9 @@ C
               CALL HM_GET_STRING('length_workunit_code',KEYLSUB,SCHAR,IS_AVAILABLE)
               CALL HM_GET_STRING('mass_workunit_code',KEYMSUB,SCHAR,IS_AVAILABLE)
               CALL HM_GET_STRING('time_workunit_code',KEYTSUB,SCHAR,IS_AVAILABLE)
+
+              !convert into ascci format specific encoding of greek letter \mu
+              CALL ASCII_ENCODING_MU_LETTER(KEYLISUB, KEYMISUB, KEYTISUB, KEYLSUB, KEYMSUB, KEYTSUB)
 
               DO K=1,20
                 FIELD11(NUNITS-1)(K:K) = KEYMISUB(K:K)
@@ -314,7 +287,7 @@ C
               CALL UNIT_CODE(LEN,KEYMISUB,'MASS'  ,FAC_M_SUB, IERR1, 0)
               CALL UNIT_CODE(LEN,KEYLISUB,'LENGTH',FAC_L_SUB, IERR1, 0)
               CALL UNIT_CODE(LEN,KEYTISUB,'TIME'  ,FAC_T_SUB, IERR1, 0)
-C
+
               UNITAB%UNIT_ID(NUNITS) = ID_UNIT_AUTO + NBUNIT_SUB
               UNITAB%FAC_M(NUNITS)   = FAC_M_SUB  
               UNITAB%FAC_L(NUNITS)   = FAC_L_SUB  
@@ -337,12 +310,12 @@ C---
         I   = 1                                   
         J   = 0
 C       Skip leading spaces
-        DO WHILE (I <= 2*ncharfield)
+        DO WHILE (I <= ncharfield)
           IF (KEYM(I:I) /= ' ') EXIT
           I=I+1
         ENDDO
 C       Read, skip trailing spaces
-        DO WHILE (I <= 2*ncharfield)
+        DO WHILE (I <= ncharfield)
           IF (KEYM(I:I) == ' ') EXIT
           J=J+1
           I=I+1                                           
@@ -362,12 +335,12 @@ C---
         I   = 1                                   
         J   = 0
 C       Skip leading spaces
-        DO WHILE (I <= 2*ncharfield)
+        DO WHILE (I <= ncharfield)
           IF (KEYL(I:I) /= ' ') EXIT
           I=I+1
         ENDDO
 C       Read, skip trailing spaces
-        DO WHILE (I <= 2*ncharfield)
+        DO WHILE (I <= ncharfield)
           IF (KEYL(I:I) == ' ') EXIT
           J=J+1
           I=I+1                                           
@@ -387,12 +360,12 @@ C---
         I   = 1                                   
         J   = 0
 C       Skip leading spaces
-        DO WHILE (I <= 2*ncharfield)
+        DO WHILE (I <= ncharfield)
           IF (KEYT(I:I) /= ' ') EXIT
           I=I+1
         ENDDO
 C       Read, skip trailing spaces
-        DO WHILE (I <= 2*ncharfield)
+        DO WHILE (I <= ncharfield)
           IF (KEYT(I:I) == ' ') EXIT
           J=J+1
           I=I+1                                           
@@ -426,12 +399,12 @@ C---
         I   = 1                                   
         J   = 0
 C       Skip leading spaces
-        DO WHILE (I <= 2*ncharfield)
+        DO WHILE (I <= ncharfield)
           IF (KEYMI(I:I) /= ' ') EXIT
           I=I+1
         ENDDO
 C       Read, skip trailing spaces
-        DO WHILE (I <= 2*ncharfield)
+        DO WHILE (I <= ncharfield)
           IF (KEYMI(I:I) == ' ') EXIT
           J=J+1
           I=I+1                                           
@@ -451,12 +424,12 @@ C---
         I   = 1                                   
         J   = 0
 C       Skip leading spaces
-        DO WHILE (I <= 2*ncharfield)
+        DO WHILE (I <= ncharfield)
           IF (KEYLI(I:I) /= ' ') EXIT
           I=I+1
         ENDDO
 C       Read, skip trailing spaces
-        DO WHILE (I <= 2*ncharfield)
+        DO WHILE (I <= ncharfield)
           IF (KEYLI(I:I) == ' ') EXIT
           J=J+1
           I=I+1                                           
@@ -476,12 +449,12 @@ C---
         I   = 1                                   
         J   = 0
 C       Skip leading spaces
-        DO WHILE (I <= 2*ncharfield)
+        DO WHILE (I <= ncharfield)
           IF (KEYTI(I:I) /= ' ') EXIT
           I=I+1
         ENDDO
 C       Read, skip trailing spaces
-        DO WHILE (I <= 2*ncharfield)
+        DO WHILE (I <= ncharfield)
           IF (KEYTI(I:I) == ' ') EXIT
           J=J+1
           I=I+1                                           

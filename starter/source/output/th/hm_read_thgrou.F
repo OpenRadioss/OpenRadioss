@@ -3078,54 +3078,6 @@ c
         ENDDO
       ENDIF
 C
-C=======================================================================
-C NB of UNDEFINED TH SELECTED NODE FOR INVERS>=40
-C ( for INVERS LT 40, REFER TO LECNOD )
-C=======================================================================
-c      CHNOD = 9
-c      CALL ANCHECK(CHNOD)
-C=======================================================================
-C NB of UNDEFINED TH SELECTED SHEL FOR INVERS>=40
-C ( for INVERS LT 40, REFER TO LEC16C )
-C=======================================================================
-c      CHELT = 19
-c      CALL ANCHECK(CHELT)
-C=======================================================================
-C NB of UNDEFINED TH SELECTED TRUSS FOR INVERS>=40
-C ( for INVERS LT 40, REFER TO LEC16T )
-C=======================================================================
-c      CHELT = 25
-c      CALL ANCHECK(CHELT)
-C=======================================================================
-C NB of UNDEFINED TH SELECTED BEAM FOR INVERS>=40
-C ( for INVERS LT 40, REFER TO LEC16P )
-C=======================================================================
-c      CHELT = 32
-c      CALL ANCHECK(CHELT)
-C=======================================================================
-C NB of UNDEFINED TH SELECTED SPRING FOR INVERS>=40
-C ( for INVERS LT 40, REFER TO LECELR )
-C=======================================================================
-c      CHELT = 39
-c      CALL ANCHECK(CHELT)
-C=======================================================================
-C NB of UNDEFINED TH SELECTED SHELL3N FOR INVERS>=40
-C ( for INVERS LT 40, REFER TO C3LECEL )
-C=======================================================================
-c      CHELT = 46
-c      CALL ANCHECK(CHELT)
-C=======================================================================
-C NB of UNDEFINED TH SELECTED INTERFACE FOR INVERS>=40
-C ( for INVERS LT 40, REFER TO  )
-C=======================================================================
-c      CHELT = 62
-c      CALL ANCHECK(CHELT)
-C=======================================================================
-C NB of UNDEFINED TH SELECTED JOINT FOR INVERS>=40
-C ( for INVERS LT 40, REFER TO  )
-C=======================================================================
-c      CHELT = 84
-c      CALL ANCHECK(CHELT)
       DO N=1,NPART
         IF(IPART(8,N)>0) NSMAT=NSMAT+1
       ENDDO

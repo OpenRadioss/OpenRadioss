@@ -102,7 +102,7 @@ C-----------------------------------------------
       CHARACTER*100 CHAR1(100)
       CHARACTER*100 CHAR2
       CHARACTER MESS*40
-      CHARACTER(LEN=2*NCHARFIELD)::CHVAR
+      CHARACTER(LEN=NCHARFIELD)::CHVAR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -140,11 +140,11 @@ c
 C
         ! Reading the number of the Group of Part + the perturbed variable
         CALL HM_GET_INTV('grpart_ID'    ,IGRPRT  ,IS_AVAILABLE,LSUBMODEL) 
-        CALL HM_GET_STRING('chvar',CHVAR   ,2*ncharfield,IS_AVAILABLE)
+        CALL HM_GET_STRING('chvar',CHVAR   ,ncharfield,IS_AVAILABLE)
         IF (CHVAR(1:5) == 'thick' .OR. CHVAR(1:5) == 'THICK') I_PERTURB_VAR = 1  
 c
         EMPTY = 1
-        DO K = 1,2*LFIELD
+        DO K = 1,LFIELD
           IF(CHVAR(K:K) /= ' ') EMPTY = 0
         ENDDO  
 c
@@ -243,9 +243,9 @@ c
         IOK      = 0
 C
         ! Reading the number of the Group of Part + the perturbed variable
-        CALL HM_GET_INTV('grpart_ID' ,IGRPRT  ,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_GET_INTV('grpart_ID',IGRPRT,IS_AVAILABLE,LSUBMODEL)
         QP_IPERTURB(I,5) = IGRPRT
-        CALL HM_GET_STRING('chvar',CHVAR   ,2*ncharfield,IS_AVAILABLE)
+        CALL HM_GET_STRING('chvar',CHVAR,ncharfield,IS_AVAILABLE)
         IF (CHVAR(1:5) == 'thick' .OR. CHVAR(1:5) == 'THICK') QP_IPERTURB(I,6) = 1
 c
         ! Checking Shell part group

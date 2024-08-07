@@ -100,7 +100,7 @@ C-----------------------------------------------
       CHARACTER*100 CHAR1(100)
       CHARACTER*100 CHAR2
       CHARACTER MESS*40
-      CHARACTER(LEN=2*NCHARFIELD)::CHVAR
+      CHARACTER(LEN=NCHARFIELD)::CHVAR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -136,8 +136,8 @@ c
         IOK      = 0
 C
         ! Reading the number of the Group of Part + the perturbed variable
-        CALL HM_GET_INTV('grpart_ID'    ,IGRPRTS ,IS_AVAILABLE,LSUBMODEL) 
-        CALL HM_GET_STRING('chvar',CHVAR   ,2*ncharfield,IS_AVAILABLE)
+        CALL HM_GET_INTV('grpart_ID',IGRPRTS,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_STRING('chvar',CHVAR,ncharfield,IS_AVAILABLE)
         IF (CHVAR(1:4) == 'dens' .OR. CHVAR(1:4) == 'DENS') I_PERTURB_VAR = 1
 c
         ! Checking the perturbed variable
@@ -237,7 +237,7 @@ C
         ! Reading the number of the Group of Part + the perturbed variable
         CALL HM_GET_INTV('grpart_ID' ,IGRPRTS ,IS_AVAILABLE,LSUBMODEL)
         QP_IPERTURB(I,5) = IGRPRTS
-        CALL HM_GET_STRING('chvar',CHVAR   ,2*ncharfield,IS_AVAILABLE)
+        CALL HM_GET_STRING('chvar',CHVAR,ncharfield,IS_AVAILABLE)
         IF (CHVAR(1:4) == 'dens' .OR. CHVAR(1:4) == 'DENS') QP_IPERTURB(I,6) = 1
 c
         ! Checking solid part group
@@ -322,10 +322,8 @@ C
         MIN_VALUE = EP30
         IF ( I_METHOD == 2) THEN
           DO II = 1, NB_RANDOM+1, 2
-            TEMP = SD * SQRT(-2.0*LOG(ARRAY(II))) * COS(2*pi*array(II+1)) +
-     .             MEAN
-            ARRAY(II+1) = 
-     .        SD * SQRT(-2.0*LOG(ARRAY(II))) * SIN(2*pi*ARRAY(II+1)) + MEAN
+            TEMP = SD * SQRT(-2.0*LOG(ARRAY(II))) * COS(2*pi*array(II+1)) + MEAN
+            ARRAY(II+1) = SD * SQRT(-2.0*LOG(ARRAY(II))) * SIN(2*pi*ARRAY(II+1)) + MEAN
             ARRAY(II) = TEMP
           END DO
           DO II = 1, NB_RANDOM

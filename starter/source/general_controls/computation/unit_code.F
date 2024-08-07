@@ -96,66 +96,62 @@ C        Read, skip trailing spaces
 C---
         SELECT CASE (CFAC(1:2))
         CASE ('y ')
-            FAC=EM20*EM04                                  
+            FAC=EM20*EM04
         CASE ('z ')                    
-            FAC=EM20*EM01                                  
+            FAC=EM20*EM01
         CASE ('a ')               
-            FAC=EM18                                       
+            FAC=EM18
         CASE ('p ')        
-            FAC=EM12                                       
+            FAC=EM12
         CASE ('f ')   
-            FAC=EM15                                       
+            FAC=EM15
         CASE ('n ')        
-            FAC=EM09                                       
-        CASE ('� ','mu', 'u ')      
-            FAC=EM06                                       
+            FAC=EM09
+        CASE ('mu', 'u ')
+            ! greek letter mu was converted into ascii by subroutine ascii_encoding_mu_letter
+            FAC=EM06
         CASE ('m ')
-            FAC=EM03                                       
+            FAC=EM03
         CASE ('c ')
-            FAC=EM02                                       
+            FAC=EM02
         CASE ('d ')
-            FAC=EM01                                       
+            FAC=EM01
         CASE ('  ')
-            FAC=ONE                                         
+            FAC=ONE
         CASE ('da')
-            FAC=TEN                                        
+            FAC=TEN
         CASE ('h ')
-            FAC=HUNDRED                                       
+            FAC=HUNDRED
         CASE ('k ')
-            FAC=EP03                                         
+            FAC=EP03
         CASE ('K ')
-            FAC=EP03                                      
+            FAC=EP03
         CASE ('M ')
-            FAC=EP06                                       
+            FAC=EP06
         CASE ('G ')
-            FAC=EP09                                       
+            FAC=EP09
         CASE ('T ')
-            FAC=EP12                                       
+            FAC=EP12
         CASE ('P ')
-            FAC=EP15                                       
+            FAC=EP15
         CASE ('E ')
-            FAC=EP18                                       
+            FAC=EP18
         CASE ('Z ')
-            FAC=EP20*TEN                                   
+            FAC=EP20*TEN
         CASE ('Y ')
-            FAC=EP20*EP04                                  
+            FAC=EP20*EP04
         CASE DEFAULT       
-            IERR1=0                                       
+            IERR1=0
         END SELECT                                           
 *       L'unite SI de masse est le kg et pas le g
-        IF (KEY(1:4) == 'MASS') FAC=FAC*EM03   
+        IF (KEY(1:4) == 'MASS') FAC=FAC*EM03
 C---
         IF ((              KEY(1:4) == 'MASS'  .AND.CUNIT /= 'g').OR.   
      .      (KEY(1:MIN(LEN(KEY),6)) == 'LENGTH'.AND.CUNIT /= 'm').OR.   
      .      (              KEY(1:4) == 'TIME'  .AND.CUNIT /= 's').OR.   
      .      (IERR1 == 0) 
      .      ) THEN                               
-           CALL ANCMSG(MSGID=573,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID,
-     .                 C2=KEY,
-     .                 C1=FIELD(J1:J3))
+           CALL ANCMSG(MSGID=573,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=ID,C2=KEY,C1=FIELD(J1:J3))
         ENDIF                                              
 C-----
       ENDIF                                     
