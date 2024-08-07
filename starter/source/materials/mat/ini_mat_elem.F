@@ -89,9 +89,16 @@ c
         ! Options compatibility flags
         MAT_ELEM%MAT_PARAM(IMAT)%COMPATIBILITY_EOS = 0
 c
-        ! material parameters
-        MAT_ELEM%MAT_PARAM(IMAT)%RHO         = ZERO   
-        MAT_ELEM%MAT_PARAM(IMAT)%RHO0        = ZERO   
+        ! global material parameters
+        MAT_ELEM%MAT_PARAM(IMAT)%RHO           = ZERO 
+        MAT_ELEM%MAT_PARAM(IMAT)%RHO0          = ZERO 
+        MAT_ELEM%MAT_PARAM(IMAT)%YOUNG         = ZERO 
+        MAT_ELEM%MAT_PARAM(IMAT)%SHEAR         = ZERO 
+        MAT_ELEM%MAT_PARAM(IMAT)%BULK          = ZERO 
+        MAT_ELEM%MAT_PARAM(IMAT)%NU            = ZERO 
+        MAT_ELEM%MAT_PARAM(IMAT)%STIFF_CONTACT = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%STIFF_HGLASS  = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%STIFF_TSTEP   = ZERO
 c        
       END DO
 c-----------
