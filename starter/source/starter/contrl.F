@@ -281,10 +281,15 @@ c
         CALL HM_GET_STRING('length_workunit_code',KEYL,SCHAR,IS_AVAILABLE)
         CALL HM_GET_STRING('mass_workunit_code',KEYM,SCHAR,IS_AVAILABLE)
         CALL HM_GET_STRING('time_workunit_code',KEYT,SCHAR,IS_AVAILABLE)
-C
+
+        !convert into ascci format specific encoding of greek letter \mu
+        CALL ASCII_ENCODING_MU_LETTER(KEYLI, KEYMI, KEYTI, KEYL, KEYM, KEYT)
+
         IF(INVERS <= 90)THEN
+          ! /UNIT/LENGTH/[value]
+          ! /UNIT/MASS/[value]
+          ! /UNIT/TIME/[value]
           CALL HM_OPTION_START('/UNIT')
-C     
           DO N=1,NUNIT0
             CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID = ID)
             UNIT_NAME = ''
@@ -299,9 +304,9 @@ c
             IF(UNIT_NAME == 'TIME') THEN
               CALL HM_GET_STRING('TYPE_UNIT',KEYT,2*ncharfield,IS_AVAILABLE)
             ENDIF
-c
           ENDDO
-        ENDIF
+        ENDIF !(INVERS <= 90)
+
       ENDIF
       CALL HM_READ_UNIT(UNITAB,LSUBMODEL)
 C=======================================================================

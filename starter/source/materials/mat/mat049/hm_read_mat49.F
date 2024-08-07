@@ -66,7 +66,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "scr03_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -84,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED,IS_EOS, EOS_EMBEDDED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       INTEGER JTUR, I, IEOS,EMPTY_LINE,COUNT
       INTEGER JTHE, IFLAGR
       my_real
@@ -98,9 +97,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       COUNT = 0
-      IS_EOS=.FALSE.
       IEOS = 0
-      EOS_EMBEDDED=.FALSE.
       BULK=ZERO
       
       BULK = ZERO
@@ -135,34 +132,10 @@ C-----------------------------------------------
 
       CALL HM_GET_INTV  ('Line_count'     ,COUNT    ,IS_AVAILABLE, LSUBMODEL)
 
-      IF(INVERS_INIT<=51)THEN
-        EOS_EMBEDDED=.TRUE.
-      ENDIF          
-
-
-        IF(EOS_EMBEDDED)THEN   ! POLYNOMIAL EOS
-           CALL HM_GET_FLOATV('MAT_C0'       ,C0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-           CALL HM_GET_FLOATV('MAT_C1'       ,C1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-           CALL HM_GET_FLOATV('MAT_C2'       ,C2       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-           CALL HM_GET_FLOATV('MAT_C3'       ,C3       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-           CALL HM_GET_FLOATV('MAT_C4'       ,C4       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-           CALL HM_GET_FLOATV('MAT_C5'       ,C5       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-           CALL HM_GET_FLOATV('MAT_E0'       ,E0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-           CALL HM_GET_FLOATV('MAT_PSH'      ,PSH      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-           BULK  = C1
-           PM(23)= E0
-           PM(31)= C0-PSH
-           PM(32)= C1
-           PM(33)= C2
-           PM(34)= C3
-           PM(35)= C4
-           PM(36)= C5
-           PM(88)= ZERO
-        ELSE
-          IEOS   = 18 ! Linear EOS is used by default 
-          MATPARAM%IEOS = IEOS          
-          IPM(4)        = IEOS    ! keep this temporarily for output and fluid sections
-        ENDIF
+      !Default EoS
+      IEOS   = 18 ! Linear EOS is used by default
+      MATPARAM%IEOS = IEOS
+      IPM(4)        = IEOS    ! keep this temporarily for output and fluid sections
 
       IF (PMIN==ZERO) PMIN=-EP20
       IF (RHOR==ZERO) RHOR=RHO0
@@ -170,21 +143,21 @@ C-----------------------------------------------
       PM(89)= RHO0     
 
       IF(CF < ZERO) THEN
-            CALL ANCMSG(MSGID=1513,MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .                  I1 = MAT_ID,C1 = TITR)
+        CALL ANCMSG(MSGID=1513,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1 = MAT_ID,C1 = TITR)
       ENDIF
+      
       IF(NU<ZERO.OR.NU>=HALF)THEN
-            CALL ANCMSG(MSGID=1514,MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .                  I1 = MAT_ID,C1 = TITR)
+        CALL ANCMSG(MSGID=1514,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1 = MAT_ID,C1 = TITR)
       ENDIF
+      
       IF(EPSM==ZERO) EPSM  = EP20
       IF(SIGM==ZERO) SIGM  = EP20
       IF(TMELT==ZERO)TMELT = EP20
       IF(PMIN==ZERO) PMIN  =-EP20
       IF(T0==ZERO)   T0    = THREE100
       G0 = YOUNG /TWO / (ONE+NU)
-      IF(.NOT.EOS_EMBEDDED)BULK=YOUNG/(THREE*(ONE - TWO*NU))
-C
+      BULK=YOUNG/(THREE*(ONE - TWO*NU))
+
       PM(20) = YOUNG 
       PM(21) = NU
       PM(22) = G0
@@ -205,11 +178,11 @@ C
       PM(78) = T0
       PM(79) = T0
       PM(80) = TMELT
-C-----------
-C     Formulation for solid elements time step computation.
+                
+      !Formulation for solid elements time step computation.
       IPM(252)= 2
       PM(105) = TWO*G0/(BULK+FOUR_OVER_3*G0) ! =(1-2*Nu)/(1-Nu)
-C
+
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
 
@@ -219,41 +192,25 @@ C
       ! EOS/Thermo keyword for pressure treatment in elements
       CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
 
-c
       ! Properties compatibility 
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")    
       CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")         
-C
+
       WRITE(IOUT,1000)          
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,2001) TITR,MAT_ID,49
         WRITE(IOUT,2002) RHO0,RHOR  
-        WRITE(IOUT,1100)YOUNG,SIG0,NU,CB,CN,SIGM,EPSM,
-     .                T0,TMELT,SPH,PMIN,CB1,CB2,CH,CF
+        WRITE(IOUT,1100)YOUNG,SIG0,NU,CB,CN,SIGM,EPSM,T0,TMELT,SPH,PMIN,CB1,CB2,CH,CF
       ENDIF
-      !--------------------------------------------------!
-      ! OLD FORMAT 100 (OBSOLETE)                        !
-      !--------------------------------------------------!
-      IF(EOS_EMBEDDED)THEN                    !
-        WRITE(IOUT,2000)                                 !      
-        IF(IS_ENCRYPTED)THEN                              !
-          WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'     !
-        ELSE                                             !
-          WRITE(IOUT,2500)C0,C1,C2,C3,C4,C5,E0,PM(1),PSH !
-        ENDIF                                            !
-      ENDIF                                              !
-      !--------------------------------------------------!      
-c
-C---- Definition des variables internes (stockage elementaire)
-c
+
       MTAG%G_PLA   = 1    
       MTAG%G_TEMP  = 1    
-c
-      MTAG%L_PLA   = 1    ! NB10
-      MTAG%L_TEMP  = 1    ! NB11
-      MTAG%L_EPSD  = 1    ! NB12
+
+      MTAG%L_PLA   = 1
+      MTAG%L_TEMP  = 1
+      MTAG%L_EPSD  = 1
 C--------------------------------
  1000 FORMAT(
      & 5X,'   STEINBERG-GUINAN CONSTITUTIVE LAW   ',/,
@@ -287,15 +244,5 @@ C-----------
  2002 FORMAT(
      &  5X,'  INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
      &  5X,'  REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13/)
- 2500 FORMAT(
-     & 5X,'C0. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'C1. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'C2. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'C3. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'C4. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'C5. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'INITIAL INTERNAL ENERGY PER UNIT VOLUME .=',1PG20.13/,
-     & 5X,'REFERENCE DENSITY . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13//)     
       RETURN
       END

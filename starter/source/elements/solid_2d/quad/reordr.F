@@ -41,16 +41,13 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "scr03_c.inc"
 #include      "tablen_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NX, NEL,NGRELE
       INTEGER IX(NX,*), IPOINT(2,*),IPARTS(*)
-C     REAL
-      my_real
-     .   PM(NPROPM,*)
+      my_real PM(NPROPM,*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRELE) :: IGRELEM
 C-----------------------------------------------
@@ -110,8 +107,6 @@ C------------------------------------------
           IX(J,IPOINT(1,I))=IPOINT(2,I)
         END DO
       ENDDO
-C------------------------------------------
-      IF(INVERS<40)RETURN
 C------------------------------------------
 C     PERMUTATION DES PARTS
 C------------------------------------------

@@ -86,7 +86,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "vect01_c.inc"
-#include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "remesh_c.inc"
 #include      "sms_c.inc"
@@ -772,20 +771,10 @@ C---------Drilling dof--using NB4 -> no supper place needed---------
            IDROT1 = 0
           END IF
           IF(NPN == 0.AND.(MLN == 36.OR.MLN == 86))THEN
-           IF(INVERS<44)THEN
-            IPLA=1
-           ELSE
             IF(IPLA == 0) IPLA=1
             IF(IPLA == 2) IPLA=0
-C           IF(IPLA == 3) IPLA=2
-           ENDIF
           ELSEIF(NPN == 0.AND.MLN == 3)THEN
-           IF(INVERS<44)THEN
-            IPLA=0
-           ELSE
             IF(IPLA == 2) IPLA=0
-C           IF(IPLA == 3) IPLA=2
-           ENDIF
           ELSE
            IF(IPLA == 2) IPLA=0
            IF(IPLA == 3) IPLA=2

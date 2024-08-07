@@ -1098,15 +1098,6 @@ C-----------------------------------------------
       INTEGER J,ID,DEPLA
 C-----------------------------------------------
 C
-      IF (CODVERS<44 .OR. INVERS<40) THEN
-C
-         CALL ANCMSG(MSGID=421,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO_BLIND_2)
-C
-        RETURN
-      ENDIF
-C
       GET_U_NUMFUN = 0
       IF(IDFUN<=0)THEN
         RETURN
