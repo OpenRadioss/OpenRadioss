@@ -37,6 +37,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 #ifdef COMP_ARMFLANG      
         BOOL=IEEE_IS_NAN(X)
 #else
-        BOOL=ISNAN(X)
+        BOOL=.NOT.(X.EQ.X)
 #endif      
         END FUNCTION MY_ISNAN

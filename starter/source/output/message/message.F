@@ -968,6 +968,7 @@ C
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,MES_DOUBLE
 C-----------------------------------------------
        CHARACTER*2 NL 
+       CHARACTER*1, PARAMETER :: BACKSLASH = CHAR(92)
        EXTERNAL NL
 C-----------------------------------------------
 
@@ -1591,7 +1592,7 @@ C                WRITE(CTYPE,'(A,/)')"DESCRIPTION : "
               IOLD=1
               NO_PRINT = 0
               DO WHILE (I+1<=LEN_TRIM(TMPLINE))  ! loop over all characters from TMPLINE
-                IF (TMPLINE(I:I) == '\' ) THEN
+                IF (TMPLINE(I:I) == BACKSLASH ) THEN
                   I=I+1
                   IF (I-2>=1) THEN
                     WRITE(TMPBUF,'(A,A)')TMPLINE(IOLD:I-2),TMPLINE(I:I)
@@ -2048,7 +2049,7 @@ c HM_READER messages ( line with error sent by reader)
               ELSEIF ( MSGID > 200000 .AND. ITYPE /= 1 ) THEN 
 c CONVERTER messages ( line with error sent by onverter)
                 DO WHILE (I+1<=LEN_TRIM(TMPLINE))
-                  IF (TMPLINE(I:I) == '\') THEN
+                  IF (TMPLINE(I:I) == BACKSLASH) THEN
                     I=I+1
                     IF (I-2>=1) THEN
                       WRITE(TMPBUF,'(A,A)')TMPLINE(IOLD:I-2),TMPLINE(I:I)
@@ -2076,7 +2077,7 @@ c CONVERTER messages ( line with error sent by onverter)
                 END DO
               ELSE                                 ! IF ( (MSGID >= 100000 .AND. ILINE >= 3)) THEN  !                         !
                 DO WHILE (I+1<=LEN_TRIM(TMPLINE))
-                  IF (TMPLINE(I:I)=='\') THEN
+                  IF (TMPLINE(I:I)==BACKSLASH) THEN
                     I=I+1
                     IF (I-2>=1) THEN
                       WRITE(TMPBUF,'(A,A)')TMPLINE(IOLD:I-2),TMPLINE(I:I)

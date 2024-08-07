@@ -113,6 +113,10 @@ C        WRITE(IOUT,*)'** WARNING NUMNOD IS TOO LARGE FOR THIS VERSION'
       SUBROUTINE MY_ETIME(TIMER)
       REAL  RESULT
       REAL, DIMENSION(4) :: TIMER
+#ifdef COMP_NVFORTRAN
+      REAL, EXTERNAL :: ETIME
+#endif
+
 #if CPP_mach == CPP_rs7 || CPP_mach == CPP_rs9 || CPP_mach == CPP_sp2  || CPP_mach == CPP_ppc || CPP_mach == CPP_pwr4 || CPP_mach == CPP_pwr4_spmd    
        RESULT = ETIME_(TIMER)
 #elif CPP_mach == CPP_ymp || CPP_mach == CPP_c90 || CPP_mach == CPP_ymp_spmd || CPP_mach == CPP_t90  || CPP_mach == CPP_t90_i3e

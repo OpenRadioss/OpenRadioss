@@ -50,6 +50,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,JDX,IBACKSLASH
+      CHARACTER*1, PARAMETER :: BACKSLASH = CHAR(92)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -68,7 +69,7 @@ C-----------------------------------------------
           MESSAGES(ITYPE,ID)%MESSAGE(I)=' '
           J=1
           DO WHILE(J<=ncharline)
-            IF (BUFMSG(I)(J:J)=='\') THEN
+            IF (BUFMSG(I)(J:J)==BACKSLASH) THEN
 C             => skip \ print next
               IF (J<ncharline) THEN
                 J=J+1

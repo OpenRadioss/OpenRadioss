@@ -71,7 +71,7 @@ C-----------------------------------------------
       LOGICAL :: CONVERGED,FAILURE
       INTEGER :: L_NLOC,NG,ILOC,NEL,NFT,ITY,FORMU
       my_real
-     .   DT_NL,TIME,NORM_1,NORM
+     .   DT_NL,TIME,NORM_1,NORM,D
       my_real,
      .  PARAMETER :: TOL1 = 5.0D-4
       my_real,
@@ -158,7 +158,8 @@ C-----------------------------------------------
           UNL = UNL + DNL
           ! Convergence criterion
           CONVERGED = ((NORM<TOL1).AND.(ABS(NORM-NORM_1)<TOL2).AND.(TIME/=ZERO))
-          IF (ISNAN(SQRT(DOT_PRODUCT(DNL,DNL)))) THEN 
+          D = (SQRT(DOT_PRODUCT(DNL,DNL)))
+          IF (D .NE. D) THEN 
             CALL ANCMSG(MSGID=1765,MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1) 
             EXIT
