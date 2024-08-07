@@ -437,16 +437,16 @@ c       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
      + ' REVERSED')
       END
       !||====================================================================
-      !||    i12sol3       ../starter/source/interfaces/inter3d1/insol3.F
+      !||    i12sol3                ../starter/source/interfaces/inter3d1/insol3.F
       !||--- called by ------------------------------------------------------
-      !||    i12chk3       ../starter/source/interfaces/inter3d1/i12chk3.F
+      !||    i12chk3                ../starter/source/interfaces/inter3d1/i12chk3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    iface         ../starter/source/ale/ale3d/iface.F
-      !||    insolt10      ../starter/source/interfaces/inter3d1/insolt10.F
-      !||    norma1        ../starter/source/interfaces/inter3d1/norma1.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    iface                  ../starter/source/ale/ale3d/iface.F
+      !||    insolt10               ../starter/source/interfaces/inter3d1/insolt10.F
+      !||    norma1                 ../starter/source/interfaces/inter3d1/norma1.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I12SOL3(X,IRECT,IXS,NINT,NEL,I,
      .                  AREA,NOINT,IADD,INVC,NF,ITAB,

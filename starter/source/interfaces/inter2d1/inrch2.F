@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    inrch2        ../starter/source/interfaces/inter2d1/inrch2.F
+      !||    inrch2                 ../starter/source/interfaces/inter2d1/inrch2.F
       !||--- called by ------------------------------------------------------
-      !||    i1chk2        ../starter/source/interfaces/inter2d1/i1chk2.F
-      !||    i3sti2        ../starter/source/interfaces/inter2d1/i3sti2.F
-      !||    i9sti2        ../starter/source/interfaces/int09/i9sti2.F
+      !||    i1chk2                 ../starter/source/interfaces/inter2d1/i1chk2.F
+      !||    i3sti2                 ../starter/source/interfaces/inter2d1/i3sti2.F
+      !||    i9sti2                 ../starter/source/interfaces/int09/i9sti2.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INRCH2(X,IRECT,ICO,ISG,NEL,
      .                  NINT,NOINT, YM1, YM2, ZM1,

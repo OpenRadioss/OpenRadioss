@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    udouble_wo_title            ../starter/source/system/sysfus.F
       !||    unit_code                   ../starter/source/general_controls/computation/unit_code.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod                  ../starter/share/modules1/format_mod.F90
       !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
       !||    message_mod                 ../starter/share/message_module/message_mod.F
       !||    submodel_mod                ../starter/share/modules1/submodel_mod.F

@@ -21,16 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    insurf        ../starter/source/interfaces/interf1/insurf.F
+      !||    insurf                 ../starter/source/interfaces/interf1/insurf.F
       !||--- called by ------------------------------------------------------
-      !||    lecins        ../starter/source/interfaces/interf1/lecins.F
-      !||    lecint        ../starter/source/interfaces/interf1/lecint.F
+      !||    lecins                 ../starter/source/interfaces/interf1/lecins.F
+      !||    lecint                 ../starter/source/interfaces/interf1/lecint.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    count3        ../starter/source/interfaces/interf1/count3.F
-      !||    usr2sys       ../starter/source/system/sysfus.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    count3                 ../starter/source/interfaces/interf1/count3.F
+      !||    usr2sys                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INSURF(NRT       ,MSN   ,IR    ,IRECT ,NOINT  ,
      .                  SURF_NODES,ITAB  ,MSV   ,ID    ,TITR   ,

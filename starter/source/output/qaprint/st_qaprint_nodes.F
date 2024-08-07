@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    st_qaprint_nodes    ../starter/source/output/qaprint/st_qaprint_nodes.F
+      !||    st_qaprint_nodes       ../starter/source/output/qaprint/st_qaprint_nodes.F
       !||--- called by ------------------------------------------------------
-      !||    st_qaprint_driver   ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||    st_qaprint_driver      ../starter/source/output/qaprint/st_qaprint_driver.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    message_mod         ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE ST_QAPRINT_NODES(ITAB,X,IMERGE,MERGE_NODE_TOL,MERGE_NODE_TAB,NMERGE_TOT,MS)
 C============================================================================

@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    rini45_rb     ../starter/source/elements/joint/rjoint/rini45_rb.F
+      !||    rini45_rb              ../starter/source/elements/joint/rjoint/rini45_rb.F
       !||--- called by ------------------------------------------------------
-      !||    initia        ../starter/source/elements/initia/initia.F
+      !||    initia                 ../starter/source/elements/initia/initia.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    find_rby      ../starter/source/elements/joint/rjoint/rini33_rb.F
-      !||    fretitl2      ../starter/source/starter/freform.F
-      !||    get_u_geo     ../starter/source/user_interface/uaccess.F
-      !||    get_u_skew    ../starter/source/user_interface/uaccess.F
-      !||    reset_u_geo   ../starter/source/user_interface/uaccess.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    find_rby               ../starter/source/elements/joint/rjoint/rini33_rb.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    get_u_geo              ../starter/source/user_interface/uaccess.F
+      !||    get_u_skew             ../starter/source/user_interface/uaccess.F
+      !||    reset_u_geo            ../starter/source/user_interface/uaccess.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE RINI45_RB(NEL,NUVAR,IPROP,IXR,NPBY,
      1                     LPBY,RBY,STIFR,UVAR,ITAB,

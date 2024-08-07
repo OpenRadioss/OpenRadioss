@@ -21,7 +21,8 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    anstckc   ../starter/source/output/analyse/analyse_char.F
+      !||    anstckc                ../starter/source/output/analyse/analyse_char.F
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE ANSTCKC(LEN_, STR)
 C-----------------------------------------------

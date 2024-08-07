@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    udouble            ../starter/source/system/sysfus.F
       !||    usr2sys            ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod         ../starter/share/modules1/format_mod.F90
       !||    meshsurfig3d_mod   ../starter/source/elements/ige3d/meshsurfig3d_mod.F
       !||    message_mod        ../starter/share/message_module/message_mod.F
       !||====================================================================

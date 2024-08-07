@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    iniguser         ../starter/source/system/iniguser.F
+      !||    iniguser               ../starter/source/system/iniguser.F
       !||--- called by ------------------------------------------------------
-      !||    fsdcod           ../starter/source/system/fsdcod.F
+      !||    fsdcod                 ../starter/source/system/fsdcod.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../starter/source/output/message/message.F
-      !||    fretitl2         ../starter/source/starter/freform.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||    table_glob_mod   ../starter/share/modules1/table_glob_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    table_glob_mod         ../starter/share/modules1/table_glob_mod.F
       !||====================================================================
       SUBROUTINE INIGUSER(BUFGEO,IGEO,IPM,NPC)
       USE MESSAGE_MOD

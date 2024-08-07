@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    iface2t                ../starter/source/ale/ale3d/iface.F
       !||    norma1                 ../starter/source/interfaces/inter3d1/norma1.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE FINDELE(ALE_CONNECTIVITY, NNODE, NIX,  IDSU,ID,NSEG,IX,

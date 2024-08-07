@@ -335,20 +335,20 @@ C
 C
       END
       !||====================================================================
-      !||    rini32        ../starter/source/properties/spring/hm_read_prop32.F
+      !||    rini32                 ../starter/source/properties/spring/hm_read_prop32.F
       !||--- called by ------------------------------------------------------
-      !||    rinit3        ../starter/source/elements/spring/rinit3.F
+      !||    rinit3                 ../starter/source/elements/spring/rinit3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    area          ../starter/source/properties/spring/hm_read_prop32.F
-      !||    get_u_geo     ../starter/source/user_interface/uaccess.F
-      !||    get_u_mat     ../starter/source/user_interface/uaccess.F
-      !||    get_u_mid     ../starter/source/user_interface/uaccess.F
-      !||    get_u_mnu     ../starter/source/user_interface/uaccess.F
-      !||    get_u_pid     ../starter/source/user_interface/uaccess.F
-      !||    get_u_pnu     ../starter/source/user_interface/uaccess.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    area                   ../starter/source/properties/spring/hm_read_prop32.F
+      !||    get_u_geo              ../starter/source/user_interface/uaccess.F
+      !||    get_u_mat              ../starter/source/user_interface/uaccess.F
+      !||    get_u_mid              ../starter/source/user_interface/uaccess.F
+      !||    get_u_mnu              ../starter/source/user_interface/uaccess.F
+      !||    get_u_pid              ../starter/source/user_interface/uaccess.F
+      !||    get_u_pnu              ../starter/source/user_interface/uaccess.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE RINI32(NEL   ,IOUT   ,IPROP ,
      3                  IX    ,XL     ,MASS  ,XINER  ,STIFM ,

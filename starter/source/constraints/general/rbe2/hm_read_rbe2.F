@@ -21,27 +21,27 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    hm_read_rbe2         ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    hm_read_rbe2           ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
       !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg               ../starter/source/output/message/message.F
-      !||    fretitl              ../starter/source/starter/freform.F
-      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    hm_sz_r2r            ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    ifrontplus           ../starter/source/spmd/node/frontplus.F
-      !||    kinset               ../starter/source/constraints/general/kinset.F
-      !||    nlocal               ../starter/source/spmd/node/ddtools.F
-      !||    nodgrnr6             ../starter/source/starter/freform.F
-      !||    rbe2modif_nd         ../starter/source/elements/solid/solide10/dim_s10edg.F
-      !||    usr2sys              ../starter/source/system/sysfus.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl                ../starter/source/starter/freform.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_sz_r2r              ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    ifrontplus             ../starter/source/spmd/node/frontplus.F
+      !||    kinset                 ../starter/source/constraints/general/kinset.F
+      !||    nlocal                 ../starter/source/spmd/node/ddtools.F
+      !||    nodgrnr6               ../starter/source/starter/freform.F
+      !||    rbe2modif_nd           ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    usr2sys                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    r2r_mod              ../starter/share/modules1/r2r_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_RBE2(IRBE2   ,LRBE2  ,ITAB    ,ITABM1  ,IGRNOD,
      .                        ISKN    ,IKINE  ,IDDLEVEL,NOM_OPT ,ITAGND,
@@ -311,19 +311,19 @@ C
  1200 FORMAT(3X,2I10,3X,3I1,1X,3I1,3I10)
       END SUBROUTINE HM_READ_RBE2
       !||====================================================================
-      !||    hm_preread_rbe2      ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    hm_preread_rbe2        ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
       !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    hm_sz_r2r            ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    ngr2usrn             ../starter/source/system/nintrr.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_sz_r2r              ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    ngr2usrn               ../starter/source/system/nintrr.F
       !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    r2r_mod              ../starter/share/modules1/r2r_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_PREREAD_RBE2(LNUM    ,LREAL,  IGRNOD, LSUBMODEL)
 C-----------------------------------------------
@@ -708,17 +708,17 @@ C
       RETURN
       END SUBROUTINE HIERARBE2
       !||====================================================================
-      !||    inirbe2       ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    inirbe2                ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
       !||--- called by ------------------------------------------------------
-      !||    initia        ../starter/source/elements/initia/initia.F
+      !||    initia                 ../starter/source/elements/initia/initia.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    fretitl2      ../starter/source/starter/freform.F
-      !||    hierarbe2     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
-      !||    rbe2_merge    ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
-      !||    reorbe2       ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    hierarbe2              ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    rbe2_merge             ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    reorbe2                ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INIRBE2(IRBE2  ,LRBE2  ,ITAB  ,X    ,MS   ,
      .                   IN     ,STIFN  ,STIFR ,TOTMAS,XGT  ,
@@ -986,16 +986,16 @@ C
      .       /10X,'NEW MASS. . . . . . . . . . .',1PG20.13,//)
       END SUBROUTINE INIRBE2
       !||====================================================================
-      !||    contrbe2             ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    contrbe2               ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
       !||--- called by ------------------------------------------------------
-      !||    contrl               ../starter/source/starter/contrl.F
+      !||    contrl                 ../starter/source/starter/contrl.F
       !||--- calls      -----------------------------------------------------
-      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
       !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE CONTRBE2(ICR,LSUBMODEL)
 C-----------------------------------------------
@@ -1164,19 +1164,19 @@ C  -----DEACTIVATED ELEMENTS will done in SETELOFF------
       RETURN
       END SUBROUTINE SETELOFF2
       !||====================================================================
-      !||    setrb2on             ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+      !||    setrb2on               ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
       !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    ngr2usr              ../starter/source/system/nintrr.F
-      !||    ngr2usrn             ../starter/source/system/nintrr.F
-      !||    usr2sys              ../starter/source/system/sysfus.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    ngr2usr                ../starter/source/system/nintrr.F
+      !||    ngr2usrn               ../starter/source/system/nintrr.F
+      !||    usr2sys                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE SETRB2ON(IXS    ,IXC    ,IXTG   ,IGRNOD ,
      2                    IGRNRB2,ISOLOFF,ISHEOFF,ITRIOFF,ITABM1,

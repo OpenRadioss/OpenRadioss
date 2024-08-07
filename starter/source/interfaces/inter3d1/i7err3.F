@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i7err3        ../starter/source/interfaces/inter3d1/i7err3.F
+      !||    i7err3                 ../starter/source/interfaces/inter3d1/i7err3.F
       !||--- called by ------------------------------------------------------
-      !||    i20ini3       ../starter/source/interfaces/inter3d1/i20ini3.F
-      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+      !||    i20ini3                ../starter/source/interfaces/inter3d1/i20ini3.F
+      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I7ERR3(
      1         X       ,NRTM    ,IRECT   ,NOINT   ,ITAB,ID,TITR,

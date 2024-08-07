@@ -21,14 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    printgroup      ../starter/source/output/outfile/printgroup.F
+      !||    printgroup             ../starter/source/output/outfile/printgroup.F
       !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||    r2r_mod         ../starter/share/modules1/r2r_mod.F
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
       !||====================================================================
       SUBROUTINE PRINTGROUP(
      1           ITAB     ,ITABM1   ,IGRNOD   ,NINICRACK,BUFSF   ,

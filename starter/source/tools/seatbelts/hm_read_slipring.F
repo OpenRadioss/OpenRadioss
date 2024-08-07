@@ -21,26 +21,26 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    hm_read_slipring     ../starter/source/tools/seatbelts/hm_read_slipring.F
+      !||    hm_read_slipring       ../starter/source/tools/seatbelts/hm_read_slipring.F
       !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg               ../starter/source/output/message/message.F
-      !||    arret                ../starter/source/system/arret.F
-      !||    fretitl              ../starter/source/starter/freform.F
-      !||    hm_get_floatv        ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_floatv_dim    ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
-      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    ngr2usr              ../starter/source/system/nintrr.F
-      !||    nintri               ../starter/source/system/nintrr.F
-      !||    udouble              ../starter/source/system/sysfus.F
-      !||    usr2sys              ../starter/source/system/sysfus.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    arret                  ../starter/source/system/arret.F
+      !||    fretitl                ../starter/source/starter/freform.F
+      !||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_floatv_dim      ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    ngr2usr                ../starter/source/system/nintrr.F
+      !||    nintri                 ../starter/source/system/nintrr.F
+      !||    udouble                ../starter/source/system/sysfus.F
+      !||    usr2sys                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_SLIPRING(LSUBMODEL,ITABM1,IXR,ITAB,UNITAB,
      .                            X,FUNC_ID,NOM_OPT,ALEA,IGRNOD,

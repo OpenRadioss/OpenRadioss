@@ -2265,9 +2265,10 @@ c
 
 
       !||====================================================================
-      !||    mess_extract_format   ../starter/source/output/message/message.F
+      !||    mess_extract_format    ../starter/source/output/message/message.F
       !||--- called by ------------------------------------------------------
-      !||    ancmsg                ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE MESS_EXTRACT_FORMAT(TMPLINE,LINE_SIZE,NCOUNT,ID_NUM,KEY,KEY_LEN)
 C-----------------------------------------------

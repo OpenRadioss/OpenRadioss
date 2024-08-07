@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    hm_preread_impvel0   ../starter/source/constraints/general/impvel/hm_preread_impvel0.F
+      !||    hm_preread_impvel0     ../starter/source/constraints/general/impvel/hm_preread_impvel0.F
       !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    hm_get_string        ../starter/source/devtools/hm_reader/hm_get_string.F
-      !||    hm_option_count      ../starter/source/devtools/hm_reader/hm_option_count.F
-      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_get_string          ../starter/source/devtools/hm_reader/hm_get_string.F
+      !||    hm_option_count        ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
       !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_PREREAD_IMPVEL0(IMPOSE_DR,UNITAB,LSUBMODEL)
 C============================================================================

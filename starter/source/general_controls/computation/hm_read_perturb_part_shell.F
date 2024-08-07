@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_option_start              ../starter/source/devtools/hm_reader/hm_option_start.F
       !||    plot_distrib                 ../starter/source/general_controls/computation/plot_distrib.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod                   ../starter/share/modules1/format_mod.F90
       !||    hm_option_read_mod           ../starter/share/modules1/hm_option_read_mod.F
       !||    message_mod                  ../starter/share/message_module/message_mod.F
       !||    submodel_mod                 ../starter/share/modules1/submodel_mod.F

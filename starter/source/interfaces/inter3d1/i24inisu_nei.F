@@ -21,12 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i24inisur_nei   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+      !||    i24inisur_nei          ../starter/source/interfaces/inter3d1/i24inisu_nei.F
       !||--- called by ------------------------------------------------------
-      !||    inint3          ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
       !||--- calls      -----------------------------------------------------
-      !||    comm_seg_en     ../starter/source/interfaces/inter3d1/i24inisu_nei.F
-      !||    msg_err         ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    comm_seg_en            ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+      !||    msg_err                ../starter/source/interfaces/inter3d1/i24tools.F
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE I24INISUR_NEI(NRTM ,NSN,IRECT,IRTLM,MVOISIN,
      2                         NVOISIN,MSEGLO ,MSEGTYP,ITAB ,X ,

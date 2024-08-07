@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    hm_read_prop05       ../starter/source/properties/rivet/hm_read_prop05.F
+      !||    hm_read_prop05         ../starter/source/properties/rivet/hm_read_prop05.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_properties   ../starter/source/properties/hm_read_properties.F
+      !||    hm_read_properties     ../starter/source/properties/hm_read_properties.F
       !||--- calls      -----------------------------------------------------
-      !||    hm_get_floatv        ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
       !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_PROP05(GEO,IGEO,IG,IGTYP,IDTITL,UNITAB,LSUBMODEL )
 C============================================================================

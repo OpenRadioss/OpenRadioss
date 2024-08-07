@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    surfmas         ../starter/source/tools/admas/surfmas.F
+      !||    surfmas                ../starter/source/tools/admas/surfmas.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_admas   ../starter/source/tools/admas/hm_read_admas.F
+      !||    hm_read_admas          ../starter/source/tools/admas/hm_read_admas.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE SURFMAS(MS,IBUFN,ITY,AMASU,X,ID,ADDMAS,ADMID,TITR)
 C-----------------------------------------------

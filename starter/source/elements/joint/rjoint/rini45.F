@@ -21,19 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    rini45            ../starter/source/elements/joint/rjoint/rini45.F
+      !||    rini45                 ../starter/source/elements/joint/rjoint/rini45.F
       !||--- called by ------------------------------------------------------
-      !||    rinit3            ../starter/source/elements/spring/rinit3.F
+      !||    rinit3                 ../starter/source/elements/spring/rinit3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg            ../starter/source/output/message/message.F
-      !||    get_skew45        ../starter/source/elements/joint/rjoint/rini45.F
-      !||    get_u_func        ../starter/source/user_interface/uaccess.F
-      !||    get_u_func_deri   ../starter/source/user_interface/uaccess.F
-      !||    get_u_geo         ../starter/source/user_interface/uaccess.F
-      !||    get_u_pnu         ../starter/source/user_interface/uaccess.F
-      !||    init_skew45       ../starter/source/elements/joint/rjoint/rini45.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    get_skew45             ../starter/source/elements/joint/rjoint/rini45.F
+      !||    get_u_func             ../starter/source/user_interface/uaccess.F
+      !||    get_u_func_deri        ../starter/source/user_interface/uaccess.F
+      !||    get_u_geo              ../starter/source/user_interface/uaccess.F
+      !||    get_u_pnu              ../starter/source/user_interface/uaccess.F
+      !||    init_skew45            ../starter/source/elements/joint/rjoint/rini45.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod       ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE RINI45(NEL   ,IOUT   ,IPROP , IX, X, XL    ,
      3                  MASS   ,XINER ,STIFN  , STIFR ,VISCM ,
@@ -317,13 +317,13 @@ C
       END
       
       !||====================================================================
-      !||    get_skew45    ../starter/source/elements/joint/rjoint/rini45.F
+      !||    get_skew45             ../starter/source/elements/joint/rjoint/rini45.F
       !||--- called by ------------------------------------------------------
-      !||    rini45        ../starter/source/elements/joint/rjoint/rini45.F
+      !||    rini45                 ../starter/source/elements/joint/rjoint/rini45.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       INTEGER FUNCTION GET_SKEW45(IOUT,JTYP,EX,IXR,IXR_KJ,IEL,X,ID,TITR)
 C-----------------------------------------------
@@ -646,16 +646,16 @@ C-----------------------------------------------
       END
 
       !||====================================================================
-      !||    init_skew45   ../starter/source/elements/joint/rjoint/rini45.F
+      !||    init_skew45            ../starter/source/elements/joint/rjoint/rini45.F
       !||--- called by ------------------------------------------------------
-      !||    rini45        ../starter/source/elements/joint/rjoint/rini45.F
+      !||    rini45                 ../starter/source/elements/joint/rjoint/rini45.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    get_u_geo     ../starter/source/user_interface/uaccess.F
-      !||    get_u_skew    ../starter/source/user_interface/uaccess.F
-      !||    prod_atb      ../starter/source/elements/joint/rjoint/rini33.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    get_u_geo              ../starter/source/user_interface/uaccess.F
+      !||    get_u_skew             ../starter/source/user_interface/uaccess.F
+      !||    prod_atb               ../starter/source/elements/joint/rjoint/rini33.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INIT_SKEW45(JTYP,IPROP,IDSK1,IDSK2,EX,THETA0,ID,TITR)
 C-------------------------------------------------------------------------

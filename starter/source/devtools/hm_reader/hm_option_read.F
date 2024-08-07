@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    hm_option_read    ../starter/source/devtools/hm_reader/hm_option_read.F
+      !||    hm_option_read         ../starter/source/devtools/hm_reader/hm_option_read.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    message_mod       ../starter/share/message_module/message_mod.F
-      !||    submodel_mod      ../starter/share/modules1/submodel_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_OPTION_READ(ID,UID,SUB_INDEX,TITR,LSUBMODEL)
 C-----------------------------------------------

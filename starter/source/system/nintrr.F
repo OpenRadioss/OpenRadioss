@@ -67,13 +67,13 @@ C-----------------------------------------------
       END
 C
       !||====================================================================
-      !||    nintlst       ../starter/source/system/nintrr.F
+      !||    nintlst                ../starter/source/system/nintrr.F
       !||--- called by ------------------------------------------------------
-      !||    hm_lecgre     ../starter/source/groups/hm_lecgre.F
+      !||    hm_lecgre              ../starter/source/groups/hm_lecgre.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       INTEGER FUNCTION NINTLST (LIST,NLIST,IX,NIX,NUMEL,MESS,
      .                          IX1,IX2,INDEX,KK,
@@ -786,14 +786,14 @@ C     >CAS IU>TABM
 C
         
       !||====================================================================
-      !||    nintlstn      ../starter/source/system/nintrr.F
+      !||    nintlstn               ../starter/source/system/nintrr.F
       !||--- called by ------------------------------------------------------
-      !||    hm_lecgre     ../starter/source/groups/hm_lecgre.F
+      !||    hm_lecgre              ../starter/source/groups/hm_lecgre.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    user2sys      ../starter/source/system/nintrr.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    user2sys               ../starter/source/system/nintrr.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       INTEGER FUNCTION NINTLSTN(LIST,NLIST,IXX_S,NIX,NUMEL,MESS,
      .                          IXX_S_IND,INDEX,TYPE,ID,TITR)

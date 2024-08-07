@@ -83,18 +83,18 @@ C
       RETURN
       END
       !||====================================================================
-      !||    inintr_thkvar       ../starter/source/interfaces/interf1/inintr_thkvar.F
+      !||    inintr_thkvar          ../starter/source/interfaces/interf1/inintr_thkvar.F
       !||--- called by ------------------------------------------------------
-      !||    lectur              ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg              ../starter/source/output/message/message.F
-      !||    fretitl2            ../starter/source/starter/freform.F
-      !||    inint3_thkvar       ../starter/source/interfaces/inter3d1/inint3_thkvar.F
-      !||    thickvar            ../starter/source/interfaces/interf1/inintr_thkvar.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    inint3_thkvar          ../starter/source/interfaces/inter3d1/inint3_thkvar.F
+      !||    thickvar               ../starter/source/interfaces/interf1/inintr_thkvar.F
       !||--- uses       -----------------------------------------------------
-      !||    intbufscratch_mod   ../starter/source/interfaces/interf1/intbufscratch_mod.F
-      !||    intstamp_mod        ../starter/share/modules1/intstamp_mod.F
-      !||    message_mod         ../starter/share/message_module/message_mod.F
+      !||    intbufscratch_mod      ../starter/source/interfaces/interf1/intbufscratch_mod.F
+      !||    intstamp_mod           ../starter/share/modules1/intstamp_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE ININTR_THKVAR(ELBUF_TAB,
      1                  IPARI   ,INTBUF_TAB,INSCR   ,X       ,

@@ -22,13 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    i1chk2        ../starter/source/interfaces/inter2d1/i1chk2.F
+      !||    i1chk2                 ../starter/source/interfaces/inter2d1/i1chk2.F
       !||--- called by ------------------------------------------------------
-      !||    inint2        ../starter/source/interfaces/inter2d1/inint2.F
+      !||    inint2                 ../starter/source/interfaces/inter2d1/inint2.F
       !||--- calls      -----------------------------------------------------
-      !||    inori2        ../starter/source/interfaces/inter2d1/inori2.F
-      !||    inrch2        ../starter/source/interfaces/inter2d1/inrch2.F
-      !||    local_index   ../starter/source/interfaces/interf1/local_index.F
+      !||    inori2                 ../starter/source/interfaces/inter2d1/inori2.F
+      !||    inrch2                 ../starter/source/interfaces/inter2d1/inrch2.F
+      !||    local_index            ../starter/source/interfaces/interf1/local_index.F
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE I1CHK2(X,IRECT,IXQ,NRT,NINT,NSN,NSV,NOINT,ID,TITR)
 C-----------------------------------------------

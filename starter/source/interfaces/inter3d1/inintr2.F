@@ -21,30 +21,30 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    inintr2             ../starter/source/interfaces/inter3d1/inintr2.F
+      !||    inintr2                ../starter/source/interfaces/inter3d1/inintr2.F
       !||--- called by ------------------------------------------------------
-      !||    lectur              ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg              ../starter/source/output/message/message.F
-      !||    fretitl2            ../starter/source/starter/freform.F
-      !||    i20sta              ../starter/source/interfaces/inter3d1/inintr2.F
-      !||    i24surf_pxfem       ../starter/source/interfaces/inter3d1/inintr2.F
-      !||    i2_dtn              ../starter/source/interfaces/inter3d1/i2_dtn.F
-      !||    i2_dtn_27           ../starter/source/interfaces/inter3d1/i2_dtn_27.F
-      !||    i2_dtn_28           ../starter/source/interfaces/inter3d1/i2_dtn_28.F
-      !||    iniend              ../starter/source/interfaces/inter3d1/iniend.F
-      !||    iniend2d            ../starter/source/interfaces/inter3d1/iniend.F
-      !||    int2cy_chk          ../starter/source/constraints/general/bcs/lecbcscyc.F
-      !||    int2modif_nd        ../starter/source/elements/solid/solide10/dim_s10edg.F
-      !||    itagsl12            ../starter/source/interfaces/inter3d1/inintr2.F
-      !||    itagsl2             ../starter/source/interfaces/inter3d1/itagsl2.F
-      !||    remn_i2_edgop       ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||    remn_i2op           ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||    remn_self24         ../starter/source/interfaces/inter3d1/remn_self24.F
-      !||    ri2_int24p_ini      ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    i20sta                 ../starter/source/interfaces/inter3d1/inintr2.F
+      !||    i24surf_pxfem          ../starter/source/interfaces/inter3d1/inintr2.F
+      !||    i2_dtn                 ../starter/source/interfaces/inter3d1/i2_dtn.F
+      !||    i2_dtn_27              ../starter/source/interfaces/inter3d1/i2_dtn_27.F
+      !||    i2_dtn_28              ../starter/source/interfaces/inter3d1/i2_dtn_28.F
+      !||    iniend                 ../starter/source/interfaces/inter3d1/iniend.F
+      !||    iniend2d               ../starter/source/interfaces/inter3d1/iniend.F
+      !||    int2cy_chk             ../starter/source/constraints/general/bcs/lecbcscyc.F
+      !||    int2modif_nd           ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    itagsl12               ../starter/source/interfaces/inter3d1/inintr2.F
+      !||    itagsl2                ../starter/source/interfaces/inter3d1/itagsl2.F
+      !||    remn_i2_edgop          ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    remn_i2op              ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    remn_self24            ../starter/source/interfaces/inter3d1/remn_self24.F
+      !||    ri2_int24p_ini         ../starter/source/interfaces/inter3d1/i7remnode.F
       !||--- uses       -----------------------------------------------------
-      !||    intbufscratch_mod   ../starter/source/interfaces/interf1/intbufscratch_mod.F
-      !||    message_mod         ../starter/share/message_module/message_mod.F
+      !||    intbufscratch_mod      ../starter/source/interfaces/interf1/intbufscratch_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE ININTR2(IPARI   ,INSCR   ,X     ,
      .                   IXS     ,IXQ    ,IXC   ,PM      ,GEO   ,

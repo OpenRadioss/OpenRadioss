@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    st_qaprint_loads    ../starter/source/output/qaprint/st_qaprint_loads.F
+      !||    st_qaprint_loads       ../starter/source/output/qaprint/st_qaprint_loads.F
       !||--- called by ------------------------------------------------------
-      !||    st_qaprint_driver   ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||    st_qaprint_driver      ../starter/source/output/qaprint/st_qaprint_driver.F
       !||--- calls      -----------------------------------------------------
-      !||    fretitl2            ../starter/source/starter/freform.F
+      !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE ST_QAPRINT_LOADS(NOM_OPT   ,INOM_OPT  ,NUMLOADP  ,ILOADP    ,LLOADP    ,

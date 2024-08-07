@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    qgrtails           ../starter/source/elements/solid_2d/quad/qgrtails.F
+      !||    qgrtails               ../starter/source/elements/solid_2d/quad/qgrtails.F
       !||--- called by ------------------------------------------------------
-      !||    lectur             ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||    fretitl2           ../starter/source/starter/freform.F
-      !||    zeroin             ../starter/source/system/zeroin.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    zeroin                 ../starter/source/system/zeroin.F
       !||--- uses       -----------------------------------------------------
-      !||    inivol_def_mod     ../starter/share/modules1/inivol_mod.F
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||    r2r_mod            ../starter/share/modules1/r2r_mod.F
+      !||    inivol_def_mod         ../starter/share/modules1/inivol_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
       !||====================================================================
       SUBROUTINE QGRTAILS(
      1       IXQ    ,PM      ,IPARG  ,GEO    ,

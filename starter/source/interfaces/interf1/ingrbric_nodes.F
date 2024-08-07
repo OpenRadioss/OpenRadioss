@@ -30,6 +30,7 @@ C   from it into a sorted list
       !||    lecins           ../starter/source/interfaces/interf1/lecins.F
       !||    lecint           ../starter/source/interfaces/interf1/lecint.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod       ../starter/share/modules1/format_mod.F90
       !||====================================================================
       SUBROUTINE INGRBRIC_NODES(MSN,IBUFSSG,ITAB,MSV, IXS, NBRIC, NALE, IPM, BUFMAT, S_MSV)
 C-----------------------------------------------

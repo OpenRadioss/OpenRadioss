@@ -21,22 +21,22 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    hm_read_cluster      ../starter/source/output/cluster/hm_read_cluster.F
+      !||    hm_read_cluster        ../starter/source/output/cluster/hm_read_cluster.F
       !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg               ../starter/source/output/message/message.F
-      !||    fretitl              ../starter/source/starter/freform.F
-      !||    hm_get_floatv        ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    itrimhpsort          ../starter/source/output/cluster/itrimhpsort.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl                ../starter/source/starter/freform.F
+      !||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    itrimhpsort            ../starter/source/output/cluster/itrimhpsort.F
       !||--- uses       -----------------------------------------------------
-      !||    cluster_mod          ../starter/share/modules1/cluster_mod.F
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||    cluster_mod            ../starter/share/modules1/cluster_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_CLUSTER(CLUSTERS,UNITAB ,ISKN    ,IGRBRIC,IGRSPRING,
      .                           IXS     ,IXR    ,NOM_OPT ,LSUBMODEL)

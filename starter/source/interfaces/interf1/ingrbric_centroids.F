@@ -27,6 +27,8 @@ C   Input for secnd side is a GRBRIC.
       !||    ingrbric_centroids   ../starter/source/interfaces/interf1/ingrbric_centroids.F
       !||--- called by ------------------------------------------------------
       !||    lecins               ../starter/source/interfaces/interf1/lecins.F
+      !||--- uses       -----------------------------------------------------
+      !||    format_mod           ../starter/share/modules1/format_mod.F90
       !||====================================================================
       SUBROUTINE INGRBRIC_CENTROIDS(IBUFSSG,MSV, IXS, NBRIC)
 C-----------------------------------------------

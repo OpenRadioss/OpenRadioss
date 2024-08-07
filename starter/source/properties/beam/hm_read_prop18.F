@@ -400,13 +400,13 @@ C
       END SUBROUTINE
 
       !||====================================================================
-      !||    defbeam_sect     ../starter/source/properties/beam/hm_read_prop18.F
+      !||    defbeam_sect           ../starter/source/properties/beam/hm_read_prop18.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_prop18   ../starter/source/properties/beam/hm_read_prop18.F
+      !||    hm_read_prop18         ../starter/source/properties/beam/hm_read_prop18.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE DEFBEAM_SECT(GEO,ISECT,INTR,NIP,
      .                        AREA,L,IG,IDTITL)

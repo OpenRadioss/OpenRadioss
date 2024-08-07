@@ -21,21 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    hm_read_box          ../starter/source/model/box/hm_read_box.F
+      !||    hm_read_box            ../starter/source/model/box/hm_read_box.F
       !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    hm_option_count      ../starter/source/devtools/hm_reader/hm_option_count.F
-      !||    nboxlst              ../starter/source/model/box/nboxlist.F
-      !||    read_box_box         ../starter/source/model/box/read_box_box.F
-      !||    read_box_cyl         ../starter/source/model/box/read_box_cyl.F
-      !||    read_box_rect        ../starter/source/model/box/read_box_rect.F
-      !||    read_box_spher       ../starter/source/model/box/read_box_spher.F
-      !||    udouble_igr          ../starter/source/system/sysfus.F
+      !||    hm_option_count        ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    nboxlst                ../starter/source/model/box/nboxlist.F
+      !||    read_box_box           ../starter/source/model/box/read_box_box.F
+      !||    read_box_cyl           ../starter/source/model/box/read_box_cyl.F
+      !||    read_box_rect          ../starter/source/model/box/read_box_rect.F
+      !||    read_box_spher         ../starter/source/model/box/read_box_spher.F
+      !||    udouble_igr            ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_BOX(IBOX    ,UNITAB  ,ITABM1   ,ISKN    ,SKEW    ,
      .                       X       ,RTRANS  ,LSUBMODEL)

@@ -21,19 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    smorth3            ../starter/source/elements/solid/solide/smorth3.F
+      !||    smorth3                ../starter/source/elements/solid/solide/smorth3.F
       !||--- called by ------------------------------------------------------
-      !||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
-      !||    s10init3           ../starter/source/elements/solid/solide10/s10init3.F
-      !||    s4init3            ../starter/source/elements/solid/solide4/s4init3.F
-      !||    s8zinit3           ../starter/source/elements/solid/solide8z/s8zinit3.F
-      !||    sinit3             ../starter/source/elements/solid/solide/sinit3.F
+      !||    multifluid_init3       ../starter/source/multifluid/multifluid_init3.F
+      !||    s10init3               ../starter/source/elements/solid/solide10/s10init3.F
+      !||    s4init3                ../starter/source/elements/solid/solide4/s4init3.F
+      !||    s8zinit3               ../starter/source/elements/solid/solide8z/s8zinit3.F
+      !||    sinit3                 ../starter/source/elements/solid/solide/sinit3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||    fretitl2           ../starter/source/starter/freform.F
-      !||    inv3               ../starter/source/tools/univ/inv3.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    inv3                   ../starter/source/tools/univ/inv3.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE SMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,GAMA ,
      .       RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,

@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    gr_entity_ini   ../starter/source/model/group/gr_entity_ini.F
+      !||    gr_entity_ini          ../starter/source/model/group/gr_entity_ini.F
       !||--- called by ------------------------------------------------------
-      !||    group_ini       ../starter/source/model/group/group_ini.F
+      !||    group_ini              ../starter/source/model/group/group_ini.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE GR_ENTITY_INI(IGR,NGR,LENGROUP)

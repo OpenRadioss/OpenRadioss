@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    spgrtails          ../starter/source/elements/sph/spgrtails.F
+      !||    spgrtails              ../starter/source/elements/sph/spgrtails.F
       !||--- called by ------------------------------------------------------
-      !||    lectur             ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||    fretitl2           ../starter/source/starter/freform.F
-      !||    get_u_geo          ../starter/source/user_interface/uaccess.F
-      !||    zeroin             ../starter/source/system/zeroin.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    get_u_geo              ../starter/source/user_interface/uaccess.F
+      !||    zeroin                 ../starter/source/system/zeroin.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||    mod_spgrhead       ../starter/source/elements/sph/spgrhead.F
-      !||    r2r_mod            ../starter/share/modules1/r2r_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    mod_spgrhead           ../starter/source/elements/sph/spgrhead.F
+      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
       !||====================================================================
       SUBROUTINE SPGRTAILS(KXSP   , IPARG , PM  ,IPART ,
      2                     IPARTSP, EADD,   ND  , CEPSP, DD_IAD,

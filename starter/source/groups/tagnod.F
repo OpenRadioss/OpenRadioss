@@ -58,11 +58,11 @@ C-----------
       RETURN
       END
       !||====================================================================
-      !||    tagnods       ../starter/source/groups/tagnod.F
+      !||    tagnods                ../starter/source/groups/tagnod.F
       !||--- called by ------------------------------------------------------
-      !||    hm_lecgrn     ../starter/source/groups/hm_lecgrn.F
+      !||    hm_lecgrn              ../starter/source/groups/hm_lecgrn.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE TAGNODS(IXS,IXS10,IXS20,IXS16,IPARTS,TAGBUF,IDGRN,TITR)
       USE MESSAGE_MOD

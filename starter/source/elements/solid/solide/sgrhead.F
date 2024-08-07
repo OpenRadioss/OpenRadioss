@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    sgrhead            ../starter/source/elements/solid/solide/sgrhead.F
+      !||    sgrhead                ../starter/source/elements/solid/solide/sgrhead.F
       !||--- called by ------------------------------------------------------
-      !||    lectur             ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    cluster_mod        ../starter/share/modules1/cluster_mod.F
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||    r2r_mod            ../starter/share/modules1/r2r_mod.F
-      !||    reorder_mod        ../starter/share/modules1/reorder_mod.F
+      !||    cluster_mod            ../starter/share/modules1/cluster_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
+      !||    reorder_mod            ../starter/share/modules1/reorder_mod.F
       !||====================================================================
       SUBROUTINE SGRHEAD(
      1       IXS        ,PM            ,GEO       ,INUM    ,ISEL   ,

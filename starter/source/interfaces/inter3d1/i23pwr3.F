@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod    ../starter/share/modules1/format_mod.F90
       !||    message_mod   ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I23PWR3(ITAB,INACTI,CAND_E,CAND_N,STFN,

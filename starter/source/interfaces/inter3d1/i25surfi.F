@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    in24coq_sol3     ../starter/source/interfaces/inter3d1/i24surfi.F
       !||    sh2surf25        ../starter/source/interfaces/inter3d1/i25surfi.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod       ../starter/share/modules1/format_mod.F90
       !||    message_mod      ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I25SURFI(IALLO   ,IPARI   ,IGRNOD  ,IGRSURF ,

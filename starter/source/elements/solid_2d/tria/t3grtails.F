@@ -21,21 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    t3grtails          ../starter/source/elements/solid_2d/tria/t3grtails.F
+      !||    t3grtails              ../starter/source/elements/solid_2d/tria/t3grtails.F
       !||--- called by ------------------------------------------------------
-      !||    lectur             ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||    arret              ../starter/source/system/arret.F
-      !||    fretitl2           ../starter/source/starter/freform.F
-      !||    zeroin             ../starter/source/system/zeroin.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    arret                  ../starter/source/system/arret.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    zeroin                 ../starter/source/system/zeroin.F
       !||--- uses       -----------------------------------------------------
-      !||    drape_mod          ../starter/share/modules1/drape_mod.F
-      !||    inivol_def_mod     ../starter/share/modules1/inivol_mod.F
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||    r2r_mod            ../starter/share/modules1/r2r_mod.F
-      !||    reorder_mod        ../starter/share/modules1/reorder_mod.F
-      !||    stack_mod          ../starter/share/modules1/stack_mod.F
+      !||    drape_mod              ../starter/share/modules1/drape_mod.F
+      !||    inivol_def_mod         ../starter/share/modules1/inivol_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
+      !||    reorder_mod            ../starter/share/modules1/reorder_mod.F
+      !||    stack_mod              ../starter/share/modules1/stack_mod.F
       !||====================================================================
       SUBROUTINE T3GRTAILS(
      1       IXTG    ,PM         ,IPARG      ,GEO       ,

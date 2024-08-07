@@ -22,13 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    i1tid2        ../starter/source/interfaces/inter2d1/i1tid2.F
+      !||    i1tid2                 ../starter/source/interfaces/inter2d1/i1tid2.F
       !||--- called by ------------------------------------------------------
-      !||    inint2        ../starter/source/interfaces/inter2d1/inint2.F
+      !||    inint2                 ../starter/source/interfaces/inter2d1/inint2.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I1TID2(X,IRECT,CRST,MSR,NSV,ILOC,IRTL,NSN,ITAB,
      .                  ID,TITR)

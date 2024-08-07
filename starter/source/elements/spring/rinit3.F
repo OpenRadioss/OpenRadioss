@@ -21,37 +21,38 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    rinit3                ../starter/source/elements/spring/rinit3.F
+      !||    rinit3                 ../starter/source/elements/spring/rinit3.F
       !||--- called by ------------------------------------------------------
-      !||    initia                ../starter/source/elements/initia/initia.F
+      !||    initia                 ../starter/source/elements/initia/initia.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg                ../starter/source/output/message/message.F
-      !||    fretitl2              ../starter/source/starter/freform.F
-      !||    r1buf3                ../starter/source/elements/spring/r1buf3.F
-      !||    r23mass               ../starter/source/elements/spring/rmass.F
-      !||    r2buf3                ../starter/source/elements/spring/r2buf3.F
-      !||    r3buf3                ../starter/source/elements/spring/r3buf3.F
-      !||    r4buf3                ../starter/source/elements/spring/r4buf3.F
-      !||    r4ini                 ../starter/source/elements/spring/rinit3.F
-      !||    r8ini                 ../starter/source/elements/spring/rinit3.F
-      !||    rini1u                ../starter/source/elements/spring/rinit3.F
-      !||    rini2u                ../starter/source/elements/spring/rinit3.F
-      !||    rini32                ../starter/source/properties/spring/hm_read_prop32.F
-      !||    rini33                ../starter/source/elements/joint/rjoint/rini33.F
-      !||    rini35                ../starter/source/elements/spring/rini35.F
-      !||    rini36                ../starter/source/properties/spring/hm_read_prop36.F
-      !||    rini3u                ../starter/source/elements/spring/rinit3.F
-      !||    rini44                ../starter/source/elements/spring/rini44.F
-      !||    rini45                ../starter/source/elements/joint/rjoint/rini45.F
-      !||    rini46                ../starter/source/elements/spring/rini46.F
-      !||    rkini3                ../starter/source/elements/spring/rkini3.F
-      !||    rmas12                ../starter/source/elements/spring/rmas12.F
-      !||    rmass                 ../starter/source/elements/spring/rmass.F
-      !||    ruini                 ../starter/source/elements/spring/rinit3.F
-      !||    user_output           ../starter/source/user_interface/user_output.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    r1buf3                 ../starter/source/elements/spring/r1buf3.F
+      !||    r23mass                ../starter/source/elements/spring/rmass.F
+      !||    r2buf3                 ../starter/source/elements/spring/r2buf3.F
+      !||    r3buf3                 ../starter/source/elements/spring/r3buf3.F
+      !||    r4buf3                 ../starter/source/elements/spring/r4buf3.F
+      !||    r4ini                  ../starter/source/elements/spring/rinit3.F
+      !||    r8ini                  ../starter/source/elements/spring/rinit3.F
+      !||    rini1u                 ../starter/source/elements/spring/rinit3.F
+      !||    rini2u                 ../starter/source/elements/spring/rinit3.F
+      !||    rini32                 ../starter/source/properties/spring/hm_read_prop32.F
+      !||    rini33                 ../starter/source/elements/joint/rjoint/rini33.F
+      !||    rini35                 ../starter/source/elements/spring/rini35.F
+      !||    rini36                 ../starter/source/properties/spring/hm_read_prop36.F
+      !||    rini3u                 ../starter/source/elements/spring/rinit3.F
+      !||    rini44                 ../starter/source/elements/spring/rini44.F
+      !||    rini45                 ../starter/source/elements/joint/rjoint/rini45.F
+      !||    rini46                 ../starter/source/elements/spring/rini46.F
+      !||    rkini3                 ../starter/source/elements/spring/rkini3.F
+      !||    rmas12                 ../starter/source/elements/spring/rmas12.F
+      !||    rmass                  ../starter/source/elements/spring/rmass.F
+      !||    ruini                  ../starter/source/elements/spring/rinit3.F
+      !||    user_output            ../starter/source/user_interface/user_output.F
       !||--- uses       -----------------------------------------------------
-      !||    bpreload_mod          ../starter/share/modules1/bpreload_mod.F
-      !||    message_mod           ../starter/share/message_module/message_mod.F
+      !||    bpreload_mod           ../starter/share/modules1/bpreload_mod.F
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE RINIT3(ELBUF_STR,
      .                  IXR      ,X        ,GEO      ,XMAS   ,NPC   ,

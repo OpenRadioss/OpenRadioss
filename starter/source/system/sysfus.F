@@ -800,14 +800,14 @@ C
       RETURN
       END
       !||====================================================================
-      !||    newdbl2       ../starter/source/system/sysfus.F
+      !||    newdbl2                ../starter/source/system/sysfus.F
       !||--- called by ------------------------------------------------------
-      !||    newdbl        ../starter/source/system/sysfus.F
+      !||    newdbl                 ../starter/source/system/sysfus.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    fretitl2      ../starter/source/starter/freform.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE NEWDBL2(INDEX,NLIST,LIST,ILIST,TAB,ERRID,STATUS,
      .                   NOM_OPT)

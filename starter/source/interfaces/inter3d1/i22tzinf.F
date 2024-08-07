@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i22tzinf      ../starter/source/interfaces/inter3d1/i22tzinf.F
+      !||    i22tzinf               ../starter/source/interfaces/inter3d1/i22tzinf.F
       !||--- called by ------------------------------------------------------
-      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I22TZINF(
      1   X      ,IRECT  ,NSV     ,BUMULT  ,NSEG     ,

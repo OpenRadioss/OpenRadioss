@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
       !||====================================================================
       SUBROUTINE DESOUT(X   ,IXS  ,IXQ  ,IXC  ,IXT  ,
      .                  IXP ,IXR  ,IXTG ,ITAB ,PM   ,

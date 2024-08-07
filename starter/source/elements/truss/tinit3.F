@@ -21,20 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    tinit3         ../starter/source/elements/truss/tinit3.F
+      !||    tinit3                 ../starter/source/elements/truss/tinit3.F
       !||--- called by ------------------------------------------------------
-      !||    initia         ../starter/source/elements/initia/initia.F
+      !||    initia                 ../starter/source/elements/initia/initia.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../starter/source/output/message/message.F
-      !||    dt1lawt        ../starter/source/elements/truss/dt1lawt.F
-      !||    fretitl2       ../starter/source/starter/freform.F
-      !||    tcoori         ../starter/source/elements/truss/tcoori.F
-      !||    tibuf3         ../starter/source/elements/truss/tibuf3.F
-      !||    tmass          ../starter/source/elements/truss/tmass.F
-      !||    tsigini        ../starter/source/elements/truss/tsigini.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    dt1lawt                ../starter/source/elements/truss/dt1lawt.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    tcoori                 ../starter/source/elements/truss/tcoori.F
+      !||    tibuf3                 ../starter/source/elements/truss/tibuf3.F
+      !||    tmass                  ../starter/source/elements/truss/tmass.F
+      !||    tsigini                ../starter/source/elements/truss/tsigini.F
       !||--- uses       -----------------------------------------------------
-      !||    bpreload_mod   ../starter/share/modules1/bpreload_mod.F
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    bpreload_mod           ../starter/share/modules1/bpreload_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE TINIT3(ELBUF_STR,
      1                  IC     ,PM         ,X        ,GEO    ,XMAS   ,

@@ -22,14 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    i9sti2        ../starter/source/interfaces/int09/i9sti2.F
+      !||    i9sti2                 ../starter/source/interfaces/int09/i9sti2.F
       !||--- called by ------------------------------------------------------
-      !||    inint2        ../starter/source/interfaces/inter2d1/inint2.F
+      !||    inint2                 ../starter/source/interfaces/inter2d1/inint2.F
       !||--- calls      -----------------------------------------------------
-      !||    inare2        ../starter/source/interfaces/inter2d1/inare2.F
-      !||    inori2        ../starter/source/interfaces/inter2d1/inori2.F
-      !||    inrch2        ../starter/source/interfaces/inter2d1/inrch2.F
-      !||    local_index   ../starter/source/interfaces/interf1/local_index.F
+      !||    inare2                 ../starter/source/interfaces/inter2d1/inare2.F
+      !||    inori2                 ../starter/source/interfaces/inter2d1/inori2.F
+      !||    inrch2                 ../starter/source/interfaces/inter2d1/inrch2.F
+      !||    local_index            ../starter/source/interfaces/interf1/local_index.F
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE I9STI2(
      1 X     ,IRECT  ,STF   ,IXQ   ,PM    ,

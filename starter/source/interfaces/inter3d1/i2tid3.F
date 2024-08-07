@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i2tid3          ../starter/source/interfaces/inter3d1/i2tid3.F
+      !||    i2tid3                 ../starter/source/interfaces/inter3d1/i2tid3.F
       !||--- called by ------------------------------------------------------
-      !||    inint3          ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    kinset          ../starter/source/constraints/general/kinset.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    kinset                 ../starter/source/constraints/general/kinset.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||    nod2el_mod      ../starter/share/modules1/nod2el_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    nod2el_mod             ../starter/share/modules1/nod2el_mod.F
       !||====================================================================
       SUBROUTINE I2TID3(X     ,IRECT ,ST    ,MSR   ,NSV  ,
      2                  IRTL  ,ITAB  ,IKINE ,IKINE1,DMIN ,

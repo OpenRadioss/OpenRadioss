@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    icinv3                 ../starter/source/interfaces/inter3d1/icinv3.F
       !||    local_index            ../starter/source/interfaces/interf1/local_index.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I12CHK3(X   ,IRECT,IXS,NRT   ,IXC,

@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    ini_diff      ../starter/source/tools/lagmul/ini_diff.F
+      !||    ini_diff               ../starter/source/tools/lagmul/ini_diff.F
       !||--- called by ------------------------------------------------------
-      !||    lgmini_gj     ../starter/source/tools/lagmul/lgmini_gj.F
+      !||    lgmini_gj              ../starter/source/tools/lagmul/lgmini_gj.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INI_DIFF(IADLL ,JLL   ,LLL   ,N0    ,N1    ,
      .                    N2    ,N3    ,NC,ID,TITR)

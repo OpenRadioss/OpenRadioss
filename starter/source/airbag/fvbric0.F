@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    fvbric0        ../starter/source/airbag/fvbric0.F
+      !||    fvbric0                ../starter/source/airbag/fvbric0.F
       !||--- called by ------------------------------------------------------
-      !||    init_monvol    ../starter/source/airbag/init_monvol.F
+      !||    init_monvol            ../starter/source/airbag/init_monvol.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../starter/source/output/message/message.F
-      !||    arret          ../starter/source/system/arret.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    arret                  ../starter/source/system/arret.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE FVBRIC0(IBUF   ,IXS    ,ITYP    ,NBRIC   ,
      .                   MONVID ,ILVOUT ,TITR    ,TAGNODBR,

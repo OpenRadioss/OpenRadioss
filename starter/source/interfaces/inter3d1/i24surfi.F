@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    in24coq_sol3   ../starter/source/interfaces/inter3d1/i24surfi.F
       !||    sh2surf        ../starter/source/interfaces/inter3d1/i24surfi.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod     ../starter/share/modules1/format_mod.F90
       !||====================================================================
       SUBROUTINE I24SURFI(IALLO   ,IPARI   ,IGRNOD  ,IGRSURF ,
      1                    IRECT   ,FRIGAP  ,
@@ -417,6 +418,7 @@ C
       !||    ancmsg        ../starter/source/output/message/message.F
       !||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod    ../starter/share/modules1/format_mod.F90
       !||    message_mod   ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I24EDGE1(IALLO      ,NSEG    ,NACTIF  ,IEDGE   ,
@@ -1158,6 +1160,7 @@ C----6---------------------------------------------------------------7---------8
       !||    ancmsg        ../starter/source/output/message/message.F
       !||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod    ../starter/share/modules1/format_mod.F90
       !||    message_mod   ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I24EDGE2(IALLO      ,NSEG    ,NACTIF  ,

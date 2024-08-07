@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    ssurftag       ../starter/source/groups/ssurftag.F
+      !||    ssurftag               ../starter/source/groups/ssurftag.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_surf   ../starter/source/groups/hm_read_surf.F
+      !||    hm_read_surf           ../starter/source/groups/hm_read_surf.F
       !||--- calls      -----------------------------------------------------
-      !||    ssurf10        ../starter/source/groups/ssurftag.F
+      !||    ssurf10                ../starter/source/groups/ssurftag.F
       !||--- uses       -----------------------------------------------------
-      !||    surf_mod       ../starter/share/modules1/surf_mod.F
+      !||    surf_mod               ../starter/share/modules1/surf_mod.F
       !||====================================================================
       SUBROUTINE SSURFTAG(IXS     ,IPARTS  ,NSEG0    ,IGRSURF ,TAGBUF,
      .                    NSEG    ,KNOD2ELS,NOD2ELS  ,IEXT    ,FLAG  ,

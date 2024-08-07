@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    insurfigeo    ../starter/source/interfaces/interf1/insurfigeo.F
+      !||    insurfigeo             ../starter/source/interfaces/interf1/insurfigeo.F
       !||--- called by ------------------------------------------------------
-      !||    lecins        ../starter/source/interfaces/interf1/lecins.F
-      !||    lecint        ../starter/source/interfaces/interf1/lecint.F
+      !||    lecins                 ../starter/source/interfaces/interf1/lecins.F
+      !||    lecint                 ../starter/source/interfaces/interf1/lecint.F
       !||--- calls      -----------------------------------------------------
-      !||    countigeo     ../starter/source/interfaces/interf1/countigeo.F
-      !||    usr2sys       ../starter/source/system/sysfus.F
+      !||    countigeo              ../starter/source/interfaces/interf1/countigeo.F
+      !||    usr2sys                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INSURFIGEO(NRT_IGE ,OFFSET_SEG   ,MSN_IGE,OFFSET_NODE,IADTABIGE,IR    ,IRECT  ,NOINT  ,
      .                 SURF_NODES_IGE,ITAB  ,MSV   ,ID,TITR,

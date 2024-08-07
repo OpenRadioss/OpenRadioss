@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    w_gr_entity_e   ../starter/source/restart/ddsplit/w_gr_entity.F
+      !||    w_gr_entity_e          ../starter/source/restart/ddsplit/w_gr_entity.F
       !||--- called by ------------------------------------------------------
-      !||    w_group_str     ../starter/source/restart/ddsplit/w_group_str.F
+      !||    w_group_str            ../starter/source/restart/ddsplit/w_group_str.F
       !||--- calls      -----------------------------------------------------
-      !||    fretitl         ../starter/source/starter/freform.F
+      !||    fretitl                ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE W_GR_ENTITY_E(IGR  ,NGR  ,LEN_IA ,LENIGR ,CEP,
@@ -237,11 +237,11 @@ C-----------------------------------------------
       RETURN
       END
       !||====================================================================
-      !||    w_gr_entity_n   ../starter/source/restart/ddsplit/w_gr_entity.F
+      !||    w_gr_entity_n          ../starter/source/restart/ddsplit/w_gr_entity.F
       !||--- called by ------------------------------------------------------
-      !||    w_group_str     ../starter/source/restart/ddsplit/w_group_str.F
+      !||    w_group_str            ../starter/source/restart/ddsplit/w_group_str.F
       !||--- calls      -----------------------------------------------------
-      !||    fretitl         ../starter/source/starter/freform.F
+      !||    fretitl                ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE W_GR_ENTITY_N(IGR  ,NGR       ,LEN_IA ,LENIGR ,NODLOCAL,

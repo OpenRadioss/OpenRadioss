@@ -2131,14 +2131,14 @@ c-----------
       END
 C
       !||====================================================================
-      !||    chekmp2       ../starter/source/elements/initia/initia.F
+      !||    chekmp2                ../starter/source/elements/initia/initia.F
       !||--- called by ------------------------------------------------------
-      !||    initia        ../starter/source/elements/initia/initia.F
+      !||    initia                 ../starter/source/elements/initia/initia.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    fretitl2      ../starter/source/starter/freform.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE CHEKMP2(NUMEL ,IPART   ,IPARTEL ,IX      ,NIX     ,
      1                  NE     ,EMAT    ,EPID    ,IPM      ,IGEO    ,
@@ -2369,14 +2369,14 @@ C
       END
 C
       !||====================================================================
-      !||    checkmp       ../starter/source/elements/initia/initia.F
+      !||    checkmp                ../starter/source/elements/initia/initia.F
       !||--- called by ------------------------------------------------------
-      !||    initia        ../starter/source/elements/initia/initia.F
+      !||    initia                 ../starter/source/elements/initia/initia.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    fretitl2      ../starter/source/starter/freform.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE CHECKMP(NUMEL,IX,NIX,NG,NE,EMAT,EPID,IPM,IGEO,ELEM,IPARTEL)
 C-----------------------------------------------
@@ -2671,11 +2671,12 @@ C
       END
 C
       !||====================================================================
-      !||    outpart    ../starter/source/elements/initia/initia.F
+      !||    outpart                ../starter/source/elements/initia/initia.F
       !||--- called by ------------------------------------------------------
-      !||    initia     ../starter/source/elements/initia/initia.F
+      !||    initia                 ../starter/source/elements/initia/initia.F
       !||--- calls      -----------------------------------------------------
-      !||    fretitl2   ../starter/source/starter/freform.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE OUTPART(PARTSAV,IPART,NPART)
 C-----------------------------------------------
@@ -2929,11 +2930,11 @@ C
       RETURN
       END
       !||====================================================================
-      !||    outpart5          ../starter/source/elements/initia/initia.F
+      !||    outpart5               ../starter/source/elements/initia/initia.F
       !||--- called by ------------------------------------------------------
-      !||    initia            ../starter/source/elements/initia/initia.F
+      !||    initia                 ../starter/source/elements/initia/initia.F
       !||--- calls      -----------------------------------------------------
-      !||    fretitl2          ../starter/source/starter/freform.F
+      !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE OUTPART5(GROUP_PARAM_TAB,IPART,IPARTS,IPARG,IGEO, GEO ,PM )

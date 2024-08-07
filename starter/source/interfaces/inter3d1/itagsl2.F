@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    itagsl2         ../starter/source/interfaces/inter3d1/itagsl2.F
+      !||    itagsl2                ../starter/source/interfaces/inter3d1/itagsl2.F
       !||--- called by ------------------------------------------------------
-      !||    inintr2         ../starter/source/interfaces/inter3d1/inintr2.F
+      !||    inintr2                ../starter/source/interfaces/inter3d1/inintr2.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    fretitl2        ../starter/source/starter/freform.F
-      !||    intab           ../starter/source/interfaces/inter3d1/i24tools.F
-      !||    kinset          ../starter/source/constraints/general/kinset.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    intab                  ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    kinset                 ../starter/source/constraints/general/kinset.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE ITAGSL2(IPARI ,NOM_OPT,ITAB  ,IKINE  ,INTBUF_TAB,
      .                   ITAGND,ICNDS10,NSTRF ,ITAGCYC,IRBE2     ,

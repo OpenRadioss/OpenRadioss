@@ -466,6 +466,7 @@ C-----------GAUGES------------------
       !||    my_exit            ../starter/source/output/analyse/analyse.c
       !||    r2r_exist          ../starter/source/coupling/rad2rad/routines_r2r.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod         ../starter/share/modules1/format_mod.F90
       !||    r2r_mod            ../starter/share/modules1/r2r_mod.F
       !||====================================================================
       INTEGER FUNCTION R2R_LISTCNT(NVAR,TYP)

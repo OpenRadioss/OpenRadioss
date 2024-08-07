@@ -22,14 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    sphdcod       ../starter/source/elements/sph/sphdcod.F
+      !||    sphdcod                ../starter/source/elements/sph/sphdcod.F
       !||--- called by ------------------------------------------------------
-      !||    lectur        ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    fretitl2      ../starter/source/starter/freform.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE SPHDCOD(NPC,ISPHIO,NOM_OPT)
 C-----------------------------------------------

@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    build_msg      ../starter/source/output/message/build_msg.F
+      !||    build_msg              ../starter/source/output/message/build_msg.F
       !||--- called by ------------------------------------------------------
-      !||    execargcheck   ../starter/source/starter/execargcheck.F
-      !||    starter0       ../starter/source/starter/starter0.F
+      !||    execargcheck           ../starter/source/starter/execargcheck.F
+      !||    starter0               ../starter/source/starter/starter0.F
       !||--- calls      -----------------------------------------------------
-      !||    fredec2im      ../starter/source/output/message/fredec2im.F
-      !||    fredec3m       ../starter/source/output/message/fredec3m.F
-      !||    stock_msg      ../starter/source/output/message/stock_msg.F
+      !||    fredec2im              ../starter/source/output/message/fredec2im.F
+      !||    fredec3m               ../starter/source/output/message/fredec3m.F
+      !||    stock_msg              ../starter/source/output/message/stock_msg.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE BUILD_MSG()
 C-----------------------------------------------

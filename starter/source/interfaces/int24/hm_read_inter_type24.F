@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_dcod_sensor      ../starter/source/interfaces/reader/inter_dcod_sensor.F
       !||    ngr2usr                ../starter/source/system/nintrr.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F

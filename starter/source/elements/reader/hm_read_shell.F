@@ -22,19 +22,19 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    hm_read_shell    ../starter/source/elements/reader/hm_read_shell.F
+      !||    hm_read_shell          ../starter/source/elements/reader/hm_read_shell.F
       !||--- called by ------------------------------------------------------
-      !||    lectur           ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../starter/source/output/message/message.F
-      !||    anodset          ../starter/source/output/analyse/analyse_node.c
-      !||    apartset         ../starter/source/output/analyse/analyse_part.c
-      !||    nintrn           ../starter/source/system/nintrn.F
-      !||    usr2sys          ../starter/source/system/sysfus.F
-      !||    vdouble          ../starter/source/system/sysfus.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    anodset                ../starter/source/output/analyse/analyse_node.c
+      !||    apartset               ../starter/source/output/analyse/analyse_part.c
+      !||    nintrn                 ../starter/source/system/nintrn.F
+      !||    usr2sys                ../starter/source/system/sysfus.F
+      !||    vdouble                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||    submodel_mod     ../starter/share/modules1/submodel_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_SHELL(IXC   ,ITAB  ,ITABM1,IPART,IPARTC,
      .                  THK   ,IPM   ,IGEO  ,UNITAB,ITAG ,ANGLE ,LSUBMODEL)

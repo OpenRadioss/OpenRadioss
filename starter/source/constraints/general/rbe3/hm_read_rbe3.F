@@ -343,18 +343,18 @@ C
 C 
       END SUBROUTINE HM_READ_RBE3 
       !||====================================================================
-      !||    inirbe3       ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+      !||    inirbe3                ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
       !||--- called by ------------------------------------------------------
-      !||    lectur        ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    fretitl2      ../starter/source/starter/freform.F
-      !||    hireorbe3     ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    ifrontplus    ../starter/source/spmd/node/frontplus.F
-      !||    nlocal        ../starter/source/spmd/node/ddtools.F
-      !||    rbe3chk       ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    hireorbe3              ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+      !||    ifrontplus             ../starter/source/spmd/node/frontplus.F
+      !||    nlocal                 ../starter/source/spmd/node/ddtools.F
+      !||    rbe3chk                ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INIRBE3(IRBE3  ,LRBE3  ,FRBE3  ,SKEW   ,X     ,
      .                    MS     ,IN     ,NOM_OPT)
@@ -1473,14 +1473,14 @@ C---
       RETURN
       END
       !||====================================================================
-      !||    hireorbe3     ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+      !||    hireorbe3              ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
       !||--- called by ------------------------------------------------------
-      !||    inirbe3       ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+      !||    inirbe3                ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    fretitl2      ../starter/source/starter/freform.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE HIREORBE3(IRBE3  ,LRBE3  ,FRBE3 ,NOM_OPT)
 C-----------------------------------------------

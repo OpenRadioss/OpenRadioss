@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i25neigh           ../starter/source/interfaces/inter3d1/i25neigh.F
+      !||    i25neigh               ../starter/source/interfaces/inter3d1/i25neigh.F
       !||--- called by ------------------------------------------------------
-      !||    inint3             ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
       !||--- calls      -----------------------------------------------------
-      !||    bitget             ../starter/source/interfaces/inter3d1/bitget.F
-      !||    bitset             ../starter/source/interfaces/inter3d1/bitget.F
-      !||    i25neigh_msg_err   ../starter/source/interfaces/inter3d1/i25neigh.F
-      !||    i25neigh_seg_e     ../starter/source/interfaces/inter3d1/i25neigh.F
-      !||    i25neigh_seg_en    ../starter/source/interfaces/inter3d1/i25neigh.F
+      !||    bitget                 ../starter/source/interfaces/inter3d1/bitget.F
+      !||    bitset                 ../starter/source/interfaces/inter3d1/bitget.F
+      !||    i25neigh_msg_err       ../starter/source/interfaces/inter3d1/i25neigh.F
+      !||    i25neigh_seg_e         ../starter/source/interfaces/inter3d1/i25neigh.F
+      !||    i25neigh_seg_en        ../starter/source/interfaces/inter3d1/i25neigh.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I25NEIGH(NRTM ,NSN   ,NSV     ,IRECT  ,IRTLM,
      2                         MVOISIN,EVOISIN ,MSEGLO ,MSEGTYP,ITAB   ,

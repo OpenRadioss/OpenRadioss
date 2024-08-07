@@ -21,26 +21,26 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    hm_read_fxb1         ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_read_fxb1           ../starter/source/constraints/fxbody/hm_read_fxb.F
       !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg               ../starter/source/output/message/message.F
-      !||    fretitl              ../starter/source/starter/freform.F
-      !||    fretitl2             ../starter/source/starter/freform.F
-      !||    fxrline              ../starter/source/constraints/fxbody/hm_read_fxb.F
-      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_get_string        ../starter/source/devtools/hm_reader/hm_get_string.F
-      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    newdbl               ../starter/source/system/sysfus.F
-      !||    read_pch_file        ../starter/source/constraints/fxbody/read_pch_file.F
-      !||    udouble              ../starter/source/system/sysfus.F
-      !||    usr2sys              ../starter/source/system/sysfus.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl                ../starter/source/starter/freform.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    fxrline                ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_get_string          ../starter/source/devtools/hm_reader/hm_get_string.F
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    newdbl                 ../starter/source/system/sysfus.F
+      !||    read_pch_file          ../starter/source/constraints/fxbody/read_pch_file.F
+      !||    udouble                ../starter/source/system/sysfus.F
+      !||    usr2sys                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_FXB1(NOM_OPT,FXBNOD,FXBIPM,FXB_MATRIX,FXB_MATRIX_ADD,
      .                        NMANIM,ITAB,ITABM1,FXBFILE_TAB,LSUBMODEL)
@@ -479,18 +479,18 @@ C
       END SUBROUTINE HM_READ_FXB1
 c=================================================================================
       !||====================================================================
-      !||    hm_read_fxb2         ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_read_fxb2           ../starter/source/constraints/fxbody/hm_read_fxb.F
       !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    fxrline              ../starter/source/constraints/fxbody/hm_read_fxb.F
-      !||    hm_get_string        ../starter/source/devtools/hm_reader/hm_get_string.F
-      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    fxrline                ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_get_string          ../starter/source/devtools/hm_reader/hm_get_string.F
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
       !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_FXB2(FXBIPM, FXBRPM, FXBNOD, FXBGLM,  
      .                   FXBCPM , FXBCPS, FXBLM , FXBFLS, FXBDLS,
@@ -1010,14 +1010,14 @@ C
 C
       END SUBROUTINE HM_READ_FXB2
       !||====================================================================
-      !||    fxrline         ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    fxrline                ../starter/source/constraints/fxbody/hm_read_fxb.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_fxb1    ../starter/source/constraints/fxbody/hm_read_fxb.F
-      !||    hm_read_fxb2    ../starter/source/constraints/fxbody/hm_read_fxb.F
-      !||    hm_setfxrbyon   ../starter/source/constraints/fxbody/hm_setfxrbyon.F
-      !||    read_pch_file   ../starter/source/constraints/fxbody/read_pch_file.F
+      !||    hm_read_fxb1           ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_read_fxb2           ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_setfxrbyon          ../starter/source/constraints/fxbody/hm_setfxrbyon.F
+      !||    read_pch_file          ../starter/source/constraints/fxbody/read_pch_file.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE FXRLINE(IFIC, NWLINE, ID,TITR)                     
 C-----------------------------------------------

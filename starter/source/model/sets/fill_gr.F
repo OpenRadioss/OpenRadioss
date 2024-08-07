@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    fill_gr        ../starter/source/model/sets/fill_gr.F
+      !||    fill_gr                ../starter/source/model/sets/fill_gr.F
       !||--- called by ------------------------------------------------------
-      !||    fill_igr       ../starter/source/model/sets/fill_igr.F
+      !||    fill_igr               ../starter/source/model/sets/fill_igr.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE FILL_GR(IGRELE, NGRELEM  ,IELT,
      .                   SET_ID  ,SET_TITLE,GETELEM, NELEM,SET_GREID)

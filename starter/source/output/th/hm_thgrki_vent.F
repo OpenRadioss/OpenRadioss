@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    usr2sys                  ../starter/source/system/sysfus.F
       !||    zeroin                   ../starter/source/system/zeroin.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod               ../starter/share/modules1/format_mod.F90
       !||    fvbag_mod                ../starter/share/modules1/fvbag_mod.F
       !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
       !||    message_mod              ../starter/share/message_module/message_mod.F

@@ -21,10 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    linedge         ../starter/source/groups/linedge.F
+      !||    linedge                ../starter/source/groups/linedge.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_lines   ../starter/source/groups/hm_read_lines.F
+      !||    hm_read_lines          ../starter/source/groups/hm_read_lines.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE LINEDGE(NSEG0  ,NSEG        ,BUFTMP   ,SLIN_NODES ,KEY,
      .                   FLAG   ,SLIN_ELTYP  ,SLIN_ELEM,LINE_NSEG0)

@@ -546,19 +546,19 @@ C=======================================================================
 !>                                 ERRAVE = ( SUM [ ABS ( ( Y_inp-Y_fit) / Y_inp )  ) / NPT
 !>    @param[out]  MUAL(1:NMUAL)   optimized material properties 
       !||====================================================================
-      !||    law69_nlsqf          ../starter/source/materials/tools/nlsqf.F
+      !||    law69_nlsqf            ../starter/source/materials/tools/nlsqf.F
       !||--- called by ------------------------------------------------------
-      !||    law69_upd            ../starter/source/materials/mat/mat069/law69_upd.F
+      !||    law69_upd              ../starter/source/materials/mat/mat069/law69_upd.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg               ../starter/source/output/message/message.F
-      !||    law69_check          ../starter/source/materials/tools/nlsqf.F
-      !||    law69_guess1         ../starter/source/materials/tools/nlsqf.F
-      !||    law69_guess_bounds   ../starter/source/materials/tools/nlsqf.F
-      !||    mrqmin               ../starter/source/materials/tools/nlsqf.F
-      !||    my_exit              ../starter/source/output/analyse/analyse.c
-      !||    ogden0               ../starter/source/materials/tools/nlsqf.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    law69_check            ../starter/source/materials/tools/nlsqf.F
+      !||    law69_guess1           ../starter/source/materials/tools/nlsqf.F
+      !||    law69_guess_bounds     ../starter/source/materials/tools/nlsqf.F
+      !||    mrqmin                 ../starter/source/materials/tools/nlsqf.F
+      !||    my_exit                ../starter/source/output/analyse/analyse.c
+      !||    ogden0                 ../starter/source/materials/tools/nlsqf.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE LAW69_NLSQF(LAWID,STRETCH,Y,MA,NMUAL,NPT,MUAL,
      $                       ICHECK, NSTART, ERRTOL,ID,TITR)

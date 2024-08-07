@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    hm_read_prelecdrape   ../starter/source/properties/composite_options/drape/hm_read_drape.F
+      !||    hm_read_prelecdrape    ../starter/source/properties/composite_options/drape/hm_read_drape.F
       !||--- called by ------------------------------------------------------
-      !||    lectur                ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    hm_option_read_key    ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start       ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    udouble               ../starter/source/system/sysfus.F
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    udouble                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod    ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod           ../starter/share/message_module/message_mod.F
-      !||    submodel_mod          ../starter/share/modules1/submodel_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_PRELECDRAPE(IDRAPEID,LSUBMODEL)
 C-----------------------------------------------

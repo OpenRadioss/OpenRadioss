@@ -28,21 +28,21 @@ C
 C     V16 DEC88 : ALL ROUTINES MODIFIED , INORI2 ADDED
 C=======================================================================
       !||====================================================================
-      !||    inint2          ../starter/source/interfaces/inter2d1/inint2.F
+      !||    inint2                 ../starter/source/interfaces/inter2d1/inint2.F
       !||--- called by ------------------------------------------------------
-      !||    inintr          ../starter/source/interfaces/interf1/inintr.F
+      !||    inintr                 ../starter/source/interfaces/interf1/inintr.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    i1chk2          ../starter/source/interfaces/inter2d1/i1chk2.F
-      !||    i1tid2          ../starter/source/interfaces/inter2d1/i1tid2.F
-      !||    i2main          ../starter/source/interfaces/interf1/i2master.F
-      !||    i3pen2          ../starter/source/interfaces/inter2d1/i3pen2.F
-      !||    i3sti2          ../starter/source/interfaces/inter2d1/i3sti2.F
-      !||    i9sti2          ../starter/source/interfaces/int09/i9sti2.F
-      !||    inint0          ../starter/source/interfaces/interf1/inint0.F
-      !||    invoi2          ../starter/source/interfaces/inter2d1/invoi2.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    i1chk2                 ../starter/source/interfaces/inter2d1/i1chk2.F
+      !||    i1tid2                 ../starter/source/interfaces/inter2d1/i1tid2.F
+      !||    i2main                 ../starter/source/interfaces/interf1/i2master.F
+      !||    i3pen2                 ../starter/source/interfaces/inter2d1/i3pen2.F
+      !||    i3sti2                 ../starter/source/interfaces/inter2d1/i3sti2.F
+      !||    i9sti2                 ../starter/source/interfaces/int09/i9sti2.F
+      !||    inint0                 ../starter/source/interfaces/interf1/inint0.F
+      !||    invoi2                 ../starter/source/interfaces/inter2d1/invoi2.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE ININT2(INTBUF_TAB ,INSCR    ,X         ,IXQ    ,
      .                  PM         ,GEO      ,IPARI     ,NINT   ,ITAB     ,

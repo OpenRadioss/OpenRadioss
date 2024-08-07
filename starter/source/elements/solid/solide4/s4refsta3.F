@@ -21,26 +21,26 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    s4refsta3      ../starter/source/elements/solid/solide4/s4refsta3.F
+      !||    s4refsta3              ../starter/source/elements/solid/solide4/s4refsta3.F
       !||--- called by ------------------------------------------------------
-      !||    initia         ../starter/source/elements/initia/initia.F
+      !||    initia                 ../starter/source/elements/initia/initia.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../starter/source/output/message/message.F
-      !||    fretitl2       ../starter/source/starter/freform.F
-      !||    mmain          ../starter/source/materials/mat_share/mmain.F
-      !||    s4defo3        ../starter/source/elements/solid/solide4/s4defo3.F
-      !||    s4defot3       ../starter/source/elements/solid/solide4/s4refsta3.F
-      !||    s4deri3        ../starter/source/elements/solid/solide4/s4deri3.F
-      !||    s4orth3        ../starter/source/elements/solid/solide4/s4orth3.F
-      !||    s4ortht3       ../starter/source/elements/solid/solide4/s4orth3.F
-      !||    s4repiso3      ../starter/source/elements/solid/solide4/s4repiso3.F
-      !||    s4repisot3     ../starter/source/elements/solid/solide4/s4repiso3.F
-      !||    s4rota3        ../starter/source/elements/solid/solide4/s4rota3.F
-      !||    s4rotat3       ../starter/source/elements/solid/solide4/s4rota3.F
-      !||    sortho3        ../starter/source/elements/solid/solide/sortho3.F
-      !||    srho3          ../starter/source/elements/solid/solide/srho3.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    mmain                  ../starter/source/materials/mat_share/mmain.F
+      !||    s4defo3                ../starter/source/elements/solid/solide4/s4defo3.F
+      !||    s4defot3               ../starter/source/elements/solid/solide4/s4refsta3.F
+      !||    s4deri3                ../starter/source/elements/solid/solide4/s4deri3.F
+      !||    s4orth3                ../starter/source/elements/solid/solide4/s4orth3.F
+      !||    s4ortht3               ../starter/source/elements/solid/solide4/s4orth3.F
+      !||    s4repiso3              ../starter/source/elements/solid/solide4/s4repiso3.F
+      !||    s4repisot3             ../starter/source/elements/solid/solide4/s4repiso3.F
+      !||    s4rota3                ../starter/source/elements/solid/solide4/s4rota3.F
+      !||    s4rotat3               ../starter/source/elements/solid/solide4/s4rota3.F
+      !||    sortho3                ../starter/source/elements/solid/solide/sortho3.F
+      !||    srho3                  ../starter/source/elements/solid/solide/srho3.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE S4REFSTA3(ELBUF_STR,IXS     ,PM     ,GEO     ,IPARG   ,
      .                     IPM      ,IGEO    ,SKEW   ,X      ,XREFS   ,

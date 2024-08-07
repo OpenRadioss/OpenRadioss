@@ -69,20 +69,20 @@ c___________________________________________________
       END
 C
       !||====================================================================
-      !||    cinmas             ../starter/source/elements/shell/coque/cinmas.F
+      !||    cinmas                 ../starter/source/elements/shell/coque/cinmas.F
       !||--- called by ------------------------------------------------------
-      !||    cbainit3           ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||    cinit3             ../starter/source/elements/shell/coque/cinit3.F
-      !||    inirig_mat         ../starter/source/elements/initia/inirig_mat.F
-      !||    inivoid            ../starter/source/elements/initia/inivoid.F
+      !||    cbainit3               ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
+      !||    inirig_mat             ../starter/source/elements/initia/inirig_mat.F
+      !||    inivoid                ../starter/source/elements/initia/inivoid.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||    double_flot_ieee   ../starter/source/elements/shell/coque/cinmas.F
-      !||    fretitl2           ../starter/source/starter/freform.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    double_flot_ieee       ../starter/source/elements/shell/coque/cinmas.F
+      !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
-      !||    drape_mod          ../starter/share/modules1/drape_mod.F
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||    stack_mod          ../starter/share/modules1/stack_mod.F
+      !||    drape_mod              ../starter/share/modules1/drape_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    stack_mod              ../starter/share/modules1/stack_mod.F
       !||====================================================================
       SUBROUTINE CINMAS(
      .          X       ,XREFC   ,IX      ,GEO      ,PM       ,

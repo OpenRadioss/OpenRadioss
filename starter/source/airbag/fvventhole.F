@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    fvventhole     ../starter/source/airbag/fvventhole.F
+      !||    fvventhole             ../starter/source/airbag/fvventhole.F
       !||--- called by ------------------------------------------------------
-      !||    init_monvol    ../starter/source/airbag/init_monvol.F
+      !||    init_monvol            ../starter/source/airbag/init_monvol.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE FVVENTHOLE(IBUF  , ELEM   , IBAGHOL,
      .                      NVENT , IGRSURF,

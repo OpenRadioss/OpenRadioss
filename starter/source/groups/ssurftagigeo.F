@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    ssurftagigeo   ../starter/source/groups/ssurftagigeo.F
+      !||    ssurftagigeo           ../starter/source/groups/ssurftagigeo.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_surf   ../starter/source/groups/hm_read_surf.F
+      !||    hm_read_surf           ../starter/source/groups/hm_read_surf.F
       !||--- calls      -----------------------------------------------------
-      !||    ssurfigeo      ../starter/source/groups/ssurftagigeo.F
+      !||    ssurfigeo              ../starter/source/groups/ssurftagigeo.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE SSURFTAGIGEO(IXIG3D,IPARTIG3D,KXIG3D, 

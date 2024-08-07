@@ -22,11 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    i22sti3       ../starter/source/interfaces/inter3d1/i22sti3.F
+      !||    i22sti3                ../starter/source/interfaces/inter3d1/i22sti3.F
       !||--- called by ------------------------------------------------------
-      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I22STI3(
      1 X     ,IRECT ,STF   ,IXS   ,PM    ,

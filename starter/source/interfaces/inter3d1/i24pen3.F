@@ -22,17 +22,18 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    i24pen3       ../starter/source/interfaces/inter3d1/i24pen3.F
+      !||    i24pen3                ../starter/source/interfaces/inter3d1/i24pen3.F
       !||--- called by ------------------------------------------------------
-      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    i24fic_getn   ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    i24penmax     ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||    iconnet       ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||    ini_st3       ../starter/source/interfaces/inter3d1/i24pen3.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    i24fic_getn            ../starter/source/interfaces/inter3d1/i24surfi.F
+      !||    i24penmax              ../starter/source/interfaces/inter3d1/i24pen3.F
+      !||    iconnet                ../starter/source/interfaces/inter3d1/i24pen3.F
+      !||    ini_st3                ../starter/source/interfaces/inter3d1/i24pen3.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I24PEN3(X    ,IRECT ,GAPV ,CAND_E,CAND_N,
      2                   NSV  ,INACTI,ITAB ,TAG   ,IWPENE,

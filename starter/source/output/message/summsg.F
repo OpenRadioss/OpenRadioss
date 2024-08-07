@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    summsg        ../starter/source/output/message/summsg.F
+      !||    summsg                 ../starter/source/output/message/summsg.F
       !||--- called by ------------------------------------------------------
-      !||    anprint       ../starter/source/output/analyse/analyse_arret.F
-      !||    arret         ../starter/source/system/arret.F
+      !||    anprint                ../starter/source/output/analyse/analyse_arret.F
+      !||    arret                  ../starter/source/system/arret.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE SUMMSG()
 C-----------------------------------------------

@@ -22,14 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    inivel          ../starter/source/initial_conditions/general/inivel/inivel.F
+      !||    inivel                 ../starter/source/initial_conditions/general/inivel/inivel.F
       !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    usrtos          ../starter/source/system/sysfus.F
+      !||    usrtos                 ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||    submodel_mod    ../starter/share/modules1/submodel_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE INIVEL(V       ,VR      ,SVR ,ITABM1  )
 C-----------------------------------------------

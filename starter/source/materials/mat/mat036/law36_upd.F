@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    law36_upd      ../starter/source/materials/mat/mat036/law36_upd.F
+      !||    law36_upd              ../starter/source/materials/mat/mat036/law36_upd.F
       !||--- called by ------------------------------------------------------
-      !||    updmat         ../starter/source/materials/updmat.F
+      !||    updmat                 ../starter/source/materials/updmat.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../starter/source/output/message/message.F
-      !||    func_inters    ../starter/source/tools/curve/func_inters.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    func_inters            ../starter/source/tools/curve/func_inters.F
       !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod   ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod    ../starter/share/message_module/message_mod.F
-      !||    table_mod      ../starter/share/modules1/table_mod.F
+      !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    table_mod              ../starter/share/modules1/table_mod.F
       !||====================================================================
       SUBROUTINE LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NUPARAM,UPARAM ,
      .                     NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD    ,

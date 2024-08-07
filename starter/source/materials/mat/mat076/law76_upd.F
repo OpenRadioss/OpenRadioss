@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    law76_upd           ../starter/source/materials/mat/mat076/law76_upd.F
+      !||    law76_upd              ../starter/source/materials/mat/mat076/law76_upd.F
       !||--- called by ------------------------------------------------------
-      !||    updmat              ../starter/source/materials/updmat.F
+      !||    updmat                 ../starter/source/materials/updmat.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg              ../starter/source/output/message/message.F
-      !||    func_comp           ../starter/source/materials/mat/mat076/law76_upd.F
-      !||    table2d_intersect   ../starter/source/tools/curve/table2d_intersect.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    func_comp              ../starter/source/materials/mat/mat076/law76_upd.F
+      !||    table2d_intersect      ../starter/source/tools/curve/table2d_intersect.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod         ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE LAW76_UPD(IOUT   ,TITR    ,MAT_ID   ,NUPARAM ,MATPARAM ,
      .                     UPARAM ,NUMTABL ,ITABLE   ,TABLE   ,NFUNC    ,

@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    read_pch_file   ../starter/source/constraints/fxbody/read_pch_file.F
+      !||    read_pch_file          ../starter/source/constraints/fxbody/read_pch_file.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_fxb1    ../starter/source/constraints/fxbody/hm_read_fxb.F
-      !||    hm_setfxrbyon   ../starter/source/constraints/fxbody/hm_setfxrbyon.F
+      !||    hm_read_fxb1           ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    hm_setfxrbyon          ../starter/source/constraints/fxbody/hm_setfxrbyon.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    fxrline         ../starter/source/constraints/fxbody/hm_read_fxb.F
-      !||    usr2sys         ../starter/source/system/sysfus.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fxrline                ../starter/source/constraints/fxbody/hm_read_fxb.F
+      !||    usr2sys                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE READ_PCH_FILE(FLAG,MATRIX,ITAG,MATRIX_ADD,CPT_STIFF,
      .                         CPT_MASS,ITABM1,PCH_FILE,ID,TITR)

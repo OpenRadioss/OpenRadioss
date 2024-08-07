@@ -1237,18 +1237,18 @@ C
       END
       
       !||====================================================================
-      !||    lec_dof_jnt      ../starter/source/properties/spring/hm_read_prop45.F
+      !||    lec_dof_jnt            ../starter/source/properties/spring/hm_read_prop45.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_prop45   ../starter/source/properties/spring/hm_read_prop45.F
+      !||    hm_read_prop45         ../starter/source/properties/spring/hm_read_prop45.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../starter/source/output/message/message.F
-      !||    hm_get_floatv    ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv      ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    set_u_geo        ../starter/source/user_interface/uaccess.F
-      !||    set_u_pnu        ../starter/source/user_interface/uaccess.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    set_u_geo              ../starter/source/user_interface/uaccess.F
+      !||    set_u_pnu              ../starter/source/user_interface/uaccess.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||    submodel_mod     ../starter/share/modules1/submodel_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAMI,
      .                        SAMA,FCOMB,KFR,FM,IFUN_CRX,IFUN_RX,IDOF,

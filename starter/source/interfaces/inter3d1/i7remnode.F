@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i7remnode         ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    i7remnode              ../starter/source/interfaces/inter3d1/i7remnode.F
       !||--- called by ------------------------------------------------------
-      !||    inint3            ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg            ../starter/source/output/message/message.F
-      !||    i25remnor         ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||    i7remnode_build   ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||    i7remnode_init    ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||    my_exit           ../starter/source/output/analyse/analyse.c
-      !||    upgrade_remnode   ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    i25remnor              ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    i7remnode_build        ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    i7remnode_init         ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    my_exit                ../starter/source/output/analyse/analyse.c
+      !||    upgrade_remnode        ../starter/source/interfaces/interf1/upgrade_remnode.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod       ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I7REMNODE(
      1         IREMNODE,NOINT   ,TITR     ,INTBUF_TAB ,NUMNOD ,
@@ -920,20 +920,21 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
       !||====================================================================
-      !||    remn_i2op          ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    remn_i2op              ../starter/source/interfaces/inter3d1/i7remnode.F
       !||--- called by ------------------------------------------------------
-      !||    inint3             ../starter/source/interfaces/inter3d1/inint3.F
-      !||    inintr             ../starter/source/interfaces/interf1/inintr.F
-      !||    inintr2            ../starter/source/interfaces/inter3d1/inintr2.F
+      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inintr                 ../starter/source/interfaces/interf1/inintr.F
+      !||    inintr2                ../starter/source/interfaces/inter3d1/inintr2.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||    fretitl2           ../starter/source/starter/freform.F
-      !||    pre_i2             ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||    remn_i2op_edg25    ../starter/source/interfaces/int25/i25remlin.F
-      !||    upgrade_remnode2   ../starter/source/interfaces/interf1/upgrade_remnode.F
-      !||    zeronm_tagd        ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    pre_i2                 ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    remn_i2op_edg25        ../starter/source/interfaces/int25/i25remlin.F
+      !||    upgrade_remnode2       ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||    zeronm_tagd            ../starter/source/interfaces/inter3d1/i7remnode.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE REMN_I2OP(LOWER_BOUND, UPPER_BOUND, IPARI,INTBUF_TAB,ITAB,NOM_OPT,NREMOV,IDDLEVEL,SKIP_TYPE25_EDGE_2_EDGE)
 C-----------------------------------------------
@@ -1993,13 +1994,13 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
       !||====================================================================
-      !||    ri2_int24p_ini   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    ri2_int24p_ini         ../starter/source/interfaces/inter3d1/i7remnode.F
       !||--- called by ------------------------------------------------------
-      !||    inintr           ../starter/source/interfaces/interf1/inintr.F
-      !||    inintr2          ../starter/source/interfaces/inter3d1/inintr2.F
+      !||    inintr                 ../starter/source/interfaces/interf1/inintr.F
+      !||    inintr2                ../starter/source/interfaces/inter3d1/inintr2.F
       !||--- calls      -----------------------------------------------------
-      !||    fretitl2         ../starter/source/starter/freform.F
-      !||    rm_cand24        ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    rm_cand24              ../starter/source/interfaces/inter3d1/i7remnode.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE RI2_INT24P_INI(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMOV)
@@ -2054,13 +2055,14 @@ C----
       RETURN
       END
       !||====================================================================
-      !||    rm_cand24        ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    rm_cand24              ../starter/source/interfaces/inter3d1/i7remnode.F
       !||--- called by ------------------------------------------------------
-      !||    ri2_int24p_ini   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    ri2_int24p_ini         ../starter/source/interfaces/inter3d1/i7remnode.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE RM_CAND24(I_STOK,ID,TITR,CAND_N,CAND_E,KREMNODE  ,REMNOD ,
      *                     NSV   ,IRTLM,PENE_OLD,ITAB  )

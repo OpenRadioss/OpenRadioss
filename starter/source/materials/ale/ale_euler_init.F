@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    ale_euler_init   ../starter/source/materials/ale/ale_euler_init.F
+      !||    ale_euler_init         ../starter/source/materials/ale/ale_euler_init.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_part     ../starter/source/model/assembling/hm_read_part.F
+      !||    hm_read_part           ../starter/source/model/assembling/hm_read_part.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../starter/source/output/message/message.F
-      !||    fretitl2         ../starter/source/starter/freform.F
-      !||    loi_fluid        ../starter/source/fluid/loi_fluid.F
-      !||    nintri           ../starter/source/system/nintrr.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    loi_fluid              ../starter/source/fluid/loi_fluid.F
+      !||    nintri                 ../starter/source/system/nintrr.F
       !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod     ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE ALE_EULER_INIT(MLAW_TAG,IPM,PM, IGEO,TITR,TITR1,TITR2,IGTYP,ID,ILAW,MID,IMID,PID,IPID,JALE_FROM_PROP,JALE_FROM_MAT)
 C-----------------------------------------------

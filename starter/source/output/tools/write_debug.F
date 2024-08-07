@@ -27,9 +27,10 @@ C Same for WRITE_DB
 C This allows to use the option -flush_rst_to_txt at the starter 
 
       !||====================================================================
-      !||    write_i_c_debug   ../starter/source/output/tools/write_debug.F
+      !||    write_i_c_debug        ../starter/source/output/tools/write_debug.F
       !||--- calls      -----------------------------------------------------
-      !||    fretitl2          ../starter/source/starter/freform.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE WRITE_I_C_DEBUG(A,N,SA)
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE

@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_current_option_mod   ../starter/share/modules1/hm_current_option_mod.F
       !||--- called by ------------------------------------------------------
       !||    ngr2usr                 ../starter/source/system/nintrr.F
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       MODULE HM_CURRENT_OPTION_MOD
       INTERFACE

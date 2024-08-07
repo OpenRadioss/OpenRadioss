@@ -385,13 +385,13 @@ c-----------
       END
 c
       !||====================================================================
-      !||    ecrsub2          ../starter/source/model/assembling/hm_read_subset.F
+      !||    ecrsub2                ../starter/source/model/assembling/hm_read_subset.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_subset   ../starter/source/model/assembling/hm_read_subset.F
+      !||    hm_read_subset         ../starter/source/model/assembling/hm_read_subset.F
       !||--- calls      -----------------------------------------------------
-      !||    fretitl2         ../starter/source/starter/freform.F
+      !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE ECRSUB2(SUBSET,NSUBS,ISU,IPART,NIVMAX)
       USE MESSAGE_MOD

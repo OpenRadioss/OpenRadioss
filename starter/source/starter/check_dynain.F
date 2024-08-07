@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    check_dynain    ../starter/source/starter/check_dynain.F
+      !||    check_dynain           ../starter/source/starter/check_dynain.F
       !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE CHECK_DYNAIN(IPART,IPARTC,IPARTTG,IXC,IXTG,DYNAIN_CHECK)
 C-----------------------------------------------

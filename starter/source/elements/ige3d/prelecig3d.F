@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    prelecig3d   ../starter/source/elements/ige3d/prelecig3d.F
       !||--- called by ------------------------------------------------------
       !||    lectur       ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||    format_mod   ../starter/share/modules1/format_mod.F90
       !||====================================================================
       SUBROUTINE PRELECIG3D(NUM)
         USE FORMAT_MOD , ONLY : FMT_5I

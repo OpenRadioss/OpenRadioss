@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    boxbox          ../starter/source/model/box/boxbox.F
+      !||    boxbox                 ../starter/source/model/box/boxbox.F
       !||--- called by ------------------------------------------------------
-      !||    bigbox          ../starter/source/model/box/bigbox.F
-      !||    hm_bigbox       ../starter/source/model/box/hm_bigbox.F
+      !||    bigbox                 ../starter/source/model/box/bigbox.F
+      !||    hm_bigbox              ../starter/source/model/box/hm_bigbox.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    boxassem1       ../starter/source/model/box/bigbox.F
-      !||    boxtagn         ../starter/source/model/box/bigbox.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    boxassem1              ../starter/source/model/box/bigbox.F
+      !||    boxtagn                ../starter/source/model/box/bigbox.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE BOXBOX(IBOX  ,SKEW   ,
      .                  FLAGG  ,ICOUNT,ITER  ,IBUFBOX,
@@ -451,16 +451,16 @@ C-----------
       RETURN
       END
       !||====================================================================
-      !||    elstagboxbox    ../starter/source/model/box/boxbox.F
+      !||    elstagboxbox           ../starter/source/model/box/boxbox.F
       !||--- called by ------------------------------------------------------
-      !||    sboxboxsurf     ../starter/source/model/box/bigbox.F
+      !||    sboxboxsurf            ../starter/source/model/box/bigbox.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    boxassem4       ../starter/source/model/box/bigbox.F
-      !||    elstagbox       ../starter/source/model/box/bigbox.F
-      !||    facebox         ../starter/source/model/box/bigbox.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    boxassem4              ../starter/source/model/box/bigbox.F
+      !||    elstagbox              ../starter/source/model/box/bigbox.F
+      !||    facebox                ../starter/source/model/box/bigbox.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE ELSTAGBOXBOX(IBOX   ,SKEW   ,
      .                        FLAGG  ,ICOUNT ,ITER    ,BOXTYPE,

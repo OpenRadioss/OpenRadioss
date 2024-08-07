@@ -713,16 +713,16 @@ C
       END
 C  
       !||====================================================================
-      !||    trirbmerge      ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    trirbmerge             ../starter/source/constraints/general/merge/hm_read_merge.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_merge   ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    hm_read_merge          ../starter/source/constraints/general/merge/hm_read_merge.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    rb_explore      ../starter/source/constraints/general/merge/hm_read_merge.F
-      !||    spmdset         ../starter/source/constraints/general/rbody/spmdset.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    rb_explore             ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    spmdset                ../starter/source/constraints/general/rbody/spmdset.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||    rbmerge_mod     ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    rbmerge_mod            ../starter/source/constraints/general/merge/hm_read_merge.F
       !||====================================================================
       SUBROUTINE TRIRBMERGE(RBMERGE,NPBY   ,LPBY    ,SLRBODY,
      .                      RBY    ,NOM_OPT,ITAB    ,IBGR   ,IGRV   )

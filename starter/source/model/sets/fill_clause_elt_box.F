@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    fill_clause_elt_box   ../starter/source/model/sets/fill_clause_elt_box.F
+      !||    fill_clause_elt_box    ../starter/source/model/sets/fill_clause_elt_box.F
       !||--- called by ------------------------------------------------------
-      !||    create_elt_box        ../starter/source/model/sets/create_elt_box.F
+      !||    create_elt_box         ../starter/source/model/sets/create_elt_box.F
       !||--- calls      -----------------------------------------------------
-      !||    elt_box               ../starter/source/model/sets/fill_clause_elt_box.F
-      !||    set_merge_simple      ../starter/source/model/sets/set_merge_simple.F
+      !||    elt_box                ../starter/source/model/sets/fill_clause_elt_box.F
+      !||    set_merge_simple       ../starter/source/model/sets/set_merge_simple.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod           ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE FILL_CLAUSE_ELT_BOX(
      *                IBOX    ,X           ,SKEW     ,SET_TITLE ,KEYSET ,
@@ -110,14 +110,14 @@ C-------
 
 
       !||====================================================================
-      !||    elt_box               ../starter/source/model/sets/fill_clause_elt_box.F
+      !||    elt_box                ../starter/source/model/sets/fill_clause_elt_box.F
       !||--- called by ------------------------------------------------------
-      !||    fill_clause_elt_box   ../starter/source/model/sets/fill_clause_elt_box.F
+      !||    fill_clause_elt_box    ../starter/source/model/sets/fill_clause_elt_box.F
       !||--- calls      -----------------------------------------------------
-      !||    set_merge_simple      ../starter/source/model/sets/set_merge_simple.F
-      !||    simple_elt_box        ../starter/source/model/sets/simpl_elt_box.F
+      !||    set_merge_simple       ../starter/source/model/sets/set_merge_simple.F
+      !||    simple_elt_box         ../starter/source/model/sets/simpl_elt_box.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod           ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       RECURSIVE SUBROUTINE ELT_BOX( IB  ,
      *                     IBOX    ,X         ,SKEW   ,SET_TITLE ,KEYSET,

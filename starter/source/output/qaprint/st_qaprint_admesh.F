@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    st_qaprint_admesh   ../starter/source/output/qaprint/st_qaprint_admesh.F
+      !||    st_qaprint_admesh      ../starter/source/output/qaprint/st_qaprint_admesh.F
       !||--- called by ------------------------------------------------------
-      !||    st_qaprint_driver   ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||    st_qaprint_driver      ../starter/source/output/qaprint/st_qaprint_driver.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||====================================================================

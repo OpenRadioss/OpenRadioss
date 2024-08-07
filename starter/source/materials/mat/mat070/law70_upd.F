@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    law70_upd          ../starter/source/materials/mat/mat070/law70_upd.F
+      !||    law70_upd              ../starter/source/materials/mat/mat070/law70_upd.F
       !||--- called by ------------------------------------------------------
-      !||    updmat             ../starter/source/materials/updmat.F
+      !||    updmat                 ../starter/source/materials/updmat.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||    law70_table        ../starter/source/materials/mat/mat070/law70_table.F
-      !||    table_slope        ../starter/source/materials/tools/table_slope.F
-      !||    vw_smooth          ../starter/source/tools/curve/vw_smooth.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    law70_table            ../starter/source/materials/mat/mat070/law70_table.F
+      !||    table_slope            ../starter/source/materials/tools/table_slope.F
+      !||    vw_smooth              ../starter/source/tools/curve/vw_smooth.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE LAW70_UPD(MAT_PARAM,TITR     ,MAT_ID   ,NUPARAM  ,UPARAM   ,
      .                     NFUNC    ,IFUNC    ,NPC      ,PLD      ,IOUT     ,

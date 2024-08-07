@@ -100,6 +100,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    user_sensor_mod             ../starter/share/modules1/user_interface_mod.F
       !||    wrcomip                     ../starter/source/restart/ddsplit/wrcommp.F
       !||    write_sensors               ../starter/source/tools/sensor/write_sensors.F
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       MODULE SENSOR_MOD
 !$COMMENT

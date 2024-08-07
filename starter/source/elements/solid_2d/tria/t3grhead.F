@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    t3grhead           ../starter/source/elements/solid_2d/tria/t3grhead.F
+      !||    t3grhead               ../starter/source/elements/solid_2d/tria/t3grhead.F
       !||--- called by ------------------------------------------------------
-      !||    lectur             ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||    fretitl2           ../starter/source/starter/freform.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
-      !||    drape_mod          ../starter/share/modules1/drape_mod.F
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||    reorder_mod        ../starter/share/modules1/reorder_mod.F
-      !||    stack_mod          ../starter/share/modules1/stack_mod.F
+      !||    drape_mod              ../starter/share/modules1/drape_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    reorder_mod            ../starter/share/modules1/reorder_mod.F
+      !||    stack_mod              ../starter/share/modules1/stack_mod.F
       !||====================================================================
       SUBROUTINE T3GRHEAD(
      1       IXTG    ,PM      ,GEO     ,INUM    ,ISEL    ,

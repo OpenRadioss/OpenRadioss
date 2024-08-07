@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    inirby        ../starter/source/constraints/general/rbody/inirby.F
+      !||    inirby                 ../starter/source/constraints/general/rbody/inirby.F
       !||--- called by ------------------------------------------------------
-      !||    initia        ../starter/source/elements/initia/initia.F
+      !||    initia                 ../starter/source/elements/initia/initia.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    chbas         ../starter/source/constraints/general/rbody/chbas.F
-      !||    inepri        ../starter/source/materials/mat/mat019/inepri.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    chbas                  ../starter/source/constraints/general/rbody/chbas.F
+      !||    inepri                 ../starter/source/materials/mat/mat019/inepri.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||    r2r_mod       ../starter/share/modules1/r2r_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
       !||====================================================================
       SUBROUTINE INIRBY(NRB   ,RBY   ,M     ,LPBY  ,
      .                  MS    ,IN    ,X     ,ITAB  ,SKEW  ,
@@ -1105,14 +1105,14 @@ C
 
 
       !||====================================================================
-      !||    inirbys       ../starter/source/constraints/general/rbody/inirby.F
+      !||    inirbys                ../starter/source/constraints/general/rbody/inirby.F
       !||--- called by ------------------------------------------------------
-      !||    initia        ../starter/source/elements/initia/initia.F
+      !||    initia                 ../starter/source/elements/initia/initia.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    inepri        ../starter/source/materials/mat/mat019/inepri.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    inepri                 ../starter/source/materials/mat/mat019/inepri.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INIRBYS(NRB ,RBY  ,M     ,LPBY ,
      .                   MS  ,IN   ,X     ,ITAB,SKEW,

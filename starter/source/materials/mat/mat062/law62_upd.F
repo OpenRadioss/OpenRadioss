@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    law62_upd     ../starter/source/materials/mat/mat062/law62_upd.F
+      !||    law62_upd              ../starter/source/materials/mat/mat062/law62_upd.F
       !||--- called by ------------------------------------------------------
-      !||    updmat        ../starter/source/materials/updmat.F
+      !||    updmat                 ../starter/source/materials/updmat.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||    table_mod     ../starter/share/modules1/table_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    table_mod              ../starter/share/modules1/table_mod.F
       !||====================================================================
       SUBROUTINE LAW62_UPD(IOUT,TITR    ,MAT_ID,NUPARAM,UPARAM, PM ,
      .                    GAMA_INF )

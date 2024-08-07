@@ -21,21 +21,22 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    read_sensor_user      ../starter/source/tools/sensor/read_sensor_user.F
+      !||    read_sensor_user       ../starter/source/tools/sensor/read_sensor_user.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_sensors       ../starter/source/tools/sensor/hm_read_sensors.F
+      !||    hm_read_sensors        ../starter/source/tools/sensor/hm_read_sensors.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg                ../starter/source/output/message/message.F
-      !||    arret                 ../starter/source/system/arret.F
-      !||    hm_get_intv           ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_get_string_index   ../starter/source/devtools/hm_reader/hm_get_string_index.F
-      !||    sensor_user_alloc     ../starter/source/tools/sensor/sensor_user_alloc.F
-      !||    user_output           ../starter/source/user_interface/user_output.F
-      !||    usr2sys               ../starter/source/system/sysfus.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    arret                  ../starter/source/system/arret.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_get_string_index    ../starter/source/devtools/hm_reader/hm_get_string_index.F
+      !||    sensor_user_alloc      ../starter/source/tools/sensor/sensor_user_alloc.F
+      !||    user_output            ../starter/source/user_interface/user_output.F
+      !||    usr2sys                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod           ../starter/share/message_module/message_mod.F
-      !||    sensor_mod            ../starter/share/modules1/sensor_mod.F
-      !||    submodel_mod          ../starter/share/modules1/submodel_mod.F
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE READ_SENSOR_USER(HM_NSENSOR,ISEN    ,TITLE  ,
      .                            UNITAB   ,LSUBMODEL ,KEY       ,UNIT_ID ,SENS_ID,

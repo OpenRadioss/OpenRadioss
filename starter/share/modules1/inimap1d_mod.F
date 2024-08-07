@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lectur                          ../starter/source/starter/lectur.F
       !||    st_qaprint_driver               ../starter/source/output/qaprint/st_qaprint_driver.F
       !||    st_qaprint_initial_conditions   ../starter/source/output/qaprint/st_qaprint_initial_conditions.F
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       MODULE INIMAP1D_MOD
        USE NAMES_AND_TITLES_MOD , ONLY : nchartitle

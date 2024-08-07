@@ -22,14 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    i6sti3        ../starter/source/interfaces/inter3d1/i6sti3.F
+      !||    i6sti3                 ../starter/source/interfaces/inter3d1/i6sti3.F
       !||--- called by ------------------------------------------------------
-      !||    iniend        ../starter/source/interfaces/inter3d1/iniend.F
+      !||    iniend                 ../starter/source/interfaces/inter3d1/iniend.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    local_index   ../starter/source/interfaces/interf1/local_index.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    local_index            ../starter/source/interfaces/interf1/local_index.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I6STI3(IRECT,STF  ,NRT   ,STFN  ,NSN    ,
      .                  NSV  ,XMAS ,MS    ,NPBY  ,LPBY   ,

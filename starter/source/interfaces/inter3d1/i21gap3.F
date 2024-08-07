@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i21gap3         ../starter/source/interfaces/inter3d1/i21gap3.F
+      !||    i21gap3                ../starter/source/interfaces/inter3d1/i21gap3.F
       !||--- called by ------------------------------------------------------
-      !||    inint3_thkvar   ../starter/source/interfaces/inter3d1/inint3_thkvar.F
+      !||    inint3_thkvar          ../starter/source/interfaces/inter3d1/inint3_thkvar.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    i4gmx3          ../starter/source/interfaces/inter3d1/i4gmx3.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    i4gmx3                 ../starter/source/interfaces/inter3d1/i4gmx3.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I21GAP3(
      1 X     ,IRECTS ,IRECTM ,NRTS  ,NRTM  ,

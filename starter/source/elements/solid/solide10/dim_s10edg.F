@@ -851,14 +851,14 @@ C
       RETURN
       END
       !||====================================================================
-      !||    int2modif_nd    ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    int2modif_nd           ../starter/source/elements/solid/solide10/dim_s10edg.F
       !||--- called by ------------------------------------------------------
-      !||    inintr2         ../starter/source/interfaces/inter3d1/inintr2.F
+      !||    inintr2                ../starter/source/interfaces/inter3d1/inintr2.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    intab           ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    intab                  ../starter/source/interfaces/inter3d1/i24tools.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INT2MODIF_ND(IPARI,INTBUF_TAB,ITAGND,ICNDS10,ITAB)
 C-----------------------------------------------

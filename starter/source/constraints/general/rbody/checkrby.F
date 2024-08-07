@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    checkrby      ../starter/source/constraints/general/rbody/checkrby.F
+      !||    checkrby               ../starter/source/constraints/general/rbody/checkrby.F
       !||--- called by ------------------------------------------------------
-      !||    lectur        ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    anodset       ../starter/source/output/analyse/analyse_node.c
-      !||    fretitl2      ../starter/source/starter/freform.F
-      !||    kinset        ../starter/source/constraints/general/kinset.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    anodset                ../starter/source/output/analyse/analyse_node.c
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    kinset                 ../starter/source/constraints/general/kinset.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE CHECKRBY(RBY     ,NPBY    ,LPBY    ,ITAB    ,
      2                    IKINE   ,IDDLEVEL,NOM_OPT ,NUMSL   )

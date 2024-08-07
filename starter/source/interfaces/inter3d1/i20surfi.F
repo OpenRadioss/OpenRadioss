@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i20bord        ../starter/source/interfaces/inter3d1/i20surfi.F
       !||    i20edge1       ../starter/source/interfaces/inter3d1/i20surfi.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod     ../starter/share/modules1/format_mod.F90
       !||====================================================================
       SUBROUTINE I20SURFI(IALLO   ,IPARI   ,IGRNOD  ,IGRSURF ,
      2                    IGRSLIN ,IRECT   ,FRIGAP  ,
@@ -322,6 +323,7 @@ c-----------------------------------------------------------------
       !||    ancmsg        ../starter/source/output/message/message.F
       !||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
       !||--- uses       -----------------------------------------------------
+      !||    format_mod    ../starter/share/modules1/format_mod.F90
       !||    message_mod   ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I20EDGE1(IALLO     ,NSEG0     ,NLIN0   ,NLIN    ,NACTIF  ,

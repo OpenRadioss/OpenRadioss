@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i22err3       ../starter/source/interfaces/inter3d1/i22err3.F
+      !||    i22err3                ../starter/source/interfaces/inter3d1/i22err3.F
       !||--- called by ------------------------------------------------------
-      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    loi_fluid     ../starter/source/fluid/loi_fluid.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    loi_fluid              ../starter/source/fluid/loi_fluid.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I22ERR3(
      1         X       ,NRTM    ,IRECT   ,NOINT   ,ITAB    ,

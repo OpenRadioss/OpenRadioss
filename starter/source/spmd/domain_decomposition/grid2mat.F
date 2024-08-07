@@ -44,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    cluster_mod                     ../starter/share/modules1/cluster_mod.F
       !||    consider_edge_mod               ../starter/source/spmd/domain_decomposition/consider_edge.F
+      !||    format_mod                      ../starter/share/modules1/format_mod.F90
       !||    front_mod                       ../starter/share/modules1/front_mod.F
       !||    inter_cand_mod                  ../starter/share/modules1/inter_cand_mod.F
       !||    message_mod                     ../starter/share/message_module/message_mod.F
@@ -2608,10 +2609,12 @@ C
       RETURN
       END
       !||====================================================================
-      !||    spdometis   ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||    spdometis    ../starter/source/spmd/domain_decomposition/grid2mat.F
       !||--- called by ------------------------------------------------------
-      !||    lectur      ../starter/source/starter/lectur.F
+      !||    lectur       ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    format_mod   ../starter/share/modules1/format_mod.F90
       !||====================================================================
       SUBROUTINE SPDOMETIS(KXSP, IXSP, NOD2SP, CEPSP, RESERVEP,
      .                     SPH2SOL, CEP)

@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    inicrkfill      ../starter/source/elements/xfem/inicrkfill.F
+      !||    inicrkfill             ../starter/source/elements/xfem/inicrkfill.F
       !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    lslocal         ../starter/source/elements/xfem/lslocal.F
+      !||    lslocal                ../starter/source/elements/xfem/lslocal.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE INICRKFILL(ELBUF_TAB,XFEM_TAB,

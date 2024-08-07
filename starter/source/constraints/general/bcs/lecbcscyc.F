@@ -21,20 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    hm_preread_bcscyc    ../starter/source/constraints/general/bcs/lecbcscyc.F
+      !||    hm_preread_bcscyc      ../starter/source/constraints/general/bcs/lecbcscyc.F
       !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg               ../starter/source/output/message/message.F
-      !||    fretitl              ../starter/source/starter/freform.F
-      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    ngr2usr              ../starter/source/system/nintrr.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl                ../starter/source/starter/freform.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    ngr2usr                ../starter/source/system/nintrr.F
       !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_PREREAD_BCSCYC(IGRNOD  ,NOM_OPT ,LSUBMODEL,NBCSCYNN)
 C-----------------------------------------------
@@ -414,14 +414,14 @@ C
       RETURN
       END SUBROUTINE CAR2CYLIN
       !||====================================================================
-      !||    int2cy_chk      ../starter/source/constraints/general/bcs/lecbcscyc.F
+      !||    int2cy_chk             ../starter/source/constraints/general/bcs/lecbcscyc.F
       !||--- called by ------------------------------------------------------
-      !||    inintr2         ../starter/source/interfaces/inter3d1/inintr2.F
+      !||    inintr2                ../starter/source/interfaces/inter3d1/inintr2.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    intab           ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    intab                  ../starter/source/interfaces/inter3d1/i24tools.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INT2CY_CHK(IPARI,INTBUF_TAB,ITAGCYC,ITAB)
 C-----------------------------------------------

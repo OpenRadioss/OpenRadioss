@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i7tri         ../starter/source/interfaces/inter3d1/i7tri.F
+      !||    i7tri                  ../starter/source/interfaces/inter3d1/i7tri.F
       !||--- called by ------------------------------------------------------
-      !||    i7buc1        ../starter/source/interfaces/inter3d1/i7buc1.F
+      !||    i7buc1                 ../starter/source/interfaces/inter3d1/i7buc1.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    i7cmp3        ../starter/source/interfaces/inter3d1/i7cmp3.F
-      !||    i7cor3        ../starter/source/interfaces/inter3d1/i7cor3.F
-      !||    i7dst3        ../starter/source/interfaces/inter3d1/i7dst3.F
-      !||    i7dstk        ../starter/source/interfaces/inter3d1/i7dstk.F
-      !||    i7pen3        ../starter/source/interfaces/inter3d1/i7pen3.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    i7cmp3                 ../starter/source/interfaces/inter3d1/i7cmp3.F
+      !||    i7cor3                 ../starter/source/interfaces/inter3d1/i7cor3.F
+      !||    i7dst3                 ../starter/source/interfaces/inter3d1/i7dst3.F
+      !||    i7dstk                 ../starter/source/interfaces/inter3d1/i7dstk.F
+      !||    i7pen3                 ../starter/source/interfaces/inter3d1/i7pen3.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I7TRI(
      1      BPE    ,PE    ,BPN   ,PN    ,ADD   ,

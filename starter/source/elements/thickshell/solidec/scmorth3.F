@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    scmorth3      ../starter/source/elements/thickshell/solidec/scmorth3.F
+      !||    scmorth3               ../starter/source/elements/thickshell/solidec/scmorth3.F
       !||--- called by ------------------------------------------------------
-      !||    s6cinit3      ../starter/source/elements/thickshell/solide6c/s6cinit3.F
-      !||    s8cinit3      ../starter/source/elements/thickshell/solide8c/s8cinit3.F
-      !||    scinit3       ../starter/source/elements/thickshell/solidec/scinit3.F
+      !||    s6cinit3               ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+      !||    s8cinit3               ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+      !||    scinit3                ../starter/source/elements/thickshell/solidec/scinit3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    fretitl2      ../starter/source/starter/freform.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE SCMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,GAMA ,
      .       RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,

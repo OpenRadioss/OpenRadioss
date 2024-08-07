@@ -21,28 +21,28 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    lecstack_ply         ../starter/source/properties/composite_options/stack/lecstack_ply.F
+      !||    lecstack_ply           ../starter/source/properties/composite_options/stack/lecstack_ply.F
       !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg               ../starter/source/output/message/message.F
-      !||    arret                ../starter/source/system/arret.F
-      !||    bidon2               ../starter/source/system/machine.F
-      !||    fretitl              ../starter/source/starter/freform.F
-      !||    fretitl2             ../starter/source/starter/freform.F
-      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    hm_read_stack        ../starter/source/stack/hm_read_stack.F
-      !||    lcgeo19              ../starter/source/elements/shell/coque/lcgeo19.F
-      !||    usr2sys              ../starter/source/system/sysfus.F
-      !||    vdouble              ../starter/source/system/sysfus.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    arret                  ../starter/source/system/arret.F
+      !||    bidon2                 ../starter/source/system/machine.F
+      !||    fretitl                ../starter/source/starter/freform.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    hm_read_stack          ../starter/source/stack/hm_read_stack.F
+      !||    lcgeo19                ../starter/source/elements/shell/coque/lcgeo19.F
+      !||    usr2sys                ../starter/source/system/sysfus.F
+      !||    vdouble                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    defaults_mod         ../starter/source/modules/defaults_mod.F90
-      !||    elbuftag_mod         ../starter/share/modules1/elbuftag_mod.F
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    stack_mod            ../starter/share/modules1/stack_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+      !||    defaults_mod           ../starter/source/modules/defaults_mod.F90
+      !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    stack_mod              ../starter/share/modules1/stack_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE LECSTACK_PLY(GEO_STACK ,X           ,IX           ,PM          ,ITABM1  ,
      .                       ISKN       ,IGEO_STACK  ,IPM          ,NPC         ,PLD     ,

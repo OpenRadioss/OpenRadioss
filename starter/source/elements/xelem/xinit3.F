@@ -21,20 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    xinit3         ../starter/source/elements/xelem/xinit3.F
+      !||    xinit3                 ../starter/source/elements/xelem/xinit3.F
       !||--- called by ------------------------------------------------------
-      !||    initia         ../starter/source/elements/initia/initia.F
+      !||    initia                 ../starter/source/elements/initia/initia.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../starter/source/output/message/message.F
-      !||    fretitl2       ../starter/source/starter/freform.F
-      !||    xini1u         ../starter/source/elements/xelem/xinit3.F
-      !||    xini28         ../starter/source/elements/xelem/xini28.F
-      !||    xini29         ../starter/source/elements/xelem/xini29.F
-      !||    xini2u         ../starter/source/elements/xelem/xinit3.F
-      !||    xini30         ../starter/source/elements/xelem/xini30.F
-      !||    xini31         ../starter/source/elements/xelem/xini31.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    xini1u                 ../starter/source/elements/xelem/xinit3.F
+      !||    xini28                 ../starter/source/elements/xelem/xini28.F
+      !||    xini29                 ../starter/source/elements/xelem/xini29.F
+      !||    xini2u                 ../starter/source/elements/xelem/xinit3.F
+      !||    xini30                 ../starter/source/elements/xelem/xini30.F
+      !||    xini31                 ../starter/source/elements/xelem/xini31.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE XINIT3(ELBUF_STR,KXX    ,IXX    ,X      ,V      ,
      2                  VR       ,XMAS   ,XIN    ,

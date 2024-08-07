@@ -21,24 +21,24 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    lslocal        ../starter/source/elements/xfem/lslocal.F
+      !||    lslocal                ../starter/source/elements/xfem/lslocal.F
       !||--- called by ------------------------------------------------------
-      !||    inicrkfill     ../starter/source/elements/xfem/inicrkfill.F
+      !||    inicrkfill             ../starter/source/elements/xfem/inicrkfill.F
       !||--- calls      -----------------------------------------------------
-      !||    activ_xfem     ../starter/source/elements/xfem/lslocal.F
-      !||    ancmsg         ../starter/source/output/message/message.F
-      !||    c3coori        ../starter/source/elements/sh3n/coque3n/c3coori.F
-      !||    ccoori         ../starter/source/elements/shell/coque/ccoori.F
-      !||    edgetip3n      ../starter/source/elements/xfem/lslocal.F
-      !||    edgetip4n      ../starter/source/elements/xfem/lslocal.F
-      !||    elcut3n        ../starter/source/elements/xfem/lslocal.F
-      !||    elcut4n        ../starter/source/elements/xfem/lslocal.F
-      !||    preinicrk3n    ../starter/source/elements/xfem/preinicrk3N.F
-      !||    preinicrk4n    ../starter/source/elements/xfem/preinicrk4N.F
-      !||    xyzloc3n       ../starter/source/elements/xfem/lslocal.F
-      !||    xyzloc4n       ../starter/source/elements/xfem/lslocal.F
+      !||    activ_xfem             ../starter/source/elements/xfem/lslocal.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    c3coori                ../starter/source/elements/sh3n/coque3n/c3coori.F
+      !||    ccoori                 ../starter/source/elements/shell/coque/ccoori.F
+      !||    edgetip3n              ../starter/source/elements/xfem/lslocal.F
+      !||    edgetip4n              ../starter/source/elements/xfem/lslocal.F
+      !||    elcut3n                ../starter/source/elements/xfem/lslocal.F
+      !||    elcut4n                ../starter/source/elements/xfem/lslocal.F
+      !||    preinicrk3n            ../starter/source/elements/xfem/preinicrk3N.F
+      !||    preinicrk4n            ../starter/source/elements/xfem/preinicrk4N.F
+      !||    xyzloc3n               ../starter/source/elements/xfem/lslocal.F
+      !||    xyzloc4n               ../starter/source/elements/xfem/lslocal.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE LSLOCAL(ELBUF_TAB,XFEM_TAB,
      .                   IPARG   ,IXC     ,IXTG    ,XREFC   ,XREFTG  ,

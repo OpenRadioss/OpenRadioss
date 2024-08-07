@@ -28,18 +28,18 @@ C IOCSV=1 -> output fitting to curv.csv
 !>                                 ERRAVE = ( SUM [ ABS ( ( Y_inp-Y_fit)  )  ) / NPT
 !>    @param[out]  MUAL(1:NMUAL)   optimized material properties 
       !||====================================================================
-      !||    law92_nlsqf     ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||    law92_nlsqf            ../starter/source/materials/mat/mat092/law92_nlsqf.F
       !||--- called by ------------------------------------------------------
-      !||    law100_upd_ab   ../starter/source/materials/mat/mat100/law100_upd.F
-      !||    law92_upd       ../starter/source/materials/mat/mat092/law92_upd.F
+      !||    law100_upd_ab          ../starter/source/materials/mat/mat100/law100_upd.F
+      !||    law92_upd              ../starter/source/materials/mat/mat092/law92_upd.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    arruda_boyce    ../starter/source/materials/mat/mat092/law92_nlsqf.F
-      !||    law92_guess     ../starter/source/materials/mat/mat092/law92_nlsqf.F
-      !||    mrqmin_law92    ../starter/source/materials/mat/mat092/law92_nlsqf.F
-      !||    my_exit         ../starter/source/output/analyse/analyse.c
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    arruda_boyce           ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||    law92_guess            ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||    mrqmin_law92           ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||    my_exit                ../starter/source/output/analyse/analyse.c
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE LAW92_NLSQF(STRETCH,Y,NMULA,NPT,AMULA,
      $                       NSTART, ERRTOL,ID,TITR,ITEST)

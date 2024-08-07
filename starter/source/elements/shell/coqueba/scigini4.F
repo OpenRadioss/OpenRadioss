@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    csigini4       ../starter/source/elements/shell/coqueba/scigini4.F
+      !||    csigini4               ../starter/source/elements/shell/coqueba/scigini4.F
       !||--- called by ------------------------------------------------------
-      !||    cbainit3       ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||    cdkinit3       ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||    cbainit3               ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cdkinit3               ../starter/source/elements/sh3n/coquedk/cdkinit3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../starter/source/output/message/message.F
-      !||    cg2leps        ../starter/source/elements/shell/coqueba/scigini4.F
-      !||    cg2lsig        ../starter/source/elements/shell/coqueba/scigini4.F
-      !||    fretitl2       ../starter/source/starter/freform.F
-      !||    loc2orth       ../starter/source/elements/shell/coqueba/scigini4.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    cg2leps                ../starter/source/elements/shell/coqueba/scigini4.F
+      !||    cg2lsig                ../starter/source/elements/shell/coqueba/scigini4.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    loc2orth               ../starter/source/elements/shell/coqueba/scigini4.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE CSIGINI4(ELBUF_STR,
      1           IHBE   ,JFT    ,JLT   ,NFT    ,NPT    ,

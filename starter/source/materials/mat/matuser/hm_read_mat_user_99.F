@@ -21,20 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    hm_read_mat_99        ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
+      !||    hm_read_mat_99         ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_mat           ../starter/source/materials/mat/hm_read_mat.F
+      !||    hm_read_mat            ../starter/source/materials/mat/hm_read_mat.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg                ../starter/source/output/message/message.F
-      !||    arret                 ../starter/source/system/arret.F
-      !||    hm_get_intv           ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_get_string_index   ../starter/source/devtools/hm_reader/hm_get_string_index.F
-      !||    init_mat_keyword      ../starter/source/materials/mat/init_mat_keyword.F
-      !||    user_output           ../starter/source/user_interface/user_output.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    arret                  ../starter/source/system/arret.F
+      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_get_string_index    ../starter/source/devtools/hm_reader/hm_get_string_index.F
+      !||    init_mat_keyword       ../starter/source/materials/mat/init_mat_keyword.F
+      !||    user_output            ../starter/source/user_interface/user_output.F
       !||--- uses       -----------------------------------------------------
-      !||    law_user              ../starter/source/user_interface/law_user.F
-      !||    message_mod           ../starter/share/message_module/message_mod.F
-      !||    submodel_mod          ../starter/share/modules1/submodel_mod.F
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
+      !||    law_user               ../starter/source/user_interface/law_user.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_MAT_99(ILAW,IUSER_LAW,IUSER_KEY,
      .                          USERL_AVAIL,

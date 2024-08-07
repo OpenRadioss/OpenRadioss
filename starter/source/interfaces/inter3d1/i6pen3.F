@@ -22,14 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    i6pen3        ../starter/source/interfaces/inter3d1/i6pen3.F
+      !||    i6pen3                 ../starter/source/interfaces/inter3d1/i6pen3.F
       !||--- called by ------------------------------------------------------
-      !||    iniend        ../starter/source/interfaces/inter3d1/iniend.F
+      !||    iniend                 ../starter/source/interfaces/inter3d1/iniend.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    inist3        ../starter/source/interfaces/inter3d1/inist3.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    inist3                 ../starter/source/interfaces/inter3d1/inist3.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    format_mod             ../starter/share/modules1/format_mod.F90
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I6PEN3(X     ,IRECT  ,MSR    ,NSV   ,ILOC  ,
      1                  IRTL  ,CST    ,IRTL0  ,GAP   ,NSN   ,

@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    rigid_mat     ../starter/source/materials/mat/mat019/rigid_mat.F
+      !||    rigid_mat              ../starter/source/materials/mat/mat019/rigid_mat.F
       !||--- called by ------------------------------------------------------
-      !||    lectur        ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    fretitl2      ../starter/source/starter/freform.F
-      !||    inepri        ../starter/source/materials/mat/mat019/inepri.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    inepri                 ../starter/source/materials/mat/mat019/inepri.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE RIGID_MAT(NRB, GNSL  ,LSN , NSLNRM  ,STIFN, 
      .                   STIFR, X, V     ,MS    ,IN   ,

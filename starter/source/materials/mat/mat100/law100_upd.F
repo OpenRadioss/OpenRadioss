@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    law100_upd_nht   ../starter/source/materials/mat/mat100/law100_upd.F
+      !||    law100_upd_nht         ../starter/source/materials/mat/mat100/law100_upd.F
       !||--- called by ------------------------------------------------------
-      !||    updmat           ../starter/source/materials/updmat.F
+      !||    updmat                 ../starter/source/materials/updmat.F
       !||--- calls      -----------------------------------------------------
-      !||    func_maxy        ../starter/source/tools/curve/func_maxy.F
+      !||    func_maxy              ../starter/source/tools/curve/func_maxy.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||    table_mod        ../starter/share/modules1/table_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    table_mod              ../starter/share/modules1/table_mod.F
       !||====================================================================
       SUBROUTINE LAW100_UPD_NHT(IOUT, TITR,MAT_ID,UPARAM,NFUNC, 
      .                        IFUNC, FUNC_ID , NPC   , PLD , PM)

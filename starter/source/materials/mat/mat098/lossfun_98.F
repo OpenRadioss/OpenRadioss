@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    lossfun_98     ../starter/source/materials/mat/mat098/lossfun_98.F
+      !||    lossfun_98             ../starter/source/materials/mat/mat098/lossfun_98.F
       !||--- calls      -----------------------------------------------------
-      !||    calc_uniax     ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||    calc_uniax_2   ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||    fct_fiber      ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||    fct_fiber_2    ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||    finter         ../starter/source/tools/curve/finter.F
+      !||    calc_uniax             ../starter/source/materials/mat/mat098/lossfun_98.F
+      !||    calc_uniax_2           ../starter/source/materials/mat/mat098/lossfun_98.F
+      !||    fct_fiber              ../starter/source/materials/mat/mat098/lossfun_98.F
+      !||    fct_fiber_2            ../starter/source/materials/mat/mat098/lossfun_98.F
+      !||    finter                 ../starter/source/tools/curve/finter.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
-      !||    table_mod      ../starter/share/modules1/table_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    table_mod              ../starter/share/modules1/table_mod.F
       !||====================================================================
       SUBROUTINE LOSSFUN_98(NVAR,NDC,X,FUN,DFUN,CONS,DCONS,IGOTO,
      .                    NPC,PLD ,IFUNC,NFUNC,UPARAM,LENC,LENT,

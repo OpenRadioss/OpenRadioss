@@ -21,20 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    fsdcod         ../starter/source/system/fsdcod.F
+      !||    fsdcod                 ../starter/source/system/fsdcod.F
       !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../starter/source/output/message/message.F
-      !||    fretitl2       ../starter/source/starter/freform.F
-      !||    iniguser       ../starter/source/system/iniguser.F
-      !||    nintri         ../starter/source/system/nintrr.F
-      !||    usr2sys        ../starter/source/system/sysfus.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    iniguser               ../starter/source/system/iniguser.F
+      !||    nintri                 ../starter/source/system/nintrr.F
+      !||    usr2sys                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    intstamp_mod   ../starter/share/modules1/intstamp_mod.F
-      !||    message_mod    ../starter/share/message_module/message_mod.F
-      !||    sensor_mod     ../starter/share/modules1/sensor_mod.F
-      !||    table_mod      ../starter/share/modules1/table_mod.F
+      !||    intstamp_mod           ../starter/share/modules1/intstamp_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
+      !||    table_mod              ../starter/share/modules1/table_mod.F
       !||====================================================================
       SUBROUTINE FSDCOD(BUFMAT    ,PM        ,GEO       ,IBCL      ,IPRES   ,
      .                  IBFV      ,ISKEW     ,ISKN      ,SENSORS   ,
@@ -1952,16 +1952,16 @@ C-----
       END
 C
       !||====================================================================
-      !||    m20dcod        ../starter/source/system/fsdcod.F
+      !||    m20dcod                ../starter/source/system/fsdcod.F
       !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../starter/source/output/message/message.F
-      !||    arret          ../starter/source/system/arret.F
-      !||    fretitl2       ../starter/source/starter/freform.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    arret                  ../starter/source/system/arret.F
+      !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod   ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE M20DCOD(MLAW_TAG, IPM  ,PM)
       USE MESSAGE_MOD

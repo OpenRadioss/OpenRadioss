@@ -21,48 +21,48 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    updmat             ../starter/source/materials/updmat.F
+      !||    updmat                 ../starter/source/materials/updmat.F
       !||--- called by ------------------------------------------------------
-      !||    lectur             ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||    fretitl2           ../starter/source/starter/freform.F
-      !||    law100_upd_ab      ../starter/source/materials/mat/mat100/law100_upd.F
-      !||    law100_upd_nht     ../starter/source/materials/mat/mat100/law100_upd.F
-      !||    law104_upd         ../starter/source/materials/mat/mat104/law104_upd.F
-      !||    law108_upd         ../starter/source/materials/mat/mat108/law108_upd.F
-      !||    law111_upd         ../starter/source/materials/mat/mat111/law111_upd.F
-      !||    law112_upd         ../starter/source/materials/mat/mat112/law112_upd.F
-      !||    law113_upd         ../starter/source/materials/mat/mat113/law113_upd.F
-      !||    law114_upd         ../starter/source/materials/mat/mat114/law114_upd.F
-      !||    law119_upd         ../starter/source/materials/mat/mat119/law119_upd.F
-      !||    law120_upd         ../starter/source/materials/mat/mat120/law120_upd.F
-      !||    law158_upd         ../starter/source/materials/mat/mat158/law158_upd.F
-      !||    law190_upd         ../starter/source/materials/mat/mat190/law190_upd.F
-      !||    law19_upd          ../starter/source/materials/mat/mat019/law19_upd.F90
-      !||    law36_upd          ../starter/source/materials/mat/mat036/law36_upd.F
-      !||    law42_upd          ../starter/source/materials/mat/mat042/law42_upd.F
-      !||    law50_upd          ../starter/source/materials/mat/mat050/law50_upd.F90
-      !||    law58_upd          ../starter/source/materials/mat/mat058/law58_upd.F
-      !||    law62_upd          ../starter/source/materials/mat/mat062/law62_upd.F
-      !||    law69_upd          ../starter/source/materials/mat/mat069/law69_upd.F
-      !||    law70_upd          ../starter/source/materials/mat/mat070/law70_upd.F
-      !||    law76_upd          ../starter/source/materials/mat/mat076/law76_upd.F
-      !||    law77_upd          ../starter/source/materials/mat/mat077/law77_upd.F
-      !||    law87_upd          ../starter/source/materials/mat/mat087/law87_upd.F
-      !||    law88_upd          ../starter/source/materials/mat/mat088/law88_upd.F
-      !||    law90_upd          ../starter/source/materials/mat/mat090/law90_upd.F
-      !||    law92_upd          ../starter/source/materials/mat/mat092/law92_upd.F
-      !||    matfun_usr2sys     ../starter/source/materials/tools/matfun_usr2sys.F
-      !||    mattab_usr2sys     ../starter/source/materials/tools/mattab_usr2sys.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    law100_upd_ab          ../starter/source/materials/mat/mat100/law100_upd.F
+      !||    law100_upd_nht         ../starter/source/materials/mat/mat100/law100_upd.F
+      !||    law104_upd             ../starter/source/materials/mat/mat104/law104_upd.F
+      !||    law108_upd             ../starter/source/materials/mat/mat108/law108_upd.F
+      !||    law111_upd             ../starter/source/materials/mat/mat111/law111_upd.F
+      !||    law112_upd             ../starter/source/materials/mat/mat112/law112_upd.F
+      !||    law113_upd             ../starter/source/materials/mat/mat113/law113_upd.F
+      !||    law114_upd             ../starter/source/materials/mat/mat114/law114_upd.F
+      !||    law119_upd             ../starter/source/materials/mat/mat119/law119_upd.F
+      !||    law120_upd             ../starter/source/materials/mat/mat120/law120_upd.F
+      !||    law158_upd             ../starter/source/materials/mat/mat158/law158_upd.F
+      !||    law190_upd             ../starter/source/materials/mat/mat190/law190_upd.F
+      !||    law19_upd              ../starter/source/materials/mat/mat019/law19_upd.F90
+      !||    law36_upd              ../starter/source/materials/mat/mat036/law36_upd.F
+      !||    law42_upd              ../starter/source/materials/mat/mat042/law42_upd.F
+      !||    law50_upd              ../starter/source/materials/mat/mat050/law50_upd.F90
+      !||    law58_upd              ../starter/source/materials/mat/mat058/law58_upd.F
+      !||    law62_upd              ../starter/source/materials/mat/mat062/law62_upd.F
+      !||    law69_upd              ../starter/source/materials/mat/mat069/law69_upd.F
+      !||    law70_upd              ../starter/source/materials/mat/mat070/law70_upd.F
+      !||    law76_upd              ../starter/source/materials/mat/mat076/law76_upd.F
+      !||    law77_upd              ../starter/source/materials/mat/mat077/law77_upd.F
+      !||    law87_upd              ../starter/source/materials/mat/mat087/law87_upd.F
+      !||    law88_upd              ../starter/source/materials/mat/mat088/law88_upd.F
+      !||    law90_upd              ../starter/source/materials/mat/mat090/law90_upd.F
+      !||    law92_upd              ../starter/source/materials/mat/mat092/law92_upd.F
+      !||    matfun_usr2sys         ../starter/source/materials/tools/matfun_usr2sys.F
+      !||    mattab_usr2sys         ../starter/source/materials/tools/mattab_usr2sys.F
       !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod       ../starter/share/modules1/elbuftag_mod.F
-      !||    law190_upd_mod     ../starter/source/materials/mat/mat190/law190_upd.F
-      !||    law19_upd_mod      ../starter/source/materials/mat/mat019/law19_upd.F90
-      !||    law50_upd_mod      ../starter/source/materials/mat/mat050/law50_upd.F90
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||    sensor_mod         ../starter/share/modules1/sensor_mod.F
-      !||    table_mod          ../starter/share/modules1/table_mod.F
+      !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
+      !||    law190_upd_mod         ../starter/source/materials/mat/mat190/law190_upd.F
+      !||    law19_upd_mod          ../starter/source/materials/mat/mat019/law19_upd.F90
+      !||    law50_upd_mod          ../starter/source/materials/mat/mat050/law50_upd.F90
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
+      !||    table_mod              ../starter/share/modules1/table_mod.F
       !||====================================================================
       SUBROUTINE UPDMAT(BUFMAT   ,PM    ,IPM       ,TABLE    ,FUNC_ID  ,
      .                  NPC      ,PLD   ,SENSORS   ,NLOC_DMG ,MLAW_TAG ,

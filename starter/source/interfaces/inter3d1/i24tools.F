@@ -259,13 +259,13 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
       !||====================================================================
-      !||    msg_err         ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    msg_err                ../starter/source/interfaces/inter3d1/i24tools.F
       !||--- called by ------------------------------------------------------
-      !||    i24inisur_nei   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+      !||    i24inisur_nei          ../starter/source/interfaces/inter3d1/i24inisu_nei.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE MSG_ERR(I1,I2,ITAB,IRR,ID,TITR)
       USE MESSAGE_MOD

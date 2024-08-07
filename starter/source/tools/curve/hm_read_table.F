@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    hm_read_table1       ../starter/source/tools/curve/hm_read_table.F
+      !||    hm_read_table1         ../starter/source/tools/curve/hm_read_table.F
       !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    hm_option_count      ../starter/source/devtools/hm_reader/hm_option_count.F
-      !||    hm_read_table1_0     ../starter/source/tools/curve/hm_read_table1_0.F
-      !||    hm_read_table1_1     ../starter/source/tools/curve/hm_read_table1_1.F
+      !||    hm_option_count        ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_read_table1_0       ../starter/source/tools/curve/hm_read_table1_0.F
+      !||    hm_read_table1_1       ../starter/source/tools/curve/hm_read_table1_1.F
       !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
-      !||    table_mod            ../starter/share/modules1/table_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+      !||    table_mod              ../starter/share/modules1/table_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_TABLE1(NTABLE, TABLE ,NFUNCT ,NPC ,PLD,NOM_OPT, UNITAB, LSUBMODEL)
 C-----------------------------------------------
@@ -122,20 +122,20 @@ C-----------------------------------------------------------------
 2350  FORMAT((3X,5(1X,G20.13))/)
       END
       !||====================================================================
-      !||    hm_read_table2        ../starter/source/tools/curve/hm_read_table.F
+      !||    hm_read_table2         ../starter/source/tools/curve/hm_read_table.F
       !||--- called by ------------------------------------------------------
-      !||    lectur                ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    hm_option_count       ../starter/source/devtools/hm_reader/hm_option_count.F
-      !||    hm_read_table2_0      ../starter/source/tools/curve/hm_read_table2_0.F
-      !||    hm_read_table2_1      ../starter/source/tools/curve/hm_read_table2_1.F
-      !||    udouble               ../starter/source/system/sysfus.F
+      !||    hm_option_count        ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_read_table2_0       ../starter/source/tools/curve/hm_read_table2_0.F
+      !||    hm_read_table2_1       ../starter/source/tools/curve/hm_read_table2_1.F
+      !||    udouble                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod    ../starter/share/modules1/hm_option_read_mod.F
-      !||    interface_table_mod   ../starter/share/modules1/table_mod.F
-      !||    message_mod           ../starter/share/message_module/message_mod.F
-      !||    submodel_mod          ../starter/share/modules1/submodel_mod.F
-      !||    table_mod             ../starter/share/modules1/table_mod.F
+      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+      !||    interface_table_mod    ../starter/share/modules1/table_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+      !||    table_mod              ../starter/share/modules1/table_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_TABLE2(NTABLE, TABLE ,NFUNCT , UNITAB, LSUBMODEL)
 C-----------------------------------------------

@@ -22,14 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    invoi3        ../starter/source/interfaces/inter3d1/invoi3.F
+      !||    invoi3                 ../starter/source/interfaces/inter3d1/invoi3.F
       !||--- called by ------------------------------------------------------
-      !||    iniend        ../starter/source/interfaces/inter3d1/iniend.F
-      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+      !||    iniend                 ../starter/source/interfaces/inter3d1/iniend.F
+      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INVOI3(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,NSEG,NSN,NMN,ITAB,ID,TITR,NRT)
       USE MESSAGE_MOD

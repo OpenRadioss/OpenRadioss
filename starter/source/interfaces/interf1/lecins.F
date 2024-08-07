@@ -21,28 +21,28 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    lecins               ../starter/source/interfaces/interf1/lecins.F
+      !||    lecins                 ../starter/source/interfaces/interf1/lecins.F
       !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
+      !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg               ../starter/source/output/message/message.F
-      !||    elty_surf            ../starter/source/interfaces/interf1/lecins.F
-      !||    fretitl2             ../starter/source/starter/freform.F
-      !||    i11edge              ../starter/source/interfaces/inter3d1/i11edge.F
-      !||    i20surfi             ../starter/source/interfaces/inter3d1/i20surfi.F
-      !||    i24surfi             ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    i25surfi             ../starter/source/interfaces/inter3d1/i25surfi.F
-      !||    ingrbric             ../starter/source/interfaces/interf1/ingrbric.F
-      !||    ingrbric_centroids   ../starter/source/interfaces/interf1/ingrbric_centroids.F
-      !||    ingrbric_nodes       ../starter/source/interfaces/interf1/ingrbric_nodes.F
-      !||    inpoint              ../starter/source/interfaces/interf1/inpoint.F
-      !||    inslin               ../starter/source/interfaces/interf1/inslin.F
-      !||    insurf               ../starter/source/interfaces/interf1/insurf.F
-      !||    insurf23             ../starter/source/interfaces/interf1/insurf23.F
-      !||    insurfigeo           ../starter/source/interfaces/interf1/insurfigeo.F
-      !||    nsegmt               ../starter/source/interfaces/interf1/nsegmt.F
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    elty_surf              ../starter/source/interfaces/interf1/lecins.F
+      !||    fretitl2               ../starter/source/starter/freform.F
+      !||    i11edge                ../starter/source/interfaces/inter3d1/i11edge.F
+      !||    i20surfi               ../starter/source/interfaces/inter3d1/i20surfi.F
+      !||    i24surfi               ../starter/source/interfaces/inter3d1/i24surfi.F
+      !||    i25surfi               ../starter/source/interfaces/inter3d1/i25surfi.F
+      !||    ingrbric               ../starter/source/interfaces/interf1/ingrbric.F
+      !||    ingrbric_centroids     ../starter/source/interfaces/interf1/ingrbric_centroids.F
+      !||    ingrbric_nodes         ../starter/source/interfaces/interf1/ingrbric_nodes.F
+      !||    inpoint                ../starter/source/interfaces/interf1/inpoint.F
+      !||    inslin                 ../starter/source/interfaces/interf1/inslin.F
+      !||    insurf                 ../starter/source/interfaces/interf1/insurf.F
+      !||    insurf23               ../starter/source/interfaces/interf1/insurf23.F
+      !||    insurfigeo             ../starter/source/interfaces/interf1/insurfigeo.F
+      !||    nsegmt                 ../starter/source/interfaces/interf1/nsegmt.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE LECINS(IPARI   ,ITAB       ,PM       ,IPM       ,BUFMAT  ,
      .                  IGRNOD  ,IGRSURF    ,IGRSLIN  ,XFILTR    ,STFAC   ,
