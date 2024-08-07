@@ -89,6 +89,12 @@ c
         MATPARAM_TAB(I)%RHO                = MATPARAM_INI(I)%RHO
         MATPARAM_TAB(I)%RHO0               = MATPARAM_INI(I)%RHO0
         MATPARAM_TAB(I)%YOUNG              = MATPARAM_INI(I)%YOUNG
+        MATPARAM_TAB(I)%SHEAR              = MATPARAM_INI(I)%SHEAR
+        MATPARAM_TAB(I)%BULK               = MATPARAM_INI(I)%BULK
+        MATPARAM_TAB(I)%NU                 = MATPARAM_INI(I)%NU
+        MATPARAM_TAB(I)%STIFF_CONTACT      = MATPARAM_INI(I)%STIFF_CONTACT
+        MATPARAM_TAB(I)%STIFF_HGLASS       = MATPARAM_INI(I)%STIFF_HGLASS 
+        MATPARAM_TAB(I)%STIFF_TSTEP        = MATPARAM_INI(I)%STIFF_TSTEP  
 c
         MATPARAM_TAB(I)%COMPATIBILITY_EOS  = MATPARAM_INI(I)%COMPATIBILITY_EOS
 c
@@ -181,6 +187,12 @@ c
         MATPARAM_TAB(I)%RHO                = ZERO
         MATPARAM_TAB(I)%RHO0               = ZERO
         MATPARAM_TAB(I)%YOUNG              = ZERO
+        MATPARAM_TAB(I)%SHEAR              = ZERO
+        MATPARAM_TAB(I)%BULK               = ZERO
+        MATPARAM_TAB(I)%NU                 = ZERO
+        MATPARAM_TAB(I)%STIFF_CONTACT      = ZERO
+        MATPARAM_TAB(I)%STIFF_HGLASS       = ZERO
+        MATPARAM_TAB(I)%STIFF_TSTEP        = ZERO
       ENDDO
 c-----------------------------------------------
       RETURN

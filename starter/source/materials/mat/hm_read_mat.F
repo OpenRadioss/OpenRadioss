@@ -227,7 +227,7 @@ C-----------------------------------------------
      .        MAXUPARAM,MAXFUNC,MAXTABL,IUNIT,IFLAGUNIT,K,NSUBMAT
       PARAMETER (MAXUPARAM = 1048576) 
       PARAMETER (MAXFUNC  = 128, MAXTABL = 9)
-      my_real :: RHO,RHO0,RHOR,YOUNG,NU,C1,G,SSP,ASRATE,RBID,RHO_MAX
+      my_real :: RHO,RHO0,RHOR,YOUNG,NU,BULK,G,SSP,ASRATE,RBID,RHO_MAX
       INTEGER ,DIMENSION(MAXFUNC) :: IFUNC
       INTEGER ,DIMENSION(MAXTABL) :: ITABLE
       my_real ,DIMENSION(:), ALLOCATABLE :: UPARAM
@@ -1330,7 +1330,7 @@ c---------------------------------------------------------
      .     .and. ILAW /= 151 .AND. ILAW /= 999) THEN
           MTAG%L_STRA = 6        ! all user type laws calculate total strain
 c
-          C1    = PARMAT(1)
+          BULK  = PARMAT(1)
           YOUNG = PARMAT(2)
           NU    = PARMAT(3)
           G     = HALF*YOUNG/(ONE + NU)
@@ -1343,7 +1343,7 @@ c
           PM(21,I) = NU
           PM(22,I) = G
           PM(24,I) = YOUNG/(ONE - NU**2)
-          PM(32,I) = C1  
+          PM(32,I) = BULK  
           IF (ILAW==71 ) PM(27,I)=SQRT(YOUNG/MAX(PM(1,I),EM20))  ! Sound speed
 C---------
 C         For solid elements time step computation :
@@ -1404,26 +1404,42 @@ c
         IPM(217,I) = IUSER_LAW
 c---------------------------------------------------------
 c
-        IF (MATPARAM%RHO  > ZERO) PM(1 ,I) = MATPARAM%RHO
-        IF (MATPARAM%RHO0 > ZERO) PM(89,I) = MATPARAM%RHO0
-          
+        IF (MATPARAM%RHO   > ZERO) PM(1 ,I) = MATPARAM%RHO
+        IF (MATPARAM%RHO0  > ZERO) PM(89,I) = MATPARAM%RHO0
+!
+        IF (MATPARAM%YOUNG == ZERO) MATPARAM%YOUNG = PM(20,I)
+        IF (MATPARAM%NU    == ZERO) MATPARAM%NU    = PM(21,I)
+        IF (MATPARAM%SHEAR == ZERO) MATPARAM%SHEAR = PM(22,I)
+        IF (MATPARAM%BULK  == ZERO) MATPARAM%BULK  = PM(32,I)
+!
+        ! to be defined
+        ! IF (MATPARAM%STIFF_CONTACT == ZERO) MATPARAM%STIFF_CONTACT = PM(?,I)
+        ! IF (MATPARAM%STIFF_HGLASS  == ZERO) MATPARAM%STIFF_HGLASS  = PM(?,I)
+        ! IF (MATPARAM%STIFF_TSTEP   == ZERO) MATPARAM%STIFF_TSTEP   = PM(?,I)
+!---------------------------------------------------------
+        !  PM(100)=Bulk
+        !  pour interface type 7  K=PM(32) ...
+        !  pour interface type 20 K=PM(100)...  
+
+        IF (PM(100,I) == ZERO) PM(100,I) = PM(32,I) ! bulk used for interf 20 stiffness
+c---------------------------------------------------------
         RHOR = PM(1 ,I)
         RHO0 = PM(89,I)
         IF (RHOR == ZERO .AND. ILAW /= 37) THEN
           RHOR = RHO0
           PM(1,I) = RHOR
         ENDIF
-        IF(ILAW/=0 .AND. ILAW/=20 .AND. ILAW/=51 .AND. ILAW/=151 .AND. ILAW/=108 .AND. 
-     .     ILAW /= 999)THEN
-          IF(RHO0<=ZERO)THEN
-            CALL ANCMSG(MSGID=683,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO,
+!
+        IF (ILAW/=0 .AND. ILAW/=20 .AND. ILAW/=51 .AND. ILAW/=151 .AND. 
+     .      ILAW/=108 .AND. ILAW /= 999) THEN
+          IF (RHO0 <= ZERO) THEN
+            CALL ANCMSG(MSGID=683, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .                  I1=MAT_ID,
      .                  C1=TITR,
      .                  C2='DENSITY')
           ENDIF
         ENDIF
+!---------------------------------------------------------
 c
         IF (ISRATE >= 0) THEN
           IF (MTAG%G_EPSD == 0) MTAG%G_EPSD = 1
@@ -1433,19 +1449,15 @@ c
         !Sound Speed
         IF(MTAG%L_SSP == 0)MTAG%L_SSP = 1
 
+!---------------------------------------------------------
 C for QEPH (shell formulation)       
-        IF(IPM(2,I) /= 999)THEN ! IF ipm(2,) == 999 possible negative square root with PM(25)=CPE(gas)
+        IF (IPM(2,I) /= 999) THEN ! IF ipm(2,) == 999 possible negative square root with PM(25)=CPE(gas)
           PM(12,I) = SQRT(MAX(ZERO, PM(22,I)))    ! GSR
           PM(13,I) = SQRT(MAX(ZERO, PM(24,I)))    ! A11SR
           PM(14,I) = SQRT(MAX(ZERO, PM(25,I)))    ! A12SR
           PM(190,I)= SQRT(MAX(ZERO, PM(21,I)))    ! NUSR
         ENDIF  
-!PM(100)=Bulk
-!pour interface type 7  Ki=PM(32)*...
-!pour interface type 20 Ki=PM(100)*...        
-c
-        IF (PM(100,I) == ZERO) PM(100,I) = PM(32,I) ! bulk used for interf 20 stiffness
-C                       
+!                       
 C---------------  fin boucle sur les lois
       ENDDO   ! HM_NUMMAT
 C---------------   
