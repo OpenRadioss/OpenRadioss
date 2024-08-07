@@ -304,9 +304,15 @@
         ! --------------------------------- !<
         integer     :: nmod                 !< number of rupture/damage modes
         ! --------------------------------- !
-        my_real     ::  rho
-        my_real     ::  rho0        
-        my_real     ::  young        
+        my_real     :: rho                  !< reference density
+        my_real     :: rho0                 !< initial density        
+        my_real     :: young                !< Young modulus        
+        my_real     :: bulk                 !< bulk modulus      
+        my_real     :: shear                !< shear modulus 
+        my_real     :: nu                   !< Poisson's ratio     
+        my_real     :: stiff_contact        !< initial contact stiffness 
+        my_real     :: stiff_hglass         !< initial hourglass stiffness      
+        my_real     :: stiff_tstep          !< initial stiffness for time step stability
 !                        
         my_real                   ,dimension(:) ,allocatable :: uparam !< real value material parameter table (nuparam)
         integer                   ,dimension(:) ,allocatable :: iparam !< integer value material parameter table (niparam)

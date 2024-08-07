@@ -101,15 +101,21 @@ c
 c
 c     read real parameters
 c
-      NFIXR = 3
+      NFIXR = 9
       LENR  = NFIXR*NUMMAT
       ALLOCATE (RBUF(LENR) )
       CALL READ_DB (RBUF ,LENR)
       IAD   = 0
       DO IMAT = 1,NUMMAT
-        MAT_ELEM%MAT_PARAM(IMAT)%RHO   = RBUF(IAD + 1)
-        MAT_ELEM%MAT_PARAM(IMAT)%RHO0  = RBUF(IAD + 2)
-        MAT_ELEM%MAT_PARAM(IMAT)%YOUNG = RBUF(IAD + 3)
+        MAT_ELEM%MAT_PARAM(IMAT)%RHO           = RBUF(IAD + 1)
+        MAT_ELEM%MAT_PARAM(IMAT)%RHO0          = RBUF(IAD + 2)
+        MAT_ELEM%MAT_PARAM(IMAT)%YOUNG         = RBUF(IAD + 3)
+        MAT_ELEM%MAT_PARAM(IMAT)%BULK          = RBUF(IAD + 4)
+        MAT_ELEM%MAT_PARAM(IMAT)%SHEAR         = RBUF(IAD + 5)
+        MAT_ELEM%MAT_PARAM(IMAT)%NU            = RBUF(IAD + 6)
+        MAT_ELEM%MAT_PARAM(IMAT)%STIFF_CONTACT = RBUF(IAD + 7)
+        MAT_ELEM%MAT_PARAM(IMAT)%STIFF_HGLASS  = RBUF(IAD + 8)
+        MAT_ELEM%MAT_PARAM(IMAT)%STIFF_TSTEP   = RBUF(IAD + 9)
         IAD = IAD + NFIXR
       END DO
       DEALLOCATE (RBUF)
