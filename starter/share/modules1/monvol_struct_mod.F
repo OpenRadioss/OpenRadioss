@@ -1407,63 +1407,63 @@ C-----------------------------------------------
       ! 7. DEBUG : HM TCL SCRIPT TO CHECK PATH !
       !----------------------------------------!
       debug_output=.FALSE.
-      if(debug_output)then
-        WRITE(FILENAME1, "(A,I0,A)") "surfmesh_",T_MONVOLN%ID,"_list_ids.tcl"
-        OPEN(UNIT = 220582, FILE = FILENAME1, FORM ='formatted')
-        write (220582,FMT='(A)')"set ids { \"
-        kk=0                                                                                                                           
-        do while (kk < sizes(1))                                                                                                       
-         if(kk+1<sizes(1))then                                                                                                         
-           ISH34 = SURF%ELTYP(1+PATHS(kk+1))                                                                                           
-           IF(ISH34==3)THEN                                                                                                            
-             write (220582,FMT='(I10,A,I10,A)')IXC(7,SURF%ELEM(1+PATHS(kk+1)) ) ," ",10000000+IXC(7,SURF%ELEM(1+PATHS(kk+1)) ),' \' 
-           ELSE                                                                                                                        
-             write (220582,FMT='(I10,A,I10,A)')IXTG(6,SURF%ELEM(1+PATHS(kk+1)) )," ",10000000+IXTG(6,SURF%ELEM(1+PATHS(kk+1)) ),' \'
-           ENDIF                                                                                                                       
-         endif                                                                                                                         
-         kk=kk+1                                                                                                                       
-        enddo    
-        write (220582,FMT='(A)') " } ; "  
-        CLOSE(220582)                                                                                                                   
-
-        WRITE(FILENAME2, "(A,I0,A)") "surfmesh_",T_MONVOLN%ID,"_list_types.tcl"
-        OPEN(UNIT = 220582, FILE = FILENAME2, FORM ='formatted')
-        write (220582,FMT='(A)')"set types { \"       
-        kk=0                                              
-        do while (kk < sizes(1))                          
-         if(kk+1<sizes(1))then                            
-           ISH34 = SURF%ELTYP(1+PATHS(kk+1))              
-           IF(ISH34==3)THEN                               
-             write (*,FMT='(I10,A,I10,A)')3 ,"  ",3,'  \' 
-           ELSE                                           
-             write (*,FMT='(I10,A,I10,A)')7,"  ",7,'  \'  
-           ENDIF                                          
-         endif                                            
-         kk=kk+1                                          
-        enddo   
-        CLOSE(220582)
-                                                  
-        WRITE(FILENAME, "(A,I0,A)") "surfmesh_",T_MONVOLN%ID,"_HM_TCL_MACTO.tcl"
-        OPEN(UNIT = 220582, FILE = FILENAME, FORM ='formatted')
-        write (220582,FMT='(A)') '#--$ids                                                                      '                
-        write (220582,FMT='(A)') '::hwt::Source "'//FILENAME1//'";'               
-        write (220582,FMT='(A)') '#--$types                                                                    '                
-        write (220582,FMT='(A)') '::hwt::Source "'//FILENAME2//'";'               
-        write (220582,FMT='(A)') '                                                                             '                
-        write (220582,FMT='(A)') 'for {set i 0} {$i < [llength $ids]} {incr i 2} {                             ' 
-        write (220582,FMT='(A)') '   set ityp [lindex $types $i]                                               '  
-        write (220582,FMT='(A)') '   set id [lindex $ids $i]                                                   '  
-        write (220582,FMT='(A)') '                                                                             '  
-        write (220582,FMT='(A)') '   if {$ityp == 3} {                                                         '  
-        write (220582,FMT='(A)') '     *createmark elements 1 [hm_getinternalid shell_idpool $id -bypoolname] ;'  
-        write (220582,FMT='(A)') ' } elseif {$ityp == 7} {                                                     '  
-        write (220582,FMT='(A)') '     *createmark elements 1 [hm_getinternalid sh3n_idpool $id -bypoolname] ; '  
-        write (220582,FMT='(A)') ' }                                                                           '  
-        write (220582,FMT='(A)') ' hm_redraw;                                                                  '  
-        write (220582,FMT='(A)') ' *movemark elements 1 \"COLOR\";                                             '  
-        write (220582,FMT='(A)') '}                                                                            '  
-        CLOSE(220582)                                                                                                                   
-      endif !(debug_output)
+C      if(debug_output)then
+C        WRITE(FILENAME1, "(A,I0,A)") "surfmesh_",T_MONVOLN%ID,"_list_ids.tcl"
+C        OPEN(UNIT = 220582, FILE = FILENAME1, FORM ='formatted')
+C        write (220582,FMT='(A)')"set ids { \"
+C        kk=0                                                                                                                           
+C        do while (kk < sizes(1))                                                                                                       
+C         if(kk+1<sizes(1))then                                                                                                         
+C           ISH34 = SURF%ELTYP(1+PATHS(kk+1))                                                                                           
+C           IF(ISH34==3)THEN                                                                                                            
+C             write (220582,FMT='(I10,A,I10,A)')IXC(7,SURF%ELEM(1+PATHS(kk+1)) ) ," ",10000000+IXC(7,SURF%ELEM(1+PATHS(kk+1)) ),' \' 
+C           ELSE                                                                                                                        
+C             write (220582,FMT='(I10,A,I10,A)')IXTG(6,SURF%ELEM(1+PATHS(kk+1)) )," ",10000000+IXTG(6,SURF%ELEM(1+PATHS(kk+1)) ),' \'
+C           ENDIF                                                                                                                       
+C         endif                                                                                                                         
+C         kk=kk+1                                                                                                                       
+C        enddo    
+C        write (220582,FMT='(A)') " } ; "  
+C        CLOSE(220582)                                                                                                                   
+C
+C        WRITE(FILENAME2, "(A,I0,A)") "surfmesh_",T_MONVOLN%ID,"_list_types.tcl"
+C        OPEN(UNIT = 220582, FILE = FILENAME2, FORM ='formatted')
+C        write (220582,FMT='(A)')"set types { \"       
+C        kk=0                                              
+C        do while (kk < sizes(1))                          
+C         if(kk+1<sizes(1))then                            
+C           ISH34 = SURF%ELTYP(1+PATHS(kk+1))              
+C           IF(ISH34==3)THEN                               
+C             write (*,FMT='(I10,A,I10,A)')3 ,"  ",3,'  \' 
+C           ELSE                                           
+C             write (*,FMT='(I10,A,I10,A)')7,"  ",7,'  \'  
+C           ENDIF                                          
+C         endif                                            
+C         kk=kk+1                                          
+C        enddo   
+C        CLOSE(220582)
+C                                                  
+C        WRITE(FILENAME, "(A,I0,A)") "surfmesh_",T_MONVOLN%ID,"_HM_TCL_MACTO.tcl"
+C        OPEN(UNIT = 220582, FILE = FILENAME, FORM ='formatted')
+C        write (220582,FMT='(A)') '#--$ids                                                                      '                
+C        write (220582,FMT='(A)') '::hwt::Source "'//FILENAME1//'";'               
+C        write (220582,FMT='(A)') '#--$types                                                                    '                
+C        write (220582,FMT='(A)') '::hwt::Source "'//FILENAME2//'";'               
+C        write (220582,FMT='(A)') '                                                                             '                
+C        write (220582,FMT='(A)') 'for {set i 0} {$i < [llength $ids]} {incr i 2} {                             ' 
+C        write (220582,FMT='(A)') '   set ityp [lindex $types $i]                                               '  
+C        write (220582,FMT='(A)') '   set id [lindex $ids $i]                                                   '  
+C        write (220582,FMT='(A)') '                                                                             '  
+C        write (220582,FMT='(A)') '   if {$ityp == 3} {                                                         '  
+C        write (220582,FMT='(A)') '     *createmark elements 1 [hm_getinternalid shell_idpool $id -bypoolname] ;'  
+C        write (220582,FMT='(A)') ' } elseif {$ityp == 7} {                                                     '  
+C        write (220582,FMT='(A)') '     *createmark elements 1 [hm_getinternalid sh3n_idpool $id -bypoolname] ; '  
+C        write (220582,FMT='(A)') ' }                                                                           '  
+C        write (220582,FMT='(A)') ' hm_redraw;                                                                  '  
+C        write (220582,FMT='(A)') ' *movemark elements 1 \"COLOR\";                                             '  
+C        write (220582,FMT='(A)') '}                                                                            '  
+C        CLOSE(220582)                                                                                                                   
+C      endif !(debug_output)
       
       !------------------------------------!
       ! 8. GET PATH                        !

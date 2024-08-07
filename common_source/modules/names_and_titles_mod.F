@@ -973,21 +973,20 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       MODULE NAMES_AND_TITLES_MOD
 C-----------------------------------------------
             ! Global parameters for strings
-            PARAMETER (NCHARKEY      = 20)                      ! Max lengts of KEY input
-            PARAMETER (NCHARLINE     = 500)                     ! Line read & write for Starter. Includes & titles can have up to 500 chars
-            PARAMETER (NCHARLINE100  = 100)                     ! Line Read & write for Engine. Must be kept at size 100
-            PARAMETER (NCHARTITLE    = 500)                     ! Titles / and path
-            PARAMETER (LINE120       = 120)                     ! Line of size 120 / exists in some parts of code
-            PARAMETER (NCHARFIELD    = 20)                      ! lengts of a field for Float input storage / 20
-
+            INTEGER, PARAMETER :: NCHARKEY      = 20                      ! Max lengts of KEY input
+            INTEGER, PARAMETER :: NCHARLINE     = 500                     ! Line read & write for Starter. Includes & titles can have up to 500 chars
+            INTEGER, PARAMETER :: NCHARLINE100  = 100                     ! Line Read & write for Engine. Must be kept at size 100
+            INTEGER, PARAMETER :: NCHARTITLE    = 500                     ! Titles / and path
+            INTEGER, PARAMETER :: LINE120       = 120                     ! Line of size 120 / exists in some parts of code
+            INTEGER, PARAMETER :: NCHARFIELD    = 20                      ! lengts of a field for Float input storage / 20
             ! Parameters for NAMES_AND_TITLES type
-            PARAMETER (LTITLE        = 100)
-            PARAMETER (LROOTNAME     = 80)
-            PARAMETER (LCHRUN        = 4)
-            PARAMETER (LCHRUN0       = 2)
-            PARAMETER (LPATH         = 2048)
-            PARAMETER (LVERS         = 32)
-            PARAMETER (LIMVW_REFPATH = 100)
+            INTEGER, PARAMETER :: LTITLE        = 100
+            INTEGER, PARAMETER :: LROOTNAME     = 80
+            INTEGER, PARAMETER :: LCHRUN        = 4
+            INTEGER, PARAMETER :: LCHRUN0       = 2
+            INTEGER, PARAMETER :: LPATH         = 2048
+            INTEGER, PARAMETER :: LVERS         = 32
+            INTEGER, PARAMETER :: LIMVW_REFPATH = 100
 
 C-----------------------------------------------
             TYPE NAMES_AND_TITLES_
