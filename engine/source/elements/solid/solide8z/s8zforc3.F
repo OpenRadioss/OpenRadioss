@@ -205,9 +205,9 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------      
-      INTEGER  I,J,N,LCO,NF1,IFLAG,IAD0,ILAY,NLAY,
-     .   IP,IR,IS,IT,NPTR,NPTS,NPTT,ICR,ICS,ICT,PID,MTN0,IPTHK,
-     .   IPPOS,IPMAT,NLYMAX,MID,IPANG,NPTR0,NPTS0,NPTT0,IBID,MX
+      INTEGER  I,J,N,NF1,IFLAG,ILAY,NLAY,
+     .   IP,IR,IS,IT,NPTR,NPTS,NPTT,ICR,ICS,ICT,PID,
+     .   IPMAT,NLYMAX,MID,IPANG,IBID,MX
 
       DOUBLE PRECISION 
      .   X0(MVSIZ,8),Y0(MVSIZ,8),Z0(MVSIZ,8),
@@ -217,7 +217,7 @@ C-----------------------------------------------
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),VOLP(MVSIZ,NNPT)
-      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),MXT0(MVSIZ),IPARBID(1)
+      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IPARBID(1)
       my_real
      . VD2(MVSIZ) , DVOL(MVSIZ),DELTAX(MVSIZ),
      . VIS(MVSIZ) , QVIS(MVSIZ), CXX(MVSIZ) ,
@@ -233,6 +233,7 @@ C-----------------------------------------------
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
      . E0(MVSIZ),C1,FAC(MVSIZ) ,THEM(MVSIZ,8),TEMPEL(MVSIZ),NI(8),
      . DIE(MVSIZ),CONDE(MVSIZ) ,CONDEN(MVSIZ),AMU(MVSIZ)
+      my_real, dimension(mvsiz) :: fheat
 C-----
 C   Variables utilisees en argument par les materiaux.
       my_real
@@ -264,9 +265,6 @@ C   Variables utilisees dans les routines solides uniquement (en arguments).
      .  VY5(MVSIZ),VY6(MVSIZ),VY7(MVSIZ),VY8(MVSIZ),
      .  VZ1(MVSIZ),VZ2(MVSIZ),VZ3(MVSIZ),VZ4(MVSIZ),
      .  VZ5(MVSIZ),VZ6(MVSIZ),VZ7(MVSIZ),VZ8(MVSIZ),
-     .  HX1(MVSIZ),HX2(MVSIZ),HX3(MVSIZ),HX4(MVSIZ),
-     .  HY1(MVSIZ),HY2(MVSIZ),HY3(MVSIZ),HY4(MVSIZ),
-     .  HZ1(MVSIZ),HZ2(MVSIZ),HZ3(MVSIZ),HZ4(MVSIZ),
      .  PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),PX4(MVSIZ),
      .  PX5(MVSIZ),PX6(MVSIZ),PX7(MVSIZ),PX8(MVSIZ),
      .  PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
@@ -328,17 +326,14 @@ C   Variables utilisees dans les routines solides uniquement (en arguments).
      .   G1Z(MVSIZ),G2Z(MVSIZ),G3Z(MVSIZ)
       my_real
      .   WI,SMAX(MVSIZ),VOLG(MVSIZ),NU(MVSIZ),PP(MVSIZ),USB(MVSIZ),
-     .   VOLM(MVSIZ),SIGM(MVSIZ),DTI,BID(MVSIZ),FAC_NU,NU_SP,NU0
+     .   SIGM(MVSIZ),DTI,BID(MVSIZ),FAC_NU,NU_SP,NU0
       my_real
      .   SIGY(MVSIZ), SIGN(NEL,6),ET(MVSIZ), NU1(MVSIZ),
-     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ),DELTAXI(MVSIZ)
+     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),DELTAXI(MVSIZ)
       my_real
      .   VX0(MVSIZ,8),VY0(MVSIZ,8),VZ0(MVSIZ,8)
       my_real
-     .   SHF(MVSIZ),ZR,ZS,ZT,WT,ZZ,
-     .   RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
-     .   SX(MVSIZ), SY(MVSIZ), SZ(MVSIZ),
-     .   TX(MVSIZ), TY(MVSIZ), TZ(MVSIZ)
+     .   SHF(MVSIZ),ZR,ZS,ZT,WT
       my_real, DIMENSION(MVSIZ,NNPT) :: AJI1,AJI2,AJI3
       my_real, DIMENSION(MVSIZ,NNPT) :: AJI4,AJI5,AJI6
       my_real, DIMENSION(MVSIZ,NNPT) :: AJI7,AJI8,AJI9
@@ -361,13 +356,12 @@ C     Variables utilis  es pour le non-local
       INTEGER SZ_IX
 
 c     Flag Bolt Preloading
-      INTEGER IBOLTP,NBPRELD,ISM12_11,II(6)
+      INTEGER IBOLTP,NBPRELD,ISM12_11
       my_real, 
      .  DIMENSION(:), POINTER :: BPRELD
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
 c-----------------------------------------------------
       PARAMETER (NLYMAX = 200,IPMAT = 100,IPANG = 200)
 c-----------------------------------------------------
@@ -1154,7 +1148,7 @@ C-----------------------------
 C
 C    for heat transfert
 C
-      IF(JTHE < 0 ) THEN
+      IF (JTHE < 0 ) THEN
        CALL S8ZTEMPEL(LFT,LLT,NI,
      1               ZR,ZS,ZT,
      2               NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
@@ -1206,7 +1200,7 @@ C
      .   numgeo,       numnod,       numels,
      .   IDEL7NOK,     IDTMIN,       MAXFUNC,
      .   IMON_MAT,     USERL_AVAIL,  heat_meca,    impl_s,
-     .   idyna)
+     .   idyna   ,     fheat      )
 C    
         IF (ISTRAIN == 1) THEN 
           CALL SSTRA3(
@@ -1349,26 +1343,45 @@ c
 c-------------------------
 c    finite element heat transfert  
 c-------------------------
-         IF(JTHE < 0) THEN
-           CALL S8ETHERM(
-     1   PM,      MXT,     VOLN,    NI,
-     2   NC1,     NC2,     NC3,     NC4,
-     3   NC5,     NC6,     NC7,     NC8,
-     4   PX1,     PX2,     PX3,     PX4,
-     5   PY1,     PY2,     PY3,     PY4,
-     6   PZ1,     PZ2,     PZ3,     PZ4,
-     7   PX5,     PX6,     PX7,     PX8,
-     8   PY5,     PY6,     PY7,     PY8,
-     9   PZ5,     PZ6,     PZ7,     PZ8,
-     A   DT1,     TEMP,    TEMPEL,  DIE,
-     B   THEM,    GBUF%OFF,LBUF%OFF,PARTSAV,
-     C   IPARTS,  LBUF%VOL,NEL)
-         ENDIF 
+         IF (JTHE < 0) THEN
+           IMAT = MXT(1)
+           IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
+             CALL S8ETHERM(
+     1            PM,     IMAT,     VOLN,    NI,
+     2            NC1,     NC2,     NC3,     NC4,
+     3            NC5,     NC6,     NC7,     NC8,
+     4            PX1,     PX2,     PX3,     PX4,
+     5            PY1,     PY2,     PY3,     PY4,
+     6            PZ1,     PZ2,     PZ3,     PZ4,
+     7            PX5,     PX6,     PX7,     PX8,
+     8            PY5,     PY6,     PY7,     PY8,
+     9            PZ5,     PZ6,     PZ7,     PZ8,
+     A            DT1,     TEMP,    TEMPEL,  FHEAT  ,
+     B            THEM,    GBUF%OFF,LBUF%OFF,PARTSAV,
+     C            IPARTS,  LBUF%VOL,NEL)
+           ELSE
+             CALL S8ETHERM(
+     1            PM,     IMAT,     VOLN,    NI,
+     2            NC1,     NC2,     NC3,     NC4,
+     3            NC5,     NC6,     NC7,     NC8,
+     4            PX1,     PX2,     PX3,     PX4,
+     5            PY1,     PY2,     PY3,     PY4,
+     6            PZ1,     PZ2,     PZ3,     PZ4,
+     7            PX5,     PX6,     PX7,     PX8,
+     8            PY5,     PY6,     PY7,     PY8,
+     9            PZ5,     PZ6,     PZ7,     PZ8,
+     A            DT1,     TEMP,    TEMPEL,  DIE  ,
+     B            THEM,    GBUF%OFF,LBUF%OFF,PARTSAV,
+     C            IPARTS,  LBUF%VOL,NEL)
+           END IF
+          ENDIF 
+!
         ENDDO  ! IT=1,NPTT
        ENDDO   ! IS=1,NPTS
       ENDDO    ! IR=1,NPTR
-C-----------End integrating points-----
-c
+!---------------------------------------------------------
+!     End integrating points
+!---------------------------------------------------------
       IF (IOFFS == 1) THEN
        DO I=LFT,LLT
           IF (OFFS(I) <= TWO) GBUF%OFF(I)=OFFS(I)          

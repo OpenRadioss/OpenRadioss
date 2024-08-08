@@ -169,13 +169,14 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(NPROPMI,NUMMAT),ITASK,IMATVIS,GRTH(*),IGRTH(*),
      .        IGEO(NPROPGI,*), TAGPRT_SMS(*)        
-      INTEGER NELTST,ITYPTST,OFFSET,NEL ,ICP, NDDIM,
+      INTEGER NELTST,ITYPTST,OFFSET,NEL ,ICP,
      .        NVC,ISTRAIN,IEXPAN,NG,NPTS,IOUTPRT,NALE(*),H3D_STRAIN
 
       DOUBLE PRECISION 
      .        XDP(3,*)
       my_real
      .   DT2T
+      my_real, dimension(mvsiz) :: fheat
       my_real
      .   PM(NPROPM,NUMMAT), GEO(NPROPG,*), X(*), A(*), V(3,*), MS(*), W(*), 
      .   FLUX(6,*), FSKYM(*),
@@ -205,8 +206,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,LCO,NF1,IFLAG,ILAY,IPTR,IPTS,IPTT,II(6)
-      INTEGER IBID,IBIDV(1),ITET,IADBUF,IVISC,IP,NNOD
+      INTEGER I,J,NF1,IFLAG,ILAY,IPTR,IPTS,IPTT,II(6)
+      INTEGER IBID,IBIDV(1),ITET,IADBUF,IVISC,IP
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),INOD(8),
      .        IPOS(8), L_NLOC, INLOC,ICP0
       my_real
@@ -292,14 +293,13 @@ C 8-nodes solid connectivities
      .  MFZZ(MVSIZ),MFZX(MVSIZ),MFXZ(MVSIZ),
      .  TEMPEL(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ),
      .  SIGY(MVSIZ), SIGO(NEL,6),ET(MVSIZ), SIGN(NEL,6),
-     .  R1_FREE(MVSIZ),R3_DAM(MVSIZ),R4_FREE(MVSIZ),OFFG0(MVSIZ),AMU(MVSIZ),
+     .  R1_FREE(MVSIZ),R3_DAM(MVSIZ),OFFG0(MVSIZ),AMU(MVSIZ),
      .  XGXA(MVSIZ),XGYA(MVSIZ),XGZA(MVSIZ),
      .  XGXYA(MVSIZ),XGYZA(MVSIZ),XGZXA(MVSIZ),
      .  XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ),
      .  STI_C(MVSIZ),LL(MVSIZ),L_MAX(MVSIZ),FLD(MVSIZ),
      .  CNS2,RHO0_1,NU,C1,CAQ,FQMAX
-      my_real, 
-     .  DIMENSION(:), POINTER :: EINT
+      my_real ,DIMENSION(:), POINTER :: EINT
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -644,7 +644,7 @@ C  Total strain option doesn't change the reference configuration
       END IF !(ISMSTR == 2) THEN
 C
 C Element temperature
-      IF(JTHE < 0) THEN       
+      IF (JTHE < 0) THEN       
         DO I=1,NEL
           TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
      .                             + TEMP(NC3(I)) + TEMP(NC4(I)) 
@@ -724,7 +724,8 @@ C Compute stresses according to the material law
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,      
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
-     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,idyna   )
+     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,idyna   ,
+     .   fheat)
 
       IF (ISTRAIN == 1)THEN 
         CALL SSTRA3(
@@ -1081,17 +1082,31 @@ c===========================================================================
 c===========================================================================  
 C
 C Finite element heat transfert
-      IF(JTHE < 0) THEN
-        CALL STHERM(
-     1   PM,      MXT,     VOLN,    NC1,
-     2   NC2,     NC3,     NC4,     NC5,
-     3   NC6,     NC7,     NC8,     PX1,
-     4   PX2,     PX3,     PX4,     PY1,
-     5   PY2,     PY3,     PY4,     PZ1,
-     6   PZ2,     PZ3,     PZ4,     DT1,
-     7   TEMP,    TEMPEL,  DIE,     THEM,
-     8   GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
-     9   GBUF%VOL,NEL)
+      IF (JTHE < 0) THEN
+        IMAT = MXT(1)
+        IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
+          CALL STHERM(
+     1         PM,      IMAT,    VOLN,    NC1,
+     2         NC2,     NC3,     NC4,     NC5,
+     3         NC6,     NC7,     NC8,     PX1,
+     4         PX2,     PX3,     PX4,     PY1,
+     5         PY2,     PY3,     PY4,     PZ1,
+     6         PZ2,     PZ3,     PZ4,     DT1,
+     7         TEMP,    TEMPEL,  FHEAT,   THEM,
+     8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
+     9         GBUF%VOL,NEL     ,NUMNOD )
+         ELSE
+          CALL STHERM(
+     1         PM,      IMAT,    VOLN,    NC1,
+     2         NC2,     NC3,     NC4,     NC5,
+     3         NC6,     NC7,     NC8,     PX1,
+     4         PX2,     PX3,     PX4,     PY1,
+     5         PY2,     PY3,     PY4,     PZ1,
+     6         PZ2,     PZ3,     PZ4,     DT1,
+     7         TEMP,    TEMPEL,  DIE,     THEM,
+     8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
+     9         GBUF%VOL,NEL     ,NUMNOD )
+         END IF
       ENDIF 
 C
 C Transform forces from convected frame to global frame

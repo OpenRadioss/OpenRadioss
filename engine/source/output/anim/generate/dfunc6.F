@@ -228,26 +228,19 @@ c-----------
      .              EVAR(I) = EVAR(I) * GBUF%FILL(I)                                                
                 ENDDO                                                   
 c-----------
-              ELSEIF(IFUNC == 4)THEN
+              ELSEIF (IFUNC == 4) THEN   ! element temperature
                 DO I=LFT,LLT                                            
-                  IF (IPARG(1,NG)  ==  2 .AND. JTHE  ==  0) THEN       
-                    EVAR(I) = PM(54,IXS(1,NFT+I)) + GBUF%EINT(I)*     
-     .                        GBUF%VOL(I) * PM(53,IXS(1,NFT+I))      
-                  ELSEIF (GBUF%G_TEMP > 0) THEN
-                    IF (MLW == 104) THEN 
-                      DO IL=1,NLAY                                                           
-                        DO IS=1,NPTS                                                         
-                          DO IT=1,NPTT                                                       
-                            DO IR=1,NPTR            
-                              LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)                                                                    
-                              EVAR(I) = EVAR(I) + (ONE/NPTG)*(LBUF%TEMP(I))               
-                            ENDDO                                                          
-                          ENDDO                                                            
-                        ENDDO                                                              
-                      ENDDO                                                                      
-                    ELSE
-                      EVAR(I) = GBUF%TEMP(I)
-                    ENDIF
+                  IF (GBUF%G_TEMP > 0) THEN
+                    DO IL=1,NLAY                                                           
+                      DO IS=1,NPTS                                                         
+                        DO IT=1,NPTT                                                       
+                          DO IR=1,NPTR            
+                            LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)                                                                    
+                            EVAR(I) = EVAR(I) + LBUF%TEMP(I)/NPTG              
+                          ENDDO                                                          
+                        ENDDO                                                            
+                      ENDDO                                                              
+                    ENDDO                                                                      
                   ENDIF                                                 
                 ENDDO                                                   
 c-----------

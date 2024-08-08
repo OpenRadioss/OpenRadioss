@@ -232,6 +232,9 @@ C
       my_real, ALLOCATABLE, DIMENSION(:) :: DIRA,DIRB,DIR1_CRK,DIR2_CRK
       my_real, DIMENSION(:) ,POINTER     :: DIR_A, DIR_B,CRKDIR,CRKLEN,DADV
       TARGET :: DIRA,DIRB
+!     variables for heat transfer
+      my_real, dimension(mvsiz) :: fheat
+!
 C--- Variables pour le non-local
       INTEGER :: NDDL, K, INOD(4),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .           IPOS(4), L_NLOC, INLOC
@@ -456,10 +459,10 @@ C
      7            UX3    ,UX4       ,UY1      ,UY2    ,UY3  ,
      8            UY4    ,PX1       ,PX2      ,PY1    ,PY2  ,
      9            WXY    ,GBUF%STRW ,F_DEF    ,NEL    )
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (JTHE > 0 ) THEN
-        CALL TEMPCG(JFT   ,JLT   ,PM     ,MAT   ,IXC     ,
-     .              TEMP ,TEMPEL )
+c-------------------------------------------
+      ! transfer nodal temperature to gauss point from /heat/mat
+      IF (JTHE /= 0) THEN      
+        CALL TEMPCG(NUMNOD,NEL   ,IXC  ,TEMP ,TEMPEL )
       ENDIF
 c-------------------------------------------
 c    COMPUTE Regularized non local variable in Gauss point
@@ -506,7 +509,7 @@ C-----------------------------
      B  NGL         ,ZCFAC       ,SHF         ,GS         ,GBUF%EPSD  ,
      C  KFTS        ,IHBE        ,ALPE        ,
      D  DIR_A       ,DIR_B       ,IGEO        ,
-     E  IPM         ,IFAILURE    ,NPG         ,
+     E  IPM         ,IFAILURE    ,NPG         ,FHEAT      ,
      F  TEMPEL      ,DIE         ,JTHE        ,IEXPAN     ,GBUF%TEMP  ,
      G  IBID        ,BID         ,
      H  BID         ,BID         ,BID         ,BID        ,BID        ,
@@ -626,15 +629,21 @@ C-------------------------
 c     Thermique des coques 
 C--------------------------
 C
-       IF (JTHE > 0) THEN
-        CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
-     .              PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
-     .              TEMP  ,TEMPEL,DIE   , THEM    ) 
+       IF (JTHE /= 0) THEN   ! /heat/mat
+         IF (MAT_ELEM%MAT_PARAM(MAT(1))%HEAT_FLAG == 1) THEN
+           CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
+     .                 PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
+     .                 TEMP  ,TEMPEL,FHEAT  , THEM    ) 
+         ELSE
+           CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
+     .                 PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
+     .                 TEMP  ,TEMPEL,DIE   , THEM    ) 
+         END IF
        ENDIF
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
-      IF (JTHE > 0 .AND. IDT_THERM == 1) THEN
+      IF (JTHE /= 0 .AND. IDT_THERM == 1) THEN
         CALL DTTHERM(
      1   JFT,     JLT,     PM,      TEMPEL,
      2   GBUF%RE, RHO,     GBUF%RK, VOL0,
