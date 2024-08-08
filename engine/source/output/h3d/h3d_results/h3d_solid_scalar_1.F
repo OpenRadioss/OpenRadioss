@@ -372,16 +372,8 @@ C--------------------------------------------------
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'TEMP')THEN
 C--------------------------------------------------
-                IF (IPARG(1,NG)  ==  2 .AND. JTHE  ==  0) THEN
-                  DO I=1,NEL
-                    VALUE(I) = PM(54,IXS(1,NFT+I)) + GBUF%EINT(I)*
-     .                      GBUF%VOL(I) * PM(53,IXS(1,NFT+I))
-                    IS_WRITTEN_VALUE(I) = 1
-                  ENDDO
-                ELSEIF (GBUF%G_TEMP > 0) THEN
-                  DO I=LFT,LLT
-                    VALUE(I) = ZERO
-                  ENDDO
+                IF (GBUF%G_TEMP > 0) THEN
+                  VALUE(1:NEL) = ZERO
                   DO IL=1,NLAY
                     IF (ELBUF_TAB(NG)%BUFLY(IL)%L_TEMP > 0) THEN
                       DO IS=1,NPTS

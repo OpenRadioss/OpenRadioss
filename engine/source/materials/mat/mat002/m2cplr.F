@@ -26,8 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps02c   ../engine/source/materials/mat/mat002/sigeps02c.F
       !||====================================================================
       SUBROUTINE M2CPLR(JFT    ,JLT    ,EZZ      ,OFF      ,EPSEQ   ,
-     2                  IPLA   ,T      ,Z3       ,Z4       ,EPIF    ,
-     3                  NPIF   ,IRTY   ,ETSE     ,GS       ,EPSP    ,
+     2                  IPLA   ,TEMP   ,Z3       ,Z4       ,EPIF    ,
+     3                  IRTY   ,ETSE   ,GS       ,EPSP    ,
      4                  ISRATE ,YLD    ,G        ,A1       ,A2      ,
      5                  NU     ,CA0    ,CB0      ,CN       ,YMAX0   ,
      6                  EPCHK  ,YOUNG  ,CC       ,EPDR     ,ICC     ,
@@ -37,7 +37,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A                  SIGNYZ ,SIGNZX ,SIGBAKXX ,SIGBAKYY ,SIGBAKXY,
      B                  SIGOXX ,SIGOYY ,SIGOXY   ,SIGOYZ   ,SIGOZX  ,
      C                  VP     ,PLAP   ,TIMESTEP,ASRATE)
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,13 +52,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, IPLA,NPIF,IRTY,ISRATE,NEL
+      INTEGER JFT, JLT, IPLA,IRTY,ISRATE,NEL
       INTEGER,INTENT(IN) :: VP
 C     REAL
       my_real ,DIMENSION(NEL)   ,INTENT(INOUT) :: PLAP
       my_real ,INTENT(IN) :: TIMESTEP,ASRATE
       my_real
-     .   EZZ(*), OFF(*), EPSEQ(*),T(*),Z3,Z4,
+     .   EZZ(*), OFF(*), EPSEQ(*),TEMP(*),Z3,Z4,
      .   EPIF, ETSE(*),GS(*),EPSP(*)
       my_real
      .   A1, A2, G, YMAX0, 
@@ -134,7 +133,7 @@ C-------------
 C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
       IF (EPIF /= ZERO) THEN
-        IF (NPIF == ZERO) THEN      
+        IF (IRTY == 0) THEN      
           IF (VP == 1)THEN
             DO I=JFT,JLT
               IF(PLAP(I) >EPDR(I)) LOGEP(I) = LOG(PLAP(I)/EPDR(I))
@@ -149,7 +148,7 @@ C-------------
           ENDIF
 #include "vectorize.inc" 
           DO I=JFT,JLT
-            MT=MAX(EM20,Z3)
+            MT = MAX(EM20,Z3)
             IF (TSTAR(I) == ZERO) THEN
               Q(I) = (ONE + CC * LOGEP(I))
             ELSE
@@ -160,7 +159,7 @@ C-------------
             CB(I) = CB(I) * Q(I)
             IF (ICC == 1) YMAX(I) = YMAX(I) * Q(I)
           ENDDO
-        ELSEIF (NPIF == JLT) THEN
+        ELSEIF (IRTY == 1) THEN   ! Zerilli
           IF(VP==1)THEN
             DO I=JFT,JLT
               IF(PLAP(I) >EPDR(I))LOGEP(I) = LOG(PLAP(I)/EPDR(I))
@@ -175,48 +174,11 @@ C-------------
           ENDIF
           DO I=JFT,JLT
             Q(I) = LOGEP(I)! LOG(EPSP(I)/EPDR(I))
-            Q(I)= CC*EXP((-Z3+Z4 * Q(I))*T(I))
+            Q(I)= CC*EXP((-Z3+Z4 * Q(I))*TEMP(I))
             IF (ICC == 1) YMAX(I)= YMAX(I) + Q(I)
             CA(I) = CA(I) + Q(I)
           ENDDO
-        ELSE
-          DO I=JFT,JLT
-            IF (IRTY == 0) THEN
-              IF(VP==1)THEN
-                IF(PLAP(I) >EPDR(I))LOGEP(I) = LOG(PLAP(I)/EPDR(I))
-              ELSE
-                IF (ISRATE == 0.AND.VP == 2) EPSP(I) = 
-     .          MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
-                EPSP(I) = MAX(EPSP(I),EPDR(I))
-                LOGEP(I) = LOG(EPSP(I)/EPDR(I))
-              ENDIF
-              MT=MAX(EM20,Z3)
-              IF (TSTAR(I) == ZERO) THEN
-                Q(I) = (ONE + CC * LOGEP(I))
-              ELSE
-                Q(I) = (ONE + CC * LOGEP(I))*(ONE-EXP(MT*LOG(TSTAR(I))))                                           
-              ENDIF
-              Q(I) = MAX(Q(I),EM20)
-              CA(I) = CA(I) * Q(I)
-              CB(I) = CB(I) * Q(I)
-              IF (ICC == 1) YMAX(I) = YMAX(I) * Q(I)
-            ELSE
-              IF(VP==1)THEN
-                IF(PLAP(I) >EPDR(I))LOGEP(I) = LOG(PLAP(I)/EPDR(I))
-              ELSE
-                IF (ISRATE == 0 .AND.VP == 2) EPSP(I) = MAX( ABS(DEPSXX(I)), 
-     .                    ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
-                EPSP(I)  = MAX(EPSP(I),EM20)
-                LOGEP(I) = LOG(EPSP(I)/EPDR(I))
-              ENDIF
-
-              Q(I) = LOGEP(I)  
-              Q(I) = CC*EXP((-Z3+Z4 * Q(I))*T(I))
-              IF (ICC == 1) YMAX(I)= YMAX(I) + Q(I)
-              CA(I) = CA(I) + Q(I)
-            ENDIF ! IF (IRTY == 0)
-          ENDDO
-        ENDIF ! IF (NPIF == ZERO)
+        ENDIF ! IRTY
       ENDIF ! IF (EPIF /= ZERO)
 C-----------------------------------
 C     YIELD

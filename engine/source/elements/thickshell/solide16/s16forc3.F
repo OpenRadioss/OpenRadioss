@@ -162,7 +162,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,LCO, NF1, IFLAG, IL, IR, IS, IT, NF2,L_PLA,
+      INTEGER I,J,N,LCO, NF1, IFLAG, IL, IR, IS, IT, NF2,L_PLA,IMAT,
      .        IP,NLAY,NPTT,NPTS,NPTR,ICO,IBID,IBIDON(1),MX,II(6),PID,CURRENT_LAYER
 
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IPERM1(NPE),IPERM2(NPE)
@@ -188,6 +188,7 @@ C-----------------------------------------------
      . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
      . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ),
      . TEMPEL(MVSIZ),DIE(MVSIZ),THEM(MVSIZ,NPE),AREA(MVSIZ),LLSH(MVSIZ)
+      my_real, dimension(mvsiz) :: fheat
      
       ! Variables utilisees dans les routines solides uniquement (en arguments).
       INTEGER NC(MVSIZ,NPE),NN_DEL,IPRES,SZ_IX
@@ -589,7 +590,7 @@ C
 C
 C    for heat transfert
 C
-          IF(JTHE < 0 ) THEN
+          IF (JTHE < 0 ) THEN
              CALL S20TEMPCG(1,NEL,NPE, NC,NI(1,IP), TEMP,TEMPEL)
           ENDIF
 
@@ -632,7 +633,7 @@ C
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna,       OPT_MTN=MTN, OPT_JCVT=JCVT,OPT_ISORTH=ISORTH,
+     .   idyna,       fheat   ,OPT_MTN=MTN, OPT_JCVT=JCVT,OPT_ISORTH=ISORTH,
      .   OPT_ISORTHG=ISORTHG)
 
 c
@@ -676,12 +677,22 @@ C
       !--------------------------
 
          IF (JTHE < 0) THEN
-           CALL S20THERM(
-     1   NPE,       PM,        MXT,       NC,
-     2   VOLN,      PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),
-     3   NI(1,IP),  DT1,       TEMP,      TEMPEL,
-     4   DIE,       THEM,      GBUF%OFF,  LBUF%OFF,
-     5   NEL)
+           IMAT = MXT(1)
+           IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
+             CALL S20THERM(
+     1            NPE,       PM,       IMAT,       NC,
+     2            VOLN,      PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),
+     3            NI(1,IP),  DT1,       TEMP,      TEMPEL,
+     4            FHEAT,     THEM,      GBUF%OFF,  LBUF%OFF,
+     5            NEL)
+           ELSE
+             CALL S20THERM(
+     1            NPE,       PM,       IMAT,       NC,
+     2            VOLN,      PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),
+     3            NI(1,IP),  DT1,       TEMP,      TEMPEL,
+     4            DIE,      THEM,      GBUF%OFF,  LBUF%OFF,
+     5            NEL)
+           END IF
           ENDIF
         ENDDO   ! IL=1,NLAY
        ENDDO    ! IR=1,NPTR

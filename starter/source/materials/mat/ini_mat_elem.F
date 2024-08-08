@@ -45,17 +45,17 @@ C-----------------------------------------------
       INTEGER IMAT
 C=======================================================================
       DO IMAT = 1,MAT_ELEM%NUMMAT
-        MAT_ELEM%MAT_PARAM(IMAT)%ILAW    = 0             ! material law number(type)
-        MAT_ELEM%MAT_PARAM(IMAT)%MAT_ID  = 0             ! material law ID
-        MAT_ELEM%MAT_PARAM(IMAT)%NUPARAM = 0             ! number of real value material paraameters
-        MAT_ELEM%MAT_PARAM(IMAT)%NIPARAM = 0             ! number of int value material parameters
-        MAT_ELEM%MAT_PARAM(IMAT)%NFUNC   = 0             ! number of local functions in material
-        MAT_ELEM%MAT_PARAM(IMAT)%NTABLE  = 0             ! number of local function tables
-        MAT_ELEM%MAT_PARAM(IMAT)%NSUBMAT = 0             ! number of submaterials (multi-mat law51)
-        MAT_ELEM%MAT_PARAM(IMAT)%NFAIL   = 0             ! number of failure models
-        MAT_ELEM%MAT_PARAM(IMAT)%IVISC   = 0             ! viscosity model number
-        MAT_ELEM%MAT_PARAM(IMAT)%IEOS    = 0             ! eos model number
-        MAT_ELEM%MAT_PARAM(IMAT)%ITHERM  = 0             ! therm model number
+        MAT_ELEM%MAT_PARAM(IMAT)%ILAW      = 0             ! material law number(type)
+        MAT_ELEM%MAT_PARAM(IMAT)%MAT_ID    = 0             ! material law ID
+        MAT_ELEM%MAT_PARAM(IMAT)%NUPARAM   = 0             ! number of real value material paraameters
+        MAT_ELEM%MAT_PARAM(IMAT)%NIPARAM   = 0             ! number of int value material parameters
+        MAT_ELEM%MAT_PARAM(IMAT)%NFUNC     = 0             ! number of local functions in material
+        MAT_ELEM%MAT_PARAM(IMAT)%NTABLE    = 0             ! number of local function tables
+        MAT_ELEM%MAT_PARAM(IMAT)%NSUBMAT   = 0             ! number of submaterials (multi-mat law51)
+        MAT_ELEM%MAT_PARAM(IMAT)%NFAIL     = 0             ! number of failure models
+        MAT_ELEM%MAT_PARAM(IMAT)%IVISC     = 0             ! viscosity model number
+        MAT_ELEM%MAT_PARAM(IMAT)%IEOS      = 0             ! eos model number
+        MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG = 0             ! therm model number
 c
         MAT_ELEM%MAT_PARAM(IMAT)%COMPRESSIBILITY    = 3  ! elsto_plastic
         MAT_ELEM%MAT_PARAM(IMAT)%SMSTR              = 2  ! large strain

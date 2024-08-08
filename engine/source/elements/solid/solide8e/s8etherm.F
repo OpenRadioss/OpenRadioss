@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    s8zforc3   ../engine/source/elements/solid/solide8z/s8zforc3.F
       !||====================================================================
       SUBROUTINE S8ETHERM(
-     1   PM,      MAT,     VOL,     NI,
+     1   PM,      IMAT,     VOL,     NI,
      2   NC1,     NC2,     NC3,     NC4,
      3   NC5,     NC6,     NC7,     NC8,
      4   PX1,     PX2,     PX3,     PX4,
@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7   PX5,     PX6,     PX7,     PX8,
      8   PY5,     PY6,     PY7,     PY8,
      9   PZ5,     PZ6,     PZ7,     PZ8,
-     A   DT1,     TEMPNC,  TEL,     DIE,
+     A   DT1,     TEMPNC,  TEL,     HEAT,
      B   FPHI,    OFFG,    OFF,     PARTSAV,
      C   IPARTS,  VOL0,    NEL)
 C-----------------------------------------------
@@ -54,7 +54,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
-      INTEGER MAT(*),IPARTS(*),
+      INTEGER, INTENT(IN) :: IMAT
+      INTEGER IPARTS(*),
      .        NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),
      .        NC5(MVSIZ),NC6(MVSIZ),NC7(MVSIZ),NC8(MVSIZ)
 C     REAL
@@ -67,20 +68,21 @@ C     REAL
      .            PX6(MVSIZ), PY6(MVSIZ),PZ6(MVSIZ),
      .            PX7(MVSIZ), PY7(MVSIZ),PZ7(MVSIZ),
      .            PX8(MVSIZ), PY8(MVSIZ),PZ8(MVSIZ),        
-     .    NI(8),TEMPNC(*), FPHI(MVSIZ,8), PM(NPROPM,*), DIE(*),
+     .    NI(8),TEMPNC(*), FPHI(MVSIZ,8), PM(NPROPM,*), HEAT(*),
      .    DT1, TEL(*), OFF(*), OFFG(*)
       my_real PARTSAV(NPSAV,*),VOL0(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, M, MX
+      INTEGER I, M
 C     REAL
-      my_real CA, CB, KC, PHIX, PHIY, PHIZ, SPH, T0
-C
-
-      MX = MAT(1)
-      CA = PM(75,MX)
-      CB = PM(76,MX)
+      my_real CA, CB, KC, PHIX, PHIY, PHIZ, RHOCP, T0
+!=======================================================================
+      CA = PM(75,IMAT)
+      CB = PM(76,IMAT)
+      RHOCP = PM(69,IMAT)
+      T0  = PM(79,IMAT)
+!
       DO I=1,NEL
        IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
 C 
@@ -108,29 +110,27 @@ C
 C force thermique nodale
 C
           FPHI(I,1) = FPHI(I,1) +
-     .          DIE(I)*NI(1) - (PHIX*PX1(I) + PHIY*PY1(I) + PHIZ*PZ1(I))
+     .          HEAT(I)*NI(1) - (PHIX*PX1(I) + PHIY*PY1(I) + PHIZ*PZ1(I))
           FPHI(I,2) = FPHI(I,2) +
-     .          DIE(I)*NI(2) - (PHIX*PX2(I) + PHIY*PY2(I) + PHIZ*PZ2(I))
+     .          HEAT(I)*NI(2) - (PHIX*PX2(I) + PHIY*PY2(I) + PHIZ*PZ2(I))
           FPHI(I,3) = FPHI(I,3) +
-     .          DIE(I)*NI(3) - (PHIX*PX3(I) + PHIY*PY3(I) + PHIZ*PZ3(I))
+     .          HEAT(I)*NI(3) - (PHIX*PX3(I) + PHIY*PY3(I) + PHIZ*PZ3(I))
           FPHI(I,4) = FPHI(I,4) +
-     .          DIE(I)*NI(4) - (PHIX*PX4(I) + PHIY*PY4(I) + PHIZ*PZ4(I))
+     .          HEAT(I)*NI(4) - (PHIX*PX4(I) + PHIY*PY4(I) + PHIZ*PZ4(I))
           FPHI(I,5) = FPHI(I,5) +
-     .          DIE(I)*NI(5) - (PHIX*PX5(I) + PHIY*PY5(I) + PHIZ*PZ5(I))
+     .          HEAT(I)*NI(5) - (PHIX*PX5(I) + PHIY*PY5(I) + PHIZ*PZ5(I))
           FPHI(I,6) = FPHI(I,6) +
-     .          DIE(I)*NI(6) - (PHIX*PX6(I) + PHIY*PY6(I) + PHIZ*PZ6(I))
+     .          HEAT(I)*NI(6) - (PHIX*PX6(I) + PHIY*PY6(I) + PHIZ*PZ6(I))
           FPHI(I,7) = FPHI(I,7) +
-     .          DIE(I)*NI(7) - (PHIX*PX7(I) + PHIY*PY7(I) + PHIZ*PZ7(I))
+     .          HEAT(I)*NI(7) - (PHIX*PX7(I) + PHIY*PY7(I) + PHIZ*PZ7(I))
           FPHI(I,8) = FPHI(I,8) +
-     .          DIE(I)*NI(8) - (PHIX*PX8(I) + PHIY*PY8(I) + PHIZ*PZ8(I))
+     .          HEAT(I)*NI(8) - (PHIX*PX8(I) + PHIY*PY8(I) + PHIZ*PZ8(I))
       ENDDO
 C
-      SPH = PM(69,MX)
-      T0  = PM(79,MX)
       DO I=1,NEL
          IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
          M   = IPARTS(I)
-         PARTSAV(28,M)=PARTSAV(28,M) + SPH*VOL0(I)*(TEL(I)-T0) +DIE(I)
+         PARTSAV(28,M)=PARTSAV(28,M) + RHOCP*VOL0(I)*(TEL(I)-T0) + HEAT(I)
       ENDDO
 C 
       RETURN

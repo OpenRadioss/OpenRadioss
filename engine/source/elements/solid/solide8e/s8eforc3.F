@@ -392,7 +392,7 @@ C
       DOUBLE PRECISION 
      .   VOLP(MVSIZ,NNPT)
       INTEGER SZ_IX
-
+      my_real, dimension(mvsiz) :: fheat
 C-----
 C     Variables utilis  es pour le non-local
       my_real,
@@ -1496,7 +1496,7 @@ C-----------------------------
 C
 C    for heat transfert
 C
-      IF(JTHE < 0 ) THEN
+      IF (JTHE < 0 ) THEN
             CALL S8ZTEMPEL(
      .           LFT,LLT,NI,
      .           A_GAUSS(IR,NPTR),A_GAUSS(IS,NPTS),A_GAUSS(IT,NPTT),
@@ -1549,7 +1549,7 @@ c
      .   numgeo,      numnod,      numels, 
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna)
+     .   idyna   ,    fheat      )
 C
        IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         IF (ISM12_11==0.AND.JCVT==0) THEN
@@ -1697,20 +1697,38 @@ C-------------------------
 c    finite element heat transfert  
 C--------------------------
 C
-         IF(JTHE < 0) THEN
-           CALL S8ETHERM(
-     1   PM,       MXT,      VOLN,     NI,
-     2   NC1,      NC2,      NC3,      NC4,
-     3   NC5,      NC6,      NC7,      NC8,
-     4   PX1(1,IP),PX2(1,IP),PX3(1,IP),PX4(1,IP),
-     5   PY1(1,IP),PY2(1,IP),PY3(1,IP),PY4(1,IP),
-     6   PZ1(1,IP),PZ2(1,IP),PZ3(1,IP),PZ4(1,IP),
-     7   PX5(1,IP),PX6(1,IP),PX7(1,IP),PX8(1,IP),
-     8   PY5(1,IP),PY6(1,IP),PY7(1,IP),PY8(1,IP),
-     9   PZ5(1,IP),PZ6(1,IP),PZ7(1,IP),PZ8(1,IP),
-     A   DT1,      TEMP,     TEMPEL,   DIE,
-     B   THEM,     GBUF%OFF, LBUF%OFF, PARTSAV,
-     C   IPARTS,   LBUF%VOL, NEL)
+         IF (JTHE < 0) THEN
+           IMAT = MXT(1)
+           IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
+             CALL S8ETHERM(
+     1            PM,       IMAT,     VOLN,     NI,
+     2            NC1,      NC2,      NC3,      NC4,
+     3            NC5,      NC6,      NC7,      NC8,
+     4            PX1(1,IP),PX2(1,IP),PX3(1,IP),PX4(1,IP),
+     5            PY1(1,IP),PY2(1,IP),PY3(1,IP),PY4(1,IP),
+     6            PZ1(1,IP),PZ2(1,IP),PZ3(1,IP),PZ4(1,IP),
+     7            PX5(1,IP),PX6(1,IP),PX7(1,IP),PX8(1,IP),
+     8            PY5(1,IP),PY6(1,IP),PY7(1,IP),PY8(1,IP),
+     9            PZ5(1,IP),PZ6(1,IP),PZ7(1,IP),PZ8(1,IP),
+     A            DT1,      TEMP,     TEMPEL,   FHEAT,
+     B            THEM,     GBUF%OFF, LBUF%OFF, PARTSAV,
+     C            IPARTS,   LBUF%VOL, NEL)
+           ELSE
+             CALL S8ETHERM(
+     1            PM,       IMAT,     VOLN,     NI,
+     2            NC1,      NC2,      NC3,      NC4,
+     3            NC5,      NC6,      NC7,      NC8,
+     4            PX1(1,IP),PX2(1,IP),PX3(1,IP),PX4(1,IP),
+     5            PY1(1,IP),PY2(1,IP),PY3(1,IP),PY4(1,IP),
+     6            PZ1(1,IP),PZ2(1,IP),PZ3(1,IP),PZ4(1,IP),
+     7            PX5(1,IP),PX6(1,IP),PX7(1,IP),PX8(1,IP),
+     8            PY5(1,IP),PY6(1,IP),PY7(1,IP),PY8(1,IP),
+     9            PZ5(1,IP),PZ6(1,IP),PZ7(1,IP),PZ8(1,IP),
+     A            DT1,      TEMP,     TEMPEL,   DIE,
+     B            THEM,     GBUF%OFF, LBUF%OFF, PARTSAV,
+     C            IPARTS,   LBUF%VOL, NEL)
+           END IF
+!
           ENDIF  
         ENDDO    !  IT=1,NPTT
        ENDDO     !  IS=1,NPTS
