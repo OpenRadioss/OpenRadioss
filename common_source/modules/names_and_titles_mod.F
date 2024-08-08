@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ancmsg                            ../engine/source/output/message/message.F
       !||    anim_dcod_key_0                   ../engine/source/output/anim/reader/anim_dcod_key_0.F
       !||    anstckc                           ../starter/source/output/analyse/analyse_char.F
+      !||    ascii_encoding_mu_letter          ../starter/source/starter/ascii_encoding_mu_letter.F90
       !||    bigbox                            ../starter/source/model/box/bigbox.F
       !||    boxbox                            ../starter/source/model/box/boxbox.F
       !||    bsigini                           ../starter/source/elements/beam/bsigini.F

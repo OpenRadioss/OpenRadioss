@@ -127,7 +127,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    get_u_geo                           ../starter/source/user_interface/uaccess.F
       !||    get_u_mat                           ../starter/source/user_interface/uaccess.F
       !||    get_u_mnu                           ../starter/source/user_interface/uaccess.F
-      !||    get_u_numfun                        ../starter/source/user_interface/uaccess.F
       !||    get_u_pnu                           ../starter/source/user_interface/uaccess.F
       !||    grfind                              ../starter/source/starter/freform.F
       !||    hireorbe3                           ../starter/source/constraints/general/rbe3/hm_read_rbe3.F

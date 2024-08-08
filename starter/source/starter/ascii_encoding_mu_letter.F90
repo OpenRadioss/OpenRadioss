@@ -31,6 +31,13 @@
 !! \details      (ISO 8859, Latin, Windows) : greek letter \mu has decimal code 181
 !! \details      (UTF-8)                    : greek letter \mu has double octet (0xC2):194 (0XB5):181
 !! \details  conditionnal test is then : ( iachar(key(1:1))==181  .or. (iachar(key(1:1))==194 .AND. iachar(key(2:2))==181) )
+      !||====================================================================
+      !||    ascii_encoding_mu_letter   ../starter/source/starter/ascii_encoding_mu_letter.F90
+      !||--- called by ------------------------------------------------------
+      !||    contrl                     ../starter/source/starter/contrl.F
+      !||    hm_read_unit               ../starter/source/general_controls/computation/hm_read_unit.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine ascii_encoding_mu_letter(key1,key2,key3,key4,key5,key6)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

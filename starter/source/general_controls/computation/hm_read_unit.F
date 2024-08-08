@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    contrl                      ../starter/source/starter/contrl.F
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                      ../starter/source/output/message/message.F
+      !||    ascii_encoding_mu_letter    ../starter/source/starter/ascii_encoding_mu_letter.F90
       !||    hm_get_floatv_without_uid   ../starter/source/devtools/hm_reader/hm_get_floatv_without_uid.F
       !||    hm_get_intv                 ../starter/source/devtools/hm_reader/hm_get_intv.F
       !||    hm_get_string               ../starter/source/devtools/hm_reader/hm_get_string.F

@@ -24,9 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps42c   ../engine/source/materials/mat/mat042/sigeps42c.F
       !||--- called by ------------------------------------------------------
       !||    mulawc      ../engine/source/materials/mat_share/mulawc.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter      ../engine/source/tools/curve/finter.F
-      !||====================================================================      
+      !||====================================================================
       SUBROUTINE SIGEPS42C(
      1      NEL    , NUPARAM ,NIPARAM, NUVAR  , ISMSTR ,
      2      TIME   , TIMESTEP,UPARAM , IPARAM , RHO0   ,  

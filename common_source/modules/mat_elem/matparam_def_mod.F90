@@ -187,6 +187,7 @@
       !||    law158_upd                          ../starter/source/materials/mat/mat158/law158_upd.F
       !||    law190_upd                          ../starter/source/materials/mat/mat190/law190_upd.F
       !||    law19_upd                           ../starter/source/materials/mat/mat019/law19_upd.F90
+      !||    law42_upd                           ../starter/source/materials/mat/mat042/law42_upd.F
       !||    law50_upd                           ../starter/source/materials/mat/mat050/law50_upd.F90
       !||    law58_upd                           ../starter/source/materials/mat/mat058/law58_upd.F
       !||    law70_upd                           ../starter/source/materials/mat/mat070/law70_upd.F
@@ -223,6 +224,7 @@
       !||    sigeps190                           ../engine/source/materials/mat/mat190/sigeps190.F
       !||    sigeps25c                           ../engine/source/materials/mat/mat025/sigeps25c.F
       !||    sigeps25cp                          ../engine/source/materials/mat/mat025/sigeps25cp.F
+      !||    sigeps42                            ../engine/source/materials/mat/mat042/sigeps42.F
       !||    sigeps50                            ../engine/source/materials/mat/mat050/sigeps50.F
       !||    sigeps66c                           ../engine/source/materials/mat/mat066/sigeps66c.F
       !||    sigeps70                            ../engine/source/materials/mat/mat070/sigeps70.F

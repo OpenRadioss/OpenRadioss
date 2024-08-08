@@ -1070,7 +1070,6 @@ C
       !||--- called by ------------------------------------------------------
       !||    get_u_func_y     ../starter/source/user_interface/uaccess.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod      ../starter/share/message_module/message_mod.F
       !||====================================================================

@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    sigeps42    ../starter/source/materials/mat/mat042/sigeps42.F
+      !||    sigeps42           ../starter/source/materials/mat/mat042/sigeps42.F
       !||--- called by ------------------------------------------------------
-      !||    mulaw       ../starter/source/materials/mat_share/mulaw.F
+      !||    mulaw              ../starter/source/materials/mat_share/mulaw.F
       !||--- calls      -----------------------------------------------------
-      !||    finter      ../starter/source/tools/curve/finter.F
-      !||    valpvec     ../starter/source/materials/tools/matrix.F
-      !||    valpvecdp   ../starter/source/materials/tools/matrix.F
+      !||    finter             ../starter/source/tools/curve/finter.F
+      !||    valpvec            ../starter/source/materials/tools/matrix.F
+      !||    valpvecdp          ../starter/source/materials/tools/matrix.F
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE SIGEPS42(
      1      MAT_PARAM,NEL      ,NUVAR    ,NFUNC    ,IFUNC    ,NPF      ,
