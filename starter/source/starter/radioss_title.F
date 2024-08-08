@@ -42,7 +42,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IOUT,ROOTLEN,IRESP,IFLAG
-      CHARACTER CPUNAM*20,FILNAM*100,CHRUN*4,ARCHTITLE*66
+      CHARACTER(LEN=2148) :: FILNAM
+      CHARACTER CPUNAM*20,CHRUN*4,ARCHTITLE*66
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
