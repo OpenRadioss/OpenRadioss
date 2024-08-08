@@ -154,7 +154,8 @@ C-----------------------------------------------
 C
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: SEATBELT_CONVERTED_ELEMENTS
 C
-      CHARACTER FILNAM*100, CHRUN*4,CPUNAM*20,ROOTN*80,CHRUNR*4,ARCHTITLE*66
+      CHARACTER(LEN=2148) :: FILNAM  ! Maximum is SIZE(OUTFILE_CHAR_LEN) + 100
+      CHARACTER CHRUN*4,CPUNAM*20,ROOTN*80,CHRUNR*4,ARCHTITLE*66
       CHARACTER ALTDOCTAG*256,CHECKSUM*256
       CHARACTER*2048 FNAME,VAL
 C
@@ -438,7 +439,7 @@ C
      .     ACCESS='SEQUENTIAL',
      .     FORM='FORMATTED',STATUS='UNKNOWN')
 
-      WRITE(IOUT, '(1X,A)')FILNAM(1:ROOTLEN+9)
+      WRITE(IOUT, '(1X,A)')TRIM(FILNAM)
 C
       CALL TRACE_OUT1()
 C
@@ -790,62 +791,6 @@ C-------------------------------------------------------------------
 C-----------------------------------------------------
       CALL TRACE_OUT1()
 C-----------------------------------------------------
-      IF(IMACH/=3) THEN
-       FILNAM = ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_0000.rst'
-       LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + 14
-       TMP_NAME  =OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+14)
-       IF(IRFORM/5==0)THEN
-!         OPEN(UNIT=IUREE,FILE=FILNAM(1:ROOTLEN+14),
-!     .     ACCESS='SEQUENTIAL',
-!     .     FORM='UNFORMATTED',STATUS='UNKNOWN')
-         OPEN(UNIT=IUREE,FILE=TMP_NAME(1:LEN_TMP_NAME),
-     .     ACCESS='SEQUENTIAL',
-     .     FORM='UNFORMATTED',STATUS='UNKNOWN')
-       ELSEIF(IRFORM/5==1)THEN
-!         OPEN(UNIT=IUREE,FILE=FILNAM(1:ROOTLEN+14),
-!     .     ACCESS='SEQUENTIAL',
-!     .     FORM='FORMATTED',STATUS='UNKNOWN')
-         OPEN(UNIT=IUREE,FILE=TMP_NAME(1:LEN_TMP_NAME),
-     .     ACCESS='SEQUENTIAL',
-     .     FORM='FORMATTED',STATUS='UNKNOWN')
-         WRITE(IUREE,'(A)') FILNAM(1:ROOTLEN+14)
-       ELSEIF (IRFORM/5==2) THEN
-C restart file with binary format ieee 64 bits
-        DO I=1,OUTFILE_NAME_LEN
-            IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))     
-        ENDDO
-        DO I=1,ROOTLEN+14
-          IFILNAM(OUTFILE_NAME_LEN+I)=ICHAR(FILNAM(I:I))
-        ENDDO
-        CALL CUR_FIL_C(1)
-        CALL OPEN_C(IFILNAM,OUTFILE_NAME_LEN+ROOTLEN+14,0)
-        CALL WRITE_C_C(IFILNAM,ROOTLEN+14)
-       ELSEIF (IRFORM/5==3) THEN
-C restart file with binary format ieee 64 bits .Z
-        DO I=1,OUTFILE_NAME_LEN
-            IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))     
-        ENDDO
-        DO I=1,ROOTLEN+14
-          IFILNAM(OUTFILE_NAME_LEN+I)=ICHAR(FILNAM(I:I))
-        ENDDO
-        CALL CUR_FIL_C(1)
-        CALL OPEN_C(IFILNAM,OUTFILE_NAME_LEN+ROOTLEN+14,3)
-        CALL WRITE_C_C(IFILNAM,ROOTLEN+14)
-       ELSEIF (IRFORM/5==4) THEN
-C restart written file with binary format ieee 64 bits .gz
-        DO I=1,OUTFILE_NAME_LEN
-            IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))     
-        ENDDO
-        DO I=1,ROOTLEN+14
-          IFILNAM(OUTFILE_NAME_LEN+I)=ICHAR(FILNAM(I:I))
-        ENDDO
-        CALL CUR_FIL_C(1)
-       CALL OPEN_C(IFILNAM,OUTFILE_NAME_LEN+ROOTLEN+14,6)
-       CALL WRITE_C_C(IFILNAM,ROOTLEN+14)
-       ENDIF
-      ENDIF
-C
-
 c     stop CPU timer for interval between translator and lectur
 c     (freeform)
       CALL STOPTIME(4,1)
@@ -902,18 +847,11 @@ C
         !   write the message only if restart 
         !   files are generated
         IF(RESTART_FILE==1) THEN
-            IF(IMACH/=3) THEN
-                FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_0000.rst'
-                WRITE (IOUT,60) FILNAM(1:ROOTLEN+14)
- 60             FORMAT (/4X,14H RESTART FILE:,1X,A,8H WRITTEN/
-     .                   4X,14H -------------/)
-            ELSE
                 WRITE(CHRUNR,'(I4.4)')IRUN
                 FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUNR
                 WRITE (IOUT,80) FILNAM(1:ROOTLEN+5)
  80             FORMAT (/4X,14H RESTART FILES:,1X,A,8H WRITTEN/
      .                  4X,14H -------------/)
-            ENDIF
         END IF
         !   -----------------------------
       ELSE

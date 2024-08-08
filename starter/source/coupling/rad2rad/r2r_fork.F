@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      CHARACTER FILNAM*100,CHRUN*4,ROOT_SUB*80
+      CHARACTER FILNAM*2148,CHRUN*4,ROOT_SUB*80
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)               
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
