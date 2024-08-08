@@ -524,6 +524,10 @@ C           Non linear case with both space IFUNC1 and time IFUNC2 defined
             IFUNC2   = GET_U_PNU(2,IPROP,KFUNC)
             F0=FSCAL*TF(NPF(IFUNC2)+1)
             NPOINT=(NPF(IFUNC1+1)-NPF(IFUNC1))/2
+            X2=DSCAL*TF(NPF(IFUNC1)+2*0+0)
+            Y2=FSCAL*TF(NPF(IFUNC1)+2*0+1)
+            X3=DSCAL*TF(NPF(IFUNC1)+2*0+2)
+            Y3=FSCAL*TF(NPF(IFUNC1)+2*0+3)
             IF (D1==0) D1=-1e30
             IF (D1>0.AND.Y2>0.AND.X2>D1) THEN
               Y=Y2+(Y3-Y2)/(X3-X2)*(D1-X2)
