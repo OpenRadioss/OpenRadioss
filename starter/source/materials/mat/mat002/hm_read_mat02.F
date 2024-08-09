@@ -470,6 +470,9 @@ c---------------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"BEAM_ALL")
       CALL INIT_MAT_KEYWORD(MATPARAM,"TRUSS")
       CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
+c
+      ! Material compatibility with /EOS option
+      CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
 C--------------------------------
       
       IF(IFORM==0)THEN
