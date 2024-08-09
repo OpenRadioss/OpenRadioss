@@ -188,16 +188,18 @@ C loi 36+86 en fonction des fct
           ELSEIF (NFUNC>7) THEN
            INDI = 3
           ENDIF
-        ELSEIF((MLN==42).OR.(MLN==62).OR.(MLN==69)) THEN
-           IAD=IPM(7,ABS(MID))-1
-           IF(MLN==42) NFUNC = NINT(BUFMAT(IAD+16))
-           IF(MLN==62) NFUNC = NINT(BUFMAT(IAD+3))
-           IF(MLN==69) THEN
-            NFUNC = 0
-            IF(IPM(222,ABS(MID)) > 0) THEN 
-             IAD = IPM(223,ABS(MID))
-             NFUNC =  NINT(BUFMAT(IAD +1 ))
-            ENDIF
+        ELSEIF((MLN==42).OR.(MLN==62).OR.(MLN==69)) THEN  ! check prony option
+           NFUNC = 0
+           IF (MLN==42) NFUNC = MAT_PARAM(ABS(MID))%IPARAM(2)
+           IF (MLN==62) THEN
+             IAD=IPM(7,ABS(MID))-1
+             NFUNC = NINT(BUFMAT(IAD+3))
+           END IF
+           IF (NFUNC == 0) THEN
+             IF (IPM(222,ABS(MID)) > 0) THEN 
+               IAD = IPM(223,ABS(MID))
+               NFUNC =  NINT(BUFMAT(IAD +1 ))
+             ENDIF
            ENDIF
            IF(NFUNC==0) THEN
             INDI = 1
