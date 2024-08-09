@@ -83,7 +83,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr05_c.inc"
 #include      "scr08_c.inc"
-#include      "scr17_c.inc"
 #include      "scr23_c.inc"
 #include      "r2r_c.inc"
 C-----------------------------------------------

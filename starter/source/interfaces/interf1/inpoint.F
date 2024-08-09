@@ -42,7 +42,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr03_c.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
       INTEGER NOINT,MSN
       INTEGER BRICS(*), ITAB(*),MSV(*)

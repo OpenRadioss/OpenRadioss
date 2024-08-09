@@ -71,8 +71,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 C     NSURF
 #include      "com04_c.inc"
-C     KMONVO, IREC
-#include      "scr17_c.inc"
 C     NIMV, NRVOLU
 #include      "param_c.inc"
 C     IIN

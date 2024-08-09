@@ -62,7 +62,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "scr03_c.inc"
-#include      "scr17_c.inc"
 #include      "com04_c.inc"
 #include      "r2r_c.inc"
 C-----------------------------------------------

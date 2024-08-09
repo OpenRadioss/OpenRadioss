@@ -60,7 +60,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "scr17_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "tablen_c.inc"
