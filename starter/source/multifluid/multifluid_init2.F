@@ -60,7 +60,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 ! NIXQ, NPROPMI, NPROPM, LFACLOAD
 #include      "param_c.inc"
-! JEUL, LFT, LLT, NFT
+! JEUL, NFT
 #include      "vect01_c.inc"
 ! LIPART1
 #include      "scr17_c.inc"
@@ -71,13 +71,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL, NSIGS,IXQ(NIXQ, *), IPM(NPROPMI, *), 
+      INTEGER, INTENT(IN) :: NEL, NSIGS,IXQ(NIXQ, *), IPM(NPROPMI, NUMMAT),
      .     IGEO(*), IPART(LIPART1, *), IPARTQ(*), PTQUAD(*),
      .     NPF(*), ILOADP(SIZLOADP, *)
       INTEGER, INTENT(INOUT) :: IPARG(*)
       TYPE(ELBUF_STRUCT_), INTENT(IN), TARGET :: ELBUF_STR
       my_real, INTENT(IN) :: X(*),  FACLOAD(LFACLOAD, *)
-      my_real, INTENT(INOUT) :: PM(NPROPM, *)
+      my_real, INTENT(INOUT) :: PM(NPROPM, NUMMAT)
       my_real, INTENT(INOUT) :: GEO(*), SIGI(NSIGS, *), 
      .     SKEW(LSKEW, *), TF(*), BUFMAT(*)
       LOGICAL :: ERROR_THROWN
@@ -128,7 +128,7 @@ C     Loop over the materials
 C     Layer buffer
          LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
          MBUF => ELBUF_STR%BUFLY(ILAY)%MAT(1,1,1)
-         DO II = LFT, LLT
+         DO II = 1, NEL
 C     Material
             MAT(II) = IPM(20 + ILAY, IXQ(1, II + NFT))
 C     Partial volumes
@@ -160,14 +160,14 @@ C     Material initialization
                ENDIF
                ERROR_THROWN = .TRUE.
             ENDIF
-            CALL M5IN2(PM, MAT, IPM(1, IXQ(1,LFT+NFT)), DETONATORS, LBUF%TB, NGL, X, IXQ, NIXQ)
+            CALL M5IN2(PM, MAT, IPM(1, IXQ(1,1+NFT)), DETONATORS, LBUF%TB, NGL, X, IXQ, NIXQ)
          ENDIF
       ENDDO
 
       IF (NLAY > 1) THEN
          
 C      Mass globalization
-         GBUF%RHO(LFT:LLT)=ZERO                 
+         GBUF%RHO(1:NEL)=ZERO
          DO ILAY = 1, NLAY
             LBUF  => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
             DO II = LFT, LLT
@@ -176,10 +176,10 @@ C      Mass globalization
          ENDDO
                   
 C      Temperature globalization. We must solve later T such as e+p/rho=integral(Cp_global(T),dT)
-         GBUF%TEMP(LFT:LLT)=ZERO
+         GBUF%TEMP(1:NEL)=ZERO
          DO ILAY = 1, NLAY
             LBUF  => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
-            DO II = LFT, LLT
+            DO II = 1, NEL
                GBUF%TEMP(II) = GBUF%TEMP(II) + LBUF%TEMP(II) * PM(20 + ILAY, IXQ(1, II + NFT))*LBUF%RHO(II)/GBUF%RHO(II)   !volfrac*densfrac=massfrac
             ENDDO
          ENDDO    

@@ -180,7 +180,7 @@ C     ???
       NPTS  =  ELBUF_STR%NPTS
       NPTT  =  ELBUF_STR%NPTT
 
-      DO I=LFT,LLT
+      DO I=1,NEL
          RHOCP(I) =  PM(69,IXS(1,NFT+I))
          TEMP0(I) =  PM(79,IXS(1,NFT+I))
 C     for air + foam
@@ -269,7 +269,7 @@ C-----------
          BUFLY => ELBUF_STR%BUFLY(ILAY)
          NUVAR =  ELBUF_STR%BUFLY(ILAY)%NVAR_MAT
          L_PLA =  ELBUF_STR%BUFLY(ILAY)%L_PLA
-         DO I = LFT, LLT
+         DO I = 1, NEL
             MAT(I) = IPM(20 + ILAY, IXS(1, I + NFT))
 C     Fill partial volumes
             LBUF%VOL(I) = PM(20 + ILAY, IXS(1, I + NFT)) * GBUF%VOL(I)
@@ -300,7 +300,7 @@ C     Fill partial volumes
                ENDIF
                ERROR_THROWN = .TRUE.
             ENDIF
-            CALL M5IN3(PM, MAT,  IPM(1, IXS(1,LFT+NFT)), DETONATORS, LBUF%TB, NGL, IPARG, X, IXS, NIXS)
+            CALL M5IN3(PM, MAT,  IPM(1, IXS(1,1+NFT)), DETONATORS, LBUF%TB, NGL, IPARG, X, IXS, NIXS)
          ENDIF
          IF (MATLAW == 6) THEN
             IF (PM(24, MAT(1)) > ZERO) THEN
@@ -315,16 +315,16 @@ C     Fill partial volumes
 C      Mass globalization                 
          DO ILAY = 1, NLAY
             LBUF  => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
-            DO I = LFT, LLT
+            DO I = 1, NEL
                GBUF%RHO(I) = GBUF%RHO(I) + LBUF%RHO(I) * PM(20 + ILAY, IXS(1, I + NFT))
             ENDDO
          ENDDO
 
 C      Temperature globalization. We must solve later T such as e+p/rho=integral(Cp_global(T),dT)
-         GBUF%TEMP(LFT:LLT)=ZERO
+         GBUF%TEMP(1:NEL)=ZERO
          DO ILAY = 1, NLAY
             LBUF  => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
-            DO I = LFT, LLT
+            DO I = 1, NEL
                GBUF%TEMP(I) = GBUF%TEMP(I) + LBUF%TEMP(I) * PM(20 + ILAY, IXS(1, I + NFT))*LBUF%RHO(I)/GBUF%RHO(I)   !volfrac*densfrac=massfrac
             ENDDO
          ENDDO           
@@ -355,7 +355,7 @@ C------------------------------------------
       CALL DTMAIN(GEO      , PM       , IPM        , PID    , MAT    , FV    ,
      .     GBUF%EINT, GBUF%TEMP, GBUF%DELTAX, GBUF%RK, GBUF%RE, BUFMAT, DELTAX, AIRE, VOLU, DTX, IGEO,IGTYP)
 C     
-      DO I=LFT,LLT
+      DO I=1,NEL
          IF(IXS(10,I+NFT)/=0) THEN
             IF(     IGTYP/=0 .AND.IGTYP/=6 .AND. IGTYP/=14
      .           .AND.IGTYP/=15.AND. IGTYP/=29) THEN
