@@ -172,7 +172,7 @@ ArmFlang 24.04 is recommended to build OpenRadioss. It uses the module system to
 
 * ArmFlang compilers can be downloaded at:
 <https://developer.arm.com/downloads/-/arm-compiler-for-linux>
-* Follow ArmFlang installation instructions: <ttps://developer.arm.com/documentation/102621/0100>
+* Follow ArmFlang installation instructions: <https://developer.arm.com/documentation/102621/0100>
 
 * To see the list of available modules and load the compiler settings type:
 
