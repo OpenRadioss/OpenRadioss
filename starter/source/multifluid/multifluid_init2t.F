@@ -59,7 +59,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 ! NIXTG, NPROPMI, NPROPM, LFACLOAD
 #include      "param_c.inc"
-! JEUL, LFT, LLT, NFT
+! JEUL, NFT
 #include      "vect01_c.inc"
 ! NUMSH3N
 #include      "scry_c.inc"
@@ -117,7 +117,7 @@ C     Global buffer
 C     Number of layers ( = number of material in law 151)
       NLAY = ELBUF_STR%NLAY
 C     Gather nodale coordinates, compute surface (and volume)
-      DO II = LFT, LLT
+      DO II = 1, NEL
          I = II + NFT
          IX1(II) = IXTG(1 + 1, I)
          IX2(II) = IXTG(1 + 2, I)
@@ -161,7 +161,7 @@ C     Loop over the materials
 C     Layer buffer
          LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
          MBUF => ELBUF_STR%BUFLY(ILAY)%MAT(1,1,1)
-         DO II = LFT, LLT
+         DO II = 1, NEL
 C     Material
             MAT(II) = IPM(20 + ILAY, IXTG(1, II + NFT))
 C     Partial volumes
@@ -193,26 +193,26 @@ C     Material initialization
                ENDIF
                ERROR_THROWN = .TRUE.
             ENDIF
-            CALL M5IN2T(PM, MAT,  IPM(1, IXTG(1,LFT+NFT)), DETONATORS, LBUF%TB, NGL, XGRID, IXTG, NIXTG)
+            CALL M5IN2T(PM, MAT,  IPM(1, IXTG(1,1+NFT)), DETONATORS, LBUF%TB, NGL, XGRID, IXTG, NIXTG)
          ENDIF
       ENDDO
 
       IF (NLAY > 1) THEN
          
 C      Mass globalization
-         GBUF%RHO(LFT:LLT)=ZERO                 
+         GBUF%RHO(1:NEL)=ZERO
          DO ILAY = 1, NLAY
             LBUF  => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
-            DO II = LFT, LLT
+            DO II = 1, NEL
                GBUF%RHO(II) = GBUF%RHO(II) + LBUF%RHO(II) * PM(20 + ILAY, IXTG(1, II + NFT))
             ENDDO
          ENDDO
                   
 C      Temperature globalization. We must solve later T such as e+p/rho=integral(Cp_global(T),dT)
-         GBUF%TEMP(LFT:LLT)=ZERO
+         GBUF%TEMP(1:NEL)=ZERO
          DO ILAY = 1, NLAY
             LBUF  => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
-            DO II = LFT, LLT
+            DO II = 1, NEL
                GBUF%TEMP(II) = GBUF%TEMP(II) + LBUF%TEMP(II) * PM(20 + ILAY, IXTG(1, II + NFT))*LBUF%RHO(II)/GBUF%RHO(II)   !volfrac*densfrac=massfrac
             ENDDO
          ENDDO    

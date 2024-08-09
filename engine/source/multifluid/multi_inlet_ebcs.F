@@ -158,14 +158,14 @@ C     Boundary "GHOST" element
             IFUNC = FVM_INLET_DATA%FUNC_RHO(IMAT)
             IF (IFUNC  >  0) THEN
                PHASE_RHOJJ(IMAT) = PHASE_RHOJJ(IMAT) * FUNC_VALUE(IFUNC)
-            ELSEIF (IFUNC  ==  -1) THEN
+            ELSEIF (IFUNC  <= 0) THEN
                PHASE_RHOJJ(IMAT) = PHASE_RHOII(IMAT)
             ENDIF
             PHASE_ALPHAJJ(IMAT) = FVM_INLET_DATA%VAL_ALPHA(IMAT)
             IFUNC = FVM_INLET_DATA%FUNC_ALPHA(IMAT)
             IF (IFUNC  >  0) THEN
                PHASE_ALPHAJJ(IMAT) = PHASE_ALPHAJJ(IMAT) * FUNC_VALUE(IFUNC)
-            ELSEIF (IFUNC  ==  -1) THEN
+            ELSEIF (IFUNC  <= 0) THEN
                PHASE_ALPHAJJ(IMAT) = PHASE_ALPHAII(IMAT)
             ENDIF
             RHOJJ = RHOJJ + PHASE_RHOJJ(IMAT) * PHASE_ALPHAJJ(IMAT)
@@ -180,7 +180,7 @@ C     VE formulation
                IFUNC = FVM_INLET_DATA%FUNC_PRES(IMAT)
                IF (IFUNC  >  0) THEN
                   PHASE_EINTJJ(IMAT) = PHASE_EINTJJ(IMAT) * FUNC_VALUE(IFUNC)
-               ELSEIF (IFUNC  ==  -1) THEN
+               ELSEIF (IFUNC <= 0) THEN
                   PHASE_EINTJJ(IMAT) = PHASE_EINTII(IMAT)
                ENDIF
                IF (PHASE_ALPHAJJ(IMAT)  >  ZERO) THEN
@@ -208,7 +208,7 @@ C     VP formulation
                IFUNC = FVM_INLET_DATA%FUNC_PRES(IMAT)
                IF (IFUNC  >  0) THEN
                   PHASE_PRESJJ(IMAT) = PHASE_PRESJJ(IMAT) * FUNC_VALUE(IFUNC)
-               ELSEIF (IFUNC  ==  -1) THEN
+               ELSEIF (IFUNC <= 0) THEN
                   PHASE_PRESJJ(IMAT) = PHASE_PRESII(IMAT)
                ENDIF
                PJJ = PJJ + PHASE_PRESJJ(IMAT) * PHASE_ALPHAJJ(IMAT)
@@ -235,7 +235,7 @@ C     Normal velocity imposed
             IFUNC = FVM_INLET_DATA%FUNC_VEL(1)
             IF (IFUNC  >  0) THEN
                NORMAL_VELJJ = NORMAL_VELJJ * FUNC_VALUE(IFUNC)
-            ELSEIF (IFUNC  ==  -1) THEN
+            ELSEIF (IFUNC <= 0) THEN
                NORMAL_VELJJ = NORMAL_VELII
             ENDIF
 C           NORMAL_VELJJ = NORMAL_VELII
@@ -248,21 +248,21 @@ C           NORMAL_VELJJ = NORMAL_VELII
             IFUNC = FVM_INLET_DATA%FUNC_VEL(1)
             IF (IFUNC  >  0) THEN
                VXJJ = VXJJ * FUNC_VALUE(IFUNC)
-            ELSEIF (IFUNC  ==  -1) THEN
+            ELSEIF (IFUNC <= 0) THEN
                VXJJ = VXII
             ENDIF
             VYJJ = FVM_INLET_DATA%VAL_VEL(2)
             IFUNC = FVM_INLET_DATA%FUNC_VEL(2)
             IF (IFUNC  >  0) THEN
                VYJJ = VYJJ * FUNC_VALUE(IFUNC)
-            ELSEIF (IFUNC  ==  -1) THEN
+            ELSEIF (IFUNC <= 0) THEN
                VYJJ = VYII
             ENDIF
             VZJJ = FVM_INLET_DATA%VAL_VEL(3)
             IFUNC = FVM_INLET_DATA%FUNC_VEL(3)
             IF (IFUNC  >  0) THEN
                VZJJ = VZJJ * FUNC_VALUE(IFUNC)
-            ELSEIF (IFUNC  ==  -1) THEN
+            ELSEIF (IFUNC <= 0) THEN
                VZJJ = VZII
             ENDIF
             NORMAL_VELJJ = VXJJ * NX + VYJJ * NY + VZJJ * NZ
