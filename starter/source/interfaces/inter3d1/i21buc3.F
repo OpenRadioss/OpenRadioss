@@ -70,7 +70,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr06_c.inc"
-#include      "scr17_c.inc"
 #include      "units_c.inc"
 #include      "vect07_c.inc"
 C-----------------------------------------------
