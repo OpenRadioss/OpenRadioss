@@ -78,6 +78,7 @@ C
            MU(I) = MAT_PARAM%UPARAM(I) / GAMA_INF
            AL(I) = MAT_PARAM%UPARAM(10+I)
            GS = GS + MU(I)*AL(I)
+           MAT_PARAM%UPARAM(I) = MU(I) 
          ENDDO 
          NU = MAT_PARAM%UPARAM(22)
          BULK = GS*(ONE+NU)/MAX(EM20,THREE*(ONE-TWO*NU)) 
