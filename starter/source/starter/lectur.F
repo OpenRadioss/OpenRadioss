@@ -7306,48 +7306,32 @@ C     INTERFACE READING
 C--------------------------------------------------------------
        NINTER25 = 0
        CALL HM_READ_INTERFACES(
-     1           IPARI    ,FRIGAP   ,NINTER   ,ITAB       ,ITABM1                      ,
-     2           IGRNOD   ,IGRSURF  ,IGRSLIN  ,IGRBRIC    ,IGRSH3N                     ,
-     3           IGRTRUSS ,NPC      ,ISKWN    ,XFILTR     ,STFAC                       ,
-     4           FRIC_P   ,I2RUPT   ,AREASL   ,UNITAB     ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),
-     5           DEF_INTER,NPC1     ,SENSORS  ,MULTI_FVM ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),
-     6           INTBUF_FRIC_TAB    ,IDDLEVEL ,LSUBMODEL  ,TF                          ,
-     7           KLOADPINTER        ,DGAPINT  ,INTERFACES)
+     1           IPARI           ,FRIGAP   ,ITAB       ,ITABM1     ,
+     2           IGRNOD          ,IGRSURF  ,IGRSLIN    ,IGRBRIC    ,IGRSH3N                       ,
+     3           IGRTRUSS        ,NPC      ,ISKWN      ,XFILTR     ,STFAC                         ,
+     4           FRIC_P          ,I2RUPT   ,AREASL     ,UNITAB     ,NOM_OPT(LNOPT1*INOM_OPT(3)+1) ,
+     5           DEF_INTER       ,NPC1     ,SENSORS    ,MULTI_FVM  ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),
+     6           INTBUF_FRIC_TAB ,LSUBMODEL,TF         ,NPTS       ,NPARI                         ,
+     7           KLOADPINTER     ,DGAPINT  ,INTERFACES ,SITAB      ,NPARIR                        ,
+     8           SITABM1         ,SISKWN   ,LISKN      ,SNPC       ,SNPC1      )
 C
-
        IF(.NOT. ALLOCATED(ALE_CONNECTIVITY%NALE)) ALLOCATE(ALE_CONNECTIVITY%NALE(0))
 
-c       IF(NINTER25 /= 0)THEN
-c        DO N=1,NGROUP
-c          IF(IPARG(NPARG*(N-1)+43) >0.AND.IPARG(NPARG*(N-1)+5)==1)THEN
-c             INTERFACES%PARAMETERS%INT25_EROSION_SOLID = 1
-c          ENDIF
-c        END DO
-c       END IF
-c       INTERFACES%PARAMETERS%INT25_EROSION_SOLID = 1
-
-
-       CALL LECINT (IPARI       ,NINTER    ,IPM       ,BUFMAT   ,                                                 
-     .              NMNT        ,ITAB      ,ITABM1    ,GEO      ,                                                 
-     .              PM          ,X         ,IGRNOD    ,IGRSURF  ,IGRSLIN  ,                                       
-     .              NPC         ,PROBINT   ,LAG_NCF   ,                                                           
-     .              LAG_NKF     ,LAG_NCL   ,LAG_NKL   ,LAG_NHF  ,MAXRTM   ,                                       
-     .              ISKWN       ,MAXRTMS   ,IGEO      ,                                                           
-     .              XFILTR      ,STFAC     ,FRIC_P    ,FRIGAP   ,                                                 
-     .              I2RUPT      ,AREASL    ,UNITAB    ,IXS      ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),                   
-     .              ITAG        ,IXC       ,IXTG      ,KNOD2ELC ,KNOD2ELTG,                                       
-     .              NOD2ELC     ,NOD2ELTG  ,KNOD2ELS  ,NOD2ELS  ,IXS10   ,                                        
-     .              IXS16       ,IXS20     ,DEF_INTER ,MAXNSNE  ,                                                 
+       CALL LECINT (IPARI       ,NINTER    ,IPM                           ,BUFMAT         ,
+     .              NMNT        ,ITAB      ,ITABM1                        ,GEO            ,
+     .              PM          ,X         ,IGRNOD                        ,IGRSURF        ,IGRSLIN  ,
+     .              NPC         ,PROBINT   ,LAG_NCF                       ,
+     .              LAG_NKF     ,LAG_NCL   ,LAG_NKL                       ,LAG_NHF        ,MAXRTM   ,
+     .              ISKWN       ,MAXRTMS   ,IGEO                          ,
+     .              XFILTR      ,STFAC     ,FRIC_P                        ,FRIGAP         ,
+     .              I2RUPT      ,AREASL    ,UNITAB                        ,IXS            ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),
+     .              ITAG        ,IXC       ,IXTG                          ,KNOD2ELC       ,KNOD2ELTG,
+     .              NOD2ELC     ,NOD2ELTG  ,KNOD2ELS                      ,NOD2ELS        ,IXS10   ,
+     .              IXS16       ,IXS20     ,DEF_INTER                     ,MAXNSNE        ,
      .              NPC1        ,MULTI_FVM ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),INTBUF_FRIC_TAB,            
-     .              IGRBRIC     ,IGRSH3N   ,IGRTRUSS  ,MAXRTM_T2,NSN_MULTI_CONNEC,           
-     .              T2_NB_CONNEC,IDDLEVEL ,ALE_CONNECTIVITY%NALE,INTERFACES)
+     .              IGRBRIC     ,IGRSH3N   ,IGRTRUSS                      ,MAXRTM_T2      ,NSN_MULTI_CONNEC,
+     .              T2_NB_CONNEC,IDDLEVEL  ,ALE_CONNECTIVITY%NALE         ,INTERFACES     ,SNPC1)
 
-c       IF(INTERFACES%PARAMETERS%INT25_EROSION_SOLID == 2) THEN
-c         INTERFACES%PARAMETERS%INT25_EROSION_SOLID = 1
-c       ELSE
-c         INTERFACES%PARAMETERS%INT25_EROSION_SOLID = 0
-c       ENDIF
-C
        !need to allocate only once at first passage in lectur
        FLAG_ALLOCATE = 1
        !PROC argument is used only for call in ddsplit
@@ -7520,22 +7504,22 @@ c set INTERCEP for INT7 only to avoid bug with INT20 dur to renumerotation
 c in I20NLG (other interface types still done in SET_INTERCEP)
         CALL FILL_INTERCEP(IPARI,INTBUF_TAB,INTERCEP)
 C
-        CALL ININTR(IPARI     ,INSCR    ,X_C,V   ,IXS      ,IXQ      ,
-     2               IXC      ,PM       ,GEO     ,ITAB     ,MS       ,
-     3               IWORK    ,RWORK    ,IXTG    ,D        ,IXT      ,
-     4               IXP      ,IXR      ,ALE_CONNECTIVITY  ,NELEMINT ,IDDLEVEL ,
-     5               LIXINT   ,IGRBRIC  ,IWCONT  ,IWCIN2   ,KNOD2ELS ,
-     7               KNOD2ELC ,KNOD2ELTG,NOD2ELS ,NOD2ELC  ,NOD2ELTG ,
-     8               IGRSURF  ,IELEM21  ,SH4TREE ,SH3TREE  ,IPART    ,
-     9               IPARTC   ,IPARTG   ,THKE    ,THK_PART ,NOD2EL1D ,
-     A               KNOD2EL1D,IXS10    ,INTER_CAND,FRIGAP   ,IXS16    ,
-     B               IXS20    ,IPM      ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),IPARTS,
-     C               KXX      ,IXX      ,IGEO    ,INTERCEP ,LELX     ,
-     D               INTBUF_TAB,FILLSOL ,STACK%PM,IWORKSH  ,NSNT     ,
-     E               NMNT_2   ,KXIG3D   ,IXIG3D  ,KNOD2ELQ ,NOD2ELQ  ,
-     F               SEGQUADFR,TAGPRT_FRIC,INTBUF_FRIC_TAB ,IPARTT   ,
-     G               IPARTP   ,IPARTX   ,IPARTR  ,NSN_MULTI_CONNEC ,T2_NB_CONNEC,
-     H               ICODE    ,ISKEW    ,MULTI_FVM,S_NOD2ELS)
+        CALL ININTR(IPARI      ,INSCR      ,X_C                          ,V                ,IXS         ,IXQ      ,
+     2               IXC       ,PM         ,GEO                          ,ITAB             ,MS          ,
+     3               IWORK     ,RWORK      ,IXTG                         ,D                ,IXT         ,
+     4               IXP       ,IXR        ,ALE_CONNECTIVITY             ,NELEMINT         ,IDDLEVEL    ,
+     5               LIXINT    ,IGRBRIC    ,IWCONT                       ,IWCIN2           ,KNOD2ELS    ,
+     7               KNOD2ELC  ,KNOD2ELTG  ,NOD2ELS                      ,NOD2ELC          ,NOD2ELTG    ,
+     8               IGRSURF   ,IELEM21    ,SH4TREE                      ,SH3TREE          ,IPART       ,
+     9               IPARTC    ,IPARTG     ,THKE                         ,THK_PART         ,NOD2EL1D    ,
+     A               KNOD2EL1D ,IXS10      ,INTER_CAND                   ,FRIGAP           ,IXS16       ,
+     B               IXS20     ,IPM        ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),IPARTS           ,SISKWN      ,
+     C               KXX       ,IXX        ,IGEO                         ,INTERCEP         ,LELX        ,
+     D               INTBUF_TAB,FILLSOL    ,STACK%PM                     ,IWORKSH          ,NSNT        ,
+     E               NMNT_2    ,KXIG3D     ,IXIG3D                       ,KNOD2ELQ         ,NOD2ELQ     ,
+     F               SEGQUADFR ,TAGPRT_FRIC,INTBUF_FRIC_TAB              ,IPARTT           ,SITAB       ,
+     G               IPARTP    ,IPARTX     ,IPARTR                       ,NSN_MULTI_CONNEC ,T2_NB_CONNEC,
+     H               ICODE     ,ISKEW      ,MULTI_FVM                    ,S_NOD2ELS        ,SITABM1)
       IF(IDDLEVEL == 0) CALL STOPTIME(12,1)
       IF(IDDLEVEL == 1) CALL STOPTIME(13,1)
 

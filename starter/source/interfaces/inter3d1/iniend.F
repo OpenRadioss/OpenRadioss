@@ -36,10 +36,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    front_mod              ../starter/share/modules1/front_mod.F
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE INIEND(INSCR,X    ,IXS  ,
-     .                  IXC  ,PM   ,GEO  ,IPARI,NOIN ,
-     .                  INTC ,ITAB ,MS   ,NPBY ,LPBY ,
-     .                  MWA  ,IKINE,IN   ,STIFINT,
+      SUBROUTINE INIEND(INSCR,X    ,IXS       ,
+     .                  IXC  ,PM   ,GEO       ,IPARI    ,NOIN ,
+     .                  INTC ,ITAB ,MS        ,NPBY     ,LPBY ,
+     .                  MWA  ,IKINE,IN        ,STIFINT  ,
      .                  ID   ,TITR ,INTBUF_TAB,STIFINTR  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -174,9 +174,9 @@ C
 
        WRITE(IOUT,2001)NOINT,NTY
        CALL ININT0(X,INTBUF_TAB%IRECTS,INTBUF_TAB%NSEGS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,
-     1               INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,NMN,NSN,NRTS)
+     1               INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,NMN,NSN,NRTS,INTBUF_TAB%S_IRECTS,INTBUF_TAB%S_LNSV)
        CALL ININT0(X,INTBUF_TAB%IRECTM,INTBUF_TAB%NSEGM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
-     1               INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,NSN,NMN,NRTM)
+     1               INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,NSN,NMN,NRTM,INTBUF_TAB%S_IRECTM,INTBUF_TAB%S_LMSR)
        CALL I6STI3(INTBUF_TAB%IRECTS,INTBUF_TAB%STFS,NRTS,INTBUF_TAB%STFNS,NSN,
      1             INTBUF_TAB%NSV,XMAS1,MS,NPBY,LPBY,NOINT,ITAB,ID,TITR)
        CALL I6STI3(INTBUF_TAB%IRECTM,INTBUF_TAB%STFM,NRTM,INTBUF_TAB%STFNM,NMN,

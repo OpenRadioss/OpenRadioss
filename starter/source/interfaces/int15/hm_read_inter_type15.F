@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_TYPE15(
-     1        IPARI     ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
+     1        IPARI     ,STFAC      ,FRIGAP     ,NOINT     ,
      2        IGRSURF   ,TITR       ,LSUBMODEL  ,UNITAB    )
 C============================================================================
 C
@@ -56,13 +56,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISU1,ISU2,NI,NOINT
+      INTEGER ISU1,ISU2,NOINT
       INTEGER IPARI(*)
-      my_real
-     .   STFAC
-      my_real
-     .   FRIGAP(*)
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      my_real STFAC
+      my_real FRIGAP(*)
+      CHARACTER(LEN=NCHARTITLE),INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
@@ -75,9 +73,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      CHARACTER(LEN=NCHARTITLE) :: TITR1
       INTEGER I,J,L, NTYP,IS1, IS2,ISU20,INTKG
-      my_real
-     .   FRIC,GAP,STARTT,STOPT,VISC
+      my_real FRIC,GAP,STARTT,STOPT,VISC
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------

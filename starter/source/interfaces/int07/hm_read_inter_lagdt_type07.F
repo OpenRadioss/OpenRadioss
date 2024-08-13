@@ -37,16 +37,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod                 ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_LAGDT_TYPE07(
-     1        IPARI       ,STFAC      ,FRIGAP         ,XFILTR   ,FRIC_P  ,
-     2        IGRNOD      ,IGRSURF    ,ILAGM         ,UNITAB    ,NI      ,
-     4        NOM_OPT     ,TITR       ,DEF_INTER     ,NOINT     ,LSUBMODEL )
+     1        IPARI       ,STFAC      ,FRIGAP         ,XFILTR   ,FRIC_P   ,
+     2        IGRNOD      ,IGRSURF    ,ILAGM         ,UNITAB    ,NI       ,
+     4        NOM_OPT     ,TITR       ,DEF_INTER     ,NOINT     ,LSUBMODEL,
+     5        NPARI       ,NPARIR )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -60,16 +61,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NPARI, NPARIR !< array sizes IPARI and FRIGAP
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER ISU1,ISU2,ILAGM,NI, NOINT
-      INTEGER IPARI(*),DEF_INTER(*)
-
-      my_real
-     .   STFAC,XFILTR
-      my_real
-     .   FRIGAP(*),FRIC_P(*)
+      INTEGER IPARI(NPARI),DEF_INTER(100)
+      my_real STFAC,XFILTR
+      my_real FRIGAP(NPARIR),FRIC_P(10)
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD

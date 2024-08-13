@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE HM_READ_INTER_TYPE10(
      .        IPARI    ,STFAC    ,FRIGAP   ,IGRNOD   ,IGRSURF  ,
-     .        LSUBMODEL,UNITAB   ,TITR     ,NOINT    ,KEY      )
+     .        LSUBMODEL,UNITAB   ,TITR     ,NOINT    )
 C=======================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  :: NOINT,KEY
+      INTEGER  :: NOINT
       my_real  :: STFAC
       INTEGER, DIMENSION(*)  :: IPARI
       my_real, DIMENSION(*)  :: FRIGAP

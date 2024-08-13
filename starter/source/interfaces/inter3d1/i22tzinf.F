@@ -28,16 +28,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I22TZINF(
-     1   X      ,IRECT  ,NSV     ,BUMULT  ,NSEG     ,
-     2   NMN    ,NRTM   ,MWA     ,NSN     ,CAND_E   ,
-     3   CAND_N ,GAP    ,XYZM    ,NOINT   ,I_STOK   ,
-     4   DIST   ,TZINF  ,MAXBOX  ,MINBOX  ,MSR      ,   
-     5   STF    ,STFN   ,MULTIMP ,ISTF    ,IDDLEVEL ,
-     6   ITAB   ,GAP_S  ,GAP_M   ,IGAP    ,GAPMIN   ,
-     7   GAPMAX ,INACTI ,GAP_S_L ,GAP_M_L ,I_MEM    ,
-     8   ID     ,TITR   ,BUFBRIC ,NBRIC   ,IXS)
+     1   X        ,TZINF    ,BUFBRIC  ,NBRIC    ,IXS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
-      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,23 +42,12 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NMN, NRTM, NSN, NOINT,I_STOK,MULTIMP,ISTF,IGAP,
-     .        INACTI,I_MEM,IXS(NIXS,*)
-      INTEGER IRECT(4,*),NSV(*),NSEG(*),MWA(*)
-      INTEGER CAND_E(*),CAND_N(*),MSR(*),MAXSIZ,IDDLEVEL
-      INTEGER ITAB(*)
-      my_real
-     .   STF(*),STFN(*),X(3,*),XYZM(6,*),GAP_S(*),GAP_M(*),
-     .   DIST,BUMULT,GAP,TZINF,MAXBOX,MINBOX,GAPMIN,GAPMAX,
-     .   GAP_S_L(*),GAP_M_L(*), XX(8),YY(8), ZZ(8), CoorMIN(3), CoorMAX(3), DDmax
-     
-      INTEGER ID, BUFBRIC(*), NBRIC
-      CHARACTER(LEN=NCHARTITLE) :: TITR
+      INTEGER  IXS(NIXS,*)
+      INTEGER MAXSIZ
+      my_real X(3,*),TZINF,XX(8),YY(8), ZZ(8), CoorMIN(3), CoorMAX(3), DDmax
+      INTEGER BUFBRIC(*), NBRIC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -76,7 +60,7 @@ C-----------------------------------------------
      .   DX4,DY4,DZ4,
      .   DX6,DY6,DZ6,
      .   DD1,DD2,DD3,DD4,DD,DD0,XMIN,YMIN,ZMIN,
-     .   XMAX,YMAX,ZMAX,TZINF0,MINBOX0,MAXBOX0,GAPSMAX,
+     .   XMAX,YMAX,ZMAX,TZINF0,GAPSMAX,
      .   BID,TZINF_ST,MARGE,MARGE_ST,GAPV(MVSIZ),
      .   DIAG(4)
 C-----------------------------------------------
@@ -86,10 +70,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      !1-CALCUL TAILLE DES ZONES INFLUENCES
-      !DD EST LA DIMENSION DE LA BOULE CIRCONSCRITE (NORME L1)
+      !1- INFLUCENCE AREA DIAMETER
+      !DD DIMENSION OF CIRCUMSCRIBED BALL (NORM L1)
 
-      
       L = 1
       NE = BUFBRIC(L)
       XX(1:8)    = X(1, IXS(2:9,NE) )
@@ -115,8 +98,6 @@ C-----------------------------------------------
         DD         = MAXVAL(DIAG(1:4))      
         IF(DD>DDmax)THEN
           DDmax = DD
-          !print *, "TZINF : briqueID=", IXS(11,NE)
-          !print *, "          New DD=", DD
         ENDIF
       ENDDO
       

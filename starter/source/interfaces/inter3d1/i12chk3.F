@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE I12CHK3(X   ,IRECT,IXS,NRT   ,IXC,
      .                  NINT,NSN  ,NSV,NOINT ,MWA,
-     .                  IXTG,GEO,PM,ISEG,ALE_CONNECTIVITY,
+     .                  IXTG,PM,ISEG,ALE_CONNECTIVITY,
      .                  VARCONVINT,FCOUNT,ITIED,ITAB,KNOD2ELS,
      .                  NOD2ELS,NTY,ID,TITR)
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C-----------------------------------------------
      .   NSV(*), IXTG(NIXTG,*), ISEG(*), VARCONVINT,
      .   ITAB(*), FCOUNT(*), KNOD2ELS(*), NOD2ELS(*)
       my_real
-     .   X(3,*),GEO(NPROPG,*), PM(NPROPM,*)
+     .   X(3,*), PM(NPROPM,*)
       CHARACTER(LEN=NCHARTITLE) ::  TITR
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
 C-----------------------------------------------

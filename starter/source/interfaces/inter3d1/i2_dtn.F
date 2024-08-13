@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i2_dtn_25       ../starter/source/interfaces/inter3d1/i2_dtn.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-      SUBROUTINE I2_DTN(X,INTBUF_TAB,IPARI,STIFN,MS,IN,N,NSN,ILEV)
+      SUBROUTINE I2_DTN(X,INTBUF_TAB,IPARI,STIFN,MS,IN,N,ILEV)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -49,29 +49,24 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*),NSN,N,ILEV
-C     REAL
-      my_real
-     .   X(3,*),STIFN(*),MS(*),IN(*)
-C
+      my_real X(3,*),STIFN(*),MS(*),IN(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NI
 C=======================================================================
-C
-         
-C
+
       IF (((ILEV==1).OR.(ILEV==3)).AND.(IRODDL==1)) THEN
-        CALL I2_DTN_1(X,INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%MSR,INTBUF_TAB(N)%NSV,INTBUF_TAB(N)%IRTLM,
+        CALL I2_DTN_1(X,INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%NSV,INTBUF_TAB(N)%IRTLM,
      .                IPARI(1,N),STIFN, STIFN(NUMNOD+1),MS,IN,ILEV)
       ELSEIF (ILEV==25) THEN
         CALL I2_DTN_25(X,INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%CSTS,INTBUF_TAB(N)%NSV,INTBUF_TAB(N)%IRTLM,
-     .                 IPARI(1,N),STIFN,INTBUF_TAB(N)%SPENALTY,INTBUF_TAB(N)%VARIABLES(14),IN)
+     .                 IPARI(1,N),STIFN,INTBUF_TAB(N)%SPENALTY,INTBUF_TAB(N)%VARIABLES(14))
       ELSE
-        CALL I2_DTN_0(X,INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%CSTS,INTBUF_TAB(N)%CSTS_BIS,INTBUF_TAB(N)%NSV,
-     .                INTBUF_TAB(N)%IRTLM ,IPARI(1,N),INTBUF_TAB(N)%MSEGTYP2, STIFN, STIFN(NUMNOD+1),
-     .                MS,IN,ILEV)
+        CALL I2_DTN_0(INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%CSTS,INTBUF_TAB(N)%CSTS_BIS,INTBUF_TAB(N)%NSV,
+     .                INTBUF_TAB(N)%IRTLM ,IPARI(1,N), STIFN,
+     .                MS)
       ENDIF    
 C-----------
       RETURN
@@ -82,9 +77,9 @@ C-----------
       !||--- called by ------------------------------------------------------
       !||    i2_dtn     ../starter/source/interfaces/inter3d1/i2_dtn.F
       !||====================================================================
-      SUBROUTINE I2_DTN_0(X,IRECT ,CRST    ,CSTS_BIS, NSV  ,
-     2                    IRTL  ,IPARI, MSEGTYP2, STIFN, STIFR,
-     2                    MS, IN, ILEV)
+      SUBROUTINE I2_DTN_0(IRECT ,CRST    ,CSTS_BIS, NSV  ,
+     2                    IRTL  ,IPARI , STIFN  ,
+     2                    MS)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -96,11 +91,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IRECT(4,*), NSV(*),IRTL(*),
-     .        IPARI(*),MSEGTYP2(*),ILEV
-C     REAL
-      my_real
-     .   X(3,*),CRST(2,*),STIFN(*),STIFR(*), MS(*),CSTS_BIS(2,*),IN(*)
+      INTEGER IRECT(4,*), NSV(*),IRTL(*), IPARI(*)
+      my_real CRST(2,*),STIFN(*),MS(*),CSTS_BIS(2,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -176,7 +168,7 @@ C-----------
       !||--- called by ------------------------------------------------------
       !||    i2_dtn     ../starter/source/interfaces/inter3d1/i2_dtn.F
       !||====================================================================
-      SUBROUTINE I2_DTN_1(X,IRECT , MSR   ,NSV  ,IRTL  ,
+      SUBROUTINE I2_DTN_1(X,IRECT , NSV  ,IRTL  ,
      2                         IPARI, STIFN, STIFR, MS, IN,ILEV)
 C-----------------------------------------------
 C   M o d u l e s
@@ -189,11 +181,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IRECT(4,*), MSR(*), NSV(*),IRTL(*),
-     .        IPARI(*),ILEV
-C     REAL
-      my_real
-     .   X(3,*),STIFN(*),STIFR(*), MS(*),IN(*)
+      INTEGER IRECT(4,*), NSV(*),IRTL(*), IPARI(*),ILEV
+      my_real X(3,*),STIFN(*),STIFR(*), MS(*),IN(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -349,7 +338,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||====================================================================
       SUBROUTINE I2_DTN_25(X,IRECT ,CRST    ,NSV  ,IRTL,
-     2                     IPARI,STIFN,STFN,VISC,IN)
+     2                     IPARI,STIFN,STFN,VISC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -358,8 +347,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IRECT(4,*),NSV(*),IRTL(*),IPARI(*)
-      my_real
-     .   X(3,*),IN(*),STIFN(*),STFN(*),CRST(2,*),VISC
+      my_real X(3,*),STIFN(*),STFN(*),CRST(2,*),VISC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

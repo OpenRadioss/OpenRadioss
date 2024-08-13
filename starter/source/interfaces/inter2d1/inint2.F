@@ -37,10 +37,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE ININT2(INTBUF_TAB ,INSCR    ,X         ,IXQ    ,
-     .                  PM         ,GEO      ,IPARI     ,NINT   ,ITAB     ,
-     .                  ITABM1     ,NUMNOD   ,IKINE     ,MWA    ,IPM      ,
-     .                  ID         ,TITR     ,KNOD2ELQ ,NOD2ELQ ,SEGQUADFR)
+      SUBROUTINE ININT2(INTBUF_TAB ,INSCR    ,X         ,IXQ     ,SINSCR   ,
+     .                  PM         ,GEO      ,IPARI     ,NINT    ,ITAB     ,
+     .                  ITABM1     ,NUMNOD   ,IKINE     ,MWA     ,IPM      ,
+     .                  ID         ,TITR     ,KNOD2ELQ  ,NOD2ELQ ,SEGQUADFR,
+     .                  NUMMAT     ,NINTER   ,SITAB     ,SITABM1)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -64,11 +65,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NUMMAT,NINTER,SITAB,SITABM1,SINSCR !< array sizes
       INTEGER NINT, NUMNOD
-      INTEGER INSCR(*), IXQ(*), IPARI(*), ITAB(*),
-     .        ITABM1(*), IKINE(*), MWA(*),IPM(NPROPMI,*),
+      INTEGER INSCR(*), IXQ(*), IPARI(NPARI), ITAB(SITAB),
+     .        ITABM1(SITABM1), IKINE(*), MWA(*),IPM(NPROPMI,NUMMAT),
      .        KNOD2ELQ(*),NOD2ELQ(*),SEGQUADFR(2,*)
-      my_real X(*), PM(*), GEO(*)
+      my_real X(*), PM(NPROPM, NUMMAT), GEO(*)
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -84,16 +86,16 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IWPENE = 0
-      NRTS  =IPARI(3)
-      NRTM  =IPARI(4)
-      NSN   =IPARI(5)
-      NMN   =IPARI(6)
-      NTY   =IPARI(7)
-      NST   =IPARI(8)
-      NMT   =IPARI(9)
-      NOINT =IPARI(15)
+      NRTS  = IPARI(3)
+      NRTM  = IPARI(4)
+      NSN   = IPARI(5)
+      NMN   = IPARI(6)
+      NTY   = IPARI(7)
+      NST   = IPARI(8)
+      NMT   = IPARI(9)
+      NOINT = IPARI(15)
 C
-      IF(INVERS<18) NOINT=NINT
+      NOINT=NINT
       WRITE(IOUT,2100)NOINT,NTY,NRTS,NRTM,NSN,NMN
       K10=1
       K11=K10+4*NRTS
@@ -118,7 +120,7 @@ C
         !flushed between 2 domain decomposition (otherwise ININT0 subroutine does not store the expected segments)
          INTBUF_TAB%NRT(1:NMT) = 0
          CALL ININT0(X,INTBUF_TAB%IRECTM,INTBUF_TAB%NSEGM,INTBUF_TAB%NRT,INTBUF_TAB%MSR,
-     1           INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,NSN,NMN,NRTM)
+     1           INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,NSN,NMN,NRTM,INTBUF_TAB%S_IRECTM, INTBUF_TAB%S_NRT)
          CALL I1CHK2(X,INTBUF_TAB%IRECTS,IXQ,NRTS, NINT,
      1         NSN,INTBUF_TAB%NSV,NOINT,ID,TITR)
          CALL I1CHK2(X,INTBUF_TAB%IRECTM,IXQ,NRTM,-NINT,
@@ -140,7 +142,7 @@ C
         L23=L22+NST
         K48 = KFI
          CALL ININT0(X,INTBUF_TAB%IRECTM,INSCR(L21),INSCR(L23),INTBUF_TAB%MSR,
-     1           INTBUF_TAB%NSV,INSCR(L16),NSN,NMN,NRTM)
+     1           INTBUF_TAB%NSV,INSCR(L16),NSN,NMN,NRTM,INTBUF_TAB%S_IRECTM,  SINSCR-L23+1)
          CALL I1CHK2(X,INTBUF_TAB%IRECTS,IXQ,NRTS, NINT,
      1         NSN,INTBUF_TAB%NSV,NOINT,ID,TITR)
          CALL I1CHK2(X,INTBUF_TAB%IRECTM,IXQ,NRTM,-NINT,
@@ -186,9 +188,9 @@ C selecting relevant main nodes and recompating interface buffer
         INTBUF_TAB%STFNM(1:NMN) = 0
 
          CALL ININT0(X,INTBUF_TAB%IRECTS,INTBUF_TAB%NSEGS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,
-     1           INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,NMN,NSN,NRTS)
+     1           INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,NMN,NSN,NRTS,INTBUF_TAB%S_IRECTS,INTBUF_TAB%S_LNSV)
          CALL ININT0(X,INTBUF_TAB%IRECTM,INTBUF_TAB%NSEGM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
-     1           INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,NSN,NMN,NRTM)
+     1           INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,NSN,NMN,NRTM,INTBUF_TAB%S_IRECTM,INTBUF_TAB%S_LMSR)
          CALL I3STI2(
      1   X   ,INTBUF_TAB%IRECTS,INTBUF_TAB%STFS,IXQ    ,PM       ,
      2   NRTS   ,INTBUF_TAB%STFNS,INTBUF_TAB%NSEGS,INTBUF_TAB%LNSV,NINT      ,
@@ -210,12 +212,12 @@ C selecting relevant main nodes and recompating interface buffer
          CALL I3PEN2
      1     (X      ,INTBUF_TAB%IRECTM  ,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,
      2      INTBUF_TAB%IRTLM,NSN   ,INTBUF_TAB%CSTS,INTBUF_TAB%IRTLOM,INTBUF_TAB%FRICOS,
-     3      INTBUF_TAB%VARIABLES(1),INTBUF_TAB%VARIABLES(2),IWPENE,ITAB     ,NINT,ID,TITR)
+     3      INTBUF_TAB%VARIABLES(1),INTBUF_TAB%VARIABLES(2),IWPENE,ITAB     ,ID,TITR)
          WRITE(IOUT,2300)
          CALL I3PEN2
      1     (X      ,INTBUF_TAB%IRECTS  ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,
      2      INTBUF_TAB%IRTLS,NMN   ,INTBUF_TAB%CSTM,INTBUF_TAB%IRTLOS,INTBUF_TAB%FRICOM,
-     3      INTBUF_TAB%VARIABLES(1),INTBUF_TAB%VARIABLES(2),IWPENE,ITAB    ,NINT,ID,TITR)
+     3      INTBUF_TAB%VARIABLES(1),INTBUF_TAB%VARIABLES(2),IWPENE,ITAB    ,ID,TITR)
 
       ELSEIF(NTY == 5)THEN
         K15=KFI
@@ -242,7 +244,7 @@ C selecting relevant main nodes and recompating interface buffer
         INTBUF_TAB%STFNM(1:NMN) = 0
 
          CALL ININT0(X,INTBUF_TAB%IRECTM,INTBUF_TAB%NSEGM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
-     1           INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,NSN,NMN,NRTM)
+     1           INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,NSN,NMN,NRTM,INTBUF_TAB%S_IRECTM, INTBUF_TAB%S_LMSR)
          CALL I3STI2(
      1   X   ,INTBUF_TAB%IRECTM,INTBUF_TAB%STFM,IXQ    ,PM       ,
      2   NRTM   ,INTBUF_TAB%STFNM,INTBUF_TAB%NSEGM,INTBUF_TAB%LMSR,-NINT      ,
@@ -255,7 +257,7 @@ C selecting relevant main nodes and recompating interface buffer
          CALL I3PEN2
      1     (X      ,INTBUF_TAB%IRECTM  ,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,
      2      INTBUF_TAB%IRTLM,NSN   ,INTBUF_TAB%CSTS,INTBUF_TAB%IRTLOM,INTBUF_TAB%FRICOS,
-     3      INTBUF_TAB%VARIABLES(1),INTBUF_TAB%VARIABLES(2),IWPENE,ITAB     ,NINT,ID,TITR)
+     3      INTBUF_TAB%VARIABLES(1),INTBUF_TAB%VARIABLES(2),IWPENE,ITAB     ,ID,TITR)
 
       ELSEIF(NTY == 9)THEN
         K15=KFI
@@ -285,19 +287,19 @@ C selecting relevant main nodes and recompating interface buffer
         INTBUF_TAB%STFNM(1:NMN)= 0
 
          CALL ININT0(X,INTBUF_TAB%IRECTS,INTBUF_TAB%NSEGS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,
-     1                 INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,NMN,NSN,NRTS)
+     1                 INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,NMN,NSN,NRTS,INTBUF_TAB%S_IRECTS ,INTBUF_TAB%S_LNSV)
          CALL ININT0(X,INTBUF_TAB%IRECTM,INTBUF_TAB%NSEGM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
-     1                 INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,NSN,NMN,NRTM)
+     1                 INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,NSN,NMN,NRTM,INTBUF_TAB%S_IRECTM ,INTBUF_TAB%S_LMSR)
          CALL I9STI2(
-     1   X         ,INTBUF_TAB%IRECTS,INTBUF_TAB%STFS,IXQ       ,PM        ,
-     2   NRTS      ,INTBUF_TAB%STFNS,INTBUF_TAB%NSEGS,INTBUF_TAB%LNSV,NINT      ,
-     3   NSN       ,INTBUF_TAB%NSV,INTBUF_TAB%STFAC,NOINT     ,INTBUF_TAB%IELES,
-     4   ID,TITR)
+     1   X         ,INTBUF_TAB%IRECTS, IXQ       ,
+     2   NRTS      ,NINT      ,
+     3   NSN       ,INTBUF_TAB%NSV, NOINT ,INTBUF_TAB%IELES,
+     4   ID        ,TITR)
          CALL I9STI2(
-     1   X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%STFM,IXQ       ,PM        ,
-     2   NRTM      ,INTBUF_TAB%STFNM,INTBUF_TAB%NSEGM,INTBUF_TAB%LMSR,-NINT      ,
-     3   NMN       ,INTBUF_TAB%MSR,INTBUF_TAB%STFAC,NOINT     ,INTBUF_TAB%IELEM,
-     4   ID,TITR)
+     1   X         ,INTBUF_TAB%IRECTS, IXQ ,
+     2   NRTM      ,-NINT      ,
+     3   NMN       ,INTBUF_TAB%MSR, NOINT ,INTBUF_TAB%IELEM,
+     4   ID        ,TITR)
          CALL INVOI2(X,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
      1   INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,INTBUF_TAB%NSEGM,NSN,NRTM)
          CALL INVOI2(X,INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,INTBUF_TAB%MSR,
@@ -307,21 +309,22 @@ C selecting relevant main nodes and recompating interface buffer
            CALL I3PEN2
      1     (X         ,INTBUF_TAB%IRECTM  ,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,
      2      INTBUF_TAB%IRTLM,NSN         ,INTBUF_TAB%CSTS,INTBUF_TAB%IRTLOM,INTBUF_TAB%FRICOS,
-     3      INTBUF_TAB%VARIABLES(1),INTBUF_TAB%VARIABLES(2),IWPENE,ITAB      ,NINT,ID,TITR)
+     3      INTBUF_TAB%VARIABLES(1),INTBUF_TAB%VARIABLES(2),IWPENE,ITAB      ,ID,TITR)
            WRITE(IOUT,2300)
            CALL I3PEN2
      1     (X         ,INTBUF_TAB%IRECTS  ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,
      2      INTBUF_TAB%IRTLS,NMN         ,INTBUF_TAB%CSTM,INTBUF_TAB%IRTLOS,INTBUF_TAB%FRICOM,
-     3      INTBUF_TAB%VARIABLES(1),INTBUF_TAB%VARIABLES(2),IWPENE,ITAB      ,NINT,ID,TITR)
+     3      INTBUF_TAB%VARIABLES(1),INTBUF_TAB%VARIABLES(2),IWPENE,ITAB      ,ID,TITR)
          ENDIF
 
-      ENDIF !NTY
-C
+       ENDIF !NTY
+
       IF(IWPENE/=0) THEN
          CALL ANCMSG(MSGID=342,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IWPENE)
       ENDIF
 C
       RETURN
+
  2100 FORMAT(//
      .      ,5X,'INTERFACE NUMBER. . . . . . . . . . . . . .',I8/
      .      ,5X,'SLIDE LINE TYPE . . . . . . . . . . . . . .',I5/
@@ -333,4 +336,6 @@ C
      .       / ' NODE        MAIN      SEGMENT      NODES '     )
  2300 FORMAT(//' MAIN        NEAREST   NEAREST      SECONDARY      S '
      .       / ' NODE        SECONDARY SEGMENT      NODES '     )
+
+C-----------------------------------------------
       END

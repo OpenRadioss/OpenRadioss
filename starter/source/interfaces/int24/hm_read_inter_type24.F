@@ -40,10 +40,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_TYPE24(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,
-     2        IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P     ,DEF_INTER ,
-     3        SENSORS    ,NOM_OPT    ,UNITAB     ,LSUBMODEL  ,TITR      ,
-     4        NOM_OPTFRIC,INTBUF_FRIC_TAB,PARAMETERS )
+     1        IPARI      ,STFAC           ,FRIGAP     ,NOINT      ,NI         ,
+     2        IGRNOD     ,IGRSURF         ,XFILTR     ,FRIC_P     ,DEF_INTER ,
+     3        SENSORS    ,NOM_OPT         ,UNITAB     ,LSUBMODEL  ,TITR      ,
+     4        NOM_OPTFRIC,INTBUF_FRIC_TAB ,PARAMETERS ,NPARI      ,NPARIR    )
 C============================================================================
 C     
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE UNITAB_MOD
       USE SENSOR_MOD
       USE PARAMETERS_MOD
@@ -67,32 +67,30 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NOM_OPT(LNOPT1,*), NOM_OPTFRIC(LNOPT1,*)
-      INTEGER ISU1,ISU2,NI
-      INTEGER IPARI(*),DEF_INTER(*)
-      my_real STFAC,XFILTR
-      my_real FRIGAP(*),FRIC_P(*)
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
-      TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
-      TYPE (SENSORS_)  ,INTENT(IN) :: SENSORS
-C-----------------------------------------------
-      TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
-      TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
-      TYPE (PARAMETERS_) ,INTENT(INOUT):: PARAMETERS
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 #include      "scr06_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "scr12_c.inc"
 #include      "remesh_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NPARI,NPARIR !< array size
+      INTEGER NOM_OPT(LNOPT1,*), NOM_OPTFRIC(LNOPT1,*)
+      INTEGER ISU1,ISU2,NI
+      INTEGER IPARI(NPARI),DEF_INTER(100)
+      my_real STFAC,XFILTR
+      my_real FRIGAP(NPARIR),FRIC_P(10)
+      CHARACTER(LEN=NCHARTITLE),INTENT(IN) :: TITR
+      TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
+      TYPE (SENSORS_)  ,INTENT(IN) :: SENSORS
+C-----------------------------------------------
+      TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
+      TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
+      TYPE (PARAMETERS_) ,INTENT(INOUT):: PARAMETERS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

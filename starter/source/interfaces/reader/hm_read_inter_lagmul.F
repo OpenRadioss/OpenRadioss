@@ -38,7 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_READ_INTER_LAGMUL(
      1        IPARI    ,STFAC      ,FRIGAP    ,IGRNOD      ,IGRSURF    ,
      2        ILAGM    ,NI         ,NOM_OPT   ,TITR        ,DEF_INTER  ,
-     3        IGRBRIC  ,UNITAB     ,LSUBMODEL,NOINT        ,KEY        )
+     3        IGRBRIC  ,UNITAB     ,LSUBMODEL ,NOINT       ,KEY        ,
+     4        NPARI    ,NPARIR)
 C============================================================================
 C
 C-----------------------------------------------
@@ -47,7 +48,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -60,11 +61,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NPARI, NPARIR !< array sizes IPARI and FRIGAP
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER ISU1,ISU2,ILAGM,NI,NOINT
-      INTEGER IPARI(*),DEF_INTER(*)
+      INTEGER IPARI(NPARI),DEF_INTER(100)
       my_real STFAC
-      my_real FRIGAP(*)
+      my_real FRIGAP(NPARIR)
       CHARACTER(LEN=NCHARTITLE)::TITR
       CHARACTER(LEN=NCHARKEY)::KEY
 C-----------------------------------------------
@@ -72,7 +74,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -104,30 +106,30 @@ c------------------------------
 c------------------------------
            NTYP = 2
            CALL HM_READ_INTER_LAGMUL_TYPE02(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,    
+     1        IPARI      ,FRIGAP     ,NOINT      ,
      2        IGRNOD     ,IGRSURF    ,DEF_INTER  ,TITR      ,UNITAB     ,
-     3        LSUBMODEL  )
+     3        LSUBMODEL  ,NPARI      ,NPARIR)
 c------------------------------
          CASE ('TYPE7')
 c------------------------------
            NTYP = 7
            CALL HM_READ_INTER_LAGMUL_TYPE07(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,    
+     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
      2        IGRNOD     ,IGRSURF    , TITR       ,UNITAB     ,LSUBMODEL  )
 c------------------------------
          CASE ('TYPE16')
 c------------------------------
            NTYP = 16 
            CALL HM_READ_INTER_LAGMUL_TYPE16(
-     .          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     .          IGRNOD     ,IGRBRIC    ,UNITAB     ,LSUBMODEL )
+     .          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
+     .          IGRNOD     ,IGRBRIC    ,LSUBMODEL )
 c------------------------------
          CASE ('TYPE17')
 c------------------------------
            NTYP = 17
            CALL HM_READ_INTER_LAGMUL_TYPE17(
-     .          IPARI      ,STFAC      ,FRIGAP    ,NOINT     ,NI       ,
-     .          IGRBRIC    ,UNITAB     ,LSUBMODEL )
+     .          IPARI      ,STFAC      ,FRIGAP    ,NOINT     ,
+     .          IGRBRIC    ,LSUBMODEL )
 C---------------------------------------------------------------
       END SELECT
 C---------------------------------------------------------------

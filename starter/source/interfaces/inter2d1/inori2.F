@@ -28,12 +28,14 @@ C  _clean      SUBROUTINE INORI2(X,IRECT,ISG,NEL,NINT,NOINT)
       !||    i3sti2   ../starter/source/interfaces/inter2d1/i3sti2.F
       !||    i9sti2   ../starter/source/interfaces/int09/i9sti2.F
       !||====================================================================
-      SUBROUTINE INORI2(X    ,IRECT,ISG,NEL,NINT,
-     .                  NOINT, YM1, YM2, ZM1,ZM2 ,
-     .                  YE   ,ZE)
-C------------------------------------
-C     VERIFICATION DE L'ORIENTATION
-C------------------------------------
+      SUBROUTINE INORI2(IRECT, ISG  , NEL, NINT,
+     .                  NOINT, YM1  , YM2, ZM1 , ZM2 ,
+     .                  YE   , ZE)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C INIT INTERFACE : CHECK ORIENTATION
+C     reverse segment connectivity if needed
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,38 +49,34 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ISG, NEL, NINT, NOINT
       INTEGER IRECT(4,*)
-C     REAL
-      my_real
-     .   X(3,*), YM1, YM2, ZM1, ZM2,YE(4) ,ZE(4)
+      my_real YM1, YM2, ZM1, ZM2,YE(4) ,ZE(4)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IR
-C     REAL
-      my_real
-     .   N2, N3, YM, ZM, DDS
+      my_real N2, N3, YM, ZM, DDS
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      IF(NEL==0) RETURN
+      IF(NEL==0) RETURN ! NO ELEM CONNECTED TO CURRENT SEGMENT
+      !segment vector p1->p2
       N2= ZM2-ZM1
       N3= YM1-YM2
+      !elem centroid
       YM= FOURTH*(YE(1)+YE(2)+YE(3)+YE(4))
       ZM= FOURTH*(ZE(1)+ZE(2)+ZE(3)+ZE(4))
+      !dot product
       DDS=N2*(YM-YM1)+ N3*(ZM-ZM1)
-      IF(DDS<0) RETURN
-       IR=IRECT(1,ISG)
-       IRECT(1,ISG)=IRECT(2,ISG)
-       IRECT(2,ISG)=IR
-       IF(NINT>0)   WRITE (IOUT,1100) ISG, NOINT
-       IF(NINT<0)   WRITE (IOUT,1200) ISG, NOINT
+      IF(DDS >= ZERO)THEN
+        !switch the segment connectivity to get outward normal
+        IR=IRECT(1,ISG)
+        IRECT(1,ISG)=IRECT(2,ISG)
+        IRECT(2,ISG)=IR
+        IF(NINT>0) WRITE (IOUT,1100) ISG, NOINT
+        IF(NINT<0) WRITE (IOUT,1200) ISG, NOINT
+      ENDIF
       RETURN
-C  121 1100 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I5,' OF INTERFACE',I5,
-C  121     .       ' REVERSED')
-C  121 1200 FORMAT(' NODE NUMBERING OF MAIN SEGMENT',I5,' OF INTERFACE',I5,
-C  121     .       ' REVERSED')
- 1100 FORMAT(' NODE NUMBERING OF SECONDARY SEGMENT',I5,' OF INTERFACE',I10,
-     .       ' REVERSED')
- 1200 FORMAT(' NODE NUMBERING OF MAIN SEGMENT',I5,' OF INTERFACE',I10,
-     .       ' REVERSED')
+C-----------------------------------------------
+ 1100 FORMAT(' NODE CONNECTIVITY OF SECONDARY SEGMENT',I5,' OF INTERFACE',I10,' REVERSED')
+ 1200 FORMAT(' NODE CONNECTIVITY OF MAIN SEGMENT',I5,' OF INTERFACE',I10,' REVERSED')
       END

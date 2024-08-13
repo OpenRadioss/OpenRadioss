@@ -27,7 +27,10 @@ C
       !||    inint2   ../starter/source/interfaces/inter2d1/inint2.F
       !||====================================================================
       SUBROUTINE INVOI2(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,NSEG,NSN,NRT)
-C
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C FOR A GIVEN SECND NODE FIND THE NEAREST MAIN SEGMENT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -36,70 +39,91 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,NRT
-      INTEGER IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), IRTL(*),
-     .   NSEG(*)
-C     REAL
-      my_real
-     .   X(3,*)
+      INTEGER IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), IRTL(*),NSEG(*)
+      my_real X(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, I, J, K, NUM, NPT, JJ, LL, L, LG, M, MG
-C     REAL
-      my_real
-     .   CMS, DMS, RESULT, C2, C3, S2, S3, CS, D2, CC
-C
-      IF(NRT==0) RETURN
-      DO 200 II=1,NSN
-      I=NSV(II)
-      J=ILOC(II)
-      K=MSR(J)
-      CMS=(X(2,I)-X(2,K))**2+(X(3,I)-X(3,K))**2
-      NUM=NSEG(J+1)-NSEG(J)
-      NPT=NSEG(J)-1
-C---------------------------------------------
-C     RECHERCHE DU NOEUD main LE PLUS PROCHE
-C---------------------------------------------
-      DO 100 JJ=1,NUM
-      LL=LMSR(NPT+JJ)
-      L=IRECT(1,LL)
-      IF(L==J)L=IRECT(2,LL)
-      LG=MSR(L)
-      DMS=(X(2,I)-X(2,LG))**2+(X(3,I)-X(3,LG))**2
-      IF(DMS<CMS)THEN
-       CMS=DMS
-       J=L
-       K=LG
-      ENDIF
-  100 CONTINUE
-C------------------------------------------------
-C     RECHERCHE DU SEGMENT main LE PLUS PROCHE
-C------------------------------------------------
-      ILOC(II)=J
-      RESULT=1.E+30
-      NUM=NSEG(J+1)-NSEG(J)
-      NPT=NSEG(J)-1
-C
-      DO 150 JJ=1,NUM
-      LL=LMSR(JJ+NPT)
-      M=IRECT(1,LL)
-      IF(M==J)M=IRECT(2,LL)
-      MG=MSR(M)
-C
-      C2=X(2,MG)-X(2,K)
-      C3=X(3,MG)-X(3,K)
-      S2=X(2,I)-X(2,K)
-      S3=X(3,I)-X(3,K)
-      CS=C2*S2+C3*S3
-      D2=S2*S2+S3*S3
-      IF(CS>0.0)THEN
-       CC=C2*C2+C3*C3
-       D2=D2-CS*CS/CC
-      ENDIF
-      IF(D2>RESULT)GOTO 150
-       RESULT=D2
-       IRTL(II)=LL
-  150 CONTINUE
-  200 CONTINUE
+      my_real CMS, DMS, RESULT, C2, C3, S2, S3, CS, D2, CC
+C-----------------------------------------------
+C   P r e - C o n d i t i o n
+C-----------------------------------------------
+      IF(NRT == 0) RETURN
+C-----------------------------------------------
+C   S o u r c e  L i n e s
+C-----------------------------------------------
+
+      DO II=1,NSN !loop over nodes in list
+        I=NSV(II)  ! current secnd node
+        J=ILOC(II) ! nearest main node
+        K=MSR(J)
+        CMS = (X(2,I)-X(2,K))**2 + (X(3,I)-X(3,K))**2
+        NUM=NSEG(J+1)-NSEG(J) ! number of connected main segments
+        NPT=NSEG(J)-1 !pointer/index
+        !---------------------------------------------
+        !     NEAREST NODE
+        !---------------------------------------------
+        DO JJ=1,NUM !loop over connected main segments
+          LL=LMSR(NPT+JJ) ! segment
+          L=IRECT(1,LL)   ! first node of segment
+          IF(L == J) L=IRECT(2,LL)
+          LG=MSR(L)
+          DMS = (X(2,I)-X(2,LG))**2 + (X(3,I)-X(3,LG))**2
+          IF(DMS < CMS)THEN
+           CMS=DMS
+           J=L
+           K=LG
+          ENDIF
+        ENDDO
+        ILOC(II)=J
+        NUM=NSEG(J+1)-NSEG(J)
+        NPT=NSEG(J)-1
+        !------------------------------------------------
+        !     NEAREST SEGMENT : check if node projection si inside or outside the tested segment
+        !    D2 = (projected length on main segment)² - (segment length)²
+        !    a>0, b>0 : a²-b² > 0 => a-b >0 ;     a²-b² < 0 => a-b < 0
+        !------------------------------------------------
+        !  CASE D2 < 0                CASE D2 > 0
+        !   projection of I             projection of I
+        !   lies on segment             is out of segment
+        !
+        !         I
+        !         +                                    I     <- secnd node
+        !        /                                     +
+        !      /                                       |
+        !    /                                         |
+        !   +--D2-x----+                  +---------+  x     <- main segment
+        !  MG          K                  MG        K
+        !
+
+        RESULT=ep20
+        DO JJ=1,NUM !loop over connected segment
+          LL=LMSR(JJ+NPT) !lag segment
+          M=IRECT(1,LL) !first node
+          IF(M == J) M=IRECT(2,LL)
+          MG=MSR(M)
+          ! main segment
+          C2=X(2,MG)-X(2,K)
+          C3=X(3,MG)-X(3,K)
+          !  other node on this segment -> secnd node
+          S2=X(2,I)-X(2,K)
+          S3=X(3,I)-X(3,K)
+          !
+          CS=C2*S2+C3*S3 ! dot product
+          D2=S2*S2+S3*S3 ! distance : lag second node -> fluid node
+          IF(CS > ZERO)THEN
+           CC=C2*C2+C3*C3 ! lagrange segment : length
+           D2=D2-CS*CS/CC  !
+          ENDIF
+          IF(D2 <= RESULT)THEN
+            RESULT = D2
+            IRTL(II)=LL !nearest segment
+          ENDIF
+        ENDDO !next JJ
+
+
+      ENDDO ! NEXT II
+
       RETURN
       END

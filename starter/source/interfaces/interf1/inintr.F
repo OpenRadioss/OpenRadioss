@@ -44,22 +44,22 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_cand_mod         ../starter/share/modules1/inter_cand_mod.F
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE ININTR(IPARI     ,INSCR    ,X,V       ,IXS      ,IXQ      ,
-     2                  IXC       ,PM       ,GEO     ,ITAB     ,MS       ,
-     3                  MWA       ,RWA      ,IXTG    ,IKINE    ,IXT      ,
-     4                  IXP       ,IXR      ,ALE_CONNECTIVITY  ,NELEMINT ,IDDLEVEL ,
-     5                  IFIEND    ,IGRBRIC  ,IWCONT  ,IWCIN2   ,KNOD2ELS ,
-     6                  KNOD2ELC  ,KNOD2ELTG,NOD2ELS ,NOD2ELC  ,NOD2ELTG ,
-     8                  IGRSURF   ,IELEM21  ,SH4TREE ,SH3TREE  ,IPART    ,
-     9                  IPARTC    ,IPARTTG  ,THK     ,THK_PART ,NOD2EL1D ,
-     A                  KNOD2EL1D ,IXS10    ,INTER_CAND,FRIGAP   ,IXS16    ,
-     B                  IXS20     ,IPM      ,NOM_OPT           ,IPARTS   ,
-     C                  KXX       ,IXX      ,IGEO    ,INTERCEP ,LELX     ,
-     D                  INTBUF_TAB,FILLSOL  ,PM_STACK,IWORKSH  ,NSNT     ,
-     E                  NMNT      ,KXIG3D   ,IXIG3D  ,KNOD2ELQ ,NOD2ELQ  ,
-     F                  SEGQUADFR,TAGPRT_FRIC,INTBUF_FRIC_TAB  ,IPARTT   ,
-     G                  IPARTP    ,IPARTX   ,IPARTR  ,NSN_MULTI_CONNEC,T2_NB_CONNEC,
-     H                  ICODE     ,ISKEW    ,MULTI_FVM,S_NOD2ELS)
+      SUBROUTINE ININTR(IPARI     ,INSCR     ,X                 ,V               ,IXS         ,IXQ   ,
+     2                  IXC       ,PM        ,GEO               ,ITAB            ,MS          ,
+     3                  MWA       ,RWA       ,IXTG              ,IKINE           ,IXT         ,
+     4                  IXP       ,IXR       ,ALE_CONNECTIVITY  ,NELEMINT        ,IDDLEVEL    ,
+     5                  IFIEND    ,IGRBRIC   ,IWCONT            ,IWCIN2          ,KNOD2ELS    ,
+     6                  KNOD2ELC  ,KNOD2ELTG ,NOD2ELS           ,NOD2ELC         ,NOD2ELTG    ,
+     8                  IGRSURF   ,IELEM21   ,SH4TREE           ,SH3TREE         ,IPART       ,
+     9                  IPARTC    ,IPARTTG   ,THK               ,THK_PART        ,NOD2EL1D    ,
+     A                  KNOD2EL1D ,IXS10     ,INTER_CAND        ,FRIGAP          ,IXS16       ,
+     B                  IXS20     ,IPM       ,NOM_OPT           ,IPARTS          ,SISKWN      ,
+     C                  KXX       ,IXX       ,IGEO              ,INTERCEP        ,LELX        ,
+     D                  INTBUF_TAB,FILLSOL   ,PM_STACK          ,IWORKSH         ,NSNT        ,
+     E                  NMNT      ,KXIG3D    ,IXIG3D            ,KNOD2ELQ        ,NOD2ELQ     ,
+     F                  SEGQUADFR,TAGPRT_FRIC,INTBUF_FRIC_TAB   ,IPARTT          ,SITAB       ,
+     G                  IPARTP    ,IPARTX    ,IPARTR            ,NSN_MULTI_CONNEC,T2_NB_CONNEC,
+     H                  ICODE     ,ISKEW     ,MULTI_FVM         ,S_NOD2ELS       ,SITABM1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -93,23 +93,24 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: SITAB, SITABM1, SISKWN !< array size
       INTEGER :: S_NOD2ELS !< size of NOD2ELS
-      INTEGER IPARI(NPARI,*), IXS(*), IXQ(*),
-     .   IXC(*), ITAB(*), MWA(*), IXTG(*), IKINE(*),
+      INTEGER IPARI(NPARI,NINTER), IXS(*), IXQ(*),
+     .   IXC(*), ITAB(SITAB), MWA(*), IXTG(*), IKINE(*),
      .   IWCONT(5,*),IWCIN2(2,*),
      .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), 
      .   NOD2ELS(S_NOD2ELS), NOD2ELC(*), NOD2ELTG(*),
      .   IXT(*), IXP(*), IXR(*), NELEMINT,  IDDLEVEL,IFIEND,
-     .   IELEM21(*),IPM(NPROPMI,*),
+     .   IELEM21(*),IPM(NPROPMI,NUMMAT),
      .   SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*), IPART(*),
      .   IPARTC(*), IPARTTG(*),NOD2EL1D(*),KNOD2EL1D(*), IXS10(*),I_MEM,
      .   RESORT  , IXS16(8,*), IXS20(12,*),IPARTS(*),IGEO(*),
      .   IWORKSH(*),NSNT, NMNT,KXIG3D(NIXIG3D,*),IXIG3D(*),
      .   KNOD2ELQ(*),NOD2ELQ(*),SEGQUADFR(2,*),TAGPRT_FRIC(*),IPARTT(*),
      .   IPARTP(*),IPARTX(*),IPARTR(*),NSN_MULTI_CONNEC,T2_NB_CONNEC(*),
-     .   ICODE(*), ISKEW(*)
+     .   ICODE(*), ISKEW(SISKWN)
       my_real X(3,*),V(3,*), PM(*), GEO(*), MS(*), RWA(6,*),
-     .        THK(*),THK_PART(*),FRIGAP(NPARIR,*),
+     .        THK(*),THK_PART(*),FRIGAP(NPARIR,NINTER),
      .        LELX(*), FILLSOL(*),PM_STACK(*)
       INTEGER NOM_OPT(LNOPT1,*),KXX(*),IXX(*)
       TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
@@ -173,8 +174,7 @@ C
         IKINE1(I) = 0
       ENDDO
 C-----------------------------------------------
-      IF(((IMACH==3.AND.IDDLEVEL==0)).AND.
-     +   (DECTYP>=3.AND.DECTYP<=6).AND.N2D==0)THEN
+      IF(((IMACH == 3 .AND. IDDLEVEL == 0)) .AND. (DECTYP >= 3 .AND. DECTYP <= 6) .AND. N2D == 0)THEN
         NSNT = 0
         NMNT = 0
         NSN2T = 0
@@ -226,10 +226,10 @@ C-----------------------------------------------
           IF(NTY==2) THEN
             NEXT_INTER(2) = NEXT_INTER(2) + 1
             INTERFACE_TYPE2(NEXT_INTER(2)) = N
-          ELSEIF(NTY==24.OR.NTY==25) THEN
+          ELSEIF(NTY == 24 .OR. NTY == 25) THEN
             NEXT_INTER(3) = NEXT_INTER(3) + 1
             INTERFACE_TYPE24(NEXT_INTER(3)) = N
-            IF(NTY==25) THEN
+            IF(NTY == 25) THEN
               ! special case : interface type 25 with edge to edge 
               ! LEDGE array is initialized during the sorting (why? i don't know)
               ! i7remnode algo for interface type 25 with edge to edge must be done after the %LEDGE initialization
@@ -273,7 +273,7 @@ C-----------------------------------------------
             NTY=IPARI(7,N)
             IEDGE = IPARI(58,N)
             FLAG_REMOVED_NODE = .FALSE.
-            IF ((NTY == 7.OR.NTY == 25) .AND. IPARI(63,N) == 2 .AND. IDDLEVEL == 1)THEN
+            IF ((NTY == 7 .OR. NTY == 25) .AND. IPARI(63,N) == 2 .AND. IDDLEVEL == 1)THEN
 C---     Initial dimension of REMNODE arrays
               IREMNODE = 1
               NREMNODE_KIND8 = 16*IPARI(4,N)
@@ -329,7 +329,7 @@ C---     Initial dimension of REMNODE arrays
             ID=NOM_OPT(1,NIN)
             CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,NIN),LTITR)
 
-            IF(N2D==0)THEN
+            IF(N2D == 0)THEN
 
               CALL ININT3(INSCR(N)%WA  ,X          ,IXS             ,IXC          ,PM       ,
      1                GEO          ,IPARI          ,NIN             ,ITAB         ,MS       ,
@@ -349,15 +349,16 @@ C---     Initial dimension of REMNODE arrays
      F                IPARTX       ,IPARTR         ,NSN_MULTI_CONNEC,T2_ADD_CONNEC,T2_NB_CONNEC,
      G                T2_CONNEC    ,NOM_OPT        ,ICODE           ,ISKEW        ,IREMNODE_EDG,
      H                MULTI_FVM%S_APPEND_ARRAY,MULTI_FVM%X_APPEND,MULTI_FVM%MASS_APPEND,N2D,FLAG_REMOVED_NODE,
-     I                NSPMD,INTER_TYPE2_NUMBER,ELEM_LINKED_TO_SEGMENT)
+     I                NSPMD,INTER_TYPE2_NUMBER,ELEM_LINKED_TO_SEGMENT,INSCR(N)%SINSCR)
 
               IF (I_MEM /= 0) GOTO 200
             ELSE
               CALL ININT2(
-     1    INTBUF_TAB(N),INSCR(N)%WA  ,X         ,IXQ,
-     2    PM           ,GEO          ,IPARI(1,N),NIN       ,ITAB     ,
-     3    ITABM1       ,NUMNOD       ,IKINE     ,MWA       ,IPM      ,
-     4    ID           ,TITR         ,KNOD2ELQ  ,NOD2ELQ   ,SEGQUADFR)
+     1    INTBUF_TAB(N),INSCR(N)%WA  ,X         ,IXQ       ,INSCR(N)%SINSCR,
+     2    PM           ,GEO          ,IPARI(1,N),NIN       ,ITAB           ,
+     3    ITABM1       ,NUMNOD       ,IKINE     ,MWA       ,IPM            ,
+     4    ID           ,TITR         ,KNOD2ELQ  ,NOD2ELQ   ,SEGQUADFR      ,
+     5    NUMMAT       ,NINTER       ,SITAB     ,SITABM1)
             ENDIF
           ENDDO
           ! ----------------

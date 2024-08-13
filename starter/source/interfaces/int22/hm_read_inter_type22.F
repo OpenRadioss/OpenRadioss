@@ -34,9 +34,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
        SUBROUTINE HM_READ_INTER_TYPE22(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
+     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
      2        IGRNOD     ,IGRSURF    ,IGRBRIC    ,IGRSH3N   ,IGRTRUSS ,
-     3        FRIC_P     ,TITR       ,LSUBMODEL)  
+     3        FRIC_P     ,TITR       ,LSUBMODEL  ,NPARI     ,NPARIR)
 C============================================================================
 C     
 C-----------------------------------------------
@@ -51,17 +51,14 @@ C   I m p l i c i t   T y p e
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISU1,ISU2,NI,NOINT
-      INTEGER IPARI(*)
+      INTEGER,INTENT(IN) :: NPARI, NPARIR !< array sizes
+      INTEGER ISU1,ISU2,NOINT
+      INTEGER IPARI(NPARI)
       my_real STFAC
-      my_real
-     .   FRIGAP(*),FRIC_P(*)
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      my_real  FRIGAP(NPARIR),FRIC_P(10)
+      CHARACTER(LEN=NCHARTITLE),INTENT(IN) ::  TITR
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRBRIC) :: IGRBRIC
@@ -80,6 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      CHARACTER(LEN=NCHARTITLE) ::  TITR1
       INTEGER I,J, NTYP, IBID,INACTI,IGSTI, IVIS2,ILEV,INTKG,
      .    IS1, IS2, IGAP,MULTIMP,IFQ, KK,II,I22GRSH3N,I22GRNOD,
      .    IDELKEEP,INTTH,I22LEN1,I22GRTRUS,I22GRNOD2,I22GRNOD3
@@ -87,11 +85,6 @@ C-----------------------------------------------
      .    FRIC,GAP,STARTT,BUMULT,STOPT,VISC,VISCF,RATIO22_
       LOGICAL LOGI1, LOGI2, LOGI_I22GRSH3N, LOGI_I22GRTRUS,LOGI_I22GRNOD
       LOGICAL IS_AVAILABLE
-      CHARACTER(LEN=40)::MESS
-      CHARACTER(LEN=NCHARTITLE)::MSGTITL
-      CHARACTER(LEN=NCHARKEY)::OPT,KEY,KEY1
-      CHARACTER(LEN=NCHARFIELD)::BCFLAG,BCFLAGM
-!
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -130,11 +123,7 @@ C....* CHECKS *.............
 C
        !IF main SIDE IS NOT GIVEN            
        IF(ISU2==0) THEN                      
-          CALL ANCMSG(MSGID=119,               
-     .                MSGTYPE=MSGERROR,        
-     .                ANMODE=ANINFO,           
-     .                I1=NOINT,                
-     .                C1=TITR)                 
+          CALL ANCMSG(MSGID=119,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR)
          IS2=0                                 
        ELSE                                    
          IS2=1                                 
@@ -155,11 +144,7 @@ C
           ISU1=NGR2USR(ISU1,INGR2USR,NGRBRIC)
           IS1 =4
        ELSE
-             CALL ANCMSG(MSGID=114,
-     .                   MSGTYPE=MSGERROR,
-     .                   ANMODE=ANINFO,
-     .                   I1=NOINT,
-     .                   C1=TITR)
+             CALL ANCMSG(MSGID=114,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR)
           IS1 =0
        ENDIF
 C

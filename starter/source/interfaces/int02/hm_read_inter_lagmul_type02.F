@@ -35,9 +35,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_LAGMUL_TYPE02(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
+     1        IPARI      ,FRIGAP     ,NOINT      ,
      2        IGRNOD     ,IGRSURF    ,DEF_INTER  ,TITR      ,UNITAB   ,
-     3        LSUBMODEL  )
+     3        LSUBMODEL  ,NPARI      ,NPARIR)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -45,7 +45,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -58,16 +58,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISU1,ISU2,NOINT,NI
-      INTEGER IPARI(*),DEF_INTER(*)
-      my_real
-     .   FRIGAP(*) , STFAC
+      INTEGER,INTENT(IN) :: NPARI, NPARIR !< array sizes IPARI and FRIGAP
+      INTEGER ISU1,ISU2,NOINT
+      INTEGER IPARI(NPARI),DEF_INTER(100)
+      my_real FRIGAP(NPARIR) , STFAC
       CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
 C----------------------s-------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------

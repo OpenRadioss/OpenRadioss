@@ -33,8 +33,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_TYPE03(
-     1        IPARI      ,STFAC      ,FRIGAP      ,NOINT    ,NI       ,
-     2        IGRSURF    ,UNITAB     ,LSUBMODEL   ,TITR     )
+     1        IPARI      ,STFAC      ,FRIGAP      ,NOINT    ,
+     2        IGRSURF    ,UNITAB     ,LSUBMODEL   ,NPARI    ,
+     3        NPARIR     )
 C============================================================================
 C
 C-----------------------------------------------
@@ -55,13 +56,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISU1,ISU2,ILAGM,NI,NOINT
-      INTEGER IPARI(*)
-      my_real
-     .   STFAC
-      my_real
-     .   FRIGAP(*)
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      INTEGER,INTENT(IN) :: NPARI, NPARIR !< array sizes (IPARI and FRIGAP)
+      INTEGER ISU1,ISU2,ILAGM,NOINT
+      INTEGER IPARI(NPARI)
+      my_real STFAC
+      my_real FRIGAP(NPARIR)
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)

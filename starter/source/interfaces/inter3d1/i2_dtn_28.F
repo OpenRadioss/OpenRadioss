@@ -68,13 +68,13 @@ C----------------
       ENDDO
 c-----------
       IF (NINDXC > 0) THEN
-        CALL I2_DTN_28_CIN(X,INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%MSR,INTBUF_TAB(N)%NSV,INTBUF_TAB(N)%IRTLM,
+        CALL I2_DTN_28_CIN(X,INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%NSV,INTBUF_TAB(N)%IRTLM,
      .                     IPARI(1,N),STIFN, STIFN(NUMNOD+1),MS,IN,INTBUF_TAB(N)%IRUPT)
       ENDIF
 c-----------
       IF (NINDXP > 0) THEN
         CALL I2_DTN_28_PEN(X,INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%CSTS,INTBUF_TAB(N)%NSV,INTBUF_TAB(N)%IRTLM,
-     .                     IPARI(1,N),INTBUF_TAB(N)%MSEGTYP2,STIFN,STIFN(NUMNOD+1),INTBUF_TAB(N)%SPENALTY,
+     .                     IPARI(1,N),STIFN,INTBUF_TAB(N)%SPENALTY,
      .                     INTBUF_TAB(N)%STFR_PENALTY,INTBUF_TAB(N)%VARIABLES(14),IN,INTBUF_TAB(N)%IRUPT)
       ENDIF      
 C-----------
@@ -85,7 +85,7 @@ C-----------
       !||--- called by ------------------------------------------------------
       !||    i2_dtn_28       ../starter/source/interfaces/inter3d1/i2_dtn_28.F
       !||====================================================================
-      SUBROUTINE I2_DTN_28_CIN(X,IRECT , MSR   ,NSV  ,IRTL  ,
+      SUBROUTINE I2_DTN_28_CIN(X,IRECT , NSV  ,IRTL  ,
      2                         IPARI, STIFN, STIFR, MS, IN,IRUPT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -98,11 +98,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IRECT(4,*), MSR(*), NSV(*),IRTL(*),
-     .        IPARI(*),IRUPT(*)
-C     REAL
-      my_real
-     .   X(3,*),STIFN(*),STIFR(*), MS(*),IN(*)
+      INTEGER IRECT(4,*), NSV(*),IRTL(*),IPARI(*),IRUPT(*)
+      my_real X(3,*),STIFN(*),STIFR(*), MS(*), IN(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -259,7 +256,7 @@ C-----------
       !||--- calls      -----------------------------------------------------
       !||====================================================================
       SUBROUTINE I2_DTN_28_PEN(X,IRECT ,CRST    ,NSV  ,IRTL,
-     2                         IPARI,MSEGTYP2,STIFN, STIFR,STFN,
+     2                         IPARI,STIFN, STFN,
      3                         STFR,VISC,IN,IRUPT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -268,15 +265,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  IRECT(4,*),NSV(*),IRTL(*),MSEGTYP2(*),IPARI(*),IRUPT(*)
-      my_real
-     .   X(3,*),IN(*),STIFN(*),STIFR(*),STFN(*),STFR(*),CRST(2,*),VISC
+      INTEGER  IRECT(4,*),NSV(*),IRTL(*),IPARI(*),IRUPT(*)
+      my_real X(3,*),IN(*),STIFN(*),STFN(*),STFR(*),CRST(2,*),VISC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR,I,J,II,JJ,L,W,NN,KK,
      .        IX1, IX2, IX3, IX4,NSVG,NSN
-C     REAL
       my_real
      .   S,T,SP,SM,TP,TM,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
      .   XSM,YSM,ZSM,XM,YM,ZM,X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,X0,Y0,Z0,XS,YS,ZS,STF_MOM,

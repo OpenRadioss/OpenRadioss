@@ -34,9 +34,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_TYPE12(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2        IGRSURF    ,ITAB       ,ITABM1     ,ISKN      ,TITR     ,
-     3        LSUBMODEL  ,UNITAB)
+     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
+     2        IGRSURF    ,ITAB       ,ITABM1     ,ISKN      ,
+     3        LSUBMODEL  ,UNITAB     ,SITAB      ,SITABM1   ,
+     4        NPARI      ,NPARIR     ,SISKWN     ,LISKN)
 C============================================================================
 C
 C-----------------------------------------------
@@ -44,7 +45,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE UNITAB_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
 C-----------------------------------------------
@@ -54,22 +55,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "com09_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISU1,ISU2,NI,NOINT
-      INTEGER IPARI(*),ISKN(LISKN,*),ITAB(*),ITABM1(*)
-      my_real
-     .   STFAC
-      my_real
-     .   FRIGAP(*)
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
-      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      INTEGER,INTENT(IN) :: SITAB,SITABM1,NPARI,NPARIR,SISKWN,LISKN !< array sizes
+      INTEGER ISU1,ISU2,NOINT
+      INTEGER IPARI(NPARI),ISKN(LISKN,SISKWN/LISKN),ITAB(SITAB),ITABM1(SITABM1)
+      my_real STFAC
+      my_real FRIGAP(NPARIR)
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------

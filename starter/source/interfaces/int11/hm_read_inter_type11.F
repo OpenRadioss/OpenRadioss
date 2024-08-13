@@ -39,10 +39,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_TYPE11(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2        IGRSURF    ,IGRSLIN    ,SENSORS    ,DEF_INTER ,TITR      ,
-     3        NOM_OPT    ,UNITAB     ,LSUBMODEL  ,NOM_OPTFRIC,INTBUF_FRIC_TAB,
-     4        ID_TYPE19)
+     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT       ,NI             ,
+     2        IGRSLIN    ,SENSORS    ,DEF_INTER  ,TITR        ,
+     3        NOM_OPT    ,UNITAB     ,LSUBMODEL  ,NOM_OPTFRIC ,INTBUF_FRIC_TAB,
+     4        ID_TYPE19  ,NPARI      ,NPARIR     ,LNOPT1)
 C============================================================================
 C     
 C-----------------------------------------------
@@ -51,10 +51,10 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE UNITAB_MOD
       USE SENSOR_MOD
-      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY, NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,32 +62,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr17_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NOM_OPT(LNOPT1,*), NOM_OPTFRIC(LNOPT1,*)
-      INTEGER NI,NOINT
-      INTEGER IPARI(*),DEF_INTER(*),ID_TYPE19
-      my_real
-     .   STFAC
-      my_real
-     .   FRIGAP(*)
-      CHARACTER(LEN=NCHARTITLE)::TITR
-      TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-C-----------------------------------------------
-      TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
-      TYPE (SURF_)   ,TARGET , DIMENSION(NSLIN)   :: IGRSLIN
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 #include      "scr06_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "units_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NPARI,NPARIR,LNOPT1 !< array sizes
+      INTEGER NOM_OPT(LNOPT1,*), NOM_OPTFRIC(LNOPT1,*)
+      INTEGER NI,NOINT
+      INTEGER IPARI(NPARI),DEF_INTER(100),ID_TYPE19
+      my_real STFAC
+      my_real FRIGAP(NPARIR)
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
+C-----------------------------------------------
+      TYPE (SURF_)   ,TARGET , DIMENSION(NSLIN)   :: IGRSLIN
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -102,7 +96,7 @@ C-----------------------------------------------
      .   PERCENT_SIZE,VISC,VISCF,TINT,KTHE, XTHE,
      .    FRAD, DRAD,DTMIN,XTHE_UNIT,STFAC_UNIT,
      .    EDGE_SCALE_GAP
-      CHARACTER(LEN=NCHARKEY) ::  KEY1
+      CHARACTER(LEN=NCHARKEY) :: KEY1
       LOGICAL IS_AVAILABLE
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR

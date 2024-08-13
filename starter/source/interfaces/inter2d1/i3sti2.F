@@ -94,9 +94,9 @@ C
 C
       DO I=1,NRT
         II=I
-        CALL INRCH2(X,IRECT,IXQ,II,NEL,
-     .              NINT,NOINT, YM1, YM2, ZM1,
-     .              ZM2 ,YE   ,ZE,ID,TITR)
+        CALL INRCH2(X   , IRECT,IXQ,  II , NEL,
+     .              NINT, YM1  ,YM2,  ZM1,
+     .              ZM2 , YE   ,ZE ,  ID , TITR)
         IF(NEL/=0) THEN
          INRTIE(NEL) = II
          CALL INARE2(AREA,YE   ,ZE)
@@ -120,7 +120,7 @@ C
           STF(I)=ZERO
         ENDIF
 C
-        CALL INORI2(X,IRECT,II,NEL,NINT,
+        CALL INORI2(IRECT,II,NEL,NINT,
      .              NOINT, YM1, YM2, ZM1,ZM2 ,
      .              YE   ,ZE)
       ENDDO

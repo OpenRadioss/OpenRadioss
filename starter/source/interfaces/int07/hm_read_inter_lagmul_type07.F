@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_LAGMUL_TYPE07(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,    
+     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
      2        IGRNOD     ,IGRSURF    ,TITR       ,UNITAB     ,LSUBMODEL  )
 C============================================================================
 C-----------------------------------------------

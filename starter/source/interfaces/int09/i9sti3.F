@@ -33,12 +33,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I9STI3(
-     1 X        ,IRECT    ,STF      ,IXS      ,PM       ,
-     2 GEO      ,NRT      ,IXC      ,STFN     ,NSEG     ,
-     3 LNSV     ,NINT     ,NSN      ,NSV      ,SLSFAC   ,
-     4 NTY      ,GAP      ,NOINT    ,IXTG     ,IELE     ,
+     1 X        ,IRECT    ,STF      ,IXS      ,
+     2 NRT      ,
+     3 NINT     ,NSN      ,NSV      ,
+     4 NOINT    ,IELE     ,
      5 KNOD2ELS ,NOD2ELS  ,IGRSURF  ,ISU      ,
      6 IXS10    ,IXS16    ,IXS20    ,ID       ,TITR)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C     NODE AND SEGMENT STIFFNESS
+C       specific case : segment belongs to both solid and shell elem ; shell stiffness is used (if > 0)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,15 +62,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRT, NINT, NSN, NTY, NOINT,ISU
-      my_real
-     .   SLSFAC, GAP
-      INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
-     .   NSV(*), IXTG(NIXTG,*), NSEG(*), LNSV(*), IELE(*),
+      INTEGER NRT, NINT, NSN, NOINT,ISU
+      INTEGER IRECT(4,*), IXS(NIXS,*),
+     .   NSV(*),  IELE(*),
      .   KNOD2ELS(*), NOD2ELS(*), 
      .   IXS10(*), IXS16(*), IXS20(*)
-      my_real
-     .   X(3,*), STF(*), PM(NPROPM,*), GEO(NPROPG,*), STFN(*)
+      my_real X(3,*), STF(*)
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -73,19 +75,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, INRT, NELS, J, IG, IL
-C
       my_real AREA
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
+C   S o u r c e   L i n e s
 C-----------------------------------------------
-C
-C--------------------------------------------------------------
-C     CALCUL DES RIGIDITES DES SEGMENTS ET DES NOEUDS
-C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
-C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
-C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
-C---------------------------------------------------------------
-C
+
       DO I=1,NRT
         STF(I)=ZERO
         INRT=I
@@ -100,7 +94,7 @@ C
           END IF
         ENDIF
 C----------------------
-C     ELEMENTS SOLIDES
+C     SOLID ELEMS
 C----------------------
         CALL INSOL3(X,IRECT,IXS,NINT,NELS,INRT,
      .              AREA,NOINT,KNOD2ELS ,NOD2ELS ,0 ,IXS10,
@@ -109,20 +103,10 @@ C----------------------
          IELE(I) = NELS
         ELSE
            IF(NINT>0) THEN
-              CALL ANCMSG(MSGID=92,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_2,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=I)
+              CALL ANCMSG(MSGID=92,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_2,I1=ID,C1=TITR,I2=I)
            ENDIF            
            IF(NINT<0) THEN
-              CALL ANCMSG(MSGID=93,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_2,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=I)
+              CALL ANCMSG(MSGID=93,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_2,I1=ID,C1=TITR,I2=I)
            ENDIF
         ENDIF
 C

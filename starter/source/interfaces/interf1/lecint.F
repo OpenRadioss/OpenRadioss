@@ -59,7 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  IXS16   ,IXS20   ,DEF_INTER,MAXNSNE,
      .                  NPC1    ,MULTI_FVM,NOM_OPTFRIC,INTBUF_FRIC_TAB,
      .                  IGRBRIC,IGRSH3N ,IGRTRUSS ,MAXRTM_T2,NSN_MULTI_CONNEC,T2_NB_CONNEC,
-     .                  IDDLEVEL,NALE   ,INTERFACES)
+     .                  IDDLEVEL,NALE   ,INTERFACES,SNPC1)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -88,27 +88,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      INTEGER,INTENT(IN) :: SNPC1 !< array size NPC1
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)::IDDLEVEL
       INTEGER NOM_OPT(LNOPT1,*),MAXNSNE
       INTEGER LINTER,NMNT, LAG_NCF,LAG_NKF,
      .        LAG_NCL,LAG_NKL,LAG_NHF,MAXRTM,MAXRTMS, NBRIC
-      INTEGER IPARI(NPARI,NINTER), ITAB(NUMNOD), ITABM1(*),
-     .        NPC(*),ISKN(*),
+      INTEGER IPARI(NPARI,NINTER), ITAB(SITAB), ITABM1(SITABM1),
+     .        NPC(SNPC),ISKN(SISKWN),
      .        IGEO(NPROPGI,NUMGEO),IXS(NIXS,NUMELS),ITAG(*),
      .        IXC(*),IXTG(*),KNOD2ELC(*),KNOD2ELTG(*),
      .        NOD2ELC(*),NOD2ELTG(*),KNOD2ELS(*),NOD2ELS(*),
-     .        IXS10(6,*), IXS16(8,*), IXS20(12,*),DEF_INTER(*),
-     .        NPC1(*),NOM_OPTFRIC(LNOPT1,*),MAXRTM_T2,
+     .        IXS10(6,*), IXS16(8,*), IXS20(12,*),DEF_INTER(100),
+     .        NPC1(SNPC1),NOM_OPTFRIC(LNOPT1,*),MAXRTM_T2,
      .        T2_NB_CONNEC(*),NSN_MULTI_CONNEC
       INTEGER, INTENT(IN) :: NALE(NUMNOD)
       my_real
      .   GEO(NPROPG,NUMGEO), PM(*), XFILTR(*),STFAC(*),
-     .   FRIC_P(10,*),I2RUPT(6,*),FRIGAP(NPARIR,*),AREASL(*)
-      my_real
-     .   PROBINT
-      my_real
-     .   X(3,NUMNOD)
+     .   FRIC_P(10,NINTER),I2RUPT(6,NINTER),FRIGAP(NPARIR,NINTER),AREASL(*)
+      my_real PROBINT
+      my_real X(3,NUMNOD)
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       INTEGER,INTENT(IN) :: IPM(NPROPMI,NUMMAT)
@@ -712,7 +711,7 @@ C--------------------------------------------
 C--------------------------------------------
           IF(IS1  /= 0) THEN
             IF(NRTS_FE == 0.AND.NRTS_IGE == 0.AND.IS1  /= 2.AND.IS1  /= 5) THEN
-              CALL ANCMSG(MSGID=118,  MSGTYPE=MSGERROR,  ANMODE=ANINFO, I1=ID, C1=TITR)
+              CALL ANCMSG(MSGID=118, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR)
             ENDIF
             IF(IS1 == 1)THEN
               IF (NTYP == 3 .OR. NTYP == 6) IRS = IPARI(25,NI)

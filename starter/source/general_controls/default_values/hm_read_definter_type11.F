@@ -37,7 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY, NCHARFIELD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -50,8 +50,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NTYP
-      INTEGER DEF_INTER(*)
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      INTEGER DEF_INTER(100)
+      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------

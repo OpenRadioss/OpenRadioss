@@ -38,7 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_READ_INTER_TYPE05(
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,    
      2        IGRNOD     ,IGRSURF    ,NOM_OPT    ,XFILTR    ,FRIC_P   ,
-     3        SENSORS    ,UNITAB     ,LSUBMODEL  ,TITR       )
+     3        SENSORS    ,UNITAB     ,LSUBMODEL  ,TITR      ,NPARI    ,
+     4        NPARIR )
 C============================================================================
 C
 C-----------------------------------------------
@@ -62,12 +63,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NPARI, NPARIR !< array sizes (IPARI and FRIGAP)
       INTEGER ISU1,ISU2,ILAGM,NI,NOINT
-      INTEGER NOM_OPT(LNOPT1,*),IPARI(*)
-      my_real
-     .   STFAC,XFILTR
-      my_real
-     .   FRIGAP(*),FRIC_P(*)
+      INTEGER NOM_OPT(LNOPT1,*),IPARI(NPARI)
+      my_real STFAC,XFILTR
+      my_real FRIGAP(NPARIR),FRIC_P(10)
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD

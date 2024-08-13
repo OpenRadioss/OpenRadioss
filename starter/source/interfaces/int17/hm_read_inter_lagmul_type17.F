@@ -33,12 +33,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_LAGMUL_TYPE17(
-     .           IPARI      ,STFAC     ,FRIGAP    ,NOINT     ,NI        ,
-     .           IGRBRIC    ,UNITAB    ,LSUBMODEL )
+     .           IPARI      ,STFAC     ,FRIGAP    ,NOINT     ,
+     .           IGRBRIC    ,LSUBMODEL )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE UNITAB_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
@@ -49,12 +48,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISU1,ISU2,NOINT,NI
+      INTEGER ISU1,ISU2,NOINT
       INTEGER IPARI(*)
       my_real STFAC
       my_real FRIGAP(*)
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRBRIC) :: IGRBRIC
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C----------------------s-------------------------
 C   C o m m o n   B l o c k s
