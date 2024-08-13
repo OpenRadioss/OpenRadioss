@@ -259,9 +259,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           ilay = layer_input
           iuvar = iuvar_input
-          do i=1,numelq
-            is_written_quad(i) = 0
-          enddo
           call initbuf(iparg    ,ng      ,&
           &mlw     ,nel     ,nft     ,iad     ,ity     ,&
           &npt     ,jale    ,ismstr  ,jeul    ,jturb   ,&
