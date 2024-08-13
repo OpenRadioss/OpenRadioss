@@ -33,39 +33,33 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_TYPE09(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2        IGRSURF    ,TITR       ,UNITAB     ,LSUBMODEL )
+     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
+     2        IGRSURF    ,UNITAB     ,LSUBMODEL  ,NPARI     ,
+     3        NPARIR)
 C============================================================================
 C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE UNITAB_MOD
+      USE UNITAB_MOD , ONLY : UNIT_TYPE_
       USE MESSAGE_MOD
-      USE GROUPDEF_MOD
-      USE SUBMODEL_MOD
+      USE GROUPDEF_MOD , ONLY : SURF_
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-!     NSUBMOD
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISU1,ISU2,NI,NOINT
-      INTEGER IPARI(*)
-      my_real
-     .   STFAC
-      my_real
-     .   FRIGAP(*)
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      INTEGER,INTENT(IN) :: NPARI,NPARIR
+      INTEGER ISU1,ISU2,NOINT
+      INTEGER IPARI(NPARI)
+      my_real STFAC
+      my_real FRIGAP(NPARIR)
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
 C   C o m m o n   B l o c k s

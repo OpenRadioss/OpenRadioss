@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I22ERR3(
-     1         X       ,NRTM    ,IRECT   ,NOINT   ,ITAB    ,
+     1         X       ,NRTM    ,IRECT   ,ITAB    ,
      2         PM      ,IXS     ,NBRIC   ,BRICS   ,
      3         ID,TITR,
      4         IX1      ,IX2    ,IX3    ,IX4    ,X1     ,
@@ -63,9 +63,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER              :: NRTM, IRECT(4,*), NOINT, ITAB(*), NBRIC, IXS(NIXS,*),  BRICS(*)
-      my_real              :: X(3,*), PM(NPROPM,*)    
-      INTEGER              :: ID, IMESG
+      INTEGER  :: NRTM, IRECT(4,*), NOINT, ITAB(*), NBRIC, IXS(NIXS,*),  BRICS(*)
+      my_real  :: X(3,*), PM(NPROPM,*)
+      INTEGER  :: ID, IMESG
       CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4

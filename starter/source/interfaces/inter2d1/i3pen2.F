@@ -33,7 +33,7 @@ C
       !||====================================================================
       SUBROUTINE I3PEN2(X,IRECT,MSR,NSV,ILOC,IRTL,NSN,
      1                  CST,IRTLO,FRIC0,FRIC,GAP,IWPENE,
-     2                  ITAB,NINT,ID,TITR)
+     2                  ITAB,ID,TITR)
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_5I_F, FMW_5I
@@ -49,24 +49,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSN,IWPENE,NINT
-      my_real
-     .   FRIC, GAP
-      INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), IRTLO(*),
-     .   ITAB(*)
-C     REAL
-      my_real
-     .   X(3,*), CST(2,*), FRIC0(3,*)
+      INTEGER NSN,IWPENE
+      my_real FRIC, GAP
+      INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), IRTLO(*), ITAB(*)
+      my_real X(3,*), CST(2,*), FRIC0(3,*)
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, I, J, K, L, M, JJ
-C     REAL
-      my_real
-     .   N2, N3, YS, ZS, T2, T3, XL, PEN, SS, YM1, YM2, ZM1, ZM2
-C
+      my_real N2, N3, YS, ZS, T2, T3, XL, PEN, SS, YM1, YM2, ZM1, ZM2
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       DO 150 II=1,NSN
       I=NSV(II)
       J=ILOC(II)
@@ -83,22 +79,13 @@ C
       YS =X(2,I)
       ZS =X(3,I)
 C-----------------------------
-C     CALCUL DE LA PENETRATION
+C     PENETRATION
 C-----------------------------
       T2=YM2-YM1
       T3=ZM2-ZM1
       XL=SQRT(T2**2+T3**2)
       IF(XL==0.0)THEN
-C       WRITE(IOUT,1100)L,(ITAB(MSR(IRECT(JJ,L))),JJ=1,2)
-C       CALL ARRET(2)
-         CALL ANCMSG(MSGID=80,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
-     .               I1=ID,
-     .               C1=TITR,
-     .               I2=L,
-     .               I3=ITAB(MSR(IRECT(1,L))),
-     .               I4=ITAB(MSR(IRECT(2,L))))
+       CALL ANCMSG(MSGID=80,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,I2=L,I3=ITAB(MSR(IRECT(1,L))),I4=ITAB(MSR(IRECT(2,L))))
       ENDIF
       T2=T2/XL
       T3=T3/XL
@@ -114,40 +101,21 @@ C       CALL ARRET(2)
       IF(SS> ONEP05)GO TO 110
       IF(SS<-ONEP05)GO TO 110
       IF(PEN<ZERO)THEN
-C       WRITE(IOUT,1000)PEN
        IWPENE=IWPENE+1
-       CALL ANCMSG(MSGID=346,
-     .             MSGTYPE=MSGWARNING,
-     .             ANMODE=ANINFO_BLIND_2,
-     .             I1=ID,I2=ITAB(I),
-     .             C1=TITR,
-     .             R1=PEN)
+       CALL ANCMSG(MSGID=346,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_2,I1=ID,I2=ITAB(I),C1=TITR,R1=PEN)
       ENDIF
       IF(IPRI>=1)THEN
-C  013   format I5 remplace par I8
-C  013   WRITE(IOUT,'(I5,2I9,2I5,F10.6)')
-C     . ITAB(I),ITAB(K),L,
-C     . ITAB(MSR(IRECT(1,L))),ITAB(MSR(IRECT(2,L))),SS
-       WRITE(IOUT,FMT=FMW_5I_F)
-     . ITAB(I),ITAB(K),L,
-     . ITAB(MSR(IRECT(1,L))),ITAB(MSR(IRECT(2,L))),SS
+       WRITE(IOUT,FMT=FMW_5I_F)ITAB(I),ITAB(K),L,ITAB(MSR(IRECT(1,L))),ITAB(MSR(IRECT(2,L))),SS
       ENDIF
-C
       IF(FRIC==0.0) GO TO 150
       IRTLO(II)=L
       CST(1,II)=SS
       GO TO 150
  110  CONTINUE
       IF(IPRI>=1)THEN
-C  013       WRITE(IOUT,'(I5,2I9,2I5)')ITAB(I),ITAB(K),L,
-C     .       ITAB(MSR(IRECT(1,L))),ITAB(MSR(IRECT(2,L)))
-C  121       WRITE(IOUT,'(I8,2I9,2I8)')ITAB(I),ITAB(K),L,
-       WRITE(IOUT,FMT=FMW_5I)ITAB(I),ITAB(K),L,
-     .       ITAB(MSR(IRECT(1,L))),ITAB(MSR(IRECT(2,L)))
+       WRITE(IOUT,FMT=FMW_5I)ITAB(I),ITAB(K),L,ITAB(MSR(IRECT(1,L))),ITAB(MSR(IRECT(2,L)))
       ENDIF
  150  CONTINUE
 C
       RETURN
-C 1000 FORMAT(2X,'** WARNING ** INITIAL PENETRATION =',G12.4)
-C 1100 FORMAT(2X,'** SEGMENT',I5,' (NODES',2I8,') HAS ZERO LENGTH')
       END

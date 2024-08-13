@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_TYPE14(
-     1        IPARI       ,STFAC     ,FRIGAP     ,NOINT     ,NI       ,
+     1        IPARI       ,STFAC     ,FRIGAP     ,NOINT     ,
      2        IGRNOD     ,IGRSURF    ,NPC        ,TITR      ,LSUBMODEL,
      3        UNITAB    )
 C============================================================================
@@ -57,13 +57,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NI,NOINT
+      INTEGER NOINT
       INTEGER IPARI(*),NPC(*)
-      my_real
-     .   STFAC
-      my_real
-     .   FRIGAP(*)
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      my_real STFAC
+      my_real FRIGAP(*)
+      CHARACTER(LEN=NCHARTITLE),INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
@@ -77,10 +75,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISU1,ISU2,I,J,L, NTYP,IS1, IS2,NLO,NFRIC,NDAMP1,
-     .     NDAMP2,NCURS,ISU20,INTKG
-      my_real
-     .   FRIC,GAP,STARTT,STOPT,VISC
+      CHARACTER(LEN=NCHARTITLE) :: TITR1
+      INTEGER ISU1,ISU2,I,J,L, NTYP,IS1, IS2,NLO,NFRIC,NDAMP1,NDAMP2,NCURS,ISU20,INTKG
+      my_real FRIC,GAP,STARTT,STOPT,VISC
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------

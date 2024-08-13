@@ -37,7 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -50,8 +50,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NTYP
-      INTEGER DEF_INTER(*)
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
+      INTEGER DEF_INTER(100)
+      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -59,8 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  IGSTI,IGAP,IBAG,IDEL7N,FLAGREMNOD,IREM7I2,INACTI,MODFR,
-     .         IPRINT,IASSIGN,IEDGE
+      INTEGER  IGSTI,IGAP,IBAG,IDEL7N,FLAGREMNOD,IREM7I2,INACTI,MODFR,IPRINT,IASSIGN,IEDGE
       CHARACTER(LEN=NCHARKEY) :: KEY1
       LOGICAL IS_AVAILABLE
 

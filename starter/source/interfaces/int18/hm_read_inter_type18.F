@@ -34,9 +34,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_TYPE18(
-     1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
+     1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
      3          IGRNOD     ,IGRSURF    ,IGRBRIC    ,XFILTR    ,FRIC_P   ,
-     3          IDDLEVEL   ,TITR, UNITAB, LSUBMODEL,MULTI_FVM)
+     3          TITR       ,UNITAB     ,LSUBMODEL  ,MULTI_FVM ,NPARI    ,
+     4          NPARIR)
 C============================================================================
 C-----------------------------------------------
 C   D e s c r i  p t i o n
@@ -61,13 +62,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "scr06_c.inc"
+#include      "com04_c.inc"
+#include      "units_c.inc"
+#include      "inter18.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN)::IDDLEVEL
-      INTEGER ISU1,ISU2,IS1,IS2,NI,NOINT
+      INTEGER,INTENT(IN) :: NPARI, NPARIR !< array sizes
+      INTEGER ISU1,ISU2,IS1,IS2,NOINT
       INTEGER IPARI(NPARI)
-      my_real FRIGAP(*),FRIC_P(*),STFAC,XFILTR
+      my_real FRIGAP(NPARIR),FRIC_P(10),STFAC,XFILTR
       CHARACTER(LEN=NCHARTITLE),INTENT(IN) :: TITR
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
 C-----------------------------------------------
@@ -75,15 +80,7 @@ C-----------------------------------------------
       TYPE(SURF_),TARGET ,DIMENSION(NSURF) :: IGRSURF
       TYPE(GROUP_),TARGET, DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB 
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-#include      "scr06_c.inc"
-#include      "com04_c.inc"
-#include      "units_c.inc"
-#include      "inter18.inc"
+      TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

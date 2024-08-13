@@ -41,7 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT    ,NI        ,
      2        IGRSURF    ,XFILTR     ,FRIC_P     ,NPC1     ,SENSORS   ,
      3        NOM_OPT    ,UNITAB     ,LSUBMODEL  ,TITR     ,NPC       ,
-     4        TF         )
+     4        TF         ,NPARI      ,NPARIR     ,SNPC     ,SNPC1     ,
+     5        LNOPT1)
 C============================================================================
 C    
 C-----------------------------------------------
@@ -49,31 +50,28 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE UNITAB_MOD
       USE SENSOR_MOD
       USE INTBUFDEF_MOD
-      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY, NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "scr17_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NPARI,NPARIR,SNPC,SNPC1,LNOPT1
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER ISU1,ISU2,ILAGM,NI
-      INTEGER IPARI(*),NPC1(*),NPC(*)
+      INTEGER IPARI(NPARI),NPC1(SNPC1),NPC(SNPC)
       my_real STFAC,XFILTR
-      my_real FRIGAP(*),FRIC_P(*),TF(*)
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      my_real FRIGAP(NPARIR),FRIC_P(10),TF(*)
+      CHARACTER(LEN=NCHARTITLE),INTENT(IN) :: TITR
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
       TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
       TYPE (SENSORS_)  ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
@@ -90,6 +88,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      CHARACTER(LEN=NCHARTITLE) :: TITR1
       INTEGER I,J,L,IBC1, IBC2, IBC3, NOINT, NTYP, IBID,INACTI, IBC1M,
      .    IBC2M, IBC3M, IGSTI,IEULT, IVIS2,IS1, IS2,ILEV, IGAP,MULTIMP,
      .    HIERA,MFROT,IFQ,MODFR,IADM,UID,NRADM,INTTH,IFORM,IERR1,IKTHE,
@@ -101,11 +100,6 @@ C-----------------------------------------------
      .   ANGLADM, CADM, DEPTH,C1,C2,C3,C4,C5,C6, ALPHA,GAPSCALE,GAPMAX, 
      .   STMIN,STMAX,STIFF, PMAX,AREA, KTHE, XTHE, FRAD, DRAD,
      .   VISC,XFRICTH,PTMAX,PSKID,DCOND,XTHE_UNIT,KTHE_UNIT
-      CHARACTER(LEN=40)::MESS
-      CHARACTER(LEN=NCHARTITLE)::MSGTITL
-      CHARACTER(LEN=NCHARKEY)::OPT,KEY,KEY1
-      CHARACTER(LEN=NCHARFIELD)::BCFLAG,BCFLAGM
-!,
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
@@ -405,14 +399,6 @@ C.....* Storage IPARI FRIGAP *.......
 C------------------------------------------------------------
 C  Card4 
 C------------------------------------------------------------
-C
-C.....* CHECKS *........
-C
-C Hidden flag no more read using HM reader
-c        IF (BCFLAGM(LFIELD-2:LFIELD-2)== '1') IBC1M = 1
-c        IF (BCFLAGM(LFIELD-1:LFIELD-1)== '1') IBC2M = 1
-c        IF (BCFLAGM(LFIELD  :LFIELD  )== '1') IBC3M = 1
-
         IF(VISC==ZERO) VISC=ONE
 
 C.....* Storage IPARI FRIGAP *.........

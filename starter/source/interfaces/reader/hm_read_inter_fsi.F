@@ -36,21 +36,26 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_FSI(
-     1        IPARI       ,STFAC      ,FRIGAP         ,XFILTR   , FRIC_P   ,
-     2        IGRNOD      ,IGRSURF    ,ILAGM          ,UNITAB   , NI       ,
-     3        NOM_OPT     ,TITR       ,IGRBRIC        ,IGRSH3N  , IGRTRUSS ,      
-     4        IDDLEVEL    ,NOINT      ,KEY            ,LSUBMODEL, ITAB     ,
-     5        ITABM1      ,ISKN       ,MULTI_FVM)
-C============================================================================
-
+     1        IPARI     ,STFAC   ,FRIGAP    ,XFILTR    , FRIC_P   ,
+     2        IGRNOD    ,IGRSURF ,ILAGM     ,UNITAB    , NI       ,
+     3        NOM_OPT   ,TITR    ,IGRBRIC   ,IGRSH3N   , IGRTRUSS ,
+     4        NOINT     ,KEY     ,LSUBMODEL , ITAB     ,
+     5        ITABM1    ,ISKN    ,MULTI_FVM ,NPARI     , NPARIR   ,
+     6        NGRNOD    ,NGRBRIC ,NGRSH3N   ,NGRTRUS   , NSURF    ,
+     7        LNOPT1    ,SITABM1 ,SISKWN    ,LISKN     ,
+     8        LTITR     ,SITAB)
+C-----------------------------------------------
+C   D e s r i p t i o n
+C-----------------------------------------------
+C  FSI INTERFACES : READER SUBROUTINES
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE UNITAB_MOD
+      USE UNITAB_MOD , ONLY : UNIT_TYPE_
       USE MESSAGE_MOD
-      USE GROUPDEF_MOD
-      USE SUBMODEL_MOD
-      USE MULTI_FVM_MOD
+      USE GROUPDEF_MOD , ONLY : GROUP_, SURF_
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
+      USE MULTI_FVM_MOD , ONLY : MULTI_FVM_STRUCT
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -59,124 +64,88 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
-#include      "scr17_c.inc"
+#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)::IDDLEVEL
-      INTEGER NOM_OPT(LNOPT1,*)
-      INTEGER ILAGM,NI,NOINT
-      INTEGER IPARI(*)
-      INTEGER,INTENT(IN) :: ITAB(NUMNOD),ITABM1(*),ISKN(*)
-      my_real
-     .   STFAC,XFILTR
-      my_real
-     .   FRIGAP(*),FRIC_P(*)
-      CHARACTER(LEN=NCHARTITLE)::TITR
+      INTEGER,INTENT(IN) :: LISKN, SISKWN !< array size (ISKN)
+      INTEGER,INTENT(IN) :: SITAB, SITABM1 !< array size (ITAB and ITABM1)
+      INTEGER,INTENT(IN) :: LNOPT1,LTITR !< array size NOM_OPT
+      INTEGER,INTENT(IN) :: NPARI, NPARIR  !< array size IPARI and FRIGAP
+      INTEGER,INTENT(IN) :: NGRNOD,NGRBRIC,NGRSH3N,NGRTRUS,NSURF  !< array size (elem data structure)
+      TYPE(UNIT_TYPE_),INTENT(IN) :: UNITAB
+      INTEGER,INTENT(INOUT) :: NOM_OPT(LNOPT1,*)
+      INTEGER,INTENT(INOUT) :: ILAGM,NI,NOINT
+      INTEGER,INTENT(INOUT) :: IPARI(NPARI)
+      INTEGER,INTENT(IN) :: ITAB(SITAB),ITABM1(SITABM1),ISKN(SISKWN)
+      my_real STFAC,XFILTR
+      my_real,INTENT(INOUT) :: FRIGAP(NPARIR),FRIC_P(10)
+      CHARACTER(len=nchartitle),INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
-C-----------------------------------------------
-      TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
-      TYPE (GROUP_)  ,TARGET, DIMENSION(NGRBRIC) :: IGRBRIC
-      TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
-      TYPE (GROUP_)  , DIMENSION(NGRTRUS) :: IGRTRUSS
-      TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
+      TYPE (GROUP_),TARGET,DIMENSION(NGRNOD) :: IGRNOD
+      TYPE (GROUP_),TARGET,DIMENSION(NGRBRIC) :: IGRBRIC
+      TYPE (GROUP_),DIMENSION(NGRSH3N) :: IGRSH3N
+      TYPE (GROUP_),DIMENSION(NGRTRUS) :: IGRTRUSS
+      TYPE (SURF_),TARGET,DIMENSION(NSURF) :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
-     .   I,J,L,NTYP,UID,IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IERR1,
-     .   SUB_ID,IFIX_TMP
-      my_real
-     .   FAC_L,FAC_T,FAC_M,FAC_C
-      CHARACTER(LEN=NCHARKEY)::KEY
-!
-
-C=======================================================================
-C     FSI INTERFACES READING ROUTINES
-C=======================================================================
+      INTEGER I,J,L,NTYP,UID,IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IERR1,SUB_ID,IFIX_TMP
+      CHARACTER(len=ncharkey) :: KEY
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       NTYP = 0
-C
       ILAGM = 0
-
-C
       NOM_OPT(1,NI)=NOINT
-C
       WRITE(IOUT,1000) NOINT,TRIM(TITR)
       CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,NI),LTITR)
-C---------------------------------------------------------------
-C  INTERFACES TYPE : READING ROUTINES
-C---------------------------------------------------------------
 
       SELECT CASE(KEY(1:LEN_TRIM(KEY)))
 
           CASE ('TYPE22')
-C--------------------------------------------------
-C            HM READING INTER TYPE22 
-C--------------------------------------------------
               NTYP=22
               CALL HM_READ_INTER_TYPE22(
-     1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
+     1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
      2          IGRNOD     ,IGRSURF    ,IGRBRIC    ,IGRSH3N   ,IGRTRUSS ,
-     3          FRIC_P     ,TITR       ,LSUBMODEL)
+     3          FRIC_P     ,TITR       ,LSUBMODEL  ,NPARI     ,NPARIR)
               
 
           CASE ('TYPE18')
-C--------------------------------------------------
-C            HM READING INTER TYPE18 
-C--------------------------------------------------
              NTYP=18
              CALL HM_READ_INTER_TYPE18(
-     1            IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
+     1            IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
      2            IGRNOD     ,IGRSURF    ,IGRBRIC    ,XFILTR    ,FRIC_P   ,
-     3            IDDLEVEL   ,TITR, UNITAB, LSUBMODEL,MULTI_FVM)  
+     3            TITR       ,UNITAB     ,LSUBMODEL  ,MULTI_FVM ,NPARI    ,
+     4            NPARIR)
 
          CASE ('TYPE12')
-C--------------------------------------------------
-C            HM READING INTER TYPE12 
-C--------------------------------------------------
               NTYP=12
               CALL HM_READ_INTER_TYPE12(
-     1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI      ,
-     2          IGRSURF    ,ITAB       ,ITABM1     ,ISKN      ,TITR    ,
-     3          LSUBMODEL  ,UNITAB)
+     1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
+     2          IGRSURF    ,ITAB       ,ITABM1     ,ISKN      ,
+     3          LSUBMODEL  ,UNITAB     ,SITAB      ,SITABM1   ,
+     4          NPARI      ,NPARIR     ,SISKWN     ,LISKN)
      
           CASE ('TYPE9')
-C--------------------------------------------------
-C            HM READING INTER TYPE9 
-C--------------------------------------------------
               NTYP=9
               CALL  HM_READ_INTER_TYPE09(
-     1           IPARI     ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2           IGRSURF   ,TITR       ,UNITAB     ,LSUBMODEL )
+     1           IPARI     ,STFAC      ,FRIGAP     ,NOINT     ,
+     2           IGRSURF   ,UNITAB     ,LSUBMODEL  ,NPARI     ,
+     3           NPARIR)
 
           CASE ('TYPE1')
-C--------------------------------------------------
-C            HM READING INTER TYPE1 
-C--------------------------------------------------
               NTYP=1
-              CALL  HM_READ_INTER_TYPE01(
-     1           IPARI     ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2           IGRSURF   ,TITR       ,LSUBMODEL)
+              CALL  HM_READ_INTER_TYPE01(IPARI, STFAC, FRIGAP, IGRSURF, LSUBMODEL, NSURF, NOINT, NPARI, NPARIR)
 
           CASE ('KINE')
-C--------------------------------------------------
-C            HM READING INTER KINE 
-C--------------------------------------------------
               NTYP=18
               ILAGM = -2
 
       END SELECT ! SELECT CASE(NTYP)
-C=======================================================================
+C--------------------------------------------------------------
  1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C--------------------------------------------------------------
       RETURN
-
-
       END

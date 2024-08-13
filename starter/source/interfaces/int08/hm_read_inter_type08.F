@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_TYPE08(
-     1       IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
+     1       IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
      2       IGRNOD     ,IGRSURF    ,UNITAB     ,LSUBMODEL ,TITR     )
 C============================================================================
 C
@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISU1,ISU2,NI,NOINT
+      INTEGER ISU1,ISU2,NOINT
       INTEGER IPARI(*)
       my_real
      .   STFAC

@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
 C-----------------------------------------------
@@ -58,9 +58,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  HM_NINTER_DEF,
-     .    DEF_INTER(*)
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
+      INTEGER  HM_NINTER_DEF,DEF_INTER(100)
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -89,10 +88,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS OF /DEFAULT/INTER
 C--------------------------------------------------
-        CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                       SUBMODEL_ID = SUB_ID,
-     .                       KEYWORD2 = KEY,
-     .                       KEYWORD3 = KEY2)
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,SUBMODEL_ID = SUB_ID,KEYWORD2 = KEY,KEYWORD3 = KEY2)
 
 c Default values definition
 

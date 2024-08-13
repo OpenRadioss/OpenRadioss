@@ -34,9 +34,12 @@ C
       !||    i9sti3        ../starter/source/interfaces/int09/i9sti3.F
       !||====================================================================
       SUBROUTINE LOCAL_INDEX(IL,IG,NODES,N)
-C-----------------------------------------------------------------------
-C     Search IL : NODES(IL)=IG
-C-----------------------------------------------------------------------
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C     Search IL such as NODES(IL)=IG
+C       PRECONDITION : NODES(:) MUST BE ORDERED
+C       SEARCH ALGORITHM : Dichotomic Search
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

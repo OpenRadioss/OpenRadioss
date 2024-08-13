@@ -33,10 +33,10 @@ C
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE I9STI2(
-     1 X     ,IRECT  ,STF   ,IXQ   ,PM    ,
-     2 NRT   ,STFN   ,NSEG  ,LNSV  ,NINT  ,
-     3 NSN    ,NSV   ,SLSFAC,NOINT ,IELE  ,
-     4 ID,TITR)
+     1 X     ,IRECT  ,IXQ   ,
+     2 NRT   ,NINT   ,
+     3 NSN   ,NSV    ,NOINT ,IELE  ,
+     4 ID    ,TITR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,11 +53,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRT, NINT, NSN, NOINT
-      my_real
-     .   SLSFAC
-      INTEGER IRECT(4,*), IXQ(7,*), NSEG(*), LNSV(*), NSV(*), IELE(*)
-      my_real
-     .   X(3,*), STF(*), PM(NPROPM,*), STFN(*)
+      INTEGER IRECT(4,*), IXQ(7,*), NSV(*), IELE(*)
+      my_real X(3,*)
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
@@ -65,24 +62,23 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, NEL, J, IG, IL
 C
-      my_real
-     .   AREA, XL2, YM1, YM2, ZM1, ZM2, YE(4), ZE(4)
+      my_real AREA, XL2, YM1, YM2, ZM1, ZM2, YE(4), ZE(4)
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
+C   S o u r c e   L i n e s
 C-----------------------------------------------
 C
       DO I=1,NRT
         II=I
-        CALL INRCH2(X, IRECT, IXQ, II, NEL,
-     .              NINT, NOINT, YM1, YM2, ZM1,
-     .              ZM2 ,YE, ZE, ID, TITR)
+        CALL INRCH2(X,    IRECT, IXQ, II, NEL,
+     .              NINT, YM1,   YM2, ZM1,
+     .              ZM2  ,YE,    ZE,  ID, TITR)
         IF(NEL/=0) THEN
          CALL INARE2(AREA, YE, ZE)
          XL2=(YM2-YM1)**2+(ZM2-ZM1)**2
          IELE(I) = NEL
         ENDIF
 C
-        CALL INORI2(X, IRECT, II, NEL, NINT,
+        CALL INORI2(IRECT, II, NEL, NINT,
      .              NOINT, YM1, YM2, ZM1, ZM2,
      .              YE, ZE )
       ENDDO

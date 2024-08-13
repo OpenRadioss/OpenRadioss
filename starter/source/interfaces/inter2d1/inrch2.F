@@ -31,15 +31,19 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE INRCH2(X,IRECT,ICO,ISG,NEL,
-     .                  NINT,NOINT, YM1, YM2, ZM1,
-     .                  ZM2 ,YE   ,ZE,ID,TITR)
+      SUBROUTINE INRCH2(X   , IRECT, ICO, ISG, NEL ,
+     .                  NINT, YM1, YM2, ZM1 ,
+     .                  ZM2 , YE   , ZE , ID , TITR)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C INIT INTERFACE : SEARCH THE CONNECTED ELEMENT TO A GIVEN SEGMENT
+C   WHEN FOUND ELEM NODES COORDINATES ARE STORED IN (YE, ZE)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-C------------------------------------------------
-C     RECHERCHE DU NUMERO D'ELEMENT DU SEGMENT
-C     CALCUL DES VARIABLES DE /SCR07/
-C------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,71 +55,59 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISG, NEL, NINT, NOINT
+      INTEGER ISG, NEL, NINT
       INTEGER IRECT(4,*), ICO(7,*)
-C     REAL
-      my_real
-     .   X(3,*), YM1, YM2, ZM1, ZM2,YE(4) ,ZE(4)
+      my_real X(3,*), YM1, YM2, ZM1, ZM2,YE(4) ,ZE(4)
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IX(4), NE, I1, I2, K, J, JJ, II
+      LOGICAL lFOUND
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
+C   P r e - C o n d i t i o n
 C-----------------------------------------------
-      NEL=0
-      IF(NUMELQ==0) RETURN
-C
-      DO 200 NE=1,NUMELQ
+      NEL = 0
+      IF(NUMELQ == 0) RETURN
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      DO NE=1,NUMELQ
       I1=IRECT(1,ISG)
       I2=IRECT(2,ISG)
       IX(1)=ICO(2,NE)
       IX(2)=ICO(3,NE)
       IX(3)=ICO(4,NE)
       IX(4)=ICO(5,NE)
-      DO 180 K=1,4
-      IF(IX(K)/=I1)GOTO 180
-       DO 120 J=1,4
-       IF(IX(J)/=I2)GOTO 120
+      DO K=1,4
+      IF(IX(K)/=I1)CYCLE
+       DO J=1,4
+       IF(IX(J)/=I2)CYCLE
         NEL=NE
         YM1=X(2,I1)
         ZM1=X(3,I1)
         YM2=X(2,I2)
         ZM2=X(3,I2)
-        DO 110 JJ=1,4
-        II=IX(JJ)
-        YE(JJ)=X(2,II)
-        ZE(JJ)=X(3,II)
-  110   CONTINUE
-        RETURN
-  120  CONTINUE
-  180 CONTINUE
-  200 CONTINUE
-C      IWARN=IWARN+1
-C      IF(NINT>0) WRITE (IOUT,1100) ISG, NOINT
+         DO JJ=1,4
+           II=IX(JJ)
+           YE(JJ)=X(2,II)
+           ZE(JJ)=X(3,II)
+         ENDDO !next JJ
+         RETURN
+        ENDDO !next J
+       ENDDO !next K
+      END DO !next NE
+
          IF(NINT>0) THEN
-            CALL ANCMSG(MSGID=92,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=ISG)
+            !** WARNING: CANNOT FIND ELEMENT OF SECONDARY
+            CALL ANCMSG(MSGID=92,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_2,I1=ID,C1=TITR,I2=ISG)
          ENDIF
-C      IF(NINT<0) WRITE (IOUT,1200) ISG, NOINT
+
          IF(NINT<0) THEN
-            CALL ANCMSG(MSGID=93,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=ISG)
+            ! ** WARNING: CANNOT FIND ELEMENT OF MAIN SEGMENT
+            CALL ANCMSG(MSGID=93,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_2,I1=ID,C1=TITR,I2=ISG)
          ENDIF
-C
       RETURN
-C 1100 FORMAT(2X,'** WARNING: CANNOT FIND ELEMENT OF SECONDARY  SEGMENT',I5,
-C     +          ' OF INTERFACE',I5)
-C 1200 FORMAT(2X,'** WARNING: CANNOT FIND ELEMENT OF MAIN SEGMENT',I5,
-C     +          ' OF INTERFACE',I5)
+
       END

@@ -29,19 +29,18 @@ C
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I22STI3(
-     1 X     ,IRECT ,STF   ,IXS   ,PM    ,
-     2 GEO   ,NRT   ,IXC   ,NINT  ,STFAC ,
-     3        NTY   ,GAP   ,NOINT ,
-     4 STFN  ,NSN   ,MS    ,NSV   ,IXTG  ,
-     5 IGAP  ,WA    ,GAP_S ,GAP_M ,GAPMIN,
+     1 IRECT ,STF   ,IXS   ,PM    ,
+     2 GEO   ,NRT   ,IXC   ,STFAC ,
+     3 GAP   ,
+     4 STFN  ,MS    ,IXTG  ,
+     5 IGAP  ,GAP_S ,GAP_M ,GAPMIN,
      6 IXT   ,IXP   ,GAPINF,GAPMAX,
-     8 INACTI ,KNOD2ELS ,KNOD2ELC ,KNOD2ELTG ,NOD2ELS ,
-     A NOD2ELC,NOD2ELTG ,INTTH,
+     8 INACTI ,INTTH,
      B IELES  ,IELEC    ,AREAS    ,SH4TREE ,SH3TREE ,
-     C IPART  ,IPARTC   ,IPARTTG  ,THK ,THK_PART    ,
-     D PERCENT_SIZE,GAP_S_L ,GAP_M_L,NOD2EL1D,KNOD2EL1D,
+     C IPART  ,IPARTC   ,IPARTTG  ,
+     D PERCENT_SIZE,GAP_S_L ,GAP_M_L,
      E IXR    ,ITAB,BGAPSMX ,IXS10  ,IXS16   ,IXS20    ,
-     F ID,TITR,IGEO , PM_STACK , IWORKSH)
+     F ID,IGEO , PM_STACK , IWORKSH)
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C
@@ -58,23 +57,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRT, NINT, NTY, NOINT,NSN,IGAP, NDDIM,
-     .        INACTI
+      INTEGER NRT,  NSN,IGAP, NDDIM,INACTI
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
-     .   NSV(*), IXTG(NIXTG,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
-     .   NOD2ELTG(*), IELES(*), INTTH, IELEC(*),
+     .    IXTG(NIXTG,*), IXT(NIXT,*), IXP(NIXP,*),
+     .   IELES(*), INTTH, IELEC(*),
      .   SH3TREE(KSH3TREE,*), SH4TREE(KSH4TREE,*),IXR(NIXR,*) ,
-     .   IPART(LIPART1,*),IPARTC(*),IPARTTG(*),NOD2EL1D(*),KNOD2EL1D(*),
+     .   IPART(LIPART1,*),IPARTC(*),IPARTTG(*),
      .   ITAB(*), IXS10(6,*), IXS16(*), IXS20(*),IGEO(NPROPGI,*),IWORKSH(3,*)
-C     REAL
       my_real
-     .   STFAC, GAP,GAPMIN,GAPINF, GAPMAX,PERCENT_SIZE, BGAPSMX 
-C     REAL
+     .   STFAC, GAP,GAPMIN,GAPINF, GAPMAX,PERCENT_SIZE, BGAPSMX
       my_real
-     .   X(3,*), STF(*), PM(NPROPM,*), GEO(NPROPG,*), STFN(*),
-     .   MS(*),WA(*),GAP_S(*),GAP_M(*),
-     .   AREAS(*),THK(*),THK_PART(*),
+     .   STF(*), PM(NPROPM,*), GEO(NPROPG,*), STFN(*),
+     .   MS(*), GAP_S(*),GAP_M(*),
+     .   AREAS(*),
      .   GAP_S_L(*),GAP_M_L(*),PM_STACK(20,*)
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR

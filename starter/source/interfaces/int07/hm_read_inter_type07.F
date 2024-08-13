@@ -44,7 +44,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2        IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P    ,NOM_OPT    ,
      3        DEF_INTER  ,NPC1       ,SENSORS    ,UNITAB    ,LSUBMODEL  ,
      4        TITR       ,NOM_OPTFRIC,INTBUF_FRIC_TAB,NPC   ,TF         ,
-     4        ID_TYPE19)
+     4        ID_TYPE19  ,NPARI      ,NPARIR     ,SNPC      ,SNPC1      ,
+     5        LNOPT1     ,NPTS)
 C============================================================================
 C
 C-----------------------------------------------
@@ -53,10 +54,10 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE UNITAB_MOD
       USE SENSOR_MOD
-      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE,NCHARKEY
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,34 +65,29 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr17_c.inc"
 #include      "sphcom.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NOM_OPT(LNOPT1,*), NOM_OPTFRIC(LNOPT1,*)
-      INTEGER NI,NOINT,ID_TYPE19
-      INTEGER IPARI(*),DEF_INTER(*),NPC1(*),NPC(*)
-      my_real STFAC,XFILTR
-      my_real FRIGAP(*),FRIC_P(*),TF(*)
-      CHARACTER(LEN=NCHARTITLE)::TITR
-      TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-
-
-C-----------------------------------------------
-      TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
-      TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 #include      "scr06_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "scr12_c.inc"
 #include      "remesh_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NPARI,NPARIR,SNPC,SNPC1,LNOPT1,NPTS !< array sizes
+      INTEGER NOM_OPT(LNOPT1,*), NOM_OPTFRIC(LNOPT1,*)
+      INTEGER NI,NOINT,ID_TYPE19
+      INTEGER IPARI(NPARI),DEF_INTER(100),NPC1(SNPC1),NPC(SNPC)
+      my_real STFAC,XFILTR
+      my_real FRIGAP(NPARIR),FRIC_P(10),TF(NPTS)
+      CHARACTER(LEN=NCHARTITLE) :: TITR
+      TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
+C-----------------------------------------------
+      TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
+      TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -110,7 +106,7 @@ C-----------------------------------------------
      .   RSTH,TINT, XTHE, FRAD, DRAD,XFRICTH,FHEATS,FHEATM,
      .   EDG_ANGL,VISCFLUID,SIGMAXADH,VISCADHFACT,XTHE_UNIT,
      .   EDGE_SCALE_GAP 
-      CHARACTER(LEN=NCHARKEY) ::  KEY1
+      CHARACTER(LEN=NCHARKEY) :: KEY1
       LOGICAL IS_AVAILABLE
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
@@ -118,7 +114,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NGR2USR
+      INTEGER,EXTERNAL :: NGR2USR
 C-----------------------------------------------
 C=======================================================================
 C     READING PENALTY INTERFACE /INTER/TYPE7
@@ -171,7 +167,7 @@ C
       VISC = ZERO
       XFILTR = ZERO
       DO I = 1, 10
-          FRIC_P(I) = ZERO
+        FRIC_P(I) = ZERO
       ENDDO
       C1=ZERO
       C2=ZERO

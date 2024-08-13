@@ -50,15 +50,20 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod                 ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_STRUCT(
-     1        IPARI       ,STFAC      ,FRIGAP         ,XFILTR   ,FRIC_P    ,
-     2        IGRNOD      ,IGRSURF    ,IGRSLIN        ,NPC      ,ILAGM     ,   
-     3        ITABM1      ,ITAB       ,ISKN           ,UNITAB   ,I2RUPT    ,
-     4        AREASL      ,NI         ,NOM_OPT        ,TITR     ,DEF_INTER ,
-     5        IDINT7      ,IDINT7B    ,IDINT11        ,NPC1     ,SENSORS   ,
-     6        NOM_OPTFRIC,INTBUF_FRIC_TAB,IGRBRIC     ,NOINT    ,KEY       ,
-     7        LSUBMODEL  ,TF          ,INTERFACES  )
-C============================================================================
-
+     1        IPARI       ,STFAC          ,FRIGAP     ,XFILTR   ,FRIC_P    ,
+     2        IGRNOD      ,IGRSURF        ,IGRSLIN    ,NPC      ,ILAGM     ,
+     3        UNITAB      ,I2RUPT         ,
+     4        AREASL      ,NI             ,NOM_OPT    ,TITR     ,DEF_INTER ,
+     5        NPC1        ,SENSORS        ,
+     6        NOM_OPTFRIC ,INTBUF_FRIC_TAB,IGRBRIC    ,NOINT    ,KEY       ,
+     7        LSUBMODEL   ,TF             ,INTERFACES ,SNPC     ,SNPC1     ,
+     8        NPARI       ,NPARIR         ,NPTS       ,
+     9        LNOPT1      ,LTITR          ,NINTER25   ,
+     .        NGRNOD      ,NGRBRIC        ,NSURF      ,NSLIN)
+C-----------------------------------------------
+C   D e s r i p t i o n
+C-----------------------------------------------
+C CONTACT INTERFACES : READER SUBROUTINES
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,7 +71,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE SENSOR_MOD
       USE INTERFACES_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
@@ -75,23 +80,22 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "scr17_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
+      INTEGER,INTENT(IN) :: NPTS !array size TF
+      INTEGER,INTENT(IN) :: NGRNOD,NGRBRIC,NSURF,NSLIN  !< array size (elem data structure)
+      INTEGER,INTENT(IN) :: LNOPT1,LTITR !< array size NOM_OPT
+      INTEGER,INTENT(IN) :: NPARI, NPARIR  !< array size IPARI and FRIGAP
+      INTEGER,INTENT(IN) :: SNPC, SNPC1 !< array size (NPC and NPC1)
+      INTEGER,INTENT(INOUT) :: NINTER25
+      TYPE (SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER NOM_OPT(LNOPT1,*), NOM_OPTFRIC(LNOPT1,*)
       INTEGER ILAGM,NI,NOINT
-      INTEGER IPARI(*),NPC(*),ITABM1(*),ISKN(LISKN,*),ITAB(*),
-     .        DEF_INTER(*),IDINT7,IDINT7B,IDINT11,NPC1(*)
-      my_real
-     .   STFAC,XFILTR,AREASL
-      my_real
-     .   FRIGAP(*),FRIC_P(*),I2RUPT(*),TF(*)
-      CHARACTER(LEN=NCHARTITLE)::TITR
+      INTEGER IPARI(NPARI),NPC(SNPC),DEF_INTER(100),NPC1(SNPC1)
+      my_real STFAC,XFILTR,AREASL
+      my_real FRIGAP(NPARIR),FRIC_P(10),I2RUPT(6),TF(NPTS)
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
@@ -103,16 +107,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
-#include      "com04_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
-     .   NTYP,UID,IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IERR1,
-     .   SUB_ID,IFIX_TMP,ID_TYPE19
-      CHARACTER(LEN=NCHARKEY)::KEY
+      INTEGER NTYP,UID,IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IERR1,SUB_ID,IFIX_TMP,ID_TYPE19
+      CHARACTER(LEN=NCHARKEY) :: KEY
       LOGICAL IS_AVAILABLE
 !
 
@@ -149,191 +149,132 @@ C---------------------------------------------------------------
       SELECT CASE(KEY(1:LEN_TRIM(KEY)))
 
           CASE ('TYPE25')
-C--------------------------------------------------
-C            HM READING INTER TYPE25 
-C--------------------------------------------------
               NTYP=25
               NINTER25 = NINTER25 +1
               CALL HM_READ_INTER_TYPE25(
-     1         IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,
-     2         IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P    ,DEF_INTER  ,
-     3         SENSORS    ,NOM_OPT    ,UNITAB    ,LSUBMODEL  ,TITR       ,
-     4         NOM_OPTFRIC,INTBUF_FRIC_TAB,NPC   ,NPC1       ,TF         ,
-     5         INTERFACES%PARAMETERS)
+     1         IPARI                ,STFAC           ,FRIGAP     ,NOINT      ,NI         ,
+     2         IGRNOD               ,IGRSURF         ,XFILTR     ,FRIC_P     ,DEF_INTER  ,
+     3         SENSORS              ,NOM_OPT         ,UNITAB     ,LSUBMODEL  ,TITR       ,
+     4         NOM_OPTFRIC          ,INTBUF_FRIC_TAB ,NPC        ,NPC1       ,TF         ,
+     5         INTERFACES%PARAMETERS,NPARI           ,NPARIR     ,SNPC       ,SNPC1      ,
+     6         NPTS)
 
           CASE ('TYPE24')
-C--------------------------------------------------
-C            HM READING INTER TYPE24 
-C--------------------------------------------------
               NTYP=24
               CALL HM_READ_INTER_TYPE24(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI          ,
-     2        IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P     ,DEF_INTER  ,
-     3        SENSORS    ,NOM_OPT     ,UNITAB     ,LSUBMODEL  ,TITR      ,
-     4        NOM_OPTFRIC,INTBUF_FRIC_TAB,INTERFACES%PARAMETERS )
+     1        IPARI      ,STFAC          ,FRIGAP                ,NOINT      ,NI        ,
+     2        IGRNOD     ,IGRSURF        ,XFILTR                ,FRIC_P     ,DEF_INTER ,
+     3        SENSORS    ,NOM_OPT        ,UNITAB                ,LSUBMODEL  ,TITR      ,
+     4        NOM_OPTFRIC,INTBUF_FRIC_TAB,INTERFACES%PARAMETERS ,NPARI      ,NPARIR    )
 
           CASE ('TYPE23')
-C--------------------------------------------------
-C            HM READING INTER TYPE23 
-C--------------------------------------------------
               NTYP=23
               CALL HM_READ_INTER_TYPE23(
-     1             IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2             IGRSURF    ,XFILTR     ,FRIC_P     ,NPC1      , TITR    ,
-     3             LSUBMODEL  ,UNITAB     )
-
+     1             IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
+     2             IGRSURF    ,XFILTR     ,FRIC_P     ,NPC1      ,TITR    ,
+     3             LSUBMODEL  ,UNITAB     ,NPARI      ,NPARIR    ,SNPC1   )
 
           CASE ('TYPE21')
-C--------------------------------------------------
-C            HM READING INTER TYPE21 
-C--------------------------------------------------
               NTYP=21
               CALL HM_READ_INTER_TYPE21(
-     1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
+     1          IPARI      ,STFAC      ,FRIGAP     ,NOINT    ,NI        ,
      2          IGRSURF    ,XFILTR     ,FRIC_P     ,NPC1     ,SENSORS   ,
      3          NOM_OPT    ,UNITAB     ,LSUBMODEL  ,TITR     ,NPC       ,
-     4          TF         )
+     4          TF         ,NPARI      ,NPARIR     ,SNPC     ,SNPC1     ,
+     5          LNOPT1)
 
           CASE ('TYPE20')
-C--------------------------------------------------
-C            HM READING INTER TYPE20 
-C--------------------------------------------------
               NTYP=20
               CALL HM_READ_INTER_TYPE20(
-     1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
+     1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
      2          IGRNOD     ,IGRSURF    ,IGRSLIN    ,XFILTR    ,FRIC_P   ,  
      3          UNITAB     ,LSUBMODEL  ,TITR       )    
 
           CASE ('HERTZ')
-C--------------------------------------------------
-C            HM READING INTER TYPE17 
-C--------------------------------------------------
               NTYP  = 17
               ILAGM = -1
               CALL HM_READ_INTER_HERTZ_TYPE17(
-     1          IPARI      ,FRIGAP     ,NOINT      ,NI       ,NTYP       ,
+     1          IPARI      ,FRIGAP     ,NOINT      ,NTYP    ,
      2          IGRBRIC    ,UNITAB     ,LSUBMODEL  ,TITR     )
 
           CASE ('TYPE16')
-C--------------------------------------------------
-C            HM READING INTER TYPE16 
-C--------------------------------------------------
              NTYP = 16
              ILAGM = 1 
 
           CASE ('TYPE15')
-C--------------------------------------------------
-C            HM READING INTER TYPE15 
-C--------------------------------------------------
              NTYP = 15
              CALL HM_READ_INTER_TYPE15(
-     1            IPARI     ,STFAC       ,FRIGAP     ,NOINT     ,NI       ,
+     1            IPARI     ,STFAC       ,FRIGAP     ,NOINT     ,
      2            IGRSURF   ,TITR        ,LSUBMODEL  ,UNITAB    )
 
           CASE ('TYPE14')
-C--------------------------------------------------
-C            HM READING INTER TYPE14 
-C--------------------------------------------------
              NTYP = 14
              CALL HM_READ_INTER_TYPE14(
-     1            IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
+     1            IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
      2            IGRNOD     ,IGRSURF    ,NPC        ,TITR      ,LSUBMODEL,
      3            UNITAB     )
 
-          CASE ('TYPE12')
-C--------------------------------------------------
-C            HM READING INTER TYPE12 
-C--------------------------------------------------
-             NTYP = 12
-
           CASE ('TYPE11')
-C--------------------------------------------------
-C            HM READING INTER TYPE11 
-C--------------------------------------------------
              NTYP = 11
              CALL HM_READ_INTER_TYPE11(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2        IGRSURF    ,IGRSLIN    ,SENSORS    ,DEF_INTER ,TITR      ,
+     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT      ,NI       ,
+     2        IGRSLIN    ,SENSORS    ,DEF_INTER  ,TITR       ,
      3        NOM_OPT    ,UNITAB     ,LSUBMODEL  ,NOM_OPTFRIC,INTBUF_FRIC_TAB,
-     4        ID_TYPE19)
+     4        ID_TYPE19  ,NPARI      ,NPARIR     ,LNOPT1)
 
           CASE ('TYPE10')
-C--------------------------------------------------
-C            HM READING INTER TYPE10 
-C--------------------------------------------------
              NTYP = 10
              CALL HM_READ_INTER_TYPE10(
      .            IPARI    ,STFAC    ,FRIGAP   ,IGRNOD   ,IGRSURF  ,
-     .            LSUBMODEL,UNITAB   ,TITR     ,NOINT    ,KEY      )
-c
+     .            LSUBMODEL,UNITAB   ,TITR     ,NOINT    )
 
           CASE ('TYPE8')
-C--------------------------------------------------
-C            HM READING INTER TYPE8 
-C--------------------------------------------------
              NTYP = 8
              CALL HM_READ_INTER_TYPE08(
-     1            IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
+     1            IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
      2            IGRNOD     ,IGRSURF    ,UNITAB    ,LSUBMODEL  ,TITR     )
+
           CASE ('TYPE7')
-C--------------------7------------------------------
-C            HM READING INTER TYPE7 
-C--------------------------------------------------
              NTYP = 7
              CALL HM_READ_INTER_TYPE07(
      1           IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,    
      2           IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P    ,NOM_OPT    ,
      3           DEF_INTER  ,NPC1       ,SENSORS    ,UNITAB    ,LSUBMODEL  ,
      4           TITR       ,NOM_OPTFRIC,INTBUF_FRIC_TAB,NPC   ,TF         ,
-     5           ID_TYPE19)
+     5           ID_TYPE19  ,NPARI      ,NPARIR     ,SNPC      ,SNPC1      ,
+     6           LNOPT1     ,NPTS)
 
           CASE ('TYPE6')
-C--------------------------------------------------
-C            HM READING INTER TYPE6 
-C--------------------------------------------------
              NTYP = 6
              CALL HM_READ_INTER_TYPE06(
-     1            IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,    
+     1            IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
      2            IGRSURF    ,NPC1       ,TITR       ,LSUBMODEL ,UNITAB   )
 
           CASE ('TYPE5')
-C--------------------------------------------------
-C            HM READING INTER TYPE5 
-C--------------------------------------------------
              NTYP = 5
            CALL HM_READ_INTER_TYPE05(
      1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,    
      2          IGRNOD     ,IGRSURF    ,NOM_OPT    ,XFILTR    ,FRIC_P   ,
-     3          SENSORS    ,UNITAB     ,LSUBMODEL  ,TITR       )
+     3          SENSORS    ,UNITAB     ,LSUBMODEL  ,TITR      ,NPARI    ,
+     4          NPARIR)
 
           CASE ('TYPE4')
-C--------------------------------------------------
-C            HM READING INTER TYPE4 
-C--------------------------------------------------
-          CALL ANCMSG(MSGID=1615,               
-     .                MSGTYPE=MSGERROR,        
-     .                ANMODE=ANINFO,           
-     .                I1=NOINT,                
-     .                C1=TITR)      
-c        WRITE(IOUT,1504) STFAC,FRIC,GAP,STARTT,STOPT,IBUC 
+          CALL ANCMSG(MSGID=1615,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR)
 
           CASE ('TYPE3')
-C--------------------------------------------------
-C            HM READING INTER TYPE3 
-C--------------------------------------------------
              NTYP = 3
              CALL HM_READ_INTER_TYPE03(
-     1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2          IGRSURF    ,UNITAB     ,LSUBMODEL  ,TITR     )
+     1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,
+     2          IGRSURF    ,UNITAB     ,LSUBMODEL  ,NPARI     ,
+     3          NPARIR)
+
           CASE ('TYPE2')
-C--------------------------------------------------
-C            HM READING INTER TYPE2 
-C--------------------------------------------------
              NTYP = 2
              CALL HM_READ_INTER_TYPE02(
      1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,IGRNOD   ,
      2          IGRSURF    ,I2RUPT     ,AREASL     ,DEF_INTER ,NPC1     ,
-     3          TITR       ,UNITAB     ,LSUBMODEL)
+     3          TITR       ,UNITAB     ,LSUBMODEL  ,NPARI     ,NPARIR   ,
+     4          SNPC1      )
 
       END SELECT ! SELECT CASE(NTYP)
 C
