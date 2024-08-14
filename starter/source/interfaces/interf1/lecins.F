@@ -193,9 +193,9 @@ C
           ENDIF
           IF(IPRI>=1) WRITE(IOUT,'(//,A)')' SECONDARY SURFACE'
           SURF_NODES => IGRSURF(ISU1)%NODES(1:NRTS,1:4)
-          CALL INSURF(NRTS,NSN,IRS,INTBUF_TAB(NI)%IRECTS,NOINT,
+          CALL INSURF(NRTS,NSN,IRS,INTBUF_TAB(NI)%IRECTS,
      .                SURF_NODES,ITAB,INTBUF_TAB(NI)%NSV,ID,TITR,
-     .                NTAG,INTBUF_TAB(NI)%S_NSV,INTBUF_TAB(NI)%S_IRECTS,X,TYPE18)
+     .                NTAG,INTBUF_TAB(NI)%S_NSV,INTBUF_TAB(NI)%S_IRECTS,TYPE18)
         ELSEIF (NTYP == 17) THEN
         ELSEIF (NTYP == 20) THEN
         ELSEIF (NTYP == 22) THEN
@@ -236,9 +236,9 @@ c            END IF
             IF(IS1 == 1)THEN
               IF (NTYP == 3 .OR. NTYP == 6) IRS = IPARI(25,NI)
               SURF_NODES => IGRSURF(ISU1)%NODES(1:NRTS_FE,1:4)
-              CALL INSURF(NRTS_FE,NSN_FE,IRS,INTBUF_TAB(NI)%IRECTS,NOINT,
+              CALL INSURF(NRTS_FE,NSN_FE,IRS,INTBUF_TAB(NI)%IRECTS,
      .                   SURF_NODES,ITAB,INTBUF_TAB(NI)%NSV,ID,TITR,
-     .                   NTAG,INTBUF_TAB(NI)%S_NSV,INTBUF_TAB(NI)%S_IRECTS,X,TYPE18)
+     .                   NTAG,INTBUF_TAB(NI)%S_NSV,INTBUF_TAB(NI)%S_IRECTS,TYPE18)
               IF (IGRSURF(ISU1)%NSEG_IGE >= 1) THEN
                 SURF_NODES_IGE => IGRSURF(ISU1)%NODES_IGE(1:NRTS_IGE,1:4)
                 IAD_IGE = IGRSURF(ISU1)%IAD_IGE
@@ -327,16 +327,16 @@ C--------------------------------------------
             IF(IS2 == -1)THEN
               NRTM0 = IGRSURF(ISU2)%NSEG
               SURF_NODES => IGRSURF(ISU2)%NODES(1:NRTM0,1:4)
-              CALL INSURF(NRTM0,NMN,IRM,INTBUF_TAB(NI)%IRECTM,NOINT,
+              CALL INSURF(NRTM0,NMN,IRM,INTBUF_TAB(NI)%IRECTM,
      .                    SURF_NODES,ITAB,INTBUF_TAB(NI)%MSR,ID,TITR,
-     .                    NTAG,INTBUF_TAB(NI)%S_MSR,INTBUF_TAB(NI)%S_IRECTM,X,TYPE18)
+     .                    NTAG,INTBUF_TAB(NI)%S_MSR,INTBUF_TAB(NI)%S_IRECTM,TYPE18)
             ENDIF
             IF(IS1/=-2)THEN
               NRTM0 = IGRSURF(ISU1)%NSEG
               SURF_NODES => IGRSURF(ISU1)%NODES(1:NRTM0,1:4)
-              CALL INSURF(NRTM0,NMN,IRM,INTBUF_TAB(NI)%IRECTM,NOINT,
+              CALL INSURF(NRTM0,NMN,IRM,INTBUF_TAB(NI)%IRECTM,
      .                    SURF_NODES,ITAB,INTBUF_TAB(NI)%MSR,ID,TITR,
-     .                    NTAG,INTBUF_TAB(NI)%S_MSR,INTBUF_TAB(NI)%S_IRECTM,X,TYPE18)
+     .                    NTAG,INTBUF_TAB(NI)%S_MSR,INTBUF_TAB(NI)%S_IRECTM,TYPE18)
             ENDIF
           ENDIF
         ELSEIF (NTYP == 25) THEN
@@ -350,9 +350,9 @@ C--------------------------------------------
             IF(IPRI>=1) WRITE(IOUT,'(//,A)')' MAIN SURFACE'
             IF(IS2 == 1)THEN
               SURF_NODES => IGRSURF(ISU2)%NODES(1:NRTM_FE,1:4)
-              CALL INSURF(NRTM_FE,NMN_FE,IRM,INTBUF_TAB(NI)%IRECTM,NOINT,
+              CALL INSURF(NRTM_FE,NMN_FE,IRM,INTBUF_TAB(NI)%IRECTM,
      .                    SURF_NODES,ITAB,INTBUF_TAB(NI)%MSR,ID,TITR,
-     .                    NTAG,INTBUF_TAB(NI)%S_MSR,INTBUF_TAB(NI)%S_IRECTM,X,TYPE18)
+     .                    NTAG,INTBUF_TAB(NI)%S_MSR,INTBUF_TAB(NI)%S_IRECTM,TYPE18)
               IF (IGRSURF(ISU2)%NSEG_IGE >= 1) THEN
                 SURF_NODES_IGE => IGRSURF(ISU2)%NODES_IGE(1:NRTM_IGE,1:4)
                 IAD_IGE = IGRSURF(ISU2)%IAD_IGE
@@ -369,9 +369,9 @@ C--------------------------------------------
      .                    NTAG)
             ELSEIF(IS2 == 4) THEN
               SURF_NODES => IGRSURF(ISU2)%NODES(1:NRTM,1:4)
-              CALL INSURF(NRTM,NMN,IRM,INTBUF_TAB(NI)%IRECTM,NOINT,
+              CALL INSURF(NRTM,NMN,IRM,INTBUF_TAB(NI)%IRECTM,
      .                    SURF_NODES,ITAB,INTBUF_TAB(NI)%MSR,ID,TITR,
-     .                    NTAG,INTBUF_TAB(NI)%S_MSR,INTBUF_TAB(NI)%S_IRECTM,X,TYPE18)
+     .                    NTAG,INTBUF_TAB(NI)%S_MSR,INTBUF_TAB(NI)%S_IRECTM,TYPE18)
             ENDIF
             IF (NTYP==3 ) THEN
              CALL ELTY_SURF(NRTS,NRTM,IGRSURF(ISU2)%NSEG,IGRSURF(ISU2)%ELTYP,

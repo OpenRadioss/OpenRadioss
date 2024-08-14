@@ -33,9 +33,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    format_mod             ../starter/share/modules1/format_mod.F90
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE INSURF(NRT       ,MSN   ,IR    ,IRECT ,NOINT  ,
+      SUBROUTINE INSURF(NRT       ,MSN   ,IR    ,IRECT ,
      .                  SURF_NODES,ITAB  ,MSV   ,ID    ,TITR   ,
-     .                  NTAG      ,S_MSV  ,SIRECT, X, TYPE18)
+     .                  NTAG      ,S_MSV  ,SIRECT, TYPE18)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -43,11 +43,9 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_4I
 C-----------------------------------------------
-C     LECTURE DES SURFACES ET DECOMPTE DES SEGMENTS
-C           ENTREE : 
-C                    NRT NOMBRE DE RENSEIGNEMENTS A LIRE
-C           SORTIE : 
-C                    IRECT 
+C     READING SURFACE AND SEGMENT NUMBERING
+C           INPUT :   NRT
+C           OUTPUT :  IRECT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,14 +61,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRT, NOINT,IR,MSN
+      INTEGER NRT, IR,MSN
       INTEGER,INTENT(IN) :: S_MSV,SIRECT
       INTEGER IRECT(4,SIRECT/4), ITAB(NUMNOD), MSV(S_MSV),SURF_NODES(NRT,4)
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(2*NUMNOD+1), INTENT(INOUT) ::  NTAG
       LOGICAL, INTENT(INOUT) :: TYPE18
-      my_real,INTENT(IN) :: X(3,NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -95,12 +92,8 @@ C     SEGMENTS 3 NOEUDS MISE DE N4 = N3
         IF(IRECT(4,I)==0) IRECT(4,I)=IRECT(3,I)           
         IF(IRECT(1,I)==IRECT(4,I)) THEN
            OLDIRECT=IRECT(4,I)
-           IRECT(4,I)=IRECT(3,I)                            
-C           WRITE(IOUT,*)'       REPLACED BY :',            
-C            IRECT(1,I),IRECT(2,I),IRECT(3,I),IRECT(4,I).   
-           CALL ANCMSG(MSGID=106,
-     .                 MSGTYPE=MSGWARNING,
-     .                 ANMODE=ANINFO_BLIND_2,
+           IRECT(4,I)=IRECT(3,I)
+           CALL ANCMSG(MSGID=106,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_2,
      .                 I1=ID,
      .                 C1=TITR,
      .                 I2=IRECT(1,I),
@@ -112,16 +105,9 @@ C            IRECT(1,I),IRECT(2,I),IRECT(3,I),IRECT(4,I).
      .                 I8=IRECT(3,I),
      .                 I9=IRECT(4,I))
         ELSEIF(IRECT(2,I)==IRECT(3,I)) THEN               
-C           IWARN = IWARN + 1                               
-C           WRITE(IOUT,*)' WARNING INTERFACE SEGMENT :',    
-C            IRECT(1,I),IRECT(2,I),IRECT(3,I),IRECT(4,I).   
            OLDIRECT=IRECT(3,I)
            IRECT(3,I)=IRECT(4,I)                            
-C           WRITE(IOUT,*)'       REPLACED BY :',            
-C            IRECT(1,I),IRECT(2,I),IRECT(3,I),IRECT(4,I).   
-           CALL ANCMSG(MSGID=106,
-     .                 MSGTYPE=MSGWARNING,
-     .                 ANMODE=ANINFO_BLIND_2,
+           CALL ANCMSG(MSGID=106,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_2,
      .                 I1=ID,
      .                 C1=TITR,
      .                 I2=IRECT(1,I),
@@ -132,19 +118,12 @@ C            IRECT(1,I),IRECT(2,I),IRECT(3,I),IRECT(4,I).
      .                 I7=IRECT(2,I),
      .                 I8=IRECT(3,I),
      .                 I9=IRECT(4,I))
-        ELSEIF(IRECT(1,I)==IRECT(2,I)) THEN               
-C           IWARN = IWARN + 1                               
-C           WRITE(IOUT,*)' WARNING INTERFACE SEGMENT :',    
-C            IRECT(1,I),IRECT(2,I),IRECT(3,I),IRECT(4,I).   
+        ELSEIF(IRECT(1,I)==IRECT(2,I)) THEN
            OLDIRECT=IRECT(2,I)
            OLDIRECT1=IRECT(3,I)
            IRECT(2,I)=IRECT(3,I)                            
-           IRECT(3,I)=IRECT(4,I)                            
-C           WRITE(IOUT,*)'       REPLACED BY :',            
-C            IRECT(1,I),IRECT(2,I),IRECT(3,I),IRECT(4,I).   
-           CALL ANCMSG(MSGID=106,
-     .                 MSGTYPE=MSGWARNING,
-     .                 ANMODE=ANINFO_BLIND_2,
+           IRECT(3,I)=IRECT(4,I)
+           CALL ANCMSG(MSGID=106,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_2,
      .                 I1=ID,
      .                 C1=TITR,
      .                 I2=IRECT(1,I),
@@ -158,7 +137,7 @@ C            IRECT(1,I),IRECT(2,I),IRECT(3,I),IRECT(4,I).
         ENDIF                                               
       ENDDO                                                 
 C-------    
-      IF(IR/=0.AND.IR/=2)THEN              
+      IF(IR/=0 .AND. IR/=2)THEN
         DO J=1,NRT                 
           IR1=IRECT(1,J)           
           IRECT(1,J)=IRECT(2,J)    

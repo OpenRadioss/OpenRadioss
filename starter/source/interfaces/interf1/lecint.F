@@ -716,9 +716,13 @@ C--------------------------------------------
             IF(IS1 == 1)THEN
               IF (NTYP == 3 .OR. NTYP == 6) IRS = IPARI(25,NI)
               SURF_NODES => IGRSURF(ISU1)%NODES(1:NRTS_FE,1:4)
-              CALL INSURF(NRTS_FE,NSN_FE,IRS,IRECTS,NOINT,
+              CALL INSURF(NRTS_FE,NSN_FE,IRS,IRECTS,
      .                    SURF_NODES,ITAB,NSV,ID,TITR,
-     .                    NTAG,S_NSV,S_IRECTS,X,TYPE18)
+     .                    NTAG,S_NSV,S_IRECTS,TYPE18)
+              IF (NTYP == 1)THEN
+                CALL INTER1_CHECK_ALE_LAG_SIDES(N2D, IGRSURF(ISU1)%ID, ID, TITR,
+     .                                          NUMNOD, ITAB, NRTS_FE, IRECTS, NALE, 'ALE', IDDLEVEL)
+              ENDIF
               IF (IGRSURF(ISU1)%NSEG_IGE >= 1) THEN
                 SURF_NODES_IGE => IGRSURF(ISU1)%NODES_IGE(1:NRTS_IGE,1:4)
                 IAD_IGE = IGRSURF(ISU1)%IAD_IGE               
@@ -795,9 +799,9 @@ C         SURFACE SECONDARY
             CALL ANCMSG(MSGID=118, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR)
           ENDIF
           SURF_NODES => IGRSURF(ISU1)%NODES(1:NRTS,1:4)
-          CALL INSURF(NRTS,NSN,IRS,IRECTS,NOINT,
+          CALL INSURF(NRTS,NSN,IRS,IRECTS,
      .                SURF_NODES,ITAB,NSV,ID,TITR,
-     .                NTAG,S_NSV,S_IRECTS,X,TYPE18)
+     .                NTAG,S_NSV,S_IRECTS,TYPE18)
           IPARI(5,NI) = NSN
 C         SURFACE MAIN :
           IF(NRTM == 0) THEN
@@ -811,9 +815,9 @@ C--------------------------------------------
         ELSEIF ( NTYP == 22) THEN
 C--------------------------------------------
               SURF_NODES => IGRSURF(ISU2)%NODES(1:NRTM,1:4)
-              CALL INSURF(NRTM,NMN,IRM,IRECTM,NOINT,
+              CALL INSURF(NRTM,NMN,IRM,IRECTM,
      .                    SURF_NODES,ITAB,MSR,ID,TITR,
-     .                    NTAG,S_MSR,S_IRECTM,X,TYPE18)
+     .                    NTAG,S_MSR,S_IRECTM,TYPE18)
               IPARI(6,NI)  = NMN           !nombre de main node.
               IPARI(33,NI) = IGRSURF(ISU2)%NSEG ! nombre de facette main
               IPARI(4,NI)  = IGRSURF(ISU2)%NSEG
@@ -848,9 +852,13 @@ C--------------------------------------------
             ENDIF
             IF(IS2 == 1)THEN
               SURF_NODES => IGRSURF(ISU2)%NODES(1:NRTM_FE,1:4)
-              CALL INSURF(NRTM_FE,NMN_FE,IRM,IRECTM,NOINT,
+              CALL INSURF(NRTM_FE,NMN_FE,IRM,IRECTM,
      .                    SURF_NODES,ITAB,MSR,ID,TITR,
-     .                    NTAG,S_MSR,S_IRECTM,X,TYPE18)
+     .                    NTAG,S_MSR,S_IRECTM,TYPE18)
+              IF (NTYP == 1)THEN
+                CALL INTER1_CHECK_ALE_LAG_SIDES(N2D, IGRSURF(ISU2)%ID, ID, TITR,
+     .                                          NUMNOD, ITAB, NRTM_FE, IRECTM, NALE, 'LAG', IDDLEVEL)
+              ENDIF
               IF (IGRSURF(ISU2)%NSEG_IGE >= 1) THEN
               SURF_NODES_IGE => IGRSURF(ISU2)%NODES_IGE(1:NRTM_IGE,1:4)
               IAD_IGE = IGRSURF(ISU2)%IAD_IGE              
@@ -865,9 +873,9 @@ C--------------------------------------------
      .                    NTAG)
             ELSEIF(IS2 == 4) THEN
               SURF_NODES => IGRSURF(ISU2)%NODES(1:NRTM_FE,1:4)
-              CALL INSURF(NRTM_FE,NMN_FE,IRM,IRECTM,NOINT,
+              CALL INSURF(NRTM_FE,NMN_FE,IRM,IRECTM,
      .                    SURF_NODES,ITAB,MSR,ID,TITR,
-     .                    NTAG,S_MSR,S_IRECTM,X,TYPE18)
+     .                    NTAG,S_MSR,S_IRECTM,TYPE18)
               IF (IGRSURF(ISU2)%NSEG_IGE >= 1) THEN
               SURF_NODES_IGE => IGRSURF(ISU2)%NODES_IGE(1:NRTM_IGE,1:4)
               IAD_IGE = IGRSURF(ISU2)%IAD_IGE              
