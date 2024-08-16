@@ -31,10 +31,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                        X1,      X2,     X3,
      .                        Y1,      Y2,     Y3,
      .                        Z1,      Z2,     Z3,
+     .                       VCX,     VCY,    VCZ,
+     .                       VX1,     VX2,    VX3,
+     .                       VY1,     VY2,    VY3,
+     .                       VZ1,     VZ2,    VZ3,
      .                     FOR_T1, FOR_T2, FOR_T3,
      .                     FORC_N,  STIF0,   STIF, 
      .                     FQMAX , PENMIN, PENREF,
-     .                         LL,  IFCTL,   NEL )
+     .                         LL,  IFCTL,   NEL ,
+     .                   E_DISTOR,   DT1)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,16 +53,21 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT (IN)  :: NEL
       INTEGER, INTENT (OUT) :: IFCTL
-      my_real,                   INTENT (IN) :: FQMAX
+      my_real,                   INTENT (IN) :: FQMAX,DT1
       my_real, DIMENSION(MVSIZ), INTENT (IN) :: STIF0,LL,
      .                        X1,      X2,     X3,
      .                        Y1,      Y2,     Y3,
      .                        Z1,      Z2,     Z3,
      .                        XC,      YC,     ZC,
+     .                       VCX,     VCY,    VCZ,
+     .                       VX1,     VX2,    VX3,
+     .                       VY1,     VY2,    VY3,
+     .                       VZ1,     VZ2,    VZ3,
      .                     PENMIN, PENREF
       my_real, DIMENSION(MVSIZ), INTENT (INOUT) :: STIF
       my_real, DIMENSION(MVSIZ,3), INTENT (INOUT) :: FORC_N,
      .                           FOR_T1, FOR_T2, FOR_T3
+      my_real, DIMENSION(NEL), INTENT (INOUT) :: E_DISTOR
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -82,7 +92,10 @@ C----------------------------
      .                   X3,      Y3,     Z3, FOR_T3,
      .                STIF0,    IFC2,  IFCTL, PENMIN,
      .               PENREF,     FKT,    LL ,  FQMAX,
-     .                  NEL)
+     .                  VX1,     VX2,    VX3,  VCX  ,
+     .                  VY1,     VY2,    VY3,  VCY  ,
+     .                  VZ1,     VZ2,    VZ3,  VCZ  ,
+     .                  NEL,E_DISTOR,    DT1)
         DO I=1,NEL
           IF (STIF0(I)==ZERO) CYCLE
           STIF(I) =MAX(STIF(I),FKT(I)*STIF0(I))

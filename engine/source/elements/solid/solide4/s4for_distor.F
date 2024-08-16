@@ -35,11 +35,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     VX1,       VX2,       VX3,       VX4,
      .     VY1,       VY2,       VY3,       VY4,
      .     VZ1,       VZ2,       VZ3,       VZ4,
-     .     F11,       F12,       F13,       F14,
+     .     F11,       F12,       F13,       F14,  
      .     F21,       F22,       F23,       F24,
      .     F31,       F32,       F33,       F34,
      .     STI,       FLD,     STI_C,        LL,
-     .      MU,     FQMAX,     ISTAB,      NEL )
+     .      MU,     FQMAX,     ISTAB,      NEL ,
+     . E_DISTOR,      DT1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,7 +59,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: ISTAB
-      my_real, INTENT(IN) :: MU,FQMAX
+      my_real, INTENT(IN) :: MU,FQMAX,DT1
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: FLD,
      .   X1,X2,X3,X4,
      .   Y1,Y2,Y3,Y4,
@@ -69,6 +70,7 @@ C-----------------------------------------------
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) ::
      .   F11,F21,F31,F12,F22,F32,
      .   F13,F23,F33,F14,F24,F34,STI
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: E_DISTOR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -104,7 +106,8 @@ C
      .                 VY1,    VY2,     VY3,     VY4,
      .                 VZ1,    VZ2,     VZ3,     VZ4,
      .              FOR_T1, FOR_T2,  FOR_T3,  FOR_T4,
-     .               IFCTL, STIF  ,  MU    ,   NEL  )
+     .               IFCTL, STIF  ,  MU    ,   NEL  ,
+     .               E_DISTOR,DT1 )
          NCTL = NCTL + IFCTL
 C---- element center
          DO I=1,NEL
@@ -123,40 +126,60 @@ C---- seg 1 : 1,2,3 (normal will be towords to inside)
      .                     X1,      X2,     X3,
      .                     Y1,      Y2,     Y3,
      .                     Z1,      Z2,     Z3,
+     .                VC(1,1), VC(1,2),VC(1,3), 
+     .                    VX1,     VX2,    VX3,
+     .                    VY1,     VY2,    VY3,
+     .                    VZ1,     VZ2,    VZ3,
      .                  FOR_T1, FOR_T2, FOR_T3,
      .                  FORC_N,  STI_C,   STIF, 
      .                  FQMAX , PENMIN, PENREF,
-     .                    LL  ,  IFCTL,   NEL )
+     .                    LL  ,  IFCTL,   NEL ,
+     .                  E_DISTOR, DT1 )
         NCTL = NCTL + IFCTL
 C---- seg 2 : 1,4,2
         CALL SFOR_N2STRIA(XC,      YC,     ZC, 
      .                    X1,      X4,     X2,
      .                    Y1,      Y4,     Y2,
      .                    Z1,      Z4,     Z2,
+     .               VC(1,1), VC(1,2),VC(1,3), 
+     .                   VX1,     VX4,    VX2,
+     .                   VY1,     VY4,    VY2,
+     .                   VZ1,     VZ4,    VZ2,
      .                 FOR_T1, FOR_T4, FOR_T2,
      .                 FORC_N,  STI_C,   STIF, 
      .                 FQMAX , PENMIN, PENREF,
-     .                   LL  ,  IFCTL,   NEL )
+     .                    LL ,  IFCTL,   NEL ,
+     .                  E_DISTOR, DT1 )
         NCTL = NCTL + IFCTL
 C---- seg 3 : 2,4,3
-        CALL SFOR_N2STRIA(XC,      YC,     ZC, 
+        CALL SFOR_N2STRIA( XC,      YC,     ZC, 
      .                     X2,     X4,     X3,
      .                     Y2,     Y4,     Y3,
      .                     Z2,     Z4,     Z3,
+     .                VC(1,1),VC(1,2),VC(1,3), 
+     .                    VX2,    VX4,    VX3,
+     .                    VY2,    VY4,    VY3,
+     .                    VZ2,    VZ4,    VZ3,
      .                 FOR_T2, FOR_T4, FOR_T3,
      .                 FORC_N,  STI_C,   STIF, 
      .                 FQMAX , PENMIN, PENREF,
-     .                   LL  ,  IFCTL,   NEL )
+     .                    LL ,  IFCTL,   NEL ,
+     .                  E_DISTOR, DT1 )
         NCTL = NCTL + IFCTL
 C---- seg 4 : 1,3,4
         CALL SFOR_N2STRIA(XC,      YC,     ZC, 
      .                    X1,      X3,     X4,
      .                    Y1,      Y3,     Y4,
      .                    Z1,      Z3,     Z4,
+     .               VC(1,1), VC(1,2),VC(1,3), 
+     .                   VX1,     VX3,    VX4,
+     .                   VY1,     VY3,    VY4,
+     .                   VZ1,     VZ3,    VZ4,
      .                 FOR_T1, FOR_T3, FOR_T4,
      .                 FORC_N,  STI_C,   STIF, 
      .                 FQMAX , PENMIN, PENREF,
-     .                   LL  ,  IFCTL,   NEL )
+     .                    LL ,  IFCTL,   NEL ,
+     .                  E_DISTOR, DT1 )
         NCTL = NCTL + IFCTL
 C---- force assembalge and STI update (dt)
         IF (NCTL >0) THEN

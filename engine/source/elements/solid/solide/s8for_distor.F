@@ -50,7 +50,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   F31,     F32,     F33,     F34,
      .   F35,     F36,     F37,     F38,
      .   STI,   STI_C,     FLD,     MU ,
-     .   LL ,   ISTAB,     FQMAX,   NEL)
+     .   LL ,   ISTAB,     FQMAX,   NEL,
+     . E_DISTOR,  DT1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,7 +72,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: ISTAB
       my_real, DIMENSION(NEL), INTENT(IN) :: STI_C
-      my_real, INTENT(IN) :: MU,FQMAX
+      my_real, INTENT(IN) :: MU,FQMAX,DT1
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: FLD,LL,
      1   X1,      X2,      X3,      X4,      
      2   X5,      X6,      X7,      X8,      
@@ -92,6 +93,7 @@ C-----------------------------------------------
      7   F25,     F26,     F27,     F28,
      8   F31,     F32,     F33,     F34,
      9   F35,     F36,     F37,     F38
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: E_DISTOR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -142,7 +144,8 @@ C
      .                 VZ5,    VZ6,     VZ7,     VZ8,
      .              FOR_T1, FOR_T2,  FOR_T3,  FOR_T4,
      .              FOR_T5, FOR_T6,  FOR_T7,  FOR_T8,
-     .               IFCTL, STIF  ,  MU    ,   NEL  )
+     .               IFCTL, STIF  ,  MU    ,   NEL  ,
+     .            E_DISTOR,  DT1 )
        IF (IFCTL >0) THEN
          NCTL = NCTL + IFCTL
 C---- element center
@@ -165,60 +168,84 @@ C---- seg 1 : 2,1,4, 3 normal towords to outside like tetra
      .                     X2,     X1,     X4,     X3,
      .                     Y2,     Y1,     Y4,     Y3,
      .                     Z2,     Z1,     Z4,     Z3,
+     .                    VX2,    VX1,    VX4,    VX3,
+     .                    VY2,    VY1,    VY4,    VY3,
+     .                    VZ2,    VZ1,    VZ4,    VZ3,
      .                 FOR_T2, FOR_T1, FOR_T4, FOR_T3,
      .                 FORC_N,    LL ,  IFCTL,  IFC1 ,
      .                 PENMIN, PENREF,  MARGE,  FQMAX,
-     .                  STI_C,   NEL )
+     .                  STI_C,   NEL ,    VC ,E_DISTOR,
+     .                    DT1)
          NCTL = NCTL + IFCTL
 C---- seg 2 : 1,2,6,5
          CALL SFOR_N2S4(   XC,      YC,     ZC,   STIF,     
      .                    X1,      X2,     X6,     X5,
      .                    Y1,      Y2,     Y6,     Y5,
      .                    Z1,      Z2,     Z6,     Z5,
+     .                   VX1,     VX2,    VX6,    VX5,
+     .                   VY1,     VY2,    VY6,    VY5,
+     .                   VZ1,     VZ2,    VZ6,    VZ5,
      .                 FOR_T1, FOR_T2, FOR_T6, FOR_T5,
      .                 FORC_N,    LL ,  IFCTL,  IFC1 ,
      .                 PENMIN, PENREF,  MARGE,  FQMAX,
-     .                  STI_C,   NEL )
+     .                  STI_C,   NEL ,    VC ,E_DISTOR,
+     .                    DT1)
          NCTL = NCTL + IFCTL
 C---- seg 3 : 2,3,7,6
          CALL SFOR_N2S4(   XC,      YC,     ZC,   STIF,     
      .                     X2,     X3,     X7,     X6,
      .                     Y2,     Y3,     Y7,     Y6,
      .                     Z2,     Z3,     Z7,     Z6,
+     .                    VX2,    VX3,    VX7,    VX6,
+     .                    VY2,    VY3,    VY7,    VY6,
+     .                    VZ2,    VZ3,    VZ7,    VZ6,
      .                 FOR_T2, FOR_T3, FOR_T7, FOR_T6,
      .                 FORC_N,    LL ,  IFCTL,  IFC1 ,
      .                 PENMIN, PENREF,  MARGE,  FQMAX,
-     .                  STI_C,   NEL )
+     .                  STI_C,   NEL ,    VC ,E_DISTOR,
+     .                    DT1)
          NCTL = NCTL + IFCTL
 C---- seg 4 : 1,5,8,4
          CALL SFOR_N2S4(   XC,      YC,     ZC,   STIF,     
      .                    X1,      X5,     X8,     X4,
      .                    Y1,      Y5,     Y8,     Y4,
      .                    Z1,      Z5,     Z8,     Z4,
+     .                   VX1,     VX5,    VX8,    VX4,
+     .                   VY1,     VY5,    VY8,    VY4,
+     .                   VZ1,     VZ5,    VZ8,    VZ4,
      .                 FOR_T1, FOR_T5, FOR_T8, FOR_T4,
      .                 FORC_N,    LL ,  IFCTL,  IFC1 ,
      .                 PENMIN, PENREF,  MARGE,  FQMAX,
-     .                  STI_C,   NEL )
+     .                  STI_C,   NEL ,    VC ,E_DISTOR,
+     .                    DT1)
          NCTL = NCTL + IFCTL
 C---- seg 5 : 4,8,7,3
          CALL SFOR_N2S4(   XC,      YC,     ZC,   STIF,     
      .                     X4,     X8,     X7,     X3,
      .                     Y4,     Y8,     Y7,     Y3,
      .                     Z4,     Z8,     Z7,     Z3,
+     .                    VX4,    VX8,    VX7,    VX3,
+     .                    VY4,    VY8,    VY7,    VY3,
+     .                    VZ4,    VZ8,    VZ7,    VZ3,
      .                 FOR_T4, FOR_T8, FOR_T7, FOR_T3,
      .                 FORC_N,    LL ,  IFCTL,  IFC1 ,
      .                 PENMIN, PENREF,  MARGE,  FQMAX,
-     .                  STI_C,   NEL )
+     .                  STI_C,   NEL ,    VC ,E_DISTOR,
+     .                    DT1)
          NCTL = NCTL + IFCTL
 C---- seg 6 : 5,6,7,8
          CALL SFOR_N2S4(   XC,      YC,     ZC,   STIF,     
      .                     X5,     X6,     X7,     X8,
      .                     Y5,     Y6,     Y7,     Y8,
      .                     Z5,     Z6,     Z7,     Z8,
+     .                    VX5,    VX6,    VX7,    VX8,
+     .                    VY5,    VY6,    VY7,    VY8,
+     .                    VZ5,    VZ6,    VZ7,    VZ8,
      .                 FOR_T5, FOR_T6, FOR_T7, FOR_T8,
      .                 FORC_N,    LL ,  IFCTL,  IFC1 ,
      .                 PENMIN, PENREF,  MARGE,  FQMAX,
-     .                  STI_C,   NEL )
+     .                  STI_C,   NEL ,    VC ,E_DISTOR,
+     .                    DT1)
          NCTL = NCTL + IFCTL
 C---- force assembalge and STI update (dt)
           DO I=1,NEL

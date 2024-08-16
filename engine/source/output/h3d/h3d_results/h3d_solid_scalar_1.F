@@ -2867,6 +2867,15 @@ C--------------------------------------------------
                   ENDDO
                 ENDIF
 C--------------------------------------------------
+              ELSEIF (KEYWORD == 'ECONTROL')THEN
+C--------------------------------------------------
+                IF (GBUF%G_EINT_DISTOR>0) THEN
+                    DO I=1,NEL
+                      VALUE(I) = GBUF%EINT_DISTOR(I)
+                      IS_WRITTEN_VALUE(I) = 1
+                    ENDDO
+                ENDIF
+C--------------------------------------------------
               ENDIF
 C--------------------------------------------------
               IF(CALLED_FROM_PYTHON) THEN

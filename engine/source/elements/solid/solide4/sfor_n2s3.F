@@ -32,7 +32,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                      X3,     Y3,     Z3, FOR_T3,
      .                    STIF,   IFC1,  IFCTL, PENMIN,
      .                  PENREF, FKTMAX,    LL , FQMAX ,
-     .                     NEL)
+     .                     VX1,     VX2,   VX3,  VXI  ,
+     .                     VY1,     VY2,   VY3,  VYI  ,
+     .                     VZ1,     VZ2,   VZ3,  VZI  ,
+     .                     NEL,E_DISTOR,   DT1)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,11 +53,15 @@ C-----------------------------------------------
       my_real, DIMENSION(MVSIZ), INTENT (IN) ::  X1, X2, X3,
      .                                           Y1, Y2, Y3,
      .                                           Z1, Z2, Z3,
-     .                                           XI, YI, ZI
-      my_real, INTENT (IN) :: FQMAX
+     .                                           XI, YI, ZI,
+     .                     VX1,     VX2,   VX3,  VXI  ,
+     .                     VY1,     VY2,   VY3,  VYI  ,
+     .                     VZ1,     VZ2,   VZ3,  VZI  
+      my_real, INTENT (IN) :: FQMAX,DT1
       my_real, DIMENSION(MVSIZ), INTENT (INOUT) :: FKTMAX
       my_real, DIMENSION(MVSIZ), INTENT (IN) :: STIF,LL,PENMIN, PENREF
       my_real, DIMENSION(MVSIZ,3), INTENT (INOUT) :: FORC_N, FOR_T1, FOR_T2, FOR_T3
+      my_real, DIMENSION(NEL),  INTENT (INOUT) :: E_DISTOR
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -78,7 +85,7 @@ C                                                                     12
      .        XAB,XBC,XCA,YAB,YBC,YCA,ZAB,ZBC,ZCA,
      .        XIA,  XIB,  XIC, YIA,  YIB,  YIC,
      .        ZIA,  ZIB,  ZIC, H0,NORM,S2,FAC,S2MIN,LJ,
-     .        F_Q,F_C,KTS,ZEROM,TX,TY,TZ,PENDR
+     .        F_Q,F_C,KTS,ZEROM,TX,TY,TZ,PENDR,DX,DY,DZ,DN
 C----------------------------
         IFCTL = 0
         IFCTL1 = 0
@@ -207,6 +214,14 @@ C-------- if other sub-tria ? still using elementary nodal normal
            FAC = MIN(FQMAX,F_Q*PENDR)
            FKTMAX(I) =MAX(FKTMAX(I),(ONE+THREE*FAC))
            FN(I) = (FAC+ONE)*STIF(I)*PENE(I)
+         ENDDO
+         DO I=1,NEL
+           IF(PENE(I) == ZERO) CYCLE
+            DX = VXI(I) - LB(I)*VX1(I) - LC(I)*VX2(I)- LA(I)*VX3(I)
+            DY = VYI(I) - LB(I)*VY1(I) - LC(I)*VY2(I)- LA(I)*VY3(I)
+            DZ = VZI(I) - LB(I)*VZ1(I) - LC(I)*VZ2(I)- LA(I)*VZ3(I)
+            DN = (NX(I)*DX + NY(I)*DY + NZ(I)*DZ)*DT1
+            E_DISTOR(I) = E_DISTOR(I) - FN(I)*DN
          ENDDO
         DO I=1,NEL
           IF (PENE(I) ==ZERO) CYCLE

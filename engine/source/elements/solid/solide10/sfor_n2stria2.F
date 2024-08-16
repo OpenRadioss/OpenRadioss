@@ -45,7 +45,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                      FORC_N,   STIF,  STIF0,     
      .                       FQMAX,  IFCTL,     LL, 
      .                      PENMIN, PENREF,  MARGE,
-     .                        IFC1,   NEL )
+     .                         VCX,    VCY,    VCZ,
+     .                        VXC1,   VYC1,   VZC1,
+     .                        VXC2,   VYC2,   VZC2,
+     .                        VXC3,   VYC3,   VZC3,
+     .                         VX1,    VX2,    VX3,
+     .                         VY1,    VY2,    VY3,
+     .                         VZ1,    VZ2,    VZ3,
+     .                         VX4,    VX5,    VX6,
+     .                         VY4,    VY5,    VY6,
+     .                         VZ4,    VZ5,    VZ6,
+     .                        IFC1,   NEL ,E_DISTOR,
+     .                        DT1 )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,13 +83,25 @@ C-----------------------------------------------
      .                      XC1,    YC1,    ZC1,
      .                      XC2,    YC2,    ZC2,
      .                      XC3,    YC3,    ZC3
+      my_real, DIMENSION(MVSIZ), INTENT (IN) :: 
+     .                         VCX,    VCY,    VCZ,
+     .                        VXC1,   VYC1,   VZC1,
+     .                        VXC2,   VYC2,   VZC2,
+     .                        VXC3,   VYC3,   VZC3,
+     .                         VX1,    VX2,    VX3,
+     .                         VY1,    VY2,    VY3,
+     .                         VZ1,    VZ2,    VZ3,
+     .                         VX4,    VX5,    VX6,
+     .                         VY4,    VY5,    VY6,
+     .                         VZ4,    VZ5,    VZ6
       my_real, DIMENSION(MVSIZ), INTENT (IN) :: PENMIN,PENREF,MARGE
       my_real, DIMENSION(MVSIZ), INTENT (INOUT) :: STIF
       my_real, DIMENSION(MVSIZ,3), INTENT (INOUT) :: FORC_N,
      .                         FORC_N1,FORC_N2,FORC_N3,
      .                          FOR_T1, FOR_T2, FOR_T3,
      .                          FOR_T4, FOR_T5, FOR_T6
-      my_real, INTENT (IN) ::  FQMAX
+      my_real, INTENT (IN) ::  FQMAX,DT1
+      my_real, DIMENSION(NEL), INTENT (INOUT) :: E_DISTOR
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -141,7 +164,10 @@ C------ 1,4,6
      .                  XS6,     YS6,    ZS6, FOR_T6,
      .                STIF0,    IFC2,  IFCTL, PENMIN,
      .               PENREF,     FKT,     LL, FQMAX ,
-     .                 NEL)
+     .                  VX1,     VX4,    VX6, VXC1  ,
+     .                  VY1,     VY4,    VY6, VYC1  ,
+     .                  VZ1,     VZ4,    VZ6, VZC1  ,
+     .                  NEL,E_DISTOR,   DT1)
          NIMPA = NIMPA + IFCTL
 C------ 2,5,4         
          CALL SFOR_N2S3(XC2,     YC2,    ZC2,FORC_N2,     
@@ -150,7 +176,10 @@ C------ 2,5,4
      .                  XS4,     YS4,    ZS4, FOR_T4,
      .                STIF0,    IFC2,  IFCTL, PENMIN,
      .               PENREF,     FKT,     LL, FQMAX ,
-     .                 NEL)
+     .                  VX2,     VX5,    VX4, VXC2  ,
+     .                  VY2,     VY5,    VY4, VYC2  ,
+     .                  VZ2,     VZ5,    VZ4, VZC2  ,
+     .                  NEL,E_DISTOR,   DT1)
          NIMPA = NIMPA + IFCTL
 C------ 3,6,5         
          CALL SFOR_N2S3(XC3,     YC3,    ZC3,FORC_N3,     
@@ -159,7 +188,10 @@ C------ 3,6,5
      .                  XS5,     YS5,    ZS5, FOR_T5,
      .                STIF0,    IFC2,  IFCTL, PENMIN,
      .               PENREF,     FKT,     LL, FQMAX ,
-     .                 NEL)
+     .                  VX3,     VX6,    VX5, VXC3  ,
+     .                  VY3,     VY6,    VY5, VYC3  ,
+     .                  VZ3,     VZ6,    VZ5, VZC3  ,
+     .                  NEL,E_DISTOR,   DT1)
          NIMPA = NIMPA + IFCTL
 C------ 4,5,6         
          CALL SFOR_N2S3( XC,      YC,     ZC, FORC_N,     
@@ -168,7 +200,10 @@ C------ 4,5,6
      .                  XS6,     YS6,    ZS6, FOR_T6,
      .                STIF0,    IFC2,  IFCTL, PENMIN,
      .               PENREF,     FKT,     LL, FQMAX ,
-     .                 NEL)
+     .                  VX4,     VX5,    VX6,  VCX  ,
+     .                  VY4,     VY5,    VY6,  VCY  ,
+     .                  VZ4,     VZ5,    VZ6,  VCZ  ,
+     .                  NEL,E_DISTOR,    DT1)
          NIMPA = NIMPA + IFCTL
 C------
            DO I=1,NEL

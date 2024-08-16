@@ -36,7 +36,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4              FX ,     FY ,     FZ ,     
      5              XX0,     YY0,     ZZ0,
      7              MU ,   ISTAB,     LL ,
-     8            FQMAX,    NEL )
+     8            FQMAX,    NEL ,E_DISTOR,
+     9              DT1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: ISTAB
-      my_real, INTENT(IN)                   :: MU,FQMAX
+      my_real, INTENT(IN)                   :: MU,FQMAX,DT1
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: FLD,LL
       DOUBLE PRECISION, DIMENSION(MVSIZ,10), INTENT(IN) :: 
      .                      XX,YY,ZZ,XX0,YY0,ZZ0
@@ -64,6 +65,7 @@ C-----------------------------------------------
       my_real, DIMENSION(MVSIZ,10), INTENT(INOUT) ::
      .                                FX,FY,FZ
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) ::STI,STI_C
+      my_real, DIMENSION(NEL),   INTENT(INOUT) :: E_DISTOR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -75,6 +77,7 @@ C-----------------------------------------------
      .   FOR_T8(MVSIZ,3),FOR_T9(MVSIZ,3),FOR_T10(MVSIZ,3),
      .   FORC_N1(MVSIZ,3),FORC_N2(MVSIZ,3),FORC_N3(MVSIZ,3),
      .   PENMIN(MVSIZ),PENREF(MVSIZ),MARGE(MVSIZ),
+     .   VCX(MVSIZ,4),VCY(MVSIZ,4),VCZ(MVSIZ,4),
      .   FORC_N4(MVSIZ,3),FCX,FCY,FCZ,FAC,GAP_MAX,GAP_MIN,
      .   TOL_T,TOL_C, TOL_V, TOL_E    
       INTEGER I,J,NCTL,IFCTL,IFC1(MVSIZ),IFC2(MVSIZ)
@@ -122,7 +125,7 @@ C-----------------------------------------------
      .                FOR_T1, FOR_T2,  FOR_T3,  FOR_T4,
      .                FOR_T5, FOR_T6,  FOR_T7,  FOR_T8,
      .                FOR_T9, FOR_T10, STIF  ,    IFC1,
-     .                NEL  )
+     .                NEL   ,E_DISTOR, DT1 )
         NCTL = NCTL + IFCTL
 C---- element center
         XC = ZERO
@@ -146,11 +149,13 @@ C---- middle node treatment first
      .              STI,    LL  ,   STI_C,   
      .              XX ,     YY ,     ZZ ,   
      .              XX0,     YY0,     ZZ0,   
+     .              VX ,     VY ,     VZ ,   
      .           FOR_T1,  FOR_T2,  FOR_T3,
      .           FOR_T4,  FOR_T5,  FOR_T6,
      .           FOR_T7,  FOR_T8,  FOR_T9,
      .          FOR_T10,   TOL_E,   IFC2 ,     
-     .           IFCTL ,   NEL  )
+     .           IFCTL ,   NEL  ,E_DISTOR,
+     .             DT1 )
         NCTL = NCTL + IFCTL
 c-- contact by sub-segs       
 c-- sorting for each 4 big seg; IFC1 is used for contact only       
@@ -174,6 +179,20 @@ c-- sorting for each 4 big seg; IFC1 is used for contact only
            YC(I,4) = FOURTH*(YY(I,4)+YY(I,8)+YY(I,9)+YY(I,10))
            ZC(I,4) = FOURTH*(ZZ(I,4)+ZZ(I,8)+ZZ(I,9)+ZZ(I,10))
         ENDDO
+        DO I=1,NEL
+           VCX(I,1) = FOURTH*(VX(I,1)+VX(I,5)+VX(I,7)+VX(I,8))
+           VCY(I,1) = FOURTH*(VY(I,1)+VY(I,5)+VY(I,7)+VY(I,8))
+           VCZ(I,1) = FOURTH*(VZ(I,1)+VZ(I,5)+VZ(I,7)+VZ(I,8))
+           VCX(I,2) = FOURTH*(VX(I,2)+VX(I,5)+VX(I,6)+VX(I,9))
+           VCY(I,2) = FOURTH*(VY(I,2)+VY(I,5)+VY(I,6)+VY(I,9))
+           VCZ(I,2) = FOURTH*(VZ(I,2)+VZ(I,5)+VZ(I,6)+VZ(I,9))
+           VCX(I,3) = FOURTH*(VX(I,3)+VX(I,7)+VX(I,6)+VX(I,10))
+           VCY(I,3) = FOURTH*(VY(I,3)+VY(I,7)+VY(I,6)+VY(I,10))
+           VCZ(I,3) = FOURTH*(VZ(I,3)+VZ(I,7)+VZ(I,6)+VZ(I,10))
+           VCX(I,4) = FOURTH*(VX(I,4)+VX(I,8)+VX(I,9)+VX(I,10))
+           VCY(I,4) = FOURTH*(VY(I,4)+VY(I,8)+VY(I,9)+VY(I,10))
+           VCZ(I,4) = FOURTH*(VZ(I,4)+VZ(I,8)+VZ(I,9)+VZ(I,10))
+        ENDDO
 C         
 C---- seg 1 : 1,2,3 (5 6 7) 
         CALL SFOR_N2STRIA2(
@@ -193,7 +212,18 @@ C---- seg 1 : 1,2,3 (5 6 7)
      .                 FORC_N,       STIF,      STI_C,     
      .                  FQMAX,      IFCTL,         LL,
      .                 PENMIN,     PENREF,      MARGE,
-     .                   IFC1,      NEL )
+     .                VC(1,1),    VC(1,2),    VC(1,3),
+     .               VCX(1,1),   VCY(1,1),   VCZ(1,1),
+     .               VCX(1,2),   VCY(1,2),   VCZ(1,2),
+     .               VCX(1,3),   VCY(1,3),   VCZ(1,3),
+     .                VX(1,1),    VX(1,2),    VX(1,3),
+     .                VY(1,1),    VY(1,2),    VY(1,3),
+     .                VZ(1,1),    VZ(1,2),    VZ(1,3),
+     .                VX(1,5),    VX(1,6),    VX(1,7),
+     .                VY(1,5),    VY(1,6),    VY(1,7),
+     .                VZ(1,5),    VZ(1,6),    VZ(1,7),
+     .                   IFC1,      NEL  ,   E_DISTOR,
+     .                   DT1 )
         NCTL = NCTL + IFCTL
 C---- seg 2 : 1,4,2 (8 9 5)
         CALL SFOR_N2STRIA2(
@@ -213,7 +243,18 @@ C---- seg 2 : 1,4,2 (8 9 5)
      .                 FORC_N,       STIF,      STI_C,     
      .                  FQMAX,      IFCTL,         LL,
      .                 PENMIN,     PENREF,      MARGE,
-     .                   IFC1,      NEL )
+     .                VC(1,1),    VC(1,2),    VC(1,3),
+     .               VCX(1,1),   VCY(1,1),   VCZ(1,1),
+     .               VCX(1,4),   VCY(1,4),   VCZ(1,4),
+     .               VCX(1,2),   VCY(1,2),   VCZ(1,2),
+     .                VX(1,1),    VX(1,4),    VX(1,2),
+     .                VY(1,1),    VY(1,4),    VY(1,2),
+     .                VZ(1,1),    VZ(1,4),    VZ(1,2),
+     .                VX(1,8),    VX(1,9),    VX(1,5),
+     .                VY(1,8),    VY(1,9),    VY(1,5),
+     .                VZ(1,8),    VZ(1,9),    VZ(1,5),
+     .                   IFC1,      NEL  ,   E_DISTOR,
+     .                   DT1 )
         NCTL = NCTL + IFCTL
 C---- seg 3 : 2,4,3 (9 10 6)
         CALL SFOR_N2STRIA2(
@@ -233,7 +274,18 @@ C---- seg 3 : 2,4,3 (9 10 6)
      .                 FORC_N,       STIF,      STI_C,     
      .                  FQMAX,      IFCTL,         LL,
      .                 PENMIN,     PENREF,      MARGE,
-     .                   IFC1,      NEL )
+     .                VC(1,1),    VC(1,2),    VC(1,3),
+     .               VCX(1,2),   VCY(1,2),   VCZ(1,2),
+     .               VCX(1,4),   VCY(1,4),   VCZ(1,4),
+     .               VCX(1,3),   VCY(1,3),   VCZ(1,3),
+     .                VX(1,2),    VX(1,4),    VX(1,3),
+     .                VY(1,2),    VY(1,4),    VY(1,3),
+     .                VZ(1,2),    VZ(1,4),    VZ(1,3),
+     .                VX(1,9),   VX(1,10),    VX(1,6),
+     .                VY(1,9),   VY(1,10),    VY(1,6),
+     .                VZ(1,9),   VZ(1,10),    VZ(1,6),
+     .                   IFC1,      NEL  ,   E_DISTOR,
+     .                   DT1 )
         NCTL = NCTL + IFCTL
 C---- seg 4 : 1,3,4 (7 10 8)
         CALL SFOR_N2STRIA2(
@@ -253,7 +305,18 @@ C---- seg 4 : 1,3,4 (7 10 8)
      .                 FORC_N,       STIF,      STI_C,     
      .                  FQMAX,      IFCTL,         LL,
      .                 PENMIN,     PENREF,      MARGE,
-     .                   IFC1,      NEL )
+     .                VC(1,1),    VC(1,2),    VC(1,3),
+     .               VCX(1,1),   VCY(1,1),   VCZ(1,1),
+     .               VCX(1,3),   VCY(1,3),   VCZ(1,3),
+     .               VCX(1,4),   VCY(1,4),   VCZ(1,4),
+     .                VX(1,1),    VX(1,3),    VX(1,4),
+     .                VY(1,1),    VY(1,3),    VY(1,4),
+     .                VZ(1,1),    VZ(1,3),    VZ(1,4),
+     .                VX(1,7),   VX(1,10),    VX(1,8),
+     .                VY(1,7),   VY(1,10),    VY(1,8),
+     .                VZ(1,7),   VZ(1,10),    VZ(1,8),
+     .                   IFC1,      NEL  ,   E_DISTOR,
+     .                   DT1 )
         NCTL = NCTL + IFCTL
 C---- force assembalge and STI update (dt)
         IF (NCTL >0) THEN

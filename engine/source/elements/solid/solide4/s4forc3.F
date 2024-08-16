@@ -829,7 +829,8 @@ C----------------------------
      .     F21,       F22,       F23,       F24,
      .     F31,       F32,       F33,       F34,
      .     STI,       FLD,     STI_C,        LL,
-     .      MU,     FQMAX,     ISTAB,      NEL )
+     .      MU,     FQMAX,     ISTAB,      NEL ,
+     . GBUF%EINT_DISTOR,DT1 )
       ENDIF
 C --------------------------
       IF(NFILSOL/=0) CALL S4FILLOPT(

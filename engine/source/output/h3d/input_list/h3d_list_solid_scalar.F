@@ -607,6 +607,10 @@ c-----------------------------------------------
       H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'div(u)'
       H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = 'Volumetric dilatation rate'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'ECONTROL'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Internal Energy of distortion control'
+c-----------------------------------------------
 
 
 c-----------------------------------------------
