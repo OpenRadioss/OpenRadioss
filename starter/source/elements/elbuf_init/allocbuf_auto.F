@@ -421,6 +421,8 @@ c           Allocate Orthotropic Beta angle (dyna input format)
         ELBUF_TAB(NG)%GBUF%AMU = ZERO
       CALL MY_ALLOC(GBUF%SH_IOFFSET,NEL*GBUF%G_SH_IOFFSET)                                    
         ELBUF_TAB(NG)%GBUF%SH_IOFFSET = 0
+      CALL MY_ALLOC(GBUF%EINT_DISTOR,NEL*GBUF%G_EINT_DISTOR)                                    
+        ELBUF_TAB(NG)%GBUF%EINT_DISTOR = ZERO
 
 c
       IF (NPG == 1) THEN

@@ -29,11 +29,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .              STI,    LL  ,   STI_C,   
      .              XX ,     YY ,     ZZ ,   
      .              XX0,     YY0,     ZZ0,   
+     .              VX ,     VY ,     VZ ,   
      .           FOR_T1,  FOR_T2,  FOR_T3,
      .           FOR_T4,  FOR_T5,  FOR_T6,
      .           FOR_T7,  FOR_T8,  FOR_T9,
      .          FOR_T10,   TOL_E,   IFCE ,     
-     .           IFCTL ,   NEL  )
+     .           IFCTL ,   NEL  ,E_DISTOR,
+     .             DT1 )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,7 +55,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT (OUT) :: IFCTL
       INTEGER, DIMENSION(MVSIZ), INTENT(OUT) :: IFCE
-      my_real, INTENT(IN) :: TOL_E
+      my_real, INTENT(IN) :: TOL_E,DT1
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: LL
       DOUBLE PRECISION, DIMENSION(MVSIZ,10), INTENT(IN) :: 
      .                       XX, YY, ZZ,
@@ -63,6 +65,9 @@ C-----------------------------------------------
      .                          FOR_T1, FOR_T2, FOR_T3,
      .                          FOR_T4, FOR_T5, FOR_T6,
      .                          FOR_T7, FOR_T8, FOR_T9
+      my_real, DIMENSION(MVSIZ,10), INTENT(IN) :: 
+     .                       VX, VY, VZ
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: E_DISTOR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -70,8 +75,10 @@ C-----------------------------------------------
      .   STIF(MVSIZ),DMIN(MVSIZ),DMIN2(MVSIZ),FN(MVSIZ,6),
      .   XM(MVSIZ,6),YM(MVSIZ,6),ZM(MVSIZ,6),KS(MVSIZ),
      .   NJX(MVSIZ,6),NJY(MVSIZ,6),NJZ(MVSIZ,6),FACT,
+     .   VXM(MVSIZ,6),VYM(MVSIZ,6),VZM(MVSIZ,6),
      .   DX,DY,DZ,D_MAX,LAM,S2,NORM,LAM0,F_Q,FAC,LENG,
-     .   NX,NY,NZ,FX,FY,FZ,F_T,DS2(MVSIZ,6),TOL2,KTS,FNJ
+     .   NX,NY,NZ,FX,FY,FZ,F_T,DS2(MVSIZ,6),TOL2,KTS,FNJ,
+     .   DDX,DDY,DDZ,DDN
       INTEGER I,J,JJ,IFC2(MVSIZ,6),IFF
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
@@ -124,6 +131,27 @@ C---- first sorting
           ENDDO
         ENDDO
         IF (IFF >0) THEN
+         DO I=1,NEL
+           IF (STI_C(I)==ZERO) CYCLE
+           VXM(I,1) = HALF*(VX(I,1)+VX(I,2))
+           VYM(I,1) = HALF*(VY(I,1)+VY(I,2))
+           VZM(I,1) = HALF*(VZ(I,1)+VZ(I,2))
+           VXM(I,2) = HALF*(VX(I,3)+VX(I,2))
+           VYM(I,2) = HALF*(VY(I,3)+VY(I,2))
+           VZM(I,2) = HALF*(VZ(I,3)+VZ(I,2))
+           VXM(I,3) = HALF*(VX(I,3)+VX(I,1))
+           VYM(I,3) = HALF*(VY(I,3)+VY(I,1))
+           VZM(I,3) = HALF*(VZ(I,3)+VZ(I,1))
+           VXM(I,4) = HALF*(VX(I,4)+VX(I,1))
+           VYM(I,4) = HALF*(VY(I,4)+VY(I,1))
+           VZM(I,4) = HALF*(VZ(I,4)+VZ(I,1))
+           VXM(I,5) = HALF*(VX(I,4)+VX(I,2))
+           VYM(I,5) = HALF*(VY(I,4)+VY(I,2))
+           VZM(I,5) = HALF*(VZ(I,4)+VZ(I,2))
+           VXM(I,6) = HALF*(VX(I,4)+VX(I,3))
+           VYM(I,6) = HALF*(VY(I,4)+VY(I,3))
+           VZM(I,6) = HALF*(VZ(I,4)+VZ(I,3))
+         ENDDO
           TOL2 = TOL_E*TOL_E
 C          
          DO I=1,NEL
@@ -194,6 +222,12 @@ C----
               FN(I,J) = KTS*(LAM-LAM0)*LENG
               FACT = F_T*(THREE*FAC+ONE)
               STIF(I) = MAX(STIF(I),FACT*STI_C(I)) ! will be added to STI not max()
+!			  
+              DDX = VX(I,JJ) - VXM(I,J)
+              DDY = VY(I,JJ) - VYM(I,J)
+              DDZ = VZ(I,JJ) - VZM(I,J)
+              DDN = DT1*(DDX*NJX(I,J)+DDY*NJY(I,J)+DDZ*NJZ(I,J))
+              E_DISTOR(I) = E_DISTOR(I) - FN(I,J)*DDN
             END IF 
           ENDDO
          ENDDO

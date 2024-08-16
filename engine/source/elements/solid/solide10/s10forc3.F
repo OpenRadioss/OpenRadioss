@@ -817,7 +817,8 @@ C----------------------------
      .          FX ,     FY ,     FZ ,     
      .          XX0,     YY0,     ZZ0,
      .         CNS2,   ISTAB,    LL  ,
-     .        FQMAX,    NEL )
+     .        FQMAX,    NEL ,GBUF%EINT_DISTOR,
+     .          DT1)
       ENDIF
 c-----------------------------
       IF(NFILSOL/=0) CALL SXFILLOPT(

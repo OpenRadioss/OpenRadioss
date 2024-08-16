@@ -69,7 +69,7 @@ C-----------------------------------------------
      .   G_SKEW_ID,G_GAMA_R,G_SLIPRING_ID,G_SLIPRING_STRAND,G_RETRACTOR_ID,G_RINGSLIP,
      .   G_ADD_NODE,G_UPDATE,G_INTVAR,G_BETAORTH,G_AMU,G_SLIPRING_FRAM_ID,G_FRAM_FACTOR,
      .   G_TM_YIELD,G_TM_SEQ,G_TM_EINT,G_TM_DMG,G_TM_SIG,G_TM_STRA,G_TSAIWU,G_DMGSCL,
-     .   G_SH_IOFFSET
+     .   G_SH_IOFFSET,G_EINT_DISTOR
 
       INTEGER  ! layer variables
      .   LY_DMG,LY_GAMA,LY_DIRA,LY_DIRB,LY_CRKDIR,LY_PLAPT,LY_SIGPT,LY_SMSTR,
@@ -1111,6 +1111,7 @@ C
           G_COR_FR = GBUF%G_COR_FR
           G_COR_XR = GBUF%G_COR_XR
           G_SH_IOFFSET  = GBUF%G_SH_IOFFSET
+          G_EINT_DISTOR  = GBUF%G_EINT_DISTOR
           
 c---
 c 1-D elements (TRUSS, BEAM, SPRING)
@@ -1317,6 +1318,8 @@ C
              L_REL = L_REL + 1   
            RBUF_L(L_REL+1) =  G_SH_IOFFSET     
              L_REL = L_REL + 1   
+             RBUF_L(L_REL+1) =  G_EINT_DISTOR     
+             L_REL = L_REL + 1   
 c---
 c 1-D elements (TRUSS, BEAM, SPRING)
 c---
@@ -1504,6 +1507,8 @@ C
             L_REL = L_REL + NEL*G_AMU  
           RBUF_L(L_REL+1:L_REL+NEL*G_SH_IOFFSET) = GBUF%SH_IOFFSET(1:NEL*G_SH_IOFFSET)                
             L_REL = L_REL + NEL*G_SH_IOFFSET  
+          RBUF_L(L_REL+1:L_REL+NEL*G_EINT_DISTOR) = GBUF%EINT_DISTOR(1:NEL*G_EINT_DISTOR)                
+            L_REL = L_REL + NEL*G_EINT_DISTOR  
 c---------------------------------------------------
               IF (DEBUG_PRINT == 1) THEN
                  print*,'      COMMON GLOB=', L_REL-SUM

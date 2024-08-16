@@ -104,7 +104,7 @@ C-----------------------------------------------
      .   ISUBSTACK,IPPID,IPIDL,NPT_LAY,LEN_PLAPT,LEN_SIGPT,
      .   IPMAT,IPMAT_IPLY,NPTTOT,NUVARN,NX,IBOLTP,CRKDIR,INLOC,LNLOC,
      .   NONL, DEBUG_PRINT,IPINCH,NUVAREOS,IEOS_TYPE,IDRAPE,LLOC_SLICE,
-     .   IPNPT_LAY,IDFAIL,LNLOCTS
+     .   IPNPT_LAY,IDFAIL,LNLOCTS,ICONTROL
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: TFAIL,FAILID
       INTEGER, ALLOCATABLE, DIMENSION(:)   :: IMAT,ILAW
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
@@ -706,6 +706,12 @@ C------
             GBUF%G_AMU = 1
           ENDIF
 C------
+          ! Variable for Eint_distor
+          IF (ITY == 1 ) THEN
+            ICONTROL = IGEO(97,IPID)
+            IF (ICONTROL==1) GBUF%G_EINT_DISTOR = 1
+          ENDIF
+C------
           IF ((ISMSTR == 10.OR.ISMSTR == 12).AND.ITY == 1)THEN
            IF (ISNOD == 10.OR.(ISNOD==4 .AND. ISROT==1)) THEN 
             GBUF%G_JAC_I = 0    
@@ -824,6 +830,7 @@ c           LGLOB = LGLOB + GBUF%G_SMSTR
           LGLOB = LGLOB + GBUF%G_MAXFRAC
           LGLOB = LGLOB + GBUF%G_MAXEPS   
           LGLOB = LGLOB + GBUF%G_AMU 
+          LGLOB = LGLOB + GBUF%G_EINT_DISTOR
 
           IF (NPG > 1) THEN
             LGLOB = LGLOB + GBUF%G_FORPG

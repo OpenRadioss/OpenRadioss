@@ -31,10 +31,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                      X1,      X2,     X3,     X4,
      .                      Y1,      Y2,     Y3,     Y4,
      .                      Z1,      Z2,     Z3,     Z4,
+     .                     VX1,     VX2,    VX3,    VX4,
+     .                     VY1,     VY2,    VY3,    VY4,
+     .                     VZ1,     VZ2,    VZ3,    VZ4,
      .                   FOR_T1, FOR_T2, FOR_T3, FOR_T4,
      .                   FORC_N,    LL ,  IFCTL,  IFC1 ,
      .                   PENMIN, PENREF,  MARGE,  FQMAX,
-     .                   STIF0,   NEL  )
+     .                   STIF0,   NEL  ,     VC,E_DISTOR,
+     .                   DT1  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,16 +53,21 @@ C-----------------------------------------------
       INTEGER, INTENT (IN)  :: NEL
       INTEGER, INTENT (OUT) :: IFCTL
       INTEGER, DIMENSION(MVSIZ), INTENT (IN) :: IFC1
-      my_real,                   INTENT (IN) :: FQMAX
+      my_real,                   INTENT (IN) :: FQMAX,DT1
       my_real, DIMENSION(MVSIZ), INTENT (IN) :: 
      .                 X1,      X2,     X3,     X4,
      .                 Y1,      Y2,     Y3,     Y4,
      .                 Z1,      Z2,     Z3,     Z4,
+     .                VX1,     VX2,    VX3,    VX4,
+     .                VY1,     VY2,    VY3,    VY4,
+     .                VZ1,     VZ2,    VZ3,    VZ4,
      .                 XI,      YI,     ZI, PENMIN,
      .             PENREF,      LL,   STIF0, MARGE
       my_real, DIMENSION(MVSIZ), INTENT (INOUT) :: STIF
       my_real, DIMENSION(MVSIZ,3), INTENT (INOUT) :: FORC_N,
      .                     FOR_T1, FOR_T2, FOR_T3, FOR_T4
+      my_real, DIMENSION(MVSIZ,3), INTENT (IN) :: VC
+      my_real, DIMENSION(NEL),  INTENT (INOUT) :: E_DISTOR
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -82,7 +91,8 @@ C                                                                     12
      .   XAB,XBC,XCA,YAB,YBC,YCA,ZAB,ZBC,ZCA,
      .   XIA,  XIB,  XIC, YIA,  YIB,  YIC,
      .   ZIA,  ZIB,  ZIC, H0,NORM,S2,FAC,
-     .   F_Q,F_C,KTS,ZEROM,TX,TY,TZ,PENE3,PENE4,PENDR,LJ
+     .   F_Q,F_C,KTS,ZEROM,TX,TY,TZ,PENE3,PENE4,PENDR,LJ,
+     .   DX,DY,DZ,DN
 C----------------------------
          IFC2(1:NEL) = IFC1(1:NEL)
          CALL SSORT_N4(XI,      YI,     ZI ,   MARGE,    
@@ -382,6 +392,17 @@ C-------- if other sub-tria recompute normal
            FN(I) = (FAC+ONE)*STIF0(I)*PENE(I)
            FKT = ONE+THREE*FAC
            STIF(I) =MAX(STIF(I),FKT*STIF0(I))
+         ENDDO
+         DO I=1,NEL
+           IF(PENE(I) == ZERO) CYCLE
+           DX = VC(I,1) - HJ(I,1)*VX1(I) - HJ(I,2)*VX2(I)
+     .                  - HJ(I,3)*VX3(I) - HJ(I,4)*VX4(I)
+           DY = VC(I,2) - HJ(I,1)*VY1(I) - HJ(I,2)*VY2(I)
+     .                  - HJ(I,3)*VY3(I) - HJ(I,4)*VY4(I)
+           DZ = VC(I,3) - HJ(I,1)*VZ1(I) - HJ(I,2)*VZ2(I)
+     .                  - HJ(I,3)*VZ3(I) - HJ(I,4)*VZ4(I)
+           DN = (NX(I)*DX + NY(I)*DY + NZ(I)*DZ)*DT1
+           E_DISTOR(I) = E_DISTOR(I) - FN(I)*DN
          ENDDO
         DO I=1,NEL
           IF (PENE(I) ==ZERO) CYCLE

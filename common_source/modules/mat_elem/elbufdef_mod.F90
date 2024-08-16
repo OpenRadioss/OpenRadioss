@@ -710,6 +710,7 @@
         integer  g_tsaiwu
         integer  g_dmgscl
         integer  g_sh_ioffset
+        integer  g_eint_distor
 !---
 !    - 1d - elem (truss, beam, spring) 
         integer  g_area
@@ -833,6 +834,7 @@
         my_real, dimension(:) , pointer ::   maxeps 
         my_real, dimension(:) , pointer ::   betaorth 
         my_real, dimension(:) , pointer ::   amu
+        my_real, dimension(:) , pointer ::   eint_distor  
 !---
 !    - 1d - elem (truss, beam, spring)
         my_real, dimension(:) , pointer ::   area

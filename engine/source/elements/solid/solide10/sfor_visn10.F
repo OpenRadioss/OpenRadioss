@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                    FOR_T1, FOR_T2,  FOR_T3,  FOR_T4,
      .                    FOR_T5, FOR_T6,  FOR_T7,  FOR_T8,
      .                    FOR_T9, FOR_T10, STIF  ,    IFC1,
-     .                    NEL  )
+     .                    NEL   ,E_DISTOR, DT1)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +54,8 @@ C-----------------------------------------------
      .                     FOR_T1, FOR_T2, FOR_T3, FOR_T4,
      .                     FOR_T5, FOR_T6, FOR_T7, FOR_T8,
      .                     FOR_T9, FOR_T10
-      my_real, INTENT (IN) ::  TOL_V,MU
+      my_real, INTENT (IN) ::  TOL_V,MU,DT1
+      my_real, DIMENSION(NEL),   INTENT(INOUT) :: E_DISTOR
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -122,6 +123,36 @@ C
            FOR_T10(I,2) = FOR_T10(I,2) - FLD(I)*(VY(I,10)-VC(I,2))
            FOR_T10(I,3) = FOR_T10(I,3) - FLD(I)*(VZ(I,10)-VC(I,3))
            STIF(I)      = FAC*STIF(I)
+           E_DISTOR(I)=E_DISTOR(I)- DT1*(FOR_T1(I,1)*(VX(I,1)-VC(I,1))+
+     .                                   FOR_T1(I,2)*(VY(I,1)-VC(I,2))+
+     .                                   FOR_T1(I,3)*(VZ(I,1)-VC(I,3))+
+     .                                   FOR_T2(I,1)*(VX(I,2)-VC(I,1))+
+     .                                   FOR_T2(I,2)*(VY(I,2)-VC(I,2))+
+     .                                   FOR_T2(I,3)*(VZ(I,2)-VC(I,3))+
+     .                                   FOR_T3(I,1)*(VX(I,3)-VC(I,1))+
+     .                                   FOR_T3(I,2)*(VY(I,3)-VC(I,2))+
+     .                                   FOR_T3(I,3)*(VZ(I,3)-VC(I,3))+
+     .                                   FOR_T4(I,1)*(VX(I,4)-VC(I,1))+
+     .                                   FOR_T4(I,2)*(VY(I,4)-VC(I,2))+
+     .                                   FOR_T4(I,3)*(VZ(I,4)-VC(I,3))+
+     .                                   FOR_T5(I,1)*(VX(I,5)-VC(I,1))+
+     .                                   FOR_T5(I,2)*(VY(I,5)-VC(I,2))+
+     .                                   FOR_T5(I,3)*(VZ(I,5)-VC(I,3))+
+     .                                   FOR_T6(I,1)*(VX(I,6)-VC(I,1))+
+     .                                   FOR_T6(I,2)*(VY(I,6)-VC(I,2))+
+     .                                   FOR_T6(I,3)*(VZ(I,6)-VC(I,3))+
+     .                                   FOR_T7(I,1)*(VX(I,7)-VC(I,1))+
+     .                                   FOR_T7(I,2)*(VY(I,7)-VC(I,2))+
+     .                                   FOR_T7(I,3)*(VZ(I,7)-VC(I,3))+
+     .                                   FOR_T8(I,1)*(VX(I,8)-VC(I,1))+
+     .                                   FOR_T8(I,2)*(VY(I,8)-VC(I,2))+
+     .                                   FOR_T8(I,3)*(VZ(I,8)-VC(I,3))+
+     .                                   FOR_T9(I,1)*(VX(I,9)-VC(I,1))+
+     .                                   FOR_T9(I,2)*(VY(I,9)-VC(I,2))+
+     .                                   FOR_T9(I,3)*(VZ(I,9)-VC(I,3))+
+     .                                 FOR_T10(I,1)*(VX(I,10)-VC(I,1))+
+     .                                 FOR_T10(I,2)*(VY(I,10)-VC(I,2))+
+     .                                 FOR_T10(I,3)*(VZ(I,10)-VC(I,3)))
          ENDDO
        END IF 
 C

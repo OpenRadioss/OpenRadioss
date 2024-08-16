@@ -1178,7 +1178,8 @@ C        get actual configuration from x(3,*) for small strain option
      .   F31,     F32,     F33,     F34,
      .   F35,     F36,     F37,     F38,
      .   STI,   STI_C,   FLD  ,    CNS2,
-     .   LL ,   ISTAB,   FQMAX,    NEL )
+     .   LL ,   ISTAB,   FQMAX,     NEL,
+     .   GBUF%EINT_DISTOR, DT1)
       ENDIF
 C----------------------------
 C
