@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    format_mod             ../starter/share/modules1/format_mod.F90
       !||    law_user               ../starter/source/user_interface/law_user.F
       !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_MAT_99(ILAW,IUSER_LAW,IUSER_KEY,

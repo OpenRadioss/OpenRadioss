@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    rinit3                ../starter/source/elements/spring/rinit3.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
+      !||    reader_old_mod        ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       SUBROUTINE USER_OUTPUT(IOUT,ILAW,ROOTN,ROOTLEN,INPF)
 C-----------------------------------------------

@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    prelecig3d   ../starter/source/elements/ige3d/prelecig3d.F
+      !||    prelecig3d       ../starter/source/elements/ige3d/prelecig3d.F
       !||--- called by ------------------------------------------------------
-      !||    lectur       ../starter/source/starter/lectur.F
+      !||    lectur           ../starter/source/starter/lectur.F
       !||--- uses       -----------------------------------------------------
-      !||    format_mod   ../starter/share/modules1/format_mod.F90
+      !||    format_mod       ../starter/share/modules1/format_mod.F90
+      !||    reader_old_mod   ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       SUBROUTINE PRELECIG3D(NUM)
 C-----------------------------------------------

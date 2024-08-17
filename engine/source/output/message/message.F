@@ -198,6 +198,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lectur                       ../engine/source/input/lectur.F
       !||    m13law                       ../engine/source/materials/mat/mat013/m13law.F
       !||    mat25_crasurv_c              ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
+      !||    mat25_crasurv_s              ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
+      !||    mat25_tsaiwu_s               ../engine/source/materials/mat/mat025/mat25_tsaiwu_s.F90
       !||    mmain                        ../engine/source/materials/mat_share/mmain.F90
       !||    mpp_init                     ../engine/source/mpi/interfaces/spmd_i7tool.F
       !||    mulaw                        ../engine/source/materials/mat_share/mulaw.F90

@@ -39,7 +39,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    find_dt1brick_engine       ../starter/source/starter/contrl.F
       !||    find_dt_engine             ../starter/source/coupling/rad2rad/r2r_speedup.F
       !||    find_yield_engine          ../starter/source/general_controls/computation/hm_read_sms.F
-      !||    freform                    ../engine/source/input/freform.F
       !||    genani                     ../engine/source/output/anim/generate/genani.F
       !||    genani1                    ../starter/source/output/anim/genani1.F
       !||    gendynain                  ../engine/source/output/dynain/gendynain.F

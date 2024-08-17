@@ -29,7 +29,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    detcord0                     ../starter/source/initial_conditions/detonation/detcord0.F
       !||    ecran1                       ../starter/source/initial_conditions/detonation/ecran1.F
       !||    ecran2                       ../starter/source/initial_conditions/detonation/ecran2.F
-      !||    freform                      ../starter/source/starter/freform.F
       !||    ig3dinit3                    ../starter/source/elements/ige3d/ig3dinit3.F
       !||    initia                       ../starter/source/elements/initia/initia.F
       !||    iombr                        ../starter/source/initial_conditions/detonation/iombr.F

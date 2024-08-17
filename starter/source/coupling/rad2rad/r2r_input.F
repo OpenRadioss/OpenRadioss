@@ -21,12 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    r2r_input       ../starter/source/coupling/rad2rad/r2r_input.F
+      !||    r2r_input        ../starter/source/coupling/rad2rad/r2r_input.F
       !||--- called by ------------------------------------------------------
-      !||    r2r_group       ../starter/source/coupling/rad2rad/r2r_group.F
+      !||    r2r_group        ../starter/source/coupling/rad2rad/r2r_group.F
       !||--- uses       -----------------------------------------------------
-      !||    r2r_mod         ../starter/share/modules1/r2r_mod.F
-      !||    restmod         ../starter/share/modules1/restart_mod.F
+      !||    r2r_mod          ../starter/share/modules1/r2r_mod.F
+      !||    reader_old_mod   ../starter/share/modules1/reader_old_mod.F90
+      !||    restmod          ../starter/share/modules1/restart_mod.F
       !||====================================================================
       SUBROUTINE R2R_INPUT(IEXTER)
 C-----------------------------------------------

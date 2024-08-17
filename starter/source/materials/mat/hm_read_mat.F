@@ -159,6 +159,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat169_arup_mod   ../starter/source/materials/mat/mat169/hm_read_mat169.F90
       !||    law_user                  ../starter/source/user_interface/law_user.F
       !||    message_mod               ../starter/share/message_module/message_mod.F
+      !||    reader_old_mod            ../starter/share/modules1/reader_old_mod.F90
       !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
       !||    table_mod                 ../starter/share/modules1/table_mod.F
       !||====================================================================

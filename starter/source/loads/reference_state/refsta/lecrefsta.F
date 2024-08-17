@@ -21,15 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    lecrefsta     ../starter/source/loads/reference_state/refsta/lecrefsta.F
+      !||    lecrefsta        ../starter/source/loads/reference_state/refsta/lecrefsta.F
       !||--- called by ------------------------------------------------------
-      !||    lectur        ../starter/source/starter/lectur.F
+      !||    lectur           ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    r2r_sys       ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    usr2sys       ../starter/source/system/sysfus.F
+      !||    ancmsg           ../starter/source/output/message/message.F
+      !||    r2r_sys          ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    usr2sys          ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
+      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||    reader_old_mod   ../starter/share/modules1/reader_old_mod.F90
+      !||    refsta_mod       ../starter/share/modules1/refsta_mod.F
       !||====================================================================
       SUBROUTINE LECREFSTA(ITABM1  ,UNITAB,IXC   ,IXTG  ,IXS   ,
      .                     XYZREF  ,XREFC ,XREFTG,XREFS ,TAGNOD,

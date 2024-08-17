@@ -38,7 +38,6 @@
       !||    fredec_2key_4id_t            ../starter/source/starter/freform.F
       !||    fredec_2key_id_or_key_id     ../starter/source/starter/freform.F
       !||    fredec_key_3id_t             ../starter/source/starter/freform.F
-      !||    freform                      ../starter/source/starter/freform.F
       !||    hm_read_ale_link             ../starter/source/constraints/ale/hm_read_ale_link_vel.F
       !||    hm_read_frm                  ../starter/source/tools/skew/hm_read_frm.F
       !||    hm_read_inter_type24         ../starter/source/interfaces/int24/hm_read_inter_type24.F

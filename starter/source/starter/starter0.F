@@ -31,7 +31,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    build_msg                         ../starter/source/output/message/build_msg.F
       !||    contrl                            ../starter/source/starter/contrl.F
       !||    execargcheck                      ../starter/source/starter/execargcheck.F
-      !||    freform                           ../starter/source/starter/freform.F
       !||    get_file_name_info                ../starter/source/system/get_file_name_info.F
       !||    hm_convert_2d_elements_seatbelt   ../starter/source/devtools/hm_reader/hm_convert_2d_elements_seatbelt.F
       !||    hm_convert_fail_tab               ../starter/source/devtools/hm_reader/hm_convert_fail_tab.F

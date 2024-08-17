@@ -47,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod                ../starter/share/message_module/message_mod.F
       !||    nod2el_mod                 ../starter/share/modules1/nod2el_mod.F
       !||    r2r_mod                    ../starter/share/modules1/r2r_mod.F
+      !||    reader_old_mod             ../starter/share/modules1/reader_old_mod.F90
       !||    restmod                    ../starter/share/modules1/restart_mod.F
       !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
       !||====================================================================

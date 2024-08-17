@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
       !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    reader_old_mod           ../starter/share/modules1/reader_old_mod.F90
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_MAT10(

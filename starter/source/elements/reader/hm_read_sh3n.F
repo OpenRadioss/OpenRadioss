@@ -21,19 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    hm_read_sh3n    ../starter/source/elements/reader/hm_read_sh3n.F
+      !||    hm_read_sh3n     ../starter/source/elements/reader/hm_read_sh3n.F
       !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
+      !||    lectur           ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    anodset         ../starter/source/output/analyse/analyse_node.c
-      !||    apartset        ../starter/source/output/analyse/analyse_part.c
-      !||    nintrn          ../starter/source/system/nintrn.F
-      !||    usr2sys         ../starter/source/system/sysfus.F
-      !||    vdouble         ../starter/source/system/sysfus.F
+      !||    ancmsg           ../starter/source/output/message/message.F
+      !||    anodset          ../starter/source/output/analyse/analyse_node.c
+      !||    apartset         ../starter/source/output/analyse/analyse_part.c
+      !||    nintrn           ../starter/source/system/nintrn.F
+      !||    usr2sys          ../starter/source/system/sysfus.F
+      !||    vdouble          ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||    submodel_mod    ../starter/share/modules1/submodel_mod.F
+      !||    message_mod      ../starter/share/message_module/message_mod.F
+      !||    reader_old_mod   ../starter/share/modules1/reader_old_mod.F90
+      !||    submodel_mod     ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_SH3N(IXTG  ,ITAB   ,ITABM1 ,IPART  ,IPARTTG ,
      .                  THK    ,PM    ,GEO    ,ICNOD  ,IGEO   ,IPM     ,

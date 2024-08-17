@@ -33,6 +33,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    format_mod             ../starter/share/modules1/format_mod.F90
       !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       SUBROUTINE FREDEC0(ID)
 C-----------------------------------------------
@@ -83,6 +84,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||    freerr                 ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
+      !||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       SUBROUTINE FREDEC4(COPT)
 C-----------------------------------------------
@@ -133,6 +135,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    format_mod             ../starter/share/modules1/format_mod.F90
       !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       SUBROUTINE FREDEC5(COPT,ID)
 C-----------------------------------------------
@@ -209,6 +212,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||    my_exit                ../starter/source/output/analyse/analyse.c
       !||--- uses       -----------------------------------------------------
+      !||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       SUBROUTINE FREDEC6(COPT,COPT2)
 C-----------------------------------------------
@@ -497,6 +501,7 @@ C
       !||    ancmsg                  ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||    reader_old_mod          ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       SUBROUTINE FREERR(IT)
 C-----------------------------------------------
@@ -830,11 +835,13 @@ C-----------------------------------------------
       RETURN
       END
       !||====================================================================
-      !||    nextsla   ../starter/source/starter/freform.F
+      !||    nextsla          ../starter/source/starter/freform.F
       !||--- called by ------------------------------------------------------
-      !||    sz_r2r    ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||    sz_r2r           ../starter/source/coupling/rad2rad/routines_r2r.F
       !||--- calls      -----------------------------------------------------
-      !||    my_exit   ../starter/source/output/analyse/analyse.c
+      !||    my_exit          ../starter/source/output/analyse/analyse.c
+      !||--- uses       -----------------------------------------------------
+      !||    reader_old_mod   ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       SUBROUTINE NEXTSLA
 C-----------------------------------------------
@@ -876,6 +883,7 @@ C-----------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    format_mod                 ../starter/share/modules1/format_mod.F90
       !||    message_mod                ../starter/share/message_module/message_mod.F
+      !||    reader_old_mod             ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       SUBROUTINE FREDEC_2KEY_ID_OR_KEY_ID(KEY2,KEY3,UID,SUB_ID)
 C-----------------------------------------------
@@ -1097,6 +1105,7 @@ C---
       !||--- uses       -----------------------------------------------------
       !||    format_mod             ../starter/share/modules1/format_mod.F90
       !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       SUBROUTINE FREDEC_2KEY_4ID_T(KEY2,ID,UID,VERS,SUB_ID,TITR)
 C-----------------------------------------------
@@ -1205,6 +1214,7 @@ C---
       !||--- uses       -----------------------------------------------------
       !||    format_mod             ../starter/share/modules1/format_mod.F90
       !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       SUBROUTINE FREDEC_KEY_3ID_T(ID,UID,VERS,TITR)
 C-----------------------------------------------
@@ -1290,6 +1300,7 @@ C---
       !||--- uses       -----------------------------------------------------
       !||    format_mod             ../starter/share/modules1/format_mod.F90
       !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       SUBROUTINE FREDEC_2KEY_4ID(KEY2,ID,UID,VERS,SUB_ID)
 C-----------------------------------------------

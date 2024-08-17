@@ -64,7 +64,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    create_subs_list_g                ../starter/source/model/sets/create_subs_clause.F
       !||    ddsplit                           ../starter/source/restart/ddsplit/ddsplit.F
       !||    domdec2                           ../starter/source/spmd/domdec2.F
-      !||    freform                           ../starter/source/starter/freform.F
       !||    globmat                           ../starter/source/materials/globmat.F
       !||    groups_get_elem_list              ../starter/source/groups/groups_get_elem_list.F
       !||    groups_get_nentity                ../starter/source/groups/groups_get_nentity.F

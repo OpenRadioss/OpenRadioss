@@ -43,9 +43,12 @@
       !||    mat25_tsaiwu_s     ../engine/source/materials/mat/mat025/mat25_tsaiwu_s.F90
       !||--- called by ------------------------------------------------------
       !||    m25law             ../engine/source/materials/mat/mat025/m25law.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg             ../engine/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod       ../common_source/modules/constant_mod.F
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    message_mod        ../engine/share/message_module/message_mod.F
       !||====================================================================
         subroutine mat25_tsaiwu_s(mat_param,                          &
           nel   ,ngl   ,off   ,flay  ,                       &

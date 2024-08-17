@@ -598,6 +598,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    insurf                              ../starter/source/interfaces/interf1/insurf.F
       !||    int2cy_chk                          ../starter/source/constraints/general/bcs/lecbcscyc.F
       !||    int2modif_nd                        ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    inter1_check_ale_lag_sides          ../starter/source/interfaces/int01/inter1_check_ale_lag_sides.F90
       !||    inter_dcod_friction                 ../starter/source/interfaces/reader/inter_dcod_friction.F
       !||    inter_dcod_function                 ../starter/source/interfaces/reader/inter_dcod_function.F
       !||    inter_dcod_sensor                   ../starter/source/interfaces/reader/inter_dcod_sensor.F

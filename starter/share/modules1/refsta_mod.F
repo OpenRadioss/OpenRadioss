@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    contrl                 ../starter/source/starter/contrl.F
       !||    hm_read_refsta         ../starter/source/loads/reference_state/refsta/hm_read_refsta.F
+      !||    lecrefsta              ../starter/source/loads/reference_state/refsta/lecrefsta.F
       !||    st_qaprint_refsta      ../starter/source/output/qaprint/st_qaprint_refsta.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================

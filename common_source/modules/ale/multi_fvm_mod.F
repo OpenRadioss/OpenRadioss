@@ -45,7 +45,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eig1                             ../engine/stub/eig1.F
       !||    eigcond                          ../engine/stub/eigcond.F
       !||    eigp                             ../engine/stub/eigp.F
-      !||    freform                          ../engine/source/input/freform.F
       !||    funct_python_update_elements     ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    genani                           ../engine/source/output/anim/generate/genani.F
       !||    genh3d                           ../engine/source/output/h3d/h3d_results/genh3d.F

@@ -197,7 +197,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fredec_2key_id_or_key_id            ../starter/source/starter/freform.F
       !||    fredec_key_3id_t                    ../starter/source/starter/freform.F
       !||    freerr                              ../starter/source/starter/freform.F
-      !||    freform                             ../starter/source/starter/freform.F
       !||    fsdcod                              ../starter/source/system/fsdcod.F
       !||    func_comp                           ../starter/source/materials/mat/mat076/law76_upd.F
       !||    func_inters_c                       ../starter/source/tools/curve/func_inters.F
@@ -849,6 +848,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    intbuf_fric_copy                    ../starter/source/interfaces/interf1/intbuf_fric_copy.F
       !||    intbuf_fric_ini_starter             ../starter/source/interfaces/intbuf/intbufFric_ini_starter.F
       !||    intbuf_ini_starter                  ../starter/source/interfaces/intbuf/intbuf_ini_starter.F
+      !||    inter1_check_ale_lag_sides          ../starter/source/interfaces/int01/inter1_check_ale_lag_sides.F90
       !||    inter_dcod_friction                 ../starter/source/interfaces/reader/inter_dcod_friction.F
       !||    inter_dcod_function                 ../starter/source/interfaces/reader/inter_dcod_function.F
       !||    inter_dcod_sensor                   ../starter/source/interfaces/reader/inter_dcod_sensor.F

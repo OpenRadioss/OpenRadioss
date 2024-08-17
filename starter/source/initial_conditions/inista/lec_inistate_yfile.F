@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lec_inistate         ../starter/source/elements/initia/lec_inistate.F
       !||--- uses       -----------------------------------------------------
       !||    format_mod           ../starter/share/modules1/format_mod.F90
+      !||    reader_old_mod       ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       SUBROUTINE LEC_INISTATE_YFILE( 
      1                  NSIGSH    ,NSIGS     ,NSIGSPH   ,NSIGRS    ,NSIGI     ,                 

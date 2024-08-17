@@ -235,6 +235,8 @@ C---
       !||    hm_read_link       ../starter/source/constraints/rigidlink/hm_read_rlink.F
       !||--- calls      -----------------------------------------------------
       !||    nextsla            ../starter/source/starter/freform.F
+      !||--- uses       -----------------------------------------------------
+      !||    reader_old_mod     ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       SUBROUTINE SZ_R2R(TAG,VAL)
 C-----------------------------------------------
@@ -336,6 +338,7 @@ C
       !||    group_mod              ../starter/share/modules1/group_mod.F
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
+      !||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
       !||    restmod                ../starter/share/modules1/restart_mod.F
       !||====================================================================
       INTEGER FUNCTION R2R_EXIST(TYP,ID)
@@ -472,6 +475,7 @@ C-----------GAUGES------------------
       !||--- uses       -----------------------------------------------------
       !||    format_mod         ../starter/share/modules1/format_mod.F90
       !||    r2r_mod            ../starter/share/modules1/r2r_mod.F
+      !||    reader_old_mod     ../starter/share/modules1/reader_old_mod.F90
       !||====================================================================
       INTEGER FUNCTION R2R_LISTCNT(NVAR,TYP)
 C-----------------------------------------------
