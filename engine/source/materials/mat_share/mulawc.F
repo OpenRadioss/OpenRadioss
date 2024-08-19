@@ -289,6 +289,7 @@ c----
       LOGICAL :: LOGICAL_USERL_AVAIL
       LOGICAL :: FLAG_EPS,FLAG_EPSP,FLAG_ZCFAC,FLAG_ETIMP
       LOGICAL :: FLAG_LAW1,FLAG_LAW2,FLAG_LAW25,FLAG_LAW22
+      LOGICAL, DIMENSION(NEL) :: PRINT_FAIL
 !
       CHARACTER OPTION*256
       INTEGER SIZE
@@ -2596,6 +2597,9 @@ c     END OF LOOP OVER INTEGRATION POINTS (LAYERS)
 c--------------------------------------------------
 c     TEST OF ELEMENT FAILURE 
 c--------------------------------------------------
+      ! Flag for printing element deletion message
+      PRINT_FAIL(1:NEL) = .TRUE.
+      ! Check element deletion from failure criterion
       IF (IFAILURE == 1 .and. IXFEM == 0) THEN
         IF (ORTH_DAMAGE == 1) THEN   ! /fail/alter + front_wave only
           TFAIL => GBUF%DMG(1+NEL:NEL*2)  ! only for /FAIL/ALTER          
@@ -2612,7 +2616,7 @@ c--------------------------------------------------
      .                       THK_LY   ,THKLY    ,OFF      ,STACK    ,
      .                       ISUBSTACK,IGTYP    ,FAILWAVE ,FWAVE_EL ,
      .                       NLAY_MAX ,LAYNPT_MAX,NUMGEO  ,NUMSTACK ,
-     .                       IGEO     )
+     .                       IGEO     ,PRINT_FAIL)
         ELSE
           CALL FAIL_SETOFF_NPG_C(
      .                       ELBUF_STR,MAT_ELEM ,GEO      ,PID(1)   ,
@@ -2621,10 +2625,11 @@ c--------------------------------------------------
      .                       OFF      ,NPG      ,STACK    ,ISUBSTACK, 
      .                       IGTYP    ,FAILWAVE ,FWAVE_EL ,NLAY_MAX ,
      .                       LAYNPT_MAX,NUMGEO  ,IPG      ,NUMSTACK ,
-     .                       IGEO     )
+     .                       IGEO     ,PRINT_FAIL)
         ENDIF
       ENDIF  
 c---
+      ! Checking element deletion and printing element deletion messages (if needed)
       NINDX = 0
       IF (IXFEM == 0) THEN
         DO I=JFT,JLT
@@ -2633,7 +2638,8 @@ c---
      .        OFF(I) > ZERO   .and. OFF(I) < ONE .and. DMG_FLAG == 1 .and. 
      .        DMG_GLOB_SCALE(I) < EM02) THEN  
             OFF(I) = ZERO
-            IF (NLAY > 1) THEN 
+            ! Printing message not always mandatory
+            IF (PRINT_FAIL(I)) THEN 
               NINDX  = NINDX + 1
               INDX(NINDX) = I
             ENDIF
