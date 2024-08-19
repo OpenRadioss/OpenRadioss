@@ -498,11 +498,7 @@ c
           ! -> Make sure the non-local increment is positive
           IF (INLOC > 0) THEN 
             DO I = JFT,JLT
-              IF (OFF(I) == ONE) THEN 
-                VARNL(I,IT)  = MAX(VARNL(I,IT),ZERO)
-              ELSE 
-                VARNL(I,IT)  = ZERO
-              ENDIF
+              VARNL(I,IT)    = MAX(VARNL(I,IT),ZERO)
               LBUF%PLANL(I)  = LBUF%PLANL(I) + VARNL(I,IT)
               LBUF%EPSDNL(I) = VARNL(I,IT)/MAX(DT1,EM20)
             ENDDO 

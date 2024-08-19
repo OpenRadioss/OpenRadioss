@@ -262,11 +262,7 @@ C=======================================================================
       ! Make sure that the non-local variable increment is positive
       IF (INLOC > 0) THEN 
         DO I = LFT,LLT
-          IF (OFF(I) == ONE) THEN
-            VARNL(I) = MAX(VARNL(I),ZERO)
-          ELSE
-            VARNL(I) = ZERO
-          ENDIF
+          VARNL(I)       = MAX(VARNL(I),ZERO)
           LBUF%PLANL(I)  = LBUF%PLANL(I) + VARNL(I)
           LBUF%EPSDNL(I) = VARNL(I)/MAX(DT1,EM20)
         ENDDO

@@ -98,7 +98,7 @@ C
       my_real, DIMENSION(NEL) ::
      .   DSIGXX,DSIGYY,DSIGXY,TRSIG,TRDEP,
      .   SXX,SYY,SXY,SZZ,SIGM,J2,J3,SIGDR,YLD,WEITEMP,
-     .   HARDP,FHARD,FRATE,FTHERM,DTHERM,FDR,PHI0,D,TRIAX,
+     .   HARDP,FHARD,FRATE,FTHERM,DTHERM,FDR,PHI0,TRIAX,
      .   FDAM,PHI,FT,FS,FG,FN,FSH,DPLA_DLAM,DPHI_DLAM,DEZZ,ETAT,
      .   SIGDR2,YLD2I,DPXX,DPYY,DPZZ,DPXY,DLAM_NL
      .   
@@ -172,7 +172,6 @@ c
         FT(I)    = DMG(I,5)   ! Total damage
         FS(I)    = DMG(I,6)   ! Effective damage
         ! Standard inputs
-        D(I)     = Q1*FS(I)   ! Effective normalized damage
         DPLA(I)  = ZERO       ! Initialization of the plastic strain increment
         ET(I)    = ONE        ! Initialization of hourglass coefficient
         HARDP(I) = ZERO       ! Initialization of hardening modulus           
@@ -240,11 +239,11 @@ c
       DO I=1,NEL
 c
         ! Computation of the trial stress tensor
-        SIGNXX(I) = SIGOXX(I) + (ONE-D(I))*(A11*DEPSXX(I) + A12*DEPSYY(I))
-        SIGNYY(I) = SIGOYY(I) + (ONE-D(I))*(A11*DEPSYY(I) + A12*DEPSXX(I))
-        SIGNXY(I) = SIGOXY(I) + (ONE-D(I))*(DEPSXY(I)*G)
-        SIGNYZ(I) = SIGOYZ(I)/MAX(ONE-D(I),EM20) + (DEPSYZ(I)*GS(I))
-        SIGNZX(I) = SIGOZX(I)/MAX(ONE-D(I),EM20) + (DEPSZX(I)*GS(I))
+        SIGNXX(I) = SIGOXX(I) + (A11*DEPSXX(I) + A12*DEPSYY(I))
+        SIGNYY(I) = SIGOYY(I) + (A11*DEPSYY(I) + A12*DEPSXX(I))
+        SIGNXY(I) = SIGOXY(I) + (DEPSXY(I)*G)
+        SIGNYZ(I) = SIGOYZ(I) + (DEPSYZ(I)*GS(I))
+        SIGNZX(I) = SIGOZX(I) + (DEPSZX(I)*GS(I))
         ! Computation of the trace of the trial stress tensor
         TRSIG(I)  = SIGNXX(I) + SIGNYY(I) 
         SIGM(I)   = -TRSIG(I) * THIRD
@@ -378,9 +377,9 @@ c
           !   a) Derivative with respect stress increments tensor DSIG
           !   --------------------------------------------------------     
           TRDFDS  = NORMXX + NORMYY + NORMZZ  
-          DFDSIG2 = NORMXX * (ONE-D(I))*(A11*NORMXX + A12*NORMYY)
-     .            + NORMYY * (ONE-D(I))*(A11*NORMYY + A12*NORMXX)
-     .            + NORMXY * (ONE-D(I))* NORMXY * G
+          DFDSIG2 = NORMXX * (A11*NORMXX + A12*NORMYY)
+     .            + NORMYY * (A11*NORMYY + A12*NORMXX)
+     .            + NORMXY * NORMXY * G
 c     
           !   b) Derivatives with respect to plastic strain P 
           !   ------------------------------------------------
@@ -545,7 +544,6 @@ c
             FS(I) = FC + (ONE/Q1 - FC) * (FT(I)-FC)/(FR-FC)
           ENDIF
           FS(I) = MIN(FS(I),ONE/Q1)
-          D(I)  = Q1*FS(I)
 c          
           ! Temperature update
           IF (JTHE == 0 .AND. CP > ZERO) THEN   
@@ -567,9 +565,9 @@ c
           YLD(I) = MAX(YLD(I), EM10)  
 c          
           ! Elasto-plastic stresses update   
-          SIGNXX(I) = SIGNXX(I) - (ONE-D(I))*(A11*DPXX(I) + A12*DPYY(I))
-          SIGNYY(I) = SIGNYY(I) - (ONE-D(I))*(A11*DPYY(I) + A12*DPXX(I)) 
-          SIGNXY(I) = SIGNXY(I) - (ONE-D(I))*DPXY(I)*G
+          SIGNXX(I) = SIGNXX(I) - (A11*DPXX(I) + A12*DPYY(I))
+          SIGNYY(I) = SIGNYY(I) - (A11*DPYY(I) + A12*DPXX(I)) 
+          SIGNXY(I) = SIGNXY(I) - DPXY(I)*G
           TRSIG(I)  = SIGNXX(I) + SIGNYY(I)
           SIGM(I)   = -TRSIG(I) * THIRD
           SXX(I)    = SIGNXX(I) + SIGM(I)
@@ -609,10 +607,15 @@ c
       !===================================================================
 c      
       ! Storing new values
-      DO I=1,NEL
-        ! Damage the transverse shear stress components
-        SIGNYZ(I) = SIGNYZ(I)*(ONE-D(I))
-        SIGNZX(I) = SIGNZX(I)*(ONE-D(I))
+      DO I=1,NEL   
+        ! Standard outputs
+        DMG(I,1)   = FT(I)/FR          ! Normalized total damage
+        DMG(I,2)   = FG(I)             ! Growth damage
+        DMG(I,3)   = FN(I)             ! Nucleation damage 
+        DMG(I,4)   = FSH(I)            ! Shear damage
+        DMG(I,5)   = MIN(FT(I),FR)     ! Total damage
+        DMG(I,6)   = MIN(FS(I),ONE/Q1) ! Effective damage
+        SEQ(I)     = SIGDR(I)          ! Equivalent stress
         ! If element is broken
         IF (FT(I) >= FR) THEN 
           IF (OFF(I) == ONE) OFF(I) = FOUR_OVER_5
@@ -622,16 +625,8 @@ c
           SIGNXY(I)  = ZERO
           SIGNYZ(I)  = ZERO
           SIGNZX(I)  = ZERO
-          SIGDR(I)   = ZERO
-        ENDIF      
-        ! Standard outputs
-        DMG(I,1)   = FT(I)/FR          ! Normalized total damage
-        DMG(I,2)   = FG(I)             ! Growth damage
-        DMG(I,3)   = FN(I)             ! Nucleation damage 
-        DMG(I,4)   = FSH(I)            ! Shear damage
-        DMG(I,5)   = MIN(FT(I),FR)     ! Total damage
-        DMG(I,6)   = MIN(FS(I),ONE/Q1) ! Effective damage
-        SEQ(I)     = SIGDR(I)          ! Equivalent stress
+          SEQ(I)     = ZERO
+        ENDIF   
         ! Plastic strain-rate (filtered)
         DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)  
         EPSD(I)    = AFILTR * DPDT + (ONE - AFILTR) * EPSD(I)        

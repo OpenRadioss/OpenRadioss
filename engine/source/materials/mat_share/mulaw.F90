@@ -496,11 +496,7 @@
           ! make sure that the non-local variable increment is positive
           if (inloc > 0) then
             do i = 1,nel
-              if (off(i) == one) then
-                varnl(i) = max(varnl(i),zero)
-              else
-                varnl(i) = zero
-              endif
+              varnl(i)       = max(varnl(i),zero)
               lbuf%planl(i)  = lbuf%planl(i) + varnl(i)
               lbuf%epsdnl(i) = varnl(i)/max(dt1,em20)
             enddo

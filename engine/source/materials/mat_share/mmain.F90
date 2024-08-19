@@ -2068,11 +2068,7 @@
               ! -> copying the non-local plastic strain increment
               if (elbuf_tab(ng)%bufly(ilay)%l_pla > 0) then
                 do i = 1,nel
-                  if (off(i) == one) then
-                    varnl(i) = max(varnl(i),zero)
-                  else
-                    varnl(i) = zero
-                  endif
+                  varnl(i)       = max(varnl(i),zero)
                   lbuf%planl(i)  = lbuf%planl(i) + varnl(i)
                   lbuf%epsdnl(i) = varnl(i)/max(dt1,em20)
                   dpla(i) = max(varnl(i),zero)
