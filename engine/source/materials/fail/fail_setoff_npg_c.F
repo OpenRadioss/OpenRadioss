@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           OFF      ,NPG      ,STACK    ,ISUBSTACK,
      .           IGTYP    ,FAILWAVE ,FWAVE_EL ,NLAY_MAX ,
      .           LAYNPT_MAX,NUMGEO  ,IPG      ,NUMSTACK ,
-     .           IGEO     )
+     .           IGEO     ,PRINT_FAIL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,7 +72,8 @@ C-----------------------------------------------
       TYPE (STACK_PLY), INTENT(IN)                  :: STACK    
       TYPE (FAILWAVE_STR_), INTENT(IN), TARGET      :: FAILWAVE 
       INTEGER, DIMENSION(NEL), INTENT(INOUT)        :: FWAVE_EL
-      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
+      TYPE (MAT_ELEM_) ,INTENT(INOUT)               :: MAT_ELEM
+      LOGICAL, DIMENSION(NEL), INTENT(INOUT)        :: PRINT_FAIL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -185,6 +186,7 @@ c
               ENDDO ! |-> IG
               IF (COUNTPG == 0) THEN
                 OFF(IEL)  = FOUR_OVER_5  
+                PRINT_FAIL(IEL) = .FALSE.
                 FAIL_NAME = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(FAIL_NUM(IEL))%KEYWORD 
 #include      "lockon.inc"                           
                 WRITE(IOUT, 1000) TRIM(FAIL_NAME),NGL(IEL)
