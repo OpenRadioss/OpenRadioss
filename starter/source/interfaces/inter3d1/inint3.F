@@ -137,7 +137,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F                  IPARTX        ,IPARTR              ,NSN_MULTI_CONNEC      ,T2_ADD_CONNEC,T2_NB_CONNEC,
      G                  T2_CONNEC     ,NOM_OPT             ,ICODE                 ,ISKEW        ,IREMNODE_EDG,
      H                  S_APPEND_ARRAY,X_APPEND            ,MASS_APPEND           ,N2D          ,FLAG_REMOVED_NODE,
-     I                  NSPMD         ,INTER_TYPE2_NUMBER  ,ELEM_LINKED_TO_SEGMENT,SINSCR)
+     I                  NSPMD         ,INTER_TYPE2_NUMBER  ,ELEM_LINKED_TO_SEGMENT,SINSCR       ,SICODE  ,
+     J                  SITAB)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -174,14 +175,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: SITAB !< array sizes
+      INTEGER,INTENT(IN) :: SICODE !< array size ICODE
+      INTEGER,INTENT(IN) :: ICODE(SICODE) !< boundary condition code for each node
       INTEGER,INTENT(IN) :: SINSCR !< array size
-      INTEGER NIN, IWRN, NSNT, NMNT, NSN2T, NMN2T,
-     .   NSNET  ,NMNET ,RESORT
+      INTEGER NIN, IWRN, NSNT, NMNT, NSN2T, NMN2T, NSNET  ,NMNET ,RESORT
       INTEGER, INTENT(in) :: N2D !< flag for 2D/3D, 0-->3D, 1-->2D
       INTEGER, DIMENSION(NPARI,NINTER), INTENT(inout) :: IPARI !< interface data
       INTEGER INSCR(SINSCR), IXS(NIXS,NUMELS), IXC(NIXC,NUMELC),
      .   IXT(NIXT,NUMELT) ,IXP(NIXP,NUMELP) ,IXR(NIXR,NUMELR),
-     .   ITAB(NUMNOD), MWA(*), IXTG(NIXTG,NUMELTG), IKINE(*),
+     .   ITAB(SITAB), MWA(*), IXTG(NIXTG,NUMELTG), IKINE(*),
      .   NELEMINT,  IDDLEVEL,IFIEND,
      .   IWCONT(*), IWCIN2(*),
      .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), 
@@ -191,7 +194,7 @@ C-----------------------------------------------
      .   IXS10(6,*), IXS16(8,*), IXS20(12,*), IPARTS(*),
      .   KXIG3D(NIXIG3D,*),IXIG3D(*),TAGPRT_FRIC(*),
      .   IPARTT(*)  ,IPARTP(*)  ,IPARTX(*) ,IPARTR(*),
-     .   ICODE(*), ISKEW(*)
+     .   ISKEW(*)
       INTEGER IKINE1(*), IELEM21(*),I_MEM,ID,IREMNODE,IREMNODE_EDG,
      .   NREMNODE,KXX(*),IXX(*),IGEO(*),IWORKSH(*),NSN_MULTI_CONNEC,T2_ADD_CONNEC(*),
      .   T2_NB_CONNEC(*),T2_CONNEC(*)
@@ -382,6 +385,7 @@ C
      2    INTBUF_TAB(NIN)%ILOCS ,INTBUF_TAB(NIN)%IRTLM   ,NSN              ,ITAB           ,IKINE         ,
      3    IKINE1           ,ID                 ,TITR             ,ILEV           ,NTY           ,
      4    INTBUF_TAB(NIN)%CSTS_BIS)
+       CALL I1BCS_CHECK(ICODE, SICODE, NSN, INTBUF_TAB(NIN)%NSV, SITAB, ITAB, NOINT, TITR, NTY)
 C-----------------------------------------------------------------------
       ELSEIF(NTY == 2 .AND. ISEARCH == 1) THEN
 C-----------------------------------------------------------------------
@@ -392,21 +396,21 @@ C-----------------------------------------------------------------------
        L22 = L21+1+NMN
        L23 = L22+NST
        CALL ININT0(
-     1    X                ,INTBUF_TAB(NIN)%IRECTM  ,INSCR(L21)       ,INSCR(L23)     ,INTBUF_TAB(NIN)%MSR,
-     2    INTBUF_TAB(NIN)%NSV   ,INSCR(L16)         ,NSN              ,NMN            ,NRTM ,INTBUF_TAB(NIN)%S_IRECTM,
+     1    X                    ,INTBUF_TAB(NIN)%IRECTM  ,INSCR(L21)  ,INSCR(L23)  ,INTBUF_TAB(NIN)%MSR,
+     2    INTBUF_TAB(NIN)%NSV  ,INSCR(L16)              ,NSN         ,NMN         ,NRTM               ,INTBUF_TAB(NIN)%S_IRECTM,
      3    SINSCR-L23+1 )
 
        CALL I1CHK3(
-     1    X               ,INTBUF_TAB(NIN)%IRECTM   ,IXS              ,NRTM           ,IXC           ,
-     2    -NIN         ,NMN                 ,INTBUF_TAB(NIN)%MSR   ,NOINT          ,IXTG          ,
-     3    GEO             ,PM                  ,KNOD2ELS         ,KNOD2ELC       ,KNOD2ELTG     ,
-     4    NOD2ELS         ,NOD2ELC             ,NOD2ELTG         ,IGRSURF(ISU2)  ,
-     5    THK             ,NTY                 ,IXS10            ,IXS16          ,IXS20         ,
-     6    ID              ,TITR                ,IGEO             ,PM_STACK       , IWORKSH      )
+     1    X               ,INTBUF_TAB(NIN)%IRECTM   ,IXS                   ,NRTM                ,IXC           ,
+     2    -NIN            ,NMN                      ,INTBUF_TAB(NIN)%MSR   ,NOINT               ,IXTG          ,
+     3    GEO             ,PM                       ,KNOD2ELS              ,KNOD2ELC            ,KNOD2ELTG     ,
+     4    NOD2ELS         ,NOD2ELC                  ,NOD2ELTG              ,IGRSURF(ISU2)       ,
+     5    THK             ,NTY                      ,IXS10                 ,IXS16               ,IXS20         ,
+     6    ID              ,TITR                     ,IGEO                  ,PM_STACK            ,IWORKSH      )
        CALL INVOI3(
-     1    X               ,INTBUF_TAB(NIN)%IRECTM   ,INSCR(L23)       ,INTBUF_TAB(NIN)%MSR ,INTBUF_TAB(NIN)%NSV,
-     2    INSCR(L16)      ,INTBUF_TAB(NIN)%IRTLM    ,INSCR(L21)       ,NSN            ,NMN           ,
-     3    ITAB            ,ID                  ,TITR             ,NRTM)
+     1    X               ,INTBUF_TAB(NIN)%IRECTM   ,INSCR(L23)            ,INTBUF_TAB(NIN)%MSR ,INTBUF_TAB(NIN)%NSV,
+     2    INSCR(L16)      ,INTBUF_TAB(NIN)%IRTLM    ,INSCR(L21)            ,NSN                 ,NMN           ,
+     3    ITAB            ,ID                       ,TITR                  ,NRTM)
        WRITE(IOUT,2002)
        CALL I1TID3(
      1    X               ,INTBUF_TAB(NIN)%IRECTM   ,INTBUF_TAB(NIN)%CSTS  ,INTBUF_TAB(NIN)%MSR ,INTBUF_TAB(NIN)%NSV,
@@ -908,8 +912,9 @@ C-----------------------------------------------------------------------
      1    X,INTBUF_TAB(NIN)%IRECTS,INTBUF_TAB(NIN)%NSV,INTBUF_TAB(NIN)%MSR,INTBUF_TAB(NIN)%ILOCM,
      2    INTBUF_TAB(NIN)%IRTLS,INTBUF_TAB(NIN)%CSTM,INTBUF_TAB(NIN)%IRTLOS,INTBUF_TAB(NIN)%VARIABLES(2),NMN,
      3    ITAB      ,IWPENE    ,ID,TITR)
-C
        ENDIF
+       CALL I9BCS_CHECK(ICODE, SICODE, NSN, INTBUF_TAB(NIN)%NSV, SITAB, ITAB, NOINT, TITR, NTY,
+     .                  INTBUF_TAB(NIN)%S_ILOCS, INTBUF_TAB(NIN)%ILOCS )
 C-----------------------------------------------------------------------
       ELSEIF(NTY==10) THEN
 C-----------------------------------------------------------------------

@@ -41,7 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  PM         ,GEO      ,IPARI     ,NINT    ,ITAB     ,
      .                  ITABM1     ,NUMNOD   ,IKINE     ,MWA     ,IPM      ,
      .                  ID         ,TITR     ,KNOD2ELQ  ,NOD2ELQ ,SEGQUADFR,
-     .                  NUMMAT     ,NINTER   ,SITAB     ,SITABM1)
+     .                  NUMMAT     ,NINTER   ,SITAB     ,SITABM1 ,SICODE   ,
+     .                  ICODE)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -65,7 +66,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NUMMAT,NINTER,SITAB,SITABM1,SINSCR !< array sizes
+      INTEGER,INTENT(IN) :: SITAB, SITABM1 !< array sizes
+      INTEGER,INTENT(IN) :: SICODE !< array size ICODE
+      INTEGER,INTENT(IN) :: ICODE(SICODE) !< boundary condition code for each node
+      INTEGER,INTENT(IN) :: NUMMAT,NINTER,SINSCR !< array sizes
       INTEGER NINT, NUMNOD
       INTEGER INSCR(*), IXQ(*), IPARI(NPARI), ITAB(SITAB),
      .        ITABM1(SITABM1), IKINE(*), MWA(*),IPM(NPROPMI,NUMMAT),
@@ -130,6 +134,7 @@ C
          WRITE(IOUT,2200)
          CALL I1TID2(X,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
      1       INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,NSN,ITAB ,ID,TITR)
+          CALL I1BCS_CHECK(ICODE, SICODE, NSN, INTBUF_TAB%NSV, SITAB, ITAB, NOINT, TITR, NTY)
 
       ELSEIF(NTY == 2)THEN
         J21=JFI
@@ -316,6 +321,8 @@ C selecting relevant main nodes and recompating interface buffer
      2      INTBUF_TAB%IRTLS,NMN         ,INTBUF_TAB%CSTM,INTBUF_TAB%IRTLOS,INTBUF_TAB%FRICOM,
      3      INTBUF_TAB%VARIABLES(1),INTBUF_TAB%VARIABLES(2),IWPENE,ITAB      ,ID,TITR)
          ENDIF
+         CALL I9BCS_CHECK(ICODE, SICODE, NSN, INTBUF_TAB%NSV, SITAB, ITAB, NOINT, TITR, NTY ,
+     2                    INTBUF_TAB%S_ILOCS, INTBUF_TAB%ILOCS  )
 
        ENDIF !NTY
 
