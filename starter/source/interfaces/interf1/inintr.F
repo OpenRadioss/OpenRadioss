@@ -57,9 +57,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C                  KXX       ,IXX       ,IGEO              ,INTERCEP        ,LELX        ,
      D                  INTBUF_TAB,FILLSOL   ,PM_STACK          ,IWORKSH         ,NSNT        ,
      E                  NMNT      ,KXIG3D    ,IXIG3D            ,KNOD2ELQ        ,NOD2ELQ     ,
-     F                  SEGQUADFR,TAGPRT_FRIC,INTBUF_FRIC_TAB   ,IPARTT          ,SITAB       ,
+     F                  SEGQUADFR,TAGPRT_FRIC,INTBUF_FRIC_TAB   ,IPARTT          ,
      G                  IPARTP    ,IPARTX    ,IPARTR            ,NSN_MULTI_CONNEC,T2_NB_CONNEC,
-     H                  ICODE     ,ISKEW     ,MULTI_FVM         ,S_NOD2ELS       ,SITABM1)
+     H                  SICODE    ,ICODE     ,ISKEW             ,MULTI_FVM       ,S_NOD2ELS   ,
+     I                  SITAB     ,SITABM1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -93,7 +94,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: SITAB, SITABM1, SISKWN !< array size
+      INTEGER,INTENT(IN) :: SITAB, SICODE, SITABM1, SISKWN !< array size
       INTEGER :: S_NOD2ELS !< size of NOD2ELS
       INTEGER IPARI(NPARI,NINTER), IXS(*), IXQ(*),
      .   IXC(*), ITAB(SITAB), MWA(*), IXTG(*), IKINE(*),
@@ -126,7 +127,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, JINSCR, NIN, ITABM1, IWRN, I
+      INTEGER N, JINSCR, NIN, ITABM1(SITABM1), IWRN, I
       INTEGER NTY, NSN2T, NMN2T,ID,
      .        NSNET  ,NMNET  ,MULTIMP, IREMNODE, NREMNODE,
      .        NREMN(NINTER),NREMN_OLD(NINTER),IEDG,IEDGN,ST2_CONNEC,
@@ -331,25 +332,27 @@ C---     Initial dimension of REMNODE arrays
 
             IF(N2D == 0)THEN
 
-              CALL ININT3(INSCR(N)%WA  ,X          ,IXS             ,IXC          ,PM       ,
-     1                GEO          ,IPARI          ,NIN             ,ITAB         ,MS       ,
-     2                MWA          ,RWA            ,IXTG            ,IWRN         ,IKINE    ,
-     3                IXT          ,IXP            ,IXR             ,NELEMINT     ,IDDLEVEL ,
-     4                IFIEND       ,ALE_CONNECTIVITY ,NSNET           ,NMNET        ,IGRBRIC  ,
-     5                IWCONT       ,NSNT           ,NMNT            ,NSN2T        ,NMN2T    ,
-     6                IWCIN2       ,KNOD2ELS       ,KNOD2ELC        ,KNOD2ELTG    ,NOD2ELS  ,
-     7                NOD2ELC      ,NOD2ELTG       ,IGRSURF         ,IKINE1       ,IELEM21  ,
-     8                SH4TREE      ,SH3TREE        ,IPART           ,IPARTC       ,IPARTTG  ,
-     9                THK          ,THK_PART       ,NOD2EL1D        ,KNOD2EL1D    ,IXS10    ,
-     A                I_MEM        ,RESORT         ,INTER_CAND      ,IXS16        ,IXS20    ,
-     B                ID           ,TITR           ,IREMNODE        ,NREMNODE     ,IPARTS   ,
-     C                KXX          ,IXX            ,IGEO            ,INTERCEP     ,LELX     , 
-     D                INTBUF_TAB   ,FILLSOL        ,PM_STACK        ,IWORKSH      ,KXIG3D   ,
-     E                IXIG3D       ,TAGPRT_FRIC    ,INTBUF_FRIC_TAB ,IPARTT       ,IPARTP   ,
-     F                IPARTX       ,IPARTR         ,NSN_MULTI_CONNEC,T2_ADD_CONNEC,T2_NB_CONNEC,
-     G                T2_CONNEC    ,NOM_OPT        ,ICODE           ,ISKEW        ,IREMNODE_EDG,
-     H                MULTI_FVM%S_APPEND_ARRAY,MULTI_FVM%X_APPEND,MULTI_FVM%MASS_APPEND,N2D,FLAG_REMOVED_NODE,
-     I                NSPMD,INTER_TYPE2_NUMBER,ELEM_LINKED_TO_SEGMENT,INSCR(N)%SINSCR)
+              CALL ININT3(
+     .               INSCR(N)%WA             , X                     , IXS                   , IXC            , PM               ,
+     1               GEO                     , IPARI                 , NIN                   , ITAB           , MS               ,
+     2               MWA                     , RWA                   , IXTG                  , IWRN           , IKINE            ,
+     3               IXT                     , IXP                   , IXR                   , NELEMINT       , IDDLEVEL         ,
+     4               IFIEND                  , ALE_CONNECTIVITY      , NSNET                 , NMNET          , IGRBRIC          ,
+     5               IWCONT                  , NSNT                  , NMNT                  , NSN2T          , NMN2T            ,
+     6               IWCIN2                  , KNOD2ELS              , KNOD2ELC              , KNOD2ELTG      , NOD2ELS          ,
+     7               NOD2ELC                 , NOD2ELTG              , IGRSURF               , IKINE1         , IELEM21          ,
+     8               SH4TREE                 , SH3TREE               , IPART                 , IPARTC         , IPARTTG          ,
+     9               THK                     , THK_PART              , NOD2EL1D              , KNOD2EL1D      , IXS10            ,
+     A               I_MEM                   , RESORT                , INTER_CAND            , IXS16          , IXS20            ,
+     B               ID                      , TITR                  , IREMNODE              , NREMNODE       , IPARTS           ,
+     C               KXX                     , IXX                   , IGEO                  , INTERCEP       , LELX             ,
+     D               INTBUF_TAB              , FILLSOL               , PM_STACK              , IWORKSH        , KXIG3D           ,
+     E               IXIG3D                  , TAGPRT_FRIC           , INTBUF_FRIC_TAB       , IPARTT         , IPARTP           ,
+     F               IPARTX                  , IPARTR                , NSN_MULTI_CONNEC      , T2_ADD_CONNEC  , T2_NB_CONNEC     ,
+     G               T2_CONNEC               , NOM_OPT               , ICODE                 , ISKEW          , IREMNODE_EDG     ,
+     H               MULTI_FVM%S_APPEND_ARRAY, MULTI_FVM%X_APPEND    , MULTI_FVM%MASS_APPEND , N2D            , FLAG_REMOVED_NODE,
+     I               NSPMD                   ,INTER_TYPE2_NUMBER     , ELEM_LINKED_TO_SEGMENT, INSCR(N)%SINSCR, SICODE           ,
+     J               SITAB )
 
               IF (I_MEM /= 0) GOTO 200
             ELSE
@@ -358,7 +361,8 @@ C---     Initial dimension of REMNODE arrays
      2    PM           ,GEO          ,IPARI(1,N),NIN       ,ITAB           ,
      3    ITABM1       ,NUMNOD       ,IKINE     ,MWA       ,IPM            ,
      4    ID           ,TITR         ,KNOD2ELQ  ,NOD2ELQ   ,SEGQUADFR      ,
-     5    NUMMAT       ,NINTER       ,SITAB     ,SITABM1)
+     5    NUMMAT       ,NINTER       ,SITAB     ,SITABM1   ,SICODE         ,
+     6    ICODE)
             ENDIF
           ENDDO
           ! ----------------

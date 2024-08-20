@@ -7517,9 +7517,10 @@ C
      C               KXX       ,IXX        ,IGEO                         ,INTERCEP         ,LELX        ,
      D               INTBUF_TAB,FILLSOL    ,STACK%PM                     ,IWORKSH          ,NSNT        ,
      E               NMNT_2    ,KXIG3D     ,IXIG3D                       ,KNOD2ELQ         ,NOD2ELQ     ,
-     F               SEGQUADFR ,TAGPRT_FRIC,INTBUF_FRIC_TAB              ,IPARTT           ,SITAB       ,
+     F               SEGQUADFR ,TAGPRT_FRIC,INTBUF_FRIC_TAB              ,IPARTT           ,
      G               IPARTP    ,IPARTX     ,IPARTR                       ,NSN_MULTI_CONNEC ,T2_NB_CONNEC,
-     H               ICODE     ,ISKEW      ,MULTI_FVM                    ,S_NOD2ELS        ,SITABM1)
+     H               SICODE    ,ICODE      ,ISKEW                        ,MULTI_FVM        ,S_NOD2ELS   ,
+     I               SITAB     ,SITABM1)
       IF(IDDLEVEL == 0) CALL STOPTIME(12,1)
       IF(IDDLEVEL == 1) CALL STOPTIME(13,1)
 

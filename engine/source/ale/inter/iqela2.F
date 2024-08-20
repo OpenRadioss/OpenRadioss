@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    ancmsg        ../engine/source/output/message/message.F
       !||    bcs2          ../engine/source/constraints/general/bcs/bcs2.F
-      !||    bcs4          ../engine/source/ale/inter/bcs4.F
       !||    shapeh        ../engine/source/ale/inter/shapeh.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod   ../engine/share/message_module/message_mod.F
@@ -36,6 +35,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1                  X,SKEW,A,E,MSM,IRECT,LMSR,CRST,MSR,NSV,
      2                  ILOC,IRTL,LCODE,V,ISKEW,NOR,ITAB,NSN,NMN
      .                  )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -56,7 +58,6 @@ C-----------------------------------------------
       INTEGER IRECT(4,*), LMSR(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), LCODE(*), ISKEW(*), ITAB(*)
       my_real X(3,NUMNOD), SKEW(LSKEW,*), A(SA), E(*), MSM(*), CRST(2,*), V(SV),NOR(3,*)
       INTEGER, INTENT(IN) :: NSN,NMN
-
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -70,7 +71,7 @@ C-----------------------------------------------
       NIR=2
       IF(N2D == 0)NIR=4
 C-------------------------------------
-C     ACCELERATIONS DES NOEUDS MAINS
+C     ACCELERATION OF MAIN NODES
 C-------------------------------------
       DO I=1,NMN
         J=MSR(I)
@@ -90,7 +91,7 @@ C-------------------------------------
         IF(LCOD>0)CALL BCS2(A(J1),SKEW(1,ISK),ISK,LCOD)
       ENDDO
 C------------------------------------
-C     ACCELERATIONS DES NOEUDS SECNDS
+C     ACCELERATION ON SECND NODES
 C------------------------------------
       DO II=1,NSN
         I=NSV(II)
@@ -131,17 +132,23 @@ C------------------------------------
         AMOD= AMN-N1*A(I1)-N2*A(I2)-N3*A(I3)
         VMOD= VMN-N1*V(I1)-N2*V(I2)-N3*V(I3)
 
-        LCOD=LCODE(I)
-      
+        LCOD=LCODE(I)  ! LCOD \in [1,7]   (3-bit-integer representing XYZ tags)
+
         IF(LCOD /= 0)THEN
-C--------------------------------
-C     NOEUD AVEC CONDITION LIMITE
-C--------------------------------
+          !--------------------------------
+          !     IN CASE ON BOUNDARY CONDITION DEFINED ON THIS NODE
+          !--------------------------------
           XN(1)=N1
           YN(1)=N2
           ZN(1)=N3
 
-          CALL BCS4(JBC,LCODE(I))
+          JBC(1:3) = 0
+          IF(LCODE(I) > 0) THEN  ! LCODE(I) is a 3-bit-integer representing XYZ tags
+            JBC(3) = IAND(LCODE(I), 1) !1st bit
+            JBC(2) = IAND(LCODE(I), 2) !2nd bit
+            JBC(1) = IAND(LCODE(I), 4) !3rd bit
+          ENDIF
+
           LK=ISKEW(I)
           IBC=2
 
@@ -159,12 +166,8 @@ C--------------------------------
           ENDIF
           IF(JBC(3) /= 0)THEN
            IF(IBC == 4)THEN
-             !C------------------------------------------------
-             !C      CE TEST DEVRAIT ETRE FAIT DANS LE STARTER
-             !C-----------------------------------------------------
-             CALL ANCMSG(MSGID=11,ANMODE=ANINFO,
-     .                   I1=ITAB(I))
-             !CALL ARRET(2)
+             !BCS check also in Starter, but BCS may be updated in Engine file (/BCS, /BCSR)
+             CALL ANCMSG(MSGID=11,ANMODE=ANINFO,I1=ITAB(I))
              IERR=1
              EXIT
            ELSE
@@ -176,7 +179,7 @@ C--------------------------------
           ENDIF
           IF(IBC == 3)THEN
            !C---------------------------
-           !C     NOEUD AVEC 1 CONDITION
+           !C    SINGLE CONDITION ON NODE
            !C---------------------------
            XN(3)=YN(1)*ZN(2)-ZN(1)*YN(2)
            YN(3)=ZN(1)*XN(2)-XN(1)*ZN(2)
@@ -184,9 +187,9 @@ C--------------------------------
            BVZ=V(I1)*XN(3)+V(I2)*YN(3)+V(I3)*ZN(3)
            BAZ=A(I1)*XN(3)+A(I2)*YN(3)+A(I3)*ZN(3)
           ELSE
-           !C-----------------------------
-           !C     NOEUD AVEC 2 CONDITIONS
-           !C-----------------------------
+           !-----------------------------
+           !     DOUBLE CONDITION ON NODE
+           !-----------------------------
            BVZ=ZERO
            BAZ=ZERO
           ENDIF
@@ -196,20 +199,20 @@ C--------------------------------
            BAX=AMN
            BAY=ZERO
 
-          A11=YN(2)*ZN(3)-ZN(2)*YN(3)
-          A12=ZN(2)*XN(3)-XN(2)*ZN(3)
-          A13=XN(2)*YN(3)-YN(2)*XN(3)
-          A21=YN(3)*ZN(1)-ZN(3)*YN(1)
-          A22=ZN(3)*XN(1)-XN(3)*ZN(1)
-          A23=XN(3)*YN(1)-YN(3)*XN(1)
-          A31=YN(1)*ZN(2)-ZN(1)*YN(2)
-          A32=ZN(1)*XN(2)-XN(1)*ZN(2)
-          A33=XN(1)*YN(2)-YN(1)*XN(2)
-          DET=XN(1)*A11+YN(1)*A12+ZN(1)*A13
+           A11=YN(2)*ZN(3)-ZN(2)*YN(3)
+           A12=ZN(2)*XN(3)-XN(2)*ZN(3)
+           A13=XN(2)*YN(3)-YN(2)*XN(3)
+           A21=YN(3)*ZN(1)-ZN(3)*YN(1)
+           A22=ZN(3)*XN(1)-XN(3)*ZN(1)
+           A23=XN(3)*YN(1)-YN(3)*XN(1)
+           A31=YN(1)*ZN(2)-ZN(1)*YN(2)
+           A32=ZN(1)*XN(2)-XN(1)*ZN(2)
+           A33=XN(1)*YN(2)-YN(1)*XN(2)
+           DET=XN(1)*A11+YN(1)*A12+ZN(1)*A13
 
-          !C-----------------------------------
-          !C     CALCUL VITESSE ET ACCELERATION
-          !C-----------------------------------
+          !-----------------------------------
+          !     VELOCITY AND ACCELERATION
+          !-----------------------------------
           IF(DET /= ZERO)THEN
            V(I1)=(A11*BVX+A21*BVY+A31*BVZ)/DET
            V(I2)=(A12*BVX+A22*BVY+A32*BVZ)/DET
@@ -218,20 +221,20 @@ C--------------------------------
            A(I2)=(A12*BAX+A22*BAY+A32*BAZ)/DET
            A(I3)=(A13*BAX+A23*BAY+A33*BAZ)/DET
           ENDIF
-      
+
         ELSEIF(LCOD == 0)THEN
-C--------------------------------
-C     NOEUD SANS CONDITION LIMITE
-C--------------------------------
+           !--------------------------------
+           !     NO BOUNDARY CONDITION ON NODE
+           !--------------------------------
            A(I1)=A(I1)+AMOD*N1
            A(I2)=A(I2)+AMOD*N2
            A(I3)=A(I3)+AMOD*N3
            V(I1)=V(I1)+VMOD*N1
            V(I2)=V(I2)+VMOD*N2
-           V(I3)=V(I3)+VMOD*N3   
+           V(I3)=V(I3)+VMOD*N3
         ENDIF
-      
+
       ENDDO  !next II
-C--------------------------------  
+C--------------------------------
       RETURN
       END
