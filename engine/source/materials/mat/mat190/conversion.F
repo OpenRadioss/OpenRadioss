@@ -39,10 +39,11 @@ c===========================================================================
       !||    table4d_mod             ../common_source/modules/table4d_mod.F
       !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
       !||====================================================================
-       SUBROUTINE CONVERSION (ZXX,  ZYY,  ZZZ,   ZXY,  ZYZ,  ZZX,   
-     .                      CIJKL,DFIRST,DRATE,  SCAL, NEL,  JAC, 
-     .                      SLOPE ,NUMTABL ,TABLE,NVARTMP,VARTMP,
-     .                      YLD,NDIM_TABLE,TOL1)
+       SUBROUTINE CONVERSION (
+     .                ZXX     ,ZYY     ,ZZZ     ,ZXY     ,ZYZ     ,ZZX     ,   
+     .                CIJKL   ,DFIRST  ,DRATE   ,XSCAL   ,SCAL    ,NEL     ,
+     .                JAC     ,SLOPE   ,NUMTABL ,TABLE   ,NVARTMP ,VARTMP  ,
+     .                YLD     ,NDIM_TABLE)
 c           computation of coefficients to convert stiffness
 c           matrix from local to global reference system
 c===========================================================================
@@ -59,19 +60,20 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "impl1_c.inc"
 #include      "com01_c.inc"
+#include      "mvsiz_p.inc"
 c===========================================================================
 C-----------------------------------------------
 C   I N T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL,  NUMTABL,NVARTMP,NDIM_TABLE
-      my_real, INTENT(IN) :: TOL1,SCAL,ZXX(NEL),ZYY(NEL),ZZZ(NEL),ZXY(NEL),ZZX(NEL),ZYZ(NEL), JAC(NEL)
-      INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
+      my_real, INTENT(IN) :: SCAL,ZXX(NEL),ZYY(NEL),ZZZ(NEL),ZXY(NEL),
+     .   ZZX(NEL),ZYZ(NEL), JAC(NEL), XSCAL
+      INTEGER, DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP
 C-----------------------------------------------
 C    I N T P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
-      my_real, INTENT(OUT) :: DFIRST(NEL,3,6),CIJKL(NEL,6,6), SLOPE(NEL,3),YLD(NEL)
+      my_real, INTENT(OUT) :: DFIRST(NEL,3,6),CIJKL(NEL,6,6),SLOPE(NEL,3),YLD(NEL)
       my_real, INTENT(INOUT) :: DRATE(NEL,3)
-      my_real, EXTERNAL :: FINTER
       TYPE (TABLE_4D_), DIMENSION(NUMTABL) ,TARGET  ::  TABLE
 c===========================================================================
 C-----------------------------------------------
@@ -87,7 +89,7 @@ C-----------------------------------------------
       my_real   
      .   DIK(NEL,3), SIK(NEL,3), 
      .   AC,AS,Z1(NEL),Z2(NEL),Z3(NEL),DSECOND (NEL,3,6,6),
-     .   AH1(NEL),AH2(NEL),AH3(NEL),J2(NEL),J3(NEL),AA3(NEL),AA2(NEL),AA4(NEL),
+     .   AH1(NEL),AH2(NEL),AH3(NEL),J2(NEL),J3(NEL),AA3(NEL),AA2(NEL),
      .   DZERO(NEL,3),DAT2(NEL,6),DAT3(NEL,6),DA(NEL,6),DA2(NEL,6,6),DAT22(NEL,6,6),
      .   DAT32(NEL,6,6),DX2(NEL,6,6),
      .   DH1ZXX,DH1ZYY,DH1ZXY,DH1ZYZ,DH1ZZX,DH1ZZZ,
@@ -116,8 +118,9 @@ C-----------------------------------------------
      .   T1,T2,T3,T4,T5,T6,
      .   AFAC1,AFAC2,AFAC3,AFAC4,AFAC33,AFAC5,
      .   AHELP3,AHELP33,AHELP,AHELP4,TETA,
-     .   XCAP,DXCAP,THREE_TETA,TERMDAT32,TERM_SING,TERM_DERI_A,
-     .   FAC1_DA2, FAC2_DA2,FAC3_DA2,T1DA2 , T2DA2 , T3DA2 ,  T4DA2, T5DA2 , T6DA2
+     .   XCAP,DXCAP,THREE_TETA,TERMDAT32,DACOS_DAA3,D2ACOS_DAA32,
+     .   FAC1_DA2, FAC2_DA2,FAC3_DA2,T1DA2,T2DA2,T3DA2,T4DA2,T5DA2,T6DA2,
+     .   DAA3DT2,DAA3DT3,D2A_DT22,D2A_DT2DT3,D2A_DT3DT2
       ! TABLE
       INTEGER  IPOS(NEL,3),IPOS2(NEL,2),IPOS1(NEL,1)
       my_real, DIMENSION(NEL,3)   :: XVEC
@@ -135,11 +138,11 @@ C       PART 1 : PRINCIPAL STRAINS
 C  
 C       COMPUTE H1, H2 AND H3
 C
-        AH1(I)=ZXX(I)+ZYY(I)+ZZZ(I)
-        AH2(I)=ZYY(I)*ZZZ(I)+ZZZ(I)*ZXX(I)+ZXX(I)*ZYY(I)
-     .          -ZYZ(I)**2  -ZZX(I)**2    -ZXY(I)**2
-        AH3(I)=ZXX(I)*ZYY(I)*ZZZ(I)+TWO*ZXY(I)*ZYZ(I)*ZZX(I)
-     .          -ZXX(I)*ZYZ(I)**2-ZYY(I)*ZZX(I)**2-ZZZ(I)*ZXY(I)**2
+        AH1(I) = ZXX(I) + ZYY(I) + ZZZ(I)
+        AH2(I) = ZYY(I)*ZZZ(I)+ZZZ(I)*ZXX(I)+ZXX(I)*ZYY(I)
+     .         - ZYZ(I)**2 - ZZX(I)**2 - ZXY(I)**2
+        AH3(I) = ZXX(I)*ZYY(I)*ZZZ(I)+TWO*ZXY(I)*ZYZ(I)*ZZX(I)
+     .         - ZXX(I)*ZYZ(I)**2-ZYY(I)*ZZX(I)**2-ZZZ(I)*ZXY(I)**2
 C
 C       DERIVATIVES OF H1
 C
@@ -170,9 +173,8 @@ C
 C
 C       COMPUTE T2 AND T3
 C
-        J3(I) = TWO*AH1(I)**3/TWENTY7 - AH1(I)*AH2(I)*THIRD +  AH3(I)
-        J2(I) = -AH2(I) + THIRD*AH1(I)**2 
-        TERM_SING = FOUR * J2(I)**3 - TWENTY7 *J3(I) **2
+        J3(I) = (TWO/TWENTY7)*AH1(I)**3 - AH1(I)*AH2(I)*THIRD +  AH3(I)
+        J2(I) = THIRD*AH1(I)**2 - AH2(I)
         J2(I) = MAX(J2(I),EM16)
         ! J2 = -3*Q
         ! J3 = 2*R
@@ -180,24 +182,18 @@ C
 C
 C       COMPUTE COS(A)
 C
-        AA3(I)=J3(I)/TWO/SQRT(J2(I)**3/TWENTY7)
-    
-        AA3(I)=MIN( ONE,AA3(I)) 
-        AA3(I)=MAX(-ONE,AA3(I)) 
-        AA2(I)=SQRT(J2(I)*THIRD)
+        AA3(I) = J3(I)/TWO/SQRT(J2(I)**3/TWENTY7)
+        AA3(I) = MIN( ONE,AA3(I)) 
+        AA3(I) = MAX(-ONE,AA3(I))
+        AA2(I) = SQRT(J2(I)*THIRD)
         THREE_TETA = ACOS(AA3(I))
 C
 C       COMPUTE PRINCIPAL STRAINS
+C  
+        Z1(I) = TWO*AA2(I)*COS(THIRD*THREE_TETA) + AH1(I)*THIRD
+        Z2(I) = TWO*AA2(I)*COS(THIRD*THREE_TETA - TWO *PI*THIRD) + AH1(I)*THIRD
+        Z3(I) = TWO*AA2(I)*COS(THIRD*THREE_TETA - FOUR*PI*THIRD) + AH1(I)*THIRD  
 C
-        Z1(I)=TWO*AA2(I)*COS( THIRD * THREE_TETA  ) 
-        Z2(I)=TWO*AA2(I)*COS( THIRD * THREE_TETA -TWO *PI*THIRD)  
-        Z3(I)=TWO*AA2(I)*COS( THIRD * THREE_TETA -FOUR*PI*THIRD) 
-C
-C       ADD HYDROSTATIC PART
-C
-        Z1(I)=Z1(I)+ AH1(I)*THIRD
-        Z2(I)=Z2(I)+ AH1(I)*THIRD
-        Z3(I)=Z3(I)+ AH1(I)*THIRD  
 C       PART 2
 C       FIRST DERIVATIVES OF PRINCIPAL STRAINS
 C
@@ -258,20 +254,18 @@ C
 C
 C       DERIVATIVES OF A
 C
-        TERM_SING   = FOUR * J2(I)**3 - TWENTY7 *J3(I) **2        
-        IF (TERM_SING<=EM20)THEN 
-         TERM_DERI_A = ZERO
-        ELSE
-         TERM_DERI_A = -THREE* SQRT(THREE) / SQRT (TERM_SING )
-        ENDIF
+        DACOS_DAA3 = -ONE - (AA3(I)**2)/TWO - (AA3(I)**4)/EIGHT - 
+     .                  (AA3(I)**6)/48.0D0 - (AA3(I)**8)/384.0D0 - 
+     .                  (AA3(I)**10)/(3840.0D0)
+        DAA3DT3 = ONE/(TWO*SQRT((J2(I)**3)/TWENTY7))
+        DAA3DT2 = -(J3(I)/36.0D0)*(J2(I)**2)/(SQRT(((J2(I)**3)/TWENTY7)**3))
 
-        DA3ZXX = TERM_DERI_A*(DT3ZXX- THREE_HALF *(J3(I)/ J2(I))*DT2ZXX) 
-        DA3ZYY = TERM_DERI_A*(DT3ZYY- THREE_HALF *(J3(I)/ J2(I))*DT2ZYY) 
-        DA3ZZZ = TERM_DERI_A*(DT3ZZZ- THREE_HALF *(J3(I)/ J2(I))*DT2ZZZ) 
-        DA3ZXY = TERM_DERI_A*(DT3ZXY- THREE_HALF *(J3(I)/ J2(I))*DT2ZXY) 
-        DA3ZYZ = TERM_DERI_A*(DT3ZYZ- THREE_HALF *(J3(I)/ J2(I))*DT2ZYZ) 
-        DA3ZZX = TERM_DERI_A*(DT3ZZX- THREE_HALF *(J3(I)/ J2(I))*DT2ZZX) 
-
+        DA3ZXX = DACOS_DAA3*(DAA3DT3*DT3ZXX + DAA3DT2*DT2ZXX) 
+        DA3ZYY = DACOS_DAA3*(DAA3DT3*DT3ZYY + DAA3DT2*DT2ZYY) 
+        DA3ZZZ = DACOS_DAA3*(DAA3DT3*DT3ZZZ + DAA3DT2*DT2ZZZ) 
+        DA3ZXY = DACOS_DAA3*(DAA3DT3*DT3ZXY + DAA3DT2*DT2ZXY) 
+        DA3ZYZ = DACOS_DAA3*(DAA3DT3*DT3ZYZ + DAA3DT2*DT2ZYZ) 
+        DA3ZZX = DACOS_DAA3*(DAA3DT3*DT3ZZX + DAA3DT2*DT2ZZX) 
 C
 C       STORE DERIVATIVES OF A
 C
@@ -284,9 +278,7 @@ C
 C
         TEMP4 = ONE*THIRD/SQRT(J2(I)*THIRD)
         TEMP5 = TWO*SQRT(J2(I)*THIRD)*THIRD
-        AA4(I)= ACOS(AA3(I))
         TETA  = THREE_TETA * THIRD
-        AA4(I)= ACOS(AA3(I))
 C
 C       DERIVATIVES OF PRINCIPAL STRAINS
 C
@@ -602,38 +594,20 @@ C
 C
 C       SECOND DERIVATIVES OF A
 C
-         IF (J2(I) <= TOL1 .OR.TERM_SING <= TOL1 )THEN    
-            FAC1_DA2 = ZERO
-            FAC2_DA2 = ZERO
-            FAC3_DA2 = ZERO
-         ELSE 
-            FAC1_DA2 =  SQRT(TWENTY7) / (J2(I)**2 * SQRT(TERM_SING))
-            FAC2_DA2 =  SQRT(TWENTY7) / (TWO  * (TERM_SING)**(3/2) )
-            FAC3_DA2 =  FAC2_DA2 / J2(I) 
-            
-         ENDIF 
-         DO J=1,6
-           DO K=1,6
-             
-                T1DA2  =  -FAC1_DA2 *( J2(I)**2 * DAT32(I,J,K) -THREE_HALF *J2(I) * J3(I) * DAT22(I,J,K)  )
-
-                T2DA2  =  -FAC2_DA2 * THREE*THREE * J2(I) * J3(I) * DAT2(I,K)*DAT2(I,J)
-   
-                T3DA2  =  -FAC1_DA2 *THREE_HALF*J3(I) *DAT2(I,K)*DAT2(I,J)
-                
-                T4DA2  =  -FAC2_DA2 * TWO * TWENTY7 * J3(I) * DAT3(I,J) *DAT3(I,K)
-   
-                T5DA2  =   FAC3_DA2 * THREE * TWENTY7 * J3(I)**2 * DAT3(I,K)*  DAT2(I,J) 
-     .                  +FAC1_DA2 * THREE_HALF * J2(I) * DAT3(I,K)*  DAT2(I,J) 
-   
-                T6DA2  =   FAC2_DA2 *THREE * TWO * J2(I)**2 * DAT3(I,J) * DAT2(I,K)
-   
-
-             DA2(I,J,K) =  ( T1DA2 + T2DA2 + T3DA2 +  T4DA2 + T5DA2 + T6DA2)
-            ENDDO
-         ENDDO
-
-
+        D2ACOS_DAA32 = - AA3(I) - (AA3(I)**3)/TWO - (AA3(I)**5)/EIGHT - 
+     .                    (AA3(I)**7)/48.0D0 - (AA3(I)**9)/384.0D0
+        D2A_DT22 = (J3(I)*J2(I)/36.0D0)*(ONE/SQRT(((J2(I)**3)/TWENTY7)**3))*(FIVE/TwO)
+        D2A_DT3DT2 = -(J2(I)**2)/(36.0D0*SQRT(((J2(I)**3)/TWENTY7)**3))
+        D2A_DT2DT3 = -((J2(I)**2)/36.0D0)*(ONE/SQRT(((J2(I)**3)/TWENTY7)**3))
+        DO J=1,6
+          DO K=1,6
+            DA2(I,J,K) = D2ACOS_DAA32*((DAA3DT3*DAT3(I,K) + DAA3DT2*DAT2(I,K))*
+     .                                 (DAA3DT3*DAT3(I,J) + DAA3DT2*DAT2(I,J))) + 
+     .                     DACOS_DAA3*(D2A_DT3DT2*DAT2(I,J)*DAT3(I,K) + 
+     .                                 D2A_DT2DT3*DAT3(I,J)*DAT2(I,K) +
+     .                                 D2A_DT22*DAT2(I,J)*DAT2(I,K))
+          ENDDO
+        ENDDO 
 C
 C       SIMILAR ZEROING OUT AS IN THE FIRST DERIVATIVES
 C       UNLIKE WITH THE FIRST DERIVATIVES, HERE IT MAKES A DIFFERENCE
@@ -721,20 +695,26 @@ C     THIS IS FROM THE QUASISTATIC LOAD CURVE ( LOWEST STRAIN RATE )
 
       !check table dimension
       IF (NDIM_TABLE == 1) THEN
-         XVEC1(1:NEL,1)   = EPSILON(1:NEL,1)
-         IPOS1(1:NEL,1)   = VARTMP(1:NEL,1)
+         XVEC1(1:NEL,1) = EPSILON(1:NEL,1)
+         IPOS1(1:NEL,1) = VARTMP(1:NEL,1)
          CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS1,XVEC1,FSIG1,DSIG1) 
-         VARTMP(1:NEL,1)  = IPOS1(1:NEL,1)
+         VARTMP(1:NEL,1) = IPOS1(1:NEL,1)
+         FSIG1(1:NEL) = FSIG1(1:NEL)*SCAL 
+         DSIG1(1:NEL) = DSIG1(1:NEL)*SCAL
 
-         XVEC1(1:NEL,1)   = EPSILON(1:NEL,2)
-         IPOS1(1:NEL,1)   = VARTMP(1:NEL,3)
+         XVEC1(1:NEL,1) = EPSILON(1:NEL,2)
+         IPOS1(1:NEL,1) = VARTMP(1:NEL,3)
          CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS1,XVEC1,FSIG2,DSIG2)
          VARTMP(1:NEL,3) = IPOS1(1:NEL,1)
+         FSIG2(1:NEL) = FSIG2(1:NEL)*SCAL 
+         DSIG2(1:NEL) = DSIG2(1:NEL)*SCAL
 
-         XVEC1(1:NEL,1)   = EPSILON(1:NEL,3)
+         XVEC1(1:NEL,1) = EPSILON(1:NEL,3)
          IPOS1(1:NEL,1) = VARTMP(1:NEL,5)
          CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS1,XVEC1,FSIG3,DSIG3)
          VARTMP(1:NEL,5) = IPOS1(1:NEL,1)
+         FSIG3(1:NEL) = FSIG3(1:NEL)*SCAL 
+         DSIG3(1:NEL) = DSIG3(1:NEL)*SCAL
 c
          !if 2D table is used   
       ELSEIF (NDIM_TABLE == 2) THEN
@@ -744,6 +724,8 @@ c
          IPOS2(1:NEL,2)   = 1          
          CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS2,XVEC2,FSIG1,DSIG1)
          VARTMP(1:NEL,1) = IPOS2(1:NEL,1)
+         FSIG1(1:NEL) = FSIG1(1:NEL)*SCAL 
+         DSIG1(1:NEL) = DSIG1(1:NEL)*SCAL
 
          XVEC2(1:NEL,1)   = EPSILON(1:NEL,2)
          XVEC2(1:NEL,2)   = ZERO           ! QUASISTATIC
@@ -751,6 +733,8 @@ c
          IPOS2(1:NEL,2)   = 1
          CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS2,XVEC2,FSIG2,DSIG2)
          VARTMP(1:NEL,3) = IPOS2(1:NEL,1)
+         FSIG2(1:NEL) = FSIG2(1:NEL)*SCAL 
+         DSIG2(1:NEL) = DSIG2(1:NEL)*SCAL
 
          XVEC2(1:NEL,1)   = EPSILON(1:NEL,3)
          XVEC2(1:NEL,2)   = ZERO           ! QUASISTATIC
@@ -758,29 +742,35 @@ c
          IPOS2(1:NEL,2) = 1         
          CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS2,XVEC2,FSIG3,DSIG3)
          VARTMP(1:NEL,5) = IPOS2(1:NEL,1)
+         FSIG3(1:NEL) = FSIG3(1:NEL)*SCAL 
+         DSIG3(1:NEL) = DSIG3(1:NEL)*SCAL
    
       !if 3D table is used   
       ELSEIF (NDIM_TABLE == 3) THEN
      
-         XVEC(1:NEL,1)   = EPSILON(1:NEL,1)
-         XVEC(1:NEL,2)   = ZERO           ! QUASISTATIC
-         XVEC(1:NEL,3)   = VOLSTR(1:NEL)
+         XVEC(1:NEL,1) = EPSILON(1:NEL,1)
+         XVEC(1:NEL,2) = ZERO           ! QUASISTATIC
+         XVEC(1:NEL,3) = VOLSTR(1:NEL)
          IPOS(1:NEL,1) = VARTMP(1:NEL,1)
          IPOS(1:NEL,2) = 1
          IPOS(1:NEL,3) = VARTMP(1:NEL,2)  
          CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS,XVEC,FSIG1,DSIG1)
          VARTMP(1:NEL,1) = IPOS(1:NEL,1)
          VARTMP(1:NEL,2) = IPOS(1:NEL,3)
+         FSIG1(1:NEL) = FSIG1(1:NEL)*SCAL 
+         DSIG1(1:NEL) = DSIG1(1:NEL)*SCAL
 c
-         XVEC(1:NEL,1)   = EPSILON(1:NEL,2)
-         XVEC(1:NEL,2)   = ZERO           ! QUASISTATIC
-         XVEC(1:NEL,3)   = VOLSTR(1:NEL)
+         XVEC(1:NEL,1) = EPSILON(1:NEL,2)
+         XVEC(1:NEL,2) = ZERO           ! QUASISTATIC
+         XVEC(1:NEL,3) = VOLSTR(1:NEL)
          IPOS(1:NEL,1) = VARTMP(1:NEL,3)
          IPOS(1:NEL,2) = 1
          IPOS(1:NEL,3) = VARTMP(1:NEL,4)             
          CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS,XVEC,FSIG2,DSIG2)
          VARTMP(1:NEL,3) = IPOS(1:NEL,1)
          VARTMP(1:NEL,4) = IPOS(1:NEL,3)
+         FSIG2(1:NEL) = FSIG2(1:NEL)*SCAL 
+         DSIG2(1:NEL) = DSIG2(1:NEL)*SCAL
 c
          XVEC(1:NEL,1)   = EPSILON(1:NEL,3)
          XVEC(1:NEL,2)   = ZERO           ! QUASISTATIC
@@ -791,6 +781,8 @@ c
          CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS,XVEC,FSIG3,DSIG3)
          VARTMP(1:NEL,5) = IPOS(1:NEL,1)
          VARTMP(1:NEL,6) = IPOS(1:NEL,3)
+         FSIG3(1:NEL) = FSIG3(1:NEL)*SCAL 
+         DSIG3(1:NEL) = DSIG3(1:NEL)*SCAL
       ENDIF
 c
       DO I=1,NEL
@@ -811,57 +803,69 @@ C     SO 'ENGIRATE' HAS TO COME IN AS AN ADDITIONAL ARGUMENT
       !check table dimension
       IF (NDIM_TABLE == 1) THEN
 C       DIRECTION 1
-        XVEC1(1:NEL,1)   = EPSILON(1:NEL,1)       
+        XVEC1(1:NEL,1) = EPSILON(1:NEL,1)       
         IPOS1(1:NEL,1) = VARTMP(1:NEL,7)
         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS1,XVEC1,FSIG1,DSIG1)
         VARTMP(1:NEL,7) = IPOS1(1:NEL,1)
+        FSIG1(1:NEL) = FSIG1(1:NEL)*SCAL
+        DSIG1(1:NEL) = DSIG1(1:NEL)*SCAL
 
 C       DIRECTION 2
 
-        XVEC1(1:NEL,1)   = EPSILON(1:NEL,2)
+        XVEC1(1:NEL,1) = EPSILON(1:NEL,2)
         IPOS1(1:NEL,1) = VARTMP(1:NEL,10)
         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS1,XVEC1,FSIG2,DSIG2)
         VARTMP(1:NEL,10) = IPOS1(1:NEL,1) 
+        FSIG2(1:NEL) = FSIG2(1:NEL)*SCAL
+        DSIG2(1:NEL) = DSIG2(1:NEL)*SCAL
       
 C       DIRECTION 3
 
-        XVEC1(1:NEL,1)   = EPSILON(1:NEL,3)
+        XVEC1(1:NEL,1) = EPSILON(1:NEL,3)
         IPOS1(1:NEL,1) = VARTMP(1:NEL,13)
         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS1,XVEC1,FSIG3,DSIG3)
         VARTMP(1:NEL,13) = IPOS1(1:NEL,1) 
+        FSIG3(1:NEL) = FSIG3(1:NEL)*SCAL
+        DSIG3(1:NEL) = DSIG3(1:NEL)*SCAL
 
          !if 2D table is used   
       ELSEIF (NDIM_TABLE == 2) THEN
 C       DIRECTION 1
-        XVEC2(1:NEL,1)   = EPSILON(1:NEL,1)
-        XVEC2(1:NEL,2)   = STRAINRATE(1:NEL,1) * SCAL       
+        XVEC2(1:NEL,1) = EPSILON(1:NEL,1)
+        XVEC2(1:NEL,2) = STRAINRATE(1:NEL,1) / XSCAL       
         IPOS2(1:NEL,1) = VARTMP(1:NEL,7)
         IPOS2(1:NEL,2) = VARTMP(1:NEL,8)             
         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS2,XVEC2,FSIG1,DSIG1)
         VARTMP(1:NEL,7) = IPOS2(1:NEL,1)
         VARTMP(1:NEL,8) = IPOS2(1:NEL,2)
+        FSIG1(1:NEL) = FSIG1(1:NEL)*SCAL
+        DSIG1(1:NEL) = DSIG1(1:NEL)*SCAL
 C       DIRECTION 2
         XVEC2(1:NEL,1)   = EPSILON(1:NEL,2)
-        XVEC2(1:NEL,2)   = STRAINRATE(1:NEL,2) * SCAL      
+        XVEC2(1:NEL,2)   = STRAINRATE(1:NEL,2) / XSCAL      
         IPOS2(1:NEL,1) = VARTMP(1:NEL,10)
         IPOS2(1:NEL,2) = VARTMP(1:NEL,11)           
         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS2,XVEC2,FSIG2,DSIG2)
         VARTMP(1:NEL,10) = IPOS2(1:NEL,1) 
         VARTMP(1:NEL,11) = IPOS2(1:NEL,2) 
+        FSIG2(1:NEL) = FSIG2(1:NEL)*SCAL
+        DSIG2(1:NEL) = DSIG2(1:NEL)*SCAL
 C       DIRECTION 3
         XVEC2(1:NEL,1)   = EPSILON(1:NEL,3)
-        XVEC2(1:NEL,2)   = STRAINRATE(1:NEL,3) * SCAL      
+        XVEC2(1:NEL,2)   = STRAINRATE(1:NEL,3) / XSCAL       
         IPOS2(1:NEL,1) = VARTMP(1:NEL,13)
         IPOS2(1:NEL,2) = VARTMP(1:NEL,14)         
         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,NEL,IPOS2,XVEC2,FSIG3,DSIG3)
         VARTMP(1:NEL,13) = IPOS2(1:NEL,1) 
-        VARTMP(1:NEL,14) = IPOS2(1:NEL,2) 
+        VARTMP(1:NEL,14) = IPOS2(1:NEL,2)
+        FSIG3(1:NEL) = FSIG3(1:NEL)*SCAL
+        DSIG3(1:NEL) = DSIG3(1:NEL)*SCAL 
 c        
       !if 3D table is used   
       ELSEIF (NDIM_TABLE == 3) THEN
 C       DIRECTION 1
         XVEC(1:NEL,1)   = EPSILON(1:NEL,1)
-        XVEC(1:NEL,2)   = STRAINRATE(1:NEL,1) * SCAL
+        XVEC(1:NEL,2)   = STRAINRATE(1:NEL,1) / XSCAL 
         XVEC(1:NEL,3)   = VOLSTR(1:NEL)
 !       
         IPOS(1:NEL,1) = VARTMP(1:NEL,7)
@@ -871,11 +875,13 @@ C       DIRECTION 1
         VARTMP(1:NEL,7) = IPOS(1:NEL,1)
         VARTMP(1:NEL,8) = IPOS(1:NEL,2)
         VARTMP(1:NEL,9) = IPOS(1:NEL,3)
+        FSIG1(1:NEL) = FSIG1(1:NEL)*SCAL
+        DSIG1(1:NEL) = DSIG1(1:NEL)*SCAL
 
 C       DIRECTION 2
 
         XVEC(1:NEL,1)   = EPSILON(1:NEL,2)
-        XVEC(1:NEL,2)   = STRAINRATE(1:NEL,2) * SCAL
+        XVEC(1:NEL,2)   = STRAINRATE(1:NEL,2) / XSCAL 
         XVEC(1:NEL,3)   = VOLSTR(1:NEL)       
         IPOS(1:NEL,1) = VARTMP(1:NEL,10)
         IPOS(1:NEL,2) = VARTMP(1:NEL,11)
@@ -884,11 +890,13 @@ C       DIRECTION 2
         VARTMP(1:NEL,10) = IPOS(1:NEL,1) 
         VARTMP(1:NEL,11) = IPOS(1:NEL,2) 
         VARTMP(1:NEL,12) = IPOS(1:NEL,3)
+        FSIG2(1:NEL) = FSIG2(1:NEL)*SCAL
+        DSIG2(1:NEL) = DSIG2(1:NEL)*SCAL
       
 C       DIRECTION 3
 
         XVEC(1:NEL,1)   = EPSILON(1:NEL,3)
-        XVEC(1:NEL,2)   = STRAINRATE(1:NEL,3) * SCAL
+        XVEC(1:NEL,2)   = STRAINRATE(1:NEL,3) / XSCAL 
         XVEC(1:NEL,3)   = VOLSTR(1:NEL)       
         IPOS(1:NEL,1) = VARTMP(1:NEL,13)
         IPOS(1:NEL,2) = VARTMP(1:NEL,14)
@@ -897,6 +905,8 @@ C       DIRECTION 3
         VARTMP(1:NEL,13) = IPOS(1:NEL,1) 
         VARTMP(1:NEL,14) = IPOS(1:NEL,2) 
         VARTMP(1:NEL,15) = IPOS(1:NEL,3)
+        FSIG3(1:NEL) = FSIG3(1:NEL)*SCAL
+        DSIG3(1:NEL) = DSIG3(1:NEL)*SCAL
 
       ENDIF  !NDIM_TABLE
 
@@ -911,23 +921,23 @@ C       DIRECTION 3
 C
 C       PRINCIPAL 2PK STRESS POSITIVE IN TENSION
 C
-        SIK(I,1)=-SIGMA(I,1)/ALAMBDA(I,1)
-        SIK(I,2)=-SIGMA(I,2)/ALAMBDA(I,2)
-        SIK(I,3)=-SIGMA(I,3)/ALAMBDA(I,3)
+        SIK(I,1)=-SIGMA(I,1)/MAX(ALAMBDA(I,1),EM20)
+        SIK(I,2)=-SIGMA(I,2)/MAX(ALAMBDA(I,2),EM20)
+        SIK(I,3)=-SIGMA(I,3)/MAX(ALAMBDA(I,3),EM20)
 C
 C       INCREMENTAL PRINCIPAL STIFFNESSES
 C
-        DIK(I,1) = SLOPE(I,1)/ALAMBDA(I,1)**2+SIGMA(I,1)/ALAMBDA(I,1)**3
-        DIK(I,2) = SLOPE(I,2)/ALAMBDA(I,2)**2+SIGMA(I,2)/ALAMBDA(I,2)**3
-        DIK(I,3) = SLOPE(I,3)/ALAMBDA(I,3)**2+SIGMA(I,3)/ALAMBDA(I,3)**3
+        DIK(I,1) = SLOPE(I,1)/MAX(ALAMBDA(I,1)**2,EM20)+SIGMA(I,1)/MAX(ALAMBDA(I,1)**3,EM20)
+        DIK(I,2) = SLOPE(I,2)/MAX(ALAMBDA(I,2)**2,EM20)+SIGMA(I,2)/MAX(ALAMBDA(I,2)**3,EM20)
+        DIK(I,3) = SLOPE(I,3)/MAX(ALAMBDA(I,3)**2,EM20)+SIGMA(I,3)/MAX(ALAMBDA(I,3)**3,EM20)
 
 C
 C       VISCOUS OVERSTRESS IN TERMS OF 2PK
 C       POSITIVE IN TENSION
 C
-        DRATE(I,1)=-(DYNSIGMA(I,1)-SIGMA(I,1))/ALAMBDA(I,1)
-        DRATE(I,2)=-(DYNSIGMA(I,2)-SIGMA(I,2))/ALAMBDA(I,2)
-        DRATE(I,3)=-(DYNSIGMA(I,3)-SIGMA(I,3))/ALAMBDA(I,3)
+        DRATE(I,1)=-(DYNSIGMA(I,1)-SIGMA(I,1))/MAX(ALAMBDA(I,1),EM20)
+        DRATE(I,2)=-(DYNSIGMA(I,2)-SIGMA(I,2))/MAX(ALAMBDA(I,2),EM20)
+        DRATE(I,3)=-(DYNSIGMA(I,3)-SIGMA(I,3))/MAX(ALAMBDA(I,3),EM20)
       ENDDO
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -948,9 +958,8 @@ C
           DO I=1,NEL
             DO L=1,3
               CIJKL(I,J,K)=CIJKL(I,J,K)
-     .          +  DFIRST(I,L,J)*DFIRST(I,L,K)*DIK(I,L)
+     .          + DFIRST(I,L,J)*DFIRST(I,L,K)*DIK(I,L)
      .          + DSECOND(I,L,J,K)* SIK(I,L)
-  
             ENDDO
           ENDDO
         ENDDO

@@ -391,7 +391,7 @@ c
               END DO
 
             END DO  ! K=1,3
-              
+
             E(1:NEL) = MAX(E0,EMAX(1:NEL))
             E(1:NEL) = EMAX(1:NEL)
             ET(1:NEL) = EMIN(1:NEL)/E0  ! Not used
@@ -417,6 +417,7 @@ c
             ILEN(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD(1:NEL) - VARTMP(1:NEL,KK)
         
             CALL VINTER2(TF,IAD,VARTMP(1,KK),ILEN,NEL,STRAIN(1,K),DYDX,SQSTAT(1,K))
+            SQSTAT(1:NEL,K) = YFAC1 * SQSTAT(1:NEL,K)
                    
             DO I=1,NEL
               IF (TFLAG == 2 .AND. STRAIN(I,K) < ZERO) SQSTAT(I,K) = E0*STRAIN(I,K)  
