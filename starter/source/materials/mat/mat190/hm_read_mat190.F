@@ -37,10 +37,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    table_mod                ../starter/share/modules1/table_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_MAT190(
-     .           NUVAR    ,NUMTABL    ,
-     .           MAXTABL  ,ITABLE    ,PARMAT  ,UNITAB   ,
-     .           PM       ,LSUBMODEL,MAT_ID   ,TITR     ,MATPARAM  ,
-     .           NVARTMP  ,IMATVIS) 
+     .           NUVAR    ,NUMTABL  ,MAXTABL  ,ITABLE   ,PARMAT   ,UNITAB   ,    
+     .           PM       ,LSUBMODEL,MAT_ID   ,TITR     ,MATPARAM ,NVARTMP  ,
+     .           IMATVIS  ) 
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -82,24 +81,22 @@ C-----------------------------------------------
 C----------------------------------------------- 
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER, INTENT(IN)    :: MAT_ID,MAXTABL
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
-      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)             :: TITR
-      INTEGER, INTENT(INOUT)                         :: NUVAR,NUMTABL,NVARTMP,IMATVIS
-      INTEGER, DIMENSION(MAXTABL)   ,INTENT(INOUT)   :: ITABLE
-
-      my_real, DIMENSION(100),INTENT(INOUT) :: PARMAT
-      TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
-      TYPE (MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
-      TYPE (TTABLE) TABLE(NTABLE)
+      TYPE (UNIT_TYPE_),INTENT(IN)                  :: UNITAB 
+      INTEGER, INTENT(IN)                           :: MAT_ID,MAXTABL
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM     
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)         :: TITR
+      INTEGER, INTENT(INOUT)                        :: NUVAR,NUMTABL,NVARTMP,IMATVIS
+      INTEGER, DIMENSION(MAXTABL) ,INTENT(INOUT)    :: ITABLE
+      my_real, DIMENSION(100),INTENT(INOUT)         :: PARMAT
+      TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN)  :: LSUBMODEL
+      TYPE (MATPARAM_STRUCT_) ,INTENT(INOUT)        :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       INTEGER :: I,ILAW
-      my_real :: RHO0,RHOR,NU,BULK,E,EMOD,G,A11, SCAL, SCALINT, TOL1,TOL2,
-     .  HU, SHAPE,SCALE_1_UNIT,SCALE_INT_UNIT,XFAC(2)
+      my_real :: RHO0,NU,BULK,E,EMOD,G,A11,SCAL,HU, SHAPE,
+     .    SCALE_1_UNIT,XSCALE_1_UNIT,XFAC(2)
 C=======================================================================
       ILAW = 190
       IS_ENCRYPTED   = .FALSE.
@@ -108,119 +105,104 @@ C=======================================================================
 c
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 card1
+      ! Initial density
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 card2 
+      ! Initial young modulus
       CALL HM_GET_FLOATV('MAT_E'     ,EMOD    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_NU'    ,NU      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      NU = ZERO  ! Poisson ratio internally set to zero
+      NU = ZERO
 card3
+      ! Unloading parameters
       CALL HM_GET_FLOATV('MAT_HU'    ,HU      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SHAPE' ,SHAPE   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_TOL1'  ,TOL1    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_TOL2'  ,TOL2    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-
-
 card4
+      ! Loading table
       CALL HM_GET_INTV  ('FUN_1'     ,ITABLE(1),IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_FLOATV('SCALE_1'   ,XFAC(1) ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-card5
-C-----------------------------------------------
+      CALL HM_GET_FLOATV('XSCALE_1'  ,XFAC(1)  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('SCALE_1'   ,XFAC(2)  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+c
+      ! Check scale factor units
+      CALL HM_GET_FLOATV_DIM('XSCALE_1' ,XSCALE_1_UNIT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      IF (XFAC(1) == ZERO) XFAC(1) = ONE * XSCALE_1_UNIT
       CALL HM_GET_FLOATV_DIM('SCALE_1'  ,SCALE_1_UNIT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-C-----------------------------------------------
-      IF ( XFAC(1) == ZERO) XFAC(1) = ONE * SCALE_1_UNIT
-C-----------------------------------------------
-      IF(TOL1 == ZERO) TOL1 =  1.e-9
+      IF (XFAC(2) == ZERO) XFAC(2) = ONE * SCALE_1_UNIT      
+c
+      ! Check default value and compute elastic parameters
       E    = EMOD
       G    = EMOD / TWO / (ONE+NU)
       BULK = EMOD / THREE / (ONE-TWO * NU)      
-      A11 = EMOD * (ONE - NU) / (ONE + NU) / (ONE-TWO * NU)
-
-      IF(HU ==  ZERO) HU = ONE
-
-      NUMTABL   = 2                      
-C-------------------------------------------
-C User Material Parameters Definition
-C-------------------------------------------
-      MATPARAM%NUPARAM = 11
-
-      ALLOCATE (MATPARAM%UPARAM(MATPARAM%NUPARAM))
-
+      A11  = EMOD * (ONE - NU) / (ONE + NU) / (ONE-TWO * NU)
+      IF (HU == ZERO) HU = ONE                    
+c
+!--------------------------
+!     Filling buffer tables
+!-------------------------- 
+      NUVAR   = 13         ! Number of User Element Variables and Curves
+      NUMTABL = 2          ! Number of tables
+      NVARTMP = 18         ! Number of temporary variables
+      MATPARAM%NUPARAM = 7 ! Number of real parameters
+c
+      ! Allocate and fill real parameters table
+      ALLOCATE(MATPARAM%UPARAM(MATPARAM%NUPARAM))
       MATPARAM%UPARAM(1) = EMOD
-      MATPARAM%UPARAM(2) = E
-      MATPARAM%UPARAM(3) = BULK
-      MATPARAM%UPARAM(4) = NU
-      MATPARAM%UPARAM(5) = G
-      MATPARAM%UPARAM(6) = XFAC(1)
-
-      MATPARAM%UPARAM(8) = HU
-      MATPARAM%UPARAM(9) = SHAPE
-
-      MATPARAM%UPARAM(10) = TOL1
-      MATPARAM%UPARAM(11) = TOL2
-      NUVAR   = 30  ! Number of User Element Variables and Curves
-      NVARTMP = 18
-
-
-      MATPARAM%NTABLE = 2
-
-C---- ---------------------------------------
+      MATPARAM%UPARAM(2) = BULK
+      MATPARAM%UPARAM(3) = G
+      MATPARAM%UPARAM(4) = XFAC(1)
+      MATPARAM%UPARAM(5) = XFAC(2)
+      MATPARAM%UPARAM(6) = HU
+      MATPARAM%UPARAM(7) = SHAPE
+c
+      ! PM table
       PM(1)  = RHO0
       PM(89) = RHO0
-C---- ---------------------------------------
-      PARMAT(1) = BULK
-      PARMAT(2) = E
-      PARMAT(3) = NU
-
-      !Formulation for solid elements time step computation.
+c
+      ! PARMAT table
+      PARMAT(1)  = BULK
+      PARMAT(2)  = E
+      PARMAT(3)  = NU
       PARMAT(16) = 2
-      PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
-C-------------------------------------------
+      PARMAT(17) = (ONE - TWO*NU)/(ONE - NU)
+c
+      ! Material settings
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
-      IF (NU >= 0.49) THEN
-        CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
-      ELSE
-        CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
-      END IF
+      CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
 c
       ! Properties compatibility
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
-C-------------------------------------------
-C Output File Print
-C-------------------------------------------
-      WRITE(IOUT,1000) TRIM(TITR),MAT_ID,ILAW
-      WRITE(IOUT,1100)
+c
+!--------------------------
+!     Parameters printout
+!--------------------------
+      WRITE(IOUT,900) TRIM(TITR),MAT_ID,ILAW
+      WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-       WRITE(IOUT,1110)NU,BULK,G,E
-       WRITE(IOUT,1150)HU,SHAPE
-       WRITE(IOUT,1200)ITABLE(1),XFAC(1)
+        WRITE(IOUT,1050) RHO0
+        WRITE(IOUT,1110) E,BULK,G
+        WRITE(IOUT,1150) HU,SHAPE
+        WRITE(IOUT,1200) ITABLE(1),XFAC(1),XFAC(2)
       ENDIF
- 1000 FORMAT(/
+ 900  FORMAT(/
      & 5X,A,/,
-     & 5X,'MATERIAL NUMBER. . . . . . . . . . . . . . . . . =',I10/,
-     & 5X,'MATERIAL LAW . . . . . . . . . . . . . . . . . . =',I10/)
-
- 1100  FORMAT(
-     & 5X,'MATERIAL MODEL : ISOTROPIC PATH DEPENDENT FOAM   ',/,
-     & 5X,'---------------  MODEL - LAW FOAM_DUBOIS        :',/,    
-     & 5X,'               ---------------------------------- ',/)
-C
- 1110 FORMAT(
-     & 5X,'POISSONS RATIO. . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'K . . . . . . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'G . . . . . . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'YOUNG  MODULUS. . . . . . . . . . . . . .=',E12.4//)
- 1150 FORMAT(
-     & 5X,'HU. . . . . . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'SHAPE . . . . . . . . . . . . . . . . . .=',E12.4//)
- 1200 FORMAT(
-     & 5X,'TABLE IDENTIFIER. . . . . . . . . . . . .=',I10/ 
-     & 5X,'SCALE FOR STRAIN RATE . . . . . . . . . .=',E12.4//)
- 1300 FORMAT(
-     & 5X,'FIDINT . . . . . .  . . . . . . . . . . .=',I10/ 
-     & 5X,'SCALINT  . . . . .  . . . . . . . . . . .=',E12.4//)
-C 
-C-------------------------------------------------------------------------
-      RETURN
+     & 5X,'MATERIAL NUMBER . . . . . . . . . . . . . . . =',I10/,
+     & 5X,'MATERIAL LAW. . . . . . . . . . . . . . . . . =',I10/)
+ 1000 FORMAT(/                                                        
+     & 5X,'-----------------------------------------------',/          
+     & 5X,' MATERIAL MODEL: ISOTROPIC PATH DEPENDENT FOAM ',/,      
+     & 5X,'-----------------------------------------------',/)
+ 1050 FORMAT(/
+     & 5X,'INITIAL DENSITY. . . . . . . . . . . . . . . .=',1PG20.13/)  
+ 1110 FORMAT(/
+     & 5X,'INITIAL YOUNG MODULUS E. . . . . . . . . . . .=',1PG20.13/ 
+     & 5X,'INITIAL BULK MODULUS K . . . . . . . . . . . .=',1PG20.13/ 
+     & 5X,'INITIAL SHEAR MODULUS G. . . . . . . . . . . .=',1PG20.13/)
+ 1150 FORMAT(/
+     & 5X,'HYSTERETIC UNLOADING FACTOR HU . . . . . . . .=',1PG20.13/ 
+     & 5X,'SHAPE FACTOR FOR UNLOADING . . . . . . . . . .=',1PG20.13/)
+ 1200 FORMAT(/
+     & 5X,'LOADING TABLE IDENTIFIER . . . . . . . . . . .=',I10/ 
+     & 5X,'REFERENCE STRAIN RATE (SCALE FACTOR) . . . . .=',1PG20.13/
+     & 5X,'LOADING STRESS SCALE FACTOR. . . . . . . . . .=',1PG20.13/)
+c
       END

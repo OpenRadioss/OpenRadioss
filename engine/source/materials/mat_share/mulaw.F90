@@ -1990,15 +1990,14 @@
             &ssp   ,vis   ,uvar  ,off   ,sigy  ,defp  ,&
             &dpla  ,et    ,ipm   ,mat   ,israte,&
             &yldfac,epsp  )
+! 
           elseif (mtn == 190) then !path dependent foam (dubois)
-
-            call sigeps190(nel ,nuvar,tt   ,rho ,&
-            &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
-            &s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,&
-            &mfxx,mfxy,mfxz,mfyx ,mfyy ,mfyz,&
-            &mfzx ,mfzy,mfzz,&
-            &ssp ,vis ,uvar,&
-            &matparam%ntable,matparam,nvartmp, vartmp)
+            call sigeps190(nel   ,nuvar ,rho0  ,et    ,&
+            &ep1   ,ep2   ,ep3   ,ep4   ,ep5   ,ep6   ,&
+            &s1    ,s2    ,s3    ,s4    ,s5    ,s6    ,&
+            &mfxx  ,mfxy  ,mfxz  ,mfyx  ,mfyy  ,mfyz  ,&
+            &mfzx  ,mfzy  ,mfzz  ,ssp   ,vis   ,uvar  ,&
+            &matparam%ntable,matparam   ,nvartmp,vartmp)
 !
 !----------------------------------------
           endif  ! mtn
