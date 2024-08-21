@@ -217,7 +217,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||====================================================================
       MODULE MULTI_FVM_MOD
-      USE ELBUFDEF_MOD
+      USE ELBUFDEF_MOD ,ONLY: L_BUFEL_,BUF_EOS_
 #include "my_real.inc"
 
       ! --------------------------------------------------
