@@ -231,12 +231,11 @@ C--------------------------------------------------
                ENDIF
 C--------------------------------------------------
             ENDIF  ! KEYWORD
-
-          ENDIF  ! ITY 
 C-----------------------------------------------
-          CALL H3D_WRITE_VECTORS(IOK_PART,IS_WRITTEN_QUAD,QUAD_VECTOR,NEL,0,NFT,
-     .                                    EVAR,IS_WRITTEN_VECTOR)
-c
+          CALL H3D_WRITE_VECTORS(IOK_PART,IS_WRITTEN_QUAD,QUAD_VECTOR,NEL,0,NFT,EVAR,IS_WRITTEN_VECTOR)
+C-----------------------------------------------
+          ENDIF  ! ITY
+
 C-----------------------------------------------
        ENDIF     ! MLW /= 13
  900  CONTINUE   ! NG 
