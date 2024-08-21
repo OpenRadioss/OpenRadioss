@@ -1,6 +1,6 @@
 # th_to_csv
 
-anim_to_vtk is an external tool to convert OpenRadioss time history files to csv format
+th_to_csv is an external tool to convert OpenRadioss time history files to csv format
 
 ## How to build
 
