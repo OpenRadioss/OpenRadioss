@@ -156,7 +156,7 @@ C-----------------------------------------------
      .          IS_MDSVAR_DEF,NMDSVAR_MAX,IS_MDSVAR,IS_MDSVAR_ALL,IMDSVAR,
      .          IS_MODEL_NPT,IS_MODEL_PLY,IS_MODEL_LAYER,ISKIND,IOUTER,IPEXT,
      .          IS_ID,ID,ID_MAX,IS_ID_ALL,NINEFRIC,N19,IFAIL,CPT_IRUP,CPT_IRUP2,
-     .          IS_MODE,MODE,MODE_MAX,IS_MODE_ALL,NFAIL
+     .          IS_MODE,MODE,MODE_MAX,IS_MODE_ALL,NFAIL,NIP_PLY_MAX,NIP_ELEM_MAX
         INTEGER MLW,NEL,NG,JTURB,NLAY,NUVAR,IPLY,IMAT,ISUBSTACK,ID_PLY_TMP
         INTEGER CPT_MOD,NMOD,CPT_LAWID
         INTEGER IBID1,IBID2,IBID3
@@ -518,9 +518,9 @@ C--------------------------------------------------
           IS_DEF = 0
           CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
      .                                KEY7       ,KEY8        ,IS_ALL    ,IS_LOWER ,IS_UPPER  ,
-     .                                'PLY'  ,3       ,IS_PLY  ,PLY    ,
-     .                                IS_PLY_ALL ,IBID1        ,IBID2      ,IS_DEF   ,
-     .                                IBID3       )
+     .                                'PLY'      ,3           ,IS_PLY    ,PLY      ,
+     .                                IS_PLY_ALL ,IBID1       ,IBID2     ,IS_DEF   ,
+     .                                IBID3      )
 C--------------------------------------------------
 C Read LAYER= I/ALL/LOWER/UPPER
 C--------------------------------------------------
@@ -529,24 +529,22 @@ C--------------------------------------------------
           IS_UPPER = 1
           IS_DEF = 0
           CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
-     .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
-     .                                'LAYER'    ,5           ,IS_LAYER    ,LAYER    ,
-     .                                IS_LAYER_ALL,IS_LAYER_LOWER,IS_LAYER_UPPER   ,IS_DEF ,
-     .                                IBID1       )
+     .                                KEY7       ,KEY8        ,IS_ALL    ,IS_LOWER ,IS_UPPER  ,
+     .                                'LAYER'    ,5           ,IS_LAYER  ,LAYER    ,
+     .                                IS_LAYER_ALL,IS_LAYER_LOWER,IS_LAYER_UPPER   ,IS_DEF    ,
+     .                                IBID1      )
 C--------------------------------------------------
 C Read NPT= I/ALL/LOWER/UPPER
 C--------------------------------------------------
-
-
           IS_ALL = 1
           IS_LOWER = 1
           IS_UPPER = 1
           IS_DEF = 0
           CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
-     .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
-     .                                'NPT'      ,3           ,IS_IPT    ,IPT    ,
-     .                                IS_IPT_ALL,IS_IPT_LOWER,IS_IPT_UPPER,IS_DEF  ,
-     .                                IBID1       )
+     .                                KEY7       ,KEY8        ,IS_ALL    ,IS_LOWER ,IS_UPPER  ,
+     .                                'NPT'      ,3           ,IS_IPT    ,IPT      ,
+     .                                IS_IPT_ALL ,IS_IPT_LOWER,IS_IPT_UPPER,IS_DEF ,
+     .                                IBID1      )
 C--------------------------------------------------
 C Read UVAR= I/ALL/DEF
 C--------------------------------------------------
@@ -555,10 +553,10 @@ C--------------------------------------------------
           IS_UPPER = 0
           IS_DEF = 0
           CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
-     .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
-     .                                'UVAR'     ,4           ,IS_UVAR    ,IUVAR    ,
-     .                                IS_UVAR_ALL,IBID1        ,IBID2       ,IS_DEF  ,
-     .                                IBID3       )
+     .                                KEY7       ,KEY8        ,IS_ALL    ,IS_LOWER ,IS_UPPER  ,
+     .                                'UVAR'     ,4           ,IS_UVAR   ,IUVAR    ,
+     .                                IS_UVAR_ALL,IBID1       ,IBID2     ,IS_DEF   ,
+     .                                IBID3      )
 C--------------------------------------------------
 C Read MDS_VAR= I/ALL/DEF
 C--------------------------------------------------
@@ -567,9 +565,9 @@ C--------------------------------------------------
           IS_UPPER = 0
           IS_DEF = 1
           CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
-     .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
-     .                                'MDS_VAR'  ,7           ,IS_MDSVAR  ,IMDSVAR    ,
-     .                                IS_MDSVAR_ALL,IBID1      ,IBID2       ,IS_DEF  ,
+     .                                KEY7       ,KEY8        ,IS_ALL    ,IS_LOWER ,IS_UPPER  ,
+     .                                'MDS_VAR'  ,7           ,IS_MDSVAR ,IMDSVAR  ,
+     .                                IS_MDSVAR_ALL,IBID1     ,IBID2     ,IS_DEF   ,
      .                                IS_MDSVAR_DEF)
 C--------------------------------------------------
 C Read IR= I/ALL/LOWER/UPPER
@@ -579,10 +577,10 @@ C--------------------------------------------------
           IS_UPPER = 1
           IS_DEF = 0
           CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
-     .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
-     .                                'IR'  ,2       ,IS_IR  ,IR    ,
-     .                                IS_IR_ALL  ,IS_IR_LOWER ,IS_IR_UPPER ,IS_DEF ,
-     .                                IBID1       )
+     .                                KEY7       ,KEY8        ,IS_ALL    ,IS_LOWER ,IS_UPPER  ,
+     .                                'IR'       ,2           ,IS_IR     ,IR       ,
+     .                                IS_IR_ALL  ,IS_IR_LOWER ,IS_IR_UPPER,IS_DEF  ,
+     .                                IBID1      )
 C--------------------------------------------------
 C Read IS= I/ALL/LOWER/UPPER
 C--------------------------------------------------
@@ -590,11 +588,11 @@ C--------------------------------------------------
           IS_LOWER = 1
           IS_UPPER = 1
           IS_DEF = 0
-          CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
-     .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
-     .                                'IS'  ,2       ,IS_IS  ,IS    ,
-     .                                IS_IS_ALL  ,IS_IS_LOWER ,IS_IS_UPPER ,IS_DEF ,
-     .                                IBID1       )
+          CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4        ,KEY5     ,KEY6      ,
+     .                                KEY7       ,KEY8        ,IS_ALL      ,IS_LOWER ,IS_UPPER  ,
+     .                                'IS'       ,2           ,IS_IS       ,IS       ,
+     .                                IS_IS_ALL  ,IS_IS_LOWER ,IS_IS_UPPER ,IS_DEF   ,
+     .                                IBID1      )
 C--------------------------------------------------
 C Read IT= I/ALL/LOWER/UPPER
 C--------------------------------------------------
@@ -602,11 +600,11 @@ C--------------------------------------------------
           IS_LOWER = 1
           IS_UPPER = 1
           IS_DEF = 0
-          CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
-     .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
-     .                                'IT'  ,2       ,IS_IT  ,IT    ,
-     .                                IS_IT_ALL  ,IS_IT_LOWER ,IS_IT_UPPER ,IS_DEF ,
-     .                                IBID1       )
+          CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4        ,KEY5     ,KEY6      ,
+     .                                KEY7       ,KEY8        ,IS_ALL      ,IS_LOWER ,IS_UPPER  ,
+     .                                'IT'       ,2           ,IS_IT       ,IT       ,
+     .                                IS_IT_ALL  ,IS_IT_LOWER ,IS_IT_UPPER ,IS_DEF   ,
+     .                                IBID1      )
 C--------------------------------------------------
 C Read INTER= I/ALL
 C--------------------------------------------------
@@ -614,10 +612,10 @@ C--------------------------------------------------
           IS_LOWER = 0
           IS_UPPER = 0
           IS_DEF = 0
-          CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
-     .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
-     .                                'INTER'    ,5           ,IS_INTER    ,INTER    ,
-     .                                IS_INTER_ALL,IBID1      ,IBID2       ,IS_DEF    ,
+          CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4       ,KEY5      ,KEY6      ,
+     .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER  ,IS_UPPER  ,
+     .                                'INTER'    ,5           ,IS_INTER   ,INTER     ,
+     .                                IS_INTER_ALL,IBID1      ,IBID2      ,IS_DEF    ,
      .                                IBID3       )
 C--------------------------------------------------
 C Read ID= I/ALL
@@ -626,11 +624,11 @@ C--------------------------------------------------
           IS_LOWER = 0
           IS_UPPER = 0
           IS_DEF = 0
-          CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
-     .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
+          CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5       ,KEY6      ,
+     .                                KEY7       ,KEY8        ,IS_ALL    ,IS_LOWER   ,IS_UPPER  ,
      .                                'ID'       ,2           ,IS_ID     ,ID         ,
-     .                                IS_ID_ALL  ,IBID1       ,IBID2       ,IS_DEF    ,
-     .                                IBID3       )
+     .                                IS_ID_ALL  ,IBID1       ,IBID2     ,IS_DEF     ,
+     .                                IBID3      )
 C--------------------------------------------------
 C Read MODE= I/ALL
 C--------------------------------------------------
@@ -638,11 +636,11 @@ C--------------------------------------------------
           IS_LOWER = 0
           IS_UPPER = 0
           IS_DEF = 0
-          CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
-     .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
+          CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5       ,KEY6      ,
+     .                                KEY7       ,KEY8        ,IS_ALL    ,IS_LOWER   ,IS_UPPER  ,
      .                                'MODE'     ,4           ,IS_MODE   ,MODE       ,
-     .                                IS_MODE_ALL,IBID1       ,IBID2       ,IS_DEF    ,
-     .                                IBID3       )
+     .                                IS_MODE_ALL,IBID1       ,IBID2     ,IS_DEF     ,
+     .                                IBID3      )
 C--------------------------------------------------
           CPT = 0
           IF ( IS_CHAR_KEY3 == 1 .AND. IS_EMPTY_KEY3 == 0) THEN
@@ -888,18 +886,17 @@ C--------------------------------------------------
               NUVAR_MAX = 0
               NMDSVAR_MAX = 0
               MODE_MAX = 0
+              NIP_PLY_MAX = 0
+              NIP_ELEM_MAX = 0
 C
               ! LAYER=ALL
               IF (IS_LAYER_ALL == 1) THEN
                 DO K=1,NUMGEO
-                  IF(IGEO(11,K) == 10 .OR. IGEO(11,K) == 11 .OR. IGEO(11,K) == 16 ) THEN
+                  IF(IGEO(11,K) == 10 .OR. IGEO(11,K) == 11 .OR. IGEO(11,K) == 16) THEN
                     NLAY_MAX = MAX(NLAY_MAX,IGEO(4,K))
                   ELSEIF(IGEO(11,K) == 20 .OR. IGEO(11,K) == 21 .OR. IGEO(11,K) == 22) THEN
                     NLAY_MAX = MAX(NLAY_MAX,MAX(1,IGEO(30,K)))
                   ENDIF
-                ENDDO
-                DO K=1,NS_STACK ! type17,51 & 52
-                  NLAY_MAX = MAX(NLAY_MAX,STACK%IGEO(1,K))
                 ENDDO
               ENDIF
 C
@@ -907,24 +904,18 @@ C
               ISH_NPT0 = 0
               IF (IS_IPT_ALL == 1) THEN
                 DO K=1,NUMGEO
-                  IF(IGEO(11,K) == 1 .OR. IGEO(11,K) == 9 ) THEN
-                    NIP_MAX = MAX(NIP_MAX,IGEO(4,K))
+                  IF(IGEO(11,K) == 1 .OR. IGEO(11,K) == 9) THEN
+                    NIP_ELEM_MAX = MAX(NIP_ELEM_MAX,IGEO(4,K))
                     IF (IGEO(4,K)==0) THEN
                       ISH_NPT0=1
-                      NIP_MAX = NIP_MAX + 1
-                      NLAY_MAX = NLAY_MAX + 1
+                      NIP_ELEM_MAX = NIP_ELEM_MAX + 1
                     ENDIF
-                  ELSEIF(IGEO(11,K) == 19 )THEN  !
-                    NIP_MAX = MAX(NIP_MAX,IGEO(44,K))
                   ELSEIF(IGEO(11,K) == 18)THEN
-                    NIP_MAX = MAX(NIP_MAX,IGEO(3,K))
+                    NIP_ELEM_MAX = MAX(NIP_ELEM_MAX,IGEO(3,K))
                   ENDIF
                 ENDDO
-                DO K=1,NUMPLY
-                  NIP_MAX = MAX(NIP_MAX, PLY_INFO(2,K))
-                ENDDO
               ENDIF
-              IF(IS_IPT_ALL == 1 .AND. NIP_MAX == 0) ISHELL_NPT_CHECK = 1
+              IF(IS_IPT_ALL == 1 .AND. NIP_ELEM_MAX == 0) ISHELL_NPT_CHECK = 1
 C
               ! PLY=ALL
               ID_PLY(1:NUMGEO) = 0
@@ -935,14 +926,18 @@ C
                     NPLY_MAX = NPLY_MAX + 1
                     ID_PLY(NPLY_MAX) = IGEO(1,K)
                     IPT_PLY(NPLY_MAX) = IGEO(4,K)
+                    NIP_PLY_MAX = MAX(NIP_PLY_MAX,IGEO(44,K))
                   ENDIF
                 ENDDO
                 DO K=1,NUMPLY
                   NPLY_MAX = NPLY_MAX + 1
                   ID_PLY(NPLY_MAX) = PLY_INFO(1,K)
                   IPT_PLY(NPLY_MAX) = PLY_INFO(2,K)
+                  NIP_PLY_MAX = MAX(NIP_PLY_MAX,PLY_INFO(2,K))
                 ENDDO
               ENDIF
+              NIP_MAX = MAX(NIP_ELEM_MAX,NIP_PLY_MAX)
+C              
               IF (IS_UVAR_ALL == 1) THEN
                 DO K=1,NUMMAT
                   NUVAR_MAX = MAX(NUVAR_MAX,IPM(8,K))
@@ -1524,12 +1519,41 @@ c
                                       IF (IS_LAYER_ALL == 0 .AND. LAYER >= 1) LAYER_INPUT(CPT_H3D) = LAYER
 c
                                       IPT_INPUT(CPT_H3D) = -1
-                                      IF (IS_IPT_ALL == 1) IPT_INPUT(CPT_H3D) = L
-                                      IF (IS_IPT_ALL == 0 .AND. IPT >= 1) IPT_INPUT(CPT_H3D) = IPT
+                                      IF (NIP_ELEM_MAX > 0) THEN 
+                                        IF (IS_IPT_ALL == 1) IPT_INPUT(CPT_H3D) = L
+                                        IF (IS_IPT_ALL == 0 .AND. IPT >= 1) IPT_INPUT(CPT_H3D) = IPT
+                                      ENDIF
 c
                                       PLY_INPUT(CPT_H3D) = -1
-                                      IF (NPLY_MAX /= 0  .AND. IS_PLY_ALL == 1) PLY_INPUT(CPT_H3D) = ID_PLY(M)
-                                      IF (IS_PLY_ALL == 0  .AND. PLY >= 1) PLY_INPUT(CPT_H3D) = PLY
+                                      IF (NPLY_MAX /= 0  .AND. IS_PLY_ALL == 1) THEN 
+                                        IF (IS_IPT_ALL == 1) THEN 
+                                          IPT_INPUT(CPT_H3D) = L  
+                                          PLY_INPUT(CPT_H3D) = ID_PLY(M)
+                                        ELSEIF (IS_IPT_ALL == 0 .AND. IPT >= 1) THEN 
+                                          IPT_INPUT(CPT_H3D) = IPT
+                                          PLY_INPUT(CPT_H3D) = ID_PLY(M)
+                                        ELSEIF (IS_IPT_LOWER == 1 .OR. IS_IPT_UPPER == 1) THEN 
+                                          IPT_INPUT(CPT_H3D) = -1
+                                          PLY_INPUT(CPT_H3D) = -1
+                                        ELSE
+                                          IPT_INPUT(CPT_H3D) = -1
+                                          PLY_INPUT(CPT_H3D) = ID_PLY(M)
+                                        ENDIF
+                                      ELSEIF (IS_PLY_ALL == 0  .AND. PLY >= 1) THEN 
+                                        IF (IS_IPT_ALL == 1) THEN 
+                                          IPT_INPUT(CPT_H3D) = L  
+                                          PLY_INPUT(CPT_H3D) = PLY
+                                        ELSEIF (IS_IPT_ALL == 0 .AND. IPT >= 1) THEN 
+                                          IPT_INPUT(CPT_H3D) = IPT
+                                          PLY_INPUT(CPT_H3D) = PLY
+                                        ELSEIF (IS_IPT_LOWER == 1 .OR. IS_IPT_UPPER == 1) THEN 
+                                          IPT_INPUT(CPT_H3D) = -1
+                                          PLY_INPUT(CPT_H3D) = -1
+                                        ELSE
+                                          IPT_INPUT(CPT_H3D) = -1
+                                          PLY_INPUT(CPT_H3D) = PLY
+                                        ENDIF
+                                      ENDIF 
 c
                                       UVAR_INPUT(CPT_H3D) = -1
                                       IF (NUVAR_MAX /= 0  .AND. IS_UVAR_ALL == 1) THEN
@@ -1583,7 +1607,7 @@ c
                                       IF( IS_PLY_ALL == 1) THEN
                                         IF (L > IPT_PLY(M) ) IS_AVAILABLE_KEY(CPT_H3D) = 0
                                       ENDIF
-                                      IF(LAYER_INPUT(CPT_H3D) /= -1.OR.PLY_INPUT(CPT_H3D)/=-1) ISH_NPT0=0
+                                      IF(LAYER_INPUT(CPT_H3D) /= -1) ISH_NPT0=0
 
                                       IF (IS_LAYER_ALL == 1 .AND. K > 0 .AND. MDSVAR_INPUT(CPT_H3D) > 0) THEN
                                         IF(IS_LAYER_MAT(INDEX_MAT_MDS(MDSVAR_INPUT(CPT_H3D)),K) == 0) THEN
