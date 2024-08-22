@@ -58,9 +58,11 @@
 !                                                   FUNCTION
 ! ======================================================================================================================
   function intersectPt(P1, P2, Q1, Q2, tol, alpha, beta) result(intersection)
-    use constant_mod , only : zero, one, ep20
+!! \brief Compute intersection point [P1,P2[ and {Q1,Q2[
+!! \details On [P1 P2[ : position is alpha in \[0,1[ and On [Q1 Q2[ : position is beta in \[0,1[
+   use constant_mod , only : zero, one, ep20
     implicit none
-#include "my_real.inc"    
+#include "my_real.inc"
     type(polygon_point_), intent(in) :: P1, P2, Q1, Q2
     my_real, intent(inout) :: alpha, beta
     my_real, intent(in) :: tol
@@ -79,7 +81,7 @@
     end if
 
     numer_a = (Q2%y - Q1%y) * (P1%z - Q1%z) - (Q2%z - Q1%z) * (P1%y - Q1%y)
-             
+
     numer_b = (P2%y - P1%y) * (P1%z - Q1%z) - (P2%z - P1%z) * (P1%y - Q1%y)
 
     alpha = numer_a / denom
@@ -121,8 +123,8 @@
       end if
     end do
   end function GetEdgeFromPointId
-  
-  
+
+
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
@@ -133,7 +135,7 @@
       !||====================================================================
     subroutine NextPoint ( currentPoint, icur_list, list1, size1, list2, size2)
       implicit none
-      type(pointer_to_point_), intent(inout) :: currentPoint  
+      type(pointer_to_point_), intent(inout) :: currentPoint
       integer,intent(inout) :: icur_list !< current list : 1 or 2
       integer,intent(in) :: size1
       integer,intent(in) :: size2
@@ -145,7 +147,7 @@
       integer :: num_pt_on_edge
       integer :: size_ !size1 or size2 depending on icur_list=1|2
       !!!!type(points_on_edge_), dimension(:), pointer :: list
-      
+
       ii = currentPoint%id_edge
       kk = currentPoint%id_point
 
@@ -167,7 +169,7 @@
           kk = kk + 1
         elseif(ii < size_)then
           !first point on next edge
-          ii = ii + 1  
+          ii = ii + 1
           kk = 1
         else
           !rewind to first point of first edge
@@ -175,7 +177,7 @@
           kk = 1
         end if
         jj = ii
-      
+
       else
         !leaving point : move to the other list
         if(icur_list == 1)then
@@ -216,13 +218,13 @@
         end if
 
        endif
-      
+
       currentPoint%id_edge = jj
-      currentPoint%id_point = kk    
-      
-    end subroutine NextPoint  
-      
-      
+      currentPoint%id_point = kk
+
+    end subroutine NextPoint
+
+
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
@@ -243,11 +245,11 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod                     ../common_source/modules/constant_mod.F
       !||====================================================================
-        subroutine Clipping_Weiler_Atherton(ClippedPolygon, ClippingPolygon, result_list)
+        subroutine Clipping_Weiler_Atherton(ClippedPolygon, ClippingPolygon, result_list, iStatus)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use constant_mod , only : zero, em06, one, ep20
+          use constant_mod , only : zero, em10, em06, one, ep20
           use insertion_sort_mod , only : real_insertion_sort_with_index
           implicit none
 #include "my_real.inc"
@@ -257,6 +259,7 @@
           type(polygon_), intent(in) :: ClippedPolygon      !< Clipped Polygon
           type(polygon_), intent(in) :: ClippingPolygon     !< Clipping Polygon
           type(polygon_list_), intent(out) :: result_list   !< potentially more than 1 polygon (in case of non convex polygons)
+          integer,intent(inout) :: iStatus                  !< return code for algorithm status
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -278,6 +281,8 @@
           integer :: starting_point_gid !< starting point must be saved to stop algorithm when polygon is closed
           integer :: current_point_gid !< global identifier to make relation on identical intersections on both lists (same intersection points on Clipped and Clipping polygons)
           integer :: total_int_pt !< total number of intersection points
+          integer :: counter_entering_point
+          integer :: total_number_poly
 
           my_real :: tol   !< tolerance
           my_real :: Ny,Nz !< normal vector (used to defined entering or leaving intersection point)
@@ -286,6 +291,7 @@
           my_real :: beta  !< beta \in ]0.,1.[ is position on edge2 (clipping polygon)
           my_real :: dotproduct
           logical :: finished
+          logical :: vertice_on_edge
 
           type(polygon_point_) ::  p1,p2, q1,q2, tmpPoint                  !< temporary points
           type(points_on_edge_), dimension(:), allocatable :: list_edges_1 !clipped polygon (elem mesh)
@@ -306,6 +312,7 @@
           num_edges_2 = num_points_2 - 1
           numPtmax = num_points_1*num_points_2
           point_id = 0
+          iStatus = 0
 
           ! init. list 1 (Clipped polygon)
           allocate(list_edges_1(num_edges_1))
@@ -334,9 +341,9 @@
               list_edges_2(jj)%ptr(:)%id_point=0;
               list_edges_2(jj)%numpoints = 0
           end do
-          
+
           allocate(icur_2(num_edges_2)) ! cursor for each edge of current elem
-         
+
           !define CLipping polygon
           do jj=1,num_edges_2
             icur_2(jj) = 1
@@ -346,6 +353,7 @@
           end do
 
           total_int_pt = 0
+          vertice_on_edge = .false.
 
           do ii=1,num_edges_1
             !Clipped polygon
@@ -354,7 +362,7 @@
             p2%y = ClippedPolygon%point(ii+1)%y
             p2%z = ClippedPolygon%point(ii+1)%z
             tol = EM06*ClippedPolygon%diag
-            
+
             !ADDING FIRST ENDPOINT ON list_edges_1 (Clipped)
             icur_1 = 1
             list_edges_1(ii)%alpha(1)=zero ;
@@ -375,56 +383,67 @@
               if( max(q1%z,q2%z)+tol < min(p1%z,p2%z) ) cycle
               ! criterion : alpha in ]0,1[ in case of intersection
               tmpPoint = intersectPt(p1,p2,q1,q2,em06, alpha, beta) ! [p1,p2] & [q1,q2]
-              if(tmpPoint%y == ep20 .or. tmpPoint%z == ep20)cycle
+              if(tmpPoint%y == ep20 .or. tmpPoint%z == ep20)then
+                cycle
+              end if
+
+              if(alpha < em10 .or. beta < em10 .or. alpha > one-em10 .or. beta > one-em10)then
+                 vertice_on_edge = .true.
+                 exit
+              end if
+
               total_int_pt = total_int_pt + 1 !numbering to affect a global identifier and make relation between the two lists
-              
+
               !ADDING INTERSECTION POINT ON list_edges_1
               icur_1 = icur_1 + 1 ; list_edges_1(ii)%alpha(icur_1) = alpha ;  !alpha \in ]0,1[ : position on edge
               !storing interection point
               list_edges_1(ii)%coor(icur_1)%y = tmpPoint%y
               list_edges_1(ii)%coor(icur_1)%z = tmpPoint%z
               list_edges_1(ii)%point_id(icur_1) = total_int_pt
-              
+
               !ADDING INTERSECTION POINT ON list_edges_2
               icur_2(jj) = icur_2(jj) + 1 ; list_edges_2(jj)%alpha(icur_2(jj))=beta ;
               list_edges_2(jj)%coor(icur_2(jj))%y = tmpPoint%y;
               list_edges_2(jj)%coor(icur_2(jj))%z = tmpPoint%z;
               list_edges_2(jj)%point_id(icur_2(jj)) = total_int_pt;
 
-              !entering or leaving point ? (q1q2 point of view)
-                !normal vector is vector p1p2 rotation +90°
-                Ny = -(p2%z - p1%z)
-                Nz = +(p2%y - p1%y)
-                !vector V is q1-> intersectionPoint
-                Vy = tmpPoint%y - q1%y
-                Vz = tmpPoint%z - q1%z
-                dotproduct = Ny * Vy + Nz * Vz
-                if (dotproduct > zero)then
-                  ! "leaving";
-                  list_edges_1(ii)%iorient(icur_1) = -1
-                else
-                  ! "entering";
-                  list_edges_1(ii)%iorient(icur_1) = +1
-                end if
+              !entering or leaving point ? (p1p2 point of view : along p1p2)
+              !normal vector is vector q1q2 rotation +90°
+              Ny = -(q2%z - q1%z)
+              Nz = +(q2%y - q1%y)
+              !vector V is p1-> p2
+              Vy = p2%y - p1%y
+              Vz = p2%z - p1%z
+              dotproduct = Ny * Vy + Nz * Vz
+              list_edges_1(ii)%num_inter_pt  = list_edges_1(ii)%num_inter_pt + 1
+              if (dotproduct > zero)then
+                ! "entering point";
+                list_edges_1(ii)%iorient(icur_1) = +1
+              else
+                ! "leaving point";
+                list_edges_1(ii)%iorient(icur_1) = -1
+              end if
 
-              !entering or leaving point ?  (from p1p2 point of view)
-                !normal vector is vector q1q2 rotation +90°
-                Ny = -(q2%z - q1%z)
-                Nz = +(q2%y - q1%y)
-                !vector V is q1-> intersectionPoint
-                Vy = tmpPoint%y - p1%y
-                Vz = tmpPoint%z - p1%z
-                dotproduct = Ny * Vy + Nz * Vz
-                list_edges_2(jj)%num_inter_pt  = list_edges_2(jj)%num_inter_pt + 1
-                if (dotproduct > zero)then
-                  ! "leaving";
-                  list_edges_2(jj)%iorient((icur_2(jj))) = -1
-                else
-                  ! "entering";
-                  list_edges_2(jj)%iorient((icur_2(jj))) = +1
-                end if
+              !entering or leaving point ?  (from q1q2 point of view : along q1q2)
+              !normal vector is vector p1p2 rotation +90°
+              Ny = -(p2%z - p1%z)
+              Nz = +(p2%y - p1%y)
+              !vector V is q1-> q2
+              Vy = q2%y - q1%y
+              Vz = q2%z - q1%z
+              dotproduct = Ny * Vy + Nz * Vz
+              list_edges_2(jj)%num_inter_pt  = list_edges_2(jj)%num_inter_pt + 1
+              if (dotproduct > zero)then
+                ! "entering point";
+                list_edges_2(jj)%iorient((icur_2(jj))) = +1
+              else
+                ! "leaving point";
+                list_edges_2(jj)%iorient((icur_2(jj))) = -1
+              end if
 
             end do
+
+            if(vertice_on_edge)exit
             ! ADDING LAST ENDPOINT ON list_edges_1 (Clipped)
             icur_1 = icur_1 + 1 ;
             list_edges_1(ii)%alpha(icur_1) = one ;  !last point = endpoints
@@ -433,6 +452,11 @@
             ! NUMBER OF POINT ON list_edges_1
             list_edges_1(ii)%numpoints = icur_1;   !numpoints = 2 endpoints + intersection points
           end do
+
+          if(vertice_on_edge)then
+            iStatus=-1
+            return
+          end if
 
           ! ADDING LAST ENDPOINT ON list_edges_2 (Clipping)
           do jj=1,num_edges_2
@@ -550,10 +574,10 @@
           !---   BUILDING THE POLYGONS
           !---     or the list of polygons (non convex case)
           !---     The size of the result list is numEnteringPoints1
-          
-          result_list%num_polygons = numEnteringPoints1
+
           allocate(result_list%polygon(numEnteringPoints1))
-          
+          counter_entering_point = 1
+          total_number_poly = 0
           do ipoly = 1, numEnteringPoints1
             finished = .false.
             call polygon_create(result_list%polygon(ipoly), numPtmax)
@@ -571,7 +595,7 @@
             current_point_gid = 0
             ! add starting point
             ierr = polygon_addpoint(result_list%polygon(ipoly), list_edges_1(ii)%coor(kk))   !  starting point
-            do while(.not.finished .and. ierr == 0)
+            do while(.not.finished .and. ierr == 0 )
               call  NextPoint ( current_Point, icur_list, list_edges_1 , num_edges_1, list_edges_2 , num_edges_2)
                ii = current_point%id_edge
                kk = current_point%id_point
@@ -579,12 +603,39 @@
                  if(icur_list == 2)current_point_gid = list_edges_2(ii)%point_id(kk)
                  if (current_point_gid == starting_point_gid)then
                      finished = .true.
+                 else
+                   if(icur_list == 1)then
+                     if(list_edges_1(ii)%iorient(kk)==1)then
+                       counter_entering_point=counter_entering_point+1
+                     end if
+                   elseif(icur_list == 2)then
+                     if(list_edges_2(ii)%iorient(kk)==-1)then
+                       counter_entering_point=counter_entering_point+1
+                     end if
+                   end if
                  end if
                  if(icur_list == 1) ierr=polygon_addpoint(result_list%polygon(ipoly), list_edges_1(ii)%coor(kk))
                  if(icur_list == 2) ierr=polygon_addpoint(result_list%polygon(ipoly), list_edges_2(ii)%coor(kk))
                  !  go on with next point
-            enddo                     
+            enddo
+
+            !write( *,*) "  poly id:",ipoly
+            !do ii =1, result_list%polygon(ipoly)%numpoint
+            !  !HM TCL SCRIPT TO CHECK ELEM ON SCREEN
+            !  write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,result_list%polygon(ipoly)%point(ii)%y , &
+            !                                                   result_list%polygon(ipoly)%point(ii)%z
+            !end do
+
+            if (counter_entering_point == numEnteringPoints1) then
+                !all entering points (from elem point of view) were used.
+                !no more polygon to build
+                total_number_poly = ipoly
+                exit
+            end if
+
           end do
+
+          result_list%num_polygons = total_number_poly
 
           do ii=1,num_edges_1
             deallocate(list_edges_1(ii)%alpha)
