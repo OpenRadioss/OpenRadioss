@@ -26,6 +26,9 @@
 !! \brief This subroutine is computing initial volume fraction with polygon clipping
 !! \details the user polygon is provided with /SUF/SEG option and used to clip elem polygons (quads or trias)
 !! \details algo first searches for mesh nodes inside/outside the surface, the clipping is used if at least one but not all nodes are inside the user polygon
+!! \details STEP 1 :elem is inside user polygon : if and only all its nodes are inside it
+!! \details STEP 2 :elem is outside suer polygon : if their encompassing boxes are not intersecting
+!! \details STEP 3 : for all other case compute clipping and decide (no clip : outside,   clip area > 0.0 : cut)
       !||====================================================================
       !||    init_inivol_2d_polygons    ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
       !||--- called by ------------------------------------------------------
@@ -46,7 +49,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use constant_mod , only : zero, em10, em02, fourth, third, one, ep9, ep20
+      use constant_mod , only : zero, em10, em06, em02, fourth, third, one, ep9, ep20
       use array_mod , only : array_type, alloc_1d_array, dealloc_1d_array, dealloc_3d_array
       use inivol_def_mod , only : inivol_struct_
       use groupdef_mod , only : surf_
@@ -83,8 +86,10 @@
       my_real :: vfrac                                                           !< user volume fraction for /INIVOL option (current container)
       my_real ratio                                                              !< ratio of area immersed inside the surface
       my_real XYZ(6)                                                             !<box size xmin ymin zmin, xmax ymax zmax (box encompassing the user polygon)
+      my_real xyz_elem(6)                                                        !<box size for current elem
       my_real :: coor_node(2:3)                                                  !< temporary point
-      my_real DLy, DLz                                                           !< element of length for margin estimation
+      my_real :: DLy, DLz                                                        !< element of length for margin estimation
+      my_real :: tol                                                             !< tolerance value
 
       integer nsegsurf                                                           !< number of segments for a given 2d surface
       integer stat                                                               !< allocation feedback
@@ -101,8 +106,9 @@
       integer, allocatable, dimension(:) :: itag_n                               !< tag to mark relevant nodes
       integer :: node_id(1:4)                                                    !< mesh elem connectivity
       integer ipoly                                                              !< curent polygon (loop)
+      integer :: iter
+      integer :: iStatus                                                         !< return code from CLipping Algorithm
       integer :: prod_tag !< product of tag for point of elem mesh               !prod > 0 => elem indise the polygon
-      integer :: sum_tag  !< sum of tag for point of elem mesh                   !sum > 0 => at least one node inside the polygon
                                                                                  !sum = 0 => elem outside the polygon
       logical :: is_quad, is_tria, is_inside
       logical :: is_reversed
@@ -161,6 +167,13 @@
           xyz(6) = xyz(6) + max(em10,em02*DLz)
           !
           user_polygon%diag = max(DLy,Dlz) !reference length used to normalize tolerance value
+
+          !tolerance shift (gain cpu time avoiding degenerated case : vertice on any edge)
+          tol = em06*user_polygon%diag
+          do iseg=1,nsegsurf+1
+            user_polygon%point(iseg)%y = user_polygon%point(iseg)%y + tol
+            user_polygon%point(iseg)%z = user_polygon%point(iseg)%z + tol
+          end do
 
           !---  test elem nodes inside the box (PRE-CRITERION USIN BOX ABOVE)
           !---      loop over related elems, use their nodes : tag set to 1 if inside the box
@@ -234,7 +247,7 @@
               if(.not.is_inside)itag_n(ii)=0
             end if
           end do
-          if(sum(itag_n)==0)return !nothing to calculate
+
           if(debug)then
             print *, "number of nodes inside the user polygon : ",sum(itag_n)
             do ii=1,numnod
@@ -281,7 +294,6 @@
                   node_id(2) =  ixq(3,ielg)
                   node_id(3) =  ixq(4,ielg)
                   node_id(4) =  ixq(5,ielg)
-                  sum_tag =  itag_n(node_id(1))+itag_n(node_id(2))+itag_n(node_id(3))+itag_n(node_id(4))
                   prod_tag = itag_n(node_id(1))*itag_n(node_id(2))*itag_n(node_id(3))*itag_n(node_id(4))
                   if(prod_tag > 0)then
                     !elem is inside (may be considered as outside if is_reversed is true)
@@ -290,15 +302,7 @@
                     if(is_reversed) ratio=zero
                     kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + ratio*vfrac !100% inside
                     cycle ! no volume fraction to fill
-                  elseif(sum_tag == 0)then
-                    !elem is outside (may be considered as inside if is_reversed is true)
-                    ratio = zero
-                    if(is_reversed) ratio=one
-                    if(icumu==0)kvol_2d_polygons(isubmat,ielg) = zero
-                    kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + ratio*vfrac !0% inside
-                    cycle ! no volume fraction to fill
-                  end if
-                  if(sum_tag > 0)then
+                  else
                     ! clipping required to calculate ratio inside the polygon
                     icur_q = icur_q +1
                     list_quad(icur_q) = ielg
@@ -313,7 +317,6 @@
                   node_id(1) =  ixq(2,ielg)
                   node_id(2) =  ixq(3,ielg)
                   node_id(3) =  ixq(4,ielg)
-                  sum_tag =  itag_n(node_id(1))+itag_n(node_id(2))+itag_n(node_id(3))
                   prod_tag = itag_n(node_id(1))*itag_n(node_id(2))*itag_n(node_id(3))
                   if(prod_tag > 0)then
                     !elem is inside  (may be considered as outside if is_reversed is true)
@@ -322,15 +325,7 @@
                     if(icumu==0)kvol_2d_polygons(isubmat,ielg) = zero
                     kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + ratio*vfrac !100% inside
                     cycle ! no volume fraction to fill
-                  elseif(sum_tag == 0)then
-                    !elem is outside  (may be considered as inside if is_reversed is true)
-                    ratio = zero
-                    if(is_reversed) ratio=one
-                    if(icumu==0)kvol_2d_polygons(isubmat,ielg) = zero
-                    kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + ratio*vfrac !0% inside
-                    cycle ! no volume fraction to fill
-                  end if
-                  if(sum_tag > 0)then
+                  else
                     ! clipping required to calculate ratio inside the polygon
                     icur_q = icur_q +1
                     list_quad(icur_q) = ielg
@@ -373,17 +368,50 @@
               write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,elem_polygon%point(3)%y ,elem_polygon%point(3)%z
               write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,elem_polygon%point(4)%y ,elem_polygon%point(4)%z
              end if
+            !diagonal : max L1 norm
+            xyz_elem(2) =                  elem_polygon%point(1)%y   ; xyz_elem(3) =                  elem_polygon%point(1)%z   ;
+            xyz_elem(2) = min(xyz_elem(2), elem_polygon%point(2)%y ) ; xyz_elem(3) = min(xyz_elem(3), elem_polygon%point(2)%z ) ;
+            xyz_elem(2) = min(xyz_elem(2), elem_polygon%point(3)%y ) ; xyz_elem(3) = min(xyz_elem(3), elem_polygon%point(3)%z ) ;
+            xyz_elem(2) = min(xyz_elem(2), elem_polygon%point(4)%y ) ; xyz_elem(3) = min(xyz_elem(3), elem_polygon%point(4)%z ) ;
+            xyz_elem(5) =                  elem_polygon%point(1)%y   ; xyz_elem(6) =                  elem_polygon%point(1)%z   ;
+            xyz_elem(5) = max(xyz_elem(5), elem_polygon%point(2)%y ) ; xyz_elem(6) = max(xyz_elem(6), elem_polygon%point(2)%z ) ;
+            xyz_elem(5) = max(xyz_elem(5), elem_polygon%point(3)%y ) ; xyz_elem(6) = max(xyz_elem(6), elem_polygon%point(3)%z ) ;
+            xyz_elem(5) = max(xyz_elem(5), elem_polygon%point(4)%y ) ; xyz_elem(6) = max(xyz_elem(6), elem_polygon%point(4)%z ) ;
+            DLy = xyz_elem(5)-xyz_elem(2) !Y-dir
+            DLz = xyz_elem(6)-xyz_elem(3) !Z-dir
+            elem_polygon%diag = max(DLy,Dlz)       !strictly positive by construction
+
             ! clipping between user polygon and current quad
-            call Clipping_Weiler_Atherton( elem_polygon, user_polygon, result_list_polygon)
+            iter=0
+            iStatus = -1
+             tol = em06*elem_polygon%diag
+            do while (iStatus /= 0 .and. iter < 10)
+              !tolerance (to avoid vertice on any edge and avoid loops)
+              tol=2*tol
+              elem_polygon%point(1:5)%y = elem_polygon%point(1:5)%y - tol
+              elem_polygon%point(1:5)%z = elem_polygon%point(1:5)%z - tol
+              !clipping algorithm
+              call Clipping_Weiler_Atherton( elem_polygon, user_polygon, result_list_polygon, iStatus)
+              iter=iter+1
+            end do
+
             if (result_list_polygon%num_polygons > 0)then
-             if(icumu == 0)kvol_2d_polygons(isubmat,ielg) = zero
-             do ipoly=1,result_list_polygon%num_polygons
-              call polygon_SetClockWise( result_list_polygon%polygon(ipoly) )
-              ratio = result_list_polygon%polygon(ipoly)%area / elem_polygon%area !partially inside
-              if(is_reversed)ratio = one - ratio
-              kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + vfrac * ratio
-              if(debug)print *, "isubmat,quad partially inside",isubmat,ixq(7,ielg),kvol_2d_polygons(isubmat,ielg)
-             enddo
+              ! clipped area > 0 => elem is partially inside the user polygon
+              if(icumu == 0)kvol_2d_polygons(isubmat,ielg) = zero
+              do ipoly=1,result_list_polygon%num_polygons
+                call polygon_SetClockWise( result_list_polygon%polygon(ipoly) )
+                ratio = result_list_polygon%polygon(ipoly)%area / elem_polygon%area !partially inside
+                if(is_reversed)ratio = one - ratio
+                kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + vfrac * ratio
+                if(debug)print *, "isubmat,quad partially inside",isubmat,ixq(7,ielg),kvol_2d_polygons(isubmat,ielg)
+              enddo
+            else
+              !no clipped area => elem is outside the user polygon
+              !elem is outside  (may be considered as inside if is_reversed is true)
+              ratio = zero
+              if(is_reversed) ratio=one
+              if(icumu==0)kvol_2d_polygons(isubmat,ielg) = zero
+              kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + ratio*vfrac !0% inside
             end if
           enddo
           call polygon_destroy(elem_polygon)
@@ -407,22 +435,51 @@
               write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,elem_polygon%point(2)%y ,elem_polygon%point(2)%z
               write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,elem_polygon%point(3)%y ,elem_polygon%point(3)%z
              end if
-            ! clipping between user polygon and current tria
-            call Clipping_Weiler_Atherton( elem_polygon, user_polygon, result_list_polygon)
-            if(debug)print *, "number of polygons : ", result_list_polygon%num_polygons
+            !diagonal : max L1 norm
+            xyz_elem(2) =                  elem_polygon%point(1)%y   ; xyz_elem(3) =                  elem_polygon%point(1)%z   ;
+            xyz_elem(2) = min(xyz_elem(2), elem_polygon%point(2)%y ) ; xyz_elem(3) = min(xyz_elem(3), elem_polygon%point(2)%z ) ;
+            xyz_elem(2) = min(xyz_elem(2), elem_polygon%point(3)%y ) ; xyz_elem(3) = min(xyz_elem(3), elem_polygon%point(3)%z ) ;
+            xyz_elem(5) =                  elem_polygon%point(1)%y   ; xyz_elem(6) =                  elem_polygon%point(1)%z   ;
+            xyz_elem(5) = max(xyz_elem(5), elem_polygon%point(2)%y ) ; xyz_elem(6) = max(xyz_elem(6), elem_polygon%point(2)%z ) ;
+            xyz_elem(5) = max(xyz_elem(5), elem_polygon%point(3)%y ) ; xyz_elem(6) = max(xyz_elem(6), elem_polygon%point(3)%z ) ;
+            DLy = xyz_elem(5)-xyz_elem(2) !Y-dir
+            DLz = xyz_elem(6)-xyz_elem(3) !Z-dir
+            elem_polygon%diag = max(DLy,Dlz)       !strictly positive by construction
+
+            ! clipping between user polygon and current quad
+            iter=0
+            iStatus = -1
+             tol = em06*elem_polygon%diag
+            do while (iStatus /= 0 .and. iter < 10)
+              !tolerance (to avoid vertice on any edge and avoid loops)
+              tol=2*tol
+              elem_polygon%point(1:4)%y = elem_polygon%point(1:4)%y - tol
+              elem_polygon%point(1:4)%z = elem_polygon%point(1:4)%z - tol
+              !clipping algorithm
+              call Clipping_Weiler_Atherton( elem_polygon, user_polygon, result_list_polygon, iStatus)
+              iter=iter+1
+            end do
+
             if (result_list_polygon%num_polygons > 0)then
-             if(icumu==0)kvol_2d_polygons(isubmat,ielg) = zero
-             do ipoly=1,result_list_polygon%num_polygons
-              call polygon_SetClockWise( result_list_polygon%polygon(ipoly) )
-              ratio = result_list_polygon%polygon(ipoly)%area / elem_polygon%area !partially inside
-              if(is_reversed)ratio = one - ratio
-              kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + vfrac * ratio
-              if(debug)print *, "isubmat,tria partially inside",isubmat,ixq(7,ielg),kvol_2d_polygons(isubmat,ielg)
-             enddo
+              ! clipped area > 0 => elem is partially inside the user polygon
+              if(icumu == 0)kvol_2d_polygons(isubmat,ielg) = zero
+              do ipoly=1,result_list_polygon%num_polygons
+                call polygon_SetClockWise( result_list_polygon%polygon(ipoly) )
+                ratio = result_list_polygon%polygon(ipoly)%area / elem_polygon%area !partially inside
+                if(is_reversed)ratio = one - ratio
+                kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + vfrac * ratio
+                if(debug)print *, "isubmat,quad partially inside",isubmat,ixq(7,ielg),kvol_2d_polygons(isubmat,ielg)
+              enddo
+            else
+              !no clipped area => elem is outside the user polygon
+              !elem is outside  (may be considered as inside if is_reversed is true)
+              ratio = zero
+              if(is_reversed) ratio=one
+              if(icumu==0)kvol_2d_polygons(isubmat,ielg) = zero
+              kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + ratio*vfrac !0% inside
             end if
           enddo
           call polygon_destroy(elem_polygon)
-
 
 
      ! --- deallocate
@@ -430,6 +487,7 @@
       if(allocated(list_quad))deallocate(list_quad)
       if(allocated(list_tria))deallocate(list_tria)
       call polygon_destroy(user_polygon)
+      call polygon_destroy(elem_polygon)
 
     end subroutine init_inivol_2D_polygons
 
