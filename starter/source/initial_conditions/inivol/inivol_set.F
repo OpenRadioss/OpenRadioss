@@ -37,6 +37,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE ELBUFDEF_MOD 
       USE MESSAGE_MOD
+      USE CONSTANT_MOD, ONLY : NINE_OVER_10
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,9 +65,44 @@ C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF   
       TYPE(L_BUFEL_) ,POINTER :: LBUF   
       my_real                 :: P, P1,P2,P3,P4,SUMVF,RATIO
+      INTEGER                 :: default_SUBMAT_id(NEL)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+
+      ! DETERMINE DEFAULT SUBMAT ID
+      default_SUBMAT_id(1:NEL) = 1
+      DO I=1,NEL
+        IF(IPART(I+NFT) /= IDP)CYCLE
+
+        IF(MLW == 51)THEN
+          DO IMAT=1,4
+            KK = N0PHAS + (IMAT-1)*NVPHAS
+            IF(UVAR(I,1+KK) >= NINE_OVER_10)THEN
+              default_SUBMAT_id(I) = IMAT
+              EXIT
+            ENDIF
+          ENDDO
+
+        ELSEIF(MLW == 37)THEN
+          IF(UVAR(I,4)  >= NINE_OVER_10) THEN
+            default_SUBMAT_id(I) = 1
+          ELSEIF(UVAR(I,5)  >= NINE_OVER_10)THEN
+            default_SUBMAT_id(I) = 2
+          ENDIF
+
+        ELSEIF(MLW == 151)THEN
+          GBUF => ELBUF_TAB(NG)%GBUF
+          DO IMAT=1,MULTI_FVM%NBMAT
+            LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)
+            IF(LBUF%VOL(I) / GBUF%VOL(I) >= NINE_OVER_10)THEN
+              default_SUBMAT_id(I) = IMAT
+              EXIT
+            ENDIF
+          ENDDO
+        ENDIF
+
+      ENDDO!next I
 
       !---ADD CONTRIBUTION FROM 2D POLYGONAL CLIPPING
       IF(REQUIRED_2D_POLYGON_CLIPPING) THEN
@@ -77,15 +113,17 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 
-      !---CHECK UNOCCUPIPED SUBVOLUME AND FILL WITH PHASE 1. IF SUM(vfrac>1) display an error message.
+      !---CHECK UNOCCUPIPED SUBVOLUME AND FILL WITH DEFAULT PHASE IF SUM(vfrac>1) display an error message.
       DO I=1,NEL
        IF(IPART(I+NFT) /= IDP)CYCLE
         SUMVF = SUM(KVOL(1:NBSUBMAT,I))
+        IMAT = default_SUBMAT_id(I)
         IF(SUMVF > ONE+EM06)THEN
           !not expected, user input must be checked : error message
-          SUMVF = SUM(KVOL(2:NBSUBMAT,I))
+          SUMVF = SUM(KVOL(1:NBSUBMAT,I))
+          SUMVF = SUMVF - KVOL(IMAT,I)
           IF(SUMVF <= ONE .AND. SUMVF > ZERO)THEN  ! sumvf is here calculated in range 2:nbsumat
-            KVOL(1,I)=ONE-SUMVF
+            KVOL(IMAT,I)=ONE-SUMVF
           ELSE
             SUMVF = SUM(KVOL(1:NBSUBMAT,I))
             RATIO=ONE/SUMVF
@@ -93,7 +131,7 @@ C-----------------------------------------------
           ENDIF
         ELSEIF(SUMVF < ONE-EM06)THEN
           !fill unoccupied subvolume with phase-1
-          KVOL(1,I) = KVOL(1,I) + ONE-SUMVF
+          KVOL(IMAT,I) = KVOL(IMAT,I) + ONE-SUMVF
         ELSEIF(SUMVF >= ONE-EM06 .AND. SUMVF <= ONE+EM06)THEN
           !get rid of precision issue so that sumvf is exactly 1.000000
           RATIO=ONE/SUMVF

@@ -38,6 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
+      USE CONSTANT_MOD , ONLY : NINE_OVER_10
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,23 +46,33 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: N2D, NUMELS, NUMELTG, NUMELQ, NUMNOD, NGROUP
+      INTEGER,INTENT(IN) :: N2D !< 2d/3d flag
+      INTEGER,INTENT(IN) :: NUMELS, NUMELTG, NUMELQ, NUMNOD, NGROUP !array sizes
+      INTEGER,INTENT(IN) :: NBSUBMAT
       INTEGER IXS(NIXS,NUMELS),IPART_(*),IPHASE(NBSUBMAT+1,*),IDP,NUPARAM
-      INTEGER ITAGNSOL(NUMNOD),NBIP(NBSUBMAT,*),NTRACE
-      INTEGER ISOLNOD,PART_FILL(*),IXQ(NIXQ,NUMELQ), IXTG(NIXTG,NUMELTG),ITYP
-      my_real KVOL(NBSUBMAT,*),UPARAM(NUPARAM)
-      INTEGER,INTENT(IN) :: NBSUBMAT, MLW, NG
+      INTEGER ITAGNSOL(NUMNOD)
+      INTEGER :: NBIP(NBSUBMAT,NEL)   !< number of internal points
+      INTEGER :: NTRACE               !<  maximum number of internal points (NBIP <= NTRACE, default 7*7*7)
+      INTEGER ISOLNOD,PART_FILL(*)
+      INTEGER,INTENT(IN) :: IXQ(NIXQ,NUMELQ) !< quad connectivity buffer
+      INTEGER,INTENT(IN) :: IXTG(NIXTG,NUMELTG) !< triangles connectivity buffer
+      INTEGER, INTENT(IN) :: ITYP !< elem types of the current group (quad, tirangles, hexa,)
+      my_real KVOL(NBSUBMAT,NEL)      !< volume fractions
+      my_real UPARAM(NUPARAM)
+      INTEGER,INTENT(IN) :: MLW !< material law (type)
+      INTEGER,INTENT(IN) :: NG  !< current elem group
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP), INTENT(IN) :: ELBUF_TAB
       TYPE (MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
-      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: NEL !< number of elements in the group
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,J
-      INTEGER IX(4)
-      my_real AV(NBSUBMAT)
-      TYPE(G_BUFEL_) ,POINTER :: GBUF  
-      TYPE(L_BUFEL_) ,POINTER :: LBUF  
+      INTEGER :: I,K,J !< loop and temporary integers
+      INTEGER :: IMAT  !< submat identifier (in 1:NBSUBMAT)
+      INTEGER :: IX(4) !< working array for shell nodes
+      my_real :: AV(NBSUBMAT) !< working array for volume fractions
+      TYPE(G_BUFEL_) ,POINTER :: GBUF  !< global elem buffer
+      TYPE(L_BUFEL_) ,POINTER :: LBUF  !< local elem buffer (submaterials)
 C-----------------------------------------------
 C---
 C FILL ELEMENTS INPUT PHASES
@@ -85,11 +96,13 @@ C
               KVOL(1:NBSUBMAT,I)   = AV(1:NBSUBMAT)
               PART_FILL(IPART_(I)) = 1
             ELSEIF (IPART_(I) == IDP) THEN
-              IPHASE(1,I)          = 1
+              IMAT=MAXLOC(AV(1:NBSUBMAT),1) ! The default phase is the one that is most prevalent.
+              IF(AV(IMAT) < NINE_OVER_10)IMAT=1 ! no prevalence : use first one.
+              IPHASE(1,I)       = IMAT
               IPHASE(NBSUBMAT+1,I) = 1
-              KVOL(1,I)            = ZERO
-              IF (NBIP(1,I) == 0) THEN
-                NBIP(1,I) = NTRACE
+              KVOL(1,I)         = ZERO
+              IF (NBIP(IMAT,I) == 0) THEN
+                NBIP(IMAT,I) = NTRACE
               ENDIF
               IF (ISOLNOD == 8) THEN
                 DO K=2,9
