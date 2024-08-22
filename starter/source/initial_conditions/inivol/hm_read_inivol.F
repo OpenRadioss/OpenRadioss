@@ -194,18 +194,16 @@ C
 
           WRITE(IOUT,'(2X,I10,I10,I9,I6,F20.0)')IDSURF,SUBMAT_ID,IREVERSED,ICUMU,VFRAC
 
-          !IF(FLAG == 0)THEN
-            IF((SUBMAT_ID < 0 .OR. SUBMAT_ID > 4).AND.  .NOT.MULTI_FVM%IS_USED )THEN
-              CALL ANCMSG(MSGID=887,MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=ID,C1=TITR)
-            ENDIF
-            IF(IREVERSED < 0 .OR. IREVERSED > 1)THEN
-              CALL ANCMSG(MSGID=888,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
-            ENDIF
-            IF(VFRAC < ZERO .or. VFRAC > ONE)THEN
-              CALL ANCMSG(MSGID=1596,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
-            ENDIF
-          !ENDIF
-                                                                                                  
+          IF((SUBMAT_ID <= 0 .OR. SUBMAT_ID > 4).AND.  .NOT.MULTI_FVM%IS_USED )THEN
+            CALL ANCMSG(MSGID=887,MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=ID,C1=TITR)
+          ENDIF
+          IF(IREVERSED < 0 .OR. IREVERSED > 1)THEN
+            CALL ANCMSG(MSGID=888,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
+          ENDIF
+          IF(VFRAC < ZERO .or. VFRAC > ONE)THEN
+            CALL ANCMSG(MSGID=1596,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
+          ENDIF
+
           IMAT = IPART(LIPART1*(PART_ID-1)+1)
           ILAW=   IPM((IMAT-1)*NPROPMI + 2)     !IPM(2,IMAT)
           IF(ILAW/=51 .AND. ILAW/=151)THEN
@@ -214,7 +212,7 @@ C
 
           !!get bijective application to retrieve internal order of submaterial.
           !! (internally & historically submat4 is explosive submaterial)
-          IF(ILAW==51)THEN                    
+          IF(ILAW == 51)THEN
             IADBUF = IPM((IMAT-1)*NPROPMI + 7)!IPM(7,IMAT)                       
             NUPARAM= IPM((IMAT-1)*NPROPMI + 9)!IPM(9,IMAT)                       
             UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)          

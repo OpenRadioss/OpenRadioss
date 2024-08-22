@@ -275,6 +275,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         my_real, parameter ::  SEVEN_OVER_5     = SEVEN/FIVE
         my_real, parameter ::  SEVEN_OVER_9    = SEVEN/NINE
         my_real, parameter ::  NINE_OVER_2  = NINE/TWO
+        my_real, parameter ::  NINE_OVER_10  = NINE/TEN
         my_real, parameter ::  NSEIZE    = NINE/SIXTEEN
         my_real, parameter ::  NINE_OVER_20    = NINE/TWENTY
         my_real, parameter ::  ZEP11     = ZEP1 + ZEP01
