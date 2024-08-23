@@ -507,6 +507,7 @@ C                            pour visc = 0.5 , choc mou
 C---------------------------------
           DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
+            FAC = ZERO ! missing proper definition of FAC for IVIS2=5 (unused)
             MAS2  = MS(IX1(I))*H1(I)
      .            + MS(IX2(I))*H2(I)
      .            + MS(IX3(I))*H3(I)
