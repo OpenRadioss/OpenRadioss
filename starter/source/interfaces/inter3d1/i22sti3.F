@@ -28,22 +28,12 @@ C
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE I22STI3(
-     1 IRECT ,STF   ,IXS   ,PM    ,
-     2 GEO   ,NRT   ,IXC   ,STFAC ,
-     3 GAP   ,
-     4 STFN  ,MS    ,IXTG  ,
-     5 IGAP  ,GAP_S ,GAP_M ,GAPMIN,
-     6 IXT   ,IXP   ,GAPINF,GAPMAX,
-     8 INACTI ,INTTH,
-     B IELES  ,IELEC    ,AREAS    ,SH4TREE ,SH3TREE ,
-     C IPART  ,IPARTC   ,IPARTTG  ,
-     D PERCENT_SIZE,GAP_S_L ,GAP_M_L,
-     E IXR    ,ITAB,BGAPSMX ,IXS10  ,IXS16   ,IXS20    ,
-     F ID,IGEO , PM_STACK , IWORKSH)
+      SUBROUTINE I22STI3(  STF         ,NRT    )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,55 +47,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRT,  NSN,IGAP, NDDIM,INACTI
-      INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
-     .    IXTG(NIXTG,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   IELES(*), INTTH, IELEC(*),
-     .   SH3TREE(KSH3TREE,*), SH4TREE(KSH4TREE,*),IXR(NIXR,*) ,
-     .   IPART(LIPART1,*),IPARTC(*),IPARTTG(*),
-     .   ITAB(*), IXS10(6,*), IXS16(*), IXS20(*),IGEO(NPROPGI,*),IWORKSH(3,*)
-      my_real
-     .   STFAC, GAP,GAPMIN,GAPINF, GAPMAX,PERCENT_SIZE, BGAPSMX
-      my_real
-     .   STF(*), PM(NPROPM,*), GEO(NPROPG,*), STFN(*),
-     .   MS(*), GAP_S(*),GAP_M(*),
-     .   AREAS(*),
-     .   GAP_S_L(*),GAP_M_L(*),PM_STACK(20,*)
-      INTEGER ID
-      CHARACTER(LEN=NCHARTITLE) :: TITR
+      INTEGER,INTENT(IN) :: NRT
+      my_real,INTENT(INOUT) :: STF(NRT)
 C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
+C   S o u r c e   L i n e s
 C-----------------------------------------------
-      INTEGER NDX, I, J, INRT, NELS, MT, JJ, JJJ, NELC,
-     .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
-     .   IP, NLEV, MYLEV, K, P, R, T,IGTYP,IPGMAT,IGMAT,
-     .   ISUBSTACK
-      INTEGER JPERM(4)
-C     REAL
-      my_real
-     .   DXM, GAPMX, GAPMN, AREA, VOL, DX,GAPS1,GAPS2, GAPM, DDX, 
-     .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
-     .   SLSFAC,XL,GAP_S_L_TMP(NUMNOD),ST
-      DATA JPERM/2,3,4,1/
-C--------------------------------------------------------------
-C     CALCUL DES RIGIDITES DES SEGMENTS 
-C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
-C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
-C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
-C---------------------------------------------------------------
-      SLSFAC = STFAC
-      DXM=0.
-      NDX=0
-      GAPMX=EP30
-      GAPMN=EP30
-      GAPS1=ZERO
-      GAPS2=ZERO
-      GAPSCALE = ONE
-      IPGMAT = 700
-C------------------------------------
-C     GAP STIF FACES MAIN
-C------------------------------------
-      
+
       STF(1:NRT)=ONE
       
       RETURN

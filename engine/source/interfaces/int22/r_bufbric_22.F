@@ -408,14 +408,14 @@ C---------------------------------------------------------------------C
         ENDDO          
         DO I=1,5       
          DO J=1,9 
-                CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                BRICK_LIST(NIN,1:I22LEN)%POLY(J)%FACE(K)%Adjacent_FLUX(I) = READ_ITAB(1:I22LEN)
+                CALL  READ_DB  ( READ_RTAB                                 , I22LEN)
+                BRICK_LIST(NIN,1:I22LEN)%POLY(J)%FACE(K)%Adjacent_FLUX(I) = READ_RTAB(1:I22LEN)
          ENDDO      
         ENDDO 
         DO I=1,5       
          DO J=1,9 
-                CALL  READ_I_C ( READ_ITAB                                 , I22LEN)
-                BRICK_LIST(NIN,1:I22LEN)%POLY(J)%FACE(K)%Adjacent_upwFLUX(I) = READ_ITAB(1:I22LEN)
+                CALL  READ_DB  ( READ_RTAB                                 , I22LEN)
+                BRICK_LIST(NIN,1:I22LEN)%POLY(J)%FACE(K)%Adjacent_upwFLUX(I) = READ_RTAB(1:I22LEN)
          ENDDO      
         ENDDO 
         DO I=1,3       
