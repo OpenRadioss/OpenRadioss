@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    conversion         ../engine/source/materials/mat/mat190/conversion.F
       !||    prodata            ../engine/source/materials/tools/prodATA.F
       !||    valpvec_v          ../engine/source/materials/mat/mat033/sigeps33.F
+      !||    valpvecdp_v        ../engine/source/materials/mat/mat033/sigeps33.F
       !||--- uses       -----------------------------------------------------
       !||    condamage_mod      ../engine/source/materials/mat/mat190/condamage.F
       !||    conversion_mod     ../engine/source/materials/mat/mat190/conversion.F

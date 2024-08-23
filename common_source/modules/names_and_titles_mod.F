@@ -615,7 +615,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i21tri                            ../engine/source/interfaces/intsort/i21tri.F
       !||    i22err3                           ../starter/source/interfaces/inter3d1/i22err3.F
       !||    i22sti3                           ../starter/source/interfaces/inter3d1/i22sti3.F
-      !||    i22tzinf                          ../starter/source/interfaces/inter3d1/i22tzinf.F
       !||    i23buc1                           ../starter/source/interfaces/inter3d1/i23buc3.F
       !||    i23gap3                           ../starter/source/interfaces/inter3d1/i23gap3.F
       !||    i23tri                            ../starter/source/interfaces/inter3d1/i23tri.F

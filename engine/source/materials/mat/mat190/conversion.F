@@ -33,7 +33,6 @@ c===========================================================================
       !||--- called by ------------------------------------------------------
       !||    sigeps190               ../engine/source/materials/mat/mat190/sigeps190.F
       !||--- calls      -----------------------------------------------------
-      !||    finter                  ../engine/source/tools/curve/finter.F
       !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
       !||--- uses       -----------------------------------------------------
       !||    table4d_mod             ../common_source/modules/table4d_mod.F
