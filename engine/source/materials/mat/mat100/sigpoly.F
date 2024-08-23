@@ -236,7 +236,7 @@ C----------------------------------------------------------------
      .   I2(NEL),JTHIRD(NEL),J4THIRD(NEL),ETA(NEL),WW(NEL) ,
      .   DPHIDI1(NEL) ,DPHIDI2(NEL) , DPHIDJ(NEL) ,INV2J(NEL), 
      .   DPHI2DI1(NEL) ,DPHI2DI2(NEL) , DPHI2DJ(NEL),LAM_B(3),LAM_B_1(3),
-     .   BI1_3,BI2_3	 
+     .   BI1_3,BI2_3     
 C----------------------------------------------------------------
       ETA(1:NEL) = ONE !MULLINS DAMAGE FACTOR
 

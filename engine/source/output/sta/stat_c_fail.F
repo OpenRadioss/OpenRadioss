@@ -163,7 +163,7 @@ c
               DO IFAIL = 1,NFAIL 
                 IRUPT = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID 
                 IRUPT_TYPE = MAT_PARAM(IMAT)%FAIL(IFAIL)%IRUPT 
-                NVAR_RUPT = FBUF%FLOC(IFAIL)%NVAR		       
+                NVAR_RUPT = FBUF%FLOC(IFAIL)%NVAR                      
                 JJ = JJ + 1
                 WA(JJ) = NVAR_RUPT + 1
                 JJ = JJ + 1
@@ -397,21 +397,21 @@ c
               DO IFAIL = 1,NFAIL 
                 IRUPT = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID 
                 IRUPT_TYPE = MAT_PARAM(IMAT)%FAIL(IFAIL)%IRUPT 
-           	    NVAR_RUPT  = FBUF%FLOC(IFAIL)%NVAR			 
-           	    JJ = JJ + 1
-           	    WA(JJ) = NVAR_RUPT + 1
-           	    JJ = JJ + 1
-           	    WA(JJ) = IRUPT
-           	    JJ = JJ + 1
-           	    WA(JJ) = IRUPT_TYPE	
+                    NVAR_RUPT  = FBUF%FLOC(IFAIL)%NVAR                   
+                    JJ = JJ + 1
+                    WA(JJ) = NVAR_RUPT + 1
+                    JJ = JJ + 1
+                    WA(JJ) = IRUPT
+                    JJ = JJ + 1
+                    WA(JJ) = IRUPT_TYPE 
 !
                 IF (IRUPT == 0) CYCLE
 !
-                DO IT = 1,NPTT 		     
-           	    DO IS=1,NPTS					       
-           	    DO IR=1,NPTR 		     
-                  FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)				       
-           	      UVARF => FBUF%FLOC(IFAIL)%VAR  
+                DO IT = 1,NPTT               
+                    DO IS=1,NPTS                                               
+                    DO IR=1,NPTR                     
+                  FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)                                       
+                      UVARF => FBUF%FLOC(IFAIL)%VAR  
                   DFMAX => FBUF%FLOC(IFAIL)%DAMMX   
                   JJ = JJ + 1
                   WA(JJ) = DFMAX(I)

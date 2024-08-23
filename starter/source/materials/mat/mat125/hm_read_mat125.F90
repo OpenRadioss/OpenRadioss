@@ -104,6 +104,7 @@
       is_encrypted = .false.
       is_available = .false.
       ilaw         = 125
+      g31         = zero  !is not initialized elsewhere
  !------------------------------------------
       call hm_option_is_encrypted(is_encrypted)
  !------------------------------------------

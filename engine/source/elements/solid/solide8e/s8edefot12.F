@@ -298,7 +298,7 @@ C
      +                  +BZY5(I)*VLZ5(I)+BZY6(I)*VLZ6(I)
      +                  +BZY7(I)*VLZ7(I)+BZY8(I)*VLZ8(I)
          ENDDO
-	   END IF !(ISEL_V>0) THEN
+      END IF !(ISEL_V>0) THEN
       IF (ICP==1) THEN
        IF (MTN==1) THEN
         DO I=1,NEL

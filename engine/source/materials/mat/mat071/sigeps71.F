@@ -273,7 +273,7 @@ C=======================================================================
        RFSA = YLD_SAF *(SQDT+ALPHA)-CSA*TFSA
        DO I = 1,NEL
 C
-	   FM = UVAR(I,1)   ! fraction of Martensite    
+        FM = UVAR(I,1)   ! fraction of Martensite    
         GT(I) = G + FM * (GM - G) !G_n
         KT(I) = K + FM * (KM - K) !K_n
         !pressure
@@ -369,7 +369,7 @@ C----------------------
        SIGXX(I)= SXX + P
        SIGYY(I)= SYY + P
        SIGZZ(I)= SZZ + P
-	  SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ ) 
+       SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ ) 
        FS = SV + THREE*ALPHA*P      
        !CAUCHY STRESS
        IF(DET(I)/=zero)THEN 
@@ -424,7 +424,7 @@ C=======================================================================
        RFSA = YLD_SAF *(SQDT+ALPHA)-CSA*TFSA
        DO I = 1,NEL
 C
-	   FM = UVAR(I,1)   ! fraction of Martensite    
+        FM = UVAR(I,1)   ! fraction of Martensite    
         !pressure
         P = K * (TRDE(I) - THREE*ALPHA*EPSL*FM)
         ! n= e/ norm(e)
@@ -437,7 +437,7 @@ C
         SYY= G2*(EE2(I) -EPSL*FM*NYY(I))
         SZZ= G2*(EE3(I) -EPSL*FM*NZZ(I))
 
-             SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ  )
+        SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ  )
 c       sound velocity    
         SOUNDSP(I) = SQRT(AA1/RHO0(I))
         VISCMAX(I) = ZERO
