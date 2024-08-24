@@ -720,6 +720,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i12chk3                             ../starter/source/interfaces/inter3d1/i12chk3.F
       !||    i12sol3                             ../starter/source/interfaces/inter3d1/insol3.F
       !||    i12tid3                             ../starter/source/interfaces/inter3d1/i12tid3.F
+      !||    i1bcs_check                         ../starter/source/interfaces/int01/i1bcs_check.F90
       !||    i1chk3                              ../starter/source/interfaces/inter3d1/i1chk3.F
       !||    i1tid2                              ../starter/source/interfaces/inter2d1/i1tid2.F
       !||    i1tid3                              ../starter/source/interfaces/inter3d1/i1tid3.F
@@ -782,6 +783,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i7remnode                           ../starter/source/interfaces/inter3d1/i7remnode.F
       !||    i7sti3                              ../starter/source/interfaces/inter3d1/i7sti3.F
       !||    i7tri                               ../starter/source/interfaces/inter3d1/i7tri.F
+      !||    i9bcs_check                         ../starter/source/interfaces/int09/i9bcs_check.F90
       !||    i9sti3                              ../starter/source/interfaces/int09/i9sti3.F
       !||    iedge_xfem                          ../starter/source/elements/xfem/iedge_xfem.F
       !||    ig3dgrhead                          ../starter/source/elements/ige3d/ig3dgrhead.F

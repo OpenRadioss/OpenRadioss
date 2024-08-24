@@ -26,6 +26,14 @@
 ! ======================================================================================================================
 !! \brief check boundary condition applied on nodes related to interface type 1
 !! \details
+      !||====================================================================
+      !||    i9bcs_check            ../starter/source/interfaces/int09/i9bcs_check.F90
+      !||--- called by ------------------------------------------------------
+      !||    inint2                 ../starter/source/interfaces/inter2d1/inint2.F
+      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||====================================================================
         subroutine i9bcs_check(icode, sicode, nsn , nsv, sitab, itab, interf_uid, title, nty, siloc, iloc)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

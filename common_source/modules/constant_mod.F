@@ -53,8 +53,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat126                           ../starter/source/materials/mat/mat126/hm_read_mat126.F90
       !||    hm_read_mat169_arup                      ../starter/source/materials/mat/mat169/hm_read_mat169.F90
       !||    hm_read_preload_axial                    ../starter/source/loads/general/preload/hm_read_preload_axial.F90
+      !||    iniphase                                 ../starter/source/initial_conditions/inivol/iniphase.F
       !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
       !||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+      !||    inivol_set                               ../starter/source/initial_conditions/inivol/inivol_set.F
       !||    inter7_candidate_pairs                   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
       !||    inter7_filter_cand                       ../engine/source/interfaces/intsort/inter7_filter_cand.F
       !||    inter7_penetration                       ../engine/source/interfaces/intsort/inter7_penetration.F

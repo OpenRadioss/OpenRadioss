@@ -501,6 +501,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i12chk3                             ../starter/source/interfaces/inter3d1/i12chk3.F
       !||    i12sol3                             ../starter/source/interfaces/inter3d1/insol3.F
       !||    i12tid3                             ../starter/source/interfaces/inter3d1/i12tid3.F
+      !||    i1bcs_check                         ../starter/source/interfaces/int01/i1bcs_check.F90
       !||    i1chk3                              ../starter/source/interfaces/inter3d1/i1chk3.F
       !||    i1tid2                              ../starter/source/interfaces/inter2d1/i1tid2.F
       !||    i1tid3                              ../starter/source/interfaces/inter3d1/i1tid3.F
