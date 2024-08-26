@@ -92,7 +92,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G                   IEXPAN   ,IFTHE   ,ICONDN  ,DT     ,SNPC,STF,
      H                   SBUFMAT  ,SVIS    ,NSVOIS  ,IDTMINS,IRESP,
      I                   IDEL7NG  ,IDEL7NOK,MAXFUNC, IMON_MAT, USERL_AVAIL, 
-     J                   heat_meca,XDP    )
+     J                   GLOB_THERM,XDP    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -107,6 +107,7 @@ C-----------------------------------------------
       USE S6GET_XV_MOD,    ONLY : S6GET_XV
       USE S6FOR_DISTOR_MOD,ONLY : S6FOR_DISTOR
       USE S6CHOUR_CTL_MOD ,ONLY : S6CHOUR_CTL
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -141,7 +142,6 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: MAXFUNC
       INTEGER, INTENT(IN) :: USERL_AVAIL
       INTEGER, INTENT(IN) :: IMON_MAT
-      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),NPF(*),IADS(8,*),GRTH(*),
      .  IPARTS(*),IPM(NPROPMI,*),IGEO(NPROPGI,*),IGRTH(*), ITASK,IOUTPRT
       INTEGER NELTST,ITYPTST,OFFSET,NG,NEL,ICP,ICSIG,ISTRAIN,H3D_STRAIN
@@ -170,6 +170,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN)            :: ALE_CONNECT
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE(DT_)  , INTENT(INOUT)                      :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -691,13 +692,13 @@ C------------------------------------------------------
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VAR_REG(1,ILAY),MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_R1_FREE,
-     *                SNPC,        STF,         SBUFMAT    ,
+     *   SNPC,        STF,         SBUFMAT      ,GLOB_THERM, 
      *   SVIS,        SZ_IX,       IRESP,       
      *   N2D,         TH_STRAIN,   NGROUP,      TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
-     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   IMON_MAT,    USERL_AVAIL, impl_s,
      .   idyna,       DT,         fheat  , OPT_MTN=MTN,OPT_JCVT=JCVT, 
      .   OPT_ISORTH=ISORTH,OPT_ISORTHG=ISORTHG)
 C
@@ -705,7 +706,7 @@ C
           STIN(I) = STIN(I)+STI(I)
         ENDDO
 C
-        IF(NODADT_THERM == 1) THEN
+        IF(GLOB_THERM%NODADT_THERM == 1) THEN
           DO I=1,NEL
             CONDEN(I)= CONDEN(I)+ CONDE(I)
           ENDDO
@@ -786,7 +787,7 @@ C--------------------------
      5           PY4      ,PZ1     ,PZ2      ,PZ3      ,
      6           PZ4      ,DT1     ,TEMP     ,TEMPEL   ,
      7           FHEAT    ,THEM    ,GBUF%OFF ,LBUF%OFF ,
-     8           NEL      )
+     8           NEL      ,GLOB_THERM%THEACCFACT)
           ELSE
           END IF
             CALL S6CTHERM(
@@ -797,7 +798,7 @@ C--------------------------
      5           PY4      ,PZ1     ,PZ2      ,PZ3      ,
      6           PZ4      ,DT1     ,TEMP     ,TEMPEL   ,
      7           DIE      ,THEM    ,GBUF%OFF ,LBUF%OFF ,
-     8           NEL      )
+     8           NEL      ,GLOB_THERM%THEACCFACT)
         ENDIF 
         DO I=1,NEL                                        
           OFFG(I)=MIN(OFFG(I),OFF(I))                        
@@ -1025,7 +1026,8 @@ C----------------------------
      6   F24,     F34,     F15,     F25,
      7   F35,     F16,     F26,     F36,
      8   NEL,    JTHE,    FTHE,    THEM,
-     9   CONDN,CONDEN,   IFTHE,  ICONDN)
+     9   CONDN,CONDEN,   IFTHE,  ICONDN,
+     .   GLOB_THERM%NODADT_THERM)
       ELSE
         CALL S6CUMU3P(
      1   GBUF%OFF,STIN,    FSKY,    FSKY,
@@ -1035,7 +1037,8 @@ C----------------------------
      5   F34,     F15,     F25,     F35,
      6   F16,     F26,     F36,     NEL,
      7   NFT,    JTHE, FTHESKY,    THEM,
-     8   CONDNSKY,CONDEN)
+     8   CONDNSKY,CONDEN,
+     .   GLOB_THERM%NODADT_THERM)
       ENDIF
       IF (NTSHEG > 0)
      +  CALL SCUMUALPHA6(

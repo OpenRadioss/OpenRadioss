@@ -37,7 +37,7 @@ C
      2   IPART,MSS,MSNF   ,MSSF,WMA,
      3   RHOCP,MCP,MCPS   ,TEMP0 ,TEMP,
      4   MSSA ,IX1   ,IX2   ,IX3   ,IX4,
-     5   FILL, VOLU  ,IMAS_DS )
+     5   FILL, VOLU  ,IMAS_DS ,NINTEMP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,6 +61,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) ::  IMAS_DS
+      INTEGER, INTENT(IN) ::  NINTEMP
       INTEGER IPART(*), IX1(*), IX2(*), IX3(*), IX4(*)
       my_real
      .   RHO(*), MS(*),X(3,*),V(3,*),PARTSAV(20,*),MSNF(*), MSS(8,*),

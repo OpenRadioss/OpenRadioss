@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE DTNODA(NODFT ,NODLT ,NELTST,ITYPTST,ITAB   ,
      2                  MS    ,IN    ,STIFN ,STIFR  ,DT2T   ,
      3                  DMAST ,DINERT,ADT   ,ADM    ,IMSCH  ,
-     4                  WEIGHT,A     ,AR    ,IGRNOD ,
+     4                  WEIGHT,A     ,AR    ,IGRNOD ,NODADT_THERM,
      5                  ADI   ,RBYM  ,ARBY  ,ARRBY  ,WEIGHT_MD,
      6                  MCP   ,MCP_OFF,CONDN ,NALE  ,H3D_DATA)
 C-----------------------------------------------
@@ -72,6 +72,7 @@ C-----------------------------------------------
       INTEGER NODFT, NODLT,NELTST,ITYPTST,ITAB(*),
      .        WEIGHT(*),IMSCH,WEIGHT_MD(*)
       INTEGER,INTENT(IN) :: NALE(*)
+      INTEGER, INTENT(IN) :: NODADT_THERM
       my_real DT2T, DMAST, DINERT,
      .   MS(*) ,IN(*) ,STIFN(*), STIFR(*),ADT(*) ,ADM(*) ,
      .   A(3,*) ,AR(3,*) ,ADI(*) ,RBYM(NFRBYM,*),ARBY(3,*),

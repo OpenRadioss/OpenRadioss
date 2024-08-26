@@ -51,7 +51,7 @@ C  |         I10XSAVE                        /intsort/i10xsave.F
      2                  MS      ,NIN   ,ITASK   ,WEIGHT  ,ISENDTO ,
      3                  IRCVFROM,RETRI ,IAD_ELEM,FR_ELEM ,ITAB    ,
      4                  NRTM_T  ,ESHIFT,NODNX_SMS,RENUM,NSNFIOLD  ,
-     5                  INTBUF_TAB,TEMP)
+     5                  INTBUF_TAB,TEMP,NODADT_THERM)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -87,6 +87,7 @@ C-----------------------------------------------
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),NODNX_SMS(*), 
      .        RENUM(*),NSNFIOLD(NSPMD)
+      INTEGER ,INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real 
      .   X(*), V(3,*), MS(*),TEMP(*)
@@ -411,7 +412,7 @@ C
         CALL SPMD_TRI11GAT(
      1    RESULT       ,NRTS ,INTBUF_TAB%CAND_N,INTBUF_TAB%I_STOK(1),NIN,
      2    IPARI(22,NIN),NRTSR,MULTIMP          ,IPARI(21,NIN),IPARI(47,NIN),
-     2    IPARI(36,NIN),IPARI(72,NIN))
+     2    IPARI(36,NIN),IPARI(72,NIN),NODADT_THERM)
 
 C sauvegarde des candidats additionnels dans IPARI(24)
         IPARI(24,NIN) = NRTSR

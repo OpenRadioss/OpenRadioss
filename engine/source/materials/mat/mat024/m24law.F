@@ -52,11 +52,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F   G_DT,    IPM,     RHOREF,  RHOSP,
      G   EPSD,    ITY,     JTUR,    JTHE,
      H   JHBE,    JCVT,    JSPH,    ISMSTR,
-     I   JSMS,    NPG ,    SVIS)
+     I   JSMS,    NPG ,    SVIS,   glob_therm)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,6 +98,7 @@ C-----------------------------------------------
      .   RHOREF(*)  ,RHOSP(*)
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE(L_BUFEL_)  :: LBUF     
+      type (glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -156,7 +158,7 @@ C
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,
-     C   JSMS,    NPG )
+     C   JSMS,    NPG  ,   glob_therm)
 C
        VOLG(1:NEL)=NPG*VOLN(1:NEL)
        CALL MNSVIS(

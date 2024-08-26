@@ -34,12 +34,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod            ../engine/share/modules/sensor_mod.F
       !||====================================================================
       SUBROUTINE FIXFLUX (IBFFLUX ,FBFFLUX ,NPC   ,TF  ,X  ,IXS,
-     1                    NSENSOR ,SENSOR_TAB,FTHE  ,IAD ,FTHESKY, PYTHON)
+     .                    NSENSOR ,SENSOR_TAB,FTHE  ,IAD ,FTHESKY, PYTHON,
+     .                    GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
       USE PYTHON_FUNCT_MOD
       USE SENSOR_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,32 +54,28 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "parit_c.inc"
-#include      "thermal_c.inc"
-#include      "scr_thermal_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type (glob_therm_) ,intent(inout)   :: glob_therm
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),IAD(4,*)
-      INTEGER IBFFLUX(NITFLUX,*),IXS(NIXS,*)
-C     REAL
+      INTEGER IBFFLUX(GLOB_THERM%NITFLUX,*)
+      INTEGER IXS(NIXS,*)
       my_real
-     .   FBFFLUX(LFACTHER,*), TF(*), X(3,*),
+     .   FBFFLUX(GLOB_THERM%LFACTHER,*), TF(*), X(3,*),
      .   FTHESKY(LSKY), FTHE(*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(PYTHON_) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, N3, N4, N5, N6, N7, N8, ISENS, K,
-     .        ICODE,IFUNC_OLD,IFUNC,IAD1,IAD2,IAD3,IAD4,IFLAG
-      INTEGER I,IEL
-C     REAL
-      my_real
-     .   NX, NY, NZ, AXI, AA, A0, DYDX, TS, FLUX,
-     .   TS_OLD, F1, F2, FCX, FCY, FLUX_DENS, AREA, 
-     .   STARTT, STOPT, FCY_OLD
+      INTEGER NL, N1, N2, N3, N4, N5, N6, N7, N8, ISENS, 
+     .        IFUNC_OLD,IFUNC,IAD1,IAD2,IAD3,IAD4,IFLAG
+      INTEGER IEL
+      my_real NX, NY, NZ, DYDX, TS, FLUX, TS_OLD, FCX, FCY, FLUX_DENS, AREA
+      my_real STARTT, STOPT, FCY_OLD
       my_real TTA, TTB, DT1A, DT1N, VOLG, BID
       my_real FINTER 
       EXTERNAL FINTER
@@ -94,14 +92,14 @@ C
 C-----------------------------------------------------------
 C  CODE PARITH/OFF  NE PAS OUBLIER LE CODE P/ON !
 C-----------------------------------------------------------
-       DO  NL=1,NFXFLUX
+       DO  NL=1,GLOB_THERM%NFXFLUX
 C
          ISENS  = IBFFLUX(6,NL)
 C
          STARTT = FBFFLUX(4,NL)
          STOPT  = FBFFLUX(5,NL)
-         TTA    = TT*THEACCFACT
-         DT1A   = DT1*THEACCFACT
+         TTA    = TT *GLOB_THERM%THEACCFACT
+         DT1A   = DT1*GLOB_THERM%THEACCFACT
          TTB    = TTA - DT1A
          IF(ISENS == 0)THEN
             TS = TTA - STARTT
@@ -162,7 +160,7 @@ C
 C
            AREA = HALF*SQRT(NX*NX + NY*NY + NZ*NZ)
            FLUX = AREA*FLUX_DENS*DT1N 
-           HEAT_FFLUX = HEAT_FFLUX + FLUX
+           GLOB_THERM%HEAT_FFLUX = GLOB_THERM%HEAT_FFLUX + FLUX
            FLUX = FOURTH*FLUX
 C
            FTHE(N1) = FTHE(N1) + FLUX
@@ -180,7 +178,7 @@ C
 C
            AREA = HALF*SQRT( NX*NX + NY*NY + NZ*NZ)
            FLUX = AREA*FLUX_DENS*DT1N
-           HEAT_FFLUX = HEAT_FFLUX + FLUX
+           GLOB_THERM%HEAT_FFLUX = GLOB_THERM%HEAT_FFLUX + FLUX
            FLUX = THIRD*FLUX
 C 
            FTHE(N1) = FTHE(N1) + FLUX
@@ -193,7 +191,7 @@ C
 C     
            AREA = SQRT(NY*NY + NZ*NZ)
            FLUX = AREA*FLUX_DENS*DT1N
-           HEAT_FFLUX = HEAT_FFLUX + FLUX
+           GLOB_THERM%HEAT_FFLUX = GLOB_THERM%HEAT_FFLUX + FLUX
            FLUX = HALF*FLUX
 C
            FTHE(N1) = FTHE(N1) + FLUX
@@ -225,7 +223,7 @@ C----------------------------
            ENDIF
 
            FLUX = VOLG*FLUX_DENS*DT1N 
-           HEAT_FFLUX = HEAT_FFLUX + FLUX
+           GLOB_THERM%HEAT_FFLUX = GLOB_THERM%HEAT_FFLUX + FLUX
            FLUX = ONE_OVER_8*FLUX
 C
            FTHE(N1) = FTHE(N1) + FLUX
@@ -245,12 +243,12 @@ C-------------------------
 C CODE PARITH/ON
 C CODE NON VECTORIEL
 C-------------------------
-        DO NL=1,NFXFLUX
+        DO NL=1,GLOB_THERM%NFXFLUX
            ISENS  = IBFFLUX(6,NL)
            STARTT = FBFFLUX(4,NL) 
            STOPT  = FBFFLUX(5,NL)
-           TTA    = TT*THEACCFACT
-           DT1A   = DT1*THEACCFACT
+           TTA    = TT *GLOB_THERM%THEACCFACT
+           DT1A   = DT1*GLOB_THERM%THEACCFACT
            IF (ISENS == 0)THEN
               TS = TTA - STARTT
            ELSE 
@@ -297,7 +295,7 @@ C            ANALYSE 3D
 C
                AREA = HALF*SQRT(NX*NX + NY*NY + NZ*NZ)
                FLUX = AREA*FLUX_DENS*FCY*DT1A
-               HEAT_FFLUX = HEAT_FFLUX + FLUX
+               GLOB_THERM%HEAT_FFLUX = GLOB_THERM%HEAT_FFLUX + FLUX
                FLUX = FOURTH*FLUX
 C
                IAD1 = IAD(1,NL)
@@ -319,7 +317,7 @@ C
 C
                AREA = HALF*SQRT(NX*NX + NY*NY + NZ*NZ)
                FLUX = AREA*FLUX_DENS*FCY*DT1A 
-               HEAT_FFLUX = HEAT_FFLUX + FLUX
+               GLOB_THERM%HEAT_FFLUX = GLOB_THERM%HEAT_FFLUX + FLUX
                FLUX = THIRD*FLUX
 C
                IAD1 = IAD(1,NL)
@@ -335,7 +333,7 @@ C
 C 
                AREA = SQRT(NY*NY + NZ*NZ)
                FLUX = AREA*FLUX_DENS*FCY*DT1A
-               HEAT_FFLUX = HEAT_FFLUX + FLUX
+               GLOB_THERM%HEAT_FFLUX = GLOB_THERM%HEAT_FFLUX + FLUX
                FLUX = HALF*FLUX
 C
                IAD1 = IAD(1,NL)

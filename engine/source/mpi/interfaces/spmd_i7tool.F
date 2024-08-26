@@ -33,7 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE SPMD_OLDNUMCD(RENUM,OLDNUM,NSNR,NSNROLD) 
+      SUBROUTINE SPMD_OLDNUMCD(RENUM,OLDNUM,NSNR,NSNROLD,
+     .           INTHEAT,IDT_THERM,NODADT_THERM) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,8 +46,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER OLDNUM(*), RENUM(*),
-     .        NSNR, NSNROLD
+      INTEGER ,INTENT(IN) :: INTHEAT
+      INTEGER ,INTENT(IN) :: IDT_THERM
+      INTEGER ,INTENT(IN) :: NODADT_THERM 
+      INTEGER :: NSNR, NSNROLD
+      INTEGER :: OLDNUM(*), RENUM(*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -476,7 +480,7 @@ C
      4       FCONT ,INACTI  ,IADM   ,INTTH  ,FTHE    ,
      5       CONDN ,H3D_DATA, MULTI_FVM,NIN ,TAGNCONT,
      6       KLOADPINTER,LOADPINTER,LOADP_HYD_INTER  ,
-     .                     INTCAREA,FSAV  ,PARAMETERS)       
+     .       INTCAREA,FSAV  ,PARAMETERS,NODADT_THERM)       
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -509,6 +513,7 @@ C-----------------------------------------------
      .        LOADP_HYD_INTER(*),
      .        IADM,INTTH
       INTEGER, INTENT(in) :: NIN, INTCAREA
+      INTEGER, INTENT(IN) :: NODADT_THERM
       my_real
      .        BUFR(LEN,*), A(3,*), STIFN(*), VISCN(*),
      .        SECFCUM(7,NUMNOD,NSECT),
@@ -684,7 +689,7 @@ C
      2       STIFN ,VISCN   ,IBC    ,ISECIN ,NOINT   ,
      3       IBAG  ,ICODT   ,SECFCUM,NSTRF  ,ICONTACT,
      4       FCONT ,INTTH   ,FTHE   ,CONDN  ,H3D_DATA,
-     5       TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
+     5       TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -713,6 +718,7 @@ C-----------------------------------------------
      .        IRECTS(2,*), ICODT(*), NSTRF(*),ICONTACT(*),
      .        TAGNCONT(NLOADP_HYD_INTER,*),
      .        KLOADPINTER(*),LOADPINTER(*),LOADP_HYD_INTER(*)
+      INTEGER, INTENT(IN) :: NODADT_THERM
       my_real
      .        BUFR(LEN,*), A(3,*), STIFN(*), VISCN(*),
      .        SECFCUM(7,NUMNOD,NSECT),
@@ -1793,7 +1799,7 @@ C
      3       ICODT  ,SECFCUM,NSTRF  ,ICONTACT,FCONT,
      4       INACTI ,IADM   ,INTTH  ,FTHESKYI,CONDNSKYI,
      5       H3D_DATA,NIN   ,TAGNCONT,KLOADPINTER,LOADPINTER  ,
-     6       LOADP_HYD_INTER,INTCAREA,FSAV   ,PARAMETERS)
+     6       LOADP_HYD_INTER,INTCAREA,FSAV   ,PARAMETERS,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1826,6 +1832,7 @@ C-----------------------------------------------
      .        LOADP_HYD_INTER(*),
      .        IADM,INTTH
       INTEGER ,INTENT(IN):: INTCAREA
+      INTEGER, INTENT(IN) :: NODADT_THERM
       my_real
      .        BUFR(LEN,*),
      .        FSKYI(LSKYI,NFSKYI), SECFCUM(7,NUMNOD,NSECT),
@@ -2197,7 +2204,7 @@ C
      3       ICODT  ,SECFCUM,NSTRF ,ICONTACT,FCONT,
      4       INTTH  ,FTHESKYI,CONDNSKYI,H3D_DATA,
      5       NIN    ,TAGNCONT,KLOADPINTER,LOADPINTER,
-     7       LOADP_HYD_INTER)
+     7       LOADP_HYD_INTER,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -2228,6 +2235,7 @@ C-----------------------------------------------
      .        ICONTACT(*), 
      .        TAGNCONT(NLOADP_HYD_INTER,*),KLOADPINTER(*),LOADPINTER(*),
      .        LOADP_HYD_INTER(*)
+      INTEGER, INTENT(IN) :: NODADT_THERM
       my_real
      .        BUFR(LEN,*),
      .        FSKYI(LSKYI,NFSKYI), SECFCUM(7,NUMNOD,NSECT),
@@ -3369,7 +3377,7 @@ C
       !||    tri25ebox                    ../engine/share/modules/tri25ebox.F
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE SPMD_INITFI(IPARI,IFLAG,H3D_DATA,PARAMETERS)
+      SUBROUTINE SPMD_INITFI(IPARI,IFLAG,H3D_DATA,PARAMETERS,IDT_THERM,INTHEAT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3402,6 +3410,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), IFLAG
+      INTEGER, INTENT(IN) :: IDT_THERM
+      INTEGER, INTENT(IN) :: INTHEAT
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (PARAMETERS_) ,INTENT(IN):: PARAMETERS
 C-----------------------------------------------
@@ -7202,7 +7212,7 @@ C
       !||    tri25ebox         ../engine/share/modules/tri25ebox.F
       !||    tri7box           ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE UPGRADE_REM_2RY(IPARI,COUNT_REMSLV,COUNT_REMSLVE)
+      SUBROUTINE UPGRADE_REM_2RY(IPARI,COUNT_REMSLV,COUNT_REMSLVE,NODADT_THERM)
       USE TRI7BOX
       USE TRI25EBOX
       USE MESSAGE_MOD
@@ -7220,6 +7230,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*),COUNT_REMSLV(*),COUNT_REMSLVE(*)
+      INTEGER, INTENT(IN) :: NODADT_THERM 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

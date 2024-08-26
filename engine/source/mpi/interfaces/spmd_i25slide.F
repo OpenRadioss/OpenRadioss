@@ -246,7 +246,7 @@ C
      2                             IGAP  ,NSNR   ,INTTH   ,ILEV,INTBUF_TAB,
      3                             FR_NOR, IAD_FRNOR, NB_SLID   ,ITAB, H3D_DATA,
      4                             INTFRIC,FLAGREMN , LREMNORMAX,NRTM,IVIS2 ,
-     5                             ISTIF_MSDT,IFSUB_CAREA)
+     5                             ISTIF_MSDT,IFSUB_CAREA,NODADT_THERM)
 c
 c -  Nodes in IREM are not necessarily from their PMAIN processor.
 c -  IREM is reordered according to ITAB for each PMAIN 
@@ -364,6 +364,7 @@ C-----------------------------------------------
      .        NB_SLID(NSPMD), ! NB of new sliding secnd nodes
      .        ITAB(*)
       INTEGER, INTENT(INOUT) :: NSNR
+      INTEGER, INTENT(INOUT) :: NODADT_THERM
       INTEGER, INTENT(IN) :: ISTIF_MSDT,IFSUB_CAREA
       INTEGER IAD_FRNOR(NINTER25,NSPMD+1),FR_NOR(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -1095,7 +1096,7 @@ C
 C
 C   ALLOCATIONS FOR THE ASSEMBLY  
 C
-      CALL REALLOCATE_FI2(NIN, INTTH, NODFI, LSKYFI, H3D_DATA) 
+      CALL REALLOCATE_FI2(NIN, INTTH, NODFI, LSKYFI, H3D_DATA,NODADT_THERM) 
 C
 C      ! DEALLOCATE old structures
 C
@@ -1424,7 +1425,7 @@ C
       !||    message_mod          ../engine/share/message_module/message_mod.F
       !||    tri7box              ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE REALLOCATE_FI2(NIN, INTTH, NODFI, LSKYFI,H3D_DATA) 
+      SUBROUTINE REALLOCATE_FI2(NIN, INTTH, NODFI, LSKYFI,H3D_DATA,NODADT_THERM) 
 C
 C                               
 C
@@ -1450,6 +1451,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) ::  NIN, INTTH, NODFI, LSKYFI
+      INTEGER, INTENT(IN) :: NODADT_THERM
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s

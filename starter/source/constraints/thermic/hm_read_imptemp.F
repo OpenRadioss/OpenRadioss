@@ -38,7 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_IMPTEMP(IBFT   ,FAC   ,NUM   ,ITABM1,
-     .                     IGRNOD ,NWORK ,ITAB  ,UNITAB,LSUBMODEL)
+     .                     IGRNOD ,NWORK ,ITAB  ,UNITAB,LSUBMODEL,
+     .                     NIMTEMP,NIFT,LFACTHER)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,9 +64,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER NUM
+      INTEGER ,INTENT(IN)  :: NIMTEMP
+      INTEGER ,INTENT(IN)  :: NIFT
+      INTEGER ,INTENT(IN)  :: LFACTHER
       INTEGER IBFT(NIFT,*), ITAB(*), ITABM1(*), NWORK(*)
-      my_real
-     .   FAC(LFACTHER,*)
+      my_real :: FAC(LFACTHER,*)
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------

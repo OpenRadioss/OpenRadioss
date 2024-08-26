@@ -45,7 +45,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E   DTEL,    G_DT,    NEL,     IPM,
      F   RHOREF,  RHOSP,   NFT,     JSPH,
      G   ITY,     JTUR,    JTHE,    ISMSTR,
-     H   JSMS,    NPG )
+     H   JSMS,    NPG ,    glob_therm)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,6 +96,7 @@ C-----------------------------------------------
      .   SOLD4(MVSIZ), SOLD5(MVSIZ), SOLD6(MVSIZ),
      .   MSSA(*), DMELS(*), CONDE(*),DTEL(*),
      .   RHOREF(*)  ,RHOSP(*)  
+      type (glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -386,7 +391,7 @@ C-----------------------------------------------
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,
-     C   JSMS,    NPG )
+     C   JSMS,    NPG   ,   glob_therm)
       ELSE
        CALL MDTSPH(
      1   PM,      OFF,     RHO,     BID1,

@@ -525,7 +525,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE LECTUR(MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
      .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  ,
-     .                  MAT_ELEM,NAMES_AND_TITLES,DEFAULTS)
+     .                  MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -623,6 +623,7 @@ C-----------------------------------------------
       use hm_preread_inivel_mod, only : hm_preread_inivel
       use brokmann_random_def_mod
       use brokmann_elem_renum_mod
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -642,6 +643,7 @@ C-----------------------------------------------
       TYPE(OUTPUT_),  INTENT(INOUT)       :: OUTPUT
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
       TYPE(DEFAULTS_),INTENT(INOUT)       :: DEFAULTS
+      type(glob_therm_) ,intent(inout)    :: glob_therm
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -691,7 +693,6 @@ C-----------------------------------------------
 #include      "elbuf_c.inc"
 #include      "userlib.inc"
 #include      "drape_c.inc"
-#include      "thermal_c.inc"
 #include      "boltpr_c.inc"
 #include      "inigrav_c.inc"
 #include      "inter18.inc"
@@ -1151,15 +1152,17 @@ c For /RANDOM --------------------------------------------------
       ! -------------
       ! Load structure
       TYPE (LOADS_) :: LOADS ! global structure for /LOAD
-      TYPE (LOADS_), DIMENSION(NSPMD) :: LOADS_PER_PROC ! local structure for each processor --> used for the restart operation
+      TYPE (LOADS_), DIMENSION(NSPMD) :: LOADS_PER_PROC ! local structurfsdcod(e for each processor --> used for the restart operation
       ! -------------
       ! BCS wall structure
       TYPE (bcs_struct_), DIMENSION(NSPMD) :: BCS_PER_PROC
       ! -------------
       INTEGER NINIVELT
+      INTEGER NINTEMP
+      INTEGER ALE_EULER
 
 C MERGE NODES
-      INTEGER NMERGE_NODE_CAND,NMERGE_NODE_DEST,NMERGE_TOT,ALE_EULER
+      INTEGER NMERGE_NODE_CAND,NMERGE_NODE_DEST,NMERGE_TOT
       INTEGER, DIMENSION(:), ALLOCATABLE :: MERGE_NODE_TAB
       my_real,DIMENSION(:),ALLOCATABLE :: MERGE_NODE_TOL
 C
@@ -1213,11 +1216,6 @@ c=======================================================================
       NXLAYMAX = 0   ! max layer nb in parts xfem
 C     /DAMP/VREL + RBY      
       NDAMP_VREL_RBY = 0
-C bc heat
-      NUMCONV = 0
-      NFXTEMP = 0
-      NFXFLUX = 0
-      NUMRADIA= 0
 C ply xfem
       IPLYXFEM  = 0
       NPLYXFE = 0
@@ -2327,7 +2325,7 @@ C-----------------------------------------------------
       ALLOCATE(THK_PART(NPART)    ,STAT=stat)
 C
       CALL HM_READ_PART(IPART  ,PM      ,GEO       ,IPM     ,IGEO ,IWORK ,THK_PART,
-     .                  UNITAB,LSUBMODEL,MULTI_FVM ,MLAW_TAG,MAT_ELEM%MAT_PARAM)
+     .                  UNITAB,LSUBMODEL,MULTI_FVM ,MLAW_TAG,MAT_ELEM%MAT_PARAM,GLOB_THERM)
 
       CALL TRACE_OUT1()
       
@@ -2335,7 +2333,7 @@ C--------------------------------------------
 C     STOCKAGE DYNAMIQUE (A.L.E.) ENTIER
 C--------------------------------------------
       ALE%GLOBAL%SNALE  = MAX(IALE,IEULER,IALELAG)*NUMNOD
-      ALE%GLOBAL%SIELVS = 6*NUMELS+MAX(IALE,ITHERM,IEULER,IALELAG)* (4 * NUMELQ + 3 * NUMELTG)
+      ALE%GLOBAL%SIELVS = 6*NUMELS+MAX(IALE,GLOB_THERM%ITHERM,IEULER,IALELAG)* (4 * NUMELQ + 3 * NUMELTG)
       SIFILL = NMULT*NUMNOD
       SIMS   = NMULT*NUMNOD
 C---
@@ -4385,7 +4383,7 @@ C--------------------------------------------
        CALL ALELEC(
      1     ICODE    ,IXS      ,IXQ       ,IXC               ,IXT     ,
      2     IXTG     ,PM       ,IGEO      ,ITAB              ,GEO     ,
-     3     NALE_R2R ,NSUBDOM  ,MULTI_FVM ,ALE_CONNECTIVITY)
+     3     NALE_R2R ,NSUBDOM  ,MULTI_FVM ,ALE_CONNECTIVITY,GLOB_THERM%ITHERM)
 C     ---------------------------------------------------------------
 C     Unplug neighbor elements in case of direct lagrangian coupling
 C     ---------------------------------------------------------------
@@ -4762,8 +4760,9 @@ C     *****************************************************************    C
 C     Check if ALE or EULER materials are used with lagrangian thermics
 C     *****************************************************************    C
 
-      IF(IALE + IEULER /= 0) THEN
-         IF(ITHERM_FE == 0 .AND. (NIMTEMP /= 0 .OR. NINTEMP /=0)) THEN
+      NINTEMP = GLOB_THERM%NINTEMP
+      IF (IALE + IEULER /= 0) THEN
+         IF (GLOB_THERM%ITHERM_FE == 0 .AND. (GLOB_THERM%NIMTEMP /= 0 .OR. NINTEMP /= 0)) THEN
             CALL ANCMSG(MSGID=1724, ANMODE=ANINFO, MSGTYPE=MSGWARNING)
          ENDIF
       ENDIF
@@ -4775,64 +4774,72 @@ C
       ERR_MSG='INITIAL TEMPERATURES'
       ERR_CATEGORY='INITIAL TEMPERATURES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF(ITHERM_FE > 0 ) THEN
+      IF (GLOB_THERM%ITHERM_FE > 0 ) THEN
          ALLOCATE(MCP(NUMNOD),TEMP(NUMNOD))
-         DO J = 1,NUMNOD
-           MCP(J) = ZERO
-           TEMP(J) = ZERO
-         ENDDO
+         MCP (1:NUMNOD) = ZERO
+         TEMP(1:NUMNOD) = ZERO
 C ----
-         IF(NINTEMP > 0)THEN
+         IF (GLOB_THERM%NINTEMP > 0) THEN
            WRITE(ISTDO,'(A)')TITRE(35)
            ALLOCATE(INTIDS(NINTEMP))
-           CALL HM_READ_INITEMP(TEMP  ,ITAB  ,ITABM1  ,IGRNOD  ,INTIDS ,UNITAB,
-     .                          LSUBMODEL )
+           CALL HM_READ_INITEMP(TEMP    ,NINTEMP ,GLOB_THERM%ITHERM_FE,ITAB  ,ITABM1  ,
+     .                          IGRNOD  ,INTIDS  ,UNITAB,LSUBMODEL )
            DEALLOCATE(INTIDS)
          ENDIF
 C
-c         CALL PRELECTHERBC(IGRSURF, IGRNOD, IGRBRIC)
+         CALL HM_PREREAD_IMPTEMP(IGRSURF, IGRNOD, IGRBRIC, UNITAB, LSUBMODEL,
+     .                           GLOB_THERM%NIMTEMP,GLOB_THERM%NFXTEMP)
+c
+         CALL HM_PREREAD_CONVEC(IGRSURF, IGRNOD, IGRBRIC, UNITAB, LSUBMODEL,
+     .                          GLOB_THERM%NCONVEC ,GLOB_THERM%NUMCONV )
+c
+         CALL HM_PREREAD_RADIATION(IGRSURF, IGRNOD, IGRBRIC,UNITAB, LSUBMODEL,
+     .                             GLOB_THERM%NRADIA ,GLOB_THERM%NUMRADIA)
+c
+         CALL HM_PREREAD_IMPFLUX(IGRSURF, IGRNOD, IGRBRIC,UNITAB, LSUBMODEL,
+     .                           GLOB_THERM%NIMPFLUX,GLOB_THERM%NFXFLUX)
+c
 
-         CALL HM_PREREAD_IMPTEMP(IGRSURF, IGRNOD, IGRBRIC, UNITAB, LSUBMODEL)
-c
-         CALL HM_PREREAD_CONVEC(IGRSURF, IGRNOD, IGRBRIC, UNITAB, LSUBMODEL)
-c
-         CALL HM_PREREAD_RADIATION(IGRSURF, IGRNOD, IGRBRIC,UNITAB, LSUBMODEL)
-c
-         CALL HM_PREREAD_IMPFLUX(IGRSURF, IGRNOD, IGRBRIC,UNITAB, LSUBMODEL)
-c
-
-         ALLOCATE(IBCV(NICONV*NUMCONV),    FCONV(LFACTHER*NUMCONV),
-     .            IBFTEMP(NIFT*NFXTEMP),   FBFTEMP(LFACTHER*NFXTEMP),
-     .            IBFFLUX(NITFLUX*NFXFLUX),FBFFLUX(LFACTHER*NFXFLUX),
-     .            IBCR(NIRADIA*NUMRADIA),  FRADIA(LFACTHER*NUMRADIA),
-     .            STAT=stat)
+         ALLOCATE(IBCV(GLOB_THERM%NICONV*GLOB_THERM%NUMCONV)     ,STAT=stat)
+         ALLOCATE(FCONV(GLOB_THERM%LFACTHER*GLOB_THERM%NUMCONV)  ,STAT=stat)
+         ALLOCATE(IBFTEMP(GLOB_THERM%NIFT*GLOB_THERM%NFXTEMP)    ,STAT=stat)
+         ALLOCATE(FBFTEMP(GLOB_THERM%LFACTHER*GLOB_THERM%NFXTEMP),STAT=stat)
+         ALLOCATE(IBFFLUX(GLOB_THERM%NITFLUX*GLOB_THERM%NFXFLUX) ,STAT=stat)
+         ALLOCATE(FBFFLUX(GLOB_THERM%LFACTHER*GLOB_THERM%NFXFLUX),STAT=stat)
+         ALLOCATE(IBCR(GLOB_THERM%NIRADIA*GLOB_THERM%NUMRADIA)   ,STAT=stat)
+         ALLOCATE(FRADIA(GLOB_THERM%LFACTHER*GLOB_THERM%NUMRADIA),STAT=stat)
+     .            
          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                              C1='THERMAL DATA')
-          IBCR(1:NIRADIA*NUMRADIA) = 0
+          IBCR(1:GLOB_THERM%NIRADIA*GLOB_THERM%NUMRADIA) = 0
 C
-         IF(NUMCONV > 0 ) THEN
+         IF (GLOB_THERM%NUMCONV > 0 ) THEN
            IBCV = 0
            FCONV = ZERO
-           CALL HM_READ_CONVEC(IBCV,FCONV,ITAB,IXS,IGRSURF,UNITAB,LSUBMODEL)
+           CALL HM_READ_CONVEC(IBCV,FCONV,ITAB,IXS,IGRSURF,UNITAB,LSUBMODEL,
+     .          GLOB_THERM%NCONVEC ,GLOB_THERM%NICONV,GLOB_THERM%NUMCONV,GLOB_THERM%LFACTHER)
          ENDIF
 C
-         IF(NUMRADIA > 0 ) THEN
-           CALL HM_READ_RADIATION(IBCR,FRADIA,ITAB,IXS,IGRSURF,UNITAB,LSUBMODEL)
+         IF (GLOB_THERM%NUMRADIA > 0 ) THEN
+           CALL HM_READ_RADIATION(IBCR,FRADIA,ITAB,IXS,IGRSURF,UNITAB,LSUBMODEL,
+     .          GLOB_THERM%NRADIA ,GLOB_THERM%NUMRADIA,GLOB_THERM%NIRADIA,GLOB_THERM%LFACTHER)
          ENDIF
 C
-         IF(NFXTEMP > 0) THEN
+         IF (GLOB_THERM%NFXTEMP > 0) THEN
            IBFTEMP = 0
            FBFTEMP = ZERO
-           CALL HM_READ_IMPTEMP(IBFTEMP,FBFTEMP,NFXTEMP,ITABM1,
-     .                    IGRNOD ,IBFTEMP,ITAB   ,UNITAB,LSUBMODEL)
+           CALL HM_READ_IMPTEMP(IBFTEMP,FBFTEMP,GLOB_THERM%NFXTEMP,ITABM1,
+     .                    IGRNOD ,IBFTEMP,ITAB   ,UNITAB,LSUBMODEL,
+     .                    GLOB_THERM%NIMTEMP,GLOB_THERM%NIFT,GLOB_THERM%LFACTHER)
          ENDIF
 C
-         IF(NFXFLUX > 0 ) THEN
+         IF (GLOB_THERM%NFXFLUX > 0 ) THEN
            IBFFLUX = 0
            FBFFLUX = ZERO
            CALL HM_READ_IMPFLUX(IBFFLUX ,FBFFLUX ,ITAB   ,IXS    ,IGRSURF   ,
-     .                    UNITAB  ,IGRNOD  ,IGRBRIC, LSUBMODEL)
+     .                    UNITAB  ,IGRNOD  ,IGRBRIC, LSUBMODEL,
+     .                    GLOB_THERM%NIMPFLUX,GLOB_THERM%NITFLUX,GLOB_THERM%LFACTHER)
          ENDIF
 C
        ELSE
@@ -5454,7 +5461,7 @@ C------------------------------------------------------------------------
      .            IBCSLAG  ,IGEO     ,IPM      ,
      .            IBFTEMP  ,IBCV     ,IBFV      ,
      .            IBCR     ,TABLE    ,NPC1     ,NPC       ,TF                 ,
-     .            NOM_OPT(LNOPT1*INOM_OPT(3)+1),IBFFLUX   )
+     .            NOM_OPT(LNOPT1*INOM_OPT(3)+1),IBFFLUX   ,GLOB_THERM)
 C
 c------------------------------------------------------------------------
 c     Update & check parameters of material laws
@@ -5737,9 +5744,9 @@ C        Remise a jour de FRONT pour les procs differents de 0
 C        IL faut prendre en compte les options ou front(i,p) = 1, p<>1
 C        les sensors de type 2 modifient front sur p<>1
       ELSEIF(IDDLEVEL==0) THEN
-         IF(NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLCFIELD>0) THEN
-           SCEP = NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP+NUMBER_LOAD_CYL
-           SCEL = NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP+NUMBER_LOAD_CYL
+         IF(NELEM+NCONLD+GLOB_THERM%NUMCONV+GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLCFIELD>0) THEN
+           SCEP = NELEM+NCONLD+GLOB_THERM%NUMCONV+GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLLOADP+NUMBER_LOAD_CYL
+           SCEL = NELEM+NCONLD+GLOB_THERM%NUMCONV+GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLLOADP+NUMBER_LOAD_CYL
            ALLOCATE(CEP(SCEP))
            ALLOCATE(CEL(SCEL))
          ELSE
@@ -5955,9 +5962,9 @@ C After IDDLEVEL Finish Indexes - Fill PERMUTATION%SOLID(NUMELS+1,PERMUTATION%SO
         ENDDO
 !       already done in SGRHEAD / SGRTAILS
 !        CALL APPLYSORT2CLUSTER(CLUSTERS,PERMUTATION%SOLID(NUMELS+1:2*NUMELS))
-        CALL APPLYSORT2FLUX(IBFFLUX,NITFLUX,NFXFLUX,PERMUTATION%SOLID(NUMELS+1:2*NUMELS))
-        CALL APPLYSORT2FLUX(IBCR,NIRADIA   ,NUMRADIA,PERMUTATION%SOLID(NUMELS+1:2*NUMELS))
-        CALL APPLYSORT2FLUX(IBCV,NICONV    ,NUMCONV,PERMUTATION%SOLID(NUMELS+1:2*NUMELS))
+        CALL APPLYSORT2FLUX(IBFFLUX,GLOB_THERM%NITFLUX,GLOB_THERM%NFXFLUX,PERMUTATION%SOLID(NUMELS+1:2*NUMELS))
+        CALL APPLYSORT2FLUX(IBCR,GLOB_THERM%NIRADIA,GLOB_THERM%NUMRADIA,PERMUTATION%SOLID(NUMELS+1:2*NUMELS))
+        CALL APPLYSORT2FLUX(IBCV,GLOB_THERM%NICONV,GLOB_THERM%NUMCONV,PERMUTATION%SOLID(NUMELS+1:2*NUMELS))
       ENDIF
 
 C
@@ -7239,7 +7246,7 @@ C--------------------------------------------
       ENDIF
       CALL ALE_CONNECTIVITY%ALE_COMPUTE_EE_CONNECTIVITY(PM,IGEO,
      .     NPROPGI,NUMGEO, NPROPM, NUMMAT , NUMNOD, NUMELQ, NUMELTG, NUMELS, N2D,
-     .     IALE  , IEULER, ITHERM, IALELAG,
+     .     IALE  , IEULER, GLOB_THERM%ITHERM, IALELAG,
      .     NIXQ  , NIXTG , NIXS  , ITAB   ,
      .     IXQ   , IXTG  , IXS   )
 C--------------------------------------------
@@ -7349,7 +7356,8 @@ C--------------------------------------------------------------
      5           DEF_INTER       ,NPC1     ,SENSORS    ,MULTI_FVM  ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),
      6           INTBUF_FRIC_TAB ,LSUBMODEL,TF         ,NPTS       ,NPARI                         ,
      7           KLOADPINTER     ,DGAPINT  ,INTERFACES ,SITAB      ,NPARIR                        ,
-     8           SITABM1         ,SISKWN   ,LISKN      ,SNPC       ,SNPC1      )
+     8           SITABM1         ,SISKWN   ,LISKN      ,SNPC       ,SNPC1      ,
+     9           GLOB_THERM%ITHERM_FE,GLOB_THERM%INTHEAT)
 C
        IF(.NOT. ALLOCATED(ALE_CONNECTIVITY%NALE)) ALLOCATE(ALE_CONNECTIVITY%NALE(0))
 
@@ -8128,7 +8136,7 @@ C     tab masse
         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='PTG')
-        IF(ITHERM_FE > 0)THEN
+        IF(GLOB_THERM%ITHERM_FE > 0)THEN
           ALLOCATE(MCPC(NUMELC)    ,STAT=stat)
           IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
@@ -8574,11 +8582,11 @@ C
      &            RBY        , NPBY           , LPBY             , NPC                , NPTS     ,
      &            TF         , VEUL           , ALE_CONNECTIVITY , SKEW               , FILL     ,
      &            IPART      , ITAB           , SENSORS          , SKVOL              ,
-     &            IXTG       , THKE           , NLOC_DMG         , GROUP_PARAM_TAB    ,
+     &            IXTG       , THKE           , NLOC_DMG         , GROUP_PARAM_TAB    ,GLOB_THERM,
      &            IGRNOD     , IGRSURF        , BUFSF            , VR                 ,
      &            BUFMAT     , XLAS           , ILAS             , DTELEM             , MSS      ,
      &            MSQ        , MSC            , MSTR             , MSP                , MSR      ,
-     &            MSTG       , PTG            , INC              ,
+     &            MSTG       , PTG            , INC              , 
      &            INP        , INR            , INTG             , INDEX              ,
      &            ITRI       , KXX            , IXX              , XELEMWA            ,
      &            IWA        ,
@@ -9599,7 +9607,7 @@ c-----
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 0,INOM_OPT(31),INOM_OPT(32),SENSORS   ,
-     F       INTERFACES,IPARI   ,OUTPUT%TH%DUMP_THNMS1_FILE)
+     F       INTERFACES,IPARI   ,OUTPUT%TH%DUMP_THNMS1_FILE,GLOB_THERM%ITHERM_FE)
 C
       CALL MY_ALLOC(OUTPUT%TH%ITHBUF,OUTPUT%TH%SITHBUF)
       OUTPUT%TH%ITHBUF(1:OUTPUT%TH%SITHBUF) = ITHBUFTMP(1:OUTPUT%TH%SITHBUF)
@@ -9644,7 +9652,7 @@ c-----
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 1,INOM_OPT(31),INOM_OPT(32),SENSORS,
-     F       INTERFACES,IPARI   ,0)
+     F       INTERFACES,IPARI   ,0,GLOB_THERM%ITHERM_FE)
 C
         CALL MY_ALLOC(OUTPUT%TH%ITHBUFA,OUTPUT%TH%SITHBUFA)
         OUTPUT%TH%ITHBUFA = ITHBUFTMP(1:OUTPUT%TH%SITHBUFA)
@@ -9687,7 +9695,7 @@ c-----
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 2,INOM_OPT(31),INOM_OPT(32),SENSORS,
-     F       INTERFACES,IPARI   ,0)
+     F       INTERFACES,IPARI   ,0,GLOB_THERM%ITHERM_FE)
 C
         CALL MY_ALLOC(OUTPUT%TH%ITHBUFB,OUTPUT%TH%SITHBUFB)
         OUTPUT%TH%ITHBUFB = ITHBUFTMP(1:OUTPUT%TH%SITHBUFB)
@@ -9730,7 +9738,7 @@ c-----
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 3,INOM_OPT(31),INOM_OPT(32),SENSORS,
-     F       INTERFACES,IPARI   ,0)
+     F       INTERFACES,IPARI   ,0,GLOB_THERM%ITHERM_FE)
 C
         CALL MY_ALLOC(OUTPUT%TH%ITHBUFC, OUTPUT%TH%SITHBUFC)
         OUTPUT%TH%ITHBUFC(1:OUTPUT%TH%SITHBUFC) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFC)
@@ -9773,7 +9781,7 @@ c-----
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 4,INOM_OPT(31),INOM_OPT(32),SENSORS,
-     F       INTERFACES,IPARI   ,0)
+     F       INTERFACES,IPARI   ,0,GLOB_THERM%ITHERM_FE)
 C
         CALL MY_ALLOC(OUTPUT%TH%ITHBUFD,OUTPUT%TH%SITHBUFD)
         OUTPUT%TH%ITHBUFD(1:OUTPUT%TH%SITHBUFD) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFD)
@@ -9817,7 +9825,7 @@ c-----
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 5,INOM_OPT(31),INOM_OPT(32),SENSORS,
-     F       INTERFACES,IPARI   ,0)
+     F       INTERFACES,IPARI   ,0,GLOB_THERM%ITHERM_FE)
 C
         CALL MY_ALLOC(OUTPUT%TH%ITHBUFE,OUTPUT%TH%SITHBUFE)
         OUTPUT%TH%ITHBUFE = ITHBUFTMP(1:OUTPUT%TH%SITHBUFE)
@@ -9860,7 +9868,7 @@ c-----
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 6,INOM_OPT(31),INOM_OPT(32),SENSORS,
-     F       INTERFACES,IPARI   ,0)
+     F       INTERFACES,IPARI   ,0,GLOB_THERM%ITHERM_FE)
 C
         CALL MY_ALLOC(OUTPUT%TH%ITHBUFF,OUTPUT%TH%SITHBUFF)
         OUTPUT%TH%ITHBUFF(1:OUTPUT%TH%SITHBUFF) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFF)
@@ -9903,7 +9911,7 @@ c-----
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 7,INOM_OPT(31),INOM_OPT(32),SENSORS,
-     F       INTERFACES,IPARI   ,0)
+     F       INTERFACES,IPARI   ,0,GLOB_THERM%ITHERM_FE)
 C
         CALL MY_ALLOC(OUTPUT%TH%ITHBUFG,OUTPUT%TH%SITHBUFG)
         OUTPUT%TH%ITHBUFG(1:OUTPUT%TH%SITHBUFG) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFG)
@@ -9946,7 +9954,7 @@ c-----
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 8,INOM_OPT(31),INOM_OPT(32),SENSORS,
-     F       INTERFACES,IPARI   ,0)
+     F       INTERFACES,IPARI   ,0,GLOB_THERM%ITHERM_FE)
 C
         CALL MY_ALLOC(OUTPUT%TH%ITHBUFH,OUTPUT%TH%SITHBUFH)
         OUTPUT%TH%ITHBUFH(1:OUTPUT%TH%SITHBUFH) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFH)
@@ -9989,7 +9997,7 @@ c-----
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 9,INOM_OPT(31),INOM_OPT(32),SENSORS,
-     F       INTERFACES,IPARI   ,0)
+     F       INTERFACES,IPARI   ,0,GLOB_THERM%ITHERM_FE)
 C
         CALL MY_ALLOC(OUTPUT%TH%ITHBUFI,OUTPUT%TH%SITHBUFI)
         OUTPUT%TH%ITHBUFI = ITHBUFTMP(1:OUTPUT%TH%SITHBUFI)
@@ -10123,7 +10131,7 @@ C appel a routine generique ici et dans ddsplit
      2      NUMELC,NUMELTG,NUMELT    ,NUMELP   ,NUMELR,
      3      NUMNOD,NMNT   ,L_MUL_LAG1,L_MUL_LAG,MAXNX ,
      4      LWASPH,NUMSPH    ,LWASPIO, NRCVVOIS0,
-     5      LWAMP_L,LWANMP_L )
+     5      LWAMP_L,LWANMP_L ,GLOB_THERM%ITHERM)
       LWAMP  = LWAMP_L   !< Copy values in common
       LWANMP = LWANMP_L  !< Copy values in common
 C init MULTIMAX
@@ -10327,7 +10335,9 @@ C
      D    LGAUGE ,IGAUP   ,NGAUP  ,INTBUF_TAB,IBFFLUX ,
      E    ICNDS10,ITAGND  ,IGEO   ,TAG_SKN   ,SKEWS%MULTIPLE_SKEW,
      F    IBFV   ,IBCSCYC ,LBCSCYC,R_SKEW    ,IPM,
-     G    SENSORS,SCEP    ,EBCS_TAB,LOADS,IFRAME)
+     G    SENSORS,SCEP    ,EBCS_TAB,LOADS,IFRAME,
+     H    GLOB_THERM%NICONV ,GLOB_THERM%NIRADIA ,GLOB_THERM%NITFLUX,
+     I    GLOB_THERM%NUMCONV,GLOB_THERM%NUMRADIA,GLOB_THERM%NFXFLUX)
 
 C      ELSE
 C       mise a 1 de front i.e. tous les noeuds sur Proc1, poids 1
@@ -10522,7 +10532,7 @@ C----------------------------------------------
      K        SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS     ,SIGTRUSS         ,
      L        NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL,
      M        IMERGE      ,NMERGE_TOT ,IEXLNK ,DRAPEG  ,USER_WINDOWS  ,OUTPUT           ,
-     N        DEFAULTS    )
+     N        DEFAULTS    ,GLOB_THERM )
 !
       DEALLOCATE(SIGI)
       DEALLOCATE(SIGSH)
@@ -10586,7 +10596,9 @@ C--------------------------------------------
      3      IXR    ,IXTG   ,IXTG1   ,T_MONVOL  ,
      4      IGRSURF,IBCL   ,ADDCNE  ,CEP     ,
      5      ILEN   ,GEO    ,IBCV   ,IBCR    ,IBFFLUX ,
-     6      ILOADP ,LLOADP ,CEL    ,EBCS_TAB,LOADS)
+     6      ILOADP ,LLOADP ,CEL    ,EBCS_TAB,LOADS,
+     7    GLOB_THERM%NICONV ,GLOB_THERM%NIRADIA ,GLOB_THERM%NITFLUX,
+     8    GLOB_THERM%NUMCONV,GLOB_THERM%NUMRADIA,GLOB_THERM%NFXFLUX)
           IF(I2NSNT>0) THEN
             IF(LCNI2G>0) ALLOCATE(CNI2(LCNI2G))
             CALL FILLCNI2(
@@ -10725,14 +10737,14 @@ c         start CPU timer for ddsplit
           CALL GET_SIZE_NUMNOD_LOCAL(NUMNOD,NUMNOD_L)
 
           ALLOCATE( ALE_ELM(NSPMD) )
-          IF( (NUMELS>0).AND.(IALE+IEULER+ITHERM+IALELAG/=0) ) THEN
+          IF( (NUMELS>0).AND.(IALE+IEULER+GLOB_THERM%ITHERM+IALELAG/=0) ) THEN
                 CALL SPLIT_CFD_SOLIDE(NUMELS,ALE_CONNECTIVITY,IXS,ALE_ELM,SIZE_ALE_ELM)
           ELSE
                 SIZE_ALE_ELM(1:NSPMD) = 0
           ENDIF
           ! -----------------------------------------
           ! reverse connectivity for FVM solver : useful to ensure the parith/on
-          IF(IALE+IEULER+ITHERM+IALELAG/=0) THEN
+          IF(IALE+IEULER+GLOB_THERM%ITHERM+IALELAG/=0) THEN
                 ALLOCATE( INDX_S(NUMELS) )
                 ALLOCATE( INDX_Q(NUMELQ) )
                 ALLOCATE( INDX_TG(NUMELTG) )
@@ -10935,7 +10947,7 @@ c
      D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP,DYNAIN_DATA,
      E         DRAPEG       ,USER_WINDOWS ,OUTPUT        ,INTERFACES  ,NUMBER_LOAD_CYL ,
      F         LOADS_PER_PROC(P), PYTHON,DPL0CLD,VEL0CLD ,NAMES_AND_TITLES,
-     G         BCS_PER_PROC(P),constraint_struct)
+     G         BCS_PER_PROC(P),constraint_struct,glob_therm)
       GOTO 220
  221  CONTINUE
 
@@ -10949,7 +10961,7 @@ C
       CALL DEALLOCATE_IGRSURF_SPLIT(T_MONVOL,IGRSURF_PROC)
       DEALLOCATE( IGRSURF_PROC )
 
-      IF( (NUMELS>0).AND.(IALE+IEULER+ITHERM+IALELAG/=0) ) CALL DEALLOCATE_SPLIT_CFD_SOLIDE(ALE_ELM)
+      IF( (NUMELS>0).AND.(IALE+IEULER+GLOB_THERM%ITHERM+IALELAG/=0) ) CALL DEALLOCATE_SPLIT_CFD_SOLIDE(ALE_ELM)
 
       CALL BCS%DEALLOCATE()
       DO P=1,NSPMD

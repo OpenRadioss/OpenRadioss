@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
        SUBROUTINE INISOLDIST(
      .          IFILL      ,IXS       ,X         ,GEO       ,NG        ,
-     .          IPARG      ,IDP       ,IPART_    ,XREFS     ,
+     .          IPARG      ,IDP       ,IPART_    ,XREFS     ,GLOB_THERM,
      .          NTRACE     ,NTRACE0   ,DIS       ,NSOLTOSF  ,NBIP      ,
      .          NNOD2SURF  ,INOD2SURF ,KNOD2SURF ,SURF_ELTYP,SURF_NODES,
      .          JMID       ,IPHASE    ,INPHASE   ,KVOL      ,SURF_TYPE ,
@@ -49,6 +49,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE INIVOL_DEF_MOD , ONLY : INIVOL_STRUCT_
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,6 +88,7 @@ C-----------------------------------------------
      .        NOD_NORMAL(3,NUMNOD),FILL_RATIO
       INTEGER, INTENT(IN) :: NBSUBMAT
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+      TYPE(glob_therm_) ,intent(in)      :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -151,7 +153,7 @@ C-----------------------------------------------
      .                   Z1  ,Z2             ,Z3          ,Z4   ,Z5   ,Z6   ,Z7   ,Z8  ,
      .                   RX  ,RY             ,RZ          ,S_X   ,S_Y   ,S_Z   ,TX   ,TY  ,TZ ,
      .                   E1X ,E1Y            ,E1Z         ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y ,E3Z ,
-     .                   F1X ,F1Y            ,F1Z         ,F2X  ,F2Y  ,F2Z  ,RBID ,RBID,
+     .                   F1X ,F1Y            ,F1Z         ,F2X  ,F2Y  ,F2Z  ,RBID ,RBID,GLOB_THERM%NINTEMP,
      .                   XD1 ,XD2            ,XD3         ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .                   YD1 ,YD2            ,YD3         ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .                   ZD1 ,ZD2            ,ZD3         ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
@@ -163,7 +165,7 @@ C-----------------------------------------------
      .                   Z1   ,Z2             ,Z3         ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,  
      .                   RX   ,RY             ,RZ         ,S_X   ,S_Y   ,S_Z   ,TX   ,TY   ,TZ  ,
      .                   E1X  ,E1Y            ,E1Z        ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z ,
-     .                   F1X  ,F1Y            ,F1Z        ,F2X  ,F2Y  ,F2Z  ,RBID ,RBID  ,
+     .                   F1X  ,F1Y            ,F1Z        ,F2X  ,F2Y  ,F2Z  ,RBID ,RBID  ,GLOB_THERM%NINTEMP,
      .                   XD1  ,XD2            ,XD3        ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .                   YD1  ,YD2            ,YD3        ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .                   ZD1  ,ZD2            ,ZD3        ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )

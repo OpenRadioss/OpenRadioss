@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3        SENSORS     ,NOM_OPT         ,UNITAB    ,LSUBMODEL  ,TITR       ,
      4        NOM_OPTFRIC ,INTBUF_FRIC_TAB ,NPC       ,NPC1       ,TF         ,
      5        PARAMETERS  ,NPARI           ,NPARIR    ,SNPC       ,SNPC1      ,
-     6        NPTS)
+     6        NPTS        ,ITHERM_FE       ,INTHEAT   )
 C============================================================================
 C     
 C-----------------------------------------------
@@ -94,6 +94,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      INTEGER,INTENT(IN)    :: ITHERM_FE
+      INTEGER,INTENT(INOUT) :: INTHEAT
       INTEGER I,IBC1, IBC2, IBC3, IBUC, NOINT, NTYP,INACTI,
      .    IBC1M, IBC2M, IBC3M, IGSTI, IVIS2,IS1, IS2,ILEV,
      .    IGAP,MULTIMP,MFROT,IFQ,IBAG,MODFR,ISYM,IEDGE,NOD1,

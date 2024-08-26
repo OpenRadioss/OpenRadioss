@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9   MSNF,       NODFT,      NODLT,      BHOLE,
      A   IPM,        QMV,        ITAB,       ITABM1,
      B   LENQMV,     NV46,
-     C   VOLN,       IAD_ELEM,
+     C   VOLN,       IAD_ELEM    ,GLOB_THERM   ,
      D   FR_ELEM,    NEL,        IXTG)
 C-----------------------------------------------
 C   M o d u l e s
@@ -72,6 +72,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALE_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,6 +103,7 @@ C-----------------------------------------------
 
       TYPE(t_segvar) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -117,7 +119,7 @@ C-----------------------------------------------
 C=======================================================================
 C     DIFFUSIVE TERMS
 C=======================================================================
-      IF (ITHERM+ITURB /= 0) THEN
+      IF (GLOB_THERM%ITHERM+ITURB /= 0) THEN
         !-------------------------------------!
         !  SPMD EXCHANGES                     !
         !-------------------------------------!
@@ -134,7 +136,7 @@ C=======================================================================
 C----------------------
         CALL MY_BARRIER
 C----------------------
-        IF (ITHERM /= 0) THEN
+        IF (GLOB_THERM%ITHERM /= 0) THEN
           IF(ITASK == 0) THEN
             !exchange : SPMD PHI+VAL2 in ATHERM
             CALL ATHERM(

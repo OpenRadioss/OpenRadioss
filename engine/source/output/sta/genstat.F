@@ -103,7 +103,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B                  LENGT    ,ISKEW   ,V        ,VR      ,LENGQ   ,
      C                  MULTI_FVM,BUFMAT  ,NPBY     ,LPBY    ,STACK   ,
      D                  DRAPE_SH4N ,DRAPE_SH3N,DR,DRAPEG,MAT_PARAM    ,
-     E                  IPARTSPH , OUTPUT ,LENGSPH  ,NUMSPHG )
+     E                  IPARTSPH , OUTPUT ,LENGSPH  ,NUMSPHG ,ITHERM_FE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -156,6 +156,7 @@ C-----------------------------------------------
      .   SH4TRIM(*), SH3TRIM(*),IXS10(*),IXS16(*),IXS20(*),ICODE(*),
      .   ISKEW(*), NPBY(NNPBY,*), LPBY(*)
       INTEGER LENG,LENGC,LENGTG,LENGS,LENGR,LENGP,LENGT,LENGQ
+      INTEGER ,intent(in) :: ITHERM_FE
       my_real
      .   X(*), MS(*), BUFEL(*), SPBUF(*),
      .   PM(NPROPM,*), GEO(NPROPG,*) ,TEMP(*),THKE(*),
@@ -419,7 +420,7 @@ C   NODE SCALAR
 C-----------------------------------------------
       IF(STAT_N(1)==1) 
      .   CALL STAT_N_TEMP(X,NUMNOD,ITAB,ITABG,LENG,
-     .   NODGLOB,WEIGHT,NODTAG,TEMP)
+     .   NODGLOB,WEIGHT,NODTAG,TEMP,ITHERM_FE)
 
       IF(STAT_N(2)==1) 
      .  CALL STAT_N_BCS(ICODE,NUMNOD,ITAB,ITABG,LENG,

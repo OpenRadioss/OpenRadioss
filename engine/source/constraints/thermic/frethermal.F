@@ -31,11 +31,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod   ../engine/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE FRETHERMAL(IKAD,KEY0,KTHERMAL)
+      SUBROUTINE FRETHERMAL(IKAD,KEY0,KTHERMAL,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,15 +46,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IKAD(0:*),KTHERMAL
       CHARACTER KEY0(*)*5
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "scr_thermal_c.inc"
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -63,12 +60,12 @@ C   D e s c r i p t i o n
 C
 C   THEACCFACT : factor to speed-up thermal analysis   
 C--------------------------------------------------
-      THEACCFACT=ONE
-      IKEY=KTHERMAL
+      GLOB_THERM%THEACCFACT = ONE
+      IKEY = KTHERMAL
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
-       READ(IUSC2,*,ERR=9990)  THEACCFACT
-       IF(THEACCFACT == ZERO)  THEACCFACT=ONE 
+       READ(IUSC2,*,ERR=9990)  GLOB_THERM%THEACCFACT
+       IF (GLOB_THERM%THEACCFACT == ZERO)  GLOB_THERM%THEACCFACT = ONE 
       ENDIF
 
       RETURN

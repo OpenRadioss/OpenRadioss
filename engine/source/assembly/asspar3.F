@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   FSKYV      ,ISKY       ,INDSKY     ,FSKYI     ,
      5   ADSKYI     ,PARTFT     ,PARTLT     ,PARTSAV   ,MS         ,
      6   FTHE       ,FTHESKY    ,FTHESKYI   ,GREFT     ,GRELT      ,
-     7   GRESAV     )
+     7   GRESAV     ,ITHERM_FE  ,INTHEAT    )
 C----6---------------------------------------------------------------7---------8
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -58,6 +58,8 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: ITHERM_FE
+      INTEGER ,INTENT(IN) :: INTHEAT
 C     REAL
       my_real 
      .   A(3,*)   ,AR(3,*), STIFN(*), STIFR(*),FSKYV(LSKY,8),
@@ -68,9 +70,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,N,KK,J1,J2,JJ1,JJ2,NN,KM,NUM7,LL,
+      INTEGER I,J,K,L,N,KK,JJ1,JJ2,NN,KM,NUM7,LL,
      .        NISKYFT,NISKYLT, LDONE,IDONE,NC,NL,IFT,ILT,KFT,KLT,
-     .        K1,K2,K3,K4,K5,K6,K7,K8,K9,K0,I0,IBAR,KKK,NCT
+     .        I0,IBAR,KKK,NCT
       my_real 
      .        FF, FSKYT(NISKY), FTHESKYT(NISKY)  
       COMMON /ASSP2/ LDONE, IDONE, IBAR

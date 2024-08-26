@@ -92,7 +92,7 @@ C
      .          NSHNOD  ,STC     ,SH4TREE ,MCP      ,MCPS     ,         
      .          TEMP    ,MS_LAYER,ZI_LAYER,MS_LAYERC,ZI_LAYERC,
      .          MSZ2C   ,ZPLY    ,ISUBSTACK,NLAY    ,ELBUF_STR,
-     .          STACK   ,THKI    ,RNOISE   ,DRAPE   ,
+     .          STACK   ,THKI    ,RNOISE   ,DRAPE   ,NINTEMP  ,
      .          PERTURB ,IX1     ,IX2      ,IX3     ,IX4      ,
      .          IDRAPE  ,INDX)
 C-----------------------------------------------
@@ -134,6 +134,7 @@ C-----------------------------------------------
      .        IGEO(NPROPGI,*),NSHNOD(*), SH4TREE(KSH4TREE,*),
      .        ISUBSTACK,NLAY,PERTURB(NPERTURB),IDRAPE
       INTEGER, DIMENSION(MVSIZ), INTENT(IN)  :: IX1,IX2,IX3,IX4
+      INTEGER ,INTENT(IN) :: NINTEMP
       INTEGER*8 I8MI(6,*) 
       INTEGER, DIMENSION(SCDRAPE) :: INDX
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: AREA
@@ -885,8 +886,8 @@ cc                ZJ = ZI_LAYERC(II,IP)
          ENDDO 
       ENDIF
 C
-      IF(JTHE > 0 ) THEN                                          
-        IF(NINTEMP > 0 ) THEN                                   
+      IF (JTHE > 0 ) THEN                                          
+        IF (NINTEMP > 0 ) THEN                                   
           DO I= LFT,LLT                                          
             IF(TEMP(IX1(I))== ZERO) TEMP(IX1(I)) = PM(79,IMID)   
             IF(TEMP(IX2(I))== ZERO) TEMP(IX2(I)) = PM(79,IMID)   

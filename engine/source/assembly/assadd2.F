@@ -36,7 +36,11 @@ C finalisation parith/on spmd (1ere partie effectuee dans Starter)
      6             ISENDP_PXFEM,IRECVP_PXFEM ,IADSDP_PXFEM,IADRCP_PXFEM,
      7             FR_NBCC1 ,INOD_CRKXFEM,ADDCNE_CRKXFEM,PROCNE_CRKXFEM,
      8     ISENDP_CRKXFEM,IRECVP_CRKXFEM,IADSDP_CRKXFEM,IADRCP_CRKXFEM,
-     9             CONDNSKY)
+     9             CONDNSKY,GLOB_THERM)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,6 +77,7 @@ C-----------------------------------------------
      .        IRECVP_CRKXFEM(*),IADSDP_CRKXFEM(*),IADRCP_CRKXFEM(*)
       my_real 
      .        FSKY(8,LSKY),FSKYM(LSKY),FTHESKY(LSKY),CONDNSKY(LSKY)
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,19 +98,19 @@ C-----------------------------------------------
       ENDDO
 C
 C
-      IF(ITHERM_FE > 0 ) THEN
+      IF (GLOB_THERM%ITHERM_FE > 0 ) THEN
         DO I=1,LSKY 
          FTHESKY(I) = ZERO
        ENDDO
       ENDIF
 C
-      IF(NODADT_THERM > 0 ) THEN
+      IF (GLOB_THERM%NODADT_THERM > 0 ) THEN
         DO I=1,LSKY 
          CONDNSKY(I) = ZERO
        ENDDO
       ENDIF
 C
-      IF (N2D == 0 .AND. IALE+IEULER+ITHERM>0)THEN
+      IF (N2D == 0 .AND. IALE+IEULER + GLOB_THERM%ITHERM > 0) THEN
         DO I = 1, LSKY
           FSKYM(I)=ZERO
         ENDDO

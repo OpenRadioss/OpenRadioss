@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   PY2,     PY3,     PY4,     PZ1,
      5   PZ2,     PZ3,     PZ4,     DT1,
      6   TEMPNC,  TEL,     HEAT,     FPHI,
-     7   OFFG,    OFF,     NEL)
+     7   OFFG,    OFF,     NEL ,THEACCFACT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,13 +42,13 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: IMAT
       INTEGER NC1(*),NC2(*),NC3(*),NC4(*)
+      my_real, INTENT(IN) :: THEACCFACT
       my_real
      .    VOL(*), PX1(*), PX2(*), PX3(*), PX4(*), 
      .    PY1(*), PY2(*), PY3(*), PY4(*),

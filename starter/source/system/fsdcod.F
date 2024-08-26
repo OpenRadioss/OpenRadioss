@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  IBCSLAG   ,IGEO      ,IPM       ,
      .                  IBFT      ,IBCV      ,IBFVEL    ,
      .                  IBCR      ,TABLE     ,NPC1      ,NPC       ,PLD      ,
-     .                  NOM_OPT   ,IBFFLUX   )  
+     .                  NOM_OPT   ,IBFFLUX   ,GLOB_THERM)  
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------C     
@@ -59,6 +59,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,17 +71,17 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
-#include      "thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(glob_therm_) ,intent(in) :: glob_therm
       INTEGER IBFV(NIFV,*),NPC(*), NPC1(*), IBCL(NIBCLD,*), IPRES(NIBCLD,*),
      .        ISKEW(*), ISKN(LISKN,*), ITABM1(*),
      .        LACCELM(3,*),INSEL(*),IBCSLAG(5,*),
-     .        IPM(NPROPMI,NUMMAT), IGEO(NPROPGI,NUMGEO),IBCV(NICONV,*),
-     .        IBCR(NIRADIA,*),IBFFLUX(NITFLUX,*)
+     .        IPM(NPROPMI,NUMMAT), IGEO(NPROPGI,NUMGEO),IBCV(GLOB_THERM%NICONV,*),
+     .        IBCR(GLOB_THERM%NIRADIA,*),IBFFLUX(GLOB_THERM%NITFLUX,*)
       INTEGER ,DIMENSION(NIFV,NFXVEL)  ,INTENT(INOUT) :: IBFVEL
-      INTEGER ,DIMENSION(NIFT,NFXTEMP) ,INTENT(INOUT) :: IBFT
+      INTEGER ,DIMENSION(GLOB_THERM%NIFT,GLOB_THERM%NFXTEMP) ,INTENT(INOUT) :: IBFT
       my_real PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),SKEW(LSKEW,*), PLD(*),BUFMAT(*)
       TYPE(TTABLE) , DIMENSION(NTABLE) :: TABLE
       DOUBLE PRECISION BUFGEO(*)
@@ -1510,7 +1511,7 @@ c 745  CONTINUE
 C---------------------------
 C     6) FIXED temperatures
 C---------------------------
-      DO 751 I=1,NFXTEMP
+      DO 751 I=1,GLOB_THERM%NFXTEMP
         DO 750 J=1,NFUNCT
           IF(IBFT(2,I) == NPC1(J)) THEN
             IBFT(2,I)=J
@@ -1526,7 +1527,7 @@ C---------------------------
 C------------------------------
 C     6) FIXED convective flux
 C------------------------------
-      DO 753 I=1,NUMCONV
+      DO 753 I=1,GLOB_THERM%NUMCONV
         DO 752 J=1,NFUNCT
           IF(IBCV(5,I) == NPC1(J)) THEN
             IBCV(5,I)=J
@@ -1542,7 +1543,7 @@ C------------------------------
 C-----------------------------
 C     6) FIXED radiative flux
 C-----------------------------
-      DO 755 I=1,NUMRADIA
+      DO 755 I=1,GLOB_THERM%NUMRADIA
         DO 754 J=1,NFUNCT
           IF(IBCR(5,I) == NPC1(J)) THEN
             IBCR(5,I)=J
@@ -1558,7 +1559,7 @@ C-----------------------------
 C---------------------------
 C     7) FIXED heat flux
 C---------------------------
-      DO 757 I=1,NFXFLUX
+      DO 757 I=1,GLOB_THERM%NFXFLUX
         DO 756 J=1,NFUNCT
           IF(IBFFLUX(5,I) == NPC1(J)) THEN
             IBFFLUX(5,I)=J
@@ -1700,7 +1701,7 @@ C
 C=======================================================================
 C  CONVECTIVE HEAT FLUX
 C-------------------------
-       DO I=1,NUMCONV
+       DO I=1,GLOB_THERM%NUMCONV
           ISENS = IBCV(6,I)
           IF(ISENS/=0) THEN
             DO J=1,SENSORS%NSENSOR
@@ -1717,7 +1718,7 @@ C-------------------------
 C------------------------
 C  RADIATIVE HEAT FLUX
 C------------------------
-       DO I=1,NUMRADIA
+       DO I=1,GLOB_THERM%NUMRADIA
           ISENS = IBCR(6,I)
           IF(ISENS/=0) THEN
             DO J=1,SENSORS%NSENSOR
@@ -1734,7 +1735,7 @@ C------------------------
 C---------------------
 C  IMPOSED HEAT FLUX
 C---------------------
-       DO I=1,NFXFLUX
+       DO I=1,GLOB_THERM%NFXFLUX
           ISENS = IBFFLUX(6,I)
           IF(ISENS/=0) THEN
             DO J=1,SENSORS%NSENSOR
@@ -1752,7 +1753,7 @@ C---------------------
 C---------------------
 C  IMPOSED TEMPERATURE
 C---------------------
-      DO I=1,NFXTEMP
+      DO I=1,GLOB_THERM%NFXTEMP
         ISENS = IBFT(3,I)
         IF (ISENS > 0) THEN
           DO J=1,SENSORS%NSENSOR

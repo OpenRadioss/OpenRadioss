@@ -29,9 +29,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE S20THERM(
      1   NPE,     PM,      IMAT,     NC,
      2   VOL,     PX,      PY,      PZ,
-     3   NI,      DT1,     TEMPNC,  TEL,
-     4   HEAT,     FPHI,    OFFG,    OFF,
-     5   NEL)
+     3   NI,      DT1,     TEMPNC,  TEMPEL,
+     4   HEAT,    FPHI,    OFFG,    OFF,
+     5   NEL ,    THEACCFACT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,25 +41,21 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: IMAT
       INTEGER NPE,NC(MVSIZ,NPE)
-C     REAL
-      my_real
-     .    VOL(*), PX(MVSIZ,NPE), PY(MVSIZ,NPE),PZ(MVSIZ,NPE),
+      my_real, INTENT(IN) :: THEACCFACT
+      my_real :: VOL(*), PX(MVSIZ,NPE), PY(MVSIZ,NPE),PZ(MVSIZ,NPE),
      .    NI(NPE),TEMPNC(*), FPHI(MVSIZ,NPE), PM(NPROPM,*),HEAT(*),
-     .    DT1,TEL(*),OFF(*),OFFG(*)
+     .    DT1,TEMPEL(*),OFF(*),OFFG(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N
-C     REAL
-      my_real
-     .  CA, CB, KC, PHIX(MVSIZ), PHIY(MVSIZ), PHIZ(MVSIZ)
+      INTEGER :: I,N
+      my_real :: CA, CB, KC, PHIX(MVSIZ), PHIY(MVSIZ), PHIZ(MVSIZ)
 C------------------------------------------------ 
       CA = PM(75,IMAT)
       CB = PM(76,IMAT)
@@ -80,7 +76,7 @@ C
       ENDDO
       DO I= 1,NEL
         IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
-        KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT          
+        KC = (CA + CB*TEMPEL(I))*DT1*VOL(I)*THEACCFACT          
         PHIX(I) = KC*PHIX(I)
         PHIY(I) = KC*PHIY(I)
         PHIZ(I) = KC*PHIZ(I)
@@ -110,7 +106,7 @@ C
 !        PHIZ = PHIZ +  TEMPNC(NC(I,N))*PZ(I,N)
 !       ENDDO
 C
-!        KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT          
+!        KC = (CA + CB*TEMPEL(I))*DT1*VOL(I)*THEACCFACT          
 !        PHIX = KC*PHIX
 !        PHIY = KC*PHIY
 !        PHIZ = KC*PHIZ

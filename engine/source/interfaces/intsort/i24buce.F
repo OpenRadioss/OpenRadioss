@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8   ILEV     ,MSEGTYP ,EDGE_L2 ,IEDGE    ,ISEADD   ,
      9   ISEDGE   ,CAND_T ,FLAGREMNODE,KREMNOD,REMNOD   ,
      A   CAND_A   ,RENUM  ,NSNROLD  ,IRTSE    ,IS2SE    ,
-     B   NSNE     ,DGAPLOAD) 
+     B   NSNE     ,DGAPLOAD,INTHEAT,IDT_THERM,NODADT_THERM) 
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -81,6 +81,9 @@ C-----------------------------------------------
       INTEGER I, J, IP0, IP1, MAXSIZ,
      .        LOC_PROC, N, ISZNSNR,
      .        NSNFIOLD(NSPMD)
+      INTEGER, INTENT(IN) :: INTHEAT
+      INTEGER, INTENT(IN) :: IDT_THERM
+      INTEGER, INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real
      .        XYZM(6), AAA
@@ -189,7 +192,7 @@ c      write(iout,*)'i24buce 2'
      8   MBINFLG ,ILEV     ,MSEGTYP  ,EDGE_L2 ,IEDGE    ,
      9   ISEADD  ,ISEDGE   ,CAND_T  ,FLAGREMNODE,KREMNOD,
      A   REMNOD  ,CAND_A   ,RENUM   ,NSNROLD  ,IRTSE    ,
-     B   IS2SE   ,NSNE     ,DGAPLOAD)
+     B   IS2SE   ,NSNE     ,DGAPLOAD,INTHEAT,IDT_THERM,NODADT_THERM)
  234  continue
 c      write(iout,*)'i24buce 3'
 

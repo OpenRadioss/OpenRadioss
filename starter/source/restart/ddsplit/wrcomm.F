@@ -26,7 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-      SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,MS_ND,P,INTER_PARAMETERS, UNITAB)
+      SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,MS_ND,P,INTER_PARAMETERS, 
+     .                  UNITAB ,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -36,6 +37,7 @@ C-----------------------------------------------
       USE PARAMETERS_MOD
       USE UNITAB_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_IFLG6
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,6 +48,7 @@ C-----------------------------------------------
       INTEGER LMXVREA,LVARREA, I
       my_real TABVREA(*),MS_ND
       TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
+      TYPE(glob_therm_) ,intent(in) :: glob_therm
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -57,7 +60,6 @@ C-----------------------------------------------
 #include      "sms_c.inc"
 #include      "sphcom.inc"
 #include      "inter22.inc"
-#include      "thermal_c.inc"
 C-----------------------------------------------
 #include      "tablen_c.inc"
 #include      "ddspmd_c.inc"
@@ -149,15 +151,15 @@ C
       TABVREA(RVARINT) = TPSREF
 C THERMAL ANALYSIS
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = HEAT_STORED
+      TABVREA(RVARINT) = GLOB_THERM%HEAT_STORED
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = HEAT_MECA
+      TABVREA(RVARINT) = GLOB_THERM%HEAT_MECA
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = HEAT_CONV
+      TABVREA(RVARINT) = GLOB_THERM%HEAT_CONV
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = HEAT_RADIA
+      TABVREA(RVARINT) = GLOB_THERM%HEAT_RADIA
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = HEAT_FFLUX
+      TABVREA(RVARINT) = GLOB_THERM%HEAT_FFLUX
 C TABLEAU SOL1TNL
       DO I=0, MAXLAW
         RVARINT = RVARINT + 1

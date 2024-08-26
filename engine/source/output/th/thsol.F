@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE THSOL(ELBUF_TAB, NTHGRP2, ITHGRP ,
      .                 IPARG    , ITHBUF , WA     ,
      .                 IXS      , X      , IPM    , PM    , IGEO,
-     .                 MULTI_FVM, V      , W      ,
+     .                 MULTI_FVM, V      , W      ,ITHERM ,
      .                 NUMELS   , NUMMAT , NUMGEO , NUMNOD, SITHBUF)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -131,6 +131,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: IPARG(NPARG,NGROUP),IXS(NIXS,NUMELS), IPM(NPROPMI,NUMMAT),IGEO(NPROPGI,NUMGEO)
       INTEGER,INTENT(IN) :: NTHGRP2, NUMELS, NUMMAT, NUMGEO, NUMNOD, SITHBUF
       INTEGER,INTENT(IN) :: ITHBUF(SITHBUF)
+      INTEGER, INTENT(IN):: ITHERM
       INTEGER, DIMENSION(NITHGR,*), INTENT(IN) :: ITHGRP
       my_real,INTENT(INOUT) :: WA(*)
       my_real,INTENT(IN) :: X(3,NUMNOD)  ,PM(NPROPM,NUMMAT)

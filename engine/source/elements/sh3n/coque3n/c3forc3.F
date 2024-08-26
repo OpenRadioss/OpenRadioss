@@ -104,7 +104,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      O   CONDNSKY,    STACK,       ISUBSTACK,   XFEM_STR,
      P   CRKEDGE,     DRAPE_SH3N,  IPRI,        NLOC_DMG,
      Q   xdp,         INDX_DRAPE,  IGRE,        JTUR,
-     R   DT          ,SNPC      ,  STF )
+     R   DT          ,SNPC      ,  STF ,GLOB_THERM   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -118,6 +118,8 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      use glob_therm_mod
+      use dttherm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -151,7 +153,7 @@ C-----------------------------------------------
      .   ELCUTC(2,*),INOD_CRK(*),NODENR(*),IEL_CRK(*),IADTG_CRK(3,*),
      .   NODEDGE(2,*),CRKNODIAD(*),KNOD2ELC(*),XEDGE3N(3,*),INDX_DRAPE(STDRAPE)
       my_real 
-     .   PM(*), F(*), M(*), V(*), R(*),X(*),
+     .   PM(NPROPM,*), F(*), M(*), V(*), R(*),X(*),
      .   GEO(NPROPG,*), TF(*), BUFMAT(*), PMSAV(*),STIFN(*),
      .   STIFR(*),FSKY(*),EPSDOT(6,*),THKE(*),DT2T,
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ),
@@ -177,6 +179,7 @@ C-----------------------------------------------
       TYPE (MAT_ELEM_),INTENT(INOUT) :: MAT_ELEM
       TYPE (GROUP_PARAM_) :: GROUP_PARAM
       TYPE (DT_), INTENT(IN) :: DT
+      type (glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -186,6 +189,7 @@ C-----------------------------------------------
      .   IXEL,IXLAY,ILAY,NXLAY,NLAY,L_DIRA,L_DIRB,J1,J2,IGMAT,IGTYP,
      .   IMAT,NPTTOT,IREP,ipr,IFRAM_OLD,IPRI,IFAILWAVE, IDRAPE,NPTT,IT,
      .   ACTIFXFEM ,SEDRAPE,NUMEL_DRAPE
+      my_real :: DTIME
       my_real 
      .   STI(MVSIZ),STIR(MVSIZ),RHO(MVSIZ),BID,
      .   VISCMX(MVSIZ),AREA(MVSIZ),
@@ -244,6 +248,7 @@ C-----
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+      DTIME = DT1C(1)
 
       GBUF   => ELBUF_STR%GBUF
       IDRAPE = ELBUF_STR%IDRAPE
@@ -526,7 +531,7 @@ C--------------------------
      J   E1Z0      ,E2X0      ,E2Y0      ,E2Z0      ,E3X0       ,
      K   E3Y0      ,E3Z0      ,NG        ,TABLE     ,IXFEM     ,
      L   BID       ,SENSORS   ,BID       ,ELCRKINI  ,
-     M   DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
+     M   DIR1_CRK  ,DIR2_CRK  ,ALDT      ,GLOB_THERM%IDT_THERM ,GLOB_THERM%THEACCFACT,
      N   ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O   IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P   F_DEF     ,ITASK     ,DRAPE_SH3N  ,VAR_REG   ,NLOC_DMG ,
@@ -597,25 +602,23 @@ c     SHELL THERMICS
 C--------------------------
       IF (JTHE /= 0) THEN
         IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-          CALL THERM3C(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXTG    ,
-     .                 PX1   ,PY1   ,PY2    ,AREA    ,DT1C    ,
-     .                 TEMP  ,TEMPEL,FHEAT  ,THEM    ) 
+          CALL THERM3C(NEL   ,PM(1,IMAT)      ,THK0  ,IXTG    ,
+     .                 PX1   ,PY1   ,PY2    ,AREA    ,DTIME ,
+     .                 TEMP  ,TEMPEL,FHEAT  ,THEM    ,GLOB_THERM%THEACCFACT) 
         ELSE
-          CALL THERM3C(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXTG    ,
-     .                 PX1   ,PY1   ,PY2    ,AREA    ,DT1C    ,
-     .                 TEMP  ,TEMPEL,DIE   ,THEM    ) 
+          CALL THERM3C(NEL   ,PM(1,IMAT)      ,THK0  ,IXTG    ,
+     .                 PX1   ,PY1   ,PY2    ,AREA    ,DTIME   ,
+     .                 TEMP  ,TEMPEL,DIE    ,THEM    ,GLOB_THERM%THEACCFACT) 
         END IF
       ENDIF
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
-        IF (JTHE /= 0 .AND. IDT_THERM == 1) THEN
-           CALL DTTHERM(
-     1   JFT,     JLT,     PM,      TEMPEL,
-     2   GBUF%RE, RHO,     GBUF%RK, VOL0,
-     3   ALDT,    MAT,     DT_THERM,OFF,
-     4   CONDE,   JTUR)
-         ENDIF 
+      IF (JTHE > 0 .AND. GLOB_THERM%IDT_THERM == 1)THEN
+           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
+     .                  jtur    ,tempel  ,vol0    ,rho       ,
+     .                  aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
+      ENDIF 
 C-------------------------
 C     ASSEMBLY
 C-------------------------
@@ -638,8 +641,8 @@ C
       IF (IPARIT == 0) THEN
         CALL C3UPDT3(JFT  ,JLT  ,F   ,M   ,NVC  ,
      2             GBUF%OFF,OFF  ,STI ,STIR,STIFN,
-     3             STIFR  ,IXTG ,F11  ,
-     4             F12    ,F13  ,F21 ,F22 ,F23  ,
+     3             STIFR  ,IXTG ,GLOB_THERM%NODADT_THERM,
+     4             F11    ,F12    ,F13  ,F21 ,F22 ,F23  ,
      5             F31    ,F32  ,F33 ,M11 ,M12  ,
      7             M13    ,M21  ,M22 ,M23 ,M31  ,
      8             M32    ,M33  ,JTHE,THEM,FTHE ,
@@ -654,7 +657,7 @@ C
      8             M32    ,M33  ,JTHE,THEM,FTHESKY,
      9             GBUF%EINT,PM   ,AREA,GBUF%THK ,
      B             PMSAV  ,MAT  ,IPARTTG,CONDNSKY,
-     C             CONDE)
+     C             CONDE  ,GLOB_THERM%NODADT_THERM)
       ENDIF
 C
       IF (ICSEN > 0) CALL CSENS3(JFT  ,JLT  ,PID  ,IGEO  ,GBUF%EPSD)

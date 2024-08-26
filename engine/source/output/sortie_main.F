@@ -133,7 +133,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG,USER_WINDOWS,
      t            OUTPUT    ,DT          ,FSAVSURF    ,TABLE   ,
      u            LOADS     ,SFANI       ,IPARIT      ,X_C      ,
-     v            SZ_NPCONT2,NPCONT2)
+     v            SZ_NPCONT2,NPCONT2     ,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -171,6 +171,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       use FPCONT2_MAX_OUTPUT_MOD
       use FPCONT2_MIN_OUTPUT_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -294,6 +295,7 @@ C-----------------------------------------------
       TYPE (LOADS_)   , INTENT(IN)          :: LOADS
       TYPE (TTABLE),DIMENSION(NTABLE)  ,INTENT(IN) :: TABLE
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
+      type (glob_therm_) ,intent(in)       :: glob_therm
       INTEGER,INTENT(IN)::  IPARIT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -650,7 +652,7 @@ c
      Y         LESDVOIS   ,CRKEDGE   ,INDX_CRK    ,XEDGE4N     ,XEDGE3N   ,
      Z         STACK      ,SPH2SOL   ,STIFN       ,STIFR       ,IGRNOD    ,
      1         H3D_DATA   ,SUBSET    ,MULTI_FVM   ,KNOTLOCPC   ,KNOTLOCEL ,
-     2         FCONT_MAX  ,FNCONTP2  ,FTCONTP2    )
+     2         FCONT_MAX  ,FNCONTP2  ,FTCONTP2    ,GLOB_THERM  )
 c
        ENDIF
       IF((TT>=TANIM .AND. TT<=TANIM_STOP))TANIM=TANIM+DTANIM
@@ -801,7 +803,7 @@ c
      4             LLOADP     ,LOADP     ,SENSORS     ,TAGNCONT    ,LOADP_HYD_INTER,
      5             XFRAME     ,FORC      ,AR          ,CSEFRIC     ,CSEFRICG  ,
      6             CSEFRIC_STAMP,CSEFRICG_STAMP,TABLE ,IFRAME      ,LOADS   ,
-     7             DRAPE_SH4N, DRAPE_SH3N, DRAPEG     ,X_C         )
+     7             DRAPE_SH4N, DRAPE_SH3N, DRAPEG     ,X_C         ,GLOB_THERM)
       ENDIF
       IF(ALLOCATED(CSEFRIC)) DEALLOCATE(CSEFRIC)
       IF(ALLOCATED(CSEFRICG)) DEALLOCATE(CSEFRICG)
@@ -902,7 +904,7 @@ C
      B             LENGT    ,ISKEW  ,V     ,VR    ,LENGQ  ,
      C             MULTI_FVM,BUFMAT ,NPBY  ,LPBY  ,STACK  ,
      D             DRAPE_SH4N, DRAPE_SH3N,DR,DRAPEG   ,MAT_PARAM,
-     E             IPART(K10),OUTPUT,LENGSPH,NUMSPHG)
+     E             IPART(K10),OUTPUT,LENGSPH,NUMSPHG,GLOB_THERM%ITHERM_FE)
        IF(TT>=TSTAT)TSTAT=TSTAT+DTSTAT
        IF ((TSTOP<TSTAT).AND.(TSTAT<TSTOP+EM06*TSTOP)
      .     .AND.(TSTOP+EM06*TSTOP<TSTAT+DTSTAT)) THEN
@@ -1053,7 +1055,7 @@ C         to avoid double points
      L                 IGAUP  ,NGAUP ,AFORM(1),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFA,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
 
             IF (SIZE_MES==1 .AND.AFORM(1)==3 .AND.ISPMD==0 ) 
      *          CALL file_size(MULTITHFILESIZE(1))
@@ -1148,7 +1150,7 @@ C
      L                 IGAUP  ,NGAUP, AFORM(2),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFB,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
 
             IF (SIZE_MES==1 .AND.AFORM(2)==3 .AND.ISPMD==0 )
      *        CALL file_size(MULTITHFILESIZE(2))
@@ -1243,7 +1245,7 @@ C
      L                 IGAUP  ,NGAUP ,AFORM(3),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      n                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFC,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(3)==3   .AND.
@@ -1334,7 +1336,7 @@ C
      L                 IGAUP  ,NGAUP ,AFORM(4),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFD,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
 
          IF(SIZE_MES==1 .AND.
      *     AFORM(4)==3   .AND.
@@ -1426,7 +1428,7 @@ C
      L                IGAUP  ,NGAUP ,AFORM(5),SIZE_MES,
      M                RTHBUF  ,THKE ,STACK  ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFE,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(5)==3   .AND.
@@ -1517,7 +1519,7 @@ C
      L                IGAUP,NGAUP ,AFORM(6),SIZE_MES,
      M                RTHBUF,THKE ,STACK  ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFF,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(6)==3   .AND.
@@ -1609,7 +1611,7 @@ C
      L                IGAUP,NGAUP ,AFORM(7),SIZE_MES,
      M                RTHBUF,THKE ,STACK  ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFG,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(7)==3   .AND.
@@ -1701,7 +1703,7 @@ C
      L                IGAUP  ,NGAUP ,AFORM(8),SIZE_MES,
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFH,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(8)==3   .AND.
@@ -1792,7 +1794,7 @@ C
      L                IGAUP,NGAUP ,AFORM(9),SIZE_MES,
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFI,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(9)==3   .AND.
@@ -1881,7 +1883,7 @@ C
      L                IGAUP,NGAUP,ITFORM,SIZE_MES,
      M                RTHBUF ,THKE ,STACK,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUF,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
 
         IF(SIZE_MES==1 .AND.
      *     ITFORM==3   .AND.
@@ -1945,7 +1947,7 @@ C     to avoid double points (end of ilastanim/=2)
 C----------------------------------------------
 C     Driver to QAPRINT 
 C----------------------------------------------
-      CALL ENG_QAPRINT_DRIVER(IRUNN_BIS ,SENSORS,DT,OUTPUT,IPARIT)
+      CALL ENG_QAPRINT_DRIVER(IRUNN_BIS ,SENSORS,DT,OUTPUT,IPARIT,GLOB_THERM)
 C-------------------------------------------------------
 C     TRAITEMENT SUR FSAV NON CUMULE
 C-------------------------------------------------------

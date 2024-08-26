@@ -62,7 +62,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                  ITAB    ,KINET   ,TEMP    ,RENUM   ,
      5                  NSNFIOLD,NUM_IMP ,IND_IMP ,NODNX_SMS,
      6                  H3D_DATA,ESHIFT  ,NEDGE_T ,SSHIFT   ,NRTM_T ,
-     7                  ICODT   ,ISKEW   ,PARAMETERS)
+     7                  ICODT   ,ISKEW   ,PARAMETERS,NODADT_THERM)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -102,6 +102,7 @@ C-----------------------------------------------
      .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(*), NSNFIOLD(NSPMD), NODNX_SMS(*), ICODT(*), ISKEW(*)
+      INTEGER , INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real 
      .    X(3,*), V(*), MS(*),TEMP(*)
@@ -549,7 +550,7 @@ C
      2      IPARI(21,NIN),NSNR,MULTIMP      ,NTY,IPARI(47,NIN),
      3      ILEV         ,NSNFIOLD,IPARI   ,NSNROLD, RENUM, H3D_DATA ,
      4      IPARI(72,NIN),FLAGREMN,LREMNORMAX,NRTM ,INTBUF_TAB%KREMNODE,
-     5      INTBUF_TAB%REMNODE,IVIS2,IPARI(97,NIN),IFSUB_CAREA )
+     5      INTBUF_TAB%REMNODE,IVIS2,IPARI(97,NIN),IFSUB_CAREA ,NODADT_THERM)
         IPARI(24,NIN) = NSNR
 
         NEDGE_REMOTE_OLD = NEDGE_REMOTE

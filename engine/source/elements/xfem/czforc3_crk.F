@@ -82,7 +82,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M            IADC_CRK,ELCUTC,CRKSKY,SENSORS,IXEL    ,
      N            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
      O            NODEDGE,CRKEDGE, STACK ,DRAPE_SH4N,NLOC_DMG,
-     P            INDX_DRAPE, IGRE, DT   , NCYCLE,SNPC,  STF)
+     P            INDX_DRAPE, IGRE, DT   , NCYCLE,SNPC,  STF  ,
+     P            GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -96,6 +97,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -155,6 +157,7 @@ C     REAL OU REAL*8
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
       TYPE (DT_), INTENT(IN) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C   L O C A L   V A R I A B L E S
 C--------------------------------
@@ -476,7 +479,7 @@ C-----------------------------
      J       R13       ,R21       ,R22       ,R23       ,R31     ,
      K       R32       ,R33       ,IBID      ,TABLE     ,IXFEM   ,
      L       BID       ,SENSORS   ,BID       ,ELCRKINI,
-     M       DIR1_CRK  ,DIR2_CRK  ,LL        ,
+     M       DIR1_CRK  ,DIR2_CRK  ,LL        ,GLOB_THERM%IDT_THERM ,GLOB_THERM%THEACCFACT,
      N       ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT    ,
      O       IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P       BID       ,ITASK     ,DRAPE_SH4N  ,VARNL     ,NLOC_DMG,
@@ -579,11 +582,11 @@ C
           IF (MAT_ELEM%MAT_PARAM(MAT(1))%HEAT_FLAG == 1) THEN
             CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
      .                  Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
-     .                  TEMP   ,TEMPEL  ,FHEAT   ,THEM )
+     .                  TEMP   ,TEMPEL  ,FHEAT   ,THEM ,GLOB_THERM%THEACCFACT)
           ELSE
             CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
      .                  Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
-     .                  TEMP   ,TEMPEL  ,DIE     ,THEM )
+     .                  TEMP   ,TEMPEL  ,DIE     ,THEM ,GLOB_THERM%THEACCFACT)
           ENDIF 
         ENDIF 
 C

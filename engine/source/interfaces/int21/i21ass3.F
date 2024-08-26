@@ -48,7 +48,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D                  MSRL     ,ITAB     ,H3D_DATA ,NINSKID  ,PRATIO  ,
      E                  NINTERSKID,PSKIDS  ,IFLAGLOADP,TAGNCONT ,KLOADPINTER,
      F                  LOADPINTER,LOADP_HYD_INTER,DGAPLOADINT,DIST,GAPV,  
-     G                  S_LOADPINTER,EFRIC_L,FHEAT   ,EFRICT   ,INTEREFRIC)
+     G                  S_LOADPINTER,EFRIC_L,FHEAT   ,EFRICT   ,INTEREFRIC,
+     H                  NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -89,6 +90,7 @@ C-----------------------------------------------
      .        MSR(*), INTTH, NODGLOB(*),INDEXCONT(*),TAGCONT(*),MSRL(*),ITAB(*),
      .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
       INTEGER  , INTENT(IN) :: S_LOADPINTER
+      INTEGER  , INTENT(IN) :: NODADT_THERM
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .         LOADP_HYD_INTER(NLOADP_HYD)
       INTEGER  , INTENT(IN) :: INTEREFRIC

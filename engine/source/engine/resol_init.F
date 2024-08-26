@@ -163,7 +163,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM,STACK,OUTPUT,
      7  THKE ,SFR_ELEM ,SH_OFFSET_TAB,
      8  NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION,
-     9  ISKWN ,IFRAME, LOADS )
+     9  ISKWN ,IFRAME, LOADS ,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -192,6 +192,7 @@ C-----------------------------------------------
       USE INTER_SH_OFFSET_MOD , only:SH_OFFSET_
       USE LOADS_MOD 
       USE inivel_init_mod ,  only: inivel_init
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -343,6 +344,7 @@ C-----------------------------------------------
       TYPE(OUTPUT_),INTENT(INOUT)    :: OUTPUT
       TYPE(sh_offset_)               :: SH_OFFSET_TAB   
       TYPE (LOADS_) ,INTENT(INOUT)   :: LOADS
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -354,8 +356,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(SENSORS%NSENSOR) :: INDEX_SENSOR
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISEND,IRECV
       INTEGER :: ITIED,NINIVELTG
-      my_real
-     .        RDUM
+      my_real :: RDUM
       CHARACTER ZONE*5
       INTEGER VALUES(8)
 C=======================================================================
@@ -534,10 +535,10 @@ C
         I87I = I87H
         I87J = I87I + 4 * NSKYMV0
         I87K = I87J + 4 * NCONLD
-        I87L = I87K + 4 * NUMCONV
-        I87M = I87L + 4 * NUMRADIA
+        I87L = I87K + 4 * GLOB_THERM%NUMCONV
+        I87M = I87L + 4 * GLOB_THERM%NUMRADIA
         I87N = I87M + SLLOADP
-C        I87O = I87N + 4 * NFXFLUX
+C        I87O = I87N + 4 * GLOB_THERM%NFXFLUX
 C
 C---------------------------- 
         MAXNX=0
@@ -638,7 +639,7 @@ C
      6       ISENDP_PXFEM,IRECVP_PXFEM ,IADSDP_PXFEM,IADRCP_PXFEM,
      7       FR_NBCC1,INOD_CRKXFEM,ADSKY_CRKXFEM,PROCNE_CRKXFEM,
      8     ISENDP_CRKXFEM,IRECVP_CRKXFEM,IADSDP_CRKXFEM,IADRCP_CRKXFEM,
-     9     CONDNSKY)
+     9     CONDNSKY,GLOB_THERM)
         ENDIF
 C
         CALL FILLIPARTL(
@@ -758,7 +759,9 @@ C----------------------------------------------------------
      .               IN  ,ELBUF_TAB  ,SH4TREE,IPADMESH,MSC     ,
      .               INC ,SH3TREE    ,MSTG   ,INTG    ,PTG     ,
      .               SH4TRIM ,SH3TRIM,MSCND  ,INCND   ,PM      ,
-     .               MCP ,MCPC       ,MCPTG  ,TAGTRIMC ,TAGTRIMTG)
+     .               MCP ,MCPC       ,MCPTG  ,TAGTRIMC ,TAGTRIMTG,
+     .               GLOB_THERM%ITHERM_FE)
+!
          CALL ADMORDR(SH4TREE,SH3TREE,IXC,IXTG)
          IADMESH=0
          NGDONE=1
@@ -919,7 +922,7 @@ C
             CALL ZERO1(VISCN(NDTASK),NUMNOD)
           ENDIF
 C
-           IF(ITHERM_FE > 0) THEN
+           IF (GLOB_THERM%ITHERM_FE > 0) THEN
               CALL ZERO1(FTHE(NDTASK),NUMNOD)
            ENDIF  
 C
@@ -927,7 +930,7 @@ C
             CALL ZERO1(DMSPH(NDTASK),NUMNOD)
           ENDIF
 
-          IF(NODADT_THERM > 0) THEN
+          IF (GLOB_THERM%NODADT_THERM > 0) THEN
              CALL ZERO1(CONDN(NDTASK),NUMNOD)
           ENDIF  
 C  
@@ -952,7 +955,7 @@ C
             CALL ZERO1(VISCN(NODFT),NUMNTHREAD)
           ENDIF
 C
-          IF(ITHERM_FE > 0  ) THEN
+          IF (GLOB_THERM%ITHERM_FE > 0  ) THEN
             CALL ZERO1(FTHE(NODFT),NUMNTHREAD)
           ENDIF 
 C
@@ -960,7 +963,7 @@ C
             CALL ZERO1(DMSPH(NODFT),NUMNTHREAD)
           ENDIF
 
-          IF(NODADT_THERM > 0) THEN
+          IF (GLOB_THERM%NODADT_THERM > 0) THEN
              CALL ZERO1(CONDN(NODFT),NUMNTHREAD)
           ENDIF  
 C
@@ -998,7 +1001,7 @@ C----------------------------------------------------------
         CALL ADMGVID(
      1    IPARG     ,ELBUF_TAB ,FSKY   ,FSKY  ,FTHESKY,
      2    IADS(I87C),IADS(I87G),IFLGADM,IGROUC,NGROUC,
-     3    CONDNSKY  )
+     3    CONDNSKY  ,GLOB_THERM%NODADT_THERM)
       END IF
 C
 C----------------------------------------------------------

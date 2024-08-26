@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2        IGRSURF    ,XFILTR     ,FRIC_P     ,NPC1     ,SENSORS   ,
      3        NOM_OPT    ,UNITAB     ,LSUBMODEL  ,TITR     ,NPC       ,
      4        TF         ,NPARI      ,NPARIR     ,SNPC     ,SNPC1     ,
-     5        LNOPT1)
+     5        LNOPT1     ,ITHERM_FE  ,INTHEAT)
 C============================================================================
 C    
 C-----------------------------------------------
@@ -62,7 +62,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NPARI,NPARIR,SNPC,SNPC1,LNOPT1
+      INTEGER,INTENT(IN)    :: NPARI,NPARIR,SNPC,SNPC1,LNOPT1
+      INTEGER,INTENT(IN)    :: ITHERM_FE
+      INTEGER,INTENT(INOUT) :: INTHEAT
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER ISU1,ISU2,ILAGM,NI
       INTEGER IPARI(NPARI),NPC1(SNPC1),NPC(SNPC)

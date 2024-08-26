@@ -147,7 +147,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   NERPM      ,IFLOW           ,RFLOW      ,LIFLOW      ,LRFLOW           ,
      .                   IMPBUF_TAB ,IMPL_S          ,IMPL_S0    ,MCP         ,TEMP             ,
      .                   FORNEQS    ,UNITAB          ,STACK      ,NDRAPE      ,DRAPE_SH3N       ,
-     .                   DRAPE_SH4N ,DRAPEG          ,RESTSIZE   ,SKEWS)
+     .                   DRAPE_SH4N ,DRAPEG          ,RESTSIZE   ,SKEWS       ,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -196,6 +196,7 @@ C-----------------------------------------------
       USE TIME_MOD
       USE ELBUFDEF_MOD
       use write_inivel_mod , only : write_inivel
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -242,6 +243,7 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE (STACK_PLY) :: STACK
       TYPE(DRAPE_)     :: DRAPE_SH3N(NUMELTG_DRAPE),DRAPE_SH4N(NUMELC_DRAPE)
       TYPE(DRAPEG_)    :: DRAPEG
+      type (glob_therm_) ,intent(inout) :: GLOB_THERM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -271,7 +273,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "remesh_c.inc"
 #include      "sphcom.inc"
-#include      "thermal_c.inc"
 #include      "inter18.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -319,17 +320,17 @@ C     PREPARATION DES VARIABLES ENTIERES ET REELLES.
 C--------------------------------------
       IPARI0 = IPARIT
       CALL WRCOMI(LMXVINT,LVARINT,TABVINT,1,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .     INTERFACES%PARAMETERS,SENSORS,LOADS)
+     .     INTERFACES%PARAMETERS,SENSORS,LOADS,GLOB_THERM)
 C
       ENTMP(1) = TFEXT
       ENTMP(2) = EHOUR
       ENTMP(3) = ECONTV
       ENTMP(4) = EPOR
-      ENTMP(5) = HEAT_STORED
-      ENTMP(6) = HEAT_MECA
-      ENTMP(7) = HEAT_CONV
-      ENTMP(8) = HEAT_RADIA
-      ENTMP(9) = HEAT_FFLUX
+      ENTMP(5) = GLOB_THERM%HEAT_STORED
+      ENTMP(6) = GLOB_THERM%HEAT_MECA
+      ENTMP(7) = GLOB_THERM%HEAT_CONV
+      ENTMP(8) = GLOB_THERM%HEAT_RADIA
+      ENTMP(9) = GLOB_THERM%HEAT_FFLUX
       ENTMP(10)= ECONTD
       ENTMP(11)= ECONT_CUMU
       IF(NSPMD > 1) CALL SPMD_GLOB_DSUM9(ENTMP,11)
@@ -338,11 +339,11 @@ C
         EHOUR = ZERO
         ECONTV = ZERO
         EPOR = ZERO
-        HEAT_STORED = ZERO
-        HEAT_MECA   = ZERO
-        HEAT_CONV   = ZERO
-        HEAT_RADIA  = ZERO
-        HEAT_FFLUX  = ZERO
+        GLOB_THERM%HEAT_STORED = ZERO
+        GLOB_THERM%HEAT_MECA   = ZERO
+        GLOB_THERM%HEAT_CONV   = ZERO
+        GLOB_THERM%HEAT_RADIA  = ZERO
+        GLOB_THERM%HEAT_FFLUX  = ZERO
         ECONTD = ZERO
         ECONT_CUMU = ZERO
       ELSE
@@ -350,11 +351,11 @@ C
         EHOUR = ENTMP(2)
         ECONTV= ENTMP(3)
         EPOR  = ENTMP(4)
-        HEAT_STORED = ENTMP(5)
-        HEAT_MECA   = ENTMP(6)
-        HEAT_CONV   = ENTMP(7)
-        HEAT_RADIA  = ENTMP(8)
-        HEAT_FFLUX  = ENTMP(9)
+        GLOB_THERM%HEAT_STORED = ENTMP(5)
+        GLOB_THERM%HEAT_MECA   = ENTMP(6)
+        GLOB_THERM%HEAT_CONV   = ENTMP(7)
+        GLOB_THERM%HEAT_RADIA  = ENTMP(8)
+        GLOB_THERM%HEAT_FFLUX  = ENTMP(9)
         ECONTD = ENTMP(10)
         ECONT_CUMU = ENTMP(11)
       ENDIF
@@ -366,7 +367,7 @@ C
       ENDIF
 C
       CALL WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA,INTERFACES%PARAMETERS,
-     .            OUTPUT)
+     .            OUTPUT,GLOB_THERM)
 C--------------------------------------
 C     OPEN
 C--------------------------------------
@@ -513,7 +514,7 @@ C--------------------------------------
 
         CALL WRITE_I_C(ALE_CONNECTIVITY%NALE,ALE%GLOBAL%SNALE)
 
-        IF (IALE + IEULER + IALELAG + ITHERM /= 0) THEN
+        IF (IALE + IEULER + IALELAG + GLOB_THERM%ITHERM /= 0) THEN
            ITMP = SIZE(ALE_CONNECTIVITY%ee_connect%iad_connect)
            CALL WRITE_I_C(ITMP, 1)
            CALL WRITE_I_C(ALE_CONNECTIVITY%ee_connect%iad_connect, ITMP)
@@ -1290,7 +1291,7 @@ C--------------------------------------
 
         IF(NADMESH /= 0)THEN
           CALL WRITE_DB(PADMESH,KPADMESH*NPART)
-          IF(ITHERM_FE > 0)THEN
+          IF(GLOB_THERM%ITHERM_FE > 0)THEN
             CALL WRITE_DB(MCPC,NUMELC)
             CALL WRITE_DB(MCPTG,NUMELTG)
           END IF
@@ -1573,7 +1574,7 @@ c
         CALL IMPWREST(IMPL_S0)
       ENDIF
 c
-      IF(ITHERM_FE > 0 )CALL THCWREST(MCP, TEMP)
+      IF(GLOB_THERM%ITHERM_FE > 0 ) CALL THCWREST(MCP, TEMP)
 C
       IF(NITSCHE > 0 )CALL NITSCHEWREST(FORNEQS)
 c
@@ -1582,10 +1583,19 @@ c
       IF(IRIGID_MAT > 0 )CALL RIGMATWREST(RBYM ,IRBYM ,LNRBYM,WEIGHT_RM)
 
 C thermal boundary
-      IF(NUMCONV > 0 )  CALL CONVWREST(IBCV, FCONV)
-      IF(NUMRADIA > 0 ) CALL RADIAWREST(IBCR, FRADIA)
-      IF(NFXFLUX > 0 )  CALL FXFLUXWREST(IBFFLUX, FBFFLUX)
-      IF(NFXTEMP > 0 )  CALL FXTEMPWREST(IBFTEMP, FBFTEMP)
+      IF (GLOB_THERM%NUMCONV > 0)   THEN
+        CALL CONVWREST(IBCV, FCONV,GLOB_THERM)
+      END IF
+      IF (GLOB_THERM%NUMRADIA > 0)  THEN
+        CALL RADIAWREST(IBCR, FRADIA,GLOB_THERM)
+      END IF
+      IF (GLOB_THERM%NFXFLUX > 0)  THEN
+        CALL FXFLUXWREST(IBFFLUX, FBFFLUX, GLOB_THERM)
+      END IF
+      IF (GLOB_THERM%NFXTEMP > 0)  THEN
+        CALL FXTEMPWREST(IBFTEMP, FBFTEMP,GLOB_THERM)
+      END IF
+!
 c Ply XFEM
       IF (IPLYXFEM > 0)THEN
         CALL PLYXFEM_WREST(MS_PLY,ZI_PLY,INOD_PXFEM,IEL_PXFEM,

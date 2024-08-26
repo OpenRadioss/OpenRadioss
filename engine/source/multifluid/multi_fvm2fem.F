@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE MULTI_FVM2FEM(TIMESTEP, ELBUF_TAB, ITASK, 
      .     IXS, IXQ, IPARG, XGRID, ACCELE, VEL, WGRID, MS, MSNF, VEUL,
      .     STIFN, FSKY, IADS, FSKYM, 
-     .     CONDN, CONDNSKY, MULTI_FVM)     
+     .     CONDN, CONDNSKY, MULTI_FVM,NODADT_THERM)     
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -73,6 +73,7 @@ C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP), INTENT(IN) :: ELBUF_TAB
+      INTEGER, INTENT(IN) :: NODADT_THERM
       INTEGER, INTENT(IN) ::  ITASK, IPARG(NPARG, *), IXS(NIXS, *), IXQ(NIXQ, *),
      .     IADS(8, *)
       
@@ -283,7 +284,7 @@ C     ASSEMBLE
      F   MY6,     MZ6,     MX7,     MY7,
      G   MZ7,     MX8,     MY8,     MZ8,
      H   THEM,    FTHE,    CONDN,   CONDE,
-     I   NEL,     JTHE,    ISROT,   IPARTSPH)
+     I   NEL,     JTHE,    ISROT,   IPARTSPH,NODADT_THERM)
                      ELSE
                         CALL SCUMU3P(
      1   GBUF%OFF,STI,     FSKY,    FSKY,
@@ -304,7 +305,7 @@ C     ASSEMBLE
      G   MZ7,     MX8,     MY8,     MZ8,
      H   THEM,    FTHESKY, CONDNSKY,CONDE,
      I   NEL,     NFT,     JTHE,    ISROT,
-     J   IPARTSPH)
+     J   IPARTSPH,NODADT_THERM)
                      ENDIF
                   ELSE IF (ITY == 1 .AND. ISOLNOD == 4) THEN
 C     TETRA CASE
@@ -373,31 +374,31 @@ C----------------------------
                      ENDIF
                      
 C     ASSEMBLE
-                     STI(:) = ZERO
-                     FR_WAV(:) = ZERO
-                     IBID = 0
-                     IF(IPARIT == 0)THEN
-                        CALL S4CUMU3(
-     1   GBUF%OFF,ACCELE,  NC1,     NC2,
-     2   NC3,     NC4,     STIFN,   STI,
-     3   F11,     F21,     F31,     F12,
-     4   F22,     F32,     F13,     F23,
-     5   F33,     F14,     F24,     F34,
-     6   THEM,    FTHE,    CONDN,   CONDE,
-     7   NEL,     JTHE)
-                     ELSE
-                        CALL S4CUMU3P(
-     1   GBUF%OFF,STI,     FSKY,    FSKY,
-     2   IADS,    F11,     F21,     F31,
-     3   F12,     F22,     F32,     F13,
-     4   F23,     F33,     F14,     F24,
-     5   F34,     THEM,    FTHESKY, CONDNSKY,
-     6   CONDE,   NEL,     NFT,     JTHE)
-                     ENDIF
-                  ENDIF
-               ENDIF
+                STI(:) = ZERO
+                FR_WAV(:) = ZERO
+                IBID = 0
+                IF(IPARIT == 0)THEN
+                  CALL S4CUMU3(
+     1                  GBUF%OFF,ACCELE,  NC1,     NC2,
+     2                  NC3,     NC4,     STIFN,   STI,
+     3                  F11,     F21,     F31,     F12,
+     4                  F22,     F32,     F13,     F23,
+     5                  F33,     F14,     F24,     F34,
+     6                  THEM,    FTHE,    CONDN,   CONDE,
+     7                  NEL,     JTHE,  NODADT_THERM)
+                ELSE
+                  CALL S4CUMU3P(
+     1                 GBUF%OFF,STI,     FSKY,    FSKY,
+     2                 IADS,    F11,     F21,     F31,
+     3                 F12,     F22,     F32,     F13,
+     4                 F23,     F33,     F14,     F24,
+     5                 F34,     THEM,    FTHESKY, CONDNSKY,
+     6                 CONDE,   NEL,     NFT,     JTHE,  NODADT_THERM)
+                ENDIF
+              ENDIF
             ENDIF
-         ENDIF
+          ENDIF
+        ENDIF
       ENDDO
 C     
 C-----------

@@ -52,7 +52,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
      4                  ITAB    ,KINET   ,TEMP    ,NRTM_T  ,RENUM   ,
      5                  NSNFIOLD,ESHIFT  ,NUM_IMP ,IND_IMP ,NODNX_SMS,
-     6                  H3D_DATA,T2MAIN_SMS,FORNEQS,T2FAC_SMS,PARAMETERS)
+     6                  H3D_DATA,T2MAIN_SMS,FORNEQS,T2FAC_SMS,PARAMETERS,
+     7                  INTHEAT,IDT_THERM,NODADT_THERM)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -93,6 +94,9 @@ C-----------------------------------------------
      .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(NUMNOD), NSNFIOLD(NSPMD), NODNX_SMS(*), T2MAIN_SMS(6,*)
+      INTEGER, INTENT(IN) :: INTHEAT
+      INTEGER, INTENT(IN) :: IDT_THERM
+      INTEGER , INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real 
      .    X(3,*), V(*), MS(*),TEMP(*),T2FAC_SMS(*)
@@ -349,7 +353,8 @@ C
      7 I_MEM  ,INTBUF_TAB%PENE_OLD,ITAB          ,INTBUF_TAB%NBINFLG,INTBUF_TAB%MBINFLG,
      8 ILEV   ,INTBUF_TAB%MSEGTYP24,INTBUF_TAB%EDGE8L2 ,IEDGE        ,INTBUF_TAB%ISEADD,
      9 INTBUF_TAB%ISEDGE,INTBUF_TAB%CAND_T,FLAGREMN,INTBUF_TAB%KREMNODE(1+2*ESHIFT),INTBUF_TAB%REMNODE ,
-     A CAND_A,RENUM,NSNROLD,INTBUF_TAB%IRTSE,INTBUF_TAB%IS2SE,NSNE   ,DGAPLOAD)
+     A CAND_A,RENUM,NSNROLD,INTBUF_TAB%IRTSE,INTBUF_TAB%IS2SE,NSNE   ,DGAPLOAD,
+     B INTHEAT,IDT_THERM,NODADT_THERM)
 C
 C Upgrade MultiMP
       IF (I_MEM == 2)THEN
@@ -406,7 +411,7 @@ C
      1      RESULT       ,NSN ,INTBUF_TAB%CAND_N,INTBUF_TAB%I_STOK(1),NIN,
      2      IPARI(21,NIN),NSNR,MULTIMP      ,NTY,IPARI(47,NIN),
      3      ILEV  ,IPARI(59,NIN) ,H3D_DATA  ,IPARI(72,NIN)    ,INTNITSCHE,
-     4      IPARI(97,NIN) ,IFSUB_CAREA)
+     4      IPARI(97,NIN) ,IFSUB_CAREA,NODADT_THERM)
         IPARI(24,NIN) = NSNR
 C
         IF (NTY==24.AND.RESULT==0.AND.IMPL_S>0.AND.IGSTI==6) THEN 

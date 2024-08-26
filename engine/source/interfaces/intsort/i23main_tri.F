@@ -53,7 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
      4                  ITAB    ,KINET   ,NRTM_T  ,RENUM   ,
      5                  NSNFIOLD,ESHIFT  ,NUM_IMP ,IND_IMP ,NODNX_SMS,
-     6                  H3D_DATA, MULTI_FVM)
+     6                  H3D_DATA, MULTI_FVM,INTHEAT,IDT_THERM,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -92,6 +92,9 @@ C-----------------------------------------------
      .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(*), NSNFIOLD(NSPMD), NODNX_SMS(*)
+      INTEGER, INTENT(IN) :: INTHEAT
+      INTEGER, INTENT(IN) :: IDT_THERM
+      INTEGER, INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real 
      .   X(*), V(*), MS(*)
@@ -301,7 +304,8 @@ C
      8   IPARI(39,NIN),NUM_IMP ,ITASK,
      9   I_MEM  ,INTBUF_TAB%MSR,INTBUF_TAB%GAP_M(1+ESHIFT),NSNR   ,CURV_MAX     ,
      A   RENUM  ,NSNROLD         ,INTBUF_TAB%IFPEN,MWAG         ,BMINMA ,
-     B   NMN    ,INTBUF_TAB%IRECTM,INTBUF_TAB%VARIABLES(7) )
+     B   NMN    ,INTBUF_TAB%IRECTM,INTBUF_TAB%VARIABLES(7),
+     C   INTHEAT,IDT_THERM,NODADT_THERM )
 
 C Upgrade MultiMP
       IF (I_MEM == 2)THEN
@@ -370,7 +374,7 @@ C
      1      RESULT       ,NSN ,INTBUF_TAB%CAND_N,INTBUF_TAB%I_STOK(1),NIN,
      2      IPARI(21,NIN),NSNR,MULTIMP      ,NTY,IPARI(47,NIN),
      3      ILEV   ,NSNFIOLD, IPARI, H3D_DATA,INTFRIC,
-     4      MULTI_FVM)
+     4      MULTI_FVM,NODADT_THERM)
         IPARI(24,NIN) = NSNR
 C
         IF (NUM_IMP>0) 

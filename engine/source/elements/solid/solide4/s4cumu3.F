@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   F22,     F32,     F13,     F23,
      5   F33,     F14,     F24,     F34,
      6   THEM,    FTHE,    CONDN,   CONDE,
-     7   NEL,     JTHE)
+     7   NEL,     JTHE,    NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: JTHE
+      INTEGER, INTENT(IN) :: NODADT_THERM
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*)
 C     REAL
       my_real

@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   F34,     F15,     F25,     F35,
      6   F16,     F26,     F36,     NEL,
      7   NFT,    JTHE, FTHESKY,    THEM,
-     8   CONDNSKY,CONDE)
+     8   CONDNSKY,CONDE,NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL,JTHE
       INTEGER, INTENT(IN) :: NFT
-C     REAL
+      INTEGER, INTENT(IN) :: NODADT_THERM
       my_real
      .   OFFG(*),FSKYV(LSKY,8),FSKY(8,LSKY),STI(*),
      .   F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),

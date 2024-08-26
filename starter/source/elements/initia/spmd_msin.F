@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D               MS_LAYER , ZI_LAYER,MSZ2C,MSZ2,ZPLY,
      E               KXIG3D   ,IXIG3D  ,MSIG3D,NCTRLMAX,STRC,
      F               STRP,STRR,STRTG,STIFINTR,NSHNOD,VNIGE,BNIGE,
-     G               MCPP )
+     G               MCPP ,ITHERM_FE)
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -65,6 +65,7 @@ C-----------------------------------------------
      .   IXS10(6,*),IXS20(12,*),IXS16(8,*),
      .   SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*),KXIG3D(NIXIG3D,*),
      .   IXIG3D(*),NSHNOD(*)
+      INTEGER, INTENT(IN) :: ITHERM_FE 
 C     REAL
       my_real
      .   MSS(8,*), MSQ(*),MSC(*),MST(*),MSP(*),MSR(3,*),

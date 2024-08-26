@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE ADMVIT(IXC   ,IPARTC ,IXTG ,IPARTTG ,IPART ,
      .                  ITASK ,A      ,V    ,AR      ,VR    ,
-     .                  SH4TREE,SH3TREE,TEMP)
+     .                  SH4TREE,SH3TREE,TEMP,ITHERM_FE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
       INTEGER SH4FT, SH4LT, SH3FT, SH3LT
       INTEGER N, NN, LEVEL, IP, NLEV, LL, IERR
       INTEGER SON,M(4),MC,N1,N2,N3,N4,J,NA,NB
+      my_real ,INTENT(IN) :: ITHERM_FE
       my_real
      .        VV, USDT
 C-----------------------------------------------

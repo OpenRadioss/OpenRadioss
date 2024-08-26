@@ -75,7 +75,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS    ,
      .           OUTPUT      ,INTERFACES  ,DT             ,LOADS      ,MAT_ELEM        ,
      .           PYTHON      ,NAMES_AND_TITLES, UNITAB    ,SKEWS      ,LIFLOW          ,
-     .           LRFLOW )
+     .           LRFLOW      ,glob_therm  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -113,6 +113,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD
       USE UNITAB_MOD
       USE SKEW_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -176,6 +177,7 @@ C     REAL
       TYPE(PYTHON_)   , INTENT(INOUT)         :: PYTHON
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT)   :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
       TYPE(SKEW_), INTENT(INOUT)              :: SKEWS
+      type (glob_therm_) ,intent(inout)       :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -279,7 +281,8 @@ C
      M  T_MONVOL        ,ID_GLOBAL_VOIS ,FACE_VOIS      ,TAGSLV_RBY     ,DYNAIN_DATA    ,FCONT_MAX   ,EBCS_TAB         ,DIFFUSION ,
      N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS ,OUTPUT          ,INTERFACES,
      O  DT              ,LOADS          ,PYTHON         ,DPL0CLD        ,VEL0CLD        ,
-     P  NDAMP_VREL      ,ID_DAMP_VREL   ,FR_DAMP_VREL   ,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW)
+     P  NDAMP_VREL      ,ID_DAMP_VREL   ,FR_DAMP_VREL   ,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW,
+     R  GLOB_THERM      )
 C
       CALL TRACE_OUT(2)
 C

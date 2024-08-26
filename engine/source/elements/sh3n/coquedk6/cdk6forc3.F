@@ -75,7 +75,7 @@ cc
      K   CONDN,       CONDNSKY,    ISUBSTACK,   STACK,
      L   ITASK,       DRAPE_SH3N,  IPRI,        NLOC_DMG,
      M   INDX_DRAPE,  IGRE,        JTUR,        DT   ,
-     N   NCYCLE,      SNPC,        STF)
+     N   NCYCLE,      SNPC,        STF ,       GLOB_THERM  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -88,6 +88,8 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      use glob_therm_mod
+      use dttherm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -119,7 +121,7 @@ C-----------------------------------------------
      .   IPARG(*),INDX_DRAPE(STDRAPE)
 C     REAL
       my_real 
-     .   PM(*), X(*), F(*), M(*), V(*), R(*),
+     .   PM(NPROPM,*), X(*), F(*), M(*), V(*), R(*),
      .   GEO(NPROPG,*), TF(*), BUFMAT(*), PMSAV(*),STIFN(*),
      .   STIFR(*),FSKY(*),EPSDOT(6,*),THKE(*),DT2T,
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ),
@@ -139,6 +141,7 @@ C     REAL
       TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
       TYPE (DT_) ,INTENT(IN) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -379,7 +382,7 @@ C----------------------------------------------------------------------------
      J   R13       ,R21       ,R22       ,R23       ,R31        ,
      K   R32       ,R33       ,NG        ,TABLE     ,IBID       ,
      L   BID       ,SENSORS   ,BID       ,IBID       ,
-     M   BID       ,BID       ,ALDT      ,
+     M   BID       ,BID       ,ALDT      ,GLOB_THERM%IDT_THERM ,GLOB_THERM%THEACCFACT,
      N   ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O   IBID      ,IBID      ,ISUBSTACK ,STACK     ,
      P   BID       ,ITASK     ,DRAPE_SH3N  ,VAR_REG   ,NLOC_DMG  ,
@@ -424,12 +427,10 @@ C--------------------------
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
-         IF (JTHE /= 0 .AND. IDT_THERM == 1)THEN
-           CALL DTTHERM(
-     1          JFT,     JLT,     PM,      TEMPEL,
-     2          GBUF%RE, RHO,     GBUF%RK, VOL0,
-     3          ALDT,    MAT,     DT_THERM,OFF,
-     4          CONDE,   JTUR)
+         IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1)THEN
+           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
+     .                  jtur    ,tempel  ,vol0    ,rho       ,
+     .                  aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
          ENDIF
 c-------------------------
 c     Virtual internal forces of regularized non local ddl 

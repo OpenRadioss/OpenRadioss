@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3             VR      ,AR      ,ISKWN   ,IFRAME  ,SKEW   ,
      4             XFRAME  ,WEIGHT  ,TEMP    ,INOD    ,FTHREAC,
      5             NODREAC, CPTREAC ,DR      ,IFORM   ,NTHGRP2,
-     6             ITHGRP ,PINCH_DATA)
+     6             ITHGRP ,PINCH_DATA,ITHERM_FE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
      .        ISKWN(LISKN,*),IFRAME(LISKN,*),WEIGHT(NUMNOD),INOD(*),
      .        NODREAC(*),IFORM,NTHGRP2
       INTEGER, DIMENSION(NITHGR,*), INTENT(in) :: ITHGRP
+      INTEGER ,intent(in) :: ITHERM_FE
       my_real
      .   WA(*),X(3,*),D(3,*),V(3,*),A(3,*),VR(3,*),AR(3,*),
      .   SKEW(LSKEW,*),XFRAME(NXFRAME,*),TEMP(*),FTHREAC(6,*),

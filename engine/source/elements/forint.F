@@ -113,7 +113,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Y    H3D_DATA  ,IFTHE     ,ICONDN     ,DT        ,OUTPUT,
      Z    SBUFMAT   ,SNPC      ,STF        ,NODADT    ,DTFAC1,
      .    DTMIN1    ,IDTMIN    ,IOUT       ,ISTDO     ,IDTMINS,DTFACS,NSVOIS,
-     *    IRESP     ,MAXFUNC   ,USERL_AVAIL,HEAT_MECA ,IMON_MAT,DTMINS)
+     *    IRESP     ,MAXFUNC   ,USERL_AVAIL,GLOB_THERM,IMON_MAT,DTMINS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -131,6 +131,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD
       USE PRELOAD_AXIAL_MOD
       USE ELBUFDEF_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -186,10 +187,9 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: MAXFUNC
       INTEGER, INTENT(IN) :: USERL_AVAIL
       INTEGER, INTENT(IN) :: IMON_MAT
-      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER, INTENT(IN) :: IDTMINS
       my_real, INTENT(IN) :: DTMINS
-      my_real, INTENT(IN) ::  DTFACS
+      my_real, INTENT(IN) :: DTFACS
       my_real
      .   X(3,*),V(3,*),VR(3,*),D(3,*),MS(*),IN(*),A(3,*),AR(3,*),
      .   DR(3,*),W(3,*),PM(NPROPM,NUMMAT),SKEW(LSKEW,*),GEO(NPROPG,NUMGEO),
@@ -220,6 +220,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NODADT,IDTMIN(102)
       my_real, INTENT(IN) :: DTFAC1(102),DTMIN1(102)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      type (glob_therm_) ,intent(inout)    :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -384,7 +385,7 @@ C---------
      H   CONDNSKY,   D,          SENSORS,    IPRI,
      I   MAT_ELEM,   IBID,       DT,         IDEL7NOK,NSVOIS,SBID,
      *   SNPC,       STF,        SBUFMAT,    SVIS,IDTMINS,IRESP,
-     *   IDEL7NG,    MAXFUNC,    USERL_AVAIL, heat_meca, 
+     *   IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
      V   impl_s,     idyna)
 C
             IF (NSECT > 0) THEN 
@@ -434,8 +435,8 @@ c---------
      G   VARNOD,              ITAGND,              SENSORS,             IPRI,
      H   MAT_ELEM,            IBID,                DT,                  IDEL7NOK,
      I   SNPC,                STF,                 SBUFMAT,             SVIS,
-     J   NSVOIS,              IDTMINS,             IDEL7NG,             MAXFUNC ,    USERL_AVAIL, 
-     V   heat_meca,  impl_s,     idyna )
+     J   NSVOIS,              IDTMINS,             IDEL7NG,             MAXFUNC ,     
+     V   USERL_AVAIL,         GLOB_THERM,          impl_s,              idyna )
 c
             IF(NSECT>0)THEN 
               K0=NSTRF(25)                                             
@@ -526,7 +527,7 @@ c
      M   SNPC,                STF,                 SBUFMAT,             SVIS,
      N   IDTMINS,             NSVOIS,              IRESP,               IDEL7NG,
      O   IDTMIN,              MAXFUNC,             IMON_MAT,            USERL_AVAIL,
-     .   heat_meca,  impl_s,  idyna)
+     .   GLOB_THERM,  impl_s,  idyna)
 c
               IF(NSECT>0)THEN
                K0=NSTRF(25)
@@ -613,7 +614,7 @@ C-------------------------
      I         MAT_ELEM ,IBID     ,DT      ,SNPC  ,
      J         STF      ,SBUFMAT  ,SVIS,NSVOIS,IDTMINS,IRESP,      
      .         IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC, 
-     .         IMON_MAT ,USERL_AVAIL, heat_meca,     impl_s,
+     .         IMON_MAT ,USERL_AVAIL, GLOB_THERM,     impl_s,
      V         idyna)   
 c
               IF(NSECT>0)THEN
@@ -668,7 +669,7 @@ C              6 node penta
      G         IEXPAN,IFTHE ,ICONDN    ,DT      ,SNPC,STF,
      H         SBUFMAT,SVIS,NSVOIS, IDTMINS  ,IRESP, 
      I         IDEL7NG  ,IDEL7NOK,MAXFUNC, IMON_MAT, USERL_AVAIL, 
-     J         heat_meca,XDP )
+     J         GLOB_THERM,XDP )
 c
               IF(NSECT>0)THEN
                K0=NSTRF(25)
@@ -718,7 +719,7 @@ C              8 node hexa
      G         CONDN    ,CONDNSKY ,ITASK   ,IPRI        ,MAT_ELEM  ,
      H         IBID     ,DT       ,SNPC    ,STF         ,SBUFMAT   ,
      I         SVIS     ,NSVOIS   , IDTMINS,IRESP,IDEL7NG  ,IDEL7NOK,MAXFUNC,IMON_MAT,
-     J         USERL_AVAIL, heat_meca, impl_s,     idyna)
+     J         USERL_AVAIL, GLOB_THERM, impl_s,     idyna)
 C
             IF (NSECT > 0)THEN
               K0=NSTRF(25)
@@ -769,7 +770,7 @@ C------------------------- Isolid=19 for Salim
      F         IGEO       ,XDP      ,VOLN      ,CONDN    ,CONDNSKY   ,
      G         D          ,IPRI     ,MAT_ELEM ,IBID,SNPC,STF,SBUFMAT,
      H         SVIS       ,NSVOIS   ,IDTMINS  ,IRESP,IDTMIN,MAXFUNC ,
-     I         USERL_AVAIL,heat_meca,DT       )
+     I         USERL_AVAIL,DT       ,GLOB_THERM)
             ELSE
 C-------------------------
 C             SOLID HE8<->HE8
@@ -797,7 +798,7 @@ C-------------------------
      K   SENSORS,    IPRI,       MAT_ELEM,   IBID,
      L   DT,         SNPC,       STF,        SBUFMAT,SVIS,
      M   NSVOIS,     IDTMINS,    IRESP,      MAXFUNC,  
-     V   USERL_AVAIL, heat_meca, impl_s,     idyna  )
+     V   USERL_AVAIL,GLOB_THERM, impl_s,     idyna  )
             ENDIF !(IPARG(36,NG)==3)   (IMPL_S /= 0)
 c
             IF (NSECT > 0) THEN
@@ -868,7 +869,7 @@ c
      M         IPRI     ,MAT_ELEM  ,IBID  ,DT ,NODADT,  DTFAC1,
      N         DTMIN1   ,IDTMIN    ,SNPC,STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,
      O         IRESP    ,MAXFUNC   ,USERL_AVAIL, 
-     P         heat_meca,impl_s,idyna)
+     P         GLOB_THERM,impl_s,idyna)
 C
             IF (NSECT > 0) THEN
               K0=NSTRF(25)
@@ -945,7 +946,7 @@ c            IF (NPTR==0) NPTR=IINT
      L         XDP        ,VOLN      ,CONDN    ,CONDNSKY   ,JFAC,
      M         D          ,SENSORS   ,IPRI     ,MAt_ELEM   ,IBID,DT ,SNPC,
      N         STF        ,SBUFMAT   ,SVIS     ,NSVOIS     ,IDTMINS  ,
-     O         IRESP      ,MAXFUNC   ,USERL_AVAIL, heat_meca, 
+     O         IRESP      ,MAXFUNC   ,USERL_AVAIL, GLOB_THERM, 
      P         impl_s     ,idyna)
 C
             IF (NSECT > 0) THEN
@@ -1022,7 +1023,7 @@ C
      H         D         ,TAGPRT_SMS,SENSORS  ,IPRI      ,
      I         NALE      ,NLOC_DMG  ,MAT_ELEM,IBID,DT,
      J         OUTPUT,NSVOIS,SBID,SNPC,STF,SBUFMAT,SVIS,IRESP,
-     K         MAXFUNC,  USERL_AVAIL, heat_meca, impl_s   ,idyna)
+     K         MAXFUNC,  USERL_AVAIL, GLOB_THERM, impl_s   ,idyna)
 C
             ELSE
 C-------------------------
@@ -1061,7 +1062,7 @@ C-------------------------
      R   NALE,       D,          IPRI,       NLOC_DMG,
      S   MAt_ELEM,   IBID,       DT,         IDEL7NOK,NSVOIS,
      T   SBID,       SNPC,       STF,        SBUFMAT,SVIS,IDTMINS,
-     U   IRESP,      IDEL7NG,    MAXFUNC,    USERL_AVAIL, heat_meca, 
+     U   IRESP,      IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
      V   impl_s,     idyna)
 
             ENDIF
@@ -1104,7 +1105,7 @@ C-------------------------
      5      STIFN        ,FSKY     ,IADS     ,OFFSET    ,IPARTS(NF1),           
      6      NEL          ,DT2T     ,NELTST   ,ITYPTST   ,IPM        ,           
      7      ITASK        ,GRESAV   ,GRTH     ,IGRTH(NF1),MSSA(NF1)  ,           
-     8      DMELS(NF1)   ,TABLE,IPRI     ,MAT_ELEM,NG  ,SVIS         )     
+     8      DMELS(NF1)   ,TABLE,IPRI     ,MAT_ELEM,NG  ,SVIS       ,GLOB_THERM  )     
                                                  
             IF (NSECT > 0)THEN
                K0=NSTRF(25)
@@ -1155,8 +1156,8 @@ C----6---------------------------------------------------------------7---------8
      A        MS_2D      ,FSKYM   ,IPRI      ,MAT_ELEM  ,IBID,SBID,SNPC,
      B        STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,IRESP,TT,DT1,      
      .        IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,IMON_MAT,
-     V        USERL_AVAIL, heat_meca,  impl_s,     idyna,
-     .        DT         )
+     V        USERL_AVAIL, impl_s,     idyna,
+     .        DT         , GLOB_THERM)
           ELSE
 
             CALL QFORC2(ELBUF_TAB,NG   ,
@@ -1172,8 +1173,8 @@ C----6---------------------------------------------------------------7---------8
      C        MAT_ELEM,H3D_DATA%STRAIN,SBID,SNPC,STF,SBUFMAT,
      D        SVIS,NSVOIS,IRESP,TT,DT1,      
      .        IDEL7NOK,    IDTMIN,     MAXFUNC,  
-     .        IMON_MAT,USERL_AVAIL, heat_meca, impl_s,     idyna,
-     .        DT      )
+     .        IMON_MAT,USERL_AVAIL, impl_s,     idyna,
+     .        DT      ,GLOB_THERM)
 
           ENDIF
 C----6---------------------------------------------------------------7---------8
@@ -1425,8 +1426,8 @@ c              K = 1+2*(NSECT+NRBODY+NRWALL)
      J   JEUL,                JLAG,                JCVT,                JPLASOL,
      K   JSPH,                SNPC,                STF,                 SBUFMAT,
      L   SVIS,                NSVOIS,              IDTMINS,             IRESP,      
-     M   IDEL7NG,             IDEL7NOK,            USERL_AVAIL,         heat_meca,
-     .   impl_s,              idyna,               DT)
+     M   IDEL7NG,             IDEL7NOK,            USERL_AVAIL,         
+     .   impl_s,              idyna,               DT,                  GLOB_THERM)
 
         ENDIF
             IF (IDDW>0) CALL STOPTIMEG(NG)

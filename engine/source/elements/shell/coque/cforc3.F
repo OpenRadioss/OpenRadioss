@@ -104,7 +104,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Q   CONDN,       CONDNSKY,    STACK,       ISUBSTACK,
      R   XFEM_STR,    CRKEDGE,     DRAPE_SH4N,  IPRI,
      S   NLOC_DMG,    INDX_DRAPE,  IGRE,        JTUR,
-     T   OUTPUT,      DT        ,  SNPC,        STF)
+     T   OUTPUT,      DT        ,  SNPC,        STF  ,
+     T   GLOB_THERM   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -119,6 +120,8 @@ C-----------------------------------------------
       USE OUTPUT_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      use glob_therm_mod
+      use dttherm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -160,7 +163,7 @@ C-----------------------------------------------
      .   M11(MVSIZ),M12(MVSIZ),M13(MVSIZ),M14(MVSIZ),
      .   M21(MVSIZ),M22(MVSIZ),M23(MVSIZ),M24(MVSIZ),
      .   M31(MVSIZ),M32(MVSIZ),M33(MVSIZ),M34(MVSIZ),
-     .   PM(*),X(*),F(*),M(*),V(*),VR(*),
+     .   PM(NPROPM,*),X(*),F(*),M(*),V(*),VR(*),
      .   GEO(NPROPG,*),TF(*), BUFMAT(*),PARTSAV(*),STIFN(*),STIFR(*),
      .   FSKY(*),D(*),DR(*),TANI(6,*),EANI(*), THKE(*),DT2T,
      .   FZERO(3,4,*),TEMP(*), FTHE(*),FTHESKY(*),GRESAV(*),
@@ -178,6 +181,7 @@ C
       TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
       TYPE (GROUP_PARAM_),INTENT(IN)    :: GROUP_PARAM
       TYPE (DT_), INTENT(IN) :: DT
+      type (glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -427,7 +431,7 @@ C
      9            A11R    ,ISUBSTACK      ,STACK%PM )
 C
       IF ((ISMSTR /= 3 .AND. IDT1SH == 0) .OR.
-     .     IDTMIN(3) /= 0 .OR. IGTYP == 16.OR.IDT_THERM == 1) THEN
+     .     IDTMIN(3) /= 0 .OR. IGTYP == 16 .OR. GLOB_THERM%IDT_THERM == 1) THEN
 C      CDTLEN must be always called for tissue property/law for time step correction
        CALL CDLEN3(JFT     ,JLT     ,PM      ,OFF     ,AREA,
      2             X2      ,X3      ,X4      ,Y2      ,Y3  ,
@@ -522,8 +526,8 @@ C-----------------------------
      I  BID         ,BID         ,BID         ,E1X        ,E1Y        ,
      J  E1Z         ,E2X         ,E2Y         ,E2Z        ,E3X        ,
      K  E3Y         ,E3Z         ,NG          ,TABLE      ,IXFEM      ,
-     L  BID         ,SENSORS     ,BID        ,ELCRKINI   ,
-     M  DIR1_CRK    ,DIR2_CRK    ,ALDT        ,
+     L  BID         ,SENSORS     ,BID         ,ELCRKINI   ,
+     M  DIR1_CRK    ,DIR2_CRK    ,ALDT        ,GLOB_THERM%IDT_THERM ,GLOB_THERM%THEACCFACT,
      N  ISMSTR      ,IR          ,IS          ,NLAY       ,NPT        ,
      O  IXLAY       ,IXEL        ,ISUBSTACK   ,STACK      ,
      P  F_DEF       ,ITASK       ,DRAPE_SH4N  ,VAR_REG    ,NLOC_DMG   ,
@@ -640,22 +644,20 @@ C
          IF (MAT_ELEM%MAT_PARAM(MAT(1))%HEAT_FLAG == 1) THEN
            CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
      .                 PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
-     .                 TEMP  ,TEMPEL,FHEAT  , THEM    ) 
+     .                 TEMP  ,TEMPEL,FHEAT  , THEM   ,GLOB_THERM%THEACCFACT) 
          ELSE
            CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
      .                 PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
-     .                 TEMP  ,TEMPEL,DIE   , THEM    ) 
+     .                 TEMP  ,TEMPEL,DIE   , THEM    ,GLOB_THERM%THEACCFACT) 
          END IF
        ENDIF
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
-      IF (JTHE /= 0 .AND. IDT_THERM == 1) THEN
-        CALL DTTHERM(
-     1   JFT,     JLT,     PM,      TEMPEL,
-     2   GBUF%RE, RHO,     GBUF%RK, VOL0,
-     3   ALDT,    MAT,     DT_THERM,OFF,
-     4   CONDE,   JTUR)
+      IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1) THEN
+           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
+     .                  jtur    ,tempel  ,vol0    ,rho       ,
+     .                  aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
       ENDIF 
 c-------------------------
 c     Virtual internal forces of regularized non local ddl 
@@ -680,7 +682,7 @@ C--------------------------
      6              F33     ,F34  ,M11    ,M12  ,M13      ,
      7              M14     ,M21  ,M22    ,M23  ,M24      ,
      8              M31     ,M32  ,M33    ,M34  ,GBUF%EINT,
-     9              PARTSAV ,MAT  ,IPARTC )
+     9              PARTSAV ,MAT  ,IPARTC ,GLOB_THERM%NODADT_THERM)
       ELSEIF (IPARIT == 0) THEN
        CALL CUPDT3(JFT     ,JLT   ,F     ,M    ,NVC      , 
      2             GBUF%OFF,OFF   ,STI   ,STIR ,STIFN    ,
@@ -691,7 +693,7 @@ C--------------------------
      7             M14     ,M21   ,M22   ,M23  ,M24      ,
      8             M31     ,M32   ,M33   ,M34  ,GBUF%EINT,
      9             PARTSAV ,MAT   ,IPARTC,JTHE ,THEM     ,
-     A             FTHE    ,CONDN ,CONDE )
+     A             FTHE    ,CONDN ,CONDE ,GLOB_THERM%NODADT_THERM)
       ELSE
         CALL CUPDT3P(JFT      ,JLT     ,GBUF%OFF,OFF   ,STI    ,
      2               STIR     ,FSKY    ,FSKY    ,IADC  ,IXC    ,
@@ -702,7 +704,7 @@ C--------------------------
      7               M31      ,M32     ,M33     ,M34   ,
      8               GBUF%EINT,PARTSAV ,MAT     ,IPARTC,PM     ,
      9               AREA     ,GBUF%THK,JTHE    ,THEM  ,FTHESKY,
-     A               CONDNSKY ,CONDE   )
+     A               CONDNSKY ,CONDE   ,GLOB_THERM%NODADT_THERM)
       ENDIF
 c
       IF (ICSEN > 0)

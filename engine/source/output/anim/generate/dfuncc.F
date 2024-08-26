@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE DFUNCC(ELBUF_TAB ,FUNC      ,IFUNC     ,IPARG       ,GEO        ,
      .                  IXQ       ,IXC       ,IXTG      ,MASS        ,PM         ,
-     .                  EL2FA     ,NBF       ,IADP        ,
+     .                  EL2FA     ,NBF       ,IADP      ,ITHERM      ,
      .                  NBF_L     ,EHOUR     ,ANIM      ,NBPART      ,IADG       ,
      .                  IPM       ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
      .                  INVERT    ,X         ,V         ,W           ,ALE_CONNECTIVITY,
@@ -88,6 +88,7 @@ C-----------------------------------------------
      .   IXQ(NIXQ,NUMELQ),IFUNC,NBF,
      .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
      .   IGEO(NPROPGI,NUMGEO),INVERT(*), NV46
+      INTEGER, INTENT(IN) :: ITHERM
       REAL WAL(NBF_L)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY)         :: STACK
@@ -154,7 +155,8 @@ C-----------------------------------------------
       !     INITIALIZATION IF SCHLIEREN DEFINED               !
       !-------------------------------------------------------!      
       IF(IFUNC==10672)THEN
-         CALL SCHLIEREN_BUFFER_GATHERING(NERCVOIS ,NESDVOIS ,LERCVOIS ,LESDVOIS, IPARG, ELBUF_TAB, MULTI_FVM)
+         CALL SCHLIEREN_BUFFER_GATHERING(NERCVOIS ,NESDVOIS ,LERCVOIS ,LESDVOIS, IPARG, ELBUF_TAB, MULTI_FVM,
+     .                                      ITHERM)
       ENDIF!(IFUNC==10672)
 
 C-----------------------------------------------

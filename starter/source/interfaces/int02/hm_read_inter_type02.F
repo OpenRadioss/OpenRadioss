@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1        IPARI      ,STFAC      ,FRIGAP    ,NOINT    ,IGRNOD    ,
      2        IGRSURF    ,I2RUPT     ,AREASL    ,DEF_INTER,NPC1      ,
      3        TITR       ,UNITAB     ,LSUBMODEL ,NPARI    ,NPARIR    ,
-     4        SNPC1      )
+     4        SNPC1      ,INTHEAT    )
 C============================================================================
 C     
 C-----------------------------------------------
@@ -67,6 +67,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: NPARI,NPARIR,SNPC1 !< array sizes
+      INTEGER,INTENT(INOUT) :: INTHEAT
       INTEGER NOINT
       INTEGER IPARI(NPARI),DEF_INTER(100),NPC1(SNPC1)
       my_real STFAC,AREASL,UNITAB(*)
@@ -433,7 +434,7 @@ C--------------------------------------------------
 C---------------------- 
 C
       IF (IPROJ==0) IPROJ = 1
-      IF(INTTH > 0 ) INTHEAT = 1
+      IF (INTTH > 0 ) INTHEAT = 1
 
       IPARI(47) = INTTH
       FRIGAP(15)  = KTHE

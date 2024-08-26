@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         SUBROUTINE INTER_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,
      1                         NSENSOR,ISENDTO,IRECVFROM,INTBUF_TAB,X,ITAB,
      2                         RENUM,NSNFIOLD,MULTI_FVM,H3D_DATA,SENSOR_TAB,
-     3                         INTER_STRUCT,SORT_COMM,RENUM_SIZ )
+     3                         INTER_STRUCT,SORT_COMM,RENUM_SIZ,GLOB_THERM )
 !$COMMENT
 !       INTER_SORT description
 !       sort computation
@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE INTER_STRUCT_MOD
       USE INTER_SORTING_MOD
       USE SENSOR_MOD
+      USE glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,6 +93,7 @@ C-----------------------------------------------
       TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   structure for interface
       TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      type (glob_therm_) ,INTENT(IN) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -145,7 +147,7 @@ C-----------------------------------------------
                 CALL INTER_SORT_07( IPARI,X,N,ITASK,ISENDTO,
      1                              IRECVFROM,RETRI,ITAB,NRTM_T,RENUM,RENUM_SIZ,
      2                              NSNFIOLD,ESHIFT,MULTI_FVM,INTBUF_TAB(N),H3D_DATA,
-     3                              INTER_STRUCT,SORT_COMM)
+     3                              INTER_STRUCT,SORT_COMM,GLOB_THERM%INTHEAT, GLOB_THERM%IDT_THERM, GLOB_THERM%NODADT_THERM)
             ENDIF
             ! -----------------------------------------------------
 

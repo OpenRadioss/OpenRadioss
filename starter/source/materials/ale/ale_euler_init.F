@@ -33,7 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE ALE_EULER_INIT(MLAW_TAG,IPM,PM, IGEO,TITR,TITR1,TITR2,IGTYP,ID,ILAW,MID,IMID,PID,IPID,JALE_FROM_PROP,JALE_FROM_MAT)
+      SUBROUTINE ALE_EULER_INIT(MLAW_TAG,IPM,PM, IGEO,TITR,TITR1,TITR2,IGTYP,ID,ILAW,
+     .           MID,IMID,PID,IPID,JALE_FROM_PROP,JALE_FROM_MAT,ITHERM,ITHERM_FE)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -67,6 +68,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(MLAW_TAG_), DIMENSION(NUMMAT), INTENT(INOUT)  :: MLAW_TAG
       CHARACTER(LEN=NCHARTITLE), INTENT(INOUT) :: TITR,TITR1,TITR2
+      INTEGER,INTENT(INOUT):: ITHERM   
+      INTEGER,INTENT(INOUT):: ITHERM_FE   
       INTEGER,INTENT(INOUT)::IGEO(NPROPGI,NUMGEO)      
       INTEGER,INTENT(IN) :: ID,IMID,PID,IPID,IGTYP,ILAW
       INTEGER,INTENT(INOUT) :: MID,JALE_FROM_PROP,JALE_FROM_MAT

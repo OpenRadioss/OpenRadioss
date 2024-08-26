@@ -107,7 +107,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      R   STACK,       ISUBSTACK,   XFEM_STR,    CRKEDGE,
      S   DRAPE_SH4N,  NEL,         NLOC_DMG,    INDX_DRAPE,
      T   IGRE,        JTUR,        DT,          NCYCLE,
-     Y   SNPC,        STF)
+     Y   SNPC,        STF ,        GLOB_THERM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -121,6 +121,8 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      use glob_therm_mod
+      use dttherm_mod
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -176,9 +178,10 @@ C     REAL OU REAL*8
       TYPE (FAILWAVE_STR_) :: FAILWAVE 
       TYPE (GROUP_PARAM_)  :: GROUP_PARAM
       TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE) :: DRAPE_SH4N
-      TYPE (SENSORS_)  ,INTENT(IN)    :: SENSORS
-      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
-      TYPE (DT_)       ,INTENT(IN)    :: DT
+      TYPE (SENSORS_)    ,INTENT(IN)    :: SENSORS
+      TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
+      TYPE (DT_)         ,INTENT(IN)    :: DT
+      type (glob_therm_) ,intent(inout) :: glob_therm
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C   L O C A L   V A R I A B L E S
 C--------------------------------
@@ -566,7 +569,7 @@ C-----------------------------------------------
      J      R13       ,R21       ,R22       ,R23       ,R31        ,
      K      R32       ,R33       ,NG        ,TABLE     ,IXFEM      ,
      L      BID       ,SENSORS   ,BID       ,ELCRKINI   ,
-     M      DIR1_CRK  ,DIR2_CRK  ,LL        ,
+     M      DIR1_CRK  ,DIR2_CRK  ,LL        ,GLOB_THERM%IDT_THERM ,GLOB_THERM%THEACCFACT,
      N      ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O      IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P      F_DEF     ,ITASK     ,DRAPE_SH4N  ,VAR_REG   ,NLOC_DMG   ,
@@ -711,22 +714,20 @@ C--------------------------
           IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
             CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
      .                  Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
-     .                  TEMP   ,TEMPEL  ,FHEAT   ,THEM )
+     .                  TEMP   ,TEMPEL  ,FHEAT   ,THEM ,GLOB_THERM%THEACCFACT)
           ELSE
             CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
      .                  Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
-     .                  TEMP   ,TEMPEL  ,DIE    ,THEM )
+     .                  TEMP   ,TEMPEL  ,DIE    ,THEM  ,GLOB_THERM%THEACCFACT)
           END IF
         ENDIF 
 c--------------------------
 c     THERMAL TIME STEP
 c--------------------------
-        IF (JTHE /= 0 .AND. IDT_THERM == 1) THEN
-           CALL DTTHERM(
-     1   JFT,     JLT,     PM,      TEMPEL,
-     2   GBUF%RE, RHO,     GBUF%RK, VOL0,
-     3   LL,      MAT,     DT_THERM,OFF,
-     4   CONDE,   JTUR)
+        IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1) THEN
+           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
+     .                  jtur    ,tempel  ,vol0    ,rho       ,
+     .                  ll      ,off     ,conde   ,gbuf%re   ,gbuf%rk )
         ENDIF
 C
 C--------------------------
@@ -741,7 +742,7 @@ C--------------------------
      6               F33     ,F34  ,M11   ,M12  ,M13      ,
      7               M14     ,M21  ,M22   ,M23  ,M24      ,
      8               M31     ,M32  ,M33   ,M34  ,GBUF%EINT,
-     9               PARTSAV ,MAT  ,IPARTC)
+     9               PARTSAV ,MAT  ,IPARTC,GLOB_THERM%NODADT_THERM)
       ELSEIF (IPARIT == 0) THEN
         CALL CUPDTN3(JFT     ,JLT   ,F     ,M    ,NVC      ,
      2               GBUF%OFF,OFF   ,STI   ,STIR ,STIFN    ,
@@ -752,7 +753,7 @@ C--------------------------
      7               M14     ,M21   ,M22   ,M23  ,M24      ,
      8               M31     ,M32   ,M33   ,M34  ,GBUF%EINT,
      A               PARTSAV ,MAT   ,IPARTC,FACN ,JTHE     ,
-     B               THEM    ,FTHE  ,CONDN ,CONDE)
+     B               THEM    ,FTHE  ,CONDN ,CONDE,GLOB_THERM%NODADT_THERM)
       ELSE 
         CALL CUPDTN3P(JFT      ,JLT     ,GBUF%OFF,OFF   ,STI   ,
      2                STIR     ,FSKY    ,FSKY    ,IADC  ,
@@ -763,7 +764,7 @@ C--------------------------
      8                M31      ,M32     ,M33     ,M34   ,IXC   ,
      A                GBUF%EINT,PARTSAV ,MAT     ,IPARTC,PM    ,
      B                AREA     ,GBUF%THK,FACN    ,JTHE  ,THEM  ,
-     C                FTHESKY  ,CONDNSKY,CONDE   )
+     C                FTHESKY  ,CONDNSKY,CONDE   ,GLOB_THERM%NODADT_THERM)
       ENDIF
 C-------------------------
 c     Fissure des coques 

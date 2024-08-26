@@ -68,7 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A           G         ,A11       ,A12       ,VOL0      ,INDXDEL    ,
      B           NGL       ,ZCFAC     ,SHF       ,GS        ,EPSP       ,
      C           KFTS      ,JHBE      ,ALPE      ,
-     D           DIR_A     ,DIR_B     ,IGEO      ,
+     D           DIR_A     ,DIR_B     ,IGEO      ,  
      E           IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
      F           TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,TEMPEL0    ,
      G           ISHPLYXFEM,PLY_EXX   ,
@@ -76,8 +76,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      I           DEL_PLY   ,TH_IPLY   ,SIG_IPLY  ,E1X       ,E1Y        ,
      J           E1Z       ,E2X       ,E2Y       ,E2Z       ,E3X        ,
      K           E3Y       ,E3Z       ,NG        ,TABLE     ,IXFEM      ,
-     L           OFFI      ,SENSORS   ,A11_IPLY  ,ELCRKINI   ,
-     M           DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
+     L           OFFI      ,SENSORS   ,A11_IPLY  ,ELCRKINI  ,
+     M           DIR1_CRK  ,DIR2_CRK  ,ALDT      ,IDT_THERM ,THEACCFACT ,
      N           ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O           IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P           F_DEF     ,ITASK     ,DRAPE     ,VARNL     ,NLOC_DMG   ,
@@ -124,6 +124,8 @@ C-----------------------------------------------
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),IPARG(*),
      .   A11_IPLY(MVSIZ,*),ELCRKINI(*),FWAVE_EL(NEL)
       INTEGER , DIMENSION(SEDRAPE) :: INDX_DRAPE
+      INTEGER, INTENT(IN) :: IDT_THERM
+      my_real ,intent(in) :: THEACCFACT
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*),TF(*),THK(*),EINT(JLT,*),FOR(NEL,5), 
      .   MOM(NEL,3),EPSP(*),GSTR(NEL,8),BUFMAT(*),G(*),A11(*),A12(*),VOL0(*),
@@ -306,7 +308,7 @@ c
      A       IFAILURE,ALDT    ,TEMPEL  ,DIE     ,FHEAT   ,
      B       E1X     ,E1Y     ,E1Z     ,E2X     ,E2Y     ,E2Z     ,
      C       E3X     ,E3Y     ,E3Z     ,TABLE   ,IXFEM   ,ELCRKINI,
-     D       SENSORS ,NG      ,
+     D       SENSORS ,NG      ,IDT_THERM,THEACCFACT,  
      E       DIR1_CRK,DIR2_CRK,IPARG   ,JHBE    ,ISMSTR  ,JTHE    ,
      F       TENS    ,IR      ,IS      ,NLAY    ,NPT     ,IXLAY   ,
      G       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,

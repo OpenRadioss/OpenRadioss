@@ -74,7 +74,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F       IRLEN20   ,ISLEN20   ,IRLEN20T  ,ISLEN20T  ,IRLEN20E  ,
      G       ISLEN20E  ,MSKYI_SMS ,ISKYI_SMS ,NODNX_SMS ,NPC       ,
      H       TF        ,INTBUF_TAB,FBSAV6    ,ISENSINT  ,DIMFB     ,
-     I       H3D_DATA  )
+     I       H3D_DATA  ,theaccfact)
 C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -116,9 +116,8 @@ C-----------------------------------------------
       INTEGER IXS(*)  ,IXS16(*) ,IXS20(*)
       INTEGER IAD_ELEM(2,*),FR_ELEM(*), 
      .        ISKYI_SMS(*), NODNX_SMS(*),NPC(*), ISENSINT(*)
-      my_real 
-     .        EMINX(*)
-C     REAL
+      my_real, intent(in) :: theaccfact
+      my_real :: EMINX(*)
       my_real DT2T,
      .   X(*), A(3,*), FSAV(*), V(3,*),FSAVBAG(*),
      .   MS(*),STIFN(*),FSKYI(LSKYI,4),FCONT(3,*),
@@ -515,8 +514,7 @@ C
      6                    GAPV  ,FNI    ,IFUNCTK,XTHE,NPC  ,TF    ,
      7                    CONDINT,PHI1,PHI2  ,PHI3   ,PHI4  ,FHEATS,
      7                    FHEATM,EFRICT,TEMP ,H1     ,H2     ,H3   ,
-     8                    H4)   
-
+     8                    H4,theaccfact)
           ENDIF
 C 
           CALL I20FOR3(

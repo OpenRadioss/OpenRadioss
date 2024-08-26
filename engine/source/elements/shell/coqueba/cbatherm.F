@@ -25,9 +25,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
       !||====================================================================
-      SUBROUTINE CBATHERM(JFT  ,JLT   ,PM   ,MAT   ,THK   ,IXC , 
-     2                  BM   ,AREA   ,DT1C  ,TEMPNC ,TEL   ,DIE  ,
-     3                  NPLAT, IPLAT ,FPHI)
+      SUBROUTINE CBATHERM(JFT  ,JLT    ,PM    ,THK    ,IXC   , 
+     2                  BM     ,AREA   ,DTIME ,TEMPNC ,TEL   ,DHEAT  ,
+     3                  NPLAT  ,IPLAT  ,FPHI  ,THEACCFACT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,37 +40,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT,NPLAT,
-     .        MAT(*),IXC(NIXC,*),IPLAT(*)
-C     REAL
-      my_real
-     .   AREA(*), 
-     .   TEMPNC(*), FPHI(MVSIZ,4), PM(NPROPM,*),DIE(*),
-     .   DT1C(*), THK(*),TEL(*),BM(MVSIZ,*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "scr_thermal_c.inc"
+      INTEGER :: JFT,JLT,NPLAT
+      INTEGER :: IXC(NIXC,*),IPLAT(*)
+      my_real ,INTENT(IN) :: THEACCFACT
+      my_real ,INTENT(IN) :: DTIME
+      my_real :: AREA(*), 
+     .   TEMPNC(*), FPHI(MVSIZ,4), PM(NPROPM),DHEAT(*),
+     .   THK(*),TEL(*),BM(MVSIZ,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,MX, EP,N1,N2,N3,N4
-C     REAL
+      INTEGER I,EP,N1,N2,N3,N4
       my_real
      .  CA,CB ,KC ,PHIX,PHIY,A,TEMP1,TEMP2,TEMP3,TEMP4,
      .  TEMP13,TEMP24,TEMPH
-
 C------------------------------------------
-
-        MX  =MAT(JFT)
-        CA = PM(75,MX)
-        CB = PM(76,MX)
-
+        CA = PM(75)
+        CB = PM(76)
 
         DO EP=JFT,NPLAT 
           I=IPLAT(EP)
 
-          KC = ( CA + CB*TEL(I))*DT1C(I)*THEACCFACT
+          KC = ( CA + CB*TEL(I))*DTIME*THEACCFACT
 C
           N1 = IXC(2,I)
           N2 = IXC(3,I)
@@ -94,7 +85,7 @@ C
 C Thermal nodal Force
 C
 
-          A = FOURTH *FOURTH * DIE(I)
+          A = FOURTH *FOURTH * DHEAT(I)
 
           FPHI(I,1) = A - (PHIX*(BM(I,1)+BM(I,3)) + PHIY*(BM(I,5)+BM(I,7)))
           FPHI(I,2) = A - (PHIX*(BM(I,2)-BM(I,3)) + PHIY*(BM(I,6)-BM(I,7)))
@@ -107,7 +98,7 @@ C
 
           I=IPLAT(EP)
 
-          KC = ( CA + CB*TEL(I))*DT1C(I)
+          KC = ( CA + CB*TEL(I))*DTIME
 C
           N1 = IXC(2,I)
           N2 = IXC(3,I)
@@ -132,7 +123,7 @@ C
 C
 C Thermal nodal Force
 C          
-          A = FOURTH *FOURTH * DIE(I)
+          A = FOURTH *FOURTH * DHEAT(I)
 
           FPHI(I,1) = A - (PHIX*(BM(I,1)+BM(I,4))   + PHIY*(BM(I,2)+BM(I,5)))
           FPHI(I,2) = A - (PHIX*(BM(I,10)+BM(I,13)) + PHIY*(BM(I,11)+BM(I,14)))
@@ -140,6 +131,6 @@ C
           FPHI(I,4) = A - (PHIX*(BM(I,28)+BM(I,31))  + PHIY*(BM(I,29)+BM(I,32)))
 
         END DO
-C 
+!----------- 
       RETURN
       END

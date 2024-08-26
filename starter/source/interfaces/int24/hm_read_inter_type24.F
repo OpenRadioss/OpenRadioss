@@ -43,7 +43,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1        IPARI      ,STFAC           ,FRIGAP     ,NOINT      ,NI         ,
      2        IGRNOD     ,IGRSURF         ,XFILTR     ,FRIC_P     ,DEF_INTER ,
      3        SENSORS    ,NOM_OPT         ,UNITAB     ,LSUBMODEL  ,TITR      ,
-     4        NOM_OPTFRIC,INTBUF_FRIC_TAB ,PARAMETERS ,NPARI      ,NPARIR    )
+     4        NOM_OPTFRIC,INTBUF_FRIC_TAB ,PARAMETERS ,NPARI      ,NPARIR    ,
+     5        ITHERM_FE  ,INTHEAT)
 C============================================================================
 C     
 C-----------------------------------------------
@@ -76,7 +77,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NPARI,NPARIR !< array size
+      INTEGER,INTENT(IN)    :: NPARI,NPARIR !< array size
+      INTEGER,INTENT(IN)    :: ITHERM_FE
+      INTEGER,INTENT(INOUT) :: INTHEAT
       INTEGER NOM_OPT(LNOPT1,*), NOM_OPTFRIC(LNOPT1,*)
       INTEGER ISU1,ISU2,NI
       INTEGER IPARI(NPARI),DEF_INTER(100)

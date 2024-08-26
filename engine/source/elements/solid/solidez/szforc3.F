@@ -115,7 +115,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      H                   D        ,TAGPRT_SMS,SENSORS,IOUTPRT  ,
      I                   NALE     ,NLOC_DMG  ,MAT_ELEM,H3D_STRAIN,
      J                   DT       ,OUTPUT,NSVOIS,SZ_BUFVOIS,SNPC,STF,
-     K                   SBUFMAT  ,SVIS,IRESP,MAXFUNC, USERL_AVAIL, heat_meca, 
+     K                   SBUFMAT  ,SVIS,IRESP,MAXFUNC, USERL_AVAIL, GLOB_THERM, 
      V                   impl_s   ,idyna)
 C-----------------------------------------------
 C   M o d u l e s
@@ -131,6 +131,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD
       USE ELBUFDEF_MOD
       USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -168,7 +169,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IMPL_S
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
-      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(NPROPMI,NUMMAT),ITASK,IMATVIS,GRTH(*),IGRTH(*),
      .        IGEO(NPROPGI,*), TAGPRT_SMS(*)        
@@ -205,6 +205,7 @@ C-----------------------------------------------
       TYPE (SENSORS_) , INTENT(IN) :: SENSORS
       TYPE(DT_),     INTENT(INOUT) :: DT
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -722,14 +723,14 @@ C Compute stresses according to the material law
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VAR_REG,     MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH, SZ_BUFVOIS,
-     S                SNPC,        STF,         SBUFMAT,
+     S   SNPC,        STF,         SBUFMAT,     GLOB_THERM,
      T   SVIS,        SZ_IX,       IRESP, 
-     *   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     *   N2D,         th_strain,   NGROUP,      TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,      
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
-     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna,       DT         ,fheat     )
+     .   IMON_MAT,    USERL_AVAIL, impl_s,
+     .   idyna,       DT          ,fheat     )
 
       IF (ISTRAIN == 1)THEN 
         CALL SSTRA3(
@@ -1099,7 +1100,7 @@ C Finite element heat transfert
      6         PZ2,     PZ3,     PZ4,     DT1,
      7         TEMP,    TEMPEL,  FHEAT,   THEM,
      8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
-     9         GBUF%VOL,NEL     ,NUMNOD )
+     9         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)
          ELSE
           CALL STHERM(
      1         PM,      IMAT,    VOLN,    NC1,
@@ -1110,7 +1111,7 @@ C Finite element heat transfert
      6         PZ2,     PZ3,     PZ4,     DT1,
      7         TEMP,    TEMPEL,  DIE,     THEM,
      8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
-     9         GBUF%VOL,NEL     ,NUMNOD )
+     9         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)
          END IF
       ENDIF 
 C
@@ -1228,7 +1229,7 @@ C Assemble internal forces
      F   BID,     BID,     BID,     BID,
      G   BID,     BID,     BID,     BID,
      H   THEM,    FTHE,    CONDN,   CONDE,
-     I   NEL,     JTHE,    ISROT,   IPARTSPH)
+     I   NEL,     JTHE,    ISROT,   IPARTSPH,GLOB_THERM%NODADT_THERM)
       ELSE
           CALL SCUMU3P(
      1   GBUF%OFF,STI,     FSKY,    FSKY,
@@ -1249,7 +1250,7 @@ C Assemble internal forces
      G   BID,     BID,     BID,     BID,
      H   THEM,    FTHESKY, CONDNSKY,CONDE,
      I   NEL,     NFT,     JTHE,    ISROT,
-     J   IPARTSPH)
+     J   IPARTSPH,GLOB_THERM%NODADT_THERM)
       ENDIF
       IF (ALLOCATED(VAR_REG)) DEALLOCATE(VAR_REG)
       RETURN

@@ -47,11 +47,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E   VOL_AVG, DTEL,    G_DT,    NEL,
      F   D4,      D5,      D6,      RHOREF,
      G   RHOSP,   ISMSTR,  ITY,     JSMS,
-     H   JTUR,    JTHE  ,  NPG ,    SVIS)
+     H   JTUR,    JTHE  ,  NPG ,    SVIS,   glob_therm)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
       USE ALE_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,6 +90,7 @@ C-----------------------------------------------
      .         VOL_AVG(*),DTEL(*),D4(MVSIZ),D5(MVSIZ),D6(MVSIZ),
      .         RHOREF(*)  ,RHOSP(*)  
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
+      type (glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -175,7 +177,7 @@ C-----------------------
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,
-     C   JSMS,    NPG )
+     C   JSMS,    NPG   ,   glob_therm)
 C
       DO I=LFT,LLT
         P2 = -(SOLD1(I)+SIG(I,1)+SOLD2(I)+SIG(I,2)+SOLD3(I)+SIG(I,3))/THREE

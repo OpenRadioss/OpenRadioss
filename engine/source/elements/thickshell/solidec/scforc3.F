@@ -89,7 +89,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G                   CONDN    ,CONDNSKY,ITASK    ,IOUTPRT ,MAT_ELEM ,
      H                   H3D_STRAIN,DT,SNPC ,STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,
      I                   IRESP    ,IDEL7NG  ,IDEL7NOK,MAXFUNC,IMON_MAT,
-     J                   USERL_AVAIL, heat_meca, impl_s,     idyna) 
+     J                   USERL_AVAIL, GLOB_THERM, impl_s,     idyna) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -102,6 +102,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
       USE SHOUR_CTL_MOD,   ONLY : SHOUR_CTL
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -136,7 +137,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
       INTEGER, INTENT(IN) :: IMON_MAT
-      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),NPF(*),IADS(8,*),
      .        IPARTS(*), IPM(NPROPMI,*),IGEO(NPROPGI,*),GRTH(*),
      .        IGRTH(*),ITASK,IOUTPRT
@@ -167,6 +167,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE(DT_), INTENT(INOUT) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -775,23 +776,22 @@ C------------------------------------------------------
      P   BID,          IPARG(1,NG), IGEO,      CONDE,
      Q   ITASK,        NLOC_DMG,    VAR_REG(1,ILAY),   MAT_ELEM,
      R   H3D_STRAIN,   JPLASOL,     JSPH,      SZ_R1_FREE,
-     *                 SNPC,        STF,       SBUFMAT,
+     *   SNPC,        STF,       SBUFMAT,      GLOB_THERM,
      *   SVIS,         SZ_IX,       IRESP,
-     *   N2D,          TH_STRAIN,   NGROUP,    TT, 
+     *   N2D,          th_strain,   NGROUP,    TT, 
      .   DT1,          NTABLE,      NUMELQ,    nummat,
      .   numgeo,       numnod,      numels,      
      .   IDEL7NOK,     IDTMIN,      MAXFUNC,
-     .   IMON_MAT,     USERL_AVAIL, heat_meca,   impl_s,
+     .   IMON_MAT,     USERL_AVAIL, impl_s,
      .   idyna,        DT,         fheat   , OPT_MTN=MTN,OPT_JCVT=JCVT,
      .   OPT_ISORTH=ISORTH,OPT_ISORTHG=ISORTHG)
-
 C
         DO I=1,NEL
           SIGYM(I) = MIN(SIGYM(I),SIGY(I))
           STIN(I) = STIN(I)+STI(I)
         ENDDO
 C
-        IF(NODADT_THERM == 1) THEN
+        IF (GLOB_THERM%NODADT_THERM == 1) THEN
           DO I=1,NEL
              CONDEN(I)= CONDEN(I)+ CONDE(I)
           ENDDO
@@ -862,7 +862,7 @@ C--------------------------
      5           PY2,     PY3,     PY4,     PZ1,
      6           PZ2,     PZ3,     PZ4,     DT1,
      7           TEMP,    TEMPEL,  FHEAT,  THEM,
-     8           GBUF%OFF,LBUF%OFF,NEL)
+     8           GBUF%OFF,LBUF%OFF,NEL,GLOB_THERM%THEACCFACT)
           ELSE
             CALL SCTHERM(
      1           PM,      IMAT,    VOLN,    NC1,
@@ -872,7 +872,7 @@ C--------------------------
      5           PY2,     PY3,     PY4,     PZ1,
      6           PZ2,     PZ3,     PZ4,     DT1,
      7           TEMP,    TEMPEL,  DIE,    THEM,
-     8           GBUF%OFF,LBUF%OFF,NEL)
+     8           GBUF%OFF,LBUF%OFF,NEL,GLOB_THERM%THEACCFACT)
           END IF
         ENDIF 
         DO I=1,NEL
@@ -1128,7 +1128,7 @@ C----------------------------
      F   BID,     BID,     BID,     BID,
      G   BID,     BID,     BID,     BID,
      H   THEM,    FTHE,    CONDN,   CONDEN,
-     I   NEL,     JTHE,    ISROT,   IPARTSPH)
+     I   NEL,     JTHE,    ISROT,   IPARTSPH,GLOB_THERM%NODADT_THERM)
       ELSE
           CALL SCUMU3P(
      1   GBUF%OFF,STIN,    FSKY,    FSKY,
@@ -1149,7 +1149,7 @@ C----------------------------
      G   BID,     BID,     BID,     BID,
      H   THEM,    FTHESKY, CONDNSKY,CONDEN,
      I   NEL,     NFT,     JTHE,    ISROT,
-     J   IPARTSPH)
+     J   IPARTSPH,GLOB_THERM%NODADT_THERM)
       ENDIF
       IF (NTSHEG > 0)
      +  CALL SCUMUALPHA(

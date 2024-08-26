@@ -51,7 +51,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F   MAT,     ETSE,    GS,      VOL,
      G   YLD,     TEMP,    DIE,     COEF,
      H   SHF,     EPSP,    TABLE,   ITHK,
-     I   NVARTMP, VARTMP,  EPSTHTOT,JTHE)
+     I   NVARTMP, VARTMP,  EPSTHTOT,JTHE,
+     J   IDT_THERM,THEACCFACT)
 
 C-----------------------------------------------
       USE TABLE_MOD
@@ -60,9 +61,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
@@ -117,14 +115,14 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "scr18_c.inc"
-#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-C
       INTEGER, INTENT(IN) :: JTHE
+      INTEGER, INTENT(IN) :: IDT_THERM
       INTEGER NEL, NUPARAM, NUVAR,NVARTMP, NPT0, IPT,IFLAG(*),
      .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*),ITHK
+      my_real ,intent(in) :: THEACCFACT
       my_real TIME,TIMESTEP,UPARAM(*),
      .   AREA(NEL),RHO0(NEL),EINT(NEL,2),
      .   THKLY(NEL),PLA(NEL),
@@ -276,7 +274,7 @@ c-----------------------------------------------
       GSIZE  =  UPARAM(30)
       NU_1_NU=  NU/(ONE-NU)
 
-      IF(IDT_THERM == 1) THEN ! ignore thermal expansion
+      IF (IDT_THERM == 1) THEN ! ignore thermal expansion
         ALFA1  =  ZERO     
         ALFA2  =  ZERO
       ELSE
@@ -492,11 +490,13 @@ c-------------------------------------------------
      .     FCBAI,FGRAIN,FRAC1,FRAC2,FRAC3,FRAC4,FRAC5,X2,X3,X4,X5,
      .     GFAC_F,PHI_F,PSI_F,CR_F,CF,GFAC_P,PHI_P,PSI_P,CR_P,CP,
      .     GFAC_B,PHI_B,PSI_B,CR_B,CB,PHI_M,PSI_M,N_M,FGFER,FGPER,FGBAI,
-     .     QR2,QR3,QR4,KPER,KBAIN,ALPHA,XEQ2,XEQ4,XGAMA,TOTFRACOLD,TIMESTEP,NICOOL,INDEX ) 
+     .     QR2,QR3,QR4,KPER,KBAIN,ALPHA,XEQ2,XEQ4,XGAMA,TOTFRACOLD,TIMESTEP,NICOOL,
+     .     INDEX,THEACCFACT)
         ELSE
          CALL KIRKALDYKINETICS(NEL,TIME,TEMPEL,TEMPMIN,AE1,AE3,BS,MS,FCFER,FCPER,
-     .    FCBAI,FGRAIN,FRAC1,FRAC2,FRAC3,FRAC4,FRAC5,X2,X3,X4,X5,QR2,
-     .    QR3,QR4,KPER,KBAIN,ALPHA,XEQ2,XEQ4,XGAMA,TOTFRACOLD,TIMESTEP,NICOOL,INDEX ) 
+     .     FCBAI,FGRAIN,FRAC1,FRAC2,FRAC3,FRAC4,FRAC5,X2,X3,X4,X5,QR2,
+     .     QR3,QR4,KPER,KBAIN,ALPHA,XEQ2,XEQ4,XGAMA,TOTFRACOLD,TIMESTEP,NICOOL,
+     .     INDEX,THEACCFACT)
         ENDIF     
        ENDIF
       ELSE !FLAG_LOC /= 2 local 
@@ -528,11 +528,13 @@ c-------------------------------------------------
      .     FCBAI,FGRAIN,FRAC1,FRAC2,FRAC3,FRAC4,FRAC5,X2,X3,X4,X5,
      .     GFAC_F,PHI_F,PSI_F,CR_F,CF,GFAC_P,PHI_P,PSI_P,CR_P,CP,
      .     GFAC_B,PHI_B,PSI_B,CR_B,CB,PHI_M,PSI_M,N_M,FGFER,FGPER,FGBAI,
-     .     QR2,QR3,QR4,KPER,KBAIN,ALPHA,XEQ2,XEQ4,XGAMA,TOTFRACOLD,TIMESTEP,NICOOL,INDEX ) 
+     .     QR2,QR3,QR4,KPER,KBAIN,ALPHA,XEQ2,XEQ4,XGAMA,TOTFRACOLD,TIMESTEP,NICOOL,
+     .     INDEX ,THEACCFACT) 
         ELSE
          CALL KIRKALDYKINETICS(NEL,TIME,TEMPEL,TEMPMIN,AE1,AE3,BS,MS,FCFER,FCPER,
      .     FCBAI,FGRAIN,FRAC1,FRAC2,FRAC3,FRAC4,FRAC5,X2,X3,X4,X5,QR2,
-     .     QR3,QR4,KPER,KBAIN,ALPHA,XEQ2,XEQ4,XGAMA,TOTFRACOLD,TIMESTEP,NICOOL,INDEX )
+     .     QR3,QR4,KPER,KBAIN,ALPHA,XEQ2,XEQ4,XGAMA,TOTFRACOLD,TIMESTEP,NICOOL,
+     .     INDEX,THEACCFACT )
         ENDIF
        ENDIF
       ENDIF!FLAG_LOC /= 2

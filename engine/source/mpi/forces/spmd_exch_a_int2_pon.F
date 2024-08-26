@@ -33,7 +33,7 @@ C
      1   FR_I2M ,IAD_I2M,ADDCNI2 ,PROCNI2 ,FR_NBCCI2,
      2   I2SIZE ,LENR   ,LENS    ,FSKYI2  ,INTTH2   ,
      3   FTHESKYI2,CONDNSKYI2, I2SIZEMEC,LCOMI2M,FNCONT,
-     4   FNCONTP,FTCONTP,H3D_DATA )
+     4   FNCONTP,FTCONTP,H3D_DATA ,IDT_THERM)
 C-----------------------------------------------
        USE H3D_MOD
 C-----------------------------------------------
@@ -60,6 +60,7 @@ C-----------------------------------------------
      .        ADDCNI2(*), PROCNI2(*),
      .        I2SIZE ,LENR ,LENS,INTTH2,I2SIZEMEC
       INTEGER , INTENT(IN) :: LCOMI2M
+      INTEGER ,INTENT(IN) :: IDT_THERM
       my_real
      .        FSKYI2(I2SIZEMEC,*),FTHESKYI2(*),CONDNSKYI2(*)
       my_real , INTENT(INOUT) :: FNCONT(3,NUMNOD),

@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2   STIG,    FX,      FY,      FZ,
      3   IPERM1,  IPERM2,  NPE,     THEM,
      4   FTHE,    CONDN,   CONDEG,  NEL,
-     5   JTHE)
+     5   JTHE     ,NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: JTHE
+      INTEGER, INTENT(IN) :: NODADT_THERM
       INTEGER NPE
       INTEGER IPERM1(NPE),IPERM2(NPE),NC(MVSIZ,NPE)
 C     REAL
@@ -55,15 +56,10 @@ C     REAL
      .   FX(MVSIZ,NPE), FY(MVSIZ,NPE), FZ(MVSIZ,NPE),
      .   THEM(MVSIZ,NPE),FTHE(*),CONDN(*),CONDEG(MVSIZ,NPE)
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,N, N1,N2,NN,J
-C-----------------------------------------------
-      my_real
-     .   OFF_L
+      my_real OFF_L
 C-----------------------------------------------
       OFF_L = 0.
       DO I=1,NEL

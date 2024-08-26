@@ -62,7 +62,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9   IUSER    ,SIGSP   ,NSIGI   ,MSSA    ,XREFS   ,
      A   STRSGLOB ,STRAGLOB,FAIL_INI,SPBUF   ,SOL2SPH ,
      B   ILOADP   ,FACLOAD ,RNOISE  ,PERTURB ,MAT_PARAM,
-     C   DEFAULTS_SOLID )
+     C   DEFAULTS_SOLID    ,NINTEMP )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -101,6 +101,7 @@ C-----------------------------------------------
      .   IPM(NPROPMI,*),STRSGLOB(*),STRAGLOB(*),FAIL_INI(*),SOL2SPH(2,*),
      .   PERTURB(NPERTURB)
       INTEGER NEL, NSIGS,  IUSER, NSIGI
+      INTEGER ,INTENT(IN) :: NINTEMP
       my_real
      .   MAS(*), PM(NPROPM,*), X(*), GEO(NPROPG,*),
      .   VEUL(LVEUL,*), DTELEM(*),SIGI(NSIGS,*),SKEW(LSKEW,*),STIFN(*),
@@ -269,8 +270,8 @@ c
      1      GBUF%RHO   ,MAS       ,PARTSAV,X   ,V,
      2      IPARTS(NF1),MSS(1,NF1),MSNF   ,MSSF(1,NF1),WMA,
      3      RHOCP      ,MCP       ,MCPS(1,NF1),TEMP0,TEMP ,
-     4      MSSA       ,IX1     ,IX2     ,IX3     ,IX4    ,
-     5      GBUF%FILL, VOLU      ,IMAS_DS)
+     4      MSSA       ,IX1       ,IX2     ,IX3     ,IX4    ,
+     5      GBUF%FILL, VOLU       ,IMAS_DS ,NINTEMP )
 C------------------------------------------
 C       assemblage des Volumes nodaux et Modules nodaux
 C       (pour rigidites d'interface)

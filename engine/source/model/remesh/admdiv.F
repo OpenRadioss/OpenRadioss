@@ -41,7 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  IGEO ,IPM     ,SH4TREE,PADMESH,MSC  ,
      .                  INC  ,SH3TREE ,MSTG   ,INTG   ,PTG  ,
      .              ACONTACT ,PCONTACT ,ERR_THK_SH4, ERR_THK_SH3 ,MSCND,
-     .                  INCND,PM       ,MCP   ,MCPC   ,MCPTG)
+     .                  INCND,PM       ,MCP   ,MCPC   ,MCPTG,
+     .                  ITHERM_FE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,6 +70,7 @@ C-----------------------------------------------
      .        IPART(LIPART1,*),ITASK,ICONTACT(*),IPARG(NPARG,*),
      .        NODFT, NODLT, IGEO(NPROPGI,*), IPM(NPROPMI,*),
      .        SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*)
+      my_real ,INTENT(IN) :: ITHERM_FE
       my_real
      .        X(3,*),MS(*),IN(*),RCONTACT(*),
      .        PADMESH(KPADMESH,*), MSC(*), INC(*), 

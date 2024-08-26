@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9                    NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,FNCONT ,
      A                    FTCONT ,MSKYI_SMS ,ISKYI_SMS ,NODNX_SMS,
      B                    ICONTACT,INTBUF_TAB,FBSAV6,ISENSINT,DIMFB,
-     C                    H3D_DATA )  
+     C                    H3D_DATA,NODADT_THERM )  
 C============================================================================
 C  cette routine est appelee par : INTFOP2(/interf/intfop2.F)
 C----------------------------------------------------------------------------
@@ -86,6 +86,7 @@ C-----------------------------------------------
       INTEGER IPARI(*), ICODT(*), ITAB(*),
      .        ISKY(*), ISKYI_SMS(*), NODNX_SMS(*),
      .        ICONTACT(*), ISENSINT(*),DIMFB
+      INTEGER ,INTENT(IN) :: NODADT_THERM
 C statistique interface
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*)
@@ -295,7 +296,7 @@ C           WRITE(6,*) 'IMPACT ==> CALL I10FOR3'
      G  FSAVSUB      ,FNCONT    ,FTCONT  ,MSKYI_SMS    ,ISKYI_SMS ,
      H       NSMS      ,XI      ,YI      ,ZI     ,ICONTACT,
      I       DT2T      ,NELTST  ,ITYPTST ,JTASK  ,ISENSINT, 
-     J       FSAVPARIT ,NFT     ,H3D_DATA)
+     J       FSAVPARIT ,NFT     ,H3D_DATA,NODADT_THERM)
           ENDIF
           IF(IMPL_S==1) THEN
             DO I = 1 ,JLT_NEW

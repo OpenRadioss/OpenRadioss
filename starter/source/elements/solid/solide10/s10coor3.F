@@ -34,7 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                    YY     ,ZZ    ,VX    ,VY    ,VZ  ,
      3                    NC     ,NGL   ,MXT   ,NGEO  ,MASS,
      4                    DTELEM ,STI   ,SIGG  ,EINTG ,RHOG,
-     5                    QG     ,TEMP0 ,TEMP  ,SAV   ,NEL )
+     5                    QG     ,TEMP0 ,TEMP  ,SAV   ,NEL ,
+     6                    NINTEMP)
 C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -54,6 +55,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
+      INTEGER ,INTENT(IN) :: NINTEMP
 C     REAL
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),SAV(NEL,30)
@@ -220,7 +222,7 @@ CC
      .   XX, YY, ZZ, VX, VY, VZ,NC,
      .   NGL,MXT,NGEO,MASS,DTELEM,STI,
      .   SIGG,EINTG,RHOG,QG, TEMP0,
-     .   TEMP,NEL)
+     .   TEMP,NEL,NINTEMP)
 C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -239,7 +241,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL
+      INTEGER NEL,NINTEMP
 C     REAL
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
