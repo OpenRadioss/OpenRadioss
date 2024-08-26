@@ -239,7 +239,7 @@ c
      Y                  LESDVOIS ,CRKEDGE  ,INDX_CRK    ,XEDGE4N     ,XEDGE3N   ,
      Z                  STACK    ,SPH2SOL  ,STIFN       ,STIFR       ,IGRNOD    ,
      1                  H3D_DATA ,SUBSET   ,MULTI_FVM   ,KNOTLOCPC   ,KNOTLOCEL ,
-     2                  FCONT_MAX,FNCONTP2 ,FTCONTP2    )
+     2                  FCONT_MAX,FNCONTP2 ,FTCONTP2    ,GLOB_THERM  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -257,6 +257,7 @@ C-----------------------------------------------
       USE INOUTFILE_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -351,6 +352,7 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
+      type (glob_therm_) ,intent(in)       :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2554,7 +2556,7 @@ C-----------------------------------------------
             ENDDO
             K = K + NUMNOD
           ELSEIF(I>=3.AND.I<=11 .OR. I==30) THEN
-           IF(I == 6 .AND. (ITHERM_FE  > 0  )) THEN
+           IF(I == 6 .AND. (GLOB_THERM%ITHERM_FE  > 0  )) THEN
              DO N=1,NUMNOD
               WA4(N)=TEMP(N)
              ENDDO
@@ -3172,12 +3174,12 @@ C  en spmd localement NBF = 0 mais pas la somme sur pi !
      .      (I>=10253.AND.I<=10675) .OR. (I >= 10676 .AND. I <= 1000000)) THEN
             CALL DFUNCC(ELBUF_TAB ,WAFT        ,IFUNC         ,IPARG,GEO    ,
      .                  IXQ       ,IXC         ,IXTG          ,MAS          ,PM         ,
-     .                  EL2FA     ,NBF         ,IAD          ,
+     .                  EL2FA     ,NBF         ,IAD           ,GLOB_THERM%ITHERM        ,
      .                  NBF_L     ,EANI        ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
      .                  IPM       ,IGEO        ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                  INVERT    ,X           ,V             ,W            ,ALE_CONNECTIVITY,
      .                  NV46      ,NERCVOIS    ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
-     .                  STACK     ,BUFMAT      ,MULTI_FVM     ,MAT_PARAM)
+     .                  STACK     ,BUFMAT      ,MULTI_FVM     ,MAT_PARAM    )
             IF(NCUTS>0)
      .      CALL CUTFUNCE(ICBUF,NELCUT,ELBUF_TAB,IFUNC,IPARG,PM,IXS)
             IF (ISPMD==0) THEN
@@ -4669,7 +4671,7 @@ C-----------------------------------------------
      4              IADG      ,SPBUF     ,IPART       ,IPARTSP     ,ISPH3D       ,
      5              X         ,V         ,W           ,ALE_CONNECTIVITY,
      6              NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS    ,BUFMAT       ,
-     7              FANI_CELL ,MULTI_FVM ,MAT_PARAM   )
+     7              FANI_CELL ,MULTI_FVM ,MAT_PARAM   ,GLOB_THERM%ITHERM)
         ENDIF
       ENDDO
 C-----------------------------------------------
@@ -6420,7 +6422,7 @@ C-----------------------------------------------
      2                MAS       ,PM              ,EL2FA    ,NNN     ,
      3                NBPART    ,IADG            ,SPBUF    ,IPART   ,
      4                IPARTSP   ,ALE_CONNECTIVITY,IXQ      ,IPM     ,
-     5                X         ,V               ,W        ,
+     5                X         ,V               ,W        ,GLOB_THERM%ITHERM,
      6                NERCVOIS  ,NESDVOIS        ,LERCVOIS ,LESDVOIS,
      7                BUFMAT    ,MULTI_FVM)
         ENDIF

@@ -25,37 +25,31 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    resol    ../engine/source/engine/resol.F
       !||====================================================================
-      SUBROUTINE TEMPUR(TEMP,MCP,FTHE,NODFT,NODLT,WEIGHT,MCP_OFF)
+      SUBROUTINE TEMPUR(TEMP,MCP,FTHE,NODFT,NODLT,WEIGHT,MCP_OFF,HEAT_STORED)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "thermal_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NODFT,NODLT, WEIGHT(*)
-C     REAL
-      my_real
-     .   TEMP(*) ,FTHE(*) ,MCP(*),MCP_OFF(*) 
+      INTEGER :: NODFT,NODLT, WEIGHT(*)
+      my_real :: HEAT_STORED
+      my_real :: TEMP(*) ,FTHE(*) ,MCP(*),MCP_OFF(*) 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  N
-      my_real
-     . HEAT_STORED_LOCAL
+      my_real :: HEAT_STORED_LOCAL
 C-----------------------------------------------
         HEAT_STORED_LOCAL = 0
 
 #include      "vectorize.inc"           
         DO N=NODFT,NODLT
           MCP(N) = MCP(N) * MCP_OFF(N)
-          IF(MCP(N) > ZERO ) THEN
+          IF (MCP(N) > ZERO ) THEN
             TEMP(N) =  TEMP(N)  + FTHE(N) / MCP(N)
-            IF(WEIGHT(N) == 1) HEAT_STORED_LOCAL = HEAT_STORED_LOCAL + FTHE(N)
+            IF (WEIGHT(N) == 1) HEAT_STORED_LOCAL = HEAT_STORED_LOCAL + FTHE(N)
           ENDIF  
           FTHE(N) = ZERO
         ENDDO

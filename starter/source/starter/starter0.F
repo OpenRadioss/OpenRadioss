@@ -88,6 +88,8 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE NAMES_AND_TITLES_MOD, only: NAMES_AND_TITLES_, NCHARLINE
       USE DEFAULTS_MOD, only: DEFAULTS_
+      use glob_therm_mod
+      use glob_therm_init_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,7 +137,6 @@ C-----------------------------------------------
 #include      "ngr2usr_c.inc"
 #include      "inter22.inc"
 #include      "ige3d_c.inc"
-#include      "thermal_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -179,6 +180,7 @@ c      TYPE(SENSORS_) :: SENSORS    ! declared as global in USER_SENSOR_MOD
       INTEGER*4 GETCWD, STATUS_CWD
       TYPE(NAMES_AND_TITLES_)   :: NAMES_AND_TITLES    !< NAMES_AND_TITLES host the input deck names and titles for outputs
       TYPE(DEFAULTS_)           :: DEFAULTS            !< Hosts the variables from /DEF/ option
+      TYPE(glob_therm_) :: glob_therm
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -588,12 +590,6 @@ C
       KCONTACT =0
       KIPADMESH=1
 C
-      NIFT     = 4
-      NITFLUX  = 10+2
-      NICONV   = 9+2
-      NIRADIA  = 9+2
-      LFACTHER = 6
-C
       SIZFIELD = 13
       SIZLOADP = 13
 c constant for access in tab IBUFSSG_IO, use in engine
@@ -748,10 +744,15 @@ c 2d seatbelt translation
       IF (NB_SEATBELT_SHELLS > 0) 
      .  CALL HM_CONVERT_2D_ELEMENTS_SEATBELT(IDMAX_PART,IDMAX_PROP,IDMAX_MAT,IDMAX_ELEM,IDMAX_TH,
      .                                           SEATBELT_CONVERTED_ELEMENTS,NB_SEATBELT_SHELLS,LSUBMODEL)
+C------------------------------------------------------------------
+      ! Initialisation of glob_therm module
+C------------------------------------------------------------------
+      call glob_therm_init(glob_therm)
 C-------------------------------------------------------------------
 C     Control variables (count options)
 C-------------------------------------------------------------------
-      CALL CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,NAMES_AND_TITLES,LIPART1,DEFAULTS)
+      CALL CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,
+     .            NAMES_AND_TITLES,LIPART1,DEFAULTS,GLOB_THERM)
 C-------------------------------------------------------------------
 C     Parameters modification and parameters write (-HSTP_READ -HSTP_WRITE ARGUMENTS)
 C-------------------------------------------------------------------
@@ -791,7 +792,7 @@ C--------------------------------------------------
         CALL LECTUR(
      .       MULTI_FVM                   ,LSUBMODEL         ,IS_DYNA          ,DETONATORS   ,EBCS_TAB,
      .       SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS,NB_DYNA_INCLUDE  ,USER_WINDOWS ,OUTPUT  ,
-     .       MAT_ELEM,NAMES_AND_TITLES,DEFAULTS  )
+     .       MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm)
 
 c       stop CPU timer for lectur
         CALL STOPTIME(2,1)

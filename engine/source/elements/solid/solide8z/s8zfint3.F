@@ -71,7 +71,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7   OFF,     VOL0,    VOL0G,   G_PLA,
      8   G_EPSD,  JFAC,    EINTTH,  EINTTHM,
      9   IEXPAN,  NEL,     IDEG,    CONDE,
-     A   CONDEN,  MTN,     ISMSTR,  SVIS)
+     A   CONDEN,  MTN,     ISMSTR,  SVIS ,NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,6 +89,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: MTN
       INTEGER, INTENT(IN) :: ISMSTR
+      INTEGER, INTENT(IN) :: NODADT_THERM
       INTEGER ICP,G_PLA,G_EPSD,IEXPAN,NEL,IDEG(*)
 C     REAL
       my_real

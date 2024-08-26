@@ -34,9 +34,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3   LENR     ,FTHE   ,MCP  ,FR_LOC,NB_FR,
      4   MS_2D    , MCP_OFF,FORNEQS,NFACNIT  ,
      5   LENC     ,FCONT   ,H3D_DATA,FNCONT  ,
-     6   FTCONT)
+     6   FTCONT   ,GLOB_THERM )
 C--------------------------------------
       USE H3D_MOD
+      USE GLOB_THERM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,6 +67,7 @@ C-----------------------------------------------
       my_real  , INTENT(INOUT) :: FCONT(3,NUMNOD),FNCONT(3,NUMNOD),
      .        FTCONT(3,NUMNOD)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE(GLOB_THERM_) ,INTENT(IN) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -141,10 +143,10 @@ C-----------------------------------------------
             SHIFT = SHIFT+1
           ENDIF
 
-          IF(INTHEAT /=0 .OR. ITHERM_FE/=0)THEN
+          IF(GLOB_THERM%INTHEAT /=0 .OR. GLOB_THERM%ITHERM_FE/=0)THEN
              SBUF(SHIFT+1) =  FTHE(NOD)
              SHIFT = SHIFT+1
-             IF(ITHERM_FE /= 0) THEN
+             IF(GLOB_THERM%ITHERM_FE /= 0) THEN
               SBUF(SHIFT+1) =  MCP(NOD)
               SHIFT = SHIFT+1
               SBUF(SHIFT+1) =  MCP_OFF(NOD)
@@ -248,11 +250,11 @@ C SAUVEGARGE VALEURS ACCEL
             SHIFT = SHIFT+1
           ENDIF
 
-          IF(INTHEAT /=0 .OR. ITHERM_FE/=0)THEN
+          IF(GLOB_THERM%INTHEAT /=0 .OR. GLOB_THERM%ITHERM_FE/=0)THEN
              SAV_A(SHIFT+1,J) =  FTHE(NOD)
              FTHE(NOD) = ZERO
              SHIFT = SHIFT+1
-             IF(ITHERM_FE /= 0 ) THEN 
+             IF(GLOB_THERM%ITHERM_FE /= 0 ) THEN 
                SAV_A(SHIFT+1,J) =  MCP(NOD)
                MCP(NOD) = ZERO
                SHIFT = SHIFT+1
@@ -348,10 +350,10 @@ C   test si msg necessaire a envoyer a completer par test interface
                   SHIFT = SHIFT+1
                ENDIF
 
-               IF(INTHEAT /=0 .OR. ITHERM_FE/=0)THEN
+               IF(GLOB_THERM%INTHEAT /=0 .OR. GLOB_THERM%ITHERM_FE/=0)THEN
                   FTHE(NOD) = FTHE(NOD) + RBUF(SHIFT+1)
                   SHIFT = SHIFT+1
-                  IF(ITHERM_FE /= 0) THEN
+                  IF(GLOB_THERM%ITHERM_FE /= 0) THEN
                     MCP(NOD) = MCP(NOD) + RBUF(SHIFT+1)
                     SHIFT = SHIFT+1
                     MCP_OFF(NOD) =MAX(MCP_OFF(NOD),RBUF(SHIFT+1))
@@ -419,10 +421,10 @@ C   test si msg necessaire a envoyer a completer par test interface
             SHIFT = SHIFT+1
           ENDIF
 
-          IF(INTHEAT /=0 .OR. ITHERM_FE/=0)THEN
+          IF(GLOB_THERM%INTHEAT /=0 .OR. GLOB_THERM%ITHERM_FE/=0)THEN
             FTHE(NOD) = FTHE(NOD) + SAV_A(SHIFT+1,J)
             SHIFT = SHIFT+1
-            IF(ITHERM_FE /= 0) THEN
+            IF(GLOB_THERM%ITHERM_FE /= 0) THEN
               MCP(NOD) = MCP(NOD) + SAV_A(SHIFT+1,J)
               SHIFT = SHIFT+1
               MCP_OFF(NOD) = MAX(MCP_OFF(NOD),SAV_A(SHIFT+1,J))

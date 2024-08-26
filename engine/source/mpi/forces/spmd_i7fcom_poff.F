@@ -52,7 +52,7 @@ C
      6   ISLEN7T ,IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T,
      7   IRLEN20E,ISLEN20E,CONDN   ,IFLAG   ,INTBUF_TAB, 
      8   H3D_DATA, MULTI_FVM,TAGNCONT,KLOADPINTER,LOADPINTER,
-     9   LOADP_HYD_INTER  ,FSAV    ,INTERFACES)
+     9   LOADP_HYD_INTER  ,FSAV    ,INTERFACES,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -93,6 +93,7 @@ C-----------------------------------------------
      .        ICODT(*), ICONTACT(*), NSTRF(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .        KLOADPINTER(NINTER+1),LOADPINTER(NINTER*NLOADP_HYD),
      .        LOADP_HYD_INTER(NLOADP_HYD)
+      INTEGER, INTENT(IN) :: NODADT_THERM
       my_real
      .        A(*), STIFN(*), VISCN(*),
      .        SECFCUM(7,NUMNOD,NSECT), FCONT(3,*), FTHE(*),CONDN(*)
@@ -1146,7 +1147,7 @@ C
      4              FCONT   ,INACTI  ,IADM    ,INTTH , FTHE ,CONDN   ,
      5              H3D_DATA, MULTI_FVM,NIN   ,TAGNCONT,KLOADPINTER  ,
      6              LOADPINTER,LOADP_HYD_INTER,INTCAREA,FSAV(1,NIN)  ,
-     7              INTERFACES%PARAMETERS)
+     7              INTERFACES%PARAMETERS,NODADT_THERM)
                     L = L + NB*LEN
                   ELSE
                      CALL SPMD_FIADD_POFF(
@@ -1156,7 +1157,7 @@ C
      4              FCONT   ,INACTI  ,IADM    ,INTTH , FTHE ,CONDN   ,
      5              H3D_DATA, MULTI_FVM,NIN   ,TAGNCONT,KLOADPINTER  ,
      6              LOADPINTER,LOADP_HYD_INTER,INTCAREA,FSAV(1,NIN)  ,
-     7              INTERFACES%PARAMETERS)
+     7              INTERFACES%PARAMETERS,NODADT_THERM)
                     L = L + NB*LEN7T
                   ENDIF
                 ELSEIF(NTY==11)THEN
@@ -1167,7 +1168,7 @@ C
      2              STIFN   ,VISCN   ,IBC     ,ISECIN       ,NOINT   ,
      3              IBAG    ,ICODT   ,SECFCUM ,NSTRF        ,ICONTACT,
      4              FCONT   ,INTTH   ,FTHE    ,CONDN        ,H3D_DATA,
-     5              TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
+     5              TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,NODADT_THERM)
                   L = L + NB*LEN11
                  ELSE
                   CALL SPMD_FIADD11_POFF(
@@ -1175,7 +1176,7 @@ C
      2              STIFN   ,VISCN   ,IBC     ,ISECIN       ,NOINT   ,
      3              IBAG    ,ICODT   ,SECFCUM ,NSTRF        ,ICONTACT,
      4              FCONT   ,INTTH   ,FTHE    ,CONDN        ,H3D_DATA,
-     5              TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
+     5              TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,NODADT_THERM)
                   L = L + NB*LEN11T
                  ENDIF
                 ELSEIF(NTY==17)THEN
@@ -1253,7 +1254,8 @@ C
      3              IBAG    ,ICODT   ,SECFCUM , NSTRF       ,ICONTACT,
      4              FCONT   ,INACTI  ,IADM    ,INTTH , FTHE ,CONDN   ,
      5              H3D_DATA, MULTI_FVM,INTBUF_TAB(NIN)%LEDGE,NEDGE  ,
-     6              NIN     ,TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
+     6              NIN     ,TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
+     7              NODADT_THERM)
                     L = L + NB*LEN25E
                 ENDIF ! NSNSIE
               ENDIF ! NTY + IEDGE

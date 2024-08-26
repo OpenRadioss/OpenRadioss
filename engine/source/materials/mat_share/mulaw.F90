@@ -204,7 +204,7 @@
         &sbufmat,     svis,        n2d,         ngroup,&
         &imon_mat,    numnod,      numels,      ntable,&
         &numgeo,      nummat,      numelq,      idtmin,&
-        &dt1,         tt,          &
+        &dt1,         tt,          glob_therm,         &
         &impl_s,&
         &idyna,       userl_avail, nixs,        nixq,&
         &dt)
@@ -222,6 +222,7 @@
       use sigeps126_mod
       use prop_param_mod
       use dt_mod
+      use glob_therm_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -239,6 +240,7 @@
           type (mat_elem_) ,intent(inout) ,target                       :: mat_elem
           type (nlocal_str_),intent(inout)                              :: nloc_dmg
           type (dt_), intent(in)                                        :: dt
+          type (glob_therm_) ,intent(inout)                             :: glob_therm
 
           integer,intent(in) :: nixs
           integer,intent(in) :: nixq
@@ -1513,7 +1515,7 @@
             &ngl,     ipm,     mat,     epsd,&
             &sigy,    defp,    table,   tempel,&
             &nvartmp, vartmp,  trepsth, eintth,&
-            &jthe)
+            &jthe,    glob_therm%idt_therm,glob_therm%theaccfact)
             do i=1,nel
               d1(i) = ep1(i)
               d2(i) = ep2(i)
@@ -2663,7 +2665,7 @@
             &facq0,    conde,    gbuf%dt,  gbuf%g_dt,&
             &ipm,      rhoref,   rhosp,    nel,&
             &ity,      ismstr,   jtur,     jthe,&
-            &jsms,     npg )
+            &jsms,     npg   ,   glob_therm)
 !------------------------------------------------
           else
             call mdtsph(&

@@ -29,7 +29,8 @@ C
       !||    w_knotlocpc   ../starter/source/restart/ddsplit/w_knotlocpc.F
       !||====================================================================
       SUBROUTINE W_KNOTLOC(KXIG3D,NUMELIG3D_L,ISUMNIG3D_L,IXIG3D,CEP,
-     +                  PROC,NODLOCAL,LEN_IA,KNOTLOCPC,KNOTLOCEL,NUMNOD_L)
+     .                  PROC,NODLOCAL,LEN_IA,KNOTLOCPC,KNOTLOCEL,NUMNOD_L,
+     .                  NUMCONV,NUMRADIA)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,6 +44,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NUMCONV
+      INTEGER ,INTENT(IN) :: NUMRADIA
       INTEGER NUMELIG3D_L, PROC, ISUMNIG3D_L,LEN_IA,
      .        KXIG3D(NIXIG3D,*), CEP(*), NODLOCAL(*), IXIG3D(*),NUMNOD_L
       my_real

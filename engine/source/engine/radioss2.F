@@ -176,6 +176,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD
       USE UNITAB_MOD
       USE SKEW_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -223,7 +224,6 @@ C-----------------------------------------------
 #include      "rad2r_c.inc"
 #include      "userlib.inc"
 #include      "drape_c.inc"
-#include      "thermal_c.inc"
 #include      "inter22.inc"
 #include      "couple_c.inc"
 C-----------------------------------------------
@@ -302,12 +302,13 @@ C
       INTEGER :: RADFLEX_PROCESS_PID
       INTEGER IUTITLHIS,IUTITLHI(9)
       TYPE (DYNAIN_DATABASE) :: DYNAIN_DATA
-      TYPE (INTERFACES_)  :: INTERFACES
-c      TYPE (SENSORS_)  :: SENSORS    ! defined as global in user_interface_mod
-      TYPE (DT_)       :: DT
-      TYPE (LOADS_)    :: LOADS
-      TYPE (MAT_ELEM_) :: MAT_ELEM
-      TYPE (SKEW_)      :: SKEWS
+      TYPE (INTERFACES_) :: INTERFACES
+c      TYPE (SENSORS_)   :: SENSORS    ! defined as global in user_interface_mod
+      TYPE (DT_)         :: DT
+      TYPE (LOADS_)      :: LOADS
+      TYPE (MAT_ELEM_)   :: MAT_ELEM
+      TYPE (SKEW_)       :: SKEWS
+      type (glob_therm_) :: glob_therm
 C----------------------------------------------------------------------------------
 C MDS Table
       INTEGER, DIMENSION(:), ALLOCATABLE :: MDS_OUTPUT_TABLE
@@ -621,7 +622,7 @@ C------------------------------------------------
 C     Standard input reading
 C------------------------------------------------
       CALL LECINP(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
-     .            SENSORS,DT,OUTPUT)
+     .            SENSORS,DT,OUTPUT,GLOB_THERM)
       NFSKYI=5
       IF(KDTINT==0 )NFSKYI=4
       
@@ -823,7 +824,7 @@ C------------------------------------------------
       CALL RDRESA(ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
      .            PRESFIL, MULTI_FVM, H3D_DATA,
      .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
-     .            MAT_ELEM,NAMES_AND_TITLES,SKEWS )
+     .            MAT_ELEM,NAMES_AND_TITLES,SKEWS ,GLOB_THERM)
 
 C------------------------------------------------
 C     Test of .rst file compatibility
@@ -853,9 +854,9 @@ C      CALL TRACE_OUT(19)
       CALL INIPAR(ITID,3,NNODES,INPUTNAM,GOT_INPUT,NBTASK)
 
       IF(NSPMD > 1 ) THEN
-        CALL SPMD_ALLREDUCE_INT(NFXFLUX,NFXFLUX_GLOB,1,"SUM ")
+        CALL SPMD_ALLREDUCE_INT(GLOB_THERM%NFXFLUX,NFXFLUX_GLOB,1,"SUM ")
       ELSE
-        NFXFLUX_GLOB = NFXFLUX
+        NFXFLUX_GLOB = GLOB_THERM%NFXFLUX
       ENDIF
       IF(NFXFLUX_GLOB >0 .AND. (IPARIT > 0 .OR. IPARIT == -1)) THEN
         IPARIT=0
@@ -867,7 +868,7 @@ C      CALL TRACE_OUT(19)
 
       CALL TRACE_IN(17,1,ZERO)
 C end init rdresa after call xtime0
-      CALL INIRESA(H3D_DATA,PINCH_DATA)
+      CALL INIRESA(H3D_DATA,PINCH_DATA,GLOB_THERM)
       CALL TRACE_OUT(17)
 
 
@@ -924,7 +925,7 @@ C
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
 
       ! Most of arrays from Restart
-      CALL RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS)
+      CALL RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,GLOB_THERM)
 
       ! Initialization
       IGEO = 0
@@ -991,7 +992,7 @@ C
       ENDIF
 
       ! Heat Transfer
-      IF(ITHERM_FE > 0   ) THEN
+      IF (GLOB_THERM%ITHERM_FE > 0   ) THEN
         ALLOCATE(MCP(NUMNOD),TEMP(NUMNOD))
       ELSE
          ALLOCATE(MCP(0),TEMP(0))
@@ -1035,8 +1036,9 @@ C
      .            SENSORS        ,EBCS_TAB   ,DYNAIN_DATA   ,USER_WINDOWS     ,OUTPUT    ,
      .            INTERFACES     ,LOADS      ,MAT_ELEM      ,PYTHON           ,IFLOW     ,
      .            SKEWS          ,RFLOW      ,LIFLOW        ,LRFLOW           ,IMPL_S0   ,
-     .            MCP            ,TEMP       ,FORNEQS       ,UNITAB           ,NFXFLUX   ,
-     .            STACK          ,DRAPE_SH4N ,DRAPE_SH3N    ,DRAPEG           ,NDRAPE )
+     .            MCP            ,TEMP       ,FORNEQS       ,UNITAB,GLOB_THERM%NFXFLUX   ,
+     .            STACK          ,DRAPE_SH4N ,DRAPE_SH3N    ,DRAPEG           ,NDRAPE ,
+     .            GLOB_THERM     )
 
        ! Close restart file
        CALL CLOSE_C
@@ -1206,7 +1208,7 @@ C--------------------------------------------
       ENDIF
       
       !no need to output zero contour for ALE ANIM keywords if ALE not defined. (example: schlieren +SH3N)
-      IF(IALE+IEULER+ITHERM == 0)THEN
+      IF(IALE+IEULER+GLOB_THERM%ITHERM == 0)THEN
         NCE_ANI = NCE_ANI - ANIM_CE(10672)
         NSE_ANI = NSE_ANI - ANIM_SE(4892)
         ANIM_CE(10672) = 0 !quad schlieren
@@ -1467,7 +1469,7 @@ C------------------------------------------------
      G              MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H              MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
      I              DYNAIN_DATA,DT ,LOADS ,OUTPUT,NAMES_AND_TITLES,
-     J              MAT_ELEM%MAT_PARAM)
+     J              MAT_ELEM%MAT_PARAM,GLOB_THERM)
 C------------------------------------------------
 C Close & Delete scratch file
       CLOSE (UNIT=IIN)
@@ -2172,7 +2174,7 @@ C---------------------------------------------------------------------
      .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSORS    ,EBCS_TAB        ,
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
      .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      ,MAT_ELEM  , PYTHON,
-     .                   NAMES_AND_TITLES, UNITAB ,SKEWS,LIFLOW         ,LRFLOW)
+     .                   NAMES_AND_TITLES, UNITAB ,SKEWS,LIFLOW         ,LRFLOW     ,glob_therm)
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")
@@ -2202,3 +2204,4 @@ C---------------------------------------------------------------------
 
       RETURN
       END
+

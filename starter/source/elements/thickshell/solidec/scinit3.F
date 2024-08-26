@@ -55,7 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  BNS       ,WMA       ,PTSOL    ,BUFMAT    ,MCP   ,
      .                  MCPS      ,TEMP      ,NPF      ,TF        ,MSSA  ,
      .                  STRSGLOB  ,STRAGLOB ,ORTHOGLOB ,FAIL_INI  ,ILOADP,
-     .                  FACLOAD   ,RNOISE   ,PERTURB   )
+     .                  FACLOAD   ,RNOISE   ,PERTURB   ,GLOB_THERM)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C   Initialize 8-nodes thick shell HQEPH, co-rotational formulation
@@ -67,6 +67,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD             
       USE ALE_CONNECTIVITY_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -103,6 +104,7 @@ C-----------------------------------------------
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      type (glob_therm_) ,intent(in)      :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -230,7 +232,7 @@ C
      .         Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .         E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
-     .         F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP)
+     .         F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP,GLOB_THERM%NINTEMP)
       IF (IGTYP == 21 .OR. IGTYP == 22) THEN
         DO I=1,NEL
          ANGLE(I) = GEO(1,PID(I))

@@ -119,7 +119,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1   ISELECT,  TSTAR,    MUOLD,    AMU2,
      2   DPDM,     RHOREF,   RHOSP,    NLOC_DMG,
      3   ITY,      JTUR  ,   MAT_ELEM, IDEL7NOK,SVIS,
-     4   DT)
+     4   DT  ,     glob_therm)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -131,6 +131,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -195,6 +196,7 @@ C
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (MAT_ELEM_)  ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_), INTENT(IN) :: DT
+      type (glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1644,7 +1646,7 @@ C-----------------------
      9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
      A   IPM,      RHOREF,   RHOSP,    NEL,
      B   ITY,      ISMSTR,   JTUR,     JTHE,
-     C   JSMS,     NPG )
+     C   JSMS,     NPG  ,  glob_therm)
 !------------------------------------------------
       ELSE
         CALL MDTSPH(

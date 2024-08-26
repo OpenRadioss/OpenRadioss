@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    print_block     ../engine/source/system/timer.F
       !||====================================================================
-      SUBROUTINE PRINT_SUMMARY(FLAG,NTIMAX,TABTIME,TITLES,OUT_ID) 
+      SUBROUTINE PRINT_SUMMARY(FLAG,NTIMAX,TABTIME,TITLES,OUT_ID,ITHERM) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,6 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(IN) :: FLAG ! 1 : No MIN/MAX block 
                                     ! 2 : Min/Max block
+        INTEGER, INTENT(IN) :: ITHERM
         INTEGER, INTENT(IN) :: OUT_ID ! file descriptor
         INTEGER, INTENT(IN) :: NTIMAX ! max number of timer
         CHARACTER(LEN=9), INTENT(INOUT) :: TITLES(NTIMAX) ! number of columns
@@ -973,7 +974,7 @@ C
       !||    inoutfile_mod     ../common_source/modules/inoutfile_mod.F
       !||    time_mod          ../engine/share/modules/time_mod.F
       !||====================================================================
-      SUBROUTINE PRINTIME(ITASK)
+      SUBROUTINE PRINTIME(ITASK,ITHERM)
 C     routine d'affichage des timers
 C-----------------------------------------------
 C   M o d u l e s
@@ -1005,6 +1006,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITASK
+      INTEGER ,INTENT(IN) :: ITHERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1191,14 +1193,14 @@ C
       WRITE(ISTDO,*)'                          ** CPU USER TIME **'
       WRITE(ISTDO,*)' '
 
-        CALL PRINT_SUMMARY(1,NTIMAX,CPUTIME,TITLES,ISTDO) 
+        CALL PRINT_SUMMARY(1,NTIMAX,CPUTIME,TITLES,ISTDO,ITHERM) 
 
       WRITE(IOUT,*)' '
       WRITE(IOUT,*)'                          ** CPU USER TIME **'
       WRITE(IOUT,*)' '
 
         
-        CALL PRINT_SUMMARY(1,NTIMAX,CPUTIME,TITLES,IOUT) 
+        CALL PRINT_SUMMARY(1,NTIMAX,CPUTIME,TITLES,IOUT,ITHERM) 
 
 
 
@@ -1353,7 +1355,7 @@ C
        WRITE(IOUT,*)'                          ** ELAPSED TIME **'    
        WRITE(IOUT,*)' '                                               
         
-        CALL PRINT_SUMMARY(2,NTIMAX,REALTIME,TITLES,IOUT) 
+        CALL PRINT_SUMMARY(2,NTIMAX,REALTIME,TITLES,IOUT,ITHERM) 
 
        IF(.FALSE.)THEN
         WRITE(IOUT,*)' '

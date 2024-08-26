@@ -718,7 +718,7 @@ C
      A       IRLEN20T,ISLEN20T,IRLEN20E,ISLEN20E,
      B       IKINE,DIAG_SMS,COUNT_REMSLV,COUNT_REMSLVE,
      C       NSENSOR,SENSOR_TAB,XDP,H3D_DATA,MULTI_FVM,FORNEQS,
-     D       MAXDGAP,INTERFACES)
+     D       MAXDGAP,INTERFACES,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -728,6 +728,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SENSOR_MOD
       USE INTERFACES_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -771,6 +772,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (INTERFACES_)    ,INTENT(IN)     :: INTERFACES
+      type (glob_therm_) , INTENT(IN) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -874,7 +876,7 @@ C
      A       IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      B       ISLEN20E,IKINE,DIAG_SMS,COUNT_REMSLV,COUNT_REMSLVE,
      C       SENSOR_TAB,XDP  ,H3D_DATA, MULTI_FVM  ,FORNEQS,
-     D       INTERFACES,NSENSOR)
+     D       INTERFACES,NSENSOR,GLOB_THERM)
  999   CONTINUE
       ENDDO
 C
@@ -1088,7 +1090,7 @@ C
      A       IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      B       ISLEN20E,IKINE,DIAG_SMS,COUNT_REMSLV,COUNT_REMSLVE,  
      C       SENSOR_TAB,XDP,H3D_DATA,MULTI_FVM,FORNEQS,
-     D       INTERFACES,NSENSOR )
+     D       INTERFACES,NSENSOR ,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1098,6 +1100,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SENSOR_MOD
       USE INTERFACES_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1139,6 +1142,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (INTERFACES_)    ,INTENT(IN)     :: INTERFACES
+      type (glob_therm_), INTENT(IN) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1202,7 +1206,7 @@ C
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM   ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T  ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,IBID         ,IBID    ,IBID      ,
-     6 INTBUF_TAB,H3D_DATA,IXS,MULTI_FVM)
+     6 INTBUF_TAB,H3D_DATA,IXS,MULTI_FVM,GLOB_THERM)
          ENDIF
         ELSEIF(NTY==10)THEN
 C 
@@ -1212,7 +1216,7 @@ C
      3 ISENDTO   ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM   ,
      4 NRTM_T    ,RENUM        ,NSNFIOLD     ,ESHIFT  ,IBID      ,
      5 IBID      ,IBID         ,ITAB         ,INTBUF_TAB         ,
-     6 H3D_DATA  )
+     6 H3D_DATA  ,GLOB_THERM   )
         ELSEIF(NTY==11)THEN
 C
          ISENS = IPARI(64,N)
@@ -1228,7 +1232,7 @@ C
      2 MS         ,N            ,ITASK        ,WEIGHT  ,ISENDTO  ,
      3 IRECVFROM  ,RETRI        ,IAD_ELEM     ,FR_ELEM ,ITAB     ,
      4 NRTM_T     ,ESHIFT       ,IBID         ,RENUM   ,NSNFIOLD ,
-     5 INTBUF_TAB ,IBID)
+     5 INTBUF_TAB ,IBID         ,IBID)
         ENDIF
 
         ELSEIF(NTY == 20)THEN
@@ -1239,7 +1243,7 @@ C
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T  ,RENUM   ,
      5 NSNFIOLD,ESHIFT       ,IBID         ,IBID    ,DIAG_SMS,
-     5 IBID    ,INTBUF_TAB   ,H3D_DATA     )
+     5 IBID    ,INTBUF_TAB   ,H3D_DATA     ,GLOB_THERM)
         ENDIF
 C
         IF (IMACH==3.AND.NSPMD>1.AND.RETRI==1) THEN

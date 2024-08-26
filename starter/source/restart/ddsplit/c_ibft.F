@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    nlocal    ../starter/source/spmd/node/ddtools.F
       !||====================================================================
-      SUBROUTINE C_IBFT(IBFT,NC,NFXTEMP_L,PROC,DD_LAGF)
+      SUBROUTINE C_IBFT(IBFT,NC,NFXTEMP_L,PROC,DD_LAGF,NIFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,6 +40,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NIFT
       INTEGER NC, PROC, NFXTEMP_L,
      .        IBFT(NIFT,*), DD_LAGF(3,*)
 C-----------------------------------------------

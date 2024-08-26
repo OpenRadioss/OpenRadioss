@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   EPSDG,   SIGG,    EINTG,   RHOG,
      6   QG,      EPLASG,  WIP,     G_PLA,
      7   NEL,     CONDE,   CONDEG,  G_EPSD,
-     8   ISRAT,   SVIS)
+     8   ISRAT,   SVIS ,   NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: ISRAT
       INTEGER, INTENT(IN) :: G_PLA,NEL,G_EPSD
+      INTEGER, INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real
      .  PX(MVSIZ,10),PY(MVSIZ,10),PZ(MVSIZ,10),

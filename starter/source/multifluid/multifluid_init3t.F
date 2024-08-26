@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     NEL, NSIGS, NSIGI, IXS, IGEO, IPM, IPARG, ALE_CONNECTIVITY, IPARTS, PTSOL, NPF, IPART, ILOADP,
      .     XREFS, GEO, PM, FACLOAD, TF, SKEW, SIGI, BUFMAT, X, 
      .     WMA, PARTSAV, MAS, V, MSS, MSSF, MSSA, MSNF, MCPS, ERROR_THROWN, DETONATORS,DEFAULTS,
-     .     MAT_PARAM)
+     .     MAT_PARAM,NINTEMP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,6 +78,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL, NSIGS, NSIGI, IGEO(NPROPGI, *), IPM(NPROPMI, *), 
      .     IPARTS(*), PTSOL(*), NPF(*), IPART(LIPART1, *), ILOADP(SIZLOADP, *)
       INTEGER, INTENT(INOUT) :: IPARG(*), IXS(NIXS,*)
+      INTEGER, INTENT(IN) ::  NINTEMP
       my_real, INTENT(IN) :: X(3, *), GEO(NPROPG, *),  
      .     FACLOAD(LFACLOAD, *), TF(*), SKEW(LSKEW, *), SIGI(NSIGI, *), BUFMAT(*)
       my_real, INTENT(INOUT) :: XREFS(8, 3, *)
@@ -210,5 +211,5 @@ C      Temperature globalization. We must solve later T such as e+p/rho=integral
      2     IPARTS(NFT + 1),MSS(1,NFT + 1),MSNF   ,MSSF(1,NFT + 1),WMA,
      3     BID      ,BID       ,MCPS(1,NFT + 1),BID,BID ,
      4     MSSA       ,IX1     ,IX2     ,IX3     ,IX4    ,
-     5     GBUF%FILL, GBUF%VOL ,IMAS_DS)
+     5     GBUF%FILL, GBUF%VOL ,IMAS_DS, NINTEMP)
       END SUBROUTINE MULTIFLUID_INIT3T

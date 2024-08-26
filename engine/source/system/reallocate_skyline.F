@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
       !||====================================================================
-      SUBROUTINE REALLOCATE_I_SKYLINE(NEW_COUNT,CALL_ID)
+      SUBROUTINE REALLOCATE_I_SKYLINE(NEW_COUNT,CALL_ID,INTHEAT,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -58,6 +58,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEW_COUNT,CALL_ID
+      INTEGER, INTENT(IN) :: INTHEAT
+      INTEGER, INTENT(IN) :: NODADT_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

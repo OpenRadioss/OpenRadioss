@@ -53,7 +53,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E                  NSMS      ,DTMINI    ,JTASK     ,
      F                  CONDN     ,CONDINT   ,CONDNSKYI,IXIG3D   ,KXIG3D    ,
      J                  WIGE      ,KNOT      ,IGEO      ,NIGE     ,RIGE      ,
-     K                  X         ,H3D_DATA  ,KNOTLOCPC ,KNOTLOCEL,IFORM    )
+     K                  X         ,H3D_DATA  ,KNOTLOCPC ,KNOTLOCEL,IFORM     ,
+     L                  NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -89,6 +90,7 @@ C-----------------------------------------------
      .        NSVG(MVSIZ),ITAB(*), ISKY(*), NSTRF(*),
      .        NISUB,ISKYI_SMS(*), NSMS(*),
      .        KXIG3D(NIXIG3D,*),IXIG3D(*),IGEO(NPROPGI,*),NIGE(*)
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       my_real
      .   X(3,*), A(3,*), FCONT(3,*),DT2T,DTMINI,
      .   STIFN(*), FSKYI(LSKYI,NFSKYI),
@@ -169,7 +171,7 @@ c
      4                  FX3   ,FY3  ,FZ3  ,FX4  ,FY4    ,FZ4  ,
      5                  FXI   ,FYI  ,FZI  ,A    ,STIFN  ,NIN  ,
      6                  INTTH ,PHI  ,FTHE ,PHI1 , PHI2  ,PHI3 ,
-     7                  PHI4  ,CONDN,CONDINT,JTASK,IFORM)
+     7                  PHI4  ,CONDN,CONDINT,JTASK,IFORM,NODADT_THERM)
           ELSE
             CALL I7ASSIGEO0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
@@ -189,7 +191,7 @@ C
      6                 KS    ,K1   ,K2   ,K3   ,K4     ,CS    ,
      7                 C1    ,C2   ,C3   ,C4   ,NIN    ,INTTH ,
      8                 PHI   ,FTHE ,PHI1 , PHI2  ,PHI3 , PHI4 ,
-     9                 JTASK,CONDN,CONDINT,IFORM)
+     9                 JTASK,CONDN,CONDINT,IFORM,NODADT_THERM)
         ENDIF
 C
       ELSE
@@ -202,7 +204,7 @@ C
      5                  FXI   ,FYI   ,FZI  ,FSKYI,ISKY ,NISKYFI,
      6                  NIN   ,NOINT ,INTTH,PHI  ,FTHESKYI ,PHI1,
      7                  PHI2  ,PHI3 , PHI4 ,CONDNSKYI,CONDINT,
-     A                  IFORM )
+     A                  IFORM ,NODADT_THERM)
           ELSE
 c         CALL I7ASSIGEO2(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
 c     2               NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
@@ -223,7 +225,7 @@ c     7               RIGE  ,FCONT,H3D_DATA,KNOTLOCPC,KNOTLOCEL)
      6                 KS    ,K1   ,K2   ,K3   ,K4     ,CS   ,
      7                 C1    ,C2   ,C3   ,C4   ,ISKY  ,NOINT ,
      8                 INTTH ,PHI  ,FTHESKYI  ,PHI1   ,PHI2  , PHI3,
-     9                  PHI4 ,CONDNSKYI,CONDINT,IFORM)
+     9                  PHI4 ,CONDNSKYI,CONDINT,IFORM,NODADT_THERM)
         ENDIF
       ENDIF
 C
@@ -712,7 +714,7 @@ C
      4                  FX3   ,FY3  ,FZ3  ,FX4  ,FY4    ,FZ4  ,
      5                  FXI   ,FYI  ,FZI  ,A    ,STIFN  ,NIN  ,
      6                  INTTH ,PHI  ,FTHE ,PHI1 , PHI2  ,PHI3 ,
-     7                  PHI4  ,CONDN,CONDINT,JTASK,IFORM)
+     7                  PHI4  ,CONDN,CONDINT,JTASK,IFORM,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -734,6 +736,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT, NIN,INTTH,JTASK,IFORM,
      .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       my_real
      .    H1(MVSIZ),H2(MVSIZ),H3(MVSIZ),H4(MVSIZ),STIF(MVSIZ),
      .    FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
@@ -929,7 +932,7 @@ C
      6                   KS    ,K1   ,K2   ,K3   ,K4     ,CS   ,
      7                   C1    ,C2   ,C3   ,C4   ,NIN    ,INTTH ,
      8                   PHI   ,FTHE ,PHI1 , PHI2  ,PHI3 , PHI4 ,
-     9                   JTASK ,CONDN,CONDINT,IFORM)
+     9                   JTASK ,CONDN,CONDINT,IFORM,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -951,6 +954,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT, NIN,INTTH ,JTASK,IFORM,
      .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       my_real
      .    H1(MVSIZ),H2(MVSIZ),H3(MVSIZ),H4(MVSIZ),
      .    FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
@@ -1142,7 +1146,7 @@ C
      5                  FXI   ,FYI   ,FZI  ,FSKYI,ISKY  ,NISKYFI,
      6                  NIN   ,NOINT ,INTTH,PHI  ,FTHESKYI,PHI1,
      7                  PHI2  ,PHI3 , PHI4 ,CONDNSKYI,CONDINT,
-     A                  IFORM )
+     A                  IFORM ,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1168,6 +1172,7 @@ C-----------------------------------------------
       INTEGER JLT,NISKYFI,NIN,NOINT,INTTH,IFORM,
      .        ISKY(*),
      .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       my_real
      .    H1(MVSIZ),H2(MVSIZ),H3(MVSIZ),H4(MVSIZ),STIF(MVSIZ),
      .    FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
@@ -1469,7 +1474,7 @@ C
      6                   KS    ,K1   ,K2   ,K3   ,K4     ,CS    ,
      7                   C1    ,C2   ,C3   ,C4   ,ISKY   ,NOINT ,
      8                   INTTH ,PHI  ,FTHESKYI   ,PHI1   ,PHI2  ,
-     9                   PHI3  ,PHI4 ,CONDNSKYI  ,CONDINT,IFORM )
+     9                   PHI3  ,PHI4 ,CONDNSKYI  ,CONDINT,IFORM ,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1495,6 +1500,7 @@ C-----------------------------------------------
       INTEGER JLT,NISKYFI,NIN,INTTH,IFORM,
      .        ISKY(*),NOINT,
      .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       my_real
      .    H1(MVSIZ),H2(MVSIZ),H3(MVSIZ),H4(MVSIZ),
      .    FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),

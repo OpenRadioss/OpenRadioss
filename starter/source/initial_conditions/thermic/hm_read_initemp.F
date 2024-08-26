@@ -40,7 +40,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod                ../starter/share/message_module/message_mod.F
       !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_INITEMP(TEMP  ,ITAB   ,ITABM1  ,IGRNOD  ,INITIDS ,UNITAB ,LSUBMODEL)
+      SUBROUTINE HM_READ_INITEMP(TEMP    ,NINTEMP ,ITHERM_FE,ITAB     ,ITABM1  ,
+     .                           IGRNOD  ,INITIDS ,UNITAB   ,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,8 +65,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ITAB(*), ITABM1(*),INITIDS(*)
-      my_real
-     .   TEMP(*)
+      INTEGER ,INTENT(IN) :: NINTEMP
+      INTEGER ,INTENT(IN) :: ITHERM_FE
+      my_real :: TEMP(*)
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD

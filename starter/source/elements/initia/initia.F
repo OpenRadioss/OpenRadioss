@@ -127,7 +127,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  RBY        ,NPBY          ,LPBY             ,NPC            ,NPTS      ,
      4                  PLD        ,VEUL          ,ALE_CONNECTIVITY ,SKEW           ,FILL      ,
      5                  IPART      ,ITAB          ,SENSORS          ,SKVOL          ,
-     6                  IXTG       ,THK           ,NLOC_DMG         ,GROUP_PARAM_TAB,
+     6                  IXTG       ,THK           ,NLOC_DMG         ,GROUP_PARAM_TAB,GLOB_THERM,
      7                  IGRNOD     ,IGRSURF       ,BUFSF            ,VR             ,
      8                  BUFMAT     ,XLAS          ,LAS              ,DTELEM         ,MSS       ,
      9                  MSQ        ,MSC           ,MST              ,MSP            ,MSR       ,
@@ -212,6 +212,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_LC0MAX, M51_SSP0MAX, M51_TCP_REF, M51_lSET_IFLG6, M51_IFLG6, M51_ILOOP_NRF
       use brokmann_random_def_mod
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -340,10 +341,11 @@ C-----------------------------------------------
       TYPE (INTBUF_STRUCT_) , INTENT(IN   ) ::  INTBUF_TAB(NINTER)
       TYPE (INTERFACES_) , INTENT(INOUT   ) ::  INTERFACES
       TYPE (PREL1D_) , INTENT(IN)   ,DIMENSION(NPRELOAD_A) ::  PRELOAD_A
-      TYPE (SENSORS_) ,INTENT(IN)  :: SENSORS
-      TYPE (FAIL_FRACTAL_)  ,INTENT(IN) :: FAIL_FRACTAL
-      TYPE (FAIL_BROKMANN_) ,INTENT(IN) :: FAIL_BROKMANN
-      TYPE(DEFAULTS_)       ,INTENT(IN) :: DEFAULTS             
+      TYPE (SENSORS_)       ,INTENT(IN)    :: SENSORS
+      TYPE (FAIL_FRACTAL_)  ,INTENT(IN)    :: FAIL_FRACTAL
+      TYPE (FAIL_BROKMANN_) ,INTENT(IN)    :: FAIL_BROKMANN
+      TYPE (DEFAULTS_)      ,INTENT(IN)    :: DEFAULTS          
+      type (glob_therm_)    ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -789,7 +791,7 @@ C-----------------------------------------------------
 C
 C  for heat transfer
 C
-      IF(ITHERM_FE > 0 ) THEN
+      IF (GLOB_THERM%ITHERM_FE > 0 ) THEN
         ALLOCATE(MCPS(8*NUMELS))
         MCPS = ZERO
         IF(NUMELS10 > 0.OR.NUMELS16 > 0 .OR.NUMELS20 > 0)THEN
@@ -907,7 +909,8 @@ C
      D        IXP        ,MST        ,MSP        ,STT       ,STP       ,
      E        STRP       ,INP        ,STIFINT    ,MCPP      ,INR       ,
      F        MSR        ,MSRT       ,STR        ,IPART(I15F),ITAB     ,
-     G        IXR       , IMERGE2    ,IADMERGE2  ,NEL       ,DEFAULTS)
+     G        IXR       , IMERGE2    ,IADMERGE2  ,NEL       ,DEFAULTS  ,
+     H        GLOB_THERM )
 C
        ELSEIF( MTN == 13) THEN
 C Rigid material
@@ -932,7 +935,7 @@ C
      B        NINDX      ,XREFC      ,XREFTG     ,XREFS     ,MSSA     ,
      C        SH3TRIM    ,ISUBSTACK  ,BUFMAT     ,IPM       ,STACK    ,
      D        RNOISE     ,STRC       ,STRTG      ,PERTURB   ,NEL      ,
-     E        GROUP_PARAM_TAB(NG)    ,IGTYP      ,DEFAULTS  )
+     E        GROUP_PARAM_TAB(NG)    ,IGTYP      ,DEFAULTS  ,GLOB_THERM)
 C
        ELSE
 C Element types
@@ -961,7 +964,7 @@ C Element types
      .              NPC, IPART, ILOADP,
      .              XREFS, GEO, PM, FACLOAD, PLD, SKEW, SIGI, BUFMAT, X, 
      .              WMA, PARTSAV, MS, V, MSS, MSSF, MSSA, MSNF, MCPS, ERROR_THROWN, DETONATORS,
-     .              DEFAULTS, MAT_PARAM)
+     .              DEFAULTS, MAT_PARAM,GLOB_THERM%NINTEMP)
             ELSE
                IF (ISTOT == 1) THEN
                   CALL SGSAVINI(ISOLNOD,X,IXS(1,NFT+1),GBUF%SMSTR,NEL)
@@ -982,7 +985,7 @@ C Element types
      9              IUSER        ,SIGSP       ,NSIGI    ,MSSA       ,XREFS      ,  
      A              STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI ,SPBUF     ,SOL2SPH    ,
      B              ILOADP       ,FACLOAD      ,RNOISE   ,PERTURB   ,MAT_PARAM  ,
-     C              DEFAULTS%SOLID)                            
+     C              DEFAULTS%SOLID,GLOB_THERM%NINTEMP )                            
                IF (NXREF > 0 .AND. JLAG/=0 .AND. JSPH==0)THEN
                   CALL S4REFSTA3(
      1                 ELBUF_TAB(NG),IXS        ,PM         ,GEO      ,IPARG(1,NG),
@@ -1007,8 +1010,8 @@ C Case total strain
      2         DETONATORS  ,GEO       ,VEUL    ,ALE_CONNECTIVITY  ,IPARG(1,NG),
      3         DTELEM      ,SIGI      ,NEL     ,SKEW       ,IGEO       ,
      4         STIFN       ,PARTSAV   ,V       ,IPART(I15A),MSS        ,
-     5         IXS10       ,IPART     ,
-     7         MSSX      ,SIGSP   ,NSIGI      ,IPM        ,
+     5         IXS10       ,IPART     ,GLOB_THERM,
+     7         MSSX        ,SIGSP     ,NSIGI   ,IPM        ,
      8         IUSER       ,NSIGS     ,VOLNOD  ,BVOLNOD    ,VNS        ,
      9         BNS         ,VNSX      ,BNSX    ,PTSOL      ,BUFMAT     ,
      A         MCP         ,MCPS      ,MCPSX   ,TEMP       ,NPC        ,
@@ -1036,7 +1039,8 @@ C Case total strain
      8         VNS         ,BNS       ,VNSX   ,BNSX       ,PTSOL      ,
      9         BUFMAT      ,MCP       ,MCPS   ,MCPSX      ,TEMP       ,
      A         NPC         ,PLD       ,STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI   ,
-     B         ILOADP      ,FACLOAD   ,PERTURB,RNOISE     ,MAT_PARAM  )
+     B         ILOADP      ,FACLOAD   ,PERTURB,RNOISE     ,MAT_PARAM  ,
+     C         GLOB_THERM  )
          ELSEIF(ITY==1.AND.ISOLNOD==16)THEN
           KK1=1+NUMELS*NIXS+NUMELS10*6+NUMELS20*12
           CALL S16INIT3(
@@ -1044,12 +1048,13 @@ C Case total strain
      2         DETONATORS  ,GEO       ,VEUL   ,ALE_CONNECTIVITY  ,IPARG(1,NG),
      3         DTELEM      ,SIGI      ,NEL    ,SKEW       ,IGEO       ,
      4         STIFN       ,PARTSAV   ,V      ,IPART(I15A),MSS        ,
-     5       IXS16        ,IPART     ,MSSX    ,SIGSP      ,NSIGI      ,           
-     6       IPM          ,IUSER     ,NSIGS   ,VOLNOD     ,BVOLNOD    , 
-     7       VNS          ,BNS       ,VNSX    ,BNSX       ,PTSOL      ,    
-     8       BUFMAT       ,MCP       ,MCPS    ,MCPSX      ,TEMP       ,    
-     9       NPC          ,PLD       ,STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI   ,
-     A       ILOADP       ,FACLOAD   ,PERTURB ,RNOISE     ,MAT_PARAM  )                
+     5         IXS16       ,IPART     ,MSSX    ,SIGSP      ,NSIGI      ,          
+     6         IPM         ,IUSER     ,NSIGS   ,VOLNOD     ,BVOLNOD    , 
+     7         VNS         ,BNS       ,VNSX    ,BNSX       ,PTSOL      ,    
+     8         BUFMAT      ,MCP       ,MCPS    ,MCPSX      ,TEMP       ,    
+     9         NPC         ,PLD       ,STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI   ,
+     A         ILOADP      ,FACLOAD   ,PERTURB ,RNOISE     ,MAT_PARAM  ,              
+     B         GLOB_THERM  )
          ELSEIF(ITY==1)THEN
           JHBE=IPARG(23,NG)
           JCLOS=IPARG(33,NG)
@@ -1071,7 +1076,7 @@ C Case total strain
      .             DETONATORS   ,GEO      ,VEUL     ,ALE_CONNECTIVITY      ,IPARG(1,NG),
      .             DTELEM       ,SIGI     ,NEL      ,SKEW       ,IGEO       ,
      .             STIFN        ,PARTSAV  ,V        ,IPART(I15A),MSS,
-     .             IPART        ,
+     .             IPART        ,GLOB_THERM,
      .             SIGSP        ,NSIGI    ,IPM      ,IUSER      ,NSIGS   ,
      .             VOLNOD       ,BVOLNOD  ,VNS      ,BNS        ,PTSOL   ,
      .             BUFMAT       ,MCP      ,MCPS     ,MCPSX      ,TEMP    ,
@@ -1089,7 +1094,7 @@ C Case total strain
      .             BNS        ,WMA       ,PTSOL     ,BUFMAT      ,MCP        ,
      .             MCPS       ,TEMP      ,NPC       ,PLD         ,MSSA       ,
      .             STRSGLOB(NF1),STRAGLOB(NF1),ORTHOGLOB ,FAIL_INI    ,ILOADP     ,
-     .             FACLOAD   ,RNOISE     ,PERTURB   )
+     .             FACLOAD   ,RNOISE     ,PERTURB   ,GLOB_THERM)
             ENDIF
           ELSEIF (JHBE == 14 .AND. 
      .           (IGTYP == 20 .OR. IGTYP == 21 .OR. IGTYP == 22)) THEN
@@ -1105,7 +1110,7 @@ C Case total strain
      .             BNS     ,WMA     ,PTSOL   ,BUFMAT  ,MCP     ,
      .             MCPS    ,TEMP    ,NPC     ,PLD     ,XREFS   ,
      .             MSSA    ,STRSGLOB,STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI,
-     .             ILOADP  ,FACLOAD ,PERTURB ,RNOISE  ,MAT_PARAM)
+     .             ILOADP  ,FACLOAD ,PERTURB ,RNOISE  ,MAT_PARAM,GLOB_THERM)
             IF (ISTOT == 1) THEN
               CALL SGSAVINI(ISOLNOD,X,IXS(1,NFT+1),GBUF%SMSTR,NEL)
             ENDIF
@@ -1136,7 +1141,7 @@ C Case total strain
      .             DETONATORS,GEO       ,VEUL  ,ALE_CONNECTIVITY,IPARG(1,NG),
      .             DTELEM,SIGI      ,NEL   ,SKEW ,IGEO       ,
      .             STIFN ,PARTSAV   ,V     ,IPART(I15A),MSS,
-     .             IPART ,
+     .             IPART ,GLOB_THERM,
      .             SIGSP ,NSIGI ,MSNF  ,MSSF  ,IPM   ,
      .             IUSER   ,NSIGS   ,VOLNOD  ,BVOLNOD ,VNS     ,
      .             BNS     ,WMA     ,PTSOL   ,BUFMAT  ,MCP     ,
@@ -1153,7 +1158,7 @@ C Case total strain
      .             DETONATORS  ,GEO       ,VEUL  ,ALE_CONNECTIVITY ,IPARG(1,NG),
      .             DTELEM,SIGI      ,NEL   ,SKEW       ,IGEO       ,
      .             STIFN ,PARTSAV   ,V     ,IPART(I15A),MSS,
-     .             IPART ,SIGSP     , 
+     .             IPART ,SIGSP     ,GLOB_THERM, 
      .             NSIGI ,IN        ,VR    ,IPM        ,NSIGS   ,
      .             VOLNOD ,BVOLNOD  ,VNS   ,BNS        ,PTSOL   ,
      .             BUFMAT ,NPC      ,PLD   ,FAIL_INI   ,INS     ,
@@ -1181,7 +1186,7 @@ C Case total strain
      B              XREFS        ,NPC          ,PLD    ,MSSA       ,STRSGLOB(NF1),
      C              STRAGLOB(NF1),FAIL_INI     ,SPBUF  ,KXSP       ,IPART(I15J),
      D              NOD2SP       ,SOL2SPH      ,IRST   ,ILOADP     ,FACLOAD    ,
-     E              RNOISE       ,PERTURB      ,MAT_PARAM)        
+     E              RNOISE       ,PERTURB      ,MAT_PARAM,GLOB_THERM)        
             ELSE IF (JMULT > 0 .AND. MTN == 151) THEN
       !Multifluid law
                CALL MULTIFLUID_INIT3 (
@@ -1189,7 +1194,7 @@ C Case total strain
      2              GEO          ,ALE_CONNECTIVITY     ,IPARG(1,NG),
      3              DTELEM       ,SIGI         ,NEL    ,SKEW       ,IGEO       ,
      4              STIFN        ,PARTSAV      ,V      ,IPART(I15A),MSS        ,
-     5              IPART        ,SIGSP        ,NG     ,IPARG      ,                               
+     5              IPART        ,SIGSP        ,NG     ,IPARG      ,GLOB_THERM ,                               
      7              NSIGI        ,MSNF         ,NVC    ,MSSF       ,IPM        ,
      8              IUSER        ,NSIGS        ,VOLNOD ,BVOLNOD    ,VNS        ,
      9              BNS          ,IN           ,VR     ,INS        ,WMA        ,
@@ -1308,7 +1313,7 @@ C 2D multifluid law
      D             RNOISE     ,DRAPE  ,SH4ANG    ,IDDLEVEL,GEO_STACK,
      E             IGEO_STACK ,STRC   ,PERTURB            ,IYLDINI ,ELE_AREA,
      F             NLOC_DMG   ,NG        ,GROUP_PARAM_TAB(NG),IDRAPE,DRAPEG,
-     G             MAT_PARAM  ,FAIL_FRACTAL,FAIL_BROKMANN)
+     G             MAT_PARAM  ,FAIL_FRACTAL,FAIL_BROKMANN,GLOB_THERM)
           ELSE
             NULLIFY(ptr_ITAGE)
             IF (SITAGE>0) ptr_ITAGE => ITAGE(1)       
@@ -1326,7 +1331,8 @@ C 2D multifluid law
      D      STACK     ,RNOISE     ,DRAPE      ,SH4ANG     ,IDDLEVEL   ,
      E      GEO_STACK,IGEO_STACK  ,STRC       ,PERTURB    ,IYLDINI    ,
      F      ELE_AREA  ,NG         ,GROUP_PARAM_TAB(NG)    ,NLOC_DMG   ,
-     G      IDRAPE    ,DRAPEG     ,MAT_PARAM  ,FAIL_FRACTAL,FAIL_BROKMANN)
+     G      IDRAPE    ,DRAPEG     ,MAT_PARAM  ,FAIL_FRACTAL,FAIL_BROKMANN,
+     H      GLOB_THERM)
           ENDIF
           NC1 = NVC / 8
           NC2 = (NVC-NC1*8) / 4
@@ -1359,7 +1365,8 @@ C 2D multifluid law
      3                STIFN      ,STIFR    ,PARTSAV ,V       ,IPART(I15E),
      4                MSP        ,INP      ,IGEO    ,STIFINT ,STRP       ,
      5                NSIGBEAM   ,SIGBEAM  ,PTBEAM  ,IUSER   ,MCP        ,
-     6                MCPP       ,TEMP     ,PRELOAD_A,IBOLTP ,NPRELOAD_A )
+     6                MCPP       ,TEMP     ,PRELOAD_A,IBOLTP ,NPRELOAD_A ,
+     7                GLOB_THERM)
         !----------------------------------------!
         !   ITY == 6                      SPRING !
         !----------------------------------------!
@@ -1398,7 +1405,8 @@ C 2D multifluid law
      B          IPARG(1,NG),CPT_ELTENS,PART_AREA   ,NPC ,PLD      , 
      C          SH3TRIM ,ISUBSTACK,STACK ,RNOISE,
      D          DRAPE,SH3ANG ,GEO_STACK,IGEO_STACK,STRTG,
-     E          PERTURB,IYLDINI ,ELE_AREA,NLOC_DMG,IDRAPE, DRAPEG,MAT_PARAM)
+     E          PERTURB,IYLDINI ,ELE_AREA,NLOC_DMG,
+     F          IDRAPE, DRAPEG,MAT_PARAM,GLOB_THERM)
           ELSEIF (MTN == 151 .OR. N2D > 0) THEN
              CALL MULTIFLUID_INIT2T(ELBUF_TAB(NG), NEL, NSIGS, NVC, IPARG, IXTG, ALE_CONNECTIVITY,
      .            IGEO, IPART, IPART(I15H), IPM, PTSH3N, NPC, ILOADP, 
@@ -1422,7 +1430,7 @@ C 2D multifluid law
      E          DRAPE ,SH3ANG,IDDLEVEL,GEO_STACK,IGEO_STACK,STRTG,
      F          PERTURB ,ISH3N,IYLDINI ,ELE_AREA,
      G          NLOC_DMG,NG,GROUP_PARAM_TAB(NG),IDRAPE, 
-     H          DRAPEG,MAT_PARAM,FAIL_FRACTAL,FAIL_BROKMANN)
+     H          DRAPEG,MAT_PARAM,FAIL_FRACTAL,FAIL_BROKMANN,GLOB_THERM)
           ENDIF
           NC1 = NVC / 8
           NC2 = (NVC-NC1*8) / 4
@@ -1449,7 +1457,7 @@ C         SPH cells
      7             SIGSPH  ,ISPTAG     ,IPART      ,
      8             IPM     ,NSIGSPH    ,PTSPH      ,NPC   ,
      9             PLD     ,ELBUF_TAB(NG),MCP,TEMP ,ILOADP,
-     A             FACLOAD ,STIFINT    ,I7STIFS)
+     A             FACLOAD ,STIFINT    ,I7STIFS,GLOB_THERM)
         !----------------------------------------------------------!
         !   ITY == 100   Pulley PID28 + User elements PID 29-30-31 !
         !----------------------------------------------------------!
@@ -1596,7 +1604,7 @@ C---------------------------------------------------------------
      D               ZI_LAYER,MSZ2C, MSZ2,ZPLY               ,
      E               KXIG3D   ,IXIG3D  ,MSIG3D,NCTRLMAX,STRC ,
      F               STRP,STRR,STRTG,STIFINTR,NSHNOD,VNIGE,BNIGE,
-     G               MCPP )
+     G               MCPP    ,GLOB_THERM%ITHERM_FE)
       IF(I7STIFS/=0)CALL ASSTIFI(VOLNOD,BVOLNOD,ETNOD,NSHNOD,STIFINT)
 C---------------------------------------------------------------
 C Contact Stiffness based on mass and time step : 
@@ -1649,7 +1657,7 @@ C-----------------------------------------------------
      .                   numeltg  ,    nixtg,    ixtg,
      .                   numelq   ,     nixq,     ixq,
      .                   x        , nbsubmat,    kvol,
-     .                   elbuf_tab,  numels8,   xrefs,
+     .                   elbuf_tab,  numels8,   xrefs, glob_therm,
      .                   n2d      ,multi_fvm,  sipart, ipart  ,
      .                   i15a     ,i15b     ,    i15h, sbufmat,  bufmat,
      .                   npropmi  ,nummat   ,     ipm,  sbufsf,   bufsf,
@@ -1954,7 +1962,7 @@ C----------------------------------------------------------------
       IF(IPRI>=2) THEN
          WRITE(IOUT,1000)
          WRITE(IOUT,'(5(I10,1X,1PG20.13))') (ITAB(I),MS(I),I=1,NUMNOD)
-        IF(ITHERM_FE > 0) THEN
+        IF (GLOB_THERM%ITHERM_FE > 0) THEN
          WRITE(IOUT,1600)
          WRITE(IOUT,'(5(I10,1X,1PG20.13))') (ITAB(I),TEMP(I),I=1,NUMNOD)
          WRITE(IOUT,1700)
@@ -2088,7 +2096,7 @@ C-------------------------------------------------------------------------------
 c
 c-----------------------------------------------------------------------------------
 
-      IF(ITHERM_FE > 0 ) THEN
+      IF (GLOB_THERM%ITHERM_FE > 0 ) THEN
         DEALLOCATE(MCPS,MCPP)
         IF(NUMELS10 > 0.OR.NUMELS16 > 0 .OR.NUMELS20 > 0)
      .    DEALLOCATE(MCPSX)

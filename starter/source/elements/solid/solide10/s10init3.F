@@ -52,7 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2    DETONATORS,GEO     ,VEUL    ,ALE_CONNECTIVITY ,IPARG    ,
      3    DTELEM  ,SIGI    ,NEL     ,SKEW   ,IGEO     ,
      4    STIFN   ,PARTSAV ,V       ,IPARTS ,MSS      ,
-     5    IXS10   ,IPART   ,
+     5    IXS10   ,IPART   ,GLOB_THERM,
      7    MSSX    ,SIGSP   ,NSIGI  ,IPM      ,
      8    IUSER   ,NSIGS   ,VOLNOD  ,BVOLNOD,VNS      ,
      9    BNS     ,VNSX    ,BNSX    ,PTSOL  ,BUFMAT   ,
@@ -71,6 +71,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE DEFAULTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -110,6 +111,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       TYPE(SOLID_DEFAULTS_), INTENT(IN) :: DEFAULTS_SOLID
+      type (glob_therm_)   , intent(in) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -186,7 +188,8 @@ C
      2              YY         ,ZZ    ,VX         ,VY           ,VZ      ,
      3              NC         ,NGL   ,MAT        ,PID          ,MASS    ,
      4              DTELEM(NF1),STI   ,GBUF%SIG   ,GBUF%EINT    ,GBUF%RHO,
-     5              GBUF%QVIS  ,TEMP0 ,TEMP       ,GBUF%SMSTR   ,NEL     )
+     5              GBUF%QVIS  ,TEMP0 ,TEMP       ,GBUF%SMSTR   ,NEL     ,
+     6              GLOB_THERM%NINTEMP)
 c
       CALL S10DERI3(VOLP,NGL,
      .   XX, YY, ZZ, PX,PY,PZ, NX,

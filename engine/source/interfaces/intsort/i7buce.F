@@ -41,8 +41,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A   NSNR     ,NCONT   ,RENUM        ,NSNROLD     ,GAP_M   ,
      B   GAPMIN   ,GAPMAX  ,CURV_MAX_MAX ,NUM_IMP     ,GAP_S_L ,
      C   GAP_M_L  ,INTTH   ,ITASK        ,BGAPSMX     ,I_MEM   ,  
-     D   KREMNOD  ,REMNOD  ,ITAB         ,FLAGREMNODE , DRAD ,
-     E   ITIED    ,CAND_F  ,DGAPLOAD     )
+     D   KREMNOD  ,REMNOD  ,ITAB         ,FLAGREMNODE ,DRAD    ,
+     E   ITIED    ,CAND_F  ,DGAPLOAD     ,INTHEAT     ,IDT_THERM, 
+     F   NODADT_THERM)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,6 +66,9 @@ C-----------------------------------------------
       INTEGER CAND_E(*),CAND_N(*),IFPEN(*),KREMNOD(*),REMNOD(*),ITAB(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, IGAP, NCONT,INTTH,I_MEM,
      *        II_STOK, FLAGREMNODE, ITIED
+      INTEGER, INTENT(IN) :: INTHEAT
+      INTEGER, INTENT(IN) :: IDT_THERM
+      INTEGER, INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,CURV_MAX_MAX,
@@ -157,7 +161,10 @@ C
      7      NRTM  ,NSNROLD,IGAP   ,GAP      ,GAP_S    ,
      8      GAP_M ,GAPMIN ,GAPMAX ,MARGE    ,CURV_MAX ,
      9      NIN    ,GAP_S_L,GAP_M_L,INTTH, DRAD  ,ITIED    ,
-     A      CAND_F ,KREMNOD  ,REMNOD  ,FLAGREMNODE,DGAPLOAD)
+     A      CAND_F ,KREMNOD  ,REMNOD  ,FLAGREMNODE,DGAPLOAD,
+     B      INTHEAT, IDT_THERM, NODADT_THERM)
+     
+     
 
  234  CONTINUE
 c     WRITE(6,*) "IMEM=",I_MEM 
@@ -196,7 +203,7 @@ C
      C   GAP_M_L  ,INTTH   ,ITASK   ,BGAPSMX  ,I_MEM   ,  
      D   KREMNOD  ,REMNOD  ,ITAB    ,FLAGREMNODE, DRAD ,
      E   ITIED    ,CAND_F  ,DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE,
-     F   TOTAL_NB_NRTM)
+     F   TOTAL_NB_NRTM,INTHEAT,IDT_THERM,NODADT_THERM)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -224,6 +231,9 @@ C-----------------------------------------------
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, IGAP, NCONT,INTTH,I_MEM,
      *        II_STOK, FLAGREMNODE, ITIED
       INTEGER, INTENT(inout) :: REMOTE_S_NODE
+      INTEGER, INTENT(in) :: INTHEAT
+      INTEGER, INTENT(in) :: IDT_THERM
+      INTEGER, INTENT(in) :: NODADT_THERM
       INTEGER, DIMENSION(NSNR), INTENT(inout) :: LIST_REMOTE_S_NODE
 C     REAL
       my_real
@@ -380,7 +390,7 @@ C (en // SMP il y a possibilite de redondance de traitement mais no pb)
      9   NIN     ,ITASK    ,BGAPSMX  ,KREMNOD  ,REMNOD  ,
      A   ITAB    ,FLAGREMNODE,DRAD   ,ITIED    ,CAND_F  ,
      B   DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE,
-     C   TOTAL_NB_NRTM)
+     C   TOTAL_NB_NRTM,INTHEAT,IDT_THERM,NODADT_THERM)
  
  234  CONTINUE
 

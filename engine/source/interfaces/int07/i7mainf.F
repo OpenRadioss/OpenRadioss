@@ -78,12 +78,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D                   PCONTACT       ,TEMP        ,FTHE           ,FTHESKYI         ,
      E                   PM             ,IPARG       ,IAD17          ,MSKYI_SMS        ,ISKYI_SMS  ,
      F                   NODNX_SMS      ,MS0         ,QFRICINT       ,NPC              ,TF         ,
-     G                   CONDN          ,CONDNSKYI   ,INTBUF_TAB     , 
+     G                   CONDN          ,CONDNSKYI   ,INTBUF_TAB     ,NODADT_THERM     ,THEACCFACT , 
      H                   FBSAV6         ,ISENSINT    ,DIMFB          ,IXIG3D           ,KXIG3D     ,
      I                   WIGE           ,KNOT        ,IGEO           ,MULTI_FVM        ,H3D_DATA   ,
      J                   INTBUF_FRIC_TAB,KNOTLOCPC   ,KNOTLOCEL      ,ITASK            ,TAGNCONT   ,
      K                   KLOADPINTER    ,LOADPINTER  ,LOADP_HYD_INTER,DGAPLOADINT      ,S_LOADPINTER,
-     L                   INTEREFRIC     ,S_XCELL_REMOTE,XCELL_REMOTE)
+     L                   INTEREFRIC     ,S_XCELL_REMOTE,XCELL_REMOTE )
 C======================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -141,6 +141,8 @@ C-----------------------------------------------
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .         LOADP_HYD_INTER(NLOADP_HYD)
       INTEGER  , INTENT(IN) :: INTEREFRIC
+      INTEGER ,INTENT(IN) :: NODADT_THERM
+      my_real ,intent(in) :: theaccfact
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real  EMINX(*), XCELL(3,SXCELL)
       my_real DT2T,
@@ -800,7 +802,7 @@ C
      6                        GAPV  ,FNI  ,IRSTH,XTHE  ,NPC    ,TF    ,
      6                        CONDINT,PHI1,PHI2  ,PHI3   ,PHI4  ,FHEATS,
      7                        FHEATM,EFRICT,TEMP ,H1     ,H2     ,H3   ,
-     8                        H4    )      
+     8                        H4    ,theaccfact)      
               ENDIF
 
 C
@@ -822,7 +824,7 @@ C
      F  CONDN     ,CONDINT   ,CONDNSKYI ,IXIG3D    ,KXIG3D    ,
      J  WIGE      ,KNOT      ,IGEO      ,INTBUF_TAB%NIGE      ,
      K  INTBUF_TAB%RIGE      ,X         ,H3D_DATA  ,KNOTLOCPC ,
-     L  KNOTLOCEL ,IFORM     ) 
+     L  KNOTLOCEL ,IFORM     ,NODADT_THERM) 
 C
             ENDIF
           ENDIF

@@ -28,7 +28,7 @@ CCgw|============================================================
       !||--- calls      -----------------------------------------------------
       !||====================================================================
       SUBROUTINE W_ICONV(IBCV,CEP,PROC,NODLOCAL,NCONV_L,LEN_IA,
-     .                   CEL,IPARG,NUMLOCGROUP)
+     .                   CEL,IPARG,NUMLOCGROUP,NUMCONV,NICONV)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,6 +42,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NUMCONV
+      INTEGER ,INTENT(IN) :: NICONV
       INTEGER LEN_IA, PROC, NCONV_L, IBCV(NICONV,*),CEP(*),
      .        NODLOCAL(*)
       INTEGER IPARG(NPARG,*),NUMLOCGROUP(NGROUP),CEL(*)
@@ -50,7 +52,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, IBTMP(NICONV,NCONV_L), N1, N2, N3, N4, OFF, NB_L
       INTEGER K,ID,ITY,NG,NELG,NFT
-C
+C-----------------------------------------------
       OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR
      +    + NUMELX + NCONLD
       NB_L = 0

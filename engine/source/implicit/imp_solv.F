@@ -164,7 +164,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Y  DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N, DRAPE_SH3N,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
      A  NDDL0   ,NNZK0 ,IT_T    ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG,
-     B  INTERFACES,TH_SURF,DPL0CLD,VEL0CLD,SNPC,STF)
+     B  INTERFACES,TH_SURF,DPL0CLD,VEL0CLD,SNPC,STF,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -185,6 +185,7 @@ C-----------------------------------------------
         USE INTERFACES_MOD
         USE TH_SURF_MOD , ONLY : TH_SURF_
         USE SKEW_MOD
+        use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -283,6 +284,7 @@ C
         TYPE (INTERFACES_)    ,INTENT(IN)     :: INTERFACES
         TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
         TYPE(SKEW_),INTENT(INOUT) :: SKEWS
+        type (glob_therm_) , INTENT(INOUT) :: GLOB_THERM
 C
 C---D_IMP: dUn+1,i,DD : ddU,i+1
 C---R_IMP[1:R02,2:RRR(R_OLD),3:RU0,4:E02,5:DE_OLD,6:EIMP,7,8,9:pour line-search]
@@ -1430,7 +1432,7 @@ c         END IF
      A         IRLEN20T,ISLEN20T,IRLEN20E,ISLEN20E,
      B         IKINE,DIAG_SMS,COUNT_REMSLV,COUNT_REMSLVE,
      C         NSENSOR,SENSOR_TAB,XDP,H3D_DATA,MULTI_FVM,
-     D         FORNEQS,MAXDGAP,INTERFACES)
+     D         FORNEQS,MAXDGAP,INTERFACES,GLOB_THERM)
 
             TT=MAX(ZERO,TT-DT2)
             ISETK =0
@@ -9125,3 +9127,4 @@ C
         RETURN
       END
 
+      

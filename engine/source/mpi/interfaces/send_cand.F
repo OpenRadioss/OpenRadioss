@@ -2184,7 +2184,8 @@ C
       !||    tri7box             ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_I21FTHECOM(IPARI    ,FTHE  ,INTBUF_TAB,SENSOR_TAB,NISKYFI ,
-     .                           FTHESKYI ,ISKY  ,FSKYI     ,CONDNSKYI ,NSENSOR )
+     .                           FTHESKYI ,ISKY  ,FSKYI     ,CONDNSKYI ,NSENSOR,
+     .                           NODADT_THERM )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -2214,6 +2215,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER  ,INTENT(IN) :: NSENSOR
+        INTEGER  ,INTENT(IN) :: NODADT_THERM 
         INTEGER  IPARI(NPARI,NINTER), ISKY(*), NISKYFI(*)
 C     REAL
         my_real :: FTHE(*),FTHESKYI(*),FSKYI(LSKYI,*),CONDNSKYI(*)

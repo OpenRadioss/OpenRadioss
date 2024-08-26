@@ -27,11 +27,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||====================================================================
-      SUBROUTINE RADIATOFF(IBCR, FRADIA, IPARG, IGROUPS, IXS, ELBUF_TAB)
+      SUBROUTINE RADIATOFF(IBCR, FRADIA, IPARG, IGROUPS, IXS, ELBUF_TAB,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,53 +46,31 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IBCR(NIRADIA,*), IPARG(NPARG,*), IGROUPS(NUMELS), IXS(NIXS,*)
+      type (glob_therm_) ,intent(inout)   :: glob_therm
+      INTEGER :: IBCR(GLOB_THERM%NIRADIA,*)
+      INTEGER :: IPARG(NPARG,*), IGROUPS(NUMELS), IXS(NIXS,*)
 C
-      my_real FRADIA(LFACTHER,*)
+      my_real FRADIA(GLOB_THERM%LFACTHER,*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, II, JJ, NG, NEL, MLW, NFT
+      INTEGER N, JJ, NG, NEL, MLW
       my_real, DIMENSION(:), POINTER :: OFFG
 C======================================================================|
-C------------------------------------------------
 C   ACTIVATION/DESACTIVATION DE LA RADIATION
 C------------------------------------------------
-C      IF(NSPMD > 1) THEN
-C        DO N=1,NUMRADIA
-C           IF(IBCR(7,N) == 1) THEN
-CC          ELEMENTS SOLIDES
-C             JJ = IBCR(9,N)
-C             DO NG=1,NGROUP
-C               MLW= IPARG(1,NG)
-C               NEL= IPARG(2,NG)
-C               NFT= IPARG(3,NG)
-C               IF (MLW == 0 .OR. MLW == 13) CYCLE         
-C               OFFG => ELBUF_TAB(NG)%GBUF%OFF
-C               DO I=1,NEL
-C                 II=I+NFT
-C                 IF (IXS(11,II) /= JJ) CYCLE
-C                 FRADIA(6,N)=OFFG(I)
-C                 GO TO 100
-C               ENDDO
-C  100          CONTINUE
-C             ENDDO
-C           ENDIF
-C        ENDDO
-C      ELSEIF(NSPMD == 1) THEN
-        DO N=1,NUMRADIA
-           IF(IBCR(7,N) == 1) THEN
-C          ELEMENTS SOLIDES
-             JJ = IBCR(8,N)
-             NG = IGROUPS(JJ)
-             MLW= IPARG(1,NG)
-             IF (MLW == 0 .OR. MLW == 13) CYCLE         
-             OFFG => ELBUF_TAB(NG)%GBUF%OFF
-             FRADIA(6,N) = OFFG(IBCR(NIRADIA,N))
-           ENDIF
-        ENDDO
-C     ENDIF
-C
+      DO N=1,GLOB_THERM%NUMRADIA
+         IF(IBCR(7,N) == 1) THEN
+C        ELEMENTS SOLIDES
+           JJ = IBCR(8,N)
+           NG = IGROUPS(JJ)
+           MLW= IPARG(1,NG)
+           IF (MLW == 0 .OR. MLW == 13) CYCLE         
+           OFFG => ELBUF_TAB(NG)%GBUF%OFF
+           FRADIA(6,N) = OFFG(IBCR(GLOB_THERM%NIRADIA,N))
+         ENDIF
+      ENDDO
+!-----------
       RETURN
       END

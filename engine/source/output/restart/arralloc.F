@@ -61,7 +61,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod              ../engine/share/modules/stack_mod.F
       !||    trimat_mod             ../engine/share/modules/trimat.F
       !||====================================================================
-      SUBROUTINE RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS)
+      SUBROUTINE RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
+     .                     GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -94,6 +95,7 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE SKEW_MOD
       USE MY_ALLOC_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -119,7 +121,6 @@ C-----------------------------------------------
 #include      "intstamp_c.inc"
 #include      "spmd_c.inc"
 #include      "sphcom.inc"
-#include      "thermal_c.inc"
 #include      "fxbcom.inc"
 #include      "eigcom.inc"
 #include      "inter18.inc"
@@ -132,6 +133,7 @@ C-----------------------------------------------
       TYPE(t_SEGVAR) :: SEGVAR
       TYPE(INTERFACES_) :: INTERFACES
       TYPE(SKEW_) , INTENT(INOUT)       :: SKEWS
+      type(glob_therm_) ,intent(inout) :: GLOB_THERM
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1454,7 +1456,7 @@ C
           ALLOCATE(PADMESH(KPADMESH,NPART),STAT=IERR)
           IERROR = IERROR+IERR
 
-          IF(ITHERM_FE > 0)THEN
+          IF(GLOB_THERM%ITHERM_FE > 0)THEN
 
             ALLOCATE(MCPC(NUMELC),STAT=IERR)
             IERROR = IERROR+IERR
@@ -1504,44 +1506,44 @@ C
          ENDIF
 C--------------------------------------------
 C   thermal bc   
-         IF(NUMCONV > 0) THEN                                          
-          ALLOCATE(IBCV(NICONV*NUMCONV),STAT=IERR)
+         IF(GLOB_THERM%NUMCONV > 0) THEN                                          
+          ALLOCATE(IBCV(GLOB_THERM%NICONV*GLOB_THERM%NUMCONV),STAT=IERR)
            IF (IERR/=0) GOTO 1000
             IBCV = 0  
-          ALLOCATE(FCONV(LFACTHER*NUMCONV),STAT=IERR)
+          ALLOCATE(FCONV(GLOB_THERM%LFACTHER*GLOB_THERM%NUMCONV),STAT=IERR)
            IF (IERR/=0) GOTO 1000
             FCONV = ZERO 
          ELSE                                                          
            ALLOCATE(IBCV(0),FCONV(0))                                 
          ENDIF 
                  
-         IF(NUMRADIA > 0) THEN                                          
-          ALLOCATE(IBCR(NIRADIA*NUMRADIA),STAT=IERR)
+         IF(GLOB_THERM%NUMRADIA > 0) THEN                                          
+          ALLOCATE(IBCR(GLOB_THERM%NIRADIA*GLOB_THERM%NUMRADIA),STAT=IERR)
            IF (IERR/=0) GOTO 1000
             IBCR = 0  
-          ALLOCATE(FRADIA(LFACTHER*NUMRADIA),STAT=IERR)
+          ALLOCATE(FRADIA(GLOB_THERM%LFACTHER*GLOB_THERM%NUMRADIA),STAT=IERR)
            IF (IERR/=0) GOTO 1000
             FRADIA = ZERO 
          ELSE                                                          
            ALLOCATE(IBCR(0),FRADIA(0))                                 
          ENDIF 
                  
-         IF(NFXFLUX > 0) THEN                                          
-          ALLOCATE(IBFFLUX(NITFLUX*NFXFLUX),STAT=IERR)
+         IF(GLOB_THERM%NFXFLUX > 0) THEN                                          
+          ALLOCATE(IBFFLUX(GLOB_THERM%NITFLUX*GLOB_THERM%NFXFLUX),STAT=IERR)
            IF (IERR/=0) GOTO 1000
             IBFFLUX = 0  
-          ALLOCATE(FBFFLUX(LFACTHER*NFXFLUX),STAT=IERR)
+          ALLOCATE(FBFFLUX(GLOB_THERM%LFACTHER*GLOB_THERM%NFXFLUX),STAT=IERR)
            IF (IERR/=0) GOTO 1000
             FBFFLUX = ZERO 
          ELSE                                                          
            ALLOCATE(IBFFLUX(0),FBFFLUX(0))                                 
          ENDIF 
                  
-         IF(NFXTEMP > 0) THEN                                        
-           ALLOCATE(IBFTEMP(NIFT*NFXTEMP),STAT=IERR)
+         IF(GLOB_THERM%NFXTEMP > 0) THEN                                        
+           ALLOCATE(IBFTEMP(GLOB_THERM%NIFT*GLOB_THERM%NFXTEMP),STAT=IERR)
            IF (IERR/=0) GOTO 1000
             IBFTEMP = 0  
-           ALLOCATE(FBFTEMP(LFACTHER*NFXTEMP),STAT=IERR)
+           ALLOCATE(FBFTEMP(GLOB_THERM%LFACTHER*GLOB_THERM%NFXTEMP),STAT=IERR)
            IF(IERR/=0) GOTO 1000
             FBFTEMP = ZERO  
          ELSE                                                          

@@ -30,10 +30,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE ASSPAR(NTHREAD ,NUMNOD,NODFT ,NODLT,IRODDL,
      .                  NPART,PARTFT ,PARTLT,A    ,AR    ,
      .                  PARTSAV,STIFN ,STIFR,VISCN       ,
-     .                  FTHE ,ITHERM_FE ,STCND,GREFT,GRELT ,
+     .                  FTHE ,ITHERM_FE ,NODADT_THERM,STCND,GREFT,GRELT ,
      .                  GRESAV,NGPE     ,NTHPART,IALELAG,AF,
-     .                  DMSPH ,CONDN,
-     .                  APINCH,STIFPINCH) 
+     .                  DMSPH ,CONDN,APINCH,STIFPINCH) 
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -50,8 +49,11 @@ C-----------------------------------------------
 #include      "scr18_c.inc"
 #include      "sphcom.inc"
 C
+C-----------------------------------------------------------------------
+      INTEGER :: NODADT_THERM
+      INTEGER :: ITHERM_FE
       INTEGER NTHREAD,NUMNOD,NODFT,NODLT,IRODDL,
-     .              NPART,PARTFT,PARTLT,ITHERM_FE,GREFT,GRELT,NGPE,
+     .              NPART,PARTFT,PARTLT,GREFT,GRELT,NGPE,
      .              NTHPART,IALELAG
       INTEGER K,KN,IKN,IKN1,IKN2,I,KM,KM1,KM2,NUM7,NUM8,KM3,KM4,KM5
       my_real 
@@ -59,7 +61,7 @@ C
      .  FTHE(*), STCND(*),GRESAV(*),AF(3,*), DMSPH(*),CONDN(*)
       my_real
      .       APINCH(3,*),STIFPINCH(*)
-C
+C-----------------------------------------------------------------------
       NUM7 = NPSAV*NPART
       NUM8 = NPSAV*NGPE
 C

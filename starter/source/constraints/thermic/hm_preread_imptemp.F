@@ -35,7 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_PREREAD_IMPTEMP(IGRSURF,IGRNOD,IGRBRIC,UNITAB,LSUBMODEL)
+      SUBROUTINE HM_PREREAD_IMPTEMP(IGRSURF,IGRNOD,IGRBRIC,UNITAB,LSUBMODEL,
+     .                              NIMTEMP,NFXTEMP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,6 +68,8 @@ C-----------------------------------------------
       INTEGER I,J,NLD,IGU,IGS,ISU,ISS,NN,ID,UID,
      .        IFU,ISENS,NCUR,IGBR,IBID
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
+      INTEGER ,INTENT(IN)       :: NIMTEMP
+      INTEGER ,INTENT(INOUT)    :: NFXTEMP
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------

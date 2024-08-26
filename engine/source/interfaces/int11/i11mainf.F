@@ -55,7 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9      NPC     ,TF        ,CONDN    ,CONDNSKYI,FBSAV6,
      A      ISENSINT,DIMFB     ,FSAVSUB  ,H3D_DATA ,INTBUF_FRIC_TAB,
      B      ITASK   ,TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
-     C      DGAPLOADINT,S_LOADPINTER)
+     C      DGAPLOADINT,S_LOADPINTER,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -87,6 +87,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,NSTRF(*)
       INTEGER IPARI(*), ICODT(*),
      .        ITAB(*), ISKY(*),ICONTACT(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
@@ -410,7 +411,7 @@ C
      A  C2           ,C3           ,C4          ,INTTH       ,PHIS1    ,
      B  PHIS2        ,PHIM1        ,PHIM2       ,FTHE        ,FTHESKYI ,
      C  CONDINTS1    ,CONDINTS2    ,CONDINTM1   ,CONDINTM2   ,CONDN    ,
-     D  CONDNSKYI    ,JTASK        ,H3D_DATA    )
+     D  CONDNSKYI    ,JTASK        ,H3D_DATA    ,NODADT_THERM)
 C
             IF(IMPL_S==1) THEN
               DO I = 1 ,JLT_NEW

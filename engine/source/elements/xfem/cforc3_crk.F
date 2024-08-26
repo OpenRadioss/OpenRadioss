@@ -83,7 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M            SENSORS,IXEL ,STACK   ,
      N            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
      O            NODEDGE,CRKEDGE,DRAPE_SH4N,IPRI  ,NLOC_DMG,INDX_DRAPE, IGRE,
-     P            DT     ,SNPC      ,  STF)
+     P            DT     ,SNPC      ,  STF   ,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -97,6 +97,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -155,6 +156,7 @@ C     REAL
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
       TYPE (DT_), INTENT(IN) :: DT
+      type (glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -445,7 +447,7 @@ C-----------------------------
      J    E1Z       ,E2X       ,E2Y       ,E2Z       ,E3X       ,
      K    E3Y       ,E3Z       ,IBID      ,TABLE     ,IXFEM     ,
      L    BID       ,SENSORS   ,BID       ,ELCRKINI  ,
-     M    DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
+     M    DIR1_CRK  ,DIR2_CRK  ,ALDT      ,GLOB_THERM%IDT_THERM ,GLOB_THERM%THEACCFACT,
      N    ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT      ,
      O    IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P    BID       ,ITASK     ,DRAPE_SH4N  ,VARNL     ,NLOC_DMG ,
@@ -562,11 +564,11 @@ C--------------------------
           IF (MAT_ELEM%MAT_PARAM(MAT(1))%HEAT_FLAG == 1) THEN
             CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
      .                  PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
-     .                  TEMP  ,TEMPEL,FHEAT  ,THEM    ) 
+     .                  TEMP  ,TEMPEL,FHEAT  ,THEM    ,GLOB_THERM%THEACCFACT) 
           ELSE
             CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
      .                  PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
-     .                  TEMP  ,TEMPEL,DIE    ,THEM    ) 
+     .                  TEMP  ,TEMPEL,DIE    ,THEM    ,GLOB_THERM%THEACCFACT) 
           END IF
         ENDIF
 C--------------------------

@@ -98,8 +98,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E    FTHE      ,FTHESKYI  ,SPHG_F6   ,WSMCOMP   ,SOL2SPH_TYP,
      F    MAT_ELEM  ,OUTPUT    ,SPH_IORD1 ,SNPC      ,STF,
      G    SBUFMAT   ,IDTMINS   ,NSVOIS    ,IRESP     ,MAXFUNC   ,
-     .    IMON_MAT  ,USERL_AVAIL, heat_meca, impl_s  ,idyna     ,
-     .    DT        )
+     .    IMON_MAT  ,USERL_AVAIL,impl_s  ,idyna     ,
+     .    DT        ,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -112,6 +112,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE OUTPUT_MOD
       USE DT_MOD
+      use glob_therm_mod
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -137,7 +138,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr02_c.inc"
 #include      "scr18_c.inc"
-#include      "scr_thermal_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -152,8 +152,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
       INTEGER, INTENT(IN) :: IMON_MAT
-      my_real, INTENT(INOUT) :: HEAT_MECA
-
       INTEGER IPART(LIPART1,*) ,NPC(*), IPARG(NPARG,*),IADS(8,*),
      .   NELTST, ITYPTST, IPARTSP(*), ISKY(*), ITAB(*),IPM(*),
      .   KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
@@ -180,6 +178,7 @@ C-----------------------------------------------
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_), INTENT(IN) :: DT
+      type(glob_therm_)  ,intent(in)    :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -289,7 +288,7 @@ C       old density storage.
           WA(KWASPH*(N-1)+10)=SPBUF(2,N)
         ENDDO
 
-        IF( (ITHERM/=0).OR.(ITHERM_FE/=0)) THEN
+        IF( (GLOB_THERM%ITHERM/=0) .OR. (GLOB_THERM%ITHERM_FE/=0)) THEN
          IF(ITASK==0)THEN
            ALLOCATE(WT(NUMSPH), WGRADT(3*NUMSPH), WLAPLT(NUMSPH),
      .              LAMBDA(NUMSPH), WGRADTSM(3*NSPHSYM))
@@ -352,7 +351,7 @@ C-----------------------------------------------
                   ELSE
                     LAMBDA(N)=PM(77,MX)+PM(78,MX)*WT(N)
                   END IF
-            LAMBDA(N)=LAMBDA(N)*THEACCFACT
+                  LAMBDA(N)=LAMBDA(N)*GLOB_THERM%THEACCFACT
                 END IF
                END DO
               ELSE
@@ -670,8 +669,8 @@ C-----------------------------------------------
      9            MAT_ELEM  ,IBID      ,OUTPUT    ,SNPC      ,STF       ,
      A            SBUFMAT,   SVIS      ,NSVOIS    ,IDTMINS   ,IRESP,      
      .            IDEL7NG,   IDEL7NOK  ,IDTMIN    ,MAXFUNC   ,LIPART1,
-     .            IMON_MAT,  USERL_AVAIL, heat_meca, impl_s,
-     V            idyna,     DT        )
+     .            IMON_MAT,  USERL_AVAIL,impl_s,
+     V            idyna,     DT        ,GLOB_THERM)
             ENDIF
             IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO
@@ -771,7 +770,7 @@ C
 C-----------------------------------------------
 C        PREPARE KERNEL CORRECTIONS FOR SYMMETRIC PARTICLES.
 C-----------------------------------------------
-        IF(ITHERM==0)
+        IF (GLOB_THERM%ITHERM==0)
      .    CALL SPSCOMP(
      1      ISPSYM  ,WASPH   ,ISPCOND ,XFRAME  ,WSMCOMP,
      2      GEO     ,IPART   ,IPARTSP ,WASPACT ,ITASK         )
@@ -853,7 +852,7 @@ C      /---------------/
 C      /---------------/
 C--------
         IF(NSPHSOL==0)THEN
-          IF(ITHERM_FE > 0)THEN
+          IF (GLOB_THERM%ITHERM_FE > 0)THEN
            IF(IPARIT==0)THEN
              DO NS=ITASK+1,NSPHACT,NTHREAD
                N=WASPACT(NS)

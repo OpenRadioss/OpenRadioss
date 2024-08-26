@@ -37,7 +37,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_RADIATION(IB, FAC, ITAB, IXS ,IGRSURF, UNITAB ,LSUBMODEL)
+      SUBROUTINE HM_READ_RADIATION(IB, FAC, ITAB, IXS ,IGRSURF, UNITAB ,LSUBMODEL,
+     .                             NRADIA,NUMRADIA,NIRADIA,LFACTHER)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,6 +61,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NRADIA
+      INTEGER ,INTENT(IN) :: NUMRADIA
+      INTEGER ,INTENT(IN) :: NIRADIA
+      INTEGER ,INTENT(IN) :: LFACTHER 
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IB(NIRADIA,*), ITAB(*), IXS(NIXS,*)
       my_real FAC(LFACTHER,*)

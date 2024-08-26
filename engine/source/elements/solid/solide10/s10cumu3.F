@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3   DELTAX2, THEM,    FTHE,    AR,
      4   X,       STIFR,   SAV,     CONDN,
      5   CONDE,   ITAGDN,  NEL,     ISMSTR,
-     6   JTHE,    ISROT)
+     6   JTHE,    ISROT ,  NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,6 +49,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ISMSTR
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: ISROT
+      INTEGER, INTENT(IN) :: NODADT_THERM
       INTEGER NC(MVSIZ,10),ITAGDN(*),NEL
 C     REAL
       my_real

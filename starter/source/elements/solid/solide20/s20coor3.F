@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2   YY     ,ZZ    ,VX   ,VY    ,VZ  ,
      3   NC     ,NGL   ,MXT  ,NGEO  ,MASS,
      4   DTELEM ,STI   ,SIGG ,EINTG ,RHOG,
-     5   QG     ,TEMP0 ,TEMP ,NEL   )
+     5   QG     ,TEMP0 ,TEMP ,NEL   ,NINTEMP)
 C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -54,6 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
+      INTEGER ,INTENT(IN) :: NINTEMP
       INTEGER NC(MVSIZ,20),MXT(*),NGL(*),NGEO(*),IXS(NIXS,*),IXS20(12,*)
 C     REAL
       my_real

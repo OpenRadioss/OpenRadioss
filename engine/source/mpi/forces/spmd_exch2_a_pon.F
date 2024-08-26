@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6   IRECVP_PXFEM,LENR1  ,LENS1 ,IADSDP_CRK,IADRCP_CRK,
      7   ISENDP_CRK,IRECVP_CRK, FSKYD,CRKNODIAD,CRKSKY,
      8   FORNEQSKY,NFACNIT  ,LENC  ,FCONT   ,H3D_DATA,
-     9   FNCONT   ,FTCONT   )
+     9   FNCONT   ,FTCONT   ,GLOB_THERM)
 C--------------------------------------
        USE PLYXFEM_MOD
        USE FSKYI_MOD
@@ -51,6 +51,7 @@ C--------------------------------------
        USE PLYXFEM_MOD
        USE HEAT_MOD
        USE H3D_MOD
+       USE GLOB_THERM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,6 +95,7 @@ C-----------------------------------------------
      .        FTCONT(3,NUMNOD)
       TYPE(XFEM_SKY_), DIMENSION(*) :: CRKSKY
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE(GLOB_THERM_) ,INTENT(IN) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -131,7 +133,7 @@ C === Allocate local arrays
       ALLOCATE(FSKYIF(NFSKYI,NISKY))
       ALLOCATE(FSKYT(NISKY))
 
-      IF(INTHEAT /=  0) THEN
+      IF(GLOB_THERM%INTHEAT /=  0) THEN
         ALLOCATE(FTHESKYIF(NISKY))
         ALLOCATE(CONDNSKYIF(NISKY))
       ELSE
@@ -202,7 +204,7 @@ C NISKYF : forces d'interfaces frontiere a echanger
         NISKYF = 0
 C
         IF(INTPLYXFEM == 0) THEN
-         IF(INTHEAT == 0 ) THEN
+         IF(GLOB_THERM%INTHEAT == 0 ) THEN
           IF(NFSKYI==4) THEN
            DO I = 1, NISKY
              IF(ITAGX(ISKY(I))==1)THEN
@@ -229,7 +231,7 @@ C
           ENDIF
 C + la t hermique
          ELSE
-          IF(NODADT_THERM == 1) THEN
+          IF(GLOB_THERM%NODADT_THERM == 1) THEN
            IF(NFSKYI==4) THEN
             DO I = 1, NISKY
              IF(ITAGX(ISKY(I))==1)THEN
@@ -289,7 +291,7 @@ C + la t hermique
          ENDIF ! INTHEAT        
 C! + Plyxfem + type 24        
         ELSE
-         IF(INTHEAT == 0 ) THEN
+         IF(GLOB_THERM%INTHEAT == 0 ) THEN
           IF(NFSKYI==4) THEN
            DO I = 1, NISKY
              IF(ITAGX(ISKY(I))==1)THEN
@@ -328,7 +330,7 @@ C
           ENDIF
 C + la t hermique
          ELSE
-          IF(NODADT_THERM == 1) THEN
+          IF(GLOB_THERM%NODADT_THERM == 1) THEN
            IF(NFSKYI==4) THEN
             DO I = 1, NISKY
              IF(ITAGX(ISKY(I))==1)THEN
@@ -458,7 +460,7 @@ C
          ENDDO
         ENDIF
 C
-        IF(INTHEAT > 0 ) THEN
+        IF(GLOB_THERM%INTHEAT > 0 ) THEN
          DO I=1,NISKYF
             J = ISKYF(I)
             FSKYT(J) = FTHESKYIF(I)
@@ -466,7 +468,7 @@ C
          DO I=1,NISKYF
             FTHESKYIF(I) = FSKYT(I)
          ENDDO
-         IF (NODADT_THERM == 1 )THEN
+         IF (GLOB_THERM%NODADT_THERM == 1 )THEN
           DO I=1,NISKYF
             J = ISKYF(I)
             FSKYT(J) = CONDNSKYIF(I)
@@ -531,7 +533,7 @@ C a optimiser
         END IF
 
         IF(IALELAG == 0) THEN
-         IF(ITHERM_FE == 0 .AND. INTHEAT == 0 ) THEN
+         IF(GLOB_THERM%ITHERM_FE == 0 .AND. GLOB_THERM%INTHEAT == 0 ) THEN
           IF(IFSUBM==0)THEN
 C prepar  ation envoi a proc I partie fixe (elem)
            IF(IVECTOR==1) THEN
@@ -694,7 +696,7 @@ C   cas 3D seul possible
                END DO
              ENDIF
            ELSE
-            IF(NODADT_THERM == 1) THEN
+            IF(GLOB_THERM%NODADT_THERM == 1) THEN
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -792,7 +794,7 @@ C
                 END DO
              ENDIF
            ELSE
-            IF(NODADT_THERM == 1) THEN
+            IF(GLOB_THERM%NODADT_THERM == 1) THEN
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -862,7 +864,7 @@ C
 C
 C + ale + lag
 C
-        IF(ITHERM_FE == 0 .AND. INTHEAT == 0 ) THEN
+        IF(GLOB_THERM%ITHERM_FE == 0 .AND. GLOB_THERM%INTHEAT == 0 ) THEN
           IF(IFSUBM==0)THEN
 C prepar  ation envoi a proc I partie fixe (elem)
            IF(IVECTOR==1) THEN
@@ -1073,7 +1075,7 @@ C
                END DO
              ENDIF
            ELSE
-            IF(NODADT_THERM == 1) THEN 
+            IF(GLOB_THERM%NODADT_THERM == 1) THEN 
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -1201,7 +1203,7 @@ C
                 END DO
              ENDIF
            ELSE
-            IF(NODADT_THERM == 1) THEN
+            IF(GLOB_THERM%NODADT_THERM == 1) THEN
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -1437,7 +1439,7 @@ C a optimiser
         END IF
 C
         IF(IALELAG == 0) THEN
-         IF(ITHERM_FE == 0 .AND. INTHEAT == 0  ) THEN
+         IF(GLOB_THERM%ITHERM_FE == 0 .AND. GLOB_THERM%INTHEAT == 0  ) THEN
            IF(IFSUBM==0)THEN
              IF(IVECTOR==1) THEN
 C cas 3D    seul possible
@@ -1591,7 +1593,7 @@ C cas 3D seul possible
             ENDIF
           ELSE         ! ivector = 0
 C cas 3D seul possible
-           IF(NODADT_THERM == 1) THEN 
+           IF(GLOB_THERM%NODADT_THERM == 1) THEN 
             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
@@ -1685,7 +1687,7 @@ C cas 3D seul possible
             ENDIF
           ELSE          ! ivector = 0
 C cas 3D seul possible
-           IF(NODADT_THERM == 1) THEN
+           IF(GLOB_THERM%NODADT_THERM == 1) THEN
             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
@@ -1755,7 +1757,7 @@ C cas 3D seul possible
 C
 C ialelag > 0
 C
-      IF(ITHERM_FE == 0 .AND. INTHEAT == 0  ) THEN
+      IF(GLOB_THERM%ITHERM_FE == 0 .AND. GLOB_THERM%INTHEAT == 0  ) THEN
            IF(IFSUBM==0)THEN
              IF(IVECTOR==1) THEN
 C cas 3D    seul possible
@@ -1955,7 +1957,7 @@ C
             ENDIF
           ELSE         ! ivector = 0
 C cas 3D seul possible
-           IF(NODADT_THERM == 1) THEN
+           IF(GLOB_THERM%NODADT_THERM == 1) THEN
             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
@@ -2080,7 +2082,7 @@ C
             ENDIF
           ELSE          ! ivector = 0
 C cas 3D seul possible
-           IF(NODADT_THERM == 1) THEN
+           IF(GLOB_THERM%NODADT_THERM == 1) THEN
             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
@@ -2270,7 +2272,7 @@ C SISKY - LSKYI : ISKY Size
 C SFSKYI : FSKYI size (LSKYI*NFSKYI)
 
       IF ( NISKY+NBIRCT > SISKY) THEN
-         CALL REALLOCATE_I_SKYLINE(NBIRCT,2)
+         CALL REALLOCATE_I_SKYLINE(NBIRCT,2,GLOB_THERM%INTHEAT,GLOB_THERM%NODADT_THERM)
       ENDIF
 C
 C Traitement interface si concerne le proc
@@ -2280,7 +2282,7 @@ C
      1    IAD_ELEM,FR_ELEM,SIZI     ,ISKY  ,FSKYI ,
      2    FSKYIF  ,ITAGX  ,ADSKYI(0),NBIRCT,NBISDT,
      3    NBIRCP  ,NBISDP ,FTHESKYI, FTHESKYIF,CONDNSKYI,
-     4    CONDNSKYIF,FSKYIF_PXFEM)
+     4    CONDNSKYIF,FSKYIF_PXFEM,GLOB_THERM%INTHEAT,GLOB_THERM%NODADT_THERM)
       END IF
 C      
 C   wait terminaison isend

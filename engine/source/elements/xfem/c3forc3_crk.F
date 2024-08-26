@@ -88,7 +88,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N   UYINT_MEAN,  UZINT_MEAN,  NLEVXF,      NODEDGE,
      O   CRKEDGE,     DRAPE_SH3N,  IPRI,        NLOC_DMG,
      P   INDX_DRAPE,  IGRE,        DT  ,        NCYCLE ,
-     R   SNPC      ,  STF)
+     R   SNPC      ,  STF ,       GLOB_THERM   )
 C-----------------------------------------------
       USE TABLE_MOD
       USE CRACKXFEM_MOD
@@ -100,6 +100,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -129,7 +130,7 @@ C-----------------------------------------------
      .   IXFEM,INOD_CRK(*),IEL_CRK(*),IADTG_CRK(3,*),
      .   ELCUTC(2,*),NODEDGE(2,*),INDX_DRAPE(STDRAPE)
       my_real 
-     .   PM(*),F(*),M(*),V(*),R(*),
+     .   PM(NPROPM,*),F(*),M(*),V(*),R(*),
      .   GEO(NPROPG,*),TF(*),BUFMAT(*),PMSAV(*),STIFN(*),
      .   STIFR(*),FSKY(*),EPSDOT(6,*),THKE(*),DT2T,
      .   F11(MVSIZ),F12(MVSIZ),F13(MVSIZ),
@@ -156,6 +157,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
       TYPE (DT_), INTENT(IN) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -193,6 +195,7 @@ c     indx utilise localement contrairement aux coques 4n
      .   RLZ(MVSIZ,3),WXY(MVSIZ),MLZ(MVSIZ,3),KRZ(MVSIZ),
      .   B0RZ(MVSIZ,3),BKRZ(MVSIZ,2),BERZ(MVSIZ,2),BM0RZ(MVSIZ,3,2),
      .   ECOS(MVSIZ),ESIN(MVSIZ),A11R(MVSIZ),THKE0(MVSIZ),ALDT(MVSIZ)
+      my_real :: DTIME
       my_real   , DIMENSIOn(NEL) :: ZOFFSET
       my_real 
      .   BID,THKR,F_DEF(MVSIZ,8),WKXY(MVSIZ)
@@ -237,6 +240,7 @@ C=======================================================================
       NUMEL_DRAPE = NUMELTG_DRAPE
       ALLOCATE(VARNL(NEL,1))
       VARNL = ZERO
+      DTIME = DT1C(1)
 C -----will put it in starter     
       IF (ISMSTR>=10) ISMSTR=4
 c
@@ -450,7 +454,7 @@ C--------------------------
      J   E1Z       ,E2X       ,E2Y       ,E2Z       ,E3X       ,
      K   E3Y       ,E3Z       ,NG        ,TABLE     ,IXFEM     ,
      L   BID       ,SENSORS   ,BID       ,ELCRKINI  ,
-     M   DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
+     M   DIR1_CRK  ,DIR2_CRK  ,ALDT      ,GLOB_THERM%IDT_THERM ,GLOB_THERM%THEACCFACT,
      P   ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT      ,
      Q   IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P   BID    ,ITASK        ,DRAPE_SH3N  ,VARNL     ,NLOC_DMG ,
@@ -508,13 +512,13 @@ c     Thermique des coques
 C--------------------------
         IF (JTHE > 0) THEN
           IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-            CALL THERM3C(JFT   ,JLT   ,PM   ,MAT  ,THK0 ,IXTG,
-     .                   PX1   ,PY1   ,PY2  ,AREA ,DT1C ,
-     .                   TEMP  ,TEMPEL,FHEAT ,THEM )
+            CALL THERM3C(NEL   ,PM(1,IMAT)  ,THK0 ,IXTG,
+     .                   PX1   ,PY1   ,PY2  ,AREA ,DTIME ,
+     .                   TEMP  ,TEMPEL,FHEAT ,THEM ,GLOB_THERM%THEACCFACT)
           ELSE
-            CALL THERM3C(JFT   ,JLT   ,PM   ,MAT  ,THK0 ,IXTG,
-     .                   PX1   ,PY1   ,PY2  ,AREA ,DT1C ,
-     .                   TEMP  ,TEMPEL,DIE ,THEM )
+            CALL THERM3C(NEL   ,PM (1,IMAT)  ,THK0 ,IXTG,
+     .                   PX1   ,PY1   ,PY2  ,AREA  ,DTIME ,
+     .                   TEMP  ,TEMPEL,DIE  ,THEM  ,GLOB_THERM%THEACCFACT)
           END IF
         ENDIF
 C--------------------------

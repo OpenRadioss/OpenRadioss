@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9      NIN    ,ITASK       ,BGAPSMX ,KREMNOD  ,REMNOD   ,
      A      ITAB   ,FLAGREMNODE ,DRAD    ,ITIED    ,CAND_F   ,
      B      DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE,
-     C      TOTAL_NB_NRTM)
+     C      TOTAL_NB_NRTM,INTHEAT,IDT_THERM,NODADT_THERM)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -116,6 +116,9 @@ C-----------------------------------------------
      .        KREMNOD(*),REMNOD(*),ITAB(*),FLAGREMNODE,ITIED
       INTEGER, INTENT(in) :: NRTM !< number of segments per threads
       INTEGER, INTENT(in) :: TOTAL_NB_NRTM !< total number of segments
+      INTEGER, INTENT(IN) :: INTHEAT
+      INTEGER, INTENT(IN) :: IDT_THERM
+      INTEGER, INTENT(IN) :: NODADT_THERM
       my_real
      .   X(3,*),XYZM(12),CAND_P(*),STF(*),STFN(*),GAP_S(*),GAP_M(*),
      .   TZINF,MARGE,GAP,GAPMIN,GAPMAX,BGAPSMX,
@@ -202,7 +205,7 @@ C-----------------------------------------------
 
       ! En SPMD, pour inacti ou IFQ, retrouve ancienne numerotation des candidats non locaux
       IF(NSPMD>1.AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.ITIED/=0)) THEN
-        CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
+        CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD,INTHEAT,IDT_THERM,NODADT_THERM)
       END IF
 
 C=======================================================================

@@ -48,13 +48,13 @@
       !||--- uses       -----------------------------------------------------
       !||    inivol_def_mod                 ../starter/share/modules1/inivol_mod.F
       !||====================================================================
-     subroutine init_inivol(    num_inivol,   inivol,   nsurf, igrsurf, &
+      subroutine init_inivol(    num_inivol,   inivol,   nsurf, igrsurf, &
                                 nparg     ,   ngroup,   iparg,  numnod, npart,&
                                 numels    ,     nixs,     ixs,&
                                 numeltg   ,    nixtg,    ixtg,&
                                 numelq    ,     nixq,     ixq,&
                                 x         , nbsubmat,    kvol,&
-                                elbuf_tab ,  numels8,   xrefs,&
+                                elbuf_tab ,  numels8,   xrefs, glob_therm,  &
                                 n2d       ,multi_fvm,  sipart, ipart  , &
                                 i15a      ,     i15b,    i15h, sbufmat, bufmat,&
                                 npropmi   ,   nummat,     ipm,  sbufsf, bufsf,&
@@ -70,6 +70,7 @@
       use elbufdef_mod , only : elbuf_struct_, buf_mat_
       use multi_fvm_mod , only : multi_fvm_struct
       use matparam_def_mod , only : matparam_struct_
+      use glob_therm_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -101,6 +102,7 @@
       type (surf_), dimension(nsurf), intent(in) :: igrsurf                                       !< surface buffer
       integer,intent(in) :: itab(numnod)
       type (matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param
+      type (glob_therm_) ,intent(in) :: glob_therm
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -380,7 +382,7 @@
                 endif
                 call inisoldist( &
                   ireversed               ,ixs         ,x          ,geo                  ,ng                   ,&
-                  iparg                   ,idp         ,ipart(i15_),xrefs                ,                      &
+                  iparg                   ,idp         ,ipart(i15_),xrefs                ,glob_therm           ,&
                   ntrace                  ,ntrace0     ,dis        ,nsoltosf             ,nbip                 ,&
                   nnod2surf               ,inod2surf   ,knod2surf  ,igrsurf(idsurf)%eltyp,igrsurf(idsurf)%nodes,&
                   jmid                    ,iphase      ,inphase    ,kvol                 ,igrsurf(idsurf)%type ,&

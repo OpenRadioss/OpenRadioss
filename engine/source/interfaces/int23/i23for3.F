@@ -844,7 +844,7 @@ C-----------------------------------------------------
      4               FX3   ,FY3  ,FZ3  ,FX4  ,FY4    ,FZ4  ,
      5               FXI   ,FYI  ,FZI  ,A    ,STIFN  ,NIN  ,
      6               INTTH ,RBID ,RBID ,RBID ,RBID   ,RBID ,
-     7               RBID  ,RBID ,RBID ,JTASK,IBID)
+     7               RBID  ,RBID ,RBID ,JTASK,IBID   ,IBID )
 
        ELSE
 C
@@ -856,7 +856,7 @@ C
      6                KS    ,K1   ,K2   ,K3   ,K4     ,CS    ,
      7                C1    ,C2   ,C3   ,C4   ,NIN    ,INTTH ,
      8                RBID  ,RBID ,RBID ,RBID ,RBID   ,RBID  ,
-     9                JTASK ,RBID ,RBID  ,IBID )
+     9                JTASK ,RBID ,RBID ,IBID ,IBID   )
        ENDIF
 C
       ELSE
@@ -868,7 +868,7 @@ C
      5                FXI   ,FYI   ,FZI  ,FSKYI,ISKY ,NISKYFI,
      6                NIN   ,NOINT ,INTTH,RBID  ,RBID  ,RBID  ,
      7                RBID  ,RBID  ,RBID  ,RBID ,RBID  ,
-     A                IBID  )
+     A                IBID  ,IBID  )
         ELSE
           CALL I7ASS25(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                 NSVG  ,H1   ,H2   ,H3   ,H4     ,
@@ -877,8 +877,8 @@ C
      5                 FXI   ,FYI  ,FZI  ,FSKYI,NISKYFI,NIN  ,
      6                 KS    ,K1   ,K2   ,K3   ,K4     ,CS   ,
      7                 C1    ,C2   ,C3   ,C4   ,ISKY  ,NOINT ,
-     8                 INTTH ,RBID ,RBID ,RBID  ,RBID  ,RBID  ,
-     9                 RBID  ,RBID ,RBID ,IBID )
+     8                 INTTH ,RBID ,RBID ,RBID ,RBID  ,RBID  ,
+     9                 RBID  ,RBID ,RBID ,IBID ,IBID )
         ENDIF
       ENDIF
 C

@@ -90,7 +90,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F                    IGEO     ,XDP    ,VOLN    ,CONDN   ,CONDNSKY,
      G                    D        ,IOUTPRT,MAT_ELEM,H3D_STRAIN,SNPC,STF,
      H                    SBUFMAT  ,SVIS,NSVOIS,IDTMINS,IRESP,IDTMIN,MAXFUNC,
-     I                    USERL_AVAIL,heat_meca,DT  )
+     I                    USERL_AVAIL,DT  ,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -102,6 +102,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,7 +136,6 @@ C-----------------------------------------------
       integer,dimension(102) :: IDTMIN
       INTEGER ,INTENT(IN) :: MAXFUNC
       INTEGER, INTENT(IN) :: USERL_AVAIL
-      my_real, INTENT(INOUT) :: HEAT_MECA
 
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP),NPF(*),
      .    IADS(8,*),IPARTS(*), IPM(NPROPMI,*),GRTH(*),IGRTH(*),IGEO(*),
@@ -170,6 +170,7 @@ C
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_), INTENT(IN) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -854,13 +855,13 @@ c
      P   BID,          IPARG(1,NG),  IGEO,         CONDE,
      Q   ITASK,        NLOC_DMG,     VAR_REG(1,IP),MAT_ELEM,
      R   H3D_STRAIN,   JPLASOL,      JSPH,         SZ_R1_FREE,
-     S                 SNPC,         STF,          SBUFMAT,
+     S   SNPC,         STF,          SBUFMAT,      GLOB_THERM,
      *   SVIS,         SZ_IX,        IRESP,
      T   N2D,          TH_STRAIN,    NGROUP,       TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
-     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   IMON_MAT,    USERL_AVAIL, impl_s,
      .   idyna,       DT,    BID )
 C
        IF (ISTRAIN == 1)THEN 
@@ -893,7 +894,7 @@ C----------------------------
      5   STI,        STIN,       ICP,        OFF,
      6   LBUF%VOL,   GBUF%VOL,   GBUF%G_PLA, GBUF%G_EPSD,
      7   LBUF%EINTTH,GBUF%EINTTH,IEXPAN,     NEL,
-     8   CONDE,      CONDEN,SVIS)
+     8   CONDE,      CONDEN,SVIS,GLOB_THERM%NODADT_THERM)
 c-------------------------
 c     Virtual internal forces of regularized non local ddl 
 c--------------------------
@@ -1059,7 +1060,7 @@ C----------------------------
      F   BID,     BID,     BID,     BID,
      G   BID,     BID,     BID,     BID,
      H   THEM,    FTHE,    CONDN,   CONDEN,
-     I   NEL,     JTHE,    ISROT,   IPARTSPH)
+     I   NEL,     JTHE,    ISROT,   IPARTSPH,GLOB_THERM%NODADT_THERM)
       ELSE
           CALL SCUMU3P(
      1   GBUF%OFF,STIN,    FSKY,    FSKY,
@@ -1080,7 +1081,7 @@ C----------------------------
      G   BID,     BID,     BID,     BID,
      H   THEM,    FTHESKY, CONDNSKY,CONDEN,
      I   NEL,     NFT,     JTHE,    ISROT,
-     J   IPARTSPH)
+     J   IPARTSPH,GLOB_THERM%NODADT_THERM)
       ENDIF
 C-----------
       IF (ALLOCATED(VAR_REG)) DEALLOCATE(VAR_REG)

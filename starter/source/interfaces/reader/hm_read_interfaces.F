@@ -50,7 +50,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5           DEF_INTER       ,NPC1     ,SENSORS    ,MULTI_FVM  ,NOM_OPTFRIC,
      6           INTBUF_FRIC_TAB ,LSUBMODEL,TF         ,NPTS       ,NPARI      ,
      7           KLOADPINTER     ,DGAPINT  ,INTERFACES ,SITAB      ,NPARIR     ,
-     8           SITABM1         ,SISKWN   ,LISKN      ,SNPC       ,SNPC1      )
+     8           SITABM1         ,SISKWN   ,LISKN      ,SNPC       ,SNPC1      ,
+     9           ITHERM_FE       ,INTHEAT  )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -86,11 +87,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NPARI, NPARIR !< array sizes (IPARI and FRIGAP)
-      INTEGER,INTENT(IN) :: NPTS !< array size TF
-      INTEGER,INTENT(IN) :: SNPC, SNPC1 !< array size (NPC and NPC1)
-      INTEGER,INTENT(IN) :: SITAB, SITABM1 !< array size (ITAB, ITABM1)
-      INTEGER,INTENT(IN) :: LISKN, SISKWN !< array size (ISKN)
+      INTEGER,INTENT(IN)    :: NPARI, NPARIR !< array sizes (IPARI and FRIGAP)
+      INTEGER,INTENT(IN)    :: NPTS !< array size TF
+      INTEGER,INTENT(IN)    :: SNPC, SNPC1 !< array size (NPC and NPC1)
+      INTEGER,INTENT(IN)    :: SITAB, SITABM1 !< array size (ITAB, ITABM1)
+      INTEGER,INTENT(IN)    :: LISKN, SISKWN !< array size (ISKN)
+      INTEGER,INTENT(IN)    :: ITHERM_FE
+      INTEGER,INTENT(INOUT) :: INTHEAT
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER IPARI(NPARI,NINTER), ITAB(NUMNOD), ITABM1(SITABM1),NPC(SNPC),ISKN(SISKWN),
@@ -218,7 +221,8 @@ C--------------------------------------------------
      7          LSUBMODEL    ,TF             ,INTERFACES     ,SNPC         ,SNPC1       ,
      8          NPARI        ,NPARIR         ,NPTS           ,
      9          LNOPT1       ,LTITR          ,NINTER25       ,
-     .          NGRNOD       ,NGRBRIC        ,NSURF          ,NSLIN  )
+     .          NGRNOD       ,NGRBRIC        ,NSURF          ,NSLIN        ,
+     .          ITHERM_FE    ,INTHEAT        )
 
         END SELECT
 

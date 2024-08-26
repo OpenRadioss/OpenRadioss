@@ -33,12 +33,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE RADIATION(IBCR   ,FRADIA    ,NPC       ,TF     , X  ,
      1                     TEMP   ,NSENSOR   ,SENSOR_TAB,FTHE   ,IAD ,
-     2                     FTHESKY, PYTHON)
+     2                     FTHESKY, PYTHON   ,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE PYTHON_FUNCT_MOD
       USE SENSOR_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,30 +51,27 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "parit_c.inc"
-#include      "scr_thermal_c.inc"
-#include      "thermal_c.inc"
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type (glob_therm_) ,intent(inout)   :: glob_therm
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),IAD(4,*)
-      INTEGER IBCR(NIRADIA,*)
+      INTEGER IBCR(GLOB_THERM%NIRADIA,*)
 C     REAL
       my_real
-     .   FRADIA(LFACTHER,*), TF(*), X(3,*),
+     .   FRADIA(GLOB_THERM%LFACTHER,*), TF(*), X(3,*),
      .   FTHESKY(LSKY), TEMP(*), FTHE(*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE(PYTHON_) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, N3, N4, ISENS,K,LL,IERR,
-     .        ICODE,IFUNC_OLD,IFUNC,IAD1,IAD2,IAD3,IAD4
+      INTEGER NL, N1, N2, N3, N4, ISENS,
+     .        IFUNC_OLD,IFUNC,IAD1,IAD2,IAD3,IAD4
       INTEGER IFLAG
-C     REAL
-      my_real
-     .   NX, NY, NZ, AXI, AA, A0,  DYDX, TS, FLUX,
-     .   TS_OLD, F1, F2, FCX, FCY, T_INF, TE, AREA,
+      my_real :: NX, NY, NZ, DYDX, TS, FLUX,
+     .   TS_OLD, FCX, FCY, T_INF, TE, AREA,
      .    STARTT, STOPT, FCY_OLD, EMISIG, OFFG
       my_real FINTER 
       my_real :: HEAT_RADIA_L ! thread-local 
@@ -100,22 +98,22 @@ C-----------------------------------------------------------
 C  CODE SPMD PARITH/OFF OU SMP NE PAS OUBLIER LE CODE P/ON !
 C-----------------------------------------------------------
 !$OMP DO SCHEDULE(GUIDED)
-       DO NL=1,NUMRADIA
+       DO NL=1,GLOB_THERM%NUMRADIA
          OFFG   = FRADIA(6,NL)
          IF(OFFG <= ZERO) CYCLE 
          STARTT = FRADIA(4,NL)
          STOPT  = FRADIA(5,NL)
          ISENS  = IBCR(6,NL)
          IF(ISENS == 0)THEN
-            TS = TT*THEACCFACT - STARTT
+            TS = TT*GLOB_THERM%THEACCFACT - STARTT
          ELSE 
             STARTT = STARTT + SENSOR_TAB(ISENS)%TSTART
             STOPT  = STOPT  + SENSOR_TAB(ISENS)%TSTART      
-            TS = TT*THEACCFACT -(STARTT + SENSOR_TAB(ISENS)%TSTART)      
+            TS = TT*GLOB_THERM%THEACCFACT -(STARTT + SENSOR_TAB(ISENS)%TSTART)      
          ENDIF       
 C
-         IF(TT*THEACCFACT < STARTT) CYCLE
-         IF(TT*THEACCFACT > STOPT ) CYCLE 
+         IF(TT*GLOB_THERM%THEACCFACT < STARTT) CYCLE
+         IF(TT*GLOB_THERM%THEACCFACT > STOPT ) CYCLE 
          N1 = IBCR(1,NL)
          N2 = IBCR(2,NL)
          N3 = IBCR(3,NL)
@@ -152,7 +150,7 @@ C
 C
            TE = FOURTH*(TEMP(N1) + TEMP(N2) + TEMP(N3) + TEMP(N4))      
            AREA = HALF*SQRT( NX*NX + NY*NY + NZ*NZ)
-           FLUX = AREA*EMISIG*(T_INF**4 - TE**4)*DT1*THEACCFACT 
+           FLUX = AREA*EMISIG*(T_INF**4 - TE**4)*DT1*GLOB_THERM%THEACCFACT 
            HEAT_RADIA_L = HEAT_RADIA_L + FLUX
            FLUX = FOURTH*FLUX
 C
@@ -173,7 +171,7 @@ C
 C
           TE = THIRD*(TEMP(N1) + TEMP(N2) + TEMP(N3) )      
           AREA = HALF*SQRT( NX*NX + NY*NY + NZ*NZ)
-          FLUX = AREA*EMISIG*(T_INF**4 - TE**4)*DT1*THEACCFACT
+          FLUX = AREA*EMISIG*(T_INF**4 - TE**4)*DT1*GLOB_THERM%THEACCFACT
           HEAT_RADIA_L = HEAT_RADIA_L + FLUX
           FLUX = THIRD*FLUX
 C 
@@ -187,8 +185,8 @@ C        ANALYSE 2D
 C     
          TE = HALF*(TEMP(N1) + TEMP(N2) )      
          AREA = SQRT( NY*NY + NZ*NZ)
-         FLUX = AREA*EMISIG*(T_INF**4 - TE**4)*DT1*THEACCFACT
-         HEAT_RADIA = HEAT_RADIA + FLUX
+         FLUX = AREA*EMISIG*(T_INF**4 - TE**4)*DT1*GLOB_THERM%THEACCFACT
+         GLOB_THERM%HEAT_RADIA = GLOB_THERM%HEAT_RADIA + FLUX
          FLUX = HALF*FLUX
 C
          FTHE(S1*ITSK+N1)=FTHE(S1*ITSK+N1) + FLUX
@@ -199,7 +197,7 @@ C
 !$OMP END DO
 
 !$OMP CRITICAL
-       HEAT_RADIA = HEAT_RADIA + HEAT_RADIA_L
+       GLOB_THERM%HEAT_RADIA = GLOB_THERM%HEAT_RADIA + HEAT_RADIA_L
 !$OMP END CRITICAL
 C
       ELSE
@@ -208,21 +206,21 @@ C   CODE SPMD PARITH/ON
 C   CODE NON VECTORIEL
 C-------------------------
 !$OMP DO SCHEDULE(GUIDED)
-        DO NL=1,NUMRADIA
+        DO NL=1,GLOB_THERM%NUMRADIA
           STARTT = FRADIA(4,NL)
           STOPT  = FRADIA(5,NL)
           OFFG   = FRADIA(6,NL)
           ISENS  = IBCR(6,NL)
           IF(ISENS == 0)THEN
-             TS = TT*THEACCFACT - STARTT
+             TS = TT*GLOB_THERM%THEACCFACT - STARTT
           ELSE 
              STARTT = STARTT + SENSOR_TAB(ISENS)%TSTART
              STOPT  = STOPT  + SENSOR_TAB(ISENS)%TSTART   
-             TS = TT*THEACCFACT -(STARTT + SENSOR_TAB(ISENS)%TSTART)      
+             TS = TT*GLOB_THERM%THEACCFACT -(STARTT + SENSOR_TAB(ISENS)%TSTART)      
           ENDIF       
           IFLAG = 1
-          IF(TT*THEACCFACT < STARTT)  IFLAG = 0
-          IF(TT*THEACCFACT > STOPT )  IFLAG = 0
+          IF(TT*GLOB_THERM%THEACCFACT < STARTT)  IFLAG = 0
+          IF(TT*GLOB_THERM%THEACCFACT > STOPT )  IFLAG = 0
           IF(OFFG <= ZERO) IFLAG = 0
 C---------------------
 C  RADIATION FLUX
@@ -257,7 +255,7 @@ C      ANALYSE 3D
      +            -(X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
                TE = FOURTH*(TEMP(N1) + TEMP(N2) + TEMP(N3) + TEMP(N4))      
                AREA = HALF*SQRT( NX*NX + NY*NY + NZ*NZ)
-               FLUX = AREA*EMISIG*(T_INF**4 - TE**4)*DT1*THEACCFACT
+               FLUX = AREA*EMISIG*(T_INF**4 - TE**4)*DT1*GLOB_THERM%THEACCFACT
                HEAT_RADIA_L = HEAT_RADIA_L + FLUX
                FLUX = FOURTH*FLUX
 C
@@ -281,7 +279,7 @@ C      TRUE TRIANGLES
 C
                TE = THIRD*(TEMP(N1) + TEMP(N2) + TEMP(N3) )      
                AREA = HALF*SQRT( NX*NX + NY*NY + NZ*NZ)
-               FLUX = AREA*EMISIG*(T_INF**4 - TE**4)*DT1*THEACCFACT 
+               FLUX = AREA*EMISIG*(T_INF**4 - TE**4)*DT1*GLOB_THERM%THEACCFACT 
                HEAT_RADIA_L = HEAT_RADIA_L + FLUX
                FLUX = THIRD*FLUX
 C
@@ -302,7 +300,7 @@ C      ANALYSE 2D
 C 
                TE = HALF*(TEMP(N1) + TEMP(N2) )      
                AREA = SQRT( NY*NY + NZ*NZ)
-               FLUX = AREA*EMISIG*(T_INF**4 - TE**4)*DT1*THEACCFACT
+               FLUX = AREA*EMISIG*(T_INF**4 - TE**4)*DT1*GLOB_THERM%THEACCFACT
                HEAT_RADIA_L = HEAT_RADIA_L + FLUX
                FLUX = HALF*FLUX
 C
@@ -332,7 +330,7 @@ C
 !$OMP END DO
 
 !$OMP CRITICAL
-       HEAT_RADIA = HEAT_RADIA + HEAT_RADIA_L
+       GLOB_THERM%HEAT_RADIA = GLOB_THERM%HEAT_RADIA + HEAT_RADIA_L
 !$OMP END CRITICAL
 
 C

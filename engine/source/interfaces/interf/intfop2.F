@@ -70,7 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      H       WA        ,SENSOR_TAB ,QFRICINT   ,NCONT     ,INDEXCONT       ,
      I       TAGCONT   ,INOD_PXFEM ,MS_PLY     ,WAGAP     ,ELBUF_TAB       ,
      J       CONDN     ,CONDNSKYI  ,NV46      ,
-     K       SFBSAV6   ,FBSAV6     ,
+     K       SFBSAV6   ,FBSAV6     ,NODADT_THERM,THEACCFACT,
      L       ISENSINT  ,NISUBMAX   ,NB25_CANDT,NB25_IMPCT      ,
      M       NB25_DST1 ,NB25_DST2  ,IXIG3D     ,KXIG3D    ,WIGE     ,
      N       KNOT      ,IGEO       ,MULTI_FVM  ,H3D_DATA  ,
@@ -139,7 +139,9 @@ C-----------------------------------------------
       INTEGER  , INTENT(IN) :: S_LOADPINTER
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .         LOADP_HYD_INTER(NLOADP_HYD)
-      my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
+      INTEGER ,INTENT(IN) :: NODADT_THERM
+      my_real ,intent(in) :: theaccfact
+      my_real ,INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real 
      .        EMINX(*)
       my_real DT2T,
@@ -304,7 +306,7 @@ C
      D  PCONTACT       ,TEMP           ,FTHE             ,FTHESKYI        ,
      E  PM             ,IPARG          ,IAD17            ,MSKYI_SMS       ,ISKYI_SMS   ,
      F  NODNX_SMS      ,MS0            ,QFRICINT         ,NPC             ,TF          ,
-     G  CONDN          ,CONDNSKYI      ,INTERFACES%INTBUF_TAB(N)    ,
+     G  CONDN          ,CONDNSKYI      ,INTERFACES%INTBUF_TAB(N),NODADT_THERM ,THEACCFACT ,
      H  FBSAV6         ,ISENSINT(1,N)  ,SFBSAV6            ,IXIG3D          ,
      I  KXIG3D         ,WIGE           ,KNOT             ,IGEO            ,MULTI_FVM   , 
      J  H3D_DATA       ,INTERFACES%INTBUF_FRIC_TAB,KNOTLOCPC      ,KNOTLOCEL        ,JTASK        ,
@@ -328,7 +330,7 @@ C
      D  PCONTACT  ,TEMP           ,FTHE             ,FTHESKYI        ,
      E  PM        ,IPARG          ,IAD17            ,MSKYI_SMS       ,ISKYI_SMS   ,
      F  NODNX_SMS ,MS0            ,QFRICINT         ,NPC             ,TF          ,
-     G  CONDN      ,CONDNSKYI     ,INTERFACES%INTBUF_TAB(N)    ,
+     G  CONDN      ,CONDNSKYI     ,INTERFACES%INTBUF_TAB(N),NODADT_THERM,THEACCFACT ,
      H  FBSAV6     ,ISENSINT(1,N) ,SFBSAV6            ,IXIG3D          ,              
      I  KXIG3D     ,WIGE          ,KNOT             ,IGEO            ,MULTI_FVM,     
      J  H3D_DATA   ,INTERFACES%INTBUF_FRIC_TAB,KNOTLOCPC       ,KNOTLOCEL       ,JTASK       ,
@@ -358,12 +360,11 @@ C
      4      ISKY      ,FCONT        ,LINDMAX      ,
      5      JTASK,NB_JLT(JTASK),NB_JLT_NEW(JTASK),NB_STOK_N(JTASK),
      6      NISKYFI(N),NSTRF        , SECFCUM     ,VISCN        ,N         ,
-     .  FSAV(1,NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG
-     .                                                     +NFXBODY)  ,
+     .      FSAV(1,NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG+NFXBODY)  ,
      9      IDUM      ,IDUM         ,IDUM         ,IDUM      ,FNCONT  ,
      A      FTCONT    ,MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS ,
      B      ICONTACT  ,INTERFACES%INTBUF_TAB(N),FBSAV6,ISENSINT(1,N),SFBSAV6       ,
-     C      H3D_DATA  )
+     C      H3D_DATA  ,NODADT_THERM)
           ELSE
            CALL I10MAINF(
      1      IPARI(1,N),X         ,A       ,
@@ -372,12 +373,12 @@ C
      4      ISKY      ,FCONT        ,LINDMAX      ,
      5      JTASK,NB_JLT(JTASK),NB_JLT_NEW(JTASK),NB_STOK_N(JTASK),
      6      NISKYFI(N),NSTRF        , SECFCUM     ,VISCN        ,N         ,
-     .  FSAV(1,NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG
-     .                                                     +NFXBODY)  ,
-     9     NUM_IMP(N),NS_IMP(IAD)  ,NE_IMP(IAD)  ,IND_IMP(IAD),FNCONT  ,
+     .      FSAV(1,NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG+NFXBODY)  ,
+     9      NUM_IMP(N),NS_IMP(IAD)  ,NE_IMP(IAD)  ,IND_IMP(IAD),FNCONT  ,
      A      FTCONT   ,MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS   ,
      B      ICONTACT ,INTERFACES%INTBUF_TAB(N),FBSAV6,ISENSINT(1,N),SFBSAV6       ,
-     C      H3D_DATA )
+     C      H3D_DATA ,NODADT_THERM)
+
            IAD=IAD+NUM_IMP(N)
           ENDIF
 C-----------------------------------------------------------------------
@@ -400,7 +401,7 @@ C
      9  NPC        , TF          ,CONDN        ,CONDNSKYI ,FBSAV6     ,
      A  ISENSINT(1,N),SFBSAV6      ,FSAV(1,NN1)  ,H3D_DATA  ,INTERFACES%INTBUF_FRIC_TAB,
      B  JTASK      ,TAGNCONT      ,KLOADPINTER ,LOADPINTER,LOADP_HYD_INTER,
-     C  DGAPLOADINT,S_LOADPINTER )
+     C  DGAPLOADINT,S_LOADPINTER ,NODADT_THERM)
           ELSE
            CALL I11MAINF(
      1  IPARI(1,N) ,X            ,A          ,
@@ -414,7 +415,7 @@ C
      9  NPC        , TF          ,CONDN        ,CONDNSKYI ,FBSAV6     ,
      A  ISENSINT(1,N),SFBSAV6      ,FSAV(1,NN1)  ,H3D_DATA  ,INTERFACES%INTBUF_FRIC_TAB,
      B  JTASK      ,TAGNCONT      ,KLOADPINTER ,LOADPINTER,LOADP_HYD_INTER,
-     C  DGAPLOADINT,S_LOADPINTER )
+     C  DGAPLOADINT,S_LOADPINTER ,NODADT_THERM)
           ENDIF
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 20) THEN
@@ -451,7 +452,7 @@ C
      F  IRLEN20   ,ISLEN20      ,IRLEN20T     ,ISLEN20T   ,IRLEN20E    ,
      G  ISLEN20E  ,MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS  ,NPC         ,
      H  TF        ,INTERFACES%INTBUF_TAB(N),FBSAV6,ISENSINT(1,N)     ,SFBSAV6       ,
-     I  H3D_DATA  )
+     I  H3D_DATA  ,theaccfact)
 
           IF(IMPL_S == 1) IAD=IAD+NUM_IMP(N)
 
@@ -480,7 +481,7 @@ C
      B  CONDNSKYI ,DT2T         ,NELTST     ,ITYPTST      ,KINET       ,
      C  FBSAV6    ,ISENSINT(1,N),SFBSAV6      ,NISKYFI(N)   ,H3D_DATA    ,
      D  PSKIDS    ,TAGNCONT     ,KLOADPINTER,LOADPINTER   ,LOADP_HYD_INTER,
-     E  DGAPLOADINT,S_LOADPINTER,INTEREFRIC )
+     E  DGAPLOADINT,S_LOADPINTER,INTEREFRIC ,NODADT_THERM,THEACCFACT)
 C-----------------------------------------------------------------------
 C
 C-----------------------------------------------------------------------
@@ -617,7 +618,7 @@ C
      D  PCONTACT  ,TEMP        ,FTHE        ,FTHESKYI    ,
      E  PM         ,IPARG       ,IAD17       ,MSKYI_SMS   ,ISKYI_SMS   ,
      F  NODNX_SMS  ,MS0         ,INOD_PXFEM  ,MS_PLY      ,WAGAP       ,
-     G  FBSAV6     ,ISENSINT(1,N),
+     G  FBSAV6     ,ISENSINT(1,N),NODADT_THERM,THEACCFACT ,
      H  SFBSAV6    ,H3D_DATA    ,INTERFACES%INTBUF_FRIC_TAB,NISKYFIE(N),
      I  APINCH     ,STIFPINCH   ,NPC         ,TF         , CONDN      ,
      J  CONDNSKYI  ,QFRICINT    ,TAGNCONT    ,KLOADPINTER,LOADPINTER  ,

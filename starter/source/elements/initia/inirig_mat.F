@@ -64,7 +64,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B                   NINDX  ,XREFC  ,XREFTG ,XREFS   ,MSSA  ,
      C                   SH3TRIM,ISUBSTACK,BUFMAT,IPM    ,STACK ,
      D                   RNOISE ,STRC  ,STRTG   ,PERTURB ,NEL   ,
-     E                   GROUP_PARAM   ,IGTYP   ,DEFAULTS)
+     E                   GROUP_PARAM   ,IGTYP   ,DEFAULTS,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,6 +72,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE GROUP_PARAM_MOD            
       USE DEFAULTS_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -111,6 +112,7 @@ C-----------------------------------------------
      .   RNOISE(*),STRC(*),STRTG(*)
       TYPE(GROUP_PARAM_)  :: GROUP_PARAM
       TYPE(DEFAULTS_), INTENT(IN)      :: DEFAULTS             
+      TYPE(glob_therm_) ,intent(in)    :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -211,7 +213,7 @@ C
      2      IPARTS(NFT+1),MSS(1,NFT+1),MSNF   ,MSSF(1,NFT+1),WMA ,
      3      RHOCP        ,MCP         ,MCPS(1,NFT+1)          ,TEMP0,
      4      TEMP         ,MSSA        ,IX1    ,IX2    ,IX3    ,IX4  ,
-     5      FILL, VOLU   ,IMAS_DS )
+     5      FILL, VOLU   ,IMAS_DS     ,GLOB_THERM%NINTEMP)
         ENDIF                   
 C
         CALL DTMAIN(GEO  ,PM   ,VOID  ,PID   ,MXT   ,VOID  ,
@@ -236,7 +238,7 @@ C Solid 10 nodes tetrahedron-
      .                XX, YY, ZZ, VX, VY, VZ, NC10,
      .                NGL,MXT,PID,MASS,DTELEM(NFT+1),STI,
      .                VOID6,VOID,VOID,VOID, 
-     .                TEMP0, TEMP   ,NEL)
+     .                TEMP0, TEMP   ,NEL,GLOB_THERM%NINTEMP)
         CALL S10DERI3(VOLP,NGL,
      .                XX, YY, ZZ, PX,PY,PZ, NX,
      .                RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,VOLU,VOID,
@@ -332,7 +334,7 @@ C
      .           Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
      .           RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .           E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
-     .           F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP,
+     .           F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP,GLOB_THERM%NINTEMP,
      .           XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .           YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .           ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
@@ -405,7 +407,7 @@ C
      .              NSHNOD ,STC(NFT+1),SH4TREE ,MCP   ,MCPC(NFT+1) , 
      .              TEMP    ,BID , BID,BID,BID,
      .              BID,BID,ISUBSTACK,IBID,BIDBUF,
-     .              STACK,BIDG, RNOISE ,BID ,
+     .              STACK,BIDG, RNOISE ,BID ,GLOB_THERM%NINTEMP,
      .              PERTURB,IX1     ,IX2      ,IX3     ,IX4    ,IBID, IBID )
         CALL CDERII(PX1 ,PX2 ,PY1   ,PY2,
      .              X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  , 
@@ -499,7 +501,7 @@ C
      .               ETNOD,NSHNOD,STTG(NFT+1), SH3TREE,MCP   ,
      .               MCPS(1,NFT+1) , TEMP,SH3TRIM,ISUBSTACK,IBID,
      .               BIDBUF, STACK,BIDG ,RNOISE,
-     .               BID,PERTURB,IX1   ,IX2      ,IX3    ,
+     .               BID,PERTURB,IX1   ,IX2      ,IX3    ,GLOB_THERM%NINTEMP,
      .               X2L      ,X3L    ,Y3L , IBID, IBID   )
         CALL C3DERII(LFT,LLT,PM,GEO,PX1,PY1,PY2,S
      .               TIFN   ,STIFR   ,IXTG(1,NFT+1),

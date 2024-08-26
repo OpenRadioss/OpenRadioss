@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                        ILEV  ,NSNFIOLD,IPARI,NSNROLD ,
      4                        RENUM ,H3D_DATA,INTFRIC,FLAGREMN,
      5                        LREMNORMAX,NRTM,KREMNOD,REMNOD,
-     6                        IVIS2,ISTIF_MSDT,IFSUB_CAREA)
+     6                        IVIS2,ISTIF_MSDT,IFSUB_CAREA,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,6 +72,7 @@ C-----------------------------------------------
      .        KREMNOD(*), REMNOD(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       INTEGER , INTENT(IN) :: ISTIF_MSDT, IFSUB_CAREA
+      INTEGER , INTENT(IN) :: NODADT_THERM
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------

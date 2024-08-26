@@ -163,7 +163,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A       IFAILURE ,ALDT     ,TEMPEL   ,DIE       ,FHEAT    ,                        
      B       R11      ,R12      ,R13      ,R21       ,R22      ,R23      ,    
      C       R31      ,R32      ,R33      ,TABLE     ,IXFEM    ,ELCRKINI ,    
-     D       SENSORS  ,NG       ,                         
+     D       SENSORS  ,NG       ,IDT_THERM,THEACCFACT,                        
      E       DIR1_CRK ,DIR2_CRK ,IPARG    ,JHBE      ,ISMSTR   ,JTHE     ,             
      F       TENSX    ,IR       ,IS       ,NLAY      ,NPT      ,IXLAY    ,    
      G       IXEL     ,ITHK     ,F_DEF    ,ISHPLYXFEM,
@@ -215,6 +215,8 @@ C-----------------------------------------------
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),ELCRKINI(NXLAYMAX,*),
      .   IPARG(*),FWAVE_EL(NEL)
       INTEGER, INTENT(IN) :: NLAY_MAX, LAYNPT_MAX,SNPC,STF,NCYCLE
+      INTEGER, INTENT(IN) :: IDT_THERM
+      my_real ,intent(in) :: THEACCFACT
       my_real DM
       my_real FOR(NEL,5),MOM(NEL,3),GSTR(NEL,8),THK(*),EINT(JLT,2),OFF(*),
      .   DIR_A(*),DIR_B(*),VISCMX(*),PM(NPROPM,*),THK_LY(NEL,*),
@@ -1510,7 +1512,9 @@ c
      F   MATLY(JMLY),  ETSE,         GS,           VOL0,
      G   SIGY,         TEMPEL,       DIE,          COEF,
      H   SHF,          EPSPL,        TABLE,        ITHK,
-     I   NVARTMP,      VARTMP,       EPSTHTOT,     JTHE)
+     I   NVARTMP,      VARTMP,       EPSTHTOT,     JTHE,
+     J   IDT_THERM,THEACCFACT)
+
           ELSEIF (ILAW == 82) THEN
               CALL SIGEPS82C(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC  ,IFUNC  , 

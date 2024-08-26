@@ -58,7 +58,8 @@
         &KREMNOD  ,REMNOD  ,FLAGREMNODE, DRAD ,&
         &ITIED    ,CAND_F  ,DGAPLOAD,&
         &s_cand_a,&
-        &S_KREMNOD, S_REMNOD, NSPMD, NUMNOD, inter_struct)
+        &S_KREMNOD, S_REMNOD, NSPMD, NUMNOD, inter_struct, &
+        & intheat,idt_therm,nodadt_therm)
 
 !============================================================================
 !   M o d u l e s
@@ -113,6 +114,9 @@
           INTEGER, intent(in) :: S_KREMNOD
           INTEGER, intent(in) :: S_REMNOD
           INTEGER, intent(in) :: NSPMD
+          integer, intent(in) :: intheat
+          integer, intent(in) :: idt_therm
+          integer, intent(in) :: nodadt_therm
 
 !     REAL
           my_real ::  GAP
@@ -175,7 +179,8 @@
             allocate(prev_remote_number(s_prev_remote_number))
             ! find the old id of remote candidate nodes (inactive, ifq, itied)
             if(nspmd>1.and.(inacti==5.or.inacti==6.or.inacti==7.or.ifq>0.or.itied/=0)) then
-              call spmd_oldnumcd(renum,prev_remote_number,s_prev_remote_number,nsnrold)
+              call spmd_oldnumcd(renum,prev_remote_number,s_prev_remote_number,nsnrold, &
+                                 intheat,idt_therm,nodadt_therm)
             end if
         endif
 !$OMP SINGLE

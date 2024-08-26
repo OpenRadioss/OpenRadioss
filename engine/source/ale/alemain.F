@@ -107,8 +107,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      L         LGRAV       ,CONDNSKY    ,CONDN         ,MS_2D      ,MULTI_FVM         ,IGRTRUSS        ,
      M         IGRBRIC     ,NLOC_DMG    ,ID_GLOBAL_VOIS,FACE_VOIS  ,EBCS_TAB          ,ALE_CONNECTIVITY,
      N         MAT_ELEM    ,H3D_DATA    ,DT            ,OUTPUT     ,NEED_COMM_INTER18 ,IDTMINS         ,
-     O         IDTMIN      ,MAXFUNC     ,IMON_MAT      ,USERL_AVAIL,heat_meca   ,
-     P         impl_s      ,idyna       ,PYTHON        ,MATPARAM)
+     O         IDTMIN      ,MAXFUNC     ,IMON_MAT      ,USERL_AVAIL,
+     P         impl_s      ,idyna       ,PYTHON        ,MATPARAM   ,GLOB_THERM  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -135,6 +135,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_IFLG6_SIZE
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -175,7 +176,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: USERL_AVAIL
       INTEGER, INTENT(IN) :: IMPL_S
       INTEGER, INTENT(IN) :: IDYNA
-      my_real,intent(INOUT) :: heat_meca
       my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       INTEGER IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),IXTG(NIXTG,NUMELTG), ISKY(*),
      .   IFILL(NUMNOD,*), NPC(*), IPARG(NPARG,NGROUP),NODPOR(*),
@@ -231,6 +231,7 @@ C-----------------------------------------------
       TYPE (DT_) ,INTENT(INOUT)  :: DT
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE(PYTHON_) :: PYTHON
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -380,7 +381,7 @@ C  IOUTPRT (assembly report)
       ENDIF
       !-----      
       
-      IF(ITHERM == 1 .AND. IALE+IEULER == 0) ALE%SUB%IFSUBM=0
+      IF (GLOB_THERM%ITHERM == 1 .AND. IALE+IEULER == 0) ALE%SUB%IFSUBM=0
 C----------------------------------
 C       ALE - EULER - THERMAL
 C       WA  = flux for sforc3 and qforc3
@@ -407,7 +408,7 @@ C---------------------------------------------------------
 C
       IF(ALE%SUB%IFSUB == 0)THEN
         IF(ITASK==0) CALL STARTIME(MACRO_TIMER_IFSUB0,1)
-        IF(IALE+IEULER+ITHERM /= 0)THEN
+        IF(IALE+IEULER+GLOB_THERM%ITHERM /= 0)THEN
           IF(ALE%GLOBAL%INCOMP == 0) THEN
             IF(NSEGFLU > 0 .AND. N2D == 0) THEN
               CALL SEGGETV(IPARG,ELBUF_TAB,ALE_CONNECTIVITY,ITASK,SEGVAR)
@@ -551,7 +552,7 @@ C     -------------------------
                   CALL MULTI_FVM2FEM(DT1, ELBUF_TAB, ITASK, 
      .                 IXS, IXQ, IPARG, X, A, V, W, MS, MSNF, VEUL, 
      .                 STIFN, FSKY, IADS, FSKYM, 
-     .                 CONDN, CONDNSKY, MULTI_FVM)  
+     .                 CONDN, CONDNSKY, MULTI_FVM,GLOB_THERM%NODADT_THERM)  
                ENDIF
                CALL MY_BARRIER
 !$OMP SINGLE
@@ -700,7 +701,7 @@ C     -------------------------
                   CALL MULTI_FVM2FEM(DT1, ELBUF_TAB, ITASK, 
      .                  IXS, IXQ, IPARG, X, A, V, W, MS, MSNF, VEUL, 
      .                  STIFN, FSKY, IADS, FSKYM, 
-     .                  CONDN, CONDNSKY, MULTI_FVM)  
+     .                  CONDN, CONDNSKY, MULTI_FVM,GLOB_THERM%NODADT_THERM)  
                   CALL MY_BARRIER
                ENDIF
 C     -------------------------
@@ -728,7 +729,7 @@ C     -------------------------
      9   MSNF,            NODFT,           NODLT,           WA(IADBH),
      A   IPM,             QMV,             ITAB,            ITABM1,
      B   LENQMV,          NV46,
-     C   VOLN,            IAD_ELEM,
+     C   VOLN,            IAD_ELEM,        GLOB_THERM,
      D   FR_ELEM,         NEL,             IXTG)
          ENDIF
       ELSE
@@ -841,7 +842,7 @@ C
      I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK,
      J                  NSVOIS,          SZ_BUFVOIS,      SNPC,            STF,
      K                  SBUFMAT,         SVIS,            IDTMINS,         IRESP, 
-     *                  IDEL7NG,         MAXFUNC,         USERL_AVAIL,     heat_meca, 
+     *                  IDEL7NG,         MAXFUNC,         USERL_AVAIL,     GLOB_THERM, 
      V                  impl_s,     idyna)
 C
                  ELSEIF (ITY == 1 .AND. ISOLNOD /= 4) THEN
@@ -881,7 +882,7 @@ C
      R                  ALE_CONNECTIVITY%NALE, D,       IOUTPRT,       NLOC_DMG,
      S                  MAT_ELEM,              IBID,    DT,            IDEL7NOK,NSVOIS,
      T                  SZ_BUFVOIS,            SNPC, STF,SBUFMAT,SVIS,IDTMINS,IRESP,
-     U                  IDEL7NG,    MAXFUNC,    USERL_AVAIL, heat_meca, 
+     U                  IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
      V                  impl_s,     idyna)
 C
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
@@ -905,8 +906,8 @@ C
      C                  MAT_ELEM        ,H3D_DATA%STRAIN  ,SZ_BUFVOIS  ,SNPC      ,STF      ,SBUFMAT  ,
      D                  SVIS            ,NSVOIS           ,IRESP       ,TT        ,DT1      ,      
      .                  IDEL7NOK        ,IDTMIN           ,MAXFUNC     ,  
-     .                  IMON_MAT        ,USERL_AVAIL      ,heat_meca   ,impl_s    ,idyna    ,
-     .                  DT              ) 
+     .                  IMON_MAT        ,USERL_AVAIL      ,impl_s    ,idyna    ,
+     .                  DT              ,GLOB_THERM) 
 c
                  ELSEIF (ITY == 2 .AND. JMULT /= 0) THEN
                   CALL BFORC2(
@@ -924,7 +925,8 @@ c
      B                  IBID        , OUTPUT        ,SZ_BUFVOIS      , SNPC      , STF       ,SBUFMAT, SVIS,
      C                  NSVOIS      , IRESP         ,IDEL7NOK        , 
      D                  IDTMIN      , MAXFUNC       ,IMON_MAT        , 
-     E                  USERL_AVAIL ,heat_meca      , impl_s         , idyna     ,DT         )
+     E                  USERL_AVAIL , impl_s         , idyna     ,DT         ,
+     F                  GLOB_THERM)
                  ENDIF
                 ENDIF
               ENDIF
@@ -951,7 +953,7 @@ C
      1              V       ,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,
      2              LENCOM  )
                  ! to be optimized depending on combination of options
-                 IF(ALE%GLOBAL%INCOMP == 1.OR.ITURB+ITHERM == 0)
+                 IF(ALE%GLOBAL%INCOMP == 1.OR. ITURB + GLOB_THERM%ITHERM == 0)
      .             CALL SPMD_XVOIS(X,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,LENCOM  )
                    ! comm adjacent elems
                  CALL SPMD_L11VOIS(
@@ -1017,7 +1019,7 @@ C     ALE ON / OFF
      I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK,
      J                  NSVOIS,          SZ_BUFVOIS,      SNPC,            STF,
      K                  SBUFMAT,         SVIS,            IDTMINS,         IRESP, 
-     *                  IDEL7NG,         MAXFUNC,         USERL_AVAIL,     heat_meca, 
+     *                  IDEL7NG,         MAXFUNC,         USERL_AVAIL,     GLOB_THERM, 
      V                  impl_s,          idyna)
 
                  ELSEIF(ITY == 1 .AND. ISOLNOD /= 4)THEN
@@ -1057,8 +1059,8 @@ C     ALE ON / OFF
      R                  ALE_CONNECTIVITY%NALE,D,        IOUTPRT,       NLOC_DMG,
      S                  MAT_ELEM,             IBID,     DT,            IDEL7NOK,NSVOIS,
      T                  SZ_BUFVOIS,           SNPC,     STF,SBUFMAT,SVIS,IDTMINS,IRESP,
-     U                  IDEL7NG,              MAXFUNC,  USERL_AVAIL, heat_meca, 
-     V                  impl_s,               idyna)
+     U                  IDEL7NG,              MAXFUNC,  USERL_AVAIL  ,GLOB_THERM, 
+     V                  impl_s,               idyna    )
                
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 
@@ -1081,8 +1083,8 @@ C     ALE ON / OFF
      C              MAT_ELEM  ,H3D_DATA%STRAIN  ,SZ_BUFVOIS  ,SNPC     ,STF       ,SBUFMAT,
      D              SVIS      ,NSVOIS           ,IRESP       ,TT       ,DT1       ,      
      .              IDEL7NOK  ,IDTMIN           ,MAXFUNC     ,  
-     .              IMON_MAT  ,USERL_AVAIL      ,heat_meca   ,impl_s   ,idyna     ,
-     .              DT        )
+     .              IMON_MAT  ,USERL_AVAIL      ,impl_s   ,idyna     ,
+     .              DT        ,GLOB_THERM)
 c
                       ELSEIF(ITY == 2 .AND. JMULT /= 0)THEN
                   CALL BFORC2(ELBUF_TAB  ,NG           ,
@@ -1099,7 +1101,8 @@ c
      A                        IBID       ,OUTPUT       ,SZ_BUFVOIS       ,SNPC       ,STF       ,SBUFMAT ,SVIS,
      B                        NSVOIS     ,IRESP        ,IDEL7NOK         ,
      C                        IDTMIN     ,MAXFUNC      ,IMON_MAT         ,
-     E                        USERL_AVAIL,heat_meca    ,impl_s           ,idyna      ,DT        )
+     E                        USERL_AVAIL,impl_s           ,idyna      ,DT        ,
+     F                        GLOB_THERM)
 
                  ENDIF
                 ENDIF
@@ -1109,7 +1112,7 @@ c
             
           ENDIF!IF (ILAW11 /= 0) THEN
 
-        ENDIF!IF(IALE+IEULER+ITHERM /= 0)THEN
+        ENDIF !IF(IALE+IEULER+ITHERM /= 0)THEN
         IF(ITASK==0) CALL STOPTIME(MACRO_TIMER_IFSUB0,1)
       ENDIF!IF(IFSUB == 0)THEN
 

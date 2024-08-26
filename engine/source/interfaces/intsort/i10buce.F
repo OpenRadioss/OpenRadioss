@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   NB_N_B  ,ESHIFT  ,BMINMA  ,MWAG    ,ILD     ,
      7   NCONTACT,NSNROLD ,STFN    ,NIN     ,IGAP    ,
      8   GAP_S   ,NSNR    ,RENUM   ,STF     ,GAP_M   ,
-     9   GAPMIN  ,GAPMAX  ,I_MEM         )
+     9   GAPMIN  ,GAPMAX  ,I_MEM   ,INTHEAT, IDT_THERM, NODADT_THERM)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -61,8 +61,10 @@ C-----------------------------------------------
       INTEGER NMN, NRTM, NSN, NOINT, NIN, IGAP, NSNR, NSNROLD
       INTEGER IRECT(4,*),NSV(*),MWAG(*)
       INTEGER CAND_E(*),CAND_N(*),RENUM(*)
-      INTEGER ILD,NB_N_B,ESHIFT,NCONTACT,NCONT,I_MEM,II_STOK
-     .        
+      INTEGER ILD,NB_N_B,ESHIFT,NCONTACT,NCONT,I_MEM,II_STOK 
+      INTEGER ,INTENT(IN) :: INTHEAT
+      INTEGER, INTENT(IN) :: IDT_THERM
+      INTEGER, INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,GAPMIN, GAPMAX, BMINMA(6)
@@ -132,7 +134,8 @@ C       SEPARER B ET N EN TWO
      4   CAND_E  ,NCONTACT,NOINT    ,TZINF    ,MAXBOX   ,
      5   MINBOX  ,I_MEM   ,NB_N_B   ,I_ADD_MAX,MWAG(IP0),
      6   ESHIFT  ,NSNROLD ,STF      ,STFN     ,GAP_S    ,
-     7   GAP_M   ,GAPMIN  ,GAPMAX   ,MARGE    ,NIN      )
+     7   GAP_M   ,GAPMIN  ,GAPMAX   ,MARGE    ,NIN      ,
+     8   INTHEAT, IDT_THERM, NODADT_THERM)
 C---------------------------------
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS

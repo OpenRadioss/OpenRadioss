@@ -113,8 +113,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      L                    XDP      ,VOLN   ,CONDN  ,CONDNSKY  ,JFAC,
      M                    D        ,SENSORS,IOUTPRT,MAT_ELEM,H3D_STRAIN,
      N                    DT       ,SNPC ,STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,
-     O                    IRESP    ,MAXFUNC ,    USERL_AVAIL, heat_meca, 
-     V                    impl_s,     idyna)
+     O                    IRESP    ,MAXFUNC ,    USERL_AVAIL, GLOB_THERM, 
+     V                    impl_s,   idyna)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -127,6 +127,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE DT_MOD
       USE ELBUFDEF_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -161,7 +162,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IMPL_S
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
-      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP),NPF(*),
      .        IPARTS(*), IPM(NPROPMI,*),IGEO(NPROPGI,*),GRTH(*),
      .        IGRTH(*),IADS(8,*),IOUTPRT
@@ -203,6 +203,7 @@ C
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (SENSORS_) , INTENT(IN) :: SENSORS
       TYPE(DT_),     INTENT(INOUT) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------      
@@ -1195,13 +1196,13 @@ C
      P   BID,          IPARG(1,NG),  IGEO,         CONDE,
      Q   ITASK,        NLOC_DMG,     VAR_REG(1,IP),MAT_ELEM,
      R   H3D_STRAIN,   JPLASOL,      JSPH,         SZ_R1_FREE,
-     T                 SNPC,         STF,          SBUFMAT,
+     T   SNPC,         STF,          SBUFMAT,      GLOB_THERM,
      U   SVIS,         SZ_IX,        IRESP,
-     V   N2D,          TH_STRAIN,    NGROUP,       TT, 
+     V   N2D,          th_strain,    NGROUP,       TT, 
      .   DT1,          NTABLE,       NUMELQ,       nummat,
      .   numgeo,       numnod,       numels,
      .   IDEL7NOK,     IDTMIN,       MAXFUNC,
-     .   IMON_MAT,     USERL_AVAIL,  heat_meca,    impl_s,
+     .   IMON_MAT,     USERL_AVAIL,  impl_s,
      .   idyna,        DT,     fheat      )
 C    
         IF (ISTRAIN == 1) THEN 
@@ -1262,7 +1263,7 @@ C
      7   OFF,        LBUF%VOL,   GBUF%VOL,   GBUF%G_PLA,
      8   GBUF%G_EPSD,JFAC(1,IP), LBUF%EINTTH,GBUF%EINTTH,
      9   IEXPAN,     NEL,        IDEG,       CONDE,
-     A   CONDEN,     MTN,        ISMSTR,SVIS)
+     A   CONDEN,     MTN,        ISMSTR,SVIS,GLOB_THERM%NODADT_THERM)
        ELSE
 C----------------------------
 C     INTERNAL FORCES
@@ -1312,7 +1313,7 @@ C----------------------------
      7   OFF,        LBUF%VOL,   GBUF%VOL,   GBUF%G_PLA,
      8   GBUF%G_EPSD,JFAC(1,IP), LBUF%EINTTH,GBUF%EINTTH,
      9   IEXPAN,     NEL,        IDEG,       CONDE,
-     A   CONDEN,     MTN,        ISMSTR,     SVIS)
+     A   CONDEN,     MTN,        ISMSTR,     SVIS,GLOB_THERM%NODADT_THERM)
       ENDIF
 c-------------------------
 c     Virtual internal forces of regularized non local ddl 
@@ -1360,7 +1361,7 @@ c-------------------------
      9            PZ5,     PZ6,     PZ7,     PZ8,
      A            DT1,     TEMP,    TEMPEL,  FHEAT  ,
      B            THEM,    GBUF%OFF,LBUF%OFF,PARTSAV,
-     C            IPARTS,  LBUF%VOL,NEL)
+     C            IPARTS,  LBUF%VOL,NEL,GLOB_THERM%THEACCFACT)
            ELSE
              CALL S8ETHERM(
      1            PM,     IMAT,     VOLN,    NI,
@@ -1374,7 +1375,7 @@ c-------------------------
      9            PZ5,     PZ6,     PZ7,     PZ8,
      A            DT1,     TEMP,    TEMPEL,  DIE  ,
      B            THEM,    GBUF%OFF,LBUF%OFF,PARTSAV,
-     C            IPARTS,  LBUF%VOL,NEL)
+     C            IPARTS,  LBUF%VOL,NEL,GLOB_THERM%THEACCFACT)
            END IF
           ENDIF 
 !
@@ -1546,7 +1547,7 @@ C----------------------------
      F   BID,     BID,     BID,     BID,
      G   BID,     BID,     BID,     BID,
      H   THEM,    FTHE,    CONDN,   CONDEN,
-     I   NEL,     JTHE,    ISROT,   IPARTSPH)
+     I   NEL,     JTHE,    ISROT,   IPARTSPH,GLOB_THERM%NODADT_THERM)
       ELSE
           CALL SCUMU3P(
      1   GBUF%OFF,STIN,    FSKY,    FSKY,
@@ -1567,7 +1568,7 @@ C----------------------------
      G   BID,     BID,     BID,     BID,
      H   THEM,    FTHESKY, CONDNSKY,CONDEN,
      I   NEL,     NFT,     JTHE,    ISROT,
-     J   IPARTSPH)
+     J   IPARTSPH,GLOB_THERM%NODADT_THERM)
       ENDIF
 C-----------
       IF (ALLOCATED(VAR_REG)) DEALLOCATE(VAR_REG)

@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
      .                  STACK       ,ID_ELEM   ,ITY_ELEM  ,
      .                  IS_WRITTEN_SHELL,IPARTC,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
-     .                  PLY_INPUT   ,IUVAR_INPUT,H3D_PART  ,KEYWORD    ,
+     .                  PLY_INPUT   ,IUVAR_INPUT,H3D_PART  ,KEYWORD    ,ITHERM     ,
      .                  D           , MULTI_FVM ,IDMDS    ,IMDSVAR     ,MDS_MATID  ,
      .                  ID          ,MODE      ,MAT_PARAM )
 C-----------------------------------------------
@@ -81,6 +81,7 @@ C-----------------------------------------------
         my_real
      .     SHELL_SCALAR(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),D(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,NUMGEO),
      .     PM(NPROPM,NUMMAT),ERR_THK_SH4(NUMELC), ERR_THK_SH3(NUMELTG)
+        INTEGER, INTENT(IN) :: ITHERM
         INTEGER IPARG(NPARG,NGROUP),IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),
      .     IPM(NPROPMI,NUMMAT),
      .     IGEO(NPROPGI,NUMGEO), ID_ELEM(*),ITY_ELEM(*),
@@ -113,7 +114,7 @@ C-----------------------------------------------
         !-------------------------------------------------------!
         ! /TRIA are 2d solid elements (new entity type derived from SH3N buffer, it is currently managed from h3d_shell_* subroutines. It will change in the future.
         IF(KEYWORD == 'SCHLIEREN' .AND. N2D > 0)THEN
-          CALL SCHLIEREN_BUFFER_GATHERING(NERCVOIS ,NESDVOIS ,LERCVOIS ,LESDVOIS, IPARG, ELBUF_TAB, MULTI_FVM)
+          CALL SCHLIEREN_BUFFER_GATHERING(NERCVOIS ,NESDVOIS ,LERCVOIS ,LESDVOIS, IPARG, ELBUF_TAB, MULTI_FVM,ITHERM)
         ENDIF
 C-----------------------------------------------
 

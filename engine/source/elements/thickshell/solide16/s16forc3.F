@@ -76,7 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      I                    IOUTPRT  ,MAT_ELEM,H3D_STRAIN  ,DT  ,SNPC  ,
      J                    STF      ,SBUFMAT,SVIS,NSVOIS,IDTMINS,IRESP,      
      .                    IDEL7NG,     IDEL7NOK,    IDTMIN,     MAXFUNC, 
-     .                    IMON_MAT ,USERL_AVAIL, heat_meca,     impl_s,
+     .                    IMON_MAT ,USERL_AVAIL, GLOB_THERM,     impl_s,
      V                    idyna)
 C-----------------------------------------------
 C   M o d u l e s
@@ -88,6 +88,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE DT_MOD
       USE ELBUFDEF_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -128,7 +129,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
       INTEGER, INTENT(IN) :: IMON_MAT
-      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP),NPF(*),
      .        IPARTS(*),IXS16(8,*),IADS16(8,*),IPM(*),GRTH(*),IGRTH(*),
      .        IGEO(*),IADS(8,*),ITASK,IOUTPRT
@@ -160,6 +160,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE(DT_), INTENT(INOUT) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -628,13 +629,13 @@ C
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        MVSIZ, 
-     *                SNPC,        STF,         SBUFMAT,
+     *   SNPC,        STF,         SBUFMAT,     GLOB_THERM,
      *   SVIS,        SZ_IX,       IRESP,
-     *   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     *   N2D,         th_strain,   NGROUP,      TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
-     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   IMON_MAT,    USERL_AVAIL, impl_s,
      .   idyna,       DT,         fheat   , OPT_MTN=MTN, OPT_JCVT=JCVT,
      .   OPT_ISORTH=ISORTH,OPT_ISORTHG=ISORTHG)
 c
@@ -672,7 +673,7 @@ C
      6   GBUF%EINT, GBUF%RHO,  GBUF%QVIS, GBUF%PLA,
      7   WI,        VOLG,      LBUF%VOL,  GBUF%VOL,
      8   L_PLA,     NEL,       CONDE,     DELTAX,
-     9   CONDEG,    ISRAT,     SVIS)
+     9   CONDEG,    ISRAT,     SVIS      ,GLOB_THERM%NODADT_THERM)
       !-------------------------
       !    finite element heat transfert  
       !--------------------------
@@ -685,14 +686,14 @@ C
      2            VOLN,      PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),
      3            NI(1,IP),  DT1,       TEMP,      TEMPEL,
      4            FHEAT,     THEM,      GBUF%OFF,  LBUF%OFF,
-     5            NEL)
+     5            NEL        ,GLOB_THERM%THEACCFACT)
            ELSE
              CALL S20THERM(
      1            NPE,       PM,       IMAT,       NC,
      2            VOLN,      PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),
      3            NI(1,IP),  DT1,       TEMP,      TEMPEL,
      4            DIE,      THEM,      GBUF%OFF,  LBUF%OFF,
-     5            NEL)
+     5            NEL      ,GLOB_THERM%THEACCFACT)
            END IF
           ENDIF
         ENDDO   ! IL=1,NLAY
@@ -733,14 +734,15 @@ c-----------------------------
      2   STIG,    FX,      FY,      FZ,
      3   IPERM1,  IPERM2,  NPE,     THEM,
      4   FTHE,    CONDN,   CONDEG,  NEL,
-     5   JTHE)
+     5   JTHE,    GLOB_THERM%NODADT_THERM)
       ELSE
         CALL S20CUMU3P(
      1   GBUF%OFF,     STIG,         FSKY,         FSKY,
      2   IADS(1,NF1),  FX,           FY,           FZ,
      3   IADS16(1,NF2),NC,           IPERM1,       IPERM2,
      4   NPE,          THEM,         FTHESKY,      CONDNSKY,
-     5   CONDEG,       NEL,          NFT,          JTHE)
+     5   CONDEG,       NEL,          NFT,          JTHE,
+     6   GLOB_THERM%NODADT_THERM)
       ENDIF
 C-----------
       RETURN

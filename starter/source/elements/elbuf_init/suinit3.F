@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   DETONATORS,GEO     ,VEUL   ,ALE_CONNECTIVITY ,IPARG   ,
      .                   DTELEM   ,SIGI    ,NEL    ,SKEW     ,IGEO    ,
      .                   STIFN    ,PARTSAV ,V      ,IPARTS   ,MSS     ,
-     .                   IPART    ,SIGSP   ,
+     .                   IPART    ,SIGSP   ,GLOB_THERM,
      .                   NSIGI    ,IN      ,VR     ,IPM      ,NSIGS   ,
      .                   VOLNOD   ,BVOLNOD ,VNS    ,BNS      ,PTSOL   ,
      .                   BUFMAT   ,NPF     ,TF     ,FAIL_INI ,INS     ,
@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -101,6 +102,7 @@ C-----------------------------------------------
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      type (glob_therm_) ,intent(in)      :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -187,7 +189,7 @@ c--------------------------
      .           Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
      .           RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .           E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
-     .           F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,BID, BID,
+     .           F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,BID, BID,GLOB_THERM%NINTEMP,
      .           XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .           YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .           ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
@@ -199,7 +201,7 @@ c--------------------------
      .           Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
      .           RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .           E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
-     .           F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,BID  , BID,
+     .           F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,BID  , BID,GLOB_THERM%NINTEMP,
      .           XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .           YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .           ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )

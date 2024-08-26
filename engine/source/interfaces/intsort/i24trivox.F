@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8      MBINFLG,ILEV    ,MSEGTYP ,EDGE_L2 ,IEDGE    ,
      9      ISEADD ,ISEDGE  ,CAND_T  ,FLAGREMNODE,KREMNOD,
      A      REMNOD ,CAND_A  ,RENUM   ,NSNROLD ,IRTSE    ,
-     B      IS2SE  ,NSNE    ,DGAPLOAD)
+     B      IS2SE  ,NSNE    ,DGAPLOAD,INTHEAT,IDT_THERM,NODADT_THERM)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -110,6 +110,9 @@ C-----------------------------------------------
      .        NBINFLG(*),MBINFLG(*),ILEV,MSEGTYP(*),CAND_T(*),
      .        ISEADD(*) ,ISEDGE(*),FLAGREMNODE,KREMNOD(*),REMNOD(*),CAND_A(*),
      .        RENUM(*),NSNROLD,IRTSE(5,*),IS2SE(2,*)
+      INTEGER, INTENT(IN) :: INTHEAT
+      INTEGER, INTENT(IN) :: IDT_THERM
+      INTEGER, INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real
      .   X(3,*),V(3,*),XYZM(6),STF(*),STFN(*),GAP_S(*),
@@ -176,7 +179,7 @@ c!!!!!!!!!!!!!!! A VERIFIER !!!!!!!!!!!!!!!
 C En SPMD, pour IFQ, retrouve ancienne numerotation des candidats non locaux
 c INUTIL POUR INT 24 !!!!!!!!!!!!!!!!!
       IF(NSPMD>1) THEN
-        CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
+        CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNR,INTHEAT,IDT_THERM,NODADT_THERM)
       END IF
 
 C=======================================================================

@@ -59,7 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                  ITAB    ,KINET   ,TEMP    ,NRTM_T  ,RENUM     ,
      5                  NSNFIOLD,ESHIFT  ,NUM_IMP ,IND_IMP ,NODNX_SMS ,
      6                  IXS     ,IGRBRIC ,ALE_CONNECTIVITY,INTBUF_TAB, 
-     7                  COUNT_REMSLV ,H3D_DATA,MULTI_FVM)
+     7                  COUNT_REMSLV ,H3D_DATA,MULTI_FVM,NODADT_THERM)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -108,6 +108,7 @@ C-----------------------------------------------
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(NUMNOD), NSNFIOLD(NSPMD), NODNX_SMS(*),
      .        IXS(NIXS,*),NSHELL,  COUNT_REMSLV(*)
+      INTEGER , INTENT(IN) :: NODADT_THERM
       my_real 
      .   X(3,*), V(3,*), MS(*),TEMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -667,7 +668,7 @@ C
      1      RESULT       ,NSN ,INTBUF_TAB%CAND_N,INTBUF_TAB%I_STOK(1),NIN,
      2      IPARI(21,NIN),NSNR,MULTIMP      ,NTY,IPARI(47,NIN),
      3      IDUM1   ,NSNFIOLD, IPARI, H3D_DATA,INTFRIC,
-     4      MULTI_FVM)
+     4      MULTI_FVM,NODADT_THERM)
         IPARI(24,NIN) = NSNR
 C
         IF (NUM_IMP>0) 

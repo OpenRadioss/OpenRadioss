@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9    FX1         ,FY1      ,FZ1        ,FX2       ,FY2       ,
      A    FZ2         ,FX3      ,FY3        ,FZ3       ,FX4       ,
      B    FY4         ,FZ4      ,FXI        ,FYI       ,FZI       ,
-     F    IFORM    ,CONDINT    ,CONDN     ,CONDNSKYI )
+     F    IFORM    ,CONDINT    ,CONDN     ,CONDNSKYI   ,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER JLT, NIN, NOINT, JTASK, NISKYFI, INTTH, INTPLY,
      .        IFORM,
      .        ITAB(*), ISKY(*), MSEGTYP(*)
@@ -99,7 +100,7 @@ C
      6               INTTH ,PHI    ,FTHE ,PHI1 , PHI2  ,PHI3 ,
      7               PHI4  ,JTASK  ,APINCH     ,STIFPINCH, MSEGTYP, CE_LOC,     
      8               FNI   ,N1     ,N2         ,N3     ,IFORM,
-     9               CONDINT,CONDN )
+     9               CONDINT,CONDN ,NODADT_THERM)
       ELSE
          CALL I25ASS2(JLT   ,IX1   ,IX2  ,IX3  ,IX4  ,
      2               NSVG  ,H1    ,H2   ,H3   ,H4   ,STIF   ,
@@ -108,7 +109,7 @@ C
      5               FXI   ,FYI   ,FZI  ,FSKYI,ISKY ,NISKYFI,
      6               NIN   ,NOINT ,INTTH,PHI  ,FTHESKYI ,INTPLY,
      7               PHI1  ,PHI2  ,PHI3 , PHI4 ,ITAB ,IFORM,
-     C               CONDINT,CONDNSKYI )     
+     C               CONDINT,CONDNSKYI ,NODADT_THERM)     
       ENDIF
 C
 C
@@ -132,7 +133,7 @@ C
      5                  FXI   ,FYI   ,FZI  ,FSKYI,ISKY  ,NISKYFI,
      6                  NIN   ,NOINT ,INTTH,PHI  ,FTHESKYI,INTPLY,
      7                  PHI1  ,PHI2  ,PHI3 , PHI4 ,ITAB,IFORM,
-     C                  CONDINT,CONDNSKYI )       
+     C                  CONDINT,CONDNSKYI ,NODADT_THERM)       
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -158,6 +159,7 @@ C-----------------------------------------------
       INTEGER JLT,NISKYFI,NIN,NOINT,INTTH,INTPLY,IFORM,
      .        ISKY(*),ITAB(*),
      .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
+      INTEGER  , INTENT(IN) :: NODADT_THERM
       my_real
      .    H1(MVSIZ),H2(MVSIZ),H3(MVSIZ),H4(MVSIZ),STIF(MVSIZ),
      .    FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
@@ -375,7 +377,7 @@ C
      6                  INTTH ,PHI  ,FTHE ,PHI1 , PHI2  ,PHI3 ,
      7                  PHI4  ,JTASK,APINCH     ,STIFPINCH ,MSEGTYP, CE_LOC,
      8                  FNI   ,N1   ,N2         ,N3     ,IFORM,
-     9                  CONDINT,CONDN )
+     9                  CONDINT,CONDN ,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -399,6 +401,7 @@ C-----------------------------------------------
       INTEGER JLT, NIN,INTTH,IFORM,
      .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ),JTASK,
      .        MSEGTYP(*),CE_LOC(MVSIZ) 
+      INTEGER  , INTENT(IN) :: NODADT_THERM
       my_real
      .    H1(MVSIZ),H2(MVSIZ),H3(MVSIZ),H4(MVSIZ),STIF(MVSIZ),
      .    FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),

@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6   PZ2,     PZ3,     PZ4,     DT1,
      7   TEMPNC,  TEMPEL,  HEAT,    FPHI,
      8   OFFG,    OFF,     PARTSAV, IPARTS,
-     9   VOL0,    NEL,     NUMNOD )
+     9   VOL0,    NEL,     NUMNOD ,THEACCFACT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,7 +45,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -56,6 +55,7 @@ C-----------------------------------------------
      .        NC5(MVSIZ),NC6(MVSIZ),NC7(MVSIZ),NC8(MVSIZ)
       INTEGER IPARTS(*)
       my_real :: DT1
+      my_real ,INTENT(IN) :: THEACCFACT
       my_real ,INTENT(IN) :: HEAT(MVSIZ)
       my_real :: TEMPNC(NUMNOD)
       my_real :: TEMPEL(NEL) 

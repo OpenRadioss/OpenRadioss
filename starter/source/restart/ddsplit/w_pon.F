@@ -56,7 +56,7 @@ C
      O      IBFFLUX  ,NFXFLUX_L ,CEPCND  ,CELCND   ,ADDCNCND    ,
      P      CNCND     ,NS10E_L  ,ICNDS10 ,LCNCND_L ,ITAGND ,IGRSURF,
      Q      IGRSURF_PROC ,LOCAL_NEBCS, EBCS_TAB_LOC_2,
-     R      NUMBER_LOAD_CYL,LOADS,LOADS_PER_PROC)
+     R      NUMBER_LOAD_CYL,LOADS,LOADS_PER_PROC,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE EBCS_MOD
       USE LOADS_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,10 +77,10 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "com_xfem1.inc"
-#include      "thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type (glob_therm_)  ,intent(in) :: glob_therm
       INTEGER  LCNE, NUMNOD_L, LCNE_L, PROC, I2NSNT, I2NSN_L, NIR,
      .         LCNI2_L, NISKYI2_L, NBDDI2M, NSKYLL_L, NBI18_L,NSKYI18_L,
      .         NUMELS_L ,NUMELS8_L ,NUMELS10_L,NUMELS16_L,NUMELS20_L,
@@ -96,10 +97,10 @@ C-----------------------------------------------
      .         CEPI2(*), CELI2(*), CNI2(*), ADDCNI2(0:NUMNOD+1),
      .         NNLINK(10,*), LLLINK(*),
      .         DD_RBM2(3,NIBVEL), IBVEL(NBVELP,*), LBVEL(*),LEN_IA,
-     .         NCONV_L  ,IBCV(NICONV,*),NSKYRBE3_L,
+     .         NCONV_L  ,IBCV(GLOB_THERM%NICONV,*),NSKYRBE3_L,
      .         IRBE3(NRBE3L,*),LRBE3(*),NSKYRBMK_L,
      .         IRBYM(NIRBYM,*) , LCRBYM(*) ,FRONT_RM(NRBYM,*),
-     .         DD_RBYM2(3,NRBYM), IBCR(NIRADIA,*), NRADIA_L,
+     .         DD_RBYM2(3,NRBYM), IBCR(GLOB_THERM%NIRADIA,*), NRADIA_L,
      .         CNE_PXFEM(*),ADDCNE_PXFEM(0:NPLYXFE + 1),CEL_PXFEM(*),
      .         NUMELCPXFEM_L,NUMNODPXFEM_L,INOD_PXFEM(*),IEL_PXFEM(*),
      .         LCNEPXFEM_L,LLOADP(*),ILOADP(SIZLOADP,*),LLLOADP_L,
@@ -110,7 +111,7 @@ C-----------------------------------------------
      .         CRKNODIAD(*),NUMELIG3D_L,KXIG3D(NIXIG3D,*),IXIG3D(*),
      .         CEPCND(*),CELCND(*),ADDCNCND(0:*),CNCND(*),NS10E_L,ICNDS10(3,*),
      .         LCNCND_L,ITAGND(*),IGEO(NPROPGI,*)
-      INTEGER  NFXFLUX_L,IBFFLUX(NITFLUX,*) 
+      INTEGER  NFXFLUX_L,IBFFLUX(GLOB_THERM%NITFLUX,*) 
       my_real
      .        GEO(NPROPG,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -262,14 +263,14 @@ C-----------------------------------------------
       ALLOCATE(IBTAG(NCONLD))
       IBTAG(1:NCONLD)=0
 
-      ALLOCATE(IBCVTAG(NUMCONV))
-      IBCVTAG(1:NUMCONV)=0
+      ALLOCATE(IBCVTAG(GLOB_THERM%NUMCONV))
+      IBCVTAG(1:GLOB_THERM%NUMCONV)=0
 
-      ALLOCATE(IBCRTAG(NUMRADIA))
-      IBCRTAG(1:NUMRADIA)=0
+      ALLOCATE(IBCRTAG(GLOB_THERM%NUMRADIA))
+      IBCRTAG(1:GLOB_THERM%NUMRADIA)=0
 
-      ALLOCATE(IBFXTAG(NFXFLUX))
-      IBFXTAG(1:NFXFLUX)=0
+      ALLOCATE(IBFXTAG(GLOB_THERM%NFXFLUX))
+      IBFXTAG(1:GLOB_THERM%NFXFLUX)=0
 
       ALLOCATE(ILTAG(SLLOADP/4))
       ILTAG(1:SLLOADP/4)=0
@@ -863,7 +864,7 @@ C
              ENDDO
 C
            ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+ NCONLD + NUMCONV)THEN
+     .            NUMELR+NUMELTG+NUMELX+ NCONLD + GLOB_THERM%NUMCONV)THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
      +                      NUMELTG+NUMELX+NCONLD)
              IF(N2D==0)THEN
@@ -885,10 +886,10 @@ C
              ENDDO
 C
            ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+ NCONLD + NUMCONV +
-     .            NUMRADIA)THEN
+     .            NUMELR+NUMELTG+NUMELX+ NCONLD + GLOB_THERM%NUMCONV +
+     .            GLOB_THERM%NUMRADIA)THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
-     +                      NUMELTG+NUMELX+NCONLD+NUMCONV)
+     +                      NUMELTG+NUMELX+NCONLD+GLOB_THERM%NUMCONV)
              IF(N2D==0)THEN
                KN = 4
              ELSEIF(N2D/=0)THEN
@@ -908,10 +909,10 @@ C
              ENDDO
 C             
            ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+ NCONLD + NUMCONV +
-     .            NUMRADIA+NFXFLUX)THEN
+     .            NUMELR+NUMELTG+NUMELX+ NCONLD + GLOB_THERM%NUMCONV +
+     .            GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX)THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
-     +                      NUMELTG+NUMELX+NCONLD+NUMCONV+NUMRADIA)
+     +                      NUMELTG+NUMELX+NCONLD+GLOB_THERM%NUMCONV+GLOB_THERM%NUMRADIA)
              IF(N2D==0)THEN
                KN = 4
              ELSEIF(N2D/=0)THEN
@@ -931,11 +932,11 @@ C
              ENDDO
 C
            ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+ NCONLD + NUMCONV +
-     .            NUMRADIA+NFXFLUX+SLLOADP/4)THEN
+     .            NUMELR+NUMELTG+NUMELX+ NCONLD + GLOB_THERM%NUMCONV +
+     .            GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLLOADP/4)THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
-     .                      NUMELTG+NUMELX+NCONLD+NUMCONV+
-     .                      NUMRADIA+NFXFLUX)
+     .                      NUMELTG+NUMELX+NCONLD+GLOB_THERM%NUMCONV+
+     .                      GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX)
              IF(ITAGLOADP(NUMG)==0.AND.N2D==0)THEN
                KN = 4
              ELSEIF(ITAGLOADP(NUMG)==0.AND.N2D/=0)THEN
@@ -955,11 +956,11 @@ C
              ENDDO
 C             
            ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+ NCONLD + NUMCONV +
-     .            NUMRADIA+NFXFLUX+SLLOADP/4+NUMELIG3D)THEN
+     .            NUMELR+NUMELTG+NUMELX+ NCONLD + GLOB_THERM%NUMCONV +
+     .            GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLLOADP/4+NUMELIG3D)THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
-     .                      NUMELTG+NUMELX+NCONLD+NUMCONV+
-     .                      NUMRADIA+NFXFLUX+SLLOADP/4)
+     .                      NUMELTG+NUMELX+NCONLD+GLOB_THERM%NUMCONV+
+     .                      GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLLOADP/4)
              DO K = 1,20
                SHFT = ISHFT(IUN,K-1)
                TESTVAL = IAND(TAGIG3D(NUMG),SHFT)
@@ -972,14 +973,14 @@ C
 C             
 C     
            ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+ NCONLD + NUMCONV +
-     .            NUMRADIA+NFXFLUX+SLLOADP/4+NUMELIG3D+NUMBER_LOAD_CYL)THEN
+     .            NUMELR+NUMELTG+NUMELX+ NCONLD + GLOB_THERM%NUMCONV +
+     .            GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLLOADP/4+NUMELIG3D+NUMBER_LOAD_CYL)THEN
             ! --------------------
             ! /LOAD/PCYL option
             ! get the global load segment id
             GLOBAL_SEGMENT_ID = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+ NCONLD + NUMCONV +
-     .            NUMRADIA+NFXFLUX+SLLOADP/4+NUMELIG3D)
+     .            NUMELR+NUMELTG+NUMELX+ NCONLD + GLOB_THERM%NUMCONV +
+     .            GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLLOADP/4+NUMELIG3D)
             LOCAL_PROC_ID = LOADS%GLOBAL_SEGMENT_ID(GLOBAL_SEGMENT_ID,1) ! get the proc id where the segment is defined
             LOCAL_SEGMENT_ID = LOADS%GLOBAL_SEGMENT_ID(GLOBAL_SEGMENT_ID,2) ! get the local segment id (local to the proc P)
             GLOBAL_LOAD_ID = LOADS%GLOBAL_SEGMENT_ID(GLOBAL_SEGMENT_ID,3) ! get the global load id

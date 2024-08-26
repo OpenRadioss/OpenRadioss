@@ -123,7 +123,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M       LSKYI_SMS_NEW,FORNEQS,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
      N       T2FAC_SMS,ICODT,ISKEW,FSKYN25,ADDCSRECT,PROCNOR,
      O       INTER_STRUCT,SORT_COMM,RENUM_SIZ,NODNX_SMS_SIZ,TEMP_SIZ,
-     P       INTERFACES)
+     P       INTERFACES,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -143,6 +143,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE OUTPUTS_MOD
       USE INTERFACES_MOD
+      USE GLOB_THERM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -220,6 +221,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
+      TYPE (glob_therm_) ,INTENT(IN) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -726,7 +728,7 @@ C Fin Partie non parallele smt
             CALL INTER_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,
      1                       NSENSOR,ISENDTO,IRECVFROM,INTBUF_TAB,X,ITAB,
      2                       RENUM,NSNFIOLD,MULTI_FVM,H3D_DATA,SENSORS%SENSOR_TAB,
-     3                       INTER_STRUCT,SORT_COMM ,RENUM_SIZ)
+     3                       INTER_STRUCT,SORT_COMM ,RENUM_SIZ,GLOB_THERM)
       ENDIF
       ! end : new sorting algorithm
       ! ------------------------  
@@ -796,7 +798,7 @@ c-----------------------------------------------------------------------
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,PTR_KINET    ,TEMP         ,NRTM_T ,RENUM   ,
      5 NSNFIOLD,ESHIFT       ,IDUM         ,IDUM    ,NODNX_SMS ,
-     6 INTBUF_TAB(N),H3D_DATA,IXS,MULTI_FVM)
+     6 INTBUF_TAB(N),H3D_DATA,IXS,MULTI_FVM,GLOB_THERM)
 c-----------------------------------------------------------------------
         ELSEIF(NTY == 10)THEN
 c-----------------------------------------------------------------------
@@ -809,7 +811,7 @@ c-----------------------------------------------------------------------
      3 ISENDTO   ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM   ,
      4 NRTM_T    ,RENUM        ,NSNFIOLD     ,ESHIFT  ,IDUM      ,
      5 IDUM      ,NODNX_SMS    ,ITAB         ,INTBUF_TAB(N)      ,
-     6 H3D_DATA   )
+     6 H3D_DATA  ,GLOB_THERM)
 c-----------------------------------------------------------------------
         ELSEIF(NTY == 11.AND.TT>=TS)THEN
 c-----------------------------------------------------------------------
@@ -821,7 +823,7 @@ c-----------------------------------------------------------------------
      2 MS         ,N            ,ITASK        ,WEIGHT  ,ISENDTO  ,
      3 IRECVFROM  ,RETRI        ,IAD_ELEM     ,FR_ELEM ,ITAB     ,
      4 NRTM_T     ,ESHIFT       ,NODNX_SMS    ,RENUM   ,NSNFIOLD ,
-     5 INTBUF_TAB(N),TEMP       )
+     5 INTBUF_TAB(N),TEMP       ,GLOB_THERM%NODADT_THERM)
 c-----------------------------------------------------------------------
         ELSEIF(NTY == 17)THEN
 c-----------------------------------------------------------------------
@@ -865,7 +867,7 @@ c-----------------------------------------------------------------------
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T  ,RENUM   ,
      5 NSNFIOLD,ESHIFT       ,IDUM         ,IDUM    ,DIAG_SMS,
-     6 NODNX_SMS,INTBUF_TAB(N),H3D_DATA)
+     6 NODNX_SMS,INTBUF_TAB(N),H3D_DATA,GLOB_THERM )
 c-----------------------------------------------------------------------
         ELSEIF(NTY == 22)THEN
 c-----------------------------------------------------------------------         
@@ -879,7 +881,7 @@ c-----------------------------------------------------------------------
      4                     ITAB        ,KINET        ,TEMP         ,NRTM_T         ,RENUM        ,
      5                     NSNFIOLD    ,ESHIFT       ,IDUM         ,IDUM           ,NODNX_SMS    ,
      6                     IXS         ,IGRBRIC      ,ALE_CONNECTIVITY  ,INTBUF_TAB(N),
-     7                     COUNT_REMSLV,H3D_DATA     ,MULTI_FVM)
+     7                     COUNT_REMSLV,H3D_DATA     ,MULTI_FVM,GLOB_THERM%NODADT_THERM)
 
           CALL I22SUBVOL(
      1                   X       ,N            ,ITASK        ,IPARI(48:50,N) ,ITAB         ,
@@ -928,7 +930,7 @@ c-----------------------------------------------------------------------
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,KINET        ,NRTM_T       ,RENUM   ,
      5 NSNFIOLD,ESHIFT       ,IDUM         ,IDUM    ,NODNX_SMS ,
-     6 H3D_DATA,MULTI_FVM)
+     6 H3D_DATA,MULTI_FVM,GLOB_THERM%INTHEAT,GLOB_THERM%IDT_THERM,GLOB_THERM%NODADT_THERM)
 c-----------------------------------------------------------------------
         ELSEIF(NTY == 24.AND.TT>=TS)THEN
 c-----------------------------------------------------------------------
@@ -952,7 +954,8 @@ c          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T  ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,IDUM         ,IDUM    ,NODNX_SMS ,
-     6 H3D_DATA,T2MAIN_SMS ,FORNEQS      ,T2FAC_SMS,INTERFACES%PARAMETERS)
+     6 H3D_DATA,T2MAIN_SMS ,FORNEQS      ,T2FAC_SMS,INTERFACES%PARAMETERS,
+     7 GLOB_THERM%INTHEAT,GLOB_THERM%IDT_THERM,GLOB_THERM%NODADT_THERM)
         ELSE
        CALL I24MAIN_TRI(
      1 IPARI   ,X       ,V   ,INTBUF_TAB(N),
@@ -960,7 +963,8 @@ c          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T  ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,IDUM         ,IDUM    ,NODNX_SMS ,
-     6 H3D_DATA,T2MAIN_SMS ,FORNEQS      ,T2FAC_SMS ,INTERFACES%PARAMETERS)
+     6 H3D_DATA,T2MAIN_SMS ,FORNEQS      ,T2FAC_SMS ,INTERFACES%PARAMETERS,
+     7 GLOB_THERM%INTHEAT,GLOB_THERM%IDT_THERM,GLOB_THERM%NODADT_THERM)
         END IF !(NSNE >0 ) THEN
 c-----------------------------------------------------------------------
         ELSEIF(NTY == 25.AND.TT>=TS)THEN
@@ -980,7 +984,7 @@ c-----------------------------------------------------------------------
      4      ITAB    ,KINET        ,TEMP         ,RENUM     ,
      5      NSNFIOLD,IDUM         ,IDUM         ,NODNX_SMS ,
      6      H3D_DATA,ESHIFT       ,NEDGE_T      ,SSHIFT    ,NRTM_T ,
-     7      ICODT   ,ISKEW        ,INTERFACES%PARAMETERS)
+     7      ICODT   ,ISKEW        ,INTERFACES%PARAMETERS,GLOB_THERM%NODADT_THERM)
 C-----------------------------------------------------------------------
         ENDIF
         IF(IMONM > 0) THEN
@@ -1057,7 +1061,7 @@ C-----------------------------------------------------------------------
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,PTR_KINET    ,TEMP         ,NRTM_T        ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,NUM_IMP(N)   ,IND_IMP(IADI) ,NODNX_SMS ,
-     6 INTBUF_TAB(N),H3D_DATA,IXS,MULTI_FVM)
+     6 INTBUF_TAB(N),H3D_DATA,IXS,MULTI_FVM,GLOB_THERM)
             IADI = IADI+NUM_IMP(N)
 c-----------------------------------------------------------------------
         ELSEIF(NTY == 24.AND.TT>=TS)THEN
@@ -1083,7 +1087,8 @@ C-------  KINET,MS used for commu remot secnd, for the moment no need.
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T  ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,NUM_IMP(N)   ,IND_IMP(IADI),NODNX_SMS ,
-     6 H3D_DATA,T2MAIN_SMS ,FORNEQS        ,T2FAC_SMS,INTERFACES%PARAMETERS)
+     6 H3D_DATA,T2MAIN_SMS ,FORNEQS        ,T2FAC_SMS,INTERFACES%PARAMETERS,
+     7 GLOB_THERM%INTHEAT,GLOB_THERM%IDT_THERM,GLOB_THERM%NODADT_THERM)
             IADI = IADI+NUM_IMP(N)
         ELSE
        CALL I24MAIN_TRI(
@@ -1092,7 +1097,8 @@ C-------  KINET,MS used for commu remot secnd, for the moment no need.
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T  ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,NUM_IMP(N)   ,IND_IMP(IADI),NODNX_SMS ,
-     6 H3D_DATA,T2MAIN_SMS ,FORNEQS        ,T2FAC_SMS,INTERFACES%PARAMETERS)
+     6 H3D_DATA,T2MAIN_SMS ,FORNEQS        ,T2FAC_SMS,INTERFACES%PARAMETERS,
+     7 GLOB_THERM%INTHEAT,GLOB_THERM%IDT_THERM,GLOB_THERM%NODADT_THERM)
             IADI = IADI+NUM_IMP(N)
         END IF !(NSNE >0 ) THEN
 c-----------------------------------------------------------------------
@@ -1114,7 +1120,7 @@ C-------  KINET,MS used for commu remot secnd, for the moment no need.
      4      ITAB    ,KINET        ,TEMP         ,RENUM     ,
      5      NSNFIOLD,NUM_IMP(N)   ,IND_IMP(IADI),NODNX_SMS ,
      6      H3D_DATA,ESHIFT,NEDGE_T ,SSHIFT     ,NRTM_T    ,
-     7      ICODT   ,ISKEW        ,INTERFACES%PARAMETERS)
+     7      ICODT   ,ISKEW        ,INTERFACES%PARAMETERS,GLOB_THERM%NODADT_THERM)
             IADI = IADI+NUM_IMP(N)
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 10)THEN
@@ -1128,8 +1134,8 @@ C-----------------------------------------------------------------------
      3 ISENDTO   ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM   ,
      4 NRTM_T    ,RENUM        ,NSNFIOLD     ,ESHIFT  ,NUM_IMP(N),
      5 IND_IMP(IADI) ,NODNX_SMS,ITAB         ,INTBUF_TAB(N)      ,
-     6 H3D_DATA)
-            IADI = IADI+NUM_IMP(N)
+     6 H3D_DATA, GLOB_THERM)
+        IADI = IADI+NUM_IMP(N)
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 11.AND.TT>=TS)THEN
 C-----------------------------------------------------------------------
@@ -1141,7 +1147,7 @@ C-----------------------------------------------------------------------
      2 MS         ,N            ,ITASK        ,WEIGHT  ,ISENDTO  ,
      3 IRECVFROM  ,RETRI        ,IAD_ELEM     ,FR_ELEM ,ITAB     ,
      4 NRTM_T     ,ESHIFT       ,NODNX_SMS    ,RENUM   ,NSNFIOLD ,
-     5 INTBUF_TAB(N),TEMP )
+     5 INTBUF_TAB(N),TEMP , GLOB_THERM%NODADT_THERM)
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 17)THEN
 C-----------------------------------------------------------------------
@@ -1173,7 +1179,8 @@ C-----------------------------------------------------------------------
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T    ,RENUM        ,
      5 NSNFIOLD,ESHIFT       ,NUM_IMP(N)   ,IND_IMP(IADI),DIAG_SMS,
-     6 NODNX_SMS,INTBUF_TAB(N),H3D_DATA)
+     6 NODNX_SMS,INTBUF_TAB(N),H3D_DATA,GLOB_THERM)
+
             IADI = IADI+NUM_IMP(N)
 C-----------------------------------------------------------------------
         ENDIF
@@ -1306,7 +1313,7 @@ C statistique interface
      4      NATIV_SMS,ITASK+1 ,NB25_DST2, MAIN_PROC,
      5      NEWFRONT ,ISENDTO ,IRECVFROM ,NBINTC,
      6      INTLIST  ,ISLEN7   ,IRLEN7  ,IRLEN7T  ,ISLEN7T,
-     7      NB25_DST1,H3D_DATA,  ICODT,ISKEW,INTERFACES%PARAMETERS)
+     7      NB25_DST1,H3D_DATA,  ICODT,ISKEW,INTERFACES%PARAMETERS,GLOB_THERM%NODADT_THERM)
 C
         CALL MY_BARRIER
 C

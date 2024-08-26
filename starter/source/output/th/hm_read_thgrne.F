@@ -50,9 +50,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1      ITYP   ,KEY    ,ITAB  ,ITABM1   ,IX     ,
      3      NIX    ,IAD    ,IFI   ,ITHGRP   ,ITHBUF ,
      4      NV     ,VARE   ,NUMEL ,VARG     ,NVG    ,
-     5      IVARG  ,NSNE   ,NV0   ,IMERGE   ,ITHVAR ,
+     5      IVARG  ,NSNE   ,NV0   ,IMERGE   ,ITHVAR ,ITHERM_FE,
      6      FLAGABF,NVARABF,RFI   ,LSUBMODEL,MAP    , 
-     7      MAPSIZE )
+     7      MAPSIZE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -84,6 +84,7 @@ C-----------------------------------------------
      .        NV0,IMERGE(*),ITHVAR(*),FLAGABF,NVARABF,RFI
       CHARACTER*10 VARE(NV),KEY,VARG(NVG),KEY1
       INTEGER, INTENT(in) :: MAPSIZE
+      INTEGER, INTENT(in) :: ITHERM_FE
       INTEGER, DIMENSION(MAPSIZE,2), INTENT(in) :: MAP
       TYPE(SUBMODEL_DATA) :: LSUBMODEL(NSUBMOD)      
 C-----------------------------------------------

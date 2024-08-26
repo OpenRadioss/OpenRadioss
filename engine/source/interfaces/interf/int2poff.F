@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE INT2POFF(IPARI,X    ,V     ,
      .                   A     ,VR   ,AR   ,MS   ,IN    ,
      .                   WEIGHT,STIFN,STIFR,MCP  ,CONDN  ,
-     .                   FTHE,INTBUF_TAB)
+     .                   FTHE,INTBUF_TAB,ITHERM_FE,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -44,6 +44,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*), WEIGHT(*)
+      INTEGER ,INTENT(IN) :: ITHERM_FE
+      INTEGER ,INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real
      .   X(*), V(*), A(*), 
@@ -84,7 +86,7 @@ C
       CALL I2IPOFF(
      1   NMN       ,A      ,INTBUF_TAB%MSR   ,MS       ,WEIGHT    ,
      2   AR        ,IN     ,STIFN            ,STIFR    ,ILEV      ,
-     3   MCP       ,CONDN  ,INTBUF_TAB%NMAS  ,FTHE)
+     3   MCP       ,CONDN  ,INTBUF_TAB%NMAS  ,FTHE,ITHERM_FE,NODADT_THERM)
 C
       RETURN
       END
@@ -145,7 +147,7 @@ C
       !||====================================================================
       SUBROUTINE I2IPOFF(NMN  ,A     ,MSR   ,MS    ,WEIGHT,
      2                   AR   ,IN    ,STIFN ,STIFR ,ILEV  ,
-     3                   MCP  ,CONDN ,MMASS ,FTHE  )
+     3                   MCP  ,CONDN ,MMASS ,FTHE  ,ITHERM_FE,NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -153,6 +155,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: ITHERM_FE
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER NMN,ILEV,
      .        MSR(*), WEIGHT(*)
 C     REAL

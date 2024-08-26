@@ -2232,7 +2232,7 @@ c END TRI24VOX
       SUBROUTINE SPMD_TRI24GAT(RESULT,NSN ,CAND_N ,I_STOK,NIN,
      2                        IGAP  ,NSNR,MULTIMP,ITY,INTTH ,
      3                        ILEV  ,IEDGE4, H3D_DATA,INTFRIC,
-     4                        INTNITSCHE,ISTIF_MSDT,IFSUB_CAREA)
+     4                        INTNITSCHE,ISTIF_MSDT,IFSUB_CAREA,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -2261,6 +2261,7 @@ C-----------------------------------------------
       INTEGER RESULT, NIN, NSN, I_STOK, IGAP, NSNR, MULTIMP, ITY,
      .        CAND_N(*),INTTH,ILEV,IEDGE4,INTFRIC,INTNITSCHE
       INTEGER , INTENT(IN) :: ISTIF_MSDT, IFSUB_CAREA
+      INTEGER , INTENT(IN) :: NODADT_THERM
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -3009,7 +3010,7 @@ C END TRI24GAT
       SUBROUTINE SPMD_TRI7GAT(RESULT ,NSN    ,CAND_N  ,I_STOK  ,NIN    ,
      2                        IGAP   ,NSNR   ,MULTIMP ,ITY     ,INTTH  ,
      3                        ILEV   ,NSNFIOLD,IPARI  ,H3D_DATA,INTFRIC,
-     4                        MULTI_FVM)
+     4                        MULTI_FVM,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3041,6 +3042,7 @@ C-----------------------------------------------
       INTEGER RESULT, NIN, NSN, I_STOK, IGAP, NSNR, MULTIMP, ITY,
      .        CAND_N(*),INTTH,ILEV, INTFRIC,
      .        NSNFIOLD(*), IPARI(NPARI,NINTER)
+      INTEGER , INTENT(IN) :: NODADT_THERM
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
 C-----------------------------------------------
@@ -4933,7 +4935,7 @@ C END SPMD_TRI11VOX
       !||====================================================================
       SUBROUTINE SPMD_TRI11GAT(RESULT,NRTS ,CAND_S ,I_STOK,NIN,
      2                         INACTI,NRTSR,MULTIMP,IGAP,INTTH,
-     2                         NISUB,INTFRIC)
+     2                         NISUB,INTFRIC,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -4959,6 +4961,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER RESULT, NIN, NRTS, I_STOK, INACTI, NRTSR, MULTIMP, IGAP,
      .        CAND_S(*),INTTH,NISUB,INTFRIC
+      INTEGER ,INTENT(IN) :: NODADT_THERM
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------

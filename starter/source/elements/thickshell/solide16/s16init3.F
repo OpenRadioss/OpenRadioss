@@ -52,7 +52,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7      VNS       ,BNS     ,VNSX    ,BNSX    ,PTSOL    ,
      8      BUFMAT    ,MCP     ,MCPS    ,MCPSX   ,TEMP     ,
      9      NPF       ,TF      ,STRSGLOB,STRAGLOB,FAIL_INI ,
-     A      ILOADP    ,FACLOAD ,RNOISE  ,PERTURB ,MAT_PARAM)
+     A      ILOADP    ,FACLOAD ,RNOISE  ,PERTURB ,MAT_PARAM,
+     B      GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,6 +63,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,6 +101,7 @@ C-----------------------------------------------
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      type (glob_therm_) ,intent(in)      :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -326,7 +329,7 @@ C
      2   YY           ,ZZ       ,VX         ,VY          ,VZ      ,
      3   NC           ,NGL      ,MAT        ,PID         ,MASS    ,
      4   DTELEM(NFT+1),STI      ,GBUF%SIG   ,GBUF%EINT   ,GBUF%RHO,
-     5   GBUF%QVIS    ,TEMP0    ,TEMP       ,NEL         )
+     5   GBUF%QVIS    ,TEMP0    ,TEMP       ,NEL         ,GLOB_THERM%NINTEMP)
 C
       DO N=1,16
         DO I=LFT,LLT

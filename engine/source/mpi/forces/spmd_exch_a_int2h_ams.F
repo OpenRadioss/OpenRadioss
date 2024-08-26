@@ -33,7 +33,7 @@ C
      1   A    ,AR     ,MS    ,IN     ,STIFN,
      2   STIFR,FR_I2M,IAD_I2M,LCOMI2M,ISIZE,
      3   NB_FRI2M,FR_LOCI2M,TAGNOD,INTTH2,FTHE,
-     4   CONDN,FNCONT ,FNCONTP,FTCONTP,H3D_DATA)
+     4   CONDN,FNCONT ,FNCONTP,FTCONTP,H3D_DATA,IDT_THERM)
 C-----------------------------------------------
        USE H3D_MOD
 C-----------------------------------------------
@@ -60,6 +60,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LCOMI2M, ISIZE, NB_FRI2M,INTTH2,
      .        FR_I2M(*), IAD_I2M(*),FR_LOCI2M(*),TAGNOD(*)
+      INTEGER ,INTENT(IN) :: IDT_THERM
       my_real
      .        A(3,*), AR(3,*), MS(*), IN(*),
      .        STIFN(*), STIFR(*),FTHE(*),CONDN(*)
