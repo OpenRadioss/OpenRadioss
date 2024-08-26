@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE S4THERM_ITET1(PM   ,IMAT  ,NC   ,NEL  ,
      .                         XX   ,YY   ,ZZ   ,DT1  ,HEAT ,
-     .                         TEMP ,FPHI ,OFFG ,OFF )
+     .                         TEMP ,FPHI ,OFFG ,OFF  ,THEACCFACT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -37,16 +37,15 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL, NC(MVSIZ,10)
       INTEGER, INTENT(IN) :: IMAT
-      my_real
-     .    TEMP(*), HEAT(*),
-     .    FPHI(MVSIZ,10), PM(NPROPM,*), 
-     .    DT1, OFF(*), OFFG(*)
+      my_real, INTENT(IN) :: THEACCFACT
+      my_real, INTENT(IN) :: DT1 
+      my_real :: TEMP(*), HEAT(*), FPHI(MVSIZ,10), PM(NPROPM,*), 
+     .    OFF(*), OFFG(*)
       DOUBLE PRECISION
      .    XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
 C-----------------------------------------------

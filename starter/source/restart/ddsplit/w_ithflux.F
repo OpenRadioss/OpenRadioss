@@ -26,7 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
       !||--- calls      -----------------------------------------------------
       !||====================================================================
-      SUBROUTINE W_ITHFLUX(IBFFLUX,CEP,PROC,NODLOCAL,NFXFLUX_L,LEN_IA,CEL,IXS)
+      SUBROUTINE W_ITHFLUX(IBFFLUX,CEP,PROC,NODLOCAL,NFXFLUX_L,LEN_IA,CEL,IXS,
+     .           NUMCONV,NUMRADIA,NFXFLUX,NITFLUX)
 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -36,10 +37,13 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NUMCONV
+      INTEGER ,INTENT(IN) :: NUMRADIA
+      INTEGER ,INTENT(IN) :: NFXFLUX
+      INTEGER ,INTENT(IN) :: NITFLUX
       INTEGER LEN_IA, PROC, NFXFLUX_L, IBFFLUX(NITFLUX,*),CEP(*)
       INTEGER NODLOCAL(*), CEL(*), IXS(NIXS,*)
 C-----------------------------------------------
@@ -47,6 +51,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, IBTMP(NITFLUX,NFXFLUX_L), N1, N2, N3, N4, OFF, NB_L
       INTEGER N, NEL, NUSR
+C-----------------------------------------------
 C
       OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR
      +     +NUMELX+NCONLD+NUMCONV+NUMRADIA

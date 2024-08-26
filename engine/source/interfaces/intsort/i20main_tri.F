@@ -55,7 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
      4                  ITAB    ,KINET   ,TEMP    ,NRTM_T  ,RENUM   ,
      5                  NSNFIOLD,ESHIFT  ,NUM_IMP ,IND_IMP ,DIAG_SMS,
-     6                  NODNX_SMS,INTBUF_TAB,H3D_DATA)
+     6                  NODNX_SMS,INTBUF_TAB,H3D_DATA,GLOB_THERM)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE H3D_MOD
       use check_sorting_criteria_mod , only : check_sorting_criteria
+      use glob_therm_mod 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,6 +101,7 @@ C     REAL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
+      type (glob_therm_) ,INTENT(IN) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -337,7 +339,8 @@ C
      6   INTBUF_TAB%STFA,NIN  ,INTBUF_TAB%STFM(1+ESHIFT) ,IGAP  ,INTBUF_TAB%GAP_S,
      7   NSNR  ,NCONT     ,RENUM    ,NSNROLD  ,INTBUF_TAB%GAP_M(1+ESHIFT),
      8   GAPMIN,GAPMAX      ,NUM_IMP      ,NLN          ,INTBUF_TAB%NLG,
-     9   INTBUF_TAB%GAP_SH,INTBUF_TAB%NBINFLG,INTBUF_TAB%MBINFLG,ISYM ,I_MEM     )
+     9   INTBUF_TAB%GAP_SH,INTBUF_TAB%NBINFLG,INTBUF_TAB%MBINFLG,ISYM ,I_MEM     ,
+     .   GLOB_THERM%INTHEAT, GLOB_THERM%IDT_THERM, GLOB_THERM%NODADT_THERM)
 
       ENDIF
 

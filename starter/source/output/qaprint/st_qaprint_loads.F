@@ -33,12 +33,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                            IBCR      ,FRADIA    ,IBCV      ,FCONV     , IGRV     ,
      4                            LGRV      ,AGRV      ,ICFIELD   ,LCFIELD   ,CFIELD    ,
      5                            IPRELOAD  ,PRELOAD   ,IFLAG_BPRELOAD, 
-     6                            LIFLOW, LRFLOW, IFLOW,RFLOW     ,ISPHIO    ,VSPHIO    )
+     6                            LIFLOW, LRFLOW, IFLOW,RFLOW     ,ISPHIO    ,VSPHIO    ,
+     7                            GLOB_THERM)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -107,21 +109,20 @@ C      INOM_OPT(30)= INOM_OPT(29)+ NINTERFRIC
 C      INOM_OPT(31)= INOM_OPT(30)+ NRBMERGE
 C      .. TO BE MAINTAINED (cf doc/inom_opt.txt) ..
 C-----------------------------------------------
+      TYPE (glob_therm_) ,intent(in)      :: glob_therm
       INTEGER, INTENT(IN) :: NUMLOADP, ILOADP(SIZLOADP,NLOADP), LLOADP(NUMLOADP)
       INTEGER, INTENT(IN) :: ICFIELD(SIZFIELD,NLOADC), LCFIELD(SLCFIELD)
       INTEGER, INTENT(IN) :: IBCL(NIBCLD,NCONLD-NPRELD), IPRES(NIBCLD,NPRELD)
-      INTEGER, INTENT(IN) :: IBCR(NIRADIA,NUMRADIA)
-      INTEGER, INTENT(IN) :: IBCV(NICONV,NUMCONV)
+      INTEGER, INTENT(IN) :: IBCR(GLOB_THERM%NIRADIA,GLOB_THERM%NUMRADIA)
+      INTEGER, INTENT(IN) :: IBCV(GLOB_THERM%NICONV,GLOB_THERM%NUMCONV)
       INTEGER, INTENT(IN) :: IGRV(NIGRV,NGRAV), LGRV(*)
       INTEGER, INTENT(IN) :: IPRELOAD(3,*), IFLAG_BPRELOAD(NUMELS)
       my_real, INTENT(IN) ::
      .                       LOADP(LFACLOAD,NLOADP), CFIELD(LFACLOAD,NLOADC),
      .                       FORC(LFACCLD,NCONLD-NPRELD), PRES(LFACCLD,NPRELD),
      .                       AGRV(LFACGRV,NGRAV),PRELOAD(6,*) 
-      my_real, INTENT(IN) ::  
-     .                       FRADIA(LFACTHER,NUMRADIA)
-      my_real, INTENT(IN) ::  
-     .                       FCONV(LFACTHER,NUMCONV)
+      my_real, INTENT(IN) :: FRADIA(GLOB_THERM%LFACTHER,GLOB_THERM%NUMRADIA)
+      my_real, INTENT(IN) :: FCONV(GLOB_THERM%LFACTHER,GLOB_THERM%NUMCONV)
       INTEGER, INTENT(IN) :: LIFLOW, LRFLOW
       INTEGER, DIMENSION(LIFLOW), INTENT(IN) :: IFLOW
       my_real, DIMENSION(LRFLOW), INTENT(IN) :: RFLOW
@@ -343,7 +344,7 @@ C-----------------------------------------------
 C     /RADIATION
 C-----------------------------------------------
       IF (MYQAKEY('/RADIATION')) THEN
-        DO MY_LOAD=1,NUMRADIA
+        DO MY_LOAD=1,GLOB_THERM%NUMRADIA
 C
 C         Title of the option was not stored in NOM_OPT ... TBD
 C         and Radiation ID is not stored 
@@ -354,7 +355,7 @@ C         and Radiation ID is not stored
             CALL QAPRINT('A_RADIATION_FAKE_NAME',MY_LOAD,0.0_8)
           END IF
 C
-          DO I=1,NIRADIA
+          DO I=1,GLOB_THERM%NIRADIA
             IF(IBCR(I,MY_LOAD) /=0)THEN
 C
 C             VARNAME: variable name in ref.extract (without blanks)
@@ -363,7 +364,7 @@ C             VARNAME: variable name in ref.extract (without blanks)
             END IF
           END DO
 C
-          DO I=1,LFACTHER
+          DO I=1,GLOB_THERM%LFACTHER
             IF(FRADIA(I,MY_LOAD)/=ZERO)THEN
 C
 C             VARNAME: variable name in ref.extract (without blanks)
@@ -379,7 +380,7 @@ C-----------------------------------------------
 C     /CONVEC
 C-----------------------------------------------
       IF (MYQAKEY('/CONVEC')) THEN
-        DO MY_LOAD=1,NUMCONV
+        DO MY_LOAD=1,GLOB_THERM%NUMCONV
 C
 C         Title of the option was not stored in NOM_OPT ... TBD
 C         and Convev ID is not stored 
@@ -390,7 +391,7 @@ C         and Convev ID is not stored
             CALL QAPRINT('A_CONVEC_FAKE_NAME',MY_LOAD,0.0_8)
           END IF
 C
-          DO I=1,NICONV
+          DO I=1,GLOB_THERM%NICONV
             IF(IBCV(I,MY_LOAD) /=0)THEN
 C
 C             VARNAME: variable name in ref.extract (without blanks)
@@ -399,7 +400,7 @@ C             VARNAME: variable name in ref.extract (without blanks)
             END IF
           END DO
 C
-          DO I=1,LFACTHER
+          DO I=1,GLOB_THERM%LFACTHER
             IF(FCONV(I,MY_LOAD)/=ZERO)THEN
 C
 C             VARNAME: variable name in ref.extract (without blanks)

@@ -38,7 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4      CAND_E,NSN4   ,NOINT  ,TZINF    ,MAXBOX ,
      5      MINBOX,I_MEM  ,NB_N_B ,I_ADD_MAX,CAND_A ,
      6      ESHIFT,NSNROLD,STF    ,STFN     ,GAP_S  ,
-     7      GAP_M ,GAPMIN ,GAPMAX ,MARGE    ,NIN    )
+     7      GAP_M ,GAPMIN ,GAPMAX ,MARGE    ,NIN    ,
+     8      INTHEAT,IDT_THERM,NODADT_THERM)
 C============================================================================
 C  cette routine est appelee par : I10BUCE(/int10/i10buce.F)
 C----------------------------------------------------------------------------
@@ -122,6 +123,9 @@ C-----------------------------------------------
      .        NSN4,NB_N_B,NOINT,I_ADD_MAX,NSNR,NRTM,IGAP,
      .        ADD(2,*),IRECT(4,*),II_STOK,
      .        NSV(*),CAND_N(*),CAND_E(*),CAND_A(*),RENUM(*)
+      INTEGER, INTENT(IN) :: INTHEAT
+      INTEGER, INTENT(IN) :: IDT_THERM
+      INTEGER, INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real
      .   X(3,*),XYZM(6,*),STF(*),STFN(*),GAP_S(*),GAP_M(*),
@@ -186,7 +190,7 @@ C
 C En SPMD, retrouve ancienne numerotation des candidats non locaux
 C
       IF(NSPMD>1) THEN
-        CALL SPMD_OLDNUMCD(RENUM,OLDNUM,NSNR,NSNROLD)
+        CALL SPMD_OLDNUMCD(RENUM,OLDNUM,NSNR,NSNROLD,INTHEAT,IDT_THERM,NODADT_THERM)
       END IF
 C
       J_STOK = 0

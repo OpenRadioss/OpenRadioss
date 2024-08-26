@@ -59,7 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
      4                  ITAB    ,KINET   ,TEMP    ,NRTM_T  ,RENUM   ,
      5                  NSNFIOLD,ESHIFT  ,NUM_IMP ,IND_IMP ,NODNX_SMS,
-     6                  INTBUF_TAB,H3D_DATA,IXS,MULTI_FVM)
+     6                  INTBUF_TAB,H3D_DATA,IXS,MULTI_FVM,GLOB_THERM)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE INTER_SORTING_MOD
       use check_sorting_criteria_mod , only : check_sorting_criteria
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -110,6 +111,7 @@ C     REAL
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
+      TYPE(GLOB_THERM_), INTENT(INOUT) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -470,7 +472,7 @@ C
      B GAPMIN ,GAPMAX      ,CURV_MAX_MAX   ,NUM_IMP   ,INTBUF_TAB%GAP_SL,
      C INTBUF_TAB%GAP_ML(1+ESHIFT),INTTH ,ITASK  , INTBUF_TAB%VARIABLES(bgapsmx_index),I_MEM     ,  
      D INTBUF_TAB%KREMNODE(1+2*ESHIFT),INTBUF_TAB%REMNODE,ITAB , IPARI(63,NIN),DRAD         ,
-     E ITIED ,INTBUF_TAB%CAND_F,DGAPLOADP)
+     E ITIED ,INTBUF_TAB%CAND_F,DGAPLOADP,GLOB_THERM%INTHEAT, GLOB_THERM%IDT_THERM, GLOB_THERM%NODADT_THERM)
 
       ENDIF
       

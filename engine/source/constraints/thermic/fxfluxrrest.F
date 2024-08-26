@@ -30,7 +30,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    redsqi        ../engine/source/output/tools/redsqi.F
       !||    redsqr        ../engine/source/output/tools/redsqr.F
       !||====================================================================
-      SUBROUTINE FXFLUXRREST(IBFFLUX, FBFFLUX)
+      SUBROUTINE FXFLUXRREST(IBFFLUX, FBFFLUX, GLOB_THERM)
+
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,22 +42,22 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr05_c.inc"
-#include      "thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
+C----------------------------------------------
       INTEGER IBFFLUX(*)
       my_real FBFFLUX(*)
+      type (glob_therm_), INTENT(IN) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
       IF (IRFORM/5<=1) THEN
-        CALL REDSQR (FBFFLUX,LFACTHER*NFXFLUX,IRFORM)
-        CALL REDSQI (IBFFLUX,NITFLUX*NFXFLUX,IRFORM)
+        CALL REDSQR (FBFFLUX,GLOB_THERM%LFACTHER*GLOB_THERM%NFXFLUX,IRFORM)
+        CALL REDSQI (IBFFLUX,GLOB_THERM%NITFLUX *GLOB_THERM%NFXFLUX,IRFORM)
       ELSE
-        CALL READ_DB(FBFFLUX,LFACTHER*NFXFLUX)
-        CALL READ_I_C(IBFFLUX,NITFLUX*NFXFLUX)
+        CALL READ_DB(FBFFLUX,GLOB_THERM%LFACTHER*GLOB_THERM%NFXFLUX)
+        CALL READ_I_C(IBFFLUX,GLOB_THERM%NITFLUX*GLOB_THERM%NFXFLUX)
       ENDIF
 C
       RETURN

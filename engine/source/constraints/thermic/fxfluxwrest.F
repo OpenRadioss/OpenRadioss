@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    wrtsqi        ../engine/source/output/tools/wrtsqi.F
       !||    wrtsqr        ../engine/source/output/tools/wrtsqr.F
       !||====================================================================
-      SUBROUTINE FXFLUXWREST(IBFFLUX, FBFFLUX)
+      SUBROUTINE FXFLUXWREST(IBFFLUX, FBFFLUX, NFXFLUX, NITFLUX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,10 +40,11 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr05_c.inc"
-#include      "thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NFXFLUX
+      INTEGER ,INTENT(IN) :: NITFLUX
       INTEGER IBFFLUX(*)
       my_real FBFFLUX(*)
 C-----------------------------------------------

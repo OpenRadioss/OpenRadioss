@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9                   X3     ,Y3    ,Z3    ,X4     ,Y4     ,
      A                   Z4     ,ITAB  ,NSV    ,MSR   ,IX1    ,
      B                   IX2    ,IX3   ,IX4    ,TEMP  ,FCOND  ,
-     C                   DCOND  )      
+     C                   DCOND  ,THEACCFACT)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,14 +51,13 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT, NOINT, IFUNCTK, FCOND, 
      . NPC(*),IFORM,ITAB(*),
      . NSV(*),MSR(*),IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
-C     REAL
+      my_real, intent(in) :: theaccfact
       my_real DCOND
       my_real
      .   TEMPI(MVSIZ), XI(MVSIZ), YI(MVSIZ),TEMP(*),

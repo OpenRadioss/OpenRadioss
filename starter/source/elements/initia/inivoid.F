@@ -70,7 +70,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C                   IXP    ,MST    ,MSP    ,STT    ,STP    ,
      D                   STRP   ,INP    ,STIFINT,MCPP   ,INR    ,
      E                   MSR    ,MSRT   ,STR    ,IPARTR ,ITAB   ,
-     F                   IXR    ,IMERGE2 , IADMERGE2,NEL,DEFAULTS)
+     F                   IXR    ,IMERGE2 , IADMERGE2,NEL,DEFAULTS,
+     G                   GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -80,6 +81,7 @@ C-----------------------------------------------
       USE DEFAULTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMT_10I
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -125,6 +127,7 @@ C-----------------------------------------------
      .   INR(3,*),MSR(3,*),MSRT(*),STR(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE(DEFAULTS_), INTENT(IN) :: DEFAULTS             
+      type(glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -209,7 +212,7 @@ C Solid 4 nodes tetrahedron
      2      IPARTS(NFT+1),MSS(1,NFT+1),MSNF   ,MSSF(1,NFT+1),WMA ,
      3      RHOCP        ,MCP         ,MCPS(1,NFT+1)          ,TEMP0,
      4      TEMP         ,MSSA        ,IX1     ,IX2    ,IX3    ,IX4 ,
-     5      FILL, VOLU   ,IMAS_DS )
+     5      FILL, VOLU   ,IMAS_DS  ,GLOB_THERM%NINTEMP)
         ENDIF
         IF(I7STIFS /= 0)THEN
           NCC=4
@@ -238,7 +241,7 @@ C Solid  8 nodes brick
      .           Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
      .           RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .           E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
-     .           F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP,
+     .           F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP,GLOB_THERM%NINTEMP,
      .           XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .           YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .           ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
@@ -306,7 +309,7 @@ C
      .              NSHNOD ,STC(NFT+1),SH4TREE ,MCP   ,MCPC(NFT+1) ,
      .              TEMP    ,BID , BID,BID,BID,
      .              BID,BID,ISUBSTACK,IBID,BIDBUF,
-     .              STACK,BIDG ,RNOISE,BID,
+     .              STACK,BIDG ,RNOISE,BID,GLOB_THERM,
      .              PERTURB,IX1     ,IX2      ,IX3     ,IX4     ,IBID, IBID)
 
         NDEPAR=NUMELS+NFT
@@ -342,7 +345,7 @@ C
      .               ETNOD,NSHNOD,STTG(NFT+1), SH3TREE,MCP   ,
      .               MCPS(1,NFT+1) , TEMP,SH3TRIM,ISUBSTACK,IBID,
      .               BIDBUF, STACK,BIDG ,RNOISE,
-     .               BID,PERTURB,IX1   ,IX2      ,IX3    ,
+     .               BID,PERTURB,IX1   ,IX2      ,IX3    ,GLOB_THERM%NINTEMP,
      .               X2L      ,X3L    ,Y3L   ,IBID, IBID)
 
         NDEPAR=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NFT
@@ -373,12 +376,12 @@ C Beam element
      .                    MXT,PID ,IX1,IX2,IX3,DELTAX,
      .                    X1,X2,X3, Y1,Y2,Y3, Z1,Z2,Z3)
 c
-c        CALL PEVECI(GBUF%SKEW, X1,X3, Y1,Y3, Z1,Z3)
         CALL PMASS(GEO,PM,MS,IN,
      .             STIFNTMP,STIFNTMP,PARTSAV,V,IPARTP(NFT+1),
      .             MSP(NFT+1),INP(NFT+1),IGEO , STIFINT, STP(NFT+1),
      .             X1,X2, Y1,Y2, Z1,Z2,
-     .             IX1,IX2,MXT,PID,AREA,DELTAX,STRP(NFT+1),MCP,MCPP,TEMP)
+     .             IX1,IX2,MXT,PID,AREA,DELTAX,STRP(NFT+1),MCP,
+     .             MCPP,TEMP,GLOB_THERM%NINTEMP)
           NDEPAR=NUMELS+NUMELC+NUMELT+NFT
           DO I=1,NEL
             DTELEM(NDEPAR+I)=EP30

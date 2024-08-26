@@ -28,7 +28,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_barrier          ../engine/source/mpi/generic/spmd_barrier.F
       !||    spmd_glob_rsum_poff   ../engine/source/mpi/generic/spmd_glob_rsum_poff.F
       !||====================================================================
-      SUBROUTINE THERMBILAN()
+      SUBROUTINE THERMBILAN(GLOB_THERM)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -36,23 +40,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "thermal_c.inc"
 #include      "units_c.inc"
 #include      "task_c.inc"
 #include      "com01_c.inc"
+C-----------------------------------------------,
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: ARRAY(5)
-C
-      ARRAY(1) =  HEAT_FFLUX
-      ARRAY(2) =  HEAT_MECA
-      ARRAY(3) =  HEAT_CONV
-      ARRAY(4) =  HEAT_RADIA
-      ARRAY(5) =  HEAT_STORED
+!=======================================================================
+      ARRAY(1) =  GLOB_THERM%HEAT_FFLUX
+      ARRAY(2) =  GLOB_THERM%HEAT_MECA
+      ARRAY(3) =  GLOB_THERM%HEAT_CONV
+      ARRAY(4) =  GLOB_THERM%HEAT_RADIA
+      ARRAY(5) =  GLOB_THERM%HEAT_STORED
 C      WRITE(6,*) __FILE__,"-",ISPMD,ARRAY(5)
       CALL SPMD_BARRIER
-      IF(NSPMD > 1) CALL SPMD_GLOB_RSUM_POFF(ARRAY,5)
+      IF (NSPMD > 1) CALL SPMD_GLOB_RSUM_POFF(ARRAY,5)
 C      WRITE(6,*) __FILE__,"+",ISPMD,ARRAY(5)
       CALL SPMD_BARRIER
 C    

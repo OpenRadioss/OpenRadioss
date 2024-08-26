@@ -78,7 +78,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M    INOD_CRK  ,IEL_CRK   ,IADC_CRK  ,ELCUTC    ,NODENR    ,
      N    IBORDNODE ,NODEDGE   ,CRKNODIAD ,ELBUF_TAB ,
      O    XFEM_TAB  ,CONDN     ,CONDNSKY  ,CRKEDGE   ,
-     P    STACK     ,ITAB      ,
+     P    STACK     ,ITAB      ,GLOB_THERM,
      S    DRAPE_SH4N  ,DRAPE_SH3N  ,SUBSET    ,XDP       ,VPINCH,
      T    APINCH    ,STIFPINCH ,DRAPEG,OUTPUT ,DT        )
 C-----------------------------------------------
@@ -98,6 +98,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -172,6 +173,7 @@ C     REAL
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_) ,INTENT(IN) :: DT
+      type (glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -330,7 +332,7 @@ C
      Q   CONDN,              CONDNSKY,           ISUBSTACK,          STACK,
      R   DRAPE_SH4N,         NEL,                NLOC_DMG,           VPINCH,
      S   APINCH,             STIFPINCH,          DRAPEG%INDX_SH4N,   IGRE,
-     T   JTUR,               DT)
+     T   JTUR,               DT                  ,GLOB_THERM )
           ELSEIF (JHBE >= 21 .AND. JHBE <= 29) THEN
 
               CALL CZFORC3(
@@ -362,7 +364,7 @@ C
      Q   NODEDGE,            CRKNODIAD,          CONDN,              CONDNSKY,
      R   STACK,              ISUBSTACK,          XFEM_TAB(NG,1:NXEL),CRKEDGE,
      S   DRAPE_SH4N,         NEL,                NLOC_DMG,           DRAPEG%INDX_SH4N,
-     T   IGRE,               JTUR,               DT                 )
+     T   IGRE,               JTUR,               DT                 ,GLOB_THERM )
 
       IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
           DO IXEL=1,NXEL
@@ -390,7 +392,7 @@ C
      N          SENSORS    ,IXEL     ,
      O          ISUBSTACK  ,UXINT_MEAN ,UYINT_MEAN,UZINT_MEAN,NLEVXF      ,
      P          NODEDGE    ,CRKEDGE    ,STACK    ,DRAPE_SH4N  ,NLOC_DMG,DRAPEG%INDX_SH4N,IGRE   ,
-     Q          DT         )
+     Q          DT         ,GLOB_THERM )
           ENDDO
             ENDIF
 c
@@ -424,7 +426,7 @@ c
      Q   CONDN,              CONDNSKY,           STACK,              ISUBSTACK,
      R   XFEM_TAB(NG,1:NXEL),CRKEDGE,            DRAPE_SH4N,         IPRI,
      S   NLOC_DMG,           DRAPEG%INDX_SH4N,   IGRE,               JTUR,
-     T   OUTPUT,             DT              )
+     T   OUTPUT,             DT              ,   GLOB_THERM)
 c
          IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
           DO IXEL=1,NXEL
@@ -452,7 +454,7 @@ c
      N SENSORS,IXEL      ,STACK       ,
      O ISUBSTACK   ,UXINT_MEAN  ,UYINT_MEAN  ,UZINT_MEAN,NLEVXF      ,
      P NODEDGE     ,CRKEDGE     ,DRAPE_SH4N   ,IPRI       ,NLOC_DMG  ,
-     R DRAPEG%INDX_SH4N,IGRE    ,DT          )
+     R DRAPEG%INDX_SH4N,IGRE    ,DT          ,GLOB_THERM)
           ENDDO
             END IF
           ENDIF
@@ -520,7 +522,8 @@ C----6---------------------------------------------------------------7--
      J   IPARG(1,NG),     SENSORS,              PTG(1,NF1),      JTHE,
      K   CONDN,           CONDNSKY,             ISUBSTACK,       STACK,
      L   ITASK,           DRAPE_SH3N,           IPRI,            NLOC_DMG,
-     M   DRAPEG%INDX_SH3N,IGRE,                 JTUR,            DT  )
+     M   DRAPEG%INDX_SH3N,IGRE,                 JTUR,            DT      ,
+     N   GLOB_THERM      )
            ELSE
              IF (ISH3N == 30) THEN
               CALL CDKFORC3(
@@ -545,7 +548,7 @@ C----6---------------------------------------------------------------7--
      J   JTHE,                                  CONDN,                CONDNSKY,        ISUBSTACK,
      K   STACK,                                 ITASK,                DRAPE_SH3N,      IPRI,
      L   NLOC_DMG,                              DRAPEG%INDX_SH3N,     IGRE,            JTUR,
-     M   DT      )
+     M   DT      ,                              GLOB_THERM  )
              ELSE
               CALL C3FORC3(
      1   ELBUF_TAB(NG),         JFT,                                   JLT,               PM,
@@ -574,7 +577,7 @@ C----6---------------------------------------------------------------7--
      O   CONDNSKY,              STACK,                                 ISUBSTACK,         XFEM_TAB(NG,1:NXEL),
      P   CRKEDGE,               DRAPE_SH3N,                            IPRI,              NLOC_DMG,
      Q   XDP,                   DRAPEG%INDX_SH3N,                      IGRE,              JTUR,
-     R   DT    )
+     R   DT                    ,GLOB_THERM   )
 
        IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
          DO IXEL=1,NXEL
@@ -603,7 +606,7 @@ C----6---------------------------------------------------------------7--
      M   IXEL,              STACK,                ISUBSTACK,        UXINT_MEAN,
      N   UYINT_MEAN,        UZINT_MEAN,           NLEVXF,           NODEDGE,
      O   CRKEDGE,           DRAPE_SH3N,           IPRI,             NLOC_DMG,
-     P   DRAPEG%INDX_SH3N,  IGRE,                 DT  )
+     P   DRAPEG%INDX_SH3N,  IGRE,                 DT  ,             GLOB_THERM   )
         ENDDO
         ENDIF
        ENDIF

@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6                  F33    ,F34  ,M11   ,M12   ,M13    ,
      7                  M14    ,M21  ,M22   ,M23   ,M24    ,
      8                  M31    ,M32  ,M33   ,M34   ,EINT   ,
-     9                  PARTSAV,MAT  ,IPARTC)
+     9                  PARTSAV,MAT  ,IPARTC,NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,6 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER JFT, JLT, NVC
       INTEGER IXC(NIXC,MVSIZ),MAT(MVSIZ),IPARTC(*)
       integer*8 I8F(3,3,*), I8M(3,3,*), I8STIFN(3,*), I8STIFR(3,*)
@@ -513,7 +514,7 @@ C
      7                  M14  ,M21  ,M22    ,M23  ,M24  ,
      8                  M31  ,M32  ,M33    ,M34  ,EINT ,
      9                  PARTSAV,MAT,IPARTC ,JTHE  ,THEM   ,
-     A                  FTHE ,CONDN,CONDE)
+     A                  FTHE ,CONDN,CONDE,NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -530,6 +531,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER JFT, JLT, NVC, JTHE
       INTEGER IXC(NIXC,MVSIZ),MAT(MVSIZ),IPARTC(*)
 C     REAL
@@ -962,7 +964,7 @@ C
      7                   M31  ,M32    ,M33    ,M34   ,
      8                   EINT ,PARTSAV,MAT    ,IPARTC,PM   ,
      9                   AREA ,THK    ,JTHE   ,THEM,FTHESKY,
-     A                   CONDNSKY,CONDE)
+     A                   CONDNSKY,CONDE,NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -981,6 +983,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER JFT, JLT, JTHE
       INTEGER IXC(NIXC,MVSIZ),MAT(MVSIZ),IPARTC(*),IADC(4,*)
       my_real

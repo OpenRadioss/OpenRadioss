@@ -48,13 +48,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   SIGSPH  ,ISPTAG   ,IPART,
      .                   IPM     ,NSIGSPH  ,PTSPH  ,NPF   ,
      .                   TF      ,ELBUF_STR,MCP    ,TEMP  ,ILOADP ,
-     .                   FACLOAD ,STIFINT  ,I7STIFS)
+     .                   FACLOAD ,STIFINT  ,I7STIFS,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD    
       USE DETONATORS_MOD              
       USE ALE_CONNECTIVITY_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,6 +92,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: I7STIFS
       my_real,INTENT(INOUT) :: STIFINT(NUMNOD)
       TYPE(DETONATORS_STRUCT_)::DETONATORS
+      type (glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -237,16 +239,16 @@ C--------------------------------------------------
 C----------------------------------------
 C     INITIALISATION OF THERMAL BEHAVIOR
 C----------------------------------------
-      IF(JTHE > 0)THEN
+      IF (JTHE > 0)THEN
         DO I=LFT,LLT
           GBUF%TEMP(I)=PM(79,MXT(I))
         ENDDO
       ELSEIF (JTHE < 0) THEN
-        INTHEAT = 1
+        GLOB_THERM%INTHEAT = 1
         DO I=LFT,LLT
           J = NC1(I)
-          RHOCP = PM(69,MXT(I))*VOL(I)
-          MCP(J) = RHOCP+MCP(J)
+          RHOCP   = PM(69,MXT(I))*VOL(I)
+          MCP(J)  = RHOCP+MCP(J)
           TEMP(J) = PM(79,MXT(I))
         ENDDO
       END IF

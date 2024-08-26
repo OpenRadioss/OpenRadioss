@@ -38,7 +38,7 @@ C
      5                   GAPV ,FNI  ,IFUNCTK,XTHE   ,NPC   ,TF    ,
      6                   CONDINT,PHI1,PHI2  ,PHI3   ,PHI4  ,FHEATS,
      7                   FHEATM,EFRICT,TEMP ,H1     ,H2     ,H3   ,
-     8                   H4   )     
+     8                   H4   ,theaccfact)     
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +52,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -60,7 +59,7 @@ C-----------------------------------------------
      .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
      .        IELECI(MVSIZ),NPC(*),
      .        IFORM,IFUNCTK
-C     REAL
+      my_real, intent(in) :: theaccfact
       my_real
      .   PM(NPROPM,*),TEMP(*),TEMPI(MVSIZ),XI(MVSIZ),YI(MVSIZ),
      .   ZI(MVSIZ),X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),X2(MVSIZ),Y2(MVSIZ),

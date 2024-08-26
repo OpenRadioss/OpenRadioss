@@ -121,7 +121,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Q   CONDN,       CONDNSKY,    ISUBSTACK,   STACK,
      R   DRAPE_SH4N,  NEL,         NLOC_DMG,    VPINCH,
      S   FPINCH,      STIFPINCH,   INDX_DRAPE,  IGRE,
-     T   JTUR,        DT)
+     T   JTUR,        DT       ,   GLOB_THERM )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -135,6 +135,8 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      use glob_therm_mod
+      use dttherm_mod
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -192,6 +194,7 @@ C     REAL OU REAL*8
       TYPE (MAT_ELEM_),INTENT(INOUT) :: MAT_ELEM
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
       TYPE (DT_) ,INTENT(IN) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -257,7 +260,7 @@ C-----------------------------------------------
      .   BPINCHDAMP(MVSIZ,8),VFPINCHDAMPX(MVSIZ,4),VFPINCHDAMPY(MVSIZ,4),
      .   EZZAVG(MVSIZ),AREAPINCH(MVSIZ),ZLA(MVSIZ)
       INTEGER 
-     .   NPLATT,PTW ,LENW,PTT,IPOUT
+     .   NPLATT,PTW ,LENW,PTT,IPOUT,IMAT
       INTEGER  IPLATT(MVSIZ)
       my_real 
      .   VCORET(MVSIZ,3*NNOD),BMT(MVSIZ,9*NNOD),VQGT(MVSIZ,9*NNOD),
@@ -309,6 +312,8 @@ C--------------------------
       NUMEL_DRAPE = NUMELC_DRAPE
       TEMPEL(:) = ZERO
       FHEAT(: ) = ZERO
+      IMAT = MAT(1)
+
 C
       NLAY = ELBUF_STR%NLAY
       NPTR = ELBUF_STR%NPTR
@@ -775,7 +780,7 @@ C-----------------
      J    R13       ,R21       ,R22       ,R23       ,R31       ,
      K    R32       ,R33       ,NG        ,TABLE     ,IBID      ,
      L    OFFI      ,SENSORS   ,A11_IPLY  ,IBID      ,
-     M    DIR1_CRK  ,DIR2_CRK  ,LC        ,
+     M    DIR1_CRK  ,DIR2_CRK  ,LC        ,GLOB_THERM%IDT_THERM ,GLOB_THERM%THEACCFACT,
      N    ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O    IBID      ,IBID      ,ISUBSTACK ,STACK     ,
      P    F_DEF(1,1,NG),ITASK  ,DRAPE_SH4N     ,VAR_REG(1,1),NLOC_DMG ,
@@ -846,13 +851,13 @@ C--------------------------
 C
       IF (JTHE /= 0) THEN
         IF (MAT_ELEM%MAT_PARAM(MAT(1))%HEAT_FLAG == 1) THEN
-          CALL CBATHERM(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
-     .                  BM    ,AREA  ,DT1C   ,TEMP    ,TEMPEL,FHEAT   , 
-     .                  NPLAT ,IPLAT,THEM    ) 
+          CALL CBATHERM(JFT   ,JLT   ,PM(1,IMAT)     ,THK0  ,IXC     ,
+     .                  BM    ,AREA  ,DT1C(1)   ,TEMP    ,TEMPEL,FHEAT   , 
+     .                  NPLAT ,IPLAT,THEM    ,GLOB_THERM%THEACCFACT) 
         ELSE
-          CALL CBATHERM(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
-     .                  BM    ,AREA  ,DT1C   ,TEMP    ,TEMPEL,DIE     , 
-     .                  NPLAT ,IPLAT,THEM    ) 
+          CALL CBATHERM(JFT   ,JLT   ,PM(1,IMAT)     ,THK0  ,IXC     ,
+     .                  BM    ,AREA  ,DT1C(1)   ,TEMP    ,TEMPEL,DIE     , 
+     .                  NPLAT ,IPLAT,THEM    ,GLOB_THERM%THEACCFACT) 
         END IF
       ENDIF
 c-------------------------
@@ -1014,12 +1019,10 @@ C
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
-        IF(JTHE > 0.AND.IDT_THERM == 1)THEN
-           CALL DTTHERM(
-     1   JFT,     JLT,     PM,      TEMPEL,
-     2   GBUF%RE, RHO,     GBUF%RK, VOL0,
-     3   LC,      MAT,     DT_THERM,OFF,
-     4   CONDE,   JTUR)
+        IF (JTHE > 0.AND. GLOB_THERM%IDT_THERM == 1)THEN
+           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
+     .                  jtur    ,tempel  ,vol0    ,rho       ,
+     .                  lc      ,off     ,conde   ,gbuf%re   ,gbuf%rk )
          ENDIF 
 C 
       IF(ISHPLYXFEM > 0) THEN                                     
@@ -1046,7 +1049,7 @@ C--------------------------
      6            F33    ,F34  ,M11 ,M12 ,M13  ,
      7            M14    ,M21  ,M22 ,M23 ,M24  ,
      8            M31    ,M32  ,M33 ,M34 ,GBUF%EINT,
-     9            PARTSAV,MAT ,IPARTC)
+     9            PARTSAV,MAT ,IPARTC,GLOB_THERM%NODADT_THERM)
       ELSEIF(IPARIT == 0)THEN
         CALL CUPDTN3(JFT   ,JLT  ,F   ,M   ,NVC  , 
      2            GBUF%OFF,OFF  ,STI ,STIR,STIFN,
@@ -1057,7 +1060,7 @@ C--------------------------
      7            M14    ,M21   ,M22 ,M23 ,M24  ,
      8            M31    ,M32   ,M33 ,M34 ,GBUF%EINT,
      A            PARTSAV,MAT   ,IPARTC ,FACN ,JTHE,
-     B            THEM , FTHE  ,CONDN  ,CONDE)
+     B            THEM , FTHE  ,CONDN  ,CONDE,GLOB_THERM%NODADT_THERM)
 C       
         IF(NPINCH > 0) THEN
           CALL CUPDTN3PINCH(
@@ -1075,7 +1078,7 @@ C
      8            M31    ,M32  ,M33    ,M34  ,IXC,
      A            GBUF%EINT,PARTSAV,MAT,IPARTC,PM  ,
      B            AREA   ,GBUF%THK,FACN ,JTHE,THEM ,
-     C            FTHESKY,CONDNSKY,CONDE )
+     C            FTHESKY,CONDNSKY,CONDE,GLOB_THERM%NODADT_THERM )
       ENDIF
 C     
       IF(ISHPLYXFEM > 0) THEN

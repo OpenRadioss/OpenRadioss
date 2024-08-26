@@ -40,8 +40,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   PTG   ,IGEO    ,IMAT  ,IPROP   ,AREA    ,
      .                   ETNOD ,NSHNOD ,STTG   ,SH3TREE ,MCP     ,
      .                   MCPTG  , TEMP ,SH3TRIM,ISUBSTACK,NLAY   ,
-     .                   ELBUF_STR, STACK,THKI ,RNOISE   ,DRAPE ,
-     .                   PERTURB,IX1   ,IX2    ,IX3    ,
+     .                   ELBUF_STR, STACK,THKI ,RNOISE   ,DRAPE  ,
+     .                   PERTURB,IX1   ,IX2    ,IX3      ,NINTEMP,
      .                   X2     ,X3     ,Y3    ,IDRAPE   ,INDX)
 C-----------------------------------------------
 C   M o d u l e s
@@ -82,6 +82,7 @@ C-----------------------------------------------
      .        PERTURB(NPERTURB)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ)
       INTEGER, DIMENSION (STDRAPE)  :: INDX
+      INTEGER ,INTENT(IN) :: NINTEMP
       my_real
      .   X(3,*), GEO(NPROPG,*), PM(NPROPM,*), MS(*), TINER(*),THKE(*),
      .   V(3,*),PARTSAV(20,*),MSTG(*),INTG(*),PTG(3,*),

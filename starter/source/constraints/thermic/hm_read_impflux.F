@@ -38,7 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_IMPFLUX(IB      ,FAC    ,ITAB   ,IXS    ,IGRSURF  ,
-     .                      UNITAB ,IGRNOD ,IGRBRIC, LSUBMODEL)
+     .                      UNITAB ,IGRNOD ,IGRBRIC, LSUBMODEL,
+     .                      NIMPFLUX,NITFLUX,LFACTHER)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,11 +59,13 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "com04_c.inc"
-#include      "thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      INTEGER ,INTENT(IN)    :: NIMPFLUX
+      INTEGER ,INTENT(IN)    :: NITFLUX
+      INTEGER ,INTENT(IN)    :: LFACTHER
       INTEGER IB(NITFLUX,*), ITAB(*), IXS(NIXS,*)
 C
       my_real FAC(LFACTHER,*)

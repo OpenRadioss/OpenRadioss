@@ -116,7 +116,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      K                             SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS      ,SIGTRUSS         ,
      L                             NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL ,
      M                             IMERGE      ,NMERGE_TOT ,IEXLNK          ,DRAPEG         ,USER_WINDOWS     ,
-     N                             OUTPUT      ,DEFAULTS    )
+     N                             OUTPUT      ,DEFAULTS   ,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -145,6 +145,7 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE DEFAULTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -160,7 +161,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "scr23_c.inc"
 #include      "tabsiz_c.inc"
-#include      "thermal_c.inc"
 #include      "sphcom.inc"
 #include      "com_xfem1.inc"
 #include      "fxbcom.inc"
@@ -217,7 +217,8 @@ C-----------------------------------------------
       TYPE(USER_WINDOWS_),INTENT(IN)      :: USER_WINDOWS
       TYPE(OUTPUT_)      ,INTENT(IN)      :: OUTPUT
       TYPE(MAT_ELEM_)    ,INTENT(IN)      :: MAT_ELEM
-      TYPE(DEFAULTS_)    , INTENT(IN)     :: DEFAULTS             !< Defaults mod
+      TYPE(DEFAULTS_)    ,INTENT(IN)      :: DEFAULTS             !< Defaults mod
+      TYPE(glob_therm_)  ,intent(in)      :: glob_therm
 C-----------------------------------------------
 C      NOM_OPT(LNOPT1,SNOM_OPT1) 
 C         * Possibly, NOM_OPT(1) = ID
@@ -274,8 +275,11 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IBCL(NIBCLD,NCONLD-NPRELD), IPRES(NIBCLD,NPRELD)
       INTEGER, INTENT(IN) :: IGRV(NIGRV,NGRAV), LGRV(*)
       INTEGER, INTENT(IN) :: NPBY(NNPBY,NRBYKIN), NPBYL(NNPBY,NRBYLAG), LPBY(*), LPBYL(*)
-      INTEGER, INTENT(IN) :: IBCR(NIRADIA,NUMRADIA),IBCV(NICONV,NUMCONV),IBFTEMP(NIFT,NFXTEMP),
-     .                       IBFFLUX(NITFLUX,NFXFLUX),IBFVEL(NIFV,NFXVEL)
+      INTEGER, INTENT(IN) :: IBCR(GLOB_THERM%NIRADIA,GLOB_THERM%NUMRADIA)
+      INTEGER, INTENT(IN) :: IBCV(GLOB_THERM%NICONV,GLOB_THERM%NUMCONV)
+      INTEGER, INTENT(IN) :: IBFTEMP(GLOB_THERM%NIFT,GLOB_THERM%NFXTEMP)
+      INTEGER, INTENT(IN) :: IBFFLUX(GLOB_THERM%NITFLUX,GLOB_THERM%NFXFLUX)
+      INTEGER, INTENT(IN) :: IBFVEL(NIFV,NFXVEL)
       INTEGER, INTENT(IN) :: ICODE(NUMNOD), ISKEW(NUMNOD)
       INTEGER, INTENT(IN) :: IBCSLAG(5,NBCSLAG)
       INTEGER, INTENT(IN) :: IPARI(NPARI,NINTER)
@@ -307,14 +311,14 @@ C-----------------------------------------------
      .                        LOADP(LFACLOAD,NLOADP), CFIELD(LFACLOAD,NLOADC),
      .                        FORC(LFACCLD,NCONLD-NPRELD), PRES(LFACCLD,NPRELD),
      .                        AGRV(LFACGRV,NGRAV),PRELOAD(6,*)  
-      my_real, INTENT(IN) ::
-     .                        RBY(NRBY,NRBYKIN),RBYL(NRBY,NRBYLAG),FRBE3(SFRBE3),GJBUFR(LKJNR,*),MS(*),IN(*)
-      my_real, INTENT(IN) ::  
-     .                        FRADIA(LFACTHER,NUMRADIA), FCONV(LFACTHER,NUMCONV),
-     .                        FBFTEMP(LFACTHER,NFXTEMP), FBFFLUX(LFACTHER,NFXFLUX),
-     .                        FBFVEL(LFXVELR,NFXVEL)
-      my_real, INTENT(IN) ::
-     .                        V(3,NUMNOD), VR(SVR) , ! SVR=3*NUMNOD*IRODDL
+      my_real, INTENT(IN) :: RBY(NRBY,NRBYKIN),RBYL(NRBY,NRBYLAG),FRBE3(SFRBE3)
+      my_real, INTENT(IN) :: GJBUFR(LKJNR,*),MS(*),IN(*)
+      my_real, INTENT(IN) :: FRADIA(GLOB_THERM%LFACTHER,GLOB_THERM%NUMRADIA)
+      my_real, INTENT(IN) :: FCONV(GLOB_THERM%LFACTHER,GLOB_THERM%NUMCONV)
+      my_real, INTENT(IN) :: FBFTEMP(GLOB_THERM%LFACTHER,GLOB_THERM%NFXTEMP)
+      my_real, INTENT(IN) :: FBFFLUX(GLOB_THERM%LFACTHER,GLOB_THERM%NFXFLUX)
+      my_real, INTENT(IN) :: FBFVEL(LFXVELR,NFXVEL)
+      my_real, INTENT(IN) :: V(3,NUMNOD), VR(SVR) , ! SVR=3*NUMNOD*IRODDL
      .                        W(SW)                  ! SW=3*NUMNOD*IALE
       my_real, INTENT(IN) ::
      .                        DAMPR(NRDAMP,*)
@@ -405,20 +409,21 @@ C-----------------------------------------------
      7                            LPBYL     ,RBYL      ,IBMPC     ,IBMPC2    ,IBMPC3    ,
      8                            IBMPC4    ,RBMPC     ,LJOINT    ,NNLINK    ,LNLINK,
      9                            LLINAL    ,LINALE    ,GJBUFI    ,GJBUFR    ,MS        ,
-     9                            IN        ,FXBIPM    ,FXBFILE_TAB)
+     9                            IN        ,FXBIPM    ,FXBFILE_TAB,GLOB_THERM)
 
       CALL ST_QAPRINT_LOADS(NOM_OPT   ,INOM_OPT  ,NUMLOADP  ,ILOADP    ,LLOADP    ,
      2                      LOADP     ,IBCL      ,FORC      ,IPRES     ,PRES      ,
      3                      IBCR      ,FRADIA    ,IBCV      ,FCONV     ,IGRV      ,
      4                      LGRV      ,AGRV      ,ICFIELD   ,LCFIELD   ,CFIELD    ,
      5                      IPRELOAD  ,PRELOAD   ,IFLAG_BPRELOAD,
-     6                      LIFLOW, LRFLOW, IFLOW,RFLOW     ,ISPHIO    ,VSPHIO    )
+     6                      LIFLOW, LRFLOW, IFLOW,RFLOW     ,ISPHIO    ,VSPHIO,
+     7                      GLOB_THERM    )
 
       CALL ST_QAPRINT_GENERAL_CONTROLS(NOM_OPT   ,INOM_OPT  ,DAMPR, IRAND, ALEA, 
      1                                 XSEED     ,UNITAB    ,QP_IPERTURB       ,
      2                                 QP_RPERTURB,EIGIPM   , EIGRPM, DEFAULTS )
       CALL ST_QAPRINT_INTERFACES(NOM_OPT   ,INOM_OPT  ,IPARI  ,INTBUF_TAB,I2RUPT ,  
-     1                           AREASL)      
+     1                           AREASL,GLOB_THERM%INTHEAT)      
       CALL ST_QAPRINT_CLUSTERS(NOM_OPT   ,INOM_OPT  ,CLUSTERS)
       CALL ST_QAPRINT_OUTPUT_DATABASES(NOM_OPT, INOM_OPT, LACCELM ,ACCELM,LGAUGE,GAUGE)
       CALL ST_QAPRINT_MODEL_TOOLS(NOM_OPT, INOM_OPT, IBOX, IPMAS, NOM_SECT, NSTRF, SECBUF ,

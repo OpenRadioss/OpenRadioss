@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    tri7box    ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE ASSPARXX(ITSK,INTLIST,NBINTC,IPARI) 
+      SUBROUTINE ASSPARXX(ITSK,INTLIST,NBINTC,IPARI,NODADT_THERM) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,6 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER ITSK,NBINTC,INTLIST(*),IPARI(NPARI,*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s

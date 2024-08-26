@@ -737,7 +737,7 @@ C---------------------------------
      4           FX3   ,FY3  ,FZ3  ,FX4  ,FY4    ,FZ4  ,
      5          FXI   ,FYI  ,FZI  ,A    ,STIFN  ,NIN  ,
      6           IBID  ,BID  ,BID  ,BID  ,BID    ,BID  ,
-     7           BID   ,BID  ,BID  ,JTASK,IBID   ) 
+     7           BID   ,BID  ,BID  ,JTASK,IBID   ,IBID   ) 
          ELSE
             CALL I7ASS2(JLT   ,IX1   ,IX2  ,IX3  ,IX4  ,
      2           NSVG  ,H1    ,H2   ,H3   ,H4   ,STIF   ,
@@ -746,7 +746,7 @@ C---------------------------------
      5           FXI   ,FYI   ,FZI  ,FSKYI,ISKY ,NISKYFI,
      6           NIN   ,NOINT ,IBID ,BID  ,BID  ,BID    ,
      7           BID   ,BID   ,BID  ,BID  ,BID  ,
-     A           IBID )
+     A           IBID  ,IBID  )
          ENDIF
       ENDIF
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT  > 0)THEN

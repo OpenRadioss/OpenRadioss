@@ -33,11 +33,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE S6CCOOR3(X       ,IXS  ,GEO  ,NGL  ,MXT  ,NGEO ,                            
      .     RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .     R11  ,R21  ,R31  ,R12  ,R22  ,R32  ,R13  ,R23  ,R33  ,
-     .     F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP, 
+     .     F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP,NINTEMP,
      .     IX1, IX2, IX3, IX4, IX5, IX6, 
      .     X1, X2, X3, X4, X5, X6, 
      .     Y1, Y2, Y3, Y4, Y5, Y6,
      .     Z1, Z2, Z3, Z4, Z5, Z6)
+
       USE MESSAGE_MOD
 C
 C-----------------------------------------------
@@ -57,6 +58,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),MXT(*),NGL(*),NGEO(*)
+      INTEGER ,INTENT(IN) :: NINTEMP
       my_real
      .   X(3,*),GEO(*),
      .   RX(*) ,RY(*) ,RZ(*) ,SX(*) ,SY(*) ,SZ(*) ,TX(*) ,TY(*) ,TZ(*),

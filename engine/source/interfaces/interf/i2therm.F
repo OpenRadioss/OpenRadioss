@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE I2THERM(X       ,NSN     ,NSV     ,IRTL    ,MS      ,
      .                   WEIGHT  ,IRECT   ,CRST    ,IADI2   ,KTHE    ,
      .                   TEMP    ,AREAS   ,FTHE    ,FTHESKYI,CONDN   ,   
-     .                   CONDNSKYI,I0     ,ITAB    )
+     .                   CONDNSKYI,I0     ,ITAB    ,IDT_THERM    ,THEACCFACT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,17 +39,16 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "scr18_c.inc"
 #include      "parit_c.inc"
-#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NSN,I0
       INTEGER  IRECT(4,*),NSV(*),IRTL(*),WEIGHT(*), IADI2(4,*),ITAB(*)
-      my_real
-     .   KTHE,
-     .   X(3,*),TEMP(*),MS(*),CRST(2,*),AREAS(*),FTHE(*),FTHESKYI(*),
+      INTEGER ,intent(in) :: IDT_THERM
+      my_real ,intent(in) :: theaccfact
+      my_real :: KTHE
+      my_real :: X(3,*),TEMP(*),MS(*),CRST(2,*),AREAS(*),FTHE(*),FTHESKYI(*),
      .   CONDN(*),CONDNSKYI(*)
-C     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

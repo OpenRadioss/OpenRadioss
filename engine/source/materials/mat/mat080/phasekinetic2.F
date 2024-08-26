@@ -30,14 +30,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .  FCPER,FCBAI,FGRAIN,FRAC1,FRAC2,FRAC3,FRAC4,FRAC5,X2,X3,X4,X5,
      .     GFAC_F,PHI_F,PSI_F,CR_F,CF,GFAC_P,PHI_P,PSI_P,CR_P,CP,
      .     GFAC_B,PHI_B,PSI_B,CR_B,CB,PHI_M,PSI_M,N_M,FGFER,FGPER,FGBAI,
-     .  QR2,QR3,QR4,KPER,KBAIN,ALPHA,XEQ2,XEQ4,XGAMA,TOTFRAC,TIMESTEP,NICOOL,INDEX)
+     .  QR2,QR3,QR4,KPER,KBAIN,ALPHA,XEQ2,XEQ4,XGAMA,TOTFRAC,TIMESTEP,NICOOL,
+     .  INDEX,THEACCFACT)
      
 #include      "implicit_f.inc"
-#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
         INTEGER NEL0,NICOOL,INDEX(NICOOL)
+        my_real ,intent(in) :: THEACCFACT
         my_real
      .        TEMPEL(NEL0),TEMPO(NEL0),TEMPMIN(NEL0),TIMESTEP
         my_real

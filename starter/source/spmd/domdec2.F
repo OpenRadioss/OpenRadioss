@@ -56,7 +56,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D   LGAUGE ,IGAUP  ,NGAUP  ,INTBUF_TAB,IBFFLUX,
      E   ICNDS10,ITAGND ,IGEO   ,TAG_SKN,MULTIPLE_SKEW,
      F   IBFV   ,IBCSCYC,LBCSCYC,R_SKEW,IPM     ,
-     G   SENSORS, LEN_CEP,EBCS_TAB,LOADS,IFRAME)
+     G   SENSORS, LEN_CEP,EBCS_TAB,LOADS,IFRAME,
+     H   NICONV ,NIRADIA ,NITFLUX,NUMCONV,NUMRADIA,NFXFLUX)
 C
 C-----------------------------------------------
 C   M o d u l e s
@@ -83,10 +84,15 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "sphcom.inc"
-#include      "thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NICONV
+      INTEGER ,INTENT(IN) :: NIRADIA
+      INTEGER ,INTENT(IN) :: NITFLUX
+      INTEGER ,INTENT(IN) :: NUMCONV
+      INTEGER ,INTENT(IN) :: NUMRADIA
+      INTEGER ,INTENT(IN) :: NFXFLUX
       INTEGER IPARI(NPARI,NINTER),
      .        DD_IAD(NSPMD+1,NSPGROUP), NPRW(*), LPRW(*),
      .        NPBY(NNPBY,*), LPBY(*), IXRI(4,*),
@@ -2025,7 +2031,8 @@ C
      3   IXR    ,IXTG ,IXTG6  ,T_MONVOL ,
      4   IGRSURF,IB   ,ADDCNE ,CEP    ,
      5   ILEN   ,GEO    ,IBCV ,IBCR   ,IBFFLUX,
-     6   ILOADP ,LLOADP ,CEL  ,EBCS_TAB,LOADS)
+     6   ILOADP ,LLOADP ,CEL  ,EBCS_TAB,LOADS,
+     7   NICONV ,NIRADIA ,NITFLUX,NUMCONV,NUMRADIA,NFXFLUX)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------    
@@ -2044,10 +2051,15 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NICONV
+      INTEGER ,INTENT(IN) :: NIRADIA
+      INTEGER ,INTENT(IN) :: NITFLUX
+      INTEGER ,INTENT(IN) :: NUMCONV
+      INTEGER ,INTENT(IN) :: NUMRADIA
+      INTEGER ,INTENT(IN) :: NFXFLUX
       INTEGER IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),CEP(*),
      .        IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG6(4,*),

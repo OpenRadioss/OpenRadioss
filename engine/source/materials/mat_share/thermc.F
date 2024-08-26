@@ -29,8 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
       !||====================================================================
       SUBROUTINE THERMC(JFT  ,JLT   ,PM   ,MAT   ,THK   ,IXC , 
-     2                  PX1  ,PX2   ,PY1  ,PY2   ,AREA   ,DT1C ,
-     3                  TEMPNC ,TEMPEL   ,DIE  ,FPHI)
+     2                  PX1  ,PX2   ,PY1  ,PY2   ,AREA  ,DT1C ,
+     3                  TEMPNC ,TEMPEL   ,DIE  ,FPHI    ,THEACCFACT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,11 +40,11 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,MAT(*),IXC(NIXC,*)
+      my_real ,INTENT(IN) :: THEACCFACT
       my_real
      .   AREA(*), PX1(*), PX2(*), PY1(*), PY2(*),
      .   TEMPNC(*), FPHI(MVSIZ,4), PM(NPROPM,*),DIE(*),
@@ -55,11 +55,10 @@ C-----------------------------------------------
       INTEGER I, J,MX
       my_real :: CA,CB ,KC ,PHIX,PHIY,A
 !=======================================================================
-C --- calcul de la tempurature au CG 
-
         MX  =MAT(JFT)
         CA = PM(75,MX)
         CB = PM(76,MX)
+!
         DO I=JFT,JLT
 C 
 C - flux
@@ -74,7 +73,7 @@ C
           PHIX = KC*PHIX*THK(I)
           PHIY = KC*PHIY*THK(I)
 C
-C force thermique nodale
+C         nodal thermal force
 C
           A = FOURTH * DIE(I)
           FPHI(I,1) = A - (PHIX*PX1(I) + PHIY*PY1(I))

@@ -59,7 +59,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7        LSUBMODEL   ,TF             ,INTERFACES ,SNPC     ,SNPC1     ,
      8        NPARI       ,NPARIR         ,NPTS       ,
      9        LNOPT1      ,LTITR          ,NINTER25   ,
-     .        NGRNOD      ,NGRBRIC        ,NSURF      ,NSLIN)
+     .        NGRNOD      ,NGRBRIC        ,NSURF      ,NSLIN    ,
+     .        ITHERM_FE   ,INTHEAT   )
 C-----------------------------------------------
 C   D e s r i p t i o n
 C-----------------------------------------------
@@ -87,6 +88,8 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: LNOPT1,LTITR !< array size NOM_OPT
       INTEGER,INTENT(IN) :: NPARI, NPARIR  !< array size IPARI and FRIGAP
       INTEGER,INTENT(IN) :: SNPC, SNPC1 !< array size (NPC and NPC1)
+      INTEGER,INTENT(IN) :: ITHERM_FE
+      INTEGER,INTENT(INOUT) :: INTHEAT
       INTEGER,INTENT(INOUT) :: NINTER25
       TYPE (SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
@@ -157,7 +160,7 @@ C---------------------------------------------------------------
      3         SENSORS              ,NOM_OPT         ,UNITAB     ,LSUBMODEL  ,TITR       ,
      4         NOM_OPTFRIC          ,INTBUF_FRIC_TAB ,NPC        ,NPC1       ,TF         ,
      5         INTERFACES%PARAMETERS,NPARI           ,NPARIR     ,SNPC       ,SNPC1      ,
-     6         NPTS)
+     6         NPTS                 ,ITHERM_FE       ,INTHEAT   )
 
           CASE ('TYPE24')
               NTYP=24
@@ -165,7 +168,8 @@ C---------------------------------------------------------------
      1        IPARI      ,STFAC          ,FRIGAP                ,NOINT      ,NI        ,
      2        IGRNOD     ,IGRSURF        ,XFILTR                ,FRIC_P     ,DEF_INTER ,
      3        SENSORS    ,NOM_OPT        ,UNITAB                ,LSUBMODEL  ,TITR      ,
-     4        NOM_OPTFRIC,INTBUF_FRIC_TAB,INTERFACES%PARAMETERS ,NPARI      ,NPARIR    )
+     4        NOM_OPTFRIC,INTBUF_FRIC_TAB,INTERFACES%PARAMETERS ,NPARI      ,NPARIR    ,
+     5        ITHERM_FE  ,INTHEAT)
 
           CASE ('TYPE23')
               NTYP=23
@@ -181,7 +185,7 @@ C---------------------------------------------------------------
      2          IGRSURF    ,XFILTR     ,FRIC_P     ,NPC1     ,SENSORS   ,
      3          NOM_OPT    ,UNITAB     ,LSUBMODEL  ,TITR     ,NPC       ,
      4          TF         ,NPARI      ,NPARIR     ,SNPC     ,SNPC1     ,
-     5          LNOPT1)
+     5          LNOPT1     ,ITHERM_FE  ,INTHEAT)
 
           CASE ('TYPE20')
               NTYP=20
@@ -220,7 +224,7 @@ C---------------------------------------------------------------
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT      ,NI       ,
      2        IGRSLIN    ,SENSORS    ,DEF_INTER  ,TITR       ,
      3        NOM_OPT    ,UNITAB     ,LSUBMODEL  ,NOM_OPTFRIC,INTBUF_FRIC_TAB,
-     4        ID_TYPE19  ,NPARI      ,NPARIR     ,LNOPT1)
+     4        ID_TYPE19  ,NPARI      ,NPARIR     ,LNOPT1  ,ITHERM_FE  ,INTHEAT)
 
           CASE ('TYPE10')
              NTYP = 10
@@ -242,7 +246,7 @@ C---------------------------------------------------------------
      3           DEF_INTER  ,NPC1       ,SENSORS    ,UNITAB    ,LSUBMODEL  ,
      4           TITR       ,NOM_OPTFRIC,INTBUF_FRIC_TAB,NPC   ,TF         ,
      5           ID_TYPE19  ,NPARI      ,NPARIR     ,SNPC      ,SNPC1      ,
-     6           LNOPT1     ,NPTS)
+     6           LNOPT1     ,NPTS       ,ITHERM_FE  ,INTHEAT   )
 
           CASE ('TYPE6')
              NTYP = 6
@@ -274,7 +278,7 @@ C---------------------------------------------------------------
      1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,IGRNOD   ,
      2          IGRSURF    ,I2RUPT     ,AREASL     ,DEF_INTER ,NPC1     ,
      3          TITR       ,UNITAB     ,LSUBMODEL  ,NPARI     ,NPARIR   ,
-     4          SNPC1      )
+     4          SNPC1      ,INTHEAT    )
 
       END SELECT ! SELECT CASE(NTYP)
 C

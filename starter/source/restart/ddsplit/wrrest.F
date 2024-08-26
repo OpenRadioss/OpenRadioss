@@ -642,7 +642,7 @@ C convection flux
       !||    wrtsqi      ../starter/source/output/tools/wrtsqi.F
       !||    wrtsqr      ../starter/source/output/tools/wrtsqr.F
       !||====================================================================
-      SUBROUTINE CONVWREST(IBCV,FCONV)      
+      SUBROUTINE CONVWREST(IBCV,FCONV,NUMCONV,NICONV,LFACTHER)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -656,12 +656,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  IBCV(*)
-      my_real
-     .    FCONV(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NUMCONV
+      INTEGER ,INTENT(IN) :: NICONV
+      INTEGER ,INTENT(IN) :: LFACTHER
+      INTEGER :: IBCV(*)
+      my_real :: FCONV(*)
 C--------------------------------------
 C     ECRITURE DES REELS
 C--------------------------------------
@@ -671,45 +670,6 @@ C--------------------------------------
       ELSE
         CALL WRITE_DB(FCONV,LFACTHER*NUMCONV)
         CALL WRITE_I_C(IBCV,NICONV*NUMCONV)
-      ENDIF
-      RETURN
-      END
-C fixed temperature 
-      !||====================================================================
-      !||    fxtempwrest   ../starter/source/restart/ddsplit/wrrest.F
-      !||--- calls      -----------------------------------------------------
-      !||    wrtsqi        ../starter/source/output/tools/wrtsqi.F
-      !||    wrtsqr        ../starter/source/output/tools/wrtsqr.F
-      !||====================================================================
-      SUBROUTINE FXTEMPWREST(IBFT,FBFT)      
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com04_c.inc"
-#include      "scr05_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER  IBFT(*)
-      my_real
-     .    FBFT(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-C--------------------------------------
-C     ECRITURE DES REELS
-C--------------------------------------
-      IF (IRFORM/5 <= 1) THEN
-        CALL WRTSQR (FBFT,LFACTHER*NFXTEMP,IRFORM)
-        CALL WRTSQI (IBFT,NIFT*NFXTEMP,IRFORM)
-      ELSE
-        CALL WRITE_DB(FBFT,LFACTHER*NFXTEMP)
-        CALL WRITE_I_C(IBFT,NIFT*NFXTEMP)
       ENDIF
       RETURN
       END

@@ -52,7 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G   MZ7,     MX8,     MY8,     MZ8,
      H   THEM,    FTHESKY, CONDNSKY,CONDE,
      I   NEL,     NFT,     JTHE,    ISROT,
-     J   IPARTSPH)
+     J   IPARTSPH ,NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,6 +76,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: ISROT
       INTEGER, INTENT(IN) :: IPARTSPH
+      INTEGER, INTENT(IN) :: NODADT_THERM
 C     REAL
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*), NC5(*), NC6(*), NC7(*),
      .   NC8(*)

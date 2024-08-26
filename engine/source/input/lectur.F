@@ -96,7 +96,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H                  MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
      I                  DYNAIN_DATA,DT ,LOADS ,OUTPUT,NAMES_AND_TITLES,
-     J                  MAT_PARAM)
+     J                  MAT_PARAM,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -124,6 +124,7 @@ C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE NAMES_AND_TITLES_MOD
       USE ELBUFDEF_MOD
+      USE glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -166,7 +167,6 @@ C-----------------------------------------------
 #include      "rad2r_c.inc"
 #include      "inter22.inc"
 #include      "userlib.inc"
-#include      "scr_thermal_c.inc"
 #include      "spmd_c.inc"
 #include      "intstamp_c.inc"
 #include      "couple_c.inc"
@@ -207,6 +207,7 @@ C-----------------------------------------------
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES  !< NAMES_AND_TITLES host the input deck names and titles for outputs
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      type (glob_therm_) ,intent(inout)       :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -779,14 +780,14 @@ C---------------------
 C---------------------
 C INITIAL MASS
 C---------------------
-       IF(ISPMD == 0 .AND. ITHERM_FE > 0 ) THEN
+       IF (ISPMD == 0 .AND. GLOB_THERM%ITHERM_FE > 0 ) THEN
          WRITE(IOUT,'(A)')' FINITE ELEMENT THERMAL ANALYSIS '
-         IF(IDT_THERM == 1) THEN
+         IF (GLOB_THERM%IDT_THERM == 1) THEN
             WRITE(IOUT,'(A)')' THERMAL ANALYSIS ONLY'
-            WRITE(IOUT,'(A,1X,G14.7)')' THERMAL TIME STEP SCALE FACTOR . . . . . . . . .', DTFACTHERM
+            WRITE(IOUT,'(A,1X,G14.7)')' THERMAL TIME STEP SCALE FACTOR . . . . . . . . .', GLOB_THERM%DTFACTHERM
          ENDIF
-         IF(THEACCFACT > ONE ) THEN
-           WRITE(IOUT,'(A,1X,G14.7/)')' FACTOR TO SPEED-UP THERMAL ANALYSIS. . . . . . .', THEACCFACT
+         IF (GLOB_THERM%THEACCFACT > ONE ) THEN
+           WRITE(IOUT,'(A,1X,G14.7/)')' FACTOR TO SPEED-UP THERMAL ANALYSIS. . . . . . .', GLOB_THERM%THEACCFACT
          ENDIF
        ENDIF
 C-------------------------------------------
@@ -1177,11 +1178,11 @@ C-------------------------------
         END IF
         IEULER = 0
       END IF
-      IF(ITHERM /= 0.AND.NTHERMOF == 1)THEN
+      IF (GLOB_THERM%ITHERM /= 0.AND.NTHERMOF == 1)THEN
         IF(ISPMD == 0.AND.MCHECK == 0)THEN
           WRITE(IOUT,*)'THERMIC FORMULATION SWITCHED OFF '
         END IF
-        ITHERM = 0
+        GLOB_THERM%ITHERM = 0
       END IF
 C-------------------------------
       IF(IDEL7 /= 0.AND.MCHECK == 0.AND.N2D == 0)THEN

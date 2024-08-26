@@ -54,7 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G    FSAVSUB,FNCONT ,FTCONT ,MSKYI_SMS ,ISKYI_SMS ,
      H    NSMS   ,XI     ,YI     ,ZI    ,ICONTACT,
      I    DT2T   ,NELTST ,ITYPTST,JTASK ,ISENSINT,
-     J    FSAVPARIT,NFT  ,H3D_DATA)
+     J    FSAVPARIT,NFT  ,H3D_DATA,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -95,6 +95,7 @@ C-----------------------------------------------
      .   NISUB, LISUB(*), ADDSUBS(*), ADDSUBM(*), LISUBS(*),
      .   LISUBM(*),CN_LOC(*),CE_LOC(*),ISKYI_SMS(*),ICONTACT(*),
      .   ISENSINT(*),NFT
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       my_real
      .   A(3,*), MS(*), FSAV(*),X1(*),X2(*),X3(*),X4(*),
      .   Y1(*),Y2(*),Y3(*),Y4(*),Z1(*),Z2(*),Z3(*),Z4(*),
@@ -698,7 +699,7 @@ C
      4                FX3   ,FY3  ,FZ3  ,FX4  ,FY4    ,FZ4  ,
      5                FXI   ,FYI  ,FZI  ,A    ,STIFN  ,NIN  ,
      6                IBID  ,BID  ,BID  ,BID  ,BID    ,BID  ,
-     7                BID   ,BID  ,BID  ,JTASK,IBID )
+     7                BID   ,BID  ,BID  ,JTASK,IBID   ,IBID)
         ELSE
           CALL I7ASS05(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                 NSVG  ,H1   ,H2   ,H3   ,H4     ,
@@ -708,7 +709,7 @@ C
      6                 STIF  ,K1   ,K2   ,K3   ,K4     ,C    ,
      7                 C1    ,C2   ,C3   ,C4   ,NIN    ,IBID ,
      8                 BID   ,BID  ,BID  ,BID  ,BID    ,BID,
-     9                 JTASK ,BID  ,BID  ,IBID )
+     9                 JTASK ,BID  ,BID  ,IBID ,IBID )
         END IF
       ELSE
         IF(KDTINT==0)THEN
@@ -719,7 +720,7 @@ C
      5                FXI   ,FYI   ,FZI  ,FSKYI,ISKY ,NISKYFI,
      6                NIN   ,NOINT ,IBID ,BID  ,BID  ,BID    ,
      7                BID   ,BID   ,BID  ,BID  ,BID  ,
-     A                IBID)
+     A                IBID  ,IBID  )
         ELSE
           CALL I7ASS25(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                 NSVG  ,H1   ,H2   ,H3   ,H4     ,
@@ -729,7 +730,7 @@ C
      6                 STIF  ,K1   ,K2   ,K3     ,K4   ,C    ,
      7                 C1    ,C2   ,C3   ,C4     ,ISKY ,NOINT,
      8                 IBID  ,BID  ,BID  ,BID    ,BID  ,BID  ,
-     9                 BID   ,BID  ,BID  ,IBID )
+     9                 BID   ,BID  ,BID  ,IBID   ,IBID )
         END IF
       END IF
 C

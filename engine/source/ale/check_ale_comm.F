@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||====================================================================
-        SUBROUTINE CHECK_ALE_COMM(IPARG_L,ELBUF_TAB,GLOBAL_ACTIVE_ALE_ELEMENT)
+        SUBROUTINE CHECK_ALE_COMM(IPARG_L,ELBUF_TAB,GLOBAL_ACTIVE_ALE_ELEMENT,ITHERM)
 !$COMMENT
 !       CHECK_ALE_COMM description
 !           CHECK_ALE_COMM checks if all ALE elements are deactivated to
@@ -60,6 +60,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         LOGICAL, INTENT(INOUT) :: GLOBAL_ACTIVE_ALE_ELEMENT
         INTEGER, DIMENSION(NPARG,NGROUP), INTENT(IN) :: IPARG_L
+        INTEGER, INTENT(IN) :: ITHERM
         TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), INTENT(IN) :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -76,7 +77,7 @@ C-----------------------------------------------
         INTEGER :: IERROR
 C-----------------------------------------------
         ! ---------------------------------
-        IF(IALE+IEULER+ITHERM/=0) THEN
+        IF(IALE+IEULER+ITHERM /= 0) THEN
             ACTIVE_ALE_ELEMENT = .FALSE.
             ! -------------------
             ! loop over the element groups to find the deactivated ALE elements

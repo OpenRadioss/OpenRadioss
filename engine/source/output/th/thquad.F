@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1                  IPARG    ,ITHBUF   ,WA     ,
      2                  IPM      ,IXQ      ,IXTG   ,
      3                  X        ,MULTI_FVM,V      ,
-     4                  W        ,
+     4                  W        ,ITHERM   ,
      .                  NUMELQ   ,NUMMAT   ,NUMNOD ,SITHBUF, NUMELTG)
 
 C-----------------------------------------------
@@ -118,6 +118,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: NUMELQ, NUMMAT, NUMNOD ,SITHBUF, NUMELTG
       INTEGER,INTENT(IN) :: IPARG(NPARG,NGROUP),ITHBUF(SITHBUF),IXQ(NIXQ,NUMELQ),IPM(NPROPMI,NUMMAT),IXTG(NIXTG,NUMELTG)
       INTEGER, INTENT(IN) :: NTHGRP2
+      INTEGER, INTENT(IN) :: ITHERM
       INTEGER, DIMENSION(NITHGR,*), INTENT(IN) :: ITHGRP
       my_real,INTENT(INOUT) :: WA(*)
       my_real,INTENT(IN) :: X(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD)

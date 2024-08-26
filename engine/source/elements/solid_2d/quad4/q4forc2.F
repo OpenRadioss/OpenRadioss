@@ -72,8 +72,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A                   MS_2D ,FSKYM  ,IOUTPRT,MAT_ELEM,H3D_STRAIN,SZ_BUFVOIS,SNPC,
      B                   STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,IRESP,TT,DT1,      
      .                   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,IMON_MAT,
-     V                   USERL_AVAIL, heat_meca,  impl_s,     idyna,
-     .                   DT         )
+     V                   USERL_AVAIL, impl_s,     idyna,
+     .                   DT         , GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -84,6 +84,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -119,7 +120,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
       INTEGER, INTENT(IN) :: IMON_MAT
-      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IC(*), IPARG(NPARG,*), NPF(*), IPARTQ(*), 
      +  IPM(*), GRTH(*), IGRTH(*), IGEO(*), IADQ(4,*),ITASK,IOUTPRT
       INTEGER OFFSET, NEL, NELTST, ITYPTST, ICP, NG, IEXPAN,H3D_STRAIN
@@ -137,6 +137,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_), INTENT(IN) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 c FUNCTION: Internal force computation of fully-integrated 2D Quad4 element
 c ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
@@ -570,14 +571,14 @@ C       UPDATE STRESS
      P   BID,         IPARG(1,NG), IGEO,        BID,
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BUFVOIS,
-     S                SNPC,        STF,         SBUFMAT,
+     S   SNPC,        STF,         SBUFMAT,     GLOB_THERM,
      T   SVIS,        SZ_IX,       IRESP,
-     *   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     *   N2D,         th_strain,   NGROUP,      TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
-     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna,       DT         ,    BID   )
+     .   IMON_MAT,    USERL_AVAIL, impl_s,
+     .   idyna,       DT         ,  BID   )
 C
 C       COMPUTE NODAL INTERNAL FORCE
         CALL Q4FINT2(
@@ -601,7 +602,7 @@ C       COMPUTE ELEMENT AVERAGE & SUMMERY DATA
      5   STI,        STIM,       ICPG,       OFF,
      6   LBUF%VOL,   GBUF%VOL,   GBUF%G_PLA, GBUF%G_EPSD,
      7   LBUF%EINTTH,GBUF%EINTTH,IEXPAN,     NEL,
-     8   BID,        BID,SVIS)
+     8   BID,        BID,SVIS,GLOB_THERM%NODADT_THERM)
 C
          DO I=LFT,LLT
            OFFG(I)=MIN(OFFG(I),OFF(I))

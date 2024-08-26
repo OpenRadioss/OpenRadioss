@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT       ,NI             ,
      2        IGRSLIN    ,SENSORS    ,DEF_INTER  ,TITR        ,
      3        NOM_OPT    ,UNITAB     ,LSUBMODEL  ,NOM_OPTFRIC ,INTBUF_FRIC_TAB,
-     4        ID_TYPE19  ,NPARI      ,NPARIR     ,LNOPT1)
+     4        ID_TYPE19  ,NPARI      ,NPARIR     ,LNOPT1      ,ITHERM_FE  ,INTHEAT)
 C============================================================================
 C     
 C-----------------------------------------------
@@ -73,6 +73,8 @@ C-----------------------------------------------
       INTEGER NOM_OPT(LNOPT1,*), NOM_OPTFRIC(LNOPT1,*)
       INTEGER NI,NOINT
       INTEGER IPARI(NPARI),DEF_INTER(100),ID_TYPE19
+      INTEGER,INTENT(IN)    :: ITHERM_FE
+      INTEGER,INTENT(INOUT) :: INTHEAT
       my_real STFAC
       my_real FRIGAP(NPARIR)
       CHARACTER(LEN=NCHARTITLE) :: TITR

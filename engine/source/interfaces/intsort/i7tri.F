@@ -41,7 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7      NRTM  ,NSNROLD,IGAP,GAP      ,GAP_S    ,
      8      GAP_M ,GAPMIN ,GAPMAX ,MARGE    ,CURV_MAX ,
      9      NIN   ,GAP_S_L,GAP_M_L,INTTH   ,DRAD  ,ITIED    ,
-     A      CAND_F ,KREMNOD  ,REMNOD  ,FLAGREMNODE,DGAPLOAD)
+     A      CAND_F ,KREMNOD  ,REMNOD  ,FLAGREMNODE,DGAPLOAD,
+     B      INTHEAT,IDT_THERM,NODADT_THERM)
 C=======================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -127,6 +128,9 @@ C-----------------------------------------------
      .        NSV(*),CAND_N(*),CAND_E(*),CAND_A(*),IFPEN(*),RENUM(*),
      .        INTTH,II_STOK,ITIED
       INTEGER KREMNOD(*),REMNOD(*),FLAGREMNODE
+      INTEGER, INTENT(IN) :: INTHEAT
+      INTEGER, INTENT(IN) :: IDT_THERM
+      INTEGER, INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real
      .   X(3,*),XYZM(6,*),CAND_P(*),STF(*),STFN(*),GAP_S(*),GAP_M(*),
@@ -221,7 +225,7 @@ C
       IF(NSPMD>1.AND.
      +  (INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.
      +   ITIED/=0)) THEN
-        CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
+        CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD,INTHEAT,IDT_THERM,NODADT_THERM)
       END IF
 C
       J_STOK = 0

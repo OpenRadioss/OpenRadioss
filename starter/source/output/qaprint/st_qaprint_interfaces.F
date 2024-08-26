@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE ST_QAPRINT_INTERFACES(NOM_OPT   ,INOM_OPT  ,IPARI   ,INTBUF_TAB, I2RUPT,
-     2                                 AREASL    )
+     2                                 AREASL    ,INTHEAT)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,6 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: INTHEAT
       INTEGER, INTENT(IN) :: NOM_OPT(LNOPT1,SNOM_OPT1), INOM_OPT(SINOM_OPT)
       INTEGER, INTENT(IN) :: IPARI(NPARI,NINTER)
       my_real, INTENT(IN) :: I2RUPT(6,*),AREASL(*)

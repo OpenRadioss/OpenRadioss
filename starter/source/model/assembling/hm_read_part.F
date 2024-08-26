@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE HM_READ_PART(IPART,PM,GEO,IPM,IGEO,IWA,THK_PART,
      .                        UNITAB,LSUBMODEL,MULTI_FVM,MLAW_TAG,
-     .                        MAT_PARAM)
+     .                        MAT_PARAM,GLOB_THERM)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -76,6 +76,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE MAT_ELEM_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -107,6 +108,7 @@ C MODIFIED ARGUMENT
       TYPE(MULTI_FVM_STRUCT),INTENT(INOUT)::MULTI_FVM     
       TYPE(MLAW_TAG_) , DIMENSION(NUMMAT) , INTENT(INOUT) :: MLAW_TAG      
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      type (glob_therm_) ,intent(in)      :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -362,7 +364,8 @@ c      ALE EULER SPECIFIC TREATMENTS
 c-------------------------------------------------------------------
         !SSP BUFFER + UPWIND + TURB + CHECK + CONVECTION FLAGS
         CALL ALE_EULER_INIT( MLAW_TAG,IPM,PM,IGEO,TITR,TITR1,TITR2,IGTYP,
-     .   ID,ILAW,MID,IMID,PID,IPID,JALE_FROM_PROP,JALE_FROM_MAT)           
+     .   ID,ILAW,MID,IMID,PID,IPID,JALE_FROM_PROP,JALE_FROM_MAT,
+     .   GLOB_THERM%ITHERM,GLOB_THERM%ITHERM_FE)           
 
 c-------------------------------------------------------------------
 c      STARTER PRINTOUT

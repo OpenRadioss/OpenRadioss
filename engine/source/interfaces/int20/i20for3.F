@@ -2054,7 +2054,7 @@ C
      4                FX3   ,FY3  ,FZ3  ,FX4  ,FY4    ,FZ4  ,
      5                FXI   ,FYI  ,FZI  ,A    ,STIFN  ,NIN  ,
      6                INTTH ,PHI  ,FTHE ,PHI1 , PHI2  ,PHI3 ,
-     7                PHI4  ,BID  ,BID  ,JTASK,IBID   )
+     7                PHI4  ,BID  ,BID  ,JTASK,IBID   ,IBID   )
 
         ELSE
 C
@@ -2066,7 +2066,7 @@ C
      6                 KS    ,K1   ,K2   ,K3   ,K4     ,CS    ,
      7                 C1    ,C2   ,C3   ,C4   ,NIN    ,INTTH ,
      8                 PHI   ,FTHE ,PHI1 , PHI2  ,PHI3 , PHI4,JTASK,
-     9                 BID   ,BID  ,IBID )
+     9                 BID   ,BID  ,IBID ,IBID   )
         ENDIF
 C
       ELSE
@@ -2078,7 +2078,7 @@ C
      5                FXI   ,FYI   ,FZI  ,FSKYI,ISKY ,NISKYFI,
      6                NIN   ,NOINT ,INTTH,PHI  ,FTHESKYI,PHI1,
      7                PHI2  ,PHI3  , PHI4,BID  ,BID    ,
-     A                IBID)
+     A                IBID  ,IBID   )
         ELSE
           CALL I7ASS25(JLT   ,IX1G  ,IX2G  ,IX3G  ,IX4G    ,
      2                 NSVG  ,H1   ,H2   ,H3   ,H4     ,
@@ -2088,7 +2088,7 @@ C
      6                 KS    ,K1   ,K2   ,K3   ,K4     ,CS   ,
      7                 C1    ,C2   ,C3   ,C4   ,ISKY   ,NOINT ,
      8                 INTTH ,PHI  ,FTHESKYI,PHI1,PHI2 ,PHI3,
-     9                 PHI4  ,BID  ,BID    ,IBID )
+     9                 PHI4  ,BID  ,BID    ,IBID ,IBID   )
         ENDIF
       ENDIF
 C

@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8                   Z2     ,X3    ,Y3     ,Z3     ,X4     ,
      9                   Y4     ,Z4    ,IX1    ,IX2    ,IX3    ,
      A                   IX4    ,PHI   ,PHI1   ,PHI2   ,PHI3   ,
-     B                   PHI4   ,PM    ,NSV    ,ITAB   )
+     B                   PHI4   ,PM    ,NSV    ,ITAB   ,THEACCFACT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,14 +51,13 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com08_c.inc"
-#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT, IFUNCTK, FCOND,ITAB(*) ,NSV(*),
      . NPC(*),IFORM,IELESI(MVSIZ) ,IELEMI(MVSIZ),
      . IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
-
+      my_real, intent(in) :: theaccfact
       my_real DCOND, TINT,
      .     PM(NPROPM,*)
       my_real
