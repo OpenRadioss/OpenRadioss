@@ -49,8 +49,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
-          use python_funct_mod, only : NAME_LEN
-          use python_element_mod, only: python_element
+          use python_element_mod, only: python_element, NAME_LEN
           use spmd_mod, only : spmd_comm_size, spmd_comm_rank, spmd_allreduce, SPMD_MAX
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
