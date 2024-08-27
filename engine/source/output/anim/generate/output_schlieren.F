@@ -67,12 +67,12 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ITYP  !< group flag for elem types (truss, quad, shell, hexa, etc...)
       INTEGER, INTENT(IN) :: IX(NIX,*),IPARG(NPARG,NGROUP),NIX,NG
       my_real :: WA_L(*),X(3,NUMNOD),EVAR(MVSIZ),VOL(MVSIZ)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB            
@@ -80,7 +80,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, ITYP, J, MLW
+      INTEGER I, J
+      INTEGER :: NFT  !< shift value to inject 1:NEL (current group) into 1:NUMELQ or NUMELS (total number of elem)
+      INTEGER :: MLW  !< material law number
+      INTEGER :: NEL  !< number of elems in current group
       INTEGER IV(6), IE
       my_real :: GRAD(3) , Xi(8), Yi(8), Zi(8) , SCH 
       INTEGER :: MAT , NC(8)
@@ -90,15 +93,15 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------      
 
-      JALE = IPARG(07,NG)
-      JEUL = IPARG(11,NG)
       MLW  = IPARG(01,NG)
+      NEL  = IPARG(02,NG)
+      NFT  = IPARG(03,NG)
 
       !-------------------------------------!                                                                                   
       !     COMPUTE NORMAL ON FACES                                                                                             
       !-------------------------------------!   
       IF(N2D == 0 .AND. ITYP == 1)THEN !3d solids
-        DO I=LFT,LLT
+        DO I=1,NEL
           IE=I+NFT      
          !---8 local node numbers NC1 TO NC8 for 3D solid element IE ---!         
           NC(1)=IX(2,IE)                                                     
@@ -173,8 +176,8 @@ C-----------------------------------------------
           N(1:3,5,I) = HALF * N(1:3,5,I)
           N(1:3,6,I) = HALF * N(1:3,6,I)
         ENDDO 
-      ELSEIF(N2D>0 .AND. ITYP==2)THEN !quads
-        DO I=LFT,LLT                                                                                                                
+      ELSEIF(N2D > 0 .AND. ITYP == 2)THEN !quads
+        DO I=1,NEL                                                                                                                
           IE=I+NFT    
           !---4 local node numbers NC1 TO NC4 for 2D solid element IE ---!                                                          
           NC(1)=IX(2,IE)                                                                                                            
@@ -228,8 +231,8 @@ C-----------------------------------------------
             AREA(I) = ONE
           ENDIF
         ENDDO                                                                                                                       
-      ELSEIF(N2D>0 .AND. ITYP==7)THEN !triangles
-        DO I=LFT,LLT                                                                                                                
+      ELSEIF(N2D > 0 .AND. ITYP == 7)THEN !triangles
+        DO I=1,NEL                                                                                                                
           IE=I+NFT                                                             
           !---3 local node numbers NC1 TO NC3 for 2D solid element IE ---!                                                          
           NC(1)=IX(2,IE)                                                                                                            
@@ -271,15 +274,15 @@ C-----------------------------------------------
           ENDIF                                                                      
         ENDDO            
       ELSE
-          N(1:3,1:6,LFT:LLT) = ZERO
-          AREA(LFT:LLT)=ONE
+          N(1:3,1:6,1:NEL) = ZERO
+          AREA(1:NEL)=ONE
       ENDIF
         
       !-------------------------------------!
       !     FACE RECONSTRUCTION
       !-------------------------------------! 
       IF(N2D == 0 .AND. ITYP==1)THEN  
-        DO I=LFT,LLT
+        DO I=1,NEL
           IE=I+NFT 
           IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
           LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
@@ -315,8 +318,8 @@ C-----------------------------------------------
           SCH = EXP(-SCH)          
           EVAR(I) = SCH        
         ENDDO!next I
-      ELSEIF(N2D>0 .AND. ITYP==2)THEN
-        DO I=LFT,LLT
+      ELSEIF(N2D > 0 .AND. ITYP == 2)THEN
+        DO I=1,NEL
           IE=I+NFT 
           IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
           LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-IAD2
@@ -348,8 +351,8 @@ C-----------------------------------------------
           SCH = EXP(-SCH)
           EVAR(I) = SCH
         ENDDO!next I
-      ELSEIF(N2D>0 .AND. ITYP==7)THEN
-        DO I=LFT,LLT
+      ELSEIF(N2D > 0 .AND. ITYP == 7)THEN
+        DO I=1,NEL
           IE=I+NFT 
           IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
           LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
@@ -380,7 +383,7 @@ C-----------------------------------------------
           EVAR(I) = SCH
         ENDDO!next I  
       ELSE
-        EVAR(LFT:LLT)=ONE  !  exp(0.) = 1.
+        EVAR(1:NEL)=ONE  !  exp(0.) = 1.
       ENDIF
 
       END SUBROUTINE OUTPUT_SCHLIEREN

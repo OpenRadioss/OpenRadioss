@@ -69,7 +69,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "tabsiz_c.inc"
 #include      "spmd_c.inc"
@@ -84,7 +83,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NG,MLW,IALEL,LENCOM,II,NEL,OFFSET,SWA_L
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF           
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      INTEGER :: ITY !< group value : elem type
+      INTEGER :: NFT !< group value : shift (to inject local -> global)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------      
@@ -92,30 +93,24 @@ C-----------------------------------------------
       IF(N2D/=0)II=1
       SWA_L = MAX(IALE,ITHERM,IEULER,IALELAG)*( NUMELS + NUMELQ + II*NUMELTG + NSVOIS+ NQVOIS + II*NTGVOIS + NSEGFLU )        
       IF(.NOT.ALLOCATED(WA_L))ALLOCATE(WA_L(SWA_L)) ! work array for /ANIM/ELEM/SCHLIEREN or /H3D/ELEM/SCHLIEREN (DENSITY GATHERING)            
-      DO NG=1,NGROUP                                                                                                    
-        CALL INITBUF(                                                                                                  
-     1          IPARG   ,NG      ,                                                                                      
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,                                                           
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,                                                           
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,                                                           
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,                                                           
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,                                                           
-     7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )                                                           
-       IF (MLW /= 13) THEN                                                                                              
+      DO NG=1,NGROUP
+        MLW = IPARG(01,NG)
+        NEL = IPARG(02,NG)
+        ITY = IPARG(05,NG)
+       IF (MLW /= 13) THEN
         DO OFFSET = 0,NEL-1,NVSIZ                                                                                       
-          NFT = IPARG(3,NG) + OFFSET                                                                                    
-          LFT=1                                                                                                         
-          LLT=MIN(NVSIZ,NEL-OFFSET)                                                                                     
+          NFT = IPARG(3,NG) + OFFSET
+          NEL = MIN(NVSIZ,NEL-OFFSET)
           IALEL = IPARG(7,NG) + IPARG(11,NG)                                                                            
-          IF (IALEL==0)CYCLE                                                                                            
-          IF (ITY==1 .OR. ITY==2 .OR. (ITY==7 .AND. N2D/=0)) THEN                                                       
+          IF (IALEL == 0)CYCLE
+          IF (ITY == 1 .OR. ITY == 2 .OR. (ITY == 7 .AND. N2D /= 0)) THEN
              IF (MLW == 151) THEN                                                                                       
               !-- COLLOCATED SCHEME                                                                                     
-              WA_L(NFT+LFT:NFT+LLT) =  MULTI_FVM%RHO(NFT+LFT:NFT+LLT)                                                   
+              WA_L(NFT+1:NFT+NEL) =  MULTI_FVM%RHO(NFT+1:NFT+NEL)
              ELSE                                                                                                       
               !-- STAGGERED SCHEME                                                                                      
               GBUF => ELBUF_TAB(NG)%GBUF                                                                                
-              WA_L(NFT+LFT:NFT+LLT) = GBUF%RHO(LFT:LLT)                                                                 
+              WA_L(NFT+1:NFT+NEL) = GBUF%RHO(1:NEL)
              ENDIF                                                                                                      
           ENDIF                                                                                                         
         ENDDO                                                                                                           
@@ -127,7 +122,7 @@ C-----------------------------------------------
       IF(IALE+IEULER+ITHERM /= 0)THEN
         LENCOM = NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)                                                                      
         IF (NSPMD>1) THEN                                                                                                                                                                                     
-          CALL SPMD_E1VOIS( WA_L,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM )                                                                                                                          
+          CALL SPMD_E1VOIS( WA_L,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM )
         END IF                                                                                                            
       ENDIF                                                                                                             
 

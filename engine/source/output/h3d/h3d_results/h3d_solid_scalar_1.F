@@ -2451,7 +2451,7 @@ C--------------------------------------------------
                     LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
                     IF(IS_ALE /= 0)THEN
                       !ale
-                      TMP_2(1:MVSIZ,1:3) = ZERO
+                      TMP_2(1:NEL,1:3) = ZERO
                       DO J=1,8
                         DO  I=1,NEL
                           TMP_2(I,1)=TMP_2(I,1) + V(1,IXS(J+1,I+NFT))-W(1,IXS(J+1,I+NFT))
@@ -2460,15 +2460,15 @@ C--------------------------------------------------
                         ENDDO
                       ENDDO
                       DO  I=1,NEL
-                        VEL(1) = TMP_2(I,1)*ONE_OVER_8!SUM(TMP_2(1,1:8))*ONE_OVER_8
-                        VEL(2) = TMP_2(I,2)*ONE_OVER_8!SUM(TMP_2(2,1:8))*ONE_OVER_8
-                        VEL(3) = TMP_2(I,3)*ONE_OVER_8!SUM(TMP_2(3,1:8))*ONE_OVER_8
+                        VEL(1) = TMP_2(I,1)*ONE_OVER_8
+                        VEL(2) = TMP_2(I,2)*ONE_OVER_8
+                        VEL(3) = TMP_2(I,3)*ONE_OVER_8
                         VALUE(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
                         IS_WRITTEN_VALUE(I) = 1
                       ENDDO
                     ELSE
                       !euler and lagrange
-                      TMP_2(1:MVSIZ,1:3) = ZERO
+                      TMP_2(1:NEL,1:3) = ZERO
                       DO J=1,8
                         DO  I=1,NEL
                           TMP_2(I,1)=TMP_2(I,1)+V(1,IXS(J+1,I+NFT))
@@ -2477,9 +2477,9 @@ C--------------------------------------------------
                         ENDDO
                       ENDDO
                       DO  I=1,NEL
-                        VEL(1) = TMP_2(I,1)*ONE_OVER_8!SUM(TMP(1,1:8))*ONE_OVER_8
-                        VEL(2) = TMP_2(I,2)*ONE_OVER_8!SUM(TMP(2,1:8))*ONE_OVER_8
-                        VEL(3) = TMP_2(I,3)*ONE_OVER_8!SUM(TMP(3,1:8))*ONE_OVER_8
+                        VEL(1) = TMP_2(I,1)*ONE_OVER_8
+                        VEL(2) = TMP_2(I,2)*ONE_OVER_8
+                        VEL(3) = TMP_2(I,3)*ONE_OVER_8
                         VALUE(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
                         IS_WRITTEN_VALUE(I) = 1
                       ENDDO
@@ -2879,7 +2879,7 @@ C--------------------------------------------------
               ENDIF
 C--------------------------------------------------
               IF(CALLED_FROM_PYTHON) THEN
-                 SOLID_SCALAR(1:MVSIZ) = VALUE(1:MVSIZ)
+                 SOLID_SCALAR(1:NEL) = VALUE(1:NEL)
               ELSE
                 CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_SOLID,SOLID_SCALAR,NEL,OFFSET,NFT,
      .           VALUE,IS_WRITTEN_VALUE)

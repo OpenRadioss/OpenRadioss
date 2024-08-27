@@ -1349,7 +1349,7 @@
                   is_written_value(i) = 1
                 enddo
 !--------------------------------------------------
-              elseif(keyword == 'mach')then
+              elseif(keyword == 'MACH')then
 !--------------------------------------------------
                 if (mlw == 151) then
                   do i = 1, nel
@@ -1549,7 +1549,7 @@
               endif  ! keyword
 !--------------------------------------------------
               if(called_from_python) then
-                quad_scalar(1:mvsiz) = value(1:mvsiz)
+                quad_scalar(1:nel) = value(1:nel)
               else
                 call h3d_write_scalar(iok_part,is_written_quad,quad_scalar,nel,0,nft,value,is_written_value)
               endif

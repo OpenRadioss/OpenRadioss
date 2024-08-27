@@ -123,8 +123,8 @@ C
 C-----------
       DO NG=1,NGROUP
         CALL H3D_QUAD_SCALAR_1(.FALSE., NG, 
-     .                  n0phas, nvphas,ngroup, n2d, numelq, nummat, numnod, nparg, npropm, npropmi, ispmd, 
-     .                  ELBUF_TAB   ,QUAD_SCALAR, numelq, IPARG        ,
+     .                  N0PHAS, NVPHAS,NGROUP, N2D, NUMELQ, NUMMAT, NUMNOD, NPARG, NPROPM, NPROPMI, ISPMD,
+     .                  ELBUF_TAB   ,QUAD_SCALAR, NUMELQ, IPARG        ,
      .                  IXQ,       NIXQ         ,PM          ,
      .                  EHOUR     ,
      .                  IPM         ,
