@@ -74,6 +74,7 @@ C----------------------------------------------------------
         FACI = ZERO
         IF (DT1>ZERO) THEN
           DT0=MIN(DT0,DT1)
+          DTMI1 = MAX(DTMI1,DT0)
         ELSE          
           IF (DTMI1>ZERO) DT0=MIN(DT0,DTMI1) 
         END IF
