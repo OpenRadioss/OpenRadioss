@@ -104,7 +104,7 @@ void c_h3d_update_nodal_vector_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, m
 
         rc = Hyper3DDatasetBegin(h3d_file, *NUMNOD, sim_idx, subcase_id, H3D_DS_NODE, 
                                         H3D_DS_VECTOR, num_corners, num_modes, *CPT_DATATYPE, 
-                                        NULL, node_poolname_id, complex); 
+                                        0, node_poolname_id, complex); 
         if( !rc ) throw rc;
 
         offset = 0;

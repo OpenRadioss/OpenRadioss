@@ -105,7 +105,7 @@ void c_h3d_eroded_sph_(my_real *TT,int *IH3D, int *NUMSPH, my_real *FUNC , int *
         {
           rc = Hyper3DDatasetBegin(h3d_file, *NUMSPH, sim_idx, subcase_id, H3D_DS_ELEM, 
                                         H3D_DS_EROSION, num_corners, num_modes, *CPT_DATATYPE, 
-                                        NULL, sphcell_poolname_id, complex); 
+                                        0, sphcell_poolname_id, complex); 
           if( !rc ) fflush(stdout);
           if( !rc ) throw rc;
 
