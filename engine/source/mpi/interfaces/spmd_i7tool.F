@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i24trivox                    ../engine/source/interfaces/intsort/i24trivox.F
       !||    i7tri                        ../engine/source/interfaces/intsort/i7tri.F
       !||    i7trivox                     ../engine/source/interfaces/intsort/i7trivox.F
-      !||    inter7_collision_detection   ../engine/source/interfaces/inter7_collision_detection.F
+      !||    inter7_collision_detection   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
       !||--- uses       -----------------------------------------------------
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================

@@ -1,115 +1,115 @@
-Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
-Copyright>
-Copyright>        This program is free software: you can redistribute it and/or modify
-Copyright>        it under the terms of the GNU Affero General Public License as published by
-Copyright>        the Free Software Foundation, either version 3 of the License, or
-Copyright>        (at your option) any later version.
-Copyright>
-Copyright>        This program is distributed in the hope that it will be useful,
-Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
-Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-Copyright>        GNU Affero General Public License for more details.
-Copyright>
-Copyright>        You should have received a copy of the GNU Affero General Public License
-Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>
-Copyright>
-Copyright>        Commercial Alternative: Altair Radioss Software
-Copyright>
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    inter7_candidate_pairs_mod   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||    inter7_candidate_pairs_mod   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||--- called by ------------------------------------------------------
-      !||    inter7_collision_detection   ../engine/source/interfaces/inter7_collision_detection.F
+      !||    inter7_collision_detection   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
       !||    main                         ../engine/unit_test/unit_test1.F
       !||====================================================================
       MODULE INTER7_CANDIDATE_PAIRS_MOD
       CONTAINS
 
-!! \brief get the list of candidates for all segment
+!! \brief get the list of candidates pairs for all main segments
 
       !||====================================================================
-      !||    inter7_candidate_pairs       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||    inter7_candidate_pairs       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||--- called by ------------------------------------------------------
-      !||    inter7_collision_detection   ../engine/source/interfaces/inter7_collision_detection.F
-      !||    test_candidates              ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||    inter7_collision_detection   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
+      !||    test_candidates              ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||--- calls      -----------------------------------------------------
-      !||    inter7_filter_cand           ../engine/source/interfaces/intsort/inter7_filter_cand.F
+      !||    inter7_filter_cand           ../engine/source/interfaces/intsort/inter7_filter_cand.F90
       !||--- uses       -----------------------------------------------------
       !||    collision_mod                ../engine/source/interfaces/intsort/collision_mod.F
       !||    constant_mod                 ../common_source/modules/constant_mod.F
-      !||    inter7_filter_cand_mod       ../engine/source/interfaces/intsort/inter7_filter_cand.F
+      !||    inter7_filter_cand_mod       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
       !||====================================================================
-        SUBROUTINE INTER7_CANDIDATE_PAIRS(
-     &                                    nsn          ,
-     &                                    oldnum       ,
-     &                                    nsnr         ,
-     &                                    isznsnr      ,
-     &                                    i_mem        ,
-     &                                    irect        ,
-     &                                    x            ,
-     &                                    stf          ,
-     &                                    stfn         ,
-     &                                    xyzm         ,
-     &                                    nsv          ,
-     &                                    ii_stok      ,
-     &                                    cand_n       ,
-     &                                    eshift       ,
-     &                                    cand_e       ,
-     &                                    mulnsn       ,
-     &                                    tzinf        ,
-     &                                    gap_s_l      ,
-     &                                    gap_m_l      ,
-     &                                    voxel        ,
-     &                                    nbx          ,
-     &                                    nby          ,
-     &                                    nbz          ,
-     &                                    inacti       ,
-     &                                    ifq          ,
-     &                                    cand_a       ,
-     &                                    cand_p       ,
-     &                                    ifpen        ,
-     &                                    nrtm         ,
-     &                                    nsnrold      ,
-     &                                    igap         ,
-     &                                    gap          ,
-     &                                    gap_s        ,
-     &                                    gap_m        ,
-     &                                    gapmin       ,
-     &                                    gapmax       ,
-     &                                    marge        ,
-     &                                    curv_max     ,
-     &                                    itask        ,
-     &                                    bgapsmx      ,
-     &                                    s_kremnod    ,
-     &                                    kremnod      ,
-     &                                    s_remnod     ,
-     &                                    remnod       ,
-     &                                    flagremnode  ,
-     &                                    drad         ,
-     &                                    itied        ,
-     &                                    cand_f       ,
-     &                                    dgapload     ,
-     &                                    s_cand_a     ,
-     &                                    total_nb_nrtm,
-     &                                    numnod       ,
-     &                                    xrem         ,
-     &                                    s_xrem       ,
-     &                                    irem         ,
-     &                                    s_irem       ,
+        SUBROUTINE INTER7_CANDIDATE_PAIRS(&
+     &                                    nsn          ,&
+     &                                    oldnum       ,&
+     &                                    nsnr         ,&
+     &                                    isznsnr      ,&
+     &                                    i_mem        ,&
+     &                                    irect        ,&
+     &                                    x            ,&
+     &                                    stf          ,&
+     &                                    stfn         ,&
+     &                                    xyzm         ,&
+     &                                    nsv          ,&
+     &                                    ii_stok      ,&
+     &                                    cand_n       ,&
+     &                                    eshift       ,&
+     &                                    cand_e       ,&
+     &                                    mulnsn       ,&
+     &                                    tzinf        ,&
+     &                                    gap_s_l      ,&
+     &                                    gap_m_l      ,&
+     &                                    voxel        ,&
+     &                                    nbx          ,&
+     &                                    nby          ,&
+     &                                    nbz          ,&
+     &                                    inacti       ,&
+     &                                    ifq          ,&
+     &                                    cand_a       ,&
+     &                                    cand_p       ,&
+     &                                    ifpen        ,&
+     &                                    nrtm         ,&
+     &                                    nsnrold      ,&
+     &                                    igap         ,&
+     &                                    gap          ,&
+     &                                    gap_s        ,&
+     &                                    gap_m        ,&
+     &                                    gapmin       ,&
+     &                                    gapmax       ,&
+     &                                    marge        ,&
+     &                                    curv_max     ,&
+     &                                    itask        ,&
+     &                                    bgapsmx      ,&
+     &                                    s_kremnod    ,&
+     &                                    kremnod      ,&
+     &                                    s_remnod     ,&
+     &                                    remnod       ,&
+     &                                    flagremnode  ,&
+     &                                    drad         ,&
+     &                                    itied        ,&
+     &                                    cand_f       ,&
+     &                                    dgapload     ,&
+     &                                    s_cand_a     ,&
+     &                                    total_nb_nrtm,&
+     &                                    numnod       ,&
+     &                                    xrem         ,&
+     &                                    s_xrem       ,&
+     &                                    irem         ,&
+     &                                    s_irem       ,&
      &                                    next_nod      )
           USE COLLISION_MOD , ONLY : GROUP_SIZE
           USE INTER7_FILTER_CAND_MOD
           USE CONSTANT_MOD
-C-----------------------------------------------
+!-----------------------------------------------
           implicit none
 #include "my_real.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
+!-----------------------------------------------
+!   D u m m y   A r g u m e n t s
+!-----------------------------------------------
           integer, intent(inout) :: i_mem !< error code when not enough memory
           integer, intent(in), value :: eshift !< openmp shift for main segments
           integer, intent(in), value :: nsn !< number of secondary nodes
@@ -167,36 +167,27 @@ C-----------------------------------------------
           my_real, intent(in) :: xyzm(12) !< bounding box
 
           my_real, intent(inout) :: cand_p(mulnsn) !< penetration (???)
-          my_real, intent(inout) :: cand_f(mulnsn) !< related to tied contact, cand force (???)
+          my_real, intent(inout) :: cand_f(8*mulnsn) !< related to tied contact, cand force (???)
           my_real, intent(in) :: stf(nrtm) !< stiffness of segments (quadrangles or triangles)
           my_real, intent(inout) :: stfn(nsn) !< stiffness secondary nodes
           my_real, intent(inout) :: xrem(s_xrem,nsnr) !< remote (spmd) real data
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-          integer i,j,
-     .            nn,ne,k,l,j_stok,jj,
-     .            delnod,m
+!-----------------------------------------------
+!   L o c a l   V a r i a b l e s
+!-----------------------------------------------
+          integer :: i,j, nn, ne, k, l, j_stok, jj, delnod, m
           integer, dimension(:), allocatable :: tagremnode
-          my_real
-     .       xs,ys,zs,sx,sy,sz,s2,
-     .       xmin, xmax,ymin, ymax,zmin, zmax,
-     .       xx1,xx2,xx3,xx4,yy1,yy2,yy3,yy4,zz1,zz2,zz3,zz4,
-     .       d1x,d1y,d1z,d2x,d2y,d2z,dd1,dd2,d2,a2
-          integer, dimension(:), allocatable::  last_nod
-          integer  ix,iy,iz,m1,m2,m3,m4,
-     .             ix1,iy1,iz1,ix2,iy2,iz2
-          integer :: iix,iiy,iiz
-          my_real
-     .       xminb,yminb,zminb,xmaxb,ymaxb,zmaxb,
-     .       xmine,ymine,zmine,xmaxe,ymaxe,zmaxe,aaa
-          integer first,last
+          my_real :: xs, ys, zs, sx, sy, sz, s2
+          my_real :: xmin, xmax, ymin, ymax, zmin, zmax
+          my_real :: xx1, xx2, xx3, xx4, yy1, yy2, yy3, yy4, zz1, zz2, zz3, zz4
+          my_real :: d1x, d1y, d1z, d2x, d2y, d2z, dd1, dd2, d2, a2
+          integer, dimension(:), allocatable :: last_nod
+          integer :: ix, iy, iz, m1, m2, m3, m4, ix1, iy1, iz1, ix2, iy2, iz2
+          integer :: iix, iiy, iiz
+          my_real :: xminb, yminb, zminb, xmaxb, ymaxb, zmaxb, xmine, ymine, zmine, xmaxe, ymaxe, zmaxe, aaa
+          integer :: first, last
           integer :: nb_voxel_on !< number of remote nodes in the bounding box
           integer, dimension(:), allocatable :: list_nb_voxel_on
           integer, dimension(GROUP_SIZE) :: prov_n, prov_e !< temporary list of candidates
-
-
-C-----------------------------------------------
 
           if(itask == 0)then
             allocate(list_nb_voxel_on((nbx+2)*(nby+2)*(nbz+2)))
@@ -228,9 +219,9 @@ C-----------------------------------------------
           ymaxb = xyzm(11)
           zmaxb = xyzm(12)
 
-C=======================================================================
-C 1   Add local nodes to the cells
-C=======================================================================
+!=======================================================================
+! 1   Add local nodes to the cells
+!=======================================================================
           if(itask==0.and.total_nb_nrtm>0)then
             allocate(last_nod(nsn+nsnr))
             do i=1,nsn
@@ -276,9 +267,9 @@ C=======================================================================
               endif
             enddo
 
-C=======================================================================
-C 2   Add remote (spmd) nodes to the cells
-C=======================================================================
+!=======================================================================
+! 2   Add remote (spmd) nodes to the cells
+!=======================================================================
             do j = 1, nsnr
 
               if(xrem(1,j) < xmin)  cycle
@@ -324,9 +315,9 @@ C=======================================================================
 !$OMP BARRIER
 
 
-C=======================================================================
-C 3   FACE RECOVERY AND ENUMERATION OF CANDIDATE COUPLES
-C=======================================================================
+!=======================================================================
+! 3   FACE RECOVERY AND ENUMERATION OF CANDIDATE COUPLES
+!=======================================================================
           j_stok = 0
           if(flagremnode == 2) then
             allocate(tagremnode(numnod))
@@ -496,23 +487,22 @@ C=======================================================================
 
                     if(j_stok == GROUP_SIZE) then 
                        ! filter prov_n, prov_e and append to cand_n, cand_e
-                       if(i_mem == 0) call inter7_filter_cand(
-     1                   j_stok,irect  ,x     ,nsv   ,ii_stok,
-     2                   cand_n,cand_e ,mulnsn,marge  ,
-     3                   i_mem ,prov_n ,prov_e,eshift,inacti ,
-     4                   ifq   ,cand_a ,cand_p,ifpen ,nsn    ,
-     5                   oldnum,nsnrold,igap  ,gap   ,gap_s  ,
-     6                   gap_m ,gapmin ,gapmax,curv_max,
-     7                   gap_s_l,gap_m_l,drad,itied    ,
-     8                   cand_f ,dgapload,
-     .                   nsnr,
-     .                   xrem ,s_xrem)
+                       if(i_mem == 0) call inter7_filter_cand(&
+     &                   j_stok,irect  ,x     ,nsv   ,ii_stok,&
+     &                   cand_n,cand_e ,mulnsn,marge  ,&
+     &                   i_mem ,prov_n ,prov_e,eshift,inacti ,&
+     &                   ifq   ,cand_a ,cand_p,ifpen ,nsn    ,&
+     &                   oldnum,nsnrold,igap  ,gap   ,gap_s  ,&
+     &                   gap_m ,gapmin ,gapmax,curv_max,&
+     &                   gap_s_l,gap_m_l,drad,itied    ,&
+     &                   cand_f ,dgapload, numnod,&
+     &                   nsnr, nrtm, isznsnr,&
+     &                   xrem ,s_xrem)
                          j_stok = 0
                     endif
  
   200               continue
                     jj = next_nod(jj)
-c                   if(i_mem==2) jj = 0
                   enddo ! while(jj /= 0)
                 enddo ! x
               enddo  ! y
@@ -526,21 +516,21 @@ c                   if(i_mem==2) jj = 0
             endif
           enddo
 !$OMP END DO
-          if(j_stok > 0 .and. i_mem == 0) call inter7_filter_cand(
-     1                   j_stok,irect  ,x     ,nsv   ,ii_stok,
-     2                   cand_n,cand_e ,mulnsn,marge  ,
-     3                   i_mem ,prov_n ,prov_e,eshift,inacti ,
-     4                   ifq   ,cand_a ,cand_p,ifpen ,nsn    ,
-     5                   oldnum,nsnrold,igap  ,gap   ,gap_s  ,
-     6                   gap_m ,gapmin ,gapmax,curv_max,
-     7                   gap_s_l,gap_m_l,drad,itied    ,
-     8                   cand_f ,dgapload,
-     .                   nsnr,
-     .                   xrem ,s_xrem)
+          if(j_stok > 0 .and. i_mem == 0) call inter7_filter_cand(&
+     &                   j_stok,irect  ,x     ,nsv   ,ii_stok,&
+     &                   cand_n,cand_e ,mulnsn,marge  ,&
+     &                   i_mem ,prov_n ,prov_e,eshift,inacti ,&
+     &                   ifq   ,cand_a ,cand_p,ifpen ,nsn    ,&
+     &                   oldnum,nsnrold,igap  ,gap   ,gap_s  ,&
+     &                   gap_m ,gapmin ,gapmax,curv_max,&
+     &                   gap_s_l,gap_m_l,drad,itied    ,&
+     &                   cand_f ,dgapload, numnod,&
+     &                   nsnr, nrtm, isznsnr,&
+     &                   xrem ,s_xrem)
 
-C=======================================================================
-C 5   VOXEL RESET
-C=======================================================================
+!=======================================================================
+! 5   VOXEL RESET
+!=======================================================================
 !$OMP BARRIER
           if(total_nb_nrtm>0 .and. itask == 0) then
             do jj = 1, nb_voxel_on
@@ -556,126 +546,125 @@ C=======================================================================
             enddo
           endif
 !$OMP BARRIER
-C=======================================================================
-C 7   DEALLOCATE
-C=======================================================================
+!=======================================================================
+! 7   DEALLOCATE
+!=======================================================================
           if(flagremnode == 2) then
             if(allocated(tagremnode)) deallocate(tagremnode)
           endif
           if(itask == 0) deallocate(list_nb_voxel_on)
 
-C#ifndef NO_SERIALIZE
-C        if(nsn > 13602 .and. nrtm > 1800) then
-C        call INTER7_SERIALIZE(      "t10m.dat", 
-C     &                                    nsn          ,
-C     &                                    oldnum       ,
-C     &                                    nsnr         ,
-C     &                                    isznsnr      ,
-C     &                                    irect        ,
-C     &                                    x            ,
-C     &                                    stf          ,
-C     &                                    stfn         ,
-C     &                                    xyzm         ,
-C     &                                    nsv          ,
-C     &                                    ii_stok      ,
-C     &                                    cand_n       ,
-C     &                                    cand_e       ,
-C     &                                    mulnsn       ,
-C     &                                    tzinf        ,
-C     &                                    gap_s_l      ,
-C     &                                    gap_m_l      ,
-C     &                                    nbx          ,
-C     &                                    nby          ,
-C     &                                    nbz          ,
-C     &                                    inacti       ,
-C     &                                    ifq          ,
-C     &                                    cand_a       ,
-C     &                                    nrtm         ,
-C     &                                    nsnrold      ,
-C     &                                    igap         ,
-C     &                                    gap          ,
-C     &                                    gap_s        ,
-C     &                                    gap_m        ,
-C     &                                    gapmin       ,
-C     &                                    gapmax       ,
-C     &                                    marge        ,
-C     &                                    curv_max     ,
-C     &                                    bgapsmx      ,
-C     &                                    s_kremnod    ,
-C     &                                    kremnod      ,
-C     &                                    s_remnod     ,
-C     &                                    remnod       ,
-C     &                                    flagremnode  ,
-C     &                                    drad         ,
-C     &                                    itied        ,
-C     &                                    dgapload     ,
-C     &                                    s_cand_a     ,
-C     &                                    total_nb_nrtm,
-C     &                                    numnod       )
-C        stop              
-C        endif
-C#endif
+!#ifndef NO_SERIALIZE
+!        if(nsn > 13602 .and. nrtm > 1800) then
+!        call INTER7_SERIALIZE(      "t10m.dat", 
+!     &                                    nsn          ,
+!     &                                    oldnum       ,
+!     &                                    nsnr         ,
+!     &                                    isznsnr      ,
+!     &                                    irect        ,
+!     &                                    x            ,
+!     &                                    stf          ,
+!     &                                    stfn         ,
+!     &                                    xyzm         ,
+!     &                                    nsv          ,
+!     &                                    ii_stok      ,
+!     &                                    cand_n       ,
+!     &                                    cand_e       ,
+!     &                                    mulnsn       ,
+!     &                                    tzinf        ,
+!     &                                    gap_s_l      ,
+!     &                                    gap_m_l      ,
+!     &                                    nbx          ,
+!     &                                    nby          ,
+!     &                                    nbz          ,
+!     &                                    inacti       ,
+!     &                                    ifq          ,
+!     &                                    cand_a       ,
+!     &                                    nrtm         ,
+!     &                                    nsnrold      ,
+!     &                                    igap         ,
+!     &                                    gap          ,
+!     &                                    gap_s        ,
+!     &                                    gap_m        ,
+!     &                                    gapmin       ,
+!     &                                    gapmax       ,
+!     &                                    marge        ,
+!     &                                    curv_max     ,
+!     &                                    bgapsmx      ,
+!     &                                    s_kremnod    ,
+!     &                                    kremnod      ,
+!     &                                    s_remnod     ,
+!     &                                    remnod       ,
+!     &                                    flagremnode  ,
+!     &                                    drad         ,
+!     &                                    itied        ,
+!     &                                    dgapload     ,
+!     &                                    s_cand_a     ,
+!     &                                    total_nb_nrtm,
+!     &                                    numnod       )
+!        stop              
+!        endif
+!#endif
 
           return
         end
 
 !! \brief write the data to a file
       !||====================================================================
-      !||    inter7_serialize   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||    inter7_serialize   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||--- calls      -----------------------------------------------------
       !||====================================================================
-        SUBROUTINE INTER7_SERIALIZE(      filename     , 
-     &                                    nsn          ,
-     &                                    oldnum       ,
-     &                                    nsnr         ,
-     &                                    isznsnr      ,
-     &                                    irect        ,
-     &                                    x            ,
-     &                                    stf          ,
-     &                                    stfn         ,
-     &                                    xyzm         ,
-     &                                    nsv          ,
-     &                                    ii_stok      ,
-     &                                    cand_n       ,
-     &                                    cand_e       ,
-     &                                    mulnsn       ,
-     &                                    tzinf        ,
-     &                                    gap_s_l      ,
-     &                                    gap_m_l      ,
-     &                                    nbx          ,
-     &                                    nby          ,
-     &                                    nbz          ,
-     &                                    inacti       ,
-     &                                    ifq          ,
-     &                                    cand_a       ,
-     &                                    nrtm         ,
-     &                                    nsnrold      ,
-     &                                    igap         ,
-     &                                    gap          ,
-     &                                    gap_s        ,
-     &                                    gap_m        ,
-     &                                    gapmin       ,
-     &                                    gapmax       ,
-     &                                    marge        ,
-     &                                    curv_max     ,
-     &                                    bgapsmx      ,
-     &                                    s_kremnod    ,
-     &                                    kremnod      ,
-     &                                    s_remnod     ,
-     &                                    remnod       ,
-     &                                    flagremnode  ,
-     &                                    drad         ,
-     &                                    itied        ,
-     &                                    dgapload     ,
-     &                                    s_cand_a     ,
-     &                                    total_nb_nrtm,
+        SUBROUTINE INTER7_SERIALIZE(      filename     ,& 
+     &                                    nsn          ,&
+     &                                    oldnum       ,&
+     &                                    nsnr         ,&
+     &                                    isznsnr      ,&
+     &                                    irect        ,&
+     &                                    x            ,&
+     &                                    stf          ,&
+     &                                    stfn         ,&
+     &                                    xyzm         ,&
+     &                                    nsv          ,&
+     &                                    ii_stok      ,&
+     &                                    cand_n       ,&
+     &                                    cand_e       ,&
+     &                                    mulnsn       ,&
+     &                                    tzinf        ,&
+     &                                    gap_s_l      ,&
+     &                                    gap_m_l      ,&
+     &                                    nbx          ,&
+     &                                    nby          ,&
+     &                                    nbz          ,&
+     &                                    inacti       ,&
+     &                                    ifq          ,&
+     &                                    cand_a       ,&
+     &                                    nrtm         ,&
+     &                                    nsnrold      ,&
+     &                                    igap         ,&
+     &                                    gap          ,&
+     &                                    gap_s        ,&
+     &                                    gap_m        ,&
+     &                                    gapmin       ,&
+     &                                    gapmax       ,&
+     &                                    marge        ,&
+     &                                    curv_max     ,&
+     &                                    bgapsmx      ,&
+     &                                    s_kremnod    ,&
+     &                                    kremnod      ,&
+     &                                    s_remnod     ,&
+     &                                    remnod       ,&
+     &                                    flagremnode  ,&
+     &                                    drad         ,&
+     &                                    itied        ,&
+     &                                    dgapload     ,&
+     &                                    s_cand_a     ,&
+     &                                    total_nb_nrtm,&
      &                                    numnod       )
-C-----------------------------------------------
           implicit none
 #include "my_real.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
+!-----------------------------------------------
+!   D u m m y   A r g u m e n t s
+!-----------------------------------------------
           character(len =*), intent(in) :: filename
 
           integer, intent(in), value :: nsn !< number of secondary nodes
@@ -727,13 +716,12 @@ C-----------------------------------------------
           my_real, intent(in) :: xyzm(12) !< bounding box
           my_real, intent(in) :: stf(nrtm) !< stiffness of segments (quadrangles or triangles)
           my_real, intent(in) :: stfn(nsn) !< stiffness secondary nodes
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
+!-----------------------------------------------
+!   L o c a l   V a r i a b l e s
+!-----------------------------------------------
           integer :: i, j, iostat, unitNum
           integer :: pos
 
-C-----------------------------------------------
           open(NEWUNIT=unitNum, FILE=filename, FORM='UNFORMATTED', STATUS='REPLACE', IOSTAT=iostat)
           if (iostat /= 0) then
             write(6,*) "error opening file: ", filename
@@ -823,64 +811,62 @@ C-----------------------------------------------
         end subroutine
 !! \brief write the data to a file
       !||====================================================================
-      !||    inter7_deserialize   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||    inter7_deserialize   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||--- called by ------------------------------------------------------
-      !||    test_candidates      ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||    test_candidates      ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||====================================================================
-        SUBROUTINE INTER7_DESERIALIZE(    filename     , 
-     &                                    nsn          ,
-     &                                    oldnum       ,
-     &                                    nsnr         ,
-     &                                    isznsnr      ,
-     &                                    irect        ,
-     &                                    x            ,
-     &                                    stf          ,
-     &                                    stfn         ,
-     &                                    xyzm         ,
-     &                                    nsv          ,
-     &                                    ii_stok      ,
-     &                                    cand_n       ,
-     &                                    cand_e       ,
-     &                                    mulnsn       ,
-     &                                    tzinf        ,
-     &                                    gap_s_l      ,
-     &                                    gap_m_l      ,
-     &                                    nbx          ,
-     &                                    nby          ,
-     &                                    nbz          ,
-     &                                    inacti       ,
-     &                                    ifq          ,
-     &                                    cand_a       ,
-     &                                    nrtm         ,
-     &                                    nsnrold      ,
-     &                                    igap         ,
-     &                                    gap          ,
-     &                                    gap_s        ,
-     &                                    gap_m        ,
-     &                                    gapmin       ,
-     &                                    gapmax       ,
-     &                                    marge        ,
-     &                                    curv_max     ,
-     &                                    bgapsmx      ,
-     &                                    s_kremnod    ,
-     &                                    kremnod      ,
-     &                                    s_remnod     ,
-     &                                    remnod       ,
-     &                                    flagremnode  ,
-     &                                    drad         ,
-     &                                    itied        ,
-     &                                    dgapload     ,
-     &                                    s_cand_a     ,
-     &                                    total_nb_nrtm,
+        SUBROUTINE INTER7_DESERIALIZE(    filename     ,& 
+     &                                    nsn          ,&
+     &                                    oldnum       ,&
+     &                                    nsnr         ,&
+     &                                    isznsnr      ,&
+     &                                    irect        ,&
+     &                                    x            ,&
+     &                                    stf          ,&
+     &                                    stfn         ,&
+     &                                    xyzm         ,&
+     &                                    nsv          ,&
+     &                                    ii_stok      ,&
+     &                                    cand_n       ,&
+     &                                    cand_e       ,&
+     &                                    mulnsn       ,&
+     &                                    tzinf        ,&
+     &                                    gap_s_l      ,&
+     &                                    gap_m_l      ,&
+     &                                    nbx          ,&
+     &                                    nby          ,&
+     &                                    nbz          ,&
+     &                                    inacti       ,&
+     &                                    ifq          ,&
+     &                                    cand_a       ,&
+     &                                    nrtm         ,&
+     &                                    nsnrold      ,&
+     &                                    igap         ,&
+     &                                    gap          ,&
+     &                                    gap_s        ,&
+     &                                    gap_m        ,&
+     &                                    gapmin       ,&
+     &                                    gapmax       ,&
+     &                                    marge        ,&
+     &                                    curv_max     ,&
+     &                                    bgapsmx      ,&
+     &                                    s_kremnod    ,&
+     &                                    kremnod      ,&
+     &                                    s_remnod     ,&
+     &                                    remnod       ,&
+     &                                    flagremnode  ,&
+     &                                    drad         ,&
+     &                                    itied        ,&
+     &                                    dgapload     ,&
+     &                                    s_cand_a     ,&
+     &                                    total_nb_nrtm,&
      &                                    numnod       )
-C-----------------------------------------------
           implicit none
 #include "my_real.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
+!-----------------------------------------------
+!   D u m m y   A r g u m e n t s
+!-----------------------------------------------
           character(len =*), intent(in) :: filename
-
           integer, intent(out) :: nsn !< number of secondary nodes
           integer, intent(out) :: nsnr !< current number of remote secondary nodes
           integer, intent(out) :: nsnrold !< old number of remote secondary nodes
@@ -932,12 +918,11 @@ C-----------------------------------------------
           my_real, intent(out), dimension(:), allocatable :: stfn !< stiffness secondary nodes
           my_real, intent(out) :: xyzm(12) !< bounding box
 
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
+!-----------------------------------------------
+!   L o c a l   V a r i a b l e s
+!-----------------------------------------------
           integer :: i, j, iostat, unitNum
           integer :: pos
-C-----------------------------------------------
           open(NEWUNIT=unitNum, FILE=filename, FORM='UNFORMATTED', STATUS='OLD', IOSTAT=iostat)
           if (iostat /= 0) then
             write(6,*) "error opening file: ", filename
@@ -1049,13 +1034,13 @@ C-----------------------------------------------
         !!\brief compare the couple cand_n(i) cand_e(i) with the couple cand_n_ref/cand_e_ref
         !!\details check if there exist i and j such as cand_n(i)=cand_n_ref(j) and cand_e(i)=cand_e_ref(j)
       !||====================================================================
-      !||    test_candidates          ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||    test_candidates          ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||--- called by ------------------------------------------------------
       !||    main                     ../engine/unit_test/unit_test1.F
       !||--- calls      -----------------------------------------------------
       !||    compare_cand             ../engine/source/interfaces/intsort/compare_cand.cpp
-      !||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
-      !||    inter7_deserialize       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
+      !||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+      !||    inter7_deserialize       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||--- uses       -----------------------------------------------------
       !||====================================================================
         subroutine test_candidates(filename)
@@ -1069,13 +1054,13 @@ C-----------------------------------------------
           end subroutine compare_cand
           end interface
 #include "my_real.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
+!-----------------------------------------------
+!   D u m m y   A r g u m e n t s
+!-----------------------------------------------
           character(len =*), intent(in) :: filename
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
+!-----------------------------------------------
+!   L o c a l   V a r i a b l e s
+!-----------------------------------------------
           integer :: nsn !< number of secondary nodes
           integer :: nsnr !< current number of remote secondary nodes
           integer :: nsnrold !< old number of remote secondary nodes
@@ -1141,56 +1126,56 @@ C-----------------------------------------------
     
           allocate(voxel(8000000))
 
-          call INTER7_DESERIALIZE(        filename     , 
-     &                                    nsn          ,
-     &                                    oldnum       ,
-     &                                    nsnr         ,
-     &                                    isznsnr      ,
-     &                                    irect        ,
-     &                                    x            ,
-     &                                    stf          ,
-     &                                    stfn         ,
-     &                                    xyzm         ,
-     &                                    nsv          ,
-     &                                    ii_stok_ref  ,
-     &                                    cand_n_ref   ,
-     &                                    cand_e_ref   ,
-     &                                    mulnsn       ,
-     &                                    tzinf        ,
-     &                                    gap_s_l      ,
-     &                                    gap_m_l      ,
-     &                                    nbx          ,
-     &                                    nby          ,
-     &                                    nbz          ,
-     &                                    inacti       ,
-     &                                    ifq          ,
-     &                                    cand_a       ,
-     &                                    nrtm         ,
-     &                                    nsnrold      ,
-     &                                    igap         ,
-     &                                    gap          ,
-     &                                    gap_s        ,
-     &                                    gap_m        ,
-     &                                    gapmin       ,
-     &                                    gapmax       ,
-     &                                    marge        ,
-     &                                    curv_max     ,
-     &                                    bgapsmx      ,
-     &                                    s_kremnod    ,
-     &                                    kremnod      ,
-     &                                    s_remnod     ,
-     &                                    remnod       ,
-     &                                    flagremnode  ,
-     &                                    drad         ,
-     &                                    itied        ,
-     &                                    dgapload     ,
-     &                                    s_cand_a     ,
-     &                                    total_nb_nrtm,
+          call INTER7_DESERIALIZE(        filename     ,& 
+     &                                    nsn          ,&
+     &                                    oldnum       ,&
+     &                                    nsnr         ,&
+     &                                    isznsnr      ,&
+     &                                    irect        ,&
+     &                                    x            ,&
+     &                                    stf          ,&
+     &                                    stfn         ,&
+     &                                    xyzm         ,&
+     &                                    nsv          ,&
+     &                                    ii_stok_ref  ,&
+     &                                    cand_n_ref   ,&
+     &                                    cand_e_ref   ,&
+     &                                    mulnsn       ,&
+     &                                    tzinf        ,&
+     &                                    gap_s_l      ,&
+     &                                    gap_m_l      ,&
+     &                                    nbx          ,&
+     &                                    nby          ,&
+     &                                    nbz          ,&
+     &                                    inacti       ,&
+     &                                    ifq          ,&
+     &                                    cand_a       ,&
+     &                                    nrtm         ,&
+     &                                    nsnrold      ,&
+     &                                    igap         ,&
+     &                                    gap          ,&
+     &                                    gap_s        ,&
+     &                                    gap_m        ,&
+     &                                    gapmin       ,&
+     &                                    gapmax       ,&
+     &                                    marge        ,&
+     &                                    curv_max     ,&
+     &                                    bgapsmx      ,&
+     &                                    s_kremnod    ,&
+     &                                    kremnod      ,&
+     &                                    s_remnod     ,&
+     &                                    remnod       ,&
+     &                                    flagremnode  ,&
+     &                                    drad         ,&
+     &                                    itied        ,&
+     &                                    dgapload     ,&
+     &                                    s_cand_a     ,&
+     &                                    total_nb_nrtm,&
      &                                    numnod       )
 
         allocate(cand_n(mulnsn))
         allocate(cand_e(mulnsn))
-        allocate(cand_f(mulnsn))
+        allocate(cand_f(8*mulnsn))
         allocate(cand_p(mulnsn))
         allocate(ifpen(mulnsn))
         s_xrem = 1 
@@ -1214,63 +1199,63 @@ C-----------------------------------------------
          ITASK = OMP_GET_THREAD_NUM() 
 
 
-        call INTER7_CANDIDATE_PAIRS(
-     &                                    nsn          ,
-     &                                    oldnum       ,
-     &                                    nsnr         ,
-     &                                    isznsnr      ,
-     &                                    i_mem        ,
-     &                                    irect        ,
-     &                                    x            ,
-     &                                    stf          ,
-     &                                    stfn         ,
-     &                                    xyzm         ,
-     &                                    nsv          ,
-     &                                    ii_stok      ,
-     &                                    cand_n       ,
-     &                                    eshift       ,
-     &                                    cand_e       ,
-     &                                    mulnsn       ,
-     &                                    tzinf        ,
-     &                                    gap_s_l      ,
-     &                                    gap_m_l      ,
-     &                                    voxel        ,
-     &                                    nbx          ,
-     &                                    nby          ,
-     &                                    nbz          ,
-     &                                    inacti       ,
-     &                                    ifq          ,
-     &                                    cand_a       ,
-     &                                    cand_p       ,
-     &                                    ifpen        ,
-     &                                    nrtm         ,
-     &                                    nsnrold      ,
-     &                                    igap         ,
-     &                                    gap          ,
-     &                                    gap_s        ,
-     &                                    gap_m        ,
-     &                                    gapmin       ,
-     &                                    gapmax       ,
-     &                                    marge        ,
-     &                                    curv_max     ,
-     &                                    itask        ,
-     &                                    bgapsmx      ,
-     &                                    s_kremnod    ,
-     &                                    kremnod      ,
-     &                                    s_remnod     ,
-     &                                    remnod       ,
-     &                                    flagremnode  ,
-     &                                    drad         ,
-     &                                    itied        ,
-     &                                    cand_f       ,
-     &                                    dgapload     ,
-     &                                    s_cand_a     ,
-     &                                    total_nb_nrtm,
-     &                                    numnod       ,
-     &                                    xrem         ,
-     &                                    s_xrem       ,
-     &                                    irem         ,
-     &                                    s_irem       ,
+        call INTER7_CANDIDATE_PAIRS(&
+     &                                    nsn          ,&
+     &                                    oldnum       ,&
+     &                                    nsnr         ,&
+     &                                    isznsnr      ,&
+     &                                    i_mem        ,&
+     &                                    irect        ,&
+     &                                    x            ,&
+     &                                    stf          ,&
+     &                                    stfn         ,&
+     &                                    xyzm         ,&
+     &                                    nsv          ,&
+     &                                    ii_stok      ,&
+     &                                    cand_n       ,&
+     &                                    eshift       ,&
+     &                                    cand_e       ,&
+     &                                    mulnsn       ,&
+     &                                    tzinf        ,&
+     &                                    gap_s_l      ,&
+     &                                    gap_m_l      ,&
+     &                                    voxel        ,&
+     &                                    nbx          ,&
+     &                                    nby          ,&
+     &                                    nbz          ,&
+     &                                    inacti       ,&
+     &                                    ifq          ,&
+     &                                    cand_a       ,&
+     &                                    cand_p       ,&
+     &                                    ifpen        ,&
+     &                                    nrtm         ,&
+     &                                    nsnrold      ,&
+     &                                    igap         ,&
+     &                                    gap          ,&
+     &                                    gap_s        ,&
+     &                                    gap_m        ,&
+     &                                    gapmin       ,&
+     &                                    gapmax       ,&
+     &                                    marge        ,&
+     &                                    curv_max     ,&
+     &                                    itask        ,&
+     &                                    bgapsmx      ,&
+     &                                    s_kremnod    ,&
+     &                                    kremnod      ,&
+     &                                    s_remnod     ,&
+     &                                    remnod       ,&
+     &                                    flagremnode  ,&
+     &                                    drad         ,&
+     &                                    itied        ,&
+     &                                    cand_f       ,&
+     &                                    dgapload     ,&
+     &                                    s_cand_a     ,&
+     &                                    total_nb_nrtm,&
+     &                                    numnod       ,&
+     &                                    xrem         ,&
+     &                                    s_xrem       ,&
+     &                                    irem         ,&
+     &                                    s_irem       ,&
      &                                    next_nod      )
 
 !$OMP END PARALLEL
