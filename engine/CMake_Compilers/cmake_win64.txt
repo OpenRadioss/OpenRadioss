@@ -175,9 +175,9 @@ set (LINK "advapi32.lib"  )
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # Specific set of compilation flag
 
-set (F_O1_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O1 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${cppmach} ${cpprel}")
-set (F_O2_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O2 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${cppmach} ${cpprel}")
-set (F_O3_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O3 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${cppmach} ${cpprel}")
+set (F_O1_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O1 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${FPP_FLAG} ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${cppmach} ${cpprel}")
+set (F_O2_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O2 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${FPP_FLAG} ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${cppmach} ${cpprel}")
+set (F_O3_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O3 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${FPP_FLAG} ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${cppmach} ${cpprel}")
 
 set (C_BASIC "${cppmach} ${cpprel}")
 
