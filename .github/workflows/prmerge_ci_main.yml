@@ -642,33 +642,29 @@ jobs:
 
       # Set the working dir suffixed with branch name
       - name: Set workdir 
-        shell: cmd
-        run: >
-          call C:\cygwin64\bin\bash --login -c "
-          if [ \"${{ github.base_ref }}\" = \"\" ]; 
-          then 
-          echo \"WORKDIR=${{github.ref_name}}\" >> $GITHUB_ENV;
-          else
-          echo \"WORKDIR=${{github.base_ref}}\" >> $GITHUB_ENV;
-          fi;  
-          "
+        run: |
+          if ([string]::IsNullOrEmpty($env:GITHUB_BASE_REF)) {
+            Add-Content -Path $env:GITHUB_ENV -Value "WORKDIR=$env:GITHUB_REF_NAME"
+          } 
+          else {
+            Add-Content -Path $env:GITHUB_ENV -Value "WORKDIR=$env:GITHUB_BASE_REF"
+          }          
+
       - name: Create branch oriented WS directory & integration WS (WIN64)
-        shell: cmd
-        run: >
-          call C:\cygwin64\bin\bash --login -c "
-          cd %cd:\=/%;
-          mkdir -p ${{ env.WORKDIR }};
-          "
+        run: |
+          $dir2create = "$env:WORKDIR"
+          if (-not (Test-Path -Path $dir2create)) {
+            New-Item -Path $dir2create -ItemType "Directory"
+          }
 
       - name: Clean local exe dir
         working-directory: ${{ env.WORKDIR }}
-        shell: cmd
-        run: >
-          call C:\cygwin64\bin\bash --login -c "
-          cd %cd:\=/%;
-          rm -rf exec;
-          "
-          
+        run: |
+          $dir2remove = "exec"
+          if (Test-Path -Path $dir2remove) {
+            Remove-Item -Path $dir2remove -Recurse -Force
+          }
+
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - name: Checkout git sources
         uses: actions/checkout@v4
@@ -679,50 +675,54 @@ jobs:
 
       - name: Running builds
         working-directory: ${{ env.WORKDIR }}
-        # Running cygwin from powershell or cmd => neither identation nor comment !
-        # Not using wsl because of cmake issue with linux/win pathes conversion
-        shell: cmd
-        run: >
-          call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
-          cd %cd:\=/%;
-          echo '------- Print ifx version -------';
-          ifx --version;
-          echo '---------------------------------';
-          mpi_opts='';
-          if [ ! -z ${{ matrix.mpi }} ]; then mpi_opts='-mpi=${{ matrix.mpi }}'; fi;
-          cmd=\"./build_script.sh -release -arch=${{ matrix.os }} -prec=${{ matrix.precision }} -nt=${{ env.BUILD_NB_THREAD }} $mpi_opts\";
-          echo \"=========================================\";
-          echo \"--  BUILD ${{ matrix.build }} --\";
-          echo \"--  $cmd --\";
-          echo \"=========================================\";        
-          mkdir exec;
-          cd ${{ matrix.binary }};
-          eval $cmd;
-          cd ..;
-          md5sum exec/* || exit 1;
-          echo \"STATUS_BUILD=1\" >> $GITHUB_ENV;
-          "
+        run: |
+          cd ${{ matrix.binary }}
+          @"
+          @echo off
+          call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
+          cmake --version
+          ninja --version
+          if not '${{ matrix.mpi }}'=='' (
+            set mpi_opts=-mpi=${{ matrix.mpi }}
+          )   
+          echo =========================================
+          echo --  BUILD ${{ matrix.build }} --
+          echo =========================================
+          .\build_windows.bat -release -arch=${{ matrix.os }} -prec=${{ matrix.precision }} -nt=$env:BUILD_NB_THREAD %mpi_opts%
+          "@ -replace "'", '"' | Out-File -FilePath myrun.bat -Encoding ASCII
+          cmd /c .\myrun.bat    
+          cd ..
+          $directoryPath = "exec"
+          if (Test-Path -Path $directoryPath) {
+              $files = Get-ChildItem -Path $directoryPath
+              if ($files.Count -eq 0) {
+                  Write-Output "The directory is empty."
+                  exit 1
+              } else {
+                  # Display the contents of the directory
+                  $files | ForEach-Object { Write-Output $_.FullName }
+              }
+          } else {
+              Write-Output "The directory does not exist."
+              exit 1
+          }
+          Add-Content -Path $env:GITHUB_ENV -Value "STATUS_BUILD=1"
 
       - name: Managing step execution
         if: ${{ always() }}
-        # Running cygwin from powershell or cmd => neither identation nor comment !
-        shell: cmd
-        run: >
-          call C:\cygwin64\bin\bash --login -c "
-          MAILMSG=\"Some error(s) has(ve) been raised during workflow execution:\n\n\";
-          echo -e \"\n#### STATUS_STEP_BUILD ${{ matrix.build }} ###\";
-          if [ ${{ env.STATUS_BUILD }} = 0 ];
-          then
-          echo -e \"Status\t[ \033[31;2;1mFAILED\033[0m ]\";
-          MAILMSG+=\"The build ${{ matrix.build }} has failed \n\";
-          echo \"CLOSE_BRANCH=1\" >> $GITHUB_ENV;
-          echo -e $MAILMSG;
-          echo -e \"$MAILMSG\nThe branch is closed\" | Email -f $FROM_EMAIL -s \"Error in Github CI repo ${{ github.repository }} (${{github.sha}})\" -r $MAIL_RELAY $TO_EMAIL;
-          exit 1;
-          else
-          echo -e \"Status\t[ \033[32;2;1mOK\033[0m ]\";
-          fi;   
-          "
+        run: |
+          $MAILMSG = "Some error(s) has(ve) been raised during workflow execution:`r`n`r`n"
+          Write-Output "`r`n#### STATUS_STEP_BUILD ${{ matrix.build }} ($env:STATUS_BUILD) ###"
+          if ($env:STATUS_BUILD -eq 0) {
+            Write-Output "Status`t[ $([char]27)[31;2;1mFAILED$([char]27)[0m ]"
+            $MAILMSG += "The build ${{ matrix.build }} has failed `r`n"
+            Add-Content -Path $env:GITHUB_ENV -Value "CLOSE_BRANCH=1"
+            Send-MailMessage -SmtpServer $env:MAIL_RELAY -From $env:FROM_EMAIL -To $env:TO_EMAIL -Subject "Error in Github CI repo ${{ github.repository }} (${{github.sha}})" -Body $MAILMSG -Port 25
+            exit 1
+          }
+          else {
+            Write-Output "Status`t[ $([char]27)[32;2;1mOK$([char]27)[0m ]"
+          }
 
       # Upload artifact (since V4 we can't upload artifact using the same name, each one must be unique)
       - name: Upload built artifacts
@@ -734,7 +734,8 @@ jobs:
 
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
-      - uses: octokit/request-action@v2.x
+      - name: Close the branch if errors
+        uses: octokit/request-action@v2.x
         id: close_branch_build
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
@@ -746,19 +747,14 @@ jobs:
 
       # If the closing went wrong we send an email
       - name: "Check result of closing branch and warn if it fails"
-        # Running cygwin from powershell or cmd => neither identation nor comment !
-        shell: cmd
-        run: >
-          call C:\cygwin64\bin\bash --login -c "
-          MAILMSG=\"Some error(s) has(ve) been raised during workflow execution:\n\n\";
-          MAILMSG+=\"A branch closing is needed but has failed\n\n\";
-          MAILMSG+=\"Return status API is : ${{ steps.close_branch_build.outputs.status }}\n\n\";
-          MAILMSG+=\"Check more detailed datas in CI logs\n\";
-          echo -e $MAILMSG;
-          echo -e \"\nClose return data API is : ${{ steps.close_branch_build.outputs.data }}\";
-          echo -e \"$MAILMSG\" | Email -f $FROM_EMAIL -s \"Error in Github CI repo ${{ github.repository }} (${{github.sha}}) on closing branch\" -r $MAIL_RELAY $TO_EMAIL;
-          exit 1;
-          "
+        run: |
+          $MAILMSG = "Some error(s) has(ve) been raised during workflow execution:`r`n`r`n"
+          $MAILMSG += "A branch closing is needed but has failed`r`n`r`n"
+          $MAILMSG += "Return status API is : ${{ steps.close_branch_build.outputs.status }}`r`n`r`n"
+          $MAILMSG += "Check more detailed datas in CI logs`r`n"
+          Write-Output "`r`nClose return API is : ${{ steps.close_branch_build.outputs.status }} / ${{ steps.close_branch_build.outputs.data }}";
+          Send-MailMessage -SmtpServer $env:MAIL_RELAY -From $env:FROM_EMAIL -To $env:TO_EMAIL -Subject "Error in Github CI repo ${{ github.repository }} (${{github.sha}}) on closing branch" -Body $MAILMSG -Port 25
+          exit 1
         if: ${{ always() && env.CLOSE_BRANCH == 1 && steps.close_branch_build.outputs.status != 200 }} 
 
   qa_windows_no_container:
