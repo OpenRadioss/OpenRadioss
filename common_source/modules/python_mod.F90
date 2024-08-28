@@ -51,7 +51,6 @@
       !||    load_pressure                  ../engine/source/loads/general/load_pressure/load_pressure.F
       !||    pfluid                         ../engine/source/loads/general/pfluid/pfluid.F
       !||    python_duplicate_nodes         ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90
-      !||    python_element_init            ../engine/source/mpi/python_spmd_mod.F90
       !||    python_register                ../engine/source/tools/curve/python_register.F90
       !||    radiation                      ../engine/source/constraints/thermic/radiation.F
       !||    radioss2                       ../engine/source/engine/radioss2.F

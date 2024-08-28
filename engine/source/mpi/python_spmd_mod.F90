@@ -42,7 +42,6 @@
       !||    spmd_comm_size        ../engine/source/mpi/spmd_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    python_element_mod    ../common_source/modules/python_element_mod.F90
-      !||    python_funct_mod      ../common_source/modules/python_mod.F90
       !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
         subroutine python_element_init(element, n, group_id, local_id, user_ids)
