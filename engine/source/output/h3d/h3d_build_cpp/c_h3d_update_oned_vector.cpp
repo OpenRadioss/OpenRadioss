@@ -121,7 +121,7 @@ void c_h3d_update_oned_vector_(my_real *TT,int *IH3D, int *ITAB, int *NUMELT, in
 
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELT, sim_idx, subcase_id, H3D_DS_ELEM, 
                                         H3D_DS_VECTOR, num_corners, num_modes, *CPT_DATATYPE, 
-                                        NULL, truss_poolname_id, complex); 
+                                        0, truss_poolname_id, complex); 
           if( !rc ) throw rc;
 
           offset = 0;
@@ -147,7 +147,7 @@ void c_h3d_update_oned_vector_(my_real *TT,int *IH3D, int *ITAB, int *NUMELT, in
 
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELP, sim_idx, subcase_id, H3D_DS_ELEM, 
                                         H3D_DS_VECTOR, num_corners, num_modes, *CPT_DATATYPE, 
-                                        NULL, beam_poolname_id, complex); 
+                                        0, beam_poolname_id, complex); 
           if( !rc ) throw rc;
 
           for( i = 0; i < *NUMELT + *NUMELP + *NUMELR; i++ ) 
@@ -170,7 +170,7 @@ void c_h3d_update_oned_vector_(my_real *TT,int *IH3D, int *ITAB, int *NUMELT, in
 
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELR, sim_idx, subcase_id, H3D_DS_ELEM, 
                                         H3D_DS_VECTOR, num_corners, num_modes, *CPT_DATATYPE, 
-                                        NULL, spring_poolname_id, complex); 
+                                        0, spring_poolname_id, complex); 
           if( !rc ) throw rc;
 
           for( i = 0; i < *NUMELT + *NUMELP + *NUMELR; i++ ) 

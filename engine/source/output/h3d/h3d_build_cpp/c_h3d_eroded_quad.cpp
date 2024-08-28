@@ -104,7 +104,7 @@ void c_h3d_eroded_quad_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, int *IXQ,
         {
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELQ, sim_idx, subcase_id, H3D_DS_ELEM, 
                                         H3D_DS_EROSION, num_corners, num_modes, *CPT_DATATYPE, 
-                                        NULL, quad_poolname_id, complex); 
+                                       0, quad_poolname_id, complex); 
           if( !rc ) fflush(stdout);
           if( !rc ) throw rc;
 

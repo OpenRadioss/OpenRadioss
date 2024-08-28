@@ -104,7 +104,7 @@ void c_h3d_eroded_oned_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, int *IXT,
         {
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELT, sim_idx, subcase_id, H3D_DS_ELEM, 
                                         H3D_DS_EROSION, num_corners, num_modes, *CPT_DATATYPE, 
-                                        NULL, truss_poolname_id, complex); 
+                                        0, truss_poolname_id, complex); 
           if( !rc ) fflush(stdout);
           if( !rc ) throw rc;
 
@@ -135,7 +135,7 @@ void c_h3d_eroded_oned_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, int *IXT,
         {
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELP, sim_idx, subcase_id, H3D_DS_ELEM, 
                                         H3D_DS_EROSION, num_corners, num_modes, *CPT_DATATYPE, 
-                                        NULL, beam_poolname_id, complex); 
+                                        0, beam_poolname_id, complex); 
           if( !rc ) fflush(stdout);
           if( !rc ) throw rc;
 
@@ -161,7 +161,7 @@ void c_h3d_eroded_oned_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, int *IXT,
         {
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELR, sim_idx, subcase_id, H3D_DS_ELEM, 
                                         H3D_DS_EROSION, num_corners, num_modes, *CPT_DATATYPE, 
-                                        NULL, spring_poolname_id, complex); 
+                                        0, spring_poolname_id, complex); 
           if( !rc ) fflush(stdout);
           if( !rc ) throw rc;
 

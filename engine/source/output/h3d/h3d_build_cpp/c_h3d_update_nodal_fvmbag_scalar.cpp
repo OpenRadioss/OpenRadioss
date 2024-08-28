@@ -106,7 +106,7 @@ void c_h3d_update_nodal_fvmbag_scalar_(my_real *TT,int *IH3D, int *NUMNOD, my_re
 
         rc = Hyper3DDatasetBegin(h3d_file, *NUMNOD, sim_idx, subcase_id, H3D_DS_NODE, 
                                         H3D_DS_SCALAR, num_corners, num_modes, *CPT_DATATYPE, 
-                                        NULL, node_poolname_id, complex); 
+                                        0, node_poolname_id, complex); 
         if( !rc ) throw rc;
 
         offset = 0;

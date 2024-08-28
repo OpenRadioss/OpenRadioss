@@ -107,7 +107,7 @@ void c_h3d_eroded_solid_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, int *IXS
         {
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELS, sim_idx, subcase_id, H3D_DS_ELEM, 
                                         H3D_DS_EROSION, num_corners, num_modes, *CPT_DATATYPE, 
-                                        NULL, solid_poolname_id, complex); 
+                                        0, solid_poolname_id, complex); 
           if( !rc ) fflush(stdout);
           if( !rc ) throw rc;
 

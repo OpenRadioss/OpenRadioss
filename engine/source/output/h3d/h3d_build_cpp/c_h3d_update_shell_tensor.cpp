@@ -105,7 +105,7 @@ void c_h3d_update_shell_tensor_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, i
         {
             rc = Hyper3DDatasetBegin(h3d_file, *NUMELC, sim_idx, subcase_id, H3D_DS_ELEM, 
                                             H3D_DS_TENSOR2D, num_corners, num_modes, *CPT_DATATYPE, 
-                                            NULL, sh4n_poolname_id, complex); 
+                                            0, sh4n_poolname_id, complex); 
 
             if( !rc ) throw rc;
             offset = 0;
@@ -135,7 +135,7 @@ void c_h3d_update_shell_tensor_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, i
 
      	    rc = Hyper3DDatasetBegin(h3d_file, *NUMELTG, sim_idx, subcase_id, H3D_DS_ELEM, 
      	 				    H3D_DS_TENSOR2D, num_corners, num_modes, *CPT_DATATYPE, 
-     	 				    NULL, sh3n_poolname_id, complex); 
+     	 				    0, sh3n_poolname_id, complex); 
      	    if( !rc ) throw rc;
 
      	    for( i = 0; i < *NUMELC + *NUMELTG; i++ ) 

@@ -104,7 +104,7 @@ void c_h3d_eroded_shell_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, int *IXC
         {
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELC, sim_idx, subcase_id, H3D_DS_ELEM, 
                                         H3D_DS_EROSION, num_corners, num_modes, *CPT_DATATYPE, 
-                                        NULL, sh4n_poolname_id, complex); 
+                                        0, sh4n_poolname_id, complex); 
           if( !rc ) fflush(stdout);
           if( !rc ) throw rc;
 
@@ -135,7 +135,7 @@ void c_h3d_eroded_shell_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, int *IXC
         {
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELTG, sim_idx, subcase_id, H3D_DS_ELEM, 
                                         H3D_DS_EROSION, num_corners, num_modes, *CPT_DATATYPE, 
-                                        NULL, sh3n_poolname_id, complex); 
+                                        0, sh3n_poolname_id, complex); 
           if( !rc ) fflush(stdout);
           if( !rc ) throw rc;
 
