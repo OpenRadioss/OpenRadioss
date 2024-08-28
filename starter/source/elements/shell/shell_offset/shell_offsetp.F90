@@ -183,7 +183,7 @@
           end do
 !--- check jonctions- tag elements not used in nodal normal,thk compute
           call sh_offset_jonct_chk(nshel    ,ixnneoset   ,x     ,numnod ,          &
-            idnneoset  )
+                                  idnneoset ,sh_oset )
 ! reduce again dim nshel after jonction check
           nshel = 0
           do i = 1,nneoset_g

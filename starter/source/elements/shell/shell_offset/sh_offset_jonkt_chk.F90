@@ -46,7 +46,7 @@
       !||    same_shellori_mod     ../starter/source/elements/shell/shell_offset/same_shellori.F90
       !||====================================================================
         subroutine sh_offset_jonct_chk(nshel    ,irect   ,xyz     ,numnod ,          &
-          ichange  )
+                                      ichange   ,sh_offset )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -64,6 +64,7 @@
           integer,  intent(in   ),dimension(4,nshel)        :: irect        !< connectivity of segment
           integer,  intent(inout),dimension(nshel)          :: ichange      !< if tagged
           my_real,  intent(in   ),dimension(3,numnod)       :: xyz          !< coordinate of node
+          my_real,  intent(in   ),dimension(nshel)          :: sh_offset    !< offset value
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -173,17 +174,17 @@
                   call same_shellori(i1,i2,irect(1,iem),irect(1,ien),is_mn)
                   ix(1:4) = irect(1:4,ien)
                   call norma4n(n_n(1),n_n(2),n_n(3),area,ix ,xyz )
-                  if (is_mn/=1) then
+                  if (is_mn/=1.or.sh_offset(iem)/=sh_offset(ien)) then
                     a_mn = -one
                   else
                     a_mn = n_m(1)*n_n(1)+n_m(2)*n_n(2)+n_m(3)*n_n(3)
                   end if
-                  if (is_im/=1) then
+                  if (is_im/=1.or.sh_offset(iem)/=sh_offset(ie)) then
                     a_mi = -one
                   else
                     a_mi = n_m(1)*n_i(1)+n_m(2)*n_i(2)+n_m(3)*n_i(3)
                   end if
-                  if (is_in/=1) then
+                  if (is_in/=1.or.sh_offset(ie)/=sh_offset(ien)) then
                     a_ni = -one
                   else
                     a_ni = n_i(1)*n_n(1)+n_i(2)*n_n(2)+n_i(3)*n_n(3)
@@ -202,7 +203,7 @@
 !!   jonction more than 3, elem will be tagged
                   if (nl_max>3) then
                     do j=l+2,l+nl_max-2
-                      li  = index(l)
+                      li  = index(j)
                       i1n = lineix(1,li)
                       i2n = lineix(2,li)
                       ien = index(ll+li)
