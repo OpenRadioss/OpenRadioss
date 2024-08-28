@@ -5,6 +5,7 @@ import re
 import shutil
 
 fortran_ext = ['.F']
+fortran90_ext = ['.F90']
 cpp_ext = ['.h', '.cpp', '.c','.hpp','.cxx']
 cfg_ext = ['.cfg']
 starter_deck_ext = ['_0000.rad']
@@ -14,7 +15,9 @@ engine_deck_ext = ['_0001.rad']
 def is_fortran(f):
     results = [f.endswith(ext) for ext in fortran_ext]
     return True in results
-
+def is_fortran90(f):
+    results = [f.endswith(ext) for ext in fortran90_ext]
+    return True in results
 def is_cpp(f):
     results = [f.endswith(ext) for ext in cpp_ext]
     return True in results
@@ -33,9 +36,11 @@ def is_engine_deck(f):
 
 def apply_header():
     for root, dirs, files in os.walk("../../"):
-        if (not re.search("/com/",root)) and (not re.search("/extlib/",root)) and (not re.search("CMake",root)):
+        if (not re.search("/com/",root)) and (not re.search("/extlib/",root)) and (not re.search("CMake",root)) and (not re.search("th_to_csv",root)) and (not re.search("anim_to_vtk",root)): 
             for filename in files:
                 if is_fortran(filename): 
+                    add_header(os.path.join(root,filename))
+                elif is_fortran90(filename):
                     add_header(os.path.join(root,filename))
                 elif is_cpp(filename):
                     add_header(os.path.join(root,filename))
@@ -50,6 +55,8 @@ def apply_header():
 def add_header(filename):
     if is_fortran(filename):
         fic = "f_COPYRIGHT.txt"
+    elif is_fortran90(filename):
+        fic = "F90_copyright.txt"
     elif is_cpp(filename):
         fic = "cpp_COPYRIGHT.txt"
     elif is_cfg(filename):

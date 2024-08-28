@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    check_sorting_criteria           ../engine/source/interfaces/intsort/check_sorting_criteria.F90
       !||    i7buce                           ../engine/source/interfaces/intsort/i7buce.F
       !||    i7buce_vox                       ../engine/source/interfaces/intsort/i7buce.F
-      !||    inter7_collision_detection       ../engine/source/interfaces/inter7_collision_detection.F
+      !||    inter7_collision_detection       ../engine/source/interfaces/intsort/inter7_collision_detection.F90
       !||    my_barrier                       ../engine/source/system/machine.F
       !||    spmd_cell_exchange               ../engine/source/mpi/generic/spmd_cell_exchange.F
       !||    spmd_rnumcd                      ../engine/source/mpi/interfaces/spmd_i7tool.F
@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    check_sorting_criteria_mod       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
       !||    command_line_args_mod            ../engine/share/modules/command_line_args.F
       !||    h3d_mod                          ../engine/share/modules/h3d_mod.F
-      !||    inter7_collision_detection_mod   ../engine/source/interfaces/inter7_collision_detection.F
+      !||    inter7_collision_detection_mod   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
       !||    inter_sorting_mod                ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod                 ../engine/share/modules/inter_struct_mod.F
       !||    message_mod                      ../engine/share/message_module/message_mod.F
@@ -247,7 +247,7 @@ C
      1      X      ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV       ,INACTI    ,INTBUF_TAB%CAND_P,
      2      NMN_G  ,NRTM           ,NSN                  ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      3      GAP    ,NOINT            ,INTBUF_TAB%I_STOK(1) ,NCONTACT ,INTER_STRUCT(NIN)%BOX_LIMIT_MAIN,
-     4      TZINF  ,INTER_STRUCT(NIN)%CAND_A  ,INTER_STRUCT(NIN)%CURV_MAX,
+     4      TZINF  ,INTER_STRUCT(NIN)%CAND_A  ,INTER_STRUCT(NIN)%CURV_MAX, RENUM_SIZ,
      6      NB_N_B ,ESHIFT      ,ILD            ,IFQ    ,INTBUF_TAB%IFPEN,
      8      INTBUF_TAB%STFNS,INTBUF_TAB%STFM,IPARI(21,NIN),INTBUF_TAB%GAP_S,
      A      NSNR   ,NCONT  ,RENUM  ,NSNROLD  ,INTBUF_TAB%GAP_M,
@@ -256,7 +256,7 @@ C
      D      INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE,  IPARI(63,NIN),DRAD         ,
      E      ITIED ,INTBUF_TAB%CAND_F,DGAPLOADP,
      F      NRTM, INTER_STRUCT(NIN)%SIZE_CAND_A,
-     .      INTBUF_TAB%S_KREMNODE, INTBUF_TAB%S_REMNODE)
+     .      INTBUF_TAB%S_KREMNODE, INTBUF_TAB%S_REMNODE, NSPMD, NUMNOD)
 
         ELSE IF(INTBUF_TAB%METRIC%ALGO == ALGO_VOXEL .OR.  INTBUF_TAB%METRIC%ALGO == TRY_ALGO_VOXEL) THEN
             FIRST = 1 + ITASK*(NRTM/NTHREAD)

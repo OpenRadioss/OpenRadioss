@@ -227,7 +227,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ini_kisc                         ../engine/source/implicit/lin_solv.F
       !||    inipar                           ../engine/source/mpi/init/inipar.F
       !||    intbuf_ini                       ../common_source/interf/intbuf_ini.F
-      !||    inter7_collision_detection       ../engine/source/interfaces/inter7_collision_detection.F
+      !||    inter7_collision_detection       ../engine/source/interfaces/intsort/inter7_collision_detection.F90
       !||    inter_count_node_curv            ../engine/source/interfaces/generic/inter_count_node_curv.F
       !||    joint_block_stiffness            ../engine/source/elements/joint/joint_block_stiffness.F
       !||    ktbuf_ini                        ../engine/source/implicit/imp_init.F

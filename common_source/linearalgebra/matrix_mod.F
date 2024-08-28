@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    set_matrix_cg       ../engine/share/modules/linear_solver_mod.F
       !||    set_matrix_mumps    ../engine/share/modules/linear_solver_mod.F
       !||--- calls      -----------------------------------------------------
-      !||    get_dim             ../common_source/linearalgebra/vector_mod.F
+      !||    get_dim             ../common_source/linearalgebra/matrix_mod.F
       !||====================================================================
       MODULE MATRIX_MOD
       implicit none
@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    solve_cg     ../engine/share/modules/linear_solver_mod.F
       !||--- calls      -----------------------------------------------------
-      !||    get_dim      ../common_source/linearalgebra/vector_mod.F
+      !||    get_dim      ../common_source/linearalgebra/matrix_mod.F
       !||--- uses       -----------------------------------------------------
       !||    vector_mod   ../common_source/linearalgebra/vector_mod.F
       !||====================================================================
@@ -91,7 +91,7 @@ C-----------------------------------------------
 !     ********************     !
       
       !||====================================================================
-      !||    get_dim      ../common_source/linearalgebra/vector_mod.F
+      !||    get_dim      ../common_source/linearalgebra/matrix_mod.F
       !||--- called by ------------------------------------------------------
       !||    matrix_mod   ../common_source/linearalgebra/matrix_mod.F
       !||    prod_vec     ../common_source/linearalgebra/matrix_mod.F

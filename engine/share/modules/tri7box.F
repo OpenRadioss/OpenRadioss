@@ -225,7 +225,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    int18_alloc                     ../engine/source/interfaces/int18/int18_alloc.F
       !||    int18_law151_omp_accumulation   ../engine/source/interfaces/int18/int18_law151_omp_accumulation.F
       !||    intcrit                         ../engine/source/interfaces/intsort/intcrit.F
-      !||    inter7_collision_detection      ../engine/source/interfaces/inter7_collision_detection.F
+      !||    inter7_collision_detection      ../engine/source/interfaces/intsort/inter7_collision_detection.F90
       !||    inter_sort_07                   ../engine/source/interfaces/int07/inter_sort_07.F
       !||    intmass_update                  ../engine/source/interfaces/interf/intmass_update.F
       !||    inttri                          ../engine/source/interfaces/intsort/inttri.F

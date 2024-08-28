@@ -57,9 +57,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
       !||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
       !||    inivol_set                               ../starter/source/initial_conditions/inivol/inivol_set.F
-      !||    inter7_candidate_pairs                   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F
-      !||    inter7_filter_cand                       ../engine/source/interfaces/intsort/inter7_filter_cand.F
-      !||    inter7_penetration                       ../engine/source/interfaces/intsort/inter7_penetration.F
+      !||    inter7_candidate_pairs                   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+      !||    inter7_collision_detection               ../engine/source/interfaces/intsort/inter7_collision_detection.F90
+      !||    inter7_filter_cand                       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
+      !||    inter7_penetration                       ../engine/source/interfaces/intsort/inter7_penetration.F90
       !||    inter_sh_offset_ini                      ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
       !||    jwl_eos_delta                            ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
       !||    mat25_crasurv_c                          ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
