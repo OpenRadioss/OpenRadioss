@@ -2234,7 +2234,8 @@ c
           IF (IGTYP == 3 .and. IFAIL > 0) THEN
              ALLOCATE(ELBUF_TAB(NG)%GBUF%FAIL(1))
 c
-             ELBUF_TAB(NG)%GBUF%FAIL(1)%ILAWF = MAT_PARAM(IMID)%FAIL(1)%IRUPT                                           
+             IRUPT = MAT_PARAM(IMID)%FAIL(1)%IRUPT
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%ILAWF = IRUPT                                           
              GFAIL = GFAIL + 1 
 c
              ELBUF_TAB(NG)%GBUF%FAIL(1)%IDFAIL = MAT_PARAM(IMID)%FAIL(1)%FAIL_ID
