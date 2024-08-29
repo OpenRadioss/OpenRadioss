@@ -105,6 +105,7 @@
                 call plist_ifront(proc_list,node_id,proc_number) ! get the list of proce where S node is defined
                 do j=1,proc_number
                   proc_id = proc_list(j)
+                  if(constraint_struct%rwall%spmd(n)%m_proc_list(proc_id) == 0) cycle
                   constraint_struct%rwall%dd(proc_id,n) = constraint_struct%rwall%dd(proc_id,n) + 1
                 enddo
               enddo
@@ -116,6 +117,7 @@
             proc_main = 1
             max_node_number = 0
             do i=1,nspmd
+              if(constraint_struct%rwall%spmd(n)%m_proc_list(i) == 0) cycle
               if(constraint_struct%rwall%dd(i,n)>max_node_number) then
                 max_node_number = constraint_struct%rwall%dd(i,n)
                 proc_main = i
