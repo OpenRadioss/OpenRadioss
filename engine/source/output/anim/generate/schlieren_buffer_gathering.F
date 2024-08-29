@@ -31,7 +31,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_shell_scalar               ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
       !||    h3d_solid_scalar               ../engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
       !||--- calls      -----------------------------------------------------
-      !||    initbuf                        ../engine/share/resol/initbuf.F
       !||    spmd_e1vois                    ../engine/source/mpi/fluid/spmd_cfd.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod                   ../common_source/modules/mat_elem/elbufdef_mod.F90

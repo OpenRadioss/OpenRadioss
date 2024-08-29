@@ -225,7 +225,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    rgwat3                           ../engine/source/interfaces/int09/rgwat3.F
       !||    s4alesfem                        ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
       !||    s4lagsfem                        ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
-      !||    schlieren_buffer_gathering       ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
       !||    seggetv                          ../engine/source/interfaces/interf/seggetv.F
       !||    sinit22_fvm                      ../engine/source/interfaces/int22/sinit22_fvm.F
       !||    soltosphp                        ../engine/source/elements/sph/soltosph.F
