@@ -199,8 +199,8 @@ C--------------------------------------------------
         CALL HM_GET_STRING('DIR',DIR,ncharfield,IS_AVAILABLE)
         DO K = 1,LFIELD
           IF(DIR(K:K) == 'X'.OR.DIR(K:K) == 'x')IDIR = 1
-          IF(DIR(K:K) == 'Y'.OR.DIR(K:K) == 'Y')IDIR = 2
-          IF(DIR(K:K) == 'Z'.OR.DIR(K:K) == 'Z')IDIR = 3
+          IF(DIR(K:K) == 'Y'.OR.DIR(K:K) == 'y')IDIR = 2
+          IF(DIR(K:K) == 'Z'.OR.DIR(K:K) == 'z')IDIR = 3
         ENDDO
         ISKN(6,I+1)=IDIR
   
