@@ -58,12 +58,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NUMELC,OFF,
      .  NUMMAT,NUMGEO,IXC(NIXC,*),
-     .  IGEO(NPROPGI,*),IPM(NPROPMI,*),TABMP_L
+     .  IGEO(NPROPGI,NUMGEO),IPM(NPROPMI,NUMMAT),TABMP_L
       INTEGER, INTENT(IN) :: SIZE_IRUP ! maximum number of rupture criteria
 
 C     REAL OU REAL*8
       my_real
-     .    PM(NPROPM,*), GEO(NPROPG,*),BUFMAT(*)
+     .    PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),BUFMAT(*)
       REAL WD(*)
       INTEGER MID_OLD,PID_OLD,MLN_OLD,RECHERCHE
       my_real TELT_PRO
@@ -213,16 +213,15 @@ C-----------------------------------------------
         ! law 42,62 and 69 : prony option
         ELSEIF((MLN==42).OR.(MLN==62).OR.(MLN==69)) THEN
 !       check the NPRONY model
-           NFUNC = 0
+           NFUNC = 0   ! NPRONY
            IF (MLN==42) NFUNC = MAT_PARAM(ABS(MID))%IPARAM(2)
            IF (MLN==62) THEN
              IAD=IPM(7,ABS(MID))-1
              NFUNC = NINT(BUFMAT(IAD+3))
            END IF
            IF (NFUNC == 0) THEN
-             IF(IPM(222,ABS(MID)) > 0) THEN 
-               IAD = IPM(223,ABS(MID))
-               NFUNC =  NINT(BUFMAT(IAD +1 ))
+             IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+               NFUNC = MAT_PARAM(ABS(MID))%VISC%IPARAM(1) !  = NPRONY
              ENDIF
            ENDIF
            IF(NFUNC==0) THEN
