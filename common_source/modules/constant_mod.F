@@ -70,7 +70,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mulaw                                    ../engine/source/materials/mat_share/mulaw.F90
       !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
       !||    polygon_addpoint                         ../common_source/tools/clipping/polygon_mod.F90
-      !||    polygon_clipping_mod                     ../common_source/tools/clipping/polygon_clipping_mod.F90
       !||    polygon_create                           ../common_source/tools/clipping/polygon_mod.F90
       !||    polygon_is_point_inside                  ../common_source/tools/clipping/polygon_clipping_mod.F90
       !||    polygon_list_destroy                     ../common_source/tools/clipping/polygon_mod.F90

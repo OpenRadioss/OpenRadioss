@@ -26,7 +26,6 @@
       !||    init_inivol_2d_polygons   ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
       !||    points_array_reindex      ../common_source/tools/sort/array_reindex.F90
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod              ../common_source/modules/constant_mod.F
       !||    polygon_mod               ../common_source/tools/clipping/polygon_mod.F90
       !||====================================================================
       module polygon_clipping_mod
