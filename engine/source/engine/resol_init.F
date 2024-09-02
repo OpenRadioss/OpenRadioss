@@ -164,7 +164,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM,STACK,OUTPUT,
      7  THKE ,SFR_ELEM ,SH_OFFSET_TAB,
      8  NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION,
-     9  ISKWN ,IFRAME, LOADS ,GLOB_THERM)
+     9  ISKWN ,IFRAME, LOADS ,GLOB_THERM,PBLAST)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -346,6 +346,7 @@ C-----------------------------------------------
       TYPE(sh_offset_)               :: SH_OFFSET_TAB   
       TYPE (LOADS_) ,INTENT(INOUT)   :: LOADS
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      type (pblast_) ,intent(inout)   :: pblast
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1164,10 +1165,10 @@ C-----------------------
      .                ELBUF_TAB,IXS      ,NIXS     ,NUMELS   )
        ENDIF
 C       
-       DO I=1,NLOADP_B
-         NBS = PBLAST_TAB(I)%SIZ
-         ALLOCATE (PBLAST_TAB(I)%PRES(NBS))
-         PBLAST_TAB(I)%PRES(1:NBS)=ZERO
+       DO I=1,PBLAST%NLOADP_B
+         NBS = PBLAST%PBLAST_TAB(I)%SIZ
+         ALLOCATE (PBLAST%PBLAST_TAB(I)%PRES(NBS))
+         PBLAST%PBLAST_TAB(I)%PRES(1:NBS)=ZERO
        ENDDO
 C-----------------------
 C DT_DC OF TSH

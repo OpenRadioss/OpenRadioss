@@ -142,7 +142,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   SKEWS            ,RFLOW      ,LIFLOW       ,LRFLOW           ,IMPL_S0    ,
      .                   MCP              ,TEMP       ,FORNEQS      ,UNITAB           ,
      .                   STACK            ,DRAPE_SH4N ,DRAPE_SH3N   ,DRAPEG           ,NDRAPE     ,
-     .                   GLOB_THERM       )
+     .                   GLOB_THERM       ,PBLAST)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -185,6 +185,8 @@ C-----------------------------------------------
       USE TIME_MOD
       use read_inivel_mod, only : read_inivel
       use glob_therm_mod
+      use read_ale_grid_mod, only : read_ale_grid
+      use read_bcs_wall_mod, only : read_bcs_wall
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -246,6 +248,7 @@ C-----------------------------------------------
       TYPE(DRAPE_)          ,INTENT(INOUT)                 :: DRAPE_SH3N(NUMELTG_DRAPE),DRAPE_SH4N(NUMELC_DRAPE)
       TYPE(DRAPEG_)         ,INTENT(INOUT)                 :: DRAPEG
       TYPE(GLOB_THERM_)     ,INTENT(INOUT)                 :: GLOB_THERM
+      TYPE(PBLAST_)         ,INTENT(INOUT)                 :: PBLAST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -922,9 +925,9 @@ C--------------------------------------
         CALL READ_I_C(ILOADP,SIZLOADP*NLOADP)
         CALL READ_I_C(LLOADP,SLLOADP)
       ENDIF
-      IF (NLOADP_B>0)THEN
-        CALL PBLAST_LOAD(PBLAST_TAB)
-        CALL PBLAST_INIT_TABLES(PBLAST_DATA) !PBLAST_DATA defined in PBLAST_MOD
+      IF (PBLAST%NLOADP_B>0)THEN
+        CALL PBLAST_LOAD(PBLAST)
+        CALL PBLAST_INIT_TABLES(PBLAST%PBLAST_DATA) !PBLAST_DATA defined in PBLAST_MOD
       ENDIF
 c
       IF (LOADS%NLOAD_CYL > 0) THEN

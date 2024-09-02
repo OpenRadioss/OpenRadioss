@@ -20,19 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-
-
-      !||====================================================================
-      !||    mod_sphprep   ../engine/source/elements/sph/sphprep.F
-      !||--- called by ------------------------------------------------------
-      !||    sphprep       ../engine/source/elements/sph/sphprep.F
-      !||====================================================================
-      module MOD_SPHPREP
-      implicit none
-      INTEGER, DIMENSION(:), ALLOCATABLE :: WREDUCE
-      END MODULE MOD_SPHPREP
-
-
       !||====================================================================
       !||    sphprep              ../engine/source/elements/sph/sphprep.F
       !||--- called by ------------------------------------------------------
@@ -84,12 +71,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9    GAUGE   ,NGROUNC ,IGROUNC ,SOL2SPH ,SPH2SOL ,
      A    IXS     ,IADS    ,ADDCNE  ,FSKYD   ,DMSPH   ,
      B    WASPACT ,ICONTACT,OFF_SPH_R2R,WSMCOMP,IRUNN_BIS,
-     C    SPH_IORD1)
+     C    SPH_IORD1,SPH_WORK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE SPH_WORK_MOD
       USE ELBUFDEF_MOD            
-      USE MOD_SPHPREP
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SPH_STRUCT_MOD
@@ -143,6 +130,7 @@ C     REAL
       END TYPE SPSYM_STRUCT
       TYPE (SPSYM_STRUCT) :: XSPSYM,VSPSYM,WSMCOMP
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+      TYPE (SPH_WORK_)  :: SPH_WORK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -176,16 +164,10 @@ C      /---------------/
       END IF
 
       IF(ITASK==0)THEN
-        ALLOCATE(WREDUCE(NUMSPH),STAT=IERROR)
         IF(.NOT.ALLOCATED(BOOL_SPH_SORT)) THEN
             ALLOCATE( BOOL_SPH_SORT(NUMSPH) )
             BOOL_SPH_SORT(1:NUMSPH) = .FALSE.
         ENDIF
-        IF(IERROR/=0) THEN
-          CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                C1='(SPH)')
-          CALL ARRET(2)
-        END IF
 
         IF(NSPHIO==0)THEN
           NSP2SORT=0
@@ -337,7 +319,7 @@ C    /---------------/
 
       IF (ITASK/= 0) ISORTSP = ISORTSPG
 
-      WREDUCE(1+ITASK*NUMSPH/NTHREAD:(ITASK+1)*NUMSPH/NTHREAD)=0
+      SPH_WORK%WREDUCE(1+ITASK*NUMSPH/NTHREAD:(ITASK+1)*NUMSPH/NTHREAD)=0
       
 C    /---------------/
       CALL MY_BARRIER
@@ -366,7 +348,7 @@ C
           IF(NSP2SORT>0)
      1      CALL SPHTRI(X       ,SPBUF   ,KXSP   ,IXSP  ,NOD2SP,
      2                  IREDUCE ,WSP2SORT ,BMINMA ,NSP2SORTF,NSP2SORTL,
-     3                  ITASK   ,WREDUCE ,LGAUGE ,GAUGE    )
+     3                  ITASK   ,SPH_WORK%WREDUCE ,LGAUGE ,GAUGE    )
 C barriere a la fin de sptrivox (necessaire pour IREDUCE global)
 
 #include "lockon.inc"
@@ -447,7 +429,7 @@ C    /---------------/
      1    X       ,V        ,MS      ,SPBUF   ,ITAB    ,
      2    KXSP    ,IXSP     ,NOD2SP  ,ISPCOND ,ISPSYM  ,
      3    XFRAME  ,XSPSYM%BUF   ,VSPSYM%BUF  ,IREDUCE ,
-     4    WSP2SORT ,MYSPATRUE,DMAX    ,ITASK   ,WREDUCE ,
+     4    WSP2SORT ,MYSPATRUE,DMAX    ,ITASK   ,SPH_WORK%WREDUCE ,
      5    LGAUGE  ,GAUGE)
 
 #include "lockon.inc"
@@ -485,7 +467,7 @@ C
 C       re-tri voisins (voisins vrais, voisins dans la zone de securite).
         CALL SPCLASV(X     ,SPBUF ,KXSP    ,IXSP   ,NOD2SP   ,
      1         ISPSYM,XSPSYM%BUF,WSP2SORT ,ITASK  ,MYSPATRUE,
-     2         IREDUCE,WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
+     2         IREDUCE,SPH_WORK%WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
 C
 C      /---------------/
         CALL MY_BARRIER
@@ -589,7 +571,7 @@ C       re-tri voisins (voisins vrais, voisins dans la zone de securite).
         MYSPATRUE=ZERO
         CALL SPCLASV(X     ,SPBUF ,KXSP    ,IXSP   ,NOD2SP  ,
      1               ISPSYM,XSPSYM%BUF,WSP2SORT ,ITASK  ,MYSPATRUE,
-     2         IREDUCE,WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
+     2         IREDUCE,SPH_WORK%WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
 C      /---------------/
         CALL MY_BARRIER
 C      /---------------/
@@ -693,6 +675,5 @@ C-----------------------------------------------
      6    MCHECK)
 C-----------------------------------------------
 C
-      IF(ITASK==0) DEALLOCATE(WREDUCE)
       RETURN
       END

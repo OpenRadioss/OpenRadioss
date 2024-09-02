@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE FVBAG_MOD , only:FVBAG_DATA,NFVBAG
       USE GROUPDEF_MOD , only:GROUP_
       USE MULTI_FVM_MOD , ONLY : MULTI_FVM_STRUCT
+      use anim_nodal_ssp_elems_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

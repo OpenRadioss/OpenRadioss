@@ -21,14 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    asspar2_mod   ../engine/source/assembly/asspar2.F
-      !||--- called by ------------------------------------------------------
-      !||    asspar2       ../engine/source/assembly/asspar2.F
-      !||====================================================================
-      MODULE ASSPAR2_MOD
-         INTEGER :: INTDONE
-      END MODULE
-      !||====================================================================
       !||    asspar2          ../engine/source/assembly/asspar2.F
       !||--- calls      -----------------------------------------------------
       !||    ass2sort         ../engine/source/assembly/ass2sort.F
@@ -48,11 +40,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   ADSKYI     ,PARTFT     ,PARTLT     ,PARTSAV   ,VIND1     ,
      6   VIND2      ,VIND3      ,MS         ,FSKYM     ,
      7   MSNF       ,VISCN      ,FTHE       ,FTHESKY   , FTHESKYI ,
-     8   STCND      ,AF         ,FFSKY      ,MSF       ,GLOB_THERM)
+     8   STCND      ,AF         ,FFSKY      ,MSF       ,GLOB_THERM,
+     9   INTDONE)
 C-----------------------------------------------
 C   Modules
 C-----------------------------------------------
-      USE ASSPAR2_MOD 
       USE ALE_MOD
       use glob_therm_mod                                 
 C-----------------------------------------------
@@ -90,6 +82,7 @@ C     REAL
       INTEGER ITASK,NODFT,NODLT,PARTFT,PARTLT,
      .        VIND1(*),VIND2(*),VIND3(*)
       INTEGER ISKY(*),INDSKY(0:*),ADSKYI(0:*),ITAB(*)
+      INTEGER INTDONE
       type (glob_therm_)    ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

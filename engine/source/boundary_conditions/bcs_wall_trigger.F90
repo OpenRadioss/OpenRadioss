@@ -21,6 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ======================================================================================================================
+module bcs_wall_trigger_mod
+  contains
+! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief Check if sliding wall boundary condition must be enlabled or disabled
@@ -135,3 +138,4 @@
 
 
       end subroutine bcs_wall_trigger
+end module bcs_wall_trigger_mod

@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pblast_mod                    ../common_source/modules/loads/pblast_mod.F
       !||    th_surf_mod                   ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
-      SUBROUTINE PBLAST_1(ILOADP  ,FAC      ,A       ,V         ,X       ,
+      SUBROUTINE PBLAST_1(PBLAST,ILOADP  ,FAC      ,A       ,V         ,X       ,
      1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,
      2                    ITAB    ,H3D_DATA ,NL      ,DTMIN_LOC ,TFEXT_LOC,
      3                    TH_SURF ,NSEGPL)
@@ -81,6 +81,7 @@ C-----------------------------------------------
       TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
       INTEGER, INTENT(INOUT) :: NSEGPL
       TYPE(FRIEDLANDER_PARAMS_) :: FRIEDLANDER_PARAMS
+      TYPE(PBLAST_) :: PBLAST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -117,26 +118,26 @@ C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
       !--- subroutine not relevant if no /LOAD/PBLAST option
-      IF(NLOADP_B==0)RETURN
+      IF(PBLAST%NLOADP_B==0)RETURN
 
       !--- time step
       TA_FIRST = FAC(07,NL) ! arrival time for first segment to be loaded
       IL= NL-NLOADP_F
-      TT_STAR = TT + PBLAST_DT%TA_INF
+      TT_STAR = TT + PBLAST%PBLAST_DT%TA_INF
       IZ_UPDATE = ILOADP(06,NL)
       TDET = FAC(01,NL)
       TA_FIRST = FAC(07,NL) ! arrival time for first segment to be loaded
       IF(IZ_UPDATE ==1)THEN
         !if no update during engine
         DTMIN_LOC = (ONE+EM06)*(TA_FIRST - TT)
-        DTMIN_LOC=MAX(PBLAST_TAB(IL)%DTMIN, DTMIN_LOC) !go directly to arrival time but avoid too
+        DTMIN_LOC=MAX(PBLAST%PBLAST_TAB(IL)%DTMIN, DTMIN_LOC) !go directly to arrival time but avoid too
         IF(TT_STAR<TA_FIRST)RETURN ! (nothing to load for now)
       ELSE
         IF(TDET > TT)THEN
           DTMIN_LOC = (ONE+EM06)*(TDET - TT)
-          DTMIN_LOC=MAX(PBLAST_TAB(IL)%DTMIN, DTMIN_LOC)!go directly to arrival time but avoid too
+          DTMIN_LOC=MAX(PBLAST%PBLAST_TAB(IL)%DTMIN, DTMIN_LOC)!go directly to arrival time but avoid too
         ELSE
-          DTMIN_LOC = PBLAST_TAB(IL)%DTMIN
+          DTMIN_LOC = PBLAST%PBLAST_TAB(IL)%DTMIN
         ENDIF
         IF(TT_STAR<TDET)RETURN ! (nothing to update for now)
       ENDIF
@@ -203,7 +204,7 @@ C-----------------------------------------------
                                                                   
         IF(N4==0 .OR. N3==N4 )THEN                                                                  
           !3-NODE-SEGMENT                                                                 
-          PBLAST_TAB(IL)%NPt(I)   = THREE
+          PBLAST%PBLAST_TAB(IL)%NPt(I)   = THREE
           NPT = THREE                                                           
           !Segment Centroid                                                                   
           Zx = X(1,N1)+X(1,N2)+X(1,N3)                                                                  
@@ -220,7 +221,7 @@ C-----------------------------------------------
           NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                                                                  
         ELSE 
           !4-NODE-SEGMENT 
-          PBLAST_TAB(IL)%NPt(I)   = FOUR
+          PBLAST%PBLAST_TAB(IL)%NPt(I)   = FOUR
           NPT = FOUR 
           !Face Centroid 
           Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)
@@ -237,10 +238,10 @@ C-----------------------------------------------
           NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
         ENDIF
 
-        PBLAST_TAB(IL)%N(1,I) = N1
-        PBLAST_TAB(IL)%N(2,I) = N2 
-        PBLAST_TAB(IL)%N(3,I) = N3
-        PBLAST_TAB(IL)%N(4,I) = N4 
+        PBLAST%PBLAST_TAB(IL)%N(1,I) = N1
+        PBLAST%PBLAST_TAB(IL)%N(2,I) = N2 
+        PBLAST%PBLAST_TAB(IL)%N(3,I) = N3
+        PBLAST%PBLAST_TAB(IL)%N(4,I) = N4 
 
         !--------------------------------------------!                                                                                                                                                
         !          Update Wave parameters            !                                                                                                                                                
@@ -266,7 +267,7 @@ C-----------------------------------------------
           Z  = DNORM / W13    !in abac unit ID  g,cm,mus
           !display warning message if out of bounds
           ! precondition for SUBROUTINE PBLAST_PARAMETERS__FREE_AIR
-          IF(Z <= 0.5 .AND. PBLAST_TAB(IL)%TAGMSG(I) == 0 )THEN
+          IF(Z <= 0.5 .AND. PBLAST%PBLAST_TAB(IL)%TAGMSG(I) == 0 )THEN
             if (N4 == 0)then
               write(IOUT,FMT='(A,3I11)')
      .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
@@ -278,8 +279,8 @@ C-----------------------------------------------
               write(ISTDO,FMT='(A,4I11)')
      .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
             endif
-            PBLAST_TAB(IL)%TAGMSG(I) = 1
-          ELSEIF(Z > 400. AND. PBLAST_TAB(IL)%TAGMSG(I) == 0)THEN
+            PBLAST%PBLAST_TAB(IL)%TAGMSG(I) = 1
+          ELSEIF(Z > 400. AND. PBLAST%PBLAST_TAB(IL)%TAGMSG(I) == 0)THEN
               if (N4 == 0)then
               write(IOUT,FMT='(A,3I11)')
      .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
@@ -291,11 +292,11 @@ C-----------------------------------------------
               write(ISTDO,FMT='(A,4I11)')
      .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
               endif
-              PBLAST_TAB(IL)%TAGMSG(I) = 1
+              PBLAST%PBLAST_TAB(IL)%TAGMSG(I) = 1
           ENDIF
 
           !------------------------------------------------------------------!
-          CALL PBLAST_PARAMETERS__FREE_AIR(Z, W13, TDET,
+          CALL PBLAST_PARAMETERS__FREE_AIR(PBLAST,Z, W13, TDET,
      +                                     FAC_P_bb, FAC_I_bb, FAC_T_bb,
      +                                     IS_DECAY_TO_BE_COMPUTED,
      +                                     FRIEDLANDER_PARAMS)
@@ -318,13 +319,13 @@ C-----------------------------------------------
           TA_INF_LOC = MIN(TA_INF_LOC, T_A)
 
           !update wave parameters                                                                                                                                                                     
-          PBLAST_TAB(IL)%cos_theta(I) = cos_theta
-          PBLAST_TAB(IL)%P_inci(I) = P_inci
-          PBLAST_TAB(IL)%P_refl(I) = P_refl
-          PBLAST_TAB(IL)%ta(I) = T_A
-          PBLAST_TAB(IL)%t0(I) = DT_0
-          PBLAST_TAB(IL)%decay_inci(I) = decay_inci
-          PBLAST_TAB(IL)%decay_refl(I) = decay_refl
+          PBLAST%PBLAST_TAB(IL)%cos_theta(I) = cos_theta
+          PBLAST%PBLAST_TAB(IL)%P_inci(I) = P_inci
+          PBLAST%PBLAST_TAB(IL)%P_refl(I) = P_refl
+          PBLAST%PBLAST_TAB(IL)%ta(I) = T_A
+          PBLAST%PBLAST_TAB(IL)%t0(I) = DT_0
+          PBLAST%PBLAST_TAB(IL)%decay_inci(I) = decay_inci
+          PBLAST%PBLAST_TAB(IL)%decay_refl(I) = decay_refl
 
           DTMIN_LOC = MIN(DTMIN_LOC,DT_0/NDT)
           IS_UPDATED = .TRUE.
@@ -334,14 +335,14 @@ C-----------------------------------------------
                                                                                                                                                                                                       
           !use wave parameters from Starter
           Z=ZERO                                                                                                                                                                                      
-          cos_theta = PBLAST_TAB(IL)%cos_theta(I)                                                                                                                                                     
-          P_inci = PBLAST_TAB(IL)%P_inci(I)                                                                                                                                                           
-          P_refl = PBLAST_TAB(IL)%P_refl(I)                                                                                                                                                           
-          T_A  = PBLAST_TAB(IL)%ta(I)                                                                                                                                                                 
-          DT_0 = PBLAST_TAB(IL)%t0(I)                                                                                                                                                                 
-          decay_inci = PBLAST_TAB(IL)%decay_inci(I)                                                                                                                                                   
-          decay_refl = PBLAST_TAB(IL)%decay_refl(I)
-          DTMIN_LOC = PBLAST_TAB(IL)%DTMIN
+          cos_theta = PBLAST%PBLAST_TAB(IL)%cos_theta(I)                                                                                                                                                     
+          P_inci = PBLAST%PBLAST_TAB(IL)%P_inci(I)                                                                                                                                                           
+          P_refl = PBLAST%PBLAST_TAB(IL)%P_refl(I)                                                                                                                                                           
+          T_A  = PBLAST%PBLAST_TAB(IL)%ta(I)                                                                                                                                                                 
+          DT_0 = PBLAST%PBLAST_TAB(IL)%t0(I)                                                                                                                                                                 
+          decay_inci = PBLAST%PBLAST_TAB(IL)%decay_inci(I)                                                                                                                                                   
+          decay_refl = PBLAST%PBLAST_TAB(IL)%decay_refl(I)
+          DTMIN_LOC = PBLAST%PBLAST_TAB(IL)%DTMIN
 
         ENDIF !IF(IZ_UPDATE == 2)
 
@@ -368,7 +369,7 @@ C-----------------------------------------------
         ENDIF                                                                                                                                                                                         
         P = alpha_refl * WAVE_REFL + alpha_inci * WAVE_INCI
         P = MAX(P,PMIN)                                                                                                                                                                               
-        IF (NUMSKINP > 0) PBLAST_TAB(IL)%PRES(I) = P                                                                                                                                                  
+        IF (NUMSKINP > 0) PBLAST%PBLAST_TAB(IL)%PRES(I) = P                                                                                                                                                  
 
         !!Expand Pressure load to nodes
         ! FF is nodal force which applied on each node N1,N2,N3, and also N4 if relevant
@@ -378,9 +379,9 @@ C-----------------------------------------------
         FF(2) = -P * HALF*NY / NPT       !  -P*S/NPT . ny
         FF(3) = -P * HALF*NZ / NPT       !  -P*S/NPT . nz
         !storing force for one node of the current face (for assembly below)
-        PBLAST_TAB(IL)%FX(I) = FF(1)
-        PBLAST_TAB(IL)%FY(I) = FF(2)
-        PBLAST_TAB(IL)%FZ(I) = FF(3)
+        PBLAST%PBLAST_TAB(IL)%FX(I) = FF(1)
+        PBLAST%PBLAST_TAB(IL)%FY(I) = FF(2)
+        PBLAST%PBLAST_TAB(IL)%FZ(I) = FF(3)
 
         !External Force work
         ! on a given node : DW = <F,V>*dt
@@ -408,7 +409,7 @@ C----- /TH/SURF -------
         FAC(07,NL) = MIN(TA_INF_LOC, FAC(07,NL)) !smp min value
         !---time step
         DTMIN_LOC = (ONE+EM06)*(FAC(07,NL) - TT) ! go directly to trigger time
-        DTMIN_LOC=MAX(PBLAST_TAB(IL)%DTMIN, DTMIN_LOC)
+        DTMIN_LOC=MAX(PBLAST%PBLAST_TAB(IL)%DTMIN, DTMIN_LOC)
         !---no update on next cycle
         IZ_UPDATE = 1 !update done
         ILOADP(06,NL) = IZ_UPDATE
@@ -437,19 +438,19 @@ C----- /TH/SURF -------
           N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)                                                        
           N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)                                                        
           N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)                                                        
-          A(1,N1)=A(1,N1)+PBLAST_TAB(IL)%FX(I)                                                                    
-          A(2,N1)=A(2,N1)+PBLAST_TAB(IL)%FY(I)                                                                    
-          A(3,N1)=A(3,N1)+PBLAST_TAB(IL)%FZ(I)                                                                    
-          A(1,N2)=A(1,N2)+PBLAST_TAB(IL)%FX(I)                                                                    
-          A(2,N2)=A(2,N2)+PBLAST_TAB(IL)%FY(I)                                                                    
-          A(3,N2)=A(3,N2)+PBLAST_TAB(IL)%FZ(I)                                                                    
-          A(1,N3)=A(1,N3)+PBLAST_TAB(IL)%FX(I)                                                                    
-          A(2,N3)=A(2,N3)+PBLAST_TAB(IL)%FY(I)                                                                    
-          A(3,N3)=A(3,N3)+PBLAST_TAB(IL)%FZ(I)                                                                    
-          IF(PBLAST_TAB(IL)%NPt(I) == FOUR)THEN                                                                   
-            A(1,N4)=A(1,N4)+PBLAST_TAB(IL)%FX(I)                                                                  
-            A(2,N4)=A(2,N4)+PBLAST_TAB(IL)%FY(I)                                                                  
-            A(3,N4)=A(3,N4)+PBLAST_TAB(IL)%FZ(I)                                                                  
+          A(1,N1)=A(1,N1)+PBLAST%PBLAST_TAB(IL)%FX(I)                                                                    
+          A(2,N1)=A(2,N1)+PBLAST%PBLAST_TAB(IL)%FY(I)                                                                    
+          A(3,N1)=A(3,N1)+PBLAST%PBLAST_TAB(IL)%FZ(I)                                                                    
+          A(1,N2)=A(1,N2)+PBLAST%PBLAST_TAB(IL)%FX(I)                                                                    
+          A(2,N2)=A(2,N2)+PBLAST%PBLAST_TAB(IL)%FY(I)                                                                    
+          A(3,N2)=A(3,N2)+PBLAST%PBLAST_TAB(IL)%FZ(I)                                                                    
+          A(1,N3)=A(1,N3)+PBLAST%PBLAST_TAB(IL)%FX(I)                                                                    
+          A(2,N3)=A(2,N3)+PBLAST%PBLAST_TAB(IL)%FY(I)                                                                    
+          A(3,N3)=A(3,N3)+PBLAST%PBLAST_TAB(IL)%FZ(I)                                                                    
+          IF(PBLAST%PBLAST_TAB(IL)%NPt(I) == FOUR)THEN                                                                   
+            A(1,N4)=A(1,N4)+PBLAST%PBLAST_TAB(IL)%FX(I)                                                                  
+            A(2,N4)=A(2,N4)+PBLAST%PBLAST_TAB(IL)%FY(I)                                                                  
+            A(3,N4)=A(3,N4)+PBLAST%PBLAST_TAB(IL)%FZ(I)                                                                  
           ENDIF                                                                                    
         ENDDO 
 !$OMP END SINGLE
@@ -457,22 +458,22 @@ C----- /TH/SURF -------
 !$OMP DO SCHEDULE(GUIDED,MVSIZ) 
         DO I = 1,ISIZ_SEG                                                                          
           IAD         =IADC(ILOADP(4,NL)+4*(I-1))                                                  
-          FSKY(1,IAD) =PBLAST_TAB(IL)%FX(I)                                                                       
-          FSKY(2,IAD) =PBLAST_TAB(IL)%FY(I)                                                                       
-          FSKY(3,IAD) =PBLAST_TAB(IL)%FZ(I)                                                                       
+          FSKY(1,IAD) =PBLAST%PBLAST_TAB(IL)%FX(I)                                                                       
+          FSKY(2,IAD) =PBLAST%PBLAST_TAB(IL)%FY(I)                                                                       
+          FSKY(3,IAD) =PBLAST%PBLAST_TAB(IL)%FZ(I)                                                                       
           IAD         =IADC(ILOADP(4,NL)+4*(I-1)+1)                                                
-          FSKY(1,IAD) =PBLAST_TAB(IL)%FX(I)                                                                       
-          FSKY(2,IAD) =PBLAST_TAB(IL)%FY(I)                                                                       
-          FSKY(3,IAD) =PBLAST_TAB(IL)%FZ(I)                                                                       
+          FSKY(1,IAD) =PBLAST%PBLAST_TAB(IL)%FX(I)                                                                       
+          FSKY(2,IAD) =PBLAST%PBLAST_TAB(IL)%FY(I)                                                                       
+          FSKY(3,IAD) =PBLAST%PBLAST_TAB(IL)%FZ(I)                                                                       
           IAD         =IADC(ILOADP(4,NL)+4*(I-1)+2)                                                
-          FSKY(1,IAD) =PBLAST_TAB(IL)%FX(I)                                                                       
-          FSKY(2,IAD) =PBLAST_TAB(IL)%FY(I)                                                                       
-          FSKY(3,IAD) =PBLAST_TAB(IL)%FZ(I)                                                                       
-          IF(PBLAST_TAB(IL)%NPt(I) == FOUR)THEN                                                                   
+          FSKY(1,IAD) =PBLAST%PBLAST_TAB(IL)%FX(I)                                                                       
+          FSKY(2,IAD) =PBLAST%PBLAST_TAB(IL)%FY(I)                                                                       
+          FSKY(3,IAD) =PBLAST%PBLAST_TAB(IL)%FZ(I)                                                                       
+          IF(PBLAST%PBLAST_TAB(IL)%NPt(I) == FOUR)THEN                                                                   
             IAD         =IADC(ILOADP(4,NL)+4*(I-1)+3)                                              
-            FSKY(1,IAD) =PBLAST_TAB(IL)%FX(I)                                                                     
-            FSKY(2,IAD) =PBLAST_TAB(IL)%FY(I)                                                                     
-            FSKY(3,IAD) =PBLAST_TAB(IL)%FZ(I)                                                                     
+            FSKY(1,IAD) =PBLAST%PBLAST_TAB(IL)%FX(I)                                                                     
+            FSKY(2,IAD) =PBLAST%PBLAST_TAB(IL)%FY(I)                                                                     
+            FSKY(3,IAD) =PBLAST%PBLAST_TAB(IL)%FZ(I)                                                                     
           ENDIF                                                                                    
         ENDDO 
 !$OMP END DO
@@ -486,23 +487,23 @@ C----- /TH/SURF -------
 !$OMP SINGLE
       IF(IANIM_OR_H3D>0) THEN
         DO I = 1,ISIZ_SEG                                                                        
-          N1=PBLAST_TAB(IL)%N(1,I)                                                                              
-          N2=PBLAST_TAB(IL)%N(2,I)                                                                              
-          N3=PBLAST_TAB(IL)%N(3,I)                                                                              
-          N4=PBLAST_TAB(IL)%N(4,I)                                                                              
-          FEXT(1,N1) = FEXT(1,N1)+PBLAST_TAB(IL)%FX(I)                                                          
-          FEXT(2,N1) = FEXT(2,N1)+PBLAST_TAB(IL)%FY(I)                                                          
-          FEXT(3,N1) = FEXT(3,N1)+PBLAST_TAB(IL)%FZ(I)                                                          
-          FEXT(1,N2) = FEXT(1,N2)+PBLAST_TAB(IL)%FX(I)                                                          
-          FEXT(2,N2) = FEXT(2,N2)+PBLAST_TAB(IL)%FY(I)                                                          
-          FEXT(3,N2) = FEXT(3,N2)+PBLAST_TAB(IL)%FZ(I)                                                          
-          FEXT(1,N3) = FEXT(1,N3)+PBLAST_TAB(IL)%FX(I)                                                          
-          FEXT(2,N3) = FEXT(2,N3)+PBLAST_TAB(IL)%FY(I)                                                          
-          FEXT(3,N3) = FEXT(3,N3)+PBLAST_TAB(IL)%FZ(I)                                                          
-          IF(PBLAST_TAB(IL)%NPt(I)==FOUR)THEN                                                                   
-            FEXT(1,N4) = FEXT(1,N4)+PBLAST_TAB(IL)%FX(I)                                                        
-            FEXT(2,N4) = FEXT(2,N4)+PBLAST_TAB(IL)%FY(I)                                                        
-            FEXT(3,N4) = FEXT(3,N4)+PBLAST_TAB(IL)%FZ(I)                                                        
+          N1=PBLAST%PBLAST_TAB(IL)%N(1,I)                                                                              
+          N2=PBLAST%PBLAST_TAB(IL)%N(2,I)                                                                              
+          N3=PBLAST%PBLAST_TAB(IL)%N(3,I)                                                                              
+          N4=PBLAST%PBLAST_TAB(IL)%N(4,I)                                                                              
+          FEXT(1,N1) = FEXT(1,N1)+PBLAST%PBLAST_TAB(IL)%FX(I)                                                          
+          FEXT(2,N1) = FEXT(2,N1)+PBLAST%PBLAST_TAB(IL)%FY(I)                                                          
+          FEXT(3,N1) = FEXT(3,N1)+PBLAST%PBLAST_TAB(IL)%FZ(I)                                                          
+          FEXT(1,N2) = FEXT(1,N2)+PBLAST%PBLAST_TAB(IL)%FX(I)                                                          
+          FEXT(2,N2) = FEXT(2,N2)+PBLAST%PBLAST_TAB(IL)%FY(I)                                                          
+          FEXT(3,N2) = FEXT(3,N2)+PBLAST%PBLAST_TAB(IL)%FZ(I)                                                          
+          FEXT(1,N3) = FEXT(1,N3)+PBLAST%PBLAST_TAB(IL)%FX(I)                                                          
+          FEXT(2,N3) = FEXT(2,N3)+PBLAST%PBLAST_TAB(IL)%FY(I)                                                          
+          FEXT(3,N3) = FEXT(3,N3)+PBLAST%PBLAST_TAB(IL)%FZ(I)                                                          
+          IF(PBLAST%PBLAST_TAB(IL)%NPt(I)==FOUR)THEN                                                                   
+            FEXT(1,N4) = FEXT(1,N4)+PBLAST%PBLAST_TAB(IL)%FX(I)                                                        
+            FEXT(2,N4) = FEXT(2,N4)+PBLAST%PBLAST_TAB(IL)%FY(I)                                                        
+            FEXT(3,N4) = FEXT(3,N4)+PBLAST%PBLAST_TAB(IL)%FZ(I)                                                        
           ENDIF                                                                                  
         ENDDO                                                                                           
       ENDIF  

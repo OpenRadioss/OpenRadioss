@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE RDCOMI(TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .                  INTER_PARAMETERS,SENSORS,LOADS ,MAT_ELEM,SKEWS,
-     .                  GLOB_THERM )
+     .                  GLOB_THERM,PBLAST )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE DAMP_MOD
       USE SKEW_MOD
       USE glob_therm_mod
+      USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,6 +88,7 @@ C-----------------------------------------------
       TYPE (MAT_ELEM_)      ,INTENT(INOUT) :: MAT_ELEM
       TYPE (SKEW_)          ,INTENT(INOUT) :: SKEWS
       TYPE (GLOB_THERM_)    ,INTENT(INOUT) :: GLOB_THERM
+      TYPE (PBLAST_)        ,INTENT(INOUT) :: PBLAST
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1437,7 +1439,7 @@ C /LOAD/PBLAST
       NEXT       = NEXT + 1
       NLOADP_F   = TABVINT(NEXT)
       NEXT       = NEXT + 1
-      NLOADP_B   = TABVINT(NEXT)      
+      PBLAST%NLOADP_B   = TABVINT(NEXT)
       NEXT       = NEXT + 1
       LOADS%NLOAD_CYL  = TABVINT(NEXT)      
 C

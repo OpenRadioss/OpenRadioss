@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE H3D_SKIN_IXSKIN(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
      .                           ITAB ,IXSKIN  ,TAG_SKINS6,IBCL  ,
      .                           ILOADP,LLOADP ,NODAL_IPART,IMAPSKP,
-     .                           LOADS )
+     .                           LOADS,PBLAST )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD    
       USE H3D_INC_MOD
       USE LOADS_MOD
+      USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,6 +66,7 @@ C-----------------------------------------------
      .        NODAL_IPART(*)  
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (LOADS_)   , INTENT(IN)          :: LOADS
+      TYPE (PBLAST_),INTENT(IN)             ::  PBLAST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
@@ -246,7 +248,7 @@ C------to show pressure
        NFT = NSKIN
       IF (NUMSKINP>0) THEN      
        CALL H3D_PRE_SKIN_IXSKIN(NODAL_IPART,IBCL ,ILOADP,LLOADP,
-     .                          IXSKIN  ,NSKIN ,IMAPSKP,LOADS )
+     .                          IXSKIN  ,NSKIN ,IMAPSKP,LOADS,PBLAST )
        DO I=NFT+1,NSKIN
          IXSKIN(2:5,I) = ITAB(IXSKIN(2:5,I))
        END DO 
@@ -267,11 +269,12 @@ C-----------
       !||    loads_mod            ../common_source/modules/loads/loads_mod.F
       !||====================================================================
       SUBROUTINE H3D_SKIN_DIM(IPARG ,NUMSKIN, NUMSKING,TAG_SKINS6,IBCL,
-     .                       ILOADP,LLOADP ,LOADS,NUMSKINP0,NUMSKINP,IFLAG )
+     .                       ILOADP,LLOADP ,LOADS,NUMSKINP0,NUMSKINP,IFLAG,PBLAST )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE LOADS_MOD
+      USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -287,6 +290,7 @@ C-----------------------------------------------
       INTEGER NUMSKIN, NUMSKING ,IPARG(*),TAG_SKINS6(*),
      .        IBCL(*),ILOADP(*),LLOADP(*),NUMSKINP,IFLAG    
       TYPE (LOADS_) , INTENT(IN)   :: LOADS
+      TYPE (PBLAST_),INTENT(IN)    ::  PBLAST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
@@ -303,7 +307,7 @@ C--- followed by pressure: pblast, pfluid,force...
        N0 = NUMSKIN
        NUMSKIN0 = NUMSKIN
 C------!!!!create NODAL_IPART(numnod) before       
-       IF (IFLAG>1) CALL H3D_SKIN_PRE_DIM (IBCL,ILOADP,LLOADP,LOADS, NUMSKIN0,NUMSKIN)
+       IF (IFLAG>1) CALL H3D_SKIN_PRE_DIM (IBCL,ILOADP,LLOADP,LOADS, NUMSKIN0,NUMSKIN,PBLAST)
              NUMSKINP =NUMSKIN- N0
              NUMSKINP0=NUMSKIN0- N0
 C
@@ -489,12 +493,13 @@ C-----------
       !||    loads_mod          ../common_source/modules/loads/loads_mod.F
       !||    pinchtype_mod      ../common_source/modules/pinchtype_mod.F
       !||====================================================================
-      SUBROUTINE H3D_SKIN_PRE_DIM(IB ,ILOADP  ,LLOADP ,LOADS, NSKIN0,NSKIN)
+      SUBROUTINE H3D_SKIN_PRE_DIM(IB ,ILOADP  ,LLOADP ,LOADS, NSKIN0,NSKIN,PBLAST)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
       USE PINCHTYPE_MOD 
-      USE LOADS_MOD 
+      USE LOADS_MOD
+      USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -514,6 +519,7 @@ C-----------------------------------------------
       INTEGER LLOADP(SLLOADP),NSKIN,NSKIN0
       INTEGER ILOADP(SIZLOADP,*),IB(NIBCLD,*)
       TYPE (LOADS_)  , INTENT(IN)  :: LOADS
+      TYPE(PBLAST_),INTENT(IN) ::  PBLAST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -533,7 +539,7 @@ C
            IF (N1>0.AND.N2>0.AND.N3>0.AND.N4/=-1) NSKIN = NSKIN + 1
        END DO 
 C----------load_pressure
-       SHIFT =   NLOADP_F+NLOADP_B
+       SHIFT =   NLOADP_F+PBLAST%NLOADP_B
        DO NL=1+SHIFT,NLOADP_HYD+SHIFT
            IAD = ILOADP(4,NL)
            DO N=1, ILOADP(1,NL)/4
@@ -545,7 +551,7 @@ C----------load_pressure
            ENDDO
        END DO 
 C---------pfluid+pblast     
-       DO NL=1,NLOADP_F+NLOADP_B
+       DO NL=1,NLOADP_F+PBLAST%NLOADP_B
          IAD = ILOADP(4,NL)
            DO N=1, ILOADP(1,NL)/4
               N1 = LLOADP(IAD+4*(N-1))
@@ -589,7 +595,7 @@ C
            IRECT(1:4,NP) = IB(1:4,NL)
          END DO 
 C----add only not existing           
-           SHIFT =   NLOADP_F+NLOADP_B
+           SHIFT =   NLOADP_F+PBLAST%NLOADP_B
            DO NL=1+SHIFT,NLOADP_HYD+SHIFT
               IAD = ILOADP(4,NL)
               DO N=1, ILOADP(1,NL)/4
@@ -634,7 +640,7 @@ C----add only not existing
                 END IF 
               ENDDO
            END DO 
-           DO  NL=1,NLOADP_F + NLOADP_B
+           DO  NL=1,NLOADP_F + PBLAST%NLOADP_B
               IAD = ILOADP(4,NL)
               DO N=1, ILOADP(1,NL)/4
                 N1 = LLOADP(IAD+4*(N-1))
@@ -737,13 +743,14 @@ C
       !||    pinchtype_mod         ../common_source/modules/pinchtype_mod.F
       !||====================================================================
       SUBROUTINE H3D_PRE_SKIN_IXSKIN(NODAL_IPART,IB ,ILOADP,LLOADP,
-     .                               IXSKIN  ,NSKIN ,IMAPSKP,LOADS )
+     .                               IXSKIN  ,NSKIN ,IMAPSKP,LOADS,PBLAST )
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
       USE PINCHTYPE_MOD 
       USE H3D_INC_MOD
       USE LOADS_MOD
+      USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -764,6 +771,7 @@ C-----------------------------------------------
       INTEGER LLOADP(SLLOADP),NSKIN,IXSKIN(NIXQ,*)
       INTEGER ILOADP(SIZLOADP,*),IB(NIBCLD,*),NODAL_IPART(*)
       TYPE (LOADS_)   , INTENT(IN) :: LOADS
+      TYPE(PBLAST_),INTENT(IN) ::  PBLAST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -797,7 +805,7 @@ C
        END DO 
        NSKIN1 = NSKIN
 C----------load_pressure     
-       SHIFT =   NLOADP_F+NLOADP_B
+       SHIFT =   NLOADP_F+PBLAST%NLOADP_B
        DO NL=1+SHIFT,NLOADP_HYD+SHIFT
          IAD = ILOADP(4,NL)
          DO N=1, ILOADP(1,NL)/4
@@ -850,7 +858,7 @@ C
        END DO 
 C---------pblast     
        NSKIN1 = NSKIN
-       DO NL=1+NLOADP_F,NLOADP_F+NLOADP_B
+       DO NL=1+NLOADP_F,NLOADP_F+PBLAST%NLOADP_B
          IAD = ILOADP(4,NL)
          DO I = 1,ILOADP(1,NL)/4
            N1=LLOADP(IAD+4*(I-1))

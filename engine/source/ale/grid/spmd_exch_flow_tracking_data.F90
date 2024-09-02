@@ -21,6 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ======================================================================================================================
+module spmd_exch_flow_tracking_data_mod
+  contains
+! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief SPMD exchange necessary for option /ALE/GRID/MASS-WEIGHTED-VEL
@@ -143,3 +146,4 @@
 ! ----------------------------------------------------------------------------------------------------------------------
         return
       end subroutine spmd_exch_flow_tracking_data
+    end module spmd_exch_flow_tracking_data_mod

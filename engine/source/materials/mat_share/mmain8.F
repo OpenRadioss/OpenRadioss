@@ -62,7 +62,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9                  RZ     ,SX       ,SY       ,SZ       ,TX      ,
      A                  TY     ,TZ       ,OFF      ,IPM      ,GAMA    ,
      B                  MSSA   ,DMELS    ,TABLE    ,SSP      ,ITASK   ,
-     C                  SVIS)
+     C                  SVIS   ,SNPC     ,NUMGEO   ,SBUFMAT  ,STF,
+     D                  NTABLE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -90,6 +91,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: SNPC
+      INTEGER, INTENT(IN) :: NUMGEO
+      INTEGER, INTENT(IN) :: SBUFMAT
+      INTEGER, INTENT(IN) :: STF
+      INTEGER, INTENT(IN) :: NTABLE
       INTEGER IX(*), IPARG(*), NPF(*),MAT(*),NC(*),NGL(*),
      .        NEL, NELTST, ITYPTST, PID(MVSIZ,*),IPM(NPROPMI,*),
      .        ITASK
@@ -203,7 +209,7 @@ c     user-type laws
         ENDDO
 c
         CALL MULAW8(
-     1   1,        NEL,      NFT,      MTN,
+     1   1,        NEL,      MTN,
      2   NPT,      D1,       D2,       D3,
      3   D4,       D5,       D6,       PM,
      4   OFF,      GBUF%SIG, GBUF%EINT,GBUF%RHO,
@@ -220,8 +226,11 @@ c
      F   ISORTH,   ET,       MSSA,     DMELS,
      G   TABLE,    IHET,     SSP,      ITASK,
      H   NEL,      ITY,      JSMS,     JSPH,
-     I   JTHE,     JTUR,     IMPL_S   ,MAT_ELEM%NUMMAT,
-     J   MAT_ELEM%MAT_PARAM,SVIS)
+     I   JTHE,     JTUR,     MAT_ELEM%NUMMAT,
+     J   MAT_ELEM%MAT_PARAM, SVIS,     SNPC,
+     K   DT1,      TT,       MAXFUNC,  NPROPMI,
+     L   NPROPG,   NPROPM,   IMON_MAT, NUMGEO,
+     M   SBUFMAT,  STF,      NTABLE)
 C-----
       ENDIF 
 C---------------------------

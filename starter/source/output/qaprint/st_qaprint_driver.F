@@ -116,7 +116,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      K                             SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS      ,SIGTRUSS         ,
      L                             NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL ,
      M                             IMERGE      ,NMERGE_TOT ,IEXLNK          ,DRAPEG         ,USER_WINDOWS     ,
-     N                             OUTPUT      ,DEFAULTS   ,GLOB_THERM)
+     N                             OUTPUT      ,DEFAULTS   ,GLOB_THERM      ,PBLAST)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -146,6 +146,7 @@ C-----------------------------------------------
       USE DEFAULTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use glob_therm_mod
+      USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -219,6 +220,7 @@ C-----------------------------------------------
       TYPE(MAT_ELEM_)    ,INTENT(IN)      :: MAT_ELEM
       TYPE(DEFAULTS_)    ,INTENT(IN)      :: DEFAULTS             !< Defaults mod
       TYPE(glob_therm_)  ,intent(in)      :: glob_therm
+      TYPE(PBLAST_)      ,INTENT(IN)      :: PBLAST
 C-----------------------------------------------
 C      NOM_OPT(LNOPT1,SNOM_OPT1) 
 C         * Possibly, NOM_OPT(1) = ID
@@ -417,7 +419,7 @@ C-----------------------------------------------
      4                      LGRV      ,AGRV      ,ICFIELD   ,LCFIELD   ,CFIELD    ,
      5                      IPRELOAD  ,PRELOAD   ,IFLAG_BPRELOAD,
      6                      LIFLOW, LRFLOW, IFLOW,RFLOW     ,ISPHIO    ,VSPHIO,
-     7                      GLOB_THERM    )
+     7                      GLOB_THERM  ,PBLAST  )
 
       CALL ST_QAPRINT_GENERAL_CONTROLS(NOM_OPT   ,INOM_OPT  ,DAMPR, IRAND, ALEA, 
      1                                 XSEED     ,UNITAB    ,QP_IPERTURB       ,

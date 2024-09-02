@@ -70,7 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
      5   NUMSH4N_L,NUMSH3N_L,INTER_PARAMETERS,SENSORS,NLOAD_CYL,
      6   NCLOAD_L,NPLOAD_L,NDAMP_VREL_L, UNITAB,
-     7   LWAMP_L,LWANMP_L,NINIVELT_L,GLOB_THERM)
+     7   LWAMP_L,LWANMP_L,NINIVELT_L,GLOB_THERM,PBLAST)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -90,6 +90,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : NSUBMOD
       USE UNITAB_MOD
       use glob_therm_mod
+      USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -147,6 +148,7 @@ C-----------------------------------------------
       TYPE (SENSORS_)    ,INTENT(IN)        :: SENSORS
       TYPE (UNIT_TYPE_), INTENT(IN)         :: UNITAB
       TYPE(glob_therm_) ,intent(inout)      :: glob_therm
+      TYPE(PBLAST_)     ,INTENT(IN)      :: PBLAST
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1573,7 +1575,7 @@ C /LOAD/PBLAST
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NLOADP_F
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = NLOADP_B           
+      TABVINT(LVARINT) = PBLAST%NLOADP_B           
 C /LOAD/PCYL
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NLOAD_CYL           

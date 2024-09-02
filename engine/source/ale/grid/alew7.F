@@ -20,6 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+
       !||====================================================================
       !||    alew7                           ../engine/source/ale/grid/alew7.F
       !||--- called by ------------------------------------------------------
@@ -42,6 +43,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ALE_MOD
+      USE spmd_exch_flow_tracking_data_mod
+      USE spmd_exch_flow_tracking_data2_mod
+      USE spmd_exch_flow_tracking_data3_mod
+      USE spmd_exch_flow_tracking_data4_mod
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------

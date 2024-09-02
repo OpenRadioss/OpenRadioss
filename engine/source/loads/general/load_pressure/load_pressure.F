@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                          A               ,V           ,X       ,SKEW     ,SENSOR_TAB,
      3                          IADC            ,FSKY        ,FEXT    ,TAGNCONT ,NSENSOR   ,
      4                          LOADP_HYD_INTER , H3D_DATA   , PYTHON, 
-     5                          NPRESLOAD       ,LOADP_TAGDEL,TH_SURF)
+     5                          NPRESLOAD       ,LOADP_TAGDEL,TH_SURF,PBLAST)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE SENSOR_MOD
       USE TH_SURF_MOD , ONLY : TH_SURF_
+      USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,6 +83,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: LOADP_TAGDEL(NPRESLOAD)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
+      TYPE(PBLAST_), INTENT(IN) :: PBLAST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -111,7 +113,7 @@ C---------------------------------------------------------------------
 C
       NUMPRESLOAD = 0
       NSEGPL = TH_SURF%NSEGLOADPF+TH_SURF%NSEGLOADPB
-      NIDXLOAD = NLOADP_F+NLOADP_B
+      NIDXLOAD = NLOADP_F+PBLAST%NLOADP_B
       IF(IPARIT==0) THEN
 C code SPMD Parith/OFF or SMP 
        DO  NP= 1,NLOADP_HYD

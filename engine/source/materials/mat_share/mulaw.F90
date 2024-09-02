@@ -1705,20 +1705,19 @@
               uparf => vec0
             endif
 !
-            call sigeps100(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam0,&
-            &rho0,rho ,voln,eint,ngl,&
-            &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
-            &es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,&
-            &so1 ,so2 ,so3 ,so4  ,so5  ,so6 ,&
-            &s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,&
-            &sv1 ,sv2 ,sv3 ,sv4  ,sv5  ,sv6 ,&
-            &mfxx,mfxy,mfxz,mfyx ,mfyy ,mfyz,&
-            &mfzx ,mfzy,mfzz,tempel,&
-            &ssp ,vis ,uvar,off  ,ismstr,et ,&
-            &ihet,gbuf%off ,epsth,iexpan ,nparf,&
-            &uparf,uvarf, nvarf,&
-            &jcvt , gbuf%gama_r)   !gama_r is for the corotational formulation
+            call sigeps100(nel ,npar,nuvar,nfunc,ifunc,        &
+            &              npf ,tf  ,tt,dt1,uparam0,           &
+            &              rho ,                               &
+            &              de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,    &
+            &              so1 ,so2 ,so3 ,so4  ,so5  ,so6 ,    &
+            &              s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,    &
+            &              mfxx,mfxy,mfxz,mfyx ,mfyy ,mfyz,    &
+            &              mfzx ,mfzy,mfzz,tempel,             &
+            &              ssp ,vis ,uvar,et ,                 &
+            &              ihet,epsth,iexpan ,nparf,           &
+            &              uparf,uvarf, nvarf,                 &
+            &              jcvt , gbuf%gama_r,                 &
+            &              snpc ,stf,impl_s)   !gama_r is for the corotational formulation
 
           elseif (mtn == 101) then
 ! structure loading

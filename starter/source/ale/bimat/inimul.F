@@ -26,11 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lectur               ../starter/source/starter/lectur.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-      SUBROUTINE INIMUL(PM,F,DF)
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE MULTIMAT_PARAM_MOD , ONLY : M20_DISCRETE_FILL
+      SUBROUTINE INIMUL(PM,F,DF,M20_DISCRETE_FILL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,6 +41,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real PM(NPROPM,*), F(NUMNOD,*), DF(NUMNOD,*)
+      logical M20_DISCRETE_FILL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

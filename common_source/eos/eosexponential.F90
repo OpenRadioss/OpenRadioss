@@ -20,6 +20,8 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+module eosexponential_mod
+      contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
@@ -64,9 +66,9 @@
       my_real, intent(inout) :: dpdm(nel)            !< total derivative : mu = rho/rho0-1
       my_real, intent(inout) :: dpdE(nel)            !< partial derivative : E=rho0.e
       my_real, intent(inout) :: theta(nel)           !< temperature
-      my_real, intent(inout) :: wfext                !< work of external forces                
       my_real, intent(inout) :: psh(nel)             !< pressure shift
       my_real, intent(inout) :: eint(nel)            !< internal energy
+      double precision, intent(inout) :: wfext       !< work of external forces / Double Precision
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -122,4 +124,5 @@
 
 !------------------------
       RETURN
-      END
+      END subroutine eosexponential
+end module eosexponential_mod

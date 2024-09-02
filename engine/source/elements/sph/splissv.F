@@ -26,16 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    splissv       ../engine/source/elements/sph/splissv.F
       !||    sponfv        ../engine/source/elements/sph/sponfv.F
       !||====================================================================
-      MODULE MOD_SPLISSV
-      implicit none
-#include      "my_real.inc"
-      DOUBLE PRECISION, DIMENSION(:,:,:), ALLOCATABLE :: AS6, A6
-      my_real
-     .       , DIMENSION(:,:), ALLOCATABLE :: AS
-      my_real
-     .       , DIMENSION(:,:), ALLOCATABLE :: ASPHR
-      INTEGER, DIMENSION(:), ALLOCATABLE ::  ITAG
-      END MODULE MOD_SPLISSV
       !||====================================================================
       !||    splissv               ../engine/source/elements/sph/splissv.F
       !||--- called by ------------------------------------------------------
@@ -65,14 +55,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6    WACOMP  ,WSMCOMP ,WASPACT ,IPART   ,ITASK   ,
      7    SPH2SOL ,SOL2SPH ,IRST    ,IXS     ,IPARG   ,
      8    NGROUNC ,IGROUNC ,ELBUF_TAB,IAD_ELEM,FR_ELEM,
-     9    IGEO    ,SOL2SPH_TYP)
+     9    IGEO    ,SOL2SPH_TYP,SPH_WORK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE ELBUFDEF_MOD         
       USE MESSAGE_MOD
       USE SPHBOX
-      USE MOD_SPLISSV
+      USE SPH_WORK_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -108,6 +99,7 @@ C     REAL
      .   XFRAME(NXFRAME,*), WASPSYM(3,*), PARTSAV(NPSAV,*),
      .   WACOMP(16,*), WSMCOMP(6,*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
+      TYPE (SPH_WORK_) :: SPH_WORK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -117,7 +109,7 @@ C-----------------------------------------------
      .        IS,IC,ISLIDE,IPRT,NS,MYADRN, 
      .        NSOL, NSKI, N1, N2, N3, N4, N5, N6, N7, N8, 
      .        IR, IT, NSPHDIR, KP, NP,NELEM, OFFSET, NEL, IG, NG, 
-     .        II, II1, SIZE, LENR, IERROR
+     .        II, II1, SZ, LENR, IERROR
       my_real
      .       XI,YI,ZI,DI,RHOI,PRESI,XJ,YJ,ZJ,DJ,PRESJ,RHOJ,DIJ,
      .       VXI,VYI,VZI,VXJ,VYJ,VZJ,
@@ -207,35 +199,16 @@ C
       IF(SOL2SPH_FLAG/=0)THEN
         IF(ITASK==0)THEN
 C
-          ALLOCATE(AS(3,8*NSPHACT),STAT=IERROR)
-          IF(IERROR/=0) THEN
-            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .           C1='(SOL2SPH)')
-            CALL ARRET(2)
-          END IF
-C
-          ALLOCATE(AS6(6,3,8*NSPHACT),STAT=IERROR)
-          IF(IERROR/=0) THEN
-            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .           C1='(SOL2SPH)')
-            CALL ARRET(2)
-          END IF
-C
-          ALLOCATE(A6(6,3,NUMNOD),STAT=IERROR)
-          IF(IERROR/=0) THEN
-            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .           C1='(SOL2SPH)')
-            CALL ARRET(2)
-          END IF
-          A6  = ZERO
-C
-          ALLOCATE(ITAG(NUMNOD),STAT=IERROR)
-          IF(IERROR/=0) THEN
-            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .           C1='(SOL2SPH)')
-            CALL ARRET(2)
-          END IF
-          ITAG= 0
+          SPH_WORK%A6(1:6,1:3,1:NUMNOD)  = ZERO
+          IF (ALLOCATED(SPH_WORK%AS))DEALLOCATE(SPH_WORK%AS)
+          CALL MY_ALLOC(SPH_WORK%AS,3,8*NSPHACT)
+          SPH_WORK%AS= ZERO
+
+          IF (ALLOCATED(SPH_WORK%AS))DEALLOCATE(SPH_WORK%AS6)
+          CALL MY_ALLOC(SPH_WORK%AS6,6,3,8*NSPHACT)
+          SPH_WORK%AS6= ZERO
+
+          SPH_WORK%ITAG= 0
         END IF
       ENDIF
 C
@@ -412,8 +385,8 @@ C Comm H et A sur cellules remotes
 C-----------------------------------------------
       IF(NSPMD>1)THEN
         IF(ITASK==0) THEN
-          ALLOCATE(ASPHR(4,NSPHR))
-          CALL SPMD_SPHGETF(KXSP,SPBUF,A,MS,ASPHR)
+          ALLOCATE(SPH_WORK%ASPHR(4,NSPHR))
+          CALL SPMD_SPHGETF(KXSP,SPBUF,A,MS,SPH_WORK%ASPHR)
 c          IF(NSPHIO/=0.AND.NSPHACT/=0)THEN 
 c               CALL SPMD_SPHGETV(KXSP,SPBUF,V,MS)
 c          ENDIF
@@ -468,9 +441,9 @@ C
           XI =XSPHR(3,NS)
           YI =XSPHR(4,NS)
           ZI =XSPHR(5,NS)
-          AXI=ASPHR(1,NS)
-          AYI=ASPHR(2,NS)
-          AZI=ASPHR(3,NS)
+          AXI=SPH_WORK%ASPHR(1,NS)
+          AYI=SPH_WORK%ASPHR(2,NS)
+          AZI=SPH_WORK%ASPHR(3,NS)
           IF(ISLIDE==0)THEN
            AXS=-AXI
            AYS=-AYI
@@ -590,9 +563,9 @@ C Solids to SPH, no interaction if both particles are inactive
           VXJ=XSPHR(9,NN)
           VYJ=XSPHR(10,NN)
           VZJ=XSPHR(11,NN)
-          AXJ=ASPHR(1,NN)
-          AYJ=ASPHR(2,NN)
-          AZJ=ASPHR(3,NN)
+          AXJ=SPH_WORK%ASPHR(1,NN)
+          AYJ=SPH_WORK%ASPHR(2,NN)
+          AZJ=SPH_WORK%ASPHR(3,NN)
           DJ=XSPHR(2,NN)
           DIJ=HALF*(DI+DJ)
           CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT)
@@ -755,24 +728,24 @@ C
             PHI4=ONE_OVER_8*(ONE+KSI)*(ONE-ETA)*(ONE-ZETA)
 C
             II=II+1
-            AS(1,II)=PHI1*WA(MYADRN+1)
-            AS(2,II)=PHI1*WA(MYADRN+2)
-            AS(3,II)=PHI1*WA(MYADRN+3)
+            SPH_WORK%AS(1,II)=PHI1*WA(MYADRN+1)
+            SPH_WORK%AS(2,II)=PHI1*WA(MYADRN+2)
+            SPH_WORK%AS(3,II)=PHI1*WA(MYADRN+3)
 
             II=II+1
-            AS(1,II)=PHI2*WA(MYADRN+1)
-            AS(2,II)=PHI2*WA(MYADRN+2)
-            AS(3,II)=PHI2*WA(MYADRN+3)
+            SPH_WORK%AS(1,II)=PHI2*WA(MYADRN+1)
+            SPH_WORK%AS(2,II)=PHI2*WA(MYADRN+2)
+            SPH_WORK%AS(3,II)=PHI2*WA(MYADRN+3)
 
             II=II+1
-            AS(1,II)=PHI3*WA(MYADRN+1)
-            AS(2,II)=PHI3*WA(MYADRN+2)
-            AS(3,II)=PHI3*WA(MYADRN+3)
+            SPH_WORK%AS(1,II)=PHI3*WA(MYADRN+1)
+            SPH_WORK%AS(2,II)=PHI3*WA(MYADRN+2)
+            SPH_WORK%AS(3,II)=PHI3*WA(MYADRN+3)
 
             II=II+1
-            AS(1,II)=PHI4*WA(MYADRN+1)
-            AS(2,II)=PHI4*WA(MYADRN+2)
-            AS(3,II)=PHI4*WA(MYADRN+3)
+            SPH_WORK%AS(1,II)=PHI4*WA(MYADRN+1)
+            SPH_WORK%AS(2,II)=PHI4*WA(MYADRN+2)
+            SPH_WORK%AS(3,II)=PHI4*WA(MYADRN+3)
 C
           ELSE
 C---------------
@@ -814,49 +787,49 @@ C
             PHI8=ONE_OVER_8*(ONE+KSI)*(ONE+ETA)*(ONE-ZETA)
 C
             II=II+1
-            AS(1,II)=PHI1*WA(MYADRN+1)
-            AS(2,II)=PHI1*WA(MYADRN+2)
-            AS(3,II)=PHI1*WA(MYADRN+3)
+            SPH_WORK%AS(1,II)=PHI1*WA(MYADRN+1)
+            SPH_WORK%AS(2,II)=PHI1*WA(MYADRN+2)
+            SPH_WORK%AS(3,II)=PHI1*WA(MYADRN+3)
 
             II=II+1
-            AS(1,II)=PHI2*WA(MYADRN+1)
-            AS(2,II)=PHI2*WA(MYADRN+2)
-            AS(3,II)=PHI2*WA(MYADRN+3)
+            SPH_WORK%AS(1,II)=PHI2*WA(MYADRN+1)
+            SPH_WORK%AS(2,II)=PHI2*WA(MYADRN+2)
+            SPH_WORK%AS(3,II)=PHI2*WA(MYADRN+3)
 
             II=II+1
-            AS(1,II)=PHI3*WA(MYADRN+1)
-            AS(2,II)=PHI3*WA(MYADRN+2)
-            AS(3,II)=PHI3*WA(MYADRN+3)
+            SPH_WORK%AS(1,II)=PHI3*WA(MYADRN+1)
+            SPH_WORK%AS(2,II)=PHI3*WA(MYADRN+2)
+            SPH_WORK%AS(3,II)=PHI3*WA(MYADRN+3)
 
             II=II+1
-            AS(1,II)=PHI4*WA(MYADRN+1)
-            AS(2,II)=PHI4*WA(MYADRN+2)
-            AS(3,II)=PHI4*WA(MYADRN+3)
+            SPH_WORK%AS(1,II)=PHI4*WA(MYADRN+1)
+            SPH_WORK%AS(2,II)=PHI4*WA(MYADRN+2)
+            SPH_WORK%AS(3,II)=PHI4*WA(MYADRN+3)
 
             II=II+1
-            AS(1,II)=PHI5*WA(MYADRN+1)
-            AS(2,II)=PHI5*WA(MYADRN+2)
-            AS(3,II)=PHI5*WA(MYADRN+3)
+            SPH_WORK%AS(1,II)=PHI5*WA(MYADRN+1)
+            SPH_WORK%AS(2,II)=PHI5*WA(MYADRN+2)
+            SPH_WORK%AS(3,II)=PHI5*WA(MYADRN+3)
 
             II=II+1
-            AS(1,II)=PHI6*WA(MYADRN+1)
-            AS(2,II)=PHI6*WA(MYADRN+2)
-            AS(3,II)=PHI6*WA(MYADRN+3)
+            SPH_WORK%AS(1,II)=PHI6*WA(MYADRN+1)
+            SPH_WORK%AS(2,II)=PHI6*WA(MYADRN+2)
+            SPH_WORK%AS(3,II)=PHI6*WA(MYADRN+3)
 
             II=II+1
-            AS(1,II)=PHI7*WA(MYADRN+1)
-            AS(2,II)=PHI7*WA(MYADRN+2)
-            AS(3,II)=PHI7*WA(MYADRN+3)
+            SPH_WORK%AS(1,II)=PHI7*WA(MYADRN+1)
+            SPH_WORK%AS(2,II)=PHI7*WA(MYADRN+2)
+            SPH_WORK%AS(3,II)=PHI7*WA(MYADRN+3)
 
             II=II+1
-            AS(1,II)=PHI8*WA(MYADRN+1)
-            AS(2,II)=PHI8*WA(MYADRN+2)
-            AS(3,II)=PHI8*WA(MYADRN+3)
+            SPH_WORK%AS(1,II)=PHI8*WA(MYADRN+1)
+            SPH_WORK%AS(2,II)=PHI8*WA(MYADRN+2)
+            SPH_WORK%AS(3,II)=PHI8*WA(MYADRN+3)
 C
           END IF
         ENDDO
 C------
-        CALL FOAT_TO_6_FLOAT(1,3*II,AS,AS6)
+        CALL FOAT_TO_6_FLOAT(1,3*II,SPH_WORK%AS,SPH_WORK%AS6)
 C------
         II=0
         DO NS=1,NSPHACT
@@ -874,32 +847,32 @@ C
             N3=IXS(4,NSOL)
             N4=IXS(5,NSOL)
 C
-            ITAG(N1)=1
-            ITAG(N2)=1
-            ITAG(N3)=1
-            ITAG(N4)=1
+            SPH_WORK%ITAG(N1)=1
+            SPH_WORK%ITAG(N2)=1
+            SPH_WORK%ITAG(N3)=1
+            SPH_WORK%ITAG(N4)=1
 C
             II1=II
             DO J=1,6
               II=II1+1
-              A6(J,1,N1)=A6(J,1,N1)+AS6(J,1,II)
-              A6(J,2,N1)=A6(J,2,N1)+AS6(J,2,II)
-              A6(J,3,N1)=A6(J,3,N1)+AS6(J,3,II)
+              SPH_WORK%A6(J,1,N1)=SPH_WORK%A6(J,1,N1)+SPH_WORK%AS6(J,1,II)
+              SPH_WORK%A6(J,2,N1)=SPH_WORK%A6(J,2,N1)+SPH_WORK%AS6(J,2,II)
+              SPH_WORK%A6(J,3,N1)=SPH_WORK%A6(J,3,N1)+SPH_WORK%AS6(J,3,II)
 C
               II=II+1
-              A6(J,1,N2)=A6(J,1,N2)+AS6(J,1,II)
-              A6(J,2,N2)=A6(J,2,N2)+AS6(J,2,II)
-              A6(J,3,N2)=A6(J,3,N2)+AS6(J,3,II)
+              SPH_WORK%A6(J,1,N2)=SPH_WORK%A6(J,1,N2)+SPH_WORK%AS6(J,1,II)
+              SPH_WORK%A6(J,2,N2)=SPH_WORK%A6(J,2,N2)+SPH_WORK%AS6(J,2,II)
+              SPH_WORK%A6(J,3,N2)=SPH_WORK%A6(J,3,N2)+SPH_WORK%AS6(J,3,II)
 C
               II=II+1
-              A6(J,1,N3)=A6(J,1,N3)+AS6(J,1,II)
-              A6(J,2,N3)=A6(J,2,N3)+AS6(J,2,II)
-              A6(J,3,N3)=A6(J,3,N3)+AS6(J,3,II)
+              SPH_WORK%A6(J,1,N3)=SPH_WORK%A6(J,1,N3)+SPH_WORK%AS6(J,1,II)
+              SPH_WORK%A6(J,2,N3)=SPH_WORK%A6(J,2,N3)+SPH_WORK%AS6(J,2,II)
+              SPH_WORK%A6(J,3,N3)=SPH_WORK%A6(J,3,N3)+SPH_WORK%AS6(J,3,II)
 C
               II=II+1
-              A6(J,1,N4)=A6(J,1,N4)+AS6(J,1,II)
-              A6(J,2,N4)=A6(J,2,N4)+AS6(J,2,II)
-              A6(J,3,N4)=A6(J,3,N4)+AS6(J,3,II)
+              SPH_WORK%A6(J,1,N4)=SPH_WORK%A6(J,1,N4)+SPH_WORK%AS6(J,1,II)
+              SPH_WORK%A6(J,2,N4)=SPH_WORK%A6(J,2,N4)+SPH_WORK%AS6(J,2,II)
+              SPH_WORK%A6(J,3,N4)=SPH_WORK%A6(J,3,N4)+SPH_WORK%AS6(J,3,II)
 C
             END DO
 C
@@ -919,56 +892,56 @@ C
             N7=IXS(8,NSOL)
             N8=IXS(9,NSOL)
 C
-            ITAG(N1)=1
-            ITAG(N2)=1
-            ITAG(N3)=1
-            ITAG(N4)=1
-            ITAG(N5)=1
-            ITAG(N6)=1
-            ITAG(N7)=1
-            ITAG(N8)=1
+            SPH_WORK%ITAG(N1)=1
+            SPH_WORK%ITAG(N2)=1
+            SPH_WORK%ITAG(N3)=1
+            SPH_WORK%ITAG(N4)=1
+            SPH_WORK%ITAG(N5)=1
+            SPH_WORK%ITAG(N6)=1
+            SPH_WORK%ITAG(N7)=1
+            SPH_WORK%ITAG(N8)=1
 C
             II1=II
             DO J=1,6
               II=II1+1
-              A6(J,1,N1)=A6(J,1,N1)+AS6(J,1,II)
-              A6(J,2,N1)=A6(J,2,N1)+AS6(J,2,II)
-              A6(J,3,N1)=A6(J,3,N1)+AS6(J,3,II)
+              SPH_WORK%A6(J,1,N1)=SPH_WORK%A6(J,1,N1)+SPH_WORK%AS6(J,1,II)
+              SPH_WORK%A6(J,2,N1)=SPH_WORK%A6(J,2,N1)+SPH_WORK%AS6(J,2,II)
+              SPH_WORK%A6(J,3,N1)=SPH_WORK%A6(J,3,N1)+SPH_WORK%AS6(J,3,II)
 C
               II=II+1
-              A6(J,1,N2)=A6(J,1,N2)+AS6(J,1,II)
-              A6(J,2,N2)=A6(J,2,N2)+AS6(J,2,II)
-              A6(J,3,N2)=A6(J,3,N2)+AS6(J,3,II)
+              SPH_WORK%A6(J,1,N2)=SPH_WORK%A6(J,1,N2)+SPH_WORK%AS6(J,1,II)
+              SPH_WORK%A6(J,2,N2)=SPH_WORK%A6(J,2,N2)+SPH_WORK%AS6(J,2,II)
+              SPH_WORK%A6(J,3,N2)=SPH_WORK%A6(J,3,N2)+SPH_WORK%AS6(J,3,II)
 C
               II=II+1
-              A6(J,1,N3)=A6(J,1,N3)+AS6(J,1,II)
-              A6(J,2,N3)=A6(J,2,N3)+AS6(J,2,II)
-              A6(J,3,N3)=A6(J,3,N3)+AS6(J,3,II)
+              SPH_WORK%A6(J,1,N3)=SPH_WORK%A6(J,1,N3)+SPH_WORK%AS6(J,1,II)
+              SPH_WORK%A6(J,2,N3)=SPH_WORK%A6(J,2,N3)+SPH_WORK%AS6(J,2,II)
+              SPH_WORK%A6(J,3,N3)=SPH_WORK%A6(J,3,N3)+SPH_WORK%AS6(J,3,II)
 C
               II=II+1
-              A6(J,1,N4)=A6(J,1,N4)+AS6(J,1,II)
-              A6(J,2,N4)=A6(J,2,N4)+AS6(J,2,II)
-              A6(J,3,N4)=A6(J,3,N4)+AS6(J,3,II)
+              SPH_WORK%A6(J,1,N4)=SPH_WORK%A6(J,1,N4)+SPH_WORK%AS6(J,1,II)
+              SPH_WORK%A6(J,2,N4)=SPH_WORK%A6(J,2,N4)+SPH_WORK%AS6(J,2,II)
+              SPH_WORK%A6(J,3,N4)=SPH_WORK%A6(J,3,N4)+SPH_WORK%AS6(J,3,II)
 C
               II=II+1
-              A6(J,1,N5)=A6(J,1,N5)+AS6(J,1,II)
-              A6(J,2,N5)=A6(J,2,N5)+AS6(J,2,II)
-              A6(J,3,N5)=A6(J,3,N5)+AS6(J,3,II)
+              SPH_WORK%A6(J,1,N5)=SPH_WORK%A6(J,1,N5)+SPH_WORK%AS6(J,1,II)
+              SPH_WORK%A6(J,2,N5)=SPH_WORK%A6(J,2,N5)+SPH_WORK%AS6(J,2,II)
+              SPH_WORK%A6(J,3,N5)=SPH_WORK%A6(J,3,N5)+SPH_WORK%AS6(J,3,II)
 C
               II=II+1
-              A6(J,1,N6)=A6(J,1,N6)+AS6(J,1,II)
-              A6(J,2,N6)=A6(J,2,N6)+AS6(J,2,II)
-              A6(J,3,N6)=A6(J,3,N6)+AS6(J,3,II)
+              SPH_WORK%A6(J,1,N6)=SPH_WORK%A6(J,1,N6)+SPH_WORK%AS6(J,1,II)
+              SPH_WORK%A6(J,2,N6)=SPH_WORK%A6(J,2,N6)+SPH_WORK%AS6(J,2,II)
+              SPH_WORK%A6(J,3,N6)=SPH_WORK%A6(J,3,N6)+SPH_WORK%AS6(J,3,II)
 C
               II=II+1
-              A6(J,1,N7)=A6(J,1,N7)+AS6(J,1,II)
-              A6(J,2,N7)=A6(J,2,N7)+AS6(J,2,II)
-              A6(J,3,N7)=A6(J,3,N7)+AS6(J,3,II)
+              SPH_WORK%A6(J,1,N7)=SPH_WORK%A6(J,1,N7)+SPH_WORK%AS6(J,1,II)
+              SPH_WORK%A6(J,2,N7)=SPH_WORK%A6(J,2,N7)+SPH_WORK%AS6(J,2,II)
+              SPH_WORK%A6(J,3,N7)=SPH_WORK%A6(J,3,N7)+SPH_WORK%AS6(J,3,II)
 C
               II=II+1
-              A6(J,1,N8)=A6(J,1,N8)+AS6(J,1,II)
-              A6(J,2,N8)=A6(J,2,N8)+AS6(J,2,II)
-              A6(J,3,N8)=A6(J,3,N8)+AS6(J,3,II)
+              SPH_WORK%A6(J,1,N8)=SPH_WORK%A6(J,1,N8)+SPH_WORK%AS6(J,1,II)
+              SPH_WORK%A6(J,2,N8)=SPH_WORK%A6(J,2,N8)+SPH_WORK%AS6(J,2,II)
+              SPH_WORK%A6(J,3,N8)=SPH_WORK%A6(J,3,N8)+SPH_WORK%AS6(J,3,II)
 C
             END DO
 C
@@ -982,21 +955,21 @@ C
 C-----
       IF ((SOL2SPH_FLAG > 0).AND.(ITASK==0)) THEN
         IF(NSPMD > 1)THEN
-          SIZE=19
+          SZ=19
           LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
           CALL SPMD_EXCH_A_SOL2SPH(
-     1   A6       ,ITAG   ,IAD_ELEM ,FR_ELEM,SIZE,
+     1   SPH_WORK%A6       ,SPH_WORK%ITAG   ,IAD_ELEM ,FR_ELEM,SZ,
      2   LENR     )
         END IF
 C-----
         DO N=1,NUMNOD
-          IF(ITAG(N)/=0)THEN
-            A(1,N)=A(1,N)+A6(1,1,N)+A6(2,1,N)+A6(3,1,N)
-     .                   +A6(4,1,N)+A6(5,1,N)+A6(6,1,N)
-            A(2,N)=A(2,N)+A6(1,2,N)+A6(2,2,N)+A6(3,2,N)
-     .                   +A6(4,2,N)+A6(5,2,N)+A6(6,2,N)
-            A(3,N)=A(3,N)+A6(1,3,N)+A6(2,3,N)+A6(3,3,N)
-     .                   +A6(4,3,N)+A6(5,3,N)+A6(6,3,N)
+          IF(SPH_WORK%ITAG(N)/=0)THEN
+            A(1,N)=A(1,N)+SPH_WORK%A6(1,1,N)+SPH_WORK%A6(2,1,N)+SPH_WORK%A6(3,1,N)
+     .                   +SPH_WORK%A6(4,1,N)+SPH_WORK%A6(5,1,N)+SPH_WORK%A6(6,1,N)
+            A(2,N)=A(2,N)+SPH_WORK%A6(1,2,N)+SPH_WORK%A6(2,2,N)+SPH_WORK%A6(3,2,N)
+     .                   +SPH_WORK%A6(4,2,N)+SPH_WORK%A6(5,2,N)+SPH_WORK%A6(6,2,N)
+            A(3,N)=A(3,N)+SPH_WORK%A6(1,3,N)+SPH_WORK%A6(2,3,N)+SPH_WORK%A6(3,3,N)
+     .                   +SPH_WORK%A6(4,3,N)+SPH_WORK%A6(5,3,N)+SPH_WORK%A6(6,3,N)
           END IF
         END DO
       ENDIF
@@ -1025,8 +998,7 @@ C
 #include "atomend.inc"
       ENDIF
 C
-      IF(NSPMD>1 .AND. ITASK==0.AND.ALLOCATED(ASPHR)) DEALLOCATE(ASPHR)
-      IF(ITASK==0.AND.SOL2SPH_FLAG/=0) DEALLOCATE(AS,AS6,A6,ITAG)
+      IF(NSPMD>1 .AND. ITASK==0.AND.ALLOCATED(SPH_WORK%ASPHR)) DEALLOCATE(SPH_WORK%ASPHR)
 C-------------------------------------------
       RETURN
       END

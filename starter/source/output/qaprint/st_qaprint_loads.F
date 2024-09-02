@@ -34,13 +34,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                            LGRV      ,AGRV      ,ICFIELD   ,LCFIELD   ,CFIELD    ,
      5                            IPRELOAD  ,PRELOAD   ,IFLAG_BPRELOAD, 
      6                            LIFLOW, LRFLOW, IFLOW,RFLOW     ,ISPHIO    ,VSPHIO    ,
-     7                            GLOB_THERM)
+     7                            GLOB_THERM,PBLAST)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use glob_therm_mod
+      USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -110,6 +111,7 @@ C      INOM_OPT(31)= INOM_OPT(30)+ NRBMERGE
 C      .. TO BE MAINTAINED (cf doc/inom_opt.txt) ..
 C-----------------------------------------------
       TYPE (glob_therm_) ,intent(in)      :: glob_therm
+      TYPE (PBLAST_)     ,intent(in)      :: PBLAST
       INTEGER, INTENT(IN) :: NUMLOADP, ILOADP(SIZLOADP,NLOADP), LLOADP(NUMLOADP)
       INTEGER, INTENT(IN) :: ICFIELD(SIZFIELD,NLOADC), LCFIELD(SLCFIELD)
       INTEGER, INTENT(IN) :: IBCL(NIBCLD,NCONLD-NPRELD), IPRES(NIBCLD,NPRELD)
@@ -198,11 +200,11 @@ C-----------------------------------------------
         ELSEIF(MYQAKEY('/LOAD/PBLAST'))THEN
           !output pblast only
           IOPT_FIRST = 1+NLOADP_F
-          IOPT_LAST = NLOADP_F+NLOADP_B
+          IOPT_LAST = NLOADP_F+PBLAST%NLOADP_B
         ELSEIF(MYQAKEY('/LOAD/PRESSURE'))THEN
           !output pressure only
-          IOPT_FIRST = 1+NLOADP_F+NLOADP_B
-          IOPT_LAST = NLOADP_F+NLOADP_B+NLOADP_HYD
+          IOPT_FIRST = 1+NLOADP_F+PBLAST%NLOADP_B
+          IOPT_LAST = NLOADP_F+PBLAST%NLOADP_B+NLOADP_HYD
         ENDIF
             
         !common procedure for /LOAD/PFLUID, /LOAD/PBLAST, /LOAD/PRESSURE options.

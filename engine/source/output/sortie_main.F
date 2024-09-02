@@ -134,11 +134,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG,USER_WINDOWS,
      t            OUTPUT    ,DT          ,FSAVSURF    ,TABLE   ,
      u            LOADS     ,SFANI       ,IPARIT      ,X_C      ,
-     v            SZ_NPCONT2,NPCONT2     ,GLOB_THERM)
+     v            SZ_NPCONT2,NPCONT2     ,GLOB_THERM,PBLAST)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE GENANI_MOD
       USE MAT_ELEM_MOD         
       USE CLUSTER_MOD
       USE INTBUFDEF_MOD  
@@ -173,6 +172,7 @@ C-----------------------------------------------
       use FPCONT2_MAX_OUTPUT_MOD
       use FPCONT2_MIN_OUTPUT_MOD
       use glob_therm_mod
+      use PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -297,6 +297,7 @@ C-----------------------------------------------
       TYPE (TTABLE),DIMENSION(NTABLE)  ,INTENT(IN) :: TABLE
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
       type (glob_therm_) ,intent(in)       :: glob_therm
+      type (PBLAST_) ,intent(in)            :: PBLAST
       INTEGER,INTENT(IN)::  IPARIT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -804,7 +805,7 @@ c
      4             LLOADP     ,LOADP     ,SENSORS     ,TAGNCONT    ,LOADP_HYD_INTER,
      5             XFRAME     ,FORC      ,AR          ,CSEFRIC     ,CSEFRICG  ,
      6             CSEFRIC_STAMP,CSEFRICG_STAMP,TABLE ,IFRAME      ,LOADS   ,
-     7             DRAPE_SH4N, DRAPE_SH3N, DRAPEG     ,X_C         ,GLOB_THERM)
+     7             DRAPE_SH4N, DRAPE_SH3N, DRAPEG     ,X_C         ,GLOB_THERM,PBLAST)
       ENDIF
       IF(ALLOCATED(CSEFRIC)) DEALLOCATE(CSEFRIC)
       IF(ALLOCATED(CSEFRICG)) DEALLOCATE(CSEFRICG)

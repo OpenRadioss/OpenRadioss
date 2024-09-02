@@ -36,17 +36,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE FAIL_GENE1_C (
      1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
      2     NPF      ,TF       ,TIME     ,TIMESTEP ,UPARAM   ,IPG      ,
-     3     NGL      ,DT       ,EPSP     ,UVAR     ,OFF      ,
+     3     NGL      ,GBUF_DT  ,EPSP     ,UVAR     ,OFF      ,
      4     EPSXX    ,EPSYY    ,EPSXY    ,AREA     ,THKN     ,
      5     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      6     TEMP     ,DFMAX    ,ALDT     ,TABLE    ,TDELE    ,
      7     THK0     ,IPT      ,FOFF     ,THKLYL   ,NTABLF   ,ITABLF   ,
-     8     LF_DAMMX ,NIPARAM  ,IPARAM   )
+     8     LF_DAMMX ,NIPARAM  ,IPARAM   ,DT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
+      USE DT_MOD
 C!-----------------------------------------------
 C!   I m p l i c i t   T y p e s
 C!-----------------------------------------------
@@ -70,13 +71,14 @@ C!-----------------------------------------------
       my_real, INTENT(IN) :: TIME,TIMESTEP
       my_real, DIMENSION(NUPARAM), INTENT(IN) :: UPARAM
       my_real, DIMENSION(NEL), INTENT(IN) :: EPSXX,EPSYY,EPSXY,
-     .   DT,EPSP,OFF,ALDT,TEMP,AREA,THKN,THK0,THKLYL
+     .   GBUF_DT,EPSP,OFF,ALDT,TEMP,AREA,THKN,THK0,THKLYL
       INTEGER, DIMENSION(NEL), INTENT(INOUT) :: FOFF
       my_real, DIMENSION(NEL), INTENT(INOUT) :: SIGNXX,SIGNYY,SIGNXY,
      .   SIGNYZ,SIGNZX,TDELE
       my_real, DIMENSION(NEL,LF_DAMMX), INTENT(INOUT) :: DFMAX
       my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
-      TYPE (TTABLE), DIMENSION(NTABLE), INTENT(IN) :: TABLE 
+      TYPE (TTABLE), DIMENSION(NTABLE), INTENT(IN) :: TABLE
+      TYPE (DT_), INTENT(IN) :: DT
 C!-----------------------------------------------
 C!   VARIABLES FOR FUNCTION INTERPOLATION 
 C!-----------------------------------------------
@@ -367,9 +369,9 @@ c
           IF (BTEST(CRIT,5)) THEN 
             NMOD = NMOD + 1
             IF (TIME > ZERO) THEN 
-              DFMAX(I,1+NMOD) = MAX(DTMIN/(DT(I)*DTFAC1(1)),DFMAX(I,1+NMOD))
+              DFMAX(I,1+NMOD) = MAX(DTMIN/(GBUF_DT(I)*DTFAC1(1)),DFMAX(I,1+NMOD))
               DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE)   
-              IF (DT(I)*DTFAC1(1) <= DTMIN) THEN 
+              IF (GBUF_DT(I)*DTFAC1(1) <= DTMIN) THEN 
                 NCRIT(I)  = NCRIT(I) + 1
                 IMINDT(I) = 1
               ENDIF 
@@ -617,8 +619,8 @@ c------------------------
             WRITE(ISTDO,1005) TIME,TMAX    
           ENDIF
           IF (IMINDT(I) == 1) THEN 
-            WRITE(IOUT, 1006) DT(I)*DTFAC1(1),DTMIN
-            WRITE(ISTDO,1006) DT(I)*DTFAC1(1),DTMIN        
+            WRITE(IOUT, 1006) GBUF_DT(I)*DTFAC1(1),DTMIN
+            WRITE(ISTDO,1006) GBUF_DT(I)*DTFAC1(1),DTMIN        
           ENDIF
           IF (ISIGMAX(I) == 1) THEN 
             WRITE(IOUT, 1007) SVM(I),SIGMAX(I)*FACL(I)

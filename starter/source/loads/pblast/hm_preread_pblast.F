@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_PREREAD_PBLAST(NUMLOADP , IGRSURF, LSUBMODEL)
+      SUBROUTINE HM_PREREAD_PBLAST(PBLAST,NUMLOADP , IGRSURF, LSUBMODEL,NSURF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,14 +53,15 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(INOUT) :: NUMLOADP
 C-----------------------------------------------
+      TYPE (PBLAST_)  , INTENT(INOUT) :: PBLAST
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      INTEGER, INTENT(IN) :: NSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -79,7 +80,7 @@ C-----------------------------------------------
 
       CALL HM_OPTION_START('/LOAD/PBLAST')
 
-      DO I = 1, NLOADP_B
+      DO I = 1, PBLAST%NLOADP_B
          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID)
          CALL HM_GET_INTV('surf_ID', ISU, IS_AVAILABLE, LSUBMODEL)
          INGR2USR => IGRSURF(1:NSURF)%ID
@@ -89,7 +90,7 @@ C-----------------------------------------------
          ENDIF
       ENDDO
 
-      IF(NLOADP_B > 0 ) ALLOCATE (   PBLAST_TAB(NLOADP_B),STAT=IERR1); 
+      IF(PBLAST%NLOADP_B > 0 ) ALLOCATE (   PBLAST%PBLAST_TAB(PBLAST%NLOADP_B),STAT=IERR1); 
        IF (IERR1 /= 0) THEN
          WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION'
          WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION'

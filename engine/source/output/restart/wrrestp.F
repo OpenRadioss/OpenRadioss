@@ -148,7 +148,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   NERPM      ,IFLOW           ,RFLOW      ,LIFLOW      ,LRFLOW           ,
      .                   IMPBUF_TAB ,IMPL_S          ,IMPL_S0    ,MCP         ,TEMP             ,
      .                   FORNEQS    ,UNITAB          ,STACK      ,NDRAPE      ,DRAPE_SH3N       ,
-     .                   DRAPE_SH4N ,DRAPEG          ,RESTSIZE   ,SKEWS       ,GLOB_THERM)
+     .                   DRAPE_SH4N ,DRAPEG          ,RESTSIZE   ,SKEWS       ,GLOB_THERM       ,
+     .                   PBLAST)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -198,6 +199,8 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       use write_inivel_mod , only : write_inivel
       use glob_therm_mod
+      use write_ale_grid_mod , only : write_ale_grid
+      use write_bcs_wall_mod , only : write_bcs_wall
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -245,6 +248,7 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(DRAPE_)     :: DRAPE_SH3N(NUMELTG_DRAPE),DRAPE_SH4N(NUMELC_DRAPE)
       TYPE(DRAPEG_)    :: DRAPEG
       type (glob_therm_) ,intent(inout) :: GLOB_THERM
+      TYPE(PBLAST_)    ,INTENT(INOUT) :: PBLAST
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -321,7 +325,7 @@ C     PREPARATION DES VARIABLES ENTIERES ET REELLES.
 C--------------------------------------
       IPARI0 = IPARIT
       CALL WRCOMI(LMXVINT,LVARINT,TABVINT,1,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .     INTERFACES%PARAMETERS,SENSORS,LOADS,GLOB_THERM)
+     .     INTERFACES%PARAMETERS,SENSORS,LOADS,GLOB_THERM,PBLAST)
 C
       ENTMP(1) = TFEXT
       ENTMP(2) = EHOUR
@@ -1006,8 +1010,8 @@ C--------------------------------------
         CALL WRITE_I_C(ILOADP,SIZLOADP*NLOADP)
         CALL WRITE_I_C(LLOADP,SLLOADP)
       ENDIF
-      IF (NLOADP_B>0)THEN
-        CALL PBLAST_WRITE_ENGINE(PBLAST_TAB)
+      IF (PBLAST%NLOADP_B>0)THEN
+        CALL PBLAST_WRITE_ENGINE(PBLAST)
       ENDIF
 C--------------------------------------
       IF (LOADS%NLOAD_CYL > 0) THEN

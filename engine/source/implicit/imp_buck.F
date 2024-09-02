@@ -106,7 +106,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE DSGRAPH_MOD
-      USE GENANI_MOD
       USE IMP_WORKG
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD         

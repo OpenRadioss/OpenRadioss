@@ -20,6 +20,8 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+module array_reindex_mod
+      contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
@@ -89,44 +91,4 @@
             end do
           end subroutine real_array_reindex
 
-! ======================================================================================================================
-!                                                   PROCEDURES
-! ======================================================================================================================
-!! \brief   This subroutine is reindexing a array of POINTS using index(1:n) array
-!! \details      Example array = (/ P1 P2 P3 P4/)
-!! \details              index = (/4 3 2 1/)
-!! \details      result will be  (/ P4 P3 P2 P1 /)
-      !||====================================================================
-      !||    points_array_reindex       ../common_source/tools/sort/array_reindex.F90
-      !||--- called by ------------------------------------------------------
-      !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    polygon_clipping_mod       ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||====================================================================
-          subroutine points_array_reindex(array, index, n)
-            use polygon_clipping_mod , only : polygon_point_
-            implicit none
-#include "my_real.inc"
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Arguments
-! ----------------------------------------------------------------------------------------------------------------------
-            integer, intent(in) :: n
-            type(polygon_point_), intent(inout) :: array(n)
-            integer, intent(inout) :: index(n)
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Local Variables
-! ----------------------------------------------------------------------------------------------------------------------
-            integer :: ii
-            type(polygon_point_) :: temp_array(n)
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------
-            do ii=1,n
-              temp_array(ii)%y=array(ii)%y
-              temp_array(ii)%z=array(ii)%z
-            end do
-            do ii = 1, n
-              array(ii)%y = temp_array(index(ii))%y
-              array(ii)%z = temp_array(index(ii))%z
-            end do
-          end subroutine points_array_reindex
+end module array_reindex_mod

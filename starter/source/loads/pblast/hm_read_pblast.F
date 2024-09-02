@@ -40,7 +40,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    r2r_mod                            ../starter/share/modules1/r2r_mod.F
       !||    submodel_mod                       ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_PBLAST(ITAB      ,ITABM1 ,UNITAB   ,IGRSURF ,NUMLOADP,
+      SUBROUTINE HM_READ_PBLAST(PBLAST,
+     .                          ITAB      ,ITABM1 ,UNITAB   ,IGRSURF ,NUMLOADP,
      .                          ILOADP    ,LLOADP ,FACLOADP ,X       ,BUFSF   ,
      .                          LSUBMODEL ,RTRANS)
 C
@@ -90,6 +91,7 @@ C-----------------------------------------------
       TYPE (SURF_),TARGET, DIMENSION(NSURF)   :: IGRSURF
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(pblast_),INTENT(INOUT) :: PBLAST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -213,10 +215,10 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       !init tables
-      CALL PBLAST_INIT_TABLES(PBLAST_DATA)
+      CALL PBLAST_INIT_TABLES(PBLAST%PBLAST_DATA)
       tmp(1:3) = HUGE(tmp(1))
       !Init.
-      PBLAST_DT%TA_INF = EP20
+      PBLAST%PBLAST_DT%TA_INF = EP20
       NUMSEG = 0
       ILD_PBLAST = 0 !numbering
       alpha_zc = ZERO
@@ -224,11 +226,11 @@ C-----------------------------------------------
       BOOL_SKIP_CALC = .FALSE.
       IS_ITA_SHIFT = .FALSE.
 
-      ALLOCATE( OUTPUT_USER_PARAMS(6,NLOADP_B))
+      ALLOCATE( OUTPUT_USER_PARAMS(6,PBLAST%NLOADP_B))
 
       CALL HM_OPTION_START('/LOAD/PBLAST')
 
-      DO K = 1+NLOADP_F, NLOADP_F+NLOADP_B
+      DO K = 1+NLOADP_F, NLOADP_F+PBLAST%NLOADP_B
         K_BLAST = K-NLOADP_F
         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID, SUBMODEL_ID = SUB_ID)
         IAD = NUMLOADP + 1
@@ -634,8 +636,8 @@ C-----------------------------------------------
               !message out of bounds. curve 1 will be used. no extrapolation
               alpha_zc = ZERO
             ELSE
-              alpha_zc = (ZC - PBLAST_DATA%Curve_val_2_13(curve_id1)) /
-     .                          ( PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST_DATA%Curve_val_2_13(curve_id1) )
+              alpha_zc = (ZC - PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id1)) /
+     .                          ( PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id1) )
             ENDIF
           ELSE
             itmp = INT( ZC+3. )
@@ -645,8 +647,8 @@ C-----------------------------------------------
               !message out of bounds. curve 10 will be used. no extrapolation
               alpha_zc = ZERO
             ELSE
-              alpha_zc = (ZC - PBLAST_DATA%Curve_val_2_13(curve_id1)) /
-     .                       ( PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST_DATA%Curve_val_2_13(curve_id1) )
+              alpha_zc = (ZC - PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id1)) /
+     .                       ( PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id1) )
             ENDIF
           ENDIF
           alpha_zc = curve_id1+alpha_zc     !integer part is curve id1,  digits are standing for interpolation factor between curve_id1 & curve_id2
@@ -692,15 +694,15 @@ C-----------------------------------------------
           NUMSEG = IGRSURF(internal_SURF_ID)%NSEG
           IAD = ILOADP(4,K)
           ILD_PBLAST = ILD_PBLAST + 1
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%cos_theta(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%P_inci(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%P_refl(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%ta(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%t0(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%decay_inci(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%decay_refl(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%TAGMSG(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          PBLAST_TAB(ILD_PBLAST)%SIZ=NUMSEG
+          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%cos_theta(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%P_inci(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%P_refl(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%ta(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%t0(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%decay_inci(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%decay_refl(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          PBLAST%PBLAST_TAB(ILD_PBLAST)%SIZ=NUMSEG
 
           !  Coordinates of detonation point projection = DETPOINT + HC*n     !N_SURF is here -HC*n  where n is normal unitary vector of the plane
           IF(IABAC == 3)THEN
@@ -807,7 +809,7 @@ C-----------------------------------------------
                     WRITE(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",
      .               ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                   ENDIF
-                  PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
+                  PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                 ELSEIF(Z > 400.)THEN
                   IF (N4==0)THEN
                     WRITE(IOUT,FMT='(A,3I11)')
@@ -820,7 +822,7 @@ C-----------------------------------------------
                     WRITE(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",
      .               ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                   ENDIF
-                  PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
+                  PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                 ENDIF
 
                 !Angle from detonation point
@@ -829,7 +831,7 @@ C-----------------------------------------------
 
                 HZ = ZERO ! not used with this formulation
                 !------------------------------------------------------------!
-                 CALL PBLAST_PARAMETERS__FREE_AIR(Z, W13, TDET,
+                 CALL PBLAST_PARAMETERS__FREE_AIR(PBLAST,Z, W13, TDET,
      +                                            FAC_P_bb, FAC_I_bb, FAC_T_bb,
      +                                            IS_DECAY_TO_BE_COMPUTED,
      +                                            FRIEDLANDER_PARAMS)
@@ -907,7 +909,7 @@ C-----------------------------------------------
                       WRITE(ISTDO,FMT='(A,4I11)')
      .                 "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                     ENDIF
-                    PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
+                    PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                   ELSEIF(Z > 400.)THEN
                     IF (N4==0)THEN
                       WRITE(IOUT,FMT='(A,3I11)')
@@ -922,10 +924,10 @@ C-----------------------------------------------
      .                 "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",
      .                 ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                     ENDIF
-                    PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
+                    PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                   ENDIF
                   !------------------------------------------------------------!
-                  CALL PBLAST_PARAMETERS__SURFACE_BURST( Z, W13, TDET,
+                  CALL PBLAST_PARAMETERS__SURFACE_BURST( PBLAST,Z, W13, TDET,
      +                                             FAC_P_bb, FAC_I_bb, FAC_T_bb,
      +                                             IS_DECAY_TO_BE_COMPUTED,
      +                                             FRIEDLANDER_PARAMS )
@@ -1003,7 +1005,7 @@ C-----------------------------------------------
                     WRITE(ISTDO,*)' ** WARNING : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g,' FACE:',ITAB((/N1,N2,N3,N4/)),
      .                            ' SEEMS TO BE BELOW THE GROUND'
                     ANGLE_g = ZERO
-                    PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
+                    PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                   ELSEIF(ANGLE_g > 85.00000)THEN
                     WRITE(IOUT,FMT='(A,I0,A,E10.4,A,4I11)')
      .              ' ** WARNING : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,
@@ -1012,11 +1014,11 @@ C-----------------------------------------------
      .              ' ** WARNING : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,
      .                                            '. ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
                     ANGLE_g = 85.00000
-                    PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
+                    PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                   ENDIF
 
                  !------------------------------------------------------------!
-                 CALL PBLAST_PARAMETERS__AIR_BURST(Z_struct, Zc, Zg, ANGLE_g, W13, TDET,
+                 CALL PBLAST_PARAMETERS__AIR_BURST(PBLAST,Z_struct, Zc, Zg, ANGLE_g, W13, TDET,
      +                                            FAC_P_bb, FAC_I_bb, FAC_T_bb,
      +                                            IS_DECAY_TO_BE_COMPUTED,
      +                                            ID,'LOAD',.TRUE.,
@@ -1042,14 +1044,14 @@ C-----------------------------------------------
               !--------------------------------------------------------
               !   Storage of Wave Parameters (transmitted to Engine)
               !--------------------------------------------------------
-              PBLAST_TAB(ILD_PBLAST)%cos_theta(I) = cos_theta
-              PBLAST_TAB(ILD_PBLAST)%P_inci(I) = P_inci
-              PBLAST_TAB(ILD_PBLAST)%P_refl(I) = P_refl
-              PBLAST_TAB(ILD_PBLAST)%ta(I) = T_A
-              PBLAST_TAB(ILD_PBLAST)%t0(I) = DT_0
-              PBLAST_TAB(ILD_PBLAST)%decay_inci(I) = decay_inci
-              PBLAST_TAB(ILD_PBLAST)%decay_refl(I) = decay_refl
-              PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 0
+              PBLAST%PBLAST_TAB(ILD_PBLAST)%cos_theta(I) = cos_theta
+              PBLAST%PBLAST_TAB(ILD_PBLAST)%P_inci(I) = P_inci
+              PBLAST%PBLAST_TAB(ILD_PBLAST)%P_refl(I) = P_refl
+              PBLAST%PBLAST_TAB(ILD_PBLAST)%ta(I) = T_A
+              PBLAST%PBLAST_TAB(ILD_PBLAST)%t0(I) = DT_0
+              PBLAST%PBLAST_TAB(ILD_PBLAST)%decay_inci(I) = decay_inci
+              PBLAST%PBLAST_TAB(ILD_PBLAST)%decay_refl(I) = decay_refl
+              PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 0
 
               b_min = MIN(b_min, decay_inci)
               b_min = MIN(b_min, decay_refl)
@@ -1061,10 +1063,10 @@ C-----------------------------------------------
 
            ENDDO! I=1,NUMSEG
 
-           PBLAST_TAB(ILD_PBLAST)%DTMIN = DTMIN
+           PBLAST%PBLAST_TAB(ILD_PBLAST)%DTMIN = DTMIN
 
            FACLOADP(7,K) = TA_PBLAST ! min(TDET+T_A, I=1..NUMSEG)
-           PBLAST_DT%TA_INF = MIN(PBLAST_DT%TA_INF, TA_PBLAST)!   min( [min(TDET+T_A, I=1..NUMSEG)] , K=1..'numpblast')
+           PBLAST%PBLAST_DT%TA_INF = MIN(PBLAST%PBLAST_DT%TA_INF, TA_PBLAST)!   min( [min(TDET+T_A, I=1..NUMSEG)] , K=1..'numpblast')
            OUTPUT_USER_PARAMS(3,K_BLAST) = b_min
            OUTPUT_USER_PARAMS(4,K_BLAST) = b_max
            OUTPUT_USER_PARAMS(6,K_BLAST) = TA_PBLAST
@@ -1085,16 +1087,16 @@ C-----------
 
 !Set (shifted arrival time) for all blast loading
       IF(.NOT.IS_ITA_SHIFT)THEN
-        PBLAST_DT%TA_INF = ZERO
+        PBLAST%PBLAST_DT%TA_INF = ZERO
       ELSE
-        DO K = 1+NLOADP_F, NLOADP_F+NLOADP_B
+        DO K = 1+NLOADP_F, NLOADP_F+PBLAST%NLOADP_B
           K_BLAST = K-NLOADP_F
           ILOADP(9,K) = 2
           TA_PBLAST = FACLOADP(7,K)
           !shifting trigger time
           ! arrival time for segments are not shifted, time will be translated
           ! during engine using T* = T + T_shift
-          FACLOADP(7,K) = MAX(ZERO, TA_PBLAST-PBLAST_DT%TA_INF) !arrival time shifted if requested
+          FACLOADP(7,K) = MAX(ZERO, TA_PBLAST-PBLAST%PBLAST_DT%TA_INF) !arrival time shifted if requested
         ENDDO
       ENDIF
 
@@ -1103,7 +1105,7 @@ C-----------
 C-----------OUTPUT IN LISTING FILE
 C---------------------------------
       !this output is made once all /LOAD/PBLAST options are read in order to display global parameters (min values)
-      DO K = 1+NLOADP_F, NLOADP_F+NLOADP_B
+      DO K = 1+NLOADP_F, NLOADP_F+PBLAST%NLOADP_B
         K_BLAST = K-NLOADP_F
         IZ_UPDATE = ILOADP(6,K)
         IABAC = ILOADP(7,K)
@@ -1123,7 +1125,7 @@ C---------------------------------
         NODE_ID = INT(OUTPUT_USER_PARAMS(5,K_BLAST))
         SURF_ID = INT(OUTPUT_USER_PARAMS(1,K_BLAST))
         SURF_ID_GROUND = INT(OUTPUT_USER_PARAMS(2,K_BLAST))
-        DTMIN = PBLAST_TAB(ILD_PBLAST)%DTMIN
+        DTMIN = PBLAST%PBLAST_TAB(ILD_PBLAST)%DTMIN
         b_min =  OUTPUT_USER_PARAMS(3,K_BLAST)
         b_max =  OUTPUT_USER_PARAMS(4,K_BLAST)
         WRITE (IOUT,2000)
@@ -1162,8 +1164,8 @@ C---------------------------------
            WRITE (IOUT,2013)TA_PBLAST
         ENDIF
         !DISPLAY MINIMUM VALUE WITHIN ALL PBLAST OPTIONS
-        IF(NLOADP_B>=2)THEN
-          WRITE(IOUT,2035)PBLAST_DT%TA_INF
+        IF(PBLAST%NLOADP_B>=2)THEN
+          WRITE(IOUT,2035)PBLAST%PBLAST_DT%TA_INF
         ENDIF
 
       ENDDO!next K (/LOAD/PBLAST)

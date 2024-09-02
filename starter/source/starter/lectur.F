@@ -525,7 +525,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE LECTUR(MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
      .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  ,
-     .                  MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm)
+     .                  MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm,pblast)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -585,7 +585,6 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE DRAPE_MOD
       USE INIVOL_DEF_MOD
-      USE INIVOL_INTERF_MOD
       USE SENSOR_MOD
       USE RANDOM_MOD
       USE ALE_EBCS_MOD
@@ -605,7 +604,7 @@ C-----------------------------------------------
       USE READ_FUNCT_PYTHON_MOD
       USE PYTHON_FUNCT_MOD
       USE INTER_CAND_MOD
-      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,NCHARLINE
+      USE NAMES_AND_TITLES_MOD
       USE damping_rby_spmdset_mod
       USE HM_READ_PRELOAD_AXIAL_MOD
       USE BCS_MOD, ONLY : BCS, BCS_STRUCT_
@@ -624,6 +623,8 @@ C-----------------------------------------------
       use brokmann_random_def_mod
       use brokmann_elem_renum_mod
       use glob_therm_mod
+      use hm_read_inivol_mod
+      use pblast_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -631,19 +632,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(MULTI_FVM_STRUCT)              :: MULTI_FVM
-      TYPE(SUBMODEL_DATA)                 :: LSUBMODEL(NSUBMOD)
-      INTEGER,INTENT(IN)                  ::IS_DYNA
-      TYPE(DETONATORS_STRUCT_),TARGET     :: DETONATORS
-      TYPE(T_EBCS_TAB), INTENT(INOUT)     :: EBCS_TAB
-      INTEGER,INTENT(IN)                  ::NB_SEATBELT_SHELLS
-      INTEGER,INTENT(INOUT)               ::SEATBELT_CONVERTED_ELEMENTS(3,NB_SEATBELT_SHELLS)
-      INTEGER,INTENT(IN)                  ::NB_DYNA_INCLUDE
-      TYPE(USER_WINDOWS_), INTENT(INOUT)  :: USER_WINDOWS
-      TYPE(OUTPUT_),  INTENT(INOUT)       :: OUTPUT
+      TYPE(MULTI_FVM_STRUCT)                :: MULTI_FVM
+      TYPE(SUBMODEL_DATA)                   :: LSUBMODEL(NSUBMOD)
+      INTEGER,INTENT(IN)                    :: IS_DYNA
+      TYPE(DETONATORS_STRUCT_),TARGET       :: DETONATORS
+      TYPE(T_EBCS_TAB), INTENT(INOUT)       :: EBCS_TAB
+      INTEGER,INTENT(IN)                    :: NB_SEATBELT_SHELLS
+      INTEGER,INTENT(INOUT)                 :: SEATBELT_CONVERTED_ELEMENTS(3,NB_SEATBELT_SHELLS)
+      INTEGER,INTENT(IN)                    :: NB_DYNA_INCLUDE
+      TYPE(USER_WINDOWS_), INTENT(INOUT)    :: USER_WINDOWS
+      TYPE(OUTPUT_),  INTENT(INOUT)         :: OUTPUT
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
-      TYPE(DEFAULTS_),INTENT(INOUT)       :: DEFAULTS
-      type(glob_therm_) ,intent(inout)    :: glob_therm
+      TYPE(DEFAULTS_),INTENT(INOUT)         :: DEFAULTS
+      type(glob_therm_) ,intent(inout)      :: glob_therm
+      TYPE(PBLAST_),INTENT(INOUT)           :: PBLAST
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -903,6 +905,8 @@ C-----------------------------------------------
       INTEGER SCR_FILE_NAME_LEN
       CHARACTER(LEN=ncharkey) :: KEY
       INTEGER NUSPHCEL
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: IXSPS
+      LOGICAL MAT20_DISCRETE_FILL
 C-----------------------------------------------
 C Model Checker Memory
       DATA IUN/1/
@@ -2091,7 +2095,8 @@ c---------------------------------------------------------------
      .     MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG   ,
      .     RWORK       ,SBUFMAT  ,IPM      ,PM        ,UNITAB    ,
      .     MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL ,
-     .     TABLE       ,NPC      )
+     .     TABLE       ,NPC      ,LTITR,
+     .     MAT20_DISCRETE_FILL,  USERL_AVAIL ,MAT_NUMBER)
 c---------------------------------------------------------------
       ALLOCATE(BUFMAT(SBUFMAT)    ,STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
@@ -4400,7 +4405,7 @@ C--------------------------------------------
      .      CALL INIMU3(PM     ,IXS    ,FILL   ,DFILL  )
         IF(NUMELQ>0)
      .      CALL INIMU2(PM     ,IXQ    ,FILL   ,DFILL  )
-          CALL INIMUL  (PM     ,FILL   ,DFILL  )
+          CALL INIMUL  (PM     ,FILL   ,DFILL  ,MAT20_DISCRETE_FILL)
        ENDIF
       ENDIF
       CALL TRACE_OUT1()
@@ -4670,9 +4675,9 @@ C     PFLUID & PBLAST
       NUMLOADP=0
       NINTLOADP=0
       CALL HM_PREREAD_PFLUID(NUMLOADP,IGRNOD,IGRSURF,LSUBMODEL)
-      CALL HM_PREREAD_PBLAST(NUMLOADP,IGRSURF,LSUBMODEL)
+      CALL HM_PREREAD_PBLAST(PBLAST,NUMLOADP,IGRSURF,LSUBMODEL,NSURF)
       CALL HM_PREREAD_LOAD_PRESSURE(NUMLOADP,IGRSURF,LSUBMODEL)
-      NLOADP       = NLOADP_F+NLOADP_B+NLOADP_HYD
+      NLOADP       = NLOADP_F+PBLAST%NLOADP_B+NLOADP_HYD
       SLOADP       = LFACLOAD*NLOADP
       SILOADP      = SIZLOADP*NLOADP
       SLLOADP      = NUMLOADP
@@ -5241,7 +5246,11 @@ C--------------------------------------------
 C--------------------------------------------
 C     LECTURE DES INITIAL VOLUME FRACTIONS
 C--------------------------------------------
-      CALL HM_READ_INIVOL(INIVOL, KVOL, IGRSURF ,IPART, MULTI_FVM, BUFMAT, IPM, NBSUBMAT, LSUBMODEL, UNITAB)
+      CALL HM_READ_INIVOL(INIVOL, KVOL, IGRSURF ,IPART, MULTI_FVM, BUFMAT, 
+     *                    IPM, NBSUBMAT, LSUBMODEL, UNITAB,
+     *                    N2D ,NUMELTG,NUMELS,NUMELQ,NUMMAT,
+     *                    NPART,NSURF,LIPART1,NPROPMI,SIPART,SINIVOL,
+     *                    NSUBDOM,SBUFMAT)
 C--------------------------------------------
 C     Surfaces fictives IGE
 C--------------------------------------------
@@ -6351,12 +6360,17 @@ C
       ENDIF
 C---------------------------------
       IF(NUMSPH/=0) THEN
+            if ( .NOT. ALLOCATED(IXSPS) ) ALLOCATE(IXSPS(KVOISPH,NUMSPH),STAT=stat)
+            IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                                 MSGTYPE=MSGERROR,
+     .                                 C1='IXSPS')
+      
           IWORK  = 0
           EADD   => IWORK(1:NUMSPH+1)
           CALL SPGRHEAD(KXSP    ,IXSP    ,IPARGTMP,PM     ,IPART  ,
      2                  IPARTSP ,EADD    ,CEPSP   ,ND     ,IPM    ,
      3                  IGEO    ,SPBUF   ,SPH2SOL,
-     4                  SOL2SPH ,IRST    ,MAT_ELEM%MAT_PARAM)
+     4                  SOL2SPH ,IRST    ,MAT_ELEM%MAT_PARAM,IXSPS)
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -6378,7 +6392,9 @@ C
      2                   IPARTSP ,EADD    ,ND      ,CEPSP,DD_TMP     ,
      3                   IDX     ,IXSP    ,IPM  , IGEO      ,
      4                   SPBUF   ,SPH2SOL,SOL2SPH  ,
-     5                   IRST    ,NOD2SP  ,IPRI    ,MAT_ELEM%MAT_PARAM)
+     5                   IRST    ,NOD2SP  ,IPRI    ,MAT_ELEM%MAT_PARAM,
+     6                   IXSPS)
+        IF (ALLOCATED(IXSPS)) DEALLOCATE(IXSPS)
         ENDIF
 C---------------------------------
       IF(NUMELX>0) THEN
@@ -6883,17 +6899,18 @@ C        PFLUID & PBLAST & LOAD PRESSURE
            CALL HM_READ_PFLUID(NUMLOADP ,ILOADP  ,LLOADP  ,LOADP   ,NPC      ,
      .                        SENSORS   ,IGRSURF ,UNITAB  ,IFRAME  ,LSUBMODEL)
          END IF
-         IF(NLOADP_B/=0)THEN
-           CALL HM_READ_PBLAST(ITAB    ,ITABM1  ,UNITAB  ,IGRSURF,  NUMLOADP,
-     .                        ILOADP   ,LLOADP  ,LOADP   ,X      , BUFSF    ,
-     .                        LSUBMODEL,RTRANS)
+         IF(PBLAST%NLOADP_B/=0)THEN
+           CALL HM_READ_PBLAST( PBLAST,
+     .                          ITAB    ,ITABM1  ,UNITAB  ,IGRSURF,  NUMLOADP,
+     .                          ILOADP   ,LLOADP  ,LOADP   ,X      , BUFSF    ,
+     .                          LSUBMODEL,RTRANS)
          ENDIF
          IF(NLOADP_HYD/=0)THEN
            CALL HM_READ_LOAD_PRESSURE(
      .                       NUMLOADP   ,ILOADP     ,LLOADP       ,INTERLOADP ,LOADP      ,
      .                       KLOADPINTER,LOADPINTER ,NPC          ,SENSORS    ,IGRSURF    ,
      .                       UNITAB     ,ISKWN      ,LSUBMODEL    ,DGAPINT    ,INTGAPLOADP,
-     .                       DGAPLOADINT,S_LOADPINTER)
+     .                       DGAPLOADINT,S_LOADPINTER,PBLAST)
 
          END IF
 
@@ -10530,7 +10547,7 @@ C----------------------------------------------
      K        SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS     ,SIGTRUSS         ,
      L        NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL,
      M        IMERGE      ,NMERGE_TOT ,IEXLNK ,DRAPEG  ,USER_WINDOWS  ,OUTPUT           ,
-     N        DEFAULTS    ,GLOB_THERM )
+     N        DEFAULTS    ,GLOB_THERM ,PBLAST)
 !
       DEALLOCATE(SIGI)
       DEALLOCATE(SIGSH)
@@ -10945,7 +10962,7 @@ c
      D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP,DYNAIN_DATA,
      E         DRAPEG       ,USER_WINDOWS ,OUTPUT        ,INTERFACES  ,NUMBER_LOAD_CYL ,
      F         LOADS_PER_PROC(P), PYTHON,DPL0CLD,VEL0CLD ,NAMES_AND_TITLES,
-     G         BCS_PER_PROC(P),constraint_struct,glob_therm)
+     G         BCS_PER_PROC(P),constraint_struct,glob_therm,PBLAST)
       GOTO 220
  221  CONTINUE
 
