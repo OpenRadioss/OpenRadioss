@@ -35,8 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3             AR       ,IN      ,X      ,STIFN   ,STIFR   ,
      4             FSKYI2   ,IADI2   ,FSAV   ,DMAST   ,ADM     ,
      5             MMASS    ,I0      ,NIR    ,I2SIZE  ,IDEL2   ,
-     6             SMASS    ,SINER   ,V      ,CRST    ,FNCONT  ,
-     7             INDXC    ,IADX    ,H3D_DATA,FNCONTP,FTCONTP )
+     6             SMASS    ,SINER   ,CRST    ,FNCONT ,INDXC   ,
+     7             IADX    ,H3D_DATA,FNCONTP,FTCONTP )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C-----------------------------------------------
      .   IADI2(NIR,*),INDXC(*),IADX(*)
 C     REAL
       my_real
-     .   A(3,*),AR(3,*), X(3,*),V(*), FSKYI2(I2SIZE,*),MMASS(*),
+     .   A(3,*),AR(3,*), X(3,*),FSKYI2(I2SIZE,*),MMASS(*),
      .   DPARA(7,*), MS(*), IN(*),STIFN(*),STIFR(*),DMAST,ADM(*),
      .   SMASS(*), SINER(*),FSAV(*), CRST(2,*),FNCONT(3,*),
      .   FNCONTP(3,*) ,FTCONTP(3,*) 
@@ -71,12 +71,13 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   H(4),
-     .   S,T,SS, ST, XMSI, FXS, FYS, FZS,SP,SM,TP,TM,
+     .   S,T,SS, ST, XMSI, FS(3),SP,SM,TP,TM,
      .   MX,MY,MZ,DET,FX0,FY0,FZ0,INS,
      .   X0,X1,X2,X3,X4,XS,Y0,Y1,Y2,Y3,Y4,YS,Z0,Z1,Z2,Z3,Z4,ZS,
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
-     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,INY,INZ,STF,FACT
+     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,INY,INZ,STF,FACT,
+     .   FX(4),FY(4),FZ(4)
 C=======================================================================
 C
 C------------------------------
@@ -203,28 +204,28 @@ C
 C
         IF (WEIGHT(I)==1) THEN
          XMSI=MS(I)
-         FXS=A(1,I)
-         FYS=A(2,I)
-         FZS=A(3,I) 
+         FS(1)=A(1,I)
+         FS(2)=A(2,I)
+         FS(3)=A(3,I) 
          IF (IRODDL==1) THEN
            INS=IN(I)
-           MX=AR(1,I) + YS*FZS - ZS*FYS
-           MY=AR(2,I) + ZS*FXS - XS*FZS
-           MZ=AR(3,I) + XS*FYS - YS*FXS
+           MX=AR(1,I) + YS*FS(3) - ZS*FS(2)
+           MY=AR(2,I) + ZS*FS(1) - XS*FS(3)
+           MZ=AR(3,I) + XS*FS(2) - YS*FS(1)
          ELSE
            INS=ZERO
-           MX=YS*FZS - ZS*FYS
-           MY=ZS*FXS - XS*FZS
-           MZ=XS*FYS - YS*FXS
+           MX=YS*FS(3) - ZS*FS(2)
+           MY=ZS*FS(1) - XS*FS(3)
+           MZ=XS*FS(2) - YS*FS(1)
          ENDIF
 C
          A1=DET*(MX*B1+MY*C3+MZ*C2)
          A2=DET*(MY*B2+MZ*C1+MX*C3)
          A3=DET*(MZ*B3+MX*C2+MY*C1)
 C
-         FX0=FXS*FOURTH
-         FY0=FYS*FOURTH
-         FZ0=FZS*FOURTH
+         FX0=FS(1)*FOURTH
+         FY0=FS(2)*FOURTH
+         FZ0=FS(3)*FOURTH
 C
 C------------------------------------------------------
 C     INERTIES => MASSES
@@ -258,9 +259,12 @@ C
 C
          I0 = I0BASE + IADX(K)
          NN = IADI2(1,I0)
-         FSKYI2(1,NN) = FX0 + A2*Z1 - A3*Y1
-         FSKYI2(2,NN) = FY0 + A3*X1 - A1*Z1
-         FSKYI2(3,NN) = FZ0 + A1*Y1 - A2*X1
+         FX(1) = FX0 + A2*Z1 - A3*Y1
+         FY(1) = FY0 + A3*X1 - A1*Z1
+         FZ(1) = FZ0 + A1*Y1 - A2*X1 
+         FSKYI2(1,NN) = FX(1)
+         FSKYI2(2,NN) = FY(1)
+         FSKYI2(3,NN) = FZ(1)
          FSKYI2(4,NN) = XMSI
          FSKYI2(5,NN) = STF
          IF (IRODDL == 1) THEN
@@ -272,9 +276,12 @@ C
          ENDIF
 C
          NN = IADI2(2,I0)
-         FSKYI2(1,NN) = FX0 + A2*Z2 - A3*Y2
-         FSKYI2(2,NN) = FY0 + A3*X2 - A1*Z2
-         FSKYI2(3,NN) = FZ0 + A1*Y2 - A2*X2
+         FX(2) = FX0 + A2*Z2 - A3*Y2
+         FY(2) = FY0 + A3*X2 - A1*Z2
+         FZ(2) = FZ0 + A1*Y2 - A2*X2
+         FSKYI2(1,NN) = FX(2)
+         FSKYI2(2,NN) = FY(2)
+         FSKYI2(3,NN) = FZ(2)
          FSKYI2(4,NN) = XMSI
          FSKYI2(5,NN) = STF
          IF (IRODDL == 1) THEN
@@ -286,9 +293,12 @@ C
          ENDIF
 C
          NN = IADI2(3,I0)
-         FSKYI2(1,NN) = FX0 + A2*Z3 - A3*Y3
-         FSKYI2(2,NN) = FY0 + A3*X3 - A1*Z3
-         FSKYI2(3,NN) = FZ0 + A1*Y3 - A2*X3
+         FX(3) = FX0 + A2*Z3 - A3*Y3
+         FY(3) = FY0 + A3*X3 - A1*Z3
+         FZ(3) = FZ0 + A1*Y3 - A2*X3
+         FSKYI2(1,NN) = FX(3)
+         FSKYI2(2,NN) = FY(3)
+         FSKYI2(3,NN) = FZ(3)
          FSKYI2(4,NN) = XMSI
          FSKYI2(5,NN) = STF
          IF (IRODDL == 1) THEN
@@ -300,9 +310,12 @@ C
          ENDIF  
 C
          NN = IADI2(4,I0)
-         FSKYI2(1,NN) =  FX0 + A2*Z4 - A3*Y4
-         FSKYI2(2,NN) =  FY0 + A3*X4 - A1*Z4
-         FSKYI2(3,NN) =  FZ0 + A1*Y4 - A2*X4
+         FX(4) = FX0 + A2*Z4 - A3*Y4
+         FY(4) = FY0 + A3*X4 - A1*Z4
+         FZ(4) = FZ0 + A1*Y4 - A2*X4
+         FSKYI2(1,NN) = FX(4)
+         FSKYI2(2,NN) = FY(4) 
+         FSKYI2(3,NN) = FZ(4) 
          FSKYI2(4,NN) = XMSI
          FSKYI2(5,NN) = STF
          IF (IRODDL == 1) THEN
@@ -333,10 +346,10 @@ C
           STIFR(I)=EM20
         ENDIF
 C
-C---    output of tied contact forces
-          CALL I2FORCES(X      ,V  ,A   ,MS    ,I    ,
-     .                IRECT(1,L),H  ,NIR     ,FSAV    ,FNCONT ,
-     .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)   
+C---    output of tied contact forces 
+        CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,
+     .                IRECT(1,L),NIR  ,FSAV   ,FNCONT  ,FNCONTP,
+     .                FTCONTP ,WEIGHT ,H3D_DATA,I      ,H)  
 C----
 C stokage ZERO pour noeuds delete par idel2
        ELSEIF(WEIGHT(-I)==1) THEN

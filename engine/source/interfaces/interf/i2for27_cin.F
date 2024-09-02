@@ -70,7 +70,7 @@ C-----------------------------------------------
      .        IX1,IX2,IX3,IX4
 C     REAL
       my_real
-     .   H(4),XMSJ, SS, ST, XMSI, FXI, FYI, FZI,SP,SM,TP,TM,
+     .   H(4),XMSJ, SS, ST, XMSI,FS(3),SP,SM,TP,TM,
      .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
      .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,X0,Y0,Z0,XS(3),XM(3),
      .   STIFM,FMX(4),FMY(4),FMZ(4),FX(4),FY(4),FZ(4),
@@ -89,9 +89,9 @@ C
         L=IRTL(II)
 C
         XMSI=MS(I)*WEIGHT(I)
-        FXI=A(1,I)*WEIGHT(I)
-        FYI=A(2,I)*WEIGHT(I)
-        FZI=A(3,I)*WEIGHT(I)
+        FS(1)=A(1,I)*WEIGHT(I)
+        FS(2)=A(2,I)*WEIGHT(I)
+        FS(3)=A(3,I)*WEIGHT(I)
 C
         IF (IRODDL == 1) THEN
           MXI=AR(1,I)*WEIGHT(I)
@@ -242,9 +242,9 @@ C---- computation of kinematic parameters and stbrk - local coordinates
 C               
 C---- computation of force in local skew
 C
-            FLX = FXI*E1X + FYI*E1Y + FZI*E1Z
-            FLY = FXI*E2X + FYI*E2Y + FZI*E2Z
-            FLZ = FXI*E3X + FYI*E3Y + FZI*E3Z
+            FLX = FS(1)*E1X + FS(2)*E1Y + FS(3)*E1Z
+            FLY = FS(1)*E2X + FS(2)*E2Y + FS(3)*E2Z
+            FLZ = FS(1)*E3X + FS(2)*E3Y + FS(3)*E3Z
 C
             DO J=1,4
               FMX(J) = H(J)*FLX
@@ -295,9 +295,9 @@ C
             DWDU=ZERO 
 C
             DO J=1,4
-              FX(J) = FXI*H(J)
-              FY(J) = FYI*H(J)
-              FZ(J) = FZI*H(J)
+              FX(J) = FS(1)*H(J)
+              FY(J) = FS(2)*H(J)
+              FZ(J) = FS(3)*H(J)
             ENDDO
 C
         ENDIF
@@ -323,9 +323,9 @@ C
         END IF
 C 
 C---    output of tied contact forces
-          CALL I2FORCES(X      ,V  ,A   ,MS    ,I    ,
-     .                IRECT(1,L),H  ,NIR     ,FSAV    ,FNCONT ,
-     .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+        CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,
+     .                IRECT(1,L),NIR  ,FSAV   ,FNCONT  ,FNCONTP,
+     .                FTCONTP ,WEIGHT ,H3D_DATA,I      ,H)
 C      
         IF(IRODDL==0)THEN
           IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
@@ -351,9 +351,9 @@ c
         L=IRTL(II)
 C
         XMSI=MS(I)*WEIGHT(I)
-        FXI=A(1,I)*WEIGHT(I)
-        FYI=A(2,I)*WEIGHT(I)
-        FZI=A(3,I)*WEIGHT(I)
+        FS(1)=A(1,I)*WEIGHT(I)
+        FS(2)=A(2,I)*WEIGHT(I)
+        FS(3)=A(3,I)*WEIGHT(I)
 C
         IF (IRODDL == 1) THEN
           MXI=AR(1,I)*WEIGHT(I)
@@ -504,9 +504,9 @@ C---- computation of kinematic parameters and stbrk - local coordinates
 C               
 C---- computation of force in local skew
 C
-            FLX = FXI*E1X + FYI*E1Y + FZI*E1Z
-            FLY = FXI*E2X + FYI*E2Y + FZI*E2Z
-            FLZ = FXI*E3X + FYI*E3Y + FZI*E3Z
+            FLX = FS(1)*E1X + FS(2)*E1Y + FS(3)*E1Z
+            FLY = FS(1)*E2X + FS(2)*E2Y + FS(3)*E2Z
+            FLZ = FS(1)*E3X + FS(2)*E3Y + FS(3)*E3Z
 C
             DO J=1,4
               FMX(J) = H(J)*FLX
@@ -557,9 +557,9 @@ C
             DWDU=ZERO  
 C
             DO J=1,4
-              FX(J) = FXI*H(J)
-              FY(J) = FYI*H(J)
-              FZ(J) = FZI*H(J)
+              FX(J) = FS(1)*H(J)
+              FY(J) = FS(2)*H(J)
+              FZ(J) = FS(3)*H(J)
             ENDDO
 C
         ENDIF
@@ -590,9 +590,9 @@ C----   For AMS scaling factor on stiffness is stored - only used for solid main
         ENDIF
 C
 C---    output of tied contact forces
-          CALL I2FORCES(X      ,V  ,A   ,MS    ,I    ,
-     .                IRECT(1,L),H  ,NIR     ,FSAV    ,FNCONT ,
-     .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+        CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,
+     .                IRECT(1,L),NIR  ,FSAV   ,FNCONT  ,FNCONTP,
+     .                FTCONTP ,WEIGHT ,H3D_DATA,I      ,H)
 C
         IF(IRODDL==0)THEN
           IF(IDEL2/=0.AND.MS(I)/=0.) SMASS(II)=MS(I)

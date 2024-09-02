@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE ANI_PCONT(IXS ,IXC    ,IXTG    ,FASOLFR  ,X       ,
      .                 CONTN   ,CONTT  ,IAD_ELEM,FR_ELEM,WEIGHT    ,
      .                 IXQ     ,SEGQUADFR,IXS10 ,FNCONTP2,FTCONTP2 ,
-     .                 H3D_DATA,CSEFRIC,CSEFRICG)
+     .                 H3D_DATA,CSEFRIC,CSEFRICG,SZ_NPCONT2,NPCONT2)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,9 +59,11 @@ C     REAL
      .   IXS(NIXS,*), IXC(NIXC,*), IXTG(NIXTG,*), FASOLFR(2,*),
      .   IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*),IXQ(7,*),SEGQUADFR(2,*),
      .   IXS10(6,*)
+      INTEGER  , INTENT(IN)    :: SZ_NPCONT2
       my_real
      .   X(3,*), CONTN(3,*), CONTT(3,*),FNCONTP2(3,*),FTCONTP2(3,*)
       my_real  , INTENT(INOUT) :: CSEFRIC(NINEFRIC,S_EFRICINT),CSEFRICG(S_EFRIC)
+      my_real  , INTENT(IN)    :: NPCONT2(3,SZ_NPCONT2)
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -74,7 +76,7 @@ C-----------------------------------------------
      .     X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
      .     X31,Y31,Z31,X42,Y42,Z42,X32,Y32,Z32,E3X,E3Y,E3Z,
      .     FS2, FS3, FT2, FT3, E, F, G, RAYON,AY1,AY2,AY3,AY4,
-     .     AREAINV
+     .     AREAINV,NORMAL(3),NNN,F_TOTAL(1:3),FN_PROJ
       INTEGER FACES(4,6),LINES(2,4),FACES10(3,24)
        my_real, DIMENSION(:), ALLOCATABLE ::  NODAREA
 C     REAL
@@ -426,13 +428,20 @@ C
              FTCONTP2(2,N)=ZERO
              FTCONTP2(3,N)=ZERO
            ELSE
-             AREAINV = ONE/MAX(EM30,NODAREA(N))
-             FNCONTP2(1,N)=AREAINV*FNCONTP2(1,N)
-             FNCONTP2(2,N)=AREAINV*FNCONTP2(2,N)
-             FNCONTP2(3,N)=AREAINV*FNCONTP2(3,N)
-             FTCONTP2(1,N)=AREAINV*FTCONTP2(1,N)
-             FTCONTP2(2,N)=AREAINV*FTCONTP2(2,N)
-             FTCONTP2(3,N)=AREAINV*FTCONTP2(3,N)
+C--          computation of normal and tangent contribution for PCONT2
+C--          total force stored in FNCONTP2
+             AREAINV = ONE/MAX(EM20,NODAREA(N))
+             NORMAL(1:3) = NPCONT2(1:3,N)
+             NNN = SQRT(MAX(EM20,NORMAL(1)**2+NORMAL(2)**2+NORMAL(3)**2))
+             NORMAL(1:3) = NORMAL(1:3)/NNN
+             FN_PROJ = FNCONTP2(1,N)*NORMAL(1)+FNCONTP2(2,N)*NORMAL(2)+FNCONTP2(3,N)*NORMAL(3)
+             F_TOTAL(1:3) = FNCONTP2(1:3,N)
+             FNCONTP2(1,N)=AREAINV*FN_PROJ*NORMAL(1)
+             FNCONTP2(2,N)=AREAINV*FN_PROJ*NORMAL(2)
+             FNCONTP2(3,N)=AREAINV*FN_PROJ*NORMAL(3)
+             FTCONTP2(1,N)=AREAINV*(F_TOTAL(1)-FN_PROJ*NORMAL(1))
+             FTCONTP2(2,N)=AREAINV*(F_TOTAL(2)-FN_PROJ*NORMAL(2))
+             FTCONTP2(3,N)=AREAINV*(F_TOTAL(3)-FN_PROJ*NORMAL(3))
            ENDIF
          END DO
        ENDIF
@@ -479,7 +488,7 @@ C
       SUBROUTINE ANI_PCONT21(IXS ,IXC    ,IXTG    ,FASOLFR  ,X       ,
      .                 CONTN   ,CONTT  ,IAD_ELEM,FR_ELEM,WEIGHT      ,
      .                 NODGLOB ,FNCONTG ,FTCONTG,FNCONTP2,FTCONTP2   ,
-     .                 H3D_DATA,CSEFRIC_STAMP,CSEFRICG_STAMP )
+     .                 H3D_DATA,CSEFRIC_STAMP,CSEFRICG_STAMP,SZ_NPCONT2,NPCONT2)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -506,11 +515,13 @@ C     REAL
       INTEGER  
      .   IXS(NIXS,*), IXC(NIXC,*), IXTG(NIXTG,*), FASOLFR(2,*),
      .   IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*), NODGLOB(*)
+      INTEGER  , INTENT(IN)    :: SZ_NPCONT2
       my_real
      .   X(3,*), CONTN(3,*), CONTT(3,*), FNCONTG(3,*), FTCONTG(3,*),
      .   FNCONTP2(3,*),FTCONTP2(3,*)
       my_real  , INTENT(INOUT) :: CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG),
      .   CSEFRICG_STAMP(S_EFRICG)
+      my_real  , INTENT(IN)    :: NPCONT2(3,SZ_NPCONT2)
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -522,7 +533,7 @@ C-----------------------------------------------
      .     AREA, 
      .     X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
      .     X31,Y31,Z31,X42,Y42,Z42,X32,Y32,Z32,E3X,E3Y,E3Z,
-     .     TMP
+     .     TMP,AREAINV,NORMAL(3),NNN,F_TOTAL(1:3),FN_PROJ
       INTEGER FACES(4,6)
       my_real, DIMENSION(:), ALLOCATABLE ::  NODAREA,NODAREAG
 C     REAL
@@ -831,13 +842,20 @@ C
              FTCONTP2(2,N)=ZERO
              FTCONTP2(3,N)=ZERO
            ELSE
-             TMP=ONE/MAX(EM30,NODAREA(N))
-             FNCONTP2(1,N)=TMP*FNCONTP2(1,N)
-             FNCONTP2(2,N)=TMP*FNCONTP2(2,N)
-             FNCONTP2(3,N)=TMP*FNCONTP2(3,N)
-             FTCONTP2(1,N)=TMP*FTCONTP2(1,N)
-             FTCONTP2(2,N)=TMP*FTCONTP2(2,N)
-             FTCONTP2(3,N)=TMP*FTCONTP2(3,N)
+C--          computation of normal and tangent contribution for PCONT2
+C--          total force stored in FNCONTP2
+             AREAINV = ONE/MAX(EM20,NODAREA(N))
+             NORMAL(1:3) = NPCONT2(1:3,N)
+             NNN = SQRT(MAX(EM20,NORMAL(1)**2+NORMAL(2)**2+NORMAL(3)**2))
+             NORMAL(1:3) = NORMAL(1:3)/NNN
+             FN_PROJ = FNCONTP2(1,N)*NORMAL(1)+FNCONTP2(2,N)*NORMAL(2)+FNCONTP2(3,N)*NORMAL(3)
+             F_TOTAL(1:3) = FNCONTP2(1:3,N)
+             FNCONTP2(1,N)=AREAINV*FN_PROJ*NORMAL(1)
+             FNCONTP2(2,N)=AREAINV*FN_PROJ*NORMAL(2)
+             FNCONTP2(3,N)=AREAINV*FN_PROJ*NORMAL(3)
+             FTCONTP2(1,N)=AREAINV*(F_TOTAL(1)-FN_PROJ*NORMAL(1))
+             FTCONTP2(2,N)=AREAINV*(F_TOTAL(2)-FN_PROJ*NORMAL(2))
+             FTCONTP2(3,N)=AREAINV*(F_TOTAL(3)-FN_PROJ*NORMAL(3))
            ENDIF
          END DO
        ENDIF

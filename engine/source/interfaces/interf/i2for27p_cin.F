@@ -73,7 +73,7 @@ C-----------------------------------------------
      .        IX1,IX2,IX3,IX4,NIRL
 C     REAL
       my_real
-     .   SS, ST, XMSI, FXI, FYI, FZI,SP,SM,TP,TM,
+     .   SS, ST, XMSI,FS(3),SP,SM,TP,TM,
      .   H(4),E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
      .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,X0,Y0,Z0,XS(3),XM(3),
      .   STIFM,FMX(4),FMY(4),FMZ(4),FX(4),FY(4),FZ(4),
@@ -280,6 +280,7 @@ C
                 FY(J) = E1Y*FMX(J) + E2Y*FMY(J) + E3Y*FMZ(J) 
                 FZ(J) = E1Z*FMX(J) + E2Z*FMY(J) + E3Z*FMZ(J) 
               ENDDO
+              FS(1:3)=A(1:3,I)
 C
             ENDIF
 C
@@ -292,15 +293,15 @@ C
             STIFM=ZERO
             STIFMR = ZERO
             STBRK=ZERO
-            DWDU=ZERO                                     
-            FXI=A(1,I)                                        
-            FYI=A(2,I)                                        
-            FZI=A(3,I)
+            DWDU=ZERO
+            FS(1)=A(1,I)                                        
+            FS(2)=A(2,I)                                        
+            FS(3)=A(3,I)
 C
             DO J=1,4
-              FX(J) = FXI*H(J)
-              FY(J) = FYI*H(J)
-              FZ(J) = FZI*H(J)
+              FX(J) = FS(1)*H(J)
+              FY(J) = FS(2)*H(J)
+              FZ(J) = FS(3)*H(J)
             ENDDO
 C
           ENDIF
@@ -348,9 +349,9 @@ C
          ENDIF
 C                                             
 C---     output of tied contact forces
-           CALL I2FORCES(X      ,V  ,A   ,MS    ,I    ,
-     .                 IRECT(1,L),H  ,NIR     ,FSAV    ,FNCONT ,
-     .                 FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+         CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,
+     .                 IRECT(1,L),NIR  ,FSAV   ,FNCONT  ,FNCONTP,
+     .                 FTCONTP ,WEIGHT ,H3D_DATA,I      ,H)
 C                      
          IF (IRODDL == 0) THEN                               
            STIFN(I)=EM20                                    

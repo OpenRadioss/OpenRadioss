@@ -1337,6 +1337,7 @@ C--------------------------------------
         IF(IFCONTP2MAX >0)THEN
           CALL WRITE_DB(FNCONT2_MAX, 3*NUMNOD)
           CALL WRITE_DB(FTCONT2_MAX, 3*NUMNOD)
+          CALL WRITE_DB(NPCONT2_MAX, 3*NUMNOD)
         ENDIF
 
         IF(IFCONT2MIN >0)THEN
@@ -1345,6 +1346,7 @@ C--------------------------------------
         IF(IFCONTP2MIN >0)THEN
           CALL WRITE_DB(FNCONT2_MIN, 3*NUMNOD)
           CALL WRITE_DB(FTCONT2_MIN, 3*NUMNOD)
+          CALL WRITE_DB(NPCONT2_MIN, 3*NUMNOD)
         ENDIF
 C--------Frictional energy output-------
       IF(S_EFRICINT >0)THEN
