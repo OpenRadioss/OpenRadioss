@@ -64,21 +64,21 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    output_mod             ../common_source/modules/output/output_mod.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE BFORC2(ELBUF_TAB,NG   ,
-     1                   PM     ,GEO    ,IC     ,X       ,
-     2                   A      ,V      ,MS     ,W      ,FLUX    ,
-     3                   FLU1   ,VEUL   ,ALE_CONNECT  ,IPARG   ,
-     4                   JPARG  ,FILL   ,DFILL  ,IMS    ,NLOC_DMG,
-     5                   TF     ,NPF    ,BUFMAT ,PARTSAV ,
-     6                   DT2T   ,NELTST ,ITYPTST,STIFN  ,OFFSET  ,
-     7                   EANI   ,IPARTQ ,NEL    ,IADQ   ,FSKY    ,
-     8                   IPM    ,BUFVOIS,
-     9                   GRESAV ,GRTH   ,IGRTH  ,TABLE  ,IGEO    ,
-     O                   VOLN   ,ITASK  ,MS_2D  ,FSKYM  ,MAT_ELEM,
-     B                   H3D_STRAIN,OUTPUT,SZ_BUFVOIS,SNPC,STF,SBUFMAT,SVIS,
-     C                   NSVOIS, IRESP,     IDEL7NOK, 
-     D                   IDTMIN, MAXFUNC, IMON_MAT,   
-     E                   USERL_AVAIL, heat_meca,   impl_s,      idyna)
+      SUBROUTINE BFORC2(ELBUF_TAB   ,NG        ,
+     1                   PM         ,GEO       ,IC         ,X       ,
+     2                   A          ,V         ,MS         ,W       ,FLUX    ,
+     3                   FLU1       ,VEUL      ,ALE_CONNECT,IPARG   ,
+     4                   JPARG      ,FILL      ,DFILL      ,IMS     ,NLOC_DMG,
+     5                   TF         ,NPF       ,BUFMAT     ,PARTSAV ,
+     6                   DT2T       ,NELTST    ,ITYPTST    ,STIFN   ,OFFSET  ,
+     7                   EANI       ,IPARTQ    ,NEL        ,IADQ    ,FSKY    ,
+     8                   IPM        ,BUFVOIS   ,
+     9                   GRESAV     ,GRTH      ,IGRTH      ,TABLE  ,IGEO     ,
+     A                   VOLN       ,ITASK     ,MS_2D      ,FSKYM  ,MAT_ELEM ,
+     B                   H3D_STRAIN ,OUTPUT    ,SZ_BUFVOIS ,SNPC   ,STF      ,SBUFMAT, SVIS,
+     C                   NSVOIS     , IRESP    ,IDEL7NOK   ,
+     D                   IDTMIN     , MAXFUNC  ,IMON_MAT   ,
+     E                   USERL_AVAIL, heat_meca,impl_s     ,idyna)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -280,7 +280,7 @@ C-----------
      .      MAT, NC1, NC2, NC3, NC4)
       ENDIF
 C-----------------------------------------------------
-C     SUBMATERIAL 1
+C     SUBMATERIAL 1 (MAT LAW20)
 C-----------------------------------------------------
       IMULT=JMULT
       JMULT=1
@@ -497,7 +497,7 @@ C--------------
       
       
 C-----------------------------------------------------
-C     SUBMATERIAL 2
+C     SUBMATERIAL 2 (MAT LAW20)
 C-----------------------------------------------------
       IF(IMULT > 1)THEN
         JMULT = 2

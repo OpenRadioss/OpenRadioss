@@ -886,37 +886,38 @@ C
                     pQMV => BID
                   ENDIF   
                   CALL QFORC2(
-     .                  ELBUF_TAB,NG ,
-     1                  PM           ,GEO          ,IXQ         ,X         ,A        ,  
-     2                  V            ,MS           ,W           ,WA        ,VAL2     ,  
-     3                  VEUL         ,ALE_CONNECTIVITY       ,IPARG    ,NLOC_DMG,
-     4                  TF           ,NPC          ,BUFMAT      ,PARTSAV   ,
-     5                  DT2T         ,NELTST       ,ITYPTST     ,STIFN     ,OFFSET   ,  
-     6                  EANI         ,IPARTQ(1+NFT),NEL         ,IADQ      ,FSKY     ,  
-     9                  IPM          ,BUFVOIS      ,pQMV        ,
-     A                  GRESAV       ,GRTH         ,IGRTH       ,TABLE     ,IGEO     ,
-     B                  VOLN         ,ITASK        ,MS_2D       ,FSKYM     ,IOUTPRT  ,MAT_ELEM,
-     C              H3D_DATA%STRAIN  ,SZ_BUFVOIS   ,SNPC        ,STF       ,SBUFMAT  ,
-     D                  SVIS,NSVOIS,IRESP       ,TT        ,DT1,      
-     .                  IDEL7NOK     ,IDTMIN      ,MAXFUNC,  
-     .                  IMON_MAT,USERL_AVAIL, heat_meca, impl_s,     idyna) 
+     .                  ELBUF_TAB       ,NG               ,
+     1                  PM              ,GEO              ,IXQ         ,X         ,A        ,  
+     2                  V               ,MS               ,W           ,WA        ,VAL2     ,  
+     3                  VEUL            ,ALE_CONNECTIVITY ,IPARG       ,NLOC_DMG  ,
+     4                  TF              ,NPC              ,BUFMAT      ,PARTSAV   ,
+     5                  DT2T            ,NELTST           ,ITYPTST     ,STIFN     ,OFFSET   ,  
+     6                  EANI            ,IPARTQ(1+NFT)    ,NEL         ,IADQ      ,FSKY     ,  
+     9                  IPM             ,BUFVOIS          ,pQMV        ,
+     A                  GRESAV          ,GRTH             ,IGRTH       ,TABLE     ,IGEO     ,
+     B                  VOLN            ,ITASK            ,MS_2D       ,FSKYM     ,IOUTPRT  ,
+     C                  MAT_ELEM        ,H3D_DATA%STRAIN  ,SZ_BUFVOIS  ,SNPC      ,STF      ,SBUFMAT  ,
+     D                  SVIS            ,NSVOIS           ,IRESP       ,TT        ,DT1      ,      
+     .                  IDEL7NOK        ,IDTMIN           ,MAXFUNC     ,  
+     .                  IMON_MAT        ,USERL_AVAIL      ,heat_meca   ,impl_s,     idyna) 
 c
                  ELSEIF (ITY == 2 .AND. JMULT /= 0) THEN
-                  CALL BFORC2(ELBUF_TAB,NG      ,
-     1                  PM          , GEO           , IXQ       , X               ,
-     2                  A           , V             , MS        , W               , WA          ,
-     3                  VAL2        , VEUL          ,  ALE_CONNECTIVITY, IPARG       ,
-     4                  IPARG(1,NG) , FILL          , DFILL     , IMS             , NLOC_DMG    ,
-     5                  TF    ,NPC  , BUFMAT        , PARTSAV   ,
-     6                  DT2T        , NELTST,ITYPTST, STIFN     , OFFSET          ,
-     7                  EANI        , IPARTQ(1+NFT) , NEL,IADQ  , FSKY            ,
-     8                  IPM ,BUFVOIS,
-     9                  GRESAV,GRTH , IGRTH         , TABLE     , IGEO            ,
-     O                  VOLN  ,ITASK, MS_2D         , FSKYM     , MAT_ELEM        ,
-     B                  IBID,OUTPUT,SZ_BUFVOIS      ,SNPC,STF,SBUFMAT,SVIS,NSVOIS,IRESP,
-     C                  IDEL7NOK    ,IDTMIN         ,MAXFUNC,
-     E                  IMON_MAT    , USERL_AVAIL   ,heat_meca  ,impl_s,
-     F                  idyna)
+                  CALL BFORC2(
+     .                  ELBUF_TAB   , NG            ,
+     1                  PM          , GEO           ,IXQ             , X         ,
+     2                  A           , V             ,MS              , W         , WA        ,
+     3                  VAL2        , VEUL          ,ALE_CONNECTIVITY, IPARG     ,
+     4                  IPARG(1,NG) , FILL          ,DFILL           , IMS       , NLOC_DMG  ,
+     5                  TF          , NPC           ,BUFMAT          , PARTSAV   ,
+     6                  DT2T        , NELTST        ,ITYPTST         , STIFN     , OFFSET    ,
+     7                  EANI        , IPARTQ(1+NFT) ,NEL             , IADQ      , FSKY      ,
+     8                  IPM         , BUFVOIS       ,
+     9                  GRESAV      , GRTH          ,IGRTH           , TABLE     , IGEO      ,
+     O                  VOLN        , ITASK         ,MS_2D           , FSKYM     , MAT_ELEM  ,
+     B                  IBID        , OUTPUT        ,SZ_BUFVOIS      , SNPC      , STF       ,SBUFMAT, SVIS,
+     C                  NSVOIS      , IRESP         ,IDEL7NOK        , 
+     D                  IDTMIN      , MAXFUNC       ,IMON_MAT        , 
+     E                  USERL_AVAIL ,heat_meca      , impl_s         , idyna)
                  ENDIF
                 ENDIF
               ENDIF
@@ -1060,38 +1061,37 @@ C     ALE ON / OFF
                     pQMV => BID
                   ENDIF  
                   CALL QFORC2(
-     .              ELBUF_TAB,NG ,
-     1              PM           ,GEO          ,IXQ         ,X        ,A         ,  
-     2              V            ,MS           ,W           ,WA       ,VAL2      ,      
-     3              VEUL         ,ALE_CONNECTIVITY       ,IPARG    ,NLOC_DMG  ,              
-     4              TF           ,NPC          ,BUFMAT      ,PARTSAV  ,              
-     5              DT2T         ,NELTST       ,ITYPTST     ,STIFN    ,OFFSET    ,
-     6              EANI         ,IPARTQ(1+NFT),NEL         ,IADQ     ,FSKY      ,
-     9              IPM          ,BUFVOIS      ,pQMV        ,
-     A              GRESAV       ,GRTH         ,IGRTH       ,TABLE    ,IGEO      ,
-     B              VOLN         ,ITASK        ,MS_2D       ,FSKYM    ,IOUTPRT   ,MAT_ELEM ,
-     C              H3D_DATA%STRAIN,SZ_BUFVOIS   ,SNPC      ,STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,
-     D              IRESP        ,TT           ,DT1,      
-     .              IDEL7NG,     IDEL7NOK,    IDTMIN,     MAXFUNC ,  
-     .              IMON_MAT,USERL_AVAIL, heat_meca, impl_s,     idyna)
+     .              ELBUF_TAB ,NG    ,
+     1              PM        ,GEO              ,IXQ         ,X        ,A         ,  
+     2              V         ,MS               ,W           ,WA       ,VAL2      ,      
+     3              VEUL      ,ALE_CONNECTIVITY ,IPARG       ,NLOC_DMG ,              
+     4              TF        ,NPC              ,BUFMAT      ,PARTSAV  ,              
+     5              DT2T      ,NELTST           ,ITYPTST     ,STIFN    ,OFFSET    ,
+     6              EANI      ,IPARTQ(1+NFT)    ,NEL         ,IADQ     ,FSKY      ,
+     9              IPM       ,BUFVOIS          ,pQMV        ,
+     A              GRESAV    ,GRTH             ,IGRTH       ,TABLE    ,IGEO      ,
+     B              VOLN      ,ITASK            ,MS_2D       ,FSKYM    ,IOUTPRT   ,
+     C              MAT_ELEM  ,H3D_DATA%STRAIN  ,SZ_BUFVOIS  ,SNPC     ,STF       ,SBUFMAT,
+     D              SVIS      ,NSVOIS           ,IRESP       ,TT       ,DT1       ,      
+     .              IDEL7NOK  ,IDTMIN           ,MAXFUNC     ,  
+     .              IMON_MAT  ,USERL_AVAIL      ,heat_meca   ,impl_s   ,idyna)
 c
                       ELSEIF(ITY == 2 .AND. JMULT /= 0)THEN
                   CALL BFORC2(ELBUF_TAB  ,NG           ,
-     1                        PM         ,GEO          ,IXQ     ,X                ,    
-     2                        A          ,V            ,MS      ,W                ,WA        ,  
-     3                        VAL2       ,VEUL         ,ALE_CONNECTIVITY ,IPARG     ,
-     4                        IPARG(1,NG),FILL         ,DFILL   ,IMS              ,NLOC_DMG  ,    
-     5                        TF         ,NPC          ,BUFMAT  ,PARTSAV          ,       
-     5                        DT2T       ,NELTST       ,ITYPTST ,STIFN            ,OFFSET    ,  
-     6                        EANI       ,IPARTQ(1+NFT),NEL     ,IADQ             ,FSKY      ,  
+     1                        PM         ,GEO          ,IXQ              ,X          ,    
+     2                        A          ,V            ,MS               ,W          ,WA        ,  
+     3                        VAL2       ,VEUL         ,ALE_CONNECTIVITY ,IPARG      ,
+     4                        IPARG(1,NG),FILL         ,DFILL            ,IMS        ,NLOC_DMG  ,    
+     5                        TF         ,NPC          ,BUFMAT           ,PARTSAV    ,       
+     5                        DT2T       ,NELTST       ,ITYPTST          ,STIFN      ,OFFSET    ,  
+     6                        EANI       ,IPARTQ(1+NFT),NEL              ,IADQ       ,FSKY      ,  
      7                        IPM        ,BUFVOIS      ,
-     8                        GRESAV     ,GRTH         ,IGRTH   ,TABLE            ,IGEO      ,
-     9                        VOLN       ,ITASK        ,MS_2D   ,FSKYM            ,MAT_ELEM,
-     B                        IBID       ,OUTPUT       ,SZ_BUFVOIS      ,SNPC,STF,SBUFMAT,SVIS,
-     *                        NSVOIS     ,IDTMINS      ,IRESP,
-     C                       IDEL7NG     ,IDEL7NOK     ,IDTMIN     ,MAXFUNC,
-     E                       IMON_MAT    , USERL_AVAIL   ,heat_meca  ,impl_s,
-     F                       idyna)
+     8                        GRESAV     ,GRTH         ,IGRTH            ,TABLE      ,IGEO      ,
+     9                        VOLN       ,ITASK        ,MS_2D            ,FSKYM      ,MAT_ELEM,
+     A                        IBID       ,OUTPUT       ,SZ_BUFVOIS       ,SNPC       ,STF       ,SBUFMAT ,SVIS,
+     B                        NSVOIS     ,IRESP        ,IDEL7NOK         ,
+     C                        IDTMIN     ,MAXFUNC      ,IMON_MAT         ,
+     E                        USERL_AVAIL,heat_meca    ,impl_s           ,idyna)
 
                  ENDIF
                 ENDIF
