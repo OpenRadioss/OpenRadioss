@@ -647,7 +647,8 @@ C
      A    SV1      ,SV2      ,SV3      ,SV4      ,SV5      ,SV6   ,
      B    SSPP     ,VIS      ,UVAR     ,OFF      ,NGL      ,IPT   ,
      C    IPM      ,MAT      ,EPSD     ,IPLA     ,SIGY     ,LBUF%PLA  ,
-     D    DPLA     ,AMU      ,ISRATE   ,ASRATE   ,NVARTMP  ,VARTMP)
+     D    DPLA     ,AMU      ,ISRATE   ,ASRATE   ,NVARTMP  ,VARTMP,
+     E    ET       )
         DEFP(1:LLT)   =  LBUF%PLA(1:LLT)
       ELSEIF(MTN == 45)THEN
         CALL SIGEPS45(
