@@ -586,7 +586,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES,
      O  DT        ,LOADS     , PYTHON, DPL0CLD,VEL0CLD,
      P  NDAMP_VREL,ID_DAMP_VREL,FR_DAMP_VREL,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW ,
-     R  GLOB_THERM )
+     R  GLOB_THERM ,PBLAST)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -682,6 +682,9 @@ C-----------------------------------------------
       USE inivel_dt2_mod ,   only : inivel_dt2
       USE inivel_start_mod , only : inivel_start
       use glob_therm_mod
+      USE MY_ALLOC_MOD
+      USE SPH_WORK_MOD
+      USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -908,6 +911,7 @@ c
       TYPE(PYTHON_)  ,INTENT(INOUT)                      :: PYTHON
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT)              :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
       type (glob_therm_) ,intent(inout)                  :: glob_therm
+      type (PBLAST_) ,intent(inout)                      :: PBLAST
 C
       INTEGER ,INTENT(IN) :: NDAMP_VREL,NDAMP_VREL_RBYG
       INTEGER ,INTENT(IN) :: ID_DAMP_VREL(NDAMP_VREL),FR_DAMP_VREL(NSPMD+2,NDAMP_VREL)
@@ -1253,6 +1257,26 @@ C-------------------------------------------------------------------------------
         INTEGER MAXFUNC
         PARAMETER (MAXFUNC  = 100)
 C-----------------------------------------------------------------------------------       
+C Err THK
+C-----------------------------------------------------------------------------------       
+        my_real, DIMENSION(:), ALLOCATABLE :: THICK_SH4
+        my_real, DIMENSION(:), ALLOCATABLE :: THICK_SH3
+        my_real, DIMENSION(:), ALLOCATABLE :: THICK_NOD
+        my_real, DIMENSION(:), ALLOCATABLE :: AREA_NOD
+        my_real, DIMENSION(:), ALLOCATABLE :: AREA_SH4
+        my_real, DIMENSION(:), ALLOCATABLE :: AREA_SH3
+C-----------------------------------------------------------------------------------       
+C admerr
+C-----------------------------------------------------------------------------------       
+        my_real, DIMENSION(:), ALLOCATABLE :: admerr_THICK_SH4
+        my_real, DIMENSION(:), ALLOCATABLE :: admerr_THICK_SH3
+        my_real, DIMENSION(:), ALLOCATABLE :: admerr_THICK_NOD
+        my_real, DIMENSION(:), ALLOCATABLE :: admerr_AREA_NOD
+        my_real, DIMENSION(:), ALLOCATABLE :: admerr_AREA_SH4
+        my_real, DIMENSION(:), ALLOCATABLE :: admerr_AREA_SH3
+C-----------------------------------------------------------------------------------       
+        type(SPH_WORK_) :: SPH_WORK   ! working Areas for SPLISSV and SPHPREP
+C-----------------------------------------------------------------------------------       
 C Uncomment for Debug - ITAB is copied in Debug Module.
 C-----------------------------------------------------------------------------------
        CALL PREPARE_DEBUG()
@@ -1353,7 +1377,7 @@ C
         LISENDP_CRK = 0
         LIRECVP_CRK = 0
 C
-        PBLAST_DT%IDT   = 0
+        PBLAST%PBLAST_DT%IDT   = 0
 C
         NUMSPH_GLO_R2R = 0
         FLG_SPHINOUT_R2R = 0  
@@ -1455,11 +1479,11 @@ C
                 OUTPUT%TH%TH_SURF%NSEGLOADPF = OUTPUT%TH%TH_SURF%NSEGLOADPF + ILOADP(SIZLOADP*(K-1)+1)/4 
              ENDDO
              OUTPUT%TH%TH_SURF%NSEGLOADPB = 0
-             DO K=NLOADP_F+1,NLOADP_B
+             DO K=NLOADP_F+1,PBLAST%NLOADP_B
                 OUTPUT%TH%TH_SURF%NSEGLOADPB = OUTPUT%TH%TH_SURF%NSEGLOADPB + ILOADP(SIZLOADP*(K-1)+1)/4 
              ENDDO
              OUTPUT%TH%TH_SURF%NSEGLOADP = 0
-             DO K=NLOADP_F+NLOADP_B+1,NLOADP
+             DO K=NLOADP_F+PBLAST%NLOADP_B+1,NLOADP
                 OUTPUT%TH%TH_SURF%NSEGLOADP = OUTPUT%TH%TH_SURF%NSEGLOADP + ILOADP(SIZLOADP*(K-1)+1)/4 
              ENDDO
            ENDIF
@@ -1757,6 +1781,24 @@ C
              ALLOCATE(THKSH3 (0))
              ALLOCATE(THKNOD (0))
           END IF
+
+          IF( ANIM_CE(2156)/=0 .OR. H3D_DATA%SH_SCAL_ERR_THK /=0) THEN
+              CALL MY_ALLOC(AREA_SH4,NUMELC)
+              CALL MY_ALLOC(AREA_SH3,NUMELTG)
+              CALL MY_ALLOC(AREA_NOD,NUMNOD)
+              CALL MY_ALLOC(THICK_SH4,NUMELC)
+              CALL MY_ALLOC(THICK_SH3,NUMELTG)
+              CALL MY_ALLOC(THICK_NOD,NUMNOD)
+          ENDIF
+
+          IF (IADMERRT/=0) THEN
+              CALL MY_ALLOC(admerr_AREA_SH4,NUMELC)
+              CALL MY_ALLOC(admerr_AREA_SH3,NUMELTG)
+              CALL MY_ALLOC(admerr_AREA_NOD,NUMNOD)
+              CALL MY_ALLOC(admerr_THICK_SH4,NUMELC)
+              CALL MY_ALLOC(admerr_THICK_SH3,NUMELTG)
+              CALL MY_ALLOC(admerr_THICK_NOD,NUMNOD)
+          ENDIF
 C----------------------------------------------------------
 C    SELECTIVE MASS SCALING
 C----------------------------------------------------------
@@ -2153,7 +2195,7 @@ C
      6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,IN0 ,SORT_COMM,STACK,OUTPUT,
      7   THKE   ,SFR_ELEM  ,SH_OFFSET_TAB,
      8   NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION ,
-     9   ISKWN  ,IFRAME  ,LOADS ,GLOB_THERM)
+     9   ISKWN  ,IFRAME  ,LOADS ,GLOB_THERM,PBLAST)
 
 !$OMP END PARALLEL
 C========================================================================================
@@ -2297,6 +2339,13 @@ C ---------------------
      .                       numelsg,numelqg,numelcg,numeltrg,numelpg,
      .                       numelrg,numeltgg )
       ! -------------------------
+
+      ! -------------------------
+      ! initialization of SPH_WORK
+      call ALLOCATE_SPH_WORK(SPH_WORK,
+     *                       NUMSPH,NUMSPH,         ! Flag & size for WREDUCE
+     *                       SOL2SPH_FLAG, NUMNOD,  ! Flag for other arrays
+     *                       NSPHACT,NUMNOD,NSPHACT ) ! Size of as6, a6, as
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -3099,7 +3148,6 @@ C First: try with reduced bounding box
       CALL PYTHON_UPDATE_TIME(TT,DT2)
       CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD, X=X,A=A,V=V,D=D,DR=DR,VR=VR)
 C=======================================================================
-
 C----------------------------------------
 C     BEGINNING OF EXPLICIT ITERATION LOOP
 C----------------------------------------
@@ -3434,22 +3482,22 @@ C-------------------------------------------------------------------
 C-------------------------------------------------------------------
 C       LOAD PBLAST
 C----------------------------------
-        IF(NLOADP_B/=0.AND.IMPL_S/=1) THEN
+        IF(PBLAST%NLOADP_B/=0.AND.IMPL_S/=1) THEN
           CALL TRACE_IN(10,0,ZERO)
           IF (IMON>0) CALL STARTIME(4,1)
           IF (IMONM > 0) CALL STARTIME(41,1)
-          CALL PBLAST(ILOADP     ,LOADP      ,A                ,V                ,X      ,
+          CALL PBLAST_LOAD_COMPUTATION(PBLAST,ILOADP     ,LOADP      ,A                ,V                ,X      ,
      1                IADS(I87M) ,FSKY       ,LLOADP           ,FEXT   ,
      2                ITAB       ,H3D_DATA   ,OUTPUT%TH%TH_SURF)
           IF (IMONM > 0) CALL STOPTIME(41,1)
           IF (IMON>0) CALL STOPTIME(4,1)
           CALL TRACE_OUT(10)
-          IF(PBLAST_DT%DT<DT2T)THEN
+          IF(PBLAST%PBLAST_DT%DT<DT2T)THEN
             !inter22 kinematic time step
-            DT2T         = PBLAST_DT%DT
+            DT2T         = PBLAST%PBLAST_DT%DT
             ITYPTST      = 12
-            NELTST       = PBLAST_DT%IDT
-            PBLAST_DT%DT = EP20
+            NELTST       = PBLAST%PBLAST_DT%IDT
+            PBLAST%PBLAST_DT%DT = EP20
          ENDIF
         ENDIF
 C-------------------------------------------------------------------
@@ -3779,9 +3827,11 @@ C
         IF(ICHKADM/=0 .AND. IADMERRT/=0)THEN
 C
             CALL ADMERR(
-     .     IXC     ,IXTG     ,X        ,IPARG       ,ELBUF_TAB   ,  
+     .       IXC     ,IXTG     ,X        ,IPARG       ,ELBUF_TAB   ,  
      .       IPART   ,IPART(K3),IPART(K8),ERR_THK_SH4 ,ERR_THK_SH3 ,
-     .       IAD_ELEM ,FR_ELEM ,WEIGHT   ,SH4TREE     ,SH3TREE     )
+     .       IAD_ELEM ,FR_ELEM ,WEIGHT   ,SH4TREE     ,SH3TREE     ,
+     .       admerr_AREA_SH4, admerr_AREA_SH3, admerr_AREA_NOD,
+     .       admerr_THICK_SH4,admerr_THICK_SH3,admerr_THICK_NOD  )
           END IF
 
 C========================================================================================
@@ -4509,8 +4559,9 @@ C Init var parallel SMP
      N   XFEM_TAB     ,CONDN(IDX_CONDN),CONDNSKY        ,CRKEDGE       ,
      O   STACK        ,ITAB            ,GLOB_THERM,
      Q   DRAPE_SH4N   ,DRAPE_SH3N      ,SUBSETS, XDP    ,PINCH_DATA%VPINCH   ,
-     R   PINCH_DATA%APINCH(1,IDX_PINCH)    ,PINCH_DATA%STIFPINCH(IDX_PINCH)  ,DRAPEG  ,
-     S   OUTPUT       ,DT             ,SNPC      ,  STF )     
+     R   PINCH_DATA%APINCH(1,IDX_PINCH),PINCH_DATA%STIFPINCH(IDX_PINCH),DRAPEG  ,
+     S   OUTPUT       ,DT             ,SNPC      ,  STF ,USERL_AVAIL                    ,MAXFUNC ,      
+     S   SBUFMAT    )     
 #include "lockon.inc"
       IF(DT2TT<DT2T)THEN
          DT2T = DT2TT
@@ -4642,7 +4693,7 @@ C Init var parallel SMP
      9    GAUGE   ,NGROUNC ,IGROUNC ,SOL2SPH ,SPH2SOL   ,
      A    IXS     ,IADS    ,ADSKY   ,FSKYD   ,DMSPH(NDTSK),
      B    WASPH(KSPACTIV),ICONTACT_OLD,OFF_SPH_R2R,WSMCOMP,IRUNN_BIS,
-     C    SPH_IORD1)
+     C    SPH_IORD1,SPH_WORK)
 !$OMP END PARALLEL
 
         IF (IMONM > 0) CALL STOPTIME(87,1)
@@ -4690,7 +4741,7 @@ C----------------------------------
      F    MAt_ELEM      ,OUTPUT         ,SPH_IORD1  ,SNPC            ,STF           ,
      G    SBUFMAT       ,NSVOIS         ,IDTMINS    ,IRESP           ,MAXFUNC       ,
      .    IMON_MAT      ,USERL_AVAIL    ,impl_s          ,idyna         ,
-     .    DT            ,GLOB_THERM )
+     .    DT            ,GLOB_THERM ,SPH_WORK)
 #include "lockon.inc"
         IF(DT2TT<DT2T)THEN
           DT2T = DT2TT
@@ -4854,7 +4905,7 @@ C
      2                          A         ,V         ,X       ,SKEWS%SKEW   ,SENSORS%SENSOR_TAB,
      3                          IADS(I87M),FSKY      ,FANI(1,1+NFEA),TAGNCONT ,NSENSOR   ,
      4                          LOADP_HYD_INTER,H3D_DATA , PYTHON, 
-     5                          NPRESLOAD ,LOADP_TAGDEL,OUTPUT%TH%TH_SURF)
+     5                          NPRESLOAD ,LOADP_TAGDEL,OUTPUT%TH%TH_SURF,PBLAST)
 
 
           IF (IMONM > 0) CALL STOPTIME(41,1)
@@ -6868,7 +6919,7 @@ C===============================================================================
      6      WASPH(KSPH21) ,WSMCOMP%BUF ,WASPH(KSPACTIV) ,IPART,ITSK,
      7      SPH2SOL   ,SOL2SPH  ,IRST    ,IXS        ,IPARG     ,
      8      NGROUNC   ,IGROUNC  ,ELBUF_TAB,IAD_ELEM  ,FR_ELEM   ,
-     9      IGEO      ,SOL2SPH_TYP)
+     9      IGEO      ,SOL2SPH_TYP,SPH_WORK)
 
 !$OMP       END PARALLEL
             DEALLOCATE(WASPSYM)
@@ -7074,7 +7125,7 @@ C--- //0 ----------------
            CALL SPONFV (X   ,V     ,A       ,D       ,MS      ,
      2            SPBUF   ,ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,
      3            NPC     ,TF      ,ISPHIO  ,VSPHIO  ,IPART   ,
-     4           IPART(K10),WASPH(KSPACTIV) ,WA,WASPH(KSPH22) )
+     4           IPART(K10),WASPH(KSPACTIV) ,WA,WASPH(KSPH22) ,SPH_WORK)
 
           IF (IMONM > 0) CALL STOPTIME(89,1)
           IF (IMONM > 0) CALL STOPTIME(48,1)
@@ -7098,7 +7149,7 @@ C--- //0 ----------------
            CALL SPONFV (X   ,V     ,A       ,D       ,MS      ,
      2            SPBUF   ,ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,
      3            NPC     ,TF      ,ISPHIO  ,VSPHIO  ,IPART   ,
-     4            IPART(K10),WASPH(KSPACTIV),WA,WASPH(KSPH22) )
+     4            IPART(K10),WASPH(KSPACTIV),WA,WASPH(KSPH22) ,SPH_WORK)
 
            IF (IMONM > 0) CALL STOPTIME(89,1)
            IF (IMONM > 0) CALL STOPTIME(48,1)
@@ -8228,7 +8279,9 @@ C===============================================================================
         CALL ERR_THK(IXC     ,IXTG    ,IPARG   ,IAD_ELEM,FR_ELEM    ,
      .               WEIGHT  ,X       ,ELBUF_TAB,IPART   ,IPART(K3)  ,
      .               IPART(K8)  ,ITSK   ,NODFTSK ,NODLTSK ,ERR_THK_SH4,
-     .               ERR_THK_SH3,SH4TREE,SH3TREE)
+     .               ERR_THK_SH3,SH4TREE,SH3TREE,
+     .               AREA_SH4,  AREA_SH3,  AREA_NOD,
+     .               THICK_SH4, THICK_SH3, THICK_NOD)
 
 !$OMP END PARALLEL
 
@@ -8507,7 +8560,7 @@ C Regular animation
      s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ,DRAPEG        ,
      t   USER_WINDOWS  ,OUTPUT         ,DT             ,OUTPUT%TH%TH_SURF%CHANNELS    ,
      u   TABLE         ,LOADS          ,SFANI          ,IPARIT         ,X_C           ,
-     v   SZ_NPCONT2    ,NPCONT2        ,GLOB_THERM    )
+     v   SZ_NPCONT2    ,NPCONT2        ,GLOB_THERM     ,PBLAST)
 C
         IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
           CALL SORTIE_ERROR(
@@ -9382,7 +9435,8 @@ C--- //0 ----------------
      .               NERPM      ,IFLOW           ,RFLOW          ,LIFLOW          ,LRFLOW           ,
      .               IMPBUF_TAB ,IMPL_S          ,IMPL_S0        ,MCP             ,TEMP             ,
      .               FORNEQS    ,UNITAB          ,STACK          ,NDRAPE          ,DRAPE_SH3N       ,
-     .               DRAPE_SH4N ,DRAPEG          ,RESTSIZE       ,SKEWS           ,GLOB_THERM       )
+     .               DRAPE_SH4N ,DRAPEG          ,RESTSIZE       ,SKEWS           ,GLOB_THERM       ,
+     .               PBLAST)
         
         ! Restart file size
         IF (MULTIREST >0)THEN
@@ -9645,7 +9699,7 @@ C
         IF(ALLOCATED(ALEFVM_Buffer%F_FACE))     DEALLOCATE (ALEFVM_Buffer%F_FACE)
 
         !/LOAD/PBLAST
-        CALL PBLAST_DEALLOCATE(PBLAST_TAB)
+        CALL PBLAST_DEALLOCATE(PBLAST)
 
 C--     Rad2rad deallocation
         IF(ALLOCATED(IADD_NL))  DEALLOCATE (IADD_NL)

@@ -76,7 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS    ,
      .           OUTPUT      ,INTERFACES  ,DT             ,LOADS      ,MAT_ELEM        ,
      .           PYTHON      ,NAMES_AND_TITLES, UNITAB    ,SKEWS      ,LIFLOW          ,
-     .           LRFLOW      ,glob_therm  )
+     .           LRFLOW      ,glob_therm ,PBLAST )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -115,6 +115,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SKEW_MOD
       use glob_therm_mod
+      use PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -161,7 +162,7 @@ C     REAL
       TYPE(SURF_)   ,DIMENSION(NSURF)   :: IGRSLIN
       TYPE(PINCH) :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
-      TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
+      TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
       TYPE(DRAPE_)                            :: DRAPE_SH3N(NUMELTG_DRAPE),DRAPE_SH4N(NUMELC_DRAPE)
       TYPE(DRAPEG_)                           :: DRAPEG
       TYPE(SENSORS_)  ,INTENT(INOUT)          :: SENSORS
@@ -179,6 +180,7 @@ C     REAL
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT)   :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
       TYPE(SKEW_), INTENT(INOUT)              :: SKEWS
       type (glob_therm_) ,intent(inout)       :: glob_therm
+      type (pblast_) ,intent(inout)           :: PBLAST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -283,7 +285,7 @@ C
      N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS ,OUTPUT          ,INTERFACES,
      O  DT              ,LOADS          ,PYTHON         ,DPL0CLD        ,VEL0CLD        ,
      P  NDAMP_VREL      ,ID_DAMP_VREL   ,FR_DAMP_VREL   ,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW,
-     R  GLOB_THERM      )
+     R  GLOB_THERM      ,PBLAST)
 C
       CALL TRACE_OUT(2)
 C

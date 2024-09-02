@@ -21,6 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ======================================================================================================================
+module anim_nodal_ssp_elems_mod
+  contains
+! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief This subroutine is setting nodal sound speed requested by Engine keyword /ANIM/NODA/SSP & /H3D/NODA/SSP
@@ -129,3 +132,4 @@
 
         return
       end subroutine anim_nodal_ssp_elems
+end module anim_nodal_ssp_elems_mod

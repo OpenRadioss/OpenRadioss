@@ -21,6 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ======================================================================================================================
+module read_bcs_wall_mod
+   contains
+! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief Read buffer for restart file.
@@ -91,3 +94,4 @@
 ! ----------------------------------------------------------------------------------------------------------------------
         return
       end subroutine read_bcs_wall
+end module read_bcs_wall_mod

@@ -52,7 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6                  IAD_ELEM        ,FR_ELEM     , WEIGHT    ,TAG_SKINS6,
      7                  NPF   ,TF    ,BUFMAT,IBCL    ,ILOADP     ,LLOADP    ,FAC    ,
      8                  NSENSOR,SENSOR_TAB,TAGNCONT    ,LOADP_HYD_INTER,XFRAME,FORC    ,
-     9                  NODAL_IPART ,IMAPSKP ,LOADS  ,TABLE, IFRAME,MAT_PARAM,D) 
+     9                  NODAL_IPART ,IMAPSKP ,LOADS  ,TABLE, IFRAME,MAT_PARAM,D,PBLAST) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,6 +67,7 @@ C-----------------------------------------------
       USE LOADS_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
       USE ELBUFDEF_MOD
+      USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -105,6 +106,7 @@ C-----------------------------------------------
       INTEGER ,       DIMENSION(LISKN,NUMFRAM+1)  ,INTENT(IN) :: IFRAME
       TYPE (TTABLE)  ,DIMENSION(NTABLE)   ,INTENT(IN) :: TABLE
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
+      TYPE (PBLAST_),INTENT(IN) :: PBLAST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -493,7 +495,8 @@ C------for solid elements
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,
      .                   IBCL,ILOADP,LLOADP,FAC ,NPF,TF ,SENSOR_TAB,
      .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME ,X ,V ,
-     .                   IMAPSKP,NSKIN ,NSENSOR,LOADS ,TABLE, IFRAME,D)
+     .                   IMAPSKP,NSKIN ,NSENSOR,LOADS ,TABLE, IFRAME,D,
+     .                   PBLAST)
 C-----------------------------------------------
       RETURN
       END
@@ -524,7 +527,8 @@ C-----------------------------------------------
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,
      .                   IB ,ILOADP,LLOADP,FAC ,NPC,TF ,SENSOR_TAB,
      .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,
-     .                   IMAPSKP, NSKIN ,NSENSOR ,LOADS ,TABLE,IFRAME,DIS)
+     .                   IMAPSKP, NSKIN ,NSENSOR ,LOADS ,TABLE,IFRAME,DIS,
+     .                   PBLAST)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -576,6 +580,7 @@ C-----------------------------------------------
       TYPE (LOADS_)   , INTENT(IN) :: LOADS
       INTEGER ,       DIMENSION(LISKN,NUMFRAM+1)  ,INTENT(IN) :: IFRAME
       TYPE (TTABLE)  ,DIMENSION(NTABLE)   ,INTENT(IN) :: TABLE
+      TYPE(PBLAST_), INTENT(IN) :: PBLAST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -685,7 +690,7 @@ C--------default zero
          SKIN_SCALAR(NSKIN)=AA
        END DO 
 C----------load_pressure
-       SHIFT =   NLOADP_F+NLOADP_B
+       SHIFT =   NLOADP_F+PBLAST%NLOADP_B
        DO NP=1+SHIFT,NLOADP_HYD+SHIFT
          ISIZ_SEG = ILOADP(1,NP)/4 
          IFUNC = ILOADP(3,NP)
@@ -935,7 +940,7 @@ C
          END DO 
        END DO 
 C---------pblast     
-       DO NL=1+NLOADP_F,NLOADP_F+NLOADP_B
+       DO NL=1+NLOADP_F,NLOADP_F+PBLAST%NLOADP_B
 C--------default zero        
          ISIZ_SEG  = ILOADP(1,NL)/4 
          IAD = ILOADP(4,NL)
@@ -957,7 +962,7 @@ C--------default zero
            NP0 = NP0 + 1
            IF (TT<TDET) CYCLE     
            NSKIN = NSKIN0+ IMAPSKP(NP0)
-           P = PBLAST_TAB(IL)%PRES(I)                                                           
+           P = PBLAST%PBLAST_TAB(IL)%PRES(I)                                                           
            SKIN_SCALAR(NSKIN)= SKIN_SCALAR(NSKIN)-P
          ENDDO!next I
        END DO 

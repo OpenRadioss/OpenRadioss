@@ -79,7 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,
-     .           NAMES_AND_TITLES,LIPART1,DEFAULTS,GLOB_THERM)
+     .           NAMES_AND_TITLES,LIPART1,DEFAULTS,GLOB_THERM,PBLAST)
 C----------------------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -103,11 +103,12 @@ C-----------------------------------------------
       USE USER_WINDOWS_MOD
       USE ALE_MOD
       USE MAT_ELEM_MOD
-      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,LTITLE,NCHARLINE,NCHARTITLE,NCHARFIELD
+      USE NAMES_AND_TITLES_MOD
       USE BCS_MOD , only : BCS
       USE DEFAULTS_MOD
       USE FORMAT_MOD
       use glob_therm_mod
+      USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -170,6 +171,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) ::  LIPART1                              !< Number of variables of IPART
       TYPE(DEFAULTS_), INTENT(INOUT)      :: DEFAULTS             !< Defaults mod
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      TYPE(PBLAST_), INTENT(INOUT)        :: PBLAST               !< PBLAST load type
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -743,7 +745,7 @@ C---------------------------------------------------
       CALL HM_OPTION_COUNT('/PLOAD',NPRELD)
       CALL HM_OPTION_COUNT('/LOAD/CENTRI',NLOADC)
       CALL HM_OPTION_COUNT('/LOAD/PFLUID',NLOADP_F)
-      CALL HM_OPTION_COUNT('/LOAD/PBLAST',NLOADP_B)
+      CALL HM_OPTION_COUNT('/LOAD/PBLAST',PBLAST%NLOADP_B)
       CALL HM_OPTION_COUNT('/LOAD/PRESSURE',NLOADP_HYD)
 C---------------------------------------------------
 C     GRAVITY

@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      CALL MPI_ABORT(MPI_COMM_WORLD,ICODE,INFO)
+      CALL MPI_ABORT(MPI_COMM_WORLD,ICODE)
       CALL MY_EXIT(ICODE)
 
       RETURN

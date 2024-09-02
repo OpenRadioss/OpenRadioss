@@ -21,6 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ======================================================================================================================
+module read_ale_grid_mod
+  contains
+! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief Load buffer from restart file.
@@ -71,3 +74,4 @@
 ! ----------------------------------------------------------------------------------------------------------------------
         return
       end
+end module read_ale_grid_mod

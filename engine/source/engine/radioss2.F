@@ -178,6 +178,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SKEW_MOD
       use glob_therm_mod
+      use PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -310,6 +311,7 @@ c      TYPE (SENSORS_)   :: SENSORS    ! defined as global in user_interface_mod
       TYPE (MAT_ELEM_)   :: MAT_ELEM
       TYPE (SKEW_)       :: SKEWS
       type (glob_therm_) :: glob_therm
+      TYPE (PBLAST_)     :: PBLAST
 C----------------------------------------------------------------------------------
 C MDS Table
       INTEGER, DIMENSION(:), ALLOCATABLE :: MDS_OUTPUT_TABLE
@@ -398,7 +400,7 @@ C------------------------------------------------------------------
       INERI=0
       IPLAST=1
       IIN=8
-      IOUT=0
+      IOUT=7
       ISOLV=0
       ISTDI=5
       IUGEO=4
@@ -598,8 +600,6 @@ C--------------------------------------------------
 
       IF ( GOT_INPUT == 0)THEN
        IF (ISPMD/=0) THEN
-C redirect IOUT to tmp file  fichier temporaire when SPMD on pi <> 0
-         IOUT = IUSC4
          CALL OPEN_F_SCRATCH_FILE(IOUT,1,ROOTN,LENROOTN,IUSC4_FNAM)
          LEN_IUSC4_FNAM=LEN_TRIM(IUSC4_FNAM)
 
@@ -613,7 +613,6 @@ C redirect IOUT to tmp file  fichier temporaire when SPMD on pi <> 0
        ENDIF
       ELSE
        IF (ISPMD/=0) THEN
-         IOUT = IUSC4
          CALL OPEN_F_SCRATCH_FILE(IOUT,1,ROOTN,LENROOTN,IUSC4_FNAM)
          LEN_IUSC4_FNAM=LEN_TRIM(IUSC4_FNAM)
          WRITE(UNIT=IOUT,IOSTAT=IOS,FMT='(A)')
@@ -727,7 +726,6 @@ C       Create info, hist, monitor, progress and tpl files for writing implicit 
 1006      FORMAT('    *Parameter(PLOT_FILE_1, PLOT_FILE_1, FILENAME, "*", "',A,'")')
         ENDIF
       ENDIF
-        IF(IOUT==0)IOUT=7
         WRITE(CHRUN,'(I4.4)')IRUNN
         IF(MCHECK/=0)THEN
          IF(ISPMD==0) THEN
@@ -825,7 +823,7 @@ C------------------------------------------------
       CALL RDRESA(ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
      .            PRESFIL, MULTI_FVM, H3D_DATA,
      .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
-     .            MAT_ELEM,NAMES_AND_TITLES,SKEWS ,GLOB_THERM)
+     .            MAT_ELEM,NAMES_AND_TITLES,SKEWS ,GLOB_THERM,PBLAST)
 
 C------------------------------------------------
 C     Test of .rst file compatibility
@@ -1039,7 +1037,7 @@ C
      .            SKEWS          ,RFLOW      ,LIFLOW        ,LRFLOW           ,IMPL_S0   ,
      .            MCP            ,TEMP       ,FORNEQS       ,UNITAB,
      .            STACK          ,DRAPE_SH4N ,DRAPE_SH3N    ,DRAPEG           ,NDRAPE ,
-     .            GLOB_THERM     )
+     .            GLOB_THERM     ,PBLAST)
       ! Close restart file
        CALL CLOSE_C
        ! --------------------------------------------------------------------------------------------
@@ -1469,7 +1467,7 @@ C------------------------------------------------
      G              MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H              MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
      I              DYNAIN_DATA,DT ,LOADS ,OUTPUT,NAMES_AND_TITLES,
-     J              MAT_ELEM%MAT_PARAM,GLOB_THERM)
+     J              MAT_ELEM%MAT_PARAM,GLOB_THERM,PBLAST)
 C------------------------------------------------
 C Close & Delete scratch file
       CLOSE (UNIT=IIN)
@@ -2174,7 +2172,7 @@ C---------------------------------------------------------------------
      .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSORS    ,EBCS_TAB        ,
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
      .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      ,MAT_ELEM  , PYTHON,
-     .                   NAMES_AND_TITLES, UNITAB ,SKEWS,LIFLOW         ,LRFLOW     ,glob_therm)
+     .                   NAMES_AND_TITLES, UNITAB ,SKEWS,LIFLOW         ,LRFLOW     ,glob_therm,PBLAST)
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")

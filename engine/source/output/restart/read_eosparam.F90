@@ -20,6 +20,8 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      module read_eosparam_mod
+      contains
       !||====================================================================
       !||    read_eosparam          ../engine/source/output/restart/read_eosparam.F90
       !||--- called by ------------------------------------------------------
@@ -63,54 +65,55 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
       ! read eos model parameters
-      CALL READ_I_C(ILEN, 1)
-      LEN = ILEN(1)
-      ALLOCATE (IBUF(LEN) )
-      CALL READ_I_C(IBUF, LEN)
+      call read_i_c(ilen, 1)
+      len = ilen(1)
+      allocate (ibuf(len) )
+      call read_i_c(ibuf, len)
       
-      IAD = 0
-      IAD = IAD+1 ; EOS%NUPARAM = IBUF(IAD)
-      IAD = IAD+1 ; EOS%NIPARAM = IBUF(IAD)
-      IAD = IAD+1 ; EOS%NUVAR   = IBUF(IAD)
-      IAD = IAD+1 ; EOS%NFUNC   = IBUF(IAD)
-      IAD = IAD+1 ; EOS%NTABLE  = IBUF(IAD)
+      iad = 0
+      iad = iad+1 ; eos%nuparam = ibuf(iad)
+      iad = iad+1 ; eos%niparam = ibuf(iad)
+      iad = iad+1 ; eos%nuvar   = ibuf(iad)
+      iad = iad+1 ; eos%nfunc   = ibuf(iad)
+      iad = iad+1 ; eos%ntable  = ibuf(iad)
 
-      DEALLOCATE( IBUF )
+      deallocate( ibuf )
       
       ! read material title                      
-      CALL READ_C_C(NAME,NCHARTITLE)             
-      DO I=1,NCHARTITLE                          
-        EOS%TITLE(I:I) = CHAR(NAME(I))           
-      END DO                                     
+      call read_c_c(name,nchartitle)             
+      do i=1,nchartitle                          
+        eos%title(i:i) = char(name(i))           
+      end do                                     
       
       ! read eos parameter arrays          
-      NUPARAM = EOS%NUPARAM                      
-      NIPARAM = EOS%NIPARAM                      
-      CALL MY_ALLOC(EOS%UPARAM ,NUPARAM)         
-      CALL MY_ALLOC(EOS%IPARAM ,NIPARAM)         
+      nuparam = eos%nuparam                      
+      niparam = eos%niparam                      
+      call my_alloc(eos%uparam ,nuparam)         
+      call my_alloc(eos%iparam ,niparam)         
 
-      IF (NUPARAM > 0) THEN                      
-        CALL READ_DB(EOS%UPARAM  ,NUPARAM)       
-      END IF                                     
-      IF (NIPARAM > 0) THEN                      
-        CALL READ_I_C(EOS%IPARAM ,NIPARAM)       
-      END IF                                     
+      if (nuparam > 0) then                      
+        call read_db(eos%uparam  ,nuparam)       
+      end if                                     
+      if (niparam > 0) then                      
+        call read_i_c(eos%iparam ,niparam)       
+      end if                                     
 
       ! read eos law function                    
-      NUMFUNC  = EOS%NFUNC                       
-      IF (NUMFUNC > 0) THEN                      
-        ALLOCATE (EOS%FUNC(NUMFUNC))             
-        CALL READ_I_C(EOS%FUNC, NUMFUNC)         
-      END IF                                     
+      numfunc  = eos%nfunc                       
+      if (numfunc > 0) then                      
+        allocate (eos%func(numfunc))             
+        call read_i_c(eos%func, numfunc)         
+      end if                                     
 
       ! read eos law tables                      
-      NUMTABL  = EOS%NTABLE                      
-      IF (NUMTABL > 0) THEN                      
-        ALLOCATE (EOS%TABLE(NUMTABL))            
-        CALL READ_MAT_TABLE(EOS%TABLE, NUMTABL)  
-      END IF                                     
+      numtabl  = eos%ntable                      
+      if (numtabl > 0) then                      
+        allocate (eos%table(numtabl))            
+        call read_mat_table(eos%table, numtabl)  
+      end if                                     
         
 
 !-----------
-      RETURN
-      END
+      return
+      end
+      end module read_eosparam_mod

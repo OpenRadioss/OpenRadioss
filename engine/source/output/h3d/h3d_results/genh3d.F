@@ -202,7 +202,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                  LLOADP   ,FAC      ,SENSORS     ,TAGNCONT    ,LOADP_HYD_INTER,
      5                  XFRAME   ,FORC     ,AR          ,CSEFRIC     ,CSEFRICG  ,
      6                  CSEFRIC_STAMP,CSEFRICG_STAMP    ,TABLE       ,IFRAME    ,LOADS,
-     7                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG  ,X_C         ,GLOB_THERM)
+     7                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG  ,X_C         ,GLOB_THERM,PBLAST)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -232,6 +232,7 @@ C-----------------------------------------------
         USE OUTMAX_MOD
         USE DRAPE_MOD
         use glob_therm_mod
+        USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -342,6 +343,7 @@ C-----------------------------------------------
         TYPE (DRAPE_) , INTENT(IN)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
         TYPE (DRAPEG_), INTENT(IN)  :: DRAPEG
         type (glob_therm_), intent(in) :: GLOB_THERM
+        type (pblast_), intent(in) :: PBLAST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -516,6 +518,7 @@ C
         END TYPE
 
         TYPE(USER_NOD_ID_) :: USER_NOD_ID
+        INTEGER SZ_ANIN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -1616,14 +1619,14 @@ C-------------nodal_pid used for PLOAD---
           CALL GET_NODAL_IPART(ELBUF_TAB,IPARG,IPARTC,IPARTTG,IPARTS,
      .                          IXC, IXTG, IXS,IXS10,IXS16,IXS20,
      .                          NODAL_IPART)
-          CALL H3D_SKIN_PRE_MAP(IBCL  ,ILOADP  ,LLOADP ,IMAPSKP,LOADS)
+          CALL H3D_SKIN_PRE_MAP(IBCL  ,ILOADP  ,LLOADP ,IMAPSKP,LOADS,PBLAST)
         END IF
         IF(H3D_DATA%IH3D == 1 .AND. NUMSKING>0 ) THEN
 C----create connectivity IXSKIN_P(NIXQ,NUMSKING),IPARTSKIN_P(NUMSKING)
           IXSKIN_TMP = 0
           CALL H3D_SKIN_IXSKIN(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
      .                         ITAB ,IXSKIN_TMP  ,TAG_SKINS6,
-     .                         IBCL,ILOADP,LLOADP,NODAL_IPART,IMAPSKP,LOADS)
+     .                         IBCL,ILOADP,LLOADP,NODAL_IPART,IMAPSKP,LOADS,PBLAST)
 c--------IXSKIN_TMP(1,i) :ipart (instead of mid)--IXSKIN_TMP(2-5,i) : Nj(user_id)
           IF(NSPMD > 1) THEN
 C
@@ -2384,11 +2387,16 @@ c          IF(ISPMD == 0) print *,'nodal scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO
 
 c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
 
-            CALL H3D_ONED_SCALAR(ELBUF_TAB   ,IPARG    ,GEO  , IXT,
-     .               IXP    ,IXR    ,PM   ,  ANIN(NDMA2+1),
-     .               ONED_SCALAR,   ONED_ID      ,ONED_ITY,
-     .               IS_WRITEN_ONED  ,    IPARTT ,IPARTP,IPARTR,H3D_DATA%OUTPUT_LIST(I)%PART,
-     .               KEYWORD, X , D   ,IPT)
+            SZ_ANIN = SANIN - NDMA2
+            CALL H3D_ONED_SCALAR(ELBUF_TAB      ,IPARG    ,GEO  , IXT,
+     .                           IXP            ,IXR      ,PM   , ANIN(NDMA2+1),
+     .                           ONED_SCALAR    ,ONED_ID  ,ONED_ITY,
+     .                           IS_WRITEN_ONED ,IPARTT ,IPARTP,IPARTR,H3D_DATA%OUTPUT_LIST(I)%PART,
+     .                           KEYWORD, X , D   ,IPT, 
+     .                           NUMELP,  NUMELT,  NUMELR,NIXT,NIXP,
+     .                           NIXR,    NGROUP,  ANIM_FE,  MX_ANI,   NPARG,
+     .                           NPROPM,  NPROPG,  NUMMAT,   NUMGEO,   NUMNOD,
+     .                           SZ_ANIN, NUMELPG, NUMELRG,  NUMELTRG, NPART)
 
 c
             IF (NSPMD > 1 ) THEN
@@ -3121,7 +3129,7 @@ c-----
      6                      IAD_ELEM        ,FR_ELEM     , WEIGHT    ,TAG_SKINS6,
      7                      NPF  ,TF   ,BUFMAT,IBCL    ,ILOADP     ,LLOADP    ,FAC    ,
      8                      NSENSOR,SENSORS%SENSOR_TAB,TAGNCONT,LOADP_HYD_INTER,XFRAME,FORC  ,
-     9                      NODAL_IPART ,IMAPSKP ,LOADS ,TABLE,IFRAME,MAT_PARAM,D)
+     9                      NODAL_IPART ,IMAPSKP ,LOADS ,TABLE,IFRAME,MAT_PARAM,D,PBLAST)
 c
             IF (NSPMD > 1 ) THEN
               CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
@@ -3157,7 +3165,7 @@ c-----
      .                    IS_WRITEN_SKIN  ,H3D_DATA%OUTPUT_LIST(I)%PART,INFO1   ,KEYWORD ,
      .                    IBCL,ILOADP,LLOADP,FAC ,NPF,TF ,SENSORS%SENSOR_TAB,
      .                    TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,IMAPSKP,LOADS ,
-     .                    TABLE,IFRAME,D)
+     .                    TABLE,IFRAME,D,PBLAST)
 c
             IF (NSPMD > 1 ) THEN
               CALL STARTIME(MACRO_TIMER_SPMDH3D,1)

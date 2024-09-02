@@ -330,7 +330,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER, LEN_CEP ,DYNAIN_DATA,
      E   DRAPEG       ,USER_WINDOWS,OUTPUT          ,INTERFACES  ,NUMBER_LOAD_CYL,
      F   LOADS_PER_PROC, PYTHON    ,DPL0CLD         ,VEL0CLD     ,NAMES_AND_TITLES,
-     G   BCS_PER_PROC,constraint_struct,glob_therm)
+     G   BCS_PER_PROC,constraint_struct,glob_therm  ,PBLAST)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -379,12 +379,14 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE SUBMODEL_MOD , ONLY : NSUBMOD
       USE PYTHON_FUNCT_MOD
-      USE NAMES_AND_TITLES_MOD,only: NAMES_AND_TITLES_,LTITLE
+      USE NAMES_AND_TITLES_MOD
       USE BCS_MOD , ONLY : BCS_STRUCT_
       use constraint_mod , only : constraint_
       use c_inivell_mod ,  only : c_inivell
       use w_inivel_str_mod , only : w_inivel_str
       use glob_therm_mod
+      use write_ale_grid_mod, only : write_ale_grid
+      use PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -425,6 +427,7 @@ C-----------------------------------------------
       TYPE (OUTPUT_),INTENT(IN)             :: OUTPUT
       TYPE (INTERFACES_)   ,INTENT(IN)      :: INTERFACES
       TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
+      TYPE(pblast_), INTENT(INOUT) :: PBLAST
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1779,7 +1782,7 @@ C--------------------------------------------
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
      5   NUMSH4N_L,NUMSH3N_L,INTERFACES%PARAMETERS,SENSORS,LOADS_PER_PROC%NLOAD_CYL,
      6   NCLOAD_L,NPLOAD_L,NDAMP_VREL_L, UNITAB,
-     7   LWAMP_L,LWANMP_L,NINIVELT_L,GLOB_THERM)
+     7   LWAMP_L,LWANMP_L,NINIVELT_L,GLOB_THERM,PBLAST)
      
 
       CALL WRCOMR(LMXVREA,LVARREA,TABVREA,MSNDP(P),P,INTERFACES%PARAMETERS,
@@ -2635,8 +2638,11 @@ C--------------------------------------
 C--------------------------------------------
 C LOAD/PBLAST
 C--------------------------------------------
-      IF(NLOADP_B>0)THEN
-        CALL PBLAST_WRITE_STARTER(PBLAST_TAB,GLOB_THERM,P-1,CEP)
+      IF(PBLAST%NLOADP_B>0)THEN
+        CALL PBLAST_WRITE_STARTER(PBLAST,GLOB_THERM,P-1,CEP,SCEP,
+     *                            NUMELC,NUMELTG,NUMELS,
+     *                            NUMELQ,NUMELT,NUMELP,
+     *                            NUMELR,NUMELX,NCONLD)
       ENDIF
 C
 C--------------------------------------------

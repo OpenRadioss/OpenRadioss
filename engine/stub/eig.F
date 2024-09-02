@@ -73,7 +73,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE GENANI_MOD
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD         
       USE CLUSTER_MOD

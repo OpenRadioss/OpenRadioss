@@ -87,7 +87,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE LECH3D(GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
      .                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
-     .                  ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_PARAM)
+     .                  ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_PARAM,PBLAST)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -103,6 +103,7 @@ C-----------------------------------------------
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
         USE MATPARAM_DEF_MOD
         USE TRI7BOX
+        USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -132,6 +133,7 @@ C-----------------------------------------------
         TYPE (STACK_PLY) :: STACK
         TYPE (LOADS_), INTENT(IN)    :: LOADS
         TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+        TYPE (PBLAST_) :: PBLAST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2502,7 +2504,7 @@ C=========================================================================
           IF (IPEXT==1) ISKIND=ISKIND+2
           CALL H3D_SKIN_DIM(IPARG   ,NUMSKIN, NUMSKING,TAG_SKINS6,
      .                      IBCL    ,ILOADP ,LLOADP   ,LOADS  ,
-     .                      NUMSKINP0,NUMSKINP,ISKIND )
+     .                      NUMSKINP0,NUMSKINP,ISKIND,PBLAST )
         END IF
 c For debug purpose
 c      DO I=1,H3D_DATA%N_OUTP_H3D

@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    state_mod        ../common_source/modules/state_mod.F
       !||====================================================================
       SUBROUTINE WRCOMI(LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .           INTER_PARAMETERS,SENSORS,LOADS,GLOB_THERM)
+     .           INTER_PARAMETERS,SENSORS,LOADS,GLOB_THERM,PBLAST)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,6 +66,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE DAMP_MOD
       USE glob_therm_mod
+      USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,6 +82,7 @@ C-----------------------------------------------
       TYPE (SENSORS_)        ,INTENT(IN) :: SENSORS
       TYPE (LOADS_)          ,INTENT(IN) :: LOADS
       type (glob_therm_)     ,intent(in) :: GLOB_THERM
+      type (PBLAST_)         ,intent(in) :: PBLAST
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1404,7 +1406,7 @@ C
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NLOADP_F      
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = NLOADP_B      
+      TABVINT(LVARINT) = PBLAST%NLOADP_B      
 C /LOAD/PCYL
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = LOADS%NLOAD_CYL

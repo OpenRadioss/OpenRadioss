@@ -35,9 +35,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pblast_mod     ../common_source/modules/loads/pblast_mod.F
       !||    th_surf_mod    ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
-      SUBROUTINE PBLAST (ILOADP  ,FAC     ,A       , V       ,X       ,
-     1                   IADC    ,FSKY    ,LLOADP   ,FEXT    ,
-     2                   ITAB    ,H3D_DATA,TH_SURF  )
+      SUBROUTINE PBLAST_LOAD_COMPUTATION (PBLAST,ILOADP  ,FAC   ,A  , V   ,X ,
+     1                        IADC    ,FSKY    ,LLOADP   ,FEXT    ,
+     2                        ITAB    ,H3D_DATA,TH_SURF )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -62,6 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(PBLAST_),INTENT(INOUT) :: PBLAST
       INTEGER,INTENT(IN) :: LLOADP(SLLOADP)
       INTEGER,INTENT(INOUT) :: ILOADP(SIZLOADP,NLOADP)
       INTEGER,INTENT(IN) :: IADC(*)
@@ -91,10 +92,10 @@ C    AIR BURST     (ABAC_ID = 3)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
-       PBLAST_DT%DT = EP20
-       PBLAST_DT%IDT = 0
+       PBLAST%PBLAST_DT%DT = EP20
+       PBLAST%PBLAST_DT%IDT = 0
 
-       IF(NLOADP_B==0)THEN
+       IF(PBLAST%NLOADP_B==0)THEN
          RETURN
        ENDIF     
        NSEGPL = TH_SURF%NSEGLOADPF
@@ -103,21 +104,20 @@ C   S o u r c e   C o d e
 C-----------------------------------------------
 !$OMP PARALLEL
 !$OMP+ SHARED(FAC,A,V,X,TFEXT,IADC,FSKY,LLOADP,FEXT,ITAB,H3D_DATA,TT,ILOADP)
-!$OMP+ SHARED(PBLAST_DT,PBLAST_TAB,PBLAST_DATA)
 !$OMP+ PRIVATE(ABAC_ID,ID,DTMIN_LOC,NL,TFEXT_LOC,TA_FIRST,IJK)
 
        !-----------------------------------------------
        !   LOOP OVER all /LOAD/PBLAST options
        !-----------------------------------------------
 
-       DO NL=NLOADP_F+1, NLOADP_F+NLOADP_B
+       DO NL=NLOADP_F+1, NLOADP_F+PBLAST%NLOADP_B
 
          ABAC_ID  = ILOADP(07,NL)
          ID       = ILOADP(08,NL) !user_id
          TA_FIRST = FAC(07,NL)
          T_STOP   = FAC(13,NL)
          IL       = NL-NLOADP_F
-         IS_RESET = PBLAST_TAB(IL)%IS_RESET
+         IS_RESET = PBLAST%PBLAST_TAB(IL)%IS_RESET
          TFEXT_LOC = ZERO
          DTMIN_LOC = EP20
 
@@ -125,7 +125,7 @@ C-----------------------------------------------
            SELECT CASE(ABAC_ID)
              CASE(1)
                !--- LOADING MODEL : FREE AIR, SPHERICAL CHARGE
-               CALL PBLAST_1(
+               CALL PBLAST_1(PBLAST,
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
      3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,TFEXT_LOC,
@@ -133,14 +133,14 @@ C-----------------------------------------------
      
              CASE(2)
                !--- LOADING MODEL : GROUND REFLECTION, HEMISPHERICAL CHARGE
-               CALL PBLAST_2(
+               CALL PBLAST_2(PBLAST,
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
      3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,TFEXT_LOC,
      4                       TH_SURF ,NSEGPL   )
              CASE(3)
                !--- LOADING MODEL : SURFACE BURST, SPHERICAL CHARGE
-               CALL PBLAST_3(
+               CALL PBLAST_3(PBLAST,
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
      3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,TFEXT_LOC,
@@ -169,7 +169,7 @@ C-----------------------------------------------
                  IAD = IADC(ILOADP(4,NL)+4*(II-1)+(IJK-1))  ! node indexes in FSKY related to current option /LOAD/PBLAST
                  FSKY(1:3,IAD) = ZERO
                ENDDO
-               PBLAST_TAB(IL)%IS_RESET = .TRUE.
+               PBLAST%PBLAST_TAB(IL)%IS_RESET = .TRUE.
              ENDDO! next II
 !$OMP END DO          
            ENDIF!(.NOT. IS_RESET)
@@ -182,9 +182,9 @@ C-----------------------------------------------
          ! if nothing was loaded : set time step to go on arrival time (no CPU time wasted in nothing happen elsewhere)
          ! if load has started, use positive impulse to determine a time step for this current option
 
-           IF(DTMIN_LOC < PBLAST_DT%DT)THEN
-             PBLAST_DT%IDT  = ID
-             PBLAST_DT%DT = DTMIN_LOC
+           IF(DTMIN_LOC < PBLAST%PBLAST_DT%DT)THEN
+              PBLAST%PBLAST_DT%IDT  = ID
+              PBLAST%PBLAST_DT%DT = DTMIN_LOC
            ENDIF
 
 #include  "lockoff.inc"
