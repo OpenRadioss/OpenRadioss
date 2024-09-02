@@ -83,7 +83,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      P    STACK     ,ITAB      ,GLOB_THERM,
      S    DRAPE_SH4N  ,DRAPE_SH3N  ,SUBSET    ,XDP       ,VPINCH,
      T    APINCH    ,STIFPINCH ,DRAPEG,OUTPUT ,DT        ,
-     Y    SNPC      ,  STF)
+     Y    SNPC      ,  STF, USERL_AVAIL,MAXFUNC,
+     U    SBUFMAT   ,STF       ,SNPC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -131,6 +132,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN)    :: USERL_AVAIL ! Flag for User libraries availability
+      INTEGER,INTENT(IN)    :: MAXFUNC     ! Maximum number of functions
+      INTEGER,INTENT(IN)    :: SBUFMAT     ! Size of Bufmat
+      INTEGER,INTENT(IN)    :: STF         ! Size of TF
+      INTEGER,INTENT(IN)    :: SNPC        ! Size of NPC
       INTEGER
      .   IXC(NIXC,*), IXTG(NIXTG,*), IGEO(NPROPGI,*), IPM(NPROPMI,*),
      .   NPC(*), IPARG(NPARG,*), IPARI(NPARI,*), 
@@ -336,7 +342,7 @@ C
      R        DRAPE_SH4N,         NEL,                NLOC_DMG,           VPINCH,       
      S        APINCH,             STIFPINCH,          DRAPEG%INDX_SH4N,   IGRE,         
      T        JTUR,               DT,                 NCYCLE,             SNPC,         
-     Y        STF                ,GLOB_THERM          )                                                         
+     Y        STF,                GLOB_THERM,         SNPC          )                                                         
 
           ELSEIF (JHBE >= 21 .AND. JHBE <= 29) THEN
 
@@ -370,7 +376,8 @@ C
      R        STACK,              ISUBSTACK,          XFEM_TAB(NG,1:NXEL),CRKEDGE,
      S        DRAPE_SH4N,         NEL,                NLOC_DMG,           DRAPEG%INDX_SH4N,
      T        IGRE,               JTUR,               DT      ,           NCYCLE,
-     Y        SNPC,               STF                ,GLOB_THERM )
+     Y        SNPC,               STF,                GLOB_THERM,         IDEL7NOK,   
+     U        USERL_AVAIL,        MAXFUNC,            SBUFMAT )
 
         IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
           DO IXEL=1,NXEL
@@ -397,8 +404,9 @@ C
      M        IADC_CRK   ,ELCUTC(1,NF1),CRKSKY ,
      N        SENSORS    ,IXEL     ,
      O        ISUBSTACK  ,UXINT_MEAN ,UYINT_MEAN,UZINT_MEAN,NLEVXF      ,
-     P        NODEDGE    ,CRKEDGE    ,STACK    ,DRAPE_SH4N  ,NLOC_DMG,DRAPEG%INDX_SH4N,IGRE   ,
-     Q        DT         ,NCYCLE     ,SNPC      ,  STF      ,GLOB_THERM )
+     P        NODEDGE    ,CRKEDGE    ,STACK    ,DRAPE_SH4N  ,NLOC_DMG,DRAPEG%INDX_SH4N,IGRE,
+     *        DT         ,NCYCLE     ,SNPC      ,  STF      ,GLOB_THERM ,
+     *        IDEL7NOK   ,USERL_AVAIL,MAXFUNC  ,SBUFMAT)
           ENDDO
         ENDIF
 c
@@ -433,7 +441,7 @@ c
      R   XFEM_TAB(NG,1:NXEL),CRKEDGE,            DRAPE_SH4N,         IPRI,
      S   NLOC_DMG,           DRAPEG%INDX_SH4N,   IGRE,               JTUR,
      T   OUTPUT,             DT,                 SNPC,               STF  , 
-     T   GLOB_THERM)
+     U   GLOB_THERM,         USERL_AVAIL,        MAXFUNC,            SBUFMAT )
 c
         IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
           DO IXEL=1,NXEL
@@ -461,8 +469,8 @@ c
      N       SENSORS,IXEL      ,STACK       ,
      O       ISUBSTACK   ,UXINT_MEAN  ,UYINT_MEAN  ,UZINT_MEAN,NLEVXF      ,
      P       NODEDGE     ,CRKEDGE     ,DRAPE_SH4N   ,IPRI       ,NLOC_DMG  ,
-     R       DRAPEG%INDX_SH4N,IGRE    ,DT           ,SNPC      ,  STF      ,
-     R       GLOB_THERM)
+     Q       DRAPEG%INDX_SH4N,IGRE    ,DT           ,SNPC      ,  STF      ,
+     R       GLOB_THERM  ,USERL_AVAIL, MAXFUNC,SBUFMAT)
           ENDDO
         END IF
 
@@ -532,7 +540,9 @@ C----6---------------------------------------------------------------7--
      K        CONDN,           CONDNSKY,             ISUBSTACK,       STACK,
      L        ITASK,           DRAPE_SH3N,           IPRI,            NLOC_DMG,
      M        DRAPEG%INDX_SH3N,IGRE,                 JTUR,            DT  ,
-     N        NCYCLE,          SNPC,                 STF ,           GLOB_THERM      )
+     N        NCYCLE,          SNPC,                 STF ,           GLOB_THERM ,
+     O        NXLAYMAX,        IDEL7NOK,             USERL_AVAIL,    MAXFUNC,       
+     P        SBUFMAT     )
           ELSE
 
             IF (ISH3N == 30) THEN
@@ -558,7 +568,9 @@ C----6---------------------------------------------------------------7--
      J          JTHE,                                  CONDN,                CONDNSKY,        ISUBSTACK,
      K          STACK,                                 ITASK,                DRAPE_SH3N,      IPRI,
      L          NLOC_DMG,                              DRAPEG%INDX_SH3N,     IGRE,            JTUR,
-     M          DT      ,NCYCLE,                       SNPC,                 STF ,        GLOB_THERM  )
+     M          DT      ,NCYCLE,                       SNPC,                 STF ,        GLOB_THERM  ,                              NXLAYMAX,             IDEL7NOK,        USERL_AVAIL,
+     M          MAXFUNC,                               SBUFMAT )
+     
             ELSE
               CALL C3FORC3(
      1          ELBUF_TAB(NG),         JFT,                                   JLT,               PM,
@@ -587,7 +599,8 @@ C----6---------------------------------------------------------------7--
      O          CONDNSKY,              STACK,                                 ISUBSTACK,         XFEM_TAB(NG,1:NXEL),
      P          CRKEDGE,               DRAPE_SH3N,                            IPRI,              NLOC_DMG,
      Q          XDP,                   DRAPEG%INDX_SH3N,                      IGRE,              JTUR,
-     R          DT,                    SNPC,                                  STF    ,          GLOB_THERM   )
+     R          DT,                    SNPC,                                  STF,               GLOB_THERM,
+     S          IDEL7NOK,              USERL_AVAIL,                           MAXFUNC,           SBUFMAT)
 
                 IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
                   DO IXEL=1,NXEL
@@ -617,7 +630,8 @@ C----6---------------------------------------------------------------7--
      N                UYINT_MEAN,        UZINT_MEAN,           NLEVXF,           NODEDGE,
      O                CRKEDGE,           DRAPE_SH3N,           IPRI,             NLOC_DMG,
      P                DRAPEG%INDX_SH3N,  IGRE,                 DT  ,             NCYCLE  ,
-     Q                SNPC,              STF,                 GLOB_THERM   )
+     Q                SNPC,              STF,                 GLOB_THERM   ,     IDEL7NOK,
+     A                USERL_AVAIL,       MAXFUNC,              SBUFMAT )
                   ENDDO
                 ENDIF
               ENDIF

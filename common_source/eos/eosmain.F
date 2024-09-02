@@ -60,6 +60,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6                   NPF   ,TF    ,VAREOS ,NVAREOS ,MAT_PARAM,
      7                   BFRAC)
 C-----------------------------------------------
+      use eosexponential_mod
+C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutines call the expected EOS solver

@@ -21,25 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    mod_forintp   ../engine/source/elements/forintp.F
-      !||--- called by ------------------------------------------------------
-      !||    forintp       ../engine/source/elements/forintp.F
-      !||====================================================================
-      MODULE MOD_FORINTP
-      implicit none
-#include      "my_real.inc"
-      my_real
-     .       , DIMENSION(:), ALLOCATABLE :: 
-     .       WT, WGRADT, WLAPLT, LAMBDA, WGRADTSM,
-     .       WTR,LAMBDR,WASIGSM
-      my_real
-     .       , DIMENSION(:,:), ALLOCATABLE :: 
-     .       WAR, WGR, WAR2
-      my_real
-     .      , DIMENSION(:,:), ALLOCATABLE :: 
-     .    STAB
-      END MODULE MOD_FORINTP
-      !||====================================================================
       !||    forintp          ../engine/source/elements/forintp.F
       !||--- called by ------------------------------------------------------
       !||    resol            ../engine/source/engine/resol.F
@@ -100,13 +81,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F    MAT_ELEM  ,OUTPUT    ,SPH_IORD1 ,SNPC      ,STF,
      G    SBUFMAT   ,IDTMINS   ,NSVOIS    ,IRESP     ,MAXFUNC   ,
      .    IMON_MAT  ,USERL_AVAIL,impl_s  ,idyna     ,
-     .    DT        ,GLOB_THERM)
+     .    DT        ,GLOB_THERM,SPH_WORK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE SPHBOX
-      USE MOD_FORINTP
       USE TABLE_MOD
       USE MAT_ELEM_MOD
       USE ELBUFDEF_MOD
@@ -114,6 +94,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD
       USE DT_MOD
       use glob_therm_mod
+      USE SPH_WORK_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -180,6 +161,7 @@ C-----------------------------------------------
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_), INTENT(IN) :: DT
       type(glob_therm_)  ,intent(in)    :: glob_therm
+      TYPE (SPH_WORK_),INTENT(INOUT) :: SPH_WORK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -274,12 +256,15 @@ C
 C Allocation SPMD a faire en memoire partagee
 C
         IF(ITASK==0) THEN
-          ALLOCATE(WASIGSM(6*NSPHSYM))
-          WASIGSM = ZERO
+          ALLOCATE(SPH_WORK%WASIGSM(6*NSPHSYM))
+          SPH_WORK%WASIGSM = ZERO
         ENDIF
         IF(ITASK==0 .AND. NSPMD > 1)THEN 
-          ALLOCATE(WAR(10,NSPHR),WTR(NSPHR),WGR(3,NSPHR),LAMBDR(NSPHR),
-     .             WAR2(9,NSPHR))
+          ALLOCATE(SPH_WORK%WAR(10,NSPHR))
+          ALLOCATE(SPH_WORK%WTR(NSPHR))
+          ALLOCATE(SPH_WORK%WGR(3,NSPHR))
+          ALLOCATE(SPH_WORK%LAMBDR(NSPHR))
+          ALLOCATE(SPH_WORK%WAR2(9,NSPHR))
         END IF
 C-------
         KVNORM =16*NUMSPH+1
@@ -291,8 +276,11 @@ C       old density storage.
 
         IF( (GLOB_THERM%ITHERM/=0) .OR. (GLOB_THERM%ITHERM_FE/=0)) THEN
          IF(ITASK==0)THEN
-           ALLOCATE(WT(NUMSPH), WGRADT(3*NUMSPH), WLAPLT(NUMSPH),
-     .              LAMBDA(NUMSPH), WGRADTSM(3*NSPHSYM))
+           ALLOCATE(SPH_WORK%WT(NUMSPH))
+           ALLOCATE(SPH_WORK%WGRADT(3*NUMSPH))
+           ALLOCATE(SPH_WORK%WLAPLT(NUMSPH))
+           ALLOCATE(SPH_WORK%LAMBDA(NUMSPH))
+           ALLOCATE(SPH_WORK%WGRADTSM(3*NSPHSYM))
          END IF
          NGDONE = 1
 C       /---------------/
@@ -331,12 +319,12 @@ C-----------------------------------------------
                DO I=LFT,LLT
                 N=NFT+I
                 IF(KXSP(2,N)>0)THEN
-                  WT(N)=GBUF%TEMP(I)
+                  SPH_WORK%WT(N)=GBUF%TEMP(I)
                   MX   =IPART(1,IPARTSP(N))
-                  IF(WT(N)<=PM(80,MX))THEN
-                    LAMBDA(N)=PM(75,MX)+PM(76,MX)*WT(N)
+                  IF(SPH_WORK%WT(N)<=PM(80,MX))THEN
+                    SPH_WORK%LAMBDA(N)=PM(75,MX)+PM(76,MX)*SPH_WORK%WT(N)
                   ELSE
-                    LAMBDA(N)=PM(77,MX)+PM(78,MX)*WT(N)
+                    SPH_WORK%LAMBDA(N)=PM(77,MX)+PM(78,MX)*SPH_WORK%WT(N)
                   END IF
                 END IF
                END DO
@@ -345,21 +333,21 @@ C-----------------------------------------------
                 N=NFT+I
                 IF(KXSP(2,N)>0)THEN
                   INOD = KXSP(3,N)
-                  WT(N)=TEMP(INOD)
+                  SPH_WORK%WT(N)=TEMP(INOD)
                   MX   =IPART(1,IPARTSP(N))
-                  IF(WT(N)<=PM(80,MX))THEN
-                    LAMBDA(N)=PM(75,MX)+PM(76,MX)*WT(N)
+                  IF(SPH_WORK%WT(N)<=PM(80,MX))THEN
+                    SPH_WORK%LAMBDA(N)=PM(75,MX)+PM(76,MX)*SPH_WORK%WT(N)
                   ELSE
-                    LAMBDA(N)=PM(77,MX)+PM(78,MX)*WT(N)
+                    SPH_WORK%LAMBDA(N)=PM(77,MX)+PM(78,MX)*SPH_WORK%WT(N)
                   END IF
-                  LAMBDA(N)=LAMBDA(N)*GLOB_THERM%THEACCFACT
+                  SPH_WORK%LAMBDA(N)=SPH_WORK%LAMBDA(N)*GLOB_THERM%THEACCFACT
                 END IF
                END DO
               ELSE
                DO I=LFT,LLT
                 N=NFT+I
-                WT(N)    =ZERO
-                LAMBDA(N)=ZERO
+                SPH_WORK%WT(N)    =ZERO
+                SPH_WORK%LAMBDA(N)=ZERO
                END DO
               END IF
 C-----------------------------------------------
@@ -376,7 +364,7 @@ C         /---------------/
 C         /---------------/
            IF(ITASK==0) THEN
              CALL STARTIME(93,1)
-             CALL SPMD_SPHGETT(WT,WTR,LAMBDA,LAMBDR)
+             CALL SPMD_SPHGETT(SPH_WORK%WT,SPH_WORK%WTR,SPH_WORK%LAMBDA,SPH_WORK%LAMBDR)
              CALL STOPTIME(93,1)
            END IF
          END IF
@@ -421,7 +409,7 @@ C-----------------------------------------------
               CALL SPGRADT(
      1    X         ,MS        ,SPBUF     ,KXSP      ,IXSP      ,
      2    NOD2SP    ,ISPSYM    ,XSPSYM    ,WA        ,WASPH     ,
-     3    WT        ,WTR       ,WGRADT    , LFT, LLT, NFT)
+     3    SPH_WORK%WT,SPH_WORK%WTR,SPH_WORK%WGRADT , LFT, LLT, NFT)
 C-----------------------------------------------
             ENDIF
             IF (IDDW>0) CALL STOPTIMEG(NG)
@@ -437,7 +425,7 @@ C
          IF(NSPMD>1) THEN
            IF(ITASK==0) THEN
              CALL STARTIME(93,1)
-             CALL SPMD_SPHGETG(WGRADT,WASPH,WGR,SPH_IORD1)
+             CALL SPMD_SPHGETG(SPH_WORK%WGRADT,WASPH,SPH_WORK%WGR,SPH_IORD1)
              CALL STOPTIME(93,1)
            END IF
 C         /---------------/
@@ -459,7 +447,7 @@ C       /---------------/
          IF(ITASK==0)
      1    CALL SPGTSYM(
      1   ISPCOND, XFRAME,  ISPSYM,  XSPSYM,
-     2   WGRADT,  WGRADTSM,WASPACT, WGR,
+     2   SPH_WORK%WGRADT,  SPH_WORK%WGRADTSM,WASPACT, SPH_WORK%WGR,
      3   LFT,     LLT,     NFT)
 C       /---------------/
          CALL MY_BARRIER
@@ -495,8 +483,8 @@ C-----------------------------------------------
               CALL SPLAPLT(
      1    X         ,MS        ,SPBUF     ,KXSP      ,IXSP      ,
      2    NOD2SP    ,ISPSYM    ,XSPSYM    ,WA        ,WASPH     ,
-     3    WGRADT    ,WGR       ,WGRADTSM  ,WLAPLT ,WSMCOMP,
-     4    LAMBDA    ,LAMBDR,   LFT, LLT, NFT   )
+     3    SPH_WORK%WGRADT    ,SPH_WORK%WGR       ,SPH_WORK%WGRADTSM  ,SPH_WORK%WLAPLT ,WSMCOMP,
+     4    SPH_WORK%LAMBDA    ,SPH_WORK%LAMBDR,   LFT, LLT, NFT   )
 C-----------------------------------------------
               GBUF => ELBUF_TAB(NG)%GBUF
               DO I=LFT,LLT
@@ -506,7 +494,7 @@ C-----------------------------------------------
                   RHOI =SPBUF(2,N)
                   VI   =SPBUF(12,N)/MAX(EM20,RHOI)
                   GBUF%EINT(I) = GBUF%EINT(I)
-     .                         + VI*WLAPLT(N)*DT1/MAX(EM20,GBUF%VOL(I))
+     .                         + VI*SPH_WORK%WLAPLT(N)*DT1/MAX(EM20,GBUF%VOL(I))
                 END IF
               END DO
             ELSEIF(ITY==51.AND.JTHE==-1)THEN
@@ -514,8 +502,8 @@ C-----------------------------------------------
               CALL SPLAPLT(
      1    X         ,MS        ,SPBUF     ,KXSP      ,IXSP      ,
      2    NOD2SP    ,ISPSYM    ,XSPSYM    ,WA        ,WASPH     ,
-     3    WGRADT    ,WGR       ,WGRADTSM  ,WLAPLT ,WSMCOMP,
-     4    LAMBDA    ,LAMBDR    ,LFT,LLT,NFT    )
+     3    SPH_WORK%WGRADT    ,SPH_WORK%WGR       ,SPH_WORK%WGRADTSM  ,SPH_WORK%WLAPLT ,WSMCOMP,
+     4    SPH_WORK%LAMBDA    ,SPH_WORK%LAMBDR    ,LFT,LLT,NFT    )
 C-----------------------------------------------
               GBUF => ELBUF_TAB(NG)%GBUF
               DO I=LFT,LLT
@@ -525,7 +513,7 @@ C-----------------------------------------------
                   INOD =KXSP(3,N)
                   RHOI =SPBUF(2,N)
                   VI   =SPBUF(12,N)/MAX(EM20,RHOI)
-                  WA(MYADRN+15) = VI*WLAPLT(N)*DT1
+                  WA(MYADRN+15) = VI*SPH_WORK%WLAPLT(N)*DT1
                 END IF
               END DO
 C-----------------------------------------------
@@ -540,7 +528,7 @@ C       /---------------/
          CALL MY_BARRIER
 C       /---------------/
 C
-         IF(ITASK==0) DEALLOCATE(WT, WGRADT, WLAPLT, LAMBDA, WGRADTSM)
+         IF(ITASK==0) DEALLOCATE(SPH_WORK%WT, SPH_WORK%WGRADT, SPH_WORK%WLAPLT, SPH_WORK%LAMBDA, SPH_WORK%WGRADTSM)
        
         END IF
 C-----------------------------------------------
@@ -598,14 +586,14 @@ C Comm WA et WACOMP sur cellules remotes avant traitement part. sym.
 C on a besoin potentiellement de WA remote
             IF(NSPMD>1)THEN
               CALL STARTIME(93,1)
-              CALL SPMD_SPHGETWA(WA,WAR2,KXSP)
+              CALL SPMD_SPHGETWA(WA,SPH_WORK%WAR2,KXSP)
               CALL STOPTIME(93,1)
             ENDIF
 
             CALL SPONFRO(X ,V        ,A       ,MS      ,
      2             SPBUF   ,ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,
      3             ISPHIO  ,IPART   ,IPARTSP ,WASPACT ,WA      ,
-     4             WASPH(KVNORM), WAR2  )
+     4             WASPH(KVNORM), SPH_WORK%WAR2  )
 
           ENDIF 
         ENDIF
@@ -700,10 +688,10 @@ C-----------------------------------------------
 C       Stabilization (SPH without a tensile instability) :: W(Dp)
 C-----------------------------------------------
        IF(ITASK==0)THEN
-         ALLOCATE(STAB(7,NUMSPH+NSPHR+NSPHSYM+1),STAT=STAT)
+         ALLOCATE(SPH_WORK%STAB(7,NUMSPH+NSPHR+NSPHSYM+1),STAT=STAT)
          IF (STAT/=0)THEN
          END IF
-         STAB=ZERO
+         SPH_WORK%STAB=ZERO
        END IF
 C     /---------------/
        CALL MY_BARRIER
@@ -711,7 +699,7 @@ C     /---------------/
        CALL SPSTABW(
      1   ITASK     ,IPARG     ,NGROUNC   ,IGROUNC   ,KXSP      ,
      2   ISPCOND   ,ISPSYM    ,WASPACT   ,SPH2SOL   ,WA        ,
-     3   WASIGSM,WAR       ,STAB      ,IXSP      ,NOD2SP    ,
+     3   SPH_WORK%WASIGSM,SPH_WORK%WAR       ,SPH_WORK%STAB      ,IXSP      ,NOD2SP    ,
      4   SPBUF     ,X         ,IPART     ,IPARTSP   ,XSPSYM    )
 C
 C-------
@@ -724,9 +712,9 @@ C       /---------------/
 C       /---------------/
          IF(ITASK==0)THEN
            CALL STARTIME(93,1)
-           CALL SPMD_SPHGETW(SPBUF,WASPH,WA,WAR,SPH_IORD1)
+           CALL SPMD_SPHGETW(SPBUF,WASPH,WA,SPH_WORK%WAR,SPH_IORD1)
 C a optimiser (1 seule comm)
-           CALL SPMD_SPHGETSTB(STAB,STAB(1,NUMSPH+1))
+           CALL SPMD_SPHGETSTB(SPH_WORK%STAB,SPH_WORK%STAB(1,NUMSPH+1))
            CALL STOPTIME(93,1)
          ENDIF
        END IF
@@ -739,12 +727,12 @@ C-----------------------------------------------
      2              SPBUF   ,ITAB     ,KXSP    ,IXSP    ,NOD2SP  ,
      3              ISPHIO  ,VSPHIO   ,NPC     ,PLD     ,PM      ,
      4              IPARG   ,ELBUF_TAB,IPART   ,IPARTSP ,WASPACT ,
-     5              WASPH(KVNORM),WA  ,SPHVELN ,WAR)
+     5              WASPH(KVNORM),WA  ,SPHVELN ,SPH_WORK%WAR)
 
 c on doit mettre a jour wa(1),wa(2),wa(3) suite a sponfprs
             IF(NSPMD>1) THEN
               CALL STARTIME(93,1)
-              CALL SPMD_SPHGETW(SPBUF,WASPH,WA,WAR,SPH_IORD1)
+              CALL SPMD_SPHGETW(SPBUF,WASPH,WA,SPH_WORK%WAR,SPH_IORD1)
               CALL STOPTIME(93,1)
             ENDIF
           ENDIF 
@@ -754,7 +742,7 @@ C        PREPARE SYMMETRIC PARTICLES STRESSES.
 C-----------------------------------------------
         IF(ITASK==0)THEN
           CALL SPSGSYM(ISPCOND ,XFRAME    ,ISPSYM ,XSPSYM  ,VSPSYM  ,
-     2                WA      ,WASIGSM,WASPACT,WAR     )
+     2                WA      ,SPH_WORK%WASIGSM,WASPACT,SPH_WORK%WAR )
         ENDIF
 C------
 C
@@ -798,7 +786,7 @@ C-----------------------------------------------
         CALL SPSTABS(
      1    ITASK     ,IPARG     ,NGROUNC   ,IGROUNC   ,KXSP      ,
      2    ISPCOND   ,ISPSYM    ,WASPACT   ,SPH2SOL   ,WA        ,
-     3    WASIGSM,WAR       ,STAB      ,IXSP      ,NOD2SP    ,
+     3    SPH_WORK%WASIGSM,SPH_WORK%WAR   ,SPH_WORK%STAB ,IXSP      ,NOD2SP    ,
      4    SPBUF     ,X         )
 C
 C barriere sur WA & STAB obligatoire, WA & STAB partages
@@ -838,8 +826,8 @@ C-----------
      3    PARTSAV   ,FSAV       ,DT2T      ,IPARG     ,NPC       ,
      4    KXSP      ,IXSP       ,NOD2SP    ,NELTST    ,ITYPTST   ,
      5    IPART     ,IPARTSP    ,ISPCOND   ,XFRAME    ,ISPSYM    ,
-     6    XSPSYM    ,VSPSYM     ,WA        ,WASIGSM,WASPH     ,
-     7    WSMCOMP,WASPACT,WAR       ,STAB)
+     6    XSPSYM    ,VSPSYM     ,WA        ,SPH_WORK%WASIGSM,WASPH     ,
+     7    WSMCOMP,WASPACT,SPH_WORK%WAR     ,SPH_WORK%STAB)
             ENDIF
             IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO
@@ -1187,8 +1175,8 @@ C       SPH gauges
 C-----------------------------------------------
         CALL SPGAUGE(LGAUGE  ,GAUGE ,KXSP   ,IXSP  ,
      1               SPBUF   ,IPARG   ,ELBUF_TAB,ISPSYM ,XSPSYM,
-     2               NOD2SP  ,X       ,ITASK   ,WA      ,WASIGSM,
-     3               WAR     ,SPHG_F6)
+     2               NOD2SP  ,X       ,ITASK   ,WA      ,SPH_WORK%WASIGSM,
+     3               SPH_WORK%WAR     ,SPHG_F6)
 C----------------------------------
 C
         NGDONE = 1
@@ -1199,9 +1187,9 @@ C      /---------------/
 C
 C Deallocation SPMD a faire en memoire partagee
 C
-        IF(ITASK==0) DEALLOCATE(STAB, WASIGSM)
+        IF(ITASK==0) DEALLOCATE(SPH_WORK%STAB, SPH_WORK%WASIGSM)
         IF(ITASK==0 .AND. NSPMD > 1)THEN
-          DEALLOCATE(WAR, WTR, WGR, LAMBDR, WAR2)
+          DEALLOCATE(SPH_WORK%WAR, SPH_WORK%WTR, SPH_WORK%WGR, SPH_WORK%LAMBDR, SPH_WORK%WAR2)
         END IF
 C
 C--------

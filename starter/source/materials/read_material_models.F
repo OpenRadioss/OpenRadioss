@@ -53,7 +53,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .             MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG  ,
      .             BUFMAT      ,BUFLEN   ,IPM      ,PM       ,UNITAB   ,
      .             MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL,
-     .             TABLE       ,NPC      )
+     .             TABLE       ,NPC      ,LTITR,
+     .             MAT20_DISCRETE_FILL,
+     .             USERL_AVAIL ,MAT_NUMBER)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -95,6 +97,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: LTITR
+      INTEGER, INTENT(IN) :: USERL_AVAIL
+      INTEGER, INTENT(INOUT) :: MAT_NUMBER
+      LOGICAL, INTENT(INOUT) :: MAT20_DISCRETE_FILL
       INTEGER :: BUFLEN
       INTEGER,INTENT(IN) :: NPC(SNPC)
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(INOUT) :: IPM
@@ -157,7 +163,10 @@ c-------------------------------------------------------------------
       CALL HM_READ_MAT(
      .     MAT_ELEM%MAT_PARAM       ,MLAW_TAG    ,EOS_TAG     ,BUFMAT      ,
      .     BUFLEN      ,IADBUF      ,IPM         ,PM          ,
-     .     MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE)
+     .     MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE       ,
+     .     SBUFMAT     ,NPROPMI     ,NPROPM      , TRIMAT,
+     .     IALELAG     ,NTABLE      ,NUMMAT      ,HM_NUMMAT   ,
+     .     LTITR       ,MAT20_DISCRETE_FILL,USERL_AVAIL,MAT_NUMBER)
 
 c-------------------------------------------------------------------
 c     /EOS : Equations of State P=P(µ,E)

@@ -252,6 +252,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod , only : zero, em10, em06, one, ep20
           use insertion_sort_mod , only : real_insertion_sort_with_index
+          use array_reindex_mod , only : integer_array_reindex
           implicit none
 #include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -779,6 +780,46 @@
       end function polygon_is_point_inside
 
 
+! ======================================================================================================================
+!                                                   PROCEDURES
+! ======================================================================================================================
+!! \brief   This subroutine is reindexing a array of POINTS using index(1:n) array
+!! \details      Example array = (/ P1 P2 P3 P4/)
+!! \details              index = (/4 3 2 1/)
+!! \details      result will be  (/ P4 P3 P2 P1 /)
+      !||====================================================================
+      !||    points_array_reindex       ../common_source/tools/sort/array_reindex.F90
+      !||--- called by ------------------------------------------------------
+      !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    polygon_clipping_mod       ../common_source/tools/clipping/polygon_clipping_mod.F90
+      !||====================================================================
+      subroutine points_array_reindex(array, index, n)
+        implicit none
+#include "my_real.inc"
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+        integer, intent(in) :: n
+        type(polygon_point_), intent(inout) :: array(n)
+        integer, intent(inout) :: index(n)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local Variables
+! ----------------------------------------------------------------------------------------------------------------------
+        integer :: ii
+        type(polygon_point_) :: temp_array(n)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+        do ii=1,n
+          temp_array(ii)%y=array(ii)%y
+          temp_array(ii)%z=array(ii)%z
+        end do
+        do ii = 1, n
+          array(ii)%y = temp_array(index(ii))%y
+          array(ii)%z = temp_array(index(ii))%z
+        end do
+      end subroutine points_array_reindex
 
 
 

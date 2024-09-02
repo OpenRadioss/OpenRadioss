@@ -136,6 +136,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_IFLG6_SIZE
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
+      use bcs_wall_trigger_mod
       use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

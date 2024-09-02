@@ -516,6 +516,7 @@ C
         END TYPE
 
         TYPE(USER_NOD_ID_) :: USER_NOD_ID
+        INTEGER SZ_ANIN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -2384,11 +2385,16 @@ c          IF(ISPMD == 0) print *,'nodal scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO
 
 c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
 
-            CALL H3D_ONED_SCALAR(ELBUF_TAB   ,IPARG    ,GEO  , IXT,
-     .               IXP    ,IXR    ,PM   ,  ANIN(NDMA2+1),
-     .               ONED_SCALAR,   ONED_ID      ,ONED_ITY,
-     .               IS_WRITEN_ONED  ,    IPARTT ,IPARTP,IPARTR,H3D_DATA%OUTPUT_LIST(I)%PART,
-     .               KEYWORD, X , D   ,IPT)
+            SZ_ANIN = SANIN - NDMA2
+            CALL H3D_ONED_SCALAR(ELBUF_TAB      ,IPARG    ,GEO  , IXT,
+     .                           IXP            ,IXR      ,PM   , ANIN(NDMA2+1),
+     .                           ONED_SCALAR    ,ONED_ID  ,ONED_ITY,
+     .                           IS_WRITEN_ONED ,IPARTT ,IPARTP,IPARTR,H3D_DATA%OUTPUT_LIST(I)%PART,
+     .                           KEYWORD, X , D   ,IPT, 
+     .                           NUMELP,  NUMELT,  NUMELR,NIXT,NIXP,
+     .                           NIXR,    NGROUP,  ANIM_FE,  MX_ANI,   NPARG,
+     .                           NPROPM,  NPROPG,  NUMMAT,   NUMGEO,   NUMNOD,
+     .                           SZ_ANIN, NUMELPG, NUMELRG,  NUMELTRG, NPART)
 
 c
             IF (NSPMD > 1 ) THEN

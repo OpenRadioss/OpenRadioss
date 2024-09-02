@@ -168,7 +168,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_READ_MAT(
      .   MAT_PARAM   ,MLAW_TAG    ,EOS_TAG     ,BUFMAT      ,
      .   BUFLEN      ,IADBUF      ,IPM         ,PM          ,
-     .   MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE)
+     .   MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE       ,
+     .   SBUFMAT     ,NPROPMI     ,NPROPM      ,TRIMAT      ,
+     .   IALELAG     ,NTABLE      ,NUMMAT      ,HM_NUMMAT   ,
+     .   LTITR       ,MAT20_DISCRETE_FILL,USERL_AVAIL,MAT_NUMBER)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -176,6 +179,8 @@ C   READ MATERIALS WITH HM READER
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE constant_mod
+      USE starter_file_descriptor_mod
       USE UNITAB_MOD
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD
@@ -195,31 +200,41 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"
+      IMPLICIT NONE
+#include "my_real.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "tablen_c.inc"
-#include      "units_c.inc"
-#include      "userlib.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER, INTENT(IN)                  :: SBUFMAT
+      INTEGER, INTENT(IN)                  :: NPROPMI
+      INTEGER, INTENT(IN)                  :: NPROPM
+      INTEGER, INTENT(IN)                  :: NTABLE
+      INTEGER, INTENT(IN)                  :: NUMMAT
+      INTEGER, INTENT(IN)                  :: HM_NUMMAT
+      INTEGER, INTENT(IN)                  :: LTITR
+      INTEGER, INTENT(IN)                  :: USERL_AVAIL
+      TYPE (UNIT_TYPE_),INTENT(IN)         :: UNITAB
+      TYPE(SUBMODEL_DATA),INTENT(IN)       :: LSUBMODEL(NSUBMOD)
+      ! 
+      LOGICAL, INTENT(INOUT)                  :: MAT20_DISCRETE_FILL
+      !
+      INTEGER, INTENT(INOUT)                  :: TRIMAT
+      INTEGER, INTENT(INOUT)                  :: IALELAG
+      INTEGER, INTENT(INOUT)                  :: MAT_NUMBER
       INTEGER ,INTENT(INOUT) :: BUFLEN,IADBUF
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(INOUT) :: IPM
+      !
       my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(INOUT) :: PM
-      my_real ,DIMENSION(*), INTENT(INOUT) :: BUFMAT
-
-      TYPE(MLAW_TAG_), TARGET, DIMENSION(NUMMAT)      :: MLAW_TAG
+      my_real ,DIMENSION(SBUFMAT), INTENT(INOUT)        :: BUFMAT
+  
+      TYPE(MLAW_TAG_), TARGET, DIMENSION(NUMMAT),INTENT(INOUT)    :: MLAW_TAG
       TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG
-      TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
-      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
+      TYPE(MULTI_FVM_STRUCT),INTENT(INOUT)                        :: MULTI_FVM
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT)    :: MAT_PARAM
       TARGET :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

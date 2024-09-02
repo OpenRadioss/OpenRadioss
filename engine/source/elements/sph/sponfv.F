@@ -36,12 +36,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE SPONFV(X ,V        ,A       ,D       ,MS      ,
      2             SPBUF   ,ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,
      3             NPC     ,PLD     ,ISPHIO  ,VSPHIO  ,IPART   ,
-     4             IPARTSP ,WASPACT ,WA      ,VNORMAL   )
+     4             IPARTSP ,WASPACT ,WA      ,VNORMAL ,SPH_WORK  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX    
-      USE MOD_SPLISSV
+      USE SPH_WORK_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,7 +90,7 @@ C     REAL
       LOGICAL lBOOL
 
       my_real       ,DIMENSION(:,:), ALLOCATABLE :: DSPHR
-
+      TYPE(SPH_WORK_) :: SPH_WORK
 C-----------------------------------------------
 C     inlets.
 C-----------------------------------------------
@@ -169,11 +169,11 @@ C-----------------------------------------------
 C Comm D et A sur cellules remotes
 C-----------------------------------------------
       IF(NSPMD>1)THEN
-          ALLOCATE(ASPHR(3,NSPHR))
+          ALLOCATE(SPH_WORK%ASPHR(3,NSPHR))
           ALLOCATE(DSPHR(12,NSPHR))
-          CALL SPMD_SPHGETA(KXSP,SPBUF,A,ASPHR)
+          CALL SPMD_SPHGETA(KXSP,SPBUF,A,SPH_WORK%ASPHR)
           CALL SPMD_SPHGETD(KXSP,IXSP,ISPHIO,X,WASPACT,NOD2SP,
-     .                      SPBUF,V,A,ASPHR,DSPHR)
+     .                      SPBUF,V,A,SPH_WORK%ASPHR,DSPHR)
       END IF
 C-------------------------------------------
 C     general outlet & silent boundary.
@@ -385,9 +385,9 @@ C------
                WGRDY=WGRAD(2)*ALPHAI+WGHT*ALPHAYI
                WGRDZ=WGRAD(3)*ALPHAI+WGHT*ALPHAZI
                VJ=XSPHR(8,NN)/MAX(EM20,RHOJ)
-               VXJ =XSPHR(9,NN)+DT12*ASPHR(1,NN)
-               VYJ =XSPHR(10,NN)+DT12*ASPHR(2,NN)
-               VZJ =XSPHR(11,NN)+DT12*ASPHR(3,NN)
+               VXJ =XSPHR(9,NN)+DT12*SPH_WORK%ASPHR(1,NN)
+               VYJ =XSPHR(10,NN)+DT12*SPH_WORK%ASPHR(2,NN)
+               VZJ =XSPHR(11,NN)+DT12*SPH_WORK%ASPHR(3,NN)
                VJX=VJ*(VXJ-VX)
                VJY=VJ*(VYJ-VY)
                VJZ=VJ*(VZJ-VZ)
@@ -454,7 +454,7 @@ C-------------------------------------------
 #include "atomend.inc"
 C-------------------------------------------
       IF(NSPMD>1)THEN
-          DEALLOCATE(ASPHR,DSPHR)
+          DEALLOCATE(SPH_WORK%ASPHR,DSPHR)
       END IF
 C-------------------------------------------
       RETURN

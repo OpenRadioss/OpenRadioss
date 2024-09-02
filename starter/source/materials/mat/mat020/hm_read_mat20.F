@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE HM_READ_MAT20(
      .             IPM      ,PM       ,UNITAB   ,MAT_ID   ,TITR    ,
-     .             LSUBMODEL,MTAG     ,MATPARAM )
+     .             LSUBMODEL,MTAG     ,MATPARAM ,MAT20_DISCRETE_FILL)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -65,6 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      LOGICAL, INTENT(INOUT) :: MAT20_DISCRETE_FILL     
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER, INTENT(INOUT) :: IPM(NPROPMI)
       INTEGER, INTENT(IN) :: MAT_ID

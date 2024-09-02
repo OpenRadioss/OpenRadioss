@@ -76,8 +76,10 @@ cc
      J   IPARG,       SENSORS,     PTG,         JTHE,
      K   CONDN,       CONDNSKY,    ISUBSTACK,   STACK,
      L   ITASK,       DRAPE_SH3N,  IPRI,        NLOC_DMG,
-     M   INDX_DRAPE,  IGRE,        JTUR,        DT   ,
-     N   NCYCLE,      SNPC,        STF ,       GLOB_THERM  )
+     M   INDX_DRAPE,  IGRE,        JTUR,        DT,
+     N   NCYCLE,      SNPC,        STF ,        GLOB_THERM
+     N   NXLAYMAX,    IDEL7NOK,    USERL_AVAIL, MAXFUNC,
+     O   SBUFMAT  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -112,6 +114,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN)    :: USERL_AVAIL ! Flag for User libraries availability
+      INTEGER,INTENT(IN)    :: MAXFUNC     ! Maximum number of functions
+      INTEGER,INTENT(INOUT) :: IDEL7NOK    ! Element deletion flag for IDEL flag in contact interfaces
+      INTEGER,INTENT(IN)    :: SBUFMAT     ! Buffer material flag
+      INTEGER,INTENT(IN)    :: STF         ! Size of TF
+      INTEGER,INTENT(IN)    :: SNPC        ! Size of NPC
+      INTEGER, INTENT(IN) :: NXLAYMAX
       INTEGER, INTENT(IN) :: JTUR
       INTEGER, INTENT(IN) :: IGRE,SNPC,  STF,NCYCLE
       INTEGER JFT, JLT, NVC, MTN,NELTST,ITYPTST,OFFSET,
@@ -202,6 +211,8 @@ C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
+      INTEGER SDIR_A    ! Size of DIR_A
+      INTEGER SDIR_B    ! Size of DIR_B
 C=======================================================================
 C GENERALIZED STRAINS ARE SAVED AT NB8 (GENERALIZED FOR ALL MATERIALS)
 C     NB1    |5*JLT    | FORCES  
@@ -278,9 +289,13 @@ c-------------------------------------
               NPTTOT = NPTTOT + NPTT
             ENDDO 
         ENDIF
+        SDIR_A=NPTTOT*NEL*L_DIRA
+        SDIR_B=NPTTOT*NEL*L_DIRB
         DIR_A => DIRA(1:NPTTOT*NEL*L_DIRA)
         DIR_B => DIRB(1:NPTTOT*NEL*L_DIRB)
       ELSE ! idrape
+        SDIR_A=NLAY*NEL*L_DIRA
+        SDIR_B=NLAY*NEL*L_DIRB
         ALLOCATE(DIRA(NLAY*NEL*L_DIRA))
         ALLOCATE(DIRB(NLAY*NEL*L_DIRB))
         DIRA=ZERO
@@ -294,6 +309,8 @@ c-------------------------------------
               DIRA(J1:J2) = ELBUF_STR%BUFLY(J)%DIRA(1:NEL*L_DIRA)
            ENDDO
          ENDIF
+         SDIR_A=NLAY*NEL*L_DIRA
+         SDIR_B=NLAY*NEL*L_DIRB
          DIR_A => DIRA(1:NLAY*NEL*L_DIRA)
          DIR_B => DIRB(1:NLAY*NEL*L_DIRB)
       ENDIF ! IDRAPE
@@ -388,8 +405,9 @@ C----------------------------------------------------------------------------
      N   ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O   IBID      ,IBID      ,ISUBSTACK ,STACK     ,
      P   BID       ,ITASK     ,DRAPE_SH3N  ,VAR_REG   ,NLOC_DMG  ,
-     R   INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE,DT      ,
-     Q   NCYCLE    ,SNPC      ,STF )
+     R   INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE ,DT      ,
+     Q   NCYCLE    ,SNPC      ,STF         ,NXLAYMAX    ,IDEL7NOK  ,
+     R   USERL_AVAIL ,MAXFUNC ,NPTTOT      ,SBUFMAT     ,SDIR_A    ,SDIR_B    )
 C----------------------------------------------------------------------------
 C     FORCES VISCOCITE 
 C----------------------------

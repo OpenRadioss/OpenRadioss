@@ -33,20 +33,24 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    updmat             ../starter/source/materials/updmat.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-      SUBROUTINE LAW190_UPD(MATPARAM ,NUMTABL ,ITABLE   ,TABLE       ,PM    )
+      SUBROUTINE LAW190_UPD(MATPARAM ,NUMTABL ,ITABLE   ,TABLE    ,PM ,
+     *                      NPROPM   ,NTABLE        )
 C----------------------------------------------- 
 C   M o d u l e s
-C-----------------------------------------------      
+C-----------------------------------------------
+      USE constant_mod    
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include  "implicit_f.inc"
-#include  "com04_c.inc"
-#include  "param_c.inc"
+      implicit none
+#include "my_real.inc"
+#include "mvsiz_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NPROPM
+      INTEGER, INTENT(IN) :: NTABLE
       INTEGER, INTENT(IN) :: NUMTABL
       INTEGER, DIMENSION(NUMTABL) :: ITABLE
       TYPE(MATPARAM_STRUCT_), TARGET :: MATPARAM

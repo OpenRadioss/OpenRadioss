@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      module hm_read_inivol_mod
+
+        contains
       !||====================================================================
       !||    hm_read_inivol             ../starter/source/initial_conditions/inivol/hm_read_inivol.F
       !||--- called by ------------------------------------------------------
@@ -323,5 +326,5 @@ C-----------------------------
 
       RETURN
       END
-      
+      end module hm_read_inivol_mod
 

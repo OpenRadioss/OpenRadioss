@@ -56,7 +56,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                   STIFN ,FSKY ,IADS  ,OFFSET ,IPARTS  ,
      6                   NEL      ,DT2T     ,NELTST ,ITYPTST ,IPM      ,
      7                   ITASK    ,GRESAV   ,GRTH   ,IGRTH   ,MSSA     ,
-     8                   DMELS    ,TABLE    ,IOUTPRT,MAT_ELEM,NG,SVIS  ,GLOB_THERM)
+     8                   DMELS    ,TABLE    ,IOUTPRT,MAT_ELEM,NG,SVIS ,GLOB_THERM,
+     9                   SNPC     ,NUMGEO   ,SBUFMAT  ,STF    ,NTABLE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -84,6 +85,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: SNPC
+      INTEGER,INTENT(IN) :: NUMGEO
+      INTEGER,INTENT(IN) :: SBUFMAT
+      INTEGER,INTENT(IN) :: STF
+      INTEGER,INTENT(IN) :: NTABLE
       INTEGER IXS(*),  IPARG(NPARG,*), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(*),OFFSET,NEL, NELTST, ITYPTST,ITASK,
      .        GRTH(*),IGRTH(*) ,IOUTPRT, NG
@@ -216,7 +222,8 @@ C------------------------------------------------------
      9            R31  ,R12   ,R22    ,R32   ,R13   , 
      A            R23  ,R33   ,OFF    ,IPM   ,GAMA  ,
      B            MSSA ,DMELS ,TABLE  ,SSP   ,ITASK ,
-     C            SVIS)
+     C            SVIS ,SNPC  ,NUMGEO ,SBUFMAT ,STF ,
+     D            NTABLE)
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C--------------------------
 C     BILANS PAR MATERIAU

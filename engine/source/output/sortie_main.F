@@ -138,7 +138,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE GENANI_MOD
       USE MAT_ELEM_MOD         
       USE CLUSTER_MOD
       USE INTBUFDEF_MOD  

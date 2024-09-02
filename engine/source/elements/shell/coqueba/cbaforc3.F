@@ -124,7 +124,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      R   DRAPE_SH4N,  NEL,         NLOC_DMG,    VPINCH,
      S   FPINCH,      STIFPINCH,   INDX_DRAPE,  IGRE,
      T   JTUR,        DT       ,    NCYCLE,     SNPC,
-     Y   STF ,        GLOB_THERM )
+     Y   STF ,        GLOB_THERM ,  NXLAYMAX,   IDEL7NOK,
+     U   USERL_AVAIL, MAXFUNC,     SBUFMAT)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -160,7 +161,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: IGRE,JTUR,NCYCLE,SNPC,STF
+      INTEGER,INTENT(IN)    :: USERL_AVAIL ! Flag for User libraries availability
+      INTEGER,INTENT(IN)    :: MAXFUNC     ! Maximum number of functions
+      INTEGER,INTENT(INOUT) :: IDEL7NOK    ! Element deletion flag for IDEL flag in contact interfaces
+      INTEGER,INTENT(IN)    :: SBUFMAT     ! size of bufmat
+      INTEGER,INTENT(IN)    :: STF         ! size of STF
+      INTEGER,INTENT(IN)    :: SNPC        ! size of NPC
+      INTEGER, INTENT(IN) :: NXLAYMAX
+      INTEGER, INTENT(IN) :: IGRE,JTUR,NCYCLE
       INTEGER JFT,JLT,NFT,NPT,MTN,IPRI,ITHK,NELTST,
      .        ITYPTST ,ISTRAIN,IPLA ,OFFSET,NVC,
      .        IOFC ,IHBE ,KFTS,ISMSTR,IFAILURE,
@@ -297,7 +305,9 @@ C-------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF 
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
-      TYPE(PINCH_LOCAL_STRUCT_) :: PINCH_LOCAL    
+      TYPE(PINCH_LOCAL_STRUCT_) :: PINCH_LOCAL
+      INTEGER SDIR_A    ! Size of DIR_A
+      INTEGER SDIR_B    ! Size of DIR_B
 C=======================================================================
 C     INITIALISATION
 C--------------------------
@@ -387,9 +397,13 @@ c-------------------------------------
               NPTTOT = NPTTOT + NPTT
             ENDDO 
         ENDIF
+        SDIR_A = NPTTOT*NEL*L_DIRA
+        SDIR_B = NPTTOT*NEL*L_DIRB
         DIR_A => DIRA(1:NPTTOT*NEL*L_DIRA)
         DIR_B => DIRB(1:NPTTOT*NEL*L_DIRB)
       ELSE ! idrape
+        SDIR_A=NLAY*NEL*L_DIRA
+        SDIR_B=NLAY*NEL*L_DIRB
         ALLOCATE(DIRA(NLAY*NEL*L_DIRA))
         ALLOCATE(DIRB(NLAY*NEL*L_DIRB))
         DIRA=ZERO
@@ -403,6 +417,8 @@ c-------------------------------------
               DIRA(J1:J2) = ELBUF_STR%BUFLY(J)%DIRA(1:NEL*L_DIRA)
            ENDDO
          ENDIF
+         SDIR_A=NLAY*NEL*L_DIRA
+         SDIR_B=NLAY*NEL*L_DIRB
          DIR_A => DIRA(1:NLAY*NEL*L_DIRA)
          DIR_B => DIRB(1:NLAY*NEL*L_DIRB)
       ENDIF ! IDRAPE    
@@ -543,7 +559,7 @@ C
      .   CALL CBADEFSH_PLY(JFT,JLT,NPT,NPLAT,IPLAT,X13,X24,Y13,Y24,
      .                   PLY_VXYZ,DT1C ,PLY_EXY)        
 C-----------------------------------------------
-C     BOUCLE SUR POINTS D'INTEGRATION DE GAUSS
+C     BOUCLE SUR POINTS D INTEGRATION DE GAUSS
 C-----------------------------------------------
       LENF = NEL*GBUF%G_FORPG/NPG
       LENM = NEL*GBUF%G_MOMPG/NPG
@@ -787,8 +803,10 @@ C-----------------
      N    ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O    IBID      ,IBID      ,ISUBSTACK ,STACK     ,
      P    F_DEF(1,1,NG),ITASK  ,DRAPE_SH4N,VAR_REG(1,1),NLOC_DMG ,
-     R    INDX_DRAPE ,THKE     ,SEDRAPE   ,NUMEL_DRAPE,DT   ,
-     Q    NCYCLE     ,SNPC     ,STF)        
+     R    INDX_DRAPE ,THKE     ,SEDRAPE   ,NUMEL_DRAPE  ,DT   ,
+     Q    NCYCLE     ,SNPC     ,STF       ,NXLAYMAX,    IDEL7NOK    ,
+     S    USERL_AVAIL ,MAXFUNC ,NPTTOT    ,SBUFMAT,     SDIR_A      ,
+     T    SDIR_B     )        
         ENDIF
 C-----------------
         IF ((ITASK==0).AND.(IMON_MAT == 1)) CALL STOPTIME(35,1)

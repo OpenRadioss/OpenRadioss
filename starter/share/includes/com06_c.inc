@@ -24,8 +24,9 @@ C.../COM06/
       INTEGER LCOM06
       PARAMETER (LCOM06 = 58)
 C
+      COMMON /COM06DP/ TFEXT
       COMMON /COM06/ DTDES, DTHIS, DTFAC, DTMIN, VOLMIN,
-     .               TFEXT, REINT, 
+     .               REINT, 
      .                      UREINT,ECONTV,EHOUR, DTOUTP,
      .               TOUTP, T1S,   DT2S,  DT12S, 
      .               R2RFX1,R2RFX2,DAMPA, DAMPB, DAMPW,
@@ -33,10 +34,10 @@ C
      .               DTABF(10),DTABFWR(10),ECONTD,ECONT_CUMU,
      .               DTDYNAIN, TDYNAIN
 
+      double precision TFEXT
       my_real
      .               DTDES, DTHIS, DTFAC, DTMIN, VOLMIN,
-     .               TFEXT, REINT, 
-     .                     UREINT,ECONTV,EHOUR, DTOUTP,
+     .               REINT, UREINT,ECONTV,EHOUR, DTOUTP,
      .               TOUTP, T1S,   DT2S,  DT12S, 
      .               R2RFX1,R2RFX2,DAMPA, DAMPB, DAMPW,
      .               DTHIS1,DWMAD ,T1SH, DTSTAT, TSTAT,

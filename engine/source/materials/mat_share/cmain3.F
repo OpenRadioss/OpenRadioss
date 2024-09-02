@@ -82,7 +82,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      O           IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P           F_DEF     ,ITASK     ,DRAPE     ,VARNL     ,NLOC_DMG   ,
      R           INDX_DRAPE,THKE      ,SEDRAPE   ,NUMEL_DRAPE,DT        ,
-     Q           NCYCLE    , SNPC     ,STF )
+     Q           NCYCLE    , SNPC     ,STF       ,NXLAYMAX  ,IDEL7NOK   ,
+     S           USERL_AVAIL, MAXFUNC ,VARNL_NPTTOT, SBUFMAT   ,SDIR_A    ,
+     T          SDIR_B  )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -116,6 +118,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN)    :: USERL_AVAIL ! Flag for User libraries availability
+      INTEGER,INTENT(IN)    :: MAXFUNC     ! Maximum number of functions
+      INTEGER,INTENT(INOUT) :: IDEL7NOK    ! Element deletion flag for IDEL flag in contact interfaces
+      INTEGER,INTENT(IN) :: NXLAYMAX       ! XFEM : maximum number of layers
+      INTEGER,INTENT(IN) :: VARNL_NPTTOT   ! Total number of integration points
+      INTEGER,INTENT(IN) :: SBUFMAT        ! Size of BUFMAT
+      INTEGER,INTENT(IN) :: SDIR_A         ! Size of DIR_A
+      INTEGER,INTENT(IN) :: SDIR_B         ! Size of DIR_B
+      INTEGER,INTENT(IN) :: STF            ! Size of TF
+      INTEGER,INTENT(IN) :: SNPC           ! Size of NPF
       INTEGER JFT,JLT,NFT,IR,IS,NPT,NG,NPG,NLAY,NEL,MTN,IPLA,IOFC,ITHK,
      .   KFTS,JHBE,IFAILURE,JTHE,IEXPAN,ISHPLYXFEM,ISMSTR,
      .   IXLAY,IXEL,IXFEM,ISUBSTACK,ITASK , NCYCLE
@@ -133,7 +145,7 @@ C-----------------------------------------------
      .   OFF(MVSIZ) ,THK0(MVSIZ) ,NU(MVSIZ),DT1C(MVSIZ),
      .   EXX(MVSIZ), EYY(MVSIZ), EXY(MVSIZ), EXZ(MVSIZ), EYZ(MVSIZ),
      .   KXX(MVSIZ), KYY(MVSIZ), KXY(MVSIZ), AREA(MVSIZ),
-     .   ZCFAC(MVSIZ,2),ALPE(MVSIZ),DIR_A(*),DIR_B(*),TEMPEL(*),DIE(*),
+     .   ZCFAC(MVSIZ,2),ALPE(MVSIZ),DIR_A(SDIR_A),DIR_B(SDIR_B),TEMPEL(*),DIE(*),
      .   TEMPEL0(MVSIZ), PLY_F(MVSIZ,5,*),
      .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
      .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),DEL_PLY(MVSIZ,3,*) ,
@@ -306,16 +318,18 @@ c
      8       SHF     ,GS      ,SIGY    ,THK0    ,EPSP    ,
      9       POSLY   ,IGEO    ,IPM     ,FAILWAVE,FWAVE_EL,
      A       IFAILURE,ALDT    ,TEMPEL  ,DIE     ,FHEAT   ,
-     B       E1X     ,E1Y     ,E1Z     ,E2X     ,E2Y     ,E2Z     ,
-     C       E3X     ,E3Y     ,E3Z     ,TABLE   ,IXFEM   ,ELCRKINI,
+     B       TABLE   ,IXFEM   ,ELCRKINI,
      D       SENSORS ,NG      ,IDT_THERM,THEACCFACT,  
      E       DIR1_CRK,DIR2_CRK,IPARG   ,JHBE    ,ISMSTR  ,JTHE    ,
      F       TENS    ,IR      ,IS      ,NLAY    ,NPT     ,IXLAY   ,
      G       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,
-     H       ITASK   ,STACK%PM ,ISUBSTACK,STACK ,TSTAR   ,ALPE    ,
+     H       ITASK   ,ISUBSTACK,STACK ,TSTAR   ,ALPE    ,
      I       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
-     J       VARNL   ,ETIMP   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX,DT    ,
-     K       NCYCLE  ,SNPC    ,STF)
+     J       VARNL   ,ETIMP   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX ,DT,
+     K       NCYCLE  ,SNPC    ,STF,IMPL_S  ,IMCONV  ,NPROPGI,
+     *       NPROPMI ,NPROPM  ,NPROPG,IMON_MAT,NUMGEO  ,
+     *       NUMSTACK, DT1    ,TT  ,NXLAYMAX ,IDEL7NOK,USERL_AVAIL,
+     *       MAXFUNC,NUMMAT,VARNL_NPTTOT,    SBUFMAT ,SDIR_A  ,SDIR_B  ,NPARG)
       ENDIF ! IF (NPT == 0) 
 C----------------------------------------------------------------------
       IF (IEXPAN > 0 .AND. JTHE > 0. AND. IDT_THERM==0) THEN
