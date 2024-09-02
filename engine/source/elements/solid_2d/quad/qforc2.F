@@ -60,20 +60,20 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE QFORC2(ELBUF_TAB,NG      ,
-     1                  PM       ,GEO     ,IC          ,X        ,A       ,
-     2                  V        ,MS      ,W           ,FLUX     ,FLU1    ,
-     3                  VEUL     ,ALE_CONNECT ,IPARG    ,NLOC_DMG,
-     4                  TF       ,NPF     ,BUFMAT      ,PARTSAV  ,
-     5                  DT2T     ,NELTST  ,ITYPTST     ,STIFN    ,OFFSET  ,
-     6                  EANI     ,IPARTQ  ,NEL         ,IADQ     ,FSKY    ,
-     9                  IPM      ,BUFVOIS ,QMV         ,
-     A                  GRESAV   ,GRTH    ,IGRTH       ,TABLE    ,IGEO    ,
-     B                  VOLN     ,ITASK   ,MS_2D       ,FSKYM    ,IOUTPRT ,
-     C                  MAT_ELEM ,H3D_STRAIN,SZ_BUFVOIS,SNPC,STF,SBUFMAT  ,
-     D                  SVIS,NSVOIS,IRESP,TT,DT1,      
-     .                  IDEL7NOK,    IDTMIN,     MAXFUNC,  
-     .                  IMON_MAT,USERL_AVAIL, heat_meca, impl_s,     idyna)
+      SUBROUTINE QFORC2(ELBUF_TAB  ,NG          ,
+     1                  PM         ,GEO         ,IC          ,X        ,A           ,
+     2                  V          ,MS          ,W           ,FLUX     ,FLU1        ,
+     3                  VEUL       ,ALE_CONNECT ,IPARG       ,NLOC_DMG ,
+     4                  TF         ,NPF         ,BUFMAT      ,PARTSAV  ,
+     5                  DT2T       ,NELTST      ,ITYPTST     ,STIFN    ,OFFSET      ,
+     6                  EANI       ,IPARTQ      ,NEL         ,IADQ     ,FSKY        ,
+     9                  IPM        ,BUFVOIS     ,QMV         ,
+     A                  GRESAV     ,GRTH        ,IGRTH       ,TABLE    ,IGEO        ,
+     B                  VOLN       ,ITASK       ,MS_2D       ,FSKYM    ,IOUTPRT     ,
+     C                  MAT_ELEM   ,H3D_STRAIN  ,SZ_BUFVOIS  ,SNPC     ,STF         ,SBUFMAT ,
+     D                  SVIS       ,NSVOIS      ,IRESP       ,TT       ,DT1         ,
+     .                  IDEL7NOK   ,IDTMIN      ,MAXFUNC     ,
+     .                  IMON_MAT   ,USERL_AVAIL ,heat_meca   ,impl_s   ,idyna)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
