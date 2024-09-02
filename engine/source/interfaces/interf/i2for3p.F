@@ -66,8 +66,8 @@ C-----------------------------------------------
       INTEGER I, I1, I2, I3, II, NN, L, J, JJ
 C     REAL
       my_real
-     .   SS, ST, XMSI, FXI, FYI, FZI,SP,SM,TP,TM,
-     .   H(4),H2(4)
+     .   SS, ST, XMSI, FS(3),SP,SM,TP,TM,
+     .   H(4),H2(4),FX(4),FY(4),FZ(4)
 C-----------------------------------------------
       IF (NIR==2) THEN
         DO II=1,NSN
@@ -81,9 +81,9 @@ C   traitement 1er noeud secnd
             IF (WEIGHT(I)==1) THEN
 C
               XMSI=MS(I)
-              FXI=A(I1)
-              FYI=A(I2)
-              FZI=A(I3)
+              FS(1)=A(I1)
+              FS(2)=A(I2)
+              FS(3)=A(I3)
 C
               SS=CRST(1,II)
               ST=CRST(2,II)
@@ -105,25 +105,32 @@ C        Additional shape functions for distribution of mass / inertia - to avoi
               H2(3)=TP*SP
               H2(4)=TP*SM
 C
+              FX(1:2) = FS(1)*H(1:2)
+              FY(1:2) = FS(2)*H(1:2)
+              FZ(1:2) = FS(3)*H(1:2)
+              FX(3:4) = ZERO
+              FY(3:4) = ZERO
+              FZ(3:4) = ZERO
+C
               I0 = I0 + 1
               NN = IADI2(1,I0)
-              FSKYI2(1,NN) = FXI*H(1)
-              FSKYI2(2,NN) = FYI*H(1)
-              FSKYI2(3,NN) = FZI*H(1)
+              FSKYI2(1,NN) = FX(1)
+              FSKYI2(2,NN) = FY(1)
+              FSKYI2(3,NN) = FZ(1)
               FSKYI2(4,NN) = XMSI*H2(1)
               FSKYI2(5,NN) = ABS(STIFN(I)*H(1))
 C
               NN = IADI2(2,I0)
-              FSKYI2(1,NN) = FXI*H(2)
-              FSKYI2(2,NN) = FYI*H(2)
-              FSKYI2(3,NN) = FZI*H(2)
+              FSKYI2(1,NN) = FX(2)
+              FSKYI2(2,NN) = FY(2)
+              FSKYI2(3,NN) = FZ(2)
               FSKYI2(4,NN) = XMSI*H2(2)
               FSKYI2(5,NN) = ABS(STIFN(I)*H(2))
             ENDIF
-C---      output of tied contact forces
-            CALL I2FORCES_2D(X   ,A     ,I    ,
-     .                     IRECT(1,L),H ,NIR     ,FSAV    ,FNCONT ,
-     .                     FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+C---        output of tied contact forces
+            CALL I2FORCES_2D(X       ,FS     ,FX     ,FY      ,FZ     ,
+     .                       IRECT(1,L),NIR  ,FSAV   ,FNCONT  ,FNCONTP,
+     .                       FTCONTP ,WEIGHT ,H3D_DATA,I      ,H)
 c
             STIFN(I)=EM20
             IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
@@ -161,9 +168,9 @@ C   traitement 1er noeud secnd
             IF (WEIGHT(I)==1) THEN
 C
               XMSI=MS(I)
-              FXI=A(I1)
-              FYI=A(I2)
-              FZI=A(I3)
+              FS(1)=A(I1)
+              FS(2)=A(I2)
+              FS(3)=A(I3)
 C
               SS=CRST(1,II)
               ST=CRST(2,II)
@@ -188,40 +195,44 @@ C        Additional shape functions for distribution of mass / inertia - to avoi
               H2(3)=TP*SP
               H2(4)=TP*SM
 C
+              FX(1:4) = FS(1)*H(1:4)
+              FY(1:4) = FS(2)*H(1:4)
+              FZ(1:4) = FS(3)*H(1:4)
+C
               I0 = I0 + 1
               NN = IADI2(1,I0)
-              FSKYI2(1,NN) = FXI*H(1)
-              FSKYI2(2,NN) = FYI*H(1)
-              FSKYI2(3,NN) = FZI*H(1)
+              FSKYI2(1,NN) = FX(1)
+              FSKYI2(2,NN) = FY(1)
+              FSKYI2(3,NN) = FZ(1)
               FSKYI2(4,NN) = XMSI*H2(1)
               FSKYI2(5,NN) = ABS(STIFN(I)*H(1))
 C
               NN = IADI2(2,I0)
-              FSKYI2(1,NN) = FXI*H(2)
-              FSKYI2(2,NN) = FYI*H(2)
-              FSKYI2(3,NN) = FZI*H(2)
+              FSKYI2(1,NN) = FX(2)
+              FSKYI2(2,NN) = FY(2)
+              FSKYI2(3,NN) = FZ(2)
               FSKYI2(4,NN) = XMSI*H2(2)
               FSKYI2(5,NN) = ABS(STIFN(I)*H(2))
 C
               NN = IADI2(3,I0)
-              FSKYI2(1,NN) = FXI*H(3)
-              FSKYI2(2,NN) = FYI*H(3)
-              FSKYI2(3,NN) = FZI*H(3)
+              FSKYI2(1,NN) = FX(3)
+              FSKYI2(2,NN) = FY(3)
+              FSKYI2(3,NN) = FZ(3)
               FSKYI2(4,NN) = XMSI*H2(3)
               FSKYI2(5,NN) = ABS(STIFN(I)*H(3))
 C
               NN = IADI2(4,I0)
-              FSKYI2(1,NN) = FXI*H(4)
-              FSKYI2(2,NN) = FYI*H(4)
-              FSKYI2(3,NN) = FZI*H(4)
+              FSKYI2(1,NN) = FX(4)
+              FSKYI2(2,NN) = FY(4)
+              FSKYI2(3,NN) = FZ(4)
               FSKYI2(4,NN) = XMSI*H2(4)
               FSKYI2(5,NN) = ABS(STIFN(I)*H(4))
             ENDIF
 C
 C---      output of tied contact forces
-            CALL I2FORCES(X      ,V ,A   ,MS    ,I    ,
-     .                    IRECT(1,L),H  ,NIR     ,FSAV    ,FNCONT ,
-     .                    FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+            CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,
+     .                    IRECT(1,L),NIR  ,FSAV   ,FNCONT  ,FNCONTP,
+     .                    FTCONTP ,WEIGHT ,H3D_DATA,I      ,H)
 C
             IF(IRODDL==0)THEN
               STIFN(I)=EM20
@@ -312,7 +323,8 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   H(4),
-     .   SS, ST, XMSI, FXI, FYI, FZI,SP,SM,TP,TM,H2(4)
+     .   SS, ST, XMSI, FS(3),SP,SM,TP,TM,H2(4),
+     .   FX(4),FY(4),FZ(4)
 C=======================================================================
       L = 0
 C   sauvegarde de la masse initiale
@@ -336,9 +348,9 @@ C
         ST=CRST(2,II)
 C
         XMSI=MS(I)
-        FXI=A(I1)
-        FYI=A(I2)
-        FZI=A(I3)
+        FS(1)=A(I1)
+        FS(2)=A(I2)
+        FS(3)=A(I3)
 C
         SP=ONE + SS
         SM=ONE - SS
@@ -347,18 +359,25 @@ C
         H(1)=TM*SM
         H(2)=TM*SP
 C
+        FX(1:2) = FS(1)*H(1:2)
+        FY(1:2) = FS(2)*H(1:2)
+        FZ(1:2) = FS(3)*H(1:2)
+        FX(3:4) = ZERO
+        FY(3:4) = ZERO
+        FZ(3:4) = ZERO
+C
         I0 = I0 + 1
         NN = IADI2(1,I0)
-        FSKYI2(1,NN) = FXI*H(1)
-        FSKYI2(2,NN) = FYI*H(1)
-        FSKYI2(3,NN) = FZI*H(1)
+        FSKYI2(1,NN) = FX(1)
+        FSKYI2(2,NN) = FY(1)
+        FSKYI2(3,NN) = FZ(1)
         FSKYI2(4,NN) = XMSI*H(1)
         FSKYI2(5,NN) = ABS(STIFN(I)*H(1))
 C
         NN = IADI2(2,I0)
-        FSKYI2(1,NN) = FXI*H(2)
-        FSKYI2(2,NN) = FYI*H(2)
-        FSKYI2(3,NN) = FZI*H(2)
+        FSKYI2(1,NN) = FX(2)
+        FSKYI2(2,NN) = FY(2)
+        FSKYI2(3,NN) = FZ(2)
         FSKYI2(4,NN) = XMSI*H(2)
         FSKYI2(5,NN) = ABS(STIFN(I)*H(2))
           ENDIF
@@ -395,9 +414,9 @@ C   traitement 1er noeud secnd
         IF (WEIGHT(I)==1) THEN
 C
         XMSI=MS(I)
-        FXI=A(I1)
-        FYI=A(I2)
-        FZI=A(I3)
+        FS(1)=A(I1)
+        FS(2)=A(I2)
+        FS(3)=A(I3)
 C
         SS=CRST(1,II)
         ST=CRST(2,II)
@@ -410,59 +429,63 @@ C
         H(3)=TP*SP
         H(4)=TP*SM
 
-C        Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
-            SS=CSTS_BIS(1,II)
-            ST=CSTS_BIS(2,II)
-            SP=ONE + SS
-            SM=ONE - SS
-            TP=FOURTH*(ONE + ST)
-            TM=FOURTH*(ONE - ST)
-            H2(1)=TM*SM
-            H2(2)=TM*SP
-            H2(3)=TP*SP
-            H2(4)=TP*SM
+C       Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
+        SS=CSTS_BIS(1,II)
+        ST=CSTS_BIS(2,II)
+        SP=ONE + SS
+        SM=ONE - SS
+        TP=FOURTH*(ONE + ST)
+        TM=FOURTH*(ONE - ST)
+        H2(1)=TM*SM
+        H2(2)=TM*SP
+        H2(3)=TP*SP
+        H2(4)=TP*SM
+C
+        FX(1:4) = FS(1)*H(1:4)
+        FY(1:4) = FS(2)*H(1:4)
+        FZ(1:4) = FS(3)*H(1:4)
 C
         I0 = I0 + 1
         NN = IADI2(1,I0)
-        FSKYI2(1,NN) = FXI*H(1)
-        FSKYI2(2,NN) = FYI*H(1)
-        FSKYI2(3,NN) = FZI*H(1)
+        FSKYI2(1,NN) = FX(1)
+        FSKYI2(2,NN) = FY(1)
+        FSKYI2(3,NN) = FZ(1)
         FSKYI2(4,NN) = XMSI*H2(1)
         FSKYI2(5,NN) = ABS(STIFN(I)*H(1))
 C
         NN = IADI2(2,I0)
-        FSKYI2(1,NN) = FXI*H(2)
-        FSKYI2(2,NN) = FYI*H(2)
-        FSKYI2(3,NN) = FZI*H(2)
+        FSKYI2(1,NN) = FX(2)
+        FSKYI2(2,NN) = FY(2)
+        FSKYI2(3,NN) = FZ(2)
         FSKYI2(4,NN) = XMSI*H2(2)
         FSKYI2(5,NN) = ABS(STIFN(I)*H(2))
 C
         NN = IADI2(3,I0)
-        FSKYI2(1,NN) = FXI*H(3)
-        FSKYI2(2,NN) = FYI*H(3)
-        FSKYI2(3,NN) = FZI*H(3)
+        FSKYI2(1,NN) = FX(3)
+        FSKYI2(2,NN) = FY(3)
+        FSKYI2(3,NN) = FZ(3)
         FSKYI2(4,NN) = XMSI*H2(3)
         FSKYI2(5,NN) = ABS(STIFN(I)*H(3))
 C
         NN = IADI2(4,I0)
-        FSKYI2(1,NN) = FXI*H(4)
-        FSKYI2(2,NN) = FYI*H(4)
-        FSKYI2(3,NN) = FZI*H(4)
+        FSKYI2(1,NN) = FX(4)
+        FSKYI2(2,NN) = FY(4)
+        FSKYI2(3,NN) = FZ(4)
         FSKYI2(4,NN) = XMSI*H2(4)
         FSKYI2(5,NN) = ABS(STIFN(I)*H(4))
-            ENDIF
+        ENDIF
 C
-C---     output of tied contact forces
-        CALL I2FORCES(X      ,V  ,A   ,MS    ,I    ,
-     .                    IRECT(1,L),H ,NIR     ,FSAV    ,FNCONT ,
-     .                    FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+C---    output of tied contact forces
+        CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,
+     .                IRECT(1,L),NIR  ,FSAV   ,FNCONT  ,FNCONTP,
+     .                FTCONTP ,WEIGHT ,H3D_DATA,I      ,H)
 C
         IF(IRODDL==0)THEN
-         STIFN(I)=EM20
-         A(I1)=ZERO
-         A(I2)=ZERO
-         A(I3)=ZERO
-          END IF
+          STIFN(I)=EM20
+          A(I1)=ZERO
+          A(I2)=ZERO
+          A(I3)=ZERO
+        END IF
 C
 C stokage ZERO pour noeuds delete par idel2
         ELSEIF(WEIGHT(-I)==1) THEN
@@ -538,8 +561,8 @@ C-----------------------------------------------
       INTEGER I, J, I1, I2, I3, II, JJ, NN, L
 C     REAL
       my_real
-     .   SS, ST, XMSI, FXI, FYI, FZI,SP,SM,TP,TM,
-     .   H(4),H2(4)
+     .   SS, ST, XMSI, FS(3),SP,SM,TP,TM,
+     .   H(4),H2(4),FX(4),FY(4),FZ(4)
 C-----------------------------------------------
 C   sauvegarde de la masse initiale
       DO II=1,NMN
@@ -560,9 +583,9 @@ C
             ST=CRST(2,II)
 C
             XMSI=MS(I)
-            FXI=A(I1)
-            FYI=A(I2)
-            FZI=A(I3)
+            FS(1)=A(I1)
+            FS(2)=A(I2)
+            FS(3)=A(I3)
 C
             SP=ONE + SS
             SM=ONE - SS
@@ -571,18 +594,25 @@ C
             H(1)=TM*SM
             H(2)=TM*SP
 C
+            FX(1:2) = FS(1)*H(1:2)
+            FY(1:2) = FS(2)*H(1:2)
+            FZ(1:2) = FS(3)*H(1:2)
+            FX(3:4) = ZERO
+            FY(3:4) = ZERO
+            FZ(3:4) = ZERO
+C
             I0 = I0 + 1
             NN = IADI2(1,I0)
-            FSKYI2(1,NN) = FXI*H(1)
-            FSKYI2(2,NN) = FYI*H(1)
-            FSKYI2(3,NN) = FZI*H(1)
+            FSKYI2(1,NN) = FX(1)
+            FSKYI2(2,NN) = FY(1)
+            FSKYI2(3,NN) = FZ(1)
             FSKYI2(4,NN) = XMSI*H(1)
             FSKYI2(5,NN) = ABS(STIFN(I)*H(1))
 C
             NN = IADI2(2,I0)
-            FSKYI2(1,NN) = FXI*H(2)
-            FSKYI2(2,NN) = FYI*H(2)
-            FSKYI2(3,NN) = FZI*H(2)
+            FSKYI2(1,NN) = FX(2)
+            FSKYI2(2,NN) = FY(2)
+            FSKYI2(3,NN) = FZ(2)
             FSKYI2(4,NN) = XMSI*H(2)
             FSKYI2(5,NN) = ABS(STIFN(I)*H(2))
           ENDIF
@@ -603,9 +633,9 @@ C   traitement 1er noeud secnd
           IF (WEIGHT(I)==1) THEN
 C
             XMSI=MS(I)
-            FXI=A(I1)
-            FYI=A(I2)
-            FZI=A(I3)
+            FS(1)=A(I1)
+            FS(2)=A(I2)
+            FS(3)=A(I3)
 C
             SS=CRST(1,II)
             ST=CRST(2,II)
@@ -630,40 +660,44 @@ C        Additional shape functions for distribution of mass / inertia - to avoi
             H2(3)=TP*SP
             H2(4)=TP*SM
 C
+            FX(1:4) = FS(1)*H(1:4)
+            FY(1:4) = FS(2)*H(1:4)
+            FZ(1:4) = FS(3)*H(1:4)
+C
             I0 = I0 + 1
             NN = IADI2(1,I0)
-            FSKYI2(1,NN) = FXI*H(1)
-            FSKYI2(2,NN) = FYI*H(1)
-            FSKYI2(3,NN) = FZI*H(1)
+            FSKYI2(1,NN) = FX(1)
+            FSKYI2(2,NN) = FY(1)
+            FSKYI2(3,NN) = FZ(1)
             FSKYI2(4,NN) = XMSI*H2(1)
             FSKYI2(5,NN) = ABS(STIFN(I)*H(1))
 C
             NN = IADI2(2,I0)
-            FSKYI2(1,NN) = FXI*H(2)
-            FSKYI2(2,NN) = FYI*H(2)
-            FSKYI2(3,NN) = FZI*H(2)
+            FSKYI2(1,NN) = FX(2)
+            FSKYI2(2,NN) = FY(2)
+            FSKYI2(3,NN) = FZ(2)
             FSKYI2(4,NN) = XMSI*H2(2)
             FSKYI2(5,NN) = ABS(STIFN(I)*H(2))
 C
             NN = IADI2(3,I0)
-            FSKYI2(1,NN) = FXI*H(3)
-            FSKYI2(2,NN) = FYI*H(3)
-            FSKYI2(3,NN) = FZI*H(3)
+            FSKYI2(1,NN) = FX(3)
+            FSKYI2(2,NN) = FY(3)
+            FSKYI2(3,NN) = FZ(3)
             FSKYI2(4,NN) = XMSI*H2(3)
             FSKYI2(5,NN) = ABS(STIFN(I)*H(3))
 C
             NN = IADI2(4,I0)
-            FSKYI2(1,NN) = FXI*H(4)
-            FSKYI2(2,NN) = FYI*H(4)
-            FSKYI2(3,NN) = FZI*H(4)
+            FSKYI2(1,NN) = FX(4)
+            FSKYI2(2,NN) = FY(4)
+            FSKYI2(3,NN) = FZ(4)
             FSKYI2(4,NN) = XMSI*H2(4)
             FSKYI2(5,NN) = ABS(STIFN(I)*H(4))
           ENDIF
 C
 C---    output of tied contact forces
-          CALL I2FORCES(X      ,V ,A   ,MS    ,I    ,
-     .                  IRECT(1,L),H  ,NIR     ,FSAV    ,FNCONT ,
-     .                  FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+          CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,
+     .                  IRECT(1,L),NIR  ,FSAV   ,FNCONT  ,FNCONTP,
+     .                  FTCONTP ,WEIGHT ,H3D_DATA,I      ,H)
 C
           STIFN(I)=EM20
           A(I1)=ZERO
@@ -720,7 +754,7 @@ C-----------------------------------------------
       INTEGER I, J, II, L, NN
 C     REAL
       my_real
-     .   SS, ST, XMSI, FXI, FYI, FZI, MXI, MYI, MZI,INS,
+     .   SS, ST, XMSI, FS(3), MOMS(3),INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,
      .   STF,AI,INMX,H(4),H2(4)
@@ -793,21 +827,21 @@ C
                 ADI(IRECT(2,L))=ADI(IRECT(2,L))+AI*H(2)
               END IF
 C
-              FXI=A(1,I)
-              FYI=A(2,I)
-              FZI=A(3,I)
+              FS(1)=A(1,I)
+              FS(2)=A(2,I)
+              FS(3)=A(3,I)
 C
-              MXI = AR(1,I) + YC0 * FZI - ZC0 * FYI
-              MYI = AR(2,I) + ZC0 * FXI - XC0 * FZI
-              MZI = AR(3,I) + XC0 * FYI - YC0 * FXI
+              MOMS(1) = AR(1,I) + YC0 * FS(3) - ZC0 * FS(2)
+              MOMS(2) = AR(2,I) + ZC0 * FS(1) - XC0 * FS(3)
+              MOMS(3) = AR(3,I) + XC0 * FS(2) - YC0 * FS(1)
 C
               I0 = I0 + 1
               DO J = 1,NIR
                 IF (IN(IRECT(J,L)) > EM20) THEN
                   NN = IADI2(J,I0)
-                  FSKYI2(6,NN) = MXI*H(J)
-                  FSKYI2(7,NN) = MYI*H(J)
-                  FSKYI2(8,NN) = MZI*H(J)
+                  FSKYI2(6,NN) = MOMS(1)*H(J)
+                  FSKYI2(7,NN) = MOMS(2)*H(J)
+                  FSKYI2(8,NN) = MOMS(3)*H(J)
                   FSKYI2(9,NN) = INS*H2(J)
                   FSKYI2(10,NN)= ABS(STF*H(J))
 C
@@ -916,21 +950,21 @@ C
                 ADI(IRECT(4,L))=ADI(IRECT(4,L))+AI*H(4)
               END IF
 C
-              FXI=A(1,I)
-              FYI=A(2,I)
-              FZI=A(3,I)
+              FS(1)=A(1,I)
+              FS(2)=A(2,I)
+              FS(3)=A(3,I)
 C
-              MXI = AR(1,I) + YC0 * FZI - ZC0 * FYI
-              MYI = AR(2,I) + ZC0 * FXI - XC0 * FZI
-              MZI = AR(3,I) + XC0 * FYI - YC0 * FXI
+              MOMS(1) = AR(1,I) + YC0 * FS(3) - ZC0 * FS(2)
+              MOMS(2) = AR(2,I) + ZC0 * FS(1) - XC0 * FS(3)
+              MOMS(3) = AR(3,I) + XC0 * FS(2) - YC0 * FS(1)
 C
               I0 = I0 + 1
               DO J = 1,NIR
                 IF (IN(IRECT(J,L)) > EM20) THEN
                   NN = IADI2(J,I0)
-                  FSKYI2(6,NN) = MXI*H(J)
-                  FSKYI2(7,NN) = MYI*H(J)
-                  FSKYI2(8,NN) = MZI*H(J)
+                  FSKYI2(6,NN) = MOMS(1)*H(J)
+                  FSKYI2(7,NN) = MOMS(2)*H(J)
+                  FSKYI2(8,NN) = MOMS(3)*H(J)
                   FSKYI2(9,NN) = INS*H2(J)
                   FSKYI2(10,NN)= ABS(STF*H(J))
 C
@@ -1029,7 +1063,7 @@ C-----------------------------------------------
       INTEGER I, J, II, L, NN
 C     REAL
       my_real
-     .   SS, ST, XMSI, FXI, FYI, FZI, MXI, MYI, MZI,INS,
+     .   SS, ST, XMSI, FS(3), MOMS(3),INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,INMX,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,H1, H2,H3,H4,STF,
      .   H21,H22,H23,H24
@@ -1097,13 +1131,13 @@ C
           INS = IN(I) + AA * MS(I)
           STF = STIFR(I) + AA * STIFN(I)
 C
-          FXI=A(1,I)
-          FYI=A(2,I)
-          FZI=A(3,I)
+          FS(1)=A(1,I)
+          FS(2)=A(2,I)
+          FS(3)=A(3,I)
 C
-          MXI = AR(1,I) + YC0 * FZI - ZC0 * FYI
-          MYI = AR(2,I) + ZC0 * FXI - XC0 * FZI
-          MZI = AR(3,I) + XC0 * FYI - YC0 * FXI
+          MOMS(1) = AR(1,I) + YC0 * FS(3) - ZC0 * FS(2)
+          MOMS(2) = AR(2,I) + ZC0 * FS(1) - XC0 * FS(3)
+          MOMS(3) = AR(3,I) + XC0 * FS(2) - YC0 * FS(1)
 C
           I0 = I0 + 1
           INMX = ZERO
@@ -1112,30 +1146,30 @@ C
           ENDDO
           IF (INMX > EM20) THEN
             NN = IADI2(1,I0)
-            FSKYI2(6,NN) = MXI*H1
-            FSKYI2(7,NN) = MYI*H1
-            FSKYI2(8,NN) = MZI*H1
+            FSKYI2(6,NN) = MOMS(1)*H1
+            FSKYI2(7,NN) = MOMS(2)*H1
+            FSKYI2(8,NN) = MOMS(3)*H1
             FSKYI2(9,NN) = INS*H21
             FSKYI2(10,NN)= STF*H1
 C
             NN = IADI2(2,I0)
-            FSKYI2(6,NN) = MXI*H2
-            FSKYI2(7,NN) = MYI*H2
-            FSKYI2(8,NN) = MZI*H2
+            FSKYI2(6,NN) = MOMS(1)*H2
+            FSKYI2(7,NN) = MOMS(2)*H2
+            FSKYI2(8,NN) = MOMS(3)*H2
             FSKYI2(9,NN) = INS*H22
             FSKYI2(10,NN)= STF*H2
 C
             NN = IADI2(3,I0)
-            FSKYI2(6,NN) = MXI*H3
-            FSKYI2(7,NN) = MYI*H3
-            FSKYI2(8,NN) = MZI*H3
+            FSKYI2(6,NN) = MOMS(1)*H3
+            FSKYI2(7,NN) = MOMS(2)*H3
+            FSKYI2(8,NN) = MOMS(3)*H3
             FSKYI2(9,NN) = INS*H23
             FSKYI2(10,NN)= STF*H3
 C
             NN = IADI2(4,I0)
-            FSKYI2(6,NN) = MXI*H4
-            FSKYI2(7,NN) = MYI*H4
-            FSKYI2(8,NN) = MZI*H4
+            FSKYI2(6,NN) = MOMS(1)*H4
+            FSKYI2(7,NN) = MOMS(2)*H4
+            FSKYI2(8,NN) = MOMS(3)*H4
             FSKYI2(9,NN) = INS*H24
             FSKYI2(10,NN)= STF*H4
           ELSE
@@ -1232,12 +1266,13 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   H(4),
-     .   S,T,SS, ST, XMSI, FXS, FYS, FZS,SP,SM,TP,TM,
-     .   MX,MY,MZ,DET,FX0,FY0,FZ0,INS,
+     .   S,T,SS, ST, XMSI, FS(3),SP,SM,TP,TM,
+     .   MOMS(3),DET,FX0,FY0,FZ0,INS,
      .   X0,X1,X2,X3,X4,XS,Y0,Y1,Y2,Y3,Y4,YS,Z0,Z1,Z2,Z3,Z4,ZS,
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
-     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,INY,INZ,STF
+     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,INY,INZ,STF,
+     .   FX(4),FY(4),FZ(4)
 C=======================================================================
 C Traitement specifique pour DMAS
 C
@@ -1354,21 +1389,21 @@ C
 C
           IF (WEIGHT(I)==1) THEN
             XMSI=MS(I)
-            FXS=A(1,I)
-            FYS=A(2,I)
-            FZS=A(3,I)
+            FS(1)=A(1,I)
+            FS(2)=A(2,I)
+            FS(3)=A(3,I)
             INS=IN(I)
-            MX=AR(1,I) + YS*FZS - ZS*FYS
-            MY=AR(2,I) + ZS*FXS - XS*FZS
-            MZ=AR(3,I) + XS*FYS - YS*FXS
+            MOMS(1)=AR(1,I) + YS*FS(3) - ZS*FS(2)
+            MOMS(2)=AR(2,I) + ZS*FS(1) - XS*FS(3)
+            MOMS(3)=AR(3,I) + XS*FS(2) - YS*FS(1)
 C
-            A1=DET*(MX*B1+MY*C3+MZ*C2)
-            A2=DET*(MY*B2+MZ*C1+MX*C3)
-            A3=DET*(MZ*B3+MX*C2+MY*C1)
+            A1=DET*(MOMS(1)*B1+MOMS(2)*C3+MOMS(3)*C2)
+            A2=DET*(MOMS(2)*B2+MOMS(3)*C1+MOMS(1)*C3)
+            A3=DET*(MOMS(3)*B3+MOMS(1)*C2+MOMS(2)*C1)
 C
-            FX0=FXS*FOURTH
-            FY0=FYS*FOURTH
-            FZ0=FZS*FOURTH
+            FX0=FS(1)*FOURTH
+            FY0=FS(2)*FOURTH
+            FZ0=FS(3)*FOURTH
 C
 C------------------------------------------------------
 C     INERTIES => MASSES
@@ -1393,9 +1428,12 @@ C
      .      + DET*MAX(MRX,MRY,MRZ)*(STIFR(I)+STIFN(I)*(XS*XS+YS*YS+ZS*ZS))
             I0 = I0 + 1
             NN = IADI2(1,I0)
-            FSKYI2(1,NN) = FX0 + A2*Z1 - A3*Y1
-            FSKYI2(2,NN) = FY0 + A3*X1 - A1*Z1
-            FSKYI2(3,NN) = FZ0 + A1*Y1 - A2*X1
+            FX(1) = FX0 + A2*Z1 - A3*Y1
+            FY(1) = FY0 + A3*X1 - A1*Z1
+            FZ(1) = FZ0 + A1*Y1 - A2*X1
+            FSKYI2(1,NN) = FX(1)
+            FSKYI2(2,NN) = FY(1)
+            FSKYI2(3,NN) = FZ(1)
             FSKYI2(4,NN) = XMSI
             FSKYI2(5,NN) = STF
             FSKYI2(6,NN) = ZERO
@@ -1404,9 +1442,12 @@ C
             FSKYI2(9,NN) = ZERO
             FSKYI2(10,NN)= ZERO
             NN = IADI2(2,I0)
-            FSKYI2(1,NN) = FX0 + A2*Z2 - A3*Y2
-            FSKYI2(2,NN) = FY0 + A3*X2 - A1*Z2
-            FSKYI2(3,NN) = FZ0 + A1*Y2 - A2*X2
+            FX(2) = FX0 + A2*Z2 - A3*Y2
+            FY(2) = FY0 + A3*X2 - A1*Z2
+            FZ(2) = FZ0 + A1*Y2 - A2*X2
+            FSKYI2(1,NN) = FX(2)
+            FSKYI2(2,NN) = FY(2)
+            FSKYI2(3,NN) = FZ(2)
             FSKYI2(4,NN) = XMSI
             FSKYI2(5,NN) = STF
             FSKYI2(6,NN) = ZERO
@@ -1415,9 +1456,12 @@ C
             FSKYI2(9,NN) = ZERO
             FSKYI2(10,NN)= ZERO
             NN = IADI2(3,I0)
-            FSKYI2(1,NN) = FX0 + A2*Z3 - A3*Y3
-            FSKYI2(2,NN) = FY0 + A3*X3 - A1*Z3
-            FSKYI2(3,NN) = FZ0 + A1*Y3 - A2*X3
+            FX(3) = FX0 + A2*Z3 - A3*Y3
+            FY(3) = FY0 + A3*X3 - A1*Z3
+            FZ(3) = FZ0 + A1*Y3 - A2*X3
+            FSKYI2(1,NN) = FX(3)
+            FSKYI2(2,NN) = FY(3)
+            FSKYI2(3,NN) = FZ(3)
             FSKYI2(4,NN) = XMSI
             FSKYI2(5,NN) = STF
             FSKYI2(6,NN) = ZERO
@@ -1426,9 +1470,12 @@ C
             FSKYI2(9,NN) = ZERO
             FSKYI2(10,NN)= ZERO
             NN = IADI2(4,I0)
-            FSKYI2(1,NN) =  FX0 + A2*Z4 - A3*Y4
-            FSKYI2(2,NN) =  FY0 + A3*X4 - A1*Z4
-            FSKYI2(3,NN) =  FZ0 + A1*Y4 - A2*X4
+            FX(4) =  FX0 + A2*Z4 - A3*Y4
+            FY(4) =  FY0 + A3*X4 - A1*Z4
+            FZ(4) =  FZ0 + A1*Y4 - A2*X4
+            FSKYI2(1,NN) =  FX(4)
+            FSKYI2(2,NN) =  FY(4)
+            FSKYI2(3,NN) =  FZ(4)
             FSKYI2(4,NN) = XMSI
             FSKYI2(5,NN) = STF
             FSKYI2(6,NN) = ZERO
@@ -1453,9 +1500,9 @@ C
           IN(I)=ZERO
 C
 C---    output of tied contact forces
-          CALL I2FORCES(X      ,V ,A   ,MS    ,I    ,
-     .                  IRECT(1,L),H  ,NIR     ,FSAV    ,FNCONT ,
-     .                  FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+          CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,
+     .                  IRECT(1,L),NIR  ,FSAV   ,FNCONT  ,FNCONTP,
+     .                  FTCONTP ,WEIGHT ,H3D_DATA,I      ,H)
 C----
 C stokage ZERO pour noeuds delete par idel2
         ELSEIF(WEIGHT(-I)==1) THEN
@@ -1505,7 +1552,7 @@ C stokage ZERO pour noeuds delete par idel2
           FSKYI2(9,NN) = ZERO
           FSKYI2(10,NN)= ZERO
         ENDIF
-      ENDDO
+      ENDDO        
 C
 C
 C Traitement specifique pour ADM

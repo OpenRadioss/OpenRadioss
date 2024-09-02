@@ -28,9 +28,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod       ../engine/share/modules/h3d_mod.F
       !||====================================================================
-      SUBROUTINE I2FORCES_2D(X      ,A        ,NSL     ,
-     .                       IRECT  ,H       ,NIR     ,FSAV    ,FNCONT  ,
-     .                       FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+      SUBROUTINE I2FORCES_2D(X      ,FS      ,FX      ,FY      ,FZ      ,
+     .                       IRECT  ,NIR     ,FSAV    ,FNCONT  ,FNCONTP ,
+     .                       FTCONTP,WEIGHT  ,H3D_DATA,NSL     ,H)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -41,10 +41,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER , INTENT(IN) :: NSL,IRECT(4),NIR,WEIGHT(NUMNOD)
-      my_real , INTENT(IN) :: X(3,NUMNOD),A(3,NUMNOD),
-     .                        H(4)
+      my_real , INTENT(IN) :: X(3,NUMNOD),H(4)
       my_real , INTENT(INOUT) :: FSAV(6),FNCONT(3,NUMNOD),FNCONTP(3,NUMNOD),
      .                           FTCONTP(3,NUMNOD)
+      my_real , INTENT(IN)    :: FS(3),FX(4),FY(4),FZ(4)
       TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -60,7 +60,7 @@ C     REAL
       my_real
      .   XC0,YC0,ZC0,XC,YC,ZC,X0,X1,X2,Y0,Y1,Y2,
      .   Z0,Z1,Z2,XCDG,YCDG,ZCDG,MCDG,
-     .   SUM,FX,FY,FZ,FNORM,VX,VY,VZ,DT12M,FN(3),FT(3)
+     .   SUM,FNORM,VX,VY,VZ,DT12M,FN(3),FT(3)
 C=======================================================================
       IF (TT == ZERO) THEN   
         DT12M = ONE/DT2
@@ -68,86 +68,87 @@ C=======================================================================
         DT12M = ONE/DT12
       ENDIF
 C
-      N1  = IRECT(1)
-      N2  = IRECT(2)
+      IF (WEIGHT(NSL)==1) THEN
 C
-      X0  = X(1,NSL)
-      Y0  = X(2,NSL)
-      Z0  = X(3,NSL)
-      X1  = X(1,N1)
-      Y1  = X(2,N1)
-      Z1  = X(3,N1)
-      X2  = X(1,N2)
-      Y2  = X(2,N2)
-      Z2  = X(3,N2)
+        N1  = IRECT(1)
+        N2  = IRECT(2)
+C
+        X0  = X(1,NSL)
+        Y0  = X(2,NSL)
+        Z0  = X(3,NSL)
+        X1  = X(1,N1)
+        Y1  = X(2,N1)
+        Z1  = X(3,N1)
+        X2  = X(1,N2)
+        Y2  = X(2,N2)
+        Z2  = X(3,N2)
 C------------------------------------------------                  
-C     direction of segment
-      VX = X1 - X2
-      VY = Y1 - Y2
-      VZ = Z1 - Z2
+C       direction of segment
+        VX = X1 - X2
+        VY = Y1 - Y2
+        VZ = Z1 - Z2
 C------------------------------------------------
-      FX = A(1,NSL)
-      FY = A(2,NSL)
-      FZ = A(3,NSL)
-      SUM = ONE / SQRT(VX*VX + VY*VY + VZ*VZ)
-      VX = VX * SUM
-      VY = VY * SUM
-      VZ = VZ * SUM
+        SUM = ONE / SQRT(VX*VX + VY*VY + VZ*VZ)
+        VX = VX * SUM
+        VY = VY * SUM
+        VZ = VZ * SUM
 C   
-C     composantes N/T de la forces nodale
+C       composantes N/T de la forces nodale
 C
-      FNORM = VX*FX + VY*FY + VZ*FZ
-      FT(1) = VX*FNORM
-      FT(2) = VY*FNORM
-      FT(3) = VZ*FNORM
+        FNORM = VX*FS(1) + VY*FS(2) + VZ*FS(3)
+        FT(1) = VX*FNORM
+        FT(2) = VY*FNORM
+        FT(3) = VZ*FNORM
 C
-      FN(1) = FX - FT(1)
-      FN(2) = FY - FT(2)
-      FN(3) = FZ - FT(3)
+        FN(1) = FS(1) - FT(1)
+        FN(2) = FS(2) - FT(2)
+        FN(3) = FS(3) - FT(3)
 C
 C-------- print of forces in TH
 C
-      FSAV(1) = FSAV(1) + FN(1)*DT1*WEIGHT(NSL)
-      FSAV(2) = FSAV(2) + FN(2)*DT1*WEIGHT(NSL)
-      FSAV(3) = FSAV(3) + FN(3)*DT1*WEIGHT(NSL)
-      FSAV(4) = FSAV(4) + FT(1)*DT1*WEIGHT(NSL)
-      FSAV(5) = FSAV(5) + FT(2)*DT1*WEIGHT(NSL)
-      FSAV(6) = FSAV(6) + FT(3)*DT1*WEIGHT(NSL)
+        FSAV(1) = FSAV(1) + FN(1)*DT1
+        FSAV(2) = FSAV(2) + FN(2)*DT1
+        FSAV(3) = FSAV(3) + FN(3)*DT1
+        FSAV(4) = FSAV(4) + FT(1)*DT1
+        FSAV(5) = FSAV(5) + FT(2)*DT1
+        FSAV(6) = FSAV(6) + FT(3)*DT1
 C
 C-------- print of forces in ANIM / H3D
 C 
-      IF(ANIM_V(13)+H3D_DATA%N_VECT_CONT2>0) THEN
-        FNCONT(1,NSL) = (-FN(1)-FT(1)) * WEIGHT(NSL)
-        FNCONT(2,NSL) = (-FN(2)-FT(2)) * WEIGHT(NSL)
-        FNCONT(3,NSL) = (-FN(3)-FT(3)) * WEIGHT(NSL)
-        DO JJ=1,NIR
-          J=IRECT(JJ)
-          FNCONT(1,J) = FNCONT(1,J) - FNCONT(1,NSL)*H(JJ)
-          FNCONT(2,J) = FNCONT(2,J) - FNCONT(2,NSL)*H(JJ)
-          FNCONT(3,J) = FNCONT(3,J) - FNCONT(3,NSL)*H(JJ)
-        ENDDO
-      ENDIF  
+        IF(ANIM_V(13)+H3D_DATA%N_VECT_CONT2>0) THEN
+          FNCONT(1,NSL) = FNCONT(1,NSL) - FS(1)
+          FNCONT(2,NSL) = FNCONT(2,NSL) - FS(2)
+          FNCONT(3,NSL) = FNCONT(3,NSL) - FS(3)
+          DO JJ=1,NIR
+            J=IRECT(JJ)
+            FNCONT(1,J) = FNCONT(1,J) + FX(JJ)
+            FNCONT(2,J) = FNCONT(2,J) + FY(JJ)
+            FNCONT(3,J) = FNCONT(3,J) + FZ(JJ)
+          ENDDO
+        ENDIF  
 C
-      IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2>0) THEN ! Normal/Tangential forces output
-        FNCONTP(1,NSL) = -FN(1) * WEIGHT(NSL)
-        FNCONTP(2,NSL) = -FN(2) * WEIGHT(NSL)
-        FNCONTP(3,NSL) = -FN(3) * WEIGHT(NSL)
-        DO JJ=1,NIR
-          J=IRECT(JJ)
-          FNCONTP(1,J) = FNCONTP(1,J) - FNCONTP(1,NSL)*H(JJ)
-          FNCONTP(2,J) = FNCONTP(2,J) - FNCONTP(2,NSL)*H(JJ)
-          FNCONTP(3,J) = FNCONTP(3,J) - FNCONTP(3,NSL)*H(JJ)
-        ENDDO
+        IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2>0) THEN ! Normal/Tangential forces output
+          FNCONTP(1,NSL) = FNCONTP(1,NSL) - FS(1)
+          FNCONTP(2,NSL) = FNCONTP(2,NSL) - FS(2)
+          FNCONTP(3,NSL) = FNCONTP(3,NSL) - FS(3)
+          DO JJ=1,NIR
+            J=IRECT(JJ)
+            FNCONTP(1,J) = FNCONTP(1,J) + FX(JJ)
+            FNCONTP(2,J) = FNCONTP(2,J) + FY(JJ)
+            FNCONTP(3,J) = FNCONTP(3,J) + FZ(JJ)
+          ENDDO
 
-        FTCONTP(1,NSL) = -FT(1) * WEIGHT(NSL)
-        FTCONTP(2,NSL) = -FT(2) * WEIGHT(NSL)
-        FTCONTP(3,NSL) = -FT(3) * WEIGHT(NSL)
-        DO JJ=1,NIR
-          J=IRECT(JJ)
-          FTCONTP(1,J) = FTCONTP(1,J) - FTCONTP(1,NSL)*H(JJ)
-          FTCONTP(2,J) = FTCONTP(2,J) - FTCONTP(2,NSL)*H(JJ)
-          FTCONTP(3,J) = FTCONTP(3,J) - FTCONTP(3,NSL)*H(JJ)
-        ENDDO
+          FTCONTP(1,NSL) = VX
+          FTCONTP(2,NSL) = VY
+          FTCONTP(3,NSL) = VZ
+          DO JJ=1,NIR
+            J=IRECT(JJ)
+            FTCONTP(1,J) = FTCONTP(1,J) - FTCONTP(1,NSL)*H(JJ)
+            FTCONTP(2,J) = FTCONTP(2,J) - FTCONTP(2,NSL)*H(JJ)
+            FTCONTP(3,J) = FTCONTP(3,J) - FTCONTP(3,NSL)*H(JJ)
+          ENDDO
+        ENDIF
+C
       ENDIF
 C---
       RETURN

@@ -88,7 +88,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   S,T,SP,SM,TP,TM,ECONTT,ECONVT,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
-     .   FNORM,FLX,FLY,FLZ,FSX,FSY,FSZ,DDX,DDY,DDZ,XSM,YSM,ZSM,XM,YM,ZM,
+     .   FNORM,FLX,FLY,FLZ,FS(3),DDX,DDY,DDZ,XSM,YSM,ZSM,XM,YM,ZM,
      .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,X0,Y0,Z0,XS,YS,ZS,STIFMS,
      .   VX1,VX2,VX3,VX4,VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,DLX,DLY,DLZ,
      .   VX0,VY0,VZ0,VSX,VSY,VSZ,VMX,VMY,VMZ,V1,V2,V3,DTINV,STF,
@@ -96,7 +96,8 @@ C     REAL
       my_real
      .   H(4,MVSIZ),FN(3),FT(3),FX(4),FY(4),FZ(4),FMX(4),FMY(4),FMZ(4),
      .   RX(4),RY(4),RZ(4),RM(3),RS(3),V0(3),VS(3),VM(3),DXOLD(3),
-     .   STIF(MVSIZ), VIS(MVSIZ), STIFM(MVSIZ),VA(3),VB(3),VC(3),VD(3)
+     .   STIF(MVSIZ), VIS(MVSIZ), STIFM(MVSIZ),VA(3),VB(3),VC(3),VD(3),
+     .   HL(4)
       my_real
      .   VISCL
 
@@ -365,9 +366,9 @@ C
           FZV = VIS(K) * V3
 c
           DXT = DX(1,II)**2 + DX(2,II)**2 + DX(3,II)**2
-          ECONTT = ECONTT + HALF*STFN(II)*DXT
+          ECONTT = ECONTT + HALF*STFN(II)*DXT*W
 
-          ECONVT = ECONVT + (FXV*V1 + FYV*V2 + FZV*V3)*DT1
+          ECONVT = ECONVT + (FXV*V1 + FYV*V2 + FZV*V3)*DT1*W
 c
           FLX = FLX + FXV
           FLY = FLY + FYV
@@ -390,17 +391,17 @@ C----------------------------------------------------
             FY(J) = E1Y*FMX(J) + E2Y*FMY(J) + E3Y*FMZ(J) 
             FZ(J) = E1Z*FMX(J) + E2Z*FMY(J) + E3Z*FMZ(J) 
           ENDDO
-          FSX = ZERO
-          FSY = ZERO
-          FSZ = ZERO
+          FS(1) = ZERO
+          FS(2) = ZERO
+          FS(3) = ZERO
           DO J=1,NIR
-            FSX = FSX - FX(J)
-            FSY = FSY - FY(J)
-            FSZ = FSZ - FZ(J)
+            FS(1) = FS(1) + FX(J)
+            FS(2) = FS(2) + FY(J)
+            FS(3) = FS(3) + FZ(J)
           ENDDO
-          A(1,I) = A(1,I) + FSX
-          A(2,I) = A(2,I) + FSY   
-          A(3,I) = A(3,I) + FSZ 
+          A(1,I) = A(1,I) - FS(1)
+          A(2,I) = A(2,I) - FS(2)   
+          A(3,I) = A(3,I) - FS(3) 
 C
           IF (IVISC==1) THEN
 C--  Old visc formulation from Radioss V14 --
@@ -488,82 +489,11 @@ C------------------------------------------------
           FINI(3,II) = FLZ
 C------------------------------------------------                  
 C         composantes N/T de la forces nodale -> output
-C------------------------------------------------                  
-          FNORM = E3X*FLX + E3Y*FLY + E3Z*FLZ
-          FN(1) = E3X*FNORM
-          FN(2) = E3Y*FNORM
-          FN(3) = E3Z*FNORM
-C
-          FT(1) = FLX - FN(1)
-          FT(2) = FLY - FN(2)
-          FT(3) = FLZ - FN(3)
-C
-          FSAV(1) = FSAV(1) + FN(1)*DT1*W
-          FSAV(2) = FSAV(2) + FN(2)*DT1*W
-          FSAV(3) = FSAV(3) + FN(3)*DT1*W
-          FSAV(4) = FSAV(4) + FT(1)*DT1*W
-          FSAV(5) = FSAV(5) + FT(2)*DT1*W
-          FSAV(6) = FSAV(6) + FT(3)*DT1*W
-C
-          IF (ANIM_V(13)+H3D_DATA%N_VECT_CONT2 > 0) THEN
-            FNCONT(1,I)  = FNCONT(1,I)  + FSX * W
-            FNCONT(2,I)  = FNCONT(2,I)  + FSY * W
-            FNCONT(3,I)  = FNCONT(3,I)  + FSZ * W
-            FNCONT(1,IX1(K)) = FNCONT(1,IX1(K)) + FX(1)*W
-            FNCONT(2,IX1(K)) = FNCONT(2,IX1(K)) + FY(1)*W
-            FNCONT(3,IX1(K)) = FNCONT(3,IX1(K)) + FZ(1)*W
-            FNCONT(1,IX2(K)) = FNCONT(1,IX2(K)) + FX(2)*W
-            FNCONT(2,IX2(K)) = FNCONT(2,IX2(K)) + FY(2)*W
-            FNCONT(3,IX2(K)) = FNCONT(3,IX2(K)) + FZ(2)*W
-            FNCONT(1,IX3(K)) = FNCONT(1,IX3(K)) + FX(3)*W
-            FNCONT(2,IX3(K)) = FNCONT(2,IX3(K)) + FY(3)*W
-            FNCONT(3,IX3(K)) = FNCONT(3,IX3(K)) + FZ(3)*W
-            FNCONT(1,IX4(K)) = FNCONT(1,IX4(K)) + FX(4)*W
-            FNCONT(2,IX4(K)) = FNCONT(2,IX4(K)) + FY(4)*W
-            FNCONT(3,IX4(K)) = FNCONT(3,IX4(K)) + FZ(4)*W
-          ENDIF
-
-          IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2>0) THEN ! Normal/Tangential forces output
-            FNCONTP(1,I) = FNCONTP(1,I)  - FN(1) * W
-            FNCONTP(2,I) = FNCONTP(2,I)  - FN(2) * W
-            FNCONTP(3,I) = FNCONTP(3,I)  - FN(3) * W
-
-            FNCONTP(1,IX1(K)) = FNCONTP(1,IX1(K)) + FN(1)*H(1,K)*W
-            FNCONTP(2,IX1(K)) = FNCONTP(2,IX1(K)) + FN(2)*H(1,K)*W
-            FNCONTP(3,IX1(K)) = FNCONTP(3,IX1(K)) + FN(3)*H(1,K)*W
-
-            FNCONTP(1,IX2(K)) = FNCONTP(1,IX2(K)) + FN(1)*H(2,K)*W
-            FNCONTP(2,IX2(K)) = FNCONTP(2,IX2(K)) + FN(2)*H(2,K)*W
-            FNCONTP(3,IX2(K)) = FNCONTP(3,IX2(K)) + FN(3)*H(2,K)*W
-
-            FNCONTP(1,IX3(K)) = FNCONTP(1,IX3(K)) + FN(1)*H(3,K)*W
-            FNCONTP(2,IX3(K)) = FNCONTP(2,IX3(K)) + FN(2)*H(3,K)*W
-            FNCONTP(3,IX3(K)) = FNCONTP(3,IX3(K)) + FN(3)*H(3,K)*W
-
-            FNCONTP(1,IX4(K)) = FNCONTP(1,IX4(K)) + FN(1)*H(4,K)*W
-            FNCONTP(2,IX4(K)) = FNCONTP(2,IX4(K)) + FN(2)*H(4,K)*W
-            FNCONTP(3,IX4(K)) = FNCONTP(3,IX4(K)) + FN(3)*H(4,K)*W
-
-            FTCONTP(1,I) = FTCONTP(1,I)  - FT(1) * W
-            FTCONTP(2,I) = FTCONTP(2,I)  - FT(2) * W
-            FTCONTP(3,I) = FTCONTP(3,I)  - FT(3) * W
-
-            FTCONTP(1,IX1(K)) = FTCONTP(1,IX1(K)) + FT(1)*H(1,K)*W
-            FTCONTP(2,IX1(K)) = FTCONTP(2,IX1(K)) + FT(2)*H(1,K)*W
-            FTCONTP(3,IX1(K)) = FTCONTP(3,IX1(K)) + FT(3)*H(1,K)*W
-
-            FTCONTP(1,IX2(K)) = FTCONTP(1,IX2(K)) + FT(1)*H(2,K)*W
-            FTCONTP(2,IX2(K)) = FTCONTP(2,IX2(K)) + FT(2)*H(2,K)*W
-            FTCONTP(3,IX2(K)) = FTCONTP(3,IX2(K)) + FT(3)*H(2,K)*W
-
-            FTCONTP(1,IX3(K)) = FTCONTP(1,IX3(K)) + FT(1)*H(3,K)*W
-            FTCONTP(2,IX3(K)) = FTCONTP(2,IX3(K)) + FT(2)*H(3,K)*W
-            FTCONTP(3,IX3(K)) = FTCONTP(3,IX3(K)) + FT(3)*H(3,K)*W
-
-            FTCONTP(1,IX4(K)) = FTCONTP(1,IX4(K)) + FT(1)*H(4,K)*W
-            FTCONTP(2,IX4(K)) = FTCONTP(2,IX4(K)) + FT(2)*H(4,K)*W
-            FTCONTP(3,IX4(K)) = FTCONTP(3,IX4(K)) + FT(3)*H(4,K)*W
-         ENDIF
+C------------------------------------------------
+          HL(1:4) = H(1:4,K)
+          CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,
+     .                  IRECT(1,L),NIR  ,FSAV   ,FNCONT  ,FNCONTP,
+     .                  FTCONTP ,WEIGHT ,H3D_DATA,I      ,HL)                  
 
 C----------
         ELSE  ! desactivated secnd node

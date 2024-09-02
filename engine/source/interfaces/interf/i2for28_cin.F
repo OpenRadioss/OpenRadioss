@@ -33,8 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                       MSR     ,NSV     ,IRTL   ,MS     ,WEIGHT  ,
      3                       AR      ,IN      ,X      ,STIFN  ,STIFR   ,
      4                       FSAV    ,DMAST   ,ADM    ,MMASS  ,IDEL2   ,
-     5                       SMASS   ,SINER   ,V      ,CRST   ,FNCONT  ,
-     6                       INDXC   ,MINER   ,H3D_DATA,FNCONTP,FTCONTP )
+     5                       SMASS   ,SINER   ,CRST   ,FNCONT ,INDXC   ,
+     6                       MINER   ,H3D_DATA,FNCONTP,FTCONTP )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -50,7 +50,7 @@ C-----------------------------------------------
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*), WEIGHT(*), IDEL2, INDXC(*)
 C     REAL
       my_real
-     .   X(3,*),V(3,*),A(3,*),AR(3,*), MMASS(*), CRST(2,*),
+     .   X(3,*),A(3,*),AR(3,*), MMASS(*), CRST(2,*),
      .   DPARA(7,*), MS(*), IN(*),STIFN(*),STIFR(*),DMAST,ADM(*),
      .   SMASS(*), SINER(*),FSAV(*), FNCONT(3,*), MINER(*),FNCONTP(3,*),
      .   FTCONTP(3,*) 
@@ -69,12 +69,13 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   H(4),XM(4),YM(4),ZM(4),
-     .   XMSJ, SS, ST, XMSI, FXS, FYS, FZS,SP,SM,TP,TM,FACM,
+     .   XMSJ, SS, ST, XMSI, FS(3),SP,SM,TP,TM,FACM,
      .   MX,MY,MZ,DET,FX0,FY0,FZ0,INS,
      .   X0,X1,X2,X3,X4,XS,Y0,Y1,Y2,Y3,Y4,YS,Z0,Z1,Z2,Z3,Z4,ZS,
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,S,T,    
-     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,INY,INZ,STF,FACT
+     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,INY,INZ,STF,FACT,
+     .   FX(4),FY(4),FZ(4)
 C=======================================================================
 C
 C------------------------------
@@ -189,37 +190,43 @@ C
         DPARA(7,II)=C3
 C
         XMSI=MS(I)*WEIGHT(I)
-        FXS=A(1,I)*WEIGHT(I)
-        FYS=A(2,I)*WEIGHT(I)
-        FZS=A(3,I)*WEIGHT(I)
+        FS(1)=A(1,I)*WEIGHT(I)
+        FS(2)=A(2,I)*WEIGHT(I)
+        FS(3)=A(3,I)*WEIGHT(I)
 C
         IF (IRODDL==1) THEN
           INS=IN(I)*WEIGHT(I)
-          MX=AR(1,I)*WEIGHT(I) + YS*FZS - ZS*FYS
-          MY=AR(2,I)*WEIGHT(I) + ZS*FXS - XS*FZS
-          MZ=AR(3,I)*WEIGHT(I) + XS*FYS - YS*FXS
+          MX=AR(1,I)*WEIGHT(I) + YS*FS(3) - ZS*FS(2)
+          MY=AR(2,I)*WEIGHT(I) + ZS*FS(1) - XS*FS(3)
+          MZ=AR(3,I)*WEIGHT(I) + XS*FS(2) - YS*FS(1)
         ELSE
           INS=ZERO
-          MX=YS*FZS - ZS*FYS
-          MY=ZS*FXS - XS*FZS
-          MZ=XS*FYS - YS*FXS
+          MX=YS*FS(3) - ZS*FS(2)
+          MY=ZS*FS(1) - XS*FS(3)
+          MZ=XS*FS(2) - YS*FS(1)
         ENDIF
 C
         A1=DET*(MX*B1+MY*C3+MZ*C2)
         A2=DET*(MY*B2+MZ*C1+MX*C3)
         A3=DET*(MZ*B3+MX*C2+MY*C1)
 C
-        FX0=FXS*FACM
-        FY0=FYS*FACM
-        FZ0=FZS*FACM
+        FX0=FS(1)*FACM
+        FY0=FS(2)*FACM
+        FZ0=FS(3)*FACM
 C------------------------------------------------------
 C     FORCES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
+        FX(1:4) = ZERO
+        FY(1:4) = ZERO
+        FZ(1:4) = ZERO
         DO JJ=1,NIR
-         J=IRECT(JJ,L)
-         A(1,J)=A(1,J) + FX0 + A2*ZM(JJ) - A3*YM(JJ)
-         A(2,J)=A(2,J) + FY0 + A3*XM(JJ) - A1*ZM(JJ)
-         A(3,J)=A(3,J) + FZ0 + A1*YM(JJ) - A2*XM(JJ)
+          J=IRECT(JJ,L)
+          FX(JJ)=FX0 + A2*ZM(JJ) - A3*YM(JJ)
+          FY(JJ)=FY0 + A3*XM(JJ) - A1*ZM(JJ)
+          FZ(JJ)=FZ0 + A1*YM(JJ) - A2*XM(JJ)
+          A(1,J)=A(1,J) + FX(JJ)
+          A(2,J)=A(2,J) + FY(JJ)
+          A(3,J)=A(3,J) + FZ(JJ)
         ENDDO 
 C------------------------------------------------------
 C     INERTIES => MASSES
@@ -270,10 +277,10 @@ C
        ENDIF
 C----
        IF(I>0)THEN
-C---     output of tied contact forces
-           CALL I2FORCES(X      ,V  ,A   ,MS    ,I    ,
-     .                 IRECT(1,L),H  ,NIR     ,FSAV    ,FNCONT ,
-     .                 FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)                     
+C---     output of tied contact forces       
+         CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,
+     .                IRECT(1,L),NIR  ,FSAV   ,FNCONT  ,FNCONTP,
+     .                FTCONTP ,WEIGHT ,H3D_DATA,I      ,H)              
        ENDIF                            
 C----
       ENDDO
@@ -377,43 +384,56 @@ C
         DPARA(7,II)=C3
 C
         XMSI=MS(I)*WEIGHT(I)
-        FXS=A(1,I)*WEIGHT(I)
-        FYS=A(2,I)*WEIGHT(I)
-        FZS=A(3,I)*WEIGHT(I)
+        FS(1)=A(1,I)*WEIGHT(I)
+        FS(2)=A(2,I)*WEIGHT(I)
+        FS(3)=A(3,I)*WEIGHT(I)
         IF (IRODDL==1) THEN
           INS=IN(I)*WEIGHT(I)
-          MX=AR(1,I)*WEIGHT(I) + YS*FZS - ZS*FYS
-          MY=AR(2,I)*WEIGHT(I) + ZS*FXS - XS*FZS
-          MZ=AR(3,I)*WEIGHT(I) + XS*FYS - YS*FXS
+          MX=AR(1,I)*WEIGHT(I) + YS*FS(3) - ZS*FS(2)
+          MY=AR(2,I)*WEIGHT(I) + ZS*FS(1) - XS*FS(3)
+          MZ=AR(3,I)*WEIGHT(I) + XS*FS(2) - YS*FS(1)
         ELSE
           INS=ZERO
-          MX=YS*FZS - ZS*FYS
-          MY=ZS*FXS - XS*FZS
-          MZ=XS*FYS - YS*FXS
+          MX=YS*FS(3) - ZS*FS(2)
+          MY=ZS*FS(1) - XS*FS(3)
+          MZ=XS*FS(2) - YS*FS(1)
         ENDIF
 C
         A1=DET*(MX*B1+MY*C3+MZ*C2)
         A2=DET*(MY*B2+MZ*C1+MX*C3)
         A3=DET*(MZ*B3+MX*C2+MY*C1)
 C
-        FX0=FXS*FOURTH
-        FY0=FYS*FOURTH
-        FZ0=FZS*FOURTH
+        FX0=FS(1)*FOURTH
+        FY0=FS(2)*FOURTH
+        FZ0=FS(3)*FOURTH
 C------------------------------------------------------
 C     FORCES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
-        A(1,J1)=A(1,J1) + FX0 + A2*Z1 - A3*Y1
-        A(2,J1)=A(2,J1) + FY0 + A3*X1 - A1*Z1
-        A(3,J1)=A(3,J1) + FZ0 + A1*Y1 - A2*X1
-        A(1,J2)=A(1,J2) + FX0 + A2*Z2 - A3*Y2
-        A(2,J2)=A(2,J2) + FY0 + A3*X2 - A1*Z2
-        A(3,J2)=A(3,J2) + FZ0 + A1*Y2 - A2*X2
-        A(1,J3)=A(1,J3) + FX0 + A2*Z3 - A3*Y3
-        A(2,J3)=A(2,J3) + FY0 + A3*X3 - A1*Z3
-        A(3,J3)=A(3,J3) + FZ0 + A1*Y3 - A2*X3
-        A(1,J4)=A(1,J4) + FX0 + A2*Z4 - A3*Y4
-        A(2,J4)=A(2,J4) + FY0 + A3*X4 - A1*Z4
-        A(3,J4)=A(3,J4) + FZ0 + A1*Y4 - A2*X4
+        FX(1) = FX0 + A2*Z1 - A3*Y1
+        FY(1) = FY0 + A3*X1 - A1*Z1
+        FZ(1) = FZ0 + A1*Y1 - A2*X1
+        FX(2) = FX0 + A2*Z2 - A3*Y2
+        FY(2) = FY0 + A3*X2 - A1*Z2
+        FZ(2) = FZ0 + A1*Y2 - A2*X2
+        FX(3) = FX0 + A2*Z3 - A3*Y3
+        FY(3) = FY0 + A3*X3 - A1*Z3
+        FZ(3) = FZ0 + A1*Y3 - A2*X3
+        FX(4) = FX0 + A2*Z4 - A3*Y4
+        FY(4) = FY0 + A3*X4 - A1*Z4
+        FZ(4) = FZ0 + A1*Y4 - A2*X4
+c
+        A(1,J1)=A(1,J1) + FX(1)
+        A(2,J1)=A(2,J1) + FY(1)
+        A(3,J1)=A(3,J1) + FZ(1)
+        A(1,J2)=A(1,J2) + FX(2)
+        A(2,J2)=A(2,J2) + FY(2)
+        A(3,J2)=A(3,J2) + FZ(2)
+        A(1,J3)=A(1,J3) + FX(3)
+        A(2,J3)=A(2,J3) + FY(3)
+        A(3,J3)=A(3,J3) + FZ(3)
+        A(1,J4)=A(1,J4) + FX(4)
+        A(2,J4)=A(2,J4) + FY(4)
+        A(3,J4)=A(3,J4) + FZ(4)
 C------------------------------------------------------
 C     INERTIES => MASSES
 C------------------------------------------------------
@@ -485,9 +505,9 @@ C
 C----
        IF(I>0)THEN
 C---     output of tied contact forces
-           CALL I2FORCES(X      ,V  ,A   ,MS    ,I    ,
-     .                 IRECT(1,L),H  ,NIR     ,FSAV    ,FNCONT ,
-     .                 FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA) 
+         CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,
+     .                IRECT(1,L),NIR  ,FSAV   ,FNCONT  ,FNCONTP,
+     .                FTCONTP ,WEIGHT ,H3D_DATA,I      ,H)    
        ENDIF                        
 C----
       ENDDO

@@ -638,31 +638,31 @@ C---
            FNCONT(3,I) = - (FN(3)+FT(3))  * W
            DO JJ=1,NIR
              J=IRECT(JJ,L)
-             FNCONT(1,J) = FNCONT(1,J) + W *(FN(1)+FT(1))/NIR
-             FNCONT(2,J) = FNCONT(2,J) + W *(FN(2)+FT(2))/NIR
-             FNCONT(3,J) = FNCONT(3,J) + W *(FN(3)+FT(3))/NIR
+             FNCONT(1,J) = FNCONT(1,J) + W *(FN(1)+FT(1))*H(JJ)
+             FNCONT(2,J) = FNCONT(2,J) + W *(FN(2)+FT(2))*H(JJ)
+             FNCONT(3,J) = FNCONT(3,J) + W *(FN(3)+FT(3))*H(JJ)
            ENDDO
          ENDIF
 
         IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2>0) THEN ! Normal/Tangential forces output
-           FNCONTP(1,I) = FN(1) * W
-           FNCONTP(2,I) = FN(2) * W
-           FNCONTP(3,I) = FN(3) * W
+           FNCONTP(1,I) = - (FN(1)+FT(1))  * W
+           FNCONTP(2,I) = - (FN(2)+FT(2))  * W
+           FNCONTP(3,I) = - (FN(3)+FT(3))  * W
            DO JJ=1,NIR
               J=IRECT(JJ,L)
-              FNCONTP(1,J) = FNCONTP(1,J) + FNCONTP(1,I)/NIR
-              FNCONTP(2,J) = FNCONTP(2,J) + FNCONTP(2,I)/NIR
-              FNCONTP(3,J) = FNCONTP(3,J) + FNCONTP(3,I)/NIR
+              FNCONTP(1,J) = FNCONTP(1,J) - FNCONTP(1,I)*H(JJ)
+              FNCONTP(2,J) = FNCONTP(2,J) - FNCONTP(2,I)*H(JJ)
+              FNCONTP(3,J) = FNCONTP(3,J) - FNCONTP(3,I)*H(JJ)
            ENDDO
 
-           FTCONTP(1,I) = FT(1) * W
-           FTCONTP(2,I) = FT(2) * W
-           FTCONTP(3,I) = FT(3) * W
+           FTCONTP(1,I) = VNX * W
+           FTCONTP(2,I) = VNY * W
+           FTCONTP(3,I) = VNZ * W
            DO JJ=1,NIR
-               J=IRECT(JJ,L)
-               FTCONTP(1,J) = FTCONTP(1,J) + FTCONTP(1,I)/NIR
-               FTCONTP(2,J) = FTCONTP(2,J) + FTCONTP(2,I)/NIR
-               FTCONTP(3,J) = FTCONTP(3,J) + FTCONTP(3,I)/NIR
+             J=IRECT(JJ,L)
+             FTCONTP(1,J) = FTCONTP(1,J) - FTCONTP(1,I)*H(JJ)
+             FTCONTP(2,J) = FTCONTP(2,J) - FTCONTP(2,I)*H(JJ)
+             FTCONTP(3,J) = FTCONTP(3,J) - FTCONTP(3,I)*H(JJ)
            ENDDO
          ENDIF   
         ENDIF

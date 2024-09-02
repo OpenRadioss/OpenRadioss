@@ -95,8 +95,8 @@ c-----------
      2   MSR       ,NSV       ,IRTLM     ,MS         ,WEIGHT    ,
      3   AR        ,IN        ,X         ,STIFN      ,STIFR     ,
      4   FSAV      ,DMAST     ,ADM       ,NMAS       ,IDEL2     ,
-     5   SMAS      ,SINER     ,V         ,CSTS       ,FNCONT    ,
-     6   INDXC     ,SAV_INER_POFF,H3D_DATA ,FNCONTP  ,FTCONTP   )
+     5   SMAS      ,SINER     ,CSTS      ,FNCONT     ,INDXC     ,
+     6   SAV_INER_POFF,H3D_DATA,FNCONTP  ,FTCONTP   )
 C
       ENDIF
 c

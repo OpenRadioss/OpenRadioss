@@ -105,8 +105,8 @@ c-----------
      3       AR       ,IN      ,X      ,STIFN   ,STIFR   ,
      4       FSKYI2   ,IADI2   ,FSAV   ,DMAST   ,ADM     ,
      5       MMAS     ,I0      ,NIR    ,I2SIZE  ,IDEL2   ,
-     6       SMAS     ,SINER   ,V      ,CSTS    ,FNCONT  ,
-     7       INDXC    ,IADX    ,H3D_DATA,FNCONTP     ,FTCONTP)
+     6       SMAS     ,SINER   ,CSTS   ,FNCONT  ,INDXC   ,
+     7       IADX     ,H3D_DATA,FNCONTP,FTCONTP)
 c
       ENDIF
 c
@@ -121,7 +121,7 @@ c
      .       STFR_PEN  ,VISC      ,PENFLAG   ,IROT      ,NOINT     ,
      .       NODNX_SMS ,DMINT2    ,DT2T      ,NELTST    ,ITYPTST   ,
      .       IRECTM    ,INDXP     ,IADX      ,
-     .       H3D_DATA  ,FNCONTP     ,FTCONTP)
+     .       H3D_DATA  ,FNCONTP   ,FTCONTP)
 c
       ENDIF 
       I0 = I0BASE + NI                                                         

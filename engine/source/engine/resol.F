@@ -1155,6 +1155,11 @@ C IMPVEL/FGEO
 C----------------------------------------------------------------------------------
 C /DAMP/VREL
       INTEGER SIZE_RBY6_C     
+C----------------------------------------------------------------------------------
+C Type2 output - PCONT2
+      INTEGER :: SZ_NPCONT2
+      my_real, DIMENSION(:,:),ALLOCATABLE :: NPCONT2  
+C----------------------------------------------------------------------------------
 !  contact w/ offset  
       my_real, DIMENSION(:),ALLOCATABLE, TARGET :: XYZ    
       my_real, DIMENSION(:)  , POINTER :: X_C 
@@ -2220,7 +2225,17 @@ C     THERMAL EXPANSION and IMPTEMP : Initialisation of nodal temperatures
         CALL FIXTEMP(IBFTEMP  ,FBFTEMP    ,TEMP    ,NPC    ,TF  ,
      .       NSENSOR  ,SENSORS%SENSOR_TAB )
       ENDIF
-
+C ---------------------
+C Allocating Array for PCONT2 - average normal
+C ---------------------
+      IF (ANIM_V(27)+H3D_DATA%N_VECT_PCONT2 > 0) THEN
+        SZ_NPCONT2 = NUMNOD
+        ALLOCATE(NPCONT2(3,NUMNOD))
+        NPCONT2 = ZERO
+      ELSE
+        SZ_NPCONT2 = 0
+        ALLOCATE(NPCONT2(3,0))
+      ENDIF
 C ---------------------
 C Allocating FEXT Array
 C ---------------------
@@ -3195,7 +3210,7 @@ C===============================================================================
              FANI(2,I) = ZERO
              FANI(3,I) = ZERO
           ENDDO
-          IF(ANIM_V(13)+H3D_DATA%N_VECT_CONT2==1)THEN
+          IF(ANIM_V(13)+H3D_DATA%N_VECT_CONT2 > 0)THEN
               DO I=1+NFT2,NFT2 + NUMNOD*MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2)
                  FANI(1,I) = ZERO
                  FANI(2,I) = ZERO
@@ -5650,7 +5665,7 @@ C===============================================================================
      7         NATIV_SMS,DMINT2,ANIN(NDAMA2+1),NB_FRI2M ,FR_LOCI2M,
      8         DT2T  ,NELTST ,ITYPTST   ,INTERFACES%INTBUF_TAB ,TEMP     ,MCP   ,
      9         FTHE  ,CONDN  ,
-     A         H3D_DATA,T2FAC_SMS,FANI(1,NFNCA2+1),FANI(1,NFTCA2+1)) 
+     A         H3D_DATA,T2FAC_SMS,FANI(1,NFNCA2+1),NPCONT2) 
           ENDDO
           IF (IMONM > 0) CALL STOPTIME(28,1)
           IF (IMON>0) THEN
@@ -8454,7 +8469,8 @@ C Regular animation
      r   FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP         ,LLOADP        ,
      s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ,DRAPEG        ,
      t   USER_WINDOWS  ,OUTPUT         ,DT             ,OUTPUT%TH%TH_SURF%CHANNELS    ,
-     u   TABLE         ,LOADS          ,SFANI          ,IPARIT         ,X_C           )
+     u   TABLE         ,LOADS          ,SFANI          ,IPARIT         ,X_C           ,
+     v   SZ_NPCONT2    ,NPCONT2)
 C
         IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
           CALL SORTIE_ERROR(
@@ -9675,6 +9691,7 @@ C
         IF(INTPLYXFEM > 0)DEALLOCATE(PLYSKYI%FSKYI)
         DEALLOCATE(PLY, PLYSKY)
         DEALLOCATE(FEXT)
+        DEALLOCATE(NPCONT2)
 C
 C Deallocte AMS / POFF
         IF(ALLOCATED(FR_LOC))DEALLOCATE (FR_LOC)
