@@ -30,10 +30,10 @@ git lfs install
 git clone https://github.com/OpenRadioss/OpenRadioss.git
 cd OpenRadioss
 cd /opt/OpenRadioss/starter
-./build_script.sh -arch=linux64_intel -nt=$NCPU -release
+./build_script.sh -arch=linux64_intel_ifx -nt=$NCPU -release
 cd /opt/OpenRadioss/engine
-./build_script.sh -arch=linux64_intel -nt=$NCPU -release
-./build_script.sh -arch=linux64_intel -mpi=impi -nt=$NCPU -release
+./build_script.sh -arch=linux64_intel_ifx -nt=$NCPU -release
+./build_script.sh -arch=linux64_intel_ifx -mpi=impi -nt=$NCPU -release
 cd /opt/OpenRadioss/tools/anim_to_vtk/linux64
 ./build.bash
 cd /opt/OpenRadioss/tools/th_to_csv/linux64
