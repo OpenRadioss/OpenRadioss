@@ -150,6 +150,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE DT_MOD
       USE ELBUFDEF_MOD
+      USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1881,18 +1882,12 @@ C----------------------------
 C     distorsion control  
 C----------------------------
       IF (ISCTL > 0) THEN
-         CNS2=ZEP05
-         MX = IXS(1,NF1)
-         C1 =PM(32,MX)+ONEP333*PM(22,MX)
-         FQMAX = EP03
-         IF (MTN==42.OR.MTN==69) FQMAX = EP02
-         DO I=LFT,LLT
-          LL(I) = VOLG(I)**THIRD
-          CAQ=CNS2*GBUF%RHO(I)*LL(I)
-          FLD(I)=FOURTH*CAQ*CXX(I)*OFFG(I)
-          STI_C(I) = C1 * LL(I) *OFFG(I)
-         ENDDO
-         CALL SCRE_SIG3(GBUF%SIG, C1, ISTAB,GBUF%OFF,ISMSTR ,NEL)
+         CALL SDISTOR_INI(                                      
+     1                NEL      ,STI_C    ,NPROPM     ,NUMMAT  ,       
+     2                ISMSTR   ,MXT      ,ISTAB      ,PM      ,       
+     3                GBUF%SIG ,GBUF%RHO ,CXX        ,OFFG    ,       
+     4                GBUF%OFF ,LL       ,VOLN       ,FLD     ,       
+     5                CNS2     ,FQMAX    )
 C        get actual configuration from x(3,*) for small strain option
 !      xj now is the current config in global sys 
          IF (ISMSTR == 1.OR.ISMSTR >= 11) 

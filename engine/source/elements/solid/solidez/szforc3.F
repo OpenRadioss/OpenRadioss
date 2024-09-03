@@ -129,6 +129,7 @@ C-----------------------------------------------
       USE DT_MOD
       USE OUTPUT_MOD
       USE ELBUFDEF_MOD
+      USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -510,7 +511,7 @@ C------
      .        GBUF%SMSTR,GBUF%OFF,NEL,VOLDP,JLAG)
         END IF
 C        
-        IF (IDT1SOL == 1) THEN
+        IF (IDT1SOL == 1.OR.(ISCTL>0.AND.NU0>0.48999)) THEN
           CALL SDLEN8(
      1   DELTAX,    VOLN,      IXS(1,NF1),X1,
      2   X2,        X3,        X4,        X5,
@@ -1110,17 +1111,12 @@ C----------------------------
 C     distorsion control  
 C----------------------------
       IF (ISCTL > 0) THEN  ! think about degenerated element
-         CNS2=ZEP05
-         C1 =PM(32,IMAT)+ONEP333*PM(22,IMAT)
-         FQMAX = EP03
-         IF (MTN==42.OR.MTN==69) FQMAX = EP02
-         DO I=LFT,LLT
-          LL(I) = VOLN(I)**THIRD
-          CAQ=CNS2*GBUF%RHO(I)*LL(I)
-          FLD(I)=FOURTH*CAQ*CXX(I)*OFF(I)
-          STI_C(I) = C1 * LL(I) *OFF(I)
-         ENDDO
-         CALL SCRE_SIG3(GBUF%SIG, C1, ISTAB,GBUF%OFF,ISMSTR ,NEL)
+         CALL SDISTOR_INI(                                      
+     1                NEL      ,STI_C    ,NPROPM     ,NUMMAT  ,       
+     2                ISMSTR   ,MXT      ,ISTAB      ,PM      ,       
+     3                GBUF%SIG ,GBUF%RHO ,CXX        ,OFF     ,       
+     4                GBUF%OFF ,LL       ,VOLN       ,FLD     ,       
+     5                CNS2     ,FQMAX    )
 C        get actual configuration from x(3,*) for small strain option
 !      xj now is the current config in global sys, xx0 is in global sys excepting ismstr=11 
          IF (ISMSTR == 1.OR.ISMSTR >= 11) 

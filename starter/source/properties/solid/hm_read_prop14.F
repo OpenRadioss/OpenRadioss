@@ -356,8 +356,8 @@ C--------------------------------------------------
         ! default : auto        
         IINT = IET
       ELSEIF (IHBE==1.OR.IHBE==2) THEN
-        IF (QH == ZERO.AND.IGEO(97)==0) QH = EM01
-        IF (QH == ZERO.AND.IGEO(97)==1) QH = TEN
+        IF (QH == ZERO.AND.ICONTROL==0) QH = EM01
+        IF (QH == ZERO.AND.ICONTROL==1) QH = TEN
         CVIS = ZERO
         GEO(13) = QH
       ELSE        

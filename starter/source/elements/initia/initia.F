@@ -3351,7 +3351,7 @@ C-------- shell
           ITHK =IPARG(28,NG) 
           IPLAS =IPARG(29,NG) 
           IGMAT =IGEO(98,IPID)
-          NPT = IPARG(6,NG)
+          IF (NPT>1 .AND.(MID==1 .OR. MID==91)) NPT =0
           QF = ZERO
           QM = ZERO
           QR = ZERO
