@@ -107,7 +107,7 @@ C-----------------------------------------------
       INTEGER ICC,IRTY,ISRATE,VP,IDEV,
      .   I, J, MX , NPIF,IBID,IKFLG,NINDX,INDX(NEL)
       my_real
-     .   RHO0, PLAP1,
+     .   RHO0, PLAP1,POLD,PSHIFT,
      .   EPD(MVSIZ),
      .   G(MVSIZ), AK(MVSIZ),
      .   PC(MVSIZ), QH(MVSIZ), BULK,T(MVSIZ),
@@ -154,6 +154,7 @@ C
       SIGMX_1 = PM(42,MX)
       T_1     = PM(54,MX)
       VP      = IPM(255,MX)
+      PSHIFT  = PM(88,MX)
       DO I=1,NEL
         G(I)    =G_1*OFF(I)
 c     --constants a,b,n of the hardening function
@@ -544,36 +545,48 @@ C
           SIG(I,5) = SIG(I,5) * OFF(I)
           SIG(I,6) = SIG(I,6) * OFF(I)
         ENDDO
+!
+        DO I=1,NEL
+          E1 = D1(I)*(SOLD1(I)+SIG(I,1))
+          E2 = D2(I)*(SOLD2(I)+SIG(I,2))
+          E3 = D3(I)*(SOLD3(I)+SIG(I,3))
+          E4 = D4(I)*(SOLD4(I)+SIG(I,4))
+          E5 = D5(I)*(SOLD5(I)+SIG(I,5))
+          E6 = D6(I)*(SOLD6(I)+SIG(I,6))
+          EINC = VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - HALF*DVOL(I)*(QOLD(I)+QNEW(I))
+          EINT(I) = (EINT(I)+EINC*OFF(I)) / MAX(EM15,VOL(I))
+        ENDDO
+
       ELSE
         ! if EOS is used, material law calculates only deviatoric stress tensor
         !                 sound speed depends on pressure derivative over volume change
         !                 calculated in EOS
         DO I = 1, NEL
           SSP(I) = SQRT((DPDM(I) + FOUR*G(I)/THREE)/RHO0)
+!
+          POLD     = (SOLD1(I)+SOLD2(I)+SOLD3(I)) * THIRD
+          SOLD1(I) = SOLD1(I) - POLD
+          SOLD2(I) = SOLD2(I) - POLD
+          SOLD3(I) = SOLD3(I) - POLD
+          E1 = D1(I) * (SOLD1(I)+SIG(I,1))
+          E2 = D2(I) * (SOLD2(I)+SIG(I,2))
+          E3 = D3(I) * (SOLD3(I)+SIG(I,3))
+          E4 = D4(I) * (SOLD4(I)+SIG(I,4))
+          E5 = D5(I) * (SOLD5(I)+SIG(I,5))
+          E6 = D6(I) * (SOLD6(I)+SIG(I,6))
+          EINC    = VOL_AVG(I) * (E1+E2+E3+E4+E5+E6) * DTA
+          EINT(I) = EINT(I) + (EINC+HALF*DVOL(I)*(POLD-PSHIFT-QOLD(I)-QNEW(I)))*OFF(I)
         ENDDO       
-      END IF 
-      
-!       split the loop in two parts in order to improve the vectorization
-      DO I=1,NEL
-        E1=D1(I)*(SOLD1(I)+SIG(I,1))
-        E2=D2(I)*(SOLD2(I)+SIG(I,2))
-        E3=D3(I)*(SOLD3(I)+SIG(I,3))
-        E4=D4(I)*(SOLD4(I)+SIG(I,4))
-        E5=D5(I)*(SOLD5(I)+SIG(I,5))
-        E6=D6(I)*(SOLD6(I)+SIG(I,6))
-C
-        EINC = VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - HALF*DVOL(I)*(QOLD(I)+QNEW(I))
-        EINT(I)=(EINT(I)+EINC*OFF(I)) / MAX(EM15,VOL(I))
-      ENDDO
+      END IF       
 C
       DO I=1,NEL
-       QOLD(I)=QNEW(I)
-       DEFP(I)=EPXE(I)
-       SIGY(I)=MAX(SIGY(I),AK(I))
+        QOLD(I) = QNEW(I)
+        DEFP(I) = EPXE(I)
+        SIGY(I) = MAX(SIGY(I),AK(I))
       ENDDO
-       DO I=1,NEL
-         IF(DPLA1(I)>0) ETSE(I)= HALF*QH(I)*OFF(I)/MAX(G(I),EM15)
-       ENDDO
+      DO I=1,NEL
+        IF (DPLA1(I)>0) ETSE(I)= HALF*QH(I)*OFF(I)/MAX(G(I),EM15)
+      ENDDO
 !----------------------------------------------------------------     
 !     implicit
 !----------------------------------------------------------------     

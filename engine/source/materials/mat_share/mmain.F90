@@ -578,14 +578,15 @@
 
 ! flag idel
           off_old(1:nel) = off(1:nel)
+
+          dpla(1:nel) = zero
 !
           if (jthe < 0) then
             die(1:nel) = lbuf%eint(1:nel)
-            dpla(1:nel) = zero
           else
             tstar(1:nel) = zero
-            dpla(1:nel) = zero
           endif
+!
 ! tangent module ratio (often w.r.t. g )
           et(1:nel) = one
 !----   iselect>0 : modified left cauchy-green  strain  saved in etotsh
@@ -616,7 +617,7 @@
           svis(1:nel,5)= zero
           svis(1:nel,6)= zero
 !
-          if(iparg(64,ng)/=0)then
+          if (iparg(64,ng) /= 0) then
             df(1:nel)      = one
             vol_avg(1:nel) = voln(1:nel)
           else
@@ -953,6 +954,7 @@
                 lbuf%stra(nel*(6-1) + i) = lbuf%stra(nel*(6-1) + i) + es6(i)
               enddo
             endif ! if (istrain > 0
+!
 !----------------
           elseif (mtn == 3) then
             call m3law(&
@@ -1864,7 +1866,6 @@
 !-----------------------------------
 !     eos part2
 !-----------------------------------
-!     if (mtn == 3.or.mtn == 4.or.mtn == 6.or.mtn==10.or.mtn==17.or.mtn == 49.or.mtn == 102.or.mtn == 103) then
           eostyp = mat_elem%mat_param(imat)%ieos
           if (eostyp > 0 .and. mtn /=12 ) then
             if (mtn /= 6 .and. mtn /= 17) then
