@@ -73,10 +73,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,II,N,FLAG_VISC
-      my_real :: DTINV,FAC,INVDT,RHELP,GSTARD,GAMADSTAR,TTT,MFXX1,MFYY1,MFZZ1
-      my_real, DIMENSION(NPRONY) :: EPSILD,ALPHAD,BETAD,GAMAD,EPSIK,
-     .                              ALPHAK,BETAK,GAMAK, TAUD,GAMAD
-     .                              GAMAK,TAUK
+      my_real :: DTINV,GSTARD,GAMADSTAR,TTT,MFXX1,MFYY1,MFZZ1
+      my_real, DIMENSION(NPRONY) :: EPSILD,ALPHAD,BETAD,GAMAD,
+     .                              TAUD
      
       my_real, DIMENSION(NEL) :: DETF,INVDETF,JDEFG, P
       my_real :: DEFGI(NEL,9),DEFG(NEL,9),STRS0(NEL,6),STRS1(NEL,6),

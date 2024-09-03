@@ -1220,6 +1220,8 @@ C Temps de traitement de la partie elementaire sans la loi materielle fonction d
 ! il y a un facteur multiplicatif sur les coques de Batoz, car on rentre 4x dans cmain3.
 
        BATOZMULT = 3.8
+!      /PRONY or /LPRONY overcost
+       VISC_PRONY_COST = .0000000088
 
 ! *******************************************************************
 !                         Failure model
