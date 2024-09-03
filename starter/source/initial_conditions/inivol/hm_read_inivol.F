@@ -89,6 +89,7 @@ C-----------------------------------------------
       INTEGER I,J,IP,ID,PART_ID,JREC,IGS,PART_USER_ID,IDSURF
       INTEGER SUBMAT_ID,IREVERSED,NCONT,NLIN,ISU,NN,JJ,NINTMAX,ITYP,NUMEL_TOT
       INTEGER SRFTYP,FAC,K,ICUMU,IMAT,IADBUF,NUPARAM,ISUBMAT,STAT,KK,N_R2R
+      INTEGER NBMAT_MAX
       my_real VFRAC,ILAW
       my_real, DIMENSION(:),POINTER :: UPARAM
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -192,20 +193,32 @@ C
           CALL HM_GET_INT_ARRAY_INDEX('ICUMU', ICUMU,KK, IS_AVAILABLE, LSUBMODEL)         
           CALL HM_GET_FLOAT_ARRAY_INDEX('FILL_RATIO', VFRAC, KK, IS_AVAILABLE, LSUBMODEL,UNITAB)
 
-          WRITE(IOUT,'(2X,I10,I10,I9,I6,F20.0)')IDSURF,SUBMAT_ID,IREVERSED,ICUMU,VFRAC
-
-          IF((SUBMAT_ID <= 0 .OR. SUBMAT_ID > 4).AND.  .NOT.MULTI_FVM%IS_USED )THEN
-            CALL ANCMSG(MSGID=887,MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=ID,C1=TITR)
+          NBMAT_MAX = 4
+          IF(MULTI_FVM%IS_USED) NBMAT_MAX = MULTI_FVM%NBMAT
+          IF(SUBMAT_ID <= 0 .OR. SUBMAT_ID > NBMAT_MAX)THEN
+            CALL ANCMSG(MSGID=887,MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=ID,C1=TITR,I2=NBMAT_MAX)
           ENDIF
           IF(IREVERSED < 0 .OR. IREVERSED > 1)THEN
             CALL ANCMSG(MSGID=888,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
           ENDIF
-          IF(VFRAC < ZERO .or. VFRAC > ONE)THEN
+          IF(VFRAC < ZERO .OR. VFRAC > ONE)THEN
             CALL ANCMSG(MSGID=1596,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
           ENDIF
 
+          ! VFRAC \in [0,1] is optionnal. No value means that ISUBMAT is filling 100% inside the surface.
+          IF(VFRAC == ZERO)VFRAC=ONE
+
+          ! ICUMU = 1 : additive filling
+          ! ICUMU = 0 : erase existing filling
+          ! ICUMU =-1 : subtractive filling (substract the excess from the previous filling
+          IF(ICUMU < -1 .OR. ICUMU > 1)THEN
+            ICUMU = 0
+          ENDIF
+
+          WRITE(IOUT,'(2X,I10,I10,I9,I6,F20.0)')IDSURF,SUBMAT_ID,IREVERSED,ICUMU,VFRAC
+
           IMAT = IPART(LIPART1*(PART_ID-1)+1)
-          ILAW=   IPM((IMAT-1)*NPROPMI + 2)     !IPM(2,IMAT)
+          ILAW = IPM((IMAT-1)*NPROPMI + 2)     !IPM(2,IMAT)
           IF(ILAW/=51 .AND. ILAW/=151)THEN
             CALL ANCMSG(MSGID=821, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR)             
           ENDIF   
@@ -218,11 +231,7 @@ C
             UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)          
             SUBMAT_ID=UPARAM(276+SUBMAT_ID)
           ENDIF
-          
-          IF(VFRAC == ZERO)VFRAC=ONE
-          IF(ICUMU /= 0 .AND. ICUMU /= 1)THEN
-            ICUMU = 0
-          ENDIF
+
           ISU=0
           NN =0
           DO J=1,NSURF                                                                     

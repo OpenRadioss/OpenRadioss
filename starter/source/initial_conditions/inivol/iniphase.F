@@ -97,10 +97,9 @@ C
               PART_FILL(IPART_(I)) = 1
             ELSEIF (IPART_(I) == IDP) THEN
               IMAT=MAXLOC(AV(1:NBSUBMAT),1) ! The default phase is the one that is most prevalent.
-              IF(AV(IMAT) < NINE_OVER_10)IMAT=1 ! no prevalence : use first one.
               IPHASE(1,I)       = IMAT
-              IPHASE(NBSUBMAT+1,I) = 1
-              KVOL(1,I)         = ZERO
+              IPHASE(NBSUBMAT+1,I) = 1 !number of present submaterials
+              KVOL(IMAT,I)         = ZERO
               IF (NBIP(IMAT,I) == 0) THEN
                 NBIP(IMAT,I) = NTRACE
               ENDIF

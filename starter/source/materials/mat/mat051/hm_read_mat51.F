@@ -104,8 +104,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       !---Global parameters
-      my_real VIS,VISV,PEXT,PMIN,GAM,VIS2,VISV2
-      INTEGER MIP,MLN,NBMAT,IFLAG_BAK,IDX
+      my_real VIS,VISV,PEXT,PMIN
+      INTEGER MIP,NBMAT,IFLAG_BAK,IDX
       !---EOS parameters
       my_real      :: RHO0, RHOR, DPDMU(4)
       my_real      :: AV(4), RHO0_(4),C0(4),C1(4), E0(4),PMIN_(4),T0(4),C2(4),C3(4),C4(4),C5(4), GG(4)
@@ -116,19 +116,19 @@ C-----------------------------------------------
       !------ units
       my_real      :: FAC_UNIT_TIME, FAC_UNIT_SPH
       !------ Drucker-PRager
-      my_real      :: NU(4),A0(4),A1(4),A2(4),AMX(4),BUNL(4),MUMX(4),PSTAR(4),DET,DELTA,PTOT
+      my_real      :: NU(4),A0(4),A1(4),A2(4),AMX(4),BUNL(4),MUMX(4),PSTAR(4),DET,DELTA
       !---NRF
       my_real      :: P0(4),SSP(4),LC(4),TCARP,TCAR,ABCS
       !---INLET/OUTLET
       INTEGER      :: IOPT,IAV(4),IRHO(4),IE(4)
-      INTEGER      :: I,J,IFLG,io,IERROR
-      INTEGER      :: JTHE, NITER
+      INTEGER      :: I,IFLG,IERROR
+      INTEGER      :: NITER
       INTEGER      :: IEXP, N_LC, IPLA_, IPLA(4), IBFRAC
-      INTEGER      :: IVEL, IMID, NJWL, EOS_TYPE
-      INTEGER      :: tMID(4),SUM_MID
+      INTEGER      :: IVEL, IMID
+      INTEGER      :: tMID(4)
       !---temporary working arrays
-      my_real      :: tAV(4),tR0(4),tC0(4),tC1(4),tC2(4),tC3(4),tC4(4),tC5(4),tE0(4)
-      my_real      :: tPM(4), EINF(4),tA0(4),tA1(4),tA2(4),tPL(4),Pfar,Pini(4)
+      my_real      :: tAV(4)
+      my_real      :: EINF(4),Pfar,Pini(4)
       my_real      :: IE_BOUND, RATIO, SumVF,VEL
       !---messages/output
       CHARACTER*128 :: chain,chain1
@@ -959,6 +959,11 @@ C     !============================!
       PM(38) = UPARAM(42)  !VDET
       PARMAT(1) = MAX(C1(1), C1(2), C1(3), C1(4))
       PM(27) = MAXVAL(SSP(1:4))
+      ! volume fraction (same storage loacation as material law151 : 20+1:NBMAT)
+      PM(20+1) = tAV(1)
+      PM(20+2) = tAV(2)
+      PM(20+3) = tAV(3)
+      PM(20+4) = tAV(4)
       !============================!
       ! Starter Listing File       !
       !============================!
