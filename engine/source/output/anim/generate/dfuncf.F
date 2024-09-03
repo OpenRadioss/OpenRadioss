@@ -83,6 +83,7 @@ C     REAL
      .        ISTRAIN,NN, K1, K2,JTURB,MT,JALE, IMID, IALEL,IPID,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NF,
      .        OFFSET,K,INC,KK,IHBE,ISROT,ILAYER,IR,IS,JJ(6),IPT
+      INTEGER LPLA    ! Used for size of PL Buffer
       REAL R4
 C
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -198,73 +199,78 @@ C       BEAM
 C-----------------------------------------------
         ELSEIF(ITY==5)THEN
           IF (IFUNC == 1) THEN
-           IF (MLW /= 1) THEN
-             IF (IGTYP == 18) THEN
-               NPT  = IPARG(6,NG)
-               DO  I=LFT,LLT
-                 N = I + NFT
-                 EPLAS = ZERO
-                 DO K = 1,NPT
-                   ILAYER=1
-                   IR = 1
-                   IS = 1
-                   LBUF => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,K)
-                   EPLAS = EPLAS + LBUF%PLA(I)
+             IF (MLW /= 1) THEN
+               IF (IGTYP == 18) THEN
+                 NPT  = IPARG(6,NG)
+                 DO  I=LFT,LLT
+                   N = I + NFT
+                   EPLAS = ZERO
+                   IF (MLW /= 0)THEN
+                     DO K = 1,NPT
+                       ILAYER=1
+                       IR = 1
+                       IS = 1
+                       LPLA = ELBUF_TAB(NG)%BUFLY(ILAYER)%L_PLA
+                       IF ( LPLA /= 0)THEN
+                         LBUF => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,K)
+                         EPLAS = EPLAS + LBUF%PLA(I)
+                       ENDIF
+                     ENDDO
+                   ENDIF
+                   FUNC(EL2FA(NN7+N)) = EPLAS/NPT
                  ENDDO
-                 FUNC(EL2FA(NN7+N)) = EPLAS/NPT
+               ELSE    ! IF (IGTYP == 18) THEN
+                 DO  I=LFT,LLT
+                     N = I + NFT
+                     OFF = GBUF%OFF(I)
+                     IF(GBUF%G_PLA > 0) THEN
+                        FUNC(EL2FA(NN7+N)) = GBUF%PLA(I)
+                     ELSE
+                        FUNC(EL2FA(NN7+N)) = 0
+                     ENDIF
+                 ENDDO
+               ENDIF
+             ELSE           ! IF (MLW /= 1) THEN
+               DO  I=LFT,LLT
+                  N = I + NFT
+                  FUNC(EL2FA(NN7+N)) = ZERO
                ENDDO
-             ELSE
-            DO  I=LFT,LLT
-              N = I + NFT
-              OFF = GBUF%OFF(I)
-              IF(GBUF%G_PLA > 0) THEN
-                FUNC(EL2FA(NN7+N)) = GBUF%PLA(I)
-              ELSE
-                FUNC(EL2FA(NN7+N)) = 0
-              ENDIF
-            ENDDO
              ENDIF
-           ELSE
-            DO  I=LFT,LLT
-              N = I + NFT
-              FUNC(EL2FA(NN7+N)) = ZERO
-            ENDDO
-           ENDIF
           ELSEIF(IFUNC==3)THEN
             DO I=LFT,LLT
-             N = I + NFT
-             FUNC(EL2FA(NN7+N)) = (GBUF%EINT(I) + GBUF%EINT(I+LLT)) / MAX(EM30,MASS(EL2FA(NN7+N)))
+               N = I + NFT
+               FUNC(EL2FA(NN7+N)) = (GBUF%EINT(I) + GBUF%EINT(I+LLT)) / MAX(EM30,MASS(EL2FA(NN7+N)))
             ENDDO
           ELSEIF(IFUNC==7)THEN
             DO I=LFT,LLT
-             N = I + NFT
-             A1 = GEO(1,IXP(5,N))
-             B1 = GEO(2,IXP(5,N))
-             B2 = GEO(18,IXP(5,N))
-             B3 = GEO(4,IXP(5,N))
-             F1 = GBUF%FOR(JJ(1)+I)
-             M1 = GBUF%MOM(JJ(1) + I)
-             M2 = GBUF%MOM(JJ(2) + I)
-             M3 = GBUF%MOM(JJ(3) + I)
-             YEQ= F1*F1 + THREE* A1 *
+              N = I + NFT
+              A1 = GEO(1,IXP(5,N))
+              B1 = GEO(2,IXP(5,N))
+              B2 = GEO(18,IXP(5,N))
+              B3 = GEO(4,IXP(5,N))
+              F1 = GBUF%FOR(JJ(1)+I)
+              M1 = GBUF%MOM(JJ(1) + I)
+              M2 = GBUF%MOM(JJ(2) + I)
+              M3 = GBUF%MOM(JJ(3) + I)
+              YEQ= F1*F1 + THREE* A1 *
      +                  ( M1*M1 / MAX(B3,EM30)
      +                  + M2*M2 / MAX(B1,EM30)
      +                  + M3*M3 / MAX(B2,EM30) )
-             FUNC(EL2FA(NN7+N)) = SQRT(YEQ)/A1
+              FUNC(EL2FA(NN7+N)) = SQRT(YEQ)/A1
             ENDDO
           ELSEIF(IFUNC==14)THEN
             DO I=LFT,LLT
-             N = I + NFT
-             FUNC(EL2FA(NN7+N)) = GBUF%FOR(JJ(1)+I) / GEO(1,IXP(5,N))
+               N = I + NFT
+               FUNC(EL2FA(NN7+N)) = GBUF%FOR(JJ(1)+I) / GEO(1,IXP(5,N))
             ENDDO
           ELSEIF(IFUNC==17)THEN
             DO I=LFT,LLT
-             N = I + NFT
-             FUNC(EL2FA(NN7+N)) = GBUF%FOR(JJ(2)+I) / GEO(1,IXP(5,N))
+               N = I + NFT
+               FUNC(EL2FA(NN7+N)) = GBUF%FOR(JJ(2)+I) / GEO(1,IXP(5,N))
             ENDDO
           ELSEIF(IFUNC==19)THEN
             DO I=LFT,LLT
-             N = I + NFT
+               N = I + NFT
              FUNC(EL2FA(NN7+N)) = GBUF%FOR(JJ(3)+I) / GEO(1,IXP(5,N))
             ENDDO
           ELSEIF(IFUNC==20)THEN                       
@@ -273,22 +279,22 @@ C-----------------------------------------------
               FUNC(EL2FA(NN7+N)) = GBUF%DT(I)
             ENDDO
           ELSEIF ((IFUNC==21).AND.(GBUF%G_ISMS>0)) THEN                       
-              DO I=LFT,LLT
+            DO I=LFT,LLT
                 N = I + NFT
                 FUNC(EL2FA(NN7+N)) = GBUF%ISMS(I)
-              ENDDO        
+            ENDDO        
           ELSEIF (IFUNC == 22) THEN 
             DO I=LFT,LLT
-              N = I + NFT
-              IF (GBUF%G_OFF > 0) THEN
-                IF(GBUF%OFF(I) > ONE) THEN
-                  FUNC(EL2FA(NN7+N)) = GBUF%OFF(I) - ONE
-                ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
-                  FUNC(EL2FA(NN7+N)) = GBUF%OFF(I)
-                ELSE
-                  FUNC(EL2FA(NN7+N)) = -ONE
-                ENDIF
-              ENDIF
+               N = I + NFT
+               IF (GBUF%G_OFF > 0) THEN
+                  IF(GBUF%OFF(I) > ONE) THEN
+                    FUNC(EL2FA(NN7+N)) = GBUF%OFF(I) - ONE
+                  ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
+                    FUNC(EL2FA(NN7+N)) = GBUF%OFF(I)
+                  ELSE
+                    FUNC(EL2FA(NN7+N)) = -ONE
+                  ENDIF
+               ENDIF
             ENDDO              
           ELSEIF (IFUNC >= 23 .AND. IFUNC <= 122) THEN   
             IPT = MOD((IFUNC - 22), 100)
