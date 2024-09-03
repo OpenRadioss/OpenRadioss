@@ -128,6 +128,7 @@ C------recompute modulus for law42,88,90
         CASE DEFAULT
           LAMG = C1+FOUR_OVER_3*G0
       END SELECT
+      IF (NU>0.48999) QH = ZEP05*QH
       STIF = 0.038*QH*LAMG       ! factor=1/8/3; QH=10 isn't taken into account for dt
       FVL = FOURTH*EM01*ZEP00666666667
       DO I=1,NEL

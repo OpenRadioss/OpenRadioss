@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      I   FHOUR,PARTSAV,    IPARTS,  NFT,
      J   MTN,     JLAG,    EANI  ,  PID,
      K   IVECTOR ,DT1 ,    MAT,     GEO,
-     L   NEL)
+     L   NEL     ,ISCTL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,6 +72,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: MTN
       INTEGER, INTENT(IN) :: JLAG,IVECTOR
+      INTEGER, INTENT(IN) :: ISCTL
       INTEGER, DIMENSION(MVSIZ) :: MAT,PID
       INTEGER, DIMENSION(NUMELS) :: IPARTS
       my_real, DIMENSION(NPROPG,NUMGEO) ,INTENT(IN):: GEO
@@ -128,6 +129,7 @@ C------recompute modulus for law42,88,90
       C1=PM(32,MX)
       E0=PM(20,MX)
       QH = GEO(13,PID(1))
+      IF (ISCTL>0 .AND. NU>0.48999) QH = ZEP05*QH
       SELECT CASE (MTN)
         CASE (70)
           E0=PM(24,MX)

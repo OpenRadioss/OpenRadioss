@@ -115,6 +115,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE DT_MOD
       USE ELBUFDEF_MOD
+      USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -246,7 +247,7 @@ C
      .    MFZZ(MVSIZ,5),MFZX(MVSIZ,5),MFXZ(MVSIZ,5),DIVDE(MVSIZ),
      .    NU(MVSIZ),FAC(MVSIZ),FACP(MVSIZ),E0(MVSIZ),C1,DVM(MVSIZ),
      .    VISP(MVSIZ),FACDB,RBID(MVSIZ),SIGP(NEL,6),
-     .    FLD(MVSIZ),STI_C(MVSIZ),CAQ,LL(MVSIZ),OFFG,FQMAX
+     .    FLD(MVSIZ),STI_C(MVSIZ),LL(MVSIZ),OFFG(MVSIZ),FQMAX
 c
       my_real VARNL(NEL),DELTAX4(MVSIZ)
 c     Flag Bolt Preloading
@@ -794,19 +795,13 @@ C----------------------------
 C     distorsion control  
 C----------------------------
       IF (ISCTL > 0) THEN
-         CNS2=ZEP05
-         MX = MXT(1)
-         C1 =PM(32,MX)+ONEP333*PM(22,MX)
-         FQMAX = EP03
-         IF (MTN==42.OR.MTN==69) FQMAX = FOURTY
-         DO I=LFT,LLT
-          LL(I) = VOLN(I)**THIRD
-          OFFG = MIN(ABS(GBUF%OFF(I)),OFF(I))
-          CAQ=CNS2*GBUF%RHO(I)*LL(I)
-          FLD(I)=FOURTH*CAQ*CXX(I)*OFFG
-          STI_C(I) = C1 * LL(I) *OFFG
-         ENDDO
-         CALL SCRE_SIG3(GBUF%SIG, C1, ISTAB,GBUF%OFF,ISMSTR ,NEL)
+         OFFG(1:NEL) = MIN(OFF(1:NEL),ABS(GBUF%OFF(1:NEL))) ! no offg for tetra10 
+         CALL SDISTOR_INI(                                      
+     1                NEL      ,STI_C    ,NPROPM     ,NUMMAT  ,       
+     2                ISMSTR   ,MXT      ,ISTAB      ,PM      ,       
+     3                GBUF%SIG ,GBUF%RHO ,CXX        ,OFFG    ,       
+     4                GBUF%OFF ,LL       ,VOLN       ,FLD     ,       
+     5                CNS2     ,FQMAX    )
          IF (ISMSTR>=11)  ! XX,YY,ZZ now current conf.
      *     CALL S10GET_X3(
      1          X,     XDP,      DR,    NUMNOD,
