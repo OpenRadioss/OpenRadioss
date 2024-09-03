@@ -89,7 +89,7 @@ C-----------------------------------------------
      .   WTYPE(9),FWIHBE,FAC8,
      .   TABMAT(3),TABX(3),TIMMAT,NPT,TELT,POIDS,W,
      .   BATOZMULT,TMAT,TRUP,TABRUP(3),TRUP_LOCAL,TMATADD,
-     .   WD_LOCAL,MULT_SPE
+     .   WD_LOCAL,MULT_SPE,VISC_PRONY
       
       my_real
      .        CC, A,B,A1,A2
@@ -157,6 +157,7 @@ C-----------------------------------------------
         TIMMAT = 0.
         TRUP = 0.
         TMATADD = 0.
+        VISC_PRONY = 0.
         MULT = 0
         IF((MLN<28).OR.(MLN==32)) THEN
          IRUP2 = 0
@@ -171,6 +172,9 @@ C-----------------------------------------------
           ELSE
            INDI = 1
           ENDIF
+          IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+            VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+          ENDIF
         ELSEIF ((MLN==25).AND.(ABS(NPN)>0)) THEN
           IFLAG = NINT( PM(40,MID))
           IF (IFLAG/=0) THEN
@@ -178,6 +182,9 @@ C-----------------------------------------------
           ELSE
            INDI = 1
           ENDIF
+           IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+             VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+           ENDIF
 C loi 36+86 en fonction des fct
         ELSEIF (MLN==36.OR.(MLN==86).AND.(ABS(NPN)>0)) THEN
           NFUNC = NINT(PM(40,MID))
@@ -188,6 +195,9 @@ C loi 36+86 en fonction des fct
           ELSEIF (NFUNC>7) THEN
            INDI = 3
           ENDIF
+           IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+             VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+           ENDIF
         ELSEIF((MLN==42).OR.(MLN==62).OR.(MLN==69)) THEN  ! check prony option
            NFUNC = 0   ! NPRONY
            IF (MLN==42) NFUNC = MAT_PARAM(ABS(MID))%IPARAM(2)
@@ -195,13 +205,12 @@ C loi 36+86 en fonction des fct
              IAD=IPM(7,ABS(MID))-1
              NFUNC = NINT(BUFMAT(IAD+3))
            END IF
-           IF (NFUNC == 0) THEN
-             IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
-               NFUNC = MAT_PARAM(ABS(MID))%VISC%IPARAM(1) !  = NPRONY
-             ENDIF
-           ENDIF
+
            IF(NFUNC==0) THEN
             INDI = 1
+             IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+               VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+             ENDIF
            ELSEIF(NFUNC==1) THEN
             INDI = 2
            ELSEIF(NFUNC==2) THEN
@@ -216,6 +225,9 @@ C loi 36+86 en fonction des fct
            NFUNC=NINT(BUFMAT(IAD+1))
            IF(NFUNC<=1) THEN
             INDI = 1
+            IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+              VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+            ENDIF
            ELSEIF(NFUNC==2) THEN
             INDI = 2
            ELSEIF(NFUNC==3) THEN
@@ -249,6 +261,9 @@ C loi 36+86 en fonction des fct
            FLAG_NON_LOCAL = MAT_PARAM(ABS(MID))%NLOC
         ELSE
          INDI = 1
+         IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+           VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+         ENDIF
         ENDIF 
 
         MULT_SPE = 0.
@@ -371,7 +386,7 @@ C loi 36+86 en fonction des fct
         ! --------------------
         IF(RECHERCHE==0) THEN
          IF((WD_LOCAL==0.).AND.(MLN/=0))THEN
-          POIDS = (TELT + TIMMAT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) ) * INVTREF
+          POIDS = (TELT + TIMMAT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + VISC_PRONY) * INVTREF
           WD(I+OFF) = POIDS
 
           POIN_PART = IPARTG(I)

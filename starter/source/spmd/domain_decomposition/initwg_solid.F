@@ -103,7 +103,7 @@ C-----------------------------------------------
       
       LOGICAL :: ISMSTR_COST
       INTEGER :: ISMSTR,ISMSTR_L,ISM0,ICP0
-      my_real :: ADD_OVER_COST
+      my_real :: ADD_OVER_COST,VISC_PRONY
 
       DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/     
 C-----------------------------------------------
@@ -190,6 +190,7 @@ C -------------------------------
         TMAT = 0.
         TRUP = 0.
         TMATADD = 0.
+        VISC_PRONY = 0.
         OPT_1 = ZERO
         OPT_2 = ZERO
         ADD_OPTION = 0
@@ -236,6 +237,7 @@ C -------------------------------
           IF (MLN == 1.AND.JHBE/=16) ISMSTR_L = 12
         ENDIF
 
+        
         IF ( MLN==1.OR.MLN==38.OR.
      .       MLN==90.OR.MLN==92.OR.MLN==94 ) THEN 
           IF (ISMSTR_L==10.OR.ISMSTR_L==12) THEN
@@ -244,78 +246,99 @@ C -------------------------------
           ELSE
             INDI = 1
           ENDIF
+          IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+            VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+          ENDIF
         ELSEIF (MLN==2) THEN
-           CC = PM(43,MID)
-           IF (CC/=0) THEN
+          CC = PM(43,MID)
+          IF (CC/=0) THEN
             INDI = 2
-           ELSE
+          ELSE
             INDI = 1
-           ENDIF
+          ENDIF
+          IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+            VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+          ENDIF
         ! ----------------
         ! law 25 : 2 sub-option
         ELSEIF(MLN==25) THEN
-           IF (MAT_PARAM(ABS(MID))%iparam(1)==1) THEN
+          IF (MAT_PARAM(ABS(MID))%iparam(1)==1) THEN
             INDI = 2
-           ELSE
+          ELSE
             INDI = 1
-           ENDIF
+          ENDIF
+          IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+            VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+          ENDIF
         ! ----------------
         ELSEIF (MLN == 36)THEN
-           NFUNC = MAX(IPM(10,MID) - 3,1)
-           IF (NFUNC<=2) THEN
+          NFUNC = MAX(IPM(10,MID) - 3,1)
+          IF (NFUNC<=2) THEN
             INDI = 1
-           ELSEIF (NFUNC>2.AND.NFUNC<=7) THEN
+          ELSEIF (NFUNC>2.AND.NFUNC<=7) THEN
             INDI = 2
-           ELSEIF (NFUNC>7) THEN
+          ELSEIF (NFUNC>7) THEN
             INDI = 3
-           ENDIF
+          ENDIF
+          IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+            VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+          ENDIF
         ELSEIF (MLN==33) THEN
-           NFUNC1 = IPM(11,MID)
-           NFUNC2 = IPM(12,MID)
-           IF((NFUNC1/=0).OR.(NFUNC2/=0)) THEN
+          NFUNC1 = IPM(11,MID)
+          NFUNC2 = IPM(12,MID)
+          IF((NFUNC1/=0).OR.(NFUNC2/=0)) THEN
             INDI = 2
-           ELSE
+          ELSE
             INDI = 1
-           ENDIF
+          ENDIF
+          IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+            VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+          ENDIF
         ELSEIF((MLN==42).OR.(MLN==62).OR.(MLN==69)) THEN
 !       check the NPRONY model
-           NFUNC = 0
-           IF (MLN==42) NFUNC = MAT_PARAM(ABS(MID))%IPARAM(2)
-           IF (MLN==62) THEN
-             IAD = IPM(7,ABS(MID))-1
-             NFUNC = NINT(BUFMAT(IAD+3))
-           END IF
-           IF (NFUNC == 0) THEN
-             IF (IPM(222,ABS(MID)) > 0) THEN 
-               IAD = IPM(223,ABS(MID))
-               NFUNC = NINT(BUFMAT(IAD +1 ))
-             ENDIF
-           ENDIF
-           IF(NFUNC==0) THEN
+          NFUNC = 0
+          IF (MLN==42) NFUNC = MAT_PARAM(ABS(MID))%IPARAM(2)
+          IF (MLN==62) THEN
+            IAD = IPM(7,ABS(MID))-1
+            NFUNC = NINT(BUFMAT(IAD+3))
+          END IF
+          IF (NFUNC == 0) THEN
+            IF (IPM(222,ABS(MID)) > 0) THEN 
+              IAD = IPM(223,ABS(MID))
+              NFUNC = NINT(BUFMAT(IAD +1 ))
+            ENDIF
+          ENDIF
+          IF(NFUNC==0) THEN
             INDI = 1
-           ELSEIF(NFUNC==1) THEN
+            IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+              VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+            ENDIF
+          ELSEIF(NFUNC==1) THEN
             INDI = 2
-           ELSEIF(NFUNC==2) THEN
+          ELSEIF(NFUNC==2) THEN
             INDI = 3
-           ELSEIF(NFUNC>2) THEN
+          ELSEIF(NFUNC>2) THEN
             INDI = 3
             MULT = NFUNC - 2
             INDI2 = 2            
-           ENDIF
+          ENDIF
         ELSEIF((MLN==82)) THEN
-           IAD=IPM(7,ABS(MID))-1
-           NFUNC=NINT(BUFMAT(IAD+1))
-           IF(NFUNC<=1) THEN
+          IAD=IPM(7,ABS(MID))-1
+          NFUNC=NINT(BUFMAT(IAD+1))
+          IF(NFUNC<=1) THEN
             INDI = 1
-           ELSEIF(NFUNC==2) THEN
+            IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+              VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+            ENDIF
+          ELSEIF(NFUNC==2) THEN
             INDI = 2
-           ELSEIF(NFUNC==3) THEN
+          ELSEIF(NFUNC==3) THEN
             INDI = 3
-           ELSEIF(NFUNC>3) THEN
+          ELSEIF(NFUNC>3) THEN
             INDI = 3
             MULT = NFUNC - 3
             INDI2 = 2            
-           ENDIF
+          ENDIF
         ELSEIF(MLN==100) THEN
         !       SPECIAL TREATMENT :
         !       LAW 100 : material cost = base cost + viscosity cost + N * network cost
@@ -368,8 +391,14 @@ C -------------------------------
              SPE_I_2 = 3
            ENDIF                
            FLAG_NON_LOCAL = MAT_PARAM(ABS(MID))%NLOC
+            IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+              VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+            ENDIF
         ELSE
            INDI = 1
+           IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+             VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+           ENDIF
         ENDIF
         IF(ISMSTR_COST) ADD_OVER_COST = ELM_OVER_COST(1)
        
@@ -416,7 +445,7 @@ C -------------------------------
             ENDDO
            ENDIF
 !          --------------            
-           TELT = TMAT + TET4TELT(1)  + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST
+           TELT = TMAT + TET4TELT(1)  + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST + VISC_PRONY
          ENDIF
 !****************************************
 !       ---------------------------
@@ -473,7 +502,7 @@ C -------------------------------
 !           --------------
              IF(ISOL==10) TELT = TET10TELT(1)
              IF(ISOL==4.AND. JSROT==1) TELT = TET4TELT(2)
-             TELT = TMAT + TELT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + 4.*ADD_OVER_COST
+             TELT = TMAT + TELT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + 4.*(ADD_OVER_COST + VISC_PRONY)
          ENDIF
         ELSE
 !****************************************
@@ -525,7 +554,7 @@ C -------------------------------
                ENDDO
               ENDIF
 !             -------------- 
-              TELT = TMAT + SOLTELT(1)  + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST
+              TELT = TMAT + SOLTELT(1)  + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST + VISC_PRONY
             ELSEIF (JHBE==2) THEN
 !           Solides ISOLD2
               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
@@ -544,7 +573,7 @@ C -------------------------------
                ENDDO
               ENDIF
 !             -------------- 
-              TELT = TMAT + SOLTELT(2) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST
+              TELT = TMAT + SOLTELT(2) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST + VISC_PRONY
             ELSEIF (JHBE==24.OR.JHBE==104) THEN
 !           Solides ISOLD24  - HEPH
               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
@@ -563,7 +592,7 @@ C -------------------------------
                ENDDO
               ENDIF
 !             -------------- 
-              TELT = TMAT + SOLTELT(3) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST
+              TELT = TMAT + SOLTELT(3) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST + VISC_PRONY
 C
             ELSEIF (JHBE==12) THEN
 !           Solides ISOLD12 - std 8 node integ point
@@ -583,7 +612,7 @@ C
                ENDDO
               ENDIF
 !             -------------- 
-              TELT = TMAT + SOLTELT(4) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + 8.*ADD_OVER_COST
+              TELT = TMAT + SOLTELT(4) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + 8.*(ADD_OVER_COST + VISC_PRONY)
             ELSEIF ( (JHBE==14.OR.(JHBE>=222.AND.JHBE<=999)).AND.(IGT/=20.AND.IGT/=21.AND.IGT/=22)) THEN
 !           Solides HA8
                MPT = ABS (NPN)
@@ -612,7 +641,8 @@ C
                ! if NPT > 8, element weight = reference weight + (NPT-8) * overweight 
                OVERCOST_ELM = 0
                IF(NPTOT>8) OVERCOST_ELM = NPTOT-8
-               TELT = NPTOT*(TMAT+TRUP+ADD_OVER_COST)+SOLTELT(5) +OVERCOST_ELM *SOLTELT(6) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+               TELT = NPTOT*(TMAT+TRUP+ADD_OVER_COST+VISC_PRONY)+SOLTELT(5) +OVERCOST_ELM *SOLTELT(6) +
+     .                MULT_SPE*NLOCAL_OPTION(SPE_I_3)
             ELSEIF(JHBE==14.AND.(IGT==20.OR.IGT==21.OR.IGT==22)) THEN
 !           Solides Thick shell
                MPT = ABS (NPN)
@@ -681,7 +711,7 @@ C
 !              --------------
                ! 4 NPT = 202 = 4 * reference weight 
                ! if NPT > 4, element weight = reference weight + overcost
-               TELT = OVERCOST_ELM*TMAT+NPTOT*TRUP + 
+               TELT = OVERCOST_ELM*(TMAT+VISC_PRONY)+NPTOT*TRUP + 
      .                OVERCOST_ELM*NUMBER_LAYER*SOLTELT(10) + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + 
      .                OVERCOST_ELM * ADD_OVER_COST
             ELSEIF(JHBE==15) THEN
@@ -707,7 +737,7 @@ C
                NPTOT = ABS (NPN)
               ! --------------
                ! jhbe=15 : weight = element weight + element extracost + mat + rupture
-               TELT = NPTOT*(TMAT+TRUP) + SOLTELT(11) + NPTOT*SOLTELT(12) +
+               TELT = NPTOT*(TMAT+TRUP+VISC_PRONY) + SOLTELT(11) + NPTOT*SOLTELT(12) +
      .                MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST
               ! --------------  
             ELSEIF (JHBE==17) THEN   
@@ -729,7 +759,7 @@ C
                 ENDDO
                ENDIF
 !              -------------- 
-               TELT =  (TMAT+TRUP+ADD_OVER_COST)*8 + SOLTELT(7) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+               TELT =  (TMAT+TRUP+ADD_OVER_COST+VISC_PRONY)*8 + SOLTELT(7) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
             ELSEIF (JHBE==18) THEN   
 !           ISOLIDE=18
                IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
@@ -748,7 +778,7 @@ C
                 ENDDO
                ENDIF
 !              -------------- 
-               TELT =  (TMAT+TRUP+ADD_OVER_COST)*8 + SOLTELT(9) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+               TELT =  (TMAT+TRUP+ADD_OVER_COST+VISC_PRONY)*8 + SOLTELT(9) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
             ELSE
 !             --------------
 !             Failure
@@ -759,7 +789,7 @@ C
               ENDIF
 !             -------------- 
               TELT = SOL1TNL(MLN,1) + SOLTELT(1) + TRUP 
-     .               + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST
+     .               + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST + VISC_PRONY
             ENDIF
            ENDIF
         ENDIF      

@@ -91,7 +91,7 @@ C-----------------------------------------------
      .   WTYPE(9),FWIHBE,FAC8,
      .   TABMAT(3),TABX(3),TIMMAT,NPT,TELT,POIDS,W,
      .   BATOZMULT,TMAT,TRUP,TABRUP(3),TRUP_LOCAL,TMATADD,
-     .   WD_LOCAL,MULT_SPE
+     .   WD_LOCAL,MULT_SPE,VISC_PRONY
            
       my_real
      .        CC,A,B,A1,A2
@@ -160,6 +160,7 @@ C-----------------------------------------------
         TIMMAT = 0.
         TRUP = 0.
         TMATADD = 0.
+        VISC_PRONY = 0.
         MULT = 0
         IF((MLN<28).OR.(MLN==32)) THEN
          IRUP2 = 0
@@ -175,6 +176,9 @@ C-----------------------------------------------
            ELSE
             INDI = 1
            ENDIF
+           IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+             VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+           ENDIF
         ! ----------------
         ! law 25 : 2 sub-option
         ELSEIF(MLN==25) THEN
@@ -182,6 +186,9 @@ C-----------------------------------------------
             INDI = 2
            ELSE
             INDI = 1
+           ENDIF
+           IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+             VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
            ENDIF
         ! ----------------
         ! law 36 : the number of function is taken into account
@@ -198,6 +205,9 @@ C-----------------------------------------------
            ELSEIF (NFUNC>7) THEN
             INDI = 3
            ENDIF
+           IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+             VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+           ENDIF
         ! ----------------
         ! law 86 : prony option
         ELSEIF((MLN==86).AND.(ABS(NPN)==0)) THEN
@@ -209,6 +219,12 @@ C-----------------------------------------------
            ELSEIF (NFUNC>7) THEN
             INDI = 3
            ENDIF
+
+           IF (NFUNC == 0) THEN
+             IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+               VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+             ENDIF
+           ENDIF
         ! ----------------
         ! law 42,62 and 69 : prony option
         ELSEIF((MLN==42).OR.(MLN==62).OR.(MLN==69)) THEN
@@ -219,13 +235,12 @@ C-----------------------------------------------
              IAD=IPM(7,ABS(MID))-1
              NFUNC = NINT(BUFMAT(IAD+3))
            END IF
-           IF (NFUNC == 0) THEN
-             IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
-               NFUNC = MAT_PARAM(ABS(MID))%VISC%IPARAM(1) !  = NPRONY
-             ENDIF
-           ENDIF
+
            IF(NFUNC==0) THEN
             INDI = 1
+             IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+               VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+             ENDIF
            ELSEIF(NFUNC==1) THEN
             INDI = 2
            ELSEIF(NFUNC==2) THEN
@@ -242,6 +257,9 @@ C-----------------------------------------------
            NFUNC=NINT(BUFMAT(IAD+1))
            IF(NFUNC<=1) THEN
             INDI = 1
+            IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+              VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+            ENDIF
            ELSEIF(NFUNC==2) THEN
             INDI = 2
            ELSEIF(NFUNC==3) THEN
@@ -279,6 +297,9 @@ C-----------------------------------------------
         ! other laws
         ELSE
            INDI = 1
+           IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+             VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
+           ENDIF
         ENDIF
         ! ----------------
         MULT_SPE = 0.
@@ -418,13 +439,13 @@ C           0pt d integration doit etre traite a part
          IF(MLN/=0)THEN
            IF (IHBE>=11.AND.IHBE<=19) THEN
 C ow            BATOZ
-                 TELT = SHTELT(INDI4*5+3+INDI5)+BATOZMULT*(TIMMAT + TRUP) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+                 TELT = SHTELT(INDI4*5+3+INDI5)+BATOZMULT*(TIMMAT + TRUP) + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + VISC_PRONY
            ELSEIF (IHBE>=21.AND.IHBE<=29) THEN
 C ow            QEPH
-                 TELT = SHTELT(INDI4*5+2+INDI5) + TIMMAT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+                 TELT = SHTELT(INDI4*5+2+INDI5) + TIMMAT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + VISC_PRONY
            ELSE
 C ow            Q4
-                 TELT = SHTELT(INDI4*5+1)  + TIMMAT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+                 TELT = SHTELT(INDI4*5+1)  + TIMMAT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + VISC_PRONY
            ENDIF
          ENDIF
         ENDIF       !   fin SHTNL_OLD
