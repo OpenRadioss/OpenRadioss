@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE VOLPRE(IVOLU ,RVOLU   ,NJET    ,IBAGJET ,RBAGJET  ,
      2                NSENSOR ,SENSOR_TAB,X       ,V       ,A        ,
-     3                N       ,NPC     ,TF      ,NN      ,SURF_NODES,
+     3                NORMAL  ,NPC     ,TF      ,NN      ,SURF_NODES,
      4                FEXT    ,H3D_DATA,SURF_ELTYP,SURF_ELEM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -61,7 +61,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   RVOLU(*),RBAGJET(NRBJET,*),
-     .   X(3,*), V(3,*), A(3,*), N(3,*),TF(*),FEXT(3,*)
+     .   X(3,*), V(3,*), A(3,*), NORMAL(3,NN),TF(*),FEXT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
@@ -95,9 +95,9 @@ C
           P=DP*FOURTH
           II=SURF_ELEM(I)
 C
-          FX=P*N(1,II)
-          FY=P*N(2,II)
-          FZ=P*N(3,II)
+          FX=P*NORMAL(1,I)
+          FY=P*NORMAL(2,I)
+          FZ=P*NORMAL(3,I)
 !
           N1 = SURF_NODES(I,1)
           N2 = SURF_NODES(I,2)
@@ -138,9 +138,9 @@ C
           P=DP/3.
           II=SURF_ELEM(I) + NUMELC
 C
-          FX=P*N(1,II)
-          FY=P*N(2,II)
-          FZ=P*N(3,II)
+          FX=P*NORMAL(1,I)
+          FY=P*NORMAL(2,I)
+          FZ=P*NORMAL(3,I)
 !
           N1 = SURF_NODES(I,1)
           N2 = SURF_NODES(I,2)
@@ -173,9 +173,9 @@ C
           P=DP*FOURTH
           II=I+NUMELC+NUMELTG
 C
-          FX=P*N(1,II)
-          FY=P*N(2,II)
-          FZ=P*N(3,II)
+          FX=P*NORMAL(1,I)
+          FY=P*NORMAL(2,I)
+          FZ=P*NORMAL(3,I)
 !
           N1 = SURF_NODES(I,1)
           N2 = SURF_NODES(I,2)
@@ -289,8 +289,8 @@ C
           NZ1=NZ1-FACR*NZ3
 C
           AN1 = (NX1**2+NY1**2+NZ1**2)
-          AN = MAX(EM30,SQRT((N(1,II)**2+N(2,II)**2+N(3,II)**2)*AN1))
-          PJ=PJ*MAX(ZERO,(NX1*N(1,II)+NY1*N(2,II)+NZ1*N(3,II))/AN)
+          AN = MAX(EM30,SQRT((NORMAL(1,I)**2+NORMAL(2,I)**2+NORMAL(3,I)**2)*AN1))
+          PJ=PJ*MAX(ZERO,(NX1*NORMAL(1,I)+NY1*NORMAL(2,I)+NZ1*NORMAL(3,I))/AN)
           AN = MAX(EM30,SQRT((NX2**2+NY2**2+NZ2**2)*AN1))
           TMPO = (NX1*NX2+NY1*NY2+NZ1*NZ2)/AN
           TMPO = SIGN(MIN(ONE,ABS(TMPO)),TMPO)
@@ -299,9 +299,9 @@ C
           DIST = SQRT(AN1)
           IF(IPZ/=0)PJ=PJ*FPZ*FINTER(IPZ,DIST*SCALD,NPC,TF,DYDX)
 C
-          FX=PJ*N(1,II)
-          FY=PJ*N(2,II)
-          FZ=PJ*N(3,II)
+          FX=PJ*NORMAL(1,I)
+          FY=PJ*NORMAL(2,I)
+          FZ=PJ*NORMAL(3,I)
 C
           A(1,N1)=A(1,N1)+FX
           A(2,N1)=A(2,N1)+FY
@@ -383,8 +383,8 @@ C
           NZ1=NZ1-FACR*NZ3
 C
           AN1 = (NX1**2+NY1**2+NZ1**2)
-          AN = MAX(EM30,SQRT((N(1,II)**2+N(2,II)**2+N(3,II)**2)*AN1))
-          PJ=PJ*MAX(ZERO,(NX1*N(1,II)+NY1*N(2,II)+NZ1*N(3,II))/AN)
+          AN = MAX(EM30,SQRT((NORMAL(1,I)**2+NORMAL(2,I)**2+NORMAL(3,I)**2)*AN1))
+          PJ=PJ*MAX(ZERO,(NX1*NORMAL(1,I)+NY1*NORMAL(2,I)+NZ1*NORMAL(3,I))/AN)
           AN = MAX(EM30,SQRT((NX2**2+NY2**2+NZ2**2)*AN1))
           TMPO = (NX1*NX2+NY1*NY2+NZ1*NZ2)/AN
           TMPO = SIGN(MIN(ONE,ABS(TMPO)),TMPO)
@@ -393,9 +393,9 @@ C
           DIST = SQRT(AN1)
           IF(IPZ/=0)PJ=PJ*FPZ*FINTER(IPZ,DIST*SCALD,NPC,TF,DYDX)
 C
-          FX=PJ*N(1,II)
-          FY=PJ*N(2,II)
-          FZ=PJ*N(3,II)
+          FX=PJ*NORMAL(1,I)
+          FY=PJ*NORMAL(2,I)
+          FZ=PJ*NORMAL(3,I)
 C
           A(1,N1)=A(1,N1)+FX
           A(2,N1)=A(2,N1)+FY
@@ -475,8 +475,8 @@ C
           NZ1=NZ1-FACR*NZ3
 C
           AN1 = (NX1**2+NY1**2+NZ1**2)
-          AN = MAX(EM30,SQRT((N(1,II)**2+N(2,II)**2+N(3,II)**2)*AN1))
-          PJ=PJ*MAX(ZERO,(NX1*N(1,II)+NY1*N(2,II)+NZ1*N(3,II))/AN)
+          AN = MAX(EM30,SQRT((NORMAL(1,I)**2+NORMAL(2,I)**2+NORMAL(3,I)**2)*AN1))
+          PJ=PJ*MAX(ZERO,(NX1*NORMAL(1,I)+NY1*NORMAL(2,I)+NZ1*NORMAL(3,I))/AN)
           AN = MAX(EM30,SQRT((NX2**2+NY2**2+NZ2**2)*AN1))
           TMPO = (NX1*NX2+NY1*NY2+NZ1*NZ2)/AN
           TMPO = SIGN(MIN(ONE,ABS(TMPO)),TMPO)
@@ -485,9 +485,9 @@ C
           DIST = SQRT(AN1)
           IF(IPZ/=0)PJ=PJ*FPZ*FINTER(IPZ,DIST*SCALD,NPC,TF,DYDX)
 C
-          FX=PJ*N(1,II)
-          FY=PJ*N(2,II)
-          FZ=PJ*N(3,II)
+          FX=PJ*NORMAL(1,I)
+          FY=PJ*NORMAL(2,I)
+          FZ=PJ*NORMAL(3,I)
 C
           A(1,N1)=A(1,N1)+FX
           A(2,N1)=A(2,N1)+FY

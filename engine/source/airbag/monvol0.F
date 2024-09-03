@@ -46,14 +46,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod          ../engine/share/modules/sensor_mod.F
       !||====================================================================
       SUBROUTINE MONVOL0(MONVOL   ,VOLMON  ,X       ,A      ,
-     2                   NPC      ,TF      ,V       ,N      ,
+     2                   NPC      ,TF      ,V       ,NORMAL ,
      3                   FSAV     ,NSENSOR ,SENSOR_TAB,IGRSURF,
-     4                   FR_MV    ,IADMV   ,
+     4                   FR_MV    ,IADMV   ,SICONTACT,SPORO,
      5                   FSKY     ,ICONTACT,PORO    ,IPARG  ,
      6                   ELBUF_TAB,GEO     ,IGEO    ,
      7                   PM       ,IPM     ,IPART   ,IPARTC ,
      8                   IPARTTG  ,IGROUPC ,IGROUPTG,FEXT   ,
-     9                   FLAG     ,H3D_DATA ,T_MONVOL)
+     9                   FLAG     ,H3D_DATA ,T_MONVOL,frontier_global_mv)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,6 +62,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MONVOL_STRUCT_MOD
       USE SENSOR_MOD
+      use get_volume_area_mod , only : get_volume_area
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,21 +79,24 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR
+      INTEGER, INTENT(in) :: SICONTACT !< dimension if icontact
+      INTEGER, INTENT(in) :: SPORO !< dimension if poro
       INTEGER NPC(*),MONVOL(*),FR_MV(NSPMD+2,NVOLU),
-     .   IADMV(4,*),ICONTACT(*),IPARG(NPARG,*),
+     .   IADMV(4,*),ICONTACT(SICONTACT),IPARG(NPARG,*),
      .   IGEO(NPROPGI,*),
      .   IPART(*),IPARTC(*), IPARTTG(*),IPM(NPROPMI,*),
      .   IGROUPC(*), IGROUPTG(*)
       INTEGER FLAG ! 1 => Monvol, 2 => FVMBAG type 6 8
+      INTEGER, DIMENSION(NSPMD+2), INTENT(in) :: FRONTIER_GLOBAL_MV !< global mpi frontier 
 C     REAL
       my_real
-     .   X(3,*), A(3,*), TF(*), V(3,*), N(3,*),PORO(*),
+     .   X(3,*), A(3,*), TF(*), V(3,*), NORMAL(3,*), PORO(*),
      .   VOLMON(*),FSAV(NTHVKI,*),FSKY(*),
      .   GEO(NPROPG,*),PM(NPROPM,*),FEXT(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
-      TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
+      TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C     N(3,*)  NORMALE STOCKEE DANS WA
@@ -105,21 +109,30 @@ C-----------------------------------------------
      .     K1,K2,K6,KK1,KK2,
      .     PMAIN,KIBJET,KRBJET,KIBHOL,KRBHOL,
      .     NJET,IADJET,RADJET,NVENT,IADHOL,RADHOL
-      my_real
-     .     VOL
+      my_real, dimension(nvolu) :: vol
 C---------------------------------------------------------
 C
       K1 = 1
       KK1= 1
       DO I=1,NVOLU
-         ITYP=MONVOL(K1+1)
-         IF(ITYP==4.OR.ITYP==5.OR.ITYP==7.OR.ITYP==9)THEN
-            VOLMON(KK1+31-1)=VOLMON(KK1+12-1)
-         ENDIF
-         K1 = K1 + NIMV
-         KK1 = KK1 + NRVOLU
+        ITYP=MONVOL(K1+1)
+        IF(ITYP==4.OR.ITYP==5.OR.ITYP==7.OR.ITYP==9)THEN
+          VOLMON(KK1+31-1)=VOLMON(KK1+12-1)
+        ENDIF
+        K1 = K1 + NIMV
+        KK1 = KK1 + NRVOLU
       ENDDO
-
+      ! ----------
+      ! compute the  airbag's volume & area 
+      if(flag==1) then
+        call get_volume_area(ispmd,nspmd,numelc,numeltg,  
+     .                       nvolu,nsurf,intbag,sporo, 
+     .                       numnod,sicontact,nimv,nrvolu,           
+     .                       monvol,volmon,vol,x,
+     .                       normal,icontact,poro,fr_mv,
+     .                       frontier_global_mv, t_monvol,igrsurf )
+      endif
+      ! ----------
 
       K1 = 1
       K6 = 1
@@ -130,13 +143,13 @@ C
       KIBHOL = KIBJET + LIBAGJET
       KRBJET = KK2 + LRCBAG
       KRBHOL = KRBJET + LRBAGJET
-C
+
       DO I=1,NVOLU
         ITYP = MONVOL(K1+1)
         NCA  = MONVOL(K1+2) 
         IS   = MONVOL(K1+3)
         NN = IGRSURF(IS)%NSEG
-C
+
         NJET  = MONVOL(K1 + 7)
         IADJET= KIBJET+MONVOL(K1+ 8)
         RADJET= KRBJET+MONVOL(K1+ 9)
@@ -155,27 +168,22 @@ C
         IF(FLAG == 1 .AND. (ITYP == 6 .OR. ITYP == 8)) GOTO 100 
         IF(FLAG == 2 .AND. .NOT.(ITYP == 6 .OR. ITYP == 8)) GOTO 100 
 
-C        IF (IMACH/=3.OR.IPARIT==0) THEN
-          CALL VOLUM0(
-     1         MONVOL(K1),VOLMON(KK1),VOL       ,X,IGRSURF(IS)%NODES,
-     2         N         ,NN         ,IGRSURF(IS)%ELTYP ,IGRSURF(IS)%ELEM,
-     3         ICONTACT  ,PORO       ,FR_MV(1,I)  , T_MONVOL(I))
         IF(ITYP==1)THEN
 C=======================================================================
 C         VOLUME OUTPUT
 C=======================================================================
-          CALL VOLOUT(VOLMON(KK1),VOL,FSAV(1,I),PMAIN)
+          CALL VOLOUT(VOLMON(KK1),VOL(I),FSAV(1,I),PMAIN)
         ELSEIF(ITYP==2)THEN
 C=======================================================================
 C         VOLUME P=F(V)
 C=======================================================================
-          CALL VOLPFV(MONVOL(K1),VOLMON(KK1),VOL,FSAV(1,I),NPC,
+          CALL VOLPFV(MONVOL(K1),VOLMON(KK1),VOL(I),FSAV(1,I),NPC,
      2                TF        ,PMAIN    )
         ELSEIF(ITYP==3)THEN
 C=======================================================================
 C         GAS PARFAIT
 C=======================================================================
-          CALL VOLPVGA(MONVOL(K1),VOLMON(KK1),VOL,FSAV(1,I),NVENT ,
+          CALL VOLPVGA(MONVOL(K1),VOLMON(KK1),VOL(I),FSAV(1,I),NVENT ,
      2            MONVOL(IADHOL) ,VOLMON(RADHOL),PMAIN )
         ELSEIF(ITYP==4.OR.ITYP==5)THEN
 C=======================================================================
@@ -184,7 +192,7 @@ C=======================================================================
            CALL AIRBAGA(MONVOL(K1),NJET ,MONVOL(IADJET),NVENT ,MONVOL(IADHOL),
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
      3 VOLMON  ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
-     4 VOL     ,PMAIN )
+     4 VOL(I)    ,PMAIN )
         ELSEIF(ITYP==7.OR.ITYP==9)THEN
 C=======================================================================
 C         AIRBAGS1 (NOUVEAUX INJECTEURS)
@@ -192,12 +200,12 @@ C=======================================================================
            CALL AIRBAGA1(MONVOL(K1),NJET ,MONVOL(IADJET),NVENT ,MONVOL(IADHOL),
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
      3 VOLMON  ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
-     4 VOL     ,PMAIN ,GEO     ,IGEO    ,PM)
+     4 VOL(I)     ,PMAIN ,GEO     ,IGEO    ,PM)
         ELSEIF(ITYP==10)THEN
 C=======================================================================
 C         LINEAIRE FLUIDE
 C=======================================================================
-          CALL VOLP_LFLUID(MONVOL(K1),VOLMON(KK1),VOL,FSAV(1,I),NPC,
+          CALL VOLP_LFLUID(MONVOL(K1),VOLMON(KK1),VOL(I),FSAV(1,I),NPC,
      2                    TF        ,PMAIN )
         ENDIF
 C=======================================================================
@@ -205,14 +213,17 @@ C=======================================================================
          IF (IPARIT==0) THEN
             CALL VOLPRE(MONVOL(K1),VOLMON(KK1),NJET ,MONVOL(IADJET),VOLMON(RADJET),
      2                 NSENSOR ,SENSOR_TAB ,X       ,V       ,A       ,
-     3                 N       ,NPC     ,TF      ,NN  ,IGRSURF(IS)%NODES,
+     3                 t_monvol(i)%normal  ,NPC     ,TF      ,NN  ,IGRSURF(IS)%NODES,
      4                 FEXT    ,H3D_DATA,IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM)
          ELSE
             CALL VOLPREP(MONVOL(K1),VOLMON(KK1),NJET ,MONVOL(IADJET),VOLMON(RADJET),
      2                 NSENSOR ,SENSOR_TAB  ,X       ,V       ,A       ,
-     3                 N       ,NPC     ,TF      ,NN  ,IGRSURF(IS)%NODES,
+     3                 t_monvol(i)%normal  ,NPC     ,TF      ,NN  ,IGRSURF(IS)%NODES,
      4                 IADMV(1,K6),FSKY ,FSKY    ,FEXT, H3D_DATA ,
-     5                 IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM)
+     5                 IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM,
+     5                 T_MONVOL(I)%OMP_OUTPUT%NODE_NUMBER,T_MONVOL(I)%OMP_OUTPUT%TOTAL_CONTRIBUTION_NUMBER, 
+     6                 T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION_INDEX,T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION_NUMBER,
+     7                 T_MONVOL(I)%OMP_OUTPUT%NODE_ID,T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION)
          ENDIF
         ENDIF
  100    CONTINUE
@@ -251,8 +262,8 @@ C       PERFECT GAS
 C=======================================================================
         IF(ITYP==3)THEN
            CALL VOLPVGB(
-     1           MONVOL(K1)    ,VOLMON(KK1)   ,VOL  ,FSAV(1,I) ,NVENT  ,
-     2           MONVOL(IADHOL),VOLMON(RADHOL),N    ,NN        ,IGRSURF,
+     1           MONVOL(K1)    ,VOLMON(KK1)   ,VOL(I)  ,FSAV(1,I) ,NVENT  ,
+     2           MONVOL(IADHOL),VOLMON(RADHOL),NORMAL,NN        ,IGRSURF,
      3           IPARG         ,ELBUF_TAB,FR_MV(1,I), IGROUPC, IGROUPTG)
 C=======================================================================
 C       AIRBAGS
@@ -270,7 +281,7 @@ C=======================================================================
          IF (ITYP==7.OR.ITYP==9) THEN
              CALL AIRBAGB1(MONVOL(K1),MONVOL(K2),NJET ,MONVOL(IADJET),NVENT,
      2 MONVOL(IADHOL),VOLMON(KK1),VOLMON ,VOLMON(KK2),VOLMON(RADJET),
-     3 VOLMON(RADHOL),FSAV(1,I)  ,N       ,NN      ,
+     3 VOLMON(RADHOL),FSAV(1,I)  ,NORMAL ,NN      ,
      4 IGRSURF       ,PORO       ,MONVOL  ,VOLMON(KRBJET),
      5 FR_MV(1,I)    ,IPARG      ,IPART   ,IPARTC  ,IPARTTG,
      6 IPM           ,PM         ,ELBUF_TAB,IGROUPC ,IGROUPTG,
@@ -281,7 +292,7 @@ C        AIRBAGS /AIRBAG /COMMU
 C=======================================================================
              CALL AIRBAGB(MONVOL(K1),MONVOL(K2),NJET ,MONVOL(IADJET),NVENT,
      2 MONVOL(IADHOL),VOLMON(KK1),VOLMON ,VOLMON(KK2),VOLMON(RADJET),
-     3 VOLMON(RADHOL),FSAV(1,I)  ,N       ,NN      ,
+     3 VOLMON(RADHOL),FSAV(1,I)  ,NORMAL ,NN      ,
      4 IGRSURF       ,PORO       ,MONVOL  ,VOLMON(KRBJET),
      5 FR_MV(1,I))
          END IF

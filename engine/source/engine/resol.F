@@ -663,6 +663,8 @@ C-----------------------------------------------
       USE spmd_mod , only : SPMD_MAX,spmd_allreduce
       USE SKEW_MOD
       USE ELBUFDEF_MOD
+      use init_global_frontier_monvol_mod , only : init_global_frontier_monvol
+      use init_monvol_omp_structure_mod , only : init_monvol_omp_structure
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -871,7 +873,7 @@ c
       TYPE(PINCH) :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       INTEGER, INTENT(IN) :: NE_NERCVOIS(*), NE_NESDVOIS(*), NE_LERCVOIS(*), NE_LESDVOIS(*)
-      TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
+      TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
       TYPE (DRAPE_)                                      :: DRAPE_SH4N(NUMELC_DRAPE)  , DRAPE_SH3N(NUMELTG_DRAPE) 
       TYPE(DRAPEG_)                                      :: DRAPEG
       TYPE (SENSORS_)   ,INTENT(INOUT)                   :: SENSORS
@@ -1221,6 +1223,8 @@ C-------------------------------------------------------------------------------
 
         INTEGER :: CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES
 
+        integer, dimension(nspmd+2) :: frontier_global_mv !< frontier fo monitored volume
+        integer :: sporo
         ! Restart File Writing
         INTEGER STOP_OR_ADD_CYCLE  !< Check if additional cycle must be done after restart at termination
       DATA IUN/1/
@@ -2154,7 +2158,21 @@ c      we constraint all DDLs
        IF(IDT_THERM == 1) THEN
           CALL BCSDTTH_COPY(ICODT, ICODR, ICODT0, ICODR0 ,1 )
        ENDIF
-       
+
+      ! -----------------
+      ! Monitored volume : initialization of global frontier array for mpi comm
+      if(nvolu/=0) then
+        call init_global_frontier_monvol(ispmd,nspmd,nvolu,nsurf,monvol,
+     .                       nimv,
+     .                  fr_mv,frontier_global_mv, t_monvol,igrsurf )
+      else
+        frontier_global_mv(1:nspmd+2) = 0
+      endif
+      ! Monitored volume : initialization of omp array
+      call init_monvol_omp_structure(ispmd,nspmd,nvolu,nsurf,monvol, 
+     .                       nimv,numnod,    
+     .                  fr_mv,t_monvol,igrsurf )
+      ! -----------------       
        I24MAXNSNE=0
        IF (INT24USE == 1)THEN
          ALLOCATE(IAD_I24(NBINTC+1,NSPMD))
@@ -3471,18 +3489,19 @@ C-------------------------------------------------
           ELSE
             N1 = N0
           ENDIF
+          SPORO = NUMELC+NUMELTG+IBAGSURF
 C
           N=1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG
            CALL MONVOL0(
      1      MONVOL     ,VOLMON     ,X_A            ,A         ,
      2      NPC        ,TF         ,V              ,WA        ,
      3      FSAV(1,N)  ,NSENSOR    ,SENSORS%SENSOR_TAB ,IGRSURF   ,
-     4      FR_MV      ,IADS(I87I) ,
+     4      FR_MV      ,IADS(I87I) ,SICONTACT,SPORO           ,
      5      FSKY       ,ICONTACT   ,WA(N0)         ,IPARG     ,
      6      ELBUF_TAB  ,GEO        ,IGEO           ,
      7      PM         ,IPM        ,IPART          ,IPART(K3) ,
      8      IPART(K8)  ,IGROUPC    ,IGROUPTG       ,FEXT      ,
-     9      1          ,H3D_DATA   ,T_MONVOL)
+     9      1          ,H3D_DATA   ,T_MONVOL,frontier_global_mv)
           CALL TRACE_OUT(11)
         IF (IMONM > 0) CALL STOPTIME(50,1)
         ENDIF
@@ -4674,6 +4693,7 @@ C----------------------------------------------
           ELSE
             N1 = N0
           ENDIF
+          SPORO = NUMELC+NUMELTG+IBAGSURF
 C
           N=1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG
           CALL FVBAG0(MONVOL,    VOLMON,  X,           SENSORS%SENSOR_TAB,  V,
@@ -4686,12 +4706,12 @@ C
      1      MONVOL     ,VOLMON     ,X_A            ,A         ,
      2      NPC        ,TF         ,V              ,WA        ,
      3      FSAV(1,N)  ,NSENSOR    ,SENSORS%SENSOR_TAB ,IGRSURF   ,
-     4      FR_MV      ,IADS(I87I) ,
+     4      FR_MV      ,IADS(I87I) ,SICONTACT,SPORO           ,
      5      FSKY       ,ICONTACT   ,WA(N0)         ,IPARG     ,
      6      ELBUF_TAB  ,GEO        ,IGEO           ,
      7      PM         ,IPM        ,IPART          ,IPART(K3) ,
      8      IPART(K8)  ,IGROUPC    ,IGROUPTG       ,FEXT      ,
-     9      2          ,H3D_DATA   ,T_MONVOL)
+     9      2          ,H3D_DATA   ,T_MONVOL,frontier_global_mv)
 
 
           CALL TRACE_OUT(11)
@@ -6881,7 +6901,7 @@ C-----------------------------------------------
         ENDIF
         
         CALL ACCELE(A       ,AR      ,V    ,MS     ,IN     ,
-     2              NODFTSK ,NODLTSK ,ALE%GLOBAL%SNALE ,ALE_CONNECTIVITY%NALE   ,MS_2D  ,
+     2              ALE%GLOBAL%SNALE ,ALE_CONNECTIVITY%NALE   ,MS_2D  ,
      3              SIZE_NPBY,NPBY   )
 C
         IF(IPLYXFEM > 0 )
@@ -8781,7 +8801,7 @@ C         VITESSES
 C-----------------
           CALL VITESSE(
      1                 A      , AR     , V   , VR   , FZERO,
-     2                 NODFTSK, NODLTSK, ITAB,ALE_CONNECTIVITY%NALE             )
+     2                  ITAB,ALE_CONNECTIVITY%NALE             )
 c        
         IF (NLOC_DMG%IMOD > 0) THEN
 c
@@ -8848,7 +8868,7 @@ C===============================================================================
           NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 
           CALL DEPLA(V      ,D      ,X  ,VR   ,DR    ,
-     2               NODFTSK,NODLTSK,XDP,DDP)
+     2               XDP,DDP,NUMNOD)
 C
           CALL DEPLAFAKEIGE(X ,V ,INTERFACES%INTBUF_TAB, KXIG3D,
      2                      IXIG3D,IGEO, KNOT, WIGE,

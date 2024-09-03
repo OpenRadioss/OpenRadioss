@@ -202,7 +202,7 @@ C
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||====================================================================
       SUBROUTINE VOLPVGB(IVOLU ,RVOLU   ,VOL     ,FSAV    ,NVENT   ,
-     .                 IBAGHOL ,RBAGHOL ,N       ,NN      ,IGRSURF ,
+     .                 IBAGHOL ,RBAGHOL ,NORMAL  ,NN      ,IGRSURF ,
      .                 IPARG   ,ELBUF_TAB,FR_MV, IGROUPC,IGROUPTG)
 C-----------------------------------------------
 C      MONITORED VOLUMES TYPE PERFECT GAS, INPUT STARTER >= 4.4 (FUITES).
@@ -232,7 +232,7 @@ C-----------------------------------------------
      .        NN,IPARG(NPARG,*)
       INTEGER, INTENT(IN) :: IGROUPC(*), IGROUPTG(*)
       my_real
-     .   RVOLU(*),FSAV(*),RBAGHOL(NRBHOL,*),N(3,*)
+     .   RVOLU(*),FSAV(*),RBAGHOL(NRBHOL,*),NORMAL(3,*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
@@ -328,9 +328,7 @@ C                segment from sh3n
 C                segment only
                  K=IGRSURF(IPVENT)%ELEM(KK) + NUMELC + NUMELTG
                ENDIF
-               F1(KK) = SQRT( N(1,K)**2+N(2,K)**2+N(3,K)**2 )
-c               APVENT= APVENT+
-c     .            SQRT( N(1,K)**2+N(2,K)**2+N(3,K)**2 )
+               F1(KK) = SQRT( NORMAL(1,K)**2+NORMAL(2,K)**2+NORMAL(3,K)**2 )
                KAD=KAD+NISX
             ENDDO
 c            AOUT=APVENT
@@ -389,12 +387,10 @@ C                segment only
                  IOFF=1
                ENDIF
                IF(IOFF==0) THEN
-                 F1(KK) = SQRT( N(1,K)**2+N(2,K)**2+N(3,K)**2 )
+                 F1(KK) = SQRT( NORMAL(1,K)**2+NORMAL(2,K)**2+NORMAL(3,K)**2 )
                ELSE
                  F1(KK) = ZERO
                END IF
-c               IF(IOFF==0) APVENT= APVENT+
-c     .                 SQRT( N(1,K)**2+N(2,K)**2+N(3,K)**2 )
                KAD=KAD+NISX
             ENDDO
 c            AOUT=APVENT

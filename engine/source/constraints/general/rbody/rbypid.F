@@ -100,11 +100,13 @@ C     REAL
 C======================================================================|
       M    = NPBY(1)
 C
+      ICOMM(1:NSPMD+2) = 0
       IF(NSPMD > 1)THEN
 C FR_RBY2(3,NRB) => proc main ; ICOMM : Array of flag for necessary comm pmain => p
         PMAIN = ABS(FR_RBY2(3,NRB))
         TAG = 1
         IF(M < 0) TAG = 0
+        IF(ISPMD+1/=PMAIN) ICOMM(ISPMD+1) = TAG
         CALL SPMD_PART_COM(TAG,PMAIN,ICOMM)
         IF(M < 0) GOTO 100
 C for use of ICOMM in SPMD_EXCH_FR6
