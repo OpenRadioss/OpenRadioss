@@ -104,7 +104,8 @@ C-----------------------------------------------
       USE SPHBOX
       USE MOD_FORINTP
       USE TABLE_MOD
-      USE MAT_ELEM_MOD            
+      USE MAT_ELEM_MOD
+      USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
       USE OUTPUT_MOD
 C----6---------------------------------------------------------------7---------8

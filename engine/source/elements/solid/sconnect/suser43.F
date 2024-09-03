@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD            
       USE LAW_USERSO
       USE SIGEPS169_CONNECT_MOD
+      USE ELBUFDEF_MOD
 C-------------------------------------------------------------------------
 C     This subroutine compute user 8 nodes solids forces and moments.
 C----------+---------+---+---+--------------------------------------------
