@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
       INTEGER I,I1,II,J,IL
-      INTEGER NPAR,NFUNC,IPG,NVARF
+      INTEGER NPAR,NFUNC,IPG,NVARF,NIPAR
       INTEGER, DIMENSION(:) ,POINTER   :: FLD_IDX,FOFF
       my_real, DIMENSION(:), POINTER   :: UVARF,DFMAX,TDEL,DAM
       my_real, DIMENSION(NEL) :: ES1,ES2,ES4,ES5,ES6
@@ -78,6 +78,7 @@ C-----------------------------------------------
       LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)                            
       FBUF => ELBUF_TAB%BUFLY(ILAY)%FAIL(IR,IS,IT)                            
       NPAR   = FAIL%NUPARAM
+      NIPAR  = FAIL%NIPARAM
       NFUNC  = FAIL%NFUNC    
       UVARF => FBUF%FLOC(IFAIL)%VAR  
       NVARF  = FBUF%FLOC(IFAIL)%NVAR 
@@ -94,8 +95,9 @@ C-----------------------------------------------
      1          NEL       ,NPAR      ,NVARF     ,NFUNC    ,FAIL%IFUNC ,
      2          NPF       ,TF        ,TT        ,DT1      ,FAIL%UPARAM,   
      3          UVARF     ,NGL       ,IT        ,ILAY     ,IT         ,
-     5          ES1       ,ES2       ,ES4       ,ES5      ,ES6        ,
-     6          LBUF%OFF  ,FOFF      ,FLD_IDX   ,DAM      ,DFMAX     )
+     4          ES1       ,ES2       ,ES4       ,ES5      ,ES6        ,
+     5          LBUF%OFF  ,FOFF      ,FLD_IDX   ,DAM      ,DFMAX      ,
+     6          NIPAR     ,FAIL%IPARAM,LBUF%PLA )
 C-----------
       RETURN
       END SUBROUTINE H3D_FLD_TSH

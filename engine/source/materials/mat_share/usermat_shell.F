@@ -1452,23 +1452,26 @@ c
                 ENDDO
                 IF (IXFEM == 0) THEN
                   CALL FAIL_FLD_C(
-     1            NEL       ,NUPAR     ,NFUNC_FAIL   ,IFUNC_FAIL     ,
+     1            NEL       ,NUPAR     ,NFUNC_FAIL,IFUNC_FAIL ,
      2            NPF       ,TF        ,TT        ,UPARAMF    ,   
      3            NGL       ,IPG       ,ILAYER    ,IT         ,
      4            EPSXX     ,EPSYY     ,EPSXY     ,
-     5            ZT        ,OFF       ,FOFF      ,TDEL ,
-     6            FLD_IDX   ,DAM       ,DFMAX     )
+     5            DEPSXX    ,DEPSYY    ,DEPSXY    ,EL_PLA     ,
+     6            ZT        ,OFF       ,FOFF      ,TDEL       ,
+     7            FLD_IDX   ,DAM       ,DFMAX     ,DT1        ,
+     8            NIPAR     ,IPARAMF   ,NVARF     ,UVARF      )
                 ELSE
                   CALL FAIL_FLD_XFEM(                                      
-     1            NEL       ,NUPAR    ,NVARF    ,NFUNC_FAIL   ,IFUNC_FAIL    ,
-     2            NPF       ,TF       ,TT       ,UPARAMF  ,
-     3            NGL       ,IPT      ,MPT      ,SSP      ,TENSX     ,
-     4            SIGNXX    ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX    ,  
-     5            EPSXX     ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX     ,  
-     6            UVARF     ,GBUF%NOFF,OFF      ,
-     7            ELCRKINI  ,IXFEM    ,IXEL     ,ILAYER   ,IT        ,  
-     8            OFFL      ,NPTT     ,UELR1    ,DFMAX    ,TDEL      ,
-     9            DAM       ,FLD_IDX  )
+     1            NEL       ,NUPAR     ,NVARF     ,NFUNC_FAIL,IFUNC_FAIL,
+     2            NPF       ,TF        ,TT        ,UPARAMF   ,
+     3            NGL       ,IPT       ,MPT       ,SSP       ,TENSX     ,
+     4            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,  
+     5            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,  
+     6            UVARF     ,GBUF%NOFF ,OFF       ,
+     7            ELCRKINI  ,IXFEM     ,IXEL      ,ILAYER    ,IT        ,  
+     8            OFFL      ,NPTT      ,UELR1     ,DFMAX     ,TDEL      ,
+     9            DAM       ,FLD_IDX   ,NIPAR     ,IPARAMF   ,EL_PLA    ,
+     A            DEPSXX    ,DEPSYY    ,DEPSXY    ,DT1       )
                 ENDIF
 c
               CASE (9)     !    Xue_wierzbicki
