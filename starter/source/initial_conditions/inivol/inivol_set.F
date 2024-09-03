@@ -29,13 +29,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE INIVOL_SET(UVAR     , NUVAR , NEL     , KVOL         , MLW                         ,
      .                      ELBUF_TAB, NG    , NBSUBMAT, MULTI_FVM    , REQUIRED_2D_POLYGON_CLIPPING,
-     .                      IDP      , IPART , NFT     , KVOL_2D_POLYG   )
+     .                      IDP      , IPART , NFT     , KVOL_2D_POLYG, PM, NPROPM ,IMID)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE CONSTANT_MOD, ONLY : NINE_OVER_10
 C-----------------------------------------------
@@ -51,6 +51,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN)                 :: IMID
+      INTEGER,INTENT(IN)                 :: NPROPM
+      my_real,INTENT(IN)                 :: PM(NPROPM, NUMMAT)
       INTEGER,INTENT(IN)                 :: NEL, NUVAR, MLW, NG, NBSUBMAT,IDP,IPART(*),NFT
       my_real,INTENT(INOUT)              :: KVOL(NBSUBMAT,NEL)
       my_real,INTENT(INOUT)              :: KVOL_2D_POLYG(NBSUBMAT,NEL)
@@ -62,47 +65,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER                 :: I, IMAT, KK
-      TYPE(G_BUFEL_) ,POINTER :: GBUF   
-      TYPE(L_BUFEL_) ,POINTER :: LBUF   
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
       my_real                 :: P, P1,P2,P3,P4,SUMVF,RATIO
+      my_real                 :: vfrac0(nbsubmat)
       INTEGER                 :: default_SUBMAT_id(NEL)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 
       ! DETERMINE DEFAULT SUBMAT ID
-      default_SUBMAT_id(1:NEL) = 1
-      DO I=1,NEL
-        IF(IPART(I+NFT) /= IDP)CYCLE
-
-        IF(MLW == 51)THEN
-          DO IMAT=1,4
-            KK = N0PHAS + (IMAT-1)*NVPHAS
-            IF(UVAR(I,1+KK) >= NINE_OVER_10)THEN
-              default_SUBMAT_id(I) = IMAT
-              EXIT
-            ENDIF
-          ENDDO
-
-        ELSEIF(MLW == 37)THEN
-          IF(UVAR(I,4)  >= NINE_OVER_10) THEN
-            default_SUBMAT_id(I) = 1
-          ELSEIF(UVAR(I,5)  >= NINE_OVER_10)THEN
-            default_SUBMAT_id(I) = 2
-          ENDIF
-
-        ELSEIF(MLW == 151)THEN
-          GBUF => ELBUF_TAB(NG)%GBUF
-          DO IMAT=1,MULTI_FVM%NBMAT
-            LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)
-            IF(LBUF%VOL(I) / GBUF%VOL(I) >= NINE_OVER_10)THEN
-              default_SUBMAT_id(I) = IMAT
-              EXIT
-            ENDIF
-          ENDDO
-        ENDIF
-
-      ENDDO!next I
+      vfrac0(1:nbsubmat) = pm(20+1:20+nbsubmat,imid)
+      default_SUBMAT_id(1:NEL) = MAXLOC(vfrac0,1)
 
       !---ADD CONTRIBUTION FROM 2D POLYGONAL CLIPPING
       IF(REQUIRED_2D_POLYGON_CLIPPING) THEN
@@ -139,7 +113,7 @@ C-----------------------------------------------
         ENDIF
       ENDDO
 
-      !---set initial volumetric fraction using KVOL array
+      !---set initial volumetric fraction result (KVOL) in material buffer (+ posteriori checks)
       IF(MLW == 51)THEN
         DO IMAT=1,4
           KK = N0PHAS + (IMAT-1)*NVPHAS

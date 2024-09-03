@@ -439,7 +439,6 @@ set_source_files_properties( ${source_directory}/source/interfaces/inter3d1/i6st
 set_source_files_properties( ${source_directory}/source/interfaces/inter3d1/i18pwr3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/interfaces/inter3d1/i24pwr3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/interfaces/inter3d1/i21buc3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
-# set_source_files_properties( ${source_directory}/source/interfaces/inter3d1/i24tools.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/interfaces/inter3d1/inint3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/interfaces/inter3d1/i21tri.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/interfaces/inter3d1/voisin1.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )

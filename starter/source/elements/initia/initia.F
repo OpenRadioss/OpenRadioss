@@ -1645,9 +1645,9 @@ C-----------------------------------------------------
      .                   x        , nbsubmat,    kvol,
      .                   elbuf_tab,  numels8,   xrefs,
      .                   n2d      ,multi_fvm,  sipart, ipart,
-     .                   i15a     ,i15b     ,    i15h, sbufmat,  bufmat,
-     .                   npropmi  ,nummat   ,     ipm , sbufsf,   bufsf,
-     .                   npropg   ,numgeo   ,     geo , mvsiz ,   skvol, itab)
+     .                   i15a     ,i15b     ,    i15h, sbufmat,  bufmat,  npropm,
+     .                   npropmi  ,nummat   ,     ipm ,     pm,  sbufsf,   bufsf,
+     .                   npropg   ,numgeo   ,     geo , mvsiz ,   skvol,   itab)
 C---------------------------------
 C  Gravity (after INIVOL)
 C---------------------------------
