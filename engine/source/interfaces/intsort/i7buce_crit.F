@@ -81,7 +81,8 @@ C=======================================================================
       IF(NSN+NMN < NUMNOD+NUMFAKENODIGEO)THEN
 C
 !#include "simd.inc" --> this loop can't be vectorized because there are some dependencies 
-        DO I=NSNF,NSNL
+!$OMP DO SCHEDULE(guided)
+        DO I=1,NSN
           J=NSV(I)
           IF(STFN(I)/=ZERO) THEN
 
@@ -101,8 +102,10 @@ C
 
           ENDIF
         END DO
-!#include "simd.inc" --> this loop can't be vectorized because there are some dependencies 
-        DO I=NMNF,NMNL
+!$OMP END DO NO WAIT
+
+!$OMP DO SCHEDULE(guided)
+        DO I=1,NMN
           II = I+NSN
           J=MSR(I)
           IF(J>0) THEN
@@ -121,10 +124,11 @@ C
             VMSR(6)=MIN(VMSR(6),V(3,J))
           ENDIF
         END DO
+!$OMP END DO NO WAIT
       ELSE
 C
-!#include "simd.inc" --> this loop can't be vectorized because there are some dependencies 
-        DO I=NSNF,NSNL
+!$OMP DO SCHEDULE(guided)
+        DO I=1,NSN
           J=NSV(I)
           IF(STFN(I)/=ZERO) THEN
 
@@ -144,8 +148,10 @@ C
 
           ENDIF
         END DO
-!#include "simd.inc" --> this loop can't be vectorized because there are some dependencies 
-        DO I=NMNF,NMNL
+!$OMP END DO NO WAIT
+
+!$OMP DO SCHEDULE(guided)
+        DO I=1,NMN
           J=MSR(I)
           IF(J>0) THEN
             XMSR(1)=MAX(XMSR(1),X(1,J)-XSAV(1,J))
@@ -163,14 +169,16 @@ C
             VMSR(6)=MIN(VMSR(6),V(3,J))
           ENDIF
         ENDDO
+!$OMP END DO NO WAIT
       ENDIF       
 C dist calcule une fois pour toutes les interfaces dans COMCRIT (ci-dessous)
 C
       IF(NSPMD==1) THEN
-C traitement deplace dans SPMD_GET_STIF en SPMD
-        DO I=NSNF,NSNL
+!$OMP DO SCHEDULE(guided)
+        DO I=1,NSN
           STFN(I)=MAX(STFN(I),ZERO)
         ENDDO
+!$OMP END DO NO WAIT
       ENDIF
 C
 !$OMP CRITICAL (I7BUCE_CRIT_REDUCTION)

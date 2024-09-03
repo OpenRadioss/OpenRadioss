@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    resol   ../engine/source/engine/resol.F
       !||====================================================================
       SUBROUTINE DEPLA(V    ,D    ,X     ,VR   ,DR    ,
-     2                 NODFT,NODLT,XDP,DDP   )
+     2                 XDP,DDP,NUMNOD)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,12 +43,12 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NODFT, NODLT, NDDIM
+      INTEGER, INTENT(in) :: NUMNOD !< number of node
 C     REAL
       my_real
-     .   X(3,*) ,D(3,*) ,V(3,*) ,DR(3,*)  ,VR(3,*)
+     .   X(3,NUMNOD) ,D(3,NUMNOD) ,V(3,NUMNOD) ,DR(3,NUMNOD)  ,VR(3,NUMNOD)
       DOUBLE PRECISION
-     .   XDP(3,*), DDP(3,*)
+     .   XDP(3,NUMNOD), DDP(3,NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -58,17 +58,18 @@ C-----------------------------------------------
       DOUBLE PRECISION VDT2
 C
       IF(N2D==1)THEN
-#include      "vectorize.inc"
-          DO I=NODFT,NODLT
+!$OMP DO SCHEDULE(guided)
+          DO I=1,NUMNOD
             IF(X(2,I)+DT2*V(2,I)<ZERO) V(2,I)=ZERO
           ENDDO
+!$OMP END DO
       ENDIF
 C-------------------------------------------------------------
 C         CALCUL DES  DEPLACEMENTS TRANSLATIONS PUIS ROTATIONS
 C-------------------------------------------------------------
       IF (IRESP==1) THEN
-#include      "vectorize.inc"
-        DO N=NODFT,NODLT
+!$OMP DO SCHEDULE(guided)
+        DO N=1,NUMNOD
           VDT2 = DT2*V(1,N)
           DDP(1,N) = DDP(1,N)+VDT2
           D(1,N)=DDP(1,N)
@@ -87,9 +88,10 @@ C-------------------------------------------------------------
           XDP(3,N)=XDP(3,N)+VDT2
           X(3,N)=XDP(3,N)
         ENDDO
+!$OMP END DO NO WAIT
       ELSE
-#include      "vectorize.inc"
-        DO N=NODFT,NODLT
+!$OMP DO SCHEDULE(guided)
+         DO N=1,NUMNOD
           VDT = DT2*V(1,N)
           D(1,N)=D(1,N)+VDT
           X(1,N)=X(1,N)+VDT
@@ -100,14 +102,16 @@ C-------------------------------------------------------------
           D(3,N)=D(3,N)+VDT
           X(3,N)=X(3,N)+VDT
         ENDDO
+!$OMP END DO NO WAIT
       ENDIF 
       IF((ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR/=0 .OR. IDROT == 1) .AND. IRODDL /= 0) THEN
-#include      "vectorize.inc"
-        DO N=NODFT,NODLT
+!$OMP DO SCHEDULE(guided)
+        DO N=1,NUMNOD
           DR(1,N)=DR(1,N)+DT2*VR(1,N)
           DR(2,N)=DR(2,N)+DT2*VR(2,N)
           DR(3,N)=DR(3,N)+DT2*VR(3,N)
         ENDDO
+!$OMP END DO
       ENDIF
 C
       RETURN

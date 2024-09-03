@@ -88,24 +88,29 @@ C Fin Partie non parallele smt
 
         END IF
 C-----------------------------------------------
-
-        DO I=NRTSF,NRTSL
+!$OMP DO SCHEDULE(guided)
+        DO I=1,NRTS
           PENIS(1,I)=MIN(PENIS(1,I),PENIS(2,I))
           PENIS(2,I)=ZERO
         ENDDO
-        DO I=NRTMF,NRTML
+!$OMP END DO NO WAIT
+!$OMP DO SCHEDULE(guided)
+        DO I=1,NRTM
           PENIM(1,I)=MIN(PENIM(1,I),PENIM(2,I))
           PENIM(2,I)=ZERO
         ENDDO
+!$OMP END DO NO WAIT
       ENDIF
 C
 C si NSPMD > 1 traitement effectue dans SPMD_GET_STIF11
 C car reperage comm sur stfs < ZERO
 C
       IF (NSPMD==1) THEN
-        DO I=NRTSF,NRTSL
+!$OMP DO SCHEDULE(guided)
+        DO I=1,NRTS
           STFS(I)=MAX(STFS(I),ZERO)
         ENDDO
+!$OMP END DO NO WAIT
       END IF
 C
 C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
@@ -143,7 +148,8 @@ C
 C
       IF(NSN+NMN<NUMNOD)THEN
 C
-        DO I=NSNF,NSNL
+!$OMP DO SCHEDULE(guided)
+        DO I=1,NSN
          J=NSV(I)
 C shooting nodes
          IF(J>0) THEN
@@ -162,7 +168,10 @@ C
           VSLV(6)=MIN(VSLV(6),V(3,J))
          ENDIF
         END DO
-        DO I=NMNF,NMNL
+!$OMP END DO NO WAIT
+
+!$OMP DO SCHEDULE(guided)
+        DO I=1,NMN
          II = I+NSN
          J=MSR(I)
 C shooting nodes
@@ -183,9 +192,11 @@ C
 C
          ENDIF
         END DO
+!$OMP END DO NO WAIT
       ELSE
 C
-        DO I=NSNF,NSNL
+!$OMP DO SCHEDULE(guided)
+        DO I=1,NSN
          J=NSV(I)
 C shooting nodes
          IF(J>0) THEN
@@ -204,8 +215,10 @@ C
           VSLV(6)=MIN(VSLV(6),V(3,J))
          ENDIF
         END DO
+!$OMP END DO NO WAIT
 C
-        DO I=NMNF,NMNL
+!$OMP DO SCHEDULE(guided)
+        DO I=1,NMN
          J=MSR(I)
 C shooting nodes
          IF(J>0) THEN
@@ -225,6 +238,7 @@ C
 C
          ENDIF
         END DO
+!$OMP END DO NO WAIT
       ENDIF
 C
 #include "lockon.inc"

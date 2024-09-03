@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
         SUBROUTINE ACCELE(
      1                  A       ,AR    ,V    ,MS      ,IN   ,
-     2                  NODFT   ,NODLT ,SIZE_NALE      ,NALE   ,MS_2D  ,
+     2                  SIZE_NALE      ,NALE   ,MS_2D  ,
      3                  SIZE_NPBY, NPBY   )
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -43,8 +43,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(IN) ::NODFT  !< first node for smp //
-        INTEGER, INTENT(IN) :: NODLT !< last node for smp // 
         INTEGER, INTENT(IN) :: SIZE_NALE !< size of NALE array
         INTEGER, INTENT(IN) :: SIZE_NPBY !< 2nd dimension of NPBY array
         INTEGER, DIMENSION(SIZE_NALE), INTENT(IN) :: NALE !< array of ALE node (1 if the node is related to ALE computation
@@ -64,7 +62,8 @@ C-----------------------------------------------
       !       acceleration computation 
       !------------------------------------------------!       
         IF(N2D == 0) THEN
-            DO N=NODFT,NODLT
+!$OMP DO SCHEDULE(guided)
+            DO N=1,NUMNOD
                 IF(MS(N)>ZERO) THEN
                     RTMP = ONE / MS(N)
                     A(1,N) = A(1,N) * RTMP
@@ -81,6 +80,7 @@ C-----------------------------------------------
                     ENDIF
                 ENDIF
             ENDDO
+!$OMP END DO
         ELSE
             DO I=1,NRBODY        
                 MSR = NPBY(1,I)
@@ -88,7 +88,8 @@ C-----------------------------------------------
                     MS(MSR) = MS_2D(MSR)
                 ENDIF
             ENDDO
-            DO N=NODFT,NODLT
+!$OMP DO SCHEDULE(guided)
+            DO N=1,NUMNOD
                 IF(MS(N)>ZERO) THEN
                     RTMP = ONE / MS(N)
                     A(1,N) = A(1,N) * RTMP
@@ -105,14 +106,15 @@ C-----------------------------------------------
                     ENDIF
                 ENDIF
             ENDDO
+!$OMP END DO
         ENDIF
 
       !------------------------------------------------!
       !       angular acceleration computation 
       !------------------------------------------------!
         IF (IRODDL/=0) THEN
-#include      "vectorize.inc"
-            DO N=NODFT,NODLT
+!$OMP DO SCHEDULE(guided)
+            DO N=1,NUMNOD
                 IF(IN(N)>ZERO) THEN
                     RTMP = ONE / IN(N)
                     AR(1,N) = AR(1,N) * RTMP
@@ -124,20 +126,22 @@ C-----------------------------------------------
                     AR(3,N) = ZERO      
                 ENDIF
             ENDDO
+!$OMP END DO
         ENDIF
 
       !------------------------------------------------!
       !      FVM DOES NOT NEED ACCEL AND VEL           !
       !------------------------------------------------!      
         IF(INT22>0)THEN
-#include      "vectorize.inc"
-            DO N=NODFT,NODLT
+!$OMP DO SCHEDULE(guided)
+            DO N=1,NUMNOD
                 IF(NALE(N)/=0)THEN
                     A( 1:3,N) = ZERO
                     AR(1:3,N) = ZERO
                     MS(N)     = ZERO
                 ENDIF
-            ENDDO     
+            ENDDO  
+!$OMP END DO   
         ENDIF      
       !------------------------------------------------!    
       

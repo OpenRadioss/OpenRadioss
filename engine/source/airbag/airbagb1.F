@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE AIRBAGB1(
      1                 IVOLU   ,ICBAG   ,NJET     ,IBAGJET ,NVENT   , 
      2                 IBAGHOL ,RVOLU   ,RVOLUV   ,RCBAG   ,RBAGJET , 
-     3                 RBAGHOL ,FSAV    ,N        ,NN      , 
+     3                 RBAGHOL ,FSAV    ,NORMAL   ,NN      , 
      4                 IGRSURF ,PORO    ,IVOLUV   ,RBAGVJET,
      5                 FR_MV   ,IPARG   ,IPART    ,IPARTC  ,IPARTTG , 
      6                 IPM     ,PM      ,ELBUF_TAB,IGROUPC ,IGROUPTG,
@@ -78,7 +78,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   RVOLU(*), RVOLUV(NRVOLU,*),RCBAG(NRCBAG,*),PORO(*),
-     .   RBAGJET(NRBJET,*),RBAGHOL(NRBHOL,*),FSAV(*),N(3,*),RBAGVJET(*),
+     .   RBAGJET(NRBJET,*),RBAGHOL(NRBHOL,*),FSAV(*),NORMAL(3,*),RBAGVJET(*),
      .   GEO(NPROPG,*), PM(NPROPM,*)
 C
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -332,7 +332,7 @@ C-------------
                ELSE
                  K=IGRSURF(IPVENT)%ELEM(KK) + NUMELC + NUMELTG
                ENDIF
-               AA = SQRT(N(1,K)**2+N(2,K)**2+N(3,K)**2)
+               AA = SQRT(NORMAL(1,K)**2+NORMAL(2,K)**2+NORMAL(3,K)**2)
                IF(INTBAG==0) THEN
                  F1(KK) = AA
                  F2(KK) = ZERO
@@ -421,7 +421,7 @@ C
 
  200           CONTINUE
                IF (ITY==7) K=K+NUMELC
-               AA   = SQRT( N(1,K)**2+N(2,K)**2+N(3,K)**2 )
+               AA   = SQRT( NORMAL(1,K)**2+NORMAL(2,K)**2+NORMAL(3,K)**2 )
                IF(INTBAG==0) THEN
                  F1(KK) = AA*SVTFAC
                  F2(KK) = ZERO
@@ -784,7 +784,7 @@ C
                ELSE
                  K=IGRSURF(IPVENT)%ELEM(KK) + NUMELC + NUMELTG
                ENDIF
-               F1(KK) = SQRT( N(1,K)**2+N(2,K)**2+N(3,K)**2 )
+               F1(KK) = SQRT( NORMAL(1,K)**2+NORMAL(2,K)**2+NORMAL(3,K)**2 )
              ENDDO
 C
 C Sommation p/on

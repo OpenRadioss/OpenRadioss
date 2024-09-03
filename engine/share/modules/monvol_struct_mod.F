@@ -39,11 +39,27 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
+      ! ---------
+      ! type for OMP accumulation
+      TYPE MONVOL_OMP_
+        INTEGER :: NODE_NUMBER !< number of /= node
+        INTEGER :: TOTAL_CONTRIBUTION_NUMBER !< total number of contribution (if only shells = 4 * NODE_NUMBER)
+        INTEGER, DIMENSION(:), ALLOCATABLE  :: NODE_ID !< node id
+
+        INTEGER, DIMENSION(:), ALLOCATABLE  :: CONTRIBUTION_NUMBER !< number of contribution per node
+        INTEGER, DIMENSION(:,:), ALLOCATABLE  :: CONTRIBUTION_INDEX !< index to the array CONTRIBUTION
+        my_real, DIMENSION(:,:), ALLOCATABLE  :: CONTRIBUTION !< contribution array, the force are saved here
+      END TYPE MONVOL_OMP_
+      ! ---------
+
       TYPE MONVOL_STRUCT_
 !     Automatic surface hole filling
       INTEGER :: NB_FILL_TRI
       INTEGER, DIMENSION(:), ALLOCATABLE :: FILL_TRI
+      my_real, DIMENSION(:,:), ALLOCATABLE  :: NORMAL !< normal
+      TYPE(MONVOL_OMP_) :: OMP_OUTPUT
       END TYPE MONVOL_STRUCT_
+
       
       CONTAINS
       !||====================================================================

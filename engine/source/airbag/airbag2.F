@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE AIRBAGB(
      1                 IVOLU   ,ICBAG   ,NJET    ,IBAGJET ,NVENT   ,
      2                 IBAGHOL ,RVOLU   ,RVOLUV  ,RCBAG   ,RBAGJET ,
-     3                 RBAGHOL ,FSAV    ,N       ,NN      ,
+     3                 RBAGHOL ,FSAV    ,NORMAL  ,NN      ,
      4                 IGRSURF ,PORO    ,IVOLUV  ,RBAGVJET,
      4                 FR_MV   )
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   RVOLU(*), RVOLUV(NRVOLU,*),RCBAG(NRCBAG,*),PORO(*),
-     .   RBAGJET(NRBJET,*),RBAGHOL(NRBHOL,*),FSAV(*),N(3,*),RBAGVJET(*)
+     .   RBAGJET(NRBJET,*),RBAGHOL(NRBHOL,*),FSAV(*),NORMAL(3,*),RBAGVJET(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -248,7 +248,7 @@ C
                ELSE
                  K=IGRSURF(IPVENT)%ELEM(KK) + NUMELC + NUMELTG
                ENDIF
-               F1(KK) = SQRT( N(1,K)**2+N(2,K)**2+N(3,K)**2 )
+               F1(KK) = SQRT( NORMAL(1,K)**2+NORMAL(2,K)**2+NORMAL(3,K)**2 )
                F2(KK) = ZERO
              ENDDO
            ELSE
@@ -261,7 +261,7 @@ C
                ELSE
                  K=IGRSURF(IPVENT)%ELEM(KK) + NUMELC + NUMELTG
                ENDIF
-               AA   = SQRT( N(1,K)**2+N(2,K)**2+N(3,K)**2 )
+               AA   = SQRT( NORMAL(1,K)**2+NORMAL(2,K)**2+NORMAL(3,K)**2 )
                F1(KK) = (ONE - PORO(K))*AA
                F2(KK) =  PORO(K)*AA
              ENDDO
@@ -487,7 +487,7 @@ C
                ELSE
                  K=IGRSURF(IPVENT)%ELEM(KK) + NUMELC + NUMELTG
                ENDIF
-               F1(KK) = SQRT( N(1,K)**2+N(2,K)**2+N(3,K)**2 )
+               F1(KK) = SQRT( NORMAL(1,K)**2+NORMAL(2,K)**2+NORMAL(3,K)**2 )
              ENDDO
 C
 C Sommation p/on
