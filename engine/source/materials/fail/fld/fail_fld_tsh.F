@@ -33,7 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2     NPF      ,TF       ,TIME     ,TIMESTEP ,UPARAM   ,
      3     UVAR     ,NGL      ,IPG      ,ILAY     ,IPTT     ,
      4     EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,
-     5     OFF      ,FOFF     ,FLD_IDX  ,DAM      ,DFMAX    )
+     6     OFF      ,FOFF     ,FLD_IDX  ,DAM      ,DFMAX    ,
+     7     NIPARAM  ,IPARAM   ,PLA      )
 C-----------------------------------------------
 c    FLD failure model
 C-----------------------------------------------
@@ -71,13 +72,14 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER (FOR OUTPUT
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,NFUNC,IPG,ILAY,IPTT
+      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,NFUNC,IPG,ILAY,IPTT,NIPARAM
       INTEGER ,DIMENSION(NEL)   :: NGL
       INTEGER ,DIMENSION(NFUNC) :: IFUNC
       my_real TIME
       my_real ,DIMENSION(NEL), INTENT(IN) ::  TIMESTEP,OFF,
-     .              EPSXX,EPSYY,EPSXY,EPSYZ,EPSZX
+     .              EPSXX,EPSYY,EPSXY,EPSYZ,EPSZX,PLA
       my_real,DIMENSION(NUPARAM) :: UPARAM
+      INTEGER, DIMENSION(NIPARAM) :: IPARAM
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -105,14 +107,22 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) :: INDX,INDXF
       my_real :: RANI,R1,R2,S1,S2,SS,Q,DYDX,E12,FACT_MARGIN,FACT_LOOSEMETAL
       my_real ,ALLOCATABLE, DIMENSION(:) :: XF  
-      my_real ,DIMENSION(NEL) :: EMAJ,EMIN,EM
+      my_real ,DIMENSION(NEL) :: EMAJ,EMIN,EM,BETA
 C=======================================================================
-      IENG     = INT(UPARAM(6))
-      RANI     = UPARAM(7)
-      IMARGIN  = NINT(UPARAM(2))
-      FACT_MARGIN     = UPARAM(3) 
-      FACT_LOOSEMETAL = UPARAM(8)
-c-----------------------------
+c
+      !=================================================================
+      ! - INITIALISATION OF COMPUTATION ON TIME STEP
+      !=================================================================
+      ! Recovering failure criterion parameters
+      ! -> Real parameters
+      FACT_MARGIN     = UPARAM(1)
+      RANI            = UPARAM(3)
+      FACT_LOOSEMETAL = UPARAM(4)
+      ! -> Integer parameters
+      IMARGIN  = IPARAM(2)
+      IENG     = IPARAM(3)
+c
+      ! Check if the element is already broken
       NINDX  = 0
       DO I = 1,NEL
         IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
@@ -120,9 +130,10 @@ c-----------------------------
           INDX(NINDX) = I
         ENDIF
       ENDDO 
-C
-c --- Minor and major (true) strain deformation.
-C
+c
+      !=================================================================
+      ! - MINOR AND MAJOR (TRUE) STRAIN DEFORMATION
+      !=================================================================
       DO J = 1,NINDX
         I = INDX(J)
         E12= HALF*EPSXY(I)
@@ -136,10 +147,13 @@ C
           EMIN(I) = EMAJ(I)
           EMAJ(I) = SS
         ENDIF
+        BETA(I) = EMIN(I)/MAX(EMAJ(I),EM20)
       ENDDO
-c-----
-c     failure major strain from input curve and damage ratio  : 0 < DFMAX < 1 
-c-----
+c
+      !=================================================================
+      ! FAILURE MAJOR STRAIN FROM INPUT CURVE AND DAMAGE RATIO
+      !=================================================================
+      ! -> Engineering strains input
       IF (IENG == 1) THEN   ! transform input fld curve to true strain
         II   = NPF(IFUNC(1))
         LENF = NPF(IFUNC(1)+ 1) - NPF(IFUNC(1))
@@ -155,54 +169,105 @@ c
           DFMAX(I) = MIN(ONE, DAM(I))
         ENDDO
         DEALLOCATE(XF)
+      ! -> True strains input
       ELSE
-        DO J = 1,NINDX
-          I = INDX(J)
-          EM(I)    = FINTER(IFUNC(1),EMIN(I),NPF,TF,DYDX)
-          DAM(I)   = EMAJ(I) / EM(I)
-          DFMAX(I) = MIN(ONE, DAM(I))
-        ENDDO
+        ! -> Classical formulation
+        IF (IENG == 0) THEN 
+          DO J = 1,NINDX
+            I = INDX(J)
+            EM(I)  = FINTER(IFUNC(1),EMIN(I),NPF,TF,DYDX)
+            DAM(I) = EMAJ(I) / EM(I)
+            DFMAX(I) = MIN(ONE, DAM(I))
+          ENDDO
+        ! -> Non-linear path formulation
+        ELSEIF (IENG == 2) THEN 
+          DO J = 1,NINDX
+            I = INDX(J)
+            EM(I)  = FINTER(IFUNC(1),BETA(I),NPF,TF,DYDX)
+            DAM(I) = PLA(I) / EM(I)
+            DFMAX(I) = MIN(ONE, DAM(I))
+          ENDDO
+        ENDIF
       ENDIF 
-c--------------------------------------------------------------------
-c     FLD zone index calculation for ANIM output
 c
+      !=================================================================
+      ! FLD ZONE INDEX CALCULATION FOR ANIM OUTPUT
+      !=================================================================
       R1 = FACT_LOOSEMETAL
       R2 = RANI/(RANI+ONE)
       
-      IF (IMARGIN == 3) THEN
-        DO J = 1,NINDX
-          I = INDX(J)
-          IF (EMAJ(I) >= EM(I)) THEN
-            FLD_IDX(I) = 6      ! zone 6 = failure
-          ELSEIF (EMAJ(I) >= EM(I)*(ONE - FACT_MARGIN)) THEN
-            FLD_IDX(I) = 5      ! zone 5 = margin to fail
-          ELSEIF (EMAJ(I)**2 + EMIN(I)**2 < R1**2) THEN
-            FLD_IDX(I) = 1      ! zone 1 = radius 0.02
-          ELSEIF (EMAJ(I) >= ABS(EMIN(I))) THEN
-            FLD_IDX(I) = 4      ! zone 4 = safe (45 deg line)
-          ELSEIF (EMAJ(I) >= R2*ABS(EMIN(I))) THEN
-            FLD_IDX(I) = 3      ! zone 3  = angle atan(r/(1+r))  - compression
-          ELSE
-            FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
-          ENDIF
-        ENDDO
+      IF (IENG < 2) THEN 
+        IF (IMARGIN == 3) THEN
+          DO J = 1,NINDX
+            I = INDX(J)
+            IF (EMAJ(I) >= EM(I)) THEN
+              FLD_IDX(I) = 6      ! zone 6 = failure
+            ELSEIF (EMAJ(I) >= EM(I)*(ONE - FACT_MARGIN)) THEN
+              FLD_IDX(I) = 5      ! zone 5 = margin to fail
+            ELSEIF (EMAJ(I)**2 + EMIN(I)**2 < R1**2) THEN
+              FLD_IDX(I) = 1      ! zone 1 = radius 0.02
+            ELSEIF (EMAJ(I) >= ABS(EMIN(I))) THEN
+              FLD_IDX(I) = 4      ! zone 4 = safe (45 deg line)
+            ELSEIF (EMAJ(I) >= R2*ABS(EMIN(I))) THEN
+              FLD_IDX(I) = 3      ! zone 3  = angle atan(r/(1+r))  - compression
+            ELSE
+              FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
+            ENDIF
+          ENDDO
+        ELSE
+          DO J = 1,NINDX
+            I = INDX(J)
+            IF (EMAJ(I) >= EM(I)) THEN
+              FLD_IDX(I) = 6      ! zone 6 = failure
+            ELSEIF (EMAJ(I) >= EM(I) - FACT_MARGIN) THEN
+              FLD_IDX(I) = 5      ! zone 5 = margin to fail
+            ELSEIF (EMAJ(I)**2 + EMIN(I)**2 < R1**2) THEN
+              FLD_IDX(I) = 1      ! zone 1 = radius 0.02
+            ELSEIF (EMAJ(I) >= ABS(EMIN(I))) THEN
+              FLD_IDX(I) = 4      ! zone 4 = safe (45 deg line)
+            ELSEIF (EMAJ(I) >= R2*ABS(EMIN(I))) THEN
+              FLD_IDX(I) = 3      ! zone 3  = angle atan(r/(1+r))  - compression
+            ELSE
+              FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
+            ENDIF
+          ENDDO
+        ENDIF
       ELSE
-        DO J = 1,NINDX
-          I = INDX(J)
-          IF (EMAJ(I) >= EM(I)) THEN
-            FLD_IDX(I) = 6      ! zone 6 = failure
-          ELSEIF (EMAJ(I) >= EM(I) - FACT_MARGIN) THEN
-            FLD_IDX(I) = 5      ! zone 5 = margin to fail
-          ELSEIF (EMAJ(I)**2 + EMIN(I)**2 < R1**2) THEN
-            FLD_IDX(I) = 1      ! zone 1 = radius 0.02
-          ELSEIF (EMAJ(I) >= ABS(EMIN(I))) THEN
-            FLD_IDX(I) = 4      ! zone 4 = safe (45 deg line)
-          ELSEIF (EMAJ(I) >= R2*ABS(EMIN(I))) THEN
-            FLD_IDX(I) = 3      ! zone 3  = angle atan(r/(1+r))  - compression
-          ELSE
-            FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
-          ENDIF
-        ENDDO
+        IF (IMARGIN == 3) THEN
+          DO J = 1,NINDX
+            I = INDX(J)
+            IF (PLA(I) >= EM(I)) THEN
+              FLD_IDX(I) = 6      ! zone 6 = failure
+            ELSEIF (PLA(I) >= EM(I)*(ONE - FACT_MARGIN)) THEN
+              FLD_IDX(I) = 5      ! zone 5 = margin to fail
+            ELSEIF (PLA(I)**2 + BETA(I)**2 < R1**2) THEN
+              FLD_IDX(I) = 1      ! zone 1 = radius 0.02
+            ELSEIF (PLA(I) >= ABS(BETA(I))) THEN
+              FLD_IDX(I) = 4      ! zone 4 = safe (45 deg line)
+            ELSEIF (PLA(I) >= R2*ABS(BETA(I))) THEN
+              FLD_IDX(I) = 3      ! zone 3  = angle atan(r/(1+r))  - compression
+            ELSE
+              FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
+            ENDIF
+          ENDDO
+        ELSE
+          DO J = 1,NINDX
+            I = INDX(J)
+            IF (PLA(I) >= EM(I)) THEN
+              FLD_IDX(I) = 6      ! zone 6 = failure
+            ELSEIF (PLA(I) >= EM(I) - FACT_MARGIN) THEN
+              FLD_IDX(I) = 5      ! zone 5 = margin to fail
+            ELSEIF (PLA(I)**2 + BETA(I)**2 < R1**2) THEN
+              FLD_IDX(I) = 1      ! zone 1 = radius 0.02
+            ELSEIF (PLA(I) >= ABS(BETA(I))) THEN
+              FLD_IDX(I) = 4      ! zone 4 = safe (45 deg line)
+            ELSEIF (PLA(I) >= R2*ABS(BETA(I))) THEN
+              FLD_IDX(I) = 3      ! zone 3  = angle atan(r/(1+r))  - compression
+            ELSE
+              FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
+            ENDIF
+          ENDDO
+        ENDIF
       ENDIF
 C------------------------
       RETURN
