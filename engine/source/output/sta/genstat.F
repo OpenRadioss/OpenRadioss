@@ -107,6 +107,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MAT_ELEM_MOD
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD    
       USE INOUTFILE_MOD 
       USE MULTI_FVM_MOD

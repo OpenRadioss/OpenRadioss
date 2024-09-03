@@ -162,6 +162,7 @@ C-----------------------------------------------
       USE LOADS_MOD
       USE EBCS_MOD , only : t_ebcs_tab
       USE TH_SURF_MOD , only : TH_SURF_, TH_SURF_NUM_CHANNEL
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

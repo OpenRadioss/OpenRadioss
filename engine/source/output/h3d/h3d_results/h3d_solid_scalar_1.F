@@ -60,6 +60,7 @@ C   M o d u l e s
 C-----------------------------------------------
         USE INITBUF_MOD
         USE MAT_ELEM_MOD
+        USE ELBUFDEF_MOD
         USE SCHLIEREN_MOD
         USE H3D_MOD
         USE MULTI_FVM_MOD
