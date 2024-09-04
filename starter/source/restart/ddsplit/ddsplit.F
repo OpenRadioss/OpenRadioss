@@ -1919,8 +1919,8 @@ C--------------------------------------------
         IF (NTGVOIS > 0)
      +       DEALLOCATE(IXTGF)
         IF (MULTI_FVM%NS_DIFF) THEN
-           CALL C_IDGLOB(NUMEL, NUMELS_L, NUMELQ_L, NUMELTG_L,
-     .          P - 1, CEL, CEP, IPARG, ALE_CONNECTIVITY, IXS, IDGLOB_L, UIDGLOB_L)
+           CALL C_IDGLOB(NUMEL, NUMELS_L, NUMELQ_L, NUMELTG_L, NUMELS, NUMELQ, NUMELTG,
+     .          P - 1, CEL, CEP, IPARG, ALE_CONNECTIVITY, IXS,IXQ,IXTG, IDGLOB_L, UIDGLOB_L, N2D, NGROUP, NPARG)
         ENDIF
       ENDIF
 C--------------------------------------------
