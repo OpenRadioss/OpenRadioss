@@ -28,32 +28,39 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    reorder_mod            ../starter/share/modules1/reorder_mod.F
       !||====================================================================
-      SUBROUTINE C_IDGLOB(NUMEL, NUMELS_L, NUMELQ_L, NUMELTG_L, 
-     .     PROC, CEL, CEP, IPARG, ALE_CONNECTIVITY, IXS, IDGLOB_L, UIDGLOB_L)
+      SUBROUTINE C_IDGLOB(NUMEL, NUMELS_L, NUMELQ_L, NUMELTG_L, NUMELS_G, NUMELQ_G, NUMELTG_G,
+     .     PROC, CEL, CEP, IPARG, ALE_CONNECTIVITY, IXS,IXQ,IXTG, IDGLOB_L, UIDGLOB_L, N2D, NGROUP, NPARG)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE REORDER_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "com01_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: PROC, NUMEL, NUMELS_L, NUMELQ_L, NUMELTG_L
-      INTEGER, INTENT(IN) :: CEL(*), CEP(*), IXS(NIXS, *)
-      INTEGER, INTENT(IN) :: IPARG(NPARG, *)
+      INTEGER, INTENT(IN) :: N2D !< 2d / 3d flag
+      INTEGER, INTENT(IN) :: NGROUP, NPARG !< sizes of array IPARG
+      INTEGER, INTENT(IN) :: PROC, NUMEL
+      INTEGER, INTENT(IN) :: NUMELS_L, NUMELQ_L, NUMELTG_L  !< local number of elems (current domain)
+      INTEGER, INTENT(IN) :: NUMELS_G, NUMELQ_G, NUMELTG_G  !< global number of elems (all domains)
+      INTEGER, INTENT(IN) :: CEL(*), CEP(*)
+      INTEGER, INTENT(IN) :: IXS(NIXS, NUMELS_G), IXQ(NIXQ, NUMELQ_G), IXTG(NIXTG, NUMELTG_G)
+      INTEGER, INTENT(IN) :: IPARG(NPARG, NGROUP)
       INTEGER, INTENT(INOUT) :: IDGLOB_L(*), UIDGLOB_L(*)
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: PROCI, II, JJ, I, J, I_LOC, NEL, ITY, NFT, ICOUNT,
-     .     NG, PROCJ, IAD1, LGTH
+      INTEGER :: PROCI, II, JJ, I, J, I_LOC, NEL, ITY, NFT, ICOUNT,NG, PROCJ, IAD1, LGTH
       INTEGER :: NELEM_L
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG
-
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       ALLOCATE(TAG(NUMEL))
       TAG(1:NUMEL) = 0
 
@@ -64,31 +71,90 @@ C-----------------------------------------------
          NFT = IPARG(3, NG)
          ITY = IPARG(5, NG)
          IF (ITY == 1) THEN
+            ! bricks
             NELEM_L = NUMELS_L
+            DO II = 1, NEL
+               I = II + NFT
+               IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
+               LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(I)
+               PROCI = CEP(I)
+               IF (PROCI == PROC) THEN
+                  I_LOC = CEL(I)
+                  IDGLOB_L(I_LOC) = PERMUTATION%SOLID(I)
+                  UIDGLOB_L(I_LOC) = IXS(NIXS, I)
+                  DO JJ = 1, LGTH
+                     J = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + JJ - 1)
+                     IF (J > 0) THEN
+                        PROCJ = CEP(J)
+                        IF (PROCJ /= PROC .AND. TAG(J) == 0) THEN
+                           ICOUNT = ICOUNT + 1
+                           IDGLOB_L(NELEM_L + ICOUNT) = PERMUTATION%SOLID(J)
+                           UIDGLOB_L(NELEM_L + ICOUNT) = IXS(NIXS, J)
+                           TAG(J) = 1
+                       ENDIF
+                     ENDIF
+                  ENDDO
+               ENDIF
+            ENDDO
+
+         ELSEIF( ITY == 2)THEN
+            ! quads
+            NELEM_L = NUMELQ_L
+            DO II = 1, NEL
+               I = II + NFT
+               IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
+               LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(I)
+               PROCI = CEP(I)
+               IF (PROCI == PROC) THEN
+                  I_LOC = CEL(I)
+                  IDGLOB_L(I_LOC) = PERMUTATION%SOLID(I)
+                  UIDGLOB_L(I_LOC) = IXQ(NIXQ, I)
+                  DO JJ = 1, LGTH
+                     J = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + JJ - 1)
+                     IF (J > 0) THEN
+                        PROCJ = CEP(J)
+                        IF (PROCJ /= PROC .AND. TAG(J) == 0) THEN
+                           ICOUNT = ICOUNT + 1
+                           IDGLOB_L(NELEM_L + ICOUNT) = PERMUTATION%SOLID(J)
+                           UIDGLOB_L(NELEM_L + ICOUNT) = IXQ(NIXQ, J)
+                           TAG(J) = 1
+                       ENDIF
+                     ENDIF
+                  ENDDO
+               ENDIF
+            ENDDO
+
+         ELSEIF(ITY == 7 .AND. N2D >= 0)THEN
+           ! trias
+           NELEM_L = NUMELTG_L
+            DO II = 1, NEL
+               I = II + NFT
+               IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
+               LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(I)
+               PROCI = CEP(I)
+               IF (PROCI == PROC) THEN
+                  I_LOC = CEL(I)
+                  IDGLOB_L(I_LOC) = PERMUTATION%SOLID(I)
+                  UIDGLOB_L(I_LOC) = IXTG(NIXTG, I)
+                  DO JJ = 1, LGTH
+                     J = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + JJ - 1)
+                     IF (J > 0) THEN
+                        PROCJ = CEP(J)
+                        IF (PROCJ /= PROC .AND. TAG(J) == 0) THEN
+                           ICOUNT = ICOUNT + 1
+                           IDGLOB_L(NELEM_L + ICOUNT) = PERMUTATION%SOLID(J)
+                           UIDGLOB_L(NELEM_L + ICOUNT) = IXTG(NIXTG , J)
+                           TAG(J) = 1
+                       ENDIF
+                     ENDIF
+                  ENDDO
+               ENDIF
+            ENDDO
+         ELSE
+           ! not a group of solid elems
+           CYCLE
          ENDIF
-         DO II = 1, NEL
-            I = II + NFT
-            IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
-            LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(I)
-            PROCI = CEP(I)
-            IF (PROCI == PROC) THEN
-               I_LOC = CEL(I)
-               IDGLOB_L(I_LOC) = PERMUTATION%SOLID(I)
-               UIDGLOB_L(I_LOC) = IXS(NIXS, I)
-               DO JJ = 1, LGTH
-                  J = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + JJ - 1)
-                  IF (J > 0) THEN
-                     PROCJ = CEP(J)
-                     IF (PROCJ /= PROC .AND. TAG(J) == 0) THEN
-                        ICOUNT = ICOUNT + 1
-                        IDGLOB_L(NELEM_L + ICOUNT) = PERMUTATION%SOLID(J)
-                        UIDGLOB_L(NELEM_L + ICOUNT) = IXS(NIXS, J)
-                        TAG(J) = 1
-                    ENDIF
-                  ENDIF
-               ENDDO
-            ENDIF
-         ENDDO
+
       ENDDO
       
       DEALLOCATE(TAG)
