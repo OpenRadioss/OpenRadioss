@@ -122,7 +122,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
       GBUF  => ELBUF_STR%GBUF
-      UVAR  => ELBUF_STR%BUFLY(1)%MAT(1,1,1)%VAR
+      UVAR  => ELBUF_STR%GBUF%VAR
       NF1=NFT+1
 !
       DO I=1,6
@@ -135,7 +135,7 @@ C GATHER NODAL VARIABLES
      .             XX ,YY ,ZZ, UX  ,UY  ,UZ , 
      .             VX ,VY ,VZ, VRX ,VRY ,VRZ, 
      .             GBUF%OFF,OFF, NC,SID,IMAT,IPROP)
-      NUVAR   = IPM(8,IMAT(1))
+      NUVAR   = ELBUF_STR%GBUF%G_NUVAR
       NUPARAM = IPM(9,IMAT(1))
 C-----------
       IG =IPROP(1)

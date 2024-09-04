@@ -257,7 +257,7 @@ C-----------------------------------------------
         IMAT(I) =IXS(1,I+NFT)
       ENDDO
       IADB  = IPM(7,IMAT(1))
-      NUVAR = IPM(8,IMAT(1))
+      NUVAR = ELBUF_STR%GBUF%G_NUVAR
 C----------------------------------------
 C     INITIALISATION USER: VOLUME, RHO, MASSES et INERTIES
 C----------------------------------------
@@ -273,7 +273,7 @@ C----------------------------------------
         IF (USERL_AVAIL==1)THEN
           CALL ST_USERLIB_SINIUSR(IGTYP,ROOTNAM,ROOTLEN,
      1       NEL    ,NUVAR    ,IPROP  ,IMAT   ,SID    ,
-     2       GBUF%EINT,GBUF%VOL,MBUF%VAR,GBUF%OFF,GBUF%RHO,SIG_LOC,
+     2       GBUF%EINT,GBUF%VOL,GBUF%VAR,GBUF%OFF,GBUF%RHO,SIG_LOC,
      3       XX(1,1),XX(1,2),XX(1,3),XX(1,4),XX(1,5),XX(1,6),XX(1,7),XX(1,8),
      4       YY(1,1),YY(1,2),YY(1,3),YY(1,4),YY(1,5),YY(1,6),YY(1,7),YY(1,8),
      5       ZZ(1,1),ZZ(1,2),ZZ(1,3),ZZ(1,4),ZZ(1,5),ZZ(1,6),ZZ(1,7),ZZ(1,8),
