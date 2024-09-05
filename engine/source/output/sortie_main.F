@@ -58,6 +58,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    dt_mod                   ../engine/share/modules/dt_mod.F
       !||    ebcs_mod                 ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||    ecnd_mod                 ../engine/share/modules/ecdn_mod.F
+      !||    elbufdef_mod             ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
       !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
       !||    genani_mod               ../engine/source/output/anim/generate/genani.F

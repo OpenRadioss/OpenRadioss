@@ -82,6 +82,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stoptime            ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    drape_mod           ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    failwave_mod        ../common_source/modules/failwave_mod.F
       !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    nlocal_reg_mod      ../common_source/modules/nlocal_reg_mod.F

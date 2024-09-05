@@ -46,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    startime            ../engine/source/system/timer.F
       !||    stoptime            ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    mulaw8_mod          ../engine/source/materials/mat_share/mulaw8.F
       !||    table_mod           ../engine/share/modules/table_mod.F

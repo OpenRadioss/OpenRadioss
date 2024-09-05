@@ -78,6 +78,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    urotov                       ../engine/source/airbag/uroto.F
       !||    xfem_crk_dir                 ../engine/source/elements/xfem/xfem_crk_dir.F
       !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    failwave_mod                 ../common_source/modules/failwave_mod.F
       !||    law_usersh                   ../engine/source/user_interface/law_usersh.F
       !||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90

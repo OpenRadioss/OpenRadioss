@@ -71,6 +71,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stoptime                    ../engine/source/system/timer.F
       !||    viscmain                    ../engine/source/materials/visc/viscmain.F
       !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    law_userso                  ../engine/source/user_interface/law_userso.F
       !||    mat_elem_mod                ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    message_mod                 ../engine/share/message_module/message_mod.F

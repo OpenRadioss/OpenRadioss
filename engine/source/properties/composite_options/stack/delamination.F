@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    delm24law      ../engine/source/properties/composite_options/stack/delm24law.F
       !||    nvar           ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    mat_elem_mod   ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||====================================================================
       SUBROUTINE DELAMINATION(ELBUF_STR,MAT_PARAM,

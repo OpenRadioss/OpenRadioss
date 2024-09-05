@@ -64,6 +64,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stoptime               ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90

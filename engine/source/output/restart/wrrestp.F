@@ -103,6 +103,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    drape_mod              ../engine/share/modules/drape_mod.F
       !||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||    ecnd_mod               ../engine/share/modules/ecdn_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    group_mod              ../engine/share/modules/group_mod.F
       !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F

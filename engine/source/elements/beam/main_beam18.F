@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    m2lawpi        ../engine/source/materials/mat/mat002/m2lawpi.F
       !||    mulaw_ib       ../engine/source/elements/beam/mulaw_ib.F
       !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    mat_elem_mod   ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||====================================================================
       SUBROUTINE MAIN_BEAM18(ELBUF_STR,

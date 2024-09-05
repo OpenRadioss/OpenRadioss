@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sucumu3p            ../engine/source/user_interface/suforc3.F
       !||    suser43             ../engine/source/elements/solid/sconnect/suser43.F
       !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    message_mod         ../engine/share/message_module/message_mod.F
       !||    table_mod           ../engine/share/modules/table_mod.F

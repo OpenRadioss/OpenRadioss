@@ -59,6 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    anim_mod               ../common_source/modules/output/anim_mod.F
       !||    check_mod              ../common_source/modules/check_mod.F
       !||    dt_mod                 ../engine/share/modules/dt_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    fvbag_mod              ../engine/share/modules/fvbag_mod.F
       !||    fxb_mod                ../engine/share/modules/fxb_mod.F
       !||    groupdef_mod           ../common_source/modules/groupdef_mod.F

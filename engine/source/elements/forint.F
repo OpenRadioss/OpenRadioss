@@ -66,6 +66,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    ale_mod                ../common_source/modules/ale/ale_mod.F
       !||    dt_mod                 ../engine/share/modules/dt_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    initbuf_mod            ../engine/share/resol/initbuf.F

@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    m2lawp         ../engine/source/materials/mat/mat002/m2lawp.F
       !||    sigeps44p      ../engine/source/materials/mat/mat044/sigeps44p.F
       !||--- uses       -----------------------------------------------------
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    mat_elem_mod   ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||====================================================================
       SUBROUTINE MAIN_BEAM3(

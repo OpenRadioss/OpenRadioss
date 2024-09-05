@@ -56,6 +56,7 @@
       !||    aleflow                             ../engine/source/ale/porous/aleflow.F
       !||    alefvm_main                         ../engine/source/ale/alefvm/alefvm_main.F
       !||    alefvm_stress_int22                 ../engine/source/ale/alefvm/alefvm_stress_int22.F
+      !||    alemain                             ../engine/source/ale/alemain.F
       !||    alethe                              ../engine/source/ale/alethe.F
       !||    alew6                               ../engine/source/ale/grid/alew6.F
       !||    alewdx                              ../engine/source/ale/grid/alewdx.F
@@ -83,6 +84,8 @@
       !||    c3evec3                             ../engine/source/elements/sh3n/coque3n/c3evec3.F
       !||    c3fint_reg                          ../engine/source/elements/sh3n/coque3n/c3fint_reg.F
       !||    c3fint_reg_ini                      ../starter/source/elements/sh3n/coque3n/c3fint_reg_ini.F
+      !||    c3forc3                             ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||    c3forc3_crk                         ../engine/source/elements/xfem/c3forc3_crk.F
       !||    c3inmas                             ../starter/source/elements/sh3n/coque3n/c3inmas.F
       !||    c3ke3                               ../engine/source/elements/sh3n/coque3n/c3ke3.F
       !||    c_seatbelts                         ../starter/source/restart/ddsplit/c_seatbelts.F
@@ -92,20 +95,25 @@
       !||    cbacoort                            ../engine/source/elements/shell/coqueba/cbacoor.F
       !||    cbafint_reg                         ../engine/source/elements/shell/coqueba/cbafint_reg.F
       !||    cbafint_reg_ini                     ../starter/source/elements/shell/coqueba/cbafint_reg_ini.F
+      !||    cbaforc3                            ../engine/source/elements/shell/coqueba/cbaforc3.F
       !||    cbake3                              ../engine/source/elements/shell/coqueba/cbake3.F
       !||    cbal58warp                          ../engine/source/elements/shell/coqueba/cbawarpoff.F
       !||    cbapinchproj                        ../engine/source/elements/shell/coqueba/cbapinchproj.F
       !||    cbufxfe                             ../starter/source/elements/xfem/cbufxfe.F
       !||    cdk6coor3                           ../engine/source/elements/sh3n/coquedk6/cdk6coor3.F
       !||    cdk6fint_reg                        ../engine/source/elements/sh3n/coquedk6/cdk6fint_reg.F
+      !||    cdk6forc3                           ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
       !||    cdkcoor3                            ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
       !||    cdkfint_reg                         ../engine/source/elements/sh3n/coquedk/cdkfint_reg.F
       !||    cdkfint_reg_ini                     ../starter/source/elements/sh3n/coquedk/cdkfint_reg_ini.F
+      !||    cdkforc3                            ../engine/source/elements/sh3n/coquedk/cdkforc3.F
       !||    cevec3                              ../engine/source/elements/shell/coque/cevec3.F
       !||    cfailini                            ../starter/source/elements/shell/coque/cfailini.F
       !||    cfailini4                           ../starter/source/elements/shell/coque/cfailini.F
       !||    cfint_reg                           ../engine/source/elements/shell/coque/cfint_reg.F
       !||    cfint_reg_ini                       ../starter/source/elements/shell/coque/cfint_reg_ini.F
+      !||    cforc3                              ../engine/source/elements/shell/coque/cforc3.F
+      !||    cforc3_crk                          ../engine/source/elements/xfem/cforc3_crk.F
       !||    cgshell3                            ../engine/source/implicit/cgshell.F
       !||    cgshell4                            ../engine/source/implicit/cgshell.F
       !||    check_ale_comm                      ../engine/source/ale/check_ale_comm.F
@@ -117,6 +125,7 @@
       !||    clusterf                            ../engine/source/output/cluster/clusterf.F
       !||    cm27in3                             ../starter/source/materials/mat/mat027/cm27in3.F
       !||    cm35in3                             ../starter/source/materials/mat/mat035/cm35in3.F
+      !||    cmain3                              ../engine/source/materials/mat_share/cmain3.F
       !||    cmain3pinch                         ../engine/source/elements/shell/coqueba/cmain3pinch.F
       !||    cmatc3                              ../engine/source/elements/shell/coqueba/cmatc3.F
       !||    cmatini                             ../starter/source/materials/mat_share/cmatini.F
@@ -148,9 +157,12 @@
       !||    czcorc1                             ../engine/source/elements/shell/coquez/czcorc.F
       !||    czcorcht                            ../engine/source/elements/shell/coquez/czcorc.F
       !||    czcorct                             ../engine/source/elements/shell/coquez/czcorc.F
+      !||    czforc3                             ../engine/source/elements/shell/coquez/czforc3.F
+      !||    czforc3_crk                         ../engine/source/elements/xfem/czforc3_crk.F
       !||    czke3                               ../engine/source/elements/shell/coquez/czke3.F
       !||    deallocate_elbuf                    ../starter/source/elements/elbuf_init/deallocate_buffer.F
       !||    deallocate_one_element_group        ../starter/source/elements/elbuf_init/deallocate_one_element_group.F
+      !||    delamination                        ../engine/source/properties/composite_options/stack/delamination.F
       !||    deltax22                            ../engine/source/interfaces/int22/deltax22.F
       !||    desacti                             ../engine/source/elements/desacti.F
       !||    dfunc0                              ../engine/source/output/anim/generate/dfunc0.F
@@ -194,8 +206,16 @@
       !||    enrichc_ini                         ../engine/source/elements/xfem/enrichc_ini.F
       !||    enrichtg_ini                        ../engine/source/elements/xfem/enrichtg_ini.F
       !||    err_thk                             ../engine/source/elements/shell/err_thk.F
+      !||    fail_beam18                         ../engine/source/elements/beam/fail_beam18.F
+      !||    fail_beam3                          ../engine/source/elements/beam/fail_beam3.F
       !||    fail_gene1_s                        ../engine/source/materials/fail/gene1/fail_gene1_s.F
+      !||    fail_setoff_c                       ../engine/source/materials/fail/fail_setoff_c.F
+      !||    fail_setoff_npg_c                   ../engine/source/materials/fail/fail_setoff_npg_c.F
+      !||    fail_setoff_wind_frwave             ../engine/source/materials/fail/fail_setoff_wind_frwave.F
       !||    failini                             ../starter/source/elements/solid/solide/failini.F
+      !||    forint                              ../engine/source/elements/forint.F
+      !||    forintc                             ../engine/source/elements/forintc.F
+      !||    forintp                             ../engine/source/elements/forintp.F
       !||    forints                             ../engine/source/elements/forints.F
       !||    funct_python_update_elements        ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    fv_up_switch                        ../engine/source/airbag/fv_up_switch.F
@@ -212,6 +232,7 @@
       !||    gendynain                           ../engine/source/output/dynain/gendynain.F
       !||    genh3d                              ../engine/source/output/h3d/h3d_results/genh3d.F
       !||    genoutp                             ../engine/source/output/sty/genoutp.F
+      !||    genstat                             ../engine/source/output/sta/genstat.F
       !||    get_nodal_ipart                     ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
       !||    get_q4lsys                          ../engine/source/output/sta/sta_c_get_q4lsys.F
       !||    get_t3lsys                          ../engine/source/output/sta/sta_c_get_t3lsys.F
@@ -241,11 +262,15 @@
       !||    h3d_shell_vector_1                  ../engine/source/output/h3d/h3d_results/h3d_shell_vector_1.F
       !||    h3d_skin_ixskin                     ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
       !||    h3d_skin_off                        ../engine/source/output/h3d/h3d_results/h3d_skin_off.F
+      !||    h3d_skin_scalar                     ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
       !||    h3d_skin_tensor                     ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
       !||    h3d_sol_skin_ixskin                 ../engine/source/output/h3d/h3d_results/h3d_sol_skin_ixskin.F
+      !||    h3d_sol_skin_scalar                 ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+      !||    h3d_sol_skin_scalar1                ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
       !||    h3d_sol_skin_tensor                 ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
       !||    h3d_solid_off                       ../engine/source/output/h3d/spmd/spmd_h3d_solid_off.F
       !||    h3d_solid_scalar                    ../engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
+      !||    h3d_solid_scalar_1                  ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
       !||    h3d_solid_tensor                    ../engine/source/output/h3d/h3d_results/h3d_solid_tensor.F
       !||    h3d_solid_tensor_1                  ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
       !||    h3d_solid_vector                    ../engine/source/output/h3d/h3d_results/h3d_solid_vector.F
@@ -266,6 +291,7 @@
       !||    i9wal3                              ../engine/source/interfaces/int09/i9wal3.F
       !||    i9wale                              ../engine/source/interfaces/int09/i9wale.F
       !||    ig3dinit3                           ../starter/source/elements/ige3d/ig3dinit3.F
+      !||    ig3duforc3                          ../engine/source/elements/ige3d/ig3duforc3.F
       !||    imp_buck                            ../engine/source/implicit/imp_buck.F
       !||    imp_chkm                            ../engine/source/implicit/imp_solv.F
       !||    imp_glob_k                          ../engine/source/implicit/imp_glob_k.F
@@ -325,6 +351,7 @@
       !||    layini1                             ../starter/source/elements/shell/coqueba/layini1.F
       !||    layini_xfe                          ../starter/source/elements/xfem/cbufxfe.F
       !||    lech3d                              ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
+      !||    lecstat                             ../engine/source/input/lecstat.F
       !||    lectur                              ../engine/source/input/lectur.F
       !||    link_with_unique_main_cell          ../engine/source/interfaces/int22/link_with_unique_master_cell.F
       !||    lslocal                             ../starter/source/elements/xfem/lslocal.F
@@ -341,13 +368,17 @@
       !||    m51init                             ../starter/source/materials/mat/mat051/m51init.F
       !||    m51vois2                            ../engine/source/materials/mat/mat051/m51vois2.F
       !||    m51vois3                            ../engine/source/materials/mat/mat051/m51vois3.F
+      !||    main_beam18                         ../engine/source/elements/beam/main_beam18.F
+      !||    main_beam3                          ../engine/source/elements/beam/main_beam3.F
       !||    mat_elem_mod                        ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    material_flow                       ../engine/source/tools/seatbelts/material_flow.F
       !||    matini                              ../starter/source/materials/mat_share/matini.F
       !||    mdama24                             ../engine/source/elements/solid/solidez/mdama24.F
       !||    meos8                               ../engine/source/materials/mat_share/meos8.F
+      !||    mmain8                              ../engine/source/materials/mat_share/mmain8.F
       !||    monvol0                             ../engine/source/airbag/monvol0.F
       !||    mulaw_ib                            ../engine/source/elements/beam/mulaw_ib.F
+      !||    mulawc                              ../engine/source/materials/mat_share/mulawc.F
       !||    mulawglc                            ../engine/source/materials/mat_share/mulawglc.F
       !||    mulawglcpinch                       ../engine/source/elements/shell/coqueba/mulawglcpinch.F
       !||    multi_buf2var                       ../engine/source/multifluid/multi_buf2var.F
@@ -403,6 +434,7 @@
       !||    output_schlieren                    ../engine/source/output/anim/generate/output_schlieren.F
       !||    parsorc                             ../engine/source/output/anim/generate/parsorc.F
       !||    parsorf                             ../engine/source/output/anim/generate/parsorf.F
+      !||    pforc3                              ../engine/source/elements/beam/pforc3.F
       !||    pinit3                              ../starter/source/elements/beam/pinit3.F
       !||    pke3                                ../engine/source/elements/beam/pke3.F
       !||    pnoise                              ../engine/source/general_controls/computation/pnoise.F
@@ -412,8 +444,10 @@
       !||    preinicrk4n                         ../starter/source/elements/xfem/preinicrk4N.F
       !||    prelecflow                          ../engine/source/elements/solid/solide/prelecflow.F
       !||    projecig3d                          ../engine/source/elements/ige3d/projecig3d.F
+      !||    q4forc2                             ../engine/source/elements/solid_2d/quad4/q4forc2.F
       !||    q4init2                             ../starter/source/elements/solid_2d/quad4/q4init2.F
       !||    q4ke2                               ../engine/source/elements/solid_2d/quad4/q4ke2.F
+      !||    qforc2                              ../engine/source/elements/solid_2d/quad/qforc2.F
       !||    qinit2                              ../starter/source/elements/solid_2d/quad/qinit2.F
       !||    r12ke3                              ../engine/source/elements/spring/r12ke3.F
       !||    r13ke3                              ../engine/source/elements/spring/r13ke3.F
@@ -427,6 +461,7 @@
       !||    rbyonf                              ../engine/source/constraints/general/rbody/rbyonf.F
       !||    rbypid                              ../engine/source/constraints/general/rbody/rbypid.F
       !||    rbysens                             ../engine/source/constraints/general/rbody/rbyonf.F
+      !||    resol                               ../engine/source/engine/resol.F
       !||    resol_init                          ../engine/source/engine/resol_init.F
       !||    rforc3                              ../engine/source/elements/spring/rforc3.F
       !||    rgwal1                              ../engine/source/ale/grid/rgwal1.F
@@ -437,36 +472,47 @@
       !||    ruser32ke3                          ../engine/source/elements/spring/ruser32ke3.F
       !||    s10deri3                            ../engine/source/elements/solid/solide10/s10deri3.F
       !||    s10derit3                           ../engine/source/elements/solid/solide10/s10derit3.F
+      !||    s10forc3                            ../engine/source/elements/solid/solide10/s10forc3.F
       !||    s10init3                            ../starter/source/elements/solid/solide10/s10init3.F
       !||    s10jaci3                            ../starter/source/elements/solid/solide10/s10jaci3.F
       !||    s10ke3                              ../engine/source/elements/solid/solide10/s10ke3.F
       !||    s10upd11t12                         ../engine/source/elements/solid/solide10/s10upd11t12.F
       !||    s10volnodt3                         ../engine/source/elements/solid/solide4_sfem/s10volnodt3.F
+      !||    s16forc3                            ../engine/source/elements/thickshell/solide16/s16forc3.F
       !||    s16init3                            ../starter/source/elements/thickshell/solide16/s16init3.F
       !||    s16sigp3                            ../engine/source/elements/thickshell/solide16/s16sigp3.F
+      !||    s20forc3                            ../engine/source/elements/solid/solide20/s20forc3.F
       !||    s20init3                            ../starter/source/elements/solid/solide20/s20init3.F
       !||    s20ke3                              ../engine/source/elements/solid/solide20/s20ke3.F
       !||    s4alesfem                           ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
+      !||    s4forc3                             ../engine/source/elements/solid/solide4/s4forc3.F
       !||    s4init3                             ../starter/source/elements/solid/solide4/s4init3.F
       !||    s4ke3                               ../engine/source/elements/solid/solide4/s4ke3.F
       !||    s4lagsfem                           ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
       !||    s6cfint_reg                         ../engine/source/elements/thickshell/solide6c/s6cfint_reg.F
+      !||    s6cforc3                            ../engine/source/elements/thickshell/solide6c/s6cforc3.F
       !||    s6cinit3                            ../starter/source/elements/thickshell/solide6c/s6cinit3.F
       !||    s6cke3                              ../engine/source/elements/thickshell/solide6c/s6cke3.F
       !||    s8_is17jac_i                        ../engine/source/elements/solid/solide8e/s8_is17jac_i.F
       !||    s8cfint_reg                         ../engine/source/elements/thickshell/solide8c/s8cfint_reg.F
+      !||    s8cforc3                            ../engine/source/elements/thickshell/solide8c/s8cforc3.F
       !||    s8cinit3                            ../starter/source/elements/thickshell/solide8c/s8cinit3.F
       !||    s8cke3                              ../engine/source/elements/thickshell/solide8c/s8cke3.F
       !||    s8e_pij                             ../starter/source/elements/solid/solide8z/s8zderi3.F
       !||    s8e_sigp                            ../engine/source/elements/solid/solide8e/s8e_sig.F
+      !||    s8eforc3                            ../engine/source/elements/solid/solide8e/s8eforc3.F
       !||    s8fint3                             ../engine/source/elements/solid/solide8/s8fint3.F
+      !||    s8forc3                             ../engine/source/elements/solid/solide8/s8forc3.F
       !||    s8fupd11t12                         ../engine/source/elements/solid/solide8e/s8fupd11t12.F
+      !||    s8sforc3                            ../engine/source/elements/solid/solide8s/s8sforc3.F
       !||    s8ske3                              ../engine/source/elements/solid/solide8s/s8ske3.F
+      !||    s8zforc3                            ../engine/source/elements/solid/solide8z/s8zforc3.F
       !||    s8zinit3                            ../starter/source/elements/solid/solide8z/s8zinit3.F
       !||    s8zke3                              ../engine/source/elements/solid/solide8z/s8zke3.F
       !||    s_user                              ../engine/source/output/sty/s_user.F
       !||    scaleini                            ../starter/source/elements/initia/scaleini.F
       !||    scfint_reg                          ../engine/source/elements/thickshell/solidec/scfint_reg.F
+      !||    scforc3                             ../engine/source/elements/thickshell/solidec/scforc3.F
       !||    schlieren_buffer_gathering          ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
       !||    scinit3                             ../starter/source/elements/thickshell/solidec/scinit3.F
       !||    sconnect_off                        ../engine/source/elements/solid/sconnect/sconnect_off.F
@@ -474,6 +520,7 @@
       !||    seggetv                             ../engine/source/interfaces/interf/seggetv.F
       !||    seteloff                            ../starter/source/constraints/general/rbody/hm_read_rbody.F
       !||    sfint_reg                           ../engine/source/elements/solid/solide/sfint_reg.F
+      !||    sforc3                              ../engine/source/elements/solid/solide/sforc3.F
       !||    shell_local_frame                   ../engine/source/output/dynain/shell_rota.F
       !||    shell_offset_ini                    ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
       !||    shell_rota                          ../engine/source/output/dynain/shell_rota.F
@@ -507,6 +554,7 @@
       !||    soltospha                           ../engine/source/elements/sph/soltospha.F
       !||    soltosphf                           ../engine/source/elements/sph/soltosph.F
       !||    soltosphp                           ../engine/source/elements/sph/soltosph.F
+      !||    sortie_main                         ../engine/source/output/sortie_main.F
       !||    spbrm_pre                           ../engine/source/implicit/imp_solv.F
       !||    spechan                             ../engine/source/elements/sph/spechan.F
       !||    spgauge                             ../engine/source/elements/sph/spgauge.F
@@ -519,6 +567,7 @@
       !||    sponfprs                            ../engine/source/elements/sph/sponfprs.F
       !||    sponof1                             ../engine/source/elements/sph/sponof1.F
       !||    sponof2                             ../engine/source/elements/sph/sponof2.F
+      !||    spstres                             ../engine/source/elements/sph/spstres.F
       !||    spwfvis                             ../engine/source/elements/sph/spwfvis.F
       !||    stat_beam_mp                        ../engine/source/output/sta/stat_beam_mp.F
       !||    stat_beam_spmd                      ../engine/source/output/sta/stat_beam_spmd.F
@@ -544,6 +593,7 @@
       !||    stat_r_full                         ../engine/source/output/sta/stat_r_full.F
       !||    stat_s_auxf                         ../engine/source/output/sta/stat_s_auxf.F
       !||    stat_s_eref                         ../engine/source/output/sta/stat_s_eref.F
+      !||    stat_s_fail                         ../engine/source/output/sta/stat_s_fail.F
       !||    stat_s_ortho                        ../engine/source/output/sta/stat_s_ortho.F
       !||    stat_s_straf                        ../engine/source/output/sta/stat_s_straf.F
       !||    stat_s_strsf                        ../engine/source/output/sta/stat_s_strsf.F
@@ -560,8 +610,11 @@
       !||    stat_truss_spmd                     ../engine/source/output/sta/stat_truss_spmd.F
       !||    strn_tenscor3                       ../engine/source/output/h3d/h3d_results/h3d_strn_tenscor3.F
       !||    strs_tenscor3                       ../engine/source/output/h3d/h3d_results/strs_tenscor3.F
+      !||    suforc3                             ../engine/source/user_interface/suforc3.F
       !||    suinit3                             ../starter/source/elements/elbuf_init/suinit3.F
+      !||    suser43                             ../engine/source/elements/solid/sconnect/suser43.F
       !||    switch_to_dtnoda                    ../engine/source/time_step/switch_to_dtnoda.F
+      !||    szforc3                             ../engine/source/elements/solid/solidez/szforc3.F
       !||    szhour3                             ../engine/source/elements/solid/solidez/szhour3.F
       !||    szhour3_or                          ../engine/source/elements/solid/solidez/szhour3_or.F
       !||    tagoff3n                            ../engine/source/interfaces/interf/chkstfn3.F
@@ -611,6 +664,8 @@
       !||    upofftg                             ../engine/source/elements/xfem/upofftg.F
       !||    upxfem1                             ../engine/source/elements/xfem/upxfem1.F
       !||    upxfem_tagxp                        ../engine/source/elements/xfem/upxfem_tagxp.F
+      !||    usermat_shell                       ../engine/source/materials/mat_share/usermat_shell.F
+      !||    usermat_solid                       ../engine/source/materials/mat_share/usermat_solid.F
       !||    velvecc22                           ../engine/source/output/anim/generate/velvec.F
       !||    velvecz22                           ../engine/source/output/anim/generate/velvecz22.F
       !||    voln22                              ../engine/source/interfaces/int22/voln22.F
@@ -618,6 +673,7 @@
       !||    w_elbuf_str                         ../engine/source/elements/elbuf/w_elbuf_str.F
       !||    write_buf_law51                     ../engine/source/materials/mat/mat051/write_buf_law51.F
       !||    write_cut_cell_buffer               ../engine/source/interfaces/int22/write_cut_cell_buffer.F
+      !||    wrrestp                             ../engine/source/output/restart/wrrestp.F
       !||    xfeoff                              ../engine/source/elements/xfem/xfeoff.F
       !||    xforc3                              ../engine/source/elements/xelem/xforc3.F
       !||    xinit3                              ../starter/source/elements/xelem/xinit3.F
