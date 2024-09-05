@@ -159,6 +159,7 @@ C-----------------------------------------------
      .   M31(MVSIZ), M32(MVSIZ), M33(MVSIZ),
      .   FZERO(3,3,*),TEMP(*),FTHE(*),FTHESKY(*),GRESAV(*),MSTG(*),
      .   DMELTG(*),PTG(3,*),CONDN(*),CONDNSKY(*)
+
 !       SP issue :
       REAL(kind=8), DIMENSION(*), INTENT(in), TARGET :: XDP
 
@@ -219,9 +220,7 @@ C-----------------------------------------------
         REAL(kind=8), DIMENSION(MVSIZ) ::X1G,X2G,X3G
         REAL(kind=8), DIMENSION(MVSIZ) ::Y1G,Y2G,Y3G
         REAL(kind=8), DIMENSION(MVSIZ) ::Z1G,Z2G,Z3G
-!     variables for heat transfer
-      my_real, dimension(mvsiz) :: fheat
-!
+
 C--- Variables for non-local formulation
       INTEGER :: NDDL, K, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
@@ -494,7 +493,7 @@ c-------------------------------------------
         ENDDO
       ENDIF           
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (JTHE > 0 ) CALL TEMP3CG(JFT   ,JLT   ,PM     ,MAT   ,IXTG,   
+      IF(JTHE > 0 ) CALL TEMP3CG(JFT   ,JLT   ,PM     ,MAT   ,IXTG,   
      .                           TEMP ,TEMPEL )
 C--------------------------
       IF ((IMON_MAT==1).AND.ITASK == 0)CALL STARTIME(35,1)
@@ -513,7 +512,7 @@ C--------------------------
      B   NGL       ,ZCFAC     ,SHF       ,GS        ,GBUF%EPSD ,
      C   KFTS      ,ISH3N     ,ALPE      ,
      D   DIR_A     ,DIR_B     ,IGEO      ,
-     E   IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
+     E   IPM       ,IFAILURE  ,NPG       ,
      F   TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,GBUF%TEMP ,
      G   IBID      ,BID       ,
      H   BID       ,BID       ,BID       ,BID       ,BID       ,
@@ -586,24 +585,19 @@ c--------------------------
      5   ITASK,           DT2T,            ALDT,            GBUF%THK_I,
      6   GBUF%AREA,       NFT)
       ENDIF 
+c-------------------------------
 C-------------------------
 c     SHELL THERMICS 
 C--------------------------
-      IF (JTHE /= 0) THEN
-        IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-          CALL THERM3C(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXTG    ,
-     .                 PX1   ,PY1   ,PY2    ,AREA    ,DT1C    ,
-     .                 TEMP  ,TEMPEL,FHEAT  ,THEM    ) 
-        ELSE
-          CALL THERM3C(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXTG    ,
-     .                 PX1   ,PY1   ,PY2    ,AREA    ,DT1C    ,
-     .                 TEMP  ,TEMPEL,DIE   ,THEM    ) 
-        END IF
-      ENDIF
+       IF (JTHE > 0) THEN
+         CALL THERM3C(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXTG    ,
+     .                PX1   ,PY1   ,PY2    ,AREA    ,DT1C    ,
+     .                TEMP  ,TEMPEL,DIE    ,THEM    ) 
+       ENDIF
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
-        IF (JTHE /= 0 .AND. IDT_THERM == 1) THEN
+        IF(JTHE > 0.AND.IDT_THERM == 1)THEN
            CALL DTTHERM(
      1   JFT,     JLT,     PM,      TEMPEL,
      2   GBUF%RE, RHO,     GBUF%RK, VOL0,

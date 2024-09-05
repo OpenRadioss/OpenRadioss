@@ -94,8 +94,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      INTEGER ICC,IPLA,IRTY,ISRATE,NINDX,INDEX(MVSIZ)
-      INTEGER I,J,N,NMAX
+      INTEGER ICC,IRTY,ISRATE,NINDX,INDEX(MVSIZ)
+      INTEGER I,J,II,NPIF,IPLA,N,NMAX
       my_real
      .   F1(MVSIZ),F2(MVSIZ),F3(MVSIZ),F4(MVSIZ),F5(MVSIZ),Z3,Z4,
      .   M1(MVSIZ),M2(MVSIZ),M3(MVSIZ),T(MVSIZ),EPMX,
@@ -110,13 +110,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   GAMA(MVSIZ),GAMA2(MVSIZ),LFN(MVSIZ),QFN(MVSIZ),QFNM(MVSIZ),
      .   DEGMB_LOC(MVSIZ),DEGSH_LOC(MVSIZ),DEGFX_LOC(MVSIZ),YLD(MVSIZ),
      .   LOGEP(MVSIZ),PLAP(MVSIZ)
-      my_real :: DPLA_I,DR,A,B,F,DF,YLD_I,CP1,CQ1,CP2,CQ2,SM3,FNM,
-     .   DA,DB,A_I,B_I,PN,QN,SN1,SN2,S,MM1,MM2,
+      my_real
+     .   DPLA_I,DR,A,B,F,DF,YLD_I,CP1,CQ1,CP2,CQ2,SM3,FN,FM,FNM,
+     .   DA,DB,A_I,B_I,PN,QN,SN1,SN2,S,P_M,QM,PNM1,PNM2,
      .   DFNP,DFNQ,DFMP,DFMQ,DFNMP,DFNMQ,XP,XQ,XPG,XQG,
      .   QNM1,QNM2,FNP,FNQ,FMP,FMQ,FNMP,FNMQ,S3,AA,BB,PLAP1,
-     .   THK12,EZZ,AAA,BBB,CCC,FACT,AUX,EPIF,ASRATE,
-     .   MS,FS,D1,D2,MT,TMELT,TREF,TSTAR,CA_1,CB_1,YMAX_1
-      my_real :: DPLA(MVSIZ)
+     .   THK12,THK2,FAC,SH1,EZZ,DPLA(MVSIZ),AAA,BBB,CCC,
+     .   FACT,FF1,FF2,FF3,MM1,MM2,MM3,AUX,EPIF,ASRATE,
+     .   MS,FS,D1,D2,MT,TM,TSTAR,VISC,CA_1,CB_1,YMAX_1
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 !-----------------------------------------------
       DATA NMAX/2/
@@ -138,21 +139,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       ICC    = NINT(PM(49,MX))
       IRTY   = NINT(PM(50,MX))
       Z3     = PM(51,MX)
-      IF (IRTY == 0) THEN
-        TREF  = PM(79,MX)                    
-        TMELT = PM(80,MX)                    
-        CP    = ONE / MAX(EM20,PM(69,MX))                  
-      ELSE
-        Z4    = PM(52,MX)                    
-        CP    = PM(53,MX)                    
-        TREF  = PM(54,MX)                    
-      END IF             
+      Z4     = PM(52,MX)
+      CP     = PM(53,MX)
 !
       DO I=JFT,JLT
         ASRATE = MIN(ONE,PM(9,MX)*DT1C(I))
         CA(I)  = CA_1
         CB(I)  = CB_1
         YMAX(I)= YMAX_1
+        NPIF   = NINT(PM(50,MX))
+        T(I)   = PM(54,MX)
         ETSE(I) = ONE
         EPSPDT(I) = ONE
       ENDDO
@@ -223,30 +219,60 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         ENDIF
         DO I=JFT,JLT
           EPSPDT(I) = LOGEP(I)    
-          T(I) = TREF + CP*(EINT(I,1)+EINT(I,2))/VOL0(I)
+          T(I) = T(I)+CP*(EINT(I,1)+EINT(I,2))/VOL0(I)
         ENDDO
 !
-        IF (IRTY == ZERO) THEN
+        IF (NPIF == ZERO .AND. (IMACH /= 3 .OR. IPARIT == 0)) THEN
           DO I=JFT,JLT
             MT = MAX(EM20,Z3)
+            TM = Z4
+!--          TSTAR=MAX(ZERO,(T(I)-298.)/(TM-298.))
+!--          ... the MAX() is replaced by the IF below
             EPSPDT(I) = MAX(ZERO,EPSPDT(I))
-            TSTAR = (T(I)-TREF)/(TMELT-TREF)
+            TSTAR = (T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98)
             IF (TSTAR > ZERO) THEN
               EPSPDT(I) = (ONE+CC * EPSPDT(I))*(ONE-TSTAR**MT)
+!--          ... emulating the '-pvctl chgpwr' compiler flag
+!--             epspdt(i)= (1.+cc(i) * epspdt(i))*(1.-exp(log(tstar)*mt))
             ELSE
+!--          EPSPDT(I)= (1.+CC(I) * EPSPDT(I))*(1.-TSTAR**MT)
+!--          ...  in case of tstart<=ZERO => tstar**mt=zero**mt=zero 
+!--          ...  => can be skipped
               EPSPDT(I) = (ONE+CC * EPSPDT(I))
             ENDIF
             EPSPDT(I) = MAX(EM20,EPSPDT(I))
             IF (ICC == 1) YMAX(I) = YMAX(I)*EPSPDT(I)
           ENDDO
-        ELSEIF (IRTY == 1) THEN
+        ELSEIF (NPIF == JLT .AND. (IMACH /= 3 .OR. IPARIT == 0)) THEN
           DO I=JFT,JLT
             EPSPDT(I) = CC*EXP((-Z3+Z4 * EPSPDT(I))*T(I))
             IF (ICC == 1) YMAX(I) = YMAX(I) + EPSPDT(I)
             CA(I) = CA(I) + EPSPDT(I)
             EPSPDT(I) = ONE
           ENDDO
-        ENDIF ! IRTY
+        ELSE
+#include "vectorize.inc"
+          DO I=JFT,JLT
+            IF (IRTY == 0) THEN
+              MT = MAX(EM20,Z3)
+              TM = Z4
+              TSTAR = (T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98)
+              EPSPDT(I) = MAX(ZERO,EPSPDT(I))
+              IF (TSTAR > ZERO) THEN
+                EPSPDT(I) = (ONE + CC * EPSPDT(I))*(ONE - TSTAR**MT)
+              ELSE
+                EPSPDT(I) = (ONE + CC * EPSPDT(I))
+              ENDIF
+              EPSPDT(I) = MAX(EM20,EPSPDT(I))
+              IF (ICC == 1) YMAX(I) = YMAX(I)*EPSPDT(I)
+            ELSE
+              EPSPDT(I) = CC*EXP((-Z3+Z4 * EPSPDT(I))*T(I))
+              IF (ICC == 1) YMAX(I) = YMAX(I) + EPSPDT(I)
+              CA(I) = CA(I) + EPSPDT(I)
+              EPSPDT(I) = ONE
+            ENDIF ! IF (IRTY == 0)
+          ENDDO
+        ENDIF ! IF (NPIF == ZERO .AND. (IMACH /= 3 .OR. IPARIT == 0))
       ENDIF ! IF (EPIF /= ZERO)
 !---------------------------
       IF (IPLA == 0) THEN

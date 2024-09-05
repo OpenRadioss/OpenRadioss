@@ -233,9 +233,6 @@ C--------------------------------
      .  A_IT(MVSIZ),F_DEF(MVSIZ,8), U13(MVSIZ,2),U24(MVSIZ,2),
      .  AXYZ(MVSIZ,4),WXY(MVSIZ),FAC58(MVSIZ,2) 
        my_real , DIMENSION (NEL) :: ZOFFSET
-!     variables for heat transfer
-      my_real, dimension(mvsiz) :: fheat
-!
 C--- Variables pour le non-local
       INTEGER :: NDDL, K, INOD(4),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .           IPOS(4), L_NLOC, IMAT, INLOC,IINT
@@ -531,9 +528,11 @@ c-------------------------------------------
         ENDDO
       ENDIF     
 C-----------------
-      ! transfer nodal temperature to gauss points (/heat/mat)
-      IF (JTHE /= 0) THEN      
-        CALL TEMPCG(NUMNOD,NEL   ,IXC  ,TEMP ,TEMPEL )
+C     CONTRAINTES
+C-----------------
+      IF (JTHE > 0) THEN
+        CALL TEMPCG(JFT  ,JLT    ,PM     ,MAT    ,IXC     ,
+     .              TEMP ,TEMPEL )
       ENDIF
 C-----------------------------------------------     
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
@@ -552,7 +551,7 @@ C-----------------------------------------------
      B      NGL       ,ZCFAC     ,SHF       ,GS        ,GBUF%EPSD  ,
      C      KFTS      ,IHBE      ,ALPE      ,
      D      DIR_A     ,DIR_B     ,IGEO      ,
-     E      IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
+     E      IPM       ,IFAILURE  ,NPG       ,
      F      TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,GBUF%TEMP  ,
      G      IBID      ,BID       ,
      H      BID       ,BID       ,BID       ,BID       ,BID        ,
@@ -700,21 +699,15 @@ c-------------------------------
 C-------------------------
 c     Thermique des coques 
 C--------------------------
-        IF (JTHE /= 0) THEN  
-          IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-            CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
-     .                  Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
-     .                  TEMP   ,TEMPEL  ,FHEAT   ,THEM )
-          ELSE
-            CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
-     .                  Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
-     .                  TEMP   ,TEMPEL  ,DIE    ,THEM )
-          END IF
+        IF (JTHE > 0) THEN  
+          CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
+     .                Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
+     .                TEMP   ,TEMPEL  ,DIE     ,THEM )
         ENDIF 
 c--------------------------
 c     THERMAL TIME STEP
 c--------------------------
-        IF (JTHE /= 0 .AND. IDT_THERM == 1) THEN
+        IF (JTHE > 0 .AND. IDT_THERM == 1) THEN
            CALL DTTHERM(
      1   JFT,     JLT,     PM,      TEMPEL,
      2   GBUF%RE, RHO,     GBUF%RK, VOL0,

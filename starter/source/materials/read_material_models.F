@@ -135,10 +135,8 @@ c----------
       ILAG    = 0
       IALE    = 0
       IEULER  = 0
+      ITHERM  = 0
       ITURB   = 0
-      ITHERM_FE = 0  !< flag for temperature allocation at nodes     (lagrangian framework)
-      ITHERM = 0     !< flag for temperature allocation at centroids (ale/euler framework)
-
       PM(1:100,NUMMAT)=ZERO
       MULTI_FVM%NBMAT   = 0 !Initialize number of material in law151  
       FAILWAVE%WAVE_MOD = 0 !Initialization of failwave option
@@ -203,7 +201,7 @@ c-------------------------------------------------------------------
 c-------------------------------------------------------------------
 c     /HEAT/MAT : thermal parameters
 c-------------------------------------------------------------------
-      CALL HM_READ_THERM(MAT_ELEM%MAT_PARAM,BUFMAT, BUFLEN, IPM, PM, UNITAB, LSUBMODEL)
+      CALL HM_READ_THERM(BUFMAT, BUFLEN, IPM, PM, UNITAB, LSUBMODEL)
 
 c-------------------------------------------------------------------
 c     /THERM/STRESS : thermal expansion

@@ -133,7 +133,10 @@ C
                 ENDDO                                                   
               ELSEIF (IFUNC == 4) THEN                                       
                 DO I=LFT,LLT                                            
-                  IF (GBUF%G_TEMP > 0) THEN                                                  
+                  IF (IPARG(1,NG) == 2 .AND. JTHE == 0) THEN       
+                    EVAR(I) = PM(54,IXS(1,NFT+I)) + GBUF%EINT(I)*     
+     .                        GBUF%VOL(I) * PM(53,IXS(1,NFT+I))      
+                  ELSEIF (GBUF%G_TEMP > 0) THEN                                                  
                     EVAR(I) = GBUF%TEMP(I)
                   ENDIF                                                 
                 ENDDO                                                   

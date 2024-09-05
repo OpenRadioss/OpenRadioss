@@ -97,8 +97,9 @@ C     REAL
      .   CA(MVSIZ),CC, CN, EPXO(MVSIZ),
      .   EPMX, THETL(MVSIZ), EPDR, T(MVSIZ),
      .   SIGMX(MVSIZ),
-     .   EPIF,TM,MT, SCALE, DTA, DAV,RHOCP,
-     .   CA_1,CB_1,SIGMX_1,CMX_1,Z3_1,Z4_1,CP_1,T_1
+     .   EPIF,TM,MT, SCALE, DTA, DAV,
+     .   CA_1,CB_1,SIGMX_1,CMX_1,Z3_1,
+     .   Z4_1,CP_1,T_1
       my_real,
      .  DIMENSION(:), POINTER :: SIGP, EPLA
       TYPE(L_BUFEL_) ,POINTER :: LBUF
@@ -115,7 +116,7 @@ C
       EPDR =PM(44,MX)
       CC   =PM(43,MX)
       EPIF = MAX(EPIF,CC)
-      IRTY = NINT(PM(50,MX))   ! flag : J-C = 0, Zerilli = 1
+      IRTY = NINT(PM(50,MX))
 C
       CA_1   =PM(38,MX)
       CB_1   =PM(39,MX)
@@ -123,17 +124,15 @@ C
       CMX_1  =PM(45,MX)
       Z3_1   =PM(51,MX)
       Z4_1   =PM(52,MX)
-      CP_1   = PM(53,MX)
-      RHOCP  = PM(69,MX)
-      T_1    = PM(79,MX)
-      TM     = PM(80,MX)
+      CP_1   =PM(53,MX)
+      T_1   =PM(54,MX)
 C
       DO I=1,NEL
        G(I)    =PM(22,MX)*OFF(I)
        CA(I)   =CA_1
        SIGMX(I)=SIGMX_1
        NPIF    = NPIF+IRTY
-       T(I)    = T_1
+       T(I)   =T_1
        ETSE(I) = ONE
       ENDDO
 C
@@ -231,27 +230,44 @@ C-------------
           II=I+JPT
           EPD(I)=OFF(I)* 
      .      MAX( ABS(D1(I,IPT)), ABS(D2(I,IPT)), ABS(D3(I,IPT)),
-     .      HALF*ABS(D4(I,IPT)),HALF*ABS(D5(I,IPT)),HALF*ABS(D6(I,IPT)))
+     .HALF*ABS(D4(I,IPT)),HALF*ABS(D5(I,IPT)),HALF*ABS(D6(I,IPT)))
            EPD(I)= MAX(EPD(I),EM15)
            EPSP(II) = EPD(I)           
            EPD(I)= LOG(EPD(I)/EPDR)
+           T(I) = T(I) +CP_1*EINT(I)/MAX(EM15,VOL(I))
         ENDDO
-        IF (NPIF==ZERO)THEN   ! J-C
+        IF(NPIF==ZERO)THEN
           MT=MAX(EM15,Z3_1)
+          TM=Z4_1
+          IF(TM==ZERO)TM=EP30
             DO I=1,NEL
-             TSTAR(I)=MIN(ONE,MAX(ZERO,(T(I)-T_1)/(TM-T_1)))
+            TSTAR(I)=MIN(ONE,MAX(ZERO,(T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98)))
              EPD(I)= MAX(ZERO,EPD(I))
              EPD(I)= (ONE + CC * EPD(I))*(ONE - TSTAR(I)**MT)
              IF(ICC==1)SIGMX(I)= SIGMX(I)*EPD(I)
-             T(I) = T(I) + EINT(I)/MAX(EM15,VOL(I))/RHOCP
           ENDDO
-        ELSEIF(NPIF==NEL)THEN  ! zerilli
+        ELSEIF(NPIF==NEL)THEN
           DO I=1,NEL
              EPD(I)= CC*EXP((-Z3_1+Z4_1 * EPD(I))*T(I))
              IF(ICC==1)SIGMX(I)= SIGMX(I) + EPD(I)
              CA(I) = CA(I) + EPD(I)
-             T(I) = T(I) + CP_1*EINT(I)/MAX(EM15,VOL(I))
              EPD(I)=ONE
+          ENDDO
+        ELSE
+          MT=Z3_1
+          TM=Z4_1
+          DO I=1,NEL
+           IF(IRTY==0)THEN
+            TSTAR(I)=MIN(ONE,MAX(ZERO,(T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98)))
+            EPD(I)= MAX(ZERO,EPD(I))
+             EPD(I)= (ONE +CC * EPD(I))*(1.-TSTAR(I)**MT)
+             IF(ICC==1)SIGMX(I)= SIGMX(I)*EPD(I)
+           ELSE
+             EPD(I)= CC*EXP((-Z3_1+Z4_1 * EPD(I))*T(I))
+             IF(ICC==1)SIGMX(I)= SIGMX(I) + EPD(I)
+             CA(I) = CA(I) + EPD(I)
+             EPD(I)=ONE
+           ENDIF
           ENDDO
         ENDIF
       ELSE

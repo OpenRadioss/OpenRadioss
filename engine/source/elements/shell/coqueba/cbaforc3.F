@@ -268,9 +268,6 @@ C-----------------------------------------------
      .  VRL1(MVSIZ,3),VRL2(MVSIZ,3),VRL3(MVSIZ,3),VRL4(MVSIZ,3),
      .   UXYZ(MVSIZ,12),AXYZ(MVSIZ,4),WXY(MVSIZ),XLCORE(MVSIZ,2*(NNOD-1))
        my_real , DIMENSION(NEL) ::  ZOFFSET
-!     variables for heat transfer
-      my_real, dimension(mvsiz) :: fheat
-!
 C-----------------------------------------------
       INTEGER, DIMENSION(NEL) :: OFFLY
       my_real, DIMENSION(:) ,POINTER     :: DIR_A, DIR_B,CRKDIR,DADV
@@ -706,7 +703,8 @@ C
 C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         IF (JTHE > 0 ) THEN
-           CALL CBATEMPEL(JFT ,JLT   ,NG  ,IXC   ,TEMP ,TEMPEL)
+           CALL CBATEMPEL(JFT ,JLT   ,NG  ,IXC   ,TEMP ,
+     .                  TEMPEL)
         ENDIF
 C-----------------------------------------------------------------------
         IF (INLOC>0) THEN
@@ -763,7 +761,7 @@ C-----------------
      B    NGL       ,ZCFAC     ,SHF       ,GS        ,GBUF%EPSD ,
      C    KFTS      ,IHBE      ,ALPE      ,
      D    DIR_A     ,DIR_B     ,IGEO      ,
-     E    IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
+     E    IPM       ,IFAILURE  ,NPG       ,
      F    TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,GBUF%TEMPG(PTT) ,
      G    ISHPLYXFEM,PLY_EXX   ,
      H    PLY_EYY   ,PLY_EXY   ,PLY_EZX   ,PLY_EYZ   ,PLY_F     ,
@@ -840,17 +838,11 @@ C-------------------------
 c     Thermal Analysis
 C--------------------------
 C
-      IF (JTHE /= 0) THEN
-        IF (MAT_ELEM%MAT_PARAM(MAT(1))%HEAT_FLAG == 1) THEN
+         IF (JTHE > 0) THEN
           CALL CBATHERM(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
-     .                  BM    ,AREA  ,DT1C   ,TEMP    ,TEMPEL,FHEAT   , 
-     .                  NPLAT ,IPLAT,THEM    ) 
-        ELSE
-          CALL CBATHERM(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
-     .                  BM    ,AREA  ,DT1C   ,TEMP    ,TEMPEL,DIE     , 
-     .                  NPLAT ,IPLAT,THEM    ) 
-        END IF
-      ENDIF
+     .                  BM    ,AREA  ,DT1C   ,TEMP    ,TEMPEL,DIE   , 
+     .                  NPLAT  ,IPLAT,THEM    ) 
+         ENDIF
 c-------------------------
 c     Virtual internal forces of regularized non local ddl 
 c--------------------------

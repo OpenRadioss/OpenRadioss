@@ -188,7 +188,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IP,LCO,NF1,NF2,IFLAG,IOFFS,IPTR,IPTS,IPTT,ILAY,IMAT
+      INTEGER I,J,IP,LCO,NF1,NF2,IFLAG,IOFFS,IPTR,IPTS,IPTT,ILAY
       INTEGER IBID,IBIDON(1),NNEGA,INDEX(MVSIZ),ITET,iel,ISM12_11
 C-----
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
@@ -254,7 +254,6 @@ c     Flag Bolt Preloading
       INTEGER SZ_IX
       my_real, 
      .  DIMENSION(:), POINTER :: BPRELD
-      my_real, dimension(mvsiz) :: fheat
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -656,7 +655,7 @@ C
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna   ,    fheat   )
+     .   idyna)
 C
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C-----------  return to global system    
@@ -713,35 +712,19 @@ C          switched to small strain
         ENDDO
 C
         IF (JTHE < 0 .AND. ISOLNOD == 10) THEN
-          IMAT = MXT(1)
-          IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-            CALL S10THERM(
-     1           PM,        IMAT,       NC,        VOLN,
-     2           PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),NX(1,1,IP),
-     3           DT1,       TEMP,      TEMPEL,    FHEAT,
-     4           THEM,      GBUF%OFF,  LBUF%OFF,  NEL)
-          ELSE
-            CALL S10THERM(
-     1           PM,        IMAT,       NC,        VOLN,
-     2           PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),NX(1,1,IP),
-     3           DT1,       TEMP,      TEMPEL,    DIE,
-     4           THEM,      GBUF%OFF,  LBUF%OFF,  NEL)
-          END IF
+          CALL S10THERM(
+     1   PM,        MXT,       NC,        VOLN,
+     2   PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),NX(1,1,IP),
+     3   DT1,       TEMP,      TEMPEL,    DIE,
+     4   THEM,      GBUF%OFF,  LBUF%OFF,  NEL)
         ENDIF
 c----------
       ENDDO   ! end integration point loop
 
       IF (JTHE < 0 .AND. ISOLNOD == 4) THEN
-          IMAT = MXT(1)
-          IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-            CALL S4THERM_ITET1(PM   ,IMAT   ,NC   ,NEL  ,
-     .                         XX   ,YY     ,ZZ   ,DT1  ,FHEAT ,
-     .                         TEMP ,THEM   ,GBUF%OFF   ,LBUF%OFF)
-          ELSE
-            CALL S4THERM_ITET1(PM   ,IMAT   ,NC   ,NEL  ,
-     .                         XX   ,YY     ,ZZ   ,DT1  ,DIE ,
-     .                         TEMP ,THEM   ,GBUF%OFF   ,LBUF%OFF)
-          END IF
+          CALL S4THERM_ITET1(PM   ,MXT    ,NC   ,NEL  ,
+     .                       XX   ,YY     ,ZZ   ,DT1  ,DIE ,
+     .                       TEMP ,THEM   ,GBUF%OFF   ,LBUF%OFF) 
       ENDIF
 c-----------------------------
       IF (JLAG+JALE+JEUL /= 0) THEN

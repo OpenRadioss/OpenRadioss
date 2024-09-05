@@ -214,9 +214,6 @@ C---
       my_real,
      .  DIMENSION(:) ,POINTER  ::  DIR_A,DIR_B,UVAR
       TARGET :: DIRA,DIRB
-!     variables for heat transfer
-      my_real, dimension(mvsiz) :: fheat
-!
 C---
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -305,6 +302,7 @@ C
           ZCFAC(I,1) = ONE
           ZCFAC(I,2) = ONE
           ALPE(I)    = ONE
+          TEMPEL(I) = ZERO
         ENDDO
 C-----------------------------------------
 C       CALCULS PRELIMINAIRES GLOBAL-->LOCAL
@@ -447,7 +445,8 @@ C-----------------
         DO I = JFT,JLT
           TEMPEL(I) = ZERO
         ENDDO
-        IF (JTHE /= 0 ) CALL TEMPCG(NUMNOD, NEL  ,IXC ,TEMP ,TEMPEL)
+        IF (JTHE > 0 ) CALL TEMPCG(JFT  ,JLT   ,PM  ,MAT ,IXC,
+     .                             TEMP ,TEMPEL)
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 C-----------------------------
@@ -465,7 +464,7 @@ C-----------------------------
      B       NGL       ,ZCFAC     ,SHF       ,GS        ,EPSDG   ,
      C       KFTS      ,IHBE      ,ALPE      ,
      D       DIR_A     ,DIR_B     ,IGEO      ,
-     E       IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
+     E       IPM       ,IFAILURE  ,NPG       ,
      F       TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,TEMPG   ,
      G       IBID      ,BID       ,
      H       BID       ,BID       ,BID       ,BID       ,BID     ,
@@ -571,16 +570,10 @@ C-------------------------
 c     Thermique des coques 
 C--------------------------
 C
-        IF (JTHE /= 0) THEN
-          IF (MAT_ELEM%MAT_PARAM(MAT(1))%HEAT_FLAG == 1) THEN
-            CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
-     .                  Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
-     .                  TEMP   ,TEMPEL  ,FHEAT   ,THEM )
-          ELSE
-            CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
-     .                  Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
-     .                  TEMP   ,TEMPEL  ,DIE     ,THEM )
-          ENDIF 
+        IF (JTHE > 0) THEN    
+          CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
+     .                Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
+     .                TEMP   ,TEMPEL  ,DIE     ,THEM )
         ENDIF 
 C
 C--------------------------

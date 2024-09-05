@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE SIGEPS02C(
      1                  JFT      ,JLT      ,PM       ,EINT     ,THK      ,
      2                  OFF      ,SIGY     ,DT1C     ,IPLA     ,NEL      ,
-     3                  VOL     ,GS       ,ISRATE   ,THKLYL   ,ETSE     ,
+     3                  VOL0     ,GS       ,ISRATE   ,THKLYL   ,ETSE     ,
      4                  NGL      ,EPSPDT   ,G_IMP    ,SIGKSI   ,IOFF_DUCT,
      5                  DPLA     ,TSTAR    ,JTHE     ,HARDM    ,EPCHK    ,
      6                  IMAT     ,IPT      ,NPTT     ,PLA      ,OFF_OLD  ,
@@ -39,8 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9                  DEPSXX   ,DEPSYY   ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
      A                  EPSPXX   ,EPSPYY  ,EPSPXY   ,EPSPYZ    ,EPSPZX   ,
      B                  SIGBAKXX ,SIGBAKYY ,SIGBAKXY ,INLOC    ,DPLANL   ,
-     C                  VP       ,NUVAR    ,UVAR     ,ASRATE   ,LOFF     ,
-     D                  TEMPEL   ,FHEAT    )
+     C                  VP       ,NUVAR    ,UVAR     ,ASRATE   ,LOFF     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,20 +55,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT,IPLA,NEL,JTHE,IPT,NPTT,IMAT,ISRATE
+      INTEGER JFT,JLT,IPLA,NEL,IOFC,JTHE,IPT,NPTT,IMAT,ISRATE
       INTEGER NGL(MVSIZ),IOFF_DUCT(*),INLOC
       INTEGER, INTENT(IN) :: NUVAR ,VP
       my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
       my_real ,DIMENSION(NEL),INTENT(IN) :: EPSPXX   ,EPSPYY  ,EPSPXY   ,EPSPYZ    ,EPSPZX
       my_real ,INTENT(IN) :: ASRATE
       my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
-      my_real, DIMENSION(NEL), INTENT(INOUT) :: TEMPEL
-      my_real, DIMENSION(NEL), INTENT(INOUT) :: FHEAT
 !---
 C     REAL
       my_real
      .   PM(NPROPM,*),EINT(NEL,2),
-     .   OFF(*),SIGY(*),DT1C(*),VOL(*),GS(*),THK(*),
+     .   OFF(*),SIGY(*),DT1C(*),VOL0(*),GS(*),THK(*),
      .   TSTAR(*),DPLA(*),SIGKSI(MVSIZ,5),ETSE(MVSIZ),
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ),PLA(NEL),
@@ -86,11 +83,18 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,ICC,IRTY
-      my_real :: EPMX,CA,CB,CN,RHOCPI,CC,G,A11,A12,NU,YOUNG,
-     .   DAV,DEVE1,DEVE2,DEVE3,DEVE4,Z3,Z4,FISOKIN,TREF,TMELT
-      my_real :: YMAX(MVSIZ),PLAP(MVSIZ),EPDR(MVSIZ),YLD(MVSIZ),EPSDOT(MVSIZ),TEMP(MVSIZ)
+      INTEGER ICC,IRTY,I,J,NPIF
+C     REAL
+      my_real
+     .   EPMX,CA,CB,CN,CP,CC,
+     .   DAV,DEVE1,DEVE2,DEVE3,DEVE4,Z3,Z4,FISOKIN,
+     .   EPIF,YOUNG,TI,TM,G,A11,A12,NU,
+     .   YMAX(MVSIZ),PLAP(MVSIZ),
+     .   EPDR(MVSIZ),YLD(MVSIZ),EPSDOT(MVSIZ),
+     .   T(MVSIZ)
 C-----------------------------------------------
+      EPIF = ZERO
+      NPIF = 0
       EZZ(1:MVSIZ) = ZERO
 !---
       YOUNG  = PM(20,IMAT)
@@ -107,20 +111,20 @@ C-----------------------------------------------
       ICC    = NINT(PM(49,IMAT))
       IRTY   = NINT(PM(50,IMAT))
       Z3     = PM(51,IMAT)
+      Z4     = PM(52,IMAT)
+      CP     = PM(53,IMAT)
+      TI     = PM(54,IMAT)
       FISOKIN= PM(55,IMAT)
-      IF (IRTY == 0) THEN
-        RHOCPI = ONE / MAX(EM20,PM(69,IMAT))                  
-        TREF   = PM(79,IMAT)                    
-        TMELT  = PM(80,IMAT)                    
-      ELSE
-        RHOCPI = PM(53,IMAT)                    
-        Z4     = PM(52,IMAT)                    
-        TREF   = PM(54,IMAT)                    
-      END IF             
+
+       
+      EPIF   = MAX( EPIF, CC )
 !
+
       DO I=JFT,JLT              
         EPDR(I) = MAX( EM20, PM(44,IMAT)*DT1C(I) )        
-        PLAP(I) = ZERO
+        NPIF      = NPIF + IRTY
+        T(I)      = TI
+        PLAP(I)   = ZERO
       ENDDO
       IF(VP == 1) THEN
         DO I=JFT,JLT          
@@ -133,10 +137,13 @@ C-----------------------------------------------
         ENDDO        
       ENDIF
 !
-      DO I=JFT,JLT
-        TSTAR(I) = MAX( ZERO, (TEMP(I)-TREF)/(TMELT-TREF) )
-      ENDDO
-!
+      IF ( JTHE <= 0 ) THEN      
+        TM=Z4  
+        DO I=JFT,JLT
+          T(I) = T(I)+CP*(EINT(I,1)+EINT(I,2))/VOL0(I)
+          TSTAR(I) = MAX( ZERO, (T(I)-TI)/(TM-TI) )
+        ENDDO
+      ENDIF
       IF (VP == 3) THEN
         IF (ISRATE > 0) THEN 
           DO I=JFT,JLT
@@ -171,8 +178,8 @@ C-----------------------------------------------
 !         CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 !----------------------------
       CALL M2CPLR(JFT     ,JLT     ,EZZ      ,OFF_OLD  ,PLA     ,
-     2            IPLA    ,TEMP    ,Z3       ,Z4       ,CC      ,
-     3            IRTY    ,ETSE    ,GS       ,EPSDOT  ,
+     2            IPLA    ,T       ,Z3       ,Z4       ,EPIF    ,
+     3            NPIF    ,IRTY    ,ETSE     ,GS       ,EPSDOT  ,
      4            ISRATE  ,YLD     ,G        ,A11      ,A12     ,
      5            NU      ,CA      ,CB       ,CN       ,YMAX    ,
      6            EPCHK   ,YOUNG   ,CC       ,EPDR     ,ICC     ,
@@ -183,7 +190,7 @@ C-----------------------------------------------
      B            SIGOXX  ,SIGOYY  ,SIGOXY   ,SIGOYZ   ,SIGOZX  ,
      C            VP      ,PLAP    ,DT1C     ,ASRATE)
 !
-      IF (VP == 1) THEN
+      IF(VP == 1) THEN
         DO I=JFT,JLT
           UVAR(I,1) = PLAP(I) 
         ENDDO
@@ -220,18 +227,6 @@ c------------------------------------
         ENDIF
         THK(I) = THK(I) + EZZ(I) * THKLYL(I)*OFF(I)
       ENDDO
-!---------------------------------------------------------
-!     calculate thermal load due to plastic work
-!---------------------------------------------------------
-      IF (JTHE == 0 .and. RHOCPI > ZERO) THEN  ! update temperature in adiabatic conditions
-        DO I=1,NEL       
-          TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) * RHOCPI
-        ENDDO
-      ELSE IF (JTHE < 0) THEN  ! cumulate thermal load due to plastic work for /heat/mat
-        DO I=1,NEL       
-          FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
-        ENDDO
-      END IF
 c-----------
       RETURN
       END
