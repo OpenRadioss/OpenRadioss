@@ -163,7 +163,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ILAY,IR,IS,IT,IP,NF1,IFLAG,L_PLA,L_EPSD,
-     .   PID,MTN0,IPTHK,IPPOS,IPMAT,NLYMAX,MID,IPANG,IBID,NLAY,IMAT,
+     .   PID,MTN0,IPTHK,IPPOS,IPMAT,NLYMAX,MID,IPANG,IBID,NLAY,
      .   JJ(6),SZ_IX,CURRENT_LAYER
       INTEGER MXT0(MVSIZ),MX
 C-----           
@@ -269,7 +269,6 @@ C
          INTEGER SZ_R1_FREE
       DOUBLE PRECISION 
      .   FACDP
-      my_real, dimension(mvsiz) :: fheat
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -771,7 +770,7 @@ C------------------------------------------------------
      .   numgeo,       numnod,      numels,      
      .   IDEL7NOK,     IDTMIN,      MAXFUNC,
      .   IMON_MAT,     USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna   ,     fheat   ,        OPT_MTN=MTN,OPT_JCVT=JCVT,OPT_ISORTH=ISORTH,
+     .   idyna,        OPT_MTN=MTN,OPT_JCVT=JCVT,OPT_ISORTH=ISORTH,
      S   OPT_ISORTHG=ISORTHG)
 
 C
@@ -841,28 +840,15 @@ C-------------------------
 C Finite element heat transfert  
 C--------------------------
         IF (JTHE < 0) THEN
-          IMAT = MXT(1)
-          IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-            CALL SCTHERM(
-     1           PM,      IMAT,    VOLN,    NC1,
-     2           NC2,     NC3,     NC4,     NC5,
-     3           NC6,     NC7,     NC8,     PX1,
-     4           PX2,     PX3,     PX4,     PY1,
-     5           PY2,     PY3,     PY4,     PZ1,
-     6           PZ2,     PZ3,     PZ4,     DT1,
-     7           TEMP,    TEMPEL,  FHEAT,  THEM,
-     8           GBUF%OFF,LBUF%OFF,NEL)
-          ELSE
-            CALL SCTHERM(
-     1           PM,      IMAT,    VOLN,    NC1,
-     2           NC2,     NC3,     NC4,     NC5,
-     3           NC6,     NC7,     NC8,     PX1,
-     4           PX2,     PX3,     PX4,     PY1,
-     5           PY2,     PY3,     PY4,     PZ1,
-     6           PZ2,     PZ3,     PZ4,     DT1,
-     7           TEMP,    TEMPEL,  DIE,    THEM,
-     8           GBUF%OFF,LBUF%OFF,NEL)
-          END IF
+          CALL SCTHERM(
+     1   PM,      MXT,     VOLN,    NC1,
+     2   NC2,     NC3,     NC4,     NC5,
+     3   NC6,     NC7,     NC8,     PX1,
+     4   PX2,     PX3,     PX4,     PY1,
+     5   PY2,     PY3,     PY4,     PZ1,
+     6   PZ2,     PZ3,     PZ4,     DT1,
+     7   TEMP,    TEMPEL,  DIE,     THEM,
+     8   GBUF%OFF,LBUF%OFF,NEL)
         ENDIF 
         DO I=1,NEL
           OFFG(I)=MIN(OFFG(I),OFF(I))

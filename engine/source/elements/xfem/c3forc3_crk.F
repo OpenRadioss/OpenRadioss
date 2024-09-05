@@ -208,9 +208,6 @@ C---
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C
-!     variables for heat transfer
-      my_real, dimension(mvsiz) :: fheat
-!
       my_real,
      .  DIMENSION(:) ,POINTER  ::  OFFG,THKG,STRAG,FORG,MOMG,
      .  EINTG,EPSDG,TEMPG,EINTTH,HOURGG
@@ -438,7 +435,7 @@ C--------------------------
      B   NGL       ,ZCFAC     ,SHF       ,GS        ,EPSDG     ,
      C   KFTS      ,ISH3N     ,ALPE      ,
      D   DIR_A     ,DIR_B     ,IGEO      ,
-     E   IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
+     E   IPM       ,IFAILURE  ,NPG       ,
      F   TEMPEL    ,DIE       ,JTHE     ,IEXPAN     ,TEMPG     ,
      G   IBID      ,BID       ,
      H   BID       ,BID       ,BID       ,BID       ,BID       ,
@@ -502,15 +499,9 @@ C-------------------------
 c     Thermique des coques 
 C--------------------------
         IF (JTHE > 0) THEN
-          IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-            CALL THERM3C(JFT   ,JLT   ,PM   ,MAT  ,THK0 ,IXTG,
-     .                   PX1   ,PY1   ,PY2  ,AREA ,DT1C ,
-     .                   TEMP  ,TEMPEL,FHEAT ,THEM )
-          ELSE
-            CALL THERM3C(JFT   ,JLT   ,PM   ,MAT  ,THK0 ,IXTG,
-     .                   PX1   ,PY1   ,PY2  ,AREA ,DT1C ,
-     .                   TEMP  ,TEMPEL,DIE ,THEM )
-          END IF
+          CALL THERM3C(JFT   ,JLT   ,PM   ,MAT  ,THK0 ,IXTG,
+     .                 PX1   ,PY1   ,PY2  ,AREA ,DT1C ,
+     .                 TEMP  ,TEMPEL,DIE  ,THEM )
         ENDIF
 C--------------------------
 C     THERMAL TIME STEP       --- to be added --- (see c3forc3.F)

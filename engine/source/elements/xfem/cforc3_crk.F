@@ -207,9 +207,6 @@ C---
       my_real,
      .  DIMENSION(:) ,POINTER  ::  DIR_A,DIR_B
       TARGET :: DIRA,DIRB
-!     variables for heat transfer
-      my_real, dimension(mvsiz) :: fheat
-!
 C---
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -415,7 +412,8 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
           TEMPEL(I) = ZERO
         ENDDO
 C
-        IF (JTHE > 0) CALL TEMPCG(NUMNOD, NEL  ,IXC ,TEMP ,TEMPEL)
+        IF (JTHE > 0) CALL TEMPCG(JFT  ,JLT   ,PM  ,MAT ,IXC,
+     .                            TEMP ,TEMPEL)
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 C-----------------------------
@@ -433,7 +431,7 @@ C-----------------------------
      B    NGL       ,ZCFAC     ,SHF       ,GS        ,EPSDG     ,
      C    KFTS      ,IHBE      ,ALPE      ,
      D    DIR_A     ,DIR_B     ,IGEO      ,
-     E    IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
+     E    IPM       ,IFAILURE  ,NPG       ,
      F    TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,TEMPG     ,
      G    IBID      ,BID       ,
      H    BID       ,BID       ,BID       ,BID       ,BID       ,
@@ -553,16 +551,10 @@ C----------------------------
 C-------------------------
 c     Thermique des coques 
 C--------------------------
-        IF (JTHE /= 0) THEN
-          IF (MAT_ELEM%MAT_PARAM(MAT(1))%HEAT_FLAG == 1) THEN
-            CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
-     .                  PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
-     .                  TEMP  ,TEMPEL,FHEAT  ,THEM    ) 
-          ELSE
-            CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
-     .                  PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
-     .                  TEMP  ,TEMPEL,DIE    ,THEM    ) 
-          END IF
+        IF (JTHE > 0) THEN
+          CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
+     .                PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
+     .                TEMP  ,TEMPEL,DIE   , THEM) 
         ENDIF
 C--------------------------
 C     THERMAL TIME STEP       --- to be added --- (see cforc3.F)

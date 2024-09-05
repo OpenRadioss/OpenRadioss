@@ -281,7 +281,7 @@
         integer     :: nfail                !< number of failure models
         integer     :: ivisc                !< viscosity model number
         integer     :: ieos                 !< eos model number
-        integer     :: heat_flag            !< dissipated energy (heat source) is output by material law                       
+        integer     :: itherm               !< therm model number                       
         ! -------  material characteristics flags
         integer     :: compressibility      !< "compressible","incompressible","elasto_plastic"
         integer     :: smstr                !< "small_strain", "large_strain"

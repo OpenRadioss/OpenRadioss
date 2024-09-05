@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE THERMC(JFT  ,JLT   ,PM   ,MAT   ,THK   ,IXC , 
      2                  PX1  ,PX2   ,PY1  ,PY2   ,AREA   ,DT1C ,
-     3                  TEMPNC ,TEMPEL   ,DIE  ,FPHI)
+     3                  TEMPNC ,TEL   ,DIE  ,FPHI)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,16 +45,18 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,MAT(*),IXC(NIXC,*)
+C     REAL
       my_real
      .   AREA(*), PX1(*), PX2(*), PY1(*), PY2(*),
      .   TEMPNC(*), FPHI(MVSIZ,4), PM(NPROPM,*),DIE(*),
-     .   DT1C(*), THK(*),TEMPEL(*)
+     .   DT1C(*), THK(*),TEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,MX
-      my_real :: CA,CB ,KC ,PHIX,PHIY,A
-!=======================================================================
+C     REAL
+      my_real
+     .  CA,CB ,KC ,PHIX,PHIY,A
 C --- calcul de la tempurature au CG 
 
         MX  =MAT(JFT)
@@ -64,7 +66,7 @@ C --- calcul de la tempurature au CG
 C 
 C - flux
 C      
-          KC = (CA + CB*TEMPEL(I))*DT1C(I)/MAX(EM20,AREA(I))*THEACCFACT
+          KC = (CA + CB*TEL(I))*DT1C(I)/MAX(EM20,AREA(I))*THEACCFACT
           PHIX =  TEMPNC(IXC(2,I))*PX1(I) + TEMPNC(IXC(3,I))*PX2(I)  -
      .            TEMPNC(IXC(4,I))*PX1(I) - TEMPNC(IXC(5,I))*PX2(I)
           

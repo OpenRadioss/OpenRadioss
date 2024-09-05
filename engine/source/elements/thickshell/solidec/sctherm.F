@@ -26,13 +26,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    scforc3   ../engine/source/elements/thickshell/solidec/scforc3.F
       !||====================================================================
       SUBROUTINE SCTHERM(
-     1   PM,      IMAT,    VOL,     NC1,
+     1   PM,      MAT,     VOL,     NC1,
      2   NC2,     NC3,     NC4,     NC5,
      3   NC6,     NC7,     NC8,     PX1,
      4   PX2,     PX3,     PX4,     PY1,
      5   PY2,     PY3,     PY4,     PZ1,
      6   PZ2,     PZ3,     PZ4,     DT1,
-     7   TEMPNC,  TEL,     HEAT,    FPHI,
+     7   TEMPNC,  TEL,     DIE,     FPHI,
      8   OFFG,    OFF,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -48,8 +48,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
-      INTEGER, INTENT(IN) :: IMAT
-      INTEGER NC1(MVSIZ),NC2(MVSIZ),
+      INTEGER MAT(*),NC1(MVSIZ),NC2(MVSIZ),
      .       NC3(MVSIZ),NC4(MVSIZ),NC5(MVSIZ),NC6(MVSIZ),
      .       NC7(MVSIZ),NC8(MVSIZ)
 C     REAL
@@ -58,18 +57,20 @@ C     REAL
      .            PX2(MVSIZ), PY2(MVSIZ),PZ2(MVSIZ),
      .            PX3(MVSIZ), PY3(MVSIZ),PZ3(MVSIZ),
      .            PX4(MVSIZ), PY4(MVSIZ),PZ4(MVSIZ),
-     .    NI(8), TEMPNC(*), FPHI(MVSIZ,8), PM(NPROPM,*), HEAT(*),
+     .    NI(8), TEMPNC(*), FPHI(MVSIZ,8), PM(NPROPM,*), DIE(*),
      .    DT1, TEL(*), OFF(*), OFFG(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+      INTEGER I, MX
+C     REAL
       my_real
      .  CA, CB, KC, PHIX, PHIY, PHIZ, A
 C----------------------------------------------- 
-      CA = PM(75,IMAT)
-      CB = PM(76,IMAT)
-!
+
+      MX  =MAT(1)
+      CA = PM(75,MX)
+      CB = PM(76,MX)
       DO I=1,NEL
        IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
        PHIX = ZERO
@@ -100,7 +101,7 @@ C
 C
 C force thermique nodale
 C
-              A = HEAT(I)*ONE_OVER_8
+              A = DIE(I)*ONE_OVER_8
           FPHI(I,1) = FPHI(I,1) +
      .        A - (PHIX*PX1(I) + PHIY*PY1(I) + PHIZ*PZ1(I))
           FPHI(I,2) = FPHI(I,2) +

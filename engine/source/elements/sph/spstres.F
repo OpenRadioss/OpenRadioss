@@ -270,7 +270,7 @@ C     LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna   ,     BID   )
+     .   idyna)
 C-----------------------------
       IF(ISTRAIN==1)THEN 
         CALL SSTRA3(DXX,DYY      ,DZZ ,D4  ,D5  ,

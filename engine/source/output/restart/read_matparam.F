@@ -81,7 +81,7 @@ c
         MAT_ELEM%MAT_PARAM(IMAT)%NFAIL              = IBUF(IAD+ 8)
         MAT_ELEM%MAT_PARAM(IMAT)%IVISC              = IBUF(IAD+ 9)
         MAT_ELEM%MAT_PARAM(IMAT)%IEOS               = IBUF(IAD+10)
-        MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG          = IBUF(IAD+11)
+        MAT_ELEM%MAT_PARAM(IMAT)%ITHERM             = IBUF(IAD+11)
 c
         MAT_ELEM%MAT_PARAM(IMAT)%COMPRESSIBILITY    = IBUF(IAD+12)
         MAT_ELEM%MAT_PARAM(IMAT)%SMSTR              = IBUF(IAD+13)

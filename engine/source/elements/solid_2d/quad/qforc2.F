@@ -432,7 +432,7 @@ c
      .   numgeo,      numnod,      numels,            
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna   ,    BID  )
+     .   idyna)
 C--------------------------
 C       SYNTHESIS PER MATERIAL (thermics)
 C--------------------------

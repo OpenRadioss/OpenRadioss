@@ -179,9 +179,6 @@ c  indx utilise localement contrairement aux coques 4n
      :    ALLOCATABLE, DIMENSION(:), TARGET :: DIRA,DIRB
       my_real,
      .  DIMENSION(:) ,POINTER  :: DIR_A,DIR_B,CRKDIR,DADV
-!     variables for heat transfer
-      my_real, dimension(mvsiz) :: fheat
-!
 C--- Variables pour le non-local
       INTEGER :: NDDL, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
@@ -404,7 +401,7 @@ C----------------------------------------------------------------------------
      B     NGL       ,ZCFAC     ,SHF       ,GS        ,GBUF%EPSD ,
      C     KFTS      ,IHBE      ,ALPE      ,
      D     DIR_A     ,DIR_B     ,IGEO      ,
-     E     IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
+     E     IPM       ,IFAILURE  ,NPG       ,
      F     TEMPEL    ,DIE       ,IBID      ,IBID      ,BID       ,
      G     IBID      ,BID       ,
      H     BID       ,BID       ,BID       ,BID       ,BID       ,
@@ -509,7 +506,7 @@ C--------------------------
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
-        IF (JTHE /= 0 .AND. IDT_THERM == 1) THEN
+        IF(JTHE > 0.AND.IDT_THERM == 1)THEN
            CALL DTTHERM(
      1   JFT,     JLT,     PM,      TEMPEL,
      2   GBUF%RE, RHO,     GBUF%RK, VOL0,
