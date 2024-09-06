@@ -210,17 +210,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGN
-      INTEGER I,J,K,OK,ISK,IDBX,BOXNOD,
+      INTEGER I,J,K,OK,ISK,IDBX,BOXNOD,BOXNOD_L,
      .        IADB0,JAD,ITYPE
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGN
       my_real
      .    XP1,YP1,ZP1,XP2,YP2,ZP2,DIAM,NODINB(3)
 C-----------------------------------------------
-      CALL MY_ALLOC(TAGN,NUMNOD)
       OK  = 0
       BOXNOD = 0
       IADB0 = IADB
-      TAGN(1:NUMNOD) = 0
+      ALLOCATE( TAGN(NUMNOD) )
+!$OMP PARALLEL DO SCHEDULE(guided)
+      DO I=1,NUMNOD
+        TAGN(I) = 0
+      ENDDO
+!$OMP END PARALLEL DO
 C-------
       IDBX = IBOX(ISU)%ID
       ISK  = IBOX(ISU)%ISKBOX
@@ -234,6 +238,9 @@ C-------
       ZP2  = IBOX(ISU)%Z2
 C
       IF(IDBX/=0)THEN
+!$OMP PARALLEL PRIVATE(OK,NODINB,BOXNOD_L)
+      BOXNOD_L = 0
+!$OMP DO SCHEDULE(guided)
         DO I=1,NUMNOD
           OK = 0
           NODINB(1) = X(1,I)
@@ -253,11 +260,16 @@ C tag nodes dans box:
 C
           IF(OK == 1)THEN
             IF(TAGN(I) == 0)THEN
-              BOXNOD=BOXNOD+1
+              BOXNOD_L=BOXNOD_L+1
               TAGN(I) = 1
             END IF
           END IF
         END DO
+!$OMP END DO
+
+!$OMP ATOMIC
+        BOXNOD = BOXNOD + BOXNOD_L
+!$OMP END PARALLEL
 C
         IBOX(ISU)%NENTITY = BOXNOD
         IBOX(ISU)%BOXIAD = IADB0
@@ -277,7 +289,7 @@ C---------------
           END IF
         END DO
       ENDIF
-      DEALLOCATE(TAGN)
+      DEALLOCATE( TAGN )
 C---------------
       RETURN
       END
