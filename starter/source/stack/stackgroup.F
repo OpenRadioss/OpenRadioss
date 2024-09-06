@@ -81,6 +81,7 @@ C-----------------------------------------------
      .        IINT,IPID_LY,IPDIR ,NS_STACK0 ,NPT_STACK0,IS0,JS,PIDS,IP,
      .        II1,II2,JJ1,JJ2,II3,II4,II5,JJ3,JJ4,JJ5, NKEY,IREST,IBIT,IKEY,
      .        NBIT 
+      INTEGER :: IJK
       INTEGER  WORK(70000),
      .         IPTPLY(1000),NBFI,IPPID,ITAG(1000),
      .         NGL,IPID_1,NUMS,IPWEIGHT,IPTHKLY,NSHQ4,NSHT3
@@ -261,85 +262,84 @@ C
             ENDIF  
          ENDDO 
 C  number of ply belong to the element         
-            DO I=1,NPLY 
-              J   = IDGR4N(I)
-              J4N = J
-              IDPLY = IPIDPLY(I) 
-              NSTACK = IGEO(42, IDPLY)
-              IF(J > 0 .AND. NSTACK > 0 ) THEN
-                NEL = IGRSH4N(J)%NENTITY
+         DO I=1,NPLY 
+          J   = IDGR4N(I)
+          J4N = J
+          IDPLY = IPIDPLY(I) 
+          NSTACK = IGEO(42, IDPLY)
+          IF(J > 0 .AND. NSTACK > 0 ) THEN
+            NEL = IGRSH4N(J)%NENTITY
 C eleme  nt type Q4 or T3 
-                ITY = IGRSH4N(J)%GRTYPE
-                   DO  100 II = 1,NEL
-                     IDSHEL = IGRSH4N(J)%ENTITY(II)
-                     PID = IXC(6,IDSHEL)
-                     IGTYP = IGEO(11,PID)
-                     IF(IGTYP == 17 .OR. IGTYP == 51) THEN
-                         DO IS = 1,NSTACK
-                             IDS = IGEO(200 + IS, IDPLY)
-                             IF (IDS == PID) THEN
-                                IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
-                                GOTO 100
-                             ENDIF 
-                          ENDDO
-                      ENDIF 
- 100               CONTINUE         
-                ENDIF 
-                 J   = IDGR3N(I)
-                 J3N = J
-                 IF(J > 0 .AND. NSTACK > 0 ) THEN
-                  NEL = IGRSH3N(J)%NENTITY
+            ITY = IGRSH4N(J)%GRTYPE
+            DO  100 II = 1,NEL
+              IDSHEL = IGRSH4N(J)%ENTITY(II)
+              PID = IXC(6,IDSHEL)
+              IGTYP = IGEO(11,PID)
+              IF(IGTYP == 17 .OR. IGTYP == 51) THEN
+                DO IS = 1,NSTACK
+                  IDS = IGEO(200 + IS, IDPLY)
+                  IF (IDS == PID) THEN
+                    IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
+                    GOTO 100
+                  ENDIF 
+                ENDDO
+              ENDIF 
+ 100        CONTINUE 
+          ENDIF 
+          J   = IDGR3N(I)
+          J3N = J
+          IF(J > 0 .AND. NSTACK > 0 ) THEN
+            NEL = IGRSH3N(J)%NENTITY
 C eleme  nt type T3 
-                  ITY = IGRSH3N(J)%GRTYPE
-                   DO 200 II = 1,NEL
+            ITY = IGRSH3N(J)%GRTYPE
+            DO 200 II = 1,NEL
 ! c a v  erifier l'id du triangle
-
-                     ISH3N = IGRSH3N(J)%ENTITY(II)
-                     PID = IXTG(5,ISH3N)
-                     IGTYP = IGEO(11,PID)
-                     IF(IGTYP == 17 .OR. IGTYP == 51) THEN
-                         DO IS = 1,NSTACK
-                             IDS = IGEO(200 + IS,IDPLY)
-                             IF (IDS == PID) THEN
-                                IDSHEL = ISH3N + NUMELC
-                                IWORKSH(1,IDSHEL) =   IWORKSH(1,IDSHEL ) + 1
-                                GOTO 200
-                             ENDIF 
-                          ENDDO
-                      ENDIF   
- 200                CONTINUE
-               ENDIF 
-               IF(J4N == 0 .AND. J3N == 0 .AND. NSTACK > 0 ) THEN
-C 
-                    DO 300 II = 1,NUMELC
-                     PID = IXC(6,II)
-                     IGTYP = IGEO(11,PID)
-                     IF(IGTYP == 17 .OR. IGTYP == 51) THEN
-                         DO IS = 1,NSTACK
-                             IDS = IGEO(200 + IS,IDPLY)
-                             IF (IDS == PID) THEN
-                                IWORKSH(1,II) = IWORKSH(1,II) + 1
-                                GOTO 300
-                             ENDIF 
-                          ENDDO
-                      ENDIF   
- 300                CONTINUE        
-                    DO 400 II = 1,NUMELTG
-                       PID = IXTG(5,II)
-                       IGTYP = IGEO(11,PID)
-                       ITG = NUMELC + II
-                     IF(IGTYP == 17 .OR. IGTYP == 51) THEN
-                         DO IS = 1,NSTACK
-                             IDS = IGEO(200 + IS,IDPLY)
-                             IF (IDS == PID) THEN
-                                IWORKSH(1,ITG) = IWORKSH(1,ITG) + 1
-                                GOTO 400
-                             ENDIF 
-                          ENDDO
-                      ENDIF   
- 400                CONTINUE 
-              ENDIF
-C
+              ISH3N = IGRSH3N(J)%ENTITY(II)
+              PID = IXTG(5,ISH3N)
+              IGTYP = IGEO(11,PID)
+              IF(IGTYP == 17 .OR. IGTYP == 51) THEN
+                DO IS = 1,NSTACK
+                  IDS = IGEO(200 + IS,IDPLY)
+                  IF (IDS == PID) THEN
+                    IDSHEL = ISH3N + NUMELC
+                    IWORKSH(1,IDSHEL) =   IWORKSH(1,IDSHEL ) + 1
+                    GOTO 200
+                  ENDIF 
+                ENDDO
+              ENDIF   
+ 200        CONTINUE 
+          ENDIF 
+          IF(J4N == 0 .AND. J3N == 0 .AND. NSTACK > 0 ) THEN
+            DO 300 IJK = 1,NSHQ4
+              II = INDEX_SH4(IJK)
+              PID = IXC(6,II)
+              IGTYP = IGEO(11,PID)
+              IF(IGTYP == 17 .OR. IGTYP == 51) THEN
+                DO IS = 1,NSTACK
+                  IDS = IGEO(200 + IS,IDPLY)
+                  IF (IDS == PID) THEN
+                    IWORKSH(1,II) = IWORKSH(1,II) + 1
+                    GOTO 300
+                  ENDIF 
+                ENDDO
+              ENDIF   
+ 300        CONTINUE        
+            DO 400 IJK = 1,NSHT3
+              II = INDEX_T3(IJK)
+              PID = IXTG(5,II)
+              IGTYP = IGEO(11,PID)
+              ITG = NUMELC + II
+              IF(IGTYP == 17 .OR. IGTYP == 51) THEN
+                DO IS = 1,NSTACK
+                  IDS = IGEO(200 + IS,IDPLY)
+                  IF (IDS == PID) THEN
+                    IWORKSH(1,ITG) = IWORKSH(1,ITG) + 1
+                    GOTO 400
+                  ENDIF 
+                ENDDO
+              ENDIF   
+ 400        CONTINUE 
+          ENDIF
          ENDDO  ! iply  
 C #####################################################"
            DO I=1,NUMELC 
@@ -429,7 +429,8 @@ C eleme  nt type T3
                ENDIF 
                IF(J4N == 0 .AND. J3N == 0 .AND. NSTACK > 0 ) THEN
 C 
-                    DO 333 II = 1,NUMELC
+                    DO 333 IJK = 1,NSHQ4
+                     II = INDEX_SH4(IJK)
                      PID = IXC(6,II)
                      IGTYP = IGEO(11,PID)
                      IF(IGTYP == 17 .OR. IGTYP == 51) THEN
@@ -445,7 +446,8 @@ C
                           ENDDO
                       ENDIF   
  333                CONTINUE        
-                    DO 404 II = 1,NUMELTG
+                    DO 404 IJK = 1,NSHT3
+                       II = INDEX_T3(IJK)
                        PID = IXTG(5,II)
                        IGTYP = IGEO(11,PID)
                        ITG = NUMELC + II
