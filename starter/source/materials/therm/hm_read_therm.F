@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    read_material_models   ../starter/source/materials/read_material_models.F
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    fretitl2               ../starter/source/starter/freform.F
       !||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
       !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
       !||    hm_option_count        ../starter/source/devtools/hm_reader/hm_option_count.F

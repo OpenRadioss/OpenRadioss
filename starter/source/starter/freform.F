@@ -700,6 +700,7 @@ C-----------------------------------------------
       !||    hm_read_rbody                 ../starter/source/constraints/general/rbody/hm_read_rbody.F
       !||    hm_read_sphcel                ../starter/source/elements/reader/hm_read_sphcel.F
       !||    hm_read_subset                ../starter/source/model/assembling/hm_read_subset.F
+      !||    hm_read_therm                 ../starter/source/materials/therm/hm_read_therm.F
       !||    hm_read_therm_stress          ../starter/source/materials/therm/hm_read_therm_stress.F
       !||    hm_read_thgrki                ../starter/source/output/th/hm_read_thgrki.F
       !||    hm_read_thgrki_rbody          ../starter/source/output/th/hm_read_thgrki_rbody.F
