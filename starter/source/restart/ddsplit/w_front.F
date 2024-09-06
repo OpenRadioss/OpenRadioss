@@ -677,9 +677,7 @@ C RWALL specifique type sliding
 C
       dd_wall(1:nspmd+2,1:nrwall) = 0
       do n=1,nrwall
-        if(constraint_struct%rwall%spmd(n)%m_proc_list(proc)/=0) then
-          dd_wall(1:nspmd+2,n) = constraint_struct%rwall%dd(1:nspmd+2,n)
-        endif
+        dd_wall(1:nspmd+2,n) = constraint_struct%rwall%dd(1:nspmd+2,n)
       enddo
 C
 C RBY Kin specifique rigid body (PON)
