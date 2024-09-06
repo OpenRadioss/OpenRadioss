@@ -160,9 +160,9 @@ C-----------------------------------------------
          ALE%GRID%flow_tracking_data%LD(5) = HALF*(ALE%GRID%flow_tracking_data%EP(5)+ALE%GRID%flow_tracking_data%EP(8)) !xz
          ALE%GRID%flow_tracking_data%LD(6) = HALF*(ALE%GRID%flow_tracking_data%EP(6)+ALE%GRID%flow_tracking_data%EP(9)) !yz
          !SPIN TENSOR
-         ALE%GRID%flow_tracking_data%LW(1) = HALF*(ALE%GRID%flow_tracking_data%EP(4)-ALE%GRID%flow_tracking_data%EP(7))
-         ALE%GRID%flow_tracking_data%LW(2) = HALF*(ALE%GRID%flow_tracking_data%EP(5)-ALE%GRID%flow_tracking_data%EP(8))
-         ALE%GRID%flow_tracking_data%LW(3) = HALF*(ALE%GRID%flow_tracking_data%EP(6)-ALE%GRID%flow_tracking_data%EP(9))
+         ALE%GRID%flow_tracking_data%LW(1) = HALF*(ALE%GRID%flow_tracking_data%EP(4)-ALE%GRID%flow_tracking_data%EP(7)) !z
+         ALE%GRID%flow_tracking_data%LW(2) = HALF*(ALE%GRID%flow_tracking_data%EP(5)-ALE%GRID%flow_tracking_data%EP(8)) !y
+         ALE%GRID%flow_tracking_data%LW(3) = HALF*(ALE%GRID%flow_tracking_data%EP(6)-ALE%GRID%flow_tracking_data%EP(9)) !x
       ENDIF
 !$OMP END SINGLE
 
@@ -513,9 +513,9 @@ C-----------------------------------------------
 
             !GRID ROTATION
             IF(lROT)THEN
-              W(1,I) = W(1,I) + SCALE_ROT*(LW(2)*ZZ-LW(1)*YY)
-              W(2,I) = W(2,I) + SCALE_ROT*(LW(1)*XX-LW(3)*ZZ)
-              W(3,I) = W(3,I) + SCALE_ROT*(LW(3)*YY-LW(2)*XX)
+              W(1,I) = W(1,I) + SCALE_ROT*(+LW(1)*YY+LW(2)*ZZ)
+              W(2,I) = W(2,I) + SCALE_ROT*(-LW(1)*XX+LW(3)*ZZ)
+              W(3,I) = W(3,I) + SCALE_ROT*(-LW(2)*XX-LW(3)*YY)
             ENDIF
 
          ELSEIF(NALE(I) == 0)THEN
@@ -540,9 +540,9 @@ C-----------------------------------------------
           XX = EIGENVEC(1,JJ)
           YY = EIGENVEC(2,JJ)
           ZZ = EIGENVEC(3,JJ)
-          EIGENVEC(1,JJ) = XX + DT1*SCALE_ROT* (LW(2)*ZZ-LW(1)*YY)
-          EIGENVEC(2,JJ) = YY + DT1*SCALE_ROT* (LW(1)*XX-LW(3)*ZZ)
-          EIGENVEC(3,JJ) = ZZ + DT1*SCALE_ROT* (LW(3)*YY-LW(2)*XX)
+          EIGENVEC(1,JJ) = XX + DT1*SCALE_ROT* (+LW(1)*YY+LW(2)*ZZ)
+          EIGENVEC(2,JJ) = YY + DT1*SCALE_ROT* (-LW(1)*XX+LW(3)*ZZ)
+          EIGENVEC(3,JJ) = ZZ + DT1*SCALE_ROT* (-LW(2)*XX-LW(3)*YY)
         ENDDO
         ! save it in data structure (RESTART)
         ALE%GRID%flow_tracking_data%EIGENVEC(1:3,1)=EIGENVEC(1:3,1)
