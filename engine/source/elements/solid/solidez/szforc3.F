@@ -43,11 +43,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    s8sav3                 ../engine/source/elements/solid/solide/s8sav3.F
       !||    s8upd11t12             ../engine/source/elements/solid/solide/s8upd11t12.F
       !||    scoor_cp2sp            ../engine/source/elements/solid/solidez/scoor_cp2sp.F
-      !||    scre_sig3              ../engine/source/elements/solid/solide/scre_sig3.F
       !||    scumu3                 ../engine/source/elements/solid/solide/scumu3.F
       !||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
       !||    sdefo3                 ../engine/source/elements/solid/solide/sdefo3.F
       !||    sdefot3                ../engine/source/elements/solid/solide/sdefot3.F
+      !||    sdistor_ini            ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    sdlen3                 ../engine/source/elements/solid/solide/sdlen3.F
       !||    sdlen8                 ../engine/source/elements/solid/solidez/sdlen8.F
       !||    sdlen_sms              ../engine/source/elements/solid/solidez/sdlen_sms.F
@@ -91,6 +91,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    output_mod             ../common_source/modules/output/output_mod.F90
+      !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================

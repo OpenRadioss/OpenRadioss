@@ -80,6 +80,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    random_walk_dmg                          ../starter/source/materials/fail/fractal/random_walk_dmg.F90
       !||    read_mat25_crasurv                       ../starter/source/materials/mat/mat025/read_mat25_crasurv.F90
       !||    read_mat25_tsaiwu                        ../starter/source/materials/mat/mat025/read_mat25_tsaiwu.F90
+      !||    sdistor_ini                              ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    sh_offset_jonct_chk                      ../starter/source/elements/shell/shell_offset/sh_offset_jonkt_chk.F90
       !||    sh_offset_nproj                          ../starter/source/elements/shell/shell_offset/shell_offset_nproj.F90
       !||    sh_offset_setn                           ../starter/source/elements/shell/shell_offset/sh_offset_setn.F90

@@ -68,7 +68,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    scoor3                 ../engine/source/elements/solid/solide/scoor3.F
       !||    scoor3_fvm             ../engine/source/ale/alefvm/scoor3_fvm.F
       !||    scoor_cp2sp            ../engine/source/elements/solid/solidez/scoor_cp2sp.F
-      !||    scre_sig3              ../engine/source/elements/solid/solide/scre_sig3.F
       !||    scumu3                 ../engine/source/elements/solid/solide/scumu3.F
       !||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
       !||    sdefo3                 ../engine/source/elements/solid/solide/sdefo3.F
@@ -76,6 +75,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sderi3                 ../engine/source/elements/solid/solide/sderi3.F
       !||    sderit3                ../engine/source/elements/solid/solide/sderit3.F
       !||    sderito3               ../engine/source/elements/solid/solide/sderito3.F
+      !||    sdistor_ini            ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    sdlen3                 ../engine/source/elements/solid/solide/sdlen3.F
       !||    sdlenmax               ../engine/source/elements/solid/solide/sdlenmax.F
       !||    sfillopt               ../engine/source/elements/solid/solide/sfillopt.F
@@ -114,6 +114,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================

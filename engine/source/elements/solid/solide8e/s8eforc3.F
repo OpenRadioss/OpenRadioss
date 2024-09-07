@@ -76,9 +76,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sbilan                 ../engine/source/elements/solid/solide/sbilan.F
       !||    scoor3                 ../engine/source/elements/solid/solide/scoor3.F
       !||    scoor_cp2sp            ../engine/source/elements/solid/solidez/scoor_cp2sp.F
-      !||    scre_sig3              ../engine/source/elements/solid/solide/scre_sig3.F
       !||    scumu3                 ../engine/source/elements/solid/solide/scumu3.F
       !||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
+      !||    sdistor_ini            ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    sdlen_dege             ../engine/source/elements/solid/solide/sdlen_dege.F
       !||    sdlen_sm11             ../engine/source/elements/solid/solide/sdlen_sm11.F
       !||    sdlenmax               ../engine/source/elements/solid/solide/sdlenmax.F
@@ -111,6 +111,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
