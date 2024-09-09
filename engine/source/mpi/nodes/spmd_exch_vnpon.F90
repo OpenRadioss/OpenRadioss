@@ -38,7 +38,7 @@
       !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
       !||--- calls      -----------------------------------------------------
       !||====================================================================
-      subroutine spmd_exch_vnpon(ndim1,ndim2,vn6,iad_elem,fr_elem,nspmd,lenr )
+      subroutine spmd_exch_vnpon(ndim1,ndim2,vn6,iad_offset,fr_offset,nspmd,lenr )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -62,8 +62,8 @@
           integer, intent (in   )                           :: lenr             !< toal number of front node
           integer, intent (in   )                           :: ndim1            !< 1er dim of vn6
           integer, intent (in   )                           :: ndim2            !< 2nd dim of vn6
-          integer, intent (in   ) ,dimension(2,nspmd+1)     :: iad_elem         !< index array for comm
-          integer, intent (in   ) ,dimension(lenr)          :: fr_elem          !< front node arry
+          integer, intent (in   ) ,dimension(2,nspmd+1)     :: iad_offset         !< index array for comm
+          integer, intent (in   ) ,dimension(lenr)          :: fr_offset          !< front node arry
       double precision,intent (inout),dimension(ndim1,ndim2):: vn6              !< exchange nodal array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -90,7 +90,7 @@
       iad_recv(1)  = 1
 
       do i=1,nspmd
-        len = iad_elem(1,i+1)-iad_elem(1,i)
+        len = iad_offset(1,i+1)-iad_offset(1,i)
         siz = siz6 *  len
         if(siz/=0)then
           msgtyp = msgoff
@@ -107,11 +107,14 @@
       iad_send(1)  = l
 
       do i=1,nspmd
-        nb_nod = iad_elem(1,i+1)-iad_elem(1,i)
-#include      "vectorize.inc"
-        do j=iad_elem(1,i),iad_elem(1,i+1)-1
-          nod = fr_elem(j)
-          sbuf(1:ndim1, l)   =  vn6(1:ndim1,nod)
+        nb_nod = iad_offset(1,i+1)-iad_offset(1,i)
+        do j=iad_offset(1,i),iad_offset(1,i+1)-1
+          nod = fr_offset(j)
+          if(nod > 0) then 
+            sbuf(1:ndim1, l)   =  vn6(1:ndim1,nod)
+          else
+            sbuf(1:ndim1, l)   =  0.0D0
+          endif
           l  = l  + 1
         end do
         iad_send(i+1)  = l
@@ -121,10 +124,10 @@
 !
       do i=1,nspmd
 ! send
-       nb_nod = iad_elem(1,i+1)-iad_elem(1,i)
+       nb_nod = iad_offset(1,i+1)-iad_offset(1,i)
        if(nb_nod>0)then
           msgtyp = msgoff 
-          len = iad_elem(1,i+1)-iad_elem(1,i)
+          len = iad_offset(1,i+1)-iad_offset(1,i)
 
           siz = len *  siz6       
           l = iad_send(i)
@@ -139,15 +142,19 @@
 ! assemblage
 !
       do i = 1, nspmd
-        nb_nod = iad_elem(1,i+1)-iad_elem(1,i)
+        nb_nod = iad_offset(1,i+1)-iad_offset(1,i)
         if(nb_nod>0)then
           call mpi_wait(req_r(i),status,ierror)
           l  = iad_recv(i)
-
-#include        "vectorize.inc"
-          do j=iad_elem(1,i),iad_elem(1,i+1)-1
-            nod = fr_elem(j)
-            vn6(1:ndim1,nod) = vn6(1:ndim1,nod) + rbuf(1:ndim1,l)
+          do j=iad_offset(1,i),iad_offset(1,i+1)-1
+            nod = fr_offset(j)
+            if(nod > 0) then
+              if(l > 0) then
+                vn6(1:ndim1,nod) = vn6(1:ndim1,nod) + rbuf(1:ndim1,l)
+              else
+                vn6(1:ndim1,nod) =  0.0D0
+              endif
+            endif
             l  = l  + 1
           end do
         endif
@@ -156,7 +163,7 @@
 !   wait for isend
 !
       do i = 1, nspmd
-        if(iad_elem(1,i+1)-iad_elem(1,i)>0)then
+        if(iad_offset(1,i+1)-iad_offset(1,i)>0)then
           call mpi_wait(req_s(i),status,ierror)
         endif
       enddo
