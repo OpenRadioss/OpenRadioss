@@ -86,7 +86,7 @@ C-----------------------------------------------
       INTEGER NC(10,MVSIZ),NMIN,PWR(7),LL,IXSK(5,6*MVSIZ)
       INTEGER FACES(4,6),NS(4),JJ,II,K1,K2,NF,N2,T3(3),T6(6),TIA4S(3,4)
       INTEGER IFUNC(MAXFUNC),IDEB
-      INTEGER NPAR,NFUNC,MX,NSK,IL,IR,IS,IT,NFAIL,IFAIL,NSKI
+      INTEGER NPAR,NFUNC,MX,NSK,IL,IR,IS,IT,NFAIL,IFAIL,NSKI,NIPAR
       my_real
      .   EVAR(3,MVSIZ),VALUE(MVSIZ)
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
@@ -326,14 +326,16 @@ C-----------------------------------------------
                 DO IFAIL=1,NFAIL                                                          
                   IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
                     NPAR   = MAT_PARAM(MX)%FAIL(IFAIL)%NUPARAM   
-                    NFUNC  =  MAT_PARAM(MX)%FAIL(IFAIL)%NFUNC          
+                    NFUNC  =  MAT_PARAM(MX)%FAIL(IFAIL)%NFUNC   
+                    NIPAR  = MAT_PARAM(MX)%FAIL(IFAIL)%NIPARAM
                     DO I=1,NFUNC
                       IFUNC(I) = MAT_PARAM(MX)%FAIL(IFAIL)%IFUNC(I)
                     END DO
                    CALL IDX_FLD_SOL(
      1                            NSKI     ,NPAR     ,NFUNC    ,IFUNC    ,
      2                            NPF      ,TF       ,MAT_PARAM(MX)%FAIL(IFAIL)%UPARAM,
-     4                            EVAR     ,VALUE    )
+     3                            EVAR     ,VALUE    ,NIPAR    ,MAT_PARAM(MX)%FAIL(IFAIL)%IPARAM,
+     4                            BUFLY%LBUF(IR,IS,IT)%PLA)
 C
                   ENDIF                                                                   
                 ENDDO
@@ -347,7 +349,8 @@ C-----------------------------------------------
                 IS_WRITTEN_VALUE(1:NSKI) = 1
                 DO IFAIL=1,NFAIL                                                          
                   IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                    NPAR   = MAT_PARAM(MX)%FAIL(IFAIL)%NUPARAM   
+                    NPAR   = MAT_PARAM(MX)%FAIL(IFAIL)%NUPARAM 
+                    NIPAR  = MAT_PARAM(MX)%FAIL(IFAIL)%NIPARAM  
                     NFUNC  = MAT_PARAM(MX)%FAIL(IFAIL)%NFUNC
                     DO I=1,NFUNC
                       IFUNC(I) = MAT_PARAM(MX)%FAIL(IFAIL)%IFUNC(I)
@@ -355,7 +358,8 @@ C-----------------------------------------------
                    CALL DAM_FLD_SOL(
      1                            NSKI     ,NPAR     ,NFUNC    ,IFUNC    ,
      2                            NPF      ,TF       ,MAT_PARAM(MX)%FAIL(IFAIL)%UPARAM,
-     4                            EVAR     ,VALUE    )
+     3                            EVAR     ,VALUE    ,NIPAR    ,MAT_PARAM(MX)%FAIL(IFAIL)%IPARAM,
+     4                            BUFLY%LBUF(IR,IS,IT)%PLA)
 C
                   ENDIF                                                                   
                 ENDDO
