@@ -255,9 +255,9 @@ C=======================================================================
           KEPT_NODE = KEPT_NODE + 1
         ENDDO
 
-        X_CHUNK = MAX(1, KEPT_NODE /(NBX+2))
-        Y_CHUNK = MAX(1, KEPT_NODE /(NBY+2))
-        Z_CHUNK = MAX(1, KEPT_NODE /(NBZ+2))
+        X_CHUNK = MAX(1,1+KEPT_NODE /(NBX+2))
+        Y_CHUNK = MAX(1,1+KEPT_NODE /(NBY+2))
+        Z_CHUNK = MAX(1,1+KEPT_NODE /(NBZ+2))
         IF(IGAP == 0)THEN
           AAA = TZINF
         ELSE
@@ -351,14 +351,12 @@ c       write(6,*) "X_CHUNK=", X_CHUNK, "Y_CHUNK=", Y_CHUNK, "Z_CHUNK=", Z_CHUNK
           IF(FIRST == 0)THEN
             !empty cell
             VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
-            if(ispmd == 0 .AND. I == 15 ) write(6,*) __LINE__,IIX(I),IIY(I),IIZ(I)
             NEXT_NOD(I)                 = 0 ! last one
             LAST_NOD(I)                 = 0 ! no last
           ELSEIF(LAST_NOD(FIRST) == 0)THEN
             !cell containing one node
             !add as next node
             NEXT_NOD(FIRST) = I ! next
-            if(ispmd == 0 .AND. I == 15 ) write(6,*) __LINE__,IIX(I),IIY(I),IIZ(I)
 
             LAST_NOD(FIRST) = I ! last
             NEXT_NOD(I)     = 0 ! last one
@@ -367,7 +365,6 @@ c       write(6,*) "X_CHUNK=", X_CHUNK, "Y_CHUNK=", Y_CHUNK, "Z_CHUNK=", Z_CHUNK
             !jump to the last node of the cell
             LAST = LAST_NOD(FIRST) ! last node in this voxel
             NEXT_NOD(LAST)  = I ! next
-            if(ispmd == 0 .AND. I == 15 ) write(6,*) __LINE__,IIX(I),IIY(I),IIZ(I)
 
             LAST_NOD(FIRST) = I ! last
             NEXT_NOD(I)     = 0 ! last one
@@ -398,13 +395,11 @@ C=======================================================================
           IF(FIRST == 0)THEN
             ! empty cell
             VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J)) = NSN+J ! first
-            if(ispmd == 0 .AND. nsn+j == 15 ) write(6,*) __LINE__,IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J)
             NEXT_NOD(NSN+J)     = 0 ! last one
             LAST_NOD(NSN+J)     = 0 ! no last
           ELSEIF(LAST_NOD(FIRST) == 0)THEN
             ! cell containing one node, add it as next node
             NEXT_NOD(FIRST) = NSN+J  ! next
-            if(ispmd == 0 .AND. nsn+j == 15 ) write(6,*) __LINE__,IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J)
 
 
             LAST_NOD(FIRST) = NSN+J  ! last
@@ -414,7 +409,6 @@ C=======================================================================
             LAST = LAST_NOD(FIRST)  ! last node in this voxel
             NEXT_NOD(LAST)  = NSN+J ! next
             LAST_NOD(FIRST) = NSN+J ! last
-            if(ispmd == 0 .AND. nsn+j == 15 ) write(6,*) __LINE__,IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J)
             NEXT_NOD(NSN+J)     = 0 ! last one
           ENDIF
         ENDDO
