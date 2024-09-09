@@ -108,6 +108,9 @@ Card2--------------------------------------------------
 Card3--------------------------------------------------
         CALL HM_GET_FLOATV  ('FCUT'             ,FCUT           ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV  ('ALPHA'            ,ALPHA          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      ELSE
+        FCUT = ZERO
+        ALPHA = ZERO
       ENDIF
 C --- check
       IF (IFUNC(1) == 0) CALL ANCMSG(MSGID=2001,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND,
