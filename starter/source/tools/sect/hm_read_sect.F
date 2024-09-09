@@ -1072,6 +1072,8 @@ C
               NBPROJOK = 0
               DO K=2,NBNODES+1
 C             taging nodes connected to elem
+                P1 = ZERO
+                P2 = ZERO
                 POS = (X0(1,IX(K,IE))-D)*A + (X0(2,IX(K,IE))-E)*B + (X0(3,IX(K,IE))-F)*C
                 IF (ISTYP == 1) THEN
                   PROJX = X0(1,IX(K,IE))-POS*A
@@ -1085,15 +1087,15 @@ c
                     P1 = (PROJY-PROJX*(Y2-E)/(X2-D))/ ((Y1-E)-(X1-D)*(Y2-E)/(X2-D))
                   ELSEIF( (Y2-E) /=  ZERO .AND. (Z1-F)-(Y1-E)*(Z2-F) /=  ZERO)THEN
                     P1 = (PROJZ-PROJY*(Z2-F)/(Y2-E))/ ((Z1-F)-(Y1-E)*(Z2-F)/(Y2-E))
-                  ELSEIF( (Z2-F) /=  ZERO .AND. (X1-D)-(Y1-E)*(X2-D) /=  ZERO)THEN
-                    P1 = (PROJX-PROJZ*(X2-D)/(Z2-F))/ ((X1-D)-(Y1-E)*(X2-D)/(Z2-F))
+                  ELSEIF( (Z2-F) /=  ZERO .AND. (X1-D)-(Z1-F)*(X2-D) /=  ZERO)THEN
+                    P1 = (PROJX-PROJZ*(X2-D)/(Z2-F))/ ((X1-D)-(Z1-F)*(X2-D)/(Z2-F))
                   ENDIF
                   IF ( (X1-D) /=  ZERO .AND. (Y2-E)-(X2-D)*(Y1-E)  /=  ZERO)THEN
                     P2 = (PROJY-PROJX*(Y1-E)/(X1-D))/ ((Y2-E)-(X2-D)*(Y1-E)/(X1-D))
                   ELSEIF ( (Y1-E) /=  ZERO .AND. (Z2-F)-(Y2-E)*(Z1-F)  /=  ZERO)THEN
                     P2 = (PROJZ-PROJY*(Z1-F)/(Y1-E))/ ((Z2-F)-(Y2-E)*(Z1-F)/(Y1-E))
-                  ELSEIF ( (Z1-F) /=  ZERO .AND. (X2-D)-(X1-D)*(Y2-E)  /=  ZERO)THEN
-                    P2 = (PROJX-PROJZ*(X1-D)/(Z1-F))/ ((X2-D)-(Y2-E)*(X1-D)/(Z1-F))
+                  ELSEIF ( (Z1-F) /=  ZERO .AND. (X2-D)-(Z2-F)*(X1-D)  /=  ZERO)THEN
+                    P2 = (PROJX-PROJZ*(X1-D)/(Z1-F))/ ((X2-D)-(Z2-F)*(X1-D)/(Z1-F))
                   ENDIF
 c
                   IF((X2-D)== ZERO .AND. (X1-D)/= ZERO) P1 = PROJX / (X1-D)
@@ -1102,6 +1104,7 @@ c
                   IF((Y1-E)== ZERO .AND. (Y2-E)/= ZERO) P2 = PROJY / (Y2-E)
                   IF((Z2-F)== ZERO .AND. (Z1-F)/= ZERO) P1 = PROJZ / (Z1-F)
                   IF((Z1-F)== ZERO .AND. (Z2-F)/= ZERO) P2 = PROJZ / (Z2-F)
+
                   IF( P1 <= 1 .AND. P1 >= 0 .AND. P2 <= 1 .AND. P2 >= 0) NBPROJOK = NBPROJOK + 1
 
                 ELSEIF (ISTYP == 2) THEN
@@ -1279,9 +1282,9 @@ c
                     P1 = (PROJZ-PROJY*(Z2-F)/(Y2-E))/
      .                ((Z1-F)-(Y1-E)*(Z2-F)/(Y2-E))
                   ELSEIF( (Z2-F) /=  ZERO .AND.
-     .              (X1-D)-(Y1-E)*(X2-D) /=  ZERO)THEN
+     .              (X1-D)-(Z1-F)*(X2-D) /=  ZERO)THEN
                     P1 = (PROJX-PROJZ*(X2-D)/(Z2-F))/
-     .                ((X1-D)-(Y1-E)*(X2-D)/(Z2-F))
+     .                ((X1-D)-(Z1-F)*(X2-D)/(Z2-F))
                   ENDIF
                   IF ( (X1-D) /=  ZERO .AND.
      .              (Y2-E)-(X2-D)*(Y1-E)  /=  ZERO)THEN
@@ -1292,9 +1295,9 @@ c
                     P2 = (PROJZ-PROJY*(Z1-F)/(Y1-E))/
      .                ((Z2-F)-(Y2-E)*(Z1-F)/(Y1-E))
                   ELSEIF ( (Z1-F) /=  ZERO .AND.
-     .              (X2-D)-(X1-D)*(Y2-E)  /=  ZERO)THEN
+     .              (X2-D)-(Z2-F)*(X1-D)  /=  ZERO)THEN
                     P2 = (PROJX-PROJZ*(X1-D)/(Z1-F))/
-     .                ((X2-D)-(Y2-E)*(X1-D)/(Z1-F))
+     .                ((X2-D)-(Z2-F)*(X1-D)/(Z1-F))
                   ENDIF
 c
                   IF((X2-D)== ZERO .AND. (X1-D)/= ZERO) P1 = PROJX / (X1-D)
