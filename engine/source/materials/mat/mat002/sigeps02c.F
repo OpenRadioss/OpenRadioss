@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE SIGEPS02C(
      1                  JFT      ,JLT      ,PM       ,EINT     ,THK      ,
      2                  OFF      ,SIGY     ,DT1      ,IPLA     ,NEL      ,
-     3                  VOL0     ,GS       ,ISRATE   ,THKLYL   ,ETSE     ,
+     3                  VOL      ,GS       ,ISRATE   ,THKLYL   ,ETSE     ,
      4                  NGL      ,EPSP     ,G_IMP    ,SIGKSI   ,IOFF_DUCT,
      5                  DPLA     ,TSTAR    ,JTHE     ,HARDM    ,EPCHK    ,
      6                  IMAT     ,IPT      ,NPTT     ,PLA      ,OFF_OLD  ,
@@ -39,7 +39,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9                  DEPSXX   ,DEPSYY   ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
      A                  EPSPXX   ,EPSPYY   ,EPSPXY   ,EPSPYZ   ,EPSPZX   ,
      B                  SIGBAKXX ,SIGBAKYY ,SIGBAKXY ,INLOC    ,DPLANL   ,
-     C                  VP       ,ASRATE   ,LOFF     ,EPSD     )
+     C                  VP       ,ASRATE   ,LOFF     ,EPSD     ,
+     D                  TEMPEL   ,FHEAT    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,30 +57,28 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NEL), INTENT(IN) :: NGL
       INTEGER, DIMENSION(NEL), INTENT(INOUT) :: IOFF_DUCT
       my_real, DIMENSION(NEL), INTENT(IN) :: EPSPXX,EPSPYY,EPSPXY,EPSPYZ,
-     .   EPSPZX,LOFF,EPSP,DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,SIGOXX,
+     .   EPSPZX,EPSP,DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,SIGOXX,
      .   SIGOYY,SIGOXY,SIGOYZ,SIGOZX,OFF_OLD,DPLANL,GS,THKLYL
       my_real, INTENT(IN) :: ASRATE,DT1
       my_real, DIMENSION(NEL), INTENT(INOUT) :: SIGNXX,SIGNYY,SIGNXY,SIGNYZ,
      .   SIGNZX,SIGBAKXX,SIGBAKYY,SIGBAKXY,PLA,DPLA,TSTAR,ETSE,THK, 
-     .   SIGY,OFF,VOL0,HARDM,EPCHK,G_IMP,EPSD
+     .   SIGY,OFF,VOL,HARDM,EPCHK,G_IMP,EPSD
       my_real, DIMENSION(NPROPM,*), INTENT(IN) :: PM
       my_real, DIMENSION(NEL,5), INTENT(INOUT) :: SIGKSI
-      my_real, DIMENSION(NEL,2), INTENT(IN) :: EINT
+      my_real, DIMENSION(NEL,2), INTENT(IN)    :: EINT
+      my_real, DIMENSION(NEL)  , INTENT(IN)    :: LOFF
+      my_real, DIMENSION(NEL)  , INTENT(INOUT) :: TEMPEL
+      my_real, DIMENSION(NEL)  , INTENT(INOUT) :: FHEAT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICC,IRTY,I,J,NPIF
-C     REAL
-      my_real
-     .   EPMX,CA,CB,CN,CP,CC,
+      INTEGER :: I,ICC,IRTY
+      my_real :: EPMX,CA,CB,CN,RHOCP,CC,
      .   DAV,DEVE1,DEVE2,DEVE3,DEVE4,Z3,Z4,FISOKIN,
-     .   EPIF,YOUNG,TI,TM,G,A11,A12,NU,YMAX
-      my_real, DIMENSION(NEL) ::
-     .   EPDR,YLD,EPSDOT,T,EZZ
-C-----------------------------------------------
+     .   YOUNG,TREF,TMELT,G,A11,A12,NU,YMAX
+      my_real, DIMENSION(NEL) :: EPDR,YLD,EPSDOT,T,EZZ
+!=======================================================================
       ! Variable initialization
-      EPIF = ZERO
-      NPIF = 0
       EZZ(1:NEL) = ZERO
 !---
       ! Recover material law parameters
@@ -97,31 +96,35 @@ C-----------------------------------------------
       ICC    = NINT(PM(49,IMAT))
       IRTY   = NINT(PM(50,IMAT))
       Z3     = PM(51,IMAT)
-      Z4     = PM(52,IMAT)
-      CP     = PM(53,IMAT)
-      TI     = PM(54,IMAT)
       FISOKIN= PM(55,IMAT)
-      EPIF   = MAX( EPIF, CC )
 !
       ! Recover internal variables
       DO I=JFT,JLT              
         EPDR(I) = MAX(EM20, PM(44,IMAT))      
-        NPIF    = NPIF + IRTY
-        T(I)    = TI
       ENDDO
 !
-      ! Thermal softening effect
-      IF ( JTHE <= 0 ) THEN      
-        TM=Z4  
+      IF (IRTY == 1) THEN       ! Zerilli
+        RHOCP = PM(53,IMAT)     ! = 1 /rhocp             
+        Z4    = PM(52,IMAT)                    
+        TREF  = PM(54,IMAT)                    
+        IF (JTHE <= 0) THEN      
+          DO I=JFT,JLT
+            TEMPEL(I) = TREF + RHOCP*(EINT(I,1)+EINT(I,2))/VOL(I)
+          ENDDO
+        ENDIF
+      ELSE                       ! Johnson-Cook
+        RHOCP = PM(69,IMAT)                  
+        TREF  = PM(79,IMAT)                    
+        TMELT = PM(80,IMAT)                    
         DO I=JFT,JLT
-          T(I) = T(I)+CP*(EINT(I,1)+EINT(I,2))/VOL0(I)
-          TSTAR(I) = MAX( ZERO, (T(I)-TI)/(TM-TI) )
+          TSTAR(I) = MAX( ZERO, (TEMPEL(I)-TREF)/(TMELT-TREF) )
         ENDDO
-      ENDIF
+      END IF             
 !
       ! Specific strain rate computation
       ! -> Plastic strain rate
       ! Old filtered value already stored in EPSD
+!
       IF (VP == 1) THEN 
         DO I=JFT,JLT
           EPSDOT(I) = EPSD(I) 
@@ -152,8 +155,8 @@ C-----------------------------------------------
 !         CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 !----------------------------
       CALL M2CPLR(JFT     ,JLT     ,EZZ      ,OFF_OLD  ,PLA     ,
-     2            IPLA    ,T       ,Z3       ,Z4       ,EPIF    ,
-     3            NPIF    ,IRTY    ,ETSE     ,GS       ,EPSDOT  ,
+     2            IPLA    ,TEMPEL  ,Z3       ,Z4       ,
+     3            IRTY    ,ETSE    ,GS       ,EPSDOT   ,
      4            ISRATE  ,YLD     ,G        ,A11      ,A12     ,
      5            NU      ,CA      ,CB       ,CN       ,YMAX    ,
      6            EPCHK   ,YOUNG   ,CC       ,EPDR     ,ICC     ,
@@ -205,6 +208,18 @@ c------------------------------------
         ENDIF
         THK(I) = THK(I) + EZZ(I) * THKLYL(I)*OFF(I)
       ENDDO
+!---------------------------------------------------------
+!     calculate temperature or thermal load due to plastic work
+!---------------------------------------------------------
+      IF (JTHE == 0 .and. RHOCP > ZERO) THEN  ! update temperature in adiabatic conditions
+        DO I=1,NEL       
+          TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) / RHOCP
+        ENDDO
+      ELSE IF (JTHE < 0) THEN  ! cumulate thermal load due to plastic work for /heat/mat
+        DO I=1,NEL       
+          FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
+        ENDDO
+      END IF
 c-----------
       RETURN
       END

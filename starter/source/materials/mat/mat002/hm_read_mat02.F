@@ -38,10 +38,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_MAT02(
-     .           UPARAM   ,MAXUPARAM ,NUPARAM  ,NUVAR    ,IFUNC      ,
-     .           MAXFUNC  ,NFUNC     ,PARMAT   ,IMATVIS  ,IFORM      ,
+     .           UPARAM   ,MAXUPARAM ,NUPARAM  ,NUVAR    ,
+     .           PARMAT   ,IFORM      ,
      .           UNITAB   ,ID        ,TITR     ,LSUBMODEL,MTAG       ,
-     .           PM       ,IPM       ,ISRATE   ,MATPARAM ) 
+     .           PM       ,IPM       ,ISRATE   ,MAT_PARAM) 
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -80,57 +80,60 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER, INTENT(IN)    :: ID,MAXUPARAM,MAXFUNC,IFORM
-      INTEGER, INTENT(INOUT) :: IPM(NPROPMI),IMATVIS,ISRATE
+      INTEGER, INTENT(IN)    :: ID,MAXUPARAM,IFORM
+      INTEGER, INTENT(INOUT) :: ISRATE
+      INTEGER, INTENT(INOUT) :: NUPARAM,NUVAR
+      INTEGER, INTENT(INOUT) :: IPM(NPROPMI)
       my_real, INTENT(INOUT) :: PM(NPROPM)     
       CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
-      INTEGER, INTENT(INOUT) :: NUPARAM,NUVAR,NFUNC
-      INTEGER, DIMENSION(MAXFUNC), INTENT(INOUT) :: IFUNC
       my_real, DIMENSION(MAXUPARAM), INTENT(INOUT) :: UPARAM
       my_real, INTENT(INOUT) :: PARMAT(100)
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
-      TYPE(MATPARAM_STRUCT_),INTENT(INOUT)  :: MATPARAM
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT)  :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER :: I,J  ,ISIZ ,VP
+      INTEGER :: I,VP
       my_real :: RHOR,RHO0
       INTEGER ICC,ISRAT1,IFLAG,MFLAG
       my_real
-     .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, CC, EPS0, G, E0, C0, C1,
-     .   E1MN2, EN1N2, SDSP,C3,C4,CP,TI,TM,MT,FCUT,FISOKIN,CB0,RM,AG,CN0,
+     .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, CC, EPS0, G, E0, C0, C1,PMIN,
+     .   E1MN2, EN1N2, SDSP,C3,C4,RHOCP,TREF,TMELT,M_EXP,FCUT,FISOKIN,CB0,RM,AG,CN0,
      .   FAC_DENS,FAC_PRES,EPS0_UNIT,FAC_M,FAC_L,FAC_T,ASRATE
       CHARACTER PREDEF*16
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
-      IFLAG   = 0
-      MFLAG   = 0
       EPSM    = ZERO
       SIGM    = ZERO
       CC      = ZERO
       EPS0    = ZERO
-      ICC     = 0
       ASRATE  = ZERO
       FISOKIN = ZERO
-      C3      = ZERO
-      C4      = ZERO
-      CP      = ZERO
-      TI      = ZERO
       YOUNG   = ZERO
       ANU     = ZERO
       CA      = ZERO
       CB      = ZERO
       CN      = ZERO
-      NUVAR   = 0
-      NUPARAM = 0
-      NFUNC   = 0
       RHOR    = ZERO
       SDSP    = ZERO
+!
+      C3      = ZERO
+      C4      = ZERO
+      RHOCP   = ZERO
+      PMIN    = ZERO
+      TMELT   = ZERO
+      TREF    = ZERO
+!
+      IFLAG   = 0
+      MFLAG   = 0
+      ICC     = 0
+      NUVAR   = 0
+      NUPARAM = 0
       VP      = 0
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
@@ -185,8 +188,8 @@ C-----------------------------------------------
         !line-5
         CALL HM_GET_FLOATV('C3'       ,C3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('C4'       ,C4      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('rhoC_p'   ,CP      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('T_r'      ,TI      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('rhoC_p'   ,RHOCP   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('T_r'      ,TREF    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !units for default values
         CALL HM_GET_FLOATV_DIM('EPS_0'      ,EPS0_UNIT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV_DIM('E'          ,FAC_PRES    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -222,10 +225,11 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV('F_cut'          ,ASRATE    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Chard'          ,FISOKIN   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !line-5
-        CALL HM_GET_FLOATV('m'              ,C3        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('T_melt'         ,C4        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('rhoC_p'         ,CP        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('T_r'            ,TI        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('m'              ,M_EXP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('T_melt'         ,TMELT     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('rhoC_p'         ,RHOCP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('T_r'            ,TREF      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('Pmin'           ,PMIN      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !units for default values
         CALL HM_GET_FLOATV_DIM('EPS_DOT_0'  ,EPS0_UNIT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV_DIM('E'          ,FAC_PRES    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -358,14 +362,15 @@ C-----
      .                 C1=TITR)
       ENDIF
      
-      IF(RHOR==ZERO) RHOR=RHO0
+      IF (RHOR==ZERO) RHOR=RHO0
 C-----
       IF (ANU == HALF) ANU=ZEP499
 C
-      IF(ICC == 0) ICC=1
+      IF (ICC == 0) ICC=1
+      IF (PMIN  == ZERO) PMIN  =-EP20
 C
-      IF(EPSM == ZERO) EPSM  = EP20
-      IF(SIGM == ZERO) SIGM  = EP20
+      IF (EPSM == ZERO) EPSM  = EP20
+      IF (SIGM == ZERO) SIGM  = EP20
       IF (CC == ZERO)   THEN
         EPS0   = ONE
         ISRATE = 0
@@ -437,33 +442,10 @@ C-----
 
       PARMAT(4) = ISRATE
       PARMAT(5) = ASRATE
+      PM(37)= PMIN    ! default pressure cut-off for EOS
 C
-      IF(TI<=ZERO) TI=TWOHUNDRED98
+      IF (TREF <= ZERO) TREF = TWOHUNDRED98
 c
-C---- Definition des variables internes (stockage elementaire)
-c
-      MTAG%G_EPSD  = 1   
-      MTAG%G_PLA   = 1   
-      MTAG%G_DMG   = 1
-c
-      MTAG%L_EPSD  = 1  
-      MTAG%L_EPSQ  = 1 
-      MTAG%L_PLA   = 1   
-      MTAG%L_SIGB  = 6
-      MTAG%L_DMG   = 1
-c--------------------- 
-      CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
-      CALL INIT_MAT_KEYWORD(MATPARAM,"INCREMENTAL")
-      CALL INIT_MAT_KEYWORD(MATPARAM,"LARGE_STRAIN") 
-      ! Properties compatibility
-      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
-      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC")
-      CALL INIT_MAT_KEYWORD(MATPARAM,"BEAM_ALL")
-      CALL INIT_MAT_KEYWORD(MATPARAM,"TRUSS")
-      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
-c
-      ! Material compatibility with /EOS option
-      CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
 C--------------------------------
       
       IF(IFORM==0)THEN
@@ -517,7 +499,8 @@ C--------------------------------
            WRITE(IOUT,1700)
           ENDIF
         ENDIF
-      IF(IFORM == 0 .OR. IFORM == 2)THEN
+!
+      IF (IFORM == 0 .OR. IFORM == 2)THEN  ! johnson-Cook
         IF(IFLAG == 0 .AND. IFORM /= 2)THEN
           IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1400)CA,CB,CN,EPSM,SIGM,FISOKIN
           ELSE
@@ -528,33 +511,39 @@ C--------------------------------
             WRITE(IOUT,1400)CA,CB,CN,EPSM,SIGM,FISOKIN
           ENDIF
         ENDIF  
-        MT=C3
-        IF(MT == ZERO)MT=ONE
-        TM=C4
-        IF(TM == ZERO)TM=EP20
+!
+        !        
+        IF (M_EXP == ZERO) M_EXP=ONE
+        IF (TMELT == ZERO) TMELT=EP20
         IF(.NOT.IS_ENCRYPTED .AND. IFORM /= 2)THEN
          ISRAT1 = 1
-         WRITE(IOUT,1600)VP,CC,EPS0,ICC,ISRAT1,FCUT,MT,TM,CP,TI
+         WRITE(IOUT,1600)VP,CC,EPS0,ICC,ISRAT1,FCUT,M_EXP,TMELT,RHOCP,TREF,PMIN
         ENDIF
-        PM(50)=ZERO
-        PM(51)=MT
-        PM(52)=TM
-      ELSE
+        PM(50) = ZERO    ! flag JC
+        PM(51) = M_EXP
+        PM(80) = TMELT
+      ELSE    ! Zerilli
         IF(.NOT.IS_ENCRYPTED .AND. IFORM /= 2)THEN
          WRITE(IOUT,1410)CA,CB,CN,EPSM,SIGM,FISOKIN
          ISRAT1 = 1
-         WRITE(IOUT,1610)VP,ICC,ISRAT1,FCUT,EPS0,CC,C3,C4,CP,TI
+         WRITE(IOUT,1610)VP,ICC,ISRAT1,FCUT,EPS0,CC,C3,C4,RHOCP,TREF
         ENDIF
-        PM(50)=ONE
+        PM(50)=ONE   ! flag Zerilli
         PM(51)=C3
         PM(52)=C4
       ENDIF
-      IF(CP<=ZERO) THEN
-          PM(53)=ZERO
+!
+      IF (RHOCP <= ZERO) THEN
+        PM(53) = ZERO
       ELSE
-          PM(53)=ONE/CP
+        PM(53) = ONE/RHOCP
       ENDIF
-      PM(54)=TI
+      PM(54) = TREF      ! for Zerilli
+!
+      ! same stockage of initial, melting temp and rho_cp as in /heat/mat
+      PM(79) = TREF      ! for J-C
+      PM(80) = TMELT      
+      PM(69) = RHOCP
 C -----------------     
       PM(55)=FISOKIN
 C      
@@ -594,6 +583,36 @@ C-----------
 C     Formulation for solid elements time step computation.
       IPM(252)= 2
       PM(105) = TWO*G/(C1+FOUR_OVER_3*G)
+!
+C---- Definition des variables internes (stockage elementaire)
+c
+      MTAG%G_EPSD  = 1   
+      MTAG%G_PLA   = 1   
+      MTAG%G_DMG   = 1
+      MTAG%G_TEMP  = 1
+c
+      MTAG%L_EPSD  = 1  
+      MTAG%L_EPSQ  = 1 
+      MTAG%L_PLA   = 1   
+      MTAG%L_SIGB  = 6
+      MTAG%L_DMG   = 1
+      MTAG%L_TEMP  = 1
+!
+      ! activate heat source calculation in material
+      MAT_PARAM%HEAT_FLAG = 1
+c------------------------- 
+      CALL INIT_MAT_KEYWORD(MAT_PARAM,"ELASTO_PLASTIC")
+      CALL INIT_MAT_KEYWORD(MAT_PARAM,"INCREMENTAL")
+      CALL INIT_MAT_KEYWORD(MAT_PARAM,"LARGE_STRAIN") 
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MAT_PARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MAT_PARAM,"SHELL_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MAT_PARAM,"BEAM_ALL")
+      CALL INIT_MAT_KEYWORD(MAT_PARAM,"TRUSS")
+      CALL INIT_MAT_KEYWORD(MAT_PARAM,"SPH")
+c
+      ! Material compatibility with /EOS option
+      CALL INIT_MAT_KEYWORD(MAT_PARAM,"EOS")
 C-----------
       RETURN
 C-----------
@@ -670,7 +689,8 @@ C-----------
      & 5X,'TEMPERATURE EXPONENT. . . . . . . . . .=',1PG20.13/,
      & 5X,'MELTING TEMPERATURE K . . . . . . . . .=',1PG20.13/,
      & 5X,'SPECIFIC HEAT Rho*Cp. . . . . . . . . .=',1PG20.13/,
-     & 5X,'INITIAL TEMPERATURE K . . . . . . . . .=',1PG20.13//)
+     & 5X,'INITIAL TEMPERATURE K . . . . . . . . .=',1PG20.13/,
+     & 5X,'PRESSURE CUTOFF IN TENSION. . . . . . .=',1PG20.13//)
  1610 FORMAT(
      & 5X,'FLAG FOR STRAIN RATE DEPENDENCY TYPE. .=',I10/,  
      & 5X,'   VP=1  EQUIVALENT PLASTIC STRAIN RATE'/

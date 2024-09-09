@@ -158,7 +158,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7       INDX     ,NGL      ,THKLY    ,MATLY     ,ZCFAC    ,MAT_ELEM ,             
      8       SHF      ,GS       ,SIGY     ,THK0      ,EPSP     ,              
      9       POSLY    ,IGEO     ,IPM      ,FAILWAVE  ,FWAVE_EL ,                                   
-     A       IFAILURE ,ALDT     ,TEMPEL   ,DIE       ,                        
+     A       IFAILURE ,ALDT     ,TEMPEL   ,DIE       ,FHEAT    ,                        
      B       R11      ,R12      ,R13      ,R21       ,R22      ,R23      ,    
      C       R31      ,R32      ,R33      ,TABLE     ,IXFEM    ,ELCRKINI ,    
      D       SENSORS  ,NG       ,                         
@@ -226,6 +226,7 @@ C-----------------------------------------------
      .   F_DEF(MVSIZ,8),PM_STACK(20,*),TSTAR(MVSIZ),ALPE(MVSIZ),
      .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
      .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),PLY_F(MVSIZ,5,*),ETIMP(MVSIZ)
+      my_real, dimension(mvsiz), intent(inout) :: fheat
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TARGET :: ALDT, IPM, VARNL
       TYPE (STACK_PLY) :: STACK
@@ -594,12 +595,13 @@ c
               LBUF%EPSDNL(I) = VARNL(I,IT)/MAX(DT1,EM20)
             ENDDO 
           ENDIF
-c
-          IF (JTHE == 0 .and. BUFLY%L_TEMP > 0) THEN        
-             EL_TEMP => LBUF%TEMP(1:NEL)
+!---------------------------------------------------
+          IF (jthe == 0 .and. BUFLY%L_TEMP > 0) THEN        
+             EL_TEMP => LBUF%TEMP(1:NEL) ! adiabatic conditions => element buffer 
           ELSE
-             EL_TEMP => TEMPEL(1:NEL)
+             EL_TEMP => TEMPEL(1:NEL)    ! /heat/mat => local, from actualized nodal temperature
           ENDIF
+!---------------------------------------------------
 c         initial scale factor for yield stress defined per IPG,NPI
           IF (ILAW==36 .OR. ILAW==87) THEN
             YLDFAC => SCALE1(1:NEL)
@@ -967,7 +969,8 @@ C------------------------------------------
      9                  DEPSXX     ,DEPSYY    ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
      A                  EPSPXX     ,EPSPYY    ,EPSPXY   ,EPSPYZ   ,EPSPZX   ,
      B                  LBUF%SIGB(IJ1),LBUF%SIGB(IJ2),LBUF%SIGB(IJ3),INLOC  ,VARNL(1,IT),
-     C                  VP         ,ASRATE    ,LBUF%OFF ,LBUF%EPSD  )
+     C                  VP         ,ASRATE    ,LBUF%OFF ,LBUF%EPSD  ,
+     D                  EL_TEMP   ,FHEAT     )
 !
           ELSEIF (ILAW == 15) THEN
             CALL SIGEPS15C(

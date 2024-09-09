@@ -69,7 +69,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B           NGL       ,ZCFAC     ,SHF       ,GS        ,EPSP       ,
      C           KFTS      ,JHBE      ,ALPE      ,
      D           DIR_A     ,DIR_B     ,IGEO      ,
-     E           IPM       ,IFAILURE  ,NPG       ,
+     E           IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
      F           TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,TEMPEL0    ,
      G           ISHPLYXFEM,PLY_EXX   ,
      H           PLY_EYY   ,PLY_EXY   ,PLY_EXZ   ,PLY_EYZ   ,PLY_F      ,
@@ -141,6 +141,7 @@ C-----------------------------------------------
      .   DIR1_CRK(*),DIR2_CRK(*),DMG_SCALE(MVSIZ),
      .   F_DEF(MVSIZ,*),ALDT(MVSIZ),VARNL(NEL,*)
       my_real, DIMENSION(NEL), INTENT(IN) :: THKE
+      my_real, dimension(mvsiz), intent(inout) :: fheat
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
@@ -301,7 +302,7 @@ c
      7       INDXDEL ,NGL     ,THKLY   ,MATLY   ,ZCFAC   ,MAT_ELEM,
      8       SHF     ,GS      ,SIGY    ,THK0    ,EPSP    ,
      9       POSLY   ,IGEO    ,IPM     ,FAILWAVE,FWAVE_EL,
-     A       IFAILURE,ALDT    ,TEMPEL  ,DIE     ,
+     A       IFAILURE,ALDT    ,TEMPEL  ,DIE     ,FHEAT   ,
      B       E1X     ,E1Y     ,E1Z     ,E2X     ,E2Y     ,E2Z     ,
      C       E3X     ,E3Y     ,E3Z     ,TABLE   ,IXFEM   ,ELCRKINI,
      D       SENSORS ,NG      ,
@@ -313,7 +314,7 @@ c
      J       VARNL   ,ETIMP   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX,DT    )
       ENDIF ! IF (NPT == 0) 
 C----------------------------------------------------------------------
-      IF (IEXPAN > 0 .AND. JTHE > 0. AND.IDT_THERM==0) THEN
+      IF (IEXPAN > 0 .AND. JTHE > 0. AND. IDT_THERM==0) THEN
          CALL THERMEXPC(ELBUF_STR,
      1                  JFT  ,JLT   ,GBUF%FORTH  ,FOR   ,EINT  , 
      2                  OFF  ,ETH   ,THK0        ,EXX   ,EYY   ,    

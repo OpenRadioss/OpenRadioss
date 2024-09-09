@@ -359,24 +359,24 @@ c-------
           CASE ('LAW2','LAW02','PLAS_JOHNS','JOHNS')
             ILAW  = 2  
             CALL HM_READ_MAT02(
-     .                       UPARAM ,MAXUPARAM ,NUPARAM  ,NUVAR     ,IFUNC   ,
-     .                       MAXFUNC,NFUNC     ,PARMAT   ,IMATVIS   ,0       ,
+     .                       UPARAM ,MAXUPARAM ,NUPARAM  ,NUVAR     ,
+     .                       PARMAT   ,0         ,
      .                       UNITAB ,MAT_ID    ,TITR     ,LSUBMODEL ,MTAG    ,
      .                       PM(1,I),IPM(1,I)  ,ISRATE   ,MATPARAM  )
 c-------
           CASE ('ZERIL','PLAS_ZERIL')
             ILAW  = 2 
             CALL HM_READ_MAT02(
-     .                       UPARAM ,MAXUPARAM ,NUPARAM  ,NUVAR     ,IFUNC   ,
-     .                       MAXFUNC,NFUNC     ,PARMAT   ,IMATVIS   ,1       ,
+     .                       UPARAM ,MAXUPARAM ,NUPARAM  ,NUVAR     ,
+     .                       PARMAT   ,1         ,
      .                       UNITAB ,MAT_ID    ,TITR     ,LSUBMODEL ,MTAG    ,
      .                       PM(1,I),IPM(1,I)  ,ISRATE   ,MATPARAM  )
 c-------
           CASE ('PLAS_PREDEF')
             ILAW  = 2 
             CALL HM_READ_MAT02(
-     .                       UPARAM ,MAXUPARAM ,NUPARAM  ,NUVAR     ,IFUNC   ,
-     .                       MAXFUNC,NFUNC     ,PARMAT   ,IMATVIS   ,2       ,
+     .                       UPARAM ,MAXUPARAM ,NUPARAM  ,NUVAR     ,
+     .                       PARMAT   ,2       ,
      .                       UNITAB ,MAT_ID    ,TITR     ,LSUBMODEL ,MTAG    ,
      .                       PM(1,I),IPM(1,I)  ,ISRATE   ,MATPARAM  )
 c-------
@@ -1394,7 +1394,7 @@ c
         IPM(1,I)   = MAT_ID
         IPM(2,I)   = ILAW
         IPM(3,I)   = ISRATE
-c
+!        
         PM(8,I)    = ISRATE          ! double stockage - a nettoyer
         IF (PM(9,I) == ZERO) PM(9,I) = ASRATE  ! old mat laws fill it directly
         PM(19,I)   = ILAW + EM01     ! double stockage - a nettoyer

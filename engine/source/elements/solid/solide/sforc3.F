@@ -250,9 +250,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,LCO,NF1,IFLAG,NUVAR,IBID,IPTR,IPTS,IPTT,
-     .        ILAY,ITET,IFVM_SKIP,NNOD
-      INTEGER NBF1,NBF2,NBF3, IALEFVM_MAT,II(6)
+      INTEGER I,NF1,NUVAR,IBID,IPTR,IPTS,IPTT,ILAY,ITET,IFVM_SKIP,NNOD
+      INTEGER NBF1,NBF2,NBF3, IALEFVM_MAT
 C
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),INOD(8)
       my_real
@@ -268,10 +267,11 @@ C
      . JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ),
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),
      . AIRE(MVSIZ),FQVIS(MVSIZ), FCXX(MVSIZ)
+      my_real, dimension(mvsiz) :: fheat
 C
       my_real :: STI(MVSIZ), WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ)
       my_real :: MUVOID(MVSIZ)  ! used in case of SPH 
-      my_real :: SIGY(MVSIZ),ET(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
+      my_real :: SIGY(MVSIZ),ET(MVSIZ),R3_FREE(MVSIZ)
 C
 C Connectivities
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
@@ -318,9 +318,6 @@ C
      .  VGXA(MVSIZ),VGYA(MVSIZ),VGZA(MVSIZ), VGA2(MVSIZ),
      .  DXY(MVSIZ),DYX(MVSIZ),DYZ(MVSIZ),
      .  DZY(MVSIZ),DZX(MVSIZ),DXZ(MVSIZ),
-     .  G1X(MVSIZ),G2X(MVSIZ),G3X(MVSIZ),
-     .  G1Y(MVSIZ),G2Y(MVSIZ),G3Y(MVSIZ),
-     .  G1Z(MVSIZ),G2Z(MVSIZ),G3Z(MVSIZ),
      .  R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),                        
      .  R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),                        
      .  R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),HH(MVSIZ),GAMA(MVSIZ,6),
@@ -335,8 +332,7 @@ C
 C
       my_real
      . VXR(MVSIZ),VYR(MVSIZ),VZR(MVSIZ),FR_WAV(MVSIZ),
-     . SXY(MVSIZ),SYX(MVSIZ),SYZ(MVSIZ),SZY(MVSIZ),SZX(MVSIZ),
-     . SXZ(MVSIZ),TEMPEL(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ)
+     . TEMPEL(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ)
 C
       my_real
      .  MX1(MVSIZ),MY1(MVSIZ),MZ1(MVSIZ),
@@ -373,7 +369,7 @@ C
      .  FDYY(MVSIZ) ,FDYZ(MVSIZ)  ,FDZX(MVSIZ)  ,FDZY(MVSIZ),
      .  FDZZ(MVSIZ) ,FD4(MVSIZ)   ,FD5(MVSIZ)   ,FD6(MVSIZ) ,
      .  FWXX(MVSIZ) ,FWYY(MVSIZ) ,FWZZ(MVSIZ)  ,FVXR(MVSIZ),
-     .  FVYR(MVSIZ) ,FVZR(MVSIZ) ,FDVOL(MVSIZ),FVOLN(MVSIZ),
+     .  FVYR(MVSIZ) ,FVZR(MVSIZ) ,FVOLN(MVSIZ),
      .  FVD2(MVSIZ)
 C
       my_real
@@ -411,10 +407,9 @@ C
      .  FDELTAX(MVSIZ) ,FLUX0(MVSIZ,6),FLU01(MVSIZ)
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
       my_real :: NL_NBNOD
-      my_real :: DT2T_lay(2)
       my_real :: CONDE(MVSIZ),AMU(MVSIZ),DIVDE(MVSIZ),L_MAX(MVSIZ),
      .           STI_C(MVSIZ),LL(MVSIZ),FLD(MVSIZ),
-     .           CNS2,RHO0_1,NU,C1,CAQ,FQMAX
+     .           CNS2,C1,CAQ,FQMAX
       my_real, DIMENSION(:), POINTER :: EINT
       my_real :: ELEM_MASS
       my_real :: SUM_EPS(9),SUM_M,SUM_VOL
@@ -826,13 +821,13 @@ C Total strain option doesn't change the reference configuration
        ENDIF
       END IF
 C
-      IF(JTHE < 0) THEN 
+      IF (JTHE < 0) THEN 
 C Element Temperature
         DO I=1,NEL
-           TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
-     .                              + TEMP(NC3(I)) + TEMP(NC4(I)) 
-     .                              + TEMP(NC5(I)) + TEMP(NC6(I)) 
-     .                              + TEMP(NC7(I)) + TEMP(NC8(I)))       
+          TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
+     .                             + TEMP(NC3(I)) + TEMP(NC4(I)) 
+     .                             + TEMP(NC5(I)) + TEMP(NC6(I)) 
+     .                             + TEMP(NC7(I)) + TEMP(NC8(I)))       
         ENDDO
       ENDIF
 C
@@ -1017,7 +1012,7 @@ C
      .   numgeo,      numnod,      numels,            
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna,       DT         )
+     .   idyna,       DT         ,    fheat      )
 C
       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         IF (ISM12_11==0.AND.JCVT==0) THEN
@@ -1570,16 +1565,30 @@ c===========================================================================
 C
       IF (JTHE < 0) THEN
 C Finite element heat transfert forces
-        CALL STHERM(
-     1   PM,      MXT,     VOLN,    NC1,
-     2   NC2,     NC3,     NC4,     NC5,
-     3   NC6,     NC7,     NC8,     PX1,
-     4   PX2,     PX3,     PX4,     PY1,
-     5   PY2,     PY3,     PY4,     PZ1,
-     6   PZ2,     PZ3,     PZ4,     DT1,
-     7   TEMP,    TEMPEL,  DIE,     THEM,
-     8   GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
-     9   GBUF%VOL,NEL)
+        IMAT = MXT(1)
+        IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
+          CALL STHERM(
+     1         PM,      IMAT,    VOLN,    NC1,
+     2         NC2,     NC3,     NC4,     NC5,
+     3         NC6,     NC7,     NC8,     PX1,
+     4         PX2,     PX3,     PX4,     PY1,
+     5         PY2,     PY3,     PY4,     PZ1,
+     6         PZ2,     PZ3,     PZ4,     DT1,
+     7         TEMP,    TEMPEL,  FHEAT,   THEM,
+     8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
+     9         GBUF%VOL,NEL     ,NUMNOD )
+        ELSE
+          CALL STHERM(
+     1         PM,      IMAT,    VOLN,    NC1,
+     2         NC2,     NC3,     NC4,     NC5,
+     3         NC6,     NC7,     NC8,     PX1,
+     4         PX2,     PX3,     PX4,     PY1,
+     5         PY2,     PY3,     PY4,     PZ1,
+     6         PZ2,     PZ3,     PZ4,     DT1,
+     7         TEMP,    TEMPEL,  DIE,     THEM,
+     8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
+     9         GBUF%VOL,NEL     ,NUMNOD )
+        END IF
       ENDIF
 C
       IF (JCVT /= 0) THEN

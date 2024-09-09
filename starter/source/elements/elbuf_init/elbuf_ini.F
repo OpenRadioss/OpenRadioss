@@ -1035,7 +1035,7 @@ c          print*,'   nlay,nptr,npts,nptt=',nlay,nptr,npts,nptt
 c-------------------------------------------------
           CALL ALLOCBUF_AUTO(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,
      .                   NINTLAY,NEL,NPT,NG,NGROUP,ITY,
-     .                   IGTYP)
+     .                   IGTYP,NPROPM,NUMMAT,PM )
 c-------------------------------------------------
           DEALLOCATE(TFAIL)
           DEALLOCATE(FAILID)
@@ -1903,7 +1903,7 @@ c          print*,' elbuf_ini : NG, buflen=',NG,buflen,ITY,IGTYP
 c-------------------------------------------------
           CALL ALLOCBUF_AUTO(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,
      .                       NINTLAY,NEL,NPT,NG,NGROUP,ITY,
-     .                       IGTYP)
+     .                       IGTYP,NPROPM,NUMMAT,PM )
 c-------------------------------------------------
           DEALLOCATE(TFAIL)
           DEALLOCATE(FAILID)
@@ -2383,7 +2383,7 @@ c
 c-------------------------------------------------
           CALL ALLOCBUF_AUTO(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,
      .                       NINTLAY,NEL,NPT,NG,NGROUP,ITY,
-     .                       IGTYP)
+     .                       IGTYP,NPROPM,NUMMAT,PM )
 C
           IF (ALLOCATED(IMAT)) DEALLOCATE(IMAT)
           IF (ALLOCATED(ILAW)) DEALLOCATE(ILAW)

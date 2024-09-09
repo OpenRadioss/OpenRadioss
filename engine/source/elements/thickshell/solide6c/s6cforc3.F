@@ -160,7 +160,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,LCO,NF1,IFLAG,NUVAR,CURRENT_LAYER,
+      INTEGER I,J,LCO,NF1,IFLAG,NUVAR,CURRENT_LAYER,IMAT,
      .   ILAY,NLAY,IR,IS,IT,IP,IBID,MX,L_PLA,L_EPSD
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IBIDON(1)
 c     Variables utilisees dans les routines solides uniquement (en arguments).
@@ -251,6 +251,7 @@ C
      .   N4Y(MVSIZ), N5Y(MVSIZ), N6Y(MVSIZ),
      .   N4Z(MVSIZ), N5Z(MVSIZ), N6Z(MVSIZ),AMU(MVSIZ),AREA(MVSIZ)
       my_real THEM(MVSIZ,6),TEMPEL(MVSIZ),DIE(MVSIZ),CONDEN(MVSIZ)
+      my_real, dimension(mvsiz) :: fheat
       DOUBLE PRECISION 
      .   VOLDP(MVSIZ),FACDP
       INTEGER INLOC,L_NLOC,IPOS(6),INOD(6)
@@ -680,9 +681,8 @@ C------------------------------------------------------
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna,       DT,          OPT_MTN=MTN,OPT_JCVT=JCVT, 
-     S   OPT_ISORTH=ISORTH,OPT_ISORTHG=ISORTHG)
-
+     .   idyna,       DT,         fheat  , OPT_MTN=MTN,OPT_JCVT=JCVT, 
+     .   OPT_ISORTH=ISORTH,OPT_ISORTHG=ISORTHG)
 C
         DO I=1,NEL
           STIN(I) = STIN(I)+STI(I)
@@ -759,15 +759,28 @@ C-------------------------
 C Finite element heat transfert  
 C--------------------------
         IF (JTHE < 0) THEN
-          CALL S6CTHERM(
-     1      PM       ,MXT     ,VOLN     ,NC1      ,
-     2      NC2      ,NC3     ,NC4      ,NC5      ,
-     3      NC6      ,PX1     ,PX2      ,PX3      ,
-     4      PX4      ,PY1     ,PY2      ,PY3      ,
-     5      PY4      ,PZ1     ,PZ2      ,PZ3      ,
-     6      PZ4      ,DT1     ,TEMP     ,TEMPEL   ,
-     7      DIE      ,THEM    ,GBUF%OFF ,LBUF%OFF ,
-     8      NEL      )
+          IMAT = MXT(1)
+          IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
+            CALL S6CTHERM(
+     1           PM       ,IMAT    ,VOLN     ,NC1      ,
+     2           NC2      ,NC3     ,NC4      ,NC5      ,
+     3           NC6      ,PX1     ,PX2      ,PX3      ,
+     4           PX4      ,PY1     ,PY2      ,PY3      ,
+     5           PY4      ,PZ1     ,PZ2      ,PZ3      ,
+     6           PZ4      ,DT1     ,TEMP     ,TEMPEL   ,
+     7           FHEAT    ,THEM    ,GBUF%OFF ,LBUF%OFF ,
+     8           NEL      )
+          ELSE
+          END IF
+            CALL S6CTHERM(
+     1           PM       ,IMAT    ,VOLN     ,NC1      ,
+     2           NC2      ,NC3     ,NC4      ,NC5      ,
+     3           NC6      ,PX1     ,PX2      ,PX3      ,
+     4           PX4      ,PY1     ,PY2      ,PY3      ,
+     5           PY4      ,PZ1     ,PZ2      ,PZ3      ,
+     6           PZ4      ,DT1     ,TEMP     ,TEMPEL   ,
+     7           DIE      ,THEM    ,GBUF%OFF ,LBUF%OFF ,
+     8           NEL      )
         ENDIF 
         DO I=1,NEL                                        
           OFFG(I)=MIN(OFFG(I),OFF(I))                        
