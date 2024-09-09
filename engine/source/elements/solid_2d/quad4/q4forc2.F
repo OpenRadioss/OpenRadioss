@@ -343,6 +343,7 @@ C-----------------------------------------------
       GBUF => ELBUF_TAB(NG)%GBUF
       IBID = 0
       IBIDON(1) = 0
+      BID(:) = ZERO
 C
       DO I=LFT,LLT
         EZX(I)=ZERO

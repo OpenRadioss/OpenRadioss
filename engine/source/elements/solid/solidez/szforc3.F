@@ -179,7 +179,6 @@ C-----------------------------------------------
      .        XDP(3,*)
       my_real
      .   DT2T
-      my_real, dimension(mvsiz) :: fheat
       my_real
      .   PM(NPROPM,NUMMAT), GEO(NPROPG,*), X(*), A(*), V(3,*), MS(*), W(*), 
      .   FLUX(6,*), FSKYM(*),
@@ -302,6 +301,7 @@ C 8-nodes solid connectivities
      .  XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ),
      .  STI_C(MVSIZ),LL(MVSIZ),L_MAX(MVSIZ),FLD(MVSIZ),
      .  CNS2,RHO0_1,NU,C1,CAQ,FQMAX
+      my_real, dimension(mvsiz) :: fheat
       my_real ,DIMENSION(:), POINTER :: EINT
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
