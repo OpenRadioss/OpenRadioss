@@ -76,7 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D                  SVIS       ,NSVOIS      ,IRESP       ,TT       ,DT1         ,
      .                  IDEL7NOK   ,IDTMIN      ,MAXFUNC     ,
      .                  IMON_MAT   ,USERL_AVAIL ,heat_meca   ,impl_s   ,idyna       ,
-     .                  DT         ,BID         )
+     .                  DT         )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -225,6 +225,8 @@ c
       IBID = 0
       SZ_IX=NUMELQ+NUMELS+NSVOIS    ! Size of IX array (either IXS+NSVOIS or IXQ)
       BIDM(1:MVSIZ) = ZERO
+      MBID(1:MVSIZ) = ZERO
+      BID(:) = ZERO
       DO I=1,NEL
         WYY(I)=ZERO
         WZZ(I)=ZERO
@@ -436,7 +438,7 @@ c
      .   numgeo,      numnod,      numels,            
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna,       DT         ,BID      )
+     .   idyna,       DT         , BID      )
 C--------------------------
 C       SYNTHESIS PER MATERIAL (thermics)
 C--------------------------
