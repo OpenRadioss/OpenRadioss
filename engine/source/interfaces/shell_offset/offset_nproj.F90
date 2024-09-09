@@ -161,7 +161,6 @@
         end if
 !    
       end if !(iparit >0) then
-#include "vectorize.inc"
       do n = 1, sh_offset_tab%nnsh_oset
          norm2 = sh_offset_tab%norm_n(1,n)*sh_offset_tab%norm_n(1,n)+                   &
                  sh_offset_tab%norm_n(2,n)*sh_offset_tab%norm_n(2,n)+                   &
