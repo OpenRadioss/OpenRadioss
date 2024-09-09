@@ -186,7 +186,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,I,IBID,ILCO,NF1,IFLAG,IPTR,IPTS,IPTT,ILAY
+      INTEGER K,I,IBID,ILCO,NF1,IFLAG,IPTR,IPTS,IPTT,ILAY,IMAT
       INTEGER IBIDON(1),ITET,IP
       my_real SUM
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
@@ -254,6 +254,7 @@ C-----------------------------------------------
      .  FLD(MVSIZ),STI_C(MVSIZ),CAQ,LL(MVSIZ),C1,MU,FQMAX
       my_real, 
      .  DIMENSION(:), POINTER :: EINT
+      my_real, dimension(mvsiz) :: fheat
 
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -548,10 +549,10 @@ C--------------------------
 C-----------------------------
 C     heat transfert 
 C
-      IF(JTHE < 0 ) THEN
+      IF (JTHE < 0 ) THEN
          DO I = LFT, LLT
            TEMPEL(I) =  FOURTH*( TEMP(NC1(I)) + TEMP(NC2(I))  +
-     .                          TEMP(NC3(I)) + TEMP(NC4(I))  )    
+     .                           TEMP(NC3(I)) + TEMP(NC4(I))  )    
          ENDDO  
       ENDIF
 c-------------------------------------------
@@ -631,7 +632,7 @@ Cpour le fluide en SPMD : BUFVOIS LOI11
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna,       DT)
+     .   idyna,       DT,    fheat      )
 c
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C-----------  return to global system    
@@ -765,15 +766,27 @@ C----------------------------
 C --------------------------
 C  --- heat transfert 
 C --------------------------
-      IF(JTHE < 0 ) THEN     
-        CALL S4THERM (
-     1   PM,      MXT,     VOLN,    NC1,
-     2   NC2,     NC3,     NC4,     PX1,
-     3   PX2,     PX3,     PX4,     PY1,
-     4   PY2,     PY3,     PY4,     PZ1,
-     5   PZ2,     PZ3,     PZ4,     DT1,
-     6   TEMP,    TEMPEL,  DIE,     THEM,
-     7   GBUF%OFF,LBUF%OFF,NEL)
+      IF (JTHE < 0 ) THEN     
+        IMAT = MXT(1)
+        IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
+          CALL S4THERM (
+     1         PM,      IMAT,    VOLN,    NC1,
+     2         NC2,     NC3,     NC4,     PX1,
+     3         PX2,     PX3,     PX4,     PY1,
+     4         PY2,     PY3,     PY4,     PZ1,
+     5         PZ2,     PZ3,     PZ4,     DT1,
+     6         TEMP,    TEMPEL,  FHEAT,   THEM,
+     7         GBUF%OFF,LBUF%OFF,NEL)
+        ELSE
+          CALL S4THERM (
+     1         PM,      IMAT,    VOLN,    NC1,
+     2         NC2,     NC3,     NC4,     PX1,
+     3         PX2,     PX3,     PX4,     PY1,
+     4         PY2,     PY3,     PY4,     PZ1,
+     5         PZ2,     PZ3,     PZ4,     DT1,
+     6         TEMP,    TEMPEL,  DIE,    THEM,
+     7         GBUF%OFF,LBUF%OFF,NEL)
+        END IF
       
       ENDIF
 c-------------------------

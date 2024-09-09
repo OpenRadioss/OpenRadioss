@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE ALLOCBUF_AUTO(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,
      .                         NINTLAY,NEL,NPT,NG,NGROUP,ITY,
-     .                         IGTYP)
+     .                         IGTYP,NPROPM,NUMMAT,PM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,13 +45,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NPROPM
+      INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER NLAY,NINTLAY,NPTR,NPTS,NPTT,NEL,NPT,NG,NGROUP,ITY,IGTYP
       TYPE(ELBUF_STRUCT_),TARGET ,DIMENSION(NGROUP)     :: ELBUF_TAB
+      my_real :: PM(NPROPM,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IL,IR,IS,IT,Stat,NPG,ILAYER,IPT,
+      INTEGER I,J,IL,IR,IS,IT,Stat,NPG,ILAYER,IPT,IMAT,
      .        LEN1,LEN2,LEN_PLAPT,LEN_SIGPT,NPTTOT,IDRAPE
+      my_real :: T_REF   ! reference (initial) temperature
       TYPE(BUF_MAT_)     , POINTER :: MATBUF
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
       TYPE(BUF_INTLAY_)  , POINTER :: INTLAY
@@ -138,6 +142,7 @@ c-------------------------------------------------
           IDRAPE = ELBUF_TAB(NG)%IDRAPE
           DO I = 1, NLAY
            BUFLY => ELBUF_TAB(NG)%BUFLY(I)
+           IMAT = ELBUF_TAB(NG)%BUFLY(I)%IMAT
            IF (IGTYP == 51 .OR. IGTYP == 52) THEN
              NPTT = BUFLY%NPTT
            ELSE
@@ -182,8 +187,8 @@ c
                   LBUF%EPSF = ZERO
               CALL MY_ALLOC(LBUF%PLA,NEL*BUFLY%L_PLA)              
                   LBUF%PLA = ZERO
-              CALL MY_ALLOC(LBUF%TEMP,NEL*BUFLY%L_TEMP)            
-                  LBUF%TEMP = ZERO
+              CALL MY_ALLOC(LBUF%TEMP,NEL*BUFLY%L_TEMP)
+                  LBUF%TEMP = MIN(BUFLY%L_TEMP,1) * PM(79,IMAT) ! reference (initial) temperature
               CALL MY_ALLOC(LBUF%TB,NEL*BUFLY%L_TB)                
                   LBUF%TB = ZERO
               CALL MY_ALLOC(LBUF%RK,NEL*BUFLY%L_RK)                

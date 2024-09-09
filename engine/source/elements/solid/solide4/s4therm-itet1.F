@@ -25,8 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    s10forc3        ../engine/source/elements/solid/solide10/s10forc3.F
       !||====================================================================
-      SUBROUTINE S4THERM_ITET1(PM   ,MAT  ,NC   ,NEL  ,
-     .                         XX   ,YY   ,ZZ   ,DT1  ,DIE ,
+      SUBROUTINE S4THERM_ITET1(PM   ,IMAT  ,NC   ,NEL  ,
+     .                         XX   ,YY   ,ZZ   ,DT1  ,HEAT ,
      .                         TEMP ,FPHI ,OFFG ,OFF )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -41,9 +41,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL, MAT(*),NC(MVSIZ,10)
+      INTEGER NEL, NC(MVSIZ,10)
+      INTEGER, INTENT(IN) :: IMAT
       my_real
-     .    TEMP(*), DIE(*),
+     .    TEMP(*), HEAT(*),
      .    FPHI(MVSIZ,10), PM(NPROPM,*), 
      .    DT1, OFF(*), OFFG(*)
       DOUBLE PRECISION
@@ -51,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, MX
+      INTEGER I, J
       my_real
      .   DET(NEL),
      .   PX1(NEL), PX2(NEL), PX3(NEL), PX4(NEL),  
@@ -115,9 +116,8 @@ C---+----1
       ENDDO
 
 C---+----1
-      MX = MAT(1)
-      CA = PM(75,MX)
-      CB = PM(76,MX)
+      CA = PM(75,IMAT)
+      CB = PM(76,IMAT)
 C
       DO I=1,NEL
          IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
@@ -140,7 +140,7 @@ C
 C
 C force thermique nodale
 C
-         A = FOURTH * DIE(I)
+         A = FOURTH * HEAT(I)
          FPHI(I,1) = A - (PHIX*PX1(I) + PHIY*PY1(I) + PZ1(I)*PHIZ)
          FPHI(I,2) = A - (PHIX*PX2(I) + PHIY*PY2(I) + PZ2(I)*PHIZ)
          FPHI(I,3) = A - (PHIX*PX3(I) + PHIY*PY3(I) + PZ3(I)*PHIZ)

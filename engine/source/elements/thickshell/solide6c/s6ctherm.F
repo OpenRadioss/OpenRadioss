@@ -26,13 +26,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
       !||====================================================================
       SUBROUTINE S6CTHERM(
-     1   PM       ,MAT      ,VOL      ,NC1      ,
+     1   PM       ,IMAT     ,VOL      ,NC1      ,
      2   NC2      ,NC3      ,NC4      ,NC5      ,
      3   NC6      ,PX1      ,PX2      ,PX3      ,
      4   PX4      ,PY1      ,PY2      ,PY3      ,
      5   PY4      ,PZ1      ,PZ2      ,PZ3      ,
      6   PZ4      ,DT1      ,TEMPNC   ,TEL      ,
-     7   DIE      ,FPHI     ,OFFG     ,OFF      ,
+     7   HEAT     ,FPHI     ,OFFG     ,OFF      ,
      8   NEL      )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -49,7 +49,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
-      INTEGER, INTENT(IN) :: MAT(MVSIZ),NC1(MVSIZ),NC2(MVSIZ),
+      INTEGER, INTENT(IN) :: IMAT
+      INTEGER, INTENT(IN) :: NC1(MVSIZ),NC2(MVSIZ),
      .   NC3(MVSIZ),NC4(MVSIZ),NC5(MVSIZ),NC6(MVSIZ)
 C     REAL
       my_real, INTENT(IN) ::
@@ -58,20 +59,19 @@ C     REAL
      .   PX3(MVSIZ), PY3(MVSIZ),PZ3(MVSIZ),
      .   PX4(MVSIZ), PY4(MVSIZ),PZ4(MVSIZ),
      .   TEMPNC(NUMNOD), PM(NPROPM,NUMMAT),
-     .   DT1,DIE(MVSIZ), TEL(MVSIZ),OFF(MVSIZ),OFFG(MVSIZ)
+     .   DT1,HEAT(MVSIZ), TEL(MVSIZ),OFF(MVSIZ),OFFG(MVSIZ)
       my_real, INTENT(INOUT) :: FPHI(MVSIZ,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX
+      INTEGER I
 C     REAL
       my_real
      .  CA, CB, KC, PHIX, PHIY, PHIZ, A
 C----------------------------------------------- 
-
-      MX = MAT(1)
-      CA = PM(75,MX)
-      CB = PM(76,MX)
+      CA = PM(75,IMAT)
+      CB = PM(76,IMAT)
+!
       DO I=1,NEL
         IF (OFF(I)/=ZERO .AND. OFFG(I)>ZERO) THEN 
 c          
@@ -99,7 +99,7 @@ c
           PHIZ = KC*PHIZ 
 c
           ! Computing nodal thermic forces
-          A = DIE(I)*ONE_OVER_6
+          A = HEAT(I)*ONE_OVER_6
           FPHI(I,1) = FPHI(I,1) +
      .        A - (PHIX*(PX1(I)-PX4(I)) + PHIY*(PY1(I)-PY4(I)) + PHIZ*(PZ1(I)-PZ4(I)))
           FPHI(I,2) = FPHI(I,2) +

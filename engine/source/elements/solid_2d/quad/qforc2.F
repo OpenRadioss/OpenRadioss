@@ -76,7 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D                  SVIS       ,NSVOIS      ,IRESP       ,TT       ,DT1         ,
      .                  IDEL7NOK   ,IDTMIN      ,MAXFUNC     ,
      .                  IMON_MAT   ,USERL_AVAIL ,heat_meca   ,impl_s   ,idyna       ,
-     .                  DT         )
+     .                  DT         ,BID         )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -436,7 +436,7 @@ c
      .   numgeo,      numnod,      numels,            
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna,       DT         )
+     .   idyna,       DT         ,BID      )
 C--------------------------
 C       SYNTHESIS PER MATERIAL (thermics)
 C--------------------------

@@ -27,10 +27,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    s20forc3   ../engine/source/elements/solid/solide20/s20forc3.F
       !||====================================================================
       SUBROUTINE S20THERM(
-     1   NPE,     PM,      MAT,     NC,
+     1   NPE,     PM,      IMAT,     NC,
      2   VOL,     PX,      PY,      PZ,
      3   NI,      DT1,     TEMPNC,  TEL,
-     4   DIE,     FPHI,    OFFG,    OFF,
+     4   HEAT,     FPHI,    OFFG,    OFF,
      5   NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -46,23 +46,24 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
-      INTEGER MAT(*),NPE,NC(MVSIZ,NPE)
+      INTEGER, INTENT(IN) :: IMAT
+      INTEGER NPE,NC(MVSIZ,NPE)
 C     REAL
       my_real
      .    VOL(*), PX(MVSIZ,NPE), PY(MVSIZ,NPE),PZ(MVSIZ,NPE),
-     .    NI(NPE),TEMPNC(*), FPHI(MVSIZ,NPE), PM(NPROPM,*),DIE(*),
+     .    NI(NPE),TEMPNC(*), FPHI(MVSIZ,NPE), PM(NPROPM,*),HEAT(*),
      .    DT1,TEL(*),OFF(*),OFFG(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, N
+      INTEGER I,N
 C     REAL
       my_real
      .  CA, CB, KC, PHIX(MVSIZ), PHIY(MVSIZ), PHIZ(MVSIZ)
 C------------------------------------------------ 
-      MX  =MAT(1)
-      CA = PM(75,MX)
-      CB = PM(76,MX)
+      CA = PM(75,IMAT)
+      CB = PM(76,IMAT)
+!
       PHIX(1:MVSIZ) = ZERO
       PHIY(1:MVSIZ) = ZERO
       PHIZ(1:MVSIZ) = ZERO
@@ -89,9 +90,9 @@ C force thermique nodale
 C
       DO N=1,NPE
        DO I= 1,NEL
-         IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE        
-         FPHI(I,N) = FPHI(I,N) +
-     .      DIE(I)*NI(N) - (PHIX(I)*PX(I,N) + PHIY(I)*PY(I,N) + PHIZ(I)*PZ(I,N))
+         IF (OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE        
+         FPHI(I,N) = FPHI(I,N) + HEAT(I)*NI(N)
+     .             - (PHIX(I)*PX(I,N) + PHIY(I)*PY(I,N) + PHIZ(I)*PZ(I,N))
        ENDDO
       ENDDO
 
@@ -118,7 +119,7 @@ C force thermique nodale
 C
 !        DO N=1,NPE
 !          FPHI(I,N) = FPHI(I,N) +
-!     .      DIE(I)*NI(N) - (PHIX*PX(I,N) + PHIY*PY(I,N) + PHIZ*PZ(I,N))
+!     .      HEAT(I)*NI(N) - (PHIX*PX(I,N) + PHIY*PY(I,N) + PHIZ*PZ(I,N))
 !        ENDDO
 !       ENDDO
 C 

@@ -26,9 +26,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    s10forc3   ../engine/source/elements/solid/solide10/s10forc3.F
       !||====================================================================
       SUBROUTINE S10THERM(
-     1   PM,      MAT,     NC,      VOL,
+     1   PM,      IMAT,     NC,      VOL,
      2   PX,      PY,      PZ,      NI,
-     3   DT1,     TEMPNC,  TEL,     DIE,
+     3   DT1,     TEMPNC,  TEL,     HEAT,
      4   FPHI,    OFFG,    OFF,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -44,21 +44,22 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
-      INTEGER MAT(*),NC(MVSIZ,10)
+      INTEGER, INTENT(IN) :: IMAT
+      INTEGER NC(MVSIZ,10)
       my_real
      .    VOL(*), PX(MVSIZ,*), PY(MVSIZ,*), PZ(MVSIZ,*),
-     .    NI(MVSIZ,10), TEMPNC(*), FPHI(MVSIZ,10), PM(NPROPM,*), DIE(*),
+     .    NI(MVSIZ,10), TEMPNC(*), FPHI(MVSIZ,10), PM(NPROPM,*), HEAT(*),
      .    DT1, TEL(*), OFF(*), OFFG(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, N
+      INTEGER I,N
       my_real
      .  CA, CB, KC, PHIX(MVSIZ), PHIY(MVSIZ), PHIZ(MVSIZ)
 C-----------------------------------------------
-      MX = MAT(1)
-      CA = PM(75,MX)
-      CB = PM(76,MX)
+      CA = PM(75,IMAT)
+      CB = PM(76,IMAT)
+!
       PHIX(1:MVSIZ) = ZERO
       PHIY(1:MVSIZ) = ZERO
       PHIZ(1:MVSIZ) = ZERO
@@ -87,7 +88,7 @@ C
       DO N=1,10
        DO I=1,NEL
           IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
-          FPHI(I,N) = FPHI(I,N) + DIE(I)*NI(I,N) - (PHIX(I)*PX(I,N) + PHIY(I)*PY(I,N) + PHIZ(I)*PZ(I,N))
+          FPHI(I,N) = FPHI(I,N) + HEAT(I)*NI(I,N) - (PHIX(I)*PX(I,N) + PHIY(I)*PY(I,N) + PHIZ(I)*PZ(I,N))
         ENDDO
       ENDDO
 C 

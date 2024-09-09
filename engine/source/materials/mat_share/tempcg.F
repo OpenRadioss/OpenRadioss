@@ -28,33 +28,29 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
       !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
       !||====================================================================
-      SUBROUTINE TEMPCG(JFT ,JLT   , PM   ,MAT   ,IXC ,   
-     3                  TEMP ,TEMPEL)
+      SUBROUTINE TEMPCG(NUMNOD, NEL  ,IXC ,TEMP ,TEMPEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT,MAT(*),IXC(NIXC,*)
-C     REAL
-      my_real
-     .   TEMP(*), PM(NPROPM,*),TEMPEL(*)
+      INTEGER ,INTENT(IN) :: NUMNOD
+      INTEGER ,INTENT(IN) :: NEL
+      INTEGER IXC(NIXC,*)
+      my_real :: TEMP(NUMNOD)
+      my_real :: TEMPEL(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL  
-C --- calcul de la tempurature au CG 
-        DO I=JFT,JLT
-          TEMPEL(I) = FOURTH * ( TEMP(IXC(2,I)) + TEMP(IXC(3,I)) + 
-     .                          TEMP(IXC(4,I)) + TEMP(IXC(5,I)) )
-       ENDDO
-C
+C-----------------------------------------------
+C --- calculate mean element temperature in Gauss point
+      DO I=1,NEL
+         TEMPEL(I) = FOURTH * (TEMP(IXC(2,I)) + TEMP(IXC(3,I)) + 
+     .                         TEMP(IXC(4,I)) + TEMP(IXC(5,I)) )
+      ENDDO
+!-----------
       RETURN
       END

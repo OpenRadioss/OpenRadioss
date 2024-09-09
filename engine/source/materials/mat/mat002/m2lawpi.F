@@ -68,29 +68,24 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICC(NEL),IRTY(NEL),INDX(NEL)
-      INTEGER I, J, J1, J2, NPIF, IPT, IPY,IPZ,IPA,NINDX,VP,
-     .        IR,IS,ILAYER,II(3)
-C     REAL
-      my_real
-     .   EPMX(NEL), DEGMB(NEL), DEGFX(NEL),
-     .   CA(NEL), CB(NEL), CN(NEL), YMAX(NEL),CP(NEL),
-     .   T(NEL),Z3(NEL),Z4(NEL),CC(NEL),EPDR(NEL),
+      INTEGER :: I,IPT,ICC,IRTY,IPY,IPZ,IPA,VP,IR,IS,ILAYER
+      INTEGER :: II(3)
+      my_real :: EPMX(NEL),CA(NEL), CB(NEL), CN(NEL), YMAX(NEL),
+     .   T(NEL),Z3(NEL),CC(NEL),EPDR(NEL),
      .   YLD(NEL),ETSE(NEL),Q(NEL),E(NEL),G(NEL),
      .   YPT(NEL),ZPT(NEL),APT(NEL),VOL(NEL),DPLA(NEL),
      .   SIGNXX(NEL),SIGNXY(NEL),SIGNXZ(NEL),LOGEP(NEL),
      .   DEPSXX(NEL),DEPSXY(NEL),DEPSXZ(NEL),PLAP(NEL)
-      my_real
-     .   EPIF,SVM1,GS,MT,TM,TSTAR,UMR,R,DFXX,DFXY,DFXZ,SHFACT,PLAP1
+      my_real :: TREF,TMELT,CP,
+     .   EPIF,SVM1,GS,MT,TSTAR,UMR,R,SHFACT,PLAP1,Z4
 C
-      TYPE(L_BUFEL_),POINTER :: LBUF  
+      TYPE(L_BUFEL_) ,POINTER :: LBUF  
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
 C=======================================================================
       IPY  = 200        
       IPZ  = 300        
       IPA  = 400        
       EPIF = ZERO
-      NPIF = 0
       SHFACT = FIVE_OVER_6
 !
       DO I=1,3
@@ -99,6 +94,18 @@ C=======================================================================
 !
 C---
       VP   = IPM(255,IMAT) 
+      IRTY = NINT(PM(50,IMAT))
+      IF (IRTY == 0) THEN
+        TREF  = PM(79,IMAT)                    
+        TMELT = PM(80,IMAT)                    
+        CP    = ONE / MAX(EM20,PM(69,IMAT))                  
+      ELSE
+        Z4    = PM(52,IMAT)                    
+        CP    = PM(53,IMAT)                    
+        TREF  = PM(54,IMAT)                    
+      END IF             
+!
+      ICC  = NINT(PM(49,IMAT))              
       DO I=JFT,JLT                           
         E(I)    = PM(20,IMAT)                    
         G(I)    = PM(22,IMAT)                    
@@ -109,24 +116,18 @@ C---
         YMAX(I) = PM(42,IMAT)                    
         CC(I)   = PM(43,IMAT)    
         IF(VP == 1)THEN
-          EPDR(I) =   MAX(EM20,PM(44,IMAT))
+          EPDR(I) = MAX(EM20,PM(44,IMAT))
         ELSE               
           EPDR(I) = MAX(EM20,PM(44,IMAT)*DT1)  
         ENDIF
         EPIF    = MAX(EPIF,CC(I))              
-        ICC(I)  = NINT(PM(49,IMAT))              
-        IRTY(I) = NINT(PM(50,IMAT))              
-        NPIF    = NPIF + IRTY(I)               
         Z3(I)   = PM(51,IMAT)                    
-        Z4(I)   = PM(52,IMAT)                    
-        CP(I)   = PM(53,IMAT)                    
-        T(I)    = PM(54,IMAT)                    
         EPSP(I) = MAX(EPSP(I),EPDR(I))
         VOL(I)  = AL(I)*GEO(1,PID(I))            
       ENDDO                                    
 C
       DO I=JFT,JLT
-        T(I) = T(I) + CP(I)*(EINT(I,1)+EINT(I,2))/VOL(I)
+        T(I) = TREF + CP*(EINT(I,1)+EINT(I,2))/VOL(I)
       ENDDO   
 C-------------------------------------
 C     DEBUT DE BOUCLE SUR POINTS INTEGRATION
@@ -198,11 +199,10 @@ c---    strain rate dependency
         ENDIF
 C--     Yield 
         IF (EPIF /= ZERO) THEN
-          IF (NPIF == 0)THEN
+          IF (IRTY == 0)THEN
             DO I=JFT,JLT
               MT      = MAX(EM20,Z3(I))
-              TM      = Z4(I)
-              TSTAR   = MAX(ZERO,(T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98))
+              TSTAR   = MAX(ZERO,(T(I)-TREF)/(TMELT-TREF))
               IF (TSTAR == ZERO) THEN
                 Q(I) = (ONE + CC(I) * LOGEP(I))
               ELSE
@@ -211,38 +211,14 @@ C--     Yield
               Q(I)  = MAX(Q(I),EM20)
               CA(I) = CA(I) * Q(I)
               CB(I) = CB(I) * Q(I)
-              IF (ICC(I)== 1) YMAX(I) = YMAX(I) * Q(I)
+              IF (ICC== 1) YMAX(I) = YMAX(I) * Q(I)
             ENDDO
-          ELSEIF (NPIF == JLT) THEN
+          ELSEIF (IRTY == 1) THEN
             DO I=JFT,JLT
               Q(I) = LOGEP(I)
-              Q(I) = CC(I)*EXP((-Z3(I)+Z4(I) * Q(I))*T(I))
-              IF (ICC(I) == 1) YMAX(I)= YMAX(I) + Q(I)
+              Q(I) = CC(I)*EXP((-Z3(I)+Z4 * Q(I))*T(I))
+              IF (ICC == 1) YMAX(I)= YMAX(I) + Q(I)
               CA(I) = CA(I) + Q(I)
-            ENDDO
-          ELSE
-            DO I=JFT,JLT
-              IF (IRTY(I) == 0) THEN
-C               Johnson-Cook
-                MT   = MAX(EM20,Z3(I))
-                TM   = Z4(I)
-                TSTAR= MAX(ZERO,(T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98))
-                IF (TSTAR==ZERO) THEN
-                   Q(I) = (ONE + CC(I) * LOGEP(I))
-                ELSE
-                   Q(I) = (ONE + CC(I) * LOGEP(I))*(ONE-EXP(MT*LOG(TSTAR)))
-                ENDIF
-                Q(I)  = MAX(Q(I),EM20)
-                CA(I) = CA(I) * Q(I)
-                CB(I) = CB(I) * Q(I)
-                IF (ICC(I)==1) YMAX(I) = YMAX(I) * Q(I)
-              ELSE
-C               Zerilli-Armstrong
-                Q(I) = LOGEP(I)
-                Q(I) = CC(I)*EXP((-Z3(I)+Z4(I) * Q(I))*T(I))
-                IF (ICC(I) == 1) YMAX(I)= YMAX(I) + Q(I)
-                CA(I) = CA(I) + Q(I)
-              ENDIF
             ENDDO
           ENDIF
         ENDIF

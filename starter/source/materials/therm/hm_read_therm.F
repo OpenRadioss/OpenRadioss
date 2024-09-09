@@ -37,17 +37,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_THERM(BUFMAT  ,BUFLEN     ,IPM     ,PM     ,
+      SUBROUTINE HM_READ_THERM(MAT_PARAM   ,BUFMAT  ,BUFLEN     ,IPM     ,PM     ,
      .                         UNITAB  ,LSUBMODEL  )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C Material Parameters (hm_read_therm.F)
-C  PM(71) is a material flag.  1: thermal parameters are input    0:no thermal parameter
+C  PM(71) = JTHE is a material flag.  1: thermal parameters are input    0:no thermal parameter
 C
 C GLOBAL FLAGS (hm_read_part.F)
-C  ITHEM_FE : 1 if at least one PART has thermal parameter and lagrangian framework
-C  ITHEM    : 1 if at least one PART has thermal parameter and ale/euler framework
+C  ITHERM_FE : 1 if at least one PART has thermal parameter and lagrangian framework
+C  ITHERM    : 1 if at least one PART has thermal parameter and ale/euler framework
 C
 C GROUP FLAG (./source/element/....tails.F) IPARG(13) will be flag for thermics.
 C  IN ALL CASES 
@@ -67,6 +67,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE MATPARAM_DEF_MOD
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,28 +88,25 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM ,NUMMAT), INTENT(INOUT) :: PM
       my_real, DIMENSION(BUFLEN), INTENT(INOUT) :: BUFMAT
       TYPE (UNIT_TYPE_) ,INTENT(IN) :: UNITAB 
-      TYPE(SUBMODEL_DATA) ,DIMENSION(NSUBMOD) , INTENT(IN) :: LSUBMODEL
+      TYPE(SUBMODEL_DATA)   ,DIMENSION(NSUBMOD) ,INTENT(IN)    :: LSUBMODEL
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: ITH,FLAGMAT,FLAGUNIT,IUNIT,UID,MAT_ID,IMAT,ILAW,ALE,LAG,EUL,JALE,JTHE,JTUR,IAD_THERM,NTHERM,IFORM
-      INTEGER ,DIMENSION(NUMMAT) :: ITHERM_FOR
-      my_real :: UPWM,UPWO,T0,T1,RHO_CP,AS,BS,AL,BL,RHO_CPM1,EFRAC
-      my_real :: RCP_UNIT,AS_UNIT
+      INTEGER :: I,ITH,FLAGMAT,FLAGUNIT,IUNIT,UID,MAT_ID,IMAT,ILAW,ALE,
+     .           LAG,EUL,JALE,JTUR,IAD_THERM,NTHERM,IFORM,LAW2_FORM
+      my_real :: TREF,TMELT,RHO_CP,AS,BS,AL,BL,RHO_CPM1,EFRAC
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER :: KEY*80
       LOGICAL IS_AVAILABLE,IS_AVAILABLE_IFORM
 C=======================================================================
-      ITHERM_FE = 0      ! com01_c.inc
-      ITHERM = 0
-c--------------------------------------------------
 c     COUNT EOS MODELS USING CFG FILES
 c--------------------------------------------------
 c      
       CALL HM_OPTION_COUNT('/HEAT',NTHERM)
 c
 c--------------------------------------------------
-c     START BROWSING EOS MODELS
+c     START BROWSING /HEAT MODELS
 c--------------------------------------------------
 c
       CALL HM_OPTION_START('/HEAT')
@@ -121,18 +119,20 @@ c--------------------------------------------------
 c       Check MAT_Id
 c--------------------------------------------------
         FLAGMAT  = 0
-        DO IMAT=1,NUMMAT-1
-          IF (MAT_ID == IPM(1,IMAT)) THEN
+        ILAW     = 0
+        IMAT     = 0
+        DO I =1,NUMMAT-1
+          IF (MAT_ID == MAT_PARAM(I)%MAT_ID) THEN
             FLAGMAT = 1
-            CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,IMAT),LTITR)
+            IMAT    = I
             EXIT
           ENDIF
         ENDDO
         IF (MAT_ID > 0 .AND. FLAGMAT == 0) THEN
           CALL ANCMSG(MSGID=1663,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1= MAT_ID, C1='HEAT/MAT', C2='HEAT/MAT', C3='')
-          CYCLE                           
         ENDIF
+        ILAW = MAT_PARAM(IMAT)%ILAW
 c--------------------------------------------------
 c       Check Unit_ID
 c--------------------------------------------------
@@ -154,41 +154,26 @@ c--------------------------------------------------
 c--------------------------------------------------
 c       Reading user parameters
 c--------------------------------------------------
-        CALL HM_GET_FLOATV('HEAT_T0'      ,T0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('HEAT_T0'      ,TREF     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('HEAT_RHocp'   ,RHO_CP   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('HEAT_AS'      ,AS       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('HEAT_BS'      ,BS       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_INTV  ('HEAT_Iform'   ,IFORM    ,IS_AVAILABLE_IFORM, LSUBMODEL)
 c
-        CALL HM_GET_FLOATV('HEAT_T1'      ,T1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('HEAT_T1'      ,TMELT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('HEAT_AL'      ,AL       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('HEAT_BL'      ,BL       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('HEAT_EFRAC'   ,EFRAC    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c--------------------------------------------------
-c       Storing user parameters
-c--------------------------------------------------
-        ILAW = IPM(2,IMAT)                                    
-        PM(71,IMAT) = ONEP1
-        PM(69,IMAT) = RHO_CP                                            
-        PM(75,IMAT) = AS                                             
-        PM(76,IMAT) = BS                                             
-        PM(77,IMAT) = AL                                             
-        PM(78,IMAT) = BL                                             
-        PM(79,IMAT) = T0                                             
-c--------------------------------------------------
 c       Specific Case : law2
 c--------------------------------------------------
-        IF (ILAW == 2)THEN
-          IF ((PM(54,IMAT) /= PM(79,IMAT)).AND.(NINT(PM(50,IMAT)) == 1)) THEN
+        IF (ILAW == 2) THEN
+          LAW2_FORM = NINT(PM(50,IMAT))
+          IF (TMELT /= PM(54,IMAT) .AND. LAW2_FORM == 1) THEN  ! zerilli
             CALL ANCMSG(MSGID=764, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .                  I1=MAT_ID, C1=TITR, I2=MAT_ID, I3=MAT_ID)
           END IF
-          IF (RHO_CP <= ZERO) THEN
-              RHO_CPM1 = ZERO
-          ELSE
-              RHO_CPM1 = ONE/RHO_CP
-          ENDIF
-          IF (PM(53,IMAT) /= RHO_CPM1) THEN
+          IF (RHO_CP /= PM(69,IMAT)) THEN
             CALL ANCMSG(MSGID=765, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .                  I1=MAT_ID, C3=TITR, I2=MAT_ID, I3=MAT_ID)
           ENDIF
@@ -231,15 +216,13 @@ c       Check at least if the corresponding material is indeed lagrangian !!
            LAG = 1                                       
         ENDIF    
 c
-        IF(IS_AVAILABLE_IFORM)THEN
-        
+        IF(IS_AVAILABLE_IFORM)THEN        
           IF(IFORM /=0 .AND. LAG == 0)THEN
-             IFORM = 0
-             CALL ANCMSG(MSGID=1609, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
-     .            I1=MAT_ID, C1="WARNING", C2=TITR,
-     .            C3="IFORM = 1 IS INCOMPATIBLE WITH /ALE AND /EULER MATERIALS, IT WILL BE IGNORED")
-          ENDIF
-          
+            IFORM = 0
+            CALL ANCMSG(MSGID=1609, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+     .           I1=MAT_ID, C1="WARNING", C2=TITR,
+     .           C3="IFORM = 1 IS INCOMPATIBLE WITH /ALE AND /EULER MATERIALS, IT WILL BE IGNORED")
+          ENDIF          
         ENDIF
 c
         IF (RHO_CP == ZERO .AND. LAG == 0) THEN
@@ -250,17 +233,26 @@ c
 c--------------------------------------------------
 c       Default Values
 c--------------------------------------------------
-        IF (T0 == ZERO)    T0 = PM(23,IMAT) / RHO_CP             
-        IF (T1 == ZERO)    T1 = EP20                              
+        IF (TREF  == ZERO) TREF  = PM(23,IMAT) / RHO_CP     ! E0 / rho_cp        
+        IF (TREF  == ZERO) TREF  = 300.0 
+        IF (TMELT == ZERO) TMELT = EP20                              
         IF (EFRAC < ZERO)  EFRAC = ZERO        
-        IF (EFRAC > ONE )   EFRAC = ONE
+        IF (EFRAC > ONE )  EFRAC = ONE
         IF (EFRAC == ZERO) EFRAC = ONE
-        PM (80,IMAT) = T1
-        PM (90,IMAT) = EFRAC        
+        
+        PM(71,IMAT) = ONEP1       ! jthe
+        PM(69,IMAT) = RHO_CP                                            
+        PM(75,IMAT) = AS                                             
+        PM(76,IMAT) = BS                                             
+        PM(77,IMAT) = AL                                             
+        PM(78,IMAT) = BL                                             
+        PM(79,IMAT) = TREF                                             
+        PM(80,IMAT) = TMELT
+        PM(90,IMAT) = EFRAC
 c--------------------------------------------------
 c       Output
 c--------------------------------------------------
-        WRITE(IOUT,2000) MAT_ID,T0,RHO_CP,AS,BS,T1,AL,BL,EFRAC
+        WRITE(IOUT,2000) MAT_ID,TREF,RHO_CP,AS,BS,TMELT,AL,BL,EFRAC
 C        
       ENDDO   ! I = 1,NTHERM     
 
