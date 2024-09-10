@@ -263,7 +263,10 @@ C=======================================================================
         ENDIF
         AAA = TWO * AAA 
 
-        !  nb_chunk_x = MIN(MAX(1,(xmax - xmin) / AAA,NBX+2))
+        NB_CHUNK_X =INT(MIN(MAX(ONE,(XMAX - XMIN) / AAA),NBX+TWO))
+        NB_CHUNK_Y =INT(MIN(MAX(ONE,(YMAX - YMIN) / AAA),NBY+TWO))
+        NB_CHUNK_Z =INT(MIN(MAX(ONE,(ZMAX - ZMIN) / AAA),NBZ+TWO))
+
         X_CHUNK = MAX(1,1+KEPT_NODE /NB_CHUNK_X)
         Y_CHUNK = MAX(1,1+KEPT_NODE /NB_CHUNK_Y)
         Z_CHUNK = MAX(1,1+KEPT_NODE /NB_CHUNK_Z)
