@@ -8382,7 +8382,7 @@ C Regular animation
           IF(MOD(NCYCLE,DEBUG(MACRO_DEBUG_CHKSM)) == 0  ) THEN
         ! Print checksum
           CALL SPMD_FLUSH_ACCEL(NCYCLE,  ISPMD,   NSPMD, NUMNOD,
-     .                          NUMNODG, NUMNODM, A,     ITAB,
+     .                          NUMNODG, NUMNODM, V,     ITAB,
      .                          WEIGHT,  NODGLOB)
           ENDIF
         ENDIF

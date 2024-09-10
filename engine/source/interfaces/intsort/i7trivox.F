@@ -151,6 +151,7 @@ c provisoire
       INTEGER, PARAMETER :: FINE_SIZE = 1024
       INTEGER, DIMENSION(FINE_SIZE), SAVE :: X_FINE, Y_FINE, Z_FINE
       INTEGER :: KEPT_NODE, X_SUM, Y_SUM, Z_SUM
+      INTEGER :: NB_CHUNK_X, NB_CHUNK_Y, NB_CHUNK_Z
       INTEGER :: X_CHUNK, Y_CHUNK, Z_CHUNK
 C-----------------------------------------------
       IF(ITASK == 0)THEN
@@ -255,16 +256,18 @@ C=======================================================================
           KEPT_NODE = KEPT_NODE + 1
         ENDDO
 
-        X_CHUNK = MAX(1,1+KEPT_NODE /(NBX+2))
-        Y_CHUNK = MAX(1,1+KEPT_NODE /(NBY+2))
-        Z_CHUNK = MAX(1,1+KEPT_NODE /(NBZ+2))
         IF(IGAP == 0)THEN
           AAA = TZINF
         ELSE
           AAA = MARGE
         ENDIF
-
         AAA = TWO * AAA 
+
+        !  nb_chunk_x = MIN(MAX(1,(xmax - xmin) / AAA,NBX+2))
+        X_CHUNK = MAX(1,1+KEPT_NODE /NB_CHUNK_X)
+        Y_CHUNK = MAX(1,1+KEPT_NODE /NB_CHUNK_Y)
+        Z_CHUNK = MAX(1,1+KEPT_NODE /NB_CHUNK_Z)
+
         X_SUM = 0
         Y_SUM = 0
         Z_SUM = 0
@@ -314,8 +317,8 @@ c         endif
           ENDIF
         ENDDO
 
-C      WRITE(6,*) "NBX+2 = ", NBX+2, "NBY+2 = ", NBY+2, "NBZ+2 = ", NBZ+2
-C      write(6,*)  "IX=",X_FINE(FINE_SIZE), "IY=",Y_FINE(FINE_SIZE), "IZ=",Z_FINE(FINE_SIZE)
+       WRITE(6,*) "NBX+2 = ", NBX+2, "NBY+2 = ", NBY+2, "NBZ+2 = ", NBZ+2
+       write(6,*)  "IX=",X_FINE(FINE_SIZE), "IY=",Y_FINE(FINE_SIZE), "IZ=",Z_FINE(FINE_SIZE)
 c       write(6,*) "KEPT_NODE=", KEPT_NODE
 c       write(6,*) "IX1=",IX1, "IY1=",IY1, "IZ1=",IZ1
 c       write(6,*) "bounds=",XMAX, XMIN, YMAX, YMIN, ZMAX, ZMIN

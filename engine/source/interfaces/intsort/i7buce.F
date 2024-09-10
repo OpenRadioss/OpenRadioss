@@ -361,6 +361,10 @@ C
         NBY = MIN(100,MAX(NBY8,1))
         NBZ = MIN(100,MAX(NBZ8,1))
       ENDIF
+      
+      NBX = 198
+      NBY = 198
+      NBZ = 198
 
 C     initialisation complete de VOXEL
 C (en // SMP il y a possibilite de redondance de traitement mais no pb)
