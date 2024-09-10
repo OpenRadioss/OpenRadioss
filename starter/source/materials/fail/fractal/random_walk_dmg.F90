@@ -121,7 +121,7 @@
 
       fractal%imat = imat
 !
-      if (seed == zero) then
+      if (seed == 0) then
         call random_seed()
       else
         i_seed = 1
