@@ -613,6 +613,7 @@ C-----------------------------------------------
       use constraint_mod , only : constraint_,alloc_constraint_struct,dealloc_constraint_struct
       use split_rwall_mod , only : split_rwall
       use stifint_icontrol_mod, only : stifint_icontrol
+      use fractal_elem_renum_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -6597,7 +6598,10 @@ C provisoire
       END IF
       NBR_GPMP = NGROUP
 
-
+c-----------------------------------------------------------------------
+c     element renumbering failure  by /fail/fractal 
+c-----------------------------------------------------------------------
+      call fractal_elem_renum(FAIL_FRACTAL  ,NUMELC  ,NUMELTG)
 c-----------------------------------------------------------------------
 c     set default material/property parameters by element group
 c-----------------------------------------------------------------------
