@@ -8380,7 +8380,6 @@ C Regular animation
         
         IF(DEBUG(MACRO_DEBUG_CHKSM) >0) THEN
           IF(MOD(NCYCLE,DEBUG(MACRO_DEBUG_CHKSM)) == 0  ) THEN
-        ! Print checksum
           CALL SPMD_FLUSH_ACCEL(NCYCLE,  ISPMD,   NSPMD, NUMNOD,
      .                          NUMNODG, NUMNODM, A,     ITAB,
      .                          WEIGHT,  NODGLOB)
@@ -9087,8 +9086,14 @@ C===============================================================================
             END IF
             IF ( NCYCLE>=DEBSTART .AND.
      .           MOD(NCYCLE-DEBSTART,RSTFREQ)==0 ) THEN
-                CALL SPMD_COLLECT_MULTI_FVM(IXS,MULTI_FVM)
+                CALL SPMD_COLLECT_MULTI_FVM(IXS,MULTI_FVM,1)
             ENDIF
+        ENDIF
+        IF(DEBUG(MACRO_DEBUG_CHKSM) >0) THEN
+          IF(MOD(NCYCLE,DEBUG(MACRO_DEBUG_CHKSM)) == 0  ) THEN
+                CALL SPMD_COLLECT_MULTI_FVM(IXS,MULTI_FVM,2)
+
+          ENDIF
         ENDIF
       ENDIF
 C========================================================================================

@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inoutfile_mod            ../common_source/modules/inoutfile_mod.F
       !||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F
       !||====================================================================
-      SUBROUTINE SPMD_COLLECT_MULTI_FVM(IXS,MULTI_FVM)
+      SUBROUTINE SPMD_COLLECT_MULTI_FVM(IXS,MULTI_FVM,FLAG)
 !$COMMENT
 !       SPMD_COLLECT_MULTI_FVM description
 !       creation of a file with hexa values of MULTI_FVM%VEL
@@ -43,6 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !        * creation of the *.adb file
 !
 !$ENDCOMMENT
+      USE CHECKSUM_MOD, ONLY : DOUBLE_ARRAY_CHECKSUM
       USE INOUTFILE_MOD
       USE DEBUG_MOD
       USE MULTI_FVM_MOD
@@ -70,6 +71,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, DIMENSION(NIXS,*), INTENT(in) :: IXS
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
+      INTEGER,INTENT(in) :: FLAG ! 1: write the file ; 2 compute the checksum
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -81,8 +83,11 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NSPMD) :: SIZE_NUMELS
       INTEGER, DIMENSION(:), ALLOCATABLE :: SDNODG
       DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: AGLOB,RECGLOB 
+      DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: RECGLOB_ORDERED
       ! array for sorting
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITRI,WORK,INDEX_TRI
+      INTEGER ::CHECKSUM
+
 
 #ifdef MPI 
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
@@ -155,16 +160,6 @@ C-----------------------------------------------
 C
 
         IF(ISPMD==0) THEN
-            WRITE(CYCLENUM,'(I7.7)')NCYCLE
-            FILNAM=ROOTNAM(1:ROOTLEN)//'_FVM_'//CHRUN//'_'//CYCLENUM//'.adb'
-
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
-            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM)) 
-       
-            OPEN(UNIT=IDBG5,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',
-     .                  FORM='FORMATTED',STATUS='UNKNOWN')
-
-            FILEN = ROOTLEN+17
 
             DO I=1,NUMELS
                 N =  IXS(NIXS,I)
@@ -184,14 +179,38 @@ C
 
             CALL MY_ORDERS(0,WORK,ITRI,INDEX_TRI,NUMELSG,1)
 
-        
-            DO I = 1, NUMELSG
-                N = INDEX_TRI(I)
-                WRITE(IDBG5,'(A,I10,I10,Z20,Z20,Z20)' ) '>',NCYCLE,NINT(RECGLOB(1,N)),RECGLOB(2,N),RECGLOB(3,N),RECGLOB(4,N)
-            END DO
-            WRITE (IOUT,1300)  FILNAM(1:FILEN)
-            WRITE (ISTDO,1300) FILNAM(1:FILEN)
-            CLOSE(UNIT=IDBG5)
+            IF(FLAG == 2) THEN
+              ALLOCATE(RECGLOB_ORDERED(4,NUMELSG))
+              DO I = 1, NUMELSG
+                  N = INDEX_TRI(I)
+                  RECGLOB_ORDERED(1,I) = RECGLOB(1,N)
+                  RECGLOB_ORDERED(2,I) = RECGLOB(2,N)
+                  RECGLOB_ORDERED(3,I) = RECGLOB(3,N)
+                  RECGLOB_ORDERED(4,I) = RECGLOB(4,N)
+              END DO
+              CHECKSUM = DOUBLE_ARRAY_CHECKSUM(RECGLOB_ORDERED,NUMELSG,4)
+              WRITE(IOUT,*) NCYCLE, "MULTI_FVM CHECKSUM:",CHECKSUM
+              DEALLOCATE( RECGLOB_ORDERED)
+            ELSE IF(FLAG == 1) THEN
+              WRITE(CYCLENUM,'(I7.7)')NCYCLE
+              FILNAM=ROOTNAM(1:ROOTLEN)//'_FVM_'//CHRUN//'_'//CYCLENUM//'.adb'
+  
+              LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
+              TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM)) 
+         
+              OPEN(UNIT=IDBG5,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',
+     .                  FORM='FORMATTED',STATUS='UNKNOWN')
+
+              FILEN = ROOTLEN+17
+
+              DO I = 1, NUMELSG
+                  N = INDEX_TRI(I)
+                  WRITE(IDBG5,'(A,I10,I10,Z20,Z20,Z20)' ) '>',NCYCLE,NINT(RECGLOB(1,N)),RECGLOB(2,N),RECGLOB(3,N),RECGLOB(4,N)
+              END DO
+              WRITE (IOUT,1300)  FILNAM(1:FILEN)
+              WRITE (ISTDO,1300) FILNAM(1:FILEN)
+              CLOSE(UNIT=IDBG5)
+            ENDIF
 
             DEALLOCATE( ITRI )
             DEALLOCATE( INDEX_TRI )  
@@ -199,10 +218,11 @@ C
 
       END IF
 
-        IF(ALLOCATED(SDNODG)) DEALLOCATE( SDNODG )
-        IF(ALLOCATED(RECGLOB)) DEALLOCATE( RECGLOB )
-        IF(ALLOCATED(AGLOB)) DEALLOCATE( AGLOB )
+      IF(ALLOCATED(SDNODG)) DEALLOCATE( SDNODG )
+      IF(ALLOCATED(RECGLOB)) DEALLOCATE( RECGLOB )
+      IF(ALLOCATED(AGLOB)) DEALLOCATE( AGLOB )
 C
  1300   FORMAT (4X,' DEBUG ANALYSIS FVM FILE :',1X,A,' WRITTEN')
       RETURN
       END SUBROUTINE SPMD_COLLECT_MULTI_FVM
+
