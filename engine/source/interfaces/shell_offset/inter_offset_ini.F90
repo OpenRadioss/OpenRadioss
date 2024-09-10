@@ -96,7 +96,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
         integer i,j,k,n,nel,nft,nn,ie,ii,igtyp,nf1,ity,nnode,pid,nshel,ng,stat,lenr,nsh_oset,nnoset
-        integer ibid(1),ndim1,ndim2,nsh_oset_g
+        integer ibid(1),ndim1,ndim2,nsh_oset_g,nfr
         my_real shelloff
         my_real, dimension(:)  ,  allocatable :: thkoset,thkoset_n    
         double precision, dimension(:,:),  allocatable :: thkoset6,thkoset_n6    
@@ -287,14 +287,31 @@
               sh_offset_tab%offset_n(nnoset) = thkoset_n(n)
             end if
           end do
-!  update  sh_offset_tab%fr_offset         
+!  update sh_offset_tab%iad_offset, sh_offset_tab%fr_offset         
           if (nspmd>1) then
-            do i = 1, nn
-              n = sh_offset_tab%fr_offset(i)
-              ii = sh_offset_tab%intag(n)
-              sh_offset_tab%fr_offset(i) = ii
-            end do
-          end if
+              nfr = 0
+              do i = 1, nspmd
+                do j=iad_elem(1,i),iad_elem(1,i+1)-1
+                  n = fr_elem(j)
+                  if (sh_offset_tab%intag(n)>0) nfr = nfr + 1
+                enddo
+              enddo
+              deallocate(sh_offset_tab%fr_offset)
+              allocate(sh_offset_tab%fr_offset(nfr),STAT=stat)
+              sh_offset_tab%iad_offset(1,1) = 1
+              k = 0
+              do i = 1, nspmd
+                do j=iad_elem(1,i),iad_elem(1,i+1)-1
+                  n = fr_elem(j)
+                  ii = sh_offset_tab%intag(n)
+                  if (ii>0) then
+                    k = k + 1
+                    sh_offset_tab%fr_offset(k) = ii
+                  end if
+                enddo
+                sh_offset_tab%iad_offset(1,i+1) = k+1
+              enddo
+            end if !(nspmd>1)
           deallocate(thkoset_n)
         end subroutine inter_sh_offset_ini
       end module inter_sh_offset_ini_mod
