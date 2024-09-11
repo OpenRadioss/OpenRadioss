@@ -179,6 +179,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE DRAPE_MOD
       USE TIME_MOD
+      use read_inivel_mod, only : read_inivel
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1534,8 +1535,13 @@ C--------------------------------------
       ! Interface GAP Load
       IF (NINTLOADP>0) THEN
             CALL READ_DB(DGAPLOADINT, NINTER*NLOADP_HYD )
-         ENDIF
+      ENDIF
 
+! /INIVEL w/ T_start or senor_id
+      IF (LOADS%NINIVELT>0) THEN
+        ALLOCATE(LOADS%INIVELT(LOADS%NINIVELT))
+        CALL READ_INIVEL(LOADS%NINIVELT,LOADS%INIVELT)
+      ENDIF
       ! CrackXFEM
       IF(ICRACK3D > 0) CALL CRKXFEM_RREST(INOD_CRKXFEM,IEL_CRKXFEM,NODLEVXF)
       CALL CRKXFEM_RRESTANIM()

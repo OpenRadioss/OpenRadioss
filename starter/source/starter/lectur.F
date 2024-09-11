@@ -616,6 +616,7 @@ C-----------------------------------------------
       use split_rwall_mod , only : split_rwall
       use stifint_icontrol_mod, only : stifint_icontrol
       use fractal_elem_renum_mod
+      use hm_preread_inivel_mod, only : hm_preread_inivel
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1150,6 +1151,7 @@ c For /RANDOM --------------------------------------------------
       ! BCS wall structure
       TYPE (bcs_struct_), DIMENSION(NSPMD) :: BCS_PER_PROC
       ! -------------
+      INTEGER NINIVELT
 
 C MERGE NODES
       INTEGER NMERGE_NODE_CAND,NMERGE_NODE_DEST,NMERGE_TOT,ALE_EULER
@@ -3680,6 +3682,36 @@ C        IF(ALLOCATED(RBY_MSN)) DEALLOCATE(RBY_MSN)
 C--------------------------------------------
       CALL STOPTIME(17,1)
 C--------------------------------------------
+C     LECTURE DES SENSORS
+C--------------------------------------------
+      ERR_MSG='SENSORS'
+      ERR_CATEGORY='SENSORS'
+      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
+c
+      ! -------------
+      ! size initialization for user sensor
+      CALL SENSOR_USER_INIT()
+      ! -------------
+c
+      CALL HM_READ_SENSORS(
+     .     SENSORS   ,LACCELM  ,ITABM1    ,IPART     ,LGAUGE    ,
+     .     SUBSETS   ,NSETS    ,IGRSURF   ,IGRNOD    ,BUFSF     ,
+     .     SKEW      ,ISKWN    ,UNITAB    ,LSUBMODEL ,HM_NSENSOR)
+      ! -----------------
+      ! check if a user sensor is used with a list of node
+      ! convert the list of User node ID into Local node ID
+
+      IF(SENSOR_USER_STRUCT%IS_USED) THEN
+          IF(SENSOR_USER_STRUCT%POINTER_NODE > 0) THEN
+              CALL SENSOR_USER_CONVERT_LOCAL_ID(
+     .         ITABM1,SENSOR_USER_STRUCT%POINTER_NODE,SENSOR_USER_STRUCT%NUMBER_NODE,
+     .         SENSOR_USER_STRUCT%NODE_LIST,1,IPART)
+          ENDIF
+      ENDIF
+        ! -----------------
+      CALL TRACE_OUT1()
+
+C--------------------------------------------
 C     LECTURE DES DRAPES
 C--------------------------------------------
       ERR_MSG='DRAPE'
@@ -4754,6 +4786,9 @@ C
         ALLOCATE(RBY_INIAXIS(0,0))
       ENDIF
 C
+      NINIVELT = 0  ! /INIVEL w/ T_start
+      IF(NINVEL > 0 ) CALL HM_PREREAD_INIVEL(LSUBMODEL,UNITAB,HM_NINVEL,NINIVELT)
+      LOADS%NINIVELT = NINIVELT
       IF(NINVEL/=0.OR.ISIGI>=3)THEN
         SIWORK = NINVEL
         ALLOCATE(IWORK(SIWORK)  ,STAT=stat)
@@ -4763,12 +4798,14 @@ C
        DO I = 1, NINVEL
           FVM_INIVEL(I)%FLAG = .FALSE.
        ENDDO
+       ALLOCATE(LOADS%INIVELT(NINIVELT)  ,STAT=stat)
 C
         CALL HM_READ_INIVEL(V         , W      , ITAB     , ITABM1 , VR         ,
      .                      IGRNOD    , IGRBRIC, ISKWN    , SKEW   , IWORK      ,
      .                      X         , UNITAB , LSUBMODEL, RTRANS , XFRAME     ,
      .                      IFRAME    , VFLOW  , WFLOW    , KXSP   , MULTI_FVM  ,
-     .                      FVM_INIVEL, IGRQUAD, IGRSH3N  , RBY_MSN, RBY_INIAXIS)
+     .                      FVM_INIVEL, IGRQUAD, IGRSH3N  , RBY_MSN, RBY_INIAXIS,
+     .                      SENSORS   ,NINIVELT,LOADS%INIVELT)
         CALL INIVEL(V, VR, SVR_1, ITABM1)
 C
         IF(ALLOCATED(IWORK)) DEALLOCATE(IWORK)
@@ -4947,36 +4984,6 @@ C--------------------------------------------
      1          LGAUGE,GAUGE ,ITABM1 ,UNITAB,IXC,
      2          ISKWN,NOM_OPT(LNOPT1*INOM_OPT(27)+1),LSUBMODEL)
       CALL TRACE_OUT1()
-C--------------------------------------------
-C     LECTURE DES SENSORS
-C--------------------------------------------
-      ERR_MSG='SENSORS'
-      ERR_CATEGORY='SENSORS'
-      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-c
-      ! -------------
-      ! size initialization for user sensor
-      CALL SENSOR_USER_INIT()
-      ! -------------
-c
-      CALL HM_READ_SENSORS(
-     .     SENSORS   ,LACCELM  ,ITABM1    ,IPART     ,LGAUGE    ,
-     .     SUBSETS   ,NSETS    ,IGRSURF   ,IGRNOD    ,BUFSF     ,
-     .     SKEW      ,ISKWN    ,UNITAB    ,LSUBMODEL ,HM_NSENSOR)
-      ! -----------------
-      ! check if a user sensor is used with a list of node
-      ! convert the list of User node ID into Local node ID
-
-      IF(SENSOR_USER_STRUCT%IS_USED) THEN
-          IF(SENSOR_USER_STRUCT%POINTER_NODE > 0) THEN
-              CALL SENSOR_USER_CONVERT_LOCAL_ID(
-     .         ITABM1,SENSOR_USER_STRUCT%POINTER_NODE,SENSOR_USER_STRUCT%NUMBER_NODE,
-     .         SENSOR_USER_STRUCT%NODE_LIST,1,IPART)
-          ENDIF
-      ENDIF
-        ! -----------------
-      CALL TRACE_OUT1()
-
 C--------------------------------------------
 C     /BCS/WALL - SLIDING BOUNDARY CONDITION
 C        (COLLOCATED SCHEME / LAW 151)

@@ -65,13 +65,17 @@ c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
       USE PLOAD_CYL_MOD
       USE DOMDEC_LOAD_MOD
+      USE INIVEL_MOD
 c-----------------------------------------------------------------------
       TYPE LOADS_
         INTEGER :: NLOAD_CYL
         INTEGER :: NLOAD_CLOAD ! nb of concentrated loads
         INTEGER :: NLOAD_PLOAD ! nb of pressure loads
-        TYPE (PRESS_CYL_) ,DIMENSION(:) ,ALLOCATABLE :: LOAD_CYL
+        INTEGER :: NINIVELT    ! nb of inivel (/INIVEL) w/ T_start
+        INTEGER :: NINIVELT_G  ! max nb of inivel (each domain) w/ T_start
+        TYPE (PRESS_CYL_) ,DIMENSION(:) ,ALLOCATABLE   :: LOAD_CYL
         TYPE (DOMDEC_LOAD_), DIMENSION(:), ALLOCATABLE :: CYL_RESTART
+        TYPE (INIVEL_), DIMENSION(:), ALLOCATABLE      :: INIVELT
         INTEGER :: S_GLOBAL_SEGMENT_ID
         INTEGER, DIMENSION(:,:), ALLOCATABLE :: GLOBAL_SEGMENT_ID
         INTEGER, DIMENSION(:,:), ALLOCATABLE :: INDEX_LOAD ! index : global load id --> local load id

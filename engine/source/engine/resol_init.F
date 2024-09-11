@@ -159,7 +159,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5  FXVEL_FGEO,FAILWAVE,NLOC_DMG,PINCH_DATA,SLLOADP  ,
      6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM,STACK,OUTPUT,
      7  THKE ,SFR_ELEM ,SH_OFFSET_TAB,
-     8  NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION)
+     8  NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION,
+     9  ISKWN ,IFRAME, LOADS )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -186,6 +187,8 @@ C-----------------------------------------------
       USE NLOC_COUNT_SOLNOD_MOD
       USE INTER_SH_OFFSET_INI_MOD , only : INTER_SH_OFFSET_INI
       USE INTER_SH_OFFSET_MOD , only:SH_OFFSET_
+      USE LOADS_MOD 
+      USE inivel_init_mod ,  only: inivel_init
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -276,6 +279,8 @@ C-----------------------------------------------
      .        ISENSINT(NISUBMAX+1,NINTER),NISUBMAX,
      .        INTLIST25(NINTER25) ,INT24E2EUSE ,FXVEL_FGEO,
      .        TAGSLV_RBY(NUMNOD)
+      INTEGER, INTENT(IN   ),DIMENSION(LISKN,NUMFRAM+1) :: IFRAME
+      INTEGER, INTENT(IN   ),DIMENSION(LISKN,NUMSKW+1) :: ISKWN
 !     INT7ITIED : check if an interface type 7 with ITIED /= 0 is used
 !                 in order to force the communication of a list of candidate nodes 
 !                 INT7ITIED = 0 type 7 + ITIED/=0 not used
@@ -334,6 +339,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE(OUTPUT_),INTENT(INOUT)    :: OUTPUT
       TYPE(sh_offset_)               :: SH_OFFSET_TAB   
+      TYPE (LOADS_) ,INTENT(INOUT)   :: LOADS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -344,7 +350,7 @@ C-----------------------------------------------
      .        NAD_SMS(NUMNOD),MAD_SMS(NUMNOD),N,JJ,KK, NFT, ISOLNOD,NBS
       INTEGER, DIMENSION(SENSORS%NSENSOR) :: INDEX_SENSOR
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISEND,IRECV
-      INTEGER :: ITIED
+      INTEGER :: ITIED,NINIVELTG
       my_real
      .        RDUM
       CHARACTER ZONE*5
@@ -1194,6 +1200,17 @@ C-----------------------
      .                     NUMNOD,    NSPMD,   IAD_ELEM,       FR_ELEM,
      .                   SFR_ELEM,     THKE,  ELBUF_TAB, SH_OFFSET_TAB,
      .                    IPARIT )
+! inivel w/ Tstart     
+        NINIVELTG = LOADS%NINIVELT
+        IF (NSPMD>1) CALL SPMD_MAX_I(NINIVELTG)
+        LOADS%NINIVELT_G = NINIVELTG
+        IF (LOADS%NINIVELT > 0) THEN
+          CALL INIVEL_INIT(                                               
+     .                    NGRNOD,  NGRBRIC,    NGRQUAD,       NGRSH3N,           
+     .                    IGRNOD,  IGRBRIC,    IGRQUAD,       IGRSH3N,          
+     .                    NUMSKW,    LISKN,      ISKWN,       NUMFRAM,         
+     .                    IFRAME, LOADS%NINIVELT,LOADS%INIVELT,SENSORS)
+        END IF 
 !$OMP END SINGLE
 C-------------------------------------------
       RETURN

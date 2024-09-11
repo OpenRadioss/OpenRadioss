@@ -48,7 +48,8 @@ C
      .                          IGRNOD    , IGRBRIC, ISKN     , SKEW   , INIVIDS    ,
      .                          X         , UNITAB , LSUBMODEL, RTRANS , XFRAME     ,
      .                          IFRAME    , VFLOW  , WFLOW    , KXSP   , MULTI_FVM  ,
-     .                          FVM_INIVEL, IGRQUAD, IGRSH3N  , RBY_MSN, RBY_INIAXIS)
+     .                          FVM_INIVEL, IGRQUAD, IGRSH3N  , RBY_MSN, RBY_INIAXIS,
+     .                          SENSORS   ,NINIVELT,INIVEL_T )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -71,6 +72,8 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
+      USE SENSOR_MOD
+      USE INIVEL_MOD 
 C----------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,6 +90,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NINIVELT
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ITAB(*), ITABM1(*),ISKN(LISKN,*),
      .        INIVIDS(*),IFRAME(LISKN,*),KXSP(NISP,*),RBY_MSN(2,*)
@@ -97,6 +101,8 @@ C-----------------------------------------------
      .   RBY_INIAXIS(7,*)
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(FVM_INIVEL_STRUCT), INTENT(INOUT) :: FVM_INIVEL(*)
+      TYPE (SENSORS_) ,INTENT(IN)                       :: SENSORS          
+      TYPE(INIVEL_), DIMENSION(NINIVELT), INTENT(INOUT) :: INIVEL_T
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -106,7 +112,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,K,N,NRB,KPRI,KROT,NNOD,NOSYS,ITYPE,ID,ISK,IGR,IGRS,NBVEL
-      INTEGER :: USER_UNIT_ID,NODID,NODID1,SUB_INDEX,IDIR
+      INTEGER :: USER_UNIT_ID,NODID,NODID1,SUB_INDEX,IDIR,SENS_ID,NINIT,SENSID
       INTEGER :: IDGRBRICK, IDGRQUAD, IDGRTRIA, IDGRBRICK_LOC, IDGRQUAD_LOC, IDGRTRIA_LOC
       INTEGER :: IAD1, IAD2,NODE,NL,JREC,NOD_COUNT,IAD,NODINIVEL,CPT,SUB_ID
       INTEGER :: FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IFRA,IFM,IUN,JJ,K1,K2,K3,INOD,NB_NODES, ID_NODE,IOK
@@ -120,6 +126,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARFIELD) ::XYZ
       LOGICAL LV,LVR
       LOGICAL IS_AVAILABLE, IS_FOUND_UNIT_ID, IS_FOUND
+      my_real :: TSTART
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -148,6 +155,7 @@ C LOOP OVER /INIVEL/... OPTIONS IN INPUT FILE
 C--------------------------------------------------
       CALL HM_OPTION_START('/INIVEL')
       I = 0 
+      NINIT = 0 ! number  of /INIVEL w/ tstart
 
       DO CPT=1,HM_NINVEL
         I = I + 1
@@ -170,6 +178,8 @@ C--------------------------------------------------
 
         !---SET ITYPE DEPENDING ON USER KEYWORD
         FVM_INIVEL(I)%FLAG = .FALSE.
+        TSTART = ZERO
+        SENS_ID = 0
         IF(KEY(1:3)=='TRA')THEN
           ITYPE=0
         ELSEIF(KEY(1:3)=='ROT')THEN
@@ -185,7 +195,7 @@ C--------------------------------------------------
           ITYPE=4
         ELSEIF(KEY(1:3) == 'FVM') THEN
           ITYPE=5
-          FVM_INIVEL(I)%FLAG = .TRUE.
+!          FVM_INIVEL(I)%FLAG = .TRUE.
         ELSEIF(KEY(1:4)=='NODE')THEN
           ITYPE=6
         ELSE
@@ -196,6 +206,21 @@ C--------------------------------------------------
         NBVEL = NBVEL+1
         INIVIDS(NBVEL)=ID
 
+! read t_start,sens_id for Itype<6
+       IF(ITYPE < 6) THEN 
+          CALL HM_GET_FLOATV('tstart',TSTART,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_INTV('sensor_id',SENSID,IS_AVAILABLE,LSUBMODEL)
+          IF (SENSID>0) THEN
+            DO J=1,SENSORS%NSENSOR
+              IF(SENSORS%SENSOR_TAB(J)%SENS_ID==SENSID) SENS_ID=J
+            ENDDO
+            IF(SENS_ID==0)THEN
+              CALL ANCMSG(MSGID=521,ANMODE=ANINFO,MSGTYPE=MSGERROR,             
+     .                    I2=SENSID,I1=ID,C1=TITR)
+            ENDIF
+          END IF
+       END IF 
+!       
        IF(ITYPE > 6) THEN
           !invalid type
           CYCLE
@@ -209,6 +234,19 @@ C--------------------------------------------------
           CALL HM_GET_FLOATV('vector_X',VL1,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('vector_Y',VL2,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('vector_Z',VL3,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          IF (TSTART>ZERO .OR. SENS_ID>0) THEN 
+            NINIT = NINIT + 1
+            INIVEL_T(NINIT)%ID = ID
+            INIVEL_T(NINIT)%ITYPE = ITYPE
+            INIVEL_T(NINIT)%GENERAL%TYPE = ITYPE
+            INIVEL_T(NINIT)%GENERAL%SKEW_ID = ISK
+            INIVEL_T(NINIT)%GENERAL%GRND_ID = IGR
+            INIVEL_T(NINIT)%GENERAL%VX = VL1
+            INIVEL_T(NINIT)%GENERAL%VY = VL2
+            INIVEL_T(NINIT)%GENERAL%VZ = VL3
+            INIVEL_T(NINIT)%GENERAL%SENSOR_ID = SENS_ID
+            INIVEL_T(NINIT)%GENERAL%TSTART = TSTART
+          END IF
 
         !---READER /INIVEL/AXIS (4)
         ELSEIF (ITYPE == 4) THEN
@@ -231,6 +269,20 @@ C--------------------------------------------------
             CALL ANCMSG(MSGID=933,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
           ENDIF
           ISK = 0
+          IF (TSTART>ZERO .OR. SENS_ID>0) THEN 
+            NINIT = NINIT + 1
+            INIVEL_T(NINIT)%ID = ID
+            INIVEL_T(NINIT)%ITYPE = ITYPE
+            INIVEL_T(NINIT)%AXIS%DIR = IDIR
+            INIVEL_T(NINIT)%AXIS%FRAME_ID = IFRA
+            INIVEL_T(NINIT)%AXIS%GRND_ID = IGR
+            INIVEL_T(NINIT)%AXIS%VX = VL1
+            INIVEL_T(NINIT)%AXIS%VY = VL2
+            INIVEL_T(NINIT)%AXIS%VZ = VL3
+            INIVEL_T(NINIT)%AXIS%VR = VRA
+            INIVEL_T(NINIT)%AXIS%SENSOR_ID = SENS_ID
+            INIVEL_T(NINIT)%AXIS%TSTART = TSTART
+          END IF
 
          !---READER /INIVEL/FVM (5)
         ELSEIF (ITYPE == 5) THEN
@@ -242,6 +294,20 @@ C--------------------------------------------------
           CALL HM_GET_INTV('grtria_ID', IDGRTRIA, IS_AVAILABLE, LSUBMODEL)
           CALL HM_GET_INTV('skew_ID', ISK, IS_AVAILABLE, LSUBMODEL)
 
+          IF (TSTART>ZERO .OR. SENS_ID>0) THEN 
+            NINIT = NINIT + 1
+            INIVEL_T(NINIT)%ID = ID
+            INIVEL_T(NINIT)%ITYPE = ITYPE
+            INIVEL_T(NINIT)%FVM%SKEW_ID = ISK
+            INIVEL_T(NINIT)%FVM%GRBRIC_ID = IDGRBRICK
+            INIVEL_T(NINIT)%FVM%GRQD_ID   = IDGRQUAD
+            INIVEL_T(NINIT)%FVM%GRTRIA_ID = IDGRTRIA
+            INIVEL_T(NINIT)%FVM%VX = VL1
+            INIVEL_T(NINIT)%FVM%VY = VL2
+            INIVEL_T(NINIT)%FVM%VZ = VL3
+            INIVEL_T(NINIT)%FVM%SENSOR_ID = SENS_ID
+            INIVEL_T(NINIT)%FVM%TSTART = TSTART
+          END IF
          !---READER /INIVEL/NODE (6)
         ELSEIF (ITYPE == 6) THEN
           CALL HM_GET_INTV('NB_NODES', NB_NODES, IS_AVAILABLE, LSUBMODEL)
@@ -373,16 +439,18 @@ C
               ENDIF
               !     Going on
               !     Brick groups
-              FVM_INIVEL(I)%FLAG = .TRUE.
-              FVM_INIVEL(I)%GRBRICID = IDGRBRICK_LOC
-              FVM_INIVEL(I)%GRQUADID = IDGRQUAD_LOC
-              FVM_INIVEL(I)%GRSH3NID = IDGRTRIA_LOC
-              FVM_INIVEL(I)%VX = V1
-              FVM_INIVEL(I)%VY = V2
-              FVM_INIVEL(I)%VZ = V3
-              FVM_GRBRIC_USER_ID(I) = IDGRBRICK
-              FVM_GRQUAD_USER_ID(I) = IDGRQUAD
-              FVM_GRTRIA_USER_ID(I) = IDGRTRIA
+              IF (TSTART==ZERO .AND. SENS_ID==0) THEN 
+                FVM_INIVEL(I)%FLAG = .TRUE.
+                FVM_INIVEL(I)%GRBRICID = IDGRBRICK_LOC
+                FVM_INIVEL(I)%GRQUADID = IDGRQUAD_LOC
+                FVM_INIVEL(I)%GRSH3NID = IDGRTRIA_LOC
+                FVM_INIVEL(I)%VX = V1
+                FVM_INIVEL(I)%VY = V2
+                FVM_INIVEL(I)%VZ = V3
+                FVM_GRBRIC_USER_ID(I) = IDGRBRICK
+                FVM_GRQUAD_USER_ID(I) = IDGRQUAD
+                FVM_GRTRIA_USER_ID(I) = IDGRTRIA
+              END IF !(TSTART==ZERO .AND. SENS_ID==0) THEN 
            ENDIF 
         ENDIF 
 C
@@ -394,7 +462,8 @@ C
            DO J=1,NGRNOD
               IF(IGR == IGRNOD(J)%ID) IGRS=J
            ENDDO
-           IF(IGRS /= 0)THEN
+           IF(IGRS /= 0 )THEN
+             IF(TSTART==ZERO .AND. SENS_ID==0)THEN
               DO J=1,IGRNOD(IGRS)%NENTITY
                  NOSYS=IGRNOD(IGRS)%ENTITY(J)
                  IF(ITYPE == 0) THEN
@@ -522,6 +591,7 @@ C--                 /INIVEL/AXIS -> data must be stored to update initial veloci
                  ENDIF
               ENDDO
               NNOD=IGRNOD(IGRS)%NENTITY
+             END IF ! (TSTART==ZERO .AND. SENSOR_ID==0)THEN
            ELSE
               CALL ANCMSG(MSGID=53,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1='IN /INIVEL OPTION',I1=IGR)
            ENDIF
@@ -626,7 +696,7 @@ C--                 /INIVEL/AXIS -> data must be stored to update initial veloci
           WRITE(IOUT,3000)
           !---DETAILS OUTPUT-----------------------------------
           !     COLOCATED SCHEME (VELOCITIES AT CELL CENTROIDS)
-            DO CPT=1,HM_NINVEL
+            DO I=1,HM_NINVEL  ! bug cpt
               IF(.NOT. FVM_INIVEL(I)%FLAG)CYCLE
               V1=FVM_INIVEL(I)%VX
               V2=FVM_INIVEL(I)%VY
@@ -646,6 +716,7 @@ C--                 /INIVEL/AXIS -> data must be stored to update initial veloci
             ENDDO!next CPT
              WRITE(IOUT,'(//)')
         ENDIF!IF(IPRI >= 2)
+        IF (NINIT > 0 ) WRITE(IOUT,4000) NINIT
 
       ENDIF!(HM_NINVEL > 0)
 !-----------
@@ -674,6 +745,11 @@ C--                 /INIVEL/AXIS -> data must be stored to update initial veloci
      + 9X,'GRQUAD',22X,'VX   ',15X,'VY   ',15X,'VZ   ')
 3003  FORMAT(
      + 9X,'GRTRIA',22X,'VX   ',15X,'VY   ',15X,'VZ   ')
+!-----------
+4000  FORMAT(//
+     .'     INITIAL VELOCITIES    '/
+     .'     -------------------   '/
+     + I8,3X,'INITIAL VELOCITIES WILL BE APPLIED IN ENGINE BY T_START OR SENSOR'/)
 
 !-----------
       END SUBROUTINE HM_READ_INIVEL
