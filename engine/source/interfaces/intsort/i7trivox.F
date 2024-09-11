@@ -112,7 +112,7 @@ C-----------------------------------------------
       INTEGER I_MEM,ESHIFT,NSN,ISZNSNR,NSNROLD,NIN,ITASK,
      .        MULNSN,NOINT,INACTI,IFQ,NSNR,IGAP,NBX,NBY,NBZ,
      .        NSV(*),CAND_N(*),CAND_E(*),CAND_A(*),IFPEN(*),RENUM(*),
-     .        INTTH,IRECT(4,*), VOXEL(NBX+2,NBY+2,NBZ+2),II_STOK,
+     .        INTTH,IRECT(4,*), VOXEL((NBX+2)*(NBY+2)*(NBZ+2)),II_STOK,
      .        KREMNOD(*),REMNOD(*),ITAB(*),FLAGREMNODE,ITIED
       INTEGER, INTENT(in) :: NRTM !< number of segments per threads
       INTEGER, INTENT(in) :: TOTAL_NB_NRTM !< total number of segments
@@ -149,10 +149,12 @@ c provisoire
       LOGICAL DBG_type18_fvm
       SAVE IIX,IIY,IIZ
       INTEGER, PARAMETER :: FINE_SIZE = 200
-      INTEGER, DIMENSION(FINE_SIZE), SAVE :: X_FINE, Y_FINE, Z_FINE
+C     INTEGER, DIMENSION(:), allocatable, SAVE :: X_FINE, Y_FINE, Z_FINE
+      INTEGER, SAVE :: X_FINE(400), Y_FINE(400), Z_FINE(400)
       INTEGER :: KEPT_NODE, X_SUM, Y_SUM, Z_SUM
       INTEGER :: NB_CHUNK_X, NB_CHUNK_Y, NB_CHUNK_Z
       INTEGER :: X_CHUNK, Y_CHUNK, Z_CHUNK
+      INTEGER :: ADDRESS
 C-----------------------------------------------
       IF(ITASK == 0)THEN
         REMOTE_S_NODE = 0
@@ -229,9 +231,9 @@ C=======================================================================
           IF(X(2,J) > YMAX)  CYCLE
           IF(X(3,J) < ZMIN)  CYCLE
           IF(X(3,J) > ZMAX)  CYCLE
-          IX=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(X(1,J)-XMIN)/(XMAX-XMIN)) ))
-          IY=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(X(2,J)-YMIN)/(YMAX-YMIN)) ))
-          IZ=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(X(3,J)-ZMIN)/(ZMAX-ZMIN)) ))
+          IX=MAX(1,MIN(NBX+2, INT((NBX+2)*(X(1,J)-XMIN)/(XMAX-XMIN)) ))
+          IY=MAX(1,MIN(NBY+2, INT((NBY+2)*(X(2,J)-YMIN)/(YMAX-YMIN)) ))
+          IZ=MAX(1,MIN(NBZ+2, INT((NBZ+2)*(X(3,J)-ZMIN)/(ZMAX-ZMIN)) ))
           X_FINE(IX) = X_FINE(IX) + 1
           Y_FINE(IY) = Y_FINE(IY) + 1
           Z_FINE(IZ) = Z_FINE(IZ) + 1
@@ -247,9 +249,9 @@ C=======================================================================
           IF(XREM(2,J) > YMAX)  CYCLE
           IF(XREM(3,J) < ZMIN)  CYCLE
           IF(XREM(3,J) > ZMAX)  CYCLE
-          IX=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(XREM(1,J)-XMIN)/(XMAX-XMIN))))
-          IY=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(XREM(2,J)-YMIN)/(YMAX-YMIN))))
-          IZ=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(XREM(3,J)-ZMIN)/(ZMAX-ZMIN))))
+          IX=MAX(1,MIN(NBX+2, INT((NBX+2)*(XREM(1,J)-XMIN)/(XMAX-XMIN))))
+          IY=MAX(1,MIN(NBY+2, INT((NBY+2)*(XREM(2,J)-YMIN)/(YMAX-YMIN))))
+          IZ=MAX(1,MIN(NBZ+2, INT((NBZ+2)*(XREM(3,J)-ZMIN)/(ZMAX-ZMIN))))
           X_FINE(IX) = X_FINE(IX) + 1
           Y_FINE(IY) = Y_FINE(IY) + 1
           Z_FINE(IZ) = Z_FINE(IZ) + 1
@@ -280,29 +282,15 @@ C=======================================================================
         IX = 1
         IY = 1
         IZ = 1
-        DX = (XMAX - XMIN) /(ONE*FINE_SIZE)
-        DY = (YMAX - YMIN) /(ONE*FINE_SIZE)
-        DZ = (ZMAX - ZMIN) /(ONE*FINE_SIZE)  
+        DX = (XMAX - XMIN) /(ONE*(NBX+2))
+        DY = (YMAX - YMIN) /(ONE*(NBY+2))
+        DZ = (ZMAX - ZMIN) /(ONE*(NBZ+2))  
         IX1 = 1
         IY1 = 1
         IZ1 = 1
-        DO i = 1, FINE_SIZE
-          X_SUM = X_SUM + X_FINE(i)
-          Y_SUM = Y_SUM + Y_FINE(i)
-          Z_SUM = Z_SUM + Z_FINE(i)
+        DO i = 1, NBX+2
           IX2 = X_FINE(i)
-          IY2 = Y_FINE(i)
-          IZ2 = Z_FINE(i)
-c         if(X_fine(i) + Y_FINE(i) + Z_FINE(i) > 0) then
-c         write(6,*) I,"X_FINE=", X_FINE(i), "Y_FINE=", Y_FINE(i), "Z_FINE=", Z_FINE(i)
-c         write(6,*) "X_SUM=", X_SUM, "Y_SUM=", Y_SUM, "Z_SUM=", Z_SUM
-c         write(6,*) "X_CHUNK=", X_CHUNK, "Y_CHUNK=", Y_CHUNK, "Z_CHUNK=", Z_CHUNK
-c         write(6,*) "IX=",IX, "IY=",IY, "IZ=",IZ
-c         endif
           X_FINE(i) = IX
-          Y_FINE(i) = IY
-          Z_FINE(i) = IZ
-C         IF(X_SUM >= X_CHUNK .AND. IX < NBX+2) THEN
           IF(IX2 > 0) THEN
             IF((I - IX1+1) * DX > AAA) THEN 
               X_SUM = 0
@@ -310,16 +298,24 @@ C         IF(X_SUM >= X_CHUNK .AND. IX < NBX+2) THEN
               IX1 = I
             ENDIF
           ENDIF
+        ENDDO
+
+        DO i = 1, NBY+2
+          IY2 = Y_FINE(i)
+          Y_FINE(i) = IY
           IF(IY2 > 0) THEN
-!         IF(Y_SUM >= Y_CHUNK .AND. IY < NBY+2) THEN
             IF(((I - IY1+1) * DY) > AAA) THEN
               Y_SUM = 0
               IY = IY + 1
               IY1 = I
             ENDIF
           ENDIF
+        ENDDO
+
+        DO i = 1, NBZ+2
+          IZ2 = Z_FINE(i)
+          Z_FINE(i) = IZ
           IF(IZ2 > 0) THEN
-!         IF(Z_SUM >= Z_CHUNK .AND. IZ < NBZ+2) THEN
             IF(((I - IZ1+1) * DZ) > AAA) THEN
               Z_SUM = 0
               IZ = IZ + 1
@@ -328,6 +324,45 @@ C         IF(X_SUM >= X_CHUNK .AND. IX < NBX+2) THEN
           ENDIF
         ENDDO
 
+C        DO i = 1, FINE_SIZE
+C          X_SUM = X_SUM + X_FINE(i)
+C          Y_SUM = Y_SUM + Y_FINE(i)
+C          Z_SUM = Z_SUM + Z_FINE(i)
+C          IX2 = X_FINE(i)
+C          IY2 = Y_FINE(i)
+C          IZ2 = Z_FINE(i)
+C          X_FINE(i) = IX
+C          Y_FINE(i) = IY
+C          Z_FINE(i) = IZ
+CC         IF(X_SUM >= X_CHUNK .AND. IX < NBX+2) THEN
+C          IF(IX2 > 0) THEN
+C            IF((I - IX1+1) * DX > AAA) THEN 
+C              X_SUM = 0
+C              IX = IX + 1
+C              IX1 = I
+C            ENDIF
+C          ENDIF
+C          IF(IY2 > 0) THEN
+C!         IF(Y_SUM >= Y_CHUNK .AND. IY < NBY+2) THEN
+C            IF(((I - IY1+1) * DY) > AAA) THEN
+C              Y_SUM = 0
+C              IY = IY + 1
+C              IY1 = I
+C            ENDIF
+C          ENDIF
+C          IF(IZ2 > 0) THEN
+C!         IF(Z_SUM >= Z_CHUNK .AND. IZ < NBZ+2) THEN
+C            IF(((I - IZ1+1) * DZ) > AAA) THEN
+C              Z_SUM = 0
+C              IZ = IZ + 1
+C              IZ1 = I
+C            ENDIF
+C          ENDIF
+C        ENDDO
+
+       NB_CHUNK_X = X_FINE(NBX+2)
+       NB_CHUNK_Y = Y_FINE(NBY+2)
+       NB_CHUNK_Z = Z_FINE(NBZ+2)
 C      write(6,*)  "IX=",X_FINE(FINE_SIZE), "IY=",Y_FINE(FINE_SIZE), "IZ=",Z_FINE(FINE_SIZE)
 c       write(6,*) "KEPT_NODE=", KEPT_NODE
 c       write(6,*) "IX1=",IX1, "IY1=",IY1, "IZ1=",IZ1
@@ -335,7 +370,8 @@ c       write(6,*) "bounds=",XMAX, XMIN, YMAX, YMIN, ZMAX, ZMIN
 c       write(6,*) "CONDX=",(I-IX1+1)*DX,AAA
 c       write(6,*) "CONDY=",(I-IY1+1)*DY,AAA
 c       write(6,*) "CONDZ=",(I-IZ1+1)*DZ,AAA
-c       write(6,*) "X_CHUNK=", X_CHUNK, "Y_CHUNK=", Y_CHUNK, "Z_CHUNK=", Z_CHUNK
+C       write(6,*) "NB_CHUNK_X=", NB_CHUNK_X, "NB_CHUNK_Y=", NB_CHUNK_Y, "NB_CHUNK_Z=", NB_CHUNK_Z
+C       write(6,*) "NBX=", NBX, "NBY=", NBY, "NBZ=", NBZ
 
 
         !==========LAGRANGIAN and STAGGERED ALE==========!
@@ -353,17 +389,18 @@ c       write(6,*) "X_CHUNK=", X_CHUNK, "Y_CHUNK=", Y_CHUNK, "Z_CHUNK=", Z_CHUNK
           IF(X(2,J) > YMAX)  CYCLE
           IF(X(3,J) < ZMIN)  CYCLE
           IF(X(3,J) > ZMAX)  CYCLE
-          IX=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(X(1,J)-XMIN)/(XMAX-XMIN)) ))
-          IY=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(X(2,J)-YMIN)/(YMAX-YMIN)) ))
-          IZ=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(X(3,J)-ZMIN)/(ZMAX-ZMIN)) ))
+          IX=MAX(1,MIN(NBX+2, INT((NBX+2)*(X(1,J)-XMIN)/(XMAX-XMIN)) ))
+          IY=MAX(1,MIN(NBY+2, INT((NBY+2)*(X(2,J)-YMIN)/(YMAX-YMIN)) ))
+          IZ=MAX(1,MIN(NBZ+2, INT((NBZ+2)*(X(3,J)-ZMIN)/(ZMAX-ZMIN)) ))
           IIX(i) = X_FINE(IX)
           IIY(i) = Y_FINE(IY)
           IIZ(i) = Z_FINE(IZ)
 
-          FIRST = VOXEL(IIX(I),IIY(I),IIZ(I))
+          ADDRESS = IIX(I)+(IIY(I)-1)*(NB_CHUNK_X)+(IIZ(I)-1)*(NB_CHUNK_X)*(NB_CHUNK_Y)
+          FIRST = VOXEL(ADDRESS)
           IF(FIRST == 0)THEN
             !empty cell
-            VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
+            VOXEL(ADDRESS) = I ! first
             NEXT_NOD(I)                 = 0 ! last one
             LAST_NOD(I)                 = 0 ! no last
           ELSEIF(LAST_NOD(FIRST) == 0)THEN
@@ -398,23 +435,22 @@ C=======================================================================
 
           REMOTE_S_NODE = REMOTE_S_NODE + 1
           LIST_REMOTE_S_NODE( REMOTE_S_NODE ) = J
-          IX=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(XREM(1,J)-XMIN)/(XMAX-XMIN))))
-          IY=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(XREM(2,J)-YMIN)/(YMAX-YMIN))))
-          IZ=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(XREM(3,J)-ZMIN)/(ZMAX-ZMIN))))
+          IX=MAX(1,MIN(NBX+2, INT((NBX+2)*(XREM(1,J)-XMIN)/(XMAX-XMIN))))
+          IY=MAX(1,MIN(NBY+2, INT((NBY+2)*(XREM(2,J)-YMIN)/(YMAX-YMIN))))
+          IZ=MAX(1,MIN(NBZ+2, INT((NBZ+2)*(XREM(3,J)-ZMIN)/(ZMAX-ZMIN))))
           IIX(NSN+J) = X_FINE(IX)
           IIY(NSN+J) = Y_FINE(IY)
           IIZ(NSN+J) = Z_FINE(IZ)
-          FIRST = VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J))
+          ADDRESS = IIX(NSN+J)+(IIY(NSN+J)-1)*(NB_CHUNK_X)+(IIZ(NSN+J)-1)*(NB_CHUNK_X)*(NB_CHUNK_Y)
+          FIRST = VOXEL(ADDRESS)
           IF(FIRST == 0)THEN
             ! empty cell
-            VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J)) = NSN+J ! first
+            VOXEL(ADDRESS) = NSN+J ! first
             NEXT_NOD(NSN+J)     = 0 ! last one
             LAST_NOD(NSN+J)     = 0 ! no last
           ELSEIF(LAST_NOD(FIRST) == 0)THEN
             ! cell containing one node, add it as next node
             NEXT_NOD(FIRST) = NSN+J  ! next
-
-
             LAST_NOD(FIRST) = NSN+J  ! last
             NEXT_NOD(NSN+J)  = 0     ! last one
           ELSE
@@ -489,12 +525,12 @@ C=======================================================================
         S2 = SX*SX + SY*SY + SZ*SZ
 
         !indice des voxels occupes par la facette
-        IX1=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(XMINE-AAA-XMIN)/(XMAX-XMIN))))
-        IY1=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(YMINE-AAA-YMIN)/(YMAX-YMIN))))
-        IZ1=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(ZMINE-AAA-ZMIN)/(ZMAX-ZMIN))))
-        IX2=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(XMAXE+AAA-XMIN)/(XMAX-XMIN))))
-        IY2=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(YMAXE+AAA-YMIN)/(YMAX-YMIN))))
-        IZ2=MAX(1,MIN(FINE_SIZE, INT(FINE_SIZE*(ZMAXE+AAA-ZMIN)/(ZMAX-ZMIN))))
+        IX1=MAX(1,MIN(NBX+2, INT((NBX+2)*(XMINE-AAA-XMIN)/(XMAX-XMIN))))
+        IY1=MAX(1,MIN(NBY+2, INT((NBY+2)*(YMINE-AAA-YMIN)/(YMAX-YMIN))))
+        IZ1=MAX(1,MIN(NBZ+2, INT((NBZ+2)*(ZMINE-AAA-ZMIN)/(ZMAX-ZMIN))))
+        IX2=MAX(1,MIN(NBX+2, INT((NBX+2)*(XMAXE+AAA-XMIN)/(XMAX-XMIN))))
+        IY2=MAX(1,MIN(NBY+2, INT((NBY+2)*(YMAXE+AAA-YMIN)/(YMAX-YMIN))))
+        IZ2=MAX(1,MIN(NBZ+2, INT((NBZ+2)*(ZMAXE+AAA-ZMIN)/(ZMAX-ZMIN))))
     
         ! Convert from regular fine, to adpative coarse cooardinate
         IX1 = X_FINE(IX1)
@@ -521,8 +557,9 @@ C       if(IZ1 > NBZ+2) write(6,*) "Error: IZ1 > NBZ+2",IZ1
             DO IX = IX1,IX2
 
               ! nbpelem = nbpelem + 1
+              ADDRESS = IX+(IY-1)*(NB_CHUNK_X)+(IZ-1)*(NB_CHUNK_X)*(NB_CHUNK_Y)
+              JJ = VOXEL(ADDRESS)
 
-              JJ = VOXEL(IX,IY,IZ)
               DO WHILE(JJ /= 0)
                 DELNOD = 0
 
@@ -642,20 +679,11 @@ C=======================================================================
       ! Barrier to avoid reinitialization before end of sorting
       CALL MY_BARRIER
       IF(TOTAL_NB_NRTM>0) THEN
-        NSNF = 1 + ITASK*NSN / NTHREAD
-        NSNL = (ITASK+1)*NSN / NTHREAD
-        DO I=NSNF,NSNL
-            IF(IIX(I)/=0)THEN
-              VOXEL(IIX(I),IIY(I),IIZ(I))=0
-            ENDIF
+!$OMP DO SCHEDULE(GUIDED)
+        DO I = 1, NB_CHUNK_X*NB_CHUNK_Y*NB_CHUNK_Z
+          VOXEL(I) = 0
         ENDDO
-        NSNF = 1 + ITASK*REMOTE_S_NODE / NTHREAD
-        NSNL = (ITASK+1)*REMOTE_S_NODE / NTHREAD
-        IF(ITASK+1==NTHREAD) NSNL=REMOTE_S_NODE
-        DO JJ = NSNF, NSNL
-            J = LIST_REMOTE_S_NODE(JJ)
-            VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J))=0
-        ENDDO
+!$OMP END DO
       ENDIF
       CALL MY_BARRIER()
 

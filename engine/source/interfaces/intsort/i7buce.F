@@ -339,7 +339,7 @@ C
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
       LVOXEL8 = LVOXEL      
 
-      IF(RES8 > LVOXEL8) THEN
+c     IF(RES8 > LVOXEL8) THEN
         AAA = LVOXEL
         AAA = AAA/((NBX8+2)*(NBY8+2)*(NBZ8+2))
         AAA = AAA**(THIRD)
@@ -349,7 +349,7 @@ C
         NBX = MAX(NBX,1)
         NBY = MAX(NBY,1)
         NBZ = MAX(NBZ,1)
-      ENDIF
+c     ENDIF
       
       NBX8=NBX
       NBY8=NBY
@@ -357,14 +357,14 @@ C
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
       
       IF(RES8 > LVOXEL8) THEN
-        NBX = MIN(100,MAX(NBX8,1))
-        NBY = MIN(100,MAX(NBY8,1))
-        NBZ = MIN(100,MAX(NBZ8,1))
+        NBX = MIN(198,MAX(NBX8,1))
+        NBY = MIN(198,MAX(NBY8,1))
+        NBZ = MIN(198,MAX(NBZ8,1))
       ENDIF
       
-      NBX = 198
-      NBY = 198
-      NBZ = 198
+      NBX = MIN(398,MAX(NBX,1))
+      NBY = MIN(398,MAX(NBY,1))
+      NBZ = MIN(398,MAX(NBZ,1))
 
 C     initialisation complete de VOXEL
 C (en // SMP il y a possibilite de redondance de traitement mais no pb)
