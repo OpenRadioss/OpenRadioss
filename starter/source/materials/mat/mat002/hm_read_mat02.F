@@ -88,7 +88,7 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT) :: NUPARAM,NUVAR,NFUNC
       INTEGER, DIMENSION(MAXFUNC), INTENT(INOUT) :: IFUNC
       my_real, DIMENSION(MAXUPARAM), INTENT(INOUT) :: UPARAM
-      my_real, INTENT(INOUT) :: PARMAT(*)
+      my_real, INTENT(INOUT) :: PARMAT(100)
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
       TYPE(MATPARAM_STRUCT_),INTENT(INOUT)  :: MATPARAM
 C-----------------------------------------------
@@ -126,7 +126,7 @@ C-----------------------------------------------
       CA      = ZERO
       CB      = ZERO
       CN      = ZERO
-      NUVAR   = 1
+      NUVAR   = 0
       NUPARAM = 0
       NFUNC   = 0
       RHOR    = ZERO
@@ -391,27 +391,19 @@ C-----
       
       IF (VP == 1) THEN
         ! If plastic strain is chosen, filtering by default
-        ISRATE    = 1
-        ASRATE    = 10000.0D0*UNITAB%FAC_T_WORK
-        FCUT      = ASRATE
+        ISRATE = 1
+        IF (ASRATE == ZERO) ASRATE = 10000.0D0*UNITAB%FAC_T_WORK
+        FCUT   = ASRATE
       ELSE
         IF (CC == ZERO)THEN
-            EPS0      = ONE
-            ISRATE    = 0
-            ASRATE    = ZERO
-            FCUT      = ASRATE
+          EPS0   = ONE
+          ISRATE = 0
+          ASRATE = ZERO
+          FCUT   = ASRATE
         ELSE     
-          IF (ASRATE /= ZERO ) THEN
-            ! If a filtering frequency is given by the user
-            ISRATE    = 1
-            FCUT      = ASRATE
-            ASRATE    = ASRATE*TWO*PI 
-          ELSE
-            ! If no filtering frequency is given but the flag is activated
-            ISRATE    = 1 
-            ASRATE    = EP20
-            FCUT      = ASRATE
-          ENDIF
+          ISRATE = 1
+          IF (ASRATE == ZERO) ASRATE = EP20
+          FCUT   = ASRATE
         ENDIF
       ENDIF
 
@@ -440,11 +432,11 @@ C-----
       PM(43)=CC
       PM(44)=EPS0
       PM(49)=ICC
-      PM(9) = ASRATE  
 
-      IPM(255) = VP
+      IPM(255) = VP   
 
-            
+      PARMAT(4) = ISRATE
+      PARMAT(5) = ASRATE
 C
       IF(TI<=ZERO) TI=TWOHUNDRED98
 c
