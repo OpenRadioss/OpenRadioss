@@ -148,7 +148,7 @@ c provisoire
       INTEGER FIRST,NEW,LAST,IERROR
       LOGICAL DBG_type18_fvm
       SAVE IIX,IIY,IIZ
-      INTEGER, PARAMETER :: FINE_SIZE = 1024
+      INTEGER, PARAMETER :: FINE_SIZE = 200
       INTEGER, DIMENSION(FINE_SIZE), SAVE :: X_FINE, Y_FINE, Z_FINE
       INTEGER :: KEPT_NODE, X_SUM, Y_SUM, Z_SUM
       INTEGER :: NB_CHUNK_X, NB_CHUNK_Y, NB_CHUNK_Z
@@ -271,6 +271,9 @@ C=======================================================================
         Y_CHUNK = MAX(1,1+KEPT_NODE /NB_CHUNK_Y)
         Z_CHUNK = MAX(1,1+KEPT_NODE /NB_CHUNK_Z)
 
+        AAA = MAX(AAA, (XMAX - XMIN) / (NBX+TWO))
+        AAA = MAX(AAA, (YMAX - YMIN) / (NBY+TWO))
+        AAA = MAX(AAA, (ZMAX - ZMIN) / (NBZ+TWO))
         X_SUM = 0
         Y_SUM = 0
         Z_SUM = 0
@@ -287,7 +290,9 @@ C=======================================================================
           X_SUM = X_SUM + X_FINE(i)
           Y_SUM = Y_SUM + Y_FINE(i)
           Z_SUM = Z_SUM + Z_FINE(i)
-
+          IX2 = X_FINE(i)
+          IY2 = Y_FINE(i)
+          IZ2 = Z_FINE(i)
 c         if(X_fine(i) + Y_FINE(i) + Z_FINE(i) > 0) then
 c         write(6,*) I,"X_FINE=", X_FINE(i), "Y_FINE=", Y_FINE(i), "Z_FINE=", Z_FINE(i)
 c         write(6,*) "X_SUM=", X_SUM, "Y_SUM=", Y_SUM, "Z_SUM=", Z_SUM
@@ -297,22 +302,25 @@ c         endif
           X_FINE(i) = IX
           Y_FINE(i) = IY
           Z_FINE(i) = IZ
-          IF(X_SUM >= X_CHUNK .AND. IX < NBX+2) THEN
-            IF((I - IX1 +1) * DX > AAA) THEN 
+C         IF(X_SUM >= X_CHUNK .AND. IX < NBX+2) THEN
+          IF(IX2 > 0) THEN
+            IF((I - IX1+1) * DX > AAA) THEN 
               X_SUM = 0
               IX = IX + 1
               IX1 = I
             ENDIF
           ENDIF
-          IF(Y_SUM >= Y_CHUNK .AND. IY < NBY+2) THEN
-            IF(((I - IY1 +1) * DY) > AAA) THEN
+          IF(IY2 > 0) THEN
+!         IF(Y_SUM >= Y_CHUNK .AND. IY < NBY+2) THEN
+            IF(((I - IY1+1) * DY) > AAA) THEN
               Y_SUM = 0
               IY = IY + 1
               IY1 = I
             ENDIF
           ENDIF
-          IF(Z_SUM >= Z_CHUNK .AND. IZ < NBZ+2) THEN
-            IF(((I - IZ1 +1) * DZ) > AAA) THEN
+          IF(IZ2 > 0) THEN
+!         IF(Z_SUM >= Z_CHUNK .AND. IZ < NBZ+2) THEN
+            IF(((I - IZ1+1) * DZ) > AAA) THEN
               Z_SUM = 0
               IZ = IZ + 1
               IZ1 = I
@@ -320,8 +328,7 @@ c         endif
           ENDIF
         ENDDO
 
-       WRITE(6,*) "NBX+2 = ", NBX+2, "NBY+2 = ", NBY+2, "NBZ+2 = ", NBZ+2
-       write(6,*)  "IX=",X_FINE(FINE_SIZE), "IY=",Y_FINE(FINE_SIZE), "IZ=",Z_FINE(FINE_SIZE)
+C      write(6,*)  "IX=",X_FINE(FINE_SIZE), "IY=",Y_FINE(FINE_SIZE), "IZ=",Z_FINE(FINE_SIZE)
 c       write(6,*) "KEPT_NODE=", KEPT_NODE
 c       write(6,*) "IX1=",IX1, "IY1=",IY1, "IZ1=",IZ1
 c       write(6,*) "bounds=",XMAX, XMIN, YMAX, YMIN, ZMAX, ZMIN
