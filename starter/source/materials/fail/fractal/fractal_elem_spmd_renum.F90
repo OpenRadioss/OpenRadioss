@@ -26,11 +26,9 @@
 !Chd|-- calls ---------------
 !Chd|====================================================================
       !||====================================================================
-      !||    fractal_elem_renum_mod   ../starter/source/materials/fail/fractal/fractal_elem_renum.F90
+      !||    fractal_elem_renum_mod   ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
       !||--- called by ------------------------------------------------------
-      !||    c3init3                ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    cbainit3               ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
+      !||    lectur                   ../starter/source/starter/lectur.F
       !||====================================================================
       module fractal_elem_renum_mod
       contains
@@ -38,6 +36,13 @@
 ! \brief renumber local element numbers in damaged element list after domain decomposition
 ! \details 
 
+      !||====================================================================
+      !||    fractal_elem_renum    ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur                ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
+      !||    reorder_mod           ../starter/share/modules1/reorder_mod.F
+      !||====================================================================
       subroutine fractal_elem_renum(fail_fractal,numelc,numeltg)
 
 !-----------------------------------------------

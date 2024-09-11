@@ -29,6 +29,7 @@
       !||    cbainit3                   ../starter/source/elements/shell/coqueba/cbainit3.F
       !||    cinit3                     ../starter/source/elements/shell/coque/cinit3.F
       !||    fractal_dmg_init           ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
+      !||    fractal_elem_renum         ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
       !||    fractal_element_neighbor   ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
       !||    initia                     ../starter/source/elements/initia/initia.F
       !||    lectur                     ../engine/source/input/lectur.F

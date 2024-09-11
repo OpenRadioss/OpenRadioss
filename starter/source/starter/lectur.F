@@ -96,6 +96,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fillcni2                            ../starter/source/spmd/domdec2.F
       !||    fixmodif_nd                         ../starter/source/elements/solid/solide10/dim_s10edg.F
       !||    flowdec                             ../starter/source/fluid/flowdec.F
+      !||    fractal_elem_renum                  ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
       !||    fsdcod                              ../starter/source/system/fsdcod.F
       !||    fvdim                               ../starter/source/airbag/fvmesh.F
       !||    fvmesh0                             ../starter/source/airbag/fvmesh0.F
@@ -471,6 +472,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    drape_mod                           ../starter/share/modules1/drape_mod.F
       !||    dsgraph_mod                         ../starter/share/modules1/dsgraph_mod.F
       !||    elbuftag_mod                        ../starter/share/modules1/elbuftag_mod.F
+      !||    fractal_elem_renum_mod              ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
       !||    front_mod                           ../starter/share/modules1/front_mod.F
       !||    func2d_mod                          ../starter/share/modules1/func2d_mod.F
       !||    fvbag_mod                           ../starter/share/modules1/fvbag_mod.F

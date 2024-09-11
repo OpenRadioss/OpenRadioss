@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eosexponential                           ../common_source/eos/eosexponential.F90
       !||    force                                    ../engine/source/loads/general/force.F90
       !||    fractal_dmg_init                         ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
+      !||    fractal_elem_renum                       ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
       !||    fractal_element_neighbor                 ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
       !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
       !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
