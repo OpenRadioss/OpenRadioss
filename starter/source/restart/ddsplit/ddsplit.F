@@ -377,6 +377,8 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD,only: NAMES_AND_TITLES_,LTITLE
       USE BCS_MOD , ONLY : BCS_STRUCT_
       use constraint_mod , only : constraint_
+      use c_inivell_mod ,  only : c_inivell
+      use w_inivel_str_mod , only : w_inivel_str
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -675,7 +677,7 @@ C-----------------------------------------------
      .        LENIGRSH3N_L,LENISURF_L,LENISLIN_L,NBCSCYC_L,LLBCSCYC_L,NS_DIFF,
      .        N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,
      .        N_SEATBELT_L,N_SEATBELT_2D_L,NUMSH4N_L,NUMSH3N_L,NCLOAD_L,NPLOAD_L,
-     .        NDAMP_VREL_L,IDAMP_VREL_L(NDAMP)
+     .        NDAMP_VREL_L,IDAMP_VREL_L(NDAMP),NINIVELT_L
       INTEGER LWAMP_L  !< Size of Working area in Engine. Need for SPH
       INTEGER LWANMP_L !< Size of Working area in Engine. Need for SPH
       INTEGER IPARI_L(NPARI,MAX(1,NINTER))
@@ -1659,6 +1661,17 @@ C--------------------------------------
        IF (LOADS%NLOAD_PLOAD>0)
      .   CALL C_NLOADS(CEP,P-1,LOADS%NLOAD_PLOAD,NPLOAD_L)
 C--------------------------------------
+C counts INIVEL
+C--------------------------------------
+       NINIVELT_L = 0
+      IF (LOADS%NINIVELT>0) THEN
+        CALL C_INIVELL(                                              
+     .                 NGRNOD,  NGRBRIC,    NGRQUAD,       NGRSH3N,           
+     .                 IGRNOD,  IGRBRIC,    IGRQUAD,       IGRSH3N,           
+     .                   P-1 ,      CEP,       SCEP,      NODLOCAL,           
+     .                 NUMNOD,LOADS%NINIVELT,LOADS%INIVELT,NINIVELT_L)
+      ENDIF
+C--------------------------------------
 C counts /DAMP/VREL
 C--------------------------------------    
       NDAMP_VREL_L = 0 
@@ -1754,7 +1767,7 @@ C--------------------------------------------
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
      5   NUMSH4N_L,NUMSH3N_L,INTERFACES%PARAMETERS,SENSORS,LOADS_PER_PROC%NLOAD_CYL,
      6   NCLOAD_L,NPLOAD_L,NDAMP_VREL_L, UNITAB,
-     7   LWAMP_L,LWANMP_L)
+     7   LWAMP_L,LWANMP_L,NINIVELT_L)
      
 
       CALL WRCOMR(LMXVREA,LVARREA,TABVREA,MSNDP(P),P,INTERFACES%PARAMETERS,UNITAB)
@@ -2462,7 +2475,7 @@ C--------------------------------------
       NBCFD = MAX(NRCVVOIS,NSNDVOIS,NERVOIS,NESVOIS,NSEGFL_L)
       IF(NUMSKW>0) CALL SPLIT_SKEW(P,ISKWP_L,ISKWP,TAG_SKN,MULTIPLE_SKEW)
 
-      CALL W_FRONT(
+      CALL W_FRONT( 
      1   P       ,NBDDACC ,NBDDKIN ,NODLOCAL,
      2   NBDDPROC,NBDDBOUN,NODGLOB ,NUMNOD_L,NBDDNRB ,
      3   NPBY    ,LPBY    ,NPRW    ,LPRW    ,LEN_IA  ,
@@ -3378,6 +3391,17 @@ C--------------------------------------------
       IF (NINTLOADP>0) THEN
          CALL WRITE_DB(DGAPLOADINT, S_LOADPINTER )
          LEN_AM = LEN_AM + S_LOADPINTER
+      ENDIF
+C--------------------------------------------
+C /INIVEL w/ T_start or senor_id
+C--------------------------------------------
+      IF (LOADS%NINIVELT>0) THEN
+        CALL W_INIVEL_STR(                                              
+     .                 NGRNOD,  NGRBRIC,    NGRQUAD,       NGRSH3N,           
+     .                 IGRNOD,  IGRBRIC,    IGRQUAD,       IGRSH3N,           
+     .                   P-1 ,      CEP,       SCEP,      NODLOCAL,           
+     .                 NUMNOD,LOADS%NINIVELT,LOADS%INIVELT, LEN_IA,
+     .                 LEN_AM)
       ENDIF
 C--------------------------------------------
 C  crack xfem

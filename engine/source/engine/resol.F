@@ -669,6 +669,8 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       use init_global_frontier_monvol_mod , only : init_global_frontier_monvol
       use init_monvol_omp_structure_mod , only : init_monvol_omp_structure
+      USE inivel_dt2_mod ,   only : inivel_dt2
+      USE inivel_start_mod , only : inivel_start
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1148,7 +1150,7 @@ C---Nitsche Method----
       REAL(kind=8) :: SECS
       REAL(kind=8) :: TT_DOUBLE
       my_real
-     .         DTNOD_NLOCAL
+     .         DTNOD_NLOCAL,T_KIN
       INTEGER, DIMENSION(:),ALLOCATABLE ::IBUFPDEL, NINDEXPDEL
       
       DOUBLE PRECISION :: argin,argout
@@ -2139,7 +2141,8 @@ C
      5   FXVEL_FGEO,FAILWAVE,NLOC_DMG,PINCH_DATA ,SLLOADP,
      6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,IN0 ,SORT_COMM,STACK,OUTPUT,
      7   THKE   ,SFR_ELEM  ,SH_OFFSET_TAB,
-     8   NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION )
+     8   NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION ,
+     9   ISKWN  ,IFRAME  ,LOADS )
 
 !$OMP END PARALLEL
 C========================================================================================
@@ -6513,6 +6516,8 @@ C Exchange Time Step
         IF (IMONM > 0) CALL STOPTIME(55,1)
       ENDIF
 #endif
+! reducing dt2 due to /INIVEL
+      IF(LOADS%NINIVELT_G>0) CALL INIVEL_DT2(LOADS%NINIVELT,LOADS%INIVELT,SENSORS,TT , DT2 ,NSPMD)
 C-----------------------------
       IF (IMONM > 0) CALL STARTIME(53,1)
         DT2OLD=DT2
@@ -8846,6 +8851,27 @@ C
 CC
 !$OMP END PARALLEL
 
+! inivel w/ Tstart or sensor
+        IF (LOADS%NINIVELT > 0) THEN
+           IF (N2D == 0) THEN
+              SIZE = NUMELS + NSVOIS
+           ELSE
+              SIZE = NUMELQ + NUMELTG             
+           ENDIF
+          CALL INIVEL_START(                                               
+     .                    NGRNOD,  NGRBRIC,    NGRQUAD,       NGRSH3N,           
+     .                    IGRNOD,  IGRBRIC,    IGRQUAD,       IGRSH3N,          
+     .                    NUMSKW,    LSKEW,    NUMFRAM,       SENSORS,
+     .                    XFRAME,SKEWS%SKEW,         X,             V,
+     .                        VR,   NUMNOD,      VFLOW,         WFLOW,
+     .                         W,MULTI_FVM,      IALE ,       IALELAG,
+     .                        TT,   IRODDL, LOADS%NINIVELT,LOADS%INIVELT,
+     .                     NPARG,   NGROUP,       SIZE,         IPARG, 
+     .                 ELBUF_TAB,       MS,         IN,        WEIGHT,
+     .                   NXFRAME,   T_KIN ) 
+          TFEXT = TFEXT + T_KIN
+        END IF 
+!        
 C----------------------------------
 C       ITET2 of S10 Kinematic
 C----------------------------------

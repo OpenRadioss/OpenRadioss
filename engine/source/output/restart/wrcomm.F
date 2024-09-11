@@ -1737,6 +1737,9 @@ C-----/DAMP/VREL
 !
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = INTER_PARAMETERS%INT25_EROSION_SOLID 
+C-----/INIVEL w/ T_start
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = LOADS%NINIVELT       
 C----------------------------------------------------------------
 C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------

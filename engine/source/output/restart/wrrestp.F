@@ -193,6 +193,7 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE TIME_MOD
       USE ELBUFDEF_MOD
+      use write_inivel_mod , only : write_inivel
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1585,6 +1586,9 @@ c
       IF (NLOADP > 0) CALL WRITE_DB(LOADP,LFACLOAD*NLOADP)
       IF (NINTLOADP > 0) CALL WRITE_DB(DGAPLOADINT,NINTER*NLOADP_HYD)
 C
+C /INIVEL w/ T_start or senor_id
+      IF (LOADS%NINIVELT>0) CALL WRITE_INIVEL(LOADS%NINIVELT,LOADS%INIVELT) 
+C                                                         
 C xfem for layerd shell (cracks)
       IF (ICRACK3D > 0) THEN
         CALL CRKXFEM_WREST(INOD_CRKXFEM,IEL_CRKXFEM,NODLEVXF)

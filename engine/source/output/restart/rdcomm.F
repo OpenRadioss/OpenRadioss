@@ -1788,6 +1788,9 @@ C-----/DAMP/VREL
 !
       NEXT       = NEXT + 1
       INTER_PARAMETERS%INT25_EROSION_SOLID   = TABVINT(NEXT)
+C /INIVEL
+      NEXT       = NEXT + 1
+      LOADS%NINIVELT = TABVINT(NEXT)
 C
       ! Initialize variables from Restart 
       ! ----------------------------------

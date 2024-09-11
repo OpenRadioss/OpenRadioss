@@ -70,7 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
      5   NUMSH4N_L,NUMSH3N_L,INTER_PARAMETERS,SENSORS,NLOAD_CYL,
      6   NCLOAD_L,NPLOAD_L,NDAMP_VREL_L, UNITAB,
-     7   LWAMP_L,LWANMP_L)
+     7   LWAMP_L,LWANMP_L,NINIVELT_L)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -135,7 +135,7 @@ C-----------------------------------------------
      .        LENIGRTRUS_L,LENIGRBEAM_L,LENIGRSPRI_L,LENIGRSH3N_L,LENISURF_L,
      .        LENISLIN_L,NE_NERVOIS_L, NE_NESVOIS_L, NE_NSVOIS_L, NE_NQVOIS_L, NE_NTGVOIS_L,NBCSCYC_L,LLBCSCYC_L,
      .        N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,
-     .        NUMSH4N_L,NUMSH3N_L,NLOAD_CYL,NDAMP_VREL_L
+     .        NUMSH4N_L,NUMSH3N_L,NLOAD_CYL,NDAMP_VREL_L,NINIVELT_L
       INTEGER, INTENT(IN) :: NCLOAD_L,NPLOAD_L
       INTEGER, INTENT(IN) :: LWAMP_L     !< Size of Engine work array (WA)
       INTEGER, INTENT(IN) :: LWANMP_L    !< Size of Engine work array (WA)
@@ -1913,6 +1913,9 @@ C-----/DAMP/VREL
 C  
       LVARINT       = LVARINT + 1
       TABVINT(LVARINT) = INTER_PARAMETERS%INT25_EROSION_SOLID
+C-----/INIVEL w/ T_start
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = NINIVELT_L        
 C----------------------------------------------------------------
 C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------
