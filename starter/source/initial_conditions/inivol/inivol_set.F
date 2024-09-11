@@ -76,7 +76,38 @@ C-----------------------------------------------
 
       ! DETERMINE DEFAULT SUBMAT ID
       vfrac0(1:nbsubmat) = pm(20+1:20+nbsubmat,imid)
-      default_SUBMAT_id(1:NEL) = MAXLOC(vfrac0,1)
+      default_SUBMAT_id(1:NEL) = 1
+      DO I=1,NEL
+        IF(IPART(I+NFT) /= IDP)CYCLE
+
+        IF(MLW == 51)THEN
+          DO IMAT=1,4
+            KK = N0PHAS + (IMAT-1)*NVPHAS
+            IF(UVAR(I,1+KK) >= NINE_OVER_10)THEN
+              default_SUBMAT_id(I) = IMAT
+              EXIT
+            ENDIF
+          ENDDO
+
+        ELSEIF(MLW == 37)THEN
+          IF(UVAR(I,4)  >= NINE_OVER_10) THEN
+            default_SUBMAT_id(I) = 1
+          ELSEIF(UVAR(I,5)  >= NINE_OVER_10)THEN
+            default_SUBMAT_id(I) = 2
+          ENDIF
+
+        ELSEIF(MLW == 151)THEN
+          GBUF => ELBUF_TAB(NG)%GBUF
+          DO IMAT=1,MULTI_FVM%NBMAT
+            LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)
+            IF(LBUF%VOL(I) / GBUF%VOL(I) >= NINE_OVER_10)THEN
+              default_SUBMAT_id(I) = IMAT
+              EXIT
+            ENDIF
+          ENDDO
+        ENDIF
+
+      ENDDO!next I
 
       !---ADD CONTRIBUTION FROM 2D POLYGONAL CLIPPING
       IF(REQUIRED_2D_POLYGON_CLIPPING) THEN
