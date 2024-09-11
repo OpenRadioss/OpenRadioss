@@ -68,22 +68,25 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps93c                  ../engine/source/materials/mat/mat093/sigeps93c.F
       !||    sms_fixvel                 ../engine/source/ams/sms_fixvel.F
       !||====================================================================
-      SUBROUTINE VINTER(TF,IAD,IPOS ,ILEN,NEL0,X,DYDX,Y)
+      SUBROUTINE VINTER(TF,IAD,IPOS ,ILEN,NEL,X,DYDX,Y)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C
-      INTEGER ILEN(*),IPOS(*),IAD(*),NEL0
-      my_real X(*),DYDX(*),Y(*),TF(2,*)
-      INTEGER I,J1,J,ICONT,J2
+      INTEGER :: NEL
+      INTEGER :: ILEN(NEL),IPOS(NEL),IAD(NEL)
+      my_real :: X(NEL),DYDX(NEL),Y(NEL)
+      my_real :: TF(2,*)
+C-----------------------------------------------
+      INTEGER :: I,J,J1,J2,ICONT
 C=======================================================================
       J = 0
  100  CONTINUE
 C 
        J = J+1
        ICONT = 0
-       DO I=1,NEL0
+       DO I=1,NEL
          J1 = IPOS(I)+IAD(I)+1
          IF(J<=ILEN(I)-1.AND.X(I)>TF(1,J1))THEN
            IPOS(I)=IPOS(I)+1
@@ -93,7 +96,7 @@ C
 C
       IF(ICONT==1)GOTO 100
 C
-      DO I=1,NEL0
+      DO I=1,NEL
         J1   =IPOS(I)+IAD(I)
         J2   = J1+1
         DYDX(I)=(TF(2,J2)-TF(2,J1))/(TF(1,J2)-TF(1,J1))

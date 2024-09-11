@@ -82,8 +82,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,IFORM,NUMTABL,NINDX,INDX(NEL)
       INTEGER ,DIMENSION(NEL) :: IAD,ILEN
-      my_real :: DF,EPSPF,EPSPR,YFAC2
-      my_real ,DIMENSION(NEL) :: PLA_DAM,SIG0XX,SIG0YY,
+      my_real :: EPSPF,EPSPR,YFAC2
+      my_real ,DIMENSION(NEL) :: DF,PLA_DAM,SIG0XX,SIG0YY,
      .   SIG0ZZ,SIG0XY,SIG0YZ,SIG0ZX
       TYPE(TABLE_4D_),DIMENSION(:),POINTER :: TABLE
 C=======================================================================
