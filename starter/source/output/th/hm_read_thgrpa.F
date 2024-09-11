@@ -122,7 +122,6 @@ C
      .                  C1=TITR ,
      .                  C2=KEY  ,
      .                  I2=PART_ID  )
-            NVAR = 0
           ELSE
             IPARTH(NVPARTH,N)  = NVAR
             IPARTH(NVPARTH+1,N)= IAD
