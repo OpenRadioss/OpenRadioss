@@ -959,11 +959,6 @@ C     !============================!
       PM(38) = UPARAM(42)  !VDET
       PARMAT(1) = MAX(C1(1), C1(2), C1(3), C1(4))
       PM(27) = MAXVAL(SSP(1:4))
-      ! volume fraction (same storage loacation as material law151 : 20+1:NBMAT)
-      PM(20+1) = tAV(1)
-      PM(20+2) = tAV(2)
-      PM(20+3) = tAV(3)
-      PM(20+4) = tAV(4)
       !============================!
       ! Starter Listing File       !
       !============================!
