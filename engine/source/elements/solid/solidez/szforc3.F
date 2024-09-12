@@ -727,7 +727,8 @@ C Compute stresses according to the material law
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,      
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
-     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,idyna   )
+     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   idyna,       DT)
 
       IF (ISTRAIN == 1)THEN 
         CALL SSTRA3(

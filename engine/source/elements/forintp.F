@@ -97,7 +97,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E    FTHE      ,FTHESKYI  ,SPHG_F6   ,WSMCOMP   ,SOL2SPH_TYP,
      F    MAT_ELEM  ,OUTPUT    ,SPH_IORD1 ,SNPC      ,STF,
      G    SBUFMAT   ,IDTMINS   ,NSVOIS    ,IRESP     ,MAXFUNC   ,
-     .    IMON_MAT  ,USERL_AVAIL, heat_meca, impl_s  ,idyna )
+     .    IMON_MAT  ,USERL_AVAIL, heat_meca, impl_s  ,idyna     ,
+     .    DT        )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -109,6 +110,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
       USE OUTPUT_MOD
+      USE DT_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -176,6 +178,7 @@ C-----------------------------------------------
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
+      TYPE (DT_), INTENT(IN) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -667,7 +670,7 @@ C-----------------------------------------------
      A            SBUFMAT,   SVIS      ,NSVOIS    ,IDTMINS   ,IRESP,      
      .            IDEL7NG,   IDEL7NOK  ,IDTMIN    ,MAXFUNC   ,LIPART1,
      .            IMON_MAT,  USERL_AVAIL, heat_meca, impl_s,
-     V            idyna)
+     V            idyna,     DT        )
             ENDIF
             IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO

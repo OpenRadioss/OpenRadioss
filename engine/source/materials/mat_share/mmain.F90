@@ -198,8 +198,8 @@
         &numgeo,      numnod,      numels,            &
         &idel7nok,    idtmin,      maxfunc,&
         &imon_mat,    userl_avail, heat_meca,   impl_s,&
-        &idyna,       opt_mtn,      opt_jcvt,   opt_isorth,&
-        &opt_isorthg   )
+        &idyna,       dt,          opt_mtn,     opt_jcvt,&
+        &opt_isorth,  opt_isorthg)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -212,6 +212,7 @@
           use ale_mod
           use mulaw_mod
           use constant_mod
+          use dt_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -363,6 +364,7 @@
           type (nlocal_str_) :: nloc_dmg
           type (t_ale_connectivity), intent(in) :: ale_connect
           type (mat_elem_) ,target ,intent(inout) :: mat_elem
+          type (dt_), intent(in) :: dt
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1807,7 +1809,8 @@
             &lbuf%forth, lbuf%visc,  nel,        gbuf%etotsh,&
             &iselect,    tstar,      lbuf%mu,    amu2,&
             &dpdm,       rhoref,     rhosp,      nloc_dmg,&
-            &ity,        jtur,       mat_elem,   idel7nok,svis)
+            &ity,        jtur,       mat_elem,   idel7nok,svis,&
+            &dt)
 !
           else   ! 'user type' radioss material laws
 !---
@@ -1860,7 +1863,8 @@
             &numgeo,      nummat,      numelq,      idtmin,&
             &dt1,         tt,&
             &impl_s,&
-            &idyna,       userl_avail, nixs,        nixq)
+            &idyna,       userl_avail, nixs,        nixq,&
+            &dt)
 
           endif
 !-----------------------------------

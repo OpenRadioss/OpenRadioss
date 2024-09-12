@@ -74,7 +74,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C                  MAT_ELEM   ,H3D_STRAIN  ,SZ_BUFVOIS  ,SNPC     ,STF         ,SBUFMAT ,
      D                  SVIS       ,NSVOIS      ,IRESP       ,TT       ,DT1         ,
      .                  IDEL7NOK   ,IDTMIN      ,MAXFUNC     ,
-     .                  IMON_MAT   ,USERL_AVAIL ,heat_meca   ,impl_s   ,idyna)
+     .                  IMON_MAT   ,USERL_AVAIL ,heat_meca   ,impl_s   ,idyna       ,
+     .                  DT         )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -121,6 +122,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE ALE_MOD , ONLY : ALE
       USE ELBUFDEF_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -165,6 +167,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
+      TYPE (DT_), INTENT(IN) :: DT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -432,7 +435,7 @@ c
      .   numgeo,      numnod,      numels,            
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna)
+     .   idyna,       DT         )
 C--------------------------
 C       SYNTHESIS PER MATERIAL (thermics)
 C--------------------------

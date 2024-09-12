@@ -103,7 +103,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Q   CONDN,       CONDNSKY,    STACK,       ISUBSTACK,
      R   XFEM_STR,    CRKEDGE,     DRAPE_SH4N,  IPRI,
      S   NLOC_DMG,    INDX_DRAPE,  IGRE,        JTUR,
-     T   OUTPUT)
+     T   OUTPUT,      DT        )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -117,6 +117,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE OUTPUT_MOD
       USE ELBUFDEF_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -175,6 +176,7 @@ C
       TYPE (SENSORS_)    ,INTENT(IN)    :: SENSORS
       TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
       TYPE (GROUP_PARAM_),INTENT(IN)    :: GROUP_PARAM
+      TYPE (DT_), INTENT(IN) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -519,7 +521,7 @@ C-----------------------------
      N  ISMSTR      ,IR          ,IS          ,NLAY       ,NPT        ,
      O  IXLAY       ,IXEL        ,ISUBSTACK   ,STACK      ,
      P  F_DEF       ,ITASK       ,DRAPE_SH4N  ,VAR_REG    ,NLOC_DMG   ,
-     R  INDX_DRAPE  ,THKE        ,SEDRAPE     ,NUMEL_DRAPE)
+     R  INDX_DRAPE  ,THKE        ,SEDRAPE     ,NUMEL_DRAPE,DT         )
 C-----------------------------
       IF ((IMON_MAT==1).AND. ITASK == 0)CALL STOPTIME(35,1)
 C-----------------------------

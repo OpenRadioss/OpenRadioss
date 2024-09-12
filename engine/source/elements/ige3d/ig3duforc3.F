@@ -75,7 +75,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      K   JSPH,        SNPC,        STF,         SBUFMAT,
      L   SVIS,        NSVOIS,      IDTMINS,     IRESP,      
      .   IDEL7NG,     IDEL7NOK,    USERL_AVAIL, heat_meca,
-     .   impl_s,      idyna)
+     .   impl_s,      idyna,       DT         )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -86,6 +86,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE ELBUFDEF_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -148,6 +149,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
+      TYPE(DT_) ,INTENT(IN) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -549,7 +551,7 @@ C------------------------------------------------------
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna)
+     .   idyna,       DT         )
 
        CALL SSTRA3(
      1   DXX,      DYY,      DZZ,      D4,

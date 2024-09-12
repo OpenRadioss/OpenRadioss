@@ -76,7 +76,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      I   TABLE,       IPARG,       SENSORS,     PTG,
      J   JTHE,        CONDN,       CONDNSKY,    ISUBSTACK,
      K   STACK,       ITASK,       DRAPE_SH3N,  IPRI,
-     L   NLOC_DMG,    INDX_DRAPE,  IGRE,        JTUR)
+     L   NLOC_DMG,    INDX_DRAPE,  IGRE,        JTUR,
+     M   DT    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -88,6 +89,7 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE SENSOR_MOD
       USE ELBUFDEF_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,6 +137,7 @@ C     REAL
       TYPE (DRAPE_), DIMENSION (NUMELTG_DRAPE):: DRAPE_SH3N
       TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (DT_), INTENT(IN) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -413,7 +416,7 @@ C----------------------------------------------------------------------------
      N     ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O     IBID      ,IBID      ,ISUBSTACK ,STACK     ,
      P     BID       ,ITASK     ,DRAPE_SH3N  ,VAR_REG   ,NLOC_DMG  ,
-     R    INDX_DRAPE ,THKE        ,SEDRAPE     ,NUMEL_DRAPE)
+     R    INDX_DRAPE ,THKE        ,SEDRAPE     ,NUMEL_DRAPE,DT   )
 C----------------------------------------------------------------------------
 C     THICKNESS CORRECTION 
 C----------------------------

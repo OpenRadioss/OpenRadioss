@@ -203,7 +203,8 @@
         &numgeo,      nummat,      numelq,      idtmin,&
         &dt1,         tt,          &
         &impl_s,&
-        &idyna,       userl_avail, nixs,        nixq)
+        &idyna,       userl_avail, nixs,        nixq,&
+        &dt)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -216,6 +217,7 @@
           use sigeps100_mod
           use sigeps126_mod
           use prop_param_mod
+          use dt_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -232,6 +234,7 @@
           type(t_ale_connectivity), intent(in)                          :: ale_connect
           type (mat_elem_) ,intent(inout) ,target                       :: mat_elem
           type (nlocal_str_),intent(inout)                              :: nloc_dmg
+          type (dt_), intent(in)                                        :: dt
 
           integer,intent(in) :: nixs
           integer,intent(in) :: nixq
@@ -467,7 +470,7 @@
 !
           character option*256
           integer size,nvareos,nvarvis
-          integer :: nrate
+          integer :: nrate,nodadt
           my_real :: fisokin
           my_real, dimension(nel), target :: vecnul
           my_real, dimension(:), pointer  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
@@ -493,6 +496,7 @@
           l_dmg    = elbuf_tab(ng)%bufly(ilay)%l_dmg
           l_planl  = elbuf_tab(ng)%bufly(ilay)%l_planl
           l_epsdnl = elbuf_tab(ng)%bufly(ilay)%l_epsdnl
+          nodadt = dt%nodadt
           ! make sure that the non-local variable increment is positive
           if (inloc > 0) then
             do i = 1,nel
