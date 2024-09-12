@@ -332,7 +332,7 @@ C
       NBX = MAX(NBX,1)
       NBY = MAX(NBY,1)
       NBZ = MAX(NBZ,1)
-     
+      write(6,*) "BASE : NBX=",NBX," NBY=",NBY," NBZ=",NBZ
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ

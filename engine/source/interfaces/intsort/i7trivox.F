@@ -155,6 +155,7 @@ C     INTEGER, DIMENSION(:), allocatable, SAVE :: X_FINE, Y_FINE, Z_FINE
       INTEGER :: NB_CHUNK_X, NB_CHUNK_Y, NB_CHUNK_Z
       INTEGER :: X_CHUNK, Y_CHUNK, Z_CHUNK
       INTEGER :: ADDRESS
+      LOGICAL :: PREVIOUS_EMPTY
 C-----------------------------------------------
       IF(ITASK == 0)THEN
         REMOTE_S_NODE = 0
@@ -263,11 +264,10 @@ C=======================================================================
         ELSE
           AAA = MARGE
         ENDIF
-        AAA = TWO * AAA 
 
-        NB_CHUNK_X =INT(MIN(MAX(ONE,(XMAX - XMIN) / AAA),NBX+TWO))
-        NB_CHUNK_Y =INT(MIN(MAX(ONE,(YMAX - YMIN) / AAA),NBY+TWO))
-        NB_CHUNK_Z =INT(MIN(MAX(ONE,(ZMAX - ZMIN) / AAA),NBZ+TWO))
+        NB_CHUNK_X = NBX+2  ! =INT(MIN(MAX(ONE,(XMAX - XMIN) / AAA),NBX+TWO))
+        NB_CHUNK_Y = NBY+2  ! =INT(MIN(MAX(ONE,(YMAX - YMIN) / AAA),NBY+TWO))
+        NB_CHUNK_Z = NBZ+2  ! =INT(MIN(MAX(ONE,(ZMAX - ZMIN) / AAA),NBZ+TWO))
 
         X_CHUNK = MAX(1,1+KEPT_NODE /NB_CHUNK_X)
         Y_CHUNK = MAX(1,1+KEPT_NODE /NB_CHUNK_Y)
@@ -288,41 +288,65 @@ C=======================================================================
         IX1 = 1
         IY1 = 1
         IZ1 = 1
-        DO i = 1, NBX+2
+        PREVIOUS_EMPTY = X_FINE(1) == 0
+        X_SUM = X_FINE(1)
+        X_FINE(1) = 1
+        DO I = 2, NBX+2
           IX2 = X_FINE(i)
-          X_FINE(i) = IX
           IF(IX2 > 0) THEN
-            IF((I - IX1+1) * DX > AAA) THEN 
-              X_SUM = 0
+            IF((I - IX1+1) * DX > TWO * AAA) THEN 
+              X_SUM = IX2
               IX = IX + 1
               IX1 = I
+            ELSE IF (PREVIOUS_EMPTY) THEN
+              IX = IX + 1
+              IX1 = I
+              X_SUM = IX2
             ENDIF
           ENDIF
+          X_FINE(i) = IX
+          PREVIOUS_EMPTY = IX2 == 0
         ENDDO
-
-        DO i = 1, NBY+2
+        PREVIOUS_EMPTY = Y_FINE(1) == 0 
+        Y_SUM = Y_FINE(1)
+        Y_FINE(1) = 1
+        DO i = 2, NBY+2
           IY2 = Y_FINE(i)
-          Y_FINE(i) = IY
           IF(IY2 > 0) THEN
-            IF(((I - IY1+1) * DY) > AAA) THEN
-              Y_SUM = 0
+            IF(((I - IY1+1) * DY) > TWO * AAA) THEN
+              Y_SUM = IY2
               IY = IY + 1
               IY1 = I
+            ELSE IF (PREVIOUS_EMPTY) THEN
+              IY = IY + 1
+              IY1 = I
+              Y_SUM = IY2
             ENDIF
           ENDIF
+          Y_FINE(i) = IY
+          PREVIOUS_EMPTY = IY2 == 0
         ENDDO
 
-        DO i = 1, NBZ+2
+        PREVIOUS_EMPTY = Z_FINE(1) == 0
+        Z_SUM = Z_FINE(1)
+        Z_FINE(1) = 1
+        DO i = 2, NBZ+2
           IZ2 = Z_FINE(i)
-          Z_FINE(i) = IZ
           IF(IZ2 > 0) THEN
-            IF(((I - IZ1+1) * DZ) > AAA) THEN
-              Z_SUM = 0
+            IF(((I - IZ1+1) * DZ) > TWO * AAA) THEN
+              Z_SUM = IZ2
               IZ = IZ + 1
               IZ1 = I
+            ELSE IF (PREVIOUS_EMPTY) THEN
+              IZ = IZ + 1
+              IZ1 = I
+              Z_SUM = IZ2
             ENDIF
           ENDIF
+          Z_FINE(i) = IZ
+          PREVIOUS_EMPTY = IZ2 == 0
         ENDDO
+
 
 C        DO i = 1, FINE_SIZE
 C          X_SUM = X_SUM + X_FINE(i)
@@ -370,7 +394,7 @@ c       write(6,*) "bounds=",XMAX, XMIN, YMAX, YMIN, ZMAX, ZMIN
 c       write(6,*) "CONDX=",(I-IX1+1)*DX,AAA
 c       write(6,*) "CONDY=",(I-IY1+1)*DY,AAA
 c       write(6,*) "CONDZ=",(I-IZ1+1)*DZ,AAA
-C       write(6,*) "NB_CHUNK_X=", NB_CHUNK_X, "NB_CHUNK_Y=", NB_CHUNK_Y, "NB_CHUNK_Z=", NB_CHUNK_Z
+       write(6,*) "NB_CHUNK_X=", NB_CHUNK_X, "NB_CHUNK_Y=", NB_CHUNK_Y, "NB_CHUNK_Z=", NB_CHUNK_Z
 C       write(6,*) "NBX=", NBX, "NBY=", NBY, "NBZ=", NBZ
 
 
