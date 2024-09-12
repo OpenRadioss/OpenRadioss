@@ -296,11 +296,11 @@ C=======================================================================
         DO I = 2, NBX+2
           IX2 = X_FINE(i)
           IF(IX2 > 0) THEN
-            IF((I - IX1+1) * DX > TWO * AAA) THEN 
+            IF((I - IX1+1) * DX > FOUR * AAA) THEN 
               X_SUM = IX2
               IX = IX + 1
               IX1 = I
-            ELSE IF (.FALSE.) THEN
+            ELSE IF (PREVIOUS_EMPTY) THEN
               IX = IX + 1
               IX1 = I
               X_SUM = IX2
@@ -320,11 +320,11 @@ C=======================================================================
         DO i = 2, NBY+2
           IY2 = Y_FINE(i)
           IF(IY2 > 0) THEN
-            IF(((I - IY1+1) * DY) > TWO * AAA) THEN
+            IF(((I - IY1+1) * DY) > FOUR * AAA) THEN
               Y_SUM = IY2
               IY = IY + 1
               IY1 = I
-            ELSE IF (.FALSE.) THEN
+            ELSE IF (PREVIOUS_EMPTY) THEN
               IY = IY + 1
               IY1 = I
               Y_SUM = IY2
@@ -345,11 +345,11 @@ C=======================================================================
         DO i = 2, NBZ+2
           IZ2 = Z_FINE(i)
           IF(IZ2 > 0) THEN
-            IF(((I - IZ1+1) * DZ) > TWO * AAA) THEN
+            IF(((I - IZ1+1) * DZ) > FOUR * AAA) THEN
               Z_SUM = IZ2
               IZ = IZ + 1
               IZ1 = I
-            ELSE IF (.FALSE.) THEN
+            ELSE IF (PREVIOUS_EMPTY) THEN
               IZ = IZ + 1
               IZ1 = I
               Z_SUM = IZ2
