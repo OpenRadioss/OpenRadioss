@@ -150,8 +150,8 @@ c provisoire
       SAVE IIX,IIY,IIZ
       INTEGER, PARAMETER :: FINE_SIZE = 200
 C     INTEGER, DIMENSION(:), allocatable, SAVE :: X_FINE, Y_FINE, Z_FINE
-      INTEGER, SAVE :: X_FINE(400), Y_FINE(400), Z_FINE(400)
-      INTEGER :: KEPT_NODE, X_SUM, Y_SUM, Z_SUM
+      INTEGER, SAVE :: X_FINE(400), Y_FINE(400), Z_FINE(400),KEPT_NODE
+      INTEGER :: X_SUM, Y_SUM, Z_SUM
       INTEGER :: NB_CHUNK_X, NB_CHUNK_Y, NB_CHUNK_Z
       INTEGER :: X_CHUNK, Y_CHUNK, Z_CHUNK
       INTEGER :: ADDRESS
@@ -176,6 +176,7 @@ C-----------------------------------------------
         X_FINE = 0
         Y_FINE = 0
         Z_FINE = 0
+        KEPT_NODE = 0
       END IF
 
       CALL MY_BARRIER !Barrier to wait init voxel and allocation NEX_NOD
@@ -273,9 +274,6 @@ C=======================================================================
         Y_CHUNK = MAX(1,1+KEPT_NODE /NB_CHUNK_Y)
         Z_CHUNK = MAX(1,1+KEPT_NODE /NB_CHUNK_Z)
 
-        AAA = MAX(AAA, (XMAX - XMIN) / (NBX+TWO))
-        AAA = MAX(AAA, (YMAX - YMIN) / (NBY+TWO))
-        AAA = MAX(AAA, (ZMAX - ZMIN) / (NBZ+TWO))
         X_SUM = 0
         Y_SUM = 0
         Z_SUM = 0
@@ -285,6 +283,10 @@ C=======================================================================
         DX = (XMAX - XMIN) /(ONE*(NBX+2))
         DY = (YMAX - YMIN) /(ONE*(NBY+2))
         DZ = (ZMAX - ZMIN) /(ONE*(NBZ+2))  
+        AAA = MAX(DX,AAA)
+        AAA = MAX(DY,AAA)
+        AAA = MAX(DZ,AAA)
+!       AAA = TWO * AAA
         IX1 = 1
         IY1 = 1
         IZ1 = 1
@@ -298,13 +300,18 @@ C=======================================================================
               X_SUM = IX2
               IX = IX + 1
               IX1 = I
-            ELSE IF (PREVIOUS_EMPTY) THEN
+            ELSE IF (.FALSE.) THEN
+              IX = IX + 1
+              IX1 = I
+              X_SUM = IX2
+            ELSEIF (X_SUM + IX2 > X_CHUNK .AND. (I - IX1+1) * DX > AAA) THEN
               IX = IX + 1
               IX1 = I
               X_SUM = IX2
             ENDIF
           ENDIF
           X_FINE(i) = IX
+          X_SUM = X_SUM + IX2
           PREVIOUS_EMPTY = IX2 == 0
         ENDDO
         PREVIOUS_EMPTY = Y_FINE(1) == 0 
@@ -317,13 +324,18 @@ C=======================================================================
               Y_SUM = IY2
               IY = IY + 1
               IY1 = I
-            ELSE IF (PREVIOUS_EMPTY) THEN
+            ELSE IF (.FALSE.) THEN
+              IY = IY + 1
+              IY1 = I
+              Y_SUM = IY2
+            ELSEIF (Y_SUM + IY2 > Y_CHUNK .AND. (I - IY1+1) * DY > AAA) THEN
               IY = IY + 1
               IY1 = I
               Y_SUM = IY2
             ENDIF
           ENDIF
           Y_FINE(i) = IY
+          Y_SUM = Y_SUM + IY2
           PREVIOUS_EMPTY = IY2 == 0
         ENDDO
 
@@ -337,13 +349,18 @@ C=======================================================================
               Z_SUM = IZ2
               IZ = IZ + 1
               IZ1 = I
-            ELSE IF (PREVIOUS_EMPTY) THEN
+            ELSE IF (.FALSE.) THEN
+              IZ = IZ + 1
+              IZ1 = I
+              Z_SUM = IZ2
+            ELSEIF (Z_SUM + IZ2 > Z_CHUNK .AND. (I - IZ1+1) * DZ > AAA ) THEN
               IZ = IZ + 1
               IZ1 = I
               Z_SUM = IZ2
             ENDIF
           ENDIF
           Z_FINE(i) = IZ
+          Z_SUM = Z_SUM + IZ2
           PREVIOUS_EMPTY = IZ2 == 0
         ENDDO
 
@@ -387,15 +404,17 @@ C        ENDDO
        NB_CHUNK_X = X_FINE(NBX+2)
        NB_CHUNK_Y = Y_FINE(NBY+2)
        NB_CHUNK_Z = Z_FINE(NBZ+2)
-C      write(6,*)  "IX=",X_FINE(FINE_SIZE), "IY=",Y_FINE(FINE_SIZE), "IZ=",Z_FINE(FINE_SIZE)
-c       write(6,*) "KEPT_NODE=", KEPT_NODE
+c      write(6,*)  "IX=",X_FINE(FINE_SIZE), "IY=",Y_FINE(FINE_SIZE), "IZ=",Z_FINE(FINE_SIZE)
+c       write(800+ISPMD,*) "KEPT_NODE=", KEPT_NODE
 c       write(6,*) "IX1=",IX1, "IY1=",IY1, "IZ1=",IZ1
-c       write(6,*) "bounds=",XMAX, XMIN, YMAX, YMIN, ZMAX, ZMIN
+c       write(800+ISPMD,*) "bounds=",XMAX, XMIN, YMAX, YMIN, ZMAX, ZMIN
 c       write(6,*) "CONDX=",(I-IX1+1)*DX,AAA
 c       write(6,*) "CONDY=",(I-IY1+1)*DY,AAA
 c       write(6,*) "CONDZ=",(I-IZ1+1)*DZ,AAA
-       write(6,*) "NB_CHUNK_X=", NB_CHUNK_X, "NB_CHUNK_Y=", NB_CHUNK_Y, "NB_CHUNK_Z=", NB_CHUNK_Z
-C       write(6,*) "NBX=", NBX, "NBY=", NBY, "NBZ=", NBZ
+c       write(800+ispmd,*) "DX,DY,DZ=",DX,DY,DZ,"AAA=",AAA
+c       write(800+ISPMD,*) KEPT_NODE,"NB_CHUNK_X=", NB_CHUNK_X,
+c    .                     "NB_CHUNK_Y=", NB_CHUNK_Y, "NB_CHUNK_Z=", NB_CHUNK_Z
+c       write(6,*) "NBX=", NBX, "NBY=", NBY, "NBZ=", NBZ
 
 
         !==========LAGRANGIAN and STAGGERED ALE==========!
@@ -489,11 +508,11 @@ C=======================================================================
 
       CALL MY_BARRIER ! Barrier to wait task0 treatment
 
-
 C=======================================================================
 C 3   FACE RECOVERY AND ENUMERATION OF CANDIDATE COUPLES
 C=======================================================================
       J_STOK = 0
+      IF(KEPT_NODE > 0) THEN
       IF(FLAGREMNODE == 2) THEN
         ALLOCATE(TAGREMNODE(NUMNOD+NUMFAKENODIGEO))
         DO I=1,NUMNOD+NUMFAKENODIGEO
@@ -684,6 +703,7 @@ C       if(IZ1 > NBZ+2) write(6,*) "Error: IZ1 > NBZ+2",IZ1
           ENDDO
         ENDIF
       ENDDO
+      ENDIF
 C=======================================================================
 C 4   STORAGE
 C=======================================================================

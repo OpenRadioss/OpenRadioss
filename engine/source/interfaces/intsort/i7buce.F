@@ -213,6 +213,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "warn_c.inc"
 #include      "com01_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -332,7 +333,7 @@ C
       NBX = MAX(NBX,1)
       NBY = MAX(NBY,1)
       NBZ = MAX(NBZ,1)
-      write(6,*) "BASE : NBX=",NBX," NBY=",NBY," NBZ=",NBZ
+c     write(800+ISPMD,*) "BASE : NBX=",NBX," NBY=",NBY," NBZ=",NBZ
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ
