@@ -1,8 +1,9 @@
-# Radioss Relases
+# Radioss stable Relases
 
 OpenRadioss builds are available in the [Releases area on GitHub](https://github.com/OpenRadioss/OpenRadioss/releases).</p>
 
-6 builds are available : there are the last build of the current day and the last build of the 5 last days.
+* Builds are based on git tag marking a given changelist as stable.
+* 3 builds are available : they are based on the 3 last tags marking OpenRadioss as stable.
 
 The build  package contains OpenRadioss binaries for Linux and Windows:
 
