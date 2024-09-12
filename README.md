@@ -15,13 +15,14 @@ If you have any questions about OpenRadioss, please feel free to contact <webmas
 
 * [How to Build OpenRadioss](HOWTO.md)
 * [How to Run OpenRadioss](INSTALL.md)
-* [OpenRadioss Releases](RELEASES.md)
+* [OpenRadioss Stable Releases](RELEASES.md)
 
 # Community and Ways to Participate
 
 `git` and `git-lfs` are needed to clone the OpenRadioss repository.
 
 * [How to contribute](CONTRIBUTING.md)
+* [How to access stable version of the code](Stable_code.md)
 * [Code of conduct](CODE_OF_CONDUCT.md)
 
 Community Manager
