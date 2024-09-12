@@ -118,6 +118,13 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 
+
+      IF (MULTI_FVM%IS_USED)THEN
+        NBSUBMAT = MULTI_FVM%NBMAT
+      ELSE
+        NBSUBMAT = 4
+      ENDIF
+
       !---OUTPUT MESSAGE & SIZES
       SKVOL = 0
       SINIVOL = 0
@@ -128,8 +135,6 @@ C-----------------------------------------------
         WRITE(ISTDO,'(A)')' .. INITIAL VOLUME FRACTION'                                          
         WRITE(IOUT,'(//A)')'     INITIAL VOLUME FRACTION'                                      
         WRITE(IOUT,'(A/)') '     -----------------------'
-        NBSUBMAT = 4 !(LAW51)   
-        IF (MULTI_FVM%IS_USED) NBSUBMAT = MAX(NBSUBMAT, MULTI_FVM%NBMAT)  !up to 20 (LAW151)
         NUMEL_TOT = MAX(NUMELTG,MAX(NUMELS,NUMELQ))
         SKVOL = NBSUBMAT*NUMEL_TOT
         SINIVOL = NUM_INIVOL
@@ -300,10 +305,7 @@ C
         ENDDO   !next line 
         WRITE(IOUT,'(A//)') 
       END DO !next option
-  
-      NBSUBMAT = 4
-      IF (MULTI_FVM%IS_USED)NBSUBMAT = MAX(NBSUBMAT, MULTI_FVM%NBMAT)
-             
+
 C-----------------------------
       RETURN
 C-----------------------------

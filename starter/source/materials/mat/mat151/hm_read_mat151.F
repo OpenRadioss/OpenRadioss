@@ -128,6 +128,7 @@ C     Reading submaterial IDS and corresponding volumic fractions
             CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGERROR, ANMODE = ANINFO, C1 = "ERROR", I1 = ID, R1 = SUM_FRAC_VOL)
          ELSE
             CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGWARNING, ANMODE = ANINFO, C1 = "WARNING", I1 = ID, R1 = SUM_FRAC_VOL)
+            IF(SUM_FRAC_VOL == ZERO)PM(20 + 1) = ONE
          ENDIF
       ENDIF
 

@@ -77,7 +77,10 @@ C-----------------------------------------------
 C---
 C FILL ELEMENTS INPUT PHASES
 C---
+        AV(1:NBSUBMAT) = ZERO
+
         IF(MLW==51)THEN
+          !when using LAW51 nbsubmat=4
           AV(1) = UPARAM(4)
           AV(2) = UPARAM(5)
           AV(3) = UPARAM(6)
