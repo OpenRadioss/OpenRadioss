@@ -304,7 +304,7 @@ C=======================================================================
               IX = IX + 1
               IX1 = I
               X_SUM = IX2
-            ELSEIF (X_SUM + IX2 > X_CHUNK .AND. (I - IX1+1) * DX > AAA) THEN
+            ELSEIF (X_SUM + IX2 > X_CHUNK .AND. (I - IX1+1) * DX > TWO*AAA) THEN
               IX = IX + 1
               IX1 = I
               X_SUM = IX2
@@ -328,7 +328,7 @@ C=======================================================================
               IY = IY + 1
               IY1 = I
               Y_SUM = IY2
-            ELSEIF (Y_SUM + IY2 > Y_CHUNK .AND. (I - IY1+1) * DY > AAA) THEN
+            ELSEIF (Y_SUM + IY2 > Y_CHUNK .AND. (I - IY1+1) * DY > TWO*AAA) THEN
               IY = IY + 1
               IY1 = I
               Y_SUM = IY2
@@ -353,7 +353,7 @@ C=======================================================================
               IZ = IZ + 1
               IZ1 = I
               Z_SUM = IZ2
-            ELSEIF (Z_SUM + IZ2 > Z_CHUNK .AND. (I - IZ1+1) * DZ > AAA ) THEN
+            ELSEIF (Z_SUM + IZ2 > Z_CHUNK .AND. (I - IZ1+1) * DZ > TWO*AAA ) THEN
               IZ = IZ + 1
               IZ1 = I
               Z_SUM = IZ2
