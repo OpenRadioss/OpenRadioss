@@ -86,7 +86,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M   IXEL,        STACK,       ISUBSTACK,   UXINT_MEAN,
      N   UYINT_MEAN,  UZINT_MEAN,  NLEVXF,      NODEDGE,
      O   CRKEDGE,     DRAPE_SH3N,  IPRI,        NLOC_DMG,
-     P   INDX_DRAPE,  IGRE)
+     P   INDX_DRAPE,  IGRE,        DT  )
 C-----------------------------------------------
       USE TABLE_MOD
       USE CRACKXFEM_MOD
@@ -97,6 +97,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD          
       USE SENSOR_MOD
       USE ELBUFDEF_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -152,6 +153,7 @@ C-----------------------------------------------
       TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (DT_), INTENT(IN) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -447,7 +449,7 @@ C--------------------------
      P   ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT      ,
      Q   IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P   BID    ,ITASK        ,DRAPE_SH3N  ,VARNL     ,NLOC_DMG ,
-     R   INDX_DRAPE , THKE    ,SEDRAPE ,NUMEL_DRAPE)
+     R   INDX_DRAPE , THKE    ,SEDRAPE ,NUMEL_DRAPE, DT  )
 
 C--------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)

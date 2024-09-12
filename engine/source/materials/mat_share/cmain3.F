@@ -80,7 +80,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N           ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O           IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P           F_DEF     ,ITASK     ,DRAPE     ,VARNL     ,NLOC_DMG   ,
-     R           INDX_DRAPE,THKE      ,SEDRAPE   ,NUMEL_DRAPE)
+     R           INDX_DRAPE,THKE      ,SEDRAPE   ,NUMEL_DRAPE,DT        )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -93,6 +93,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE SENSOR_MOD
       USE ELBUFDEF_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -148,6 +149,7 @@ C-----------------------------------------------
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (DT_), INTENT(IN) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -275,7 +277,7 @@ c
      F       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,
      G       ITASK   ,STACK%PM ,ISUBSTACK,STACK ,TSTAR   ,ALPE    ,
      H       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
-     I       VARNL   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX)
+     I       VARNL   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX,DT    )
 cc----------------------------
       ELSE   ! User-type Radioss laws , NPT > 0
 c----------------------------
@@ -307,7 +309,7 @@ c
      G       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,
      H       ITASK   ,STACK%PM ,ISUBSTACK,STACK ,TSTAR   ,ALPE    ,
      I       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
-     J       VARNL   ,ETIMP   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX)
+     J       VARNL   ,ETIMP   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX,DT    )
       ENDIF ! IF (NPT == 0) 
 C----------------------------------------------------------------------
       IF (IEXPAN > 0 .AND. JTHE > 0. AND.IDT_THERM==0) THEN

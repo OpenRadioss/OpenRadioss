@@ -1004,8 +1004,8 @@ c
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna,       OPT_MTN=MTN,  OPT_JCVT=JCVT, OPT_ISORTH=ISORTH,
-     *   OPT_ISORTHG=ISORTHG)
+     .   idyna,       DT,          OPT_MTN=MTN, OPT_JCVT=JCVT,
+     *   OPT_ISORTH=ISORTH,OPT_ISORTHG=ISORTHG)
 C    
         IF (ISTRAIN == 1) THEN 
           CALL SSTRA3(

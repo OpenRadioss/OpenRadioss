@@ -1306,6 +1306,9 @@ C AMS is not compatible with thermal time step
           CALL ARRET(0)
       ENDIF
 C
+      ! Copy nodal timestep flag into DT data structure
+      DT%NODADT = NODADT
+C
 C--------------------------
 C     /DT1
 C--------------------------  

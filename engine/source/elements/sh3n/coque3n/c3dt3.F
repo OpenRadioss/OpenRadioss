@@ -120,8 +120,6 @@ c     .                   + AREA(I) /9.)
           ENDDO
         ENDIF 
 C
-        IF (IDTMIN(7) == 0) RETURN
-C
       ELSEIF(IDTMINS == 2)THEN
        IF(IGTYP == 52 .OR. 
      .    ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
@@ -177,8 +175,6 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
          END DO
         ENDIF
 C
-        IF(IDTMIN(7)==0)RETURN
-C
       ENDIF
 C
       DO I=JFT,JLT
@@ -189,8 +185,8 @@ C
            DTEL(I) = DT(I)
          ENDDO
       ENDIF
-      
-      
+C
+      IF (IDTMIN(7)==0) RETURN 
 C
       NINDX=IOFC
       IF(IDTMIN(7)==1)THEN

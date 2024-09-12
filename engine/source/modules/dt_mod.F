@@ -58,6 +58,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         !TYPE definition
         TYPE DT_
           INTEGER IDEL_BRICK
+          INTEGER NODADT
           MY_REAL BRICK_CST_DEFV_MIN,BRICK_CST_COL_MIN   ! /DT/BRICK/CST/1
           MY_REAL BRICK_DEL_DEFV_MIN,BRICK_DEL_DEFV_MAX, ! /DT/BRICK/DEL/1
      .            BRICK_DEL_ASP_MAX,BRICK_DEL_COL_MIN

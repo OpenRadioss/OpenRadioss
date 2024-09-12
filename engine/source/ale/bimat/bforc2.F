@@ -78,7 +78,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B                   H3D_STRAIN ,OUTPUT    ,SZ_BUFVOIS ,SNPC   ,STF      ,SBUFMAT, SVIS,
      C                   NSVOIS     , IRESP    ,IDEL7NOK   ,
      D                   IDTMIN     , MAXFUNC  ,IMON_MAT   ,
-     E                   USERL_AVAIL, heat_meca,impl_s     ,idyna)
+     E                   USERL_AVAIL, heat_meca,impl_s     ,idyna  ,DT       )
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -90,6 +90,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE OUTPUT_MOD
       USE MAT_ELEM_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -140,6 +141,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
+      TYPE (DT_), INTENT(IN) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -366,7 +368,7 @@ C-----------------------------------------------------
      .   numgeo,      numnod,      numels,            
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna)
+     .   idyna,       DT         )
 C----------------------------------
 C     PETROV-GALERKIN PSEUDO MASSES & ALE MASSES
 C----------------------------------
@@ -585,7 +587,7 @@ C-----------------------------------------------------
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna )
+     .   idyna,       DT         )
 C----------------------------------
 C     PETROV-GALERKIN PSEUDO MASSES & MASSES ALE
 C----------------------------------

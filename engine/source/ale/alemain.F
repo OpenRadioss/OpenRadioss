@@ -901,7 +901,8 @@ C
      C                  MAT_ELEM        ,H3D_DATA%STRAIN  ,SZ_BUFVOIS  ,SNPC      ,STF      ,SBUFMAT  ,
      D                  SVIS            ,NSVOIS           ,IRESP       ,TT        ,DT1      ,      
      .                  IDEL7NOK        ,IDTMIN           ,MAXFUNC     ,  
-     .                  IMON_MAT        ,USERL_AVAIL      ,heat_meca   ,impl_s,     idyna) 
+     .                  IMON_MAT        ,USERL_AVAIL      ,heat_meca   ,impl_s    ,idyna    ,
+     .                  DT              ) 
 c
                  ELSEIF (ITY == 2 .AND. JMULT /= 0) THEN
                   CALL BFORC2(
@@ -919,7 +920,7 @@ c
      B                  IBID        , OUTPUT        ,SZ_BUFVOIS      , SNPC      , STF       ,SBUFMAT, SVIS,
      C                  NSVOIS      , IRESP         ,IDEL7NOK        , 
      D                  IDTMIN      , MAXFUNC       ,IMON_MAT        , 
-     E                  USERL_AVAIL ,heat_meca      , impl_s         , idyna)
+     E                  USERL_AVAIL ,heat_meca      , impl_s         , idyna     ,DT         )
                  ENDIF
                 ENDIF
               ENDIF

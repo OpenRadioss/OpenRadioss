@@ -106,7 +106,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F       IXEL     ,ITHK     ,F_DEF    ,ISHPLYXFEM,                        
      G       ITASK    ,PM_STACK , ISUBSTACK,STACK    ,TSTAR    ,ALPE     ,
      H       PLY_EXX  ,PLY_EYY  ,PLY_EXY  ,PLY_EXZ   ,PLY_EYZ  ,PLY_F    ,
-     I       VARNL    ,NLOC_DMG ,NLAY_MAX ,LAYNPT_MAX)
+     I       VARNL    ,NLOC_DMG ,NLAY_MAX ,LAYNPT_MAX,DT       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -119,6 +119,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
       USE ELBUFDEF_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -171,6 +172,7 @@ C-----------------------------------------------
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (MAT_ELEM_) ,INTENT(INOUT) ,TARGET :: MAT_ELEM
+      TYPE (DT_) ,INTENT(IN) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

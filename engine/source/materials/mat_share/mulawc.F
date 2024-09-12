@@ -166,7 +166,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G       IXEL     ,ITHK     ,F_DEF    ,ISHPLYXFEM,
      H       ITASK    ,PM_STACK ,ISUBSTACK,STACK     ,TSTAR    ,ALPE     ,
      I       PLY_EXX  ,PLY_EYY  ,PLY_EXY  ,PLY_EXZ   ,PLY_EYZ  ,PLY_F    ,
-     J       VARNL    ,ETIMP    ,NLOC_DMG ,NLAY_MAX  ,LAYNPT_MAX)
+     J       VARNL    ,ETIMP    ,NLOC_DMG ,NLAY_MAX  ,LAYNPT_MAX,DT      )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -180,6 +180,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE SIGEPS125C_MOD
       USE ELBUFDEF_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -231,6 +232,7 @@ C-----------------------------------------------
       TYPE (MAT_ELEM_) ,INTENT(INOUT) ,TARGET :: MAT_ELEM
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (DT_), INTENT(IN) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

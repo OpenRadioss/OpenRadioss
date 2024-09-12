@@ -1207,7 +1207,7 @@ C
      .   numgeo,       numnod,       numels,
      .   IDEL7NOK,     IDTMIN,       MAXFUNC,
      .   IMON_MAT,     USERL_AVAIL,  heat_meca,    impl_s,
-     .   idyna)
+     .   idyna,        DT)
 C    
         IF (ISTRAIN == 1) THEN 
           CALL SSTRA3(
