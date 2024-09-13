@@ -894,7 +894,7 @@ C Fill Structure in dynamical library
      *         FPSZZ  ,MVSIZ ,FPSXY  ,MVSIZ ,FPSYZ  ,MVSIZ ,FPSZX  ,MVSIZ,
      *         FPSYX  ,MVSIZ ,FPSZY  ,MVSIZ ,FPSXZ  ,MVSIZ ,UPSXX  ,MVSIZ, 
      *         UPSYY  ,MVSIZ ,UPSZZ  ,MVSIZ ,UPSXY  ,MVSIZ ,UPSYZ  ,MVSIZ,
-     *         UPSXZ  ,MVSIZ ,EL_TEMP,MVSIZ ,BID_ARR,SIZNUL,BID_ARR,SIZNUL,    
+     *         UPSXZ  ,MVSIZ ,EL_TEMP,MVSIZ ,DVOL   ,MVSIZ ,BID_ARR,SIZNUL,    
      *         BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,
      *         BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,    
      *         BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,
@@ -934,7 +934,7 @@ C Get back results from structure in user library
      
            IF(DLIBTKVERS >= 1301501260)THEN
              SIZNUL=0           
-             CALL ENG_USERLIB_SET_LAW_VAR_2(BID_ARR,SIZNUL,BID_ARR,SIZNUL,
+             CALL ENG_USERLIB_SET_LAW_VAR_2(EL_TEMP,MVSIZ,BID_ARR,SIZNUL,
      *                                      BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,
      *                                      BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,
      *                                      BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,
