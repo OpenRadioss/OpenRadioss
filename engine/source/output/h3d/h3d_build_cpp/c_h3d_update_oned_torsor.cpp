@@ -145,7 +145,7 @@ void c_h3d_update_oned_torsor_(my_real *TT,int *IH3D, int *ITAB, int *NUMELT, in
             offset = 0;
 
      	    rc = Hyper3DDatasetBegin(h3d_file, *NUMELP, sim_idx, subcase_id, H3D_DS_ELEM, 
-     	 				    H3D_DS_TENSOR3D, num_corners, num_modes, *CPT_DATATYPE, 
+     	 				    H3D_DS_SCALAR, num_corners, num_modes, *CPT_DATATYPE, 
      	 				    0, beam_poolname_id, complex); 
      	    if( !rc ) throw rc;
 
@@ -171,7 +171,7 @@ void c_h3d_update_oned_torsor_(my_real *TT,int *IH3D, int *ITAB, int *NUMELT, in
             offset = 0;
 
      	    rc = Hyper3DDatasetBegin(h3d_file, *NUMELR, sim_idx, subcase_id, H3D_DS_ELEM, 
-     	 				    H3D_DS_TENSOR3D, num_corners, num_modes, *CPT_DATATYPE, 
+     	 				    H3D_DS_SCALAR, num_corners, num_modes, *CPT_DATATYPE, 
      	 				    0, spring_poolname_id, complex); 
      	    if( !rc ) throw rc;
 
