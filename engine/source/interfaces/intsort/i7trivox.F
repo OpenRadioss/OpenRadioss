@@ -298,7 +298,7 @@ C=======================================================================
         DO I = 2, NBX+2
           IX2 = X_FINE(i)
           IF(IX2 > 0) THEN
-            IF((I - IX1+1) * DX > DDD) THEN 
+            IF((I - IX1+1) * DX > TWO*DDD) THEN 
               X_SUM = IX2
               IX = IX + 1
               IX1 = I
@@ -306,7 +306,7 @@ C=======================================================================
               IX = IX + 1
               IX1 = I
               X_SUM = IX2
-            ELSEIF (X_SUM + IX2 > X_CHUNK .AND. (I - IX1+1) * DX > DDD / TWO ) THEN
+            ELSEIF (X_SUM + IX2 > X_CHUNK .AND. (I - IX1+1) * DX > AAA ) THEN
               IX = IX + 1
               IX1 = I
               X_SUM = IX2
@@ -322,7 +322,7 @@ C=======================================================================
         DO i = 2, NBY+2
           IY2 = Y_FINE(i)
           IF(IY2 > 0) THEN
-            IF(((I - IY1+1) * DY) > DDD) THEN
+            IF(((I - IY1+1) * DY) > TWO*DDD) THEN
               Y_SUM = IY2
               IY = IY + 1
               IY1 = I
@@ -330,7 +330,7 @@ C=======================================================================
               IY = IY + 1
               IY1 = I
               Y_SUM = IY2
-            ELSEIF (Y_SUM + IY2 > Y_CHUNK .AND. (I - IY1+1) * DY > DDD / TWO) THEN
+            ELSEIF (Y_SUM + IY2 > Y_CHUNK .AND. (I - IY1+1) * DY > AAA) THEN
               IY = IY + 1
               IY1 = I
               Y_SUM = IY2
@@ -347,7 +347,7 @@ C=======================================================================
         DO i = 2, NBZ+2
           IZ2 = Z_FINE(i)
           IF(IZ2 > 0) THEN
-            IF(((I - IZ1+1) * DZ) > DDD) THEN
+            IF(((I - IZ1+1) * DZ) > TWO*DDD) THEN
               Z_SUM = IZ2
               IZ = IZ + 1
               IZ1 = I
@@ -355,7 +355,7 @@ C=======================================================================
               IZ = IZ + 1
               IZ1 = I
               Z_SUM = IZ2
-            ELSEIF (Z_SUM + IZ2 > Z_CHUNK .AND. (I - IZ1+1) * DZ > DDD / TWO ) THEN
+            ELSEIF (Z_SUM + IZ2 > Z_CHUNK .AND. (I - IZ1+1) * DZ > AAA ) THEN
               IZ = IZ + 1
               IZ1 = I
               Z_SUM = IZ2
