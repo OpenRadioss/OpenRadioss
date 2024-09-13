@@ -253,6 +253,7 @@ cc      SAVE INIVOXEL, VOXEL
 cc      DATA INIVOXEL /1/
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
+      my_real :: DDD
 
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -325,6 +326,7 @@ C Work on the reduce box
       ENDIF
 
       AAA = 0.75*AAA
+      DDD = ONE / AAA 
 
       NBX = NINT(AAA*(BMINMA(7)-BMINMA(10)))
       NBY = NINT(AAA*(BMINMA(8)-BMINMA(11)))
@@ -333,7 +335,7 @@ C
       NBX = MAX(NBX,1)
       NBY = MAX(NBY,1)
       NBZ = MAX(NBZ,1)
-c     write(800+ISPMD,*) "BASE : NBX=",NBX," NBY=",NBY," NBZ=",NBZ
+c     write(800+ISPMD,*) "BASE : NBX=",NBX," NBY=",NBY," NBZ=",NBZ,1.0D0/AAA
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ
@@ -385,7 +387,7 @@ C (en // SMP il y a possibilite de redondance de traitement mais no pb)
      9   NIN     ,ITASK    ,BGAPSMX  ,KREMNOD  ,REMNOD  ,
      A   ITAB    ,FLAGREMNODE,DRAD   ,ITIED    ,CAND_F  ,
      B   DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE,
-     C   TOTAL_NB_NRTM)
+     C   TOTAL_NB_NRTM,DDD)
  
  234  CONTINUE
 

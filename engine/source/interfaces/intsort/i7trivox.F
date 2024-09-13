@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9      NIN    ,ITASK       ,BGAPSMX ,KREMNOD  ,REMNOD   ,
      A      ITAB   ,FLAGREMNODE ,DRAD    ,ITIED    ,CAND_F   ,
      B      DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE,
-     C      TOTAL_NB_NRTM)
+     C      TOTAL_NB_NRTM,DDD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -123,6 +123,7 @@ C-----------------------------------------------
       my_real , INTENT(IN) :: DRAD,DGAPLOAD
       INTEGER, INTENT(inout) :: REMOTE_S_NODE
       INTEGER, DIMENSION(NSNR), INTENT(inout) :: LIST_REMOTE_S_NODE
+      my_real, intent(inout) :: DDD !< legacy space discretization 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -148,7 +149,7 @@ c provisoire
       INTEGER FIRST,NEW,LAST,IERROR
       LOGICAL DBG_type18_fvm
       SAVE IIX,IIY,IIZ
-      INTEGER, PARAMETER :: FINE_SIZE = 200
+      INTEGER, PARAMETER :: FINE_SIZE = 400
 C     INTEGER, DIMENSION(:), allocatable, SAVE :: X_FINE, Y_FINE, Z_FINE
       INTEGER, SAVE :: X_FINE(400), Y_FINE(400), Z_FINE(400),KEPT_NODE
       INTEGER :: X_SUM, Y_SUM, Z_SUM
@@ -287,6 +288,7 @@ C=======================================================================
         AAA = MAX(DY,AAA)
         AAA = MAX(DZ,AAA)
 !       AAA = TWO * AAA
+        DDD = MAX(AAA,DDD)
         IX1 = 1
         IY1 = 1
         IZ1 = 1
@@ -296,18 +298,18 @@ C=======================================================================
         DO I = 2, NBX+2
           IX2 = X_FINE(i)
           IF(IX2 > 0) THEN
-            IF((I - IX1+1) * DX > FOUR * AAA) THEN 
+            IF((I - IX1+1) * DX > DDD) THEN 
               X_SUM = IX2
               IX = IX + 1
               IX1 = I
-c           ELSE IF (PREVIOUS_EMPTY) THEN
-c             IX = IX + 1
-c             IX1 = I
-c             X_SUM = IX2
-c           ELSEIF (X_SUM + IX2 > X_CHUNK .AND. (I - IX1+1) * DX > TWO*AAA) THEN
-c             IX = IX + 1
-c             IX1 = I
-c             X_SUM = IX2
+            ELSE IF (PREVIOUS_EMPTY) THEN
+              IX = IX + 1
+              IX1 = I
+              X_SUM = IX2
+            ELSEIF (X_SUM + IX2 > X_CHUNK .AND. (I - IX1+1) * DX > DDD / TWO ) THEN
+              IX = IX + 1
+              IX1 = I
+              X_SUM = IX2
             ENDIF
           ENDIF
           X_FINE(i) = IX
@@ -320,18 +322,18 @@ c             X_SUM = IX2
         DO i = 2, NBY+2
           IY2 = Y_FINE(i)
           IF(IY2 > 0) THEN
-            IF(((I - IY1+1) * DY) > FOUR * AAA) THEN
+            IF(((I - IY1+1) * DY) > DDD) THEN
               Y_SUM = IY2
               IY = IY + 1
               IY1 = I
-c           ELSE IF (PREVIOUS_EMPTY) THEN
-c             IY = IY + 1
-c             IY1 = I
-c             Y_SUM = IY2
-c           ELSEIF (Y_SUM + IY2 > Y_CHUNK .AND. (I - IY1+1) * DY > TWO*AAA) THEN
-c             IY = IY + 1
-c             IY1 = I
-c             Y_SUM = IY2
+            ELSE IF (PREVIOUS_EMPTY) THEN
+              IY = IY + 1
+              IY1 = I
+              Y_SUM = IY2
+            ELSEIF (Y_SUM + IY2 > Y_CHUNK .AND. (I - IY1+1) * DY > DDD / TWO) THEN
+              IY = IY + 1
+              IY1 = I
+              Y_SUM = IY2
             ENDIF
           ENDIF
           Y_FINE(i) = IY
@@ -345,18 +347,18 @@ c             Y_SUM = IY2
         DO i = 2, NBZ+2
           IZ2 = Z_FINE(i)
           IF(IZ2 > 0) THEN
-            IF(((I - IZ1+1) * DZ) > FOUR * AAA) THEN
+            IF(((I - IZ1+1) * DZ) > DDD) THEN
               Z_SUM = IZ2
               IZ = IZ + 1
               IZ1 = I
-c           ELSE IF (PREVIOUS_EMPTY) THEN
-c             IZ = IZ + 1
-c             IZ1 = I
-c             Z_SUM = IZ2
-c           ELSEIF (Z_SUM + IZ2 > Z_CHUNK .AND. (I - IZ1+1) * DZ > TWO*AAA ) THEN
-c             IZ = IZ + 1
-c             IZ1 = I
-c             Z_SUM = IZ2
+            ELSE IF (PREVIOUS_EMPTY) THEN
+              IZ = IZ + 1
+              IZ1 = I
+              Z_SUM = IZ2
+            ELSEIF (Z_SUM + IZ2 > Z_CHUNK .AND. (I - IZ1+1) * DZ > DDD / TWO ) THEN
+              IZ = IZ + 1
+              IZ1 = I
+              Z_SUM = IZ2
             ENDIF
           ENDIF
           Z_FINE(i) = IZ
