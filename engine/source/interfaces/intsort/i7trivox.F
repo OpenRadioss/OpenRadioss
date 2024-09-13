@@ -267,9 +267,14 @@ C=======================================================================
           AAA = MARGE
         ENDIF
 
-        NB_CHUNK_X = NBX+2  ! =INT(MIN(MAX(ONE,(XMAX - XMIN) / AAA),NBX+TWO))
-        NB_CHUNK_Y = NBY+2  ! =INT(MIN(MAX(ONE,(YMAX - YMIN) / AAA),NBY+TWO))
-        NB_CHUNK_Z = NBZ+2  ! =INT(MIN(MAX(ONE,(ZMAX - ZMIN) / AAA),NBZ+TWO))
+C       NB_CHUNK_X = NBX+2  ! =INT(MIN(MAX(ONE,(XMAX - XMIN) / AAA),NBX+TWO))
+C       NB_CHUNK_Y = NBY+2  ! =INT(MIN(MAX(ONE,(YMAX - YMIN) / AAA),NBY+TWO))
+C       NB_CHUNK_Z = NBZ+2  ! =INT(MIN(MAX(ONE,(ZMAX - ZMIN) / AAA),NBZ+TWO))
+        NB_CHUNK_X =  INT(MIN(MAX(ONE,(XMAX - XMIN) / DDD),NBX+TWO))
+        NB_CHUNK_Y =  INT(MIN(MAX(ONE,(YMAX - YMIN) / DDD),NBY+TWO))
+        NB_CHUNK_Z =  INT(MIN(MAX(ONE,(ZMAX - ZMIN) / DDD),NBZ+TWO))
+         
+        ! kept_node  = nb_chunk * chunk
 
         X_CHUNK = MAX(1,1+KEPT_NODE /NB_CHUNK_X)
         Y_CHUNK = MAX(1,1+KEPT_NODE /NB_CHUNK_Y)
