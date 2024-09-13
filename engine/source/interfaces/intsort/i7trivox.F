@@ -300,10 +300,10 @@ C=======================================================================
               X_SUM = IX2
               IX = IX + 1
               IX1 = I
-            ELSE IF (PREVIOUS_EMPTY) THEN
-              IX = IX + 1
-              IX1 = I
-              X_SUM = IX2
+c           ELSE IF (PREVIOUS_EMPTY) THEN
+c             IX = IX + 1
+c             IX1 = I
+c             X_SUM = IX2
 c           ELSEIF (X_SUM + IX2 > X_CHUNK .AND. (I - IX1+1) * DX > TWO*AAA) THEN
 c             IX = IX + 1
 c             IX1 = I
@@ -324,10 +324,10 @@ c             X_SUM = IX2
               Y_SUM = IY2
               IY = IY + 1
               IY1 = I
-            ELSE IF (PREVIOUS_EMPTY) THEN
-              IY = IY + 1
-              IY1 = I
-              Y_SUM = IY2
+c           ELSE IF (PREVIOUS_EMPTY) THEN
+c             IY = IY + 1
+c             IY1 = I
+c             Y_SUM = IY2
 c           ELSEIF (Y_SUM + IY2 > Y_CHUNK .AND. (I - IY1+1) * DY > TWO*AAA) THEN
 c             IY = IY + 1
 c             IY1 = I
@@ -349,10 +349,10 @@ c             Y_SUM = IY2
               Z_SUM = IZ2
               IZ = IZ + 1
               IZ1 = I
-            ELSE IF (PREVIOUS_EMPTY) THEN
-              IZ = IZ + 1
-              IZ1 = I
-              Z_SUM = IZ2
+c           ELSE IF (PREVIOUS_EMPTY) THEN
+c             IZ = IZ + 1
+c             IZ1 = I
+c             Z_SUM = IZ2
 c           ELSEIF (Z_SUM + IZ2 > Z_CHUNK .AND. (I - IZ1+1) * DZ > TWO*AAA ) THEN
 c             IZ = IZ + 1
 c             IZ1 = I
