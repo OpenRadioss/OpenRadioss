@@ -22,27 +22,28 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+      !||    spmd_exch_fr6     ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
       !||--- called by ------------------------------------------------------
-      !||    airbagb         ../engine/source/airbag/airbag2.F
-      !||    airbagb1        ../engine/source/airbag/airbagb1.F
-      !||    ass18           ../engine/source/interfaces/int18/ass18.F
-      !||    damping_vref    ../engine/source/assembly/damping_vref.F
-      !||    poro            ../engine/source/ale/porous/poro.F
-      !||    rbyact          ../engine/source/constraints/general/rbody/rbyact.F
-      !||    rbypid          ../engine/source/constraints/general/rbody/rbypid.F
-      !||    rgwal0          ../engine/source/constraints/general/rwall/rgwal0.F
-      !||    rgwal0_imp      ../engine/source/constraints/general/rwall/rgwal0.F
-      !||    rgwath          ../engine/source/interfaces/int09/rgwath.F
-      !||    rlink0          ../engine/source/constraints/general/rlink/rlink0.F
-      !||    rlink10         ../engine/source/constraints/general/rlink/rlink10.F
-      !||    rlink11         ../engine/source/constraints/general/rlink/rlink10.F
-      !||    sms_rgwal_0     ../engine/source/ams/sms_rgwal0.F
-      !||    sms_rlink10     ../engine/source/ams/sms_rlink.F
-      !||    sms_rlink11     ../engine/source/ams/sms_rlink.F
-      !||    spgauge         ../engine/source/elements/sph/spgauge.F
-      !||    volpvgb         ../engine/source/airbag/volpvg.F
-      !||    volum0          ../engine/source/airbag/volum0.F
+      !||    airbagb           ../engine/source/airbag/airbag2.F
+      !||    airbagb1          ../engine/source/airbag/airbagb1.F
+      !||    ass18             ../engine/source/interfaces/int18/ass18.F
+      !||    damping_vref      ../engine/source/assembly/damping_vref.F
+      !||    get_volume_area   ../engine/source/airbag/get_volume_area.F90
+      !||    poro              ../engine/source/ale/porous/poro.F
+      !||    rbyact            ../engine/source/constraints/general/rbody/rbyact.F
+      !||    rbypid            ../engine/source/constraints/general/rbody/rbypid.F
+      !||    rgwal0            ../engine/source/constraints/general/rwall/rgwal0.F
+      !||    rgwal0_imp        ../engine/source/constraints/general/rwall/rgwal0.F
+      !||    rgwath            ../engine/source/interfaces/int09/rgwath.F
+      !||    rlink0            ../engine/source/constraints/general/rlink/rlink0.F
+      !||    rlink10           ../engine/source/constraints/general/rlink/rlink10.F
+      !||    rlink11           ../engine/source/constraints/general/rlink/rlink10.F
+      !||    sms_rgwal_0       ../engine/source/ams/sms_rgwal0.F
+      !||    sms_rlink10       ../engine/source/ams/sms_rlink.F
+      !||    sms_rlink11       ../engine/source/ams/sms_rlink.F
+      !||    spgauge           ../engine/source/elements/sph/spgauge.F
+      !||    volpvgb           ../engine/source/airbag/volpvg.F
+      !||    volum0            ../engine/source/airbag/volum0.F
       !||--- calls      -----------------------------------------------------
       !||====================================================================
       SUBROUTINE SPMD_EXCH_FR6(FR,FS6,LEN)

@@ -27,10 +27,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i2curvfp       ../engine/source/interfaces/interf/i2curvfp.F
       !||    i2fomo3        ../engine/source/interfaces/interf/i2for3.F
       !||    i2fomo3p       ../engine/source/interfaces/interf/i2for3p.F
+      !||    i2for25        ../engine/source/interfaces/interf/i2for25.F
+      !||    i2for25p       ../engine/source/interfaces/interf/i2for25p.F
       !||    i2for27_cin    ../engine/source/interfaces/interf/i2for27_cin.F
+      !||    i2for27_pen    ../engine/source/interfaces/interf/i2for27_pen.F
       !||    i2for27p_cin   ../engine/source/interfaces/interf/i2for27p_cin.F
+      !||    i2for27p_pen   ../engine/source/interfaces/interf/i2for27p_pen.F
       !||    i2for28_cin    ../engine/source/interfaces/interf/i2for28_cin.F
+      !||    i2for28_pen    ../engine/source/interfaces/interf/i2for28_pen.F
       !||    i2for28p_cin   ../engine/source/interfaces/interf/i2for28p_cin.F
+      !||    i2for28p_pen   ../engine/source/interfaces/interf/i2for28p_pen.F
       !||    i2for3         ../engine/source/interfaces/interf/i2for3.F
       !||    i2for3n        ../engine/source/interfaces/interf/i2for3.F
       !||    i2for3o        ../engine/source/interfaces/interf/i2for3.F

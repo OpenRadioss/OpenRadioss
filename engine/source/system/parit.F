@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ass18                   ../engine/source/interfaces/int18/ass18.F
       !||    damping_vref_sum6_rby   ../engine/source/assembly/damping_vref_sum6_rby.F90
       !||    dampvref_sum6           ../engine/source/assembly/dampvref_sum6.F
+      !||    get_volume_area         ../engine/source/airbag/get_volume_area.F90
       !||    poro                    ../engine/source/ale/porous/poro.F
       !||    rbyact                  ../engine/source/constraints/general/rbody/rbyact.F
       !||    rbypid                  ../engine/source/constraints/general/rbody/rbypid.F

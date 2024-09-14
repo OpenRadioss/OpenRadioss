@@ -117,6 +117,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    genani                            ../engine/source/output/anim/generate/genani.F
       !||    genani1                           ../starter/source/output/anim/genani1.F
       !||    genh3d                            ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||    get_volume_area                   ../engine/source/airbag/get_volume_area.F90
       !||    gr_entity_ini                     ../starter/source/model/group/gr_entity_ini.F
       !||    grfind                            ../starter/source/starter/freform.F
       !||    group_ini                         ../engine/source/groups/group_ini.F
@@ -376,9 +377,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inisoldist                        ../starter/source/initial_conditions/inivol/inisoldist.F
       !||    inisrf                            ../starter/source/constraints/general/rbody/inisrf.F
       !||    init_bcs_wall                     ../starter/source/boundary_conditions/init_bcs_wall.F90
+      !||    init_global_frontier_monvol       ../engine/source/airbag/init_global_monvol_frontier.F90
       !||    init_inivol                       ../starter/source/initial_conditions/inivol/init_inivol.F90
       !||    init_inivol_2d_polygons           ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
       !||    init_monvol                       ../starter/source/airbag/init_monvol.F
+      !||    init_monvol_omp_structure         ../engine/source/airbag/init_monvol_omp_structure.F90
       !||    init_th                           ../engine/source/output/th/init_th.F
       !||    init_th0                          ../engine/source/output/th/init_th0.F
       !||    init_th_group                     ../engine/source/output/th/init_th_group.F

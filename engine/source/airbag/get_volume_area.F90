@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    get_volume_area_mod   ../engine/source/airbag/get_volume_area.F90
+      !||--- called by ------------------------------------------------------
+      !||    monvol0               ../engine/source/airbag/monvol0.F
+      !||====================================================================
       module get_volume_area_mod
       contains
 ! ======================================================================================================================
@@ -29,6 +34,18 @@
 !! \details * local computation of volume & area for each monitored volume
 !!          * global mpi comm (1 comm for all moniotred volumes)
 !!          * reduction of volume & area 
+      !||====================================================================
+      !||    get_volume_area     ../engine/source/airbag/get_volume_area.F90
+      !||--- called by ------------------------------------------------------
+      !||    monvol0             ../engine/source/airbag/monvol0.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_exch_fr6       ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+      !||    sum_6_float         ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod        ../common_source/modules/constant_mod.F
+      !||    groupdef_mod        ../common_source/modules/groupdef_mod.F
+      !||    monvol_struct_mod   ../engine/share/modules/monvol_struct_mod.F
+      !||====================================================================
         subroutine get_volume_area(ispmd,nspmd,numelc,numeltg, &
                        nvolu,nsurf,intbag,sporo,&
                        numnod,sicontact,nimv,nrvolu,           &

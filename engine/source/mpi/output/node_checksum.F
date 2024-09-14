@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    checksum_mod       ../engine/source/mpi/output/node_checksum.F
+      !||    checksum_mod             ../engine/source/mpi/output/node_checksum.F
       !||--- called by ------------------------------------------------------
-      !||    spmd_flush_accel   ../engine/source/mpi/output/spmd_flush_accel.F
+      !||    spmd_collect_multi_fvm   ../engine/source/mpi/output/spmd_collect_multi_fvm.F
+      !||    spmd_flush_accel         ../engine/source/mpi/output/spmd_flush_accel.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       MODULE CHECKSUM_MOD
@@ -41,9 +42,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       CONTAINS
 !! \brief Returns Adler32 checksum of A(1:SIZ2,1:SIZ1)
       !||====================================================================
-      !||    double_array_checksum   ../engine/source/mpi/output/node_checksum.F
+      !||    double_array_checksum    ../engine/source/mpi/output/node_checksum.F
       !||--- called by ------------------------------------------------------
-      !||    spmd_flush_accel        ../engine/source/mpi/output/spmd_flush_accel.F
+      !||    spmd_collect_multi_fvm   ../engine/source/mpi/output/spmd_collect_multi_fvm.F
+      !||    spmd_flush_accel         ../engine/source/mpi/output/spmd_flush_accel.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||====================================================================

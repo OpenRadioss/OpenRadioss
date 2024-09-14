@@ -37,6 +37,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    dim_shell_offsetp                        ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
       !||    eosexponential                           ../common_source/eos/eosexponential.F90
       !||    force                                    ../engine/source/loads/general/force.F90
+      !||    fpcont2_max_output                       ../engine/source/output/h3d/h3d_results/fpcont2_max_output.F90
+      !||    fpcont2_min_output                       ../engine/source/output/h3d/h3d_results/fpcont2_min_output.F90
       !||    fractal_dmg_init                         ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
       !||    fractal_elem_renum                       ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
       !||    fractal_element_neighbor                 ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
@@ -46,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
       !||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
       !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
+      !||    get_volume_area                          ../engine/source/airbag/get_volume_area.F90
       !||    h3d_quad_scalar_1                        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
       !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
       !||    hm_read_eos_exponential                  ../starter/source/materials/eos/hm_read_eos_exponential.F90

@@ -21,15 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    monvol_struct_mod   ../engine/share/modules/monvol_struct_mod.F
+      !||    monvol_struct_mod             ../engine/share/modules/monvol_struct_mod.F
       !||--- called by ------------------------------------------------------
-      !||    monvol0             ../engine/source/airbag/monvol0.F
-      !||    radioss2            ../engine/source/engine/radioss2.F
-      !||    rdresb              ../engine/source/output/restart/rdresb.F
-      !||    resol               ../engine/source/engine/resol.F
-      !||    resol_head          ../engine/source/engine/resol_head.F
-      !||    volum0              ../engine/source/airbag/volum0.F
-      !||    wrrestp             ../engine/source/output/restart/wrrestp.F
+      !||    get_volume_area               ../engine/source/airbag/get_volume_area.F90
+      !||    init_global_frontier_monvol   ../engine/source/airbag/init_global_monvol_frontier.F90
+      !||    init_monvol_omp_structure     ../engine/source/airbag/init_monvol_omp_structure.F90
+      !||    monvol0                       ../engine/source/airbag/monvol0.F
+      !||    radioss2                      ../engine/source/engine/radioss2.F
+      !||    rdresb                        ../engine/source/output/restart/rdresb.F
+      !||    resol                         ../engine/source/engine/resol.F
+      !||    resol_head                    ../engine/source/engine/resol_head.F
+      !||    volum0                        ../engine/source/airbag/volum0.F
+      !||    wrrestp                       ../engine/source/output/restart/wrrestp.F
       !||====================================================================
       MODULE MONVOL_STRUCT_MOD
 C-----------------------------------------------

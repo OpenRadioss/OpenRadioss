@@ -25,8 +25,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    resol                    ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
+      !||    double_array_checksum    ../engine/source/mpi/output/node_checksum.F
       !||    my_orders                ../common_source/tools/sort/my_orders.c
       !||--- uses       -----------------------------------------------------
+      !||    checksum_mod             ../engine/source/mpi/output/node_checksum.F
       !||    debug_mod                ../engine/share/modules/debug_mod.F
       !||    inoutfile_mod            ../common_source/modules/inoutfile_mod.F
       !||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F
