@@ -237,16 +237,6 @@ C
         DO J=1,ncharline
           NOM_SECT((I-1)*ncharline+J) = ICHAR(CHAR8(J:J))
         ENDDO
-
-
-
-        IF((IGUS==0))THEN                                                                                
-          CALL ANCMSG(MSGID=600,                                                                           
-     .                MSGTYPE=MSGWARNING,                                                                  
-     .                ANMODE=ANINFO_BLIND_1,                                                               
-     .                I1=ID,                                                                               
-     .                C1=TITR)                                                                             
-        END IF     
         
         DO J=1,NBINTER
           CALL HM_GET_INT_ARRAY_INDEX('int_id' ,NSTRF(K1-1+J) ,J ,IS_AVAILABLE, LSUBMODEL) 
@@ -402,14 +392,6 @@ C
         NSEGR=0                                                                                  
         K9=K8+2*NSEGR                                                                            
         NSEGTG=0                                                                                 
-C
-        IF(NSEGS+NSEGQ+NSEGC+NSEGT+NSEGP+NSEGR+NSEGTG==0)THEN
-          CALL ANCMSG(MSGID=1813,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO,
-     .                I1= ID,
-     .                C1= TITR)
-        END IF
 C
         NSTRF(K0+6)=NNOD
         NSTRF(K0+7)=NSEGS
