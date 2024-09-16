@@ -68,7 +68,7 @@ C-----------------------------------------------
      .        NPC(*),NN,IADMV(4,*),SURF_NODES(NN,4),SURF_ELTYP(NN),
      .        SURF_ELEM(NN)
       INTEGER, DIMENSION(NN,4), INTENT(in) :: CONTRIBUTION_INDEX !< index to the array CONTRIBUTION
-      INTEGER, DIMENSION(NODE_NUMBER), INTENT(in) :: CONTRIBUTION_NUMBER !< number of contribution per node
+      INTEGER, DIMENSION(NODE_NUMBER+1), INTENT(in) :: CONTRIBUTION_NUMBER !< number of contribution per node
       INTEGER, DIMENSION(NODE_NUMBER), INTENT(in) :: NODE_ID !< node id
       my_real, DIMENSION(TOTAL_CONTRIBUTION_NUMBER,3), INTENT(inout) :: CONTRIBUTION !< contribution array, the force are saved here
 
