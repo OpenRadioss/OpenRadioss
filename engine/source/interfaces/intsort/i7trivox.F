@@ -303,7 +303,7 @@ C       NB_CHUNK_Z = NBZ+2  ! =INT(MIN(MAX(ONE,(ZMAX - ZMIN) / AAA),NBZ+TWO))
         DO I = 2, NBX+2
           IX2 = X_FINE(i)
           IF(IX2 > 0) THEN
-            IF((I - IX1+1) * DX > THREE*DDD) THEN 
+            IF((I - IX1+1) * DX > 1.50D0*DDD) THEN 
               X_SUM = IX2
               IX = IX + 1
               IX1 = I
@@ -327,9 +327,9 @@ C       NB_CHUNK_Z = NBZ+2  ! =INT(MIN(MAX(ONE,(ZMAX - ZMIN) / AAA),NBZ+TWO))
         DO i = 2, NBY+2
           IY2 = Y_FINE(i)
           IF(IY2 > 0) THEN
-            IF(((I - IY1+1) * DY) > THREE*DDD) THEN
+            IF(((I - IY1+1) * DY) > 1.50D0*DDD) THEN
               Y_SUM = IY2
-              IY = IY + 1
+              IY = IY +1
               IY1 = I
             ELSE IF (PREVIOUS_EMPTY) THEN
               IY = IY + 1
@@ -352,7 +352,7 @@ C       NB_CHUNK_Z = NBZ+2  ! =INT(MIN(MAX(ONE,(ZMAX - ZMIN) / AAA),NBZ+TWO))
         DO i = 2, NBZ+2
           IZ2 = Z_FINE(i)
           IF(IZ2 > 0) THEN
-            IF(((I - IZ1+1) * DZ) > THREE*DDD) THEN
+            IF(((I - IZ1+1) * DZ) > 1.50D0*DDD) THEN
               Z_SUM = IZ2
               IZ = IZ + 1
               IZ1 = I
