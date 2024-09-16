@@ -89,7 +89,7 @@
           my_real, dimension(nvolu*nrvolu), intent(inout) :: rvolu !< monitored volume data (real)
           my_real, dimension(sporo), intent(inout) :: poro !<
           my_real, dimension(nvolu), intent(inout) :: vol !< volume of airbag
-          my_real, dimension(3,numnod), intent(inout) :: normal !< normal of node
+          my_real, dimension(3,numnod+numelc+numeltg), intent(inout) :: normal !< normal of node
           type(monvol_struct_), dimension(nvolu), intent(inout) :: t_monvoln !< monvol structure
           type(surf_), dimension(nsurf), intent(in) :: igrsurf !< surface structure
 ! ----------------------------------------------------------------------------------------------------------------------
