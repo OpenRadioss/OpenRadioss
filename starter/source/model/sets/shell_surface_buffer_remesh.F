@@ -65,7 +65,7 @@ C-----------------------------------------------
       DO J=1,NELEM
         JJ= -HUGE(JJ)
         IF(IELTYP==3) JJ = CLAUSE%SH4N(J)
-        IF(IELTYP==7) JJ = CLAUSE%SPRING(J)
+        IF(IELTYP==7) JJ = CLAUSE%SH3N(J)
 !
         IP=IPARTE(JJ)
         NLEV  =IPART(10,IP)
