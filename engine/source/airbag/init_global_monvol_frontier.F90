@@ -134,7 +134,6 @@
               endif
             enddo
             if(p_main==-1) then
-        print*," error :",p_main
               p_main = 1
             endif
             frontier_global_mv(nspmd+2) = p_main

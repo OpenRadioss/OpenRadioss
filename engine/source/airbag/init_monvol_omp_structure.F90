@@ -78,7 +78,6 @@
           logical :: computation_needed
           integer :: segment_number,node_number,surf_id,ityp
           integer :: i,j
-          integer :: p_main,min_segment
           integer :: monvol_address
           integer :: ijk,nod,shift,total_contribution_number
           integer, dimension(:), allocatable :: w_array,node_id,node_shift
@@ -99,7 +98,6 @@
             ! check if the computation for this ijk monvol is mandatory
             computation_needed = .true.
             if(ityp==6.or.ityp==8) computation_needed = .false.
-            if(ityp==1) computation_needed = .false.
             if(fr_mv(ispmd+1,ijk)==0.and.fr_mv(nspmd+2,ijk)/=ispmd+1) computation_needed = .false.
 
             if(computation_needed) then
