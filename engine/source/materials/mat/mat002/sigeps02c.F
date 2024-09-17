@@ -162,7 +162,7 @@ C-----------------------------------------------
      9            DEPSYZ  ,DEPSZX  ,SIGNXX   ,SIGNYY   ,SIGNXY  ,
      A            SIGNYZ  ,SIGNZX  ,SIGBAKXX ,SIGBAKYY ,SIGBAKXY,
      B            SIGOXX  ,SIGOYY  ,SIGOXY   ,SIGOYZ   ,SIGOZX  ,
-     C            VP      ,ASRATE  ,EPSPXX   ,EPSPYY   ,EPSPXY  )
+     C            VP      ,EPSPXX  ,EPSPYY   ,EPSPXY  )
 !
 !--------------------------------------------
 !     UPDATE AND FILTER PLASTIC STRAIN RATE
