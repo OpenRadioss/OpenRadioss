@@ -178,6 +178,7 @@ C-----------------------------------------------
         Y_FINE = 0
         Z_FINE = 0
         KEPT_NODE = 0
+        VOXEL(1:(NBX+2)*(NBY+2)*(NBZ+2)) = 0
       END IF
 
       CALL MY_BARRIER !Barrier to wait init voxel and allocation NEX_NOD
@@ -372,45 +373,10 @@ C       NB_CHUNK_Z = NBZ+2  ! =INT(MIN(MAX(ONE,(ZMAX - ZMIN) / AAA),NBZ+TWO))
         ENDDO
 
 
-C        DO i = 1, FINE_SIZE
-C          X_SUM = X_SUM + X_FINE(i)
-C          Y_SUM = Y_SUM + Y_FINE(i)
-C          Z_SUM = Z_SUM + Z_FINE(i)
-C          IX2 = X_FINE(i)
-C          IY2 = Y_FINE(i)
-C          IZ2 = Z_FINE(i)
-C          X_FINE(i) = IX
-C          Y_FINE(i) = IY
-C          Z_FINE(i) = IZ
-CC         IF(X_SUM >= X_CHUNK .AND. IX < NBX+2) THEN
-C          IF(IX2 > 0) THEN
-C            IF((I - IX1+1) * DX > AAA) THEN 
-C              X_SUM = 0
-C              IX = IX + 1
-C              IX1 = I
-C            ENDIF
-C          ENDIF
-C          IF(IY2 > 0) THEN
-C!         IF(Y_SUM >= Y_CHUNK .AND. IY < NBY+2) THEN
-C            IF(((I - IY1+1) * DY) > AAA) THEN
-C              Y_SUM = 0
-C              IY = IY + 1
-C              IY1 = I
-C            ENDIF
-C          ENDIF
-C          IF(IZ2 > 0) THEN
-C!         IF(Z_SUM >= Z_CHUNK .AND. IZ < NBZ+2) THEN
-C            IF(((I - IZ1+1) * DZ) > AAA) THEN
-C              Z_SUM = 0
-C              IZ = IZ + 1
-C              IZ1 = I
-C            ENDIF
-C          ENDIF
-C        ENDDO
-
        NB_CHUNK_X = X_FINE(NBX+2)
        NB_CHUNK_Y = Y_FINE(NBY+2)
        NB_CHUNK_Z = Z_FINE(NBZ+2)
+
 c      write(6,*)  "IX=",X_FINE(FINE_SIZE), "IY=",Y_FINE(FINE_SIZE), "IZ=",Z_FINE(FINE_SIZE)
 c       write(800+ISPMD,*) "KEPT_NODE=", KEPT_NODE
 c       write(6,*) "IX1=",IX1, "IY1=",IY1, "IZ1=",IZ1
@@ -514,6 +480,11 @@ C=======================================================================
       END IF !ITASK == 0
 
       CALL MY_BARRIER ! Barrier to wait task0 treatment
+      NB_CHUNK_X = X_FINE(NBX+2)
+      NB_CHUNK_Y = Y_FINE(NBY+2)
+      NB_CHUNK_Z = Z_FINE(NBZ+2)
+
+
 
 C=======================================================================
 C 3   FACE RECOVERY AND ENUMERATION OF CANDIDATE COUPLES
