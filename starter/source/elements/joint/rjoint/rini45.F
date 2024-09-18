@@ -101,7 +101,8 @@ C-----------------------------------------------
      .        K1,K2,K3,K4,K5,K6,C1,C2,C3,C4,C5,C6,KTT,KRR,CTT,CRR,
      .        CXX,CYY,CZZ,CRX,CRY,CRZ, DERI,XF,GET_U_FUNC,FM,
      .        EX(LSKEW),GET_U_GEO,SCF,GET_U_FUNC_DERI,DERIMAX,KFM,
-     .        THETA0(3)
+     .        THETA0(3),VECT1(LSKEW),VECT2(LSKEW),STOP_ANGL_MIN(3),
+     .        STOP_ANGL_MAX(3)
 C-----------------------------------------------
       EXTERNAL  GET_U_GEO,GET_SKEW45,GET_U_FUNC_DERI
       PARAMETER (KFUNC=29)      
@@ -116,6 +117,10 @@ C
       KRZ  = GET_U_GEO(9,IPROP)
       KNN  = GET_U_GEO(10,IPROP)
       SCF  = GET_U_GEO(11,IPROP)
+      DO I=1,3
+        STOP_ANGL_MIN(I) = GET_U_GEO(35+2*(I-1),IPROP)
+        STOP_ANGL_MAX(I) = GET_U_GEO(36+2*(I-1),IPROP)
+      ENDDO
       IFKNX = GET_U_PNU(1,IPROP,KFUNC) 
       IFKNY = GET_U_PNU(2,IPROP,KFUNC) 
       IFKNZ = GET_U_PNU(3,IPROP,KFUNC) 
@@ -220,7 +225,7 @@ C
 C--------------------------------------
 C       INITIAL ROTATION AND LOCAL FRAME FROM SKEWS
 C--------------------------------------
-        CALL INIT_SKEW45(JTYP,IPROP,IDSK1,IDSK2,EX,THETA0,ID,TITR)
+        CALL INIT_SKEW45(JTYP,IPROP,IDSK1,IDSK2,VECT1,VECT2,ID,TITR)
 C
 C--------------------------------------
 C       ELEMENT INITIALIZATION
@@ -230,10 +235,12 @@ C--------------------------------------
           XINER(I)  = ZERO
 C    
           IL = LFT+I-1+NFT
-          IF ((IDSK1==0).AND.(IDSK2==0)) THEN
-C-------    local frame computation from spring nodes
-            IERR=IERR+GET_SKEW45(IOUT,JTYP,EX,IXR,IXR_KJ,IL,X,ID,TITR)
-          ENDIF
+C
+C-------  computation of local frame
+          IERR=IERR+GET_SKEW45(IOUT,JTYP,EX,IXR,IXR_KJ,IL,X,ID,TITR,
+     .                         IDSK1,IDSK2,VECT1,VECT2,THETA0,
+     .                         STOP_ANGL_MIN,STOP_ANGL_MAX)
+C 
           X1 = XL(I,1)
           Y1 = XL(I,2)
           Z1 = XL(I,3)    
@@ -324,7 +331,9 @@ C
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      INTEGER FUNCTION GET_SKEW45(IOUT,JTYP,EX,IXR,IXR_KJ,IEL,X,ID,TITR)
+      INTEGER FUNCTION GET_SKEW45(IOUT,JTYP,EX,IXR,IXR_KJ,IEL,X,ID,TITR,
+     .                            IDSK1,IDSK2,VECT1,VECT2,THETA0,
+     .                            STOP_ANGL_MIN,STOP_ANGL_MAX)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -345,13 +354,20 @@ C----------------------------------------------------------
       INTEGER IOUT,IXR(NIXR,*),IEL,JTYP,IXR_KJ(5,*)
       my_real EX(LSKEW),X(3,*)
       INTEGER ID
+      INTEGER, INTENT(INOUT) :: IDSK1,IDSK2
+      my_real, INTENT(INOUT) :: VECT1(LSKEW),VECT2(LSKEW)
+      my_real, INTENT(INOUT) :: THETA0(3)
+      my_real, INTENT(INOUT) :: STOP_ANGL_MIN(3),STOP_ANGL_MAX(3)
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,NNOD,N1,N2,N3,N4,IERR1,IELUSR,NN(6),HH
-      INTEGER NUMEL_KJ,ID_KJ,NNOD2,NNOD_REQ(9)
-      my_real PP1,PP2,PP3,PP4,LEN,SCAL,MAX
+      INTEGER NUMEL_KJ,ID_KJ,NNOD2,NNOD_REQ(9),NB_ROT
+      my_real PP1,PP2,PP3,PP4,LEN,SCAL,EXMAX
+      my_real VECT1_UPT(LSKEW),VECT2_UPT(LSKEW),Q(LSKEW),NR,T(3),
+     .        COSK,SINK,SI2,E,KSI,UMI,ERR
+      DATA  UMI/-1.0/
 C=======================================================================
 C
       IERR1 = 0
@@ -400,9 +416,9 @@ C
      .          +(X(3,NN(1))-X(3,NN(2)))**2)
       IF ((NNOD==2).AND.(LEN>EM10)) NNOD2=3
 C
-      IF (NNOD2<NNOD_REQ(JTYP)) THEN
+      IF ((NNOD2<NNOD_REQ(JTYP)).AND.(IDSK1 == 0)) THEN
 C-----------------------------------------------      
-C---  Cas d'erreur 
+C---    Error - no skew can be defined 
 C-----------------------------------------------
              CALL ANCMSG(MSGID=936,
      .                   MSGTYPE=MSGERROR,
@@ -412,42 +428,41 @@ C-----------------------------------------------
      .                   I2=IELUSR,
      .                   I3=JTYP,
      .                   I4=NNOD_REQ(JTYP)-NNOD2)
-      ELSEIF ((NNOD==2).AND.((JTYP==1).OR.
-     .   (JTYP==8))) THEN
+      ELSEIF ((NNOD==2).AND.((JTYP==1).OR.(JTYP==8)).AND.(IDSK1==0)) THEN
 C-----------------------------------------------      
-C---   on utilise le rep   re global
+C---    Global frame is used
 C-----------------------------------------------
              EX(1)= ONE
-               EX(2)= ZERO
-               EX(3)= ZERO
-               EX(4)= ZERO
-               EX(5)= ONE
-               EX(6)= ZERO
-               EX(7)= ZERO
-               EX(8)= ZERO
-               EX(9)= ONE
-               PP1 = ONE
-               PP2 = ONE
-               PP3 = ONE
+             EX(2)= ZERO
+             EX(3)= ZERO
+             EX(4)= ZERO
+             EX(5)= ONE
+             EX(6)= ZERO
+             EX(7)= ZERO
+             EX(8)= ZERO
+             EX(9)= ONE
+             PP1 = ONE
+             PP2 = ONE
+             PP3 = ONE
       ELSEIF ((NNOD==2).AND.(LEN>EM10)) THEN
 C-----------------------------------------------      
-C---  1 axis joint definit avec le 2e noeud
+C---    joint with 1 axis - axis defined with 2nd node
 C-----------------------------------------------
              N1 = NN(1)
-               N2 = NN(2)        
-C-- calcul de x
+             N2 = NN(2)        
+C--     computation of x
              EX(1)=X(1,N2)-X(1,N1)
              EX(2)=X(2,N2)-X(2,N1)
              EX(3)=X(3,N2)-X(3,N1)
              PP1=SQRT(EX(1)*EX(1)+EX(2)*EX(2)+EX(3)*EX(3))
-               MAX =ZERO
+               EXMAX =ZERO
                DO J=1,3
-                 IF (ABS(EX(J))>=MAX) THEN
-                   MAX = ABS(EX(J))
-           HH = J
+                 IF (ABS(EX(J))>= EXMAX) THEN
+                   EXMAX = ABS(EX(J))
+                   HH = J
                  ENDIF
                END DO
-C-- calcul de y
+C--     computation of y
              IF (HH<3) THEN
                EX(4)= -EX(2)
                EX(5)= EX(1)
@@ -458,30 +473,30 @@ C-- calcul de y
                EX(6)= -EX(2)       
                ENDIF  
              PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))       
-C-- calcul de z = x ^ y       
+C--     computation of z = x ^ y       
              EX(7)=EX(2)*EX(6)-EX(3)*EX(5)
              EX(8)=EX(3)*EX(4)-EX(1)*EX(6)
              EX(9)=EX(1)*EX(5)-EX(2)*EX(4)
              PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))       
       ELSEIF (NNOD==3) THEN
 C-----------------------------------------------      
-C---  1 axis joint definit avec le 3e noeud
+C---    joint with 1 axis - axis defined with 3rd node
 C-----------------------------------------------
              N1 = NN(1)
-               N2 = NN(3)        
-C-- calcul de x
+             N2 = NN(3)        
+C--     computation of x
              EX(1)=X(1,N2)-X(1,N1)
              EX(2)=X(2,N2)-X(2,N1)
              EX(3)=X(3,N2)-X(3,N1)
              PP1=SQRT(EX(1)*EX(1)+EX(2)*EX(2)+EX(3)*EX(3))
-               MAX =ZERO
-               DO J=1,3
-                 IF (ABS(EX(J))>=MAX) THEN
-                   MAX = ABS(EX(J))
-           HH = J
-                 ENDIF
-               END DO
-C-- calcul de y
+             EXMAX =ZERO
+             DO J=1,3
+               IF (ABS(EX(J)) >= EXMAX) THEN
+                 EXMAX = ABS(EX(J))
+                 HH = J
+               ENDIF
+             END DO
+C--     computation of y
              IF (HH<3) THEN
                EX(4)= -EX(2)
                EX(5)= EX(1)
@@ -492,12 +507,12 @@ C-- calcul de y
                EX(6)= -EX(2)       
                ENDIF  
              PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))       
-C-- calcul de z = x ^ y       
+C--     computation of z = x ^ y       
              EX(7)=EX(2)*EX(6)-EX(3)*EX(5)
              EX(8)=EX(3)*EX(4)-EX(1)*EX(6)
              EX(9)=EX(1)*EX(5)-EX(2)*EX(4)
              PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))
-C-- control longeur de l'axe
+C--     control of axis's length
              IF (PP1<=EM10) THEN
                 CALL ANCMSG(MSGID=935,
      .                      MSGTYPE=MSGERROR,
@@ -505,30 +520,30 @@ C-- control longeur de l'axe
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IELUSR)
-               ENDIF              
+             ENDIF              
       ELSEIF ((NNOD>=4).AND.(JTYP/=5)) THEN
 C-----------------------------------------------      
-C---  Cas general : skew quelconque
+C---    General case : skew computed wit 3rd and 4th node
 C-----------------------------------------------
              N1 = NN(1)
-               N2 = NN(3)
-               N3 = NN(4)        
-C-- calcul de x
+             N2 = NN(3)
+             N3 = NN(4)        
+C--     computation of x
              EX(1)=X(1,N2)-X(1,N1)
              EX(2)=X(2,N2)-X(2,N1)
              EX(3)=X(3,N2)-X(3,N1)
              PP1=SQRT(EX(1)*EX(1)+EX(2)*EX(2)+EX(3)*EX(3))        
-C-- calcul de y
+C--     computation of y
              EX(4)=X(1,N3)-X(1,N1)
              EX(5)=X(2,N3)-X(2,N1)
              EX(6)=X(3,N3)-X(3,N1)       
              PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))       
-C-- calcul de z = x ^ y       
+C--     computation of z = x ^ y       
              EX(7)=EX(2)*EX(6)-EX(3)*EX(5)
              EX(8)=EX(3)*EX(4)-EX(1)*EX(6)
              EX(9)=EX(1)*EX(5)-EX(2)*EX(4)     
              PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))
-C-- control orthogonalite
+C--     control of orthogonality
              SCAL =ABS(EX(1)*EX(4)+EX(2)*EX(5)+EX(3)*EX(6))/(PP1*PP2)    
              IF (ABS(SCAL)>=0.98) THEN
                 CALL ANCMSG(MSGID=1009,
@@ -537,20 +552,20 @@ C-- control orthogonalite
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IELUSR)
-               ELSE
+             ELSE
                 EX(4)=EX(8)*EX(3)-EX(9)*EX(2)
                 EX(5)=EX(9)*EX(1)-EX(7)*EX(3)
                 EX(6)=EX(7)*EX(2)-EX(8)*EX(1)
                 PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))           
              ENDIF
-C-- control de N4
+C--     control of N4
              IF ((N4==N1).OR.(N4==N2).OR.(N4==N3)) THEN
                 CALL ANCMSG(MSGID=681,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_2,
      .                      I1=IELUSR)
-               ENDIF       
-C-- control longeur des axes
+             ENDIF       
+C--     control of axis length
              PP4 = SQRT((X(1,N3)-X(1,N2))**2+(X(2,N3)-X(2,N2))**2   
      .                 +(X(3,N3)-X(3,N2))**2)
              IF ((PP1<=EM10).OR.(PP2<=EM10).OR.(PP4<=EM10)) THEN
@@ -560,30 +575,30 @@ C-- control longeur des axes
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IELUSR)
-               ENDIF
+             ENDIF
       ELSEIF ((NNOD>=4).AND.(JTYP==5)) THEN
 C-----------------------------------------------      
-C---  Universal Joint : local skew
+C---    Universal Joint : local skew
 C-----------------------------------------------
              N1 = NN(1)
-               N2 = NN(3)
-               N3 = NN(4)        
-C-- calcul de y
+             N2 = NN(3)
+             N3 = NN(4)        
+C--     computation of y
              EX(4)=X(1,N2)-X(1,N1)
              EX(5)=X(2,N2)-X(2,N1)
              EX(6)=X(3,N2)-X(3,N1)
              PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))        
-C-- calcul de z
+C--     computation of z
              EX(7)=X(1,N3)-X(1,N1)
              EX(8)=X(2,N3)-X(2,N1)
              EX(9)=X(3,N3)-X(3,N1)       
              PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))       
-C-- calcul de x = y ^ z       
+C--     computation of x = y ^ z       
              EX(1)=EX(5)*EX(9)-EX(6)*EX(8)
              EX(2)=EX(6)*EX(7)-EX(4)*EX(9)
              EX(3)=EX(4)*EX(8)-EX(5)*EX(7)     
              PP1=SQRT(EX(1)*EX(1)+EX(2)*EX(2)+EX(3)*EX(3))
-C-- control orthogonalite
+C--     control of orthogonality
              SCAL =ABS(EX(7)*EX(4)+EX(8)*EX(5)+EX(9)*EX(6))/(PP1+PP2)
              IF (ABS(SCAL)>=0.98) THEN
                 CALL ANCMSG(MSGID=1009,
@@ -593,20 +608,20 @@ C-- control orthogonalite
      .                      C1=TITR,
      .                      I2=IELUSR)    
              ELSEIF (SCAL>=1e-4) THEN
-C-- Orthogonalization of the skew
+C--     Orthogonalization of the skew
                 CALL ANCMSG(MSGID=940,
      .                      MSGTYPE=MSGWARNING,
      .                      ANMODE=ANINFO_BLIND_2,
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IELUSR)
-C-- Recalcul de z = x ^ y
+C--     computation of z = x ^ y
                   EX(7)=EX(2)*EX(6)-EX(3)*EX(5)
                 EX(8)=EX(3)*EX(4)-EX(1)*EX(6)
                 EX(9)=EX(1)*EX(5)-EX(2)*EX(4)     
                 PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))
              ENDIF       
-C-- control longeur des axes
+C--     control of axis length
              PP4 = SQRT((X(1,N3)-X(1,N2))**2+(X(2,N3)-X(2,N2))**2   
      .                 +(X(3,N3)-X(3,N2))**2)
              IF ((PP1<=EM10).OR.(PP2<=EM10).OR.(PP4<=EM10)) THEN
@@ -616,7 +631,15 @@ C-- control longeur des axes
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IELUSR)
-               ENDIF       
+               ENDIF  
+      ELSEIF (IDSK1 > 0) THEN
+C-----------------------------------------------      
+C---    skew1 is used
+C-----------------------------------------------
+             EX(1:9)= VECT1(1:9)
+             PP1 = ONE
+             PP2 = ONE
+             PP3 = ONE
       ELSE
              CALL ANCMSG(MSGID=937,
      .                   MSGTYPE=MSGERROR,
@@ -626,7 +649,7 @@ C-- control longeur des axes
      .                   I2=IELUSR)
       ENDIF
 C-----------------------------------------------
-C-- norme
+C-- norm
 C-----------------------------------------------
       EX(1)=EX(1)/PP1
       EX(2)=EX(2)/PP1
@@ -636,8 +659,139 @@ C-----------------------------------------------
       EX(6)=EX(6)/PP2
       EX(7)=EX(7)/PP3
       EX(8)=EX(8)/PP3
-      EX(9)=EX(9)/PP3      
-     
+      EX(9)=EX(9)/PP3
+C-----------------------------------------------
+C--   Initialisation of rotations
+C-----------------------------------------------      
+C
+       IF ((IDSK1 > 0).AND.(IDSK2 > 2)) THEN
+C
+         NB_ROT = 3
+         IF ((JTYP==2).OR.(JTYP==3).OR.(JTYP==4)) THEN
+C--        only one init angle allowed on X axis
+           NB_ROT = 1
+C          check of alignement of skew1
+           SCAL = ABS(EX(1)*VECT1(1)+EX(2)*VECT1(2)+EX(3)*VECT1(3))      
+           IF (SCAL.LT.0.98) THEN
+C--          misalignement - error 
+             CALL ANCMSG(MSGID=3066,
+     .                   MSGTYPE=MSGERROR,
+     .                   ANMODE=ANINFO_BLIND_1,
+     .                   I1=ID,
+     .                   C1=TITR,
+     .                   I2=IELUSR,
+     .                   C2='SKEW1')
+           ELSEIF ((ONE-SCAL).LT.EM05) THEN
+C--          misalignement - warning       
+             CALL ANCMSG(MSGID=3067,
+     .                   MSGTYPE=MSGWARNING,
+     .                   ANMODE=ANINFO_BLIND_2,
+     .                   I1=ID,
+     .                   C1=TITR,
+     .                   I2=IELUSR,
+     .                   C2='SKEW1',
+     .                   C3='SKEW1')    
+C--          realignement of skew1
+             VECT1_UPT(1:3) = EX(1:3)
+C--          z1' = x1'^y1       
+             VECT1_UPT(7)=VECT1_UPT(2)*VECT1(6)-VECT1_UPT(3)*VECT1(5)
+             VECT1_UPT(8)=VECT1_UPT(3)*VECT1(4)-VECT1_UPT(1)*VECT1(6)
+             VECT1_UPT(9)=VECT1_UPT(1)*VECT1(5)-VECT1_UPT(2)*VECT1(4)
+C--          y1' = z1'^x1'      
+             VECT1_UPT(4)=VECT1_UPT(8)*VECT1_UPT(3)-VECT1_UPT(9)*VECT1_UPT(2)
+             VECT1_UPT(5)=VECT1_UPT(9)*VECT1_UPT(1)-VECT1_UPT(7)*VECT1_UPT(3)
+             VECT1_UPT(6)=VECT1_UPT(7)*VECT1_UPT(2)-VECT1_UPT(8)*VECT1_UPT(1)
+             VECT1(1:9) = VECT1_UPT(1:9)             
+           ENDIF  
+           SCAL = ABS(EX(1)*VECT2(1)+EX(2)*VECT2(2)+EX(3)*VECT2(3))         
+           IF (SCAL.LT.0.98) THEN
+C--          misalignement - error 
+             CALL ANCMSG(MSGID=3066,
+     .                   MSGTYPE=MSGERROR,
+     .                   ANMODE=ANINFO_BLIND_1,
+     .                   I1=ID,
+     .                   C1=TITR,
+     .                   I2=IELUSR,
+     .                   C2='SKEW2')
+           ELSEIF ((ONE-SCAL).LT.EM05) THEN
+C--          misalignement - warning       
+             CALL ANCMSG(MSGID=3067,
+     .                   MSGTYPE=MSGWARNING,
+     .                   ANMODE=ANINFO_BLIND_2,
+     .                   I1=ID,
+     .                   C1=TITR,
+     .                   I2=IELUSR,
+     .                   C2='SKEW2',
+     .                   C3='SKEW2')            
+C--          realignement of skew2
+             VECT2_UPT(1:3) = EX(1:3)
+C--          z1' = x1'^y1       
+             VECT2_UPT(7)=VECT2_UPT(2)*VECT2(6)-VECT2_UPT(3)*VECT2(5)
+             VECT2_UPT(8)=VECT2_UPT(3)*VECT2(4)-VECT2_UPT(1)*VECT2(6)
+             VECT2_UPT(9)=VECT2_UPT(1)*VECT2(5)-VECT2_UPT(2)*VECT2(4)
+C--          y1' = z1'^x1'      
+             VECT2_UPT(4)=VECT2_UPT(8)*VECT2_UPT(3)-VECT2_UPT(9)*VECT2_UPT(2)
+             VECT2_UPT(5)=VECT2_UPT(9)*VECT2_UPT(1)-VECT2_UPT(7)*VECT2_UPT(3)
+             VECT2_UPT(6)=VECT2_UPT(7)*VECT2_UPT(2)-VECT2_UPT(8)*VECT2_UPT(1)  
+             VECT2(1:9) = VECT2_UPT(1:9)
+           ENDIF
+         ENDIF    
+C         
+C--      computation of rotation from skew1 to skew2
+         CALL PROD_ATB(VECT1,VECT2,Q)
+C
+         E = Q(1)+Q(5)+Q(9)
+         COSK = HALF * (E - ONE)
+         COSK = MIN(COSK,ONE)
+         COSK = MAX(COSK,-ONE)
+         KSI = ACOS(COSK)
+         SINK   = SIN(KSI)
+         IF(SINK==ZERO) THEN
+           SI2 = ZERO
+         ELSE
+           SI2  = HALF / SINK
+         ENDIF
+C
+         T(1) = (Q(6) - Q(8)) * SI2
+         T(2) = (Q(7) - Q(3)) * SI2
+         T(3) = (Q(2) - Q(4)) * SI2
+         NR = SQRT(T(1)*T(1)+T(2)*T(2)+T(3)*T(3))
+         IF (NR/=ZERO) NR = ONE/NR
+         T(1) = T(1)*NR
+         T(2) = T(2)*NR
+         T(3) = T(3)*NR
+
+C        Vector of initial rotation (in local frame)
+         THETA0(1) = T(1)*KSI
+         THETA0(2) = T(2)*KSI
+         THETA0(3) = T(3)*KSI
+C
+C--      Check of initial angles vs stopping angles
+         DO I=1,NB_ROT
+           IF (THETA0(I)<0) THEN
+             IF ((THETA0(I)<STOP_ANGL_MIN(I)).AND.(STOP_ANGL_MIN(I)/=ZERO)) THEN
+               CALL ANCMSG(MSGID=1133,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                 R1=THETA0(I),
+     .                 R2=STOP_ANGL_MIN(I))
+             ENDIF
+           ELSE
+             IF ((THETA0(I)>STOP_ANGL_MAX(I)).AND.(STOP_ANGL_MAX(I)/=ZERO)) THEN
+               CALL ANCMSG(MSGID=1133,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                 R1=THETA0(I),
+     .                 R2=STOP_ANGL_MAX(I))
+             ENDIF
+           ENDIF
+         ENDDO  
+C
+       ENDIF    
 C-----------------------------------------------
       GET_SKEW45 = IERR1
    
@@ -656,7 +810,7 @@ C-----------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE INIT_SKEW45(JTYP,IPROP,IDSK1,IDSK2,EX,THETA0,ID,TITR)
+      SUBROUTINE INIT_SKEW45(JTYP,IPROP,IDSK1,IDSK2,VECT1,VECT2,ID,TITR)
 C-------------------------------------------------------------------------
 C     This subroutine compute the initial angles from skews
 C-------------------------------------------------------------------------
@@ -678,14 +832,14 @@ C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
       INTEGER JTYP,IPROP,ID,IDSK1,IDSK2
-      my_real EX(*),THETA0(*)
+      my_real, INTENT(INOUT) :: VECT1(LSKEW),VECT2(LSKEW)
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,GET_U_SKEW,N1,N2,N3,ISK
       my_real 
-     .        U(LSKEW),V(LSKEW),Q(LSKEW),GET_U_GEO,NR,T(3),COSK,SINK,
+     .        Q(LSKEW),GET_U_GEO,NR,T(3),COSK,SINK,
      .        SI2,E,KSI,UMI,ERR,STOP_ANGL
       DATA  UMI/-1.0/
 C-----------------------------------------------
@@ -697,7 +851,7 @@ C-----------------------------------------------
 
 C Check skew1 ------
       IF (IDSK1>0) THEN
-        ISK = GET_U_SKEW(IDSK1,N1,N2,N3,U)
+        ISK = GET_U_SKEW(IDSK1,N1,N2,N3,VECT1)
         IF (ISK==0) THEN
           CALL ANCMSG(MSGID=926,
      .                MSGTYPE=MSGERROR,
@@ -705,16 +859,12 @@ C Check skew1 ------
      .                I1=ID,
      .                C1=TITR,
      .                I2=IDSK1)
-        ELSE
-          DO I=1,9
-            EX(I)=U(I)
-          ENDDO
-          ENDIF
+        ENDIF
       ENDIF
 
 C Check skew2 ------
       IF (IDSK2>0) THEN
-        ISK = GET_U_SKEW(IDSK2,N1,N2,N3,V)
+        ISK = GET_U_SKEW(IDSK2,N1,N2,N3,VECT2)
         IF (ISK==0) THEN
             CALL ANCMSG(MSGID=926,
      .                 MSGTYPE=MSGERROR,
@@ -722,7 +872,7 @@ C Check skew2 ------
      .                 I1=ID,
      .                 C1=TITR,
      .                 I2=IDSK2)
-          ENDIF
+        ENDIF
         IF ((JTYP>4).AND.(JTYP<9)) THEN
 C--       init angle not allowed for joints with no rotations - idsk2 ignored
           CALL ANCMSG(MSGID=1134,
@@ -735,95 +885,6 @@ C--       init angle not allowed for joints with no rotations - idsk2 ignored
           IDSK2 = 0
         ENDIF
       ENDIF
-
-C Computation of initial orientation angles
-
-      IF (IDSK2>0) THEN
 C
-        IF (IDSK1==0) THEN
-C   IF IDSK1 ==0 > local frame set to global frame
-          DO I=1,9
-            EX(I)=ZERO
-          ENDDO
-          EX(1)=ONE
-          EX(5)=ONE
-          EX(9)=ONE
-        ENDIF
-C
-        CALL PROD_ATB(U,V,Q)
-C
-        E = Q(1)+Q(5)+Q(9)
-        COSK = HALF * (E - 1.)
-        COSK = MIN(COSK,ONE)
-        COSK = MAX(COSK,UMI)
-        KSI = ACOS(COSK)
-        SINK   = SIN(KSI)
-
-C
-        IF(SINK==ZERO) THEN
-          SI2 = ZERO
-        ELSE
-          SI2  = HALF / SINK
-        ENDIF
-C
-        T(1) = (Q(6) - Q(8)) * SI2
-        T(2) = (Q(7) - Q(3)) * SI2
-        T(3) = (Q(2) - Q(4)) * SI2
-        NR = SQRT(T(1)*T(1)+T(2)*T(2)+T(3)*T(3))
-        IF (NR/=ZERO) NR = ONE/NR
-C
-        T(1) = T(1)*NR
-        T(2) = T(2)*NR
-        T(3) = T(3)*NR
-
-C    Vector of initial rotation (in local frame = skew1)
-        THETA0(1) = T(1)*KSI
-        THETA0(2) = T(2)*KSI
-        THETA0(3) = T(3)*KSI
-C
-        IF ((JTYP==2).OR.(JTYP==3).OR.(JTYP==4)) THEN
-C--      only one init angle allowed on X axis
-          ERR = ABS(T(2))+ABS(T(3))
-          IF (ERR>EM6) THEN
-            CALL ANCMSG(MSGID=1132,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 I2=JTYP,
-     .                 I3=IDSK2)
-          ENDIF
-        ELSE
-C--      Check of initial angles vs stopping angles
-          DO I=1,3
-            IF (THETA0(I)<0) THEN
-              STOP_ANGL = GET_U_GEO(35+2*(I-1),IPROP)
-              IF ((THETA0(I)<STOP_ANGL).AND.(STOP_ANGL/=ZERO)) THEN
-                CALL ANCMSG(MSGID=1133,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 R1=THETA0(I),
-     .                 R2=STOP_ANGL)
-              ENDIF
-            ELSE
-              STOP_ANGL = GET_U_GEO(36+2*(I-1),IPROP)
-              IF ((THETA0(I)>STOP_ANGL).AND.(STOP_ANGL/=ZERO)) THEN
-                CALL ANCMSG(MSGID=1133,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 R1=THETA0(I),
-     .                 R2=STOP_ANGL)
-              ENDIF
-            ENDIF
-          ENDDO 
-C 
-        ENDIF   
-C
-      ENDIF
-   
       RETURN      
       END
