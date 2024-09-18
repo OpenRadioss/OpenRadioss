@@ -68,9 +68,15 @@ C=======================================================================
             NODE(K-1) = IX(K,JJ)
           ENDDO
         ELSE ! reversed normal
-          DO K=NIX2,NIX1,-1
-            NODE(INV4(K-1)) = IX(K,JJ)
-          ENDDO
+          IF (NIX2-NIX1 == 2) THEN  ! SH3N (NOD4 == NOD3)
+            DO K=NIX2,NIX1,-1
+              NODE(INV4(K-1)-1) = IX(K,JJ)
+            ENDDO
+          ELSE
+            DO K=NIX2,NIX1,-1
+              NODE(INV4(K-1)) = IX(K,JJ)
+            ENDDO
+          ENDIF
         ENDIF ! IF ( OPT_O == 0 )
 !
         DO K=NIX1,NIX2                      
