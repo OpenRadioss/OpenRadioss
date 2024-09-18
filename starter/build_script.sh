@@ -284,7 +284,9 @@ then
   cmake.exe -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} ${dc} -Dno_python=${no_python} -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" .. 
 else
 #  cmake -Darch=${arch} -G "Ninja" -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} -Dstatic_link=$static_link -Dno_python=${no_python} ${dc} -Dsanitize=${sanitize}  -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path} ..
+
   cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} -Dstatic_link=$static_link -Dno_python=${no_python} ${dc} -Dsanitize=${sanitize}  -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path} .. 
+
 fi
 
 return_value=$?
