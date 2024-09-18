@@ -1,25 +1,25 @@
-Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
-Copyright>
-Copyright>        This program is free software: you can redistribute it and/or modify
-Copyright>        it under the terms of the GNU Affero General Public License as published by
-Copyright>        the Free Software Foundation, either version 3 of the License, or
-Copyright>        (at your option) any later version.
-Copyright>
-Copyright>        This program is distributed in the hope that it will be useful,
-Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
-Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-Copyright>        GNU Affero General Public License for more details.
-Copyright>
-Copyright>        You should have received a copy of the GNU Affero General Public License
-Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>
-Copyright>
-Copyright>        Commercial Alternative: Altair Radioss Software
-Copyright>
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    my_alloc_mod                       ../common_source/tools/memory/my_alloc.F
       !||--- called by ------------------------------------------------------
@@ -124,6 +124,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       module my_alloc_mod
         implicit none
         integer, parameter :: len_error_message = 100
+
         ! lengths : integer
         private :: my_alloc_real_1d
         private :: my_alloc_real_2d
@@ -134,6 +135,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         private :: my_alloc_double_1d
         private :: my_alloc_double_2d
         private :: my_alloc_double_3d
+        private :: my_alloc_logical_1d
+        private :: my_alloc_logical_2d
+        private :: my_alloc_logical_3d
+
         private :: my_alloc_preal_1d
         private :: my_alloc_preal_2d
         private :: my_alloc_preal_3d
@@ -143,6 +148,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         private :: my_alloc_pdouble_1d
         private :: my_alloc_pdouble_2d
         private :: my_alloc_pdouble_3d
+        private :: my_alloc_plogical_1d
+        private :: my_alloc_plogical_2d
+        private :: my_alloc_plogical_3d
+
+
         !lengths : integer(8)
         private :: my_alloc_8_real_1d
         private :: my_alloc_8_real_2d
@@ -153,6 +163,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         private :: my_alloc_8_double_1d
         private :: my_alloc_8_double_2d
         private :: my_alloc_8_double_3d
+        private :: my_alloc_8_logical_1d
+        private :: my_alloc_8_logical_2d
+        private :: my_alloc_8_logical_3d
         private :: my_alloc_8_preal_1d
         private :: my_alloc_8_preal_2d
         private :: my_alloc_8_preal_3d
@@ -162,6 +175,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         private :: my_alloc_8_pdouble_1d
         private :: my_alloc_8_pdouble_2d
         private :: my_alloc_8_pdouble_3d
+        private :: my_alloc_8_plogical_1d
+        private :: my_alloc_8_plogical_2d
+        private :: my_alloc_8_plogical_3d
 
         public :: my_alloc
 
@@ -175,6 +191,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           module procedure my_alloc_double_1d
           module procedure my_alloc_double_2d
           module procedure my_alloc_double_3d
+          module procedure my_alloc_logical_1d
+          module procedure my_alloc_logical_2d
+          module procedure my_alloc_logical_3d
           module procedure my_alloc_preal_1d
           module procedure my_alloc_preal_2d
           module procedure my_alloc_preal_3d
@@ -184,6 +203,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           module procedure my_alloc_pdouble_1d
           module procedure my_alloc_pdouble_2d
           module procedure my_alloc_pdouble_3d
+          module procedure my_alloc_plogical_1d
+          module procedure my_alloc_plogical_2d
+          module procedure my_alloc_plogical_3d
+
 
           module procedure my_alloc_8_real_1d
           module procedure my_alloc_8_real_2d
@@ -194,6 +217,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           module procedure my_alloc_8_double_1d
           module procedure my_alloc_8_double_2d
           module procedure my_alloc_8_double_3d
+          module procedure my_alloc_8_logical_1d
+          module procedure my_alloc_8_logical_2d
+          module procedure my_alloc_8_logical_3d
+
+
           module procedure my_alloc_8_preal_1d
           module procedure my_alloc_8_preal_2d
           module procedure my_alloc_8_preal_3d
@@ -203,6 +231,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           module procedure my_alloc_8_pdouble_1d
           module procedure my_alloc_8_pdouble_2d
           module procedure my_alloc_8_pdouble_3d
+          module procedure my_alloc_8_plogical_1d
+          module procedure my_alloc_8_plogical_2d
+          module procedure my_alloc_8_plogical_3d
         end interface my_alloc
 
       contains
@@ -294,6 +325,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             call arret(2)
           end if
         end subroutine check_error_and_write
+
 
 ! ======================================================================================================================
 !                                           REAL ALLOCATION ROUTINES
@@ -389,7 +421,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          allocate(a(l,n,m), stat=ierr)
+          allocate(a(l,m,n), stat=ierr)
           if(.not. present(stat)) then
             if(present(msg)) then
               call check_error_and_write(ierr, msg=msg)
@@ -494,7 +526,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          allocate(a(l,n,m), stat=ierr)
+          allocate(a(l,m,n), stat=ierr)
           if(.not. present(stat)) then
             if(present(msg)) then
               call check_error_and_write(ierr, msg=msg)
@@ -601,7 +633,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          allocate(a(l,n,m), stat=ierr)
+          allocate(a(l,m,n), stat=ierr)
           if(.not. present(stat)) then
             if(present(msg)) then
               call check_error_and_write(ierr, msg=msg)
@@ -611,6 +643,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           endif
           if(present(stat)) stat = ierr
         end subroutine my_alloc_integer_3d
+
 ! ======================================================================================================================
 !                                           REAL ALLOCATION ROUTINES
 ! ======================================================================================================================
@@ -705,7 +738,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          allocate(a(l,n,m), stat=ierr)
+          allocate(a(l,m,n), stat=ierr)
           if(.not. present(stat)) then
             if(present(msg)) then
               call check_error_and_write(ierr, msg=msg)
@@ -810,7 +843,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          allocate(a(l,n,m), stat=ierr)
+          allocate(a(l,m,n), stat=ierr)
           if(.not. present(stat)) then
             if(present(msg)) then
               call check_error_and_write(ierr, msg=msg)
@@ -917,7 +950,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          allocate(a(l,n,m), stat=ierr)
+          allocate(a(l,m,n), stat=ierr)
           if(.not. present(stat)) then
             if(present(msg)) then
               call check_error_and_write(ierr, msg=msg)
@@ -1025,7 +1058,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          allocate(a(l,n,m), stat=ierr)
+          allocate(a(l,m,n), stat=ierr)
           if(.not. present(stat)) then
             if(present(msg)) then
               call check_error_and_write(ierr, msg=msg)
@@ -1130,7 +1163,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          allocate(a(l,n,m), stat=ierr)
+          allocate(a(l,m,n), stat=ierr)
           if(.not. present(stat)) then
             if(present(msg)) then
               call check_error_and_write(ierr, msg=msg)
@@ -1237,7 +1270,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          allocate(a(l,n,m), stat=ierr)
+          allocate(a(l,m,n), stat=ierr)
           if(.not. present(stat)) then
             if(present(msg)) then
               call check_error_and_write(ierr, msg=msg)
@@ -1341,7 +1374,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          allocate(a(l,n,m), stat=ierr)
+          allocate(a(l,m,n), stat=ierr)
           if(.not. present(stat)) then
             if(present(msg)) then
               call check_error_and_write(ierr, msg=msg)
@@ -1446,7 +1479,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          allocate(a(l,n,m), stat=ierr)
+          allocate(a(l,m,n), stat=ierr)
           if(.not. present(stat)) then
             if(present(msg)) then
               call check_error_and_write(ierr, msg=msg)
@@ -1553,7 +1586,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          allocate(a(l,n,m), stat=ierr)
+          allocate(a(l,m,n), stat=ierr)
           if(.not. present(stat)) then
             if(present(msg)) then
               call check_error_and_write(ierr, msg=msg)
@@ -1563,5 +1596,415 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           endif
           if(present(stat)) stat = ierr
         end subroutine my_alloc_8_pinteger_3d
-      end module my_alloc_mod
 
+! ======================================================================================================================
+!                                           LOGICAL ALLOCATION ROUTINES
+! ======================================================================================================================
+!! \brief Allocate a 1D array of logical numbers
+      !||====================================================================
+      !||    my_alloc_logical_1d        ../common_source/tools/memory/my_alloc.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_error_and_write   ../common_source/tools/memory/my_alloc.F
+      !||====================================================================
+        subroutine my_alloc_logical_1d(a, n, msg, stat)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(:), allocatable, intent(inout) :: a !< The allocated array
+          integer, intent(in) :: n !< The size of the array
+          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat !< The error code returned by the allocation
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: ierr
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          allocate(a(n), stat=ierr)
+          if(.not. present(stat)) then
+            if(present(msg)) then
+              call check_error_and_write(ierr, msg=msg)
+            else
+              call check_error_and_write(ierr)
+            end if
+          endif
+          if(present(stat)) stat = ierr
+
+        end subroutine my_alloc_logical_1d
+
+!! \brief Allocate a 2D array of logical numbers
+      !||====================================================================
+      !||    my_alloc_logical_2d        ../common_source/tools/memory/my_alloc.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_error_and_write   ../common_source/tools/memory/my_alloc.F
+      !||====================================================================
+        subroutine my_alloc_logical_2d(a, n,m, msg, stat)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(:,:), allocatable, intent(inout) :: a !< The allocated array
+          integer, intent(in) :: n !< The first dimension of the array
+          integer, intent(in) :: m !< The second dimension of the array
+          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat !< The error code returned by the allocation
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: ierr
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          allocate(a(n,m), stat=ierr)
+          if(.not. present(stat)) then
+            if(present(msg)) then
+              call check_error_and_write(ierr, msg=msg)
+            else
+              call check_error_and_write(ierr)
+            end if
+          endif
+          if(present(stat)) stat = ierr
+
+        end subroutine my_alloc_logical_2d
+
+      !||====================================================================
+      !||    my_alloc_logical_3d        ../common_source/tools/memory/my_alloc.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_error_and_write   ../common_source/tools/memory/my_alloc.F
+      !||====================================================================
+        subroutine my_alloc_logical_3d(a,l,m,n, msg, stat)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(:,:,:), allocatable, intent(inout) :: a !< The allocated array
+          integer, intent(in) :: l !< The first dimension of the array
+          integer, intent(in) :: m !< The second dimension of the array
+          integer, intent(in) :: n !< The third dimension of the array
+          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat !< The error code returned by the allocation
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: ierr
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+
+          allocate(a(l,m,n), stat=ierr)
+          if(.not. present(stat)) then
+            if(present(msg)) then
+              call check_error_and_write(ierr, msg=msg)
+            else
+              call check_error_and_write(ierr)
+            end if
+          endif
+          if(present(stat)) stat = ierr
+
+        end subroutine my_alloc_logical_3d
+!! \brief Allocate a 1D array of logical numbers
+      !||====================================================================
+      !||    my_alloc_plogical_1d       ../common_source/tools/memory/my_alloc.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_error_and_write   ../common_source/tools/memory/my_alloc.F
+      !||====================================================================
+        subroutine my_alloc_plogical_1d(a, n, msg, stat)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(:), pointer, intent(inout) :: a !< The allocated array
+          integer, intent(in) :: n !< The size of the array
+          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat !< The error code returned by the allocation
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: ierr
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          allocate(a(n), stat=ierr)
+          if(.not. present(stat)) then
+            if(present(msg)) then
+              call check_error_and_write(ierr, msg=msg)
+            else
+              call check_error_and_write(ierr)
+            end if
+          endif
+          if(present(stat)) stat = ierr
+
+        end subroutine my_alloc_plogical_1d
+
+!! \brief Allocate a 2D array of logical numbers
+      !||====================================================================
+      !||    my_alloc_plogical_2d       ../common_source/tools/memory/my_alloc.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_error_and_write   ../common_source/tools/memory/my_alloc.F
+      !||====================================================================
+        subroutine my_alloc_plogical_2d(a, n,m, msg, stat)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(:,:), pointer, intent(inout) :: a !< The allocated array
+          integer, intent(in) :: n !< The first dimension of the array
+          integer, intent(in) :: m !< The second dimension of the array
+          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat !< The error code returned by the allocation
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: ierr
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          allocate(a(n,m), stat=ierr)
+          if(.not. present(stat)) then
+            if(present(msg)) then
+              call check_error_and_write(ierr, msg=msg)
+            else
+              call check_error_and_write(ierr)
+            end if
+          endif
+          if(present(stat)) stat = ierr
+
+        end subroutine my_alloc_plogical_2d
+
+      !||====================================================================
+      !||    my_alloc_plogical_3d       ../common_source/tools/memory/my_alloc.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_error_and_write   ../common_source/tools/memory/my_alloc.F
+      !||====================================================================
+        subroutine my_alloc_plogical_3d(a,l,m,n, msg, stat)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(:,:,:), pointer, intent(inout) :: a !< The allocated array
+          integer, intent(in) :: l !< The first dimension of the array
+          integer, intent(in) :: m !< The second dimension of the array
+          integer, intent(in) :: n !< The third dimension of the array
+          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat !< The error code returned by the allocation
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: ierr
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+
+          allocate(a(l,m,n), stat=ierr)
+          if(.not. present(stat)) then
+            if(present(msg)) then
+              call check_error_and_write(ierr, msg=msg)
+            else
+              call check_error_and_write(ierr)
+            end if
+          endif
+          if(present(stat)) stat = ierr
+
+        end subroutine my_alloc_plogical_3d
+! ======================================================================================================================
+!                                           LOGICAL ALLOCATION ROUTINES
+! ======================================================================================================================
+!! \brief Allocate a 1D array of logical numbers
+      !||====================================================================
+      !||    my_alloc_8_logical_1d        ../common_source/tools/memory/my_alloc.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_error_and_write   ../common_source/tools/memory/my_alloc_8.F
+      !||====================================================================
+        subroutine my_alloc_8_logical_1d(a, n, msg, stat)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(:), allocatable, intent(inout) :: a !< The allocated array
+          integer(8), intent(in) :: n !< The size of the array
+          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat !< The error code returned by the allocation
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: ierr
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          allocate(a(n), stat=ierr)
+          if(.not. present(stat)) then
+            if(present(msg)) then
+              call check_error_and_write(ierr, msg=msg)
+            else
+              call check_error_and_write(ierr)
+            end if
+          endif
+          if(present(stat)) stat = ierr
+
+        end subroutine my_alloc_8_logical_1d
+
+!! \brief Allocate a 2D array of logical numbers
+      !||====================================================================
+      !||    my_alloc_8_logical_2d        ../common_source/tools/memory/my_alloc.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_error_and_write   ../common_source/tools/memory/my_alloc_8.F
+      !||====================================================================
+        subroutine my_alloc_8_logical_2d(a, n,m, msg, stat)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(:,:), allocatable, intent(inout) :: a !< The allocated array
+          integer(8), intent(in) :: n !< The first dimension of the array
+          integer(8), intent(in) :: m !< The second dimension of the array
+          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat !< The error code returned by the allocation
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: ierr
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          allocate(a(n,m), stat=ierr)
+          if(.not. present(stat)) then
+            if(present(msg)) then
+              call check_error_and_write(ierr, msg=msg)
+            else
+              call check_error_and_write(ierr)
+            end if
+          endif
+          if(present(stat)) stat = ierr
+
+        end subroutine my_alloc_8_logical_2d
+
+      !||====================================================================
+      !||    my_alloc_8_logical_3d        ../common_source/tools/memory/my_alloc.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_error_and_write   ../common_source/tools/memory/my_alloc_8.F
+      !||====================================================================
+        subroutine my_alloc_8_logical_3d(a,l,m,n, msg, stat)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(:,:,:), allocatable, intent(inout) :: a !< The allocated array
+          integer(8), intent(in) :: l !< The first dimension of the array
+          integer(8), intent(in) :: m !< The second dimension of the array
+          integer(8), intent(in) :: n !< The third dimension of the array
+          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat !< The error code returned by the allocation
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: ierr
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+
+          allocate(a(l,m,n), stat=ierr)
+          if(.not. present(stat)) then
+            if(present(msg)) then
+              call check_error_and_write(ierr, msg=msg)
+            else
+              call check_error_and_write(ierr)
+            end if
+          endif
+          if(present(stat)) stat = ierr
+
+        end subroutine my_alloc_8_logical_3d
+!! \brief Allocate a 1D array of logical numbers
+      !||====================================================================
+      !||    my_alloc_8_plogical_1d       ../common_source/tools/memory/my_alloc.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_error_and_write   ../common_source/tools/memory/my_alloc_8.F
+      !||====================================================================
+        subroutine my_alloc_8_plogical_1d(a, n, msg, stat)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(:), pointer, intent(inout) :: a !< The allocated array
+          integer(8), intent(in) :: n !< The size of the array
+          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat !< The error code returned by the allocation
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: ierr
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          allocate(a(n), stat=ierr)
+          if(.not. present(stat)) then
+            if(present(msg)) then
+              call check_error_and_write(ierr, msg=msg)
+            else
+              call check_error_and_write(ierr)
+            end if
+          endif
+          if(present(stat)) stat = ierr
+
+        end subroutine my_alloc_8_plogical_1d
+
+!! \brief Allocate a 2D array of logical numbers
+      !||====================================================================
+      !||    my_alloc_8_plogical_2d       ../common_source/tools/memory/my_alloc.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_error_and_write   ../common_source/tools/memory/my_alloc_8.F
+      !||====================================================================
+        subroutine my_alloc_8_plogical_2d(a, n,m, msg, stat)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(:,:), pointer, intent(inout) :: a !< The allocated array
+          integer(8), intent(in) :: n !< The first dimension of the array
+          integer(8), intent(in) :: m !< The second dimension of the array
+          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat !< The error code returned by the allocation
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: ierr
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          allocate(a(n,m), stat=ierr)
+          if(.not. present(stat)) then
+            if(present(msg)) then
+              call check_error_and_write(ierr, msg=msg)
+            else
+              call check_error_and_write(ierr)
+            end if
+          endif
+          if(present(stat)) stat = ierr
+
+        end subroutine my_alloc_8_plogical_2d
+
+      !||====================================================================
+      !||    my_alloc_8_plogical_3d       ../common_source/tools/memory/my_alloc.F
+      !||--- calls      -----------------------------------------------------
+      !||    check_error_and_write   ../common_source/tools/memory/my_alloc_8.F
+      !||====================================================================
+        subroutine my_alloc_8_plogical_3d(a,l,m,n, msg, stat)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(:,:,:), pointer, intent(inout) :: a !< The allocated array
+          integer(8), intent(in) :: l !< The first dimension of the array
+          integer(8), intent(in) :: m !< The second dimension of the array
+          integer(8), intent(in) :: n !< The third dimension of the array
+          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat !< The error code returned by the allocation
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: ierr
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+
+          allocate(a(l,m,n), stat=ierr)
+          if(.not. present(stat)) then
+            if(present(msg)) then
+              call check_error_and_write(ierr, msg=msg)
+            else
+              call check_error_and_write(ierr)
+            end if
+          endif
+          if(present(stat)) stat = ierr
+
+        end subroutine my_alloc_8_plogical_3d
+      end module my_alloc_mod
