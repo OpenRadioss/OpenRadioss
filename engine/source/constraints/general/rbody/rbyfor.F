@@ -170,7 +170,7 @@ c
      3         STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
      4         1        ,ICODR    ,ISKEW        ,SKEW   ,RBY6(1,1,N),
      5         NPBY(2,N),NATIV_SMS,FBSAV6(1,1,ISECT) ,IPARSENS,
-     6         NODREAC,FTHREAC,CPTREAC)
+     6         NODREAC,FTHREAC,CPTREAC,NPBY(5,N))
            ELSE
              CALL RGBODFP(
      1         A        ,AR       ,X            ,FSAV(1,N2),RBY(1,N),
@@ -178,7 +178,7 @@ c
      3         STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
      4         1        ,ICODR    ,ISKEW        ,SKEW   ,RBY6(1,1,N),
      5         NPBY(2,N),NATIV_SMS,RBID         , IPARSENS,
-     6         NODREAC,FTHREAC,CPTREAC)
+     6         NODREAC,FTHREAC,CPTREAC,NPBY(5,N))
            ENDIF
           ENDIF
         ENDIF
@@ -242,7 +242,7 @@ c
      3         STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
      4         1        ,ICODR      ,ISKEW      ,SKEW   ,RBY6(1,1,N),
      5         NPBY(2,N),NATIV_SMS,FBSAV6(1,1,ISECT) ,IPARSENS,
-     6         NODREAC,FTHREAC,CPTREAC)
+     6         NODREAC,FTHREAC,CPTREAC,NPBY(5,N))
            ELSE
              CALL RGBODFP(
      1         A        ,AR         ,X          ,FSAV(1,N2),RBY(1,N),
@@ -250,7 +250,7 @@ c
      3         STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
      4         1        ,ICODR      ,ISKEW      ,SKEW   ,RBY6(1,1,N),
      5         NPBY(2,N),NATIV_SMS  ,RBID       ,IPARSENS   ,
-     6         NODREAC,FTHREAC,CPTREAC)
+     6         NODREAC,FTHREAC,CPTREAC,NPBY(5,N))
            ENDIF
           ENDIF
         ENDIF
@@ -326,7 +326,7 @@ c
      3         STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
      4         2        ,ICODR    ,ISKEW        ,SKEW,   RBY6(1,1,N),
      5         NPBY(2,N),NATIV_SMS,FBSAV6(1,1,ISECT) ,IPARSENS,
-     6         NODREAC,FTHREAC,CPTREAC)
+     6         NODREAC,FTHREAC,CPTREAC,NPBY(5,N))
            ELSE
              CALL RGBODFP(
      1         A        ,AR       ,X            ,FSAV(1,N2),RBY(1,N),
@@ -334,7 +334,7 @@ c
      3         STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
      4         2        ,ICODR    ,ISKEW        ,SKEW,   RBY6(1,1,N),
      5         NPBY(2,N),NATIV_SMS,RBID         ,IPARSENS,
-     6         NODREAC,FTHREAC,CPTREAC)
+     6         NODREAC,FTHREAC,CPTREAC,NPBY(5,N))
            ENDIF
         ENDIF
       ENDDO

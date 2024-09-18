@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                   STIFR,FOPTA ,WEIGHT ,MS   ,V    ,
      4                   IFLAG,ICODR ,ISKEW  ,SKEW ,RBF6 ,
      5                   NSN  ,NATIV_SMS,FBSAV6,IPARSENS,
-     6                   NODREAC,FTHREAC,CPTREAC)
+     6                   NODREAC,FTHREAC,CPTREAC,ISPHER)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,6 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER , INTENT(IN   ) :: ISPHER
       INTEGER NOD(*), WEIGHT(*), ICODR(*), ISKEW(*),
      .        IFLAG,NSN,M, NATIV_SMS(*),IPARSENS,
      .        NODREAC(*),CPTREAC
@@ -226,7 +227,6 @@ c
      +            RBF6(8,1)+RBF6(8,2)+RBF6(8,3)+
      +            RBF6(8,4)+RBF6(8,5)+RBF6(8,6)
 C
-CGW      IF(NBY(3)==1)THEN
       IF(IMCONV==1)THEN
        !---
        ! reaction forces/moments in rbody TH/RBODY
@@ -254,7 +254,6 @@ CGW      IF(NBY(3)==1)THEN
          ENDIF
        ENDIF ! IF (CPTREAC . and. NODREAC(M) > 0)
       ENDIF
-CGW      ENDIF
 C
 C
        !---
@@ -587,60 +586,68 @@ C      EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C
       ELSEIF (IMCONV==1) THEN
        IF(N2D==0) THEN
-         WA1=AM(1,M)
-         WA2=AM(2,M)
-         WA3=AM(3,M)
+         IF(ISPHER==1) THEN 
+!  do it just if this principal base is used somewhere else
+           VI(1)=RBY(1)*VR(1,M)+RBY(2)*VR(2,M)+RBY(3)*VR(3,M)
+           VI(2)=RBY(4)*VR(1,M)+RBY(5)*VR(2,M)+RBY(6)*VR(3,M)
+           VI(3)=RBY(7)*VR(1,M)+RBY(8)*VR(2,M)+RBY(9)*VR(3,M)
+           CALL ROTBMR(VI,RBY,DT1)
+		 ELSE
+           WA1=AM(1,M)
+           WA2=AM(2,M)
+           WA3=AM(3,M)
 C repere globale -> repere d'inertie principale
-         AM(1,M)=RBY(1)*WA1+RBY(2)*WA2+RBY(3)*WA3
-         AM(2,M)=RBY(4)*WA1+RBY(5)*WA2+RBY(6)*WA3
-         AM(3,M)=RBY(7)*WA1+RBY(8)*WA2+RBY(9)*WA3
+           AM(1,M)=RBY(1)*WA1+RBY(2)*WA2+RBY(3)*WA3
+           AM(2,M)=RBY(4)*WA1+RBY(5)*WA2+RBY(6)*WA3
+           AM(3,M)=RBY(7)*WA1+RBY(8)*WA2+RBY(9)*WA3
 C les contributions des vr ne sont ajoutees que sur le processeur main
-         VI(1)=RBY(1)*VR(1,M)+RBY(2)*VR(2,M)+RBY(3)*VR(3,M)
-         VI(2)=RBY(4)*VR(1,M)+RBY(5)*VR(2,M)+RBY(6)*VR(3,M)
-         VI(3)=RBY(7)*VR(1,M)+RBY(8)*VR(2,M)+RBY(9)*VR(3,M)
-         CALL ROTBMR(VI,RBY,DT1)
-         IF (IMPL_S==0) THEN
-           AM(1,M) = AM(1,M) + (RBY(11)-RBY(12))*VI(2)*VI(3)
-           AM(2,M) = AM(2,M) + (RBY(12)-RBY(10))*VI(3)*VI(1)
-           AM(3,M) = AM(3,M) + (RBY(10)-RBY(11))*VI(1)*VI(2)
-         END IF
+           VI(1)=RBY(1)*VR(1,M)+RBY(2)*VR(2,M)+RBY(3)*VR(3,M)
+           VI(2)=RBY(4)*VR(1,M)+RBY(5)*VR(2,M)+RBY(6)*VR(3,M)
+           VI(3)=RBY(7)*VR(1,M)+RBY(8)*VR(2,M)+RBY(9)*VR(3,M)
+           CALL ROTBMR(VI,RBY,DT1)
+           IF (IMPL_S==0) THEN
+             AM(1,M) = AM(1,M) + (RBY(11)-RBY(12))*VI(2)*VI(3)
+             AM(2,M) = AM(2,M) + (RBY(12)-RBY(10))*VI(3)*VI(1)
+             AM(3,M) = AM(3,M) + (RBY(10)-RBY(11))*VI(1)*VI(2)
+           END IF
 C
 C CALCUL D'ONE PSEUDO MOMENT:
 C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C
-         IF (IMPL_S==0) THEN
-           WA1 = AM(1,M)*IN(M)/RBY(10)
-           WA2 = AM(2,M)*IN(M)/RBY(11)
-           WA3 = AM(3,M)*IN(M)/RBY(12)
-         ELSE
-           WA1 = AM(1,M)
-           WA2 = AM(2,M)
-           WA3 = AM(3,M)
-         END IF
+           IF (IMPL_S==0) THEN
+             WA1 = AM(1,M)*IN(M)/RBY(10)
+             WA2 = AM(2,M)*IN(M)/RBY(11)
+             WA3 = AM(3,M)*IN(M)/RBY(12)
+           ELSE
+             WA1 = AM(1,M)
+             WA2 = AM(2,M)
+             WA3 = AM(3,M)
+           END IF
 C repere d'inertie principale -> repere globale
-         AM(1,M)=RBY(1)*WA1+RBY(4)*WA2+RBY(7)*WA3
-         AM(2,M)=RBY(2)*WA1+RBY(5)*WA2+RBY(8)*WA3
-         AM(3,M)=RBY(3)*WA1+RBY(6)*WA2+RBY(9)*WA3
+           AM(1,M)=RBY(1)*WA1+RBY(4)*WA2+RBY(7)*WA3
+           AM(2,M)=RBY(2)*WA1+RBY(5)*WA2+RBY(8)*WA3
+           AM(3,M)=RBY(3)*WA1+RBY(6)*WA2+RBY(9)*WA3
 C MATRICE d'inertie -> repere globale
-         II1=RBY(10)*RBY(1)
-         II2=RBY(10)*RBY(2)
-         II3=RBY(10)*RBY(3)
-         II4=RBY(11)*RBY(4)
-         II5=RBY(11)*RBY(5)
-         II6=RBY(11)*RBY(6)
-         II7=RBY(12)*RBY(7)
-         II8=RBY(12)*RBY(8)
-         II9=RBY(12)*RBY(9)
-C
-         RBY(17)=RBY(1)*II1 + RBY(4)*II4 + RBY(7)*II7
-         RBY(18)=RBY(1)*II2 + RBY(4)*II5 + RBY(7)*II8
-         RBY(19)=RBY(1)*II3 + RBY(4)*II6 + RBY(7)*II9
-         RBY(20)=RBY(2)*II1 + RBY(5)*II4 + RBY(8)*II7
-         RBY(21)=RBY(2)*II2 + RBY(5)*II5 + RBY(8)*II8
-         RBY(22)=RBY(2)*II3 + RBY(5)*II6 + RBY(8)*II9
-         RBY(23)=RBY(3)*II1 + RBY(6)*II4 + RBY(9)*II7
-         RBY(24)=RBY(3)*II2 + RBY(6)*II5 + RBY(9)*II8
-         RBY(25)=RBY(3)*II3 + RBY(6)*II6 + RBY(9)*II9
+           II1=RBY(10)*RBY(1)
+           II2=RBY(10)*RBY(2)
+           II3=RBY(10)*RBY(3)
+           II4=RBY(11)*RBY(4)
+           II5=RBY(11)*RBY(5)
+           II6=RBY(11)*RBY(6)
+           II7=RBY(12)*RBY(7)
+           II8=RBY(12)*RBY(8)
+           II9=RBY(12)*RBY(9)
+C          
+           RBY(17)=RBY(1)*II1 + RBY(4)*II4 + RBY(7)*II7
+           RBY(18)=RBY(1)*II2 + RBY(4)*II5 + RBY(7)*II8
+           RBY(19)=RBY(1)*II3 + RBY(4)*II6 + RBY(7)*II9
+           RBY(20)=RBY(2)*II1 + RBY(5)*II4 + RBY(8)*II7
+           RBY(21)=RBY(2)*II2 + RBY(5)*II5 + RBY(8)*II8
+           RBY(22)=RBY(2)*II3 + RBY(5)*II6 + RBY(8)*II9
+           RBY(23)=RBY(3)*II1 + RBY(6)*II4 + RBY(9)*II7
+           RBY(24)=RBY(3)*II2 + RBY(6)*II5 + RBY(9)*II8
+           RBY(25)=RBY(3)*II3 + RBY(6)*II6 + RBY(9)*II9
+         END IF !(ISPHER==1) THEN 
 C
         ELSEIF(N2D==1) THEN
 C

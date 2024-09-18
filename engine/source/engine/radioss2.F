@@ -458,7 +458,7 @@ C------------------------------------------------------------------
       NDSOLV=0
       NBUCK=0
       NRBE3L = 10
-      NRBE2L = 11
+      NRBE2L = 12
       NSMSPCG=0
       IUDYNAIN = 19833333
       ALEMUSCL_Param%I_MUSCL_OFF = 0

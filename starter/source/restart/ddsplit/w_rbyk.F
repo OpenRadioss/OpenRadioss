@@ -75,6 +75,7 @@ C
         NPBY_L(11,N)=ILP
 C
         NSL=NPBY(2,N)
+        NPBY_L(19,N) = NSL
         NSL_L = 0
         DO KK = 1, NSL
           NN = LPBY(K+KK)
