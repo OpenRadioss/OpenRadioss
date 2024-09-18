@@ -35,6 +35,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE PARAMETERS_MOD
       USE UNITAB_MOD
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_IFLG6
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +57,6 @@ C-----------------------------------------------
 #include      "sms_c.inc"
 #include      "sphcom.inc"
 #include      "inter22.inc"
-#include      "mmale51_c.inc"
 #include      "thermal_c.inc"
 C-----------------------------------------------
 #include      "tablen_c.inc"

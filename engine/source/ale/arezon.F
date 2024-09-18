@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD            
       USE ALE_CONNECTIVITY_MOD
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +64,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
-#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -124,7 +124,7 @@ C     ALE ON / OFF
         !----------------------------!
         IF (NVAR == 2 .AND. IRS == 1) THEN
           IF (ITRIMAT>0.AND.MTN == 51) THEN
-            ADD    = N0PHAS + (ITRIMAT-1)*NVPHAS + IDX          ! ADD+1 => SIG(1)
+            ADD    = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS + IDX          ! ADD+1 => SIG(1)
             ADD    = ADD *LLT
             DO I=LFT,LLT
               J      = I+NFT
@@ -145,9 +145,9 @@ C     ALE ON / OFF
            IF (MTN == 41) CYCLE
           IF (MTN==51) THEN
             IF(ITRIMAT==0)CYCLE
-            ADD0= N0PHAS + (ITRIMAT-1)*NVPHAS             
+            ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
             ADD = ADD0 + 15                               ! UVAR(ADD+1) => PLAS
-            K   = LLT*(ADD-1)                               
+            K   = LLT*(ADD-1)
             VAR  => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT*NDIM)
           ELSEIF (MTN == 5 .OR. MTN ==97 .OR. MTN==105) THEN
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TB(1:LLT)
@@ -158,20 +158,20 @@ C     ALE ON / OFF
           ELSE
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%PLA(1:LLT)
           ENDIF
-          DO I=LFT,LLT                                           
-            J = I+NFT                                            
+          DO I=LFT,LLT
+            J = I+NFT
             PHI(J) = VAR(I)
-          ENDDO  
+          ENDDO
         !----------------------------!
         !        N V A R = 11        !
         !             (EPS_P_VOL)    !
         !----------------------------!
         ELSEIF (NVAR == 11 .AND. IRE == 1 .AND. MTN == 81) THEN
           VAR => ELBUF_STR(NG)%BUFLY(NM)%MAT(1,1,1)%VAR(LLT+1:LLT*2)
-          DO I=LFT,LLT                                           
-            J = I+NFT                                            
+          DO I=LFT,LLT
+            J = I+NFT
             PHI(J) = VAR(I)
-          ENDDO  
+          ENDDO
         !----------------------------!
         !        DEFAULT             !
         !----------------------------!
@@ -185,9 +185,9 @@ C     ALE ON / OFF
 C---------------------
        CALL MY_BARRIER
 C---------------------
-       !------------------------------------! 
+       !------------------------------------!
        ! SPMD EXCHANGES                     !
-       !------------------------------------! 
+       !------------------------------------!
        IF (NSPMD > 1)THEN
 !$OMP SINGLE
          CALL SPMD_E1VOIS(PHI,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM  )
@@ -202,12 +202,12 @@ C=======================================================================
        DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
         IF (IPARG(76, NG) == 1) CYCLE ! --> OFF
-        CALL INITBUF(IPARG    ,NG      ,                  
-     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
+        CALL INITBUF(IPARG    ,NG      ,
+     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         !-----------------------------!
         ! UNPLUG CONDITIONS           !
@@ -230,19 +230,19 @@ C     ALE ON / OFF
         !----------------------------!
         IF (NVAR == 2 .AND. IRS == 1) THEN
           INDX = IDX
-          IF (ITRIMAT>0) THEN 
-            ADD    = N0PHAS + (ITRIMAT-1)*NVPHAS + IDX          ! ADD+1 => SIG[IDX](i=1)
+          IF (ITRIMAT>0) THEN
+            ADD    = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS + IDX          ! ADD+1 => SIG[IDX](i=1)
             ADD    = ADD *LLT
             SIG    => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ADD+1:ADD+LLT*NDIM)
-            ADD    = N0PHAS + (ITRIMAT-1)*NVPHAS + 10          ! ADD+1 => VOL(1)
+            ADD    = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS + 10          ! ADD+1 => VOL(1)
             ADD    = ADD *LLT
-            VOL => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ADD+1:ADD+LLT) 
+            VOL => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ADD+1:ADD+LLT)
             INDX   = 1
           ELSE
             SIG => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%SIG(1:LLT*NDIM)
             VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
           ENDIF
-          IF (N2D == 0) THEN 
+          IF (N2D == 0) THEN
             TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT)
             CALL AREZO3_SIG(ALE_CONNECT,SIG,INDX,PHI,NDIM,FLUX(6*NFT+1),
      .                      VOL,TAG22,IXS,ITRIMAT,NEL)
@@ -264,10 +264,10 @@ C     ALE ON / OFF
         !----------------------------!
         ELSEIF (NVAR == 10 .AND. IRE == 1) THEN
            IF (MTN == 41) CYCLE
-          INDX = IDX        
+          INDX = IDX
           VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
           IF (ITRIMAT /= 0) THEN
-            ADD0= N0PHAS + (ITRIMAT-1)*NVPHAS             
+            ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
             ADD = ADD0 + 15                                ! UVAR(ADD+1) => PLAS
             K   = LLT*(ADD-1)                               
             VAR =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT*NDIM)

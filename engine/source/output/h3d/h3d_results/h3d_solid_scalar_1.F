@@ -69,6 +69,8 @@ C-----------------------------------------------
         USE ALEFVM_MOD , only:ALEFVM_Param
         USE ALEANIM_MOD , ONLY : FANI_CELL_
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+        USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+        USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,8 +89,6 @@ C argument for initbuf
 #include      "param_c.inc"
 !ISPMD
 #include      "task_c.inc"
-!N0PHAS, NVPHAS,
-#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -842,7 +842,7 @@ C--------------------------------------------------
                   NUPARAM= IPM(9,IMAT)
                   UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
                   ISUBMAT=UPARAM(276+1)
-                  IUS=N0PHAS+(ISUBMAT-1)*NVPHAS
+                  IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                 ENDIF
                 IF (MLW==51 .OR. MLW==37)THEN
                   DO IL=1,NLAY
@@ -870,7 +870,7 @@ C--------------------------------------------------
                   NUPARAM= IPM(9,IMAT)
                   UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
                   ISUBMAT=UPARAM(276+2)
-                  IUS=N0PHAS+(ISUBMAT-1)*NVPHAS
+                  IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                 ENDIF
                 IF (MLW==51 .OR. MLW==37)THEN
                   DO IL=1,NLAY
@@ -898,7 +898,7 @@ C--------------------------------------------------
                   NUPARAM= IPM(9,IMAT)
                   UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
                   ISUBMAT=UPARAM(276+3)
-                  IUS=N0PHAS+(ISUBMAT-1)*NVPHAS
+                  IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                 ENDIF
                 IF (MLW==51)THEN
                   DO IL=1,NLAY
@@ -926,7 +926,7 @@ C--------------------------------------------------
                   NUPARAM= IPM(9,IMAT)
                   UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
                   ISUBMAT=UPARAM(276+4)
-                  IUS=N0PHAS+(ISUBMAT-1)*NVPHAS
+                  IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                 ENDIF
                 IF (MLW==51)THEN
                   DO IL=1,NLAY
@@ -2007,7 +2007,7 @@ C--------------------------------------------------
                   IPOS      = 15
                   ITRIMAT   = 4
                   MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
-                  K         = IPARG(2,NG) * ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)
+                  K         = IPARG(2,NG) * ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)
                   DO I=1,IPARG(2,NG)
                     VALUE(I) = -MBUF%VAR(K+I)
                     IS_WRITTEN_VALUE(I) = 1
@@ -2742,10 +2742,10 @@ C--------------------------------------------------
                   NUPARAM= IPM(9,IMAT)
                   UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
                   !bijective order           !indexes
-                  ISUBMAT=UPARAM(276+1);     IU(1)=N0PHAS+(ISUBMAT-1)*NVPHAS
-                  ISUBMAT=UPARAM(276+2);     IU(2)=N0PHAS+(ISUBMAT-1)*NVPHAS
-                  ISUBMAT=UPARAM(276+3);     IU(3)=N0PHAS+(ISUBMAT-1)*NVPHAS
-                  ISUBMAT=UPARAM(276+4);     IU(4)=N0PHAS+(ISUBMAT-1)*NVPHAS
+                  ISUBMAT=UPARAM(276+1);     IU(1)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
+                  ISUBMAT=UPARAM(276+2);     IU(2)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
+                  ISUBMAT=UPARAM(276+3);     IU(3)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
+                  ISUBMAT=UPARAM(276+4);     IU(4)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                   MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
                   NFRAC=4
                   DO  I=1,NEL
@@ -2805,7 +2805,7 @@ C--------------------------------------------------
                   !count number of submaterial based on /EOS/TILLOTSON (IEOS=3)
                   NTILLOTSON = 0
                   DO IMAT=1,NLAY
-                    IEOS =  IPM(4, IPM(20 + IMAT,MT) )
+                    IEOS =  IPM(4, MAT_PARAM(MT)%MULTIMAT%MID(IMAT) )
                     IF(IEOS == 3)THEN
                       NTILLOTSON = NTILLOTSON + 1
                       IMAT_TILLOTSON = IMAT
@@ -2815,7 +2815,7 @@ C--------------------------------------------------
                   IF(NTILLOTSON > 1)THEN
                     FAC=ONE
                     DO IMAT=1,NLAY
-                      IEOS =  IPM(4,    IPM(20 + IMAT,MT) )
+                      IEOS =  IPM(4, MAT_PARAM(MT)%MULTIMAT%MID(IMAT) )
                       IF(IEOS == 3)THEN
                         EBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1,1,1)
                         NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS

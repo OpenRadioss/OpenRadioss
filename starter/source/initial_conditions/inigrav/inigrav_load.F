@@ -453,7 +453,7 @@ C-----------------------------------------------
           !     MULTI-FLUID 151                   !
           !=======================================! 
            CASE(151)
-            NBMAT = IPARG(20, NG)
+
             IF (N2D == 0) THEN ! HEXA
                IX => IXS(1:NIXS, LFT + NFT:LLT + NFT)
             ELSEIF (ITY == 2) THEN! QUADS
@@ -461,17 +461,18 @@ C-----------------------------------------------
             ELSEIF (ITY == 7) THEN ! TRIAS
                IX => IXTG(1:NIXTG, LFT + NFT:LLT + NFT)
             ENDIF
+            NBMAT = MAT_PARAM(IX(1, 1))%MULTIMAT%NB
               !mixture density : in case of inigrav with (water+vapor) vapor eos must use mixture density
               RHO0=ZERO
               DO IMAT=1,NBMAT           
-                MATID  = IPM(20 + IMAT, IX(1, 1)) 
-                VOLFRAC=  PM(20 + IMAT, IX(1, 1))
+                MATID  = MAT_PARAM(IX(1, 1))%MULTIMAT%MID(IMAT)
+                VOLFRAC=  MAT_PARAM(IX(1, 1))%MULTIMAT%VFRAC(IMAT)
                 MATLAW = IPM(2, MATID)
                 RHO0   = RHO0+PM(1,MATID)*VOLFRAC 
               ENDDO           
 
               DO IMAT=1,NBMAT
-                MATID  = IPM(20 + IMAT, IX(1, 1))  
+                MATID  = MAT_PARAM(IX(1, 1))%MULTIMAT%MID(IMAT)
                 MATLAW = IPM(2, MATID)            
                 CALL INIGRAV_EOS(NEL,   NEL2 , NG   , MATID, IPM, GRAV0, RHO0, DEPTH, PM, BUFMAT(IADBUF), ELBUF_TAB, 
      .                           PSURF, LIST , PGRAV, IMAT , MLW, NPF,TF,NUMMAT,MAT_PARAM)

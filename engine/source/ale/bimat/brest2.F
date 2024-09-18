@@ -30,7 +30,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     D1, D2, D3, D4, D5, D6, 
      .     D1S, D2S, D3S, D4S, D5S, D6S,
      .     VD2, DVOL,
-     .     MAT)
+     .     MAT,MAT_PARAM,NUMMAT)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,23 +51,25 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   SOFF
+      my_real SOFF
       INTEGER IC(7,*), MAT(*)
-      my_real
-     .   ALPH(*), VOLT(*), PM(NPROPM,*), OFF(*), VOL0(*),VOLN(MVSIZ),
-     .   AIRE(*), AIRES(*), 
-     .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*), 
-     .   D1S(*), D2S(*), D3S(*), D4S(*), D5S(*), D6S(*),
-     .   VD2(*), DVOL(*)
+      my_real ALPH(*), VOLT(*), PM(NPROPM,*), OFF(*), VOL0(*),VOLN(MVSIZ),
+     .        AIRE(*), AIRES(*),
+     .        D1(*), D2(*), D3(*), D4(*), D5(*), D6(*),
+     .        D1S(*), D2S(*), D3S(*), D4S(*), D5S(*), D6S(*),
+     .        VD2(*), DVOL(*)
+      INTEGEr,INTENT(IN) :: NUMMAT
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MT
 C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       DO I=LFT,LLT
         MT=IC(1,I)
-        MAT(I)=NINT(PM(20+JMULT,MT))
+        MAT(I)=MAT_PARAM(MT)%MULTIMAT%MID(JMULT)
         VOLN(I)=VOLT(I)
         AIRE(I)=AIRES(I)
         D1(I)=D1S(I)

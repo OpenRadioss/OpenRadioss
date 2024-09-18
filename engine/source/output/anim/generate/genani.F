@@ -3177,7 +3177,7 @@ C  en spmd localement NBF = 0 mais pas la somme sur pi !
      .                  IPM       ,IGEO        ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                  INVERT    ,X           ,V             ,W            ,ALE_CONNECTIVITY,
      .                  NV46      ,NERCVOIS    ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
-     .                  STACK     ,BUFMAT      ,MULTI_FVM)
+     .                  STACK     ,BUFMAT      ,MULTI_FVM     ,MAT_PARAM)
             IF(NCUTS>0)
      .      CALL CUTFUNCE(ICBUF,NELCUT,ELBUF_TAB,IFUNC,IPARG,PM,IXS)
             IF (ISPMD==0) THEN

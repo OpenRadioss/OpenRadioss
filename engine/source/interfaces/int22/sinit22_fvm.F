@@ -132,6 +132,7 @@ C-----------------------------------------------
       USE ALEFVM_MOD
       USE GROUPDEF_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -217,7 +218,7 @@ C-----------------------------------------------
       LOGICAL                             :: debug_outp,debug_outp2, lSKIP
 
       my_real,ALLOCATABLE, DIMENSION(:,:) :: VOL51, VOL51v  !index1:IB  index2:ITRIMAT
-      my_real,ALLOCATABLE, DIMENSION(:)   :: UVAR,UVAR_ADV   !(N0PHAS+TRIMAT*NVPHAS+I22LAW37) !NUVAR=N0PHAS+TRIMAT*NVPHAS
+      my_real,ALLOCATABLE, DIMENSION(:)   :: UVAR,UVAR_ADV   !(M51_N0PHAS+TRIMAT*M51_NVPHAS+I22LAW37) !NUVAR=M51_N0PHAS+TRIMAT*M51_NVPHAS
       my_real                             :: Vfrac(4),SOM, SOM_(4), SOMi, AdjFACE(NV46,NADj_F), DELTA, pPOINT(3)
       my_real                             :: sumFACE, VECtmp(3), VOLorig(24), PointTMP(3), Point0(3), CUT_Point(3)
       my_real                             :: Cut_Vel(3)
@@ -332,8 +333,8 @@ C-----------------------------------------------
           ALLOCATE(UVAR (I22LAW37))
           ALLOCATE(UVAR_ADV (I22LAW37))
         ELSE
-          ALLOCATE(UVAR (N0PHAS+TRIMAT*NVPHAS))
-          ALLOCATE(UVAR_ADV (N0PHAS+TRIMAT*NVPHAS))
+          ALLOCATE(UVAR (M51_N0PHAS+TRIMAT*M51_NVPHAS))
+          ALLOCATE(UVAR_ADV (M51_N0PHAS+TRIMAT*M51_NVPHAS))
         ENDIF
 
       !------------------------------------------------------------!
@@ -1751,11 +1752,11 @@ c        Ntarget(IB)                = NTAG ! number of secnd cell whose nodes we
           !Volume change correspond to DDVOL=DV/DT = f(fluxes). Gird deformation influences relative material velocity ans also fluxes  
           DO ITRIMAT=1,TRIMAT                                                                                                           
             IPOS                   = 1                                                                                                  
-            K1                     = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}         
+            K1                     = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}         
             K                      = K1 * LLT_                                                                                          
             VFRAC(ITRIMAT)         = MBUF%VAR(K+IDLOCB(IB))        !backup for material merging                                         
             IPOS                   = 11                                                                                                 
-            K1                     = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}         
+            K1                     = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}         
             K                      = K1 * LLT_                                                                                          
             VAR                    = BRICK_LIST(NIN,IB)%Vnew_SCell*VFRAC(itrimat)                                                       
             MBUF%VAR(K+IDLOCB(IB)) = VAR                                                                                                
@@ -1890,7 +1891,7 @@ c            print *, "merge-adding ratio uvar1="  , BRICK_LIST(NIN,IB)%bakMAT%U
             !Volume change correspond to DDVOL=DV/DT = f(fluxes). Gird deformation influences relative material velocity ans also fluxes
             DO ITRIMAT=1,TRIMAT
               IPOS               = 11
-              K                  = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS)     ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}                                             
+              K                  = ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS)     ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}                                             
               VOL51(IB,ITRIMAT)  = BRICK_LIST(NIN,IB)%bakMAT%UVAR(K)         !backup for material merging                                                    
               VAR                = RATIO * VOL51(IB,ITRIMAT)
               IF(VAR/=ZERO) SuperCellVOL_L(ITASK,ITRIMAT,IBv) = SuperCellVOL_L(ITASK,ITRIMAT,IBv) + VAR
@@ -1904,9 +1905,9 @@ c            print *, "adding 3 "   , BRICK_LIST(NIN,IB)%bakMAT%UVAR(3), UVARL(I
             DO ITRIMAT=1,TRIMAT
               VAR =  RATIO*VOL51(IB,ITRIMAT)
               IF(VAR==ZERO)CYCLE
-              DO IPOS = 1,NVPHAS   
+              DO IPOS = 1,M51_NVPHAS   
                 IF(IPOS==11)CYCLE                                                !volume already treated merged during geomeetrical merging.    
-                K                     =  ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                K                     =  ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 pVAR                  => BRICK_LIST(NIN,IB)%bakMAT%UVAR(K)                                                  
                 UVARL(ITASK,IBv,K)    =  UVARL(ITASK,IBv,K) + pVAR *  VAR  
 c                 print *, "adding j "   , BRICK_LIST(NIN,IB)%bakMAT%UVAR(K) ,VAR, UVARL(ITASK,IBv,K)             
@@ -1949,7 +1950,7 @@ c                 print *, "adding j "   , BRICK_LIST(NIN,IB)%bakMAT%UVAR(K) ,VA
 !        IF(TRIMAT<0)THEN
 !          ALLOCATE(UVAR (I22LAW37))
 !        ELSE
-!          ALLOCATE(UVAR (N0PHAS+TRIMAT*NVPHAS))
+!          ALLOCATE(UVAR (M51_N0PHAS+TRIMAT*M51_NVPHAS))
 !        ENDIF
 !      ENDIF
 
@@ -2110,24 +2111,24 @@ c          print *, ""
             SOMi                                   =  SUM(SuperCellVOL_L(0:NTHREAD-1,ITRIMAT,IB))
             SuperCellVOL_L(0:NTHREAD-1,ITRIMAT,IB) =  ZERO
             IPOS                                   =  11
-            K                                      =  ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS)  
+            K                                      =  ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS)  
             SOMi                                   =  SOMi + DELTA*BRICK_LIST(NIN,IB)%bakMAT%UVAR(K) 
             VOL51(IB,ITRIMAT)                      =  BRICK_LIST(NIN,IB)%bakMAT%UVAR(K)                 
             UVAR(:)                                =  ZERO
             IF(SOMi>ZERO)THEN
-              DO IPOS=1,NVPHAS
+              DO IPOS=1,M51_NVPHAS
                 IF(IPOS==11)THEN
-                  K1                               =  ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! ici UVAR(1:N0PHAS+TRIMAT*NVPHAS)
+                  K1                               =  ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)   ! ici UVAR(1:M51_N0PHAS+TRIMAT*M51_NVPHAS)
                   K                                =  K1 * LLT_                                                  
                   MBUF%VAR(K+IDLOCB(IB))           =  SOMi                                     
                   CYCLE
                 ELSEIF(IPOS==1)THEN
-                  K1                               =  ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! ici UVAR(1:N0PHAS+TRIMAT*NVPHAS)
+                  K1                               =  ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)   ! ici UVAR(1:M51_N0PHAS+TRIMAT*M51_NVPHAS)
                   K                                =  K1 * LLT_                                                  
                   MBUF%VAR(K+IDLOCB(IB))           =  SOMi / SOM                                 
                   CYCLE            
                ENDIF
-                K                                  =  ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS)
+                K                                  =  ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS)
                 K1                                 = (K-1)*LLT_
                 pVAR                               => MBUF%VAR(K1+IDLOCB(IB))
                 UVAR(K)                            =  SUM(UVARL(0:NTHREAD-1,IB,K)) + pVAR * VOL51(IB,ITRIMAT) * DELTA
@@ -2138,11 +2139,11 @@ c          print *, ""
             ELSE
               !vfrac_i=0 Vol_i=0
               IPOS                                 =  1                                         
-              K1                                   =  ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)      
+              K1                                   =  ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)      
               K                                    =  K1 * LLT_                                 
               MBUF%VAR(K+IDLOCB(IB))               =  ZERO                                      
               IPOS                                 =  11                                        
-              K1                                   =  ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)     
+              K1                                   =  ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)     
               K                                    =  K1 * LLT_                                 
               MBUF%VAR(K+IDLOCB(IB))               =  ZERO                                      
             ENDIF!(SOMi>ZERO)
@@ -2362,14 +2363,14 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
             UVAR(1) = VolCell*MBUF%VAR(((1-1)*LLT_ + IDLOC))
           ELSEIF(MTN_==51)THEN
             IPOS          = 11                                          
-            volSECND51(1) = MBUF%VAR(IDLOC  + ((N0PHAS + (1-1)*NVPHAS )+IPOS-1)*LLT_)                                              
-            volSECND51(2) = MBUF%VAR(IDLOC  + ((N0PHAS + (2-1)*NVPHAS )+IPOS-1)*LLT_)                                              
-            volSECND51(3) = MBUF%VAR(IDLOC  + ((N0PHAS + (3-1)*NVPHAS )+IPOS-1)*LLT_)                                              
-            volSECND51(4) = MBUF%VAR(IDLOC  + ((N0PHAS + (4-1)*NVPHAS )+IPOS-1)*LLT_)                                              
+            volSECND51(1) = MBUF%VAR(IDLOC  + ((M51_N0PHAS + (1-1)*M51_NVPHAS )+IPOS-1)*LLT_)                                              
+            volSECND51(2) = MBUF%VAR(IDLOC  + ((M51_N0PHAS + (2-1)*M51_NVPHAS )+IPOS-1)*LLT_)                                              
+            volSECND51(3) = MBUF%VAR(IDLOC  + ((M51_N0PHAS + (3-1)*M51_NVPHAS )+IPOS-1)*LLT_)                                              
+            volSECND51(4) = MBUF%VAR(IDLOC  + ((M51_N0PHAS + (4-1)*M51_NVPHAS )+IPOS-1)*LLT_)                                              
             DO ITRIMAT=1,TRIMAT                                         
-              DO IPOS = 1 , NVPHAS                                      
+              DO IPOS = 1 , M51_NVPHAS                                      
                 IF(IPOS==11) CYCLE                                       
-                K               = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
+                K               = ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
                 K1              = K * LLT_                             
                 UVAR(K+1)       = volSECND51(ITRIMAT) * MBUF%VAR(K1+IDLOC)                                           
               ENDDO!next IPOS                                           
@@ -2548,7 +2549,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
               DO ITRIMAT=1,TRIMAT
                 !get,store Volumetric Fraction
                 IPOS                 = 1
-                K1                   = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                K1                   = ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 Kv                   = K1 * LLT_v
                 Vfrac(ITRIMAT)       = MBUFv%VAR(Kv+IDLOCv)
                 VolSECND51(ITRIMAT)  = Vfrac(ITRIMAT) * VOLsecnd     !submaterial volume in secnd cell 
@@ -2562,9 +2563,9 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
               UVAR_ADV(3) = UVAR_ADV(3) + MBUFv%VAR((2*LLT_v + IDLOCv)) * ADV 
               IF(IADV==1)print *, "to do compute/get vfrac on face" !; pause                          
               DO ITRIMAT=1,TRIMAT
-                DO IPOS = 1 , NVPHAS
-                  Ko              = ((N0PHAS + (ITRIMAT-1)*NVPHAS ))
-                  K1              = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                DO IPOS = 1 , M51_NVPHAS
+                  Ko              = ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS ))
+                  K1              = ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                   Kv              = K1 * LLT_v
                   IF(IPOS==11)THEN
                     UVAR(K1+1) = UVAR(K1+1) + volSECND51(ITRIMAT)                 
@@ -2587,7 +2588,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
               DO ITRIMAT=1,TRIMAT
                 !remove submaterial volume in detached secnd cell
                 IPOS                 = 11
-                K1                   = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}                                                  
+                K1                   = ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}                                                  
                 Kv                   = K1 * LLT_v
                 MBUFv%VAR(Kv+IDLOCv) = MBUFv%VAR(Kv+IDLOCv) - VolSECND51(ITRIMAT)
               ENDDO!next ITRIMAT  
@@ -2621,10 +2622,10 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
           UVAR(2) = (UVAR(2) + IADV*UVAR_ADV(2)) / VOLcell
           UVAR(3) = (UVAR(3) + IADV*UVAR_ADV(3)) / VOLcell      
           DO ITRIMAT=1,TRIMAT
-            Ko = N0PHAS + (ITRIMAT-1)*NVPHAS
+            Ko = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
             IF(VOLcell51(ITRIMAT)/=ZERO)THEN
               UVAR(Ko+01:Ko+10)     =  (UVAR(Ko+01:Ko+10)     + IADV*UVAR_ADV(Ko+01:Ko+10))     / VOLcell51(ITRIMAT)   !submaterial data are averaged with sum of submaterial secnd volume      
-              UVAR(Ko+12:Ko+NVPHAS) =  (UVAR(Ko+12:Ko+NVPHAS) + IADV*UVAR_ADV(Ko+12:Ko+NVPHAS)) / VOLcell51(ITRIMAT)   !except ipos=11 (volume)      
+              UVAR(Ko+12:Ko+M51_NVPHAS) =  (UVAR(Ko+12:Ko+M51_NVPHAS) + IADV*UVAR_ADV(Ko+12:Ko+M51_NVPHAS)) / VOLcell51(ITRIMAT)   !except ipos=11 (volume)      
             ELSE
               UVAR(Ko+01) = ZERO         
               UVAR(Ko+11) = ZERO              
@@ -2689,27 +2690,27 @@ c          print *, "demerge-1",  MBUF%VAR((1-1)*LLT_+IDLOC) , UVAR(1)
           DO ITRIMAT=1,TRIMAT
             IF(VOLcell51(ITRIMAT)/=ZERO)THEN         
               !get,store Volumetric Fraction
-              DO IPOS=1,NVPHAS
-                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+              DO IPOS=1,M51_NVPHAS
+                K0                 = ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 K1                 = K0 * LLT_
-                MBUF%VAR(K1+IDLOC) = UVAR(N0PHAS+(ITRIMAT-1)*NVPHAS+IPOS)  
+                MBUF%VAR(K1+IDLOC) = UVAR(M51_N0PHAS+(ITRIMAT-1)*M51_NVPHAS+IPOS)  
               ENDDO
 
               IPOS=1
-                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                K0                 = ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 K1                 = K0 * LLT_
                 MBUF%VAR(K1+IDLOC) = VolCELL51(ITRIMAT)/VolCELL            
               IPOS=11
-                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                K0                 = ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 K1                 = K0 * LLT_
                 MBUF%VAR(K1+IDLOC) = VolCELL51(ITRIMAT)           
             ELSE
               IPOS=1
-                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                K0                 = ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 K1                 = K0 * LLT_
                 MBUF%VAR(K1+IDLOC) = ZERO           
               IPOS=11
-                K0                 = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                K0                 = ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                 K1                 = K0 * LLT_
                 MBUF%VAR(K1+IDLOC) = ZERO               
             ENDIF
@@ -3295,14 +3296,14 @@ C                print *, "link switch 1", pVAR, (pVAR * VOLD + VOLcell * pVARo)
                 DO ITRIMAT=1,TRIMAT
                   !IBm_old - volume fraction!                
                   IPOS                     = 1                                 
-                  K0                       = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
+                  K0                       = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
                   K                        = K0 * LLT_o                         
                   VFrac(ITRIMAT)           = MBUFo%VAR(K+IDLOCB(IBmo))            
                 ENDDO!next ITRIMAT 
                 
                 DO ITRIMAT=1,TRIMAT
                   IPOS                     = 11                                
-                  K0                       = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
+                  K0                       = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
                   K                        = K0 * LLT_
                   VOLcell51(ITRIMAT)       = VOLcell * VFrac(ITRIMAT)         
                   MBUF%VAR(K+IDLOCB(IBm))   = MBUF%VAR(K+IDLOCB(IBm)) + VOLcell51(ITRIMAT)        
@@ -3311,13 +3312,13 @@ C                print *, "link switch 1", pVAR, (pVAR * VOLD + VOLcell * pVARo)
                 DO ITRIMAT=1,TRIMAT
                   !IBm - volume fraction!
                   IPOS                     = 1                                 
-                  K0                       = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
+                  K0                       = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}   
                   K                        = K0 * LLT_                         
                   VFrac(ITRIMAT)           = MBUF%VAR(K+IDLOCB(IBm))                   
                   IF(VOLcell51(ITRIMAT)<=ZERO)CYCLE  !unplug if nothiong to add (otherwise div by zero)
-                  DO IPOS = 1,NVPHAS   
+                  DO IPOS = 1,M51_NVPHAS   
                     IF(IPOS==11)CYCLE                                                  !volume already treated   
-                    K2                    =  ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                    K2                    =  ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                     K                     =  LLT_ * K2                                              
                     Ko                    =  LLT_o * K2                     
                     pVAR                  => MBUF%VAR(K+IDLOCB(IBm))  
@@ -3394,7 +3395,7 @@ C              print *, " --- set VOLD_L += VOLcell, IB, ID ", VOLcell , IBMo, i
             LLT_  = IPARG(2,NGB(IB))  
             DO ITRIMAT=1,TRIMAT                                                         
               IPOS                     = 11                                             
-              K0                       = N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}                
+              K0                       = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}                
               K                        = K0 * LLT_       
               MBUF%VAR(K+IDLOCB(IB))   = MBUF%VAR(K+IDLOCB(IB)) - VOLD_L(IT,ITRIMAT,IB)
             ENDDO!next ITRIMAT      
@@ -3836,10 +3837,10 @@ C              write (*,FMT='(A,F30.16)'  ) "   ABS(DVOL_NUMERIC)/UncutVOL =",AB
                   !IPOS=01 : fractions volumiques
                   !IPOS=11 : anciens volumes de chaque phase              
                   IPOS                   = 1                
-                  K                      = LLT * (N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1)
+                  K                      = LLT * (M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS +IPOS-1)
                   VFRAC(ITRIMAT)         = MBUF%VAR(K+IDLOC)
                   IPOS                   = 11                
-                  K                      = LLT * (N0PHAS + (ITRIMAT-1)*NVPHAS +IPOS-1)
+                  K                      = LLT * (M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS +IPOS-1)
                   VolCELL51_OLD(ITRIMAT) = MBUF%VAR(K+IDLOC)                
                   MBUF%VAR(K+IDLOC)      = MAX(ZERO, (VNEW-DVOL_PREDIC)*VFRAC(ITRIMAT)  )
                   VolCELL51(ITRIMAT)     = MBUF%VAR(K+IDLOC)

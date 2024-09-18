@@ -29,13 +29,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE FILL_BUFFER_51_0(MATPARAM_TAB, IPM, PM, BUFMAT)
+      SUBROUTINE FILL_BUFFER_51_0(MATPARAM_TAB, IPM, PM, BUFMAT, MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -58,6 +59,7 @@ C-----------------------------------------------
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(INOUT) :: MATPARAM_TAB
       INTEGER,TARGET,INTENT(INOUT) :: IPM(NPROPMI,NUMMAT)
       my_real,TARGET,INTENT(INOUT) :: PM(NPROPM,NUMMAT),BUFMAT(SBUFMAT)
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -79,7 +81,7 @@ C-----------------------------------------------
         IPM(62, II) = IFORM
         MAT_ID = IPM(1,II)
         IF(IFORM == 12)THEN
-          CALL FILL_BUFFER_51( IPM, PM, UPARAM, BUFMAT, MAT_ID, TITR, II) 
+          CALL FILL_BUFFER_51( IPM, PM, UPARAM, BUFMAT, MAT_ID, TITR, II, MAT_PARAM)
           PM(38,II) = UPARAM(42)
         ENDIF
       ENDDO

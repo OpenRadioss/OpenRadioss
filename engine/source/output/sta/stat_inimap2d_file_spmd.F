@@ -43,9 +43,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    state_inimap_mod                ../engine/share/modules/state_inimap_mod.F
       !||====================================================================
       SUBROUTINE STAT_INIMAP2D_FILE_SPMD(
-     .                        X        , V        , ITAB  , IPART_STATE, NODTAG,
-     .                        IPART    , IPARTS   , IPARTQ, IPARTTG    ,
-     .                        IGEO     , IPARG    , IXS   , IXQ        , IXTG  , 
+     .                        X        , V        , ITAB  , IPART_STATE, NODTAG   ,
+     .                        IPART    , IPARTS   , IPARTQ, IPARTTG    , MAT_PARAM,
+     .                        IGEO     , IPARG    , IXS   , IXQ        , IXTG     ,
      .                        ELBUF_TAB, MULTI_FVM, BUFMAT, IPM)
 C-----------------------------------------------
 C   Description
@@ -62,7 +62,9 @@ C-----------------------------------------------
       USE STATE_INIMAP_MOD
       USE MULTI_FVM_MOD
       USE MESSAGE_MOD
-      USE INOUTFILE_MOD 
+      USE INOUTFILE_MOD
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,7 +81,6 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "units_c.inc"
 #include      "chara_c.inc"
-#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -91,7 +92,8 @@ C-----------------------------------------------
       my_real,INTENT(IN) :: X(3,NUMNOD),V(3,NUMNOD)
       my_real, INTENT(IN), TARGET :: BUFMAT(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET, INTENT(IN) :: ELBUF_TAB
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -125,7 +127,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
-      !IF(NUMELS+NUMELQ+NUMELTG == 0)RETURN
       IF(N2D == 0)RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -412,13 +413,13 @@ C-----------------------------------------------
               N  = I + NFT  
               IPRT=IPART_PTR(N) 
               IMAT =IPART(1,IPRT)  
-              IF(IPM(20+ISUBMAT,IMAT) == 0)EXIT   !submaterial not defined. 
+              IF(MAT_PARAM(IMAT)%MULTIMAT%MID(ISUBMAT) == 0)EXIT   !submaterial not defined.
               NB2=MAX(NB2,IPM(5,IMAT))
               IADBUF = IPM(7,IMAT)                                                                                              
               NPAR = IPM(9,IMAT)                                                                                                
               NUVAR = IPM(8,IMAT)                                                                                               
               UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)             
-              KK = N0PHAS + (UPARAM(276+ISUBMAT)-1)*NVPHAS !bug in SP 
+              KK = M51_N0PHAS + (UPARAM(276+ISUBMAT)-1)*M51_NVPHAS !bug in SP 
               MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)  
               STATE_INIMAP_BUF(1)%SUBMAT(ISUBMAT)%VFRAC(K) = MBUF%VAR(NEL*(01+KK-1)+I)
               STATE_INIMAP_BUF(1)%SUBMAT(ISUBMAT)%RHO(K) = MBUF%VAR(NEL*(12+KK-1)+I)

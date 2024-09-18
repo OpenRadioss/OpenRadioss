@@ -35,6 +35,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,7 +47,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 !     NGROUP
 #include      "com01_c.inc"
-#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -85,10 +85,10 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
       MBUF  => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
 
       IFORM = NINT(BUFMAT(31))
-      K1 = N0PHAS + (1 - 1) * NVPHAS
-      K2 = N0PHAS + (2 - 1) * NVPHAS
-      K3 = N0PHAS + (3 - 1) * NVPHAS
-      K4 = N0PHAS + (4 - 1) * NVPHAS
+      K1 = M51_N0PHAS + (1 - 1) * M51_NVPHAS
+      K2 = M51_N0PHAS + (2 - 1) * M51_NVPHAS
+      K3 = M51_N0PHAS + (3 - 1) * M51_NVPHAS
+      K4 = M51_N0PHAS + (4 - 1) * M51_NVPHAS
       NUVAR = IPM(8, MATID)
       PEXT  = BUFMAT(8)
       IF(IFORM /= 6)THEN

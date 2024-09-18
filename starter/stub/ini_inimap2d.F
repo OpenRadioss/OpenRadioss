@@ -60,8 +60,6 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 !     IOUT
 #include      "units_c.inc"
-!     N0PHAS, NVPHAS
-#include      "mmale51_c.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------

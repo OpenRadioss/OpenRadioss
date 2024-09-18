@@ -687,7 +687,6 @@ C-----------------------------------------------
 #include      "elbuf_c.inc"
 #include      "userlib.inc"
 #include      "drape_c.inc"
-#include      "mmale51_c.inc"
 #include      "thermal_c.inc"
 #include      "boltpr_c.inc"
 #include      "inigrav_c.inc"
@@ -5434,12 +5433,12 @@ C------------------------------------------------------------------------
       ERR_MSG='USER TO SYSTEM RENUMBERING'
       ERR_CATEGORY='INTERNAL'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      CALL FSDCOD(BUFMAT   ,PM       ,GEO      ,IBCL      ,IPRES    ,
-     .            IBFV     ,ISKEW    ,ISKWN    ,SENSORS   ,
-     .            ITABM1   ,SKEW     ,LACCELM  ,BID13     ,BUFGEO   ,
+      CALL FSDCOD(BUFMAT   ,PM       ,GEO      ,IBCL      ,IPRES              ,
+     .            IBFV     ,ISKEW    ,ISKWN    ,SENSORS   ,MAT_ELEM%MAT_PARAM ,
+     .            ITABM1   ,SKEW     ,LACCELM  ,BID13     ,BUFGEO             ,
      .            IBCSLAG  ,IGEO     ,IPM      ,
      .            IBFTEMP  ,IBCV     ,IBFV      ,
-     .            IBCR     ,TABLE    ,NPC1     ,NPC       ,TF       ,
+     .            IBCR     ,TABLE    ,NPC1     ,NPC       ,TF                 ,
      .            NOM_OPT(LNOPT1*INOM_OPT(3)+1),IBFFLUX   )
 C
 c------------------------------------------------------------------------
@@ -5859,7 +5858,7 @@ C---------------------------
      .              C1='IPARG')
       ENDIF
 C     REMPLACEMENT DES NOS EXTERNES DES SS-MATERIAUX PAR LES NOS SYSTEMES
-      IF(IDDLEVEL == 0) CALL M20DCOD(MLAW_TAG,IPM, PM)
+      IF(IDDLEVEL == 0) CALL M20DCOD(MLAW_TAG,IPM, PM, MAT_ELEM%MAT_PARAM)
 C
 C adresse temporaire de DD_IAD
 C nombre de super groupes
@@ -8208,10 +8207,10 @@ c
 C
       CALL ELBUF_INI(ELBUF_TAB,MAT_ELEM%MAT_PARAM,
      .               MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
-     .               IGEO     ,IPM      ,PM       ,IPARG    ,IPART     ,
-     .               IPARTSP  ,IXS      ,IXQ      ,IXC      ,IXTG      ,
-     .               FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
-     .               IXT      ,IXP      ,IXR      ,KXX      ,GEO       ,
+     .               IGEO     ,IPM      ,PM       ,IPARG      ,IPART     ,
+     .               IPARTSP  ,IXS      ,IXQ      ,IXC        ,IXTG      ,
+     .               FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK ,
+     .               IXT      ,IXP      ,IXR      ,KXX        ,GEO       ,
      .               EOS_TAG  ,ISTR_24  ,IPRI     ,DEFAULTS)
 C---
 C  if xfem
@@ -9381,7 +9380,7 @@ c
          CALL INIEBCS(ALE_CONNECTIVITY, 1,IGRSURF, IXS, IXQ, IXTG,
      .        PM, IGEO, X, SENSORS, MONVOl, MULTI_FVM%IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
          !initialization
-        CALL INIEBCSP0(X, IPARG, ELBUF_TAB, EBCS_TAB, IXS, IXQ, IXTG, IPARTS, IPARTQ, IPARTG, PM, IPM)
+        CALL INIEBCSP0(X, IPARG, ELBUF_TAB, EBCS_TAB, IXS, IXQ, IXTG, IPARTS, IPARTQ, IPARTG, PM, IPM, MAT_ELEM%MAT_PARAM)
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------

@@ -2958,17 +2958,17 @@ c         IF(ISPMD == 0)  print *,'QUAD scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1
 c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
 
             CALL H3D_QUAD_SCALAR(
-     .                       ELBUF_TAB ,QUAD_SCALAR ,IPARG,
-     .                       IXQ       ,PM       ,
-     .                       EANI      ,
-     .                       IPM       ,
-     .                       X         ,V             ,W            ,ALE_CONNECT,
-     .                       NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
-     .                       QUAD_ID  ,
+     .                       ELBUF_TAB     ,QUAD_SCALAR ,IPARG,
+     .                       IXQ           ,PM       ,
+     .                       EANI          ,
+     .                       IPM           ,
+     .                       X             ,V             ,W            ,ALE_CONNECT,
+     .                       NERCVOIS      ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
+     .                       QUAD_ID       ,
      .                       IS_WRITEN_QUAD,IPARTQ ,LAYER        , NPART, 
-     .                       IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,
-     .                       BUFMAT     ,MULTI_FVM ,IR           ,IS           ,IT         ,
-     .                       OBJECT_ID  )
+     .                       IUVAR         ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,
+     .                       BUFMAT        ,MULTI_FVM ,IR           ,IS           ,IT         ,
+     .                       OBJECT_ID     ,MAT_PARAM)
 c
             IF (NSPMD > 1 ) THEN
               CALL STARTIME(MACRO_TIMER_SPMDH3D,1)

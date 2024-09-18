@@ -63,6 +63,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE I22BUFBRIC_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -236,7 +237,7 @@ C-----------------------------------------------
              pRHO => LBUF%RHO(1:LLT_) 
            ELSE
              !USE PHASIS DATA
-             ADD0 =  N0PHAS + (ITRIMAT-1)*NVPHAS                
+             ADD0 =  M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS                
              ADD  =  ADD0 + 9                                   ! ADD+9 => RHO
              K    =  LLT_*(ADD-1)                                ! UVAR(I,ADD) = UVAR(K+I)
              pRHO => MBUF%VAR(K+1:K+LLT_)
@@ -250,7 +251,7 @@ C-----------------------------------------------
              pEINT=> LBUF%EINT(1:LLT_) 
            ELSE
              !USE PHASIS DATA
-             ADD0 =  N0PHAS + (ITRIMAT-1)*NVPHAS                
+             ADD0 =  M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS                
              ADD  =  ADD0 + 8                                   ! ADD+9 => RHO
              K    =  LLT_*(ADD-1)                                ! UVAR(I,ADD) = UVAR(K+I)
              pEINT => MBUF%VAR(K+1:K+LLT_)
@@ -340,7 +341,7 @@ C-----------------------------------------------
                     pRHO => LBUF%RHO(1:LLT_) 
                   ELSE
                     !USE PHASIS DATA
-                    ADD0 =  N0PHAS + (ITRIMAT-1)*NVPHAS                
+                    ADD0 =  M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS                
                     ADD  =  ADD0 + 9                                   ! ADD+9 => RHO
                     K    =  LLT_*(ADD-1)                                ! UVAR(I,ADD) = UVAR(K+I)
                     pRHO => MBUF%VAR(K+1:K+LLT_)

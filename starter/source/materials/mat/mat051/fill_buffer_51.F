@@ -31,12 +31,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE FILL_BUFFER_51( IPM, PM, UPARAM, BUFMAT, USER_ID, TITR, INTERNAL_ID)
+      SUBROUTINE FILL_BUFFER_51( IPM, PM, UPARAM, BUFMAT, USER_ID, TITR, INTERNAL_ID, MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -68,6 +69,7 @@ C-----------------------------------------------
       my_real,TARGET :: PM(NPROPM,NUMMAT),BUFMAT(*)
       my_real        :: UPARAM(*)
       CHARACTER(LEN=NCHARTITLE),INTENT(IN) ::  TITR
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -284,8 +286,8 @@ C-----------------------------------------------
        RHO_MAX=ZERO
        DO I=1,COUNT_VALID_MAT
          IMID     = NINTRI(MID(I),IPM,NPROPMI,NUMMAT,1)
-         IPM(20+I,INTERNAL_ID)=IMID        !storing internal material IDs
-         IPM(50+I,INTERNAL_ID)=UPARAM(276+I)        !storing bijective order of submaterial
+         MAT_PARAM(INTERNAL_ID)%MULTIMAT%MID(I) = IMID !user ID -> internal ID
+         IPM(50+I,INTERNAL_ID)=UPARAM(276+I)           !storing bijective order of submaterial
          MLN      = IPM(2,IMID)
          EOS_TYPE = IPM(4,IMID)
          PM_      => PM(1:,IMID)

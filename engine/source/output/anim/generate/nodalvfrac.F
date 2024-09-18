@@ -52,7 +52,8 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD  
       USE I22BUFBRIC_MOD   
       USE I22EDGE_MOD    
-      USE I22TRI_MOD           
+      USE I22TRI_MOD
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -133,7 +134,7 @@ C-----------------------------------------------
              ELSEIF(MLW==51)THEN
                DO I=1,NEL
                  IPOS             = 1
-                 K1               = N0PHAS + (IPHASE-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                 K1               = M51_N0PHAS + (IPHASE-1)*M51_NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                  K                = K1 * NEL   
                  VF               = MBUF%VAR(K+I) 
                  V                = GBUF%VOL(I)                                                                                                                         
@@ -196,7 +197,7 @@ C-----------------------------------------------
                     ENDDO !next J          
                   ELSEIF(MLW==51)THEN
                     IPOS             = 1
-                    K1               = N0PHAS + (IPHASE-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                    K1               = M51_N0PHAS + (IPHASE-1)*M51_NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                     K                = K1 * NEL   
                     VF               = MBUF%VAR(K+I)  
                     V                = GBUF%VOL(I)                                                                                                                        

@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    inigrav            ../starter/share/modules1/inigrav_mod.F
       !||====================================================================
-      SUBROUTINE INIEBCSP0(X, IPARG, ELBUF_STR, EBCS_TAB, IXS, IXQ, IXTG, IPARTS, IPARTQ, IPARTTG, PM, IPM)
+      SUBROUTINE INIEBCSP0(X, IPARG, ELBUF_STR, EBCS_TAB, IXS, IXQ, IXTG, IPARTS, IPARTQ, IPARTTG, PM, IPM, MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE ALE_EBCS_MOD 
       USE EBCS_MOD
       USE INIGRAV
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,12 +55,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: IPARG(NPARG,NGROUP),IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ), IXTG(NIXTG,NUMELTG)
       INTEGER, INTENT(IN) :: IPARTS(NUMELS), IPARTQ(NUMELQ), IPARTTG(NUMELTG)
-
       my_real X(3,NUMNOD)
       TYPE (ELBUF_STRUCT_),DIMENSION(NGROUP) :: ELBUF_STR
       TYPE(t_ebcs_tab), TARGET, INTENT(INOUT) :: EBCS_TAB
       my_real,INTENT(IN)  :: PM(NPROPM,NUMMAT)
-      INTEGER,INTENT(IN)  :: IPM(NPROPMI,NUMMAT)      
+      INTEGER,INTENT(IN)  :: IPM(NPROPMI,NUMMAT)
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -91,7 +92,7 @@ C=======================================================================
       ENDDO
       
        IF(lFOUND_EBCS_NRF)THEN
-          CALL INIEBCS_NRF_TCAR(EBCS_TAB,X, IXS, IXQ, IXTG,PM, IPM)
+          CALL INIEBCS_NRF_TCAR(EBCS_TAB,X, IXS, IXQ, IXTG,PM, IPM, MAT_PARAM)
        ENDIF
       
       CALL INIGRAV_PARTS%destroy()

@@ -52,10 +52,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,NUMMAT,IMAT,IAD,NFIX,NFIXR,NUPARAM,NIPARAM,NUMTABL,NFAIL,
-     .           LEN,LENR,NMOD,MOD
+      INTEGER :: I,NUMMAT,IMAT,IAD,NFIX,NFIXR,NUPARAM,NIPARAM,NUMTABL,NFAIL,LEN,LENR,NMOD,MOD
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
+      INTEGER :: NBSUBMAT, ISUB
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
 C=======================================================================
       NFIX   = 20
@@ -109,8 +109,8 @@ c
         RBUF(IAD + 5) = MAT_ELEM%MAT_PARAM(IMAT)%SHEAR
         RBUF(IAD + 6) = MAT_ELEM%MAT_PARAM(IMAT)%NU
         RBUF(IAD + 7) = MAT_ELEM%MAT_PARAM(IMAT)%STIFF_CONTACT
-        RBUF(IAD + 8) = MAT_ELEM%MAT_PARAM(IMAT)%STIFF_HGLASS 
-        RBUF(IAD + 9) = MAT_ELEM%MAT_PARAM(IMAT)%STIFF_TSTEP  
+        RBUF(IAD + 8) = MAT_ELEM%MAT_PARAM(IMAT)%STIFF_HGLASS
+        RBUF(IAD + 9) = MAT_ELEM%MAT_PARAM(IMAT)%STIFF_TSTEP
         IAD = IAD + NFIXR
       END DO
       CALL WRITE_DB(RBUF ,LENR)
@@ -178,7 +178,24 @@ c
             CALL WRITE_C_C(NAME,NCHARTITLE)
           ENDDO 
         ENDIF
-      ENDDO 
+      ENDDO
+
+      !Write multimaterial buffer
+      ALLOCATE (IBUF(21) ) !< mex is 21 submaterials
+      ALLOCATE (RBUF(21) )
+      DO IMAT = 1,NUMMAT
+        NBSUBMAT = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%NB
+        IBUF(1) = NBSUBMAT
+        CALL WRITE_I_C(IBUF, 1)
+        IF(NBSUBMAT > 0)THEN
+          IBUF(1:NBSUBMAT) = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%mid
+          RBUF(1:NBSUBMAT) = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%vfrac
+          CALL WRITE_I_C(IBUF, NBSUBMAT)
+          CALL WRITE_DB(RBUF, NBSUBMAT)
+        ENDIF
+      ENDDO
+      DEALLOCATE(IBUF)
+      DEALLOCATE(RBUF)
 c-----------
       RETURN
       END

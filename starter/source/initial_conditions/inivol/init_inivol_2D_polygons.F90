@@ -38,13 +38,13 @@
       !||    inivol_def_mod             ../starter/share/modules1/inivol_mod.F
       !||====================================================================
       subroutine init_inivol_2D_polygons( &
-                                i_inivol  ,      idc,                                 &
+                                i_inivol  ,      idc,           mat_param,            &
                                 NUM_INIVOL,   inivol,               nsurf,   igrsurf, &
                                 nparg     ,   ngroup,               iparg,    numnod, &
                                 numeltg   ,    nixtg,                ixtg,            &
                                 numelq    ,     nixq,                 ixq,            &
                                 x         , nbsubmat,    kvol_2d_polygons,    nummat, &
-                                sipart    ,    ipart,                  pm,    npropm, &
+                                sipart    ,    ipart,                                 &
                                 i15b      ,    i15h ,                itab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -56,6 +56,7 @@
       use elbufdef_mod , only : elbuf_struct_, buf_mat_
       use multi_fvm_mod , only : MULTI_FVM_STRUCT
       use polygon_clipping_mod
+      use matparam_def_mod, only : matparam_struct_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -69,7 +70,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: idc                                                !< inivol container
       integer,intent(in) :: i_inivol                                           !< inivol identifier
-      integer,intent(in) :: nsurf, num_inivol, nbsubmat, sipart, nummat, npropm!< array sizes
+      integer,intent(in) :: nsurf, num_inivol, nbsubmat, sipart, nummat        !< array sizes
       integer,intent(in) :: nixtg,nixq,numeltg,numelq, numnod, nparg, ngroup   !< array sizes
       integer,intent(in) :: ixtg(nixtg,numeltg), ixq(nixq,numelq)              !< elems node-connectivity
       integer,intent(in) :: iparg(nparg,ngroup)                                !< buffer for elem groups
@@ -77,10 +78,10 @@
       integer,intent(in) :: ipart(sipart)                                      !< buffer for parts
       my_real, intent(in) :: x(3,numnod)                                       !< node coordinates
       my_real,intent(inout) :: kvol_2d_polygons(nbsubmat,numelq+numeltg)       !< 2d volume fractions (for polygon clipping)
-      my_real,intent(in) :: pm(npropm,nummat)                                  !< material buffer (real parameters)
       type (inivol_struct_), dimension(NUM_INIVOL), intent(inout) :: inivol    !< inivol data structure
       type (surf_), dimension(nsurf), intent(in) :: igrsurf                    !< surface buffer
       integer,intent(in) :: itab(numnod)                                       !< user identifier for nodes
+      type(matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param       !< modern buffer for material laws
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -293,7 +294,7 @@
             i15_ = i15_ -1
 
             !volume fraction as defined by user material law
-            vfrac0(1:nbsubmat) = pm(20+1:20+nbsubmat,mid)
+            vfrac0(1:nbsubmat) = MAT_PARAM(MID)%MULTIMAT%VFRAC(1:NBSUBMAT)
 
             ! list elem inside the box. Skip the other (outside the polygon)
             if(is_quad)then
@@ -319,7 +320,7 @@
                         if(idc == 1)then
                           ! substract from existing submat (default one)
                           ! pre-condition : sum (vf)= 1.0
-                          isubmat_to_substract = maxloc(vfrac0(1:nbsubmat),1)
+                          isubmat_to_substract = max(1,maxloc(vfrac0(1:nbsubmat),1))
                           vf_to_substract = sumvf-one
                           kvol_2d_polygons(isubmat_to_substract,ielg) = &
                             kvol_2d_polygons(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
@@ -362,7 +363,7 @@
                         if(idc == 1)then
                           ! substract from existing submat (default one)
                           ! pre-condition : sum (vf)= 1.0
-                          isubmat_to_substract = maxloc(vfrac0(1:nbsubmat),1)
+                          isubmat_to_substract = max(1,maxloc(vfrac0(1:nbsubmat),1))
                           vf_to_substract = sumvf-one
                           kvol_2d_polygons(isubmat_to_substract,ielg) = &
                             kvol_2d_polygons(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
@@ -461,7 +462,7 @@
                     if(idc == 1)then
                       ! substract from existing submat (default one)
                       ! pre-condition : sum (vf)= 1.0
-                      isubmat_to_substract = maxloc(vfrac0(1:nbsubmat),1)
+                      isubmat_to_substract = max(1,maxloc(vfrac0(1:nbsubmat),1))
                       vf_to_substract = sumvf-one
                       kvol_2d_polygons(isubmat_to_substract,ielg) = &
                         kvol_2d_polygons(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
@@ -490,7 +491,7 @@
                   if(idc == 1)then
                     ! substract from existing submat (default one)
                     ! pre-condition : sum (vf)= 1.0
-                    isubmat_to_substract = maxloc(vfrac0(1:nbsubmat),1)
+                    isubmat_to_substract = max(1,maxloc(vfrac0(1:nbsubmat),1))
                     vf_to_substract = sumvf-one
                     kvol_2d_polygons(isubmat_to_substract,ielg) = &
                       kvol_2d_polygons(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
@@ -568,7 +569,7 @@
                   if(idc == 1)then
                     ! substract from existing submat (default one)
                     ! pre-condition : sum (vf)= 1.0
-                    isubmat_to_substract = maxloc(vfrac0(1:nbsubmat),1)
+                    isubmat_to_substract = max(1,maxloc(vfrac0(1:nbsubmat),1))
                     vf_to_substract = sumvf-one
                     kvol_2d_polygons(isubmat_to_substract,ielg) = &
                       kvol_2d_polygons(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
@@ -595,7 +596,7 @@
                   if(idc == 1)then
                     ! substract from existing submat (default one)
                     ! pre-condition : sum (vf)= 1.0
-                    isubmat_to_substract = maxloc(vfrac0(1:nbsubmat),1)
+                    isubmat_to_substract = max(1,maxloc(vfrac0(1:nbsubmat),1))
                     vf_to_substract = sumvf-one
                     kvol_2d_polygons(isubmat_to_substract,ielg) = &
                       kvol_2d_polygons(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
