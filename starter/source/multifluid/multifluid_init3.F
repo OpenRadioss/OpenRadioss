@@ -56,7 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     XREFS     ,NPF      ,TF     ,MSSA    ,STRSGLOB,
      .     STRAGLOB  ,FAIL_INI ,SPBUF  ,KXSP    ,IPARTSP ,
      .     NOD2SP    ,SOL2SPH  ,IRST   ,ILOADP  ,FACLOAD,
-     .     MULTI_FVM, ERROR_THROWN,DETONATORS)
+     .     MULTI_FVM, ERROR_THROWN,DETONATORS,MAT_PARAM)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -66,6 +66,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -111,6 +112,7 @@ C-----------------------------------------------
       LOGICAL :: ERROR_THROWN
       TYPE(DETONATORS_STRUCT_) :: DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -270,9 +272,9 @@ C-----------
          NUVAR =  ELBUF_STR%BUFLY(ILAY)%NVAR_MAT
          L_PLA =  ELBUF_STR%BUFLY(ILAY)%L_PLA
          DO I = 1, NEL
-            MAT(I) = IPM(20 + ILAY, IXS(1, I + NFT))
+            MAT(I) = MAT_PARAM( IXS(1,I+NFT) )%MULTIMAT%MID(ILAY)
 C     Fill partial volumes
-            LBUF%VOL(I) = PM(20 + ILAY, IXS(1, I + NFT)) * GBUF%VOL(I)
+            LBUF%VOL(I) = MAT_PARAM( IXS(1,I+NFT) )%MULTIMAT%VFRAC(ILAY)  * GBUF%VOL(I)
          ENDDO
 
 !     PT=1 => material initializations in matini are not fully compatible with Isolid=12 (lm)
@@ -286,8 +288,8 @@ C     Fill partial volumes
      7        GBUF     ,LBUF   ,MBUF      ,ELBUF_STR ,ILOADP ,
      8        FACLOAD, DELTAX)
      
-         VFRAC = PM(20+ILAY,IXS(1, 1 + NFT))
-         PRES  = PM(104, IPM(20+ILAY,IXS(1, 1 + NFT)))
+         VFRAC = MAT_PARAM( IXS(1,1+NFT) )%MULTIMAT%VFRAC(ILAY)
+         PRES  = PM(104, MAT_PARAM( IXS(1,1+NFT) )%MULTIMAT%MID(ILAY))
          PM(104,IXS(1, 1 + NFT)) = PM(104,IXS(1, 1 + NFT)) + VFRAC * PRES !global pressure
 
          MATLAW = IPM(2, MAT(1))
@@ -316,7 +318,7 @@ C      Mass globalization
          DO ILAY = 1, NLAY
             LBUF  => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
             DO I = 1, NEL
-               GBUF%RHO(I) = GBUF%RHO(I) + LBUF%RHO(I) * PM(20 + ILAY, IXS(1, I + NFT))
+               GBUF%RHO(I) = GBUF%RHO(I) + LBUF%RHO(I) * MAT_PARAM( IXS(1,I+NFT) )%MULTIMAT%VFRAC(ILAY)
             ENDDO
          ENDDO
 
@@ -325,7 +327,7 @@ C      Temperature globalization. We must solve later T such as e+p/rho=integral
          DO ILAY = 1, NLAY
             LBUF  => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
             DO I = 1, NEL
-               GBUF%TEMP(I) = GBUF%TEMP(I) + LBUF%TEMP(I) * PM(20 + ILAY, IXS(1, I + NFT))*LBUF%RHO(I)/GBUF%RHO(I)   !volfrac*densfrac=massfrac
+               GBUF%TEMP(I) = GBUF%TEMP(I) + LBUF%TEMP(I) * MAT_PARAM( IXS(1,I+NFT) )%MULTIMAT%VFRAC(ILAY)*LBUF%RHO(I)/GBUF%RHO(I)   !volfrac*densfrac=massfrac
             ENDDO
          ENDDO           
 

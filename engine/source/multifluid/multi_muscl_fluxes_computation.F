@@ -34,10 +34,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    initbuf_mod                      ../engine/share/resol/initbuf.F
       !||    multi_fvm_mod                    ../common_source/modules/ale/multi_fvm_mod.F
       !||====================================================================
-      SUBROUTINE MULTI_MUSCL_FLUXES_COMPUTATION(NG, ELBUF_TAB, IPARG, ITASK, 
-     .     IXS, IXQ, IXTG,
-     .     PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, NBMAT, CURRENT_TIME, BUFMAT,
-     .     ID_GLOBAL_VOIS,FACE_VOIS,NPF,TF,ISPMD)
+      SUBROUTINE MULTI_MUSCL_FLUXES_COMPUTATION(
+     .             NG, ELBUF_TAB, IPARG, ITASK,
+     .             IXS, IXQ, IXTG,
+     .             PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, NBMAT, CURRENT_TIME, BUFMAT,
+     .             ID_GLOBAL_VOIS,FACE_VOIS,NPF,TF,ISPMD,MATPARAM)
 C-----------------------------------------------
 !$COMMENT
 !       MULTI_MUSCL_FLUXES_COMPUTATION description :
@@ -59,6 +60,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,13 +81,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !< material buffer
       INTEGER, INTENT(IN) :: NG, ISPMD
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      INTEGER, INTENT(IN) :: IPARG(NPARG, *)
+      INTEGER, INTENT(IN) :: IPARG(NPARG, NGROUP)
       INTEGER, INTENT(IN) :: ITASK ! SMP TASK
       INTEGER, INTENT(IN) :: IXS(NIXS, *), IXQ(NIXQ, *), IXTG(NIXTG, *)
-      INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
-      my_real, INTENT(IN) :: PM(NPROPM, *)
+      INTEGER, INTENT(IN) :: IPM(NPROPMI, NUMMAT)
+      my_real, INTENT(IN) :: PM(NPROPM, NUMMAT)
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       ! for parith/on : ID_GLOBAL_VOIS --> user id ; FACE_VOIS --> face of the remote element
       INTEGER, INTENT(IN) :: ID_GLOBAL_VOIS(*),FACE_VOIS(*)
@@ -98,42 +101,33 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      TYPE(G_BUFEL_), POINTER :: GBUF, GBUFJJ
-      TYPE(L_BUFEL_), POINTER :: LBUF
-      TYPE(BUF_EOS_), POINTER :: EBUF
-
-      INTEGER :: II, JJ, KFACE, I, J, KFACE2, NGJJ, NFTJJ, NELJJ, IFACE, KK, ID_OUT, IARRAY(2)
+      INTEGER :: II, JJ, KFACE, I, J, KFACE2, KK, ID_OUT, IARRAY(2)
       INTEGER :: ITY, NFT, NEL
       INTEGER :: IMAT
-      my_real :: X1(3), X2(3), X3(3), X4(3)
-      my_real :: LAMBDAII, LAMBDAF, NORMUII, NORMUJJ
-      my_real :: FII(5), SUB_FII(3), FJJ(5), NORMAL_VELII, NORMAL_VELJJ, VII(5), SUB_VII(3), VJJ(5),
-     .     VELII2, VELJJ2, SURF
-      my_real :: SL, SR, SSTAR, PSTAR, FIISTAR(5), SUB_FIISTAR(3), FJJSTAR(5), VIISTAR(5), VJJSTAR(5), PP(5),
-     .     SUB_VIISTAR(3)
-      my_real :: SSPII, SSPJJ, RHOII, RHOJJ, PII, PJJ, NX, NY, NZ, NORMALW
-      INTEGER :: NODE1, NODE2, NODE3, NODE4
-      my_real :: VXII, VYII, VZII
-      my_real :: VXJJ, VYJJ, VZJJ, VX, VY, VZ, NORMVEL, SSP, RHO, P
-      INTEGER :: NB_FACE, ELEMID, NUMEL_SPMD
-      my_real :: MACHII, MACHJJ, PSTAR2, THETA, ALPHAII, SUB_RHOII, SUB_RHOEINTII,
-     .     ALPHASTAR, SUB_RHOSTAR, SUB_ESTAR, SUB_PII, WFAC(3)
-      TYPE(LBUF_PTR) :: LBUFS(NBMAT)
-      TYPE(EBUF_PTR) :: EBUFS(NBMAT)
-      INTEGER :: LOCAL_MATID(NBMAT), MATLAW(NBMAT),IDX(6), NVAREOS(NBMAT)
-      my_real :: XF(3), XK(3), XL(3)
-      my_real :: EINTII, EINTJJ, GRUN, TEMP
-      my_real :: PHASE_RHOII(NBMAT), PHASE_PRESII(NBMAT), PHASE_EINTII(NBMAT),
-     .     PHASE_SSPII(NBMAT), PHASE_ALPHAII(NBMAT)
-      my_real :: PHASE_RHOJJ(NBMAT), PHASE_PRESJJ(NBMAT), PHASE_EINTJJ(NBMAT),
-     .     PHASE_SSPJJ(NBMAT), PHASE_ALPHAJJ(NBMAT), CUMUL_ALPHA, PSHIFT
-
       INTEGER :: KFACE3,I_OLD,J_OLD,KFACE_OLD,KFACE2_OLD
-      INTEGER :: ID_GLOBAL_VOIS_1,ID_GLOBAL_VOIS_2,IJK
+      INTEGER :: ID_GLOBAL_VOIS_1,ID_GLOBAL_VOIS_2
       INTEGER, DIMENSION(MVSIZ) :: GLOBAL_ID_CURRENT_ELM
       INTEGER :: IAD
+      INTEGER :: NB_FACE, ELEMID, NUMEL_SPMD
+      INTEGER :: LOCAL_MATID(NBMAT), MATLAW(NBMAT),IDX(6), NVAREOS(NBMAT)
+      my_real :: FII(5), NORMAL_VELII, NORMAL_VELJJ, VII(5), VELII2, VELJJ2, SURF
+      my_real :: SL, SR, SSTAR, PSTAR, FIISTAR(5), SUB_FIISTAR(3), VIISTAR(5), PP(5),SUB_VIISTAR(3)
+      my_real :: SSPII, SSPJJ, RHOII, RHOJJ, PII, PJJ, NX, NY, NZ, NORMALW
+      my_real :: VXII, VYII, VZII
+      my_real :: VXJJ, VYJJ, VZJJ, VX, VY, VZ, NORMVEL, SSP, RHO, P
+      my_real :: MACHII, MACHJJ, PSTAR2, THETA, ALPHAII, SUB_RHOII, SUB_RHOEINTII,ALPHASTAR, SUB_RHOSTAR, SUB_ESTAR, SUB_PII, WFAC(3)
+      my_real :: XF(3), XK(3), XL(3)
+      my_real :: EINTII, EINTJJ
+      my_real :: PHASE_RHOII(NBMAT), PHASE_PRESII(NBMAT), PHASE_EINTII(NBMAT), PHASE_SSPII(NBMAT), PHASE_ALPHAII(NBMAT)
+      my_real :: PHASE_RHOJJ(NBMAT), PHASE_PRESJJ(NBMAT), PHASE_EINTJJ(NBMAT), PHASE_SSPJJ(NBMAT), PHASE_ALPHAJJ(NBMAT), CUMUL_ALPHA, PSHIFT
       my_real :: DIRECTION
-
+      TYPE(LBUF_PTR) :: LBUFS(NBMAT)
+      TYPE(EBUF_PTR) :: EBUFS(NBMAT)
+      TYPE(G_BUFEL_), POINTER :: GBUF
+      TYPE(BUF_EOS_), POINTER :: EBUF
+C-----------------------------------------------
+C     S o u r c e  L i n e s
+C-----------------------------------------------
       NB_FACE = -1
 
       GBUF => ELBUF_TAB(NG)%GBUF
@@ -169,7 +163,7 @@ C     Normal and surface computation
 C     3D
          NUMEL_SPMD = NUMELS
          DO IMAT = 1, NBMAT
-            LOCAL_MATID(IMAT) = IPM(20 + IMAT, IXS(1, 1 + NFT))
+            LOCAL_MATID(IMAT) = MATPARAM(IXS(1, 1 + NFT))%MULTIMAT%MID(IMAT)
          ENDDO
          DO II = 1, NEL
             I = II + NFT
@@ -181,7 +175,7 @@ C     QUADS
             NB_FACE = 4
             NUMEL_SPMD = NUMELQ
             DO IMAT = 1, NBMAT
-               LOCAL_MATID(IMAT) = IPM(20 + IMAT, IXQ(1, 1 + NFT))
+               LOCAL_MATID(IMAT) = MATPARAM(IXQ(1, 1 + NFT))%MULTIMAT%MID(IMAT)
             ENDDO
             DO II = 1, NEL
                 I = II + NFT
@@ -192,7 +186,7 @@ C     TRIANGLES
             NB_FACE = 3
             NUMEL_SPMD = NUMELTG
             DO IMAT = 1, NBMAT
-               LOCAL_MATID(IMAT) = IPM(20 + IMAT, IXTG(1, 1 + NFT))
+               LOCAL_MATID(IMAT) = MATPARAM(IXTG(1, 1 + NFT))%MULTIMAT%MID(IMAT)
             ENDDO
             DO II = 1, NEL
                 I = II + NFT
@@ -791,7 +785,7 @@ C-----------------------------------------------
 
       INTEGER :: ITER, MAX_ITER
       my_real :: TOL, ERROR
-      my_real :: FUNC, DFUNC, PSTAR, GRUN, VOL, INCR, TEMP
+      my_real :: GRUN, VOL, TEMP
       LOGICAL :: CONT
       
       MAX_ITER = 50

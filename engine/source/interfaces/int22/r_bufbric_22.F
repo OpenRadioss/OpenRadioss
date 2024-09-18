@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE I22BUFBRIC_MOD  
       USE I22TRI_MOD    
       USE ALE_MOD
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER          :: NIN, I, J, K, IERR1, TRIMATL, N0PHASL, NVPHASL,ib
+      INTEGER          :: NIN, I, J, K, IERR1, TRIMATL, M51_N0PHASL, M51_NVPHASL,ib
       INTEGER          :: Isectype(14)  , ISIZ, IASC
       INTEGER, DIMENSION(I22LEN) :: READ_ITAB
       my_real, DIMENSION(I22LEN) :: READ_RTAB
@@ -79,12 +80,12 @@ C-----------------------------------------------
 
       IERR1 = 0
       TRIMATL = TRIMAT
-      N0PHASL = N0PHAS
-      NVPHASL = NVPHAS
+      M51_N0PHASL = M51_N0PHAS
+      M51_NVPHASL = M51_NVPHAS
       IF(TRIMATL<0)then 
         TRIMATL = 0  !law37 TRIMAT =-2 law51 TRIMAT=4
-        N0PHASL = 0
-        NVPHASL = 0
+        M51_N0PHASL = 0
+        M51_NVPHASL = 0
       ENDIF
 C---------------------------------------------------------------------C
 C   initialisation du tableau de travail pour l'interface 22 (FSI)    C
@@ -111,7 +112,7 @@ C---------------------------------------------------------------------C
         IF(IERR1>0)GOTO 1000                                                                                                                                     
         IF(.NOT.ALLOCATED(IIAD22))           ALLOCATE(IIAD22(INT22,NUMELS+NUMELQ)                             ,STAT=IERR1)                                          
         IF(IERR1>0)GOTO 1000                                                                                                                              
-        IF(.NOT.ALLOCATED(UVARL))            ALLOCATE(UVARL(0:NTHREAD-1,I22LEN,N0PHASL+TRIMATL*NVPHASL+I22LAW37) ,STAT=IERR1)                                                   
+        IF(.NOT.ALLOCATED(UVARL))            ALLOCATE(UVARL(0:NTHREAD-1,I22LEN,M51_N0PHASL+TRIMATL*M51_NVPHASL+I22LAW37) ,STAT=IERR1)                                                   
         IF(IERR1>0)GOTO 1000                                                                                                                                     
         IF(.NOT.ALLOCATED(SuperCellVOL_L))   ALLOCATE(SuperCellVOL_L(0:NTHREAD-1,0:TRIMATL+I22LAW37,I22LEN)             ,STAT=IERR1)                                                   
         IF(IERR1>0)GOTO 1000                                                                                                                                              

@@ -301,7 +301,7 @@ C-----------------------------------------------------
      .            EYY, EZZ, ETT, EYZ, EYT, EZT,
      .            EYYS, EZZS, ETTS, EYZS, EYTS, EZTS,
      .            VD2, DVOL,
-     .            MAT)
+     .            MAT,MAT_ELEM%MAT_PARAM, NUMMAT)
       CALL BLERO2(LBUF1%FRAC,LBUF2%FRAC,LBUF1%VOL,LBUF1%RHO,
      .            FLUX(1,NF1),FLU1(NF1),LBUF1%OFF,PM,NGL,VOLN, 
      .            AIRE, EYY, EZZ, ETT, EYZ, EYT, EZT, VD2, DVOL, 
@@ -518,7 +518,7 @@ C-----------------------------------------------------
      .            EYY, EZZ, ETT, EYZ, EYT, EZT,
      .            EYYS, EZZS, ETTS, EYZS, EYTS, EZTS,
      .            VD2, DVOL,
-     .            MAT)
+     .            MAT, MAT_ELEM%MAT_PARAM, NUMMAT)
       CALL BLERO2(LBUF2%FRAC,LBUF1%FRAC,LBUF%VOL,LBUF%RHO,
      .            FLUX(1,NF2),FLU1(NF2),LBUF%OFF,PM,NGL,VOLN, 
      .            AIRE, EYY, EZZ, ETT, EYZ, EYT, EZT, VD2, DVOL, 

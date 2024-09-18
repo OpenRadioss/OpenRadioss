@@ -259,6 +259,7 @@
       use visc_param_mod
       use fail_param_mod
       use names_and_titles_mod
+      use multimat_param_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !     included files
 !----------------------------------------------------------------------- 
@@ -274,8 +275,8 @@
       type matparam_struct_
       
         character(len=nchartitle) :: title  !< material law title
-        integer     :: ilaw                 !< material law number (type)    
-        integer     :: mat_id               !< material law id   
+        integer     :: ilaw                 !< material model (type)
+        integer     :: mat_id               !< user id
         integer     :: nuparam              !< number of real value material paraameters
         integer     :: niparam              !< number of int value material parameters
         integer     :: nfunc                !< number of local functions in material
@@ -283,8 +284,8 @@
         integer     :: nsubmat              !< number of submaterials (multi-mat law51)
         integer     :: nfail                !< number of failure models
         integer     :: ivisc                !< viscosity model number
-        integer     :: ieos                 !< eos model number
-        integer     :: heat_flag            !< dissipated energy (heat source) is output by material law                       
+        integer     :: ieos                 !< eos model (type)
+        integer     :: heat_flag            !< dissipated energy (heat source) is output by material law
         ! -------  material characteristics flags
         integer     :: compressibility      !< "compressible","incompressible","elasto_plastic"
         integer     :: smstr                !< "small_strain", "large_strain"
@@ -317,16 +318,18 @@
         my_real     :: stiff_contact        !< initial contact stiffness 
         my_real     :: stiff_hglass         !< initial hourglass stiffness      
         my_real     :: stiff_tstep          !< initial stiffness for time step stability
-!                        
+!
         my_real                   ,dimension(:) ,allocatable :: uparam !< real value material parameter table (nuparam)
         integer                   ,dimension(:) ,allocatable :: iparam !< integer value material parameter table (niparam)
         type (table_4d_)          ,dimension(:) ,allocatable :: table  !< local function tables
         character(len=nchartitle) ,dimension(:) ,allocatable :: mode   !< damage mode keywords
 !                
         type (fail_param_),dimension(:) ,allocatable :: fail     !< failure models data structure (nfail)
-        type (visc_param_)                           :: visc     !< viscosity model data structure        
+        type (visc_param_)                           :: visc     !< viscosity model data structure
 
-!        type (eos_param_)    :: eos                             !< eos model data structure (to be defined)     
+        type (multimat_param_) :: multimat                       !< buffer scpecific to multimaterial laws (51,151) : vfrac and mat internal identifiers
+
+!        type (eos_param_)    :: eos                             !< eos model data structure (to be defined)
 !        type (therm_param_)  :: therm                           !< thermal model data structure (to be defined)           
 !        type (submat_)  ,dimension(:) ,allocatable :: submat    !< multi material data structure (to be defined) 
 

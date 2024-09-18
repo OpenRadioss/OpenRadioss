@@ -39,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS, M51_IFLG6_SIZE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +55,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
-#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -191,7 +191,7 @@ C-----------------------------------------------
 
           !Submaterial Data
           DO ITRIMAT=1,4
-            KK                          = N0PHAS + (ITRIMAT-1)*NVPHAS
+            KK                          = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
             IADBUF=18 ; PV(ITRIMAT,I)   = MBUF%VAR(NELG*(IADBUF+KK-1)+IS)
             !IADBUF=1  ; AVV(ITRIMAT,I)  = MBUF%VAR(NELG*(IADBUF+KK-1)+IS)
             IADBUF=8  ; EIV(ITRIMAT,I)  = MBUF%VAR(NELG*(IADBUF+KK-1)+IS)
@@ -206,7 +206,7 @@ C-----------------------------------------------
 
           !volue fractions
           DO ITRIMAT=1,4
-            KK                          = N0PHAS + (ISUB_BIJ(ITRIMAT)-1)*NVPHAS
+            KK                          = M51_N0PHAS + (ISUB_BIJ(ITRIMAT)-1)*M51_NVPHAS
             IADBUF=1  ; AVV(ITRIMAT,I)  = MBUF%VAR(NELG*(IADBUF+KK-1)+IS)
           ENDDO
 

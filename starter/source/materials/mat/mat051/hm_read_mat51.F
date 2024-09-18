@@ -77,6 +77,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,7 +88,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "com01_c.inc"
 #include      "param_c.inc"
-#include      "mmale51_c.inc"
 #include      "scr03_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -164,7 +164,7 @@ C-----------------------------------------------
       N_LC   = 0
       IOPT   = 0
       TRIMAT = 4 !MAX(TRIMAT,3)
-      NUVAR  = (N0PHAS + TRIMAT*NVPHAS)
+      NUVAR  = (M51_N0PHAS + TRIMAT*M51_NVPHAS)
       PEXT   = ZERO
       PFAR   = ZERO
       VIS    = ZERO
@@ -959,6 +959,14 @@ C     !============================!
       PM(38) = UPARAM(42)  !VDET
       PARMAT(1) = MAX(C1(1), C1(2), C1(3), C1(4))
       PM(27) = MAXVAL(SSP(1:4))
+
+      ! Multimaterial data
+      MATPARAM%multimat%nb = 4
+      IF(.NOT.ALLOCATED(MATPARAM%multimat%vfrac))ALLOCATE(MATPARAM%multimat%vfrac(4))
+      IF(.NOT.ALLOCATED(MATPARAM%multimat%mid))  ALLOCATE(MATPARAM%multimat%mid(4))
+      MATPARAM%multimat%vfrac(1:4) = tAV(1:4)
+      MATPARAM%multimat%mid(1:4) = tMID(1:4)
+
       !============================!
       ! Starter Listing File       !
       !============================!

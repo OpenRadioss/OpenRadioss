@@ -56,7 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
      .     ITAB, ITABM1, CURRENT_TIME,
      .     STIFN, FSKY, IADS, FSKYM, 
-     .     CONDN, CONDNSKY, BUFMAT, FUNC_VALUE, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPF,TF,FSAVSURF)
+     .     CONDN, CONDNSKY, BUFMAT, FUNC_VALUE, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPF,TF,FSAVSURF,MATPARAM)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -68,6 +68,7 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE ALE_CONNECTIVITY_MOD
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,6 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !< material buffer
       my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       my_real, INTENT(IN) :: TIMESTEP
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
@@ -116,35 +118,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      TYPE(G_BUFEL_), POINTER :: GBUF
-      TYPE(L_BUFEL_), POINTER :: LBUF
-      INTEGER :: NG, NEL, II, JJ, KFACE, I, J
-      INTEGER :: IPLA, LOCAL_MATID
+      INTEGER :: NG, NEL, II, I
+      INTEGER :: LOCAL_MATID
       INTEGER :: NBMAT, IMAT, NIX
-      INTEGER :: NODE1, NODE2, NODE3, NODE4, 
-     .     NODE5, NODE6, NODE7, NODE8
-      my_real :: W1(3), W2(3), W3(3), W4(3), 
-     .     W5(3), W6(3), W7(3), W8(3)
-      my_real :: X1(3), X2(3), X3(3), X4(3), 
-     .     X5(3), X6(3), X7(3), X8(3)
-      my_real :: NORM(MVSIZ, 6, 3)
-      my_real :: WFAC(MVSIZ, 6, 3)
-      my_real :: LAMBDAII, LAMBDAF, NORMUII, NORMUJJ
-      my_real :: FII(5), FJJ(5), NORMAL_VEL, NORMAL_VEL2, VII(5), VJJ(5), VEL2, SURF
-      my_real :: VOLNEW(MVSIZ)
-      my_real :: RHO, VOLFRAC, MASS
       INTEGER :: LENCOM
-C     TEMPORAIRE
-      INTEGER :: K, K2, NODE_ID
-      my_real :: VDT
-      my_real :: FAC
-      INTEGER :: NFIRST, NLAST
+      INTEGER :: NODE_ID
       INTEGER, DIMENSION(:, :), POINTER :: IX
-      INTEGER :: IBID
-      my_real
-     .     AR, FR_WAVE, FTHE, FTHESKY, FFSKY, SUMFLUX, MASS1, MASS2
-      my_real :: sum1, sum2
       INTEGER :: MATLAW, NFT, ITY, ELEMTYP
+      my_real :: VDT
+      my_real :: VOLNEW(MVSIZ)
+      TYPE(G_BUFEL_), POINTER :: GBUF
 C     ------------------------- 
 C     Deplacement des noeuds
 C     -------------------------  
@@ -233,7 +216,7 @@ C     ==============================
       IF (MULTI_FVM%MUSCL > 0) THEN
          CALL MULTI_MUSCL_GRADIENTS(ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .        PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, MULTI_FVM%NBMAT, 
-     .        CURRENT_TIME, BUFMAT) 
+     .        CURRENT_TIME, BUFMAT)
       ENDIF
       CALL MY_BARRIER    
 
@@ -283,7 +266,7 @@ C     SUBMAT gradients
                CALL MULTI_MUSCL_FLUXES_COMPUTATION(NG, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .              PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, 
      .              MULTI_FVM%NBMAT, CURRENT_TIME, BUFMAT,
-     .              ID_GLOBAL_VOIS,FACE_VOIS,NPF,TF,ISPMD)
+     .              ID_GLOBAL_VOIS,FACE_VOIS,NPF,TF,ISPMD, MATPARAM)
             ELSE
                CALL MULTI_FLUXES_COMPUTATION(NG, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .              PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, 

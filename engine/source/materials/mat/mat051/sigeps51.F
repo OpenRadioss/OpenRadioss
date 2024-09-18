@@ -65,6 +65,7 @@ C-----------------------------------------------
       USE I22TRI_MOD
       USE ALE_CONNECTIVITY_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 ! ARTIFICIAL VISCO :  EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
 ! NON UTILISE      :  EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX
@@ -119,12 +120,12 @@ C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY (see below)
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
-C phase 0  dim=N0PHAS
+C phase 0  dim=M51_N0PHAS
 C          UVAR(1) = TEMP  !post
 C          UVAR(2) = PLAS  !post
 C          UVAR(3) = BFRAC !post
-C phase k  dim=NVPHAS
-C          IAD = N0PHAS+(k-1)*NVPHAS
+C phase k  dim=M51_NVPHAS
+C          IAD = M51_N0PHAS+(k-1)*M51_NVPHAS
 c          UVAR(1 + IAD) = AVk                 (EV(NB10) +12k)
 C          UVAR(2 + IAD) = SIGxk
 C          UVAR(3 + IAD) = SIGyk
@@ -331,19 +332,19 @@ C     |===========================================!
       VISC4 = UPARAM(84)
 
       !INITIAL volume fraction (in case of inivol, it was updated in Starter)
-      K=N0PHAS
+      K=M51_N0PHAS
       DO I=1,NEL
         AV1(I)=UVAR(I,K+23)
       ENDDO
-      K=N0PHAS+NVPHAS
+      K=M51_N0PHAS+M51_NVPHAS
       DO I=1,NEL
         AV2(I)=UVAR(I,K+23)
       ENDDO
-      K=N0PHAS+2*NVPHAS
+      K=M51_N0PHAS+2*M51_NVPHAS
       DO I=1,NEL
         AV3(I)=UVAR(I,K+23)
       ENDDO
-       K=N0PHAS+3*NVPHAS
+       K=M51_N0PHAS+3*M51_NVPHAS
       DO I=1,NEL
         AV4(I)=UVAR(I,K+23)
       ENDDO
@@ -492,10 +493,10 @@ C===========================================================================C
         IF(IVEL/=0)VEL_IN = VEL_IN*FINTER(IVEL,ABCS,NPF,TF,DYDX)
 
 
-        K1 = N0PHAS
-        K2 = N0PHAS+NVPHAS
-        K3 = N0PHAS+2*NVPHAS
-        K4 = N0PHAS+3*NVPHAS
+        K1 = M51_N0PHAS
+        K2 = M51_N0PHAS+M51_NVPHAS
+        K3 = M51_N0PHAS+2*M51_NVPHAS
+        K4 = M51_N0PHAS+3*M51_NVPHAS
 
         DO I=1,NEL
           P1=UVAR(I,4)
@@ -534,7 +535,7 @@ C===========================================================================C
 C         |====================!
 C         |     material 1     !
 C         |====================!
-          KK = N0PHAS
+          KK = M51_N0PHAS
           UVAR(I,1+KK)  = AV1(I)
           UVAR(I,2+KK)  = ZERO
           UVAR(I,3+KK)  = ZERO
@@ -559,7 +560,7 @@ C         |====================!
 C         |====================!
 C         |     material 2     !
 C         |====================!
-          KK = N0PHAS + NVPHAS
+          KK = M51_N0PHAS + M51_NVPHAS
           UVAR(I,1+KK)  = AV2(I)
           UVAR(I,2+KK)  = ZERO
           UVAR(I,3+KK)  = ZERO
@@ -584,7 +585,7 @@ C         |====================!
 C         |====================!
 C         |     material 3     !
 C         |====================!
-          KK = N0PHAS + 2*NVPHAS
+          KK = M51_N0PHAS + 2*M51_NVPHAS
           UVAR(I,1+KK)  = AV3(I)
           UVAR(I,2+KK)  = ZERO
           UVAR(I,3+KK)  = ZERO
@@ -610,7 +611,7 @@ C         |====================!
 C         |     material 4     !
 C         |====================!
           IF(TRIMAT == 4) THEN
-            KK = N0PHAS + 3*NVPHAS
+            KK = M51_N0PHAS + 3*M51_NVPHAS
             UVAR(I,1+KK)  = ZERO
             UVAR(I,2+KK)  = ZERO
             UVAR(I,3+KK)  = ZERO
@@ -797,7 +798,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C         |====================!
 C         |     material 1     !
 C         |====================!
-          KK = N0PHAS
+          KK = M51_N0PHAS
           UVAR(I,1+KK)  = AV1(I)
           UVAR(I,8+KK)  = E01
           UVAR(I,9+KK)  = RHO1
@@ -816,7 +817,7 @@ C         |====================!
 C         |====================!
 C         |     material 2     !
 C         |====================!
-          KK = N0PHAS + NVPHAS
+          KK = M51_N0PHAS + M51_NVPHAS
           UVAR(I,1+KK)  = AV2(I)
           UVAR(I,8+KK)  = E02
           UVAR(I,9+KK)  = RHO2
@@ -835,7 +836,7 @@ C         |====================!
 C         |====================!
 C         |     material 3     !
 C         |====================!
-          KK = N0PHAS + 2*NVPHAS
+          KK = M51_N0PHAS + 2*M51_NVPHAS
           UVAR(I,1+KK)  = AV3(I)
           UVAR(I,8+KK)  = E03
           UVAR(I,9+KK)  = RHO3
@@ -855,7 +856,7 @@ C         |====================!
 C         |     material 4     !
 C         |====================!
           IF(TRIMAT == 4) THEN
-            KK = N0PHAS + 3*NVPHAS
+            KK = M51_N0PHAS + 3*M51_NVPHAS
             UVAR(I,1+KK)  = ZERO
             UVAR(I,2+KK)  = ZERO
             UVAR(I,3+KK)  = ZERO
@@ -934,10 +935,10 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           myVAR = FINTER(IAV3,ABCS,NPF,TF,DYDX)
           AV3(1:NEL) = myVAR * AV3(1:NEL)
         ENDIF
-        K1 = N0PHAS
-        K2 = N0PHAS+NVPHAS
-        K3 = N0PHAS+2*NVPHAS
-        K4 = N0PHAS+3*NVPHAS
+        K1 = M51_N0PHAS
+        K2 = M51_N0PHAS+M51_NVPHAS
+        K3 = M51_N0PHAS+2*M51_NVPHAS
+        K4 = M51_N0PHAS+3*M51_NVPHAS
         RHO1f = ONE
         RHO2f = ONE
         RHO3f = ONE
@@ -991,7 +992,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           VCRT2 = AA2*CC2
           VCRT3 = AA3*CC3
           !------------
-          UVAR(I,1:N0PHAS)  =  ZERO
+          UVAR(I,1:M51_N0PHAS)  =  ZERO
           II = I + NFT
           VN = ZERO
           U2 = ZERO
@@ -1058,7 +1059,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           !================!
           !     output     !
           !================!
-          KK = N0PHAS
+          KK = M51_N0PHAS
           UVAR(I,1+KK)  = AV1(I)
           UVAR(I,2+KK)  = ZERO
           UVAR(I,3+KK)  = ZERO
@@ -1114,7 +1115,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           !================!
           !     output     !
           !================!
-          KK = N0PHAS + NVPHAS
+          KK = M51_N0PHAS + M51_NVPHAS
           UVAR(I,1+KK)  = AV2(I)
           UVAR(I,2+KK)  = ZERO
           UVAR(I,3+KK)  = ZERO
@@ -1170,7 +1171,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           !================!
           !     output     !
           !================!
-          KK = N0PHAS + 2*NVPHAS
+          KK = M51_N0PHAS + 2*M51_NVPHAS
           UVAR(I,1+KK)  = AV3(I)
           UVAR(I,2+KK)  = ZERO
           UVAR(I,3+KK)  = ZERO
@@ -1195,7 +1196,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           !     material 4 output         !
           !===============================!
           IF(TRIMAT == 4) THEN
-            KK = N0PHAS + 3*NVPHAS
+            KK = M51_N0PHAS + 3*M51_NVPHAS
             UVAR(I,1+KK)  = ZERO
             UVAR(I,2+KK)  = ZERO
             UVAR(I,3+KK)  = ZERO
@@ -1263,22 +1264,22 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           DO I=1,NEL
             P0_NRF = UVAR(I,4)
             !
-            KK     = N0PHAS + 0*NVPHAS
+            KK     = M51_N0PHAS + 0*M51_NVPHAS
             RHO1   = UVAR(I,KK+20)
             E01    = UVAR(I,KK+21)
             SSP1   = UVAR(I,KK+22)
             !
-            KK     = N0PHAS + 1*NVPHAS
+            KK     = M51_N0PHAS + 1*M51_NVPHAS
             RHO2   = UVAR(I,KK+20)
             E02    = UVAR(I,KK+21)
             SSP2   = UVAR(I,KK+22)
             !
-            KK     = N0PHAS + 2*NVPHAS
+            KK     = M51_N0PHAS + 2*M51_NVPHAS
             RHO3   = UVAR(I,KK+20)
             E03    = UVAR(I,KK+21)
             SSP3   = UVAR(I,KK+22)
             !
-            KK     = N0PHAS + 3*NVPHAS
+            KK     = M51_N0PHAS + 3*M51_NVPHAS
             RHO4   = UVAR(I,KK+20)
             E04    = UVAR(I,KK+21)
             SSP4   = UVAR(I,KK+22)
@@ -1300,7 +1301,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             RHO(I)        = AV1(I)*RHO1+ AV2(I)*RHO2+ AV3(I)*RHO3                     !not relevant to add explosive here
             EINT(I)       = VOLUME(I) * (E01 * AV1(I) + E02 * AV2(I) + E03 * AV3(I))  !not relevant to add explosive here
 
-            KK = N0PHAS
+            KK = M51_N0PHAS
             UVAR(I,1+KK)  = AV1(I)
             UVAR(I,8+KK)  = E01
             UVAR(I,9+KK)  = RHO1
@@ -1315,7 +1316,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             UVAR(I,18+KK) = P0_NRF
             UVAR(I,19+KK) = ZERO
 
-            KK = N0PHAS + NVPHAS
+            KK = M51_N0PHAS + M51_NVPHAS
             UVAR(I,1+KK)  = AV2(I)
             UVAR(I,8+KK)  = E02
             UVAR(I,9+KK)  = RHO2
@@ -1330,7 +1331,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             UVAR(I,18+KK) = P0_NRF
             UVAR(I,19+KK) = ZERO
 
-            KK = N0PHAS + 2*NVPHAS
+            KK = M51_N0PHAS + 2*M51_NVPHAS
             UVAR(I,1+KK)  = AV3(I)
             UVAR(I,8+KK)  = E03
             UVAR(I,9+KK)  = RHO3
@@ -1346,7 +1347,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             UVAR(I,18+KK) = P0_NRF
             UVAR(I,19+KK) = ZERO
 
-            KK = N0PHAS + 3*NVPHAS
+            KK = M51_N0PHAS + 3*M51_NVPHAS
             UVAR(I,1+KK)  = AV4(I)
             UVAR(I,8+KK)  = E04
             UVAR(I,9+KK)  = RHO4
@@ -1403,16 +1404,16 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
          DO I=1,NEL
            VEL_O(I)=VEL_N(I)
            P0_NRF = UVAR(I,4)
-           KK           = N0PHAS
+           KK           = M51_N0PHAS
            UVAR(I,1+KK) = AVV(1,I)
            AV1(I)       = AVV(1,I)
-           KK           = N0PHAS + NVPHAS
+           KK           = M51_N0PHAS + M51_NVPHAS
            UVAR(I,1+KK) = AVV(2,I)
            AV2(I)       = AVV(2,I)
-           KK           = N0PHAS + 2*NVPHAS
+           KK           = M51_N0PHAS + 2*M51_NVPHAS
            UVAR(I,1+KK) = AVV(3,I)
            AV3(I)       = AVV(3,I)
-           KK           = N0PHAS + 3*NVPHAS
+           KK           = M51_N0PHAS + 3*M51_NVPHAS
            UVAR(I,1+KK) = AVV(4,I)
            AV4(I)       = AVV(4,I)
            SIGOXX(I)    = -P0_NRF
@@ -1426,22 +1427,22 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
         DO I=1,NEL
           P0_NRF = UVAR(I,4)
           !
-          KK     = N0PHAS + 0*NVPHAS
+          KK     = M51_N0PHAS + 0*M51_NVPHAS
           RHO1   = UVAR(I,KK+20)
           E01    = UVAR(I,KK+21)
           SSP1   = UVAR(I,KK+22)
           !
-          KK     = N0PHAS + 1*NVPHAS
+          KK     = M51_N0PHAS + 1*M51_NVPHAS
           RHO2   = UVAR(I,KK+20)
           E02    = UVAR(I,KK+21)
           SSP2   = UVAR(I,KK+22)
           !
-          KK     = N0PHAS + 2*NVPHAS
+          KK     = M51_N0PHAS + 2*M51_NVPHAS
           RHO3   = UVAR(I,KK+20)
           E03    = UVAR(I,KK+21)
           SSP3   = UVAR(I,KK+22)
           !
-          KK     = N0PHAS + 3*NVPHAS
+          KK     = M51_N0PHAS + 3*M51_NVPHAS
           RHO4   = UVAR(I,KK+20)
           E04    = UVAR(I,KK+21)
           SSP4   = UVAR(I,KK+22)
@@ -1489,13 +1490,13 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             ENDIF
 
             IF(VEL_N(I)<ZERO)THEN     !incoming flux. relaxation of volume fraction
-               KK = N0PHAS
+               KK = M51_N0PHAS
                AVV(1,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV1(I)
-               KK = N0PHAS + NVPHAS
+               KK = M51_N0PHAS + M51_NVPHAS
                AVV(2,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV2(I)
-               KK = N0PHAS + 2*NVPHAS
+               KK = M51_N0PHAS + 2*M51_NVPHAS
                AVV(3,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV3(I)
-               KK = N0PHAS + 3*NVPHAS
+               KK = M51_N0PHAS + 3*M51_NVPHAS
                AVV(4,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV4(I)
             ELSE
 
@@ -1527,7 +1528,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C         |====================!
 C         |     material 1     !
 C         |====================!
-          KK = N0PHAS
+          KK = M51_N0PHAS
           UVAR(I,1+KK)  = AVV(1,I)
           UVAR(I,8+KK)  = EIV(1,I)
           UVAR(I,9+KK)  = RHOV(1,I)
@@ -1546,7 +1547,7 @@ C         |====================!
 C         |====================!
 C         |     material 2     !
 C         |====================!
-          KK = N0PHAS + NVPHAS
+          KK = M51_N0PHAS + M51_NVPHAS
           UVAR(I,1+KK)  = AVV(2,I)
           UVAR(I,8+KK)  = EIV(2,I)
           UVAR(I,9+KK)  = RHOV(2,I)
@@ -1565,7 +1566,7 @@ C         |====================!
 C         |====================!
 C         |     material 3     !
 C         |====================!
-          KK = N0PHAS + 2*NVPHAS
+          KK = M51_N0PHAS + 2*M51_NVPHAS
           UVAR(I,1+KK)  = AVV(3,I)
           UVAR(I,8+KK)  = EIV(3,I)
           UVAR(I,9+KK)  = RHOV(3,I)
@@ -1584,7 +1585,7 @@ C         |====================!
 C         |====================!
 C         |     material 4     !
 C         |====================!
-          KK = N0PHAS + 3*NVPHAS
+          KK = M51_N0PHAS + 3*M51_NVPHAS
           UVAR(I,1+KK)  = AVV(4,I)
           UVAR(I,8+KK)  = EIV(4,I)
           UVAR(I,9+KK)  = RHOV(4,I)
@@ -1630,25 +1631,25 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
       IF (TIME  ==  ZERO) THEN
          DO I = 1, NEL
-            KK = N0PHAS + 0 * NVPHAS
+            KK = M51_N0PHAS + 0 * M51_NVPHAS
             V1OLD = AV1(I) * VOLUME(I)
             UVAR(I, 11 + KK) = V1OLD
             UVAR(I, 9 + KK) = V1OLD * UVAR(I, 20 + KK)
             UVAR(I, 8 + KK) = V1OLD * UVAR(I, 21 + KK)
 
-            KK = N0PHAS + 1 * NVPHAS
+            KK = M51_N0PHAS + 1 * M51_NVPHAS
             V2OLD = AV2(I) * VOLUME(I)
             UVAR(I, 11 + KK) = V2OLD
             UVAR(I, 9 + KK) = V2OLD * UVAR(I, 20 + KK)
             UVAR(I, 8 + KK) = V2OLD * UVAR(I, 21 + KK)
 
-            KK = N0PHAS + 2 * NVPHAS
+            KK = M51_N0PHAS + 2 * M51_NVPHAS
             V3OLD = AV3(I) * VOLUME(I)
             UVAR(I, 11 + KK) = V3OLD
             UVAR(I, 9 + KK) = V3OLD * UVAR(I, 20 + KK)
             UVAR(I, 8 + KK) = V3OLD * UVAR(I, 21 + KK)
 
-            KK = N0PHAS + 3 * NVPHAS
+            KK = M51_N0PHAS + 3 * M51_NVPHAS
             V4OLD = AV4(I) * VOLUME(I)
             UVAR(I, 11 + KK) = V4OLD
             UVAR(I, 9 + KK) = V4OLD * UVAR(I, 20 + KK)
@@ -1662,7 +1663,7 @@ C     T > 0
 C=======================================================================
       DO I=1,NEL
            !---submaterial_1---!
-           KK = N0PHAS + 0*NVPHAS
+           KK = M51_N0PHAS + 0*M51_NVPHAS
            EINT1   = UVAR(I,8 +KK)
            V1OLD   = UVAR(I,11+KK)
            RHO1OLD = UVAR(I,12+KK)
@@ -1676,7 +1677,7 @@ C=======================================================================
            P1OLD(I) = UVAR(I,18+KK)
 
            !---submaterial_2---!
-           KK = N0PHAS + 1*NVPHAS
+           KK = M51_N0PHAS + 1*M51_NVPHAS
            EINT2   = UVAR(I,8 +KK)
            V2OLD   = UVAR(I,11+KK)
            RHO2OLD = UVAR(I,12+KK)
@@ -1690,7 +1691,7 @@ C=======================================================================
            P2OLD(I) = UVAR(I,18+KK)
 
            !---submaterial_3---!
-           KK = N0PHAS + 2*NVPHAS
+           KK = M51_N0PHAS + 2*M51_NVPHAS
            EINT3   = UVAR(I,8 +KK)
            V3OLD   = UVAR(I,11+KK)
            RHO3OLD = UVAR(I,12+KK)
@@ -1705,7 +1706,7 @@ C=======================================================================
 
            !---submaterial_4---!
            IF(IEXP == 1)THEN
-             KK = N0PHAS + 3*NVPHAS
+             KK = M51_N0PHAS + 3*M51_NVPHAS
              EINT4   = UVAR(I,8 +KK)
              V4OLD   = UVAR(I,11+KK)
              RHO4OLD = UVAR(I,12+KK)
@@ -1758,7 +1759,7 @@ C=======================================================================
       !       material 1 : PLASTICITY
       !===================================
       IF(IPLA1 /= ZERO)THEN
-        KK =  N0PHAS
+        KK =  M51_N0PHAS
         DO I=1,NEL
           !inter22
           IF(VOLUME(I) == ZERO)CYCLE
@@ -1816,7 +1817,7 @@ C=======================================================================
       !        material 2 : PLASTICITY
       !===================================
       IF(IPLA2 /= ZERO)THEN
-        KK = N0PHAS + NVPHAS
+        KK = M51_N0PHAS + M51_NVPHAS
         DO I=1,NEL
           !inter22
           IF(VOLUME(I) == ZERO)CYCLE
@@ -1869,7 +1870,7 @@ C=======================================================================
       !        material 3 : PLASTICITY
       !===================================
       IF(IPLA3 /= ZERO)THEN
-        KK = N0PHAS + 2*NVPHAS
+        KK = M51_N0PHAS + 2*M51_NVPHAS
         DO I=1,NEL
           !inter22
           IF(VOLUME(I) == ZERO)CYCLE
@@ -1932,7 +1933,7 @@ C=======================================================================
         !===================================
         ! material 1 : THERMODYNAMICAL STATE
         !===================================
-        KK = N0PHAS
+        KK = M51_N0PHAS
         EINT1   = UVAR(I,8+KK)    ! energie IN rho e OUT
         MAS1    = UVAR(I,9+KK)    ! masse IN rho OUT
         Q1OLD   = UVAR(I,10+KK)
@@ -1957,7 +1958,7 @@ C=======================================================================
         !===================================
         ! material 2 : THERMODYNAMICAL STATE
         !===================================
-        KK = N0PHAS + NVPHAS
+        KK = M51_N0PHAS + M51_NVPHAS
         EINT2   = UVAR(I,8+KK)    ! energie IN rho e OUT
         MAS2    = UVAR(I,9+KK)    ! masse IN rho OUT
         Q2OLD   = UVAR(I,10+KK)
@@ -1982,7 +1983,7 @@ C=======================================================================
         !===================================
         ! material 3 : THERMODYNAMICAL STATE
         !===================================
-        KK = N0PHAS + 2*NVPHAS
+        KK = M51_N0PHAS + 2*M51_NVPHAS
         EINT3   = UVAR(I,8+KK)    ! energie IN rho e OUT
         MAS3    = UVAR(I,9+KK)    ! masse IN rho OUT
         Q3OLD   = UVAR(I,10+KK)
@@ -2023,7 +2024,7 @@ C=======================================================================
           TEMP4   = ZERO
           P4OLD(I)= ZERO
         ELSE
-          KK = N0PHAS + 3*NVPHAS
+          KK = M51_N0PHAS + 3*M51_NVPHAS
           EINT4   = UVAR(I,8+KK)
           MAS4    = UVAR(I,9+KK)
           Q4OLD   = UVAR(I,10+KK)
@@ -2819,10 +2820,10 @@ C=======================================================================
         !---------------------------!
         !   TOTAL STRESS TENSOR     !
         !---------------------------!
-        K1 = N0PHAS
-        K2 = N0PHAS+NVPHAS
-        K3 = N0PHAS+2*NVPHAS
-        K4 = N0PHAS+3*NVPHAS
+        K1 = M51_N0PHAS
+        K2 = M51_N0PHAS+M51_NVPHAS
+        K3 = M51_N0PHAS+2*M51_NVPHAS
+        K4 = M51_N0PHAS+3*M51_NVPHAS
 
         SIGNXX(I) = UVAR(I,2+K1) * V1 + UVAR(I,2+K2) * V2 + UVAR(I,2+K3) * V3
         SIGNYY(I) = UVAR(I,3+K1) * V1 + UVAR(I,3+K2) * V2 + UVAR(I,3+K3) * V3
@@ -2878,7 +2879,7 @@ C     DC : same comment
         !===================================================C
         !        material 1 : THERMODYNAMICAL STATE OUTPUT  C
         !===================================================C
-        KK = N0PHAS
+        KK = M51_N0PHAS
         IF(V1  >  ZERO)THEN
             UVAR(I,1+KK)  = V1 / VOLUME(I)
             !deviator stress already updated in plasticity subroutines
@@ -2923,7 +2924,7 @@ C        IF(V1/VOLUME(I)  <  EM03)UVAR(I,14+KK)=ZERO
         !===================================================C
         !        material 2 : THERMODYNAMICAL STATE OUTPUT  C
         !===================================================C
-        KK = N0PHAS + NVPHAS
+        KK = M51_N0PHAS + M51_NVPHAS
         IF(V2  >  ZERO)THEN
             UVAR(I,1+KK)  = V2  / VOLUME(I)
             !deviator stress already updated in plasticity subroutines
@@ -2968,7 +2969,7 @@ C        IF(V2/VOLUME(I)  <  EM03)UVAR(I,14+KK)=ZERO
         !===================================================C
         !        material 3 : THERMODYNAMICAL STATE OUTPUT  C
         !===================================================C
-        KK = N0PHAS + 2*NVPHAS
+        KK = M51_N0PHAS + 2*M51_NVPHAS
         IF(V3  >  ZERO)THEN
             UVAR(I,1+KK)  = V3  / VOLUME(I)
             !deviator stress already updated in plasticity subroutines
@@ -3014,7 +3015,7 @@ C        IF(V3/VOLUME(I)  <  EM03)UVAR(I,14+KK)=ZERO
         !        material 4 : THERMODYNAMICAL STATE OUTPUT  C
         !===================================================C
         IF(IEXP/=0)THEN
-        KK = N0PHAS + 3*NVPHAS
+        KK = M51_N0PHAS + 3*M51_NVPHAS
          IF(V4  >  ZERO)THEN
             UVAR(I,1+KK)  = V4 / VOLUME(I)
             UVAR(I,18+KK) = P4

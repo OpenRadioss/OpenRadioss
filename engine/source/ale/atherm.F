@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD            
       USE ALE_CONNECTIVITY_MOD
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +68,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
-#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -155,9 +155,9 @@ c
      2   PM,       BUFMAT,   GBUF%RE,  NEL,
      3   NFT)
         ELSEIF (MTN == 51) THEN
-          NPH1 = (N0PHAS)*LLT
-          NPH2 = (N0PHAS + NVPHAS)*LLT
-          NPH3 = (N0PHAS + NVPHAS*2)*LLT
+          NPH1 = (M51_N0PHAS)*LLT
+          NPH2 = (M51_N0PHAS + M51_NVPHAS)*LLT
+          NPH3 = (M51_N0PHAS + M51_NVPHAS*2)*LLT
           IADBUF = IPM(7,MAT(1))
           PH1 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH1+1:NPH1+1+LLT)
           PH2 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH2+1:NPH2+1+LLT)

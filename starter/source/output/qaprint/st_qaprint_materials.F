@@ -56,7 +56,7 @@ C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IP, MY_ID,MY_MAT,IADBUF,NUPARAM,NIPARAM,NFAIL,IVISC,IVAR,
-     .        IRUPT,FAIL_ID,FAIL_IP,NUVAR,NFUNCF,NTABF,NMOD
+     .        IRUPT,FAIL_ID,FAIL_IP,NUVAR,NFUNCF,NTABF,NMOD,NBMAT,MID
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE,PTHK
@@ -185,6 +185,25 @@ c-----------------------------
               END IF
             END DO
           END IF
+          
+c-----------------------------
+c         MULTIMAT
+c-----------------------------
+          NBMAT = MAT_ELEM%MAT_PARAM(MY_MAT)%MULTIMAT%NB
+          IF (NBMAT > 0) THEN
+            CALL QAPRINT('** MULTIMAT PARAM',I,0.0_8)
+            DO J=1,NBMAT
+              MID   = MAT_ELEM%MAT_PARAM(MY_MAT)%MULTIMAT%MID(J)
+              TEMP_DOUBLE = MAT_ELEM%MAT_PARAM(MY_MAT)%MULTIMAT%VFRAC(J)
+              IF (TEMP_DOUBLE /= ZERO) THEN
+                WRITE(VARNAME,'(A,I0)') 'MID_',J
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),MID,0.0_8)              
+                WRITE(VARNAME,'(A,I0)') 'VFRAC_',J
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              END IF
+            END DO
+          END IF   
+                 
 c-----------------------------
         END DO   ! MY_MAT
       END IF

@@ -36,7 +36,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD   
-      USE I22BUFBRIC_MOD       
+      USE I22BUFBRIC_MOD
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,8 +49,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "mvsiz_p.inc"
 #include      "inter22.inc"
-#include      "mmale51_c.inc"
-C
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -75,7 +74,7 @@ C-----------------------------------------------
       
       VAR=ZERO
       DO ITRIMAT = 1,TRIMAT                                                
-        KK = N0PHAS + (ITRIMAT-1)*NVPHAS        
+        KK = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS        
         VAR = VAR + UVAR(I,11+KK)
       ENDDO                 
     
@@ -124,7 +123,7 @@ C-----------------------------------------------
         !=====================!                                            
         ! submat_id = ITRIMAT !                                            
         !=====================!                                            
-        KK = N0PHAS + (ITRIMAT-1)*NVPHAS 
+        KK = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS 
         write (*,FMT='(A16,I1)')     "   +-----submat=",ITRIMAT  
         IF(IPRESENT(ITRIMAT)==0)THEN
         write (*,FMT='(A16   )')     "           empty"         

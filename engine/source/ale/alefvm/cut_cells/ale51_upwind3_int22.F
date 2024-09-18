@@ -54,7 +54,8 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE I22BUFBRIC_MOD
       USE I22TRI_MOD 
-      USE ELBUFDEF_MOD  
+      USE ELBUFDEF_MOD
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,8 +77,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: ITRIMAT,IFLG
       INTEGER IXS(NIXS,*), NV46,IPARG(NPARG,*),ITASK
-      my_real ::
-     .   PM(NPROPM,*),DDVOLi(MVSIZ)
+      my_real :: PM(NPROPM,*),DDVOLi(MVSIZ)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB      
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -245,7 +245,7 @@ C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICE
             LFT   =  1                               
             LLT   =  IPARG(2,NG)                            
             UVAR   => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR                     
-            ADD   = (N0PHAS + (ITRIMAT-1)*NVPHAS+12)*LLT                      
+            ADD   = (M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS+12)*LLT                      
             pDDVOL => UVAR(ADD+1:ADD+LLT)                          
             pDDVOL(IDLOC) =  DDVOL   !*HALF  : deja applique facteur 1/2                 
             if(ixs(11,IE)==26354)then                           

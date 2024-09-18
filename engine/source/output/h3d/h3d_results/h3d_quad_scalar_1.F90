@@ -60,7 +60,7 @@
         &  is_written_quad,ipartq,layer_input , npart,&
         &  iuvar_input,h3d_part  ,keyword   ,&
         &  bufmat      ,multi_fvm ,&
-        &  id          )
+        &  id          ,mat_param)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -72,6 +72,7 @@
           use ale_connectivity_mod, only: t_ale_connectivity
           use alefvm_mod , only:alefvm_param
           use names_and_titles_mod, only: ncharline100
+          use matparam_def_mod , only : matparam_struct_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -120,7 +121,8 @@
           character(len=ncharline100) :: keyword !< animation keyword for the requested scalar values
           type(multi_fvm_struct), intent(in) :: multi_fvm !< Finite volume method data
           type(t_ale_connectivity), intent(in) :: ale_connect !< ALE connectivity data
-          my_real, target :: bufmat(*) !< ??
+          my_real, target :: bufmat(*) !< additional buffer for material law (old buffer. new one is mat_param)
+          type (matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param !< material buffer data structure
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1491,7 +1493,7 @@
                   !count number of submaterial based on /eos/tillotson (ieos=3)
                   ntillotson = 0
                   do imat=1,nlay
-                    ieos =  ipm(4, ipm(20 + imat,mt) )
+                    ieos =  ipm(4, mat_param(mt)%multimat%mid(imat) )
                     if(ieos == 3)then
                       ntillotson = ntillotson + 1
                       imat_tillotson = imat
@@ -1501,7 +1503,7 @@
                   if(ntillotson > 1)then
                     fac=one
                     do imat=1,nlay
-                      ieos =  ipm(4,    ipm(20 + imat,mt) )
+                      ieos =  ipm(4, mat_param(mt)%multimat%mid(imat) )
                       if(ieos == 3)then
                         ebuf => elbuf_tab(ng)%bufly(imat)%eos(1,1,1)
                         nvareos = elbuf_tab(ng)%bufly(imat)%nvar_eos

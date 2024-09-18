@@ -198,7 +198,7 @@ c-------------------------------------------------------------------
 c-------------------------------------------------------------------
 c     /MAT/LAW51 - FILL BUFFER (modern input)
 c-------------------------------------------------------------------
-      CALL FILL_BUFFER_51_0(MAT_ELEM%MAT_PARAM, IPM, PM, BUFMAT)
+      CALL FILL_BUFFER_51_0(MAT_ELEM%MAT_PARAM, IPM, PM, BUFMAT, MAT_ELEM%MAT_PARAM)
 
 c-------------------------------------------------------------------
 c     /HEAT/MAT : thermal parameters

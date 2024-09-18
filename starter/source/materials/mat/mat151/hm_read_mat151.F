@@ -60,7 +60,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD       
       USE SUBMODEL_MOD 
       USE INIVOL_DEF_MOD
-      USE MATPARAM_DEF_MOD
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -90,6 +90,8 @@ C-----------------------------------------------
       INTEGER :: NBMAT, MAT_ID  ! Number of declared materials
       INTEGER :: II
       my_real :: FRAC_VOL, SUM_FRAC_VOL
+      my_real :: VFRAC(21)
+      INTEGER :: IMID(21)
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s u b r o u t i n e
 C-----------------------------------------------
@@ -106,6 +108,11 @@ C-----------------------------------------------
 C     Store number of materials
       IPM(20) = NBMAT
       PM(20) = NBMAT + EM01
+      MATPARAM%MULTIMAT%NB = NBMAT
+      ! Multimaterial data
+      IF(.NOT.ALLOCATED(MATPARAM%multimat%vfrac))ALLOCATE(MATPARAM%multimat%vfrac(NBMAT))
+      IF(.NOT.ALLOCATED(MATPARAM%multimat%mid))  ALLOCATE(MATPARAM%multimat%mid(NBMAT))
+      
 
 C     Reading submaterial IDS and corresponding volumic fractions
       SUM_FRAC_VOL = ZERO
@@ -113,7 +120,11 @@ C     Reading submaterial IDS and corresponding volumic fractions
          CALL HM_GET_INT_ARRAY_INDEX('MAT_ID_ARRAY',MAT_ID,II,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_FLOAT_ARRAY_INDEX('VOL_FRAC_ARRAY',FRAC_VOL,II,IS_AVAILABLE,LSUBMODEL,UNITAB)
          IPM(20 + II) = MAT_ID
+         MATPARAM%MULTIMAT%MID(II) = MAT_ID
          PM(20 + II) = FRAC_VOL
+         MATPARAM%MULTIMAT%VFRAC(II) = FRAC_VOL
+         IMID(II) = MAT_ID
+         VFRAC(II) = FRAC_VOL
          SUM_FRAC_VOL = SUM_FRAC_VOL + FRAC_VOL
          IF (FRAC_VOL < ZERO .OR. FRAC_VOL > ONE) THEN
             IF (NUM_INIVOL == 0) THEN
@@ -128,7 +139,10 @@ C     Reading submaterial IDS and corresponding volumic fractions
             CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGERROR, ANMODE = ANINFO, C1 = "ERROR", I1 = ID, R1 = SUM_FRAC_VOL)
          ELSE
             CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGWARNING, ANMODE = ANINFO, C1 = "WARNING", I1 = ID, R1 = SUM_FRAC_VOL)
-            IF(SUM_FRAC_VOL == ZERO)PM(20 + 1) = ONE
+            IF(SUM_FRAC_VOL == ZERO)THEN
+              PM(20 + 1) = ONE  !default submaterial is submat #1
+              MATPARAM%MULTIMAT%VFRAC(1) = ONE
+            ENDIF
          ENDIF
       ENDIF
 
@@ -151,9 +165,13 @@ C     Reading submaterial IDS and corresponding volumic fractions
       ! Properties compatibility
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
 
+      ! Multimaterial data
+      MATPARAM%multimat%vfrac(1:NBMAT) = VFRAC(1:NBMAT)
+      MATPARAM%multimat%mid(1:NBMAT) = IMID(1:NBMAT)
+
       WRITE(IOUT,1000) NBMAT
       DO II = 1, NBMAT
-         WRITE(IOUT, 1010) IPM(20 + II), PM(20 + II)
+         WRITE(IOUT, 1010) MATPARAM%multimat%mid(II), MATPARAM%multimat%vfrac(II)
       ENDDO
       
  1000 FORMAT(

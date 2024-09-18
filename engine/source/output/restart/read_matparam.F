@@ -54,10 +54,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IMAT,NUMMAT,NUMTABL,NUPARAM,NIPARAM,NFAIL,IAD,NFIX,NFIXR,
-     .           LEN,LENR,NMOD,MOD
+      INTEGER :: I,IMAT,NUMMAT,NUMTABL,NUPARAM,NIPARAM,NFAIL,IAD,NFIX,NFIXR,LEN,LENR,NMOD,MOD
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
+      INTEGER :: NBSUBMAT, ISUB
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
 c=======================================================================
 c     read MATPARAM data
@@ -191,7 +191,26 @@ c
         ELSE 
           ALLOCATE(MAT_ELEM%MAT_PARAM(IMAT)%MODE(0))
         ENDIF
-      ENDDO       
+      ENDDO
+
+      !Read multimaterial buffer
+      ALLOCATE (IBUF(21) ) !< mex is 21 submaterials
+      ALLOCATE (RBUF(21) )
+      DO IMAT = 1,NUMMAT
+        CALL READ_I_C(IBUF, 1)
+        NBSUBMAT = IBUF(1)
+        MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%NB = NBSUBMAT
+        IF(NBSUBMAT > 0)THEN
+          CALL READ_I_C(IBUF, NBSUBMAT)
+          CALL READ_DB(RBUF, NBSUBMAT)
+          MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%mid = IBUF(1:NBSUBMAT)
+          MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%vfrac = RBUF(1:NBSUBMAT)
+        ENDIF
+      ENDDO
+      DEALLOCATE(IBUF)
+      DEALLOCATE(RBUF)
+
+
 c-----------
       RETURN
       END

@@ -245,17 +245,17 @@
 
               elseif (ity == 2) then ! quad
                 call h3d_quad_scalar_1(.true.,ng,                                               &
-                &       n0phas, nvphas,ngroup, n2d, numelq, nummat, numnod, nparg, npropm, npropmi, ispmd, &
-                &       elbuf_tab   ,scalar_results, MVSIZ, iparg       ,                             &
-                &       ixq        ,NIXQ ,pm          ,                                           &
-                &       ehour     ,                                                          &
-                &       ipm         ,                                                        &
-                &       x         ,v         ,w           ,ale_connect      ,                &
-                &       id_elem   ,                                                          &
-                &       is_written,ipartq,layer_input , npart,                                &
-                &       iuvar_input,h3d_part  ,keyword   ,                                   &
-                &       bufmat      ,multi_fvm,                                              &
-                &       id          )
+                &       n0phas        ,nvphas        ,ngroup, n2d, numelq, nummat, numnod, nparg, npropm, npropmi, ispmd,&
+                &       elbuf_tab     ,scalar_results, MVSIZ, iparg       ,                             &
+                &       ixq           ,NIXQ          ,pm          ,                                           &
+                &       ehour         ,                                                          &
+                &       ipm           ,                                                        &
+                &       x             ,v             ,w           ,ale_connect      ,                &
+                &       id_elem       ,                                                          &
+                &       is_written    ,ipartq        ,layer_input , npart,                               &
+                &       iuvar_input   ,h3d_part      ,keyword     ,                                   &
+                &       bufmat        ,multi_fvm     ,                                              &
+                &       id            ,mat_param)
 
               endif
               py%elements%local%values(ii) = scalar_results(j)

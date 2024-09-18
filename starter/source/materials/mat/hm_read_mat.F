@@ -191,6 +191,7 @@ C-----------------------------------------------
       USE HM_READ_MAT127_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : nchartitle, ncharline
       USE READER_OLD_MOD , ONLY : KCUR, KLINE, LINE, KEY0, KCUR
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_SSP0MAX, M51_LC0MAX, M51_TCP_REF, M51_lSET_IFLG6, M20_DISCRETE_FILL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -205,8 +206,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
-#include      "mmale20_c.inc"
-#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -259,15 +258,14 @@ C-----------------------------------------------
       IUSER_LAW     = 0
       IMATVIS       = 0
       TRIMAT        = 0
-      lSET_51_IFLG6 = 0
-      lSET_51_IFLG6 = 0
+      M51_lSET_IFLG6 = 0
             
-      SSP0MAX       = ZERO
-      LC0MAX        = ZERO
-      TCP_REF       = ZERO
+      M51_SSP0MAX = ZERO
+      M51_LC0MAX  = ZERO
+      M51_TCP_REF = ZERO
 
       MULTI_FVM%IS_USED = .FALSE.
-      DISCRETE_FILL     = .FALSE.  ! BIMAT : PARTIAL FILL ENABLED BY DEFAULT
+      M20_DISCRETE_FILL = .FALSE.  ! BIMAT : PARTIAL FILL ENABLED BY DEFAULT
 c     
 C--------------------------------------------------
 C START BROWSING MODEL MATERIALS
@@ -1508,7 +1506,7 @@ C------------------------------
           !already done
           !law37  : see hm_read_mat37.F          
           !law51  : see hm_read_mat51.F & fill_buffer_51.F
-          !law151 : see m20dcod.F (user material ids are first converted into internal material ids in IPM(20+1:20+NSBUMAT)
+          !law151 : see m20dcod.F (user material ids are first converted into internal material ids in MAT_PARAM()%MULTIMAT%MID(1:NBMAT)
         ENDIF
       END DO
 

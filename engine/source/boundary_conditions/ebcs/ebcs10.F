@@ -44,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE SEGVAR_MOD
       USE ALE_MOD , only : ALE
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +56,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "mmale51_c.inc"
 #include      "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -265,13 +265,13 @@ C-----------------------------------------------
             MBUF => ELBUF_TAB(NGRP)%BUFLY(1)%MAT(1,1,1)
             DO ISUBMAT=1,4
               IPOS = 1                                                                                                       
-              KK = (N0PHAS + (ISUBMAT-1)*NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
+              KK = (M51_N0PHAS + (ISUBMAT-1)*M51_NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
               PHASE_ALPHA(ISUBMAT) = MBUF%VAR(KK)                                     
               IPOS = 9                                                                                                       
-              KK = (N0PHAS + (ISUBMAT-1)*NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
+              KK = (M51_N0PHAS + (ISUBMAT-1)*M51_NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
               PHASE_RHO(ISUBMAT) = MBUF%VAR(KK)
               IPOS = 8                                                                                                       
-              KK = (N0PHAS + (ISUBMAT-1)*NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
+              KK = (M51_N0PHAS + (ISUBMAT-1)*M51_NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
               PHASE_EINT(ISUBMAT) = MBUF%VAR(KK)
             ENDDO!next ITRIMAT                                      
           ELSEIF(MTN == 151)THEN
@@ -313,7 +313,7 @@ C              PP    = Pold + (ROC*(Vnew-Vold)) !+ALPHA*(Pvois+DP0)/(ALPHA + ONE
                   DO ISUBMAT=1,4 
                     ! (1-beta) VF_current + BETA VF_0
                     PHASE_ALPHA(ISUBMAT)=(ONE-BETA)*PHASE_ALPHA(ISUBMAT) 
-     .                                  + BETA*MBUF%VAR((N0PHAS+(ISUBMAT-1)*NVPHAS +23-1)* KLT+ILOC+1)
+     .                                  + BETA*MBUF%VAR((M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS +23-1)* KLT+ILOC+1)
                   ENDDO
                 ELSEIF(MTN == 151)THEN
                 

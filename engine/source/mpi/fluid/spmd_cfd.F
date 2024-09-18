@@ -2139,7 +2139,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPMD_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS, M51_IFLG6_SIZE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2157,7 +2158,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
-#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2260,7 +2260,7 @@ C-----------------------------------------------
                    !Submaterial Data
                    NELG       = KLT
                    ITRIMAT    = 1
-                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS 
+                   KK         = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS 
                    IADBUF=18 ; WA(II+07) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !PRES
                    IADBUF=1  ; WA(II+08) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !VFRAC
                    IADBUF=8  ; WA(II+09) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !ENER
@@ -2269,7 +2269,7 @@ C-----------------------------------------------
                    IADBUF=14 ; WA(II+12) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !SSP
                    IADBUF=15 ; WA(II+13) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !EPSP
                    ITRIMAT    = 2
-                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS 
+                   KK         = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS 
                    IADBUF=18 ; WA(II+14) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !PRES
                    IADBUF=1  ; WA(II+15) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !VFRAC
                    IADBUF=8  ; WA(II+16) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !ENER
@@ -2278,7 +2278,7 @@ C-----------------------------------------------
                    IADBUF=14 ; WA(II+19) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !SSP
                    IADBUF=15 ; WA(II+20) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !EPSP
                    ITRIMAT    = 3
-                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS 
+                   KK         = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS 
                    IADBUF=18 ; WA(II+21) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !PRES
                    IADBUF=1  ; WA(II+22) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !VFRAC
                    IADBUF=8  ; WA(II+23) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !ENER
@@ -2287,7 +2287,7 @@ C-----------------------------------------------
                    IADBUF=14 ; WA(II+26) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !SSP
                    IADBUF=15 ; WA(II+27) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !EPSP
                    ITRIMAT    = 4
-                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS 
+                   KK         = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS 
                    IADBUF=18 ; WA(II+28) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !PRES
                    IADBUF=1  ; WA(II+29) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !VFRAC
                    IADBUF=8  ; WA(II+30) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !ENER
