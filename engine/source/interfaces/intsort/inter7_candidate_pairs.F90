@@ -30,7 +30,6 @@
       CONTAINS
 
 !! \brief get the list of candidates pairs for all main segments
-
       !||====================================================================
       !||    inter7_candidate_pairs       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||--- called by ------------------------------------------------------
@@ -52,7 +51,6 @@
      &                                    irect        ,&
      &                                    x            ,&
      &                                    stf          ,&
-     &                                    stfn         ,&
      &                                    xyzm         ,&
      &                                    nsv          ,&
      &                                    ii_stok      ,&
@@ -82,7 +80,6 @@
      &                                    gapmax       ,&
      &                                    marge        ,&
      &                                    curv_max     ,&
-     &                                    itask        ,&
      &                                    bgapsmx      ,&
      &                                    s_kremnod    ,&
      &                                    kremnod      ,&
@@ -94,7 +91,6 @@
      &                                    cand_f       ,&
      &                                    dgapload     ,&
      &                                    s_cand_a     ,&
-     &                                    total_nb_nrtm,&
      &                                    numnod       ,&
      &                                    xrem         ,&
      &                                    s_xrem       ,&
@@ -117,8 +113,6 @@
           integer, intent(in), value :: nsnrold !< old number of remote secondary nodes
           integer, intent(in), value :: isznsnr !< size of oldnum
           integer, intent(in), value :: nrtm !< number of considered segment
-          integer, intent(in), value :: total_nb_nrtm !< total number of segments
-          integer, intent(in), value :: itask !< id of the current task
           integer, intent(in), value :: nbx !< number of voxels in x
           integer, intent(in), value :: nby !< number of voxels in y
           integer, intent(in), value :: nbz !< number of voxels in z
@@ -147,7 +141,7 @@
           integer, intent(inout) :: ifpen(mulnsn) !< something related to friction (???)
           integer, intent(inout) :: cand_a(s_cand_a) !< (???)
           integer, intent(inout) :: irem(s_irem,nsnr) !< remote (spmd) integer data
-          integer, intent(inout) :: voxel(nbx+2,nby+2,nbz+2) !< contain the first node of each voxel
+          integer, intent(inout) :: voxel((nbx+2)*(nby+2)*(nbz+2)) !< contain the first node of each voxel
           integer, intent(inout) :: next_nod(nsn+nsnr) !< next node in the same voxel
 
           my_real, intent(in), value :: gap !< gap (???)
@@ -169,8 +163,8 @@
           my_real, intent(inout) :: cand_p(mulnsn) !< penetration (???)
           my_real, intent(inout) :: cand_f(8*mulnsn) !< related to tied contact, cand force (???)
           my_real, intent(in) :: stf(nrtm) !< stiffness of segments (quadrangles or triangles)
-          my_real, intent(inout) :: stfn(nsn) !< stiffness secondary nodes
           my_real, intent(inout) :: xrem(s_xrem,nsnr) !< remote (spmd) real data
+
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -185,14 +179,8 @@
           integer :: iix, iiy, iiz
           my_real :: xminb, yminb, zminb, xmaxb, ymaxb, zmaxb, xmine, ymine, zmine, xmaxe, ymaxe, zmaxe, aaa
           integer :: first, last
-          integer :: nb_voxel_on !< number of remote nodes in the bounding box
-          integer, dimension(:), allocatable :: list_nb_voxel_on
           integer, dimension(GROUP_SIZE) :: prov_n, prov_e !< temporary list of candidates
-
-          if(itask == 0)then
-            allocate(list_nb_voxel_on((nbx+2)*(nby+2)*(nbz+2)))
-            nb_voxel_on = 0
-          end if
+          integer :: cellid
 
 !$OMP BARRIER
 
@@ -219,100 +207,6 @@
           ymaxb = xyzm(11)
           zmaxb = xyzm(12)
 
-!=======================================================================
-! 1   Add local nodes to the cells
-!=======================================================================
-          if(itask==0.and.total_nb_nrtm>0)then
-            allocate(last_nod(nsn+nsnr))
-            do i=1,nsn
-              iix=0
-              iiy=0
-              iiz=0
-              if(stfn(i) == zero)cycle
-              j=nsv(i)
-              if(x(1,j) < xmin)  cycle
-              if(x(1,j) > xmax)  cycle
-              if(x(2,j) < ymin)  cycle
-              if(x(2,j) > ymax)  cycle
-              if(x(3,j) < zmin)  cycle
-              if(x(3,j) > zmax)  cycle
-              iix=int(nbx*(x(1,j)-xminb)/(xmaxb-xminb))
-              iiy=int(nby*(x(2,j)-yminb)/(ymaxb-yminb))
-              iiz=int(nbz*(x(3,j)-zminb)/(zmaxb-zminb))
-              iix=max(1,2+min(nbx,iix))
-              iiy=max(1,2+min(nby,iiy))
-              iiz=max(1,2+min(nbz,iiz))
-              first = voxel(iix,iiy,iiz)
-              if(first == 0)then
-                !empty cell
-                nb_voxel_on = nb_voxel_on + 1
-                ! 1d version of 3d potition, indexes starts at 1
-                list_nb_voxel_on(nb_voxel_on) = (iix-1)*(nby+2)*(nbz+2)+(iiy-1)*(nbz+2)+(iiz-1)
-                voxel(iix,iiy,iiz) = i ! first
-                next_nod(i)                 = 0 ! last one
-                last_nod(i)                 = 0 ! no last
-              elseif(last_nod(first) == 0)then
-                !cell containing one node
-                !add as next node
-                next_nod(first) = i ! next
-                last_nod(first) = i ! last
-                next_nod(i)     = 0 ! last one
-              else
-                !
-                !jump to the last node of the cell
-                last = last_nod(first) ! last node in this voxel
-                next_nod(last)  = i ! next
-                last_nod(first) = i ! last
-                next_nod(i)     = 0 ! last one
-              endif
-            enddo
-
-!=======================================================================
-! 2   Add remote (spmd) nodes to the cells
-!=======================================================================
-            do j = 1, nsnr
-
-              if(xrem(1,j) < xmin)  cycle
-              if(xrem(1,j) > xmax)  cycle
-              if(xrem(2,j) < ymin)  cycle
-              if(xrem(2,j) > ymax)  cycle
-              if(xrem(3,j) < zmin)  cycle
-              if(xrem(3,j) > zmax)  cycle
-
-              iix=int(nbx*(xrem(1,j)-xminb)/(xmaxb-xminb))
-              iiy=int(nby*(xrem(2,j)-yminb)/(ymaxb-yminb))
-              iiz=int(nbz*(xrem(3,j)-zminb)/(zmaxb-zminb))
-              iix=max(1,2+min(nbx,iix))
-              iiy=max(1,2+min(nby,iiy))
-              iiz=max(1,2+min(nbz,iiz))
-
-              first = voxel(iix,iiy,iiz)
-
-              if(first == 0)then
-                ! empty cell
-                nb_voxel_on = nb_voxel_on + 1
-                ! 1d version of 3d potition
-                list_nb_voxel_on( nb_voxel_on ) = (iix-1) * (nby+2) * (nbz+2) + (iiy-1) * (nbz+2) + (iiz-1)
-
-                voxel(iix,iiy,iiz) = nsn+j ! first
-                next_nod(nsn+j)     = 0 ! last one
-                last_nod(nsn+j)     = 0 ! no last
-              elseif(last_nod(first) == 0)then
-                ! cell containing one node, add it as next node
-                next_nod(first) = nsn+j  ! next
-                last_nod(first) = nsn+j  ! last
-                next_nod(nsn+j)  = 0     ! last one
-              else
-                ! , jump to the last node of the cell
-                last = last_nod(first)  ! last node in this voxel
-                next_nod(last)  = nsn+j ! next
-                last_nod(first) = nsn+j ! last
-                next_nod(nsn+j)     = 0 ! last one
-              endif
-            enddo
-            deallocate(last_nod)
-          end if !itask == 0
-!$OMP BARRIER
 
 
 !=======================================================================
@@ -413,8 +307,9 @@
               do iy = iy1,iy2
                 do ix = ix1,ix2
                   if(i_mem==2) cycle
-                  jj = voxel(ix,iy,iz)
-                  do while(jj /= 0)
+                  cellid = (iz-1)*(nbx+2)*(nby+2)+(iy-1)*(nbx+2)+ix
+                  jj = voxel(cellid)
+                  do while(jj > 0)
 
                     if(jj<=nsn)then
                       ! local node
@@ -528,23 +423,16 @@
      &                   nsnr, nrtm, isznsnr,&
      &                   xrem ,s_xrem)
 
-!=======================================================================
-! 5   VOXEL RESET
-!=======================================================================
-!$OMP BARRIER
-          if(total_nb_nrtm>0 .and. itask == 0) then
-            do jj = 1, nb_voxel_on
-              j = list_nb_voxel_on(jj)
-              k = j
-              iiz =  mod(k,nbz+2) + 1
-              ! iz [1,nbz+2]
-              k = (k-iiz+1)/(nbz+2)
-              iiy =  mod(k,nby+2) + 1
-              k = (k-iiy+1)/(nby+2)
-              iix = mod(k,nbx+2) + 1
-              voxel(iix,iiy,iiz) = 0
-            enddo
-          endif
+!!=======================================================================
+!! 5   VOXEL RESET
+!!=======================================================================
+!!$OMP BARRIER
+!          if(total_nb_nrtm>0 .and. itask == 0 .and. i_mem == 0) then
+!            do jj = 1, nb_voxel_on
+!              cellid = list_nb_voxel_on(jj)
+!              voxel(cellid) = 0
+!            enddo
+!          endif
 !$OMP BARRIER
 !=======================================================================
 ! 7   DEALLOCATE
@@ -552,7 +440,7 @@
           if(flagremnode == 2) then
             if(allocated(tagremnode)) deallocate(tagremnode)
           endif
-          if(itask == 0) deallocate(list_nb_voxel_on)
+!         if(itask == 0) deallocate(list_nb_voxel_on)
 
 !#ifndef NO_SERIALIZE
 !        if(nsn > 13602 .and. nrtm > 1800) then
@@ -1031,243 +919,248 @@
         end subroutine
 
 
-        !!\brief compare the couple cand_n(i) cand_e(i) with the couple cand_n_ref/cand_e_ref
-        !!\details check if there exist i and j such as cand_n(i)=cand_n_ref(j) and cand_e(i)=cand_e_ref(j)
-      !||====================================================================
-      !||    test_candidates          ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
-      !||--- called by ------------------------------------------------------
-      !||    main                     ../engine/unit_test/unit_test1.F
-      !||--- calls      -----------------------------------------------------
-      !||    compare_cand             ../engine/source/interfaces/intsort/compare_cand.cpp
-      !||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
-      !||    inter7_deserialize       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
-        subroutine test_candidates(filename)
-          use iso_c_binding , only : c_int
-          implicit none
-          interface
-          subroutine compare_cand(cand_n, cand_e, ii_stok, cand_n_ref, cand_e_ref, ii_stok_ref) bind(C, name="compare_cand")
-              import :: c_int
-              integer(c_int), intent(in) :: cand_n(*), cand_e(*), cand_n_ref(*), cand_e_ref(*)
-              integer(c_int), intent(in), value :: ii_stok_ref, ii_stok
-          end subroutine compare_cand
-          end interface
-#include "my_real.inc"
-!-----------------------------------------------
-!   D u m m y   A r g u m e n t s
-!-----------------------------------------------
-          character(len =*), intent(in) :: filename
-!-----------------------------------------------
-!   L o c a l   V a r i a b l e s
-!-----------------------------------------------
-          integer :: nsn !< number of secondary nodes
-          integer :: nsnr !< current number of remote secondary nodes
-          integer :: nsnrold !< old number of remote secondary nodes
-          integer :: isznsnr !< size of oldnum
-          integer :: nrtm !< number of considered segment
-          integer :: total_nb_nrtm !< total number of segments
-          integer :: inacti !< inactivation of initial penetrations
-          integer :: ifq !< friction model ?
-          integer :: igap !< gap model ?
-          integer :: flagremnode !< flag for removed nodes?
-          integer :: itied !< tied contact ?
-          integer :: numnod !< total number of nodes of the model
-          integer :: s_cand_a !< size of cand_a
-          integer :: s_kremnod ! 2 * nrtm + 1 if option is used
-          integer :: s_remnod !< size of remnod
-          integer :: mulnsn !< maximum numbrer of candidates (size of cand_n)
-          integer :: nbx !< number of voxels in x
-          integer :: nby !< number of voxels in y
-          integer :: nbz !< number of voxels in z
-          integer :: ii_stok, ii_stok_ref !< number of candidates found
-          integer, dimension(:), allocatable :: nsv !< global secondary node numbers
-          integer, dimension(:), allocatable :: oldnum !< renumbering ?
-          integer, dimension(:), allocatable :: kremnod !< list of removed nodes
-          integer, dimension(:), allocatable :: remnod !< list of removed nodes
-          integer, dimension(:,:), allocatable :: irect !< node id (from 1 to NUMNOD) for each segment (1:nrtm)
-          integer, dimension(:), allocatable :: cand_a !< (???)
-          integer, dimension(:), allocatable :: cand_n, cand_n_ref !< list of candidates (secondary)
-          integer, dimension(:), allocatable :: cand_e, cand_e_ref !< list of candidates (main)
-          my_real :: gap !< gap (???)
-          my_real :: gapmin !< minimum gap
-          my_real :: gapmax !< maximum gap
-          my_real :: bgapsmx!< overestimation of gap_s
-          my_real :: marge !< margin
-          my_real :: tzinf !< some kind of length for "zone of influence" ?
-          my_real :: drad !< radiation distance (thermal analysis)
-          my_real :: dgapload !< gap load (???)
-          my_real, dimension(:,:), allocatable :: x !< coordinates of nodes all
-          my_real, dimension(:), allocatable :: gap_s !< gap for secondary nodes
-          my_real, dimension(:), allocatable :: gap_m !< gap for main nodes
-          my_real, dimension(:), allocatable :: gap_s_l !< gap for secondary nodes (???)
-          my_real, dimension(:), allocatable :: gap_m_l !< gap for main nodes (???)
-          my_real, dimension(:), allocatable :: curv_max !< maximum curvature
-          my_real, dimension(:), allocatable :: stf !< stiffness of segments (quadrangles or triangles)
-          my_real, dimension(:), allocatable :: stfn !< stiffness secondary nodes
-          my_real, dimension(:), allocatable :: cand_f,cand_p
-
-          integer OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS
-          external OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS
-
-          my_real ::  xyzm(12) !< bounding box
-!         integer :: voxel(8000000)
-          integer, dimension(:), allocatable :: voxel
-          integer, dimension(:), allocatable :: next_nod,ifpen
-          integer :: eshift,i_mem,i, itask, s_irem, s_xrem 
-          my_real, dimension(:,:), allocatable :: xrem
-          integer, dimension(:,:), allocatable :: irem
-          double precision :: start_time, end_time, elapsed_time
-          double precision OMP_GET_WTIME
-          external OMP_GET_WTIME
-          i_mem = 0
-          eshift = 0
-          ii_stok_ref = 0
-    
-          allocate(voxel(8000000))
-
-          call INTER7_DESERIALIZE(        filename     ,& 
-     &                                    nsn          ,&
-     &                                    oldnum       ,&
-     &                                    nsnr         ,&
-     &                                    isznsnr      ,&
-     &                                    irect        ,&
-     &                                    x            ,&
-     &                                    stf          ,&
-     &                                    stfn         ,&
-     &                                    xyzm         ,&
-     &                                    nsv          ,&
-     &                                    ii_stok_ref  ,&
-     &                                    cand_n_ref   ,&
-     &                                    cand_e_ref   ,&
-     &                                    mulnsn       ,&
-     &                                    tzinf        ,&
-     &                                    gap_s_l      ,&
-     &                                    gap_m_l      ,&
-     &                                    nbx          ,&
-     &                                    nby          ,&
-     &                                    nbz          ,&
-     &                                    inacti       ,&
-     &                                    ifq          ,&
-     &                                    cand_a       ,&
-     &                                    nrtm         ,&
-     &                                    nsnrold      ,&
-     &                                    igap         ,&
-     &                                    gap          ,&
-     &                                    gap_s        ,&
-     &                                    gap_m        ,&
-     &                                    gapmin       ,&
-     &                                    gapmax       ,&
-     &                                    marge        ,&
-     &                                    curv_max     ,&
-     &                                    bgapsmx      ,&
-     &                                    s_kremnod    ,&
-     &                                    kremnod      ,&
-     &                                    s_remnod     ,&
-     &                                    remnod       ,&
-     &                                    flagremnode  ,&
-     &                                    drad         ,&
-     &                                    itied        ,&
-     &                                    dgapload     ,&
-     &                                    s_cand_a     ,&
-     &                                    total_nb_nrtm,&
-     &                                    numnod       )
-
-        allocate(cand_n(mulnsn))
-        allocate(cand_e(mulnsn))
-        allocate(cand_f(8*mulnsn))
-        allocate(cand_p(mulnsn))
-        allocate(ifpen(mulnsn))
-        s_xrem = 1 
-        s_irem = 1
-        allocate(xrem(s_xrem, nsnr))
-        allocate(irem(s_irem, nsnr))
-        ifpen = 0
-        cand_n = 0
-        cand_e = 0
-        cand_f = 0
-        cand_p = 0
-        ii_stok = 0
-        allocate(next_nod(nsn+nsnr))
-        start_time = OMP_GET_WTIME()
-!$OMP PARALLEL PRIVATE(i,itask)
-!$OMP SINGLE
-        do i=1,(nbx+2)*(nby+2)*(nbz+2)
-          voxel(i)=0
-        enddo
-!$OMP END SINGLE
-         ITASK = OMP_GET_THREAD_NUM() 
-
-
-        call INTER7_CANDIDATE_PAIRS(&
-     &                                    nsn          ,&
-     &                                    oldnum       ,&
-     &                                    nsnr         ,&
-     &                                    isznsnr      ,&
-     &                                    i_mem        ,&
-     &                                    irect        ,&
-     &                                    x            ,&
-     &                                    stf          ,&
-     &                                    stfn         ,&
-     &                                    xyzm         ,&
-     &                                    nsv          ,&
-     &                                    ii_stok      ,&
-     &                                    cand_n       ,&
-     &                                    eshift       ,&
-     &                                    cand_e       ,&
-     &                                    mulnsn       ,&
-     &                                    tzinf        ,&
-     &                                    gap_s_l      ,&
-     &                                    gap_m_l      ,&
-     &                                    voxel        ,&
-     &                                    nbx          ,&
-     &                                    nby          ,&
-     &                                    nbz          ,&
-     &                                    inacti       ,&
-     &                                    ifq          ,&
-     &                                    cand_a       ,&
-     &                                    cand_p       ,&
-     &                                    ifpen        ,&
-     &                                    nrtm         ,&
-     &                                    nsnrold      ,&
-     &                                    igap         ,&
-     &                                    gap          ,&
-     &                                    gap_s        ,&
-     &                                    gap_m        ,&
-     &                                    gapmin       ,&
-     &                                    gapmax       ,&
-     &                                    marge        ,&
-     &                                    curv_max     ,&
-     &                                    itask        ,&
-     &                                    bgapsmx      ,&
-     &                                    s_kremnod    ,&
-     &                                    kremnod      ,&
-     &                                    s_remnod     ,&
-     &                                    remnod       ,&
-     &                                    flagremnode  ,&
-     &                                    drad         ,&
-     &                                    itied        ,&
-     &                                    cand_f       ,&
-     &                                    dgapload     ,&
-     &                                    s_cand_a     ,&
-     &                                    total_nb_nrtm,&
-     &                                    numnod       ,&
-     &                                    xrem         ,&
-     &                                    s_xrem       ,&
-     &                                    irem         ,&
-     &                                    s_irem       ,&
-     &                                    next_nod      )
-
-!$OMP END PARALLEL
-          end_time = OMP_GET_WTIME()
-
-          write(6,*) "Elapsed time =", end_time - start_time 
-
-          call compare_cand(cand_n, cand_e, ii_stok, cand_n_ref, cand_e_ref, ii_stok_ref)
-
-          deallocate(voxel)
-
-        end subroutine
+!        !!\brief compare the couple cand_n(i) cand_e(i) with the couple cand_n_ref/cand_e_ref
+!        !!\details check if there exist i and j such as cand_n(i)=cand_n_ref(j) and cand_e(i)=cand_e_ref(j)
+!      !||====================================================================
+!      !||    test_candidates          ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+!      !||--- called by ------------------------------------------------------
+!      !||    main                     ../engine/unit_test/unit_test1.F
+!      !||--- calls      -----------------------------------------------------
+!      !||    compare_cand             ../engine/source/interfaces/intsort/compare_cand.cpp
+!      !||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+!      !||    inter7_deserialize       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+!      !||--- uses       -----------------------------------------------------
+!      !||====================================================================
+!        subroutine test_candidates(filename)
+!          use iso_c_binding , only : c_int
+!          implicit none
+!          interface
+!          subroutine compare_cand(cand_n, cand_e, ii_stok, cand_n_ref, cand_e_ref, ii_stok_ref) bind(C, name="compare_cand")
+!              import :: c_int
+!              integer(c_int), intent(in) :: cand_n(*), cand_e(*), cand_n_ref(*), cand_e_ref(*)
+!              integer(c_int), intent(in), value :: ii_stok_ref, ii_stok
+!          end subroutine compare_cand
+!          end interface
+!#include "my_real.inc"
+!!-----------------------------------------------
+!!   D u m m y   A r g u m e n t s
+!!-----------------------------------------------
+!          character(len =*), intent(in) :: filename
+!!-----------------------------------------------
+!!   L o c a l   V a r i a b l e s
+!!-----------------------------------------------
+!          integer :: nsn !< number of secondary nodes
+!          integer :: nsnr !< current number of remote secondary nodes
+!          integer :: nsnrold !< old number of remote secondary nodes
+!          integer :: isznsnr !< size of oldnum
+!          integer :: nrtm !< number of considered segment
+!          integer :: total_nb_nrtm !< total number of segments
+!          integer :: inacti !< inactivation of initial penetrations
+!          integer :: ifq !< friction model ?
+!          integer :: igap !< gap model ?
+!          integer :: flagremnode !< flag for removed nodes?
+!          integer :: itied !< tied contact ?
+!          integer :: numnod !< total number of nodes of the model
+!          integer :: s_cand_a !< size of cand_a
+!          integer :: s_kremnod ! 2 * nrtm + 1 if option is used
+!          integer :: s_remnod !< size of remnod
+!          integer :: mulnsn !< maximum numbrer of candidates (size of cand_n)
+!          integer :: nbx !< number of voxels in x
+!          integer :: nby !< number of voxels in y
+!          integer :: nbz !< number of voxels in z
+!          integer :: ii_stok, ii_stok_ref !< number of candidates found
+!          integer, dimension(:), allocatable :: nsv !< global secondary node numbers
+!          integer, dimension(:), allocatable :: oldnum !< renumbering ?
+!          integer, dimension(:), allocatable :: kremnod !< list of removed nodes
+!          integer, dimension(:), allocatable :: remnod !< list of removed nodes
+!          integer, dimension(:,:), allocatable :: irect !< node id (from 1 to NUMNOD) for each segment (1:nrtm)
+!          integer, dimension(:), allocatable :: cand_a !< (???)
+!          integer, dimension(:), allocatable :: cand_n, cand_n_ref !< list of candidates (secondary)
+!          integer, dimension(:), allocatable :: cand_e, cand_e_ref !< list of candidates (main)
+!          my_real :: gap !< gap (???)
+!          my_real :: gapmin !< minimum gap
+!          my_real :: gapmax !< maximum gap
+!          my_real :: bgapsmx!< overestimation of gap_s
+!          my_real :: marge !< margin
+!          my_real :: tzinf !< some kind of length for "zone of influence" ?
+!          my_real :: drad !< radiation distance (thermal analysis)
+!          my_real :: dgapload !< gap load (???)
+!          my_real, dimension(:,:), allocatable :: x !< coordinates of nodes all
+!          my_real, dimension(:), allocatable :: gap_s !< gap for secondary nodes
+!          my_real, dimension(:), allocatable :: gap_m !< gap for main nodes
+!          my_real, dimension(:), allocatable :: gap_s_l !< gap for secondary nodes (???)
+!          my_real, dimension(:), allocatable :: gap_m_l !< gap for main nodes (???)
+!          my_real, dimension(:), allocatable :: curv_max !< maximum curvature
+!          my_real, dimension(:), allocatable :: stf !< stiffness of segments (quadrangles or triangles)
+!          my_real, dimension(:), allocatable :: stfn !< stiffness secondary nodes
+!          my_real, dimension(:), allocatable :: cand_f,cand_p
+!          integer :: nb_voxel_on
+!          integer, dimension(:), allocatable :: list_nb_voxel_on
+!
+!          integer OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS
+!          external OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS
+!
+!          my_real ::  xyzm(12) !< bounding box
+!!         integer :: voxel(8000000)
+!          integer, dimension(:), allocatable :: voxel
+!          integer, dimension(:), allocatable :: next_nod,ifpen
+!          integer :: eshift,i_mem,i, itask, s_irem, s_xrem 
+!          my_real, dimension(:,:), allocatable :: xrem
+!          integer, dimension(:,:), allocatable :: irem
+!          double precision :: start_time, end_time, elapsed_time
+!          double precision OMP_GET_WTIME
+!          external OMP_GET_WTIME
+!          i_mem = 0
+!          eshift = 0
+!          ii_stok_ref = 0
+!    
+!          allocate(voxel(8000000))
+!
+!          call INTER7_DESERIALIZE(        filename     ,& 
+!     &                                    nsn          ,&
+!     &                                    oldnum       ,&
+!     &                                    nsnr         ,&
+!     &                                    isznsnr      ,&
+!     &                                    irect        ,&
+!     &                                    x            ,&
+!     &                                    stf          ,&
+!     &                                    stfn         ,&
+!     &                                    xyzm         ,&
+!     &                                    nsv          ,&
+!     &                                    ii_stok_ref  ,&
+!     &                                    cand_n_ref   ,&
+!     &                                    cand_e_ref   ,&
+!     &                                    mulnsn       ,&
+!     &                                    tzinf        ,&
+!     &                                    gap_s_l      ,&
+!     &                                    gap_m_l      ,&
+!     &                                    nbx          ,&
+!     &                                    nby          ,&
+!     &                                    nbz          ,&
+!     &                                    inacti       ,&
+!     &                                    ifq          ,&
+!     &                                    cand_a       ,&
+!     &                                    nrtm         ,&
+!     &                                    nsnrold      ,&
+!     &                                    igap         ,&
+!     &                                    gap          ,&
+!     &                                    gap_s        ,&
+!     &                                    gap_m        ,&
+!     &                                    gapmin       ,&
+!     &                                    gapmax       ,&
+!     &                                    marge        ,&
+!     &                                    curv_max     ,&
+!     &                                    bgapsmx      ,&
+!     &                                    s_kremnod    ,&
+!     &                                    kremnod      ,&
+!     &                                    s_remnod     ,&
+!     &                                    remnod       ,&
+!     &                                    flagremnode  ,&
+!     &                                    drad         ,&
+!     &                                    itied        ,&
+!     &                                    dgapload     ,&
+!     &                                    s_cand_a     ,&
+!     &                                    total_nb_nrtm,&
+!     &                                    numnod       )
+!
+!        allocate(cand_n(mulnsn))
+!        allocate(cand_e(mulnsn))
+!        allocate(cand_f(8*mulnsn))
+!        allocate(cand_p(mulnsn))
+!        allocate(ifpen(mulnsn))
+!        s_xrem = 1 
+!        s_irem = 1
+!        allocate(xrem(s_xrem, nsnr))
+!        allocate(irem(s_irem, nsnr))
+!        ifpen = 0
+!        cand_n = 0
+!        cand_e = 0
+!        cand_f = 0
+!        cand_p = 0
+!        ii_stok = 0
+!        allocate(next_nod(nsn+nsnr))
+!        start_time = OMP_GET_WTIME()
+!!$OMP PARALLEL PRIVATE(i,itask)
+!!$OMP SINGLE
+!        do i=1,(nbx+2)*(nby+2)*(nbz+2)
+!          voxel(i)=0
+!        enddo
+!        allocate(list_nb_voxel_on((nbx+2)*(nby+2)*(nbz+2)))
+!        nb_voxel_on = 0
+!!$OMP END SINGLE
+!         ITASK = OMP_GET_THREAD_NUM() 
+!      
+!
+!        call INTER7_CANDIDATE_PAIRS(&
+!     &                                    nsn          ,&
+!     &                                    oldnum       ,&
+!     &                                    nsnr         ,&
+!     &                                    isznsnr      ,&
+!     &                                    i_mem        ,&
+!     &                                    irect        ,&
+!     &                                    x            ,&
+!     &                                    stf          ,&
+!     &                                    xyzm         ,&
+!     &                                    nsv          ,&
+!     &                                    ii_stok      ,&
+!     &                                    cand_n       ,&
+!     &                                    eshift       ,&
+!     &                                    cand_e       ,&
+!     &                                    mulnsn       ,&
+!     &                                    tzinf        ,&
+!     &                                    gap_s_l      ,&
+!     &                                    gap_m_l      ,&
+!     &                                    voxel        ,&
+!     &                                    nbx          ,&
+!     &                                    nby          ,&
+!     &                                    nbz          ,&
+!     &                                    inacti       ,&
+!     &                                    ifq          ,&
+!     &                                    cand_a       ,&
+!     &                                    cand_p       ,&
+!     &                                    ifpen        ,&
+!     &                                    nrtm         ,&
+!     &                                    nsnrold      ,&
+!     &                                    igap         ,&
+!     &                                    gap          ,&
+!     &                                    gap_s        ,&
+!     &                                    gap_m        ,&
+!     &                                    gapmin       ,&
+!     &                                    gapmax       ,&
+!     &                                    marge        ,&
+!     &                                    curv_max     ,&
+!     &                                    itask        ,&
+!     &                                    bgapsmx      ,&
+!     &                                    s_kremnod    ,&
+!     &                                    kremnod      ,&
+!     &                                    s_remnod     ,&
+!     &                                    remnod       ,&
+!     &                                    flagremnode  ,&
+!     &                                    drad         ,&
+!     &                                    itied        ,&
+!     &                                    cand_f       ,&
+!     &                                    dgapload     ,&
+!     &                                    s_cand_a     ,&
+!     &                                    total_nb_nrtm,&
+!     &                                    numnod       ,&
+!     &                                    xrem         ,&
+!     &                                    s_xrem       ,&
+!     &                                    irem         ,&
+!     &                                    s_irem       ,&
+!     &                                    next_nod     ,&
+!     &                                    nb_voxel_on, &
+!     &                                    list_nb_voxel_on);
+!
+!!$OMP END PARALLEL
+!          end_time = OMP_GET_WTIME()
+!
+!          write(6,*) "Elapsed time =", end_time - start_time 
+!
+!          call compare_cand(cand_n, cand_e, ii_stok, cand_n_ref, cand_e_ref, ii_stok_ref)
+!
+!          deallocate(voxel)
+!
+!        end subroutine
 
 
       END MODULE

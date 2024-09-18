@@ -71,6 +71,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
             INTEGER, DIMENSION(:), ALLOCATABLE :: LOCAL_COARSE_GRID
 
+            LOGICAL :: COARSE_GRID
+            INTEGER, DIMENSION(:), ALLOCATABLE :: NB_LOCAL_CELL
+            LOGICAL, DIMENSION(:,:,:), ALLOCATABLE :: CELL_BOOL
+
+            INTEGER :: REMOTE_S_NODE    ! number of real remote secondary nodes
+            INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_REMOTE_S_NODE ! list of real remote secondary nodes
+
+
             !   ---------------------
             TYPE buffer_comm_type
                 !   buffer for communication of position/velocity
@@ -152,12 +160,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
                 !   -----------------------------
             END TYPE sorting_comm_type
               
-            LOGICAL :: COARSE_GRID
-            INTEGER, DIMENSION(:), ALLOCATABLE :: NB_LOCAL_CELL
-            LOGICAL, DIMENSION(:,:,:), ALLOCATABLE :: CELL_BOOL
-
-            INTEGER :: REMOTE_S_NODE    ! number of real remote secondary nodes
-            INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_REMOTE_S_NODE ! list of real remote secondary nodes
 !   -------------------------    
         END MODULE INTER_SORTING_MOD
 

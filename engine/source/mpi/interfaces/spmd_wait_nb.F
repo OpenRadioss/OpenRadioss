@@ -93,10 +93,8 @@ C-----------------------------------------------
         ! wait the R comm & compute the global number of remote secondary nodes sum( NB(p), p=1:number_of_proc)
         IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN  !   local nmn>0
             IJK = 0
-            DO L=1,SORT_COMM(NIN)%NBRECV_NB
-                CALL MPI_WAITANY(SORT_COMM(NIN)%NBRECV_NB,
-     .                           SORT_COMM(NIN)%REQUEST_NB_R,P_LOC,STATUS,IERROR)
-            ENDDO
+
+            CALL MPI_WAITALL(SORT_COMM(NIN)%NBRECV_NB,SORT_COMM(NIN)%REQUEST_NB_R,MPI_STATUSES_IGNORE,IERROR)
 
             L = 0
             SORT_COMM(NIN)%NSNR = 0

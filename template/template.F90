@@ -23,7 +23,7 @@
       module my_subroutine_mod
       contains
 ! ======================================================================================================================
-!                                                   PROCEDURES
+!                                                   procedures
 ! ======================================================================================================================
 !! \brief Here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
