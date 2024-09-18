@@ -59,7 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    freupwm                  ../engine/source/input/freupwm.F
       !||    h3d_ini                  ../engine/source/output/h3d/h3d_build_fortran/h3d_ini.F
       !||    h3d_read                 ../engine/source/output/h3d/h3d_build_fortran/h3d_read.F
-      !||    init_idel_brick          ../engine/share/modules/dt_mod.F
+      !||    init_idel_brick          ../engine/source/modules/dt_mod.F
       !||    nvar                     ../engine/source/input/nvar.F
       !||    open_f_scratch_file      ../engine/source/system/open_tempfile.F
       !||    rdele                    ../engine/source/input/rdele.F
@@ -71,7 +71,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ale_mod                  ../common_source/modules/ale/ale_mod.F
       !||    alemuscl_mod             ../common_source/modules/ale/alemuscl_mod.F
       !||    check_mod                ../common_source/modules/check_mod.F
-      !||    dt_mod                   ../engine/share/modules/dt_mod.F
+      !||    dt_mod                   ../engine/source/modules/dt_mod.F
       !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
       !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
       !||    message_mod              ../engine/share/message_module/message_mod.F

@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    tfcum3              ../engine/source/elements/truss/tfcum3.F
       !||    tfcum3p             ../engine/source/elements/truss/tfcum3p.F
       !||--- uses       -----------------------------------------------------
+      !||    dt_mod              ../engine/source/modules/dt_mod.F
       !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    h3d_mod             ../engine/share/modules/h3d_mod.F
       !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90

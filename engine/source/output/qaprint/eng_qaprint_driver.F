@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eng_qaprint_dtinput                ../engine/source/output/qaprint/eng_qaprint_dtinput.F
       !||    eng_qaprint_generalcontrolsinput   ../engine/source/output/qaprint/eng_qaprint_generalcontrolsinput.F
       !||--- uses       -----------------------------------------------------
-      !||    dt_mod                             ../engine/share/modules/dt_mod.F
+      !||    dt_mod                             ../engine/source/modules/dt_mod.F
       !||    output_mod                         ../common_source/modules/output/output_mod.F90
       !||    qa_out_mod                         ../common_source/qa/qa_out_mod.F
       !||    sensor_mod                         ../engine/share/modules/sensor_mod.F

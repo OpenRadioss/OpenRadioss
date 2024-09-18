@@ -32,7 +32,7 @@ C-----------------------------------------------
       !||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
       !||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
       !||--- uses       -----------------------------------------------------
-      !||    dt_mod        ../engine/share/modules/dt_mod.F
+      !||    dt_mod        ../engine/source/modules/dt_mod.F
       !||    message_mod   ../engine/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE SGEODEL3(

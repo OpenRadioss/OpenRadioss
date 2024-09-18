@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    qaprint               ../common_source/qa/qa_out_mod.F
       !||--- uses       -----------------------------------------------------
-      !||    dt_mod                ../engine/share/modules/dt_mod.F
+      !||    dt_mod                ../engine/source/modules/dt_mod.F
       !||    message_mod           ../engine/share/message_module/message_mod.F
       !||    qa_out_mod            ../common_source/qa/qa_out_mod.F
       !||====================================================================

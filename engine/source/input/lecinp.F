@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    freform      ../engine/source/input/freform.F
       !||--- uses       -----------------------------------------------------
-      !||    dt_mod       ../engine/share/modules/dt_mod.F
+      !||    dt_mod       ../engine/source/modules/dt_mod.F
       !||    h3d_mod      ../engine/share/modules/h3d_mod.F
       !||    output_mod   ../common_source/modules/output/output_mod.F90
       !||    sensor_mod   ../engine/share/modules/sensor_mod.F

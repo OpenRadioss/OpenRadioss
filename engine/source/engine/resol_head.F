@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    diffusion_mod          ../engine/share/modules/diffusion_mod.F
       !||    drape_mod              ../engine/share/modules/drape_mod.F
       !||    dsgraph_mod            ../engine/share/modules/dsgraph_mod.F
-      !||    dt_mod                 ../engine/share/modules/dt_mod.F
+      !||    dt_mod                 ../engine/source/modules/dt_mod.F
       !||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||    eig_mod                ../engine/share/modules/eig_mod.F
       !||    fxb_mod                ../engine/share/modules/fxb_mod.F

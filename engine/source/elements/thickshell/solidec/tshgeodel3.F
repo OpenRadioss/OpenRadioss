@@ -29,7 +29,7 @@ C-----------------------------------------------
       !||    s8cforc3      ../engine/source/elements/thickshell/solide8c/s8cforc3.F
       !||    scforc3       ../engine/source/elements/thickshell/solidec/scforc3.F
       !||--- uses       -----------------------------------------------------
-      !||    dt_mod        ../engine/share/modules/dt_mod.F
+      !||    dt_mod        ../engine/source/modules/dt_mod.F
       !||    message_mod   ../engine/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE TSHGEODEL3(NGL, OFFG ,VOLG ,AREA, VOLG0 ,L_SH,GEO ,NNOD,DT,NEL)

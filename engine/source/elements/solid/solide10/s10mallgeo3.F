@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    s10forc3      ../engine/source/elements/solid/solide10/s10forc3.F
       !||--- uses       -----------------------------------------------------
-      !||    dt_mod        ../engine/share/modules/dt_mod.F
+      !||    dt_mod        ../engine/source/modules/dt_mod.F
       !||====================================================================
       SUBROUTINE S10MALLGEO3(
      1   NGL,     OFFG,    VOLG,    DELTAX,

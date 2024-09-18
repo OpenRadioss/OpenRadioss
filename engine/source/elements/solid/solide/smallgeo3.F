@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    ancmsg        ../engine/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
-      !||    dt_mod        ../engine/share/modules/dt_mod.F
+      !||    dt_mod        ../engine/source/modules/dt_mod.F
       !||    message_mod   ../engine/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE SMALLGEO3(

@@ -43,6 +43,7 @@ cc
       !||    dttherm          ../engine/source/elements/sh3n/coquedk/dttherm.F
       !||--- uses       -----------------------------------------------------
       !||    drape_mod        ../engine/share/modules/drape_mod.F
+      !||    dt_mod           ../engine/source/modules/dt_mod.F
       !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    failwave_mod     ../common_source/modules/failwave_mod.F
       !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
