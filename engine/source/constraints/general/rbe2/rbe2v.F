@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,
-     .        JT(3,NRBE2),JR(3,NRBE2),NM,NN,K,ISK,NSN,IRAD
+     .        JT(3,NRBE2),JR(3,NRBE2),NM,NN,K,ISK,NSN,IRAD,NSN_G
 C     REAL
 C======================================================================|
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
@@ -61,13 +61,14 @@ C======================================================================|
         NSN = IRBE2(5,N)
         ISK = IRBE2(7,N)
         IRAD = IRBE2(11,N)
+        NSN_G = IRBE2(12,N)
           IF (ISK>1) THEN
            CALL RBE2VL1(NSN   ,LRBE2(IAD+1),X     ,A     ,AR    ,
      1                  V     ,VR    ,JT(1,N),JR(1,N),M     ,
-     2                  SKEW(1,ISK),IRAD  )
+     2                  SKEW(1,ISK),IRAD  ,NSN_G)
         ELSE
            CALL RBE2V1(NSN   ,LRBE2(IAD+1),X     ,A     ,AR    ,
-     1                  V     ,VR    ,JT(1,N),JR(1,N),M  ,IRAD  )
+     1                 V     ,VR    ,JT(1,N),JR(1,N),M  ,IRAD  ,NSN_G)
         END IF
       ENDDO
 C---
@@ -740,7 +741,11 @@ C
       !||====================================================================
       SUBROUTINE RBE2V1(NSL   ,ISL   ,X     ,A     ,AR    ,
      1                  V     ,VR    ,JT    ,JR    ,M     ,
-     2                  IRAD  )
+     2                  IRAD  ,NSL_G )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE VELROT_EXPLICIT_MOD, ONLY : VELROT_EXPLICIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -752,7 +757,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSL,ISL(*),JT(3),JR(3),M,IRAD
+      INTEGER NSL,ISL(*),JT(3),JR(3),M,IRAD,NSL_G
 C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), V(3,*), VR(3,*)
@@ -763,7 +768,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   V1X2, V2X1, V2X3, V3X2, V3X1, V1X3,USDT,DT05,
-     .   VX1, VX2, VX3,VG(3)
+     .   VX1, VX2, VX3,VG(3),LSM(3),VS(3),AS(3)
 C======================================================================|
 C-------change As=Am to Vs=Vm------
         USDT = ONE/DT12
@@ -783,11 +788,27 @@ C
           DO I=1,NSL
            NS = ISL(I)
            AR(J,NS)= (VG(J)-VR(J,NS)) * USDT
-            ENDDO
+          ENDDO
          ENDIF
         ENDDO
        END IF
 C
+      IF (NSL_G<=2) THEN 
+        DT05 = HALF*DT2
+       IF (IRAD==0) THEN
+       ELSEIF ((JR(1)+JR(2)+JR(3))>0) THEN
+         VG(1:3)=JR(1:3)*VG(1:3) 
+       END IF
+        DO I=1,NSL
+         NS = ISL(I)
+         LSM(1:3) = X(1:3,NS)-X(1:3,M)
+         CALL VELROT_EXPLICIT(VG, LSM,VS,DT12)
+         AS(1) = USDT*(VS(1)+DT05*(VG(2)*VS(3)-VG(3)*VS(2)))
+         AS(2) = USDT*(VS(2)+DT05*(VG(3)*VS(1)-VG(1)*VS(3)))
+         AS(3) = USDT*(VS(3)+DT05*(VG(1)*VS(2)-VG(2)*VS(1)))
+         A(1:3,NS)= A(1:3,NS)+AS(1:3)*JT(1:3)
+        ENDDO
+      ELSE
        IF (IRAD==0) THEN
         DT05 = HALF*DT2
         DO I=1,NSL
@@ -832,6 +853,7 @@ C
          A(3,NS)= A(3,NS)+(VX3+DT05*(VG(1)*VX2-VG(2)*VX1))*USDT
         ENDDO
        END IF
+      END IF !(NSL<=2) THEN 
 C---
       RETURN
       END
@@ -845,7 +867,11 @@ C---
       !||====================================================================
       SUBROUTINE RBE2VL1(NSL   ,ISL   ,X     ,A     ,AR    ,
      1                   V     ,VR    ,JT    ,JR    ,M     ,
-     2                   SKEW  ,IRAD  )
+     2                   SKEW  ,IRAD  ,NSL_G )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE VELROT_EXPLICIT_MOD, ONLY : VELROT_EXPLICIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -857,7 +883,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSL,ISL(*),JT(3),JR(3),M,IRAD
+      INTEGER NSL,ISL(*),JT(3),JR(3),M,IRAD,NSL_G
 C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), V(3,*), VR(3,*),SKEW(*)
@@ -871,7 +897,8 @@ C     REAL
      .   DVX,DVY,DVZ,VVX,VVY,VVZ,LXS(NSL),LYS(NSL),LZS(NSL)
       my_real
      .   V1X2, V2X1, V2X3, V3X2, V3X1, V1X3,USDT,DT05,
-     .   VX1, VX2, VX3,VRG(3),VRL(3),USDT1(3),KTR(3,3)
+     .   VX1, VX2, VX3,VRG(3),VRL(3),USDT1(3),KTR(3,3),
+     .   LSM(3),VS(3),AS(3),LSML(3),VSL(3),ASL(3),VRGL(3),UDTJ(3)
 C----we modify A,AR(*,NS) so that V,VR(*,NS) follow the constraint equations     
 C======================================================================|
         USDT = ONE/DT12
@@ -949,23 +976,45 @@ C
          USDT1(J)=USDT
         ENDDO
        END IF
-       DO I=1,NSL
-        NS = ISL(I)
-        RX=VRG(1)
-        RY=VRG(2)
-        RZ=VRG(3)
-        XS=X(1,NS)-X(1,M)
-        YS=X(2,NS)-X(2,M)
-        ZS=X(3,NS)-X(3,M)
-        CALL CDI_BCN1(XS,YS,ZS,JT,JR,SKEW,KTR,IRAD)
-        VX1 =KTR(1,1)*RX+KTR(1,2)*RY+KTR(1,3)*RZ
-        VX2 =KTR(2,1)*RX+KTR(2,2)*RY+KTR(2,3)*RZ
-        VX3 =KTR(3,1)*RX+KTR(3,2)*RY+KTR(3,3)*RZ
-        A(1,NS) =A(1,NS)+(VX1+DT05*(VRG(2)*VX3-VRG(3)*VX2))*USDT1(1)
-        A(2,NS) =A(2,NS)+(VX2+DT05*(VRG(3)*VX1-VRG(1)*VX3))*USDT1(2)
-        A(3,NS) =A(3,NS)+(VX3+DT05*(VRG(1)*VX2-VRG(2)*VX1))*USDT1(3)
-       ENDDO
-      END IF
+       IF (NSL_G<=2) THEN 
+        UDTJ(1:3) = USDT*JT(1:3)
+        DO I=1,NSL
+         NS = ISL(I)
+         LSM(1:3) = X(1:3,NS)-X(1:3,M)
+         LSML(1)  =SKEW(1)*LSML(1)+SKEW(2)*LSML(2)+SKEW(3)*LSML(3)
+         LSML(2)  =SKEW(4)*LSML(1)+SKEW(5)*LSML(2)+SKEW(6)*LSML(3)
+         LSML(3)  =SKEW(7)*LSML(1)+SKEW(8)*LSML(2)+SKEW(9)*LSML(3)
+         VRGL(1)  =SKEW(1)*VRG(1)+SKEW(2)*VRG(2)+SKEW(3)*VRG(3)
+         VRGL(2)  =SKEW(4)*VRG(1)+SKEW(5)*VRG(2)+SKEW(6)*VRG(3)
+         VRGL(3)  =SKEW(7)*VRG(1)+SKEW(8)*VRG(2)+SKEW(9)*VRG(3)
+         CALL VELROT_EXPLICIT(VRGL, LSML,VSL,DT12)
+         ASL(1) = UDTJ(1)*(VSL(1)+DT05*(VRGL(2)*VSL(3)-VRGL(3)*VSL(2)))
+         ASL(2) = UDTJ(2)*(VSL(2)+DT05*(VRGL(3)*VSL(1)-VRGL(1)*VSL(3)))
+         ASL(3) = UDTJ(3)*(VSL(3)+DT05*(VRGL(1)*VSL(2)-VRGL(2)*VSL(1)))
+         AS(1)  = SKEW(1)*ASL(1)+SKEW(4)*ASL(2)+SKEW(7)*ASL(3)
+         AS(2)  = SKEW(2)*ASL(1)+SKEW(5)*ASL(2)+SKEW(8)*ASL(3)
+         AS(3)  = SKEW(3)*ASL(1)+SKEW(6)*ASL(2)+SKEW(9)*ASL(3)
+         A(1:3,NS)= A(1:3,NS)+AS(1:3)
+        ENDDO
+       ELSE
+        DO I=1,NSL
+         NS = ISL(I)
+         RX=VRG(1)
+         RY=VRG(2)
+         RZ=VRG(3)
+         XS=X(1,NS)-X(1,M)
+         YS=X(2,NS)-X(2,M)
+         ZS=X(3,NS)-X(3,M)
+         CALL CDI_BCN1(XS,YS,ZS,JT,JR,SKEW,KTR,IRAD)
+         VX1 =KTR(1,1)*RX+KTR(1,2)*RY+KTR(1,3)*RZ
+         VX2 =KTR(2,1)*RX+KTR(2,2)*RY+KTR(2,3)*RZ
+         VX3 =KTR(3,1)*RX+KTR(3,2)*RY+KTR(3,3)*RZ
+         A(1,NS) =A(1,NS)+(VX1+DT05*(VRG(2)*VX3-VRG(3)*VX2))*USDT1(1)
+         A(2,NS) =A(2,NS)+(VX2+DT05*(VRG(3)*VX1-VRG(1)*VX3))*USDT1(2)
+         A(3,NS) =A(3,NS)+(VX3+DT05*(VRG(1)*VX2-VRG(2)*VX1))*USDT1(3)
+        ENDDO
+       END IF
+      END IF! ((JR(1)+JR(2)+JR(3)) >0.OR.IRAD ==0 ) THEN
 C---
       RETURN
       END

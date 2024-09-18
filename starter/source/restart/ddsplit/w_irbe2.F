@@ -87,6 +87,7 @@ C
         IBVTMP(3,KL) = NODLOCAL(M)
 C SPMD issue global RBE2 Number
         IBVTMP(10,KL) = II
+        IBVTMP(12,KL) = NSN
 C----------IBVTMP(6,KL)-set in engine------------------------------------
        ENDIF
       ENDDO
