@@ -166,7 +166,7 @@ C------hyperelastic------
         EFAC=TWOP5
         DO I=JFT,JLT
          MX  =MAT(I)
-         LAMDA=EFAC*FAC(I)*UPARAM(11)
+         LAMDA=EFAC*FAC(I)*PM(100,MX)
 C-------GG:2G---HH(2,I):G-------
          GG =EFAC*FAC(I)*PM(32,MX)
          HH(1,I)=LAMDA
