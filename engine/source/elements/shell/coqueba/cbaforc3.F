@@ -307,6 +307,8 @@ C--------------------------
       NPINCH= IPARG(90)
       SEDRAPE = SCDRAPE
       NUMEL_DRAPE = NUMELC_DRAPE
+      TEMPEL(:) = ZERO
+      FHEAT(: ) = ZERO
 C
       NLAY = ELBUF_STR%NLAY
       NPTR = ELBUF_STR%NPTR
@@ -428,7 +430,6 @@ C initiallisation pour la thermique ---
          THEM(I,2) = ZERO
          THEM(I,3) = ZERO
          THEM(I,4) = ZERO
-         TEMPEL(I) = ZERO
        ENDDO
 C
        IF(NPINCH > 0) THEN

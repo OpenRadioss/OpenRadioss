@@ -1085,7 +1085,8 @@ C-----------
 C-------------------------------------------
 C    COMPUTE AVERAGE TEMPERATURE IN ELEMENT (for output)
 C-------------------------------------------
-      TEMPEL(1:MVSIZ) = ZERO
+      TEMPEL(:) = ZERO
+      FHEAT(:)  = ZERO
       IF(JTHE < 0 ) THEN 
         DO I=LFT,LLT
            IF(GBUF%OFF(I) == ZERO) CYCLE

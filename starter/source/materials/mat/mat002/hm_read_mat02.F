@@ -124,6 +124,7 @@ C-----------------------------------------------
 !
       C3      = ZERO
       C4      = ZERO
+      M_EXP   = ZERO
       RHOCP   = ZERO
       PMIN    = ZERO
       TMELT   = ZERO

@@ -563,7 +563,8 @@ C--------------------------------------
 C-------------------------------------------
 C Element temperature
 C-------------------------------------------
-      TEMPEL(1:NEL) = ZERO
+      TEMPEL(:) = ZERO
+      FHEAT(:)  = ZERO
       IF (JTHE < 0) THEN       
         DO I=1,NEL
           TEMPEL(I) = ONE_OVER_6 *(TEMP(NC1(I)) + TEMP(NC2(I))  

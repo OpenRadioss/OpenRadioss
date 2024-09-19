@@ -414,7 +414,8 @@ C=======================================================================
       IPPOS = 0
       MTN0= 0
 
-      TEMPEL(1:MVSIZ) = ZERO
+      TEMPEL(:) = ZERO
+      FHEAT(:)  = ZERO
       INLOC = IPARG(78,NG)
       ALLOCATE(VAR_REG(NEL,NLAY))
 !

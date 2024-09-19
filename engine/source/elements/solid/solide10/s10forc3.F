@@ -321,9 +321,8 @@ c
       BETA(4,5)=ONE_OVER_6
       BETA(5,5)=FOURTH
 C   
-      DO I=LFT,LLT
-        TEMPEL(I) = ZERO
-      END DO
+      TEMPEL(:) = ZERO
+      FHEAT(:)  = ZERO
       IF (JTHE < 0) THEM(LFT:LLT,1:10) = ZERO
 C      
       IF (ICP==1) THEN

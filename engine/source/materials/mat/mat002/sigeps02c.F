@@ -107,7 +107,7 @@ C-----------------------------------------------
         RHOCP = PM(53,IMAT)     ! = 1 /rhocp             
         Z4    = PM(52,IMAT)                    
         TREF  = PM(54,IMAT)                    
-        IF (JTHE <= 0) THEN      
+        IF (JTHE /= 0) THEN      
           DO I=JFT,JLT
             TEMPEL(I) = TREF + RHOCP*(EINT(I,1)+EINT(I,2))/VOL(I)
           ENDDO
@@ -212,10 +212,12 @@ c------------------------------------
 !     calculate temperature or thermal load due to plastic work
 !---------------------------------------------------------
       IF (JTHE == 0 .and. RHOCP > ZERO) THEN  ! update temperature in adiabatic conditions
-        DO I=1,NEL       
-          TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) / RHOCP
-        ENDDO
-      ELSE IF (JTHE < 0) THEN  ! cumulate thermal load due to plastic work for /heat/mat
+        IF (IRTY /= 1) THEN                   ! Johnson-Cook only
+          DO I=1,NEL       
+            TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) / RHOCP
+          ENDDO
+        END IF
+      ELSE                                    ! cumulate thermal load due to plastic work for /heat/mat
         DO I=1,NEL       
           FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
         ENDDO

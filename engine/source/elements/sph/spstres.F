@@ -182,6 +182,7 @@ C-----------------------------------------------
       IBID = 0
       GBUF => ELBUF_TAB(NG)%GBUF
       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
+      TEMPEL(:) = ZERO
 C-----------
       NF1=NFT+1
 C-----------

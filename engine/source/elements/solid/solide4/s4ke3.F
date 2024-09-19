@@ -178,7 +178,7 @@ c
        IF (MTN>=28) THEN
         IADBUF = IPM(7,MXT(1))
        ELSE
-        IADBUF = 0
+        IADBUF = 1
        ENDIF
        CALL MMATS(1    ,NEL     ,PM    ,MXT    ,HH    ,
      .            MTN    ,IKORTH  ,IPM   ,IGEO   ,GAMA  ,

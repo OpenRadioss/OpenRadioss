@@ -68,18 +68,15 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NEL
-C     REAL
+      my_real :: CN,FISOKIN,EPMX
       my_real
-     .   SIG(NEL,6), EPXE(*),EPD(*),
-     .   G(*), AK(*),QH(*), AJ2(*), 
-     .   CA(*), CB(*), CN,FISOKIN,
-     .   SIGMX(*),DPLA1(*),EPMX  ,SIGY(*)
+     .   SIG(NEL,6), EPXE(NEL),EPD(NEL),
+     .   G(NEL), AK(NEL),QH(NEL), AJ2(NEL), 
+     .   CA(NEL), CB(NEL), 
+     .   SIGMX,DPLA1(NEL),SIGY(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -165,8 +162,8 @@ C
 C     .. ENFORCING SOME CUT-OFFS, LEFT UNCHANGED
 C  ----!!!cette partie devrait etre   interieure de boucle ---  tester
        AK(I)=AK(I)*EPD(I)
-       IF(SIGMX(I)<AK(I))THEN
-        AK(I)=SIGMX(I)
+       IF(SIGMX<AK(I))THEN
+        AK(I)=SIGMX
         QH(I)=ZERO
        ENDIF
 C       SIGY(I) = AK(I)

@@ -420,7 +420,8 @@ C=======================================================================
       SZ_IX=NUMELQ+NUMELS+NSVOIS
       SZ_R1_FREE=MVSIZ
       GBUF   => ELBUF_TAB(NG)%GBUF
-      TEMPEL(1:MVSIZ) = ZERO
+      TEMPEL(:) = ZERO
+      FHEAT(:)  = ZERO
 !
       DO I=1,6
         II(I) = NEL*(I-1)

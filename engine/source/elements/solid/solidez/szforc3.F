@@ -324,7 +324,8 @@ C=======================================================================
       NPTS = IPARG(6,NG) 
       INLOC = IPARG(78,NG)
       ALLOCATE(VAR_REG(NEL))   
-      TEMPEL(1:MVSIZ) = ZERO
+      TEMPEL(:) = ZERO
+      FHEAT(:)  = ZERO
       IBID = 0
       IBIDV = 0
       SZ_IX=NUMELQ+NUMELS+NSVOIS
