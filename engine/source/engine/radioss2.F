@@ -584,8 +584,8 @@ C Get Hardware characteristics before init // (system incompatible with infiniba
       CALL PRINTCPU(1)
 C Init NTHREAD(=NPROC) tasks
       CALL INIPAR(ITID,1,NNODES,INPUTNAM,GOT_INPUT,NBTASK)
-C Hardcode KMP_STACKSIZE Environment variable
-      CALL SET_STACK_VALUES()
+C KMP_STACKSIZE/OMP_STACKSIZE Environment variable check
+      CALL SOLVER_STACKSIZE()
 C--------------------------------------------------
       HELAS=HALF
       HVISC=HALF
@@ -900,10 +900,6 @@ C Specific case with different number of threads per MPI domain
        CALL QAOPEN('engine')
       ENDIF
 C
-      IF (STACKSIZ>0 .AND. STACKSIZ<=512)THEN
-          CALL ANCMSG(MSGID=240,
-     .        ANMODE=ANINFO)
-      ENDIF
 
       CALL PRINTCPU(2)
 

@@ -1793,12 +1793,18 @@ C-----------------------------------------------
       INTEGER FREQUENCE,LENH,LENC,I,MEM,SWAP
       SAVE HOSTNAME,CPUNAM,FREQUENCE,LENH,LENC,MEM,SWAP
 
+      CHARACTER(len=129) :: STACKSIZE_INFO
+      INTEGER :: STACKSIZE_INFO_LEN
+
+      CHARACTER(len=129) :: OMP_STACKSIZE_INFO
+      INTEGER            :: OMP_STACKSIZE_INFO_LEN
+
       IF(IFLAG==1) THEN
 
         CALL CPUINFO(HOSTNAME,LENH,CPUNAM, LENC, FREQUENCE,MEM,SWAP)
 
       ELSEIF(IFLAG==2) THEN
-C 2eme appel apres init parallele (echange et ecriture)
+        ! 2nd call after parallel initialization & communication
         IF(ISPMD==0) THEN
           WRITE(IOUT,*)' ' 
           WRITE(IOUT,7000) 
@@ -1834,8 +1840,18 @@ C ecriture du complement en multiprocs
         IF(NSPMD>1)
      .    CALL SPMD_PRINTCPUINFO(HOSTNAME,LENH,CPUNAM, LENC, FREQUENCE,
      .                           MEM,SWAP)
-        IF(ISPMD==0) WRITE(IOUT,*)' ' 
-
+        IF(ISPMD==0) THEN 
+          WRITE(IOUT,*)' ' 
+          OMP_STACKSIZE_INFO_LEN=128
+          STACKSIZE_INFO_LEN=128
+          CALL GET_SOLVER_STACKSIZE(STACKSIZE_INFO,STACKSIZE_INFO_LEN,OMP_STACKSIZE_INFO,OMP_STACKSIZE_INFO_LEN)
+          WRITE(IOUT,'(A,A)') ' STACKSIZE  . . . . . . . . . . . . . . . . . . . . ',STACKSIZE_INFO(1:STACKSIZE_INFO_LEN)
+          WRITE(IOUT,'(A,A)') ' THREAD STACKSIZE . . . . . . . . . . . . . . . . . ',OMP_STACKSIZE_INFO(1:OMP_STACKSIZE_INFO_LEN)
+          WRITE(IOUT,'(A)') ' '
+          ! Force write to output file 
+          CALL MY_FLUSH(IOUT)
+       END IF
+       
       ENDIF
      
       LMEMV = MEM
@@ -1908,7 +1924,7 @@ C
       !||    my_etime        ../engine/source/system/machine.F
       !||====================================================================
       SUBROUTINE STARTIMEG(NG)
-C     routine d'incrementation des timers elem.
+C     routine d incrementation des timers elem.
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

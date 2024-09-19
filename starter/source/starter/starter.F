@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
        CALL QAOPEN('starter')
        CALL QAPRINT('Start',0,0.0_8)
 
-       CALL SET_STACK_VALUES()  ! Initialize Stacksize & KMP_STACKSIZE
+       CALL SOLVER_STACKSIZE()  ! Initialize KMP_STACKSIZE & OMP_STACKSIZE
 
        CALL STARTER0()
 
