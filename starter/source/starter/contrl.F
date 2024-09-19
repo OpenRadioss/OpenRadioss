@@ -531,20 +531,6 @@ C
         ENDIF
       ENDIF
     
-c warning if stacksize value lower than 512 M
-      IF (STACKSIZ>0 .AND. STACKSIZ<=512)THEN
-        CALL ANCMSG(MSGID=1032,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1)
-      ENDIF
-
-c warning if KMP_STACKSIZE value not set
-      IF (NTHREAD_S > 1 .AND. KMP_SET == 1)THEN
-        CALL ANCMSG(MSGID=1004,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1)
-      ENDIF
-
-c warning if KMP_STACKSIZE value lower than default value
-      IF (NTHREAD_S > 1 .AND. KMP_SET == 2)THEN
-        CALL ANCMSG(MSGID=1005,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1)
-      ENDIF
 C=======================================================================
 C     OPTIONS NUMBERING
 C=======================================================================
