@@ -255,7 +255,8 @@ C-----------------------------------------------
       NLAY  = ELBUF_STR%NLAY
       SEDRAPE = STDRAPE
       NUMEL_DRAPE = NUMELTG_DRAPE
-      TEMPEL(1:MVSIZ) = ZERO
+      TEMPEL(:) = ZERO
+      FHEAT(: ) = ZERO
 cc      NPT  = MAX(NLAY,NPTT) --> set to = IPARG(6) , keeping it original
 C                                 to allow for NPT = 0 (global LAW_3
       NPG  = 1
@@ -498,8 +499,8 @@ c-------------------------------------------
         ENDDO
       ENDIF           
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (JTHE > 0 ) CALL TEMP3CG(JFT   ,JLT   ,PM     ,MAT   ,IXTG,   
-     .                           TEMP ,TEMPEL )
+      IF (JTHE /= 0 ) CALL TEMP3CG(JFT   ,JLT   ,PM     ,MAT   ,IXTG,   
+     .                             TEMP ,TEMPEL )
 C--------------------------
       IF ((IMON_MAT==1).AND.ITASK == 0)CALL STARTIME(35,1)
 C--------------------------

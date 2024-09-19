@@ -445,7 +445,8 @@ C=======================================================================
       NBPRELD = GBUF%G_BPRELD
       BPRELD =>GBUF%BPRELD(1:NBPRELD*NEL)
       ISM12_11 = ELBUF_TAB(NG)%BUFLY(1)%L_SIGL
-      TEMPEL(1:MVSIZ) = ZERO
+      TEMPEL(:) = ZERO
+      FHEAT(:)  = ZERO
       SZ_R1_FREE=MVSIZ
       SZ_IX=NUMELQ+NUMELS+NSVOIS
 C----

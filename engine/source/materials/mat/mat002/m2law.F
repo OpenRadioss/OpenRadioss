@@ -78,19 +78,19 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JSPH
       INTEGER, INTENT(IN) :: IEOS
 C
-      INTEGER NELTST,ITYPTST,PID(*),G_DT,NEL,IPG
-      INTEGER MAT(*),NGL(*), IPM(NPROPMI,*)
+      INTEGER NELTST,ITYPTST,PID(NEL),G_DT,NEL,IPG
+      INTEGER MAT(NEL),NGL(NEL), IPM(NPROPMI,*)
       my_real, DIMENSION(NEL) ,INTENT(INOUT) :: PLAP
       my_real :: DT2T
 C
       my_real
-     .   PM(NPROPM,*), OFF(*), SIG(NEL,6), EINT(*), RHO(*), QOLD(*),
-     .   EPXE(*), EPSD(*), VOL(*), STIFN(*), OFFG(*),GEO(NPROPG,*),
-     .   MUMAX(*),AMU(*),VOL_AVG(*)
+     .   PM(NPROPM,*), OFF(NEL), SIG(NEL,6), EINT(NEL), RHO(NEL), QOLD(NEL),
+     .   EPXE(NEL), EPSD(NEL), VOL(NEL), STIFN(NEL), OFFG(NEL),GEO(NPROPG,*),
+     .   MUMAX(NEL),AMU(NEL),VOL_AVG(NEL)
       my_real
-     .   VNEW(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
-     .   PSH(*), PNEW(*),QNEW(*) ,SSP_EQ(*), DVOL(*), 
-     .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*), 
+     .   VNEW(NEL), VD2(NEL), DELTAX(NEL), SSP(NEL), AIRE(NEL), VIS(NEL), 
+     .   PSH(NEL), PNEW(NEL),QNEW(NEL) ,SSP_EQ(NEL), DVOL(NEL), 
+     .   D1(NEL), D2(NEL), D3(NEL), D4(NEL), D5(NEL), D6(NEL), 
      .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ),
      .   SOLD4(MVSIZ), SOLD5(MVSIZ), SOLD6(MVSIZ),
      .   TSTAR(MVSIZ), DPLA(MVSIZ), EPSP(MVSIZ), DMG(NEL)
@@ -98,9 +98,9 @@ C
       my_real, DIMENSION(MVSIZ) ,INTENT(INOUT) :: FHEAT
 C
       my_real
-     .   SIGY(*) ,DEFP(*),ETSE(*), MSSA(*), DMELS(*), TEMPEL(*),
-     .   SIGBAK(NEL,6),AL_IMP(*),SIGNOR(MVSIZ,6),CONDE(*),DTEL(*),
-     .   RHOREF(*)  ,RHOSP(*)  
+     .   SIGY(NEL) ,DEFP(NEL),ETSE(NEL), MSSA(NEL), DMELS(NEL), TEMPEL(NEL),
+     .   SIGBAK(NEL,6),AL_IMP(NEL),SIGNOR(MVSIZ,6),CONDE(NEL),DTEL(NEL),
+     .   RHOREF(NEL)  ,RHOSP(NEL)  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

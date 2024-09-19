@@ -217,6 +217,9 @@ C============================== =========================================
       NLAY = ELBUF_STR%NLAY      
       SEDRAPE = STDRAPE
       NUMEL_DRAPE = NUMELTG_DRAPE
+      ! thermal transfert for 3n shells type cdkforc is not available
+      TEMPEL(:) = ZERO
+      FHEAT(:)  = ZERO
 cc      NPT  = MAX(NLAY,NPTT) --> set to = IPARG(6) , keeping it original
 C                                 to allow for NPT = 0 (global LAW_3
       NPG  = 0
@@ -289,10 +292,8 @@ c-------------------------------------
          DIR_B => DIRB(1:NLAY*NEL*L_DIRB)
       ENDIF ! IDRAPE
 c-------------------------------------
-C     transfert thermique pour les coques 3 noeud n'est pas dispo
       DO I=JFT,JLT
         A11R(I)   = ZERO
-        TEMPEL(I) = ZERO
       ENDDO 
 c---
       CALL CDK6COOR3(ELBUF_STR,JFT,JLT,MAT,PID,

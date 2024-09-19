@@ -232,6 +232,9 @@ C---
       INLOC= IPARG(78)
       SEDRAPE = STDRAPE
       NUMEL_DRAPE = NUMELTG_DRAPE
+      ! thermal transfert for 3n shells type cdkforc is not available
+      TEMPEL(:) = ZERO
+      FHEAT(: ) = ZERO
 !
       DO J=1,5
         KK(J) = NEL*(J-1)
@@ -317,7 +320,6 @@ C     Initialize MAT and PID (because they are used in CMATBUF3
         PID(I) = IXTG(5,I)
         A11R(I) = ZERO
       ENDDO
-      TEMPEL(JLT:JFT) = ZERO  ! transfert thermique pour les coques 3 noeud n'est pas dispo
 C---
       CALL CDKCOOR3(ELBUF_STR,
      .              JFT,JLT,MAT,PID,NGL,X,V,R,IXTG,GBUF%OFF,
