@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    fredec3                ../engine/source/output/message/fredec3.F
       !||--- called by ------------------------------------------------------
-      !||    build_msg              ../common_source/tools/memory/my_alloc.F
+      !||    build_msg              ../common_source/tools/memory/my_alloc.F90
       !||--- calls      -----------------------------------------------------
       !||    arret                  ../engine/source/system/arret.F
       !||--- uses       -----------------------------------------------------

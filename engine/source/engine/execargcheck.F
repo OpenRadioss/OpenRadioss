@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    radioss0                ../engine/source/engine/radioss0.F
       !||--- calls      -----------------------------------------------------
       !||    arret                   ../engine/source/system/arret.F
-      !||    build_msg               ../common_source/tools/memory/my_alloc.F
+      !||    build_msg               ../common_source/tools/memory/my_alloc.F90
       !||    isanargument            ../engine/source/engine/execargcheck.F
       !||    pexecinfo               ../engine/source/engine/execargcheck.F
       !||    phelpinfo               ../engine/source/engine/execargcheck.F

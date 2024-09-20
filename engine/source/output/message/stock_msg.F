@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    stock_msg              ../engine/source/output/message/stock_msg.F
       !||--- called by ------------------------------------------------------
-      !||    build_msg              ../common_source/tools/memory/my_alloc.F
+      !||    build_msg              ../common_source/tools/memory/my_alloc.F90
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F

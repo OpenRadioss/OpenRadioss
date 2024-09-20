@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    bcsdtth                            ../engine/source/constraints/general/bcs/bcsdtth.F
       !||    bforc2                             ../engine/source/ale/bimat/bforc2.F
       !||    blero2                             ../engine/source/ale/bimat/blero2.F
-      !||    build_msg                          ../common_source/tools/memory/my_alloc.F
+      !||    build_msg                          ../common_source/tools/memory/my_alloc.F90
       !||    cfieldrest                         ../engine/source/output/restart/rdresb.F
       !||    check_fi                           ../engine/source/mpi/interfaces/spmd_i25slide.F
       !||    chkv0_cy                           ../engine/source/constraints/general/bcs/bcscyc.F

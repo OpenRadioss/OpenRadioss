@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    boxbox                            ../starter/source/model/box/boxbox.F
       !||    bsigini                           ../starter/source/elements/beam/bsigini.F
       !||    build_admesh                      ../starter/source/model/remesh/build_admesh.F
-      !||    build_msg                         ../common_source/tools/memory/my_alloc.F
+      !||    build_msg                         ../common_source/tools/memory/my_alloc.F90
       !||    buserini                          ../starter/source/elements/beam/buserini.F
       !||    c3grhead                          ../starter/source/elements/sh3n/coque3n/c3grhead.F
       !||    c3grtails                         ../starter/source/elements/sh3n/coque3n/c3grtails.F

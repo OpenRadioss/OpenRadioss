@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ancmsg                       ../engine/source/output/message/message.F
       !||    arret                        ../engine/source/system/arret.F
       !||    bcs0                         ../engine/source/constraints/general/bcs/bcs0.F
-      !||    build_msg                    ../common_source/tools/memory/my_alloc.F
+      !||    build_msg                    ../common_source/tools/memory/my_alloc.F90
       !||    cdk6bc3                      ../engine/source/elements/sh3n/coquedk6/cdk6bc3.F
       !||    check_message_definition     ../common_source/modules/check_mod.F
       !||    close_c                      ../common_source/tools/input_output/write_routtines.c
