@@ -135,26 +135,38 @@ C-----------------------------------------------
                     ! c |       |       |       |
                     !   * ----- * ----- * ----- *
                 
-
+                    LOW_X = NB_CELL_X + 1
+                    UP_X = -1
+                    LOW_Y = NB_CELL_Y + 1
+                    UP_Y = -1
+                    LOW_Z = NB_CELL_Z + 1
+                    UP_Z = -1
                     DO J=1,4
-                        LOW_Z = MAX(1,IZ(J))
-                        UP_Z = MIN(NB_CELL_Z,IZ(J+1))
-                        LOW_Y = MAX(1,IY(J))
-                        UP_Y = MIN(NB_CELL_Y,IY(J+1))
-                        LOW_X = MAX(1,IX(J))
-                        UP_X = MIN(NB_CELL_X,IX(J+1))
-                        DO KK=LOW_Z,UP_Z
-                            DO JJ=LOW_Y,UP_Y
-                                DO II=LOW_X,UP_X
-                                ! ------------------
-                                    ! the cell (ii,jj,kk) contains a node of a surface or is crossed by the segment
-                                    IF(CELL(I)%INT_ARRAY_3D(II,JJ,KK)/=2) THEN
-                                        CELL(I)%INT_ARRAY_3D(II,JJ,KK) = 2
-                                    ENDIF
-                                    ! ------------------
-                                ENDDO
-                            ENDDO
+                      LOW_Z = MIN(LOW_Z,IZ(J))
+                      UP_Z = MAX(UP_Z,IZ(J+1))
+                      LOW_Y = MIN(LOW_Y,IY(J))
+                      UP_Y = MAX(UP_Y,IY(J+1))
+                      LOW_X = MIN(LOW_X,IX(J))
+                      UP_X = MAX(UP_X,IX(J+1))
+                    ENDDO
+                    LOW_Z = MAX(1,LOW_Z)
+                    UP_Z = MIN(NB_CELL_Z,UP_Z)
+                    LOW_Y = MAX(1,LOW_Y)
+                    UP_Y = MIN(NB_CELL_Y,UP_Y)
+                    LOW_X = MAX(1,LOW_X)
+                    UP_X = MIN(NB_CELL_X,UP_X)
+                    ! ------------------
+                    DO KK=LOW_Z,UP_Z
+                      DO JJ=LOW_Y,UP_Y
+                        DO II=LOW_X,UP_X
+                          ! ------------------
+                          ! the cell (ii,jj,kk) contains a node of a surface or is crossed by the segment
+                          IF(CELL(I)%INT_ARRAY_3D(II,JJ,KK)/=2) THEN
+                            CELL(I)%INT_ARRAY_3D(II,JJ,KK) = 2
+                          ENDIF
+                          ! ------------------
                         ENDDO
+                      ENDDO
                     ENDDO
                     ! ------------------
                 ENDDO
