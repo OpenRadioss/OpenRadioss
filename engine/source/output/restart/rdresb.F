@@ -75,6 +75,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    read_elgroup_param     ../engine/source/output/restart/read_elgroup_param.F
       !||    read_failwave          ../engine/source/output/restart/read_failwave.F
       !||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+      !||    read_inivel            ../engine/source/output/restart/read_inivel.F90
       !||    read_joint             ../engine/source/output/restart/read_joint.F
       !||    read_matparam          ../engine/source/output/restart/read_matparam.F
       !||    read_nloc_struct       ../engine/source/output/restart/read_nloc_struct.F
@@ -120,6 +121,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
       !||    pload_cyl_mod          ../common_source/modules/loads/pload_cyl_mod.F
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
+      !||    read_inivel_mod        ../engine/source/output/restart/read_inivel.F90
       !||    restmod                ../engine/share/modules/restart_mod.F
       !||    seatbelt_mod           ../common_source/modules/seatbelt_mod.F
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F

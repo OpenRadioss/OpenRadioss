@@ -120,6 +120,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    init_inivol_2d_polygons          ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
       !||    initia                           ../starter/source/elements/initia/initia.F
       !||    inivel                           ../starter/source/initial_conditions/general/inivel/inivel.F
+      !||    inivel_start                     ../engine/source/loads/general/inivel/inivel_start.F90
       !||    inivol_interf_mod                ../starter/share/modules1/inivol_mod.F
       !||    inivol_set                       ../starter/source/initial_conditions/inivol/inivol_set.F
       !||    int18_alloc                      ../engine/source/interfaces/int18/int18_alloc.F

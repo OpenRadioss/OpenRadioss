@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_activ               ../starter/source/tools/activ/hm_read_activ.F
       !||    hm_read_bcs_wall            ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
       !||    hm_read_grav                ../starter/source/loads/general/grav/hm_read_grav.F
+      !||    hm_read_inivel              ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
       !||    hm_read_inter_struct        ../starter/source/interfaces/reader/hm_read_inter_struct.F
       !||    hm_read_inter_type05        ../starter/source/interfaces/int05/hm_read_inter_type05.F
       !||    hm_read_inter_type07        ../starter/source/interfaces/int07/hm_read_inter_type07.F

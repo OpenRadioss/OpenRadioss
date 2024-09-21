@@ -50,6 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
       !||    get_volume_area                          ../engine/source/airbag/get_volume_area.F90
       !||    h3d_quad_scalar_1                        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
+      !||    hm_preread_inivel                        ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
       !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
       !||    hm_read_eos_exponential                  ../starter/source/materials/eos/hm_read_eos_exponential.F90
       !||    hm_read_fractal_dmg                      ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
@@ -60,6 +61,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    iniphase                                 ../starter/source/initial_conditions/inivol/iniphase.F
       !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
       !||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+      !||    inivel_dt2                               ../engine/source/loads/general/inivel/inivel_dt2.F90
+      !||    inivel_start                             ../engine/source/loads/general/inivel/inivel_start.F90
       !||    inivol_set                               ../starter/source/initial_conditions/inivol/inivol_set.F
       !||    inter7_candidate_pairs                   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||    inter7_collision_detection               ../engine/source/interfaces/intsort/inter7_collision_detection.F90

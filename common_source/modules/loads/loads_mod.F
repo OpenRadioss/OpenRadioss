@@ -51,6 +51,7 @@ c-----------------------------------------------------------------------
       !||    read_pcyl                   ../engine/source/output/restart/read_pcyl.F
       !||    resol                       ../engine/source/engine/resol.F
       !||    resol_head                  ../engine/source/engine/resol_head.F
+      !||    resol_init                  ../engine/source/engine/resol_init.F
       !||    sortie_main                 ../engine/source/output/sortie_main.F
       !||    split_pcyl                  ../starter/source/loads/general/load_pcyl/split_pcyl.F
       !||    w_pon                       ../starter/source/restart/ddsplit/w_pon.F
@@ -59,6 +60,7 @@ c-----------------------------------------------------------------------
       !||    wrrestp                     ../engine/source/output/restart/wrrestp.F
       !||--- uses       -----------------------------------------------------
       !||    domdec_load_mod             ../common_source/modules/loads/domdec_load_mod.F
+      !||    inivel_mod                  ../common_source/modules/inivel_mod.F90
       !||    pload_cyl_mod               ../common_source/modules/loads/pload_cyl_mod.F
       !||====================================================================
       MODULE LOADS_MOD

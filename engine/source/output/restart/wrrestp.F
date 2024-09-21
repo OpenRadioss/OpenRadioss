@@ -85,6 +85,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    write_dpdb             ../common_source/tools/input_output/write_db.F
       !||    write_elgroup_param    ../engine/source/output/restart/write_elgroup_param.F
       !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+      !||    write_inivel           ../engine/source/output/restart/write_inivel.F90
       !||    write_intbuf           ../engine/source/output/restart/write_intbuf.F
       !||    write_joint            ../engine/source/output/restart/write_joint.F
       !||    write_matparam         ../engine/source/output/restart/write_matparam.F
@@ -134,6 +135,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    time_mod               ../engine/share/modules/time_mod.F
       !||    unitab_mod             ../common_source/modules/unitab_mod.F
       !||    user_windows_mod       ../common_source/modules/user_windows_mod.F
+      !||    write_inivel_mod       ../engine/source/output/restart/write_inivel.F90
       !||    xfem2vars_mod          ../engine/share/modules/xfem2vars_mod.F
       !||====================================================================
       SUBROUTINE WRRESTP(AF         ,IAF      ,XDP        ,ICH       ,ADDCNE,

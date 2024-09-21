@@ -57,6 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    c_iebcs                  ../starter/source/restart/ddsplit/c_iebcs.F
       !||    c_igrav                  ../starter/source/restart/ddsplit/c_igrav.F
       !||    c_iloadp                 ../starter/source/restart/ddsplit/c_iloadp.F
+      !||    c_inivell                ../starter/source/restart/ddsplit/c_inivell.F90
       !||    c_iradia                 ../starter/source/restart/ddsplit/c_iradia.F
       !||    c_irbe2                  ../starter/source/restart/ddsplit/c_irbe2.F
       !||    c_irbe3                  ../starter/source/restart/ddsplit/c_irbe3.F
@@ -151,6 +152,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    w_igrav                  ../starter/source/restart/ddsplit/w_igrav.F
       !||    w_iloadp                 ../starter/source/restart/ddsplit/w_iloadp.F
       !||    w_ing2loc                ../starter/source/restart/ddsplit/w_ing2loc.F
+      !||    w_inivel_str             ../starter/source/restart/ddsplit/w_inivel_str.F90
       !||    w_inloc                  ../starter/source/restart/ddsplit/w_inloc.F
       !||    w_iparg                  ../starter/source/restart/ddsplit/w_iparg.F
       !||    w_iradia                 ../starter/source/restart/ddsplit/w_iradia.F
@@ -214,6 +216,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    write_th_buffer          ../starter/source/restart/ddsplit/write_th_buffer.F
       !||    wrweight_rm              ../starter/source/restart/ddsplit/wrweight_rm.F
       !||--- uses       -----------------------------------------------------
+      !||    c_inivell_mod            ../starter/source/restart/ddsplit/c_inivell.F90
       !||    cluster_mod              ../starter/share/modules1/cluster_mod.F
       !||    constraint_mod           ../starter/source/modules/constaint_mod.F90
       !||    drape_mod                ../starter/share/modules1/drape_mod.F
@@ -231,6 +234,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_var_mod            ../starter/share/modules1/stack_var_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||    table_mod                ../starter/share/modules1/table_mod.F
+      !||    w_inivel_str_mod         ../starter/source/restart/ddsplit/w_inivel_str.F90
       !||====================================================================
       SUBROUTINE DDSPLIT(
      1   P            ,CEP          ,CEL           ,IGEO          ,MAT_ELEM    ,

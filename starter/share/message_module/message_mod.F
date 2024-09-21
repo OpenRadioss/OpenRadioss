@@ -281,6 +281,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_preread_imptemp                  ../starter/source/constraints/thermic/hm_preread_imptemp.F
       !||    hm_preread_impvel                   ../starter/source/constraints/general/impvel/hm_preread_impvel.F
       !||    hm_preread_impvel0                  ../starter/source/constraints/general/impvel/hm_preread_impvel0.F
+      !||    hm_preread_inivel                   ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
       !||    hm_preread_load_centri              ../starter/source/loads/general/load_centri/hm_preread_load_centri.F
       !||    hm_preread_load_pressure            ../starter/source/loads/general/load_pressure/hm_preread_load_pressure.F
       !||    hm_preread_merge                    ../starter/source/constraints/general/merge/hm_preread_merge.F

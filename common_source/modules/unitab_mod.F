@@ -43,6 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_preread_imptemp              ../starter/source/constraints/thermic/hm_preread_imptemp.F
       !||    hm_preread_impvel               ../starter/source/constraints/general/impvel/hm_preread_impvel.F
       !||    hm_preread_impvel0              ../starter/source/constraints/general/impvel/hm_preread_impvel0.F
+      !||    hm_preread_inivel               ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
       !||    hm_preread_node                 ../starter/source/elements/reader/hm_preread_node.F
       !||    hm_preread_radiation            ../starter/source/loads/thermic/hm_preread_radiation.F
       !||    hm_preread_rbe3                 ../starter/source/constraints/general/rbe3/hm_preread_rbe3.F

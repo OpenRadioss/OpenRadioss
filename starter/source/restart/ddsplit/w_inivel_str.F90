@@ -20,9 +20,21 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    w_inivel_str_mod   ../starter/source/restart/ddsplit/w_inivel_str.F90
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit            ../starter/source/restart/ddsplit/ddsplit.F
+      !||====================================================================
       module w_inivel_str_mod
        contains
   !! \brief write splited inivel rst data for engine 
+      !||====================================================================
+      !||    w_inivel_str   ../starter/source/restart/ddsplit/w_inivel_str.F90
+      !||--- called by ------------------------------------------------------
+      !||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine w_inivel_str(                                              &
                        ngrnod,  ngrbric,    ngrquad,       ngrsh3n,           &
                        igrnod,  igrbric,    igrquad,       igrsh3n,           &

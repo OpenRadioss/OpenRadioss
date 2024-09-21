@@ -84,6 +84,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    w_fradia                  ../starter/source/restart/ddsplit/w_fradia.F
       !||    w_frbe3                   ../starter/source/restart/ddsplit/w_frbe3.F
       !||    w_fthflux                 ../starter/source/restart/ddsplit/w_fthflux.F
+      !||    w_inivel_str              ../starter/source/restart/ddsplit/w_inivel_str.F90
       !||    w_knotloc                 ../starter/source/restart/ddsplit/w_knotloc.F
       !||    w_outmaxn                 ../starter/source/restart/ddsplit/w_outmaxn.F
       !||    w_pxfem                   ../starter/source/restart/ddsplit/w_pxfem.F
@@ -118,6 +119,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    write_db_debug            ../starter/source/output/tools/write_debug.F
       !||    write_elgroup_param       ../engine/source/output/restart/write_elgroup_param.F
       !||    write_failparam           ../engine/source/output/restart/write_failparam.F
+      !||    write_inivel              ../engine/source/output/restart/write_inivel.F90
       !||    write_intbuf              ../engine/source/output/restart/write_intbuf.F
       !||    write_mat_table           ../engine/source/materials/tools/write_mat_table.F
       !||    write_matparam            ../engine/source/output/restart/write_matparam.F
