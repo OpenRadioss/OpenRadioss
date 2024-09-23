@@ -97,7 +97,7 @@
             segment_number = igrsurf(surf_id)%nseg ! get the number of segment of the surface "surf_id"
             ! check if the computation for this ijk monvol is mandatory
             computation_needed = .true.
-            if(ityp==6.or.ityp==8) computation_needed = .false.
+            if(ityp==6) computation_needed = .false.
             if(fr_mv(ispmd+1,ijk)==0.and.fr_mv(nspmd+2,ijk)/=ispmd+1) computation_needed = .false.
 
             if(computation_needed) then
