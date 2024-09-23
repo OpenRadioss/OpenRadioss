@@ -1115,7 +1115,7 @@ C
      B          ETSE   ,GS     ,SIGY   ,EPSPL   ,ISRATE   ,
      C          DPLA   ,G_IMP  ,SIGKSI  ,SHF      ,HARDM  ,
      D          YLDFAC ,INLOC ,VARNL(1,IT),LBUF%DMG,LBUF%PLANL,
-     E          SIGBXX,SIGBYY,SIGBXY,LBUF%OFF) 
+     E          BUFLY%L_PLANL,SIGBXX,SIGBYY,SIGBXY,LBUF%OFF) 
           ELSEIF (ILAW == 42) THEN
            CALL SIGEPS42C(
      1         NEL    , NUPARAM, NIPARAM , NUVAR   , ISMSTR  ,

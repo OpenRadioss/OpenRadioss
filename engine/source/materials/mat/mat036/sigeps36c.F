@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B     ETSE   ,GS     ,YLD     ,EPSP    ,ISRATE ,
      C     DPLA_I ,GAMA_IMP,SIGNOR ,SHF     ,HARDM  ,
      D     FACYLDI,INLOC   ,DPLANL  ,DMG    ,PLANL  ,
-     E     SIGBXX,SIGBYY,SIGBXY  ,LOFF)
+     E     L_PLANL,SIGBXX,SIGBYY,SIGBXY  ,LOFF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,6 +104,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL, NUVAR, NVARTMP,IMAT,ISRATE,INLOC
       INTEGER IPLAS(*),IPM(NPROPMI,*)
+      INTEGER, INTENT(IN) :: L_PLANL
       my_real :: TIMESTEP,ASRATE
       my_real :: UPARAM(*),RHO0(NEL),
      .   THKLY(NEL),PLA(NEL),FACYLDI(NEL),
@@ -112,7 +113,7 @@ C-----------------------------------------------
      .   EPSXX(NEL) ,EPSYY(NEL),EPSXY(NEL),
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
      .   GS(NEL),EPSP(NEL),SHF(NEL),HARDM(NEL),DPLANL(NEL),DMG(NEL),
-     .   PLANL(NEL)
+     .   PLANL(NEL*L_PLANL)
       my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
