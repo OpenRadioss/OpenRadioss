@@ -64,8 +64,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    read_c_c                     ../common_source/tools/input_output/write_routtines.c
       !||    resol_head                   ../engine/source/engine/resol_head.F
       !||    restalloc                    ../engine/source/output/restart/arralloc.F
-      !||    set_stack_values             ../engine/source/system/machine.F
       !||    setignorecore                ../engine/source/system/traceback_handler.c
+      !||    solver_stacksize             ../common_source/comm/stacksize.cpp
       !||    spmd_allreduce_db            ../engine/source/mpi/generic/spmd_allreduce_db.F
       !||    spmd_allreduce_int           ../engine/source/mpi/generic/spmd_allreduce_db.F
       !||    spmd_reduce_db               ../engine/source/mpi/generic/spmd_reduce_db.F

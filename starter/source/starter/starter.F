@@ -33,7 +33,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    starter            ../starter/source/starter/starter.F
       !||--- calls      -----------------------------------------------------
-      !||    set_stack_values   ../starter/source/system/machine.F
       !||    starter0           ../starter/source/starter/starter0.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================

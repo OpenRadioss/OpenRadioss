@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    printcpu   ../starter/source/system/printcpu.F
+      !||    printcpu               ../starter/source/system/printcpu.F
       !||--- called by ------------------------------------------------------
-      !||    starter0   ../starter/source/starter/starter0.F
+      !||    starter0               ../starter/source/starter/starter0.F
       !||--- calls      -----------------------------------------------------
-      !||    cpuinfo    ../starter/source/system/mon_c.c
+      !||    cpuinfo                ../starter/source/system/mon_c.c
+      !||    my_flush               ../starter/source/system/machine.F
       !||====================================================================
       SUBROUTINE PRINTCPU()
 C-----------------------------------------------

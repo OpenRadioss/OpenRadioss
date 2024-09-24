@@ -1765,12 +1765,14 @@ C
         END SUBROUTINE 
 
       !||====================================================================
-      !||    printcpu            ../engine/source/system/timer.F
+      !||    printcpu               ../engine/source/system/timer.F
       !||--- called by ------------------------------------------------------
-      !||    radioss2            ../engine/source/engine/radioss2.F
+      !||    radioss2               ../engine/source/engine/radioss2.F
       !||--- calls      -----------------------------------------------------
-      !||    cpuinfo             ../engine/source/system/mon_c.c
-      !||    spmd_printcpuinfo   ../engine/source/mpi/output/spmd_printcpuinfo.F
+      !||    cpuinfo                ../engine/source/system/mon_c.c
+      !||    get_solver_stacksize   ../common_source/comm/stacksize.cpp
+      !||    my_flush               ../engine/source/system/machine.F
+      !||    spmd_printcpuinfo      ../engine/source/mpi/output/spmd_printcpuinfo.F
       !||====================================================================
       SUBROUTINE PRINTCPU(IFLAG)
 C-----------------------------------------------

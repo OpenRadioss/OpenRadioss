@@ -432,6 +432,7 @@ C=======================================================================
       !||    get_table_value_dydx             ../engine/source/user_interface/utable.F
       !||    imp_stop                         ../engine/source/implicit/imp_solv.F
       !||    multi_muscl_fluxes_computation   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
+      !||    printcpu                         ../engine/source/system/timer.F
       !||--- calls      -----------------------------------------------------
       !||====================================================================
       SUBROUTINE MY_FLUSH(IUNIT)

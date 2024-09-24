@@ -104,6 +104,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
       !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
       !||    updfail                                  ../starter/source/materials/updfail.F90
+      !||    velrot_explicit                          ../engine/source/constraints/general/rbody/velrot_explicit.F90
       !||====================================================================
       module constant_mod
         implicit none

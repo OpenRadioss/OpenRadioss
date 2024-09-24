@@ -735,9 +735,13 @@ C
       RETURN
       END
       !||====================================================================
-      !||    rbe2v1   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rbe2v1                ../engine/source/constraints/general/rbe2/rbe2v.F
       !||--- called by ------------------------------------------------------
-      !||    rbe2v    ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rbe2v                 ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||--- calls      -----------------------------------------------------
+      !||    velrot_explicit       ../engine/source/constraints/general/rbody/velrot_explicit.F90
+      !||--- uses       -----------------------------------------------------
+      !||    velrot_explicit_mod   ../engine/source/constraints/general/rbody/velrot_explicit.F90
       !||====================================================================
       SUBROUTINE RBE2V1(NSL   ,ISL   ,X     ,A     ,AR    ,
      1                  V     ,VR    ,JT    ,JR    ,M     ,
@@ -858,12 +862,15 @@ C---
       RETURN
       END
       !||====================================================================
-      !||    rbe2vl1     ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rbe2vl1               ../engine/source/constraints/general/rbe2/rbe2v.F
       !||--- called by ------------------------------------------------------
-      !||    rbe2v       ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rbe2v                 ../engine/source/constraints/general/rbe2/rbe2v.F
       !||--- calls      -----------------------------------------------------
-      !||    cdi_bcn1    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2d_bcl   ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    cdi_bcn1              ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+      !||    rbe2d_bcl             ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    velrot_explicit       ../engine/source/constraints/general/rbody/velrot_explicit.F90
+      !||--- uses       -----------------------------------------------------
+      !||    velrot_explicit_mod   ../engine/source/constraints/general/rbody/velrot_explicit.F90
       !||====================================================================
       SUBROUTINE RBE2VL1(NSL   ,ISL   ,X     ,A     ,AR    ,
      1                   V     ,VR    ,JT    ,JR    ,M     ,

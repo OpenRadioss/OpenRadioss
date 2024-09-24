@@ -20,6 +20,13 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    velrot_explicit_mod   ../engine/source/constraints/general/rbody/velrot_explicit.F90
+      !||--- called by ------------------------------------------------------
+      !||    rbe2v1                ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rbe2vl1               ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rgbodv                ../engine/source/constraints/general/rbody/rgbodv.F
+      !||====================================================================
       module velrot_explicit_mod
 
       contains
@@ -28,6 +35,17 @@
 !=======================================================================================================================
 !!\brief This subroutine compute displacement due to finit rotation (no more precise w/ cross-product) 
 !=======================================================================================================================
+      !||====================================================================
+      !||    velrot_explicit   ../engine/source/constraints/general/rbody/velrot_explicit.F90
+      !||--- called by ------------------------------------------------------
+      !||    rbe2v1            ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rbe2vl1           ../engine/source/constraints/general/rbe2/rbe2v.F
+      !||    rgbodv            ../engine/source/constraints/general/rbody/rgbodv.F
+      !||--- calls      -----------------------------------------------------
+      !||    cross_product     ../engine/source/constraints/general/rbody/velrot_explicit.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod      ../common_source/modules/constant_mod.F
+      !||====================================================================
       subroutine velrot_explicit(vr,lsm,vs,dt)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -86,6 +104,11 @@
 !=======================================================================================================================
 !!\brief This subroutine compute cross-product Z = X (x) Y 
 !=======================================================================================================================
+      !||====================================================================
+      !||    cross_product     ../engine/source/constraints/general/rbody/velrot_explicit.F90
+      !||--- called by ------------------------------------------------------
+      !||    velrot_explicit   ../engine/source/constraints/general/rbody/velrot_explicit.F90
+      !||====================================================================
       subroutine cross_product(x,y,z)
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none

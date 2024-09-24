@@ -328,6 +328,7 @@ C
       !||    rini45                 ../starter/source/elements/joint/rjoint/rini45.F
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    prod_atb               ../starter/source/elements/joint/rjoint/rini33.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
@@ -806,7 +807,6 @@ C-----------------------------------------------
       !||    ancmsg                 ../starter/source/output/message/message.F
       !||    get_u_geo              ../starter/source/user_interface/uaccess.F
       !||    get_u_skew             ../starter/source/user_interface/uaccess.F
-      !||    prod_atb               ../starter/source/elements/joint/rjoint/rini33.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================

@@ -544,11 +544,11 @@ C
       END
 C==================================================== 
       !||====================================================================
-      !||    prod_atb      ../starter/source/elements/joint/rjoint/rini33.F
+      !||    prod_atb     ../starter/source/elements/joint/rjoint/rini33.F
       !||--- called by ------------------------------------------------------
-      !||    get_skew      ../starter/source/elements/joint/rjoint/rini33.F
-      !||    init_skew45   ../starter/source/elements/joint/rjoint/rini45.F
-      !||    rini33_rb     ../starter/source/elements/joint/rjoint/rini33_rb.F
+      !||    get_skew     ../starter/source/elements/joint/rjoint/rini33.F
+      !||    get_skew45   ../starter/source/elements/joint/rjoint/rini45.F
+      !||    rini33_rb    ../starter/source/elements/joint/rjoint/rini33_rb.F
       !||====================================================================
       SUBROUTINE PROD_ATB(A,B,X)
 #include      "implicit_f.inc"
