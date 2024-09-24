@@ -143,7 +143,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
-      USE INTERFACE_TABLE_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD

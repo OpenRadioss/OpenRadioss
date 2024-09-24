@@ -64,7 +64,6 @@ C
       !||====================================================================
       SUBROUTINE GET_U_TABLE(ITABLE,XX,YY) 
       USE TABLE_GLOB_MOD
-      USE INTERFACE_TABLE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,7 +90,6 @@ C
       !||====================================================================
       SUBROUTINE GET_U_VTABLE(ITABLE,NEL0,IPOS,XX,YY,DYDX1) 
       USE TABLE_GLOB_MOD
-      USE INTERFACE_TABLE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

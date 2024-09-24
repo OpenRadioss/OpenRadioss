@@ -34,7 +34,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
       !||--- uses       -----------------------------------------------------
       !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
-      !||    interface_table_mod        ../starter/share/modules1/table_mod.F
       !||    message_mod                ../starter/share/message_module/message_mod.F
       !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
       !||    table_mod                  ../starter/share/modules1/table_mod.F
@@ -44,7 +43,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
-      USE INTERFACE_TABLE_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
