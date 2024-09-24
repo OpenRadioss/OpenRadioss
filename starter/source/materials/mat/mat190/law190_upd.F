@@ -32,14 +32,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    updmat                ../starter/source/materials/updmat.F
       !||--- uses       -----------------------------------------------------
-      !||    interface_table_mod   ../starter/share/modules1/table_mod.F
       !||====================================================================
       SUBROUTINE LAW190_UPD(MATPARAM ,NUMTABL ,ITABLE   ,TABLE       ,PM    )
 C----------------------------------------------- 
 C   M o d u l e s
 C-----------------------------------------------      
       USE MATPARAM_DEF_MOD
-      USE INTERFACE_TABLE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
