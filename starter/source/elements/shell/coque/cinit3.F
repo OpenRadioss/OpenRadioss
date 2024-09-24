@@ -76,6 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE ELBUFDEF_MOD            
       USE MESSAGE_MOD
       USE STACK_MOD
@@ -154,12 +155,14 @@ C-----------------------------------------------
       my_real, DIMENSION(:), ALLOCATABLE :: PHI1,PHI2,COOR1,COOR2,COOR3,COOR4
       PARAMETER (LAYNPT_MAX = 10)
       PARAMETER (LAY_MAX = 100)
-      INTEGER MATLY(MVSIZ*LAY_MAX)
-      my_real
-     .   POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX)
+      INTEGER, DIMENSION(:),ALLOCATABLE   :: MATLY
+      my_real, DIMENSION(:,:),ALLOCATABLE :: POSLY
+     
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C=======================================================================
+      CALL MY_ALLOC(MATLY,MVSIZ*LAY_MAX)
+      CALL MY_ALLOC(POSLY,MVSIZ,LAY_MAX*LAYNPT_MAX)
       GBUF  => ELBUF_STR%GBUF
 c
       IMAT  = IXC(1,1+NFT)         ! mat N
@@ -609,6 +612,8 @@ C---
       IF (ALLOCATED(DIR_B))    DEALLOCATE(DIR_B)                                                          
       IF (ALLOCATED(DIR_A))    DEALLOCATE(DIR_A)  
       DEALLOCATE(PHI1,PHI2,COOR1,COOR2,COOR3,COOR4)  
+      DEALLOCATE(MATLY)
+      DEALLOCATE(POSLY)
 C-----------------------------
       RETURN
       END SUBROUTINE CINIT3      

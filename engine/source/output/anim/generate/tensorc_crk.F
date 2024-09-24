@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE CRACKXFEM_MOD
       USE ELBUFDEF_MOD
 C-----------------------------------------------
@@ -77,7 +78,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   A1,A2,A3,THK,SIGE(MVSIZ,5),TENS(3,LEN)
+     .   A1,A2,A3,THK,SIGE(MVSIZ,5)
+      my_real, DIMENSION(:,:),ALLOCATABLE :: TENS
       REAL R4(18)
       INTEGER I,NI,NG,NEL,NFT,ITY,LFT,NPT,IPT,
      .        N,J,LLT,MLW,ISTRAIN,
@@ -88,9 +90,10 @@ C     REAL
 C
       INTEGER IXFEM,K,CRKS,ITG,IA,NN1,NN2,
      .        NN3,NN4,NN5,NN6
-      REAL WA(3,NBF_L)
+      REAL, DIMENSION(:,:), ALLOCATABLE :: WA
+      INTEGER, DIMENSION(:), ALLOCATABLE  :: NELCRK
+      INTEGER, DIMENSION(:), ALLOCATABLE  :: IE
       INTEGER ILAYCRK,ELCRK,NPT0
-      INTEGER NELCRK(NCRKPART),IE(NCRKPART)
       INTEGER PID(MVSIZ),MAT(MVSIZ)
 C---
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
@@ -104,6 +107,11 @@ C
      .   DIMENSION(:), POINTER :: DIR_A
 C=======================================================================
 !
+      CALL MY_ALLOC(TENS,3,LEN)
+      CALL MY_ALLOC(WA,3,NBF_L)
+      CALL MY_ALLOC(NELCRK,NCRKPART)
+      CALL MY_ALLOC(IE,NCRKPART)
+
       NEL_CRK = 0
       ITG = 1 + 4*ECRKXFEC
       TENS = ZERO
@@ -655,5 +663,9 @@ C
         CALL SPMD_R4GET_PARTN(3,3*NBF_L,NCRKPART,IADG,WA,BUF)
       ENDIF
 C---
+      IF (ALLOCATED(TENS)) DEALLOCATE(TENS)
+      IF (ALLOCATED(WA)) DEALLOCATE(WA)
+      IF (ALLOCATED(NELCRK)) DEALLOCATE(NELCRK)
+      IF (ALLOCATED(IE)) DEALLOCATE(IE)
       RETURN
       END

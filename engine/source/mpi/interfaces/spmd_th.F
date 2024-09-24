@@ -295,6 +295,7 @@ C gather tableau V de taille LEN de type real
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -318,11 +319,11 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER I, IERROR,
      .        STATUS(MPI_STATUS_SIZE)
-      REAL
-     .        VTMP(LEN)
+      REAL, DIMENSION(:),ALLOCATABLE :: VTMP
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+      CALL MY_ALLOC(VTMP,LEN)
       IF (LEN > 0) THEN
         CALL MPI_REDUCE(V,VTMP,LEN,
      .                  MPI_REAL,MPI_SUM,IT_SPMD(1),
@@ -334,6 +335,7 @@ C-----------------------------------------------
         END DO
       ENDIF
 C
+      DEALLOCATE(VTMP)
 #endif
       RETURN
       END
