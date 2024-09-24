@@ -62,6 +62,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -122,9 +123,10 @@ C-----------------------------------------------
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ),
      .        NSVG(MVSIZ), CS_LOC(MVSIZ), CM_LOC(MVSIZ),
      .        NSMS(MVSIZ)
-      INTEGER I_STOK_NEW,CAND_S(MVSIZ),CAND_M(MVSIZ), INDEX2(LINDMAX),
+      INTEGER I_STOK_NEW,CAND_S(MVSIZ),CAND_M(MVSIZ),
      .        INDEXM1(LINDMAX),IELECI(MVSIZ),IELESI(MVSIZ), IPARTFRICSI(MVSIZ),
      .         IPARTFRICMI(MVSIZ)
+      INTEGER,DIMENSION(:), ALLOCATABLE :: INDEX2
 C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,
@@ -166,6 +168,8 @@ C     REAL
       INTEGER,TARGET, DIMENSION(1):: ADPARTS_FRIC_BID
       my_real,TARGET, DIMENSION(1):: TABCOEF_FRIC_BID
       INTEGER :: NRTS, NTY
+C-----------------------------------------------
+      CALL MY_ALLOC(INDEX2,LINDMAX)
 C-----------------------------------------------
 C  Calcul des adresses des buffers d'interfaces. 
 C  Les adresses des buffers J10-JFI et K10-KFI 
@@ -422,6 +426,7 @@ C
      .        FBSAV6, 12, 6, DIMFB, ISENSINT )
       ENDIF
       IF(ALLOCATED(FSAVPARIT)) DEALLOCATE (FSAVPARIT)
+      IF(ALLOCATED(INDEX2)) DEALLOCATE (INDEX2)
 
 C
       RETURN

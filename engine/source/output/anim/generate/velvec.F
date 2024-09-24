@@ -240,6 +240,7 @@ C-------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -267,10 +268,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C----------------------------------------------
-      my_real
-     .   RWA(3,NSECT),RWAL(3,NRWALL)    ,V(3,NUMNOD)
+      my_real, DIMENSION(:,:),ALLOCATABLE :: RWA
+      my_real, DIMENSION(:,:),ALLOCATABLE :: RWAL
+      my_real, DIMENSION(:,:),ALLOCATABLE :: V
       INTEGER LOC_PROC,PMAIN
 C=======================================================================
+      CALL MY_ALLOC(RWA,3,NSECT)
+      CALL MY_ALLOC(RWAL,3,NRWALL)
+      CALL MY_ALLOC(V,3,NUMNOD)
       LOC_PROC = ISPMD + 1
 C
       DO I=1,NUMNOD
@@ -463,6 +468,9 @@ c----------------------------
       ENDIF
  300  CONTINUE
 C-----------
+      DEALLOCATE(RWA)
+      DEALLOCATE(RWAL)
+      DEALLOCATE(V)
       RETURN
       END
 
@@ -480,6 +488,7 @@ C-----------
 C-----------------------------s------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -499,10 +508,15 @@ C     REAL
 C     REAL
       my_real
      .   S3000,S
-      REAL R4, VG(3,NUMNODG)
+      REAL R4
       INTEGER I,IVOIS(2,*),NODCUT,NNWL,K,P,BUF
       INTEGER NNSRG,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,NFNOD_CRKXFEMG
 C-----------------------------------------------
+C   L o c a l  V a r i a b l e s
+C-----------------------------------------------
+      REAL, DIMENSION(:,:), ALLOCATABLE :: VG
+C-----------------------------------------------
+      CALL MY_ALLOC(VG,3,NUMNODG)
       S3000 = 3000.
       S     = ZERO
 
@@ -612,6 +626,7 @@ c----------------------------
       ENDIF!(ISPMD==0) 
 c----------------------------  
  300  CONTINUE
+      DEALLOCATE(VG)
       RETURN
       END
 
@@ -909,6 +924,7 @@ c----------------------------
 C-----------------------------s------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -931,9 +947,12 @@ C     REAL
       REAL R4
       INTEGER I,IVOIS(2,*),NODCUT,NNWL,K,P,BUF
       INTEGER NNSRG,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,NFNOD_CRKXFEMG
-      my_real
-     .    VGLOBAL(3,NUMNOD)
 C-----------------------------------------------
+C   L o c a l  V a r i a b l e s
+C-----------------------------------------------
+      my_real, DIMENSION(:,:), ALLOCATABLE :: VGLOBAL
+C-----------------------------------------------
+      CALL MY_ALLOC(VGLOBAL,3,NUMNOD)
       S3000 = 3000.
       S = 0.
 C
@@ -1020,6 +1039,7 @@ c----------------------------
       ENDIF
 C-------------
  300  CONTINUE
+      DEALLOCATE(VGLOBAL)
       RETURN
       END
 
