@@ -362,7 +362,7 @@ c      ALE EULER SPECIFIC TREATMENTS
 c-------------------------------------------------------------------
         !SSP BUFFER + UPWIND + TURB + CHECK + CONVECTION FLAGS
         CALL ALE_EULER_INIT( MLAW_TAG,IPM,PM,IGEO,TITR,TITR1,TITR2,IGTYP,
-     .   ID,ILAW,MID,IMID,PID,IPID,JALE_FROM_PROP,JALE_FROM_MAT,MAT_PARAM)           
+     .   ID,ILAW,MID,IMID,PID,IPID,JALE_FROM_PROP,JALE_FROM_MAT)           
 
 c-------------------------------------------------------------------
 c      STARTER PRINTOUT
