@@ -797,43 +797,39 @@ C
         ENDDO
        END IF
 C
-      IF (NSL_G<=2) THEN 
-        DT05 = HALF*DT2
-       IF (IRAD==0) THEN
-       ELSEIF ((JR(1)+JR(2)+JR(3))>0) THEN
-         VG(1:3)=JR(1:3)*VG(1:3) 
-       END IF
-        DO I=1,NSL
-         NS = ISL(I)
-         LSM(1:3) = X(1:3,NS)-X(1:3,M)
-         CALL VELROT_EXPLICIT(VG, LSM,VS,DT12)
-         AS(1) = USDT*(VS(1)+DT05*(VG(2)*VS(3)-VG(3)*VS(2)))
-         AS(2) = USDT*(VS(2)+DT05*(VG(3)*VS(1)-VG(1)*VS(3)))
-         AS(3) = USDT*(VS(3)+DT05*(VG(1)*VS(2)-VG(2)*VS(1)))
-         A(1:3,NS)= A(1:3,NS)+AS(1:3)*JT(1:3)
-        ENDDO
-      ELSE
        IF (IRAD==0) THEN
         DT05 = HALF*DT2
-        DO I=1,NSL
-         NS = ISL(I)
-         V1X2=VG(1)*(X(2,NS)-X(2,M))
-         V2X1=VG(2)*(X(1,NS)-X(1,M))
-         V2X3=VG(2)*(X(3,NS)-X(3,M))
-         V3X2=VG(3)*(X(2,NS)-X(2,M))
-         V3X1=VG(3)*(X(1,NS)-X(1,M))
-         V1X3=VG(1)*(X(3,NS)-X(3,M))
-C
-         VX1=V2X3-V3X2
-         VX2=V3X1-V1X3
-         VX3=V1X2-V2X1
-           IF (JT(1)/=0)
-     .   A(1,NS)= A(1,NS)+(VX1+DT05*(VG(2)*VX3-VG(3)*VX2))*USDT
-           IF (JT(2)/=0)
-     .   A(2,NS)= A(2,NS)+(VX2+DT05*(VG(3)*VX1-VG(1)*VX3))*USDT
-           IF (JT(3)/=0)
-     .   A(3,NS)= A(3,NS)+(VX3+DT05*(VG(1)*VX2-VG(2)*VX1))*USDT
-        ENDDO
+        IF (NSL_G<=2) THEN
+          DO I=1,NSL
+           NS = ISL(I)
+           LSM(1:3) = X(1:3,NS)-X(1:3,M)
+           CALL VELROT_EXPLICIT(VG, LSM,VS,DT12)
+           AS(1) = USDT*(VS(1)+DT05*(VG(2)*VS(3)-VG(3)*VS(2)))
+           AS(2) = USDT*(VS(2)+DT05*(VG(3)*VS(1)-VG(1)*VS(3)))
+           AS(3) = USDT*(VS(3)+DT05*(VG(1)*VS(2)-VG(2)*VS(1)))
+           A(1:3,NS)= A(1:3,NS)+AS(1:3)*JT(1:3)
+          ENDDO 
+		ELSE
+          DO I=1,NSL
+           NS = ISL(I)
+           V1X2=VG(1)*(X(2,NS)-X(2,M))
+           V2X1=VG(2)*(X(1,NS)-X(1,M))
+           V2X3=VG(2)*(X(3,NS)-X(3,M))
+           V3X2=VG(3)*(X(2,NS)-X(2,M))
+           V3X1=VG(3)*(X(1,NS)-X(1,M))
+           V1X3=VG(1)*(X(3,NS)-X(3,M))
+C         
+           VX1=V2X3-V3X2
+           VX2=V3X1-V1X3
+           VX3=V1X2-V2X1
+             IF (JT(1)/=0)
+     .     A(1,NS)= A(1,NS)+(VX1+DT05*(VG(2)*VX3-VG(3)*VX2))*USDT
+             IF (JT(2)/=0)
+     .     A(2,NS)= A(2,NS)+(VX2+DT05*(VG(3)*VX1-VG(1)*VX3))*USDT
+             IF (JT(3)/=0)
+     .     A(3,NS)= A(3,NS)+(VX3+DT05*(VG(1)*VX2-VG(2)*VX1))*USDT
+          ENDDO
+        END IF !(NSL_G<=2) THEN
        ELSEIF ((JR(1)+JR(2)+JR(3))>0) THEN
         DT05 = HALF*DT2
         DO J = 1,3
@@ -857,7 +853,6 @@ C
          A(3,NS)= A(3,NS)+(VX3+DT05*(VG(1)*VX2-VG(2)*VX1))*USDT
         ENDDO
        END IF
-      END IF !(NSL<=2) THEN 
 C---
       RETURN
       END
@@ -983,7 +978,7 @@ C
          USDT1(J)=USDT
         ENDDO
        END IF
-       IF (NSL_G<=2) THEN 
+       IF (IRAD ==0.AND.NSL_G<=2) THEN 
         UDTJ(1:3) = USDT*JT(1:3)
         DO I=1,NSL
          NS = ISL(I)
