@@ -232,8 +232,8 @@ c
 c--------------------------------------------------
 c       Default Values
 c--------------------------------------------------
-        IF (TREF  == ZERO) TREF  = PM(23,IMAT) / RHO_CP     ! E0 / rho_cp        
-        IF (TREF  == ZERO) TREF  = 300.0 
+        IF (TREF  == ZERO) TREF  = PM(23,IMAT) / MAX(EM20,RHO_CP)     ! E0 / rho_cp        
+        IF (TREF  == ZERO) TREF  = THREE100 
         IF (TMELT == ZERO) TMELT = EP20                              
         IF (EFRAC < ZERO)  EFRAC = ZERO        
         IF (EFRAC > ONE )  EFRAC = ONE

@@ -107,16 +107,15 @@ C-----------------------------------------------
       INTEGER :: I, J, ICC,IRTY,ISRATE,VP,IDEV,MX,IBID,IKFLG,NINDX
       INTEGER :: INDX(NEL)
       my_real
-     .   RHO0, PLAP1,POLD,PSHIFT,BULK,P, EPMX,CC, CN,EPDR, CMX, 
+     .   RHO0, PLAP1,POLD,PSHIFT,BULK,P, EPMX,CC,CN,EPDR, CMX, 
      .   Z3,Z4,RHOCPI,T_REF,T_MELT,ASRATE,
-     .   E1, E2, E3, E4, E5,E6, EINC, G2, G1,
+     .   E1, E2, E3, E4, E5,E6, EINC, G0,G1,G2,G3,G3H,
      .   SCALE, BID1, BID2, BID3, DTA,MT,
      .   DSXX,DSYY,DSZZ,DSXY,DSYZ,DSZX,ALPHA,HKIN,
-     .   FACQ0,FISOKIN,BETA,VM,VM_1,G3,G3H,NORM_1,
-     .   G_1,CA,CB,SIGMX
+     .   FACQ0,FISOKIN,BETA,VM,VM_1,NORM_1,CA0,CB,SIGM0
       my_real
      .   EPD(MVSIZ),G(MVSIZ), AK(MVSIZ),PC(MVSIZ), QH(MVSIZ), 
-     .   AJ2(MVSIZ), DAV(MVSIZ),
+     .   AJ2(MVSIZ), DAV(MVSIZ),CA(MVSIZ),SIGMX(MVSIZ),
      .   SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEZZ(MVSIZ),
      .   SIGEXY(MVSIZ),SIGEYZ(MVSIZ),SIGEZX(MVSIZ)
       my_real, DIMENSION(MVSIZ) :: BIDMVSIZ
@@ -137,10 +136,10 @@ C
       ISRATE  = IPM(3,MX)
       ASRATE  = MIN(ONE,PM(9,MX)*DT1)
       FISOKIN = PM(55,MX)
-      G_1     = PM(22,MX)
-      CA      = PM(38,MX)
+      G0      = PM(22,MX)
+      CA0     = PM(38,MX)
       CB      = PM(39,MX)
-      SIGMX   = PM(42,MX)
+      SIGM0   = PM(42,MX)
       VP      = IPM(255,MX)
       PSHIFT  = PM(88,MX)
 !
@@ -156,7 +155,9 @@ C
       END IF
 !
       DO I=1,NEL
-        G(I)    = G_1*OFF(I)
+        G(I)    = G0*OFF(I)
+        CA(I)   = CA0
+        SIGMX(I)= SIGM0
         ETSE(I) = ONE
       ENDDO
 C
@@ -165,38 +166,35 @@ C     ECROUISSAGE CINE
 C------------------------------------------
       IKFLG=0
       DO I=1,NEL
-         IF (FISOKIN /= ZERO ) THEN
-          SIG(I,1)=SIG(I,1)-SIGBAK(I,1)
-          SIG(I,2)=SIG(I,2)-SIGBAK(I,2)
-          SIG(I,3)=SIG(I,3)-SIGBAK(I,3)
-          SIG(I,4)=SIG(I,4)-SIGBAK(I,4)
-          SIG(I,5)=SIG(I,5)-SIGBAK(I,5)
-          SIG(I,6)=SIG(I,6)-SIGBAK(I,6)
-          IKFLG = IKFLG + 1
-         ENDIF           
+        IF (FISOKIN /= ZERO ) THEN
+         SIG(I,1)=SIG(I,1)-SIGBAK(I,1)
+         SIG(I,2)=SIG(I,2)-SIGBAK(I,2)
+         SIG(I,3)=SIG(I,3)-SIGBAK(I,3)
+         SIG(I,4)=SIG(I,4)-SIGBAK(I,4)
+         SIG(I,5)=SIG(I,5)-SIGBAK(I,5)
+         SIG(I,6)=SIG(I,6)-SIGBAK(I,6)
+         IKFLG = IKFLG + 1
+        ENDIF           
       ENDDO
 C      
       DO I=1,NEL
-       P  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-       DAV(I)=-THIRD*(D1(I)+D2(I)+D3(I))
-       G1=DT1*G(I)
-       G2=TWO*G1
-       SSP(I)=SQRT((ONEP333*G(I)+BULK)/RHO0)
-C-------------------------------
-C     CONTRAINTES DEVIATORIQUES
-C-------------------------------
-c     -- deviatoric elastic stress predictor
-       SIG(I,1)=SIG(I,1)+P+G2*(D1(I)+DAV(I))
-       SIG(I,2)=SIG(I,2)+P+G2*(D2(I)+DAV(I))
-       SIG(I,3)=SIG(I,3)+P+G2*(D3(I)+DAV(I))
-       SIG(I,4)=SIG(I,4)+G1*D4(I)
-       SIG(I,5)=SIG(I,5)+G1*D5(I)
-       SIG(I,6)=SIG(I,6)+G1*D6(I)
+        P  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
+        DAV(I)=-THIRD*(D1(I)+D2(I)+D3(I))
+        G1=DT1*G(I)
+        G2=TWO*G1
+        SSP(I)=SQRT((ONEP333*G(I)+BULK)/RHO0)
+c      -- deviatoric elastic stress predictor
+        SIG(I,1)=SIG(I,1)+P+G2*(D1(I)+DAV(I))
+        SIG(I,2)=SIG(I,2)+P+G2*(D2(I)+DAV(I))
+        SIG(I,3)=SIG(I,3)+P+G2*(D3(I)+DAV(I))
+        SIG(I,4)=SIG(I,4)+G1*D4(I)
+        SIG(I,5)=SIG(I,5)+G1*D5(I)
+        SIG(I,6)=SIG(I,6)+G1*D6(I)
 C
-c     -- von Mises stress at elastic predictor
-       AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
-     1               +SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
-       AJ2(I)=SQRT(THREE*AJ2(I))
+c      -- von Mises stress at elastic predictor
+        AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
+     .             + SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
+        AJ2(I)=SQRT(THREE*AJ2(I))
       ENDDO
 C
 c     --  storing elastic predictors for stiffness computation
@@ -238,13 +236,13 @@ c
              MT=MAX(EM15,Z3)
              EPD(I)= MAX(ZERO,EPD(I))
              EPD(I)= (ONE +CC * EPD(I))*(ONE -TSTAR(I)**MT)
-             IF(ICC==1)SIGMX= SIGMX*EPD(I)
+             IF(ICC==1) SIGMX(I)= SIGM0*EPD(I)
           ENDDO
         ELSEIF (IRTY==1) THEN
           DO I=1,NEL
              EPD(I)= CC*EXP((-Z3+Z4 * EPD(I))*TEMPEL(I))
-             IF (ICC==1)SIGMX= SIGMX + EPD(I)
-             CA = CA + EPD(I)
+             IF (ICC==1) SIGMX(I) = SIGM0 + EPD(I)
+             CA(I) = CA0 + EPD(I)
              EPD(I)=ONE
           ENDDO
         END IF
@@ -258,27 +256,27 @@ C     CRITERE
 C-------------
       IF (IKFLG == 0 ) THEN  ! isotropic hardening
         IF(CN==ONE) THEN
-          AK(1:NEL)= CA+CB*EPXE(1:NEL)
+          AK(1:NEL)= CA(1:NEL)+CB*EPXE(1:NEL)
           QH(1:NEL)= CB*EPD(1:NEL)
         ELSE
           DO  I=1,NEL
             IF(EPXE(I)>ZERO) THEN
-              AK(I)=CA+CB*EPXE(I)**CN
+              AK(I)=CA(I)+CB*EPXE(I)**CN
               IF(CN>ONE) THEN
                 QH(I) = (CB*CN*EPXE(I)**(CN - ONE))*EPD(I)
               ELSE
                 QH(I) = (CB*CN/EPXE(I)**(ONE -CN))*EPD(I)
               ENDIF
             ELSE
-              AK(I)=CA
+              AK(I)=CA(I)
               QH(I)=ZERO
             ENDIF
           ENDDO
         ENDIF
         DO  I=1,NEL
           AK(I)=AK(I)*EPD(I)
-          IF(SIGMX<AK(I))THEN
-            AK(I)=SIGMX
+          IF(SIGMX(I)<AK(I))THEN
+            AK(I)=SIGMX(I)
             QH(I)=ZERO
           ENDIF
           SIGY(I) = AK(I)
@@ -294,31 +292,31 @@ C-------------
           BETA = ONE-FISOKIN
           ! SIGY is used for hourglass stress compute--        
           IF(CN==ONE) THEN
-            SIGY(I) = CA+CB*EPXE(I)
-            AK(I)= CA+BETA*CB*EPXE(I)
+            SIGY(I) = CA(I)+CB*EPXE(I)
+            AK(I)= CA(I)+BETA*CB*EPXE(I)
             QH(I)= CB*EPD(I)
           ELSE
             IF(EPXE(I)>ZERO) THEN
-              SIGY(I)=CA+CB*EPXE(I)**CN
-              AK(I)=CA+BETA*CB*EPXE(I)**CN
+              SIGY(I)=CA(I)+CB*EPXE(I)**CN
+              AK(I)=CA(I)+BETA*CB*EPXE(I)**CN
               IF(CN>ONE) THEN
                 QH(I)= (CB*CN*EPXE(I)**(CN - ONE))*EPD(I)
               ELSE
                 QH(I)= (CB*CN/EPXE(I)**(ONE -CN))*EPD(I)
               ENDIF
             ELSE
-             AK(I)=CA
-             SIGY(I)=CA
+             AK(I)=CA(I)
+             SIGY(I)=CA(I)
              QH(I)=ZERO
             ENDIF
           ENDIF
           AK(I)=AK(I)*EPD(I)
           SIGY(I)=SIGY(I)*EPD(I)
-          IF(SIGMX<AK(I))THEN
-            AK(I)=SIGMX
+          IF(SIGMX(I)<AK(I))THEN
+            AK(I)=SIGMX(I)
             QH(I)=ZERO
           ENDIF
-          SIGY(I)=MIN(SIGY(I),SIGMX)
+          SIGY(I)=MIN(SIGY(I),SIGMX(I))
           IF(EPXE(I)>EPMX)THEN
             AK(I)=ZERO
             QH(I)=ZERO
