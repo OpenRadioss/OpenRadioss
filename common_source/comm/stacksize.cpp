@@ -68,7 +68,7 @@ std::string str_stack;
 
 #if defined(__INTEL_COMPILER) || defined(__INTEL_LLVM_COMPILER)
 
-   // Intel Compilers use kmp_get_staclsize / kmp_set_stacksize API
+   // Intel Compilers use kmp_get_stacksize / kmp_set_stacksize API
    size_t stack_size = kmp_get_stacksize();
    if (stack_size < 262144000){          // < 250 MB, set to 250 MB 
       stack_size = 262144000;
@@ -149,6 +149,9 @@ str_stack = std::string("0");
                 }else{
                     long int StMB = rl.rlim_cur / (1024*1024);
                     sprintf(stacksize, "%ld MB", StMB);
+                    // Try to increase Stacksize
+                    rl.rlim_cur = rl.rlim_max;
+                    setrlimit(RLIMIT_STACK, &rl);
                 }
         }else{
             strcpy(stacksize, "-1 MB");
