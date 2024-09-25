@@ -368,7 +368,7 @@ C-----
       IF (ANU == HALF) ANU=ZEP499
 C
       IF (ICC == 0) ICC=1
-      IF (PMIN  == ZERO) PMIN  =-EP20
+      IF (PMIN  == ZERO) PMIN =-EP20
 C
       IF (EPSM == ZERO) EPSM  = EP20
       IF (SIGM == ZERO) SIGM  = EP20
@@ -445,7 +445,7 @@ C-----
       PARMAT(5) = ASRATE
       PM(37)= PMIN    ! default pressure cut-off for EOS
 C
-      IF (TREF <= ZERO) TREF = TWOHUNDRED98
+      IF (TREF <= ZERO) TREF = THREE100
 c
 C--------------------------------
       
