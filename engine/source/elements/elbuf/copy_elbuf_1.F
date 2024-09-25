@@ -647,7 +647,6 @@ C
           G_MAXEPS = GBUFS%G_MAXEPS
           G_BETAORTH  = GBUFS%G_BETAORTH
           G_AMU    = GBUFS%G_AMU
-          G_SH_IOFFSET  = GBUFS%G_SH_IOFFSET
 c---
 c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
 c---
@@ -725,7 +724,6 @@ c
           GBUFT%MAXEPS(1:NEL*G_MAXEPS) = GBUFS%MAXEPS(1:NEL*G_MAXEPS)      
           GBUFT%BETAORTH(1:NEL*G_BETAORTH) = GBUFS%BETAORTH(1:NEL*G_BETAORTH)
           GBUFT%AMU(1:NEL*G_AMU)       = GBUFS%AMU(1:NEL*G_AMU)   
-          GBUFT%SH_IOFFSET(1:NEL*G_SH_IOFFSET)   = GBUFS%SH_IOFFSET(1:NEL*G_SH_IOFFSET)   
 c
           IF (NPTTOT == 1) THEN  ! global variables are pointing to local ones
             LBUFT => ELBUF_TGT(NG)%BUFLY(1)%LBUF(1,1,1)

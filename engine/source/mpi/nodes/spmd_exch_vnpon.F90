@@ -148,13 +148,7 @@
           l  = iad_recv(i)
           do j=iad_offset(1,i),iad_offset(1,i+1)-1
             nod = fr_offset(j)
-            if(nod > 0) then
-              if(l > 0) then
-                vn6(1:ndim1,nod) = vn6(1:ndim1,nod) + rbuf(1:ndim1,l)
-              else
-                vn6(1:ndim1,nod) =  0.0D0
-              endif
-            endif
+            vn6(1:ndim1,nod) = vn6(1:ndim1,nod) + rbuf(1:ndim1,l)
             l  = l  + 1
           end do
         endif

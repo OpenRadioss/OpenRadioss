@@ -2971,7 +2971,7 @@ C-----------------------------------------------
      .        IHBE,ISMSTR,ICPRE,JCVT,IINT,IHKT,ITET4,ITET10,IMATVIS,NPT,NLY,
      .        ICSTR,IDRIL,ITHK,IPLAS,I2GEO(NUMGEO),NG2,NG1,NG0,JG,ETYE,
      .        IH4,IH3,IGMAT,I2GEO1(NUMGEO),I2GEO2(NUMGEO),IHBE0,
-     .        IP,NFT,IP2NG1(NPART),IP2NG2(NPART),LST,ICONTROL
+     .        IP,NFT,IP2NG1(NPART),IP2NG2(NPART),LST,ICONTROL,IPOS
       my_real
      .   MAS,SM,XX,YY,ZZ,XY,YZ,ZX,XG,YG,ZG,
      .   IXX,IXY,IYY,IYZ,IZZ,IZX,EK,VX,VY,VZ,HM,HR,HF,DN,QA,QB,QH,
@@ -3111,6 +3111,7 @@ C-------We suppose the orders of IPART/IPARG are the same
         NPT =IGEO(4,IPID)
         IHBE0 =IGEO(10,IPID)
         ICONTROL = IGEO(97,IPID)
+        IPOS = IGEO(99,IPID)
 c        MID = IPM(2,IMID)
         NG0 = I2GEO(IPID)
         NG2=0
@@ -3376,18 +3377,18 @@ C           IF (IH4==0) IH4 =2
 C           MIXED CASE take directly defining in pid
             IH3 = IGEO(18,IPID) 
             IH4 = IGEO(10,IPID) 
-           WRITE(IOUT,'(A)') '  Ishell   Ish3n  Ismstr   Idril     NPT    ITHK   IPLAS'
-           WRITE(IOUT,'(7I8)')IH4,IH3,ISMSTR,IDRIL,NPT,ITHK,IPLAS
+           WRITE(IOUT,'(A)') '  Ishell   Ish3n  Ismstr   Idril     NPT    ITHK   IPLAS    IPOS'
+           WRITE(IOUT,'(8I8)')IH4,IH3,ISMSTR,IDRIL,NPT,ITHK,IPLAS,IPOS
           ELSEIF(ITY==3)THEN
             IH4 = IPARG(23,NG) 
            IF (IH4>4.OR.IH4==2) IH4 =IH4 +1
            IF (IH4==0) IH4 =2
-           WRITE(IOUT,'(A)') '  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS'
-           WRITE(IOUT,'(6I8)')IH4,ISMSTR,IDRIL,NPT,ITHK,IPLAS           
+           WRITE(IOUT,'(A)') '  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS    IPOS'
+           WRITE(IOUT,'(7I8)')IH4,ISMSTR,IDRIL,NPT,ITHK,IPLAS,IPOS           
           ELSE
             IH3 = IPARG(23,NG) 
-           WRITE(IOUT,'(A)') '   Ish3n  Ismstr   Idril     NPT    ITHK   IPLAS'
-           WRITE(IOUT,'(6I8)')IH3,ISMSTR,IDRIL,NPT,ITHK,IPLAS
+           WRITE(IOUT,'(A)') '   Ish3n  Ismstr   Idril     NPT    ITHK   IPLAS    IPOS'
+           WRITE(IOUT,'(7I8)')IH3,ISMSTR,IDRIL,NPT,ITHK,IPLAS,IPOS
           END IF
           IF (IH4>0.AND.IH4<=4) THEN
            QF = GEO(13,IPID)
