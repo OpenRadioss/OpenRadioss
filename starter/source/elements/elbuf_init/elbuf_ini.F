@@ -104,7 +104,7 @@ C-----------------------------------------------
      .   ISUBSTACK,IPPID,IPIDL,NPT_LAY,LEN_PLAPT,LEN_SIGPT,
      .   IPMAT,IPMAT_IPLY,NPTTOT,NUVARN,NX,IBOLTP,CRKDIR,INLOC,LNLOC,
      .   NONL, DEBUG_PRINT,IPINCH,NUVAREOS,IEOS_TYPE,IDRAPE,LLOC_SLICE,
-     .   IPNPT_LAY,IDFAIL,LNLOCTS,ICONTROL
+     .   IPNPT_LAY,IDFAIL,LNLOCTS,ICONTROL,ISHOFFSET
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: TFAIL,FAILID
       INTEGER, ALLOCATABLE, DIMENSION(:)   :: IMAT,ILAW
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
@@ -1058,6 +1058,8 @@ c
             IPID = IXTG(5,NFT+1)                                       
           ENDIF
           ELBUF_TAB(NG)%GBUF%G_DT = 1
+          ISHOFFSET = IGEO(99,IPID)
+          IF (DEFAULTS%SHELL%IOFFSET ==1 .AND. ISHOFFSET > 0) ELBUF_TAB(NG)%GBUF%G_SH_IOFFSET = 1
 C
           NPTT = 1
           IF (ITY == 3 .and. JHBE == 11) THEN 
@@ -1467,7 +1469,6 @@ c----------------------------------------------------
           IF (JTHE      /= 0 .AND. NPG > 1) GBUF%G_TEMPG = NPG
           IF (ISMS_SELEC >= 1) GBUF%G_ISMS  = 1
           IF (JEUL+JALE /= 0 .AND. ISNOD >= 4) GBUF%G_MOM  = 3
-          IF (DEFAULTS%SHELL%IOFFSET == 1) GBUF%G_SH_IOFFSET  = 1
           IF (ITY == 3) THEN
             IF (JHBE <= 4) THEN
               GBUF%G_HOURG = 5
