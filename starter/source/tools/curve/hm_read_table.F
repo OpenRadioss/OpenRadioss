@@ -133,7 +133,6 @@ C-----------------------------------------------------------------
       !||    udouble                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
       !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    interface_table_mod    ../starter/share/modules1/table_mod.F
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||    table_mod              ../starter/share/modules1/table_mod.F

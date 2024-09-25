@@ -55,12 +55,11 @@ C
       RETURN
       END
       !||====================================================================
-      !||    get_u_table           ../starter/source/user_interface/utable.F
+      !||    get_u_table      ../starter/source/user_interface/utable.F
       !||--- calls      -----------------------------------------------------
-      !||    table_interp          ../starter/source/tools/curve/table_tools.F
+      !||    table_interp     ../starter/source/tools/curve/table_tools.F
       !||--- uses       -----------------------------------------------------
-      !||    interface_table_mod   ../starter/share/modules1/table_mod.F
-      !||    table_glob_mod        ../starter/share/modules1/table_glob_mod.F
+      !||    table_glob_mod   ../starter/share/modules1/table_glob_mod.F
       !||====================================================================
       SUBROUTINE GET_U_TABLE(ITABLE,XX,YY) 
       USE TABLE_GLOB_MOD
@@ -81,12 +80,11 @@ C
       RETURN
       END
       !||====================================================================
-      !||    get_u_vtable          ../starter/source/user_interface/utable.F
+      !||    get_u_vtable     ../starter/source/user_interface/utable.F
       !||--- calls      -----------------------------------------------------
-      !||    table_vinterp         ../starter/source/tools/curve/table_tools.F
+      !||    table_vinterp    ../starter/source/tools/curve/table_tools.F
       !||--- uses       -----------------------------------------------------
-      !||    interface_table_mod   ../starter/share/modules1/table_mod.F
-      !||    table_glob_mod        ../starter/share/modules1/table_glob_mod.F
+      !||    table_glob_mod   ../starter/share/modules1/table_glob_mod.F
       !||====================================================================
       SUBROUTINE GET_U_VTABLE(ITABLE,NEL0,IPOS,XX,YY,DYDX1) 
       USE TABLE_GLOB_MOD

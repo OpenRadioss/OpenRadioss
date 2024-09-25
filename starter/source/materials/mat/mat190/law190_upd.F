@@ -28,9 +28,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       MODULE LAW190_UPD_MOD
       CONTAINS 
       !||====================================================================
-      !||    law190_upd            ../starter/source/materials/mat/mat190/law190_upd.F
+      !||    law190_upd         ../starter/source/materials/mat/mat190/law190_upd.F
       !||--- called by ------------------------------------------------------
-      !||    updmat                ../starter/source/materials/updmat.F
+      !||    updmat             ../starter/source/materials/updmat.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE LAW190_UPD(MATPARAM ,NUMTABL ,ITABLE   ,TABLE       ,PM    )

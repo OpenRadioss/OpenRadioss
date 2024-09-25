@@ -54,7 +54,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_visc              ../starter/source/materials/visc/hm_read_visc.F
       !||    hm_read_visc_prony        ../starter/source/materials/visc/hm_read_visc_prony.F
       !||    inter_dcod_function       ../starter/source/interfaces/reader/inter_dcod_function.F
-      !||    interface_table_mod       ../starter/share/modules1/table_mod.F
       !||    law100_upd_ab             ../starter/source/materials/mat/mat100/law100_upd.F
       !||    law100_upd_nht            ../starter/source/materials/mat/mat100/law100_upd.F
       !||    law108_upd                ../starter/source/materials/mat/mat108/law108_upd.F
