@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  STIFN    ,STIFR   ,PARTSAV ,V       ,IPART ,
      4                  MSP      ,INP     ,IGEO    ,STIFINT ,STRP  ,
      5                  NSIGBEAM ,SIGBEAM ,PTBEAM  ,IUSER   ,MCP   ,
-     6                  MCPP     ,TEMP    ,PRELOAD_A,IPRELD )
+     6                  MCPP     ,TEMP    ,PRELOAD_A,IPRELD,NPRELOAD_A)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,7 +69,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: NEL,NSIGBEAM,IUSER,NFT
       INTEGER :: IC(NIXP,*),IPART(*),IGEO(NPROPGI,*),PTBEAM(*)
-      INTEGER , INTENT (IN   )  :: IPRELD
+      INTEGER , INTENT (IN   )  :: IPRELD,NPRELOAD_A
       my_real
      .   PM(*),X(*),GEO(NPROPG,*),XMAS(*),TINER(*),
      .   DTELEM(*),STIFN(*),STIFR(*),PARTSAV(20,*),V(*),MSP(*),INP(*),
@@ -77,7 +77,7 @@ C-----------------------------------------------
      .   TEMP(*)
 C
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
-      TYPE(PREL1D_) ,      TARGET :: PRELOAD_A
+      TYPE(PREL1D_) ,DIMENSION(NPRELOAD_A),    TARGET :: PRELOAD_A
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -157,8 +157,8 @@ C-----------
           CC1 =TWO*SQRT(TWO)
           DO I=1,NEL
             UNDAMP = CC1*MSP(NFT+I)*GBUF%LENGTH(I)/DTX(I)
-            GBUF%BPRELD(I)     = PRELOAD_A%preload
-            GBUF%BPRELD(I+NEL) = UNDAMP*PRELOAD_A%damp
+            GBUF%BPRELD(I)     = PRELOAD_A(IPRELD)%preload
+            GBUF%BPRELD(I+NEL) = UNDAMP*PRELOAD_A(IPRELD)%damp
           ENDDO
       END IF
 C-----------

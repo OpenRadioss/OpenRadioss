@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  DTELEM ,NFT        ,NEL      ,STIFN  ,PARTSAV,
      3                  V      ,IPART      ,MST      ,STIFINT,STT    ,
      4                  IGEO   ,NSIGTRUSS  ,SIGTRUSS ,PTTRUSS,
-     5                  PRELOAD_A,IPRELD )
+     5                  PRELOAD_A,IPRELD   ,NPRELOAD_A)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,14 +70,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IC(NIXT,*),IPART(*),IGEO(NPROPGI,*),PTTRUSS(*)
       INTEGER NFT,NEL,NSIGTRUSS
-      INTEGER , INTENT (IN   )  :: IPRELD
+      INTEGER , INTENT (IN   )  :: IPRELD,NPRELOAD_A
       my_real
      .   PM(*),X(*), GEO(NPROPG,*),XMAS(*),DTELEM(*),
      .   STIFN(*),PARTSAV(20,*),V(*),MST(*),STIFINT(*),STT(*),
      .   SIGTRUSS(NSIGTRUSS,*)
 C
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
-      TYPE(PREL1D_) ,      TARGET :: PRELOAD_A
+      TYPE(PREL1D_) , DIMENSION(NPRELOAD_A), TARGET :: PRELOAD_A
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -161,8 +161,8 @@ C
           CC1 =TWO*SQRT(TWO)
           DO I=1,NEL
             UNDAMP = CC1*MST(NFT+I)*GBUF%LENGTH(I)/DTX(I)
-            GBUF%BPRELD(I)     = PRELOAD_A%preload
-            GBUF%BPRELD(I+NEL) = UNDAMP*PRELOAD_A%damp
+            GBUF%BPRELD(I)     = PRELOAD_A(IPRELD)%preload
+            GBUF%BPRELD(I+NEL) = UNDAMP*PRELOAD_A(IPRELD)%damp
           ENDDO
       END IF
 C---

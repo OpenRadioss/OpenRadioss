@@ -1343,7 +1343,7 @@ C 2D multifluid law
      2                DTELEM ,NFT        ,NEL      ,STIFN  ,PARTSAV,
      3                V      ,IPART(I15D),MST      ,STIFINT,STT    ,
      4                IGEO   ,NSIGTRUSS  ,SIGTRUSS ,PTTRUSS,
-     5                PRELOAD_A(IBOLTP),IBOLTP    )
+     5                PRELOAD_A,IBOLTP   ,NPRELOAD_A )
         !----------------------------------------!
         !   ITY == 5                        BEAM !
         !----------------------------------------!
@@ -1354,7 +1354,7 @@ C 2D multifluid law
      3                STIFN      ,STIFR    ,PARTSAV ,V       ,IPART(I15E),
      4                MSP        ,INP      ,IGEO    ,STIFINT ,STRP       ,
      5                NSIGBEAM   ,SIGBEAM  ,PTBEAM  ,IUSER   ,MCP        ,
-     6                MCPP       ,TEMP     ,PRELOAD_A(IBOLTP),IBOLTP    )
+     6                MCPP       ,TEMP     ,PRELOAD_A,IBOLTP ,NPRELOAD_A )
         !----------------------------------------!
         !   ITY == 6                      SPRING !
         !----------------------------------------!
@@ -1368,7 +1368,7 @@ C 2D multifluid law
      5                INR       ,STIFINT     ,STR(NFT+1),IGEO     ,SIGRS      ,
      6                NSIGRS    ,IMERGE2     ,IADMERGE2 ,MSRT(NFT+1),IXR_KJ   ,
      7                NOM_OPT(1,IOPT),STRR   ,PTSPRI    ,IPM       , PM     ,
-     8                BUFMAT    ,R_SKEW      ,PRELOAD_A(IBOLTP),IBOLTP    )          
+     8                BUFMAT    ,R_SKEW      ,PRELOAD_A ,IBOLTP    ,NPRELOAD_A)          
         !----------------------------------------!
         !   ITY == 7                SH3N or TRIA !
         !----------------------------------------!
