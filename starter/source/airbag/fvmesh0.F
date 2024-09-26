@@ -53,6 +53,7 @@ C             dans les routines identiques dans l'engine
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE FVBAG_MOD
       USE FVMBAG_MESHCONTROL_MOD
       USE REORDER_MOD
@@ -95,10 +96,10 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGVENT,TMP
       CHARACTER(len=nchartitle) :: TITR
       INTEGER, DIMENSION(:), ALLOCATABLE :: MINUS_SIGN_REVERSE
-
+      my_real, DIMENSION(:,:), ALLOCATABLE :: X
       my_real DIRX,DIRY,DIRZ,DIR2X,DIR2Y,DIR2Z,ORIGX,ORIGY,ORIGZ,LX,LY,LZ
-      my_real X(3,NB_NODE)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
+      CALL MY_ALLOC(X,3,NB_NODE)
       PFLAG = 0
       IFV=0
       DO N = 1, NVOLU
@@ -296,6 +297,7 @@ C
          ENDIF
       ENDDO
 C
+      DEALLOCATE(X)
       RETURN
 C
 1000  FORMAT(
@@ -412,6 +414,7 @@ C     Not possible
          ENDIF
       ENDDO
 C
+
       RETURN
 C
       END

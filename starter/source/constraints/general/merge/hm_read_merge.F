@@ -94,6 +94,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE RBMERGE_MOD , ONLY : RBMERGE_
       USE GROUPDEF_MOD , ONLY : GROUP_
@@ -126,14 +127,18 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,ID,IRBM,IRBS,NBMERGE,IGS,
      .        N,NOPT,UID, II, NOBJ
-      INTEGER, DIMENSION(:) , ALLOCATABLE :: INDEX
-      INTEGER, DIMENSION(:,:) , ALLOCATABLE :: INUM
       INTEGER IMAIN,ISECONDARY,FLAGG_OPT, FLAG_BOUCLE, FLAG_ERROR, 
      .        FLAG_DOUBLON, FLAG_DOUBLEMAIN, M_TYPE, S_TYPE, ID_OPT,
-     .        IDNODE, NN, PRT_OPT
-      INTEGER TABRB(NRBYKIN,2)
-      INTEGER NB_MAIN(NRBYKIN),NSECONDARY(NRBYKIN),TAG1(NRBYKIN),TAG2(NRBYKIN)
-      INTEGER TABBOUCLE(NRBYKIN+1), IDBOUCLE, LEVEL
+     .        IDNODE, NN, PRT_OPT, IDBOUCLE, LEVEL
+      INTEGER, DIMENSION(:)   , ALLOCATABLE :: INDEX
+      INTEGER, DIMENSION(:,:) , ALLOCATABLE :: INUM
+      INTEGER, DIMENSION(:)   , ALLOCATABLE :: NB_MAIN
+      INTEGER, DIMENSION(:)   , ALLOCATABLE :: NSECONDARY
+      INTEGER, DIMENSION(:)   , ALLOCATABLE :: TAG1
+      INTEGER, DIMENSION(:)   , ALLOCATABLE :: TAG2
+      INTEGER, DIMENSION(:)   , ALLOCATABLE :: TABBOUCLE
+      INTEGER, DIMENSION(:,:) , ALLOCATABLE :: TABRB
+
       CHARACTER MYSTRING*100,MYLOOP*200
       CHARACTER MESS*40,MESS2*40
       CHARACTER(LEN=nchartitle) :: TITR
@@ -150,6 +155,12 @@ C-----------------------------------------------
       DATA MESS/'RIGID BODY MERGE DEFINITION             '/
 C-----------------------------------------------
       ALLOCATE(ITAG(NUMNOD),WORK(NUMNOD))
+      CALL MY_ALLOC(TABRB,NRBYKIN,2)
+      CALL MY_ALLOC(NB_MAIN,NRBYKIN)
+      CALL MY_ALLOC(NSECONDARY,NRBYKIN)
+      CALL MY_ALLOC(TAG1,NRBYKIN)
+      CALL MY_ALLOC(TAG2,NRBYKIN)
+      CALL MY_ALLOC(TABBOUCLE,NRBYKIN+1)
       J = 0
       N = 0
       NOPT = 0
@@ -533,6 +544,12 @@ C------------------------------------
       ENDIF
 c
       DEALLOCATE(RBMERGE,WORK,ITAG)
+      DEALLOCATE(TABRB)
+      DEALLOCATE(NB_MAIN)
+      DEALLOCATE(NSECONDARY)
+      DEALLOCATE(TAG1)
+      DEALLOCATE(TAG2)
+      DEALLOCATE(TABBOUCLE)
 cC-----------
       RETURN
 C
@@ -729,6 +746,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE RBMERGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : nchartitle
@@ -756,11 +774,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,KK,M,N,ID,OFFSET,OFFSETID,FLAG_RB
-      INTEGER PILE(NRBYKIN), IDPILE, NPBY_TMP(NNPBY,NRBYKIN),
-     .        INDEX(NRBYKIN),LPBY_TMP(SLRBODY),
-     .        NOM_OPT_TMP(LNOPT1,NRBYKIN),INODE, IKREM,ISPHER,
+      INTEGER IDPILE,INODE, IKREM,ISPHER,
      .        ICDG,CNT,NN,IAD
-      my_real RBY_TMP(NRBY,NRBYKIN)
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PILE
+      INTEGER,DIMENSION(:),ALLOCATABLE :: INDEX
+      INTEGER,DIMENSION(:),ALLOCATABLE :: LPBY_TMP
+      INTEGER,DIMENSION(:,:),ALLOCATABLE :: NPBY_TMP
+      INTEGER,DIMENSION(:,:),ALLOCATABLE :: NOM_OPT_TMP
+      my_real,DIMENSION(:,:),ALLOCATABLE :: RBY_TMP
+
       my_real BID, DX, DY, DZ, DMSTR, DELT, DTMP
       INTEGER NBSECONDARY, IDIR, NSL, NSL_XTRA
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
@@ -776,6 +798,13 @@ C-----------------------------------------------
 !   RBMERGE(IRBM)%FLAG_MAIN   :: Flag relating the rigid option merge to the MAIN
 !   RBMERGE(IRBM)%IDSECONDARY(J) :: SECONDARY rigid bodys attached to the MAIN
 C-----------------------------------------------
+      CALL MY_ALLOC(PILE,NRBYKIN)
+      CALL MY_ALLOC(NPBY_TMP,NNPBY,NRBYKIN)
+      CALL MY_ALLOC(INDEX,NRBYKIN)
+      CALL MY_ALLOC(LPBY_TMP,SLRBODY)
+      CALL MY_ALLOC(NOM_OPT_TMP,LNOPT1,NRBYKIN)
+      CALL MY_ALLOC(RBY_TMP,NRBY,NRBYKIN)
+
       ALLOCATE(ITAG(NUMNOD))
       INDEX(1:NRBYKIN) = 0
       OFFSET = 0
@@ -986,6 +1015,12 @@ C-------------------------------------
       ENDDO
 C
       DEALLOCATE(ITAG)
+      DEALLOCATE(PILE)
+      DEALLOCATE(NPBY_TMP)
+      DEALLOCATE(INDEX)
+      DEALLOCATE(LPBY_TMP)
+      DEALLOCATE(NOM_OPT_TMP)
+      DEALLOCATE(RBY_TMP)
       RETURN
 C
 1000  FORMAT(/5X,'MAIN RIGID BODY ID ',I10)
@@ -1057,6 +1092,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE RBMERGE_MOD
 C-----------------------------------------------
@@ -1079,13 +1115,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,OFFSET,OFFSETEND,NRBYKINM
-      INTEGER NPBY_TMP(NNPBY,NRBYKIN+NRBYLAG),
-     .        INDEX(NRBYKIN+NRBYLAG),
-     .        NOM_OPT_TMP(LNOPT1,NRBYKIN+NRBYLAG),
+      INTEGER I,J,K,OFFSET,OFFSETEND,NRBYKINM,
      .        NEW_SIZE,CPT_RBY,CPT_RBY_SECONDARY
-      my_real RBY_TMP(NRBY,NRBYKIN+NRBYLAG)
+      INTEGER,DIMENSION(:,:),ALLOCATABLE :: NPBY_TMP
+      INTEGER,DIMENSION(:),ALLOCATABLE :: INDEX
+      INTEGER,DIMENSION(:,:),ALLOCATABLE :: NOM_OPT_TMP
+      my_real,DIMENSION(:,:),ALLOCATABLE ::  RBY_TMP
 C-----------------------------------------------
+      CALL MY_ALLOC(NPBY_TMP,NNPBY,NRBYKIN+NRBYLAG)
+      CALL MY_ALLOC(NOM_OPT_TMP,LNOPT1,NRBYKIN+NRBYLAG)
+      CALL MY_ALLOC(INDEX,NRBYKIN+NRBYLAG)
+      CALL MY_ALLOC(RBY_TMP,NRBY,NRBYKIN+NRBYLAG)
 C
       NEW_SIZE = 0       
       DO I=1,NRBYKIN+NRBYLAG
@@ -1120,6 +1160,11 @@ C--  SECONDARY RBODY - put at the end of the list
       ENDDO
 C
       NRBYKIN=NEW_SIZE-NRBYLAG
+      DEALLOCATE(NPBY_TMP)
+      DEALLOCATE(NOM_OPT_TMP)
+      DEALLOCATE(INDEX)
+      DEALLOCATE(RBY_TMP)
+
 C
       RETURN
       END   

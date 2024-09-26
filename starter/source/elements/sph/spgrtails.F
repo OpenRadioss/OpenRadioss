@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MOD_SPGRHEAD
       USE MESSAGE_MOD
       USE R2R_MOD
@@ -80,11 +81,12 @@ C-----------------------------------------------
       INTEGER NGR1, NG, MT, MLN, I, P, NEL, MODE, NB,
      .        N, IGTYP,JIVF,JHBE,IJK,NE1,
      .        ISSN,IKSNOD,IORDER,IPRT,ISLEEP,IEOS,NEL_PREC,IUN,IG,IFAIL, 
-     .        WORK(70000),INUM(13,NUMSPH),INDEX(2*NUMSPH),
-     .        NGP(NSPMD+1),K,J,II, MX, NFAIL, IR, IP, STAT,
+     .        WORK(70000),NGP(NSPMD+1),K,J,II, MX, NFAIL, IR, IP, STAT,
      .        IPARTR2R, NOD, JALE_FROM_MAT, JALE_FROM_PROP
-      my_real
-     .        RNUM(NSPBUF,NUMSPH)
+      INTEGER, DIMENSION(:,:),ALLOCATABLE :: INUM
+      INTEGER, DIMENSION(:),ALLOCATABLE :: INDEX     
+      my_real, DIMENSION(:,:),ALLOCATABLE :: RNUM
+
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR
       DATA IUN/1/
@@ -102,7 +104,9 @@ C--------------------------------------------------------------
 C--------------------------------------------------------------
 C         BORNAGE DES GROUPES DE MVSIZ
 C--------------------------------------------------------------
-
+      CALL MY_ALLOC(INUM,13,NUMSPH)
+      CALL MY_ALLOC(INDEX,2*NUMSPH)
+      CALL MY_ALLOC(RNUM,NSPBUF,NUMSPH)
       NEL = 0
       DO N=1,ND
         NEL = NEL + EADD(N+1)-EADD(N)
@@ -431,6 +435,9 @@ C
  1001 FORMAT(7(1X,I7,1X))
 C-----------
       DEALLOCATE(IXSPS)
+      DEALLOCATE(INUM)
+      DEALLOCATE(INDEX)
+      DEALLOCATE(RNUM)
 C-----------
       RETURN
       END

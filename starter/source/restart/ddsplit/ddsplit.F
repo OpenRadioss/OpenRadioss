@@ -334,6 +334,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE UNITAB_MOD
       USE DSGRAPH_MOD
       USE FVBAG_MOD
@@ -632,9 +633,12 @@ C-----------------------------------------------
         TYPE(BCS_STRUCT_),INTENT(INOUT) :: BCS_PER_PROC
         TYPE(NAMES_AND_TITLES_),INTENT(IN) :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
         type(constraint_), intent(inout) :: constraint_struct !< constraint structure for the splitting
+        TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      INTEGER,DIMENSION(:,:),ALLOCATABLE:: DD_RBYM2
+      INTEGER,DIMENSION(:,:),ALLOCATABLE:: DD_RBY2
       INTEGER I, IR_, IM,IFILNAM(2148),IFILNAM2(2148),
      .        NUMELS_L,NUMELS8_L,NUMELS10_L,NUMELS20_L,NUMELS16_L,
      .        NUMELQ_L ,NUMELC_L, NCONLD_L,NSKYLL_L,
@@ -657,13 +661,13 @@ C-----------------------------------------------
      .        NFASOLFR_L, NLAGF_L, PROC, INUM, IDDL, ISKW,
      .        LEN_IA, LEN_AM, I_EVAL,R_EVAL,LSKYI, NCMAX,
      .        NERVOIS, NESVOIS,NE_NERVOIS, NE_NESVOIS, NBCFD, NUMEL_L2,
-     .        DD_RBY2(3,NRBYKIN),  DD_RBM2(3,NIBVEL),
+     .         DD_RBM2(3,NIBVEL),
      .        EIGIPM_L(NEIPM,NEIG), LEIBUF_L, EIGIBUF_L(LEIBUF),
      .        IFLOW_L(LIFLOW), DD_LAGF(3,NSPMD+1),MY_ILEN,MY_RLEN,
      .        SKIPPON_L,LLRBE3_L,NSKYRBE3_L,
      .        NRBE3_L,NBDDRBE3M,NSLARBM_L,NSKYRBMK,
      .        NRBYMKIN_L ,NBDDNRBYM,NSKTRBMK_L,NRBYMK_L,
-     .        DD_RBYM2(3,NRBYM),NSKYRBMK_L, LAG_SEC,
+     .        NSKYRBMK_L, LAG_SEC,
      .        NRBE2_L,LLRBE2_L,NBDDRBE2,NUMELCPXFE_L,NUMNODPXFE_L,
      .        ITAG_PXFEM(NPLYXFE),INDEX_PXFEM(NPLYXFE),
      .        LCNEPXFEM_L,LLCFIELD_L,
@@ -684,7 +688,6 @@ C-----------------------------------------------
      .        NDAMP_VREL_L,IDAMP_VREL_L(NDAMP),NINIVELT_L
       INTEGER LWAMP_L  !< Size of Working area in Engine. Need for SPH
       INTEGER LWANMP_L !< Size of Working area in Engine. Need for SPH
-      INTEGER IPARI_L(NPARI,MAX(1,NINTER))
       INTEGER NCONV_L,NFXTEMP_L,NRADIA_L,NFXFLUX_L
       INTEGER , DIMENSION(:), ALLOCATABLE:: NUMLOCGROUP,NUMLOCCLUSTER
       INTEGER, DIMENSION(:),ALLOCATABLE :: NODLOCAL,IEPXFEM_L,INPXFEM_L,
@@ -694,6 +697,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: NODGLOB, IDGLOB_L, UIDGLOB_L,
      .        IXSF, IXQF, IXTGF, ITABI2M, ITABRBE3M, ITABRBE2M
       ! for parith/on + FVM solver : ID_GLOBAL_VOIS = user id ; FACE_VOIS= id of the remote connected element
+      INTEGER,DIMENSION(:,:),ALLOCATABLE :: IPARI_L
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_GLOBAL_VOIS,FACE_VOIS
       INTEGER, DIMENSION(:),ALLOCATABLE :: ITABCNDM
       INTEGER LENNOD_L, LENMOD_L, LENELM_L, LENSIG_L,
@@ -708,8 +712,7 @@ C-----------------------------------------------
      .                                      FXBCPS_L, FXBLM_L,
      .                                      FXBFLS_L, FXBDLS_L,
      .                                      FXBGRVR_L
-      my_real
-     .      RDPARTSAV(NPSAV*NPART)
+      my_real,DIMENSION(:),ALLOCATABLE::RDPARTSAV
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: FORNEQS
 
@@ -746,8 +749,7 @@ C-----------------------------------------------
      .   TABVREA(LMXVREA)
       DOUBLE PRECISION XDP(*)
 
-      TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
-      INTEGER, DIMENSION(:),ALLOCATABLE :: NODGLOBXFE
+       INTEGER, DIMENSION(:),ALLOCATABLE :: NODGLOBXFE
 
       TYPE(INTBUF_STRUCT_),DIMENSION(:),ALLOCATABLE :: INTBUF_TAB_L
       TYPE(MAT_ELEM_) ,INTENT(IN) :: MAT_ELEM
@@ -815,6 +817,11 @@ C ----------
       ALLOCATE(NUMLOCCLUSTER(NCLUSTER)) !NUMLOCCLUSTER(I) = NG_LOC or 0
       NUMLOCCLUSTER(1:NCLUSTER) = 0
       ALLOCATE(ISKWP_L(NUMSKW+1))
+
+      CALL MY_ALLOC(IPARI_L,NPARI,MAX(1,NINTER))
+      CALL MY_ALLOC(RDPARTSAV,NPSAV*NPART)
+      CALL MY_ALLOC(DD_RBYM2,3,NRBYM)
+      CALL MY_ALLOC(DD_RBY2,3,NRBYKIN)
 C--------------------------------------------
 C Allocate and init MONVOL local
 C--------------------------------------------
@@ -1833,6 +1840,9 @@ C--------------------------------------
       CALL WRITE_I_C(TABVINT,LVARINT)
       LEN_IA = LEN_IA + LVARINT
 C--------------------------------------
+#ifdef DNC
+      CALL WRDUM_INFO()
+#endif
 C     NODGLOB Deplacee
 C--------------------------------------
       CALL WRITE_I_C(NODGLOB,NUMNOD_L)
@@ -2579,7 +2589,6 @@ C--------------------------------------
 C Interfaces 
 C--------------------------------------
         CALL STARTIME(8,1)
-
         CALL W_FI(IPARI,P-1,LEN_IA,
      1            INTERCEP  ,INTBUF_TAB,ITAB,MULTI_FVM,TAG_SCRATCH,
      2            NINDX_SCRT,INDX_SCRT ,NODLOCAL,NUMNOD_L,LEN_CEP,CEP)
@@ -3662,6 +3671,10 @@ C
       DEALLOCATE(MULTI_FVM_VEL_L)
       DEALLOCATE(IEBCS_LISTELEM_L)
       DEALLOCATE(IEBCS_LISTFAC_L)
+      DEALLOCATE(IPARI_L)
+      DEALLOCATE(RDPARTSAV)
+      DEALLOCATE(DD_RBYM2)
+      DEALLOCATE(DD_RBY2)
 
 
       RETURN

@@ -50,6 +50,7 @@ C     LECTURE MUR RIGIDE
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
@@ -87,8 +88,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      INTEGER,DIMENSION(:),ALLOCATABLE :: IKINE1
       INTEGER K,I,NCHPLAN,NCHCYL,NCHSPHER,NCHPARAL,
-     .   IKINE1(3*NUMNOD),OFFS,NCHLAGM,NCHTHERM
+     .   OFFS,NCHLAGM,NCHTHERM
       my_real
      .   BID
       CHARACTER MESS*40
@@ -100,6 +102,7 @@ C=======================================================================
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s o u r c e
 C-----------------------------------------------
+      CALL MY_ALLOC(IKINE1,3*NUMNOD)
 C     Beginning of RWALL cards in the IIN file
       WRITE(IOUT,1000)
 C
@@ -184,6 +187,7 @@ C-------------------------------------
 C Recherche des ID doubles
 C-------------------------------------
       CALL UDOUBLE(NOM_OPT,LNOPT1,NRWALL,MESS,0,BID)
+      DEALLOCATE(IKINE1)
       RETURN
  1000 FORMAT(
      . '      RIGID WALL DEFINITIONS '/

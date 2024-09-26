@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MOD_SPGRHEAD
       USE MESSAGE_MOD
       USE MATPARAM_DEF_MOD
@@ -80,10 +81,12 @@ C-----------------------------------------------
      .        II, JJ, II1, JJ1, II2, JJ2, II3, JJ3, II4, JJ4,
      .        N, IGTYP,IORDER,IPRT,ISLEEP,IUN,IFAIL,IEOS, IKIND, STAT,
      .        JALE_FROM_MAT, JALE_FROM_PROP
-      INTEGER WORK(70000),
-     .        ITRI(7,NUMSPH), INDEX(2*NUMSPH),
-     .        INUM(13,NUMSPH), XEP(NUMSPH)
-      my_real RNUM(NSPBUF,NUMSPH)
+      INTEGER WORK(70000)
+      INTEGER, DIMENSION(:,:),ALLOCATABLE :: ITRI
+      INTEGER, DIMENSION(:),ALLOCATABLE   :: INDEX
+      INTEGER, DIMENSION(:,:),ALLOCATABLE :: INUM
+      INTEGER, DIMENSION(:),ALLOCATABLE   :: XEP
+      my_real, DIMENSION(:,:),ALLOCATABLE :: RNUM
       DATA IUN/1/
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -116,6 +119,12 @@ c      DATA MSKSLEEP /O'17777000000'/
 C======================================================================|
 C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
 C----------------------------------------------------------
+      CALL MY_ALLOC(ITRI,7,NUMSPH)
+      CALL MY_ALLOC(INDEX,2*NUMSPH)
+      CALL MY_ALLOC(INUM,13,NUMSPH)
+      CALL MY_ALLOC(XEP,NUMSPH)
+      CALL MY_ALLOC(RNUM,NSPBUF,NUMSPH)
+      
       ALLOCATE(IXSPS(KVOISPH,NUMSPH),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
@@ -336,6 +345,12 @@ C--------------------------------------------------------------
       ENDDO
 C-----------
       DEALLOCATE(IXSPS)
+      DEALLOCATE(ITRI)
+      DEALLOCATE(INDEX)
+      DEALLOCATE(INUM)
+      DEALLOCATE(XEP)
+      DEALLOCATE(RNUM)
+
 C-----------
       RETURN
       END

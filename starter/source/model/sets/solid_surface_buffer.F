@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE SETDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
 C-----------------------------------------------
@@ -59,10 +60,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,J,K,JS,KS,II,JJ,K1,K2,LL,FACE(4),FC10(3),NN,KK,I1,
      .        NI(4),NS(4),MI(4),MS(4),NMIN,MMIN,NF,MF,IPERM,N1,N2,I
-      INTEGER NODTAG(NUMNOD),FASTAG(NUMELS),FACES(4,6),PWR(7),
+      INTEGER FACES(4,6),PWR(7),
      .        FACES10(3,6),NNS,ISHEL,ISEG,NB_SOLID,IND
       INTEGER, DIMENSION(:), ALLOCATABLE:: SOLID_TAG,PART_TAG
-
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NODTAG
+      INTEGER, DIMENSION(:), ALLOCATABLE :: FASTAG
+  
 !
       DATA FACES/4,3,2,1,
      .           5,6,7,8,
@@ -78,8 +81,11 @@ C-----------------------------------------------
      .             4,5,1/
       DATA PWR/1,2,4,8,16,32,64/
 C=======================================================================
-      ALLOCATE(SOLID_TAG(NUMELS))
-      ALLOCATE(PART_TAG(NPART))
+      CALL MY_ALLOC(SOLID_TAG,NUMELS)
+      CALL MY_ALLOC(PART_TAG,NPART)
+      CALL MY_ALLOC(NODTAG,NUMNOD)
+      CALL MY_ALLOC(FASTAG,NUMELS)
+
       SOLID_TAG(1:NUMELS)=0
       PART_TAG(1:NPART)=0
       
@@ -411,6 +417,8 @@ C---
           END DO ! DO JJ=3,6
         END DO ! DO IND=1,NB_SOLID
 C-----------
+        DEALLOCATE(NODTAG)
+        DEALLOCATE(FASTAG)
       RETURN
       END
       !||====================================================================
