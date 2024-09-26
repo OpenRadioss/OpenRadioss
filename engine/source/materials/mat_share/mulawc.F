@@ -354,7 +354,7 @@ C
         IF(ILAW==2) FLAG_LAW2 = .TRUE.
         IF(ILAW==22) FLAG_LAW22 = .TRUE.
         IF(ILAW==25) FLAG_LAW25 = .TRUE.
-        IF(IPM(222,IMAT) > 0) IPRONY=1
+        IF (MAT_ELEM%MAT_PARAM(IMAT)%IVISC > 0) IPRONY=1
       ENDDO
 C
 !     ZCFAC computation is only useful for CZFORC3 and CZFORC3_CRK routines
@@ -372,7 +372,6 @@ C
       IBIDON1 = 0
       IBIDON2 = 0
       IBIDON3 = 0
-c      IMAT = IPM(1, MAT(1))
       IUN=1
 c
       DMG_FLAG = 0
@@ -1392,9 +1391,8 @@ c
      E        LBUF%OFF)
           ELSEIF (ILAW == 69) THEN
            CALL SIGEPS69C(
-     1         JLT    , NUPARAM0, NUVAR   , NFUNC , IFUNC , NPF   ,
-     2         NPT    , IPT ,
-     2         TF     , TT     , DT1C    , BUFMAT, RHO   ,  
+     1         JLT    , NUPARAM0, NUVAR  ,NPT    , IPT   ,
+     2         TT     , DT1     , UPARAM0, RHO   ,  
      3         AREA   , EINT   , THKLYL  ,
      4         EPSPXX , EPSPYY , EPSPXY  , EPSPYZ, EPSPZX, 
      5         DEPSXX , DEPSYY , DEPSXY  , DEPSYZ, DEPSZX,
@@ -1402,9 +1400,9 @@ c
      7         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      8         SIGNXX , SIGNYY , SIGNXY  , SIGNYZ, SIGNZX,
      9         SIGVXX , SIGVYY , SIGVXY  , SIGVYZ, SIGVZX,
-     A         SSP    , VISCMX , THKN    , UVAR  ,
-     B         NGL    , OFF    , ISMSTR  , IPM   , GS    ,
-     C         MAT    , NUVARV , UVARV )
+     A         SSP    , VISCMX , THKN    , UVAR  , NGL    , 
+     B         OFF    , ISMSTR  , GS    )
+
           ELSEIF (ILAW == 71) THEN !ISMSTR = 10 always (set in cgrtails)
            CALL SIGEPS71C(
      1   JLT,          NUPARAM0,      NUVAR,        NFUNC,
@@ -1756,7 +1754,7 @@ c
 C
 C  visco elastic model (prony)
 C        
-         IF(MATPARAM%IVISC == 1 .AND. ILAW /= 25) THEN 
+          IF (MATPARAM%IVISC == 1 .AND. ILAW /= 25) THEN 
               NPRONY = MATPARAM%VISC%IPARAM(1)
               KV     = MATPARAM%VISC%UPARAM(1)
 c                 
@@ -1767,7 +1765,7 @@ c
              ENDDO
 C
              CALL PRONY_MODELC( 
-     1          NEL    ,NUVARV  ,TT    ,DT1C , 
+     1          NEL    ,NUVARV  ,DT1 , 
      2          NPRONY , KV   , GV   ,BETA    ,RHO   ,   
      3          EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      4          SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,

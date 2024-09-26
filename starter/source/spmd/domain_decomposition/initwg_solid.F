@@ -76,7 +76,7 @@ C     REAL OU REAL*8
 C-----------------------------------------------
       INTEGER OFF, NPN, MID, PID, JHBE, IGT, MLN,
      .    ISTRAIN, ITHK, IHBE, IPLA, ISSN, MTN, I, J, K,L,
-     .    NFUNC,MPT,NPTS,NPTT,NPTR,NPTOT,IFLAG,JSROT,
+     .    NFUNC,MPT,NPTS,NPTT,NPTR,NPTOT,IFLAG,JSROT,IVISC,
      .    I_MID,I_PID,I_MID_OLD,I_PID_OLD,PUID,MUID,
      .    ELM_TYP,ELM_TYP_OLD,ILAW,ILAW_OLD,TEST_MAT,
      .    I_PRO,ISOL2,MUID_OLD,PUID_OLD,
@@ -302,15 +302,10 @@ C -------------------------------
             IAD = IPM(7,ABS(MID))-1
             NFUNC = NINT(BUFMAT(IAD+3))
           END IF
-          IF (NFUNC == 0) THEN
-            IF (IPM(222,ABS(MID)) > 0) THEN 
-              IAD = IPM(223,ABS(MID))
-              NFUNC = NINT(BUFMAT(IAD +1 ))
-            ENDIF
-          ENDIF
-          IF(NFUNC==0) THEN
-            INDI = 1
-            IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
+          IF (NFUNC==0) THEN
+            INDI  = 1
+            IVISC = MAT_PARAM(ABS(MID))%IVISC
+            IF (IVISC == 1 .or. IVISC == 2) THEN 
               VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
             ENDIF
           ELSEIF(NFUNC==1) THEN

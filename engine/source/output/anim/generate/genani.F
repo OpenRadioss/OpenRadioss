@@ -3193,7 +3193,7 @@ C ply information
      .                        IXC ,  IXTG    , MAS,   PM,    EL2FA_PLY,
      .                        NBF_PXFEM,IAD  , PLYNUMC,EANI,ANIN(NDMA2+1),
      .                        NPLYPART,IAD_PLYG,IPM  ,IGEO , THKE,
-     .                        ERR_THK_SH4, ERR_THK_SH3,
+     .                        ERR_THK_SH4, ERR_THK_SH3,MAT_PARAM,
      .                        NBF_PXFEMG ,X , STACK )
             ENDIF
             IF (ANIM_CRK > 0)THEN
@@ -3833,7 +3833,7 @@ C
              CALL TENSORC_PLY(IPLY,    NEL_PLY,  ELBUF_TAB ,IPARG,
      .                        IFUNC,   INVERT,   EL2FA_PLY ,NBF_PXFEM,
      .                        WAFT_PLY,TANI,     IAD,       PLYNUMC,
-     .                        NBPART,  IAD_PLYG, X,         IXC,
+     .                        NBPART,  IAD_PLYG, X,         IXC,MAT_PARAM,
      .                        IGEO,    IXTG,     NBF_PXFEMG,IPM, STACK )
           ENDIF
 C
@@ -3844,7 +3844,7 @@ C
      .               LEN_CRKX ,TANI     ,IAD      ,NBF_CRKXFEM ,
      .               NBPART   ,IAD_CRKG ,X        ,IXC         ,
      .               IGEO     ,IXTG     ,IEL_CRK  ,IADC_CRK    ,
-     .               CRKEDGE  ,INDX_CRK )
+     .               CRKEDGE  ,INDX_CRK ,MAT_PARAM)
           ENDIF
 C
           IF (ISPMD==0.AND.NFVTR>0) THEN
