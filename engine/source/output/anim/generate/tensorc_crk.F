@@ -39,13 +39,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                       LEN      ,EPSDOT  ,IADP      ,NBF_L   ,
      3                       NBPART   ,IADG    ,X         ,IXC     ,
      4                       IGEO     ,IXTG    ,IEL_CRK   ,IADC_CRK,
-     5                       CRKEDGE  ,INDX_CRK)
+     5                       CRKEDGE  ,INDX_CRK,MAT_PARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE CRACKXFEM_MOD
       USE ELBUFDEF_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,6 +75,7 @@ C     REAL
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP,NXEL), TARGET :: XFEM_TAB
       TYPE (XFEM_EDGE_)   , DIMENSION(*) :: CRKEDGE
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -374,7 +376,7 @@ c
                     IPMAT = 100                                     
                     DO I=1,NEL
                       MATLY = IGEO(IPMAT+ILAY,PID(I))
-                      IF (IPM(222,MATLY) > 0 ) IVISC = 1
+                      IF (MAT_PARAM(MATLY)%IVISC > 0 ) IVISC = 1
                     ENDDO
 c                  ELSEIF (IGTYP == 9 .OR. IGTYP == 10) THEN
 c                  ELSEIF (IGTYP == 17) THEN

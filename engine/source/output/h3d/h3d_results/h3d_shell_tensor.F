@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                   IGEO     ,IXTG  ,IPM   ,STACK,ID_ELEM   ,ITY_ELEM  ,INFO1,
      5                   INFO2    ,IS_WRITTEN_SHELL,IPARTC ,IPARTTG     ,LAYER_INPUT ,IPT_INPUT  ,
      6                   PLY_INPUT,GAUSS_INPUT,IUVAR_INPUT,H3D_PART, KEYWORD,D    ,
-     7                   ID       ,BUFMAT   ,MATPARAM_TAB,GEO, DRAPE_SH4N, DRAPE_SH3N, DRAPEG)
+     7                   ID       ,BUFMAT   ,MAT_PARAM,GEO, DRAPE_SH4N, DRAPE_SH3N, DRAPEG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: GEO(NPROPG,NUMGEO)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
        CHARACTER(LEN=NCHARLINE100):: KEYWORD
       TYPE (DRAPE_) , INTENT(IN) :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE (DRAPEG_), INTENT(IN) :: DRAPEG
@@ -382,7 +382,7 @@ c               /TENS/STRESS/PLY=.../NPT=...
                   ILAY  = J
                   IF (ID_PLY == IPLY .AND. IPT <= ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT) THEN
                     IMAT  = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT                          
-                    IVISC = IPM(222,IMAT)
+                    IVISC = MAT_PARAM(IMAT)%IVISC
                     ISELECT = 1
                     DO I=1,NEL  
                         DO IR=1,NPTR                
@@ -406,7 +406,7 @@ c               /TENS/STRESS/PLY=.../NPT=...
                           ENDDO
                         ENDDO
                    END IF 
-                   MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
+                   MAT_ORTH = MAT_PARAM(IMAT)%ORTHOTROPY
                    IF (MAT_ORTH > 0) THEN                 
                         IF (IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52) ) THEN
                           DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(IPT)%DIRA
@@ -430,7 +430,7 @@ c               /TENS/STRESS/LAYER=
                 IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN   ! shells type 10,11,16 only   
                   ISELECT = 1
                   IMAT  = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT                          
-                  IVISC = IPM(222,IMAT)    
+                  IVISC = MAT_PARAM(IMAT)%IVISC  
                   DO I=1,NEL  
                     DO IR=1,NPTR                
                       DO IS=1,NPTS 
@@ -453,7 +453,7 @@ c               /TENS/STRESS/LAYER=
                       ENDDO
                     ENDDO
                   END IF
-                  MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
+                  MAT_ORTH = MAT_PARAM(IMAT)%ORTHOTROPY
                   IF (MAT_ORTH > 0) THEN                 
                     DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRA
                     DIR_B => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRB
@@ -471,7 +471,7 @@ c               /TENS/STRESS/NPT=
                   IF (IPT <= ELBUF_TAB(NG)%BUFLY(1)%NPTT) THEN
                     ISELECT = 1
                     IMAT  = ELBUF_TAB(NG)%BUFLY(1)%IMAT                          
-                    IVISC = IPM(222,IMAT)    
+                    IVISC = MAT_PARAM(IMAT)%IVISC    
                     DO I=1,NEL  
                       DO IR=1,NPTR                
                         DO IS=1,NPTS 
@@ -494,7 +494,7 @@ c               /TENS/STRESS/NPT=
                         ENDDO
                       ENDDO
                     END IF
-                    MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
+                    MAT_ORTH = MAT_PARAM(IMAT)%ORTHOTROPY
                     IF (MAT_ORTH == 2) THEN
                       DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA  
                       CALL UROTO_TENS2D(NEL,SIGE,DIR_A)
@@ -529,7 +529,7 @@ c               /TENS/MSTRESS/PLY=.../NPT=...
                   IF (ID_PLY == IPLY) THEN
                     ILAY = J
                     IMAT  = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT                          
-                    IVISC = IPM(222,IMAT)    
+                    IVISC = MAT_PARAM(IMAT)%IVISC    
                     IF (IPT <= ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT) THEN 
                       ISELECT = 1
                       DO I=1,NEL  
@@ -563,7 +563,7 @@ c               /TENS/MSTRESS/LAYER=
                 IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN   ! shells type 10,11,16 only   
                   ISELECT = 1
                   IMAT  = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT                          
-                  IVISC = IPM(222,IMAT)    
+                  IVISC = MAT_PARAM(IMAT)%IVISC    
                   DO I=1,NEL  
                     DO IR=1,NPTR                
                       DO IS=1,NPTS 
@@ -594,7 +594,7 @@ c               /TENS/MSTRESS/NPT=
                   IF (IPT <= ELBUF_TAB(NG)%BUFLY(1)%NPTT) THEN
                     ISELECT = 1
                     IMAT  = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT                          
-                    IVISC = IPM(222,IMAT)    
+                    IVISC = MAT_PARAM(IMAT)%IVISC   
                     DO I=1,NEL  
                       DO IR=1,NPTR                
                         DO IS=1,NPTS 
@@ -866,7 +866,7 @@ c
                         ENDDO
                       ENDIF ! NPG 
                       IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT                          
-                      MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
+                      MAT_ORTH = MAT_PARAM(IMAT)%ORTHOTROPY
                       IF (MAT_ORTH > 0) THEN                 
                         IF (IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52) ) THEN
                           DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(IPT)%DIRA
@@ -916,7 +916,7 @@ c               PLY=NULL ILAYER=IL NPT=NULL
                       ENDDO
                   ENDIF
                   IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT                          
-                  MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
+                  MAT_ORTH = MAT_PARAM(IMAT)%ORTHOTROPY
                   IF (MAT_ORTH > 0) THEN                 
                     DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRA
                     DIR_B => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRB
@@ -958,7 +958,7 @@ c               PLY=NULL ILAYER=NULL NPT=IPT
                      ENDDO
                   ENDIF
                   IMAT = ELBUF_TAB(NG)%BUFLY(1)%IMAT                          
-                  MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
+                  MAT_ORTH = MAT_PARAM(IMAT)%ORTHOTROPY
                   IF (MAT_ORTH == 2) THEN
                     DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA  
                     CALL ROTO_TENS2D(NEL,EPSM,DIR_A)
