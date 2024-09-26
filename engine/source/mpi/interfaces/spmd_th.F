@@ -289,6 +289,8 @@ C
       !||--- called by ------------------------------------------------------
       !||    velvecc           ../engine/source/output/anim/generate/velvec.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE SPMD_GLOB_FSUM9(V,LEN)
 C gather tableau V de taille LEN de type real

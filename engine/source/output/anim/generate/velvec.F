@@ -233,6 +233,8 @@ C-------------
       !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
       !||    spmd_velvec2      ../engine/source/mpi/anim/spmd_velvec2.F
       !||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE VELVEC2(IVOIS,V_TEMP,AL   ,NODCUT,FOPT,
      .                   NPBY,NNWL ,NNSRG,NODGLOB,WEIGHT,FR_SEC,
@@ -481,6 +483,8 @@ C-----------
       !||--- calls      -----------------------------------------------------
       !||    spmd_glob_fsum9   ../engine/source/mpi/interfaces/spmd_th.F
       !||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE VELVECC(V,V_TEMP,IVOIS,AL,NODCUT,NNWL,NNSRG,
      .                  NODGLOB,WEIGHT,NFVNOD,NFNOD_PXFEM,
@@ -911,12 +915,14 @@ c----------------------------
       END
 
       !||====================================================================
-      !||    velvec3      ../engine/source/output/anim/generate/velvec.F
+      !||    velvec3        ../engine/source/output/anim/generate/velvec.F
       !||--- called by ------------------------------------------------------
-      !||    genani       ../engine/source/output/anim/generate/genani.F
+      !||    genani         ../engine/source/output/anim/generate/genani.F
       !||--- calls      -----------------------------------------------------
-      !||    spmd_vgath   ../engine/source/mpi/anim/spmd_vgath.F
-      !||    write_r_c    ../common_source/tools/input_output/write_routtines.c
+      !||    spmd_vgath     ../engine/source/mpi/anim/spmd_vgath.F
+      !||    write_r_c      ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE VELVEC3(V,V_TEMP,VALE,IVOIS,AL,NODCUT,NNWL,NNSRG,
      .                  NODGLOB,WEIGHT,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,

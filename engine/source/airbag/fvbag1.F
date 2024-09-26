@@ -44,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
       !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
       !||    message_mod              ../engine/share/message_module/message_mod.F
+      !||    my_alloc_mod             ../common_source/tools/memory/my_alloc.F90
       !||    sensor_mod               ../engine/share/modules/sensor_mod.F
       !||====================================================================
       SUBROUTINE FVBAG1(NN       , NEL    , IBUF     , ELEM          , NJET    ,
