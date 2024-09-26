@@ -68,7 +68,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,ID,NEL,IGS,IGRS,JREC,ISU,NONTRI,JJ,KK,
      .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,SKIPFLAG,UID,NN,NENTITY
-      INTEGER J10(10),BUFTMP(NUMNOD*2)
+      INTEGER J10(10)
+      INTEGER,DIMENSION(:),ALLOCATABLE :: BUFTMP
       INTEGER,DIMENSION(:),ALLOCATABLE :: LIST_ENTITY
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
@@ -83,6 +84,7 @@ C-----------------------------------------------
        END SUBROUTINE  
       END INTERFACE 
 C=======================================================================
+      CALL MY_ALLOC(BUFTMP,NUMNOD*2)
       IS_AVAILABLE = .FALSE.
       IF (FLAG == 0) ICOUNT=0
       IGS =0
@@ -224,6 +226,7 @@ C-----------  end_ flag = 1
         ENDIF ! IF (IGRNOD(IGS)%GRPGRP == 2)
       ENDDO ! DO I=1,NLINE(KCUR)                                                    
 C-----------
+      DEALLOCATE(BUFTMP)
       RETURN
  900  CALL ANCMSG(MSGID=176,
      .            MSGTYPE=MSGERROR,

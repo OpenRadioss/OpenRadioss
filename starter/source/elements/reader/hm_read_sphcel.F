@@ -79,7 +79,8 @@ C-----------------------------------------------
 C     IXSP(1:KVOISPH,*)      :IVOIS  :   NOS DES VOISINS. 
 C-----------------------------------------------
 C   M o d u l e s
-C----------------------------------------------- 
+C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
@@ -119,7 +120,7 @@ C-----------------------------------------------
       INTEGER I,N,J,ID,IDS,K,
      .        MID,PID,IPRT,IPIDS,NSPHDIR,
      .        NSPHCEL,NCELL,IDNOD,INOD,IDMAX,KSPHRES,
-     .        NBP,ITAG(NUMNOD),IT,NT,NP,NN,ITOPO,STAT,
+     .        NBP,IT,NT,NP,NN,ITOPO,STAT,
      .        INDEX_PART,UID,IFLAGUNIT
       my_real BID,FAC_M
       CHARACTER MESS*40
@@ -141,6 +142,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: TYPE
       REAL*8, DIMENSION(:), ALLOCATABLE :: HM_MASS
       INTEGER, DIMENSION(:), ALLOCATABLE :: UID_SPH
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -151,6 +153,7 @@ C--------------------------------------------------
 C      ALLOCS & INITS
 c      use NUMELQ IN PLACE OF NUMELC ( NBADMESH routine is modifying NUMELC )
 C--------------------------------------------------
+      CALL MY_ALLOC(ITAG,NUMNOD)
       ALLOCATE (SUB_SPH(NUMSPH),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
@@ -462,6 +465,8 @@ C
  200    CONTINUE
         WRITE (IOUT,'(A)') 'END OF CELL TRACEBACK'
       ENDIF
+
+       DEALLOCATE(ITAG)
 C
  300  FORMAT(/' SPH CELLS             '/
      +        ' ----------------------'/

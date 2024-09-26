@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE I7I10SPLITMOD 
       USE FRONT_MOD
       USE INTBUFDEF_MOD 
@@ -82,7 +83,7 @@ C-----------------------------------------------
 !                       and =0 if the element is not on the current domain
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 C-----------------------------------------------
-      TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
+      TYPE(INTERSURFP),INTENT(IN) :: INTERCEP(3,NINTER)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       INTEGER, INTENT(in) :: LEN_CEP !< size of cep
@@ -99,10 +100,13 @@ C-----------------------------------------------
      .        N, N1, N2, N3, N4, NRTM_L,
      .        I_STOK, NODFI, E, MULTIMP, IDEB, IFQ,
      .        NISUB, NISUBS, NISUBM, INTTH, NL, N1L, N2L, N3L, N4L,
-     .        NLINS, NLINM, NSNE,  NMNE, NLN, NN,INTFRIC,
-     .        NSNFI(NSPMD), NUMP(NSPMD),NMNFI(NSPMD),
+     .        NLINS, NLINM, NSNE,  NMNE, NLN, NN,INTFRIC,        
      .        WORK(70000),KD(50),JD(50),I,J,IEDGE4,INTNITSCHE,MY_NODE,
      .        CPT1,CPT2,P1,P2,PROC1,PROC2,SE1,PLOC,ND,FLAGREMN,LREMNORMAX
+      INTEGER IT,ID
+      INTEGER, DIMENSION(:),ALLOCATABLE :: NSNFI
+      INTEGER, DIMENSION(:),ALLOCATABLE :: NUMP
+      INTEGER, DIMENSION(:),ALLOCATABLE :: NMNFI
       INTEGER :: IEDGE,NEDGE,NEDGE_KEPT,ILEV
       INTEGER, PARAMETER :: E_IBUF_SIZE = 13
       LOGICAL INACTI_CASE
@@ -120,6 +124,9 @@ C-----------------------------------------------
       INTEGER :: INTER_LAW151
       LOGICAL :: INTER18_LAW151
 C-----------------------------------------------
+      CALL MY_ALLOC(NSNFI,NSPMD)
+      CALL MY_ALLOC(NUMP,NSPMD)
+      CALL MY_ALLOC(NMNFI,NSPMD)
 C
 
       DO NI =1, NINTER
@@ -894,10 +901,21 @@ C
         ENDIF
 !       ----------------------------------
 !       Flush arrays to 0
-        IF(NINDX_TAG>0) TAG(INDX_TAG(1:NINDX_TAG)) = 0
+        ! TAG(INDX_TAG(1:NINDX_TAG)) = 0
+        IF(NINDX_TAG>0)THEN
+           DO IT=1,NINDX_TAG
+              ID=INDX_TAG(IT)
+              TAG(ID)=0
+           ENDDO
+        ENDIF
+      
 !       ----------------------------------
 
       END DO
 C
+      DEALLOCATE(NSNFI)
+      DEALLOCATE(NUMP)
+      DEALLOCATE(NMNFI)
+
       RETURN
       END

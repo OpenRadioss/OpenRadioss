@@ -66,12 +66,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,ID,NEL,IGS,IGRS,JREC,ISU,NONTRI,JJ,KK,
      .        FLAG_FMT,GROUP_ID,IFIX_TMP,SKIPFLAG,UID,NN
-      INTEGER BUFTMP(NUMEN*2)
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARKEY)::KEY,KEY2
       CHARACTER :: ELKEY*4
       LOGICAL IS_ENCRYPTED, IS_AVAILABLE
       INTEGER,DIMENSION(:),ALLOCATABLE :: LIST_ELEM
+      INTEGER,DIMENSION(:),ALLOCATABLE :: BUFTMP
       INTEGER :: NENTITY
 C-----------------------------------------------
       INTERFACE
@@ -83,6 +83,7 @@ C-----------------------------------------------
        END SUBROUTINE  
       END INTERFACE     
 C=======================================================================
+      CALL MY_ALLOC(BUFTMP,NUMEN*2)
       IF (FLAG == 0) ICOUNT=0
       IGS = 0
 C     boucle sur les groupes
@@ -228,6 +229,7 @@ C-----------  end_ flag = 1
                                                                   
       ENDDO                                                                        
 
+      DEALLOCATE(BUFTMP)
                                   
 C-----------
       RETURN

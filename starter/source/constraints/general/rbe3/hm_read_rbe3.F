@@ -51,6 +51,7 @@ C     LECTURE STRUCTURE RIGIDES
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE UNITAB_MOD
       USE R2R_MOD
       USE MESSAGE_MOD
@@ -92,8 +93,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, K, NSL, NSLT, ITYP, NUSER,  NM, NI, NI_OK,
      .        ISK, ISENS, INGU, IGM, J, P,IAD,NS,NN,J6(6),JJ,II,
-     .        IC,IC1,IC2,IROT,ISKS,IADS,IERR1,ISKEW0(SLRBE3/2),IMODIF,
-     .        IDIR,IKINE1(3*NUMNOD),NRB,ID,UID,SUB_INDEX
+     .        IC,IC1,IC2,IROT,ISKS,IADS,IERR1,IMODIF,
+     .        IDIR,NRB,ID,UID,SUB_INDEX
+      my_real W
+      INTEGER, DIMENSION(:),ALLOCATABLE   :: IKINE1
+      INTEGER, DIMENSION(:),ALLOCATABLE   :: ISKEW0
+      my_real, DIMENSION(:,:),ALLOCATABLE :: WI
       CHARACTER(LEN=NCHARTITLE) ::  TITR
       CHARACTER(LEN=NCHARKEY) :: KEY
       CHARACTER(LEN=NCHARFIELD) :: STRING
@@ -105,7 +110,6 @@ C-----------------------------------------------
       INTEGER USR2SYS,NODGRNR5
 C
       DATA MESS/'INTERPOLATION CONSTRAINT BODY  '/
-      my_real WI(6,NUMNOD),W
 C-----------------------------------------------
 C     IRBE3(1,I) : IAD0 for LRBE3 and FRBE3
 C     IRBE3(2,I) : TYPE         usr' id temporaire (print)
@@ -118,7 +122,10 @@ C     IRBE3(8,I) :  not used yet,used temporaire for Imodif
 C     IRBE3(9,I) :  not used yet
 C     IRBE3(10,I) :  Numero interne du IRBE3 (necessaire pour Modif/SPMD)
 C=======================================================================
-
+      CALL MY_ALLOC(IKINE1,3*NUMNOD)
+      CALL MY_ALLOC(ISKEW0,SLRBE3/2)
+      CALL MY_ALLOC(WI,6,NUMNOD)
+c
       WRITE(IOUT,1000)
 CC
       IS_AVAILABLE = .FALSE.
@@ -321,6 +328,9 @@ c        WRITE(IOUT,1103)
       ENDDO
       IF (NSPMD==1) LXINTD = 0
 C
+      DEALLOCATE(IKINE1)
+      DEALLOCATE(ISKEW0)
+      DEALLOCATE(WI)
       RETURN
 C
  1000 FORMAT(//
@@ -1486,6 +1496,7 @@ C---
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
@@ -1510,12 +1521,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, J,K, NS,NM, NI, NMT,M,NFT,JLT,IAD,II,M2,III
 C
-      INTEGER ID, INDEX(NRBE3),ITAG(NUMNOD),NZ,IAD1,IADS,
+      INTEGER ID, INDEX(NRBE3),NZ,IAD1,IADS,
      .        LCOPY(SLRBE3),ICOPY(NRBE3L,NRBE3)
+      INTEGER,DIMENSION(:),ALLOCATABLE :: ITAG
       CHARACTER(LEN=NCHARTITLE)::TITR
       my_real FCOPY(SLRBE3*3)
 C========================================================================|
 C-----only one level of hierarchy is allowed
+      CALL MY_ALLOC(ITAG,NUMNOD)
       ITAG(1:NUMNOD)=0
       DO I=1,NRBE3
        NS = IRBE3(3,I)
@@ -1596,6 +1609,7 @@ C----- re-ordering
         ENDDO
       END IF
 C
+      DEALLOCATE(ITAG)
       RETURN
       END SUBROUTINE HIREORBE3
 C========================================================================|

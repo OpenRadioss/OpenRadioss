@@ -56,6 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE TRI7BOX
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
@@ -147,7 +148,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,DIR,NB_NC,NB_EC,
      .        N1,N2,N3,N4,NN,NE,K,L,NCAND_PROV,II,JJ,KK,
-     .        NSNF, NSNL, I_BID,DELNOD,TAG(NUMNOD)
+     .        NSNF, NSNL, I_BID,DELNOD
 C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
@@ -170,8 +171,9 @@ c     .   maxaaa
       INTEGER FIRST,NEW,LAST,M
       SAVE IIX,IIY,IIZ
       INTEGER, DIMENSION(:), ALLOCATABLE ::  TAGNOD
+      INTEGER, DIMENSION(:), ALLOCATABLE ::  TAG
 C-----------------------------------------------
-
+      CALL MY_ALLOC(TAG,NUMNOD)
       ALLOCATE(NEXT_NOD(NSN))
       ALLOCATE(IIX(NSN))
       ALLOCATE(IIY(NSN))
@@ -534,6 +536,7 @@ C=======================================================================
       DEALLOCATE(IIX)
       DEALLOCATE(IIY)
       DEALLOCATE(IIZ)
+      DEALLOCATE(TAG)
 
       RETURN
       END

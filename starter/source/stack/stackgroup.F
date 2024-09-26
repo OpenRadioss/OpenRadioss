@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE SUBMODEL_MOD
       USE STACK_MOD
       USE MESSAGE_MOD
@@ -68,6 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
       TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
+      TYPE(STACK_INFO_ ),INTENT(INOUT), DIMENSION (NPROP_STACK):: STACK_INFO
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -79,13 +81,6 @@ C-----------------------------------------------
      .        IINT,IPID_LY,IPDIR ,NS_STACK0 ,NPT_STACK0,IS0,JS,PIDS,IP,
      .        II1,II2,JJ1,JJ2,II3,II4,II5,JJ3,JJ4,JJ5, NKEY,IREST,IBIT,IKEY,
      .        NBIT 
-c     INTEGER  IPIDPLY(NUMGEO+NUMPLY),IDGR4N(NUMGEO+NUMPLY),WORK(70000),
-c    .         INDX_SH(NUMELC+NUMELTG),PID_SH(NUMELC+NUMELTG),
-c    .         NFIRST(NUMELC+NUMELTG),
-c    .         NLAST(NUMELC+NUMELTG),IDGR3N(NUMGEO+NUMPLY),
-c    .         ISUBSTACK(NUMGEO+NUMSTACK),IPTPLY(1000),NBFI,IPPID,ITAG(1000),
-c    .         NGL,IPID_1,NUMS,IPWEIGHT,IPTHKLY,NSHQ4,NSHT3,INDEX_SH4(NUMELC),
-c    .         INDEX_T3(NUMELTG)
       INTEGER  WORK(70000),
      .         IPTPLY(1000),NBFI,IPPID,ITAG(1000),
      .         NGL,IPID_1,NUMS,IPWEIGHT,IPTHKLY,NSHQ4,NSHT3
@@ -95,8 +90,8 @@ c    .         INDEX_T3(NUMELTG)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX_SH4,INDEX_T3
       INTEGER, DIMENSION(:), ALLOCATABLE :: NFIRST,NLAST
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDX_SH,PID_SH
-      my_real 
-     .         GEO0(1000,NUMGEO)
+      my_real, DIMENSION(:,:), ALLOCATABLE :: GEO0
+
       my_real
      .         THICKT,ZSHIFT,TMIN,TMAX,DT,THK_LY,POS_LY,THK_IT(100),
      .         POS_IT(100),POS_NPTT,THK_NPTT,POS_0,THINNING,POS
@@ -106,7 +101,7 @@ c    .         INDEX_T3(NUMELTG)
      .                                       ICSH_STACK,IDSTACK
       INTEGER , DIMENSION(:,:), ALLOCATABLE :: ACTIV_PLY
       TYPE (STACK_PLY) :: STACK, IWORKS
-      TYPE(STACK_INFO_ ) , DIMENSION (1:NPROP_STACK) :: STACK_INFO
+
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
 C-----------------------------------------------
       my_real
@@ -182,6 +177,7 @@ C    For Shell
 C-----------------------------------------------  
        NS_STACK = 0
        NPT_STACK = 0
+       CALL MY_ALLOC(GEO0,1000,NUMGEO)
        ALLOCATE(IWORK_T(NUMELC+NUMELTG))
        ALLOCATE(IPIDPLY(NUMGEO+NUMPLY))
        ALLOCATE(IDGR4N(NUMGEO+NUMPLY))
@@ -193,7 +189,6 @@ C-----------------------------------------------
        ALLOCATE(NLAST(NUMELC+NUMELTG))
        ALLOCATE(INDX_SH(NUMELC+NUMELTG))
        ALLOCATE(PID_SH(NUMELC+NUMELTG))
-
 C
        IF(IPART_STACK > 0) THEN
          NPLY = 0
@@ -1322,7 +1317,7 @@ C--------
        DEALLOCATE(NLAST)
        DEALLOCATE(INDX_SH)
        DEALLOCATE(PID_SH)
-
+       DEALLOCATE(GEO0)
      
       RETURN
  1000    FORMAT(//,

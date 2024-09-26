@@ -47,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
@@ -84,8 +85,8 @@ C-----------------------------------------------
       INTEGER I,IDISP,NN,NFVEL,IDIS,INOD,NODID,NOD,NOSKEW,NOFRAME,LEN,
      .   IUNIT,FLAGUNIT,SENS_ID,OPTID,UID,SKEW_ID,FCT_ID,GRN_ID,IGS,
      .   IFGEO,ICOOR,ILAGM,SUBID,NOSUB
-      INTEGER ,DIMENSION(NFXVEL)   :: NODENUM
-      INTEGER ,DIMENSION(3*NUMNOD) :: IKINE1
+      INTEGER ,DIMENSION(:),ALLOCATABLE :: NODENUM
+      INTEGER ,DIMENSION(:),ALLOCATABLE :: IKINE1
       my_real :: YSCALE,TSTART,TSTOP,XSCALE,FSCAL_T,FSCAL_L
       CHARACTER(LEN=2)           :: X,Y,Z,XX,YY,ZZ
       CHARACTER(LEN=NCHARFIELD)  :: XYZ
@@ -108,6 +109,9 @@ C-----------------------------------------------
       DATA ZZ /'ZZ'/
       DATA MESS/'IMPOSED DISPLACEMENT DEFINITION  '/
 C======================================================================|
+      CALL MY_ALLOC(IKINE1,3*NUMNOD)
+      CALL MY_ALLOC(NODENUM,NFXVEL)
+c
       IS_AVAILABLE = .FALSE.
 c
       IKINE1(:)= 0
@@ -279,6 +283,9 @@ c
         ENDDO ! NN
 c
       ENDDO ! DO I=1,NFDISP
+c
+      DEALLOCATE(IKINE1)
+      DEALLOCATE(NODENUM)
 c
 c--------------------------------------------------
  1000 FORMAT(//

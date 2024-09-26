@@ -188,6 +188,7 @@ C--------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE OPTIONDEF_MOD
 C-----------------------------------------------
@@ -209,11 +210,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,OK,ISK,IDBX,BOXNOD,TAGN(NUMNOD),
+      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGN
+      INTEGER I,J,K,OK,ISK,IDBX,BOXNOD,
      .        IADB0,JAD,ITYPE
       my_real
      .    XP1,YP1,ZP1,XP2,YP2,ZP2,DIAM,NODINB(3)
 C-----------------------------------------------
+      CALL MY_ALLOC(TAGN,NUMNOD)
       OK  = 0
       BOXNOD = 0
       IADB0 = IADB
@@ -274,6 +277,7 @@ C---------------
           END IF
         END DO
       ENDIF
+      DEALLOCATE(TAGN)
 C---------------
       RETURN
       END

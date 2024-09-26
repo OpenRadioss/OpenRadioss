@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE CHK_DTTSH(ELBUF_STR,IXS ,IPARG ,IKINE)
 C=======================================================================
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD     
 C-----------------------------------------------
@@ -61,10 +62,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,N, ITY,JHBE,IGTYP,ICSTR,ISOLNOD
-      INTEGER ITAG(NUMNOD),N1,N2,NC(MVSIZ,8),NEDG,IER1,IER2,IKIN
+      INTEGER N1,N2,NC(MVSIZ,8),NEDG,IER1,IER2,IKIN
+      INTEGER,DIMENSION(:),ALLOCATABLE :: ITAG
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
 C     REAL
 C-------
+      CALL MY_ALLOC(ITAG,NUMNOD)
       ITAG(1:NUMNOD)=0
       NEDG = 0
       DO NG=1,NGROUP
@@ -415,5 +418,6 @@ C-------message out
      .                I2=IER2)
        END IF
 C       
+      DEALLOCATE(ITAG)
       RETURN
       END SUBROUTINE CHK_DTTSH

@@ -64,6 +64,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE INTBUFMOD
       USE FRONT_MOD
@@ -127,7 +128,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, JINSCR, NIN, ITABM1(SITABM1), IWRN, I
+      INTEGER,DIMENSION(:), ALLOCATABLE :: ITABM1
+      INTEGER N, JINSCR, NIN,IWRN, I
       INTEGER NTY, NSN2T, NMN2T,ID,
      .        NSNET  ,NMNET  ,MULTIMP, IREMNODE, NREMNODE,
      .        NREMN(NINTER),NREMN_OLD(NINTER),IEDG,IEDGN,ST2_CONNEC,
@@ -165,7 +167,8 @@ C-----------------------------------------------
       INTEGER :: IEDGE !< check if edge to edge is used by the interface
       INTEGER :: SKIP_TYPE25_EDGE_2_EDGE !< flag to activate only the computation of interface type 25 with edge to edge
       INTEGER, DIMENSION(:), ALLOCATABLE :: ELEM_LINKED_TO_SEGMENT
-       
+C-----------------------------------------------
+      CALL MY_ALLOC(ITABM1,SITABM1)
 C
       I_MEM = 0
       RESORT = 0
@@ -574,6 +577,7 @@ c               WRITE(6,*) "Stiff=",min_stiff,avg_stiff(N),main_stiff
 
 C
       DEALLOCATE(T2_ADD_CONNEC,T2_CONNEC,IKINE1)
+      DEALLOCATE(ITABM1)
 C
       RETURN
       END
