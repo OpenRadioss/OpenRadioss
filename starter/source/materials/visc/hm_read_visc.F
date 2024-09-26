@@ -179,9 +179,9 @@ c
 c-----------------------------
 c           duplicate storage for compatibility with old code and output until cleaning
 c-----------------------------
-            IPM(216 ,I) = IMATVIS
-            IPM(222 ,I) = IVISC
-            IPM(225 ,I) = MAT_PARAM(IMAT)%VISC%NUVAR
+            IPM(216 ,I) = IMATVIS  ! hourglass treatment flag specific for viscoelastic maaterials
+!            IPM(222 ,I) = IVISC
+!            IPM(225 ,I) = MAT_PARAM(IMAT)%VISC%NUVAR
 c--------------------------------------------------
           ENDIF   !IMID == MAT_ID
 c--------------------------------------------------

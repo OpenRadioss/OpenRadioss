@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mulawc         ../engine/source/materials/mat_share/mulawc.F
       !||====================================================================
       SUBROUTINE PRONY_MODELC(
-     1     NEL  ,NUVAR  ,TIME   ,TIMESTEP,
+     1     NEL  ,NUVAR  ,TIMESTEP,
      2     NPRONY   ,KV     ,GI , BETA     ,RHO0  ,
      3     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      4     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C
       INTEGER NEL, NUVAR,NPRONY
       my_real
-     .   TIME,TIMESTEP(NEL),KV,GI(NPRONY),BETA(NPRONY),
+     .   TIMESTEP,KV,GI(NPRONY),BETA(NPRONY),
      .   RHO0(NEL), EPSPXX(NEL),EPSPYY(NEL),
      .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL)
 C-----------------------------------------------
@@ -82,30 +82,14 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       my_real
-     .    UVAR(NEL,NUVAR), OFF(NEL),THK(NEL),YLD(NEL)
-C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
+     .    UVAR(NEL,NUVAR), OFF(NEL),THK(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER
-     . I,J,II
-      my_real 
-     .  CC,G,DAV,EPXX,EPYY,EPZZ,SVXX,
-     .  SVYY,SVZZ,P,
+      INTEGER :: I,J
+      my_real :: G,DAV,EPXX,EPYY,EPZZ,P,
      .  AA(MVSIZ,NPRONY),BB(MVSIZ,NPRONY),H0(6),EPSPZZ(MVSIZ),
      .  H(6,NPRONY),S(6),A1(MVSIZ),A2(MVSIZ),FAC
-C-----------------------------------------------
-C     USER VARIABLES INITIALIZATION
-C-----------------------------------------------
 C------------------------------------------
 C   estiamte stress
 C------------------------------------------
@@ -120,8 +104,8 @@ C
           EPSPZZ(I) = ZERO
 C          
          DO J=1,NPRONY
-          AA(I,J) =  EXP(-BETA(J)*TIMESTEP(I)) 
-          BB(I,J) =  TIMESTEP(I)*GI(J)*EXP(-HALF*BETA(J)*TIMESTEP(I))
+          AA(I,J) =  EXP(-BETA(J)*TIMESTEP) 
+          BB(I,J) =  TIMESTEP*GI(J)*EXP(-HALF*BETA(J)*TIMESTEP)
 C
 C  for computing epszz_dot (sigzz=0)
 C
@@ -177,9 +161,7 @@ C
 C  comppute stress
 C
            
-          DO II = 1,6
-           S(II) = ZERO
-          ENDDO        
+          S(1:6) = ZERO
 
           DO  J= 1,NPRONY
             S(1) = S(1) + H(1,J)
