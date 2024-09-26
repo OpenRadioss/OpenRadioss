@@ -1058,8 +1058,6 @@ c
             IPID = IXTG(5,NFT+1)                                       
           ENDIF
           ELBUF_TAB(NG)%GBUF%G_DT = 1
-          ISHOFFSET = IGEO(99,IPID)
-          IF (DEFAULTS%SHELL%IOFFSET ==1 .AND. ISHOFFSET > 0) ELBUF_TAB(NG)%GBUF%G_SH_IOFFSET = 1
 C
           NPTT = 1
           IF (ITY == 3 .and. JHBE == 11) THEN 
@@ -1494,6 +1492,10 @@ C------------- 3 is sufficient !!!!
               GBUF%G_SMSTR = 6
             ENDIF
             IF (JHBE < 30 .and. ISROT > 0) GBUF%G_HOURG = 5
+          ENDIF
+          IF (ITY == 3 .OR. ITY == 7) THEN
+            ISHOFFSET = IGEO(99,IPID)
+            IF (DEFAULTS%SHELL%IOFFSET ==1 .AND. ISHOFFSET > 0) ELBUF_TAB(NG)%GBUF%G_SH_IOFFSET = 1
           ENDIF
 c---------for accumulate WXY
           IF (ISMSTR == 10 )THEN
