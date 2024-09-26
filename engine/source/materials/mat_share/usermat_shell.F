@@ -285,7 +285,7 @@ C
         IF (IXFEM == 1 .AND. IXLAY > 0) ILAYER = IXLAY  ! xfem  multilayer
         ILAW = ELBUF_STR%BUFLY(ILAYER)%ILAW
         IMAT = ELBUF_STR%BUFLY(ILAYER)%IMAT
-        IF(IPM(222,IMAT) > 0) IPRONY=1
+        IF (MAT_ELEM%MAT_PARAM(IMAT)%IVISC > 0) IPRONY=1
       ENDDO
 C
 !     ZCFAC computation is only useful for CZFORC3 and CZFORC3_CRK routines

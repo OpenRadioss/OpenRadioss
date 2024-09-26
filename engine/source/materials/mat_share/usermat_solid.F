@@ -1666,8 +1666,7 @@ c
 C-----------------------------------------------------------------------
 C     viscous stress (/VISC models) 
 C-----------------------------------------------------------------------
-      IVISC = IPM(222,MX)
-      IF (IVISC > 0) THEN
+      IF (MAT_ELEM%MAT_PARAM(MAT(1))%IVISC > 0) THEN
          CALL VISCMAIN(MAT_ELEM%MAT_PARAM(MAT(1))%VISC    ,NEL     ,
      .        NVARVIS ,VBUF%VAR,RHO0    ,VIS     ,SSP     ,DT1     , 
      .        EP1     ,EP2     ,EP3     ,EP4     ,EP5     ,EP6     ,

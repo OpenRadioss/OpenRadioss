@@ -39,15 +39,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    state_mod           ../common_source/modules/state_mod.F
       !||====================================================================
       SUBROUTINE DYNAIN_C_STRSG(
-     1                  ELBUF_TAB  ,IPARG     ,IPM        ,IGEO  ,IXC    ,
+     1                  ELBUF_TAB  ,IPARG     ,IGEO  ,IXC    ,
      2                  IXTG       ,WA        ,WAP0       ,IPARTC,IPARTTG,
      3                  DYNAIN_DATA,DYNAIN_INDXC,DYNAIN_INDXTG,SIZP0  ,
      4                  GEO        ,STACK     ,DRAPE_SH4N   ,DRAPE_SH3N,X   ,
-     5                  THKE       ,DRAPEG)
+     5                  THKE       ,DRAPEG    ,NUMMAT   ,MAT_PARAM   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD   
+      USE MATPARAM_DEF_MOD
       USE STACK_MOD
       USE DRAPE_MOD     
       USE STATE_MOD 
@@ -66,9 +67,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER NUMMAT
       INTEGER SIZLOC,SIZP0
       INTEGER IXC(NIXC,*),IXTG(NIXTG,*),
-     .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
+     .        IPARG(NPARG,*),IGEO(NPROPGI,*),
      .        IPARTC(*), IPARTTG(*), 
      .        DYNAIN_INDXC(*), DYNAIN_INDXTG(*)
       my_real   
@@ -79,6 +81,7 @@ C-----------------------------------------------
       TYPE (DRAPEG_) :: DRAPEG
       double precision WA(*),WAP0(*)
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -86,7 +89,7 @@ C-----------------------------------------------
      .   LLT,ITY,MLW,IH,IHBE, ID, IPRT0, IPRT,IR,IS,IT,
      .   NPG,IPG,MPT,IPT,NPTR,NPTS,NPTT,NLAY,L_PLA,ITHK,
      .   IGTYP,NPT_ALL,IL,KK(12),LARGE,IREP,IPID,IVISC,
-     .   IPMAT,IXFEM,IXLAY,ISUBSTACK,IPTT,IS_WRITTEN,
+     .   IMAT,IPMAT,IXFEM,IXLAY,ISUBSTACK,IPTT,IS_WRITTEN,
      ,   LAYNPT_MAX,NLAY_MAX,IERR,L_DIRA,L_DIRB,IORTH,
      .   JDIR,ILAY,J1,J2,SEDRAPE,NUMEL_DRAPE,KB
      
@@ -262,22 +265,25 @@ C-------------------------------------------------------
               IPMAT = 100                                     
               DO N=1,MPT                                     
                  DO I=LFT,LLT
-                    IF (IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1       
+                   IMAT = MATLY((N-1)*LLT + I)
+                   IF (MAT_PARAM(IMAT)%IVISC > 0) IVISC = 1       
                  ENDDO                                       
               ENDDO                                          
           ELSEIF (IGTYP == 9 .OR. IGTYP == 10) THEN            
               DO N=1,MPT
                   DO I=LFT,LLT
-                    IF (IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1         
+                    IMAT = MATLY((N-1)*LLT + I)
+                    IF (MAT_PARAM(IMAT)%IVISC > 0) IVISC = 1       
                  ENDDO                                      
               ENDDO                                         
           ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP == 52)THEN                             
-                  IPMAT   = 2 + NLAY
+              IPMAT = 2 + NLAY
               DO N=1,NLAY                                      
-                  DO I=LFT,LLT
-                    IF(IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1         
+                 DO I=LFT,LLT
+                   IMAT  = MATLY((N-1)*LLT + I)
+                   IF (MAT_PARAM(IMAT)%IVISC > 0 ) IVISC = 1       
                  END DO                                      
-               ENDDO                                          
+              ENDDO                                          
           ENDIF   ! IGTYP    
 
 C-------------------------------------------------------
@@ -1298,20 +1304,23 @@ C-------------------------------------------------------
               IPMAT = 100                                     
               DO N=1,MPT                                     
                  DO I=LFT,LLT
-                    IF (IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1       
+                   IMAT = MATLY((N-1)*LLT + I)
+                   IF (MAT_PARAM(IMAT)%IVISC > 0 ) IVISC = 1       
                  ENDDO                                       
               ENDDO                                          
           ELSEIF (IGTYP == 9 .OR. IGTYP == 10) THEN            
               DO N=1,MPT
                   DO I=LFT,LLT
-                    IF (IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1         
+                   IMAT = MATLY((N-1)*LLT + I)
+                   IF (MAT_PARAM(IMAT)%IVISC > 0 ) IVISC = 1       
                  ENDDO                                      
               ENDDO                                         
           ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP == 52)THEN                             
-                  IPMAT   = 2 + NLAY
+              IPMAT   = 2 + NLAY
               DO N=1,NLAY                                      
                   DO I=LFT,LLT
-                    IF(IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1         
+                   IMAT = MATLY((N-1)*LLT + I)
+                   IF (MAT_PARAM(IMAT)%IVISC > 0 ) IVISC = 1       
                  END DO                                      
                ENDDO                                          
           ENDIF   ! IGTYP   

@@ -51,11 +51,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                PM       ,GEO      , IPARTC ,IPARTTG  ,LENG     ,
      4                LENGC    ,LENGTG   , WEIGHT ,NODGLOB  ,THKE     ,               
      5                NPBY     ,LPBY     , STACK  ,DRAPE_SH4N ,DRAPE_SH3N , 
-     6                DYNAIN_DATA,DRAPEG) 
+     6                DYNAIN_DATA,DRAPEG ,MAT_PARAM) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      USE MATPARAM_DEF_MOD
       USE MESSAGE_MOD    
       USE INOUTFILE_MOD 
       USE STACK_MOD
@@ -91,6 +92,7 @@ C-----------------------------------------------
       TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE),DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE (DRAPEG_) :: DRAPEG
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -225,11 +227,11 @@ C-----------------------------------------------
 
       IF(DYNAIN_DATA%DYNAIN_C(4)==1) THEN
          CALL DYNAIN_C_STRSG(
-     1        ELBUF_TAB  ,IPARG     ,IPM        ,IGEO  ,IXC    ,
+     1        ELBUF_TAB  ,IPARG     ,IGEO  ,IXC    ,
      2        IXTG       ,WA        ,WAP0       ,IPARTC,IPARTTG,
      3        DYNAIN_DATA,DYNAIN_INDXC,DYNAIN_INDXTG,SIZP0    ,
      4        GEO        ,STACK     ,DRAPE_SH4N ,DRAPE_SH3N,X      ,
-     5        THKE      , DRAPEG)
+     5        THKE      , DRAPEG    ,NUMMAT     ,MAT_PARAM  )
       ENDIF
 C------------------------------------------
 

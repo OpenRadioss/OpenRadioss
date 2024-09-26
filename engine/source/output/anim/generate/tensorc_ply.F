@@ -37,12 +37,13 @@ C available just with ply/xfem formulation
       SUBROUTINE TENSORC_PLY(IPLY,  NEL_PLY, ELBUF_TAB, IPARG,
      1                       ITENS, INVERT,  EL2FA, NBF,
      2                       TENS,  EPSDOT,  IADP,  NBF_L,
-     3                       NBPART,IADG,    X,     IXC,
+     3                       NBPART,IADG,    X,     IXC,MAT_PARAM,
      4                       IGEO,  IXTG, NBF_PXFEMG, IPM  ,STACK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      USE MATPARAM_DEF_MOD
       USE PLYXFEM_MOD
       USE STACK_MOD
 C-----------------------------------------------
@@ -70,6 +71,7 @@ C     REAL
       my_real
      .   TENS(3,*),EPSDOT(6,*), X(3,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
       TYPE (STACK_PLY) :: STACK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -386,8 +388,10 @@ c------------
                      IADR = (N-1)*NEL                       
                       DO I=1,NEL                          
                         MATLY   = STACK%IGEO(IPMAT+N,ISUBSTACK)
-                        NUVARV =  MAX(NUVARV, IPM(225,MATLY)) 
-                        IF(IPM(222,MATLY) > 0 ) IVISC = 1
+                        IF (MAT_PARAM(MATLY)%IVISC > 0) THEN
+                          IVISC  = 1
+                          NUVARV =  MAX(NUVARV, MAT_PARAM(MATLY)%VISC%NUVAR) 
+                        END IF
                       END DO                                
                   END DO                                       
               END IF  

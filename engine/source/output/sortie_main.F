@@ -943,7 +943,7 @@ C
      3                PM       ,GEO      , IPART(K3),IPART(K8),LENG   ,
      4                LENGC    ,LENGTG   , WEIGHT ,NODGLOB  ,THKE     ,               
      5                NPBY     ,LPBY     , STACK  ,DRAPE_SH4N ,DRAPE_SH3N , 
-     6                DYNAIN_DATA,DRAPEG) 
+     6                DYNAIN_DATA,DRAPEG ,MAT_PARAM) 
              
        IF(TT>=DYNAIN_DATA%TDYNAIN)DYNAIN_DATA%TDYNAIN=DYNAIN_DATA%TDYNAIN+DYNAIN_DATA%DTDYNAIN
        IF ((TSTOP<DYNAIN_DATA%TDYNAIN).AND.(DYNAIN_DATA%TDYNAIN<TSTOP+EM06*TSTOP)
