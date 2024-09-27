@@ -42,7 +42,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -113,14 +112,8 @@ C
         DO 120 KK=1,4
   120   IRECT(KK,I)=IY(4-KK+1)
        ENDIF
-       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
-       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
        RETURN
 C
- 1300 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I5,' OF INTERFACE',I10,
-     + ' REVERSED')
- 1400 FORMAT(' NODE NUMBERING OF MAIN SEGMENT',I5,' OF INTERFACE',I10,
-     + ' REVERSED')
       END
       !||====================================================================
       !||    ineltc    ../starter/source/interfaces/inter3d1/inelt.F
@@ -177,7 +170,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -249,14 +241,8 @@ C
         DO 120 KK=1,4
   120   IRECT(KK)=IY(4-KK+1)
        ENDIF
-       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
-       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
        RETURN
 C
- 1300 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I5,' OF INTERFACE',I10,
-     + ' REVERSED')
- 1400 FORMAT(' NODE NUMBERING OF MAIN SEGMENT',I5,' OF INTERFACE',I10,
-     + ' REVERSED')
       END
       !||====================================================================
       !||    ineltigeo   ../starter/source/interfaces/inter3d1/inelt.F
@@ -275,7 +261,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -359,13 +344,7 @@ C
        DO  KK=1,4
          IRECT(KK,I)=IY(4-KK+1)
        ENDDO
-       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
-       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
        RETURN
 C
- 1300 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I5,' OF INTERFACE',I10,
-     + ' REVERSED')
- 1400 FORMAT(' NODE NUMBERING OF MAIN SEGMENT',I5,' OF INTERFACE',I10,
-     + ' REVERSED')
       END
 
