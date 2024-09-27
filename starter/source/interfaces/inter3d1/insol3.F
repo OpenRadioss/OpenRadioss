@@ -46,7 +46,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -75,6 +74,7 @@ C
       IF(NUMELS==0) RETURN
        IF(IRECT(1,I)>NUMNOD) RETURN
        NUSERM = -1
+       IF (NINT<0) NUSER = NOINT
        DO 230 IAD=KNOD2ELS(IRECT(1,I))+1,KNOD2ELS(IRECT(1,I)+1)
         N = NOD2ELS(IAD)
         IF(N <= NUMELS8)THEN
@@ -169,14 +169,8 @@ C
         DO 120 KK=1,4
   120   IRECT(KK,I)=IY(4-KK+1)
        ENDIF
-       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
-       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
        RETURN
 C
- 1300 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I5,' OF INTERFACE',I10,
-     + ' REVERSED')
- 1400 FORMAT(' NODE NUMBERING OF MAIN SEGMENT',I5,' OF INTERFACE',I10,
-     + ' REVERSED')
       END
       !||====================================================================
       !||    insol3d       ../starter/source/interfaces/inter3d1/insol3.F
@@ -205,7 +199,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 #include      "com04_c.inc"
 #include      "scr03_c.inc"
 C-----------------------------------------------
@@ -415,14 +408,14 @@ C
 c       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
 c       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
        NINV = NINV + 1
-       IF(IPRI>=5.AND.NINT>0) 
+       IF(IPRI>=10.AND.NINT>0) 
      .         CALL ANCMSG(MSGID=3022,
      .                         MSGTYPE=MSGWARNING,
      .                         ANMODE=ANINFO_BLIND_1,
      .                         I1=I,
      .                         I2=NOINT,
      .                         PRMOD=MSG_CUMU)
-       IF(IPRI>=5.AND.NINT< 0) 
+       IF(IPRI>=10.AND.NINT< 0) 
      .         CALL ANCMSG(MSGID=3024,
      .                         MSGTYPE=MSGWARNING,
      .                         ANMODE=ANINFO_BLIND_1,
@@ -431,10 +424,6 @@ c       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
      .                         PRMOD=MSG_CUMU)
 
        RETURN
- 1300 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I5,' OF INTERFACE',I10,
-     + ' REVERSED')
- 1400 FORMAT(' NODE NUMBERING OF MAIN SEGMENT',I5,' OF INTERFACE',I10,
-     + ' REVERSED')
       END
       !||====================================================================
       !||    i12sol3                ../starter/source/interfaces/inter3d1/insol3.F
@@ -463,7 +452,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -588,19 +576,7 @@ C
         DO 120 KK=1,4
   120   IRECT(KK,I)=IY(4-KK+1)
        ENDIF
-       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
-       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
 
        RETURN
 
- 1300 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I10,' OF INTERFACE',
-     +       I10,' REVERSED')
- 1400 FORMAT(' NODE NUMBERING OF MAIN SEGMENT',I10,' OF INTERFACE',
-     +       I10,' REVERSED')
- 1500 FORMAT(
-     +' *** WARNING : MORE THAN 1 BRICK CONNECTED TO SECONDARY SEGMENT'
-     +,I10,' OF INTERFACE',I10)
- 1600 FORMAT(
-     +' *** WARNING : MORE THAN 1 BRICK CONNECTED TO MAIN SEGMENT'
-     +,I10,' OF INTERFACE',I10)
       END
