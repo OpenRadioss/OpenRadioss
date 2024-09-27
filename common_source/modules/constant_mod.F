@@ -56,6 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_fractal_dmg                      ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
       !||    hm_read_mat125                           ../starter/source/materials/mat/mat125/hm_read_mat125.F90
       !||    hm_read_mat126                           ../starter/source/materials/mat/mat126/hm_read_mat126.F90
+      !||    hm_read_mat127                           ../starter/source/materials/mat/mat127/hm_read_mat127.F90
       !||    hm_read_mat169_arup                      ../starter/source/materials/mat/mat169/hm_read_mat169.F90
       !||    hm_read_preload_axial                    ../starter/source/loads/general/preload/hm_read_preload_axial.F90
       !||    iniphase                                 ../starter/source/initial_conditions/inivol/iniphase.F
@@ -93,8 +94,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sh_offset_setn                           ../starter/source/elements/shell/shell_offset/sh_offset_setn.F90
       !||    shell_offset_ini                         ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
       !||    shell_offsetp                            ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
+      !||    sigeps125                                ../engine/source/materials/mat/mat125/sigeps125.F90
       !||    sigeps125c                               ../engine/source/materials/mat/mat125/sigeps125c.F90
       !||    sigeps126                                ../engine/source/materials/mat/mat126/sigeps126.F90
+      !||    sigeps127c                               ../engine/source/materials/mat/mat127/sigeps127c.F90
       !||    sigeps169_connect                        ../engine/source/materials/mat/mat169/sigeps169_connect.F90
       !||    spmd_exch_flow_tracking_data             ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
       !||    spmd_exch_flow_tracking_data2            ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90

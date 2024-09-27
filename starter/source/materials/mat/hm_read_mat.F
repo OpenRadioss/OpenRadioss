@@ -73,6 +73,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat124            ../starter/source/materials/mat/mat124/hm_read_mat124.F
       !||    hm_read_mat125            ../starter/source/materials/mat/mat125/hm_read_mat125.F90
       !||    hm_read_mat126            ../starter/source/materials/mat/mat126/hm_read_mat126.F90
+      !||    hm_read_mat127            ../starter/source/materials/mat/mat127/hm_read_mat127.F90
       !||    hm_read_mat13             ../starter/source/materials/mat/mat013/hm_read_mat13.F
       !||    hm_read_mat14             ../starter/source/materials/mat/mat014/hm_read_mat14.F
       !||    hm_read_mat15             ../starter/source/materials/mat/mat015/hm_read_mat15.F
@@ -156,6 +157,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
       !||    hm_read_mat125_mod        ../starter/source/materials/mat/mat125/hm_read_mat125.F90
       !||    hm_read_mat126_mod        ../starter/source/materials/mat/mat126/hm_read_mat126.F90
+      !||    hm_read_mat127_mod        ../starter/source/materials/mat/mat127/hm_read_mat127.F90
       !||    hm_read_mat169_arup_mod   ../starter/source/materials/mat/mat169/hm_read_mat169.F90
       !||    law_user                  ../starter/source/user_interface/law_user.F
       !||    message_mod               ../starter/share/message_module/message_mod.F

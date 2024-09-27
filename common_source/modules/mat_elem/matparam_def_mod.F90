@@ -96,6 +96,7 @@
       !||    hm_read_mat124                      ../starter/source/materials/mat/mat124/hm_read_mat124.F
       !||    hm_read_mat125                      ../starter/source/materials/mat/mat125/hm_read_mat125.F90
       !||    hm_read_mat126                      ../starter/source/materials/mat/mat126/hm_read_mat126.F90
+      !||    hm_read_mat127                      ../starter/source/materials/mat/mat127/hm_read_mat127.F90
       !||    hm_read_mat13                       ../starter/source/materials/mat/mat013/hm_read_mat13.F
       !||    hm_read_mat14                       ../starter/source/materials/mat/mat014/hm_read_mat14.F
       !||    hm_read_mat15                       ../starter/source/materials/mat/mat015/hm_read_mat15.F
@@ -220,8 +221,10 @@
       !||    s8zinit3                            ../starter/source/elements/solid/solide8z/s8zinit3.F
       !||    sgrhead                             ../starter/source/elements/solid/solide/sgrhead.F
       !||    sgrtails                            ../starter/source/elements/solid/solide/sgrtails.F
+      !||    sigeps125                           ../engine/source/materials/mat/mat125/sigeps125.F90
       !||    sigeps125c                          ../engine/source/materials/mat/mat125/sigeps125c.F90
       !||    sigeps126                           ../engine/source/materials/mat/mat126/sigeps126.F90
+      !||    sigeps127c                          ../engine/source/materials/mat/mat127/sigeps127c.F90
       !||    sigeps190                           ../engine/source/materials/mat/mat190/sigeps190.F
       !||    sigeps25c                           ../engine/source/materials/mat/mat025/sigeps25c.F
       !||    sigeps25cp                          ../engine/source/materials/mat/mat025/sigeps25cp.F
