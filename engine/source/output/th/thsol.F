@@ -808,6 +808,7 @@ C               Solid spotwelds : damage  DAMA1 ...DAMA4
 
               ELSEIF (MTE == 83) THEN
                 WWA(12)=GBUF%PLA(I)
+                WWA(14)=GBUF%EPSD(I)
                 NUVAR = ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT
                 DO J=1,NPTR
                   MBUF  => ELBUF_TAB(NG)%BUFLY(1)%MAT(J,1,1)
