@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    presegmt    ../starter/source/interfaces/interf1/presegmt.F
+      !||    presegmt       ../starter/source/interfaces/interf1/presegmt.F
       !||--- called by ------------------------------------------------------
-      !||    lecint      ../starter/source/interfaces/interf1/lecint.F
-      !||    prescrint   ../starter/source/interfaces/interf1/prescrint.F
+      !||    lecint         ../starter/source/interfaces/interf1/lecint.F
+      !||    prescrint      ../starter/source/interfaces/interf1/prescrint.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE PRESEGMT(IRECT,NODES,NRT,NNO,NST)
 C-----------------------------------------------

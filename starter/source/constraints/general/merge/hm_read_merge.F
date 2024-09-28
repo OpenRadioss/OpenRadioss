@@ -1081,12 +1081,13 @@ C
       END     
 C
       !||====================================================================
-      !||    retrirby      ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    retrirby       ../starter/source/constraints/general/merge/hm_read_merge.F
       !||--- called by ------------------------------------------------------
-      !||    initia        ../starter/source/elements/initia/initia.F
+      !||    initia         ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||    rbmerge_mod   ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    rbmerge_mod    ../starter/source/constraints/general/merge/hm_read_merge.F
       !||====================================================================
       SUBROUTINE RETRIRBY(NPBY ,LPBY ,RBY ,NOM_OPT)
 C-----------------------------------------------
