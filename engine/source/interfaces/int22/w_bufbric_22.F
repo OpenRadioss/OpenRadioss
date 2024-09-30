@@ -166,10 +166,10 @@ C-----------------------------------------------
         DO J=1,9 ; CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%POLY(J)%FACE(K)%Adjacent_Cell(I)   , I22LEN) ; ENDDO      
         ENDDO          
         DO I=1,5       
-        DO J=1,9 ; CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%POLY(J)%FACE(K)%Adjacent_FLUX(I)   , I22LEN) ; ENDDO      
+        DO J=1,9 ; CALL WRITE_DB ( BRICK_LIST(NIN,1:I22LEN)%POLY(J)%FACE(K)%Adjacent_FLUX(I)   , I22LEN) ; ENDDO
         ENDDO 
         DO I=1,5       
-        DO J=1,9 ; CALL WRITE_I_C ( BRICK_LIST(NIN,1:I22LEN)%POLY(J)%FACE(K)%Adjacent_upwFLUX(I), I22LEN) ; ENDDO      
+        DO J=1,9 ; CALL WRITE_DB ( BRICK_LIST(NIN,1:I22LEN)%POLY(J)%FACE(K)%Adjacent_upwFLUX(I), I22LEN) ; ENDDO
         ENDDO 
         DO I=1,3       
         DO J=1,9 ; CALL WRITE_DB ( BRICK_LIST(NIN,1:I22LEN)%POLY(J)%FACE(K)%Center(I)           , I22LEN) ; ENDDO      
