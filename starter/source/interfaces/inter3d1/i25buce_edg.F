@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6   NCONT    ,GAP_M   ,ITASK    ,BGAPEMX  ,
      7   I_MEM    ,ITAB    ,MBINFLG  ,EBINFLG  ,LL_STOK  ,
      8   MULNSNS  ,ILEV    ,CAND_A   ,CAND_P   ,IGAP0    ,
-     9   FLAGREMNODE,KREMNOD,REMNOD   ,
+     9   FLAGREMNODE,KREMNOD,REMNOD   ,S_REMNODE_EDG,
      A   IGAP    ,GAP_M_L   ,IEDGE    ,NEDGE    ,MSEGTYP, 
      B   LEDGE   ,ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      C   CANDM_E2S ,CANDS_E2S,CAND_B ,CAND_PS  ,GAPE    ,
@@ -65,10 +65,11 @@ C-----------------------------------------------
       INTEGER NSN, NMN,NOINT,IDT,INACTI,IGAP0
       INTEGER IRECT(4,*),ITASK,ILEV, IGAP, IEDGE, NEDGE, ESHIFT,NEDGE_T,SSHIFT,NRTM_T 
       INTEGER CANDM_E2E(*),CANDS_E2E(*),CAND_A(*),CANDM_E2S(*),CANDS_E2S(*),CAND_B(*)
+      INTEGER, INTENT(in) :: S_REMNODE_EDG
       INTEGER MULNSNE,MULNSNS,NCONT,I_MEM(2),
      .        II_STOK, LL_STOK, ITAB(*),MBINFLG(*), EBINFLG(*), LEDGE(NLEDGE,*), ADMSR(*),
      .        MSEGTYP(*),
-     .        FLAGREMNODE, KREMNOD(*), REMNOD(*)
+     .        FLAGREMNODE, KREMNOD(S_REMNODE_EDG), REMNOD(*)
       LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
       INTEGER, INTENT(in) :: S_KREMNODE_E2S !< size of KREMNODE_E2S array
       INTEGER, INTENT(in) :: S_REMNODE_E2S !< size of REMNODE_E2S array
@@ -225,7 +226,7 @@ C
      6   IGAP    ,GAP_M    ,GAP_M_L ,DRAD     ,MARGE    ,
      7   ITASK   ,ITAB     ,LL_STOK ,MULNSNS  ,
      8   MBINFLG ,EBINFLG  ,ILEV    ,CAND_A   ,CAND_P   ,
-     9   FLAGREMNODE,KREMNOD,REMNOD  ,
+     9   FLAGREMNODE,KREMNOD,REMNOD  , S_REMNODE_EDG, 
      A   IEDGE   ,NEDGE    ,LEDGE    ,MSEGTYP ,IGAP0    ,
      B   ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      C   CANDM_E2S,CANDS_E2S,CAND_B,CAND_PS   ,GAPE     ,
