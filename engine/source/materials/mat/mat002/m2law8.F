@@ -97,7 +97,7 @@ C     REAL
      .   CA(MVSIZ),CC, CN, EPXO(MVSIZ),
      .   EPMX, THETL(MVSIZ), EPDR, T(MVSIZ),
      .   SIGMX(MVSIZ),
-     .   EPIF,TM,MT, SCALE, DTA, DAV,RHOCP,
+     .   EPIF,TM,MT, SCALE, DTA, DAV,RHOCPI,
      .   CA_1,CB_1,SIGMX_1,CMX_1,Z3_1,Z4_1,CP_1,T_1
       my_real,
      .  DIMENSION(:), POINTER :: SIGP, EPLA
@@ -124,7 +124,8 @@ C
       Z3_1   =PM(51,MX)
       Z4_1   =PM(52,MX)
       CP_1   = PM(53,MX)
-      RHOCP  = PM(69,MX)
+      RHOCPI = PM(69,MX)
+      IF (RHOCPI > ZERO) RHOCPI = ONE / RHOCPI
       T_1    = PM(79,MX)
       TM     = PM(80,MX)
 C
@@ -238,12 +239,12 @@ C-------------
         ENDDO
         IF (NPIF==ZERO)THEN   ! J-C
           MT=MAX(EM15,Z3_1)
-            DO I=1,NEL
+          DO I=1,NEL
              TSTAR(I)=MIN(ONE,MAX(ZERO,(T(I)-T_1)/(TM-T_1)))
              EPD(I)= MAX(ZERO,EPD(I))
              EPD(I)= (ONE + CC * EPD(I))*(ONE - TSTAR(I)**MT)
              IF(ICC==1)SIGMX(I)= SIGMX(I)*EPD(I)
-             T(I) = T(I) + EINT(I)/MAX(EM15,VOL(I))/RHOCP
+             T(I) = T(I) + EINT(I)/MAX(EM15,VOL(I))*RHOCPI
           ENDDO
         ELSEIF(NPIF==NEL)THEN  ! zerilli
           DO I=1,NEL
