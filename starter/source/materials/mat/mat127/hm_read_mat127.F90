@@ -109,9 +109,9 @@
       call hm_get_floatv('LSDYNA_GBC'   ,g23      ,is_available, lsubmodel, unitab)
       call hm_get_floatv('LSDYNA_GCA'   ,g13      ,is_available, lsubmodel, unitab)     
 !card4 -  poisson's ratio ! tocheck
-      call hm_get_floatv('LSDYNA_PRBA'  ,nu12     ,is_available, lsubmodel, unitab)
-      call hm_get_floatv('LSDYNA_PRCB'  ,nu23     ,is_available, lsubmodel, unitab)
-      call hm_get_floatv('LSDYNA_PRCA'  ,nu13     ,is_available, lsubmodel, unitab) 
+      call hm_get_floatv('LSDYNA_PRBA'  ,nu21     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LSDYNA_PRCB'  ,nu32     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LSDYNA_PRCA'  ,nu31    ,is_available, lsubmodel, unitab) 
 !card5 - dir 11 tention 
       call hm_get_floatv  ('LSD_MAT_XT'       ,xt         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_SLIMT1'   ,slimt1     ,is_available, lsubmodel, unitab)
@@ -145,45 +145,48 @@
       ! shear modulus
       if (g13 == zero) g13 = g12
       if (g23 == zero) g23 = g13
+        ! ratio poisson's
+      if(nu31 == zero) nu31 = nu21
+      if(nu32 == zero) nu32 = nu21
 !-----------------------------
  !     check and default values
  !-----------------------------
       ! poisson's ratio
-      if (nu12 < zero .or. nu12 >= half) then
+      if (nu21 < zero .or. nu21 >= half) then
         call ancmsg(msgid=3032,                        &
                   msgtype=msgerror,                    &
                   anmode=aninfo_blind_2,               &
-                  r1=nu12,                             &
+                  r1=nu21,                             &
                   i1=mat_id,                           &
                   c1=titr)
       endif    
-      nu21 = nu12*e2/e1
-      if (nu21 < zero .or. nu21 >= half) then
+      nu12 = nu21*e1/e2
+      if (nu12 < zero .or. nu12 >= half) then
         call ancmsg(msgid=3033,                      &                              
                   msgtype=msgerror,                  &
                   anmode=aninfo_blind_2,             &
-                  r1=nu21,                           &
+                  r1=nu12,                           &
                   i1=mat_id,                         &
                   c1=titr)   
       endif
-      if (nu23 < zero .or. nu23 >= half) then
+      if (nu32 < zero .or. nu32 >= half) then
         call ancmsg(msgid=3034,                        &
                     msgtype=msgerror,                  &
                     anmode=aninfo_blind_2,             &
-                    r1=nu23,                           &
+                    r1=nu32,                           &
                     i1=mat_id,                         &
                     c1=titr)
       endif
-      nu32 = nu23*e3/e2
-      if (nu32 < zero .or. nu32 >= half) then
+      nu23 = nu32*e2/e3
+      if (nu23 < zero .or. nu23 >= half) then
         call ancmsg(msgid=3035,                     &
                  msgtype=msgerror,                  &
                  anmode=aninfo_blind_2,             &
-                 r1=nu32,                           &
+                 r1=nu23,                           &
                  i1=mat_id,                         &
                  c1=titr)
       endif
-      if (nu13 < zero .or. nu13 >= half) then
+      if (nu31 < zero .or. nu31 >= half) then
         call ancmsg(msgid=3036,                     &
                  msgtype=msgerror,                  &
                  anmode=aninfo_blind_2,             &
@@ -191,8 +194,8 @@
                  i1=mat_id,                         &
                  c1=titr)
       endif 
-      nu31 = nu13*e3/e1
-      if (nu31 < zero .or. nu31 >= half) then
+      nu13 = nu31*e1/e3
+      if (nu13 < zero .or. nu13 >= half) then
         call ancmsg(msgid=3037,                     &
                   msgtype=msgerror,                 &
                   anmode=aninfo_blind_2,            &
