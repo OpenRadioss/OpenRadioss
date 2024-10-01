@@ -36,12 +36,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
       !||    table_mod              ../starter/share/modules1/table_mod.F
       !||====================================================================
-      SUBROUTINE FSDCOD(BUFMAT    ,PM        ,GEO       ,IBCL      ,IPRES    ,
-     .                  IBFV      ,ISKEW     ,ISKN      ,SENSORS   ,MAT_PARAM,
-     .                  ITABM1    ,SKEW      ,LACCELM   ,INSEL     ,BUFGEO   ,
+      SUBROUTINE FSDCOD(BUFMAT    ,PM        ,GEO       ,IBCL      ,IPRES   ,
+     .                  IBFV      ,ISKEW     ,ISKN      ,SENSORS   ,
+     .                  ITABM1    ,SKEW      ,LACCELM   ,INSEL     ,BUFGEO  ,
      .                  IBCSLAG   ,IGEO      ,IPM       ,
      .                  IBFT      ,IBCV      ,IBFVEL    ,
-     .                  IBCR      ,TABLE     ,NPC1      ,NPC       ,PLD      ,
+     .                  IBCR      ,TABLE     ,NPC1      ,NPC       ,PLD     ,
      .                  NOM_OPT   ,IBFFLUX   )  
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -58,7 +58,6 @@ C-----------------------------------------------
       USE TABLE_MOD
       USE SENSOR_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,18 +74,19 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBFV(NIFV,*),NPC(*), NPC1(*), IBCL(NIBCLD,*), IPRES(NIBCLD,*),
-     .        ISKEW(*), ISKN(LISKN,*), ITABM1(*),
-     .        LACCELM(3,*),INSEL(*),IBCSLAG(5,*),
-     .        IPM(NPROPMI,NUMMAT), IGEO(NPROPGI,NUMGEO),IBCV(NICONV,*),
-     .        IBCR(NIRADIA,*),IBFFLUX(NITFLUX,*)
+     .   ISKEW(*), ISKN(LISKN,*), ITABM1(*),
+     .   LACCELM(3,*),INSEL(*),IBCSLAG(5,*), 
+     .   IPM(NPROPMI,NUMMAT), IGEO(NPROPGI,NUMGEO),IBCV(NICONV,*),
+     .   IBCR(NIRADIA,*),IBFFLUX(NITFLUX,*)
       INTEGER ,DIMENSION(NIFV,NFXVEL)  ,INTENT(INOUT) :: IBFVEL
       INTEGER ,DIMENSION(NIFT,NFXTEMP) ,INTENT(INOUT) :: IBFT
-      my_real PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),SKEW(LSKEW,*), PLD(*),BUFMAT(*)
+      my_real
+     .   PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),SKEW(LSKEW,*),
+     .   PLD(*),BUFMAT(*)
       TYPE(TTABLE) , DIMENSION(NTABLE) :: TABLE
       DOUBLE PRECISION BUFGEO(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
-      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1963,13 +1963,13 @@ C
       !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE M20DCOD(MLAW_TAG, IPM  ,PM, MAT_PARAM)
+      SUBROUTINE M20DCOD(MLAW_TAG, IPM  ,PM)
+      USE MESSAGE_MOD
+C     SOUS PROGRAMME DE DECODAGE DES SOUS-MATERIAUX (LOI 20 et LOI 151)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD
-      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
-      USE ELBUFDEF_MOD
+      USE ELBUFDEF_MOD            
       USE ELBUFTAG_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
@@ -1987,8 +1987,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(MLAW_TAG_), TARGET, DIMENSION(NUMMAT)  :: MLAW_TAG
       INTEGER IPM(NPROPMI,NUMMAT)
-      my_real PM(NPROPM,NUMMAT)
-      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      my_real  PM(NPROPM,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1997,81 +1996,88 @@ C-----------------------------------------------
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL PASSED
-      TYPE(MLAW_TAG_), POINTER :: MTAG, MTAGk
+      TYPE(MLAW_TAG_), POINTER :: MTAG, MTAGk      
 C-----------------------------------------------
       DATA PUN/0.1/
 C-----------------------------------------------
-C     SUBMAT FOR MULTIUMAT LAW20
+C     TRAITEMENT DES SOUS-MATERIAUX (LOI 20)
 C-----------------------------------------------
 C
       DO I=1,NUMMAT
+C
         ILAW=NINT(PM(19,I))
+C
+C
         IF(ILAW == 20) THEN
+C
           ID=IPM(1,I)
           CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)
           NF=NINT(PM(40,I))
           RHO_MAX=ZERO
           J = 1
           DO K=1,2
-            PASSED=.TRUE.
-            IS=MAT_PARAM(I)%MULTIMAT%MID(K)
+            PASSED=.TRUE.          
+            IS=NINT(PM(20+K,I))
             IF(IS/=0) THEN
               DO J=1,NUMMAT
                 IF(IS == IPM(1,J))  THEN
-                  MAT_PARAM(I)%MULTIMAT%MID(K)=J
+                  PM(20+K,I)=J+PUN
                   RHO_MAX=MAX(RHO_MAX,PM(1,J))
                   GOTO 200
                 ENDIF
               ENDDO
               PASSED=.FALSE.
             ENDIF
-            CALL ANCMSG(MSGID=128,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IS)
+            CALL ANCMSG(MSGID=128,
+     .                   MSGTYPE=MSGERROR,
+     .                   ANMODE=ANINFO_BLIND_1,
+     .                   I1=ID,C1=TITR,
+     .                   I2=IS)
               CALL ARRET(2)
  200        CONTINUE !found
             !LAW20 material buffer is dimensioned from submaterial buffer dimensions.
             IF(PASSED)THEN
-              ILAWk = IPM(2,J)
-              MTAG  => MLAW_TAG(I)
-              MTAGk => MLAW_TAG(J)
-              MTAG%L_BFRAC= MAX(MTAG%L_BFRAC, MTAGk%L_BFRAC)
+              ILAWk = IPM(2,J)            
+              MTAG  => MLAW_TAG(I)   
+              MTAGk => MLAW_TAG(J) 
+              MTAG%L_BFRAC= MAX(MTAG%L_BFRAC, MTAGk%L_BFRAC)            
               MTAG%L_TEMP = MAX(MTAG%L_TEMP , MTAGk%L_TEMP )
-              MTAG%L_PLA  = MAX(MTAG%L_PLA  , MTAGk%L_PLA  )
-              MTAG%G_BFRAC= MAX(MTAG%G_BFRAC, MTAGk%G_BFRAC)
-              MTAG%G_TEMP = MAX(MTAG%G_TEMP , MTAGk%G_TEMP )
-              MTAG%G_PLA  = MAX(MTAG%G_PLA  , MTAGk%G_PLA  )
-            ENDIF
+              MTAG%L_PLA  = MAX(MTAG%L_PLA  , MTAGk%L_PLA  )       
+              MTAG%G_BFRAC= MAX(MTAG%G_BFRAC, MTAGk%G_BFRAC)        
+              MTAG%G_TEMP = MAX(MTAG%G_TEMP , MTAGk%G_TEMP )          
+              MTAG%G_PLA  = MAX(MTAG%G_PLA  , MTAGk%G_PLA  )             
+            ENDIF            
           ENDDO !next K
           PM(91,I)=RHO_MAX
 
         ELSE IF (ILAW == 151) THEN
            ID=IPM(1,I)
            CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)
-           NF = MAT_PARAM(I)%MULTIMAT%NB ! Number of submaterials
+           NF = IPM(20, I) ! Number of submaterials
            RHO_MAX=ZERO
            DO K = 1, NF
-              IS = MAT_PARAM(I)%MULTIMAT%MID(K)
+              IS = IPM(20 + K, I)
               DO J = 1, NUMMAT
                  IF (IS == IPM(1, J)) THEN
                     IPM(20 + K, I) = J
-                    MAT_PARAM(I)%MULTIMAT%MID(K) = J
-                    ILAWk = IPM(2,J)
-                    MTAG  => MLAW_TAG(I)
-                    MTAGk => MLAW_TAG(J)
-                    MTAG%L_BFRAC= MAX(MTAG%L_BFRAC, MTAGk%L_BFRAC)
-                    MTAG%L_TB= MAX(MTAG%L_BFRAC, MTAGk%L_TB)
+                    ILAWk = IPM(2,J)            
+                    MTAG  => MLAW_TAG(I)   
+                    MTAGk => MLAW_TAG(J) 
+                    MTAG%L_BFRAC= MAX(MTAG%L_BFRAC, MTAGk%L_BFRAC)            
+                    MTAG%L_TB= MAX(MTAG%L_BFRAC, MTAGk%L_TB)            
                     MTAG%L_TEMP = MAX(MTAG%L_TEMP , MTAGk%L_TEMP )
-                    MTAG%L_PLA  = MAX(MTAG%L_PLA  , MTAGk%L_PLA  )
-                    MTAG%G_BFRAC= MAX(MTAG%G_BFRAC, MTAGk%G_BFRAC)
-                    MTAG%G_TB= MAX(MTAG%G_TB, MTAGk%G_TB)
-                    MTAG%G_TEMP = MAX(MTAG%G_TEMP , MTAGk%G_TEMP )
-                    MTAG%G_PLA  = MAX(MTAG%G_PLA  , MTAGk%G_PLA  )
+                    MTAG%L_PLA  = MAX(MTAG%L_PLA  , MTAGk%L_PLA  )       
+                    MTAG%G_BFRAC= MAX(MTAG%G_BFRAC, MTAGk%G_BFRAC)        
+                    MTAG%G_TB= MAX(MTAG%G_TB, MTAGk%G_TB)        
+                    MTAG%G_TEMP = MAX(MTAG%G_TEMP , MTAGk%G_TEMP )          
+                    MTAG%G_PLA  = MAX(MTAG%G_PLA  , MTAGk%G_PLA  ) 
                     RHO_MAX=MAX(RHO_MAX,PM(1,J))
                  ENDIF
               ENDDO!next J
-              PM(91,I)=RHO_MAX
+              PM(91,I)=RHO_MAX              
            ENDDO
         ENDIF
       ENDDO !next I=1,NUMMAT
-
+C
       RETURN
       END

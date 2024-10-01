@@ -57,7 +57,6 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS, M51_TCP_REF, M51_lSET_IFLG6, M51_LC0MAX, M51_SSP0MAX, M51_ILOOP_NRF
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,6 +67,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "vect01_c.inc"
 #include      "com04_c.inc"
+#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -258,16 +258,16 @@ C=======================================================================
                AV(3) = AV3v
                AV(4) = AV4v
               ! 
-               K=M51_N0PHAS+(1-1)*M51_NVPHAS
+               K=N0PHAS+(1-1)*NVPHAS
                UVAR(I,K+01)=AV1v
                UVAR(I,K+23)=AV1v
-               K=M51_N0PHAS+(2-1)*M51_NVPHAS
+               K=N0PHAS+(2-1)*NVPHAS
                UVAR(I,K+01)=AV2v
                UVAR(I,K+23)=AV2v
-               K=M51_N0PHAS+(3-1)*M51_NVPHAS
+               K=N0PHAS+(3-1)*NVPHAS
                UVAR(I,K+01)=AV3v
                UVAR(I,K+23)=AV3v
-               K=M51_N0PHAS+(4-1)*M51_NVPHAS
+               K=N0PHAS+(4-1)*NVPHAS
                UVAR(I,K+01)=AV4v
                UVAR(I,K+23)=AV4v
             ELSE
@@ -275,21 +275,21 @@ C=======================================================================
                AV(2) = AV2
                AV(3) = AV3
                AV(4) = AV4
-               K=M51_N0PHAS+(1-1)*M51_NVPHAS
+               K=N0PHAS+(1-1)*NVPHAS
                UVAR(I,K+01)=AV1
                UVAR(I,K+23)=AV1
-               K=M51_N0PHAS+(2-1)*M51_NVPHAS
+               K=N0PHAS+(2-1)*NVPHAS
                UVAR(I,K+01)=AV2
                UVAR(I,K+23)=AV2
-               K=M51_N0PHAS+(3-1)*M51_NVPHAS
+               K=N0PHAS+(3-1)*NVPHAS
                UVAR(I,K+01)=AV3
                UVAR(I,K+23)=AV3
-               K=M51_N0PHAS+(4-1)*M51_NVPHAS
+               K=N0PHAS+(4-1)*NVPHAS
                UVAR(I,K+01)=AV4
                UVAR(I,K+23)=AV4
             ENDIF   
 
-            K=M51_N0PHAS+(1-1)*M51_NVPHAS                          
+            K=N0PHAS+(1-1)*NVPHAS                          
             IF(RHO01==ZERO)THEN
               UVAR(I,K+09)= RHO01v
               UVAR(I,K+12)= RHO01v
@@ -321,7 +321,7 @@ C=======================================================================
               SSP0 = MAX(SSP0,SSP1)
             ENDIF
 
-            K=M51_N0PHAS+(2-1)*M51_NVPHAS                          
+            K=N0PHAS+(2-1)*NVPHAS                          
             IF(RHO02==ZERO)THEN
               UVAR(I,K+09)= RHO02v
               UVAR(I,K+12)= RHO02v
@@ -353,7 +353,7 @@ C=======================================================================
               SSP0 = MAX(SSP0,SSP2)
             ENDIF         
 
-            K=M51_N0PHAS+(3-1)*M51_NVPHAS                          
+            K=N0PHAS+(3-1)*NVPHAS                          
             IF(RHO03==ZERO)THEN
               UVAR(I,K+09)= RHO03v
               UVAR(I,K+12)= RHO03v
@@ -385,7 +385,7 @@ C=======================================================================
               SSP0 = MAX(SSP0,SSP3)
             ENDIF 
 
-            K=M51_N0PHAS+(4-1)*M51_NVPHAS                          
+            K=N0PHAS+(4-1)*NVPHAS                          
             IF(RHO04==ZERO)THEN
               UVAR(I,K+09)= RHO04v
               UVAR(I,K+12)= RHO04v
@@ -462,7 +462,11 @@ C=======================================================================
           ENDIF
         ENDDO !next I
 
-        M51_SSP0MAX=MAX(M51_SSP0MAX,SSP0)
+        SSP0MAX=MAX(SSP0MAX,SSP0)
+
+
+
+
 
 C=======================================================================
 C   AUTOMATIC CHARACTERISTIC LENGTH COMPUTATION
@@ -471,7 +475,7 @@ C=======================================================================
        !-----------------------------!
        ! SSP0MAX  (sound speed)      !
        !-----------------------------!
-       IF(M51_ILOOP_NRF==0)THEN
+       IF(ILOOP_NRF51==0)THEN
           DO I=1,NUMELS+NUMELQ
             IMAT   = IX(1,I)
             MLN    = IPM(2,IMAT)
@@ -486,13 +490,13 @@ C=======================================================================
             SSP0 = MAX(SSP0,UPRM(224))
             SSP0 = MAX(SSP0,UPRM(273))
           ENDDO
-          M51_SSP0MAX = SSP0
-         M51_ILOOP_NRF = 1
+          SSP0MAX = SSP0 
+         ILOOP_NRF51 = 1
        ENDIF    
        !-----------------------------!
        ! Characteristic Length LC    !
        !-----------------------------!
-       IF(M51_LC0MAX==ZERO)THEN
+       IF(LC0MAX==ZERO)THEN
         Xmin   = X(1,1)
         Ymin   = X(2,1)
         Zmin   = X(3,1)
@@ -510,21 +514,21 @@ C=======================================================================
         LC     = Xmax-Xmin
         LC     = MAX(LC,Ymax-Ymin)
         LC     = MAX(LC,Zmax-Zmin)
-        M51_LC0MAX = LC
+        LC0MAX = LC   
        ENDIF
        !-----------------------------!
        ! Tcp : characteric time      !
        !-----------------------------!       
-       M51_TCP_REF    = M51_LC0MAX/TWO/M51_SSP0MAX/LOG(TWO)
+       TCP_REF    = LC0MAX/TWO/SSP0MAX/LOG(TWO)       
        !Si Tcp=0 alors calcul automatique
        IF(UPARAM(70)==ZERO)THEN
-         UPARAM(70) = M51_TCP_REF
+         UPARAM(70) = TCP_REF
          lSET = 1
        ELSE
          lSET = 0
        ENDIF     
        
-       if(lSET==1) M51_lSET_IFLG6 = 1
+       if(lSET==1) lSET_51_IFLG6 = 1  
 C----------------------------------------------- 
       RETURN
       END SUBROUTINE NRF51INI

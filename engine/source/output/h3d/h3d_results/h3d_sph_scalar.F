@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod            ../engine/share/resol/initbuf.F
-      !||    multimat_param_mod     ../common_source/modules/multimat_param_mod.F90
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||    schlieren_mod          ../engine/share/modules/schlieren_mod.F
       !||    stack_mod              ../engine/share/modules/stack_mod.F
@@ -50,7 +49,6 @@ C-----------------------------------------------
       USE SCHLIEREN_MOD 
       USE STACK_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,6 +64,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "sphcom.inc"
+#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -525,7 +524,7 @@ C--------------------------------------------------
                  ELSEIF (MLW == 51)THEN
                    IPOS      = 15
                    ITRIMAT   = 4     
-                   K         = IPARG(2,NG) * ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)                             
+                   K         = IPARG(2,NG) * ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)                             
                    DO I=1,IPARG(2,NG)
                      VALUE(I) = -MBUF%VAR(K+I)
                      IS_WRITTEN_VALUE(I) = 1

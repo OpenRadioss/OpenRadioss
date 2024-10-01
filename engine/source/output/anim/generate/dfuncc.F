@@ -37,9 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
       !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod                  ../engine/share/resol/initbuf.F
-      !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F
-      !||    multimat_param_mod           ../common_source/modules/multimat_param_mod.F90
       !||    schlieren_mod                ../engine/share/modules/schlieren_mod.F
       !||    stack_mod                    ../engine/share/modules/stack_mod.F
       !||====================================================================
@@ -50,7 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  IPM       ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
      .                  INVERT    ,X         ,V         ,W           ,ALE_CONNECTIVITY,
      .                  NV46      ,NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
-     .                  STACK     ,BUFMAT    ,MULTI_FVM ,MAT_PARAM)
+     .                  STACK     ,BUFMAT    ,MULTI_FVM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,8 +59,6 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD            
       USE ALE_CONNECTIVITY_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
-      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,6 +74,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
+#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -93,7 +90,6 @@ C-----------------------------------------------
       TYPE (STACK_PLY)         :: STACK
       TYPE(BUF_MAT_)  ,POINTER :: MBUF 
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -381,7 +377,7 @@ c----           USER VARIABLES from 6 to 60
               UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM) 
               ISUBMAT = (IFUNC-10247)
               ISUBMAT = UPARAM(276+ISUBMAT) !bijective order
-             IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS 
+             IUS=N0PHAS+(ISUBMAT-1)*NVPHAS 
              MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)     
              DO  I=LFT,LLT
                FUNC(EL2FA(NN3+NFT+I)) = MBUF%VAR(I+IUS*NEL)
@@ -512,7 +508,7 @@ C------------------
                  IPOS      = 15
                  ITRIMAT   = 4
                  LLT       = IPARG(2,NG)      
-                 K         = LLT * ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)                             
+                 K         = LLT * ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)                             
                  DO I=LFT,LLT
                    FUNC(EL2FA(NN3+NFT+I)) = -MBUF%VAR(K+I)
                  ENDDO 
@@ -531,7 +527,7 @@ C------------------
                      VALUE = ZERO
                      ITRIMAT = IFUNC - 11890 + 1
                      IPOS = 12
-                     K = LLT * (M51_N0PHAS + (ITRIMAT - 1) * M51_NVPHAS + IPOS - 1)
+                     K = LLT * (N0PHAS + (ITRIMAT - 1) * NVPHAS + IPOS - 1)
                      VALUE = MBUF%VAR(K + I)
                      FUNC(EL2FA(NN3+N)) = VALUE
                   ENDDO
@@ -561,8 +557,8 @@ C------------------
                      VALUE = ZERO
                      ITRIMAT = IFUNC - 11894 + 1
                      IPOS = 8
-                     K = LLT * (M51_N0PHAS + (ITRIMAT - 1) * M51_NVPHAS + IPOS - 1)
-                     K2 = LLT * ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+12-1)
+                     K = LLT * (N0PHAS + (ITRIMAT - 1) * NVPHAS + IPOS - 1)
+                     K2 = LLT * ((N0PHAS + (ITRIMAT-1)*NVPHAS )+12-1)
                      VALUE = MBUF%VAR(K + I) / MBUF%VAR(K2+I)
                      FUNC(EL2FA(NN3+N)) = VALUE
                   ENDDO
@@ -592,7 +588,7 @@ C------------------
                      VALUE = ZERO
                      ITRIMAT = IFUNC - 11898 + 1
                      IPOS = 16
-                     K = LLT * (M51_N0PHAS + (ITRIMAT - 1) * M51_NVPHAS + IPOS - 1)
+                     K = LLT * (N0PHAS + (ITRIMAT - 1) * NVPHAS + IPOS - 1)
                      VALUE = MBUF%VAR(K + I)
                      FUNC(EL2FA(NN3+N)) = VALUE
                   ENDDO
@@ -622,7 +618,7 @@ C------------------
                      VALUE = ZERO
                      ITRIMAT = IFUNC - 11902 + 1
                      IPOS = 18
-                     K = LLT * (M51_N0PHAS + (ITRIMAT - 1) * M51_NVPHAS + IPOS - 1)
+                     K = LLT * (N0PHAS + (ITRIMAT - 1) * NVPHAS + IPOS - 1)
                      VALUE = MBUF%VAR(K + I)
                      FUNC(EL2FA(NN3+N)) = VALUE
                   ENDDO
@@ -675,7 +671,7 @@ C------------------
                     VALUE = ZERO
                     ITRIMAT = IFUNC - 11910 + 1
                     IPOS = 14
-                    K = LLT * (M51_N0PHAS + (ITRIMAT - 1) * M51_NVPHAS + IPOS - 1)
+                    K = LLT * (N0PHAS + (ITRIMAT - 1) * NVPHAS + IPOS - 1)
                     VALUE = MBUF%VAR(K + I)
                     FUNC(EL2FA(NN3+N)) = VALUE
                  ENDDO
@@ -705,7 +701,7 @@ C------------------
                      VALUE = ZERO
                      ITRIMAT = IFUNC - 11914 + 1
                      IPOS = 11
-                     K = LLT * (M51_N0PHAS + (ITRIMAT - 1) * M51_NVPHAS + IPOS - 1)
+                     K = LLT * (N0PHAS + (ITRIMAT - 1) * NVPHAS + IPOS - 1)
                      VALUE = MBUF%VAR(K + I)
                      FUNC(EL2FA(NN3+N)) = VALUE
                   ENDDO
@@ -735,7 +731,7 @@ C------------------
                      VALUE = ZERO
                      ITRIMAT = IFUNC - 11918 + 1
                      IPOS = 0
-                     K = LLT * (M51_N0PHAS + (ITRIMAT - 1) * M51_NVPHAS + IPOS - 1)
+                     K = LLT * (N0PHAS + (ITRIMAT - 1) * NVPHAS + IPOS - 1)
                      VALUE = MBUF%VAR(K + I)
                      FUNC(EL2FA(NN3+N)) = VALUE
                   ENDDO
@@ -861,10 +857,10 @@ c------------------------------------ Color Function
                 NUPARAM= IPM(9,IMAT)                       
                 UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM) 
                 !bijective order           !indexes                  
-                ISUBMAT = UPARAM(276+1);   IU(1)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS 
-                ISUBMAT = UPARAM(276+2);   IU(2)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
-                ISUBMAT = UPARAM(276+3);   IU(3)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
-                ISUBMAT = UPARAM(276+4);   IU(4)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS 
+                ISUBMAT = UPARAM(276+1);   IU(1)=N0PHAS+(ISUBMAT-1)*NVPHAS 
+                ISUBMAT = UPARAM(276+2);   IU(2)=N0PHAS+(ISUBMAT-1)*NVPHAS
+                ISUBMAT = UPARAM(276+3);   IU(3)=N0PHAS+(ISUBMAT-1)*NVPHAS
+                ISUBMAT = UPARAM(276+4);   IU(4)=N0PHAS+(ISUBMAT-1)*NVPHAS 
                 MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)  
                 NFRAC=4   
                 DO  I=1,NEL
@@ -939,7 +935,7 @@ c------------------------------------ Tillotson Region id
                 !count number of submaterial based on /EOS/TILLOTSON (IEOS=3)            
                 NTILLOTSON = 0 
                 DO IMAT=1,NLAY
-                  IEOS =  IPM(4, MAT_PARAM(MT)%MULTIMAT%MID(IMAT) )
+                  IEOS =  IPM(4, IPM(20 + IMAT,MT) )
                   IF(IEOS == 3)THEN 
                     NTILLOTSON = NTILLOTSON + 1 
                     IMAT_TILLOTSON = IMAT 
@@ -949,7 +945,7 @@ c------------------------------------ Tillotson Region id
                 IF(NTILLOTSON > 1)THEN 
                   FAC=ONE
                   DO IMAT=1,NLAY
-                    IEOS =  IPM(4, MAT_PARAM(MT)%MULTIMAT%MID(IMAT) )
+                    IEOS =  IPM(4,    IPM(20 + IMAT,MT) )
                     IF(IEOS == 3)THEN 
                       EBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1,1,1) 
                       NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS
@@ -2849,7 +2845,7 @@ c------------------------------------
                  IPOS      = 15
                  ITRIMAT   = 4
                  LLT       = IPARG(2,NG)      
-                 K         = LLT * ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)                             
+                 K         = LLT * ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)                             
                  DO I=LFT,LLT
                    FUNC(EL2FA(NN3+NFT+I)) = -MBUF%VAR(K+I)
                  ENDDO 

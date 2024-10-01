@@ -38,20 +38,19 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
       !||====================================================================
-      SUBROUTINE BINIT2(ELBUF_STR ,MS       ,IXQ              ,PM        ,X       ,
-     .                  DETONATORS,VEUL     ,ALE_CONNECTIVITY ,IPARG     ,FILL    ,
-     .                  SIGI      ,BUFMAT   ,NEL              ,MAT_PARAM ,
-     .                  SKEW      ,MSQ      ,IPART            ,IPARTQ    ,
-     .                  GEO       ,IGEO     ,IPM              ,
-     .                  NSIGS     ,WMA      ,PTQUAD           ,NPF       ,TF      ,
-     .                  IPARGG    ,ILOADP   ,FACLOAD          ,PARTSAV   ,V)
+      SUBROUTINE BINIT2(ELBUF_STR,MS      ,IXQ     ,PM      ,X       ,
+     .                  DETONATORS,VEUL   ,ALE_CONNECTIVITY   ,IPARG   ,FILL    ,
+     .                  SIGI    ,BUFMAT  ,NEL     ,
+     .                  SKEW    ,MSQ      ,IPART   ,IPARTQ  ,
+     .                  GEO     ,IGEO     ,IPM     ,
+     .                  NSIGS   ,WMA      ,PTQUAD  ,NPF     ,TF      ,
+     .                  IPARGG  ,ILOADP   ,FACLOAD ,PARTSAV ,V)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD  
       USE DETONATORS_MOD          
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,15 +70,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
       INTEGER IXQ(NIXQ,*), IPARG(*),
      .        NEL,IPART(LIPART1,*),IPARTQ(*),
      .        IPM(NPROPMI,*), PTQUAD(*), NSIGS, IGEO(*), NPF(*),
      .        IPARGG(*)
-      my_real MS(*), PM(NPROPM,*), X(*), VEUL(10,*),
-     .        FILL(NUMNOD,*), SIGI(NSIGS,*),SKEW(LSKEW,*),
-     .        MSQ(*), GEO(*), WMA(*), BUFMAT(*), TF(*),
-     .        PARTSAV(20,*) ,V(*)
+      my_real
+     .   MS(*), PM(NPROPM,*), X(*), VEUL(10,*),
+     .   FILL(NUMNOD,*), SIGI(NSIGS,*),SKEW(LSKEW,*),
+     .   MSQ(*), GEO(*), WMA(*), BUFMAT(*), TF(*),
+     .   PARTSAV(20,*) ,V(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*)
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
@@ -102,8 +101,7 @@ C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
-C   S o u r c e   L i n e s
-C-----------------------------------------------
+C=======================================================================
       GBUF => ELBUF_STR%GBUF
       LBUF => ELBUF_STR%BUFLY(1)%LBUF(1,1,1)
       IGTYP= IPARG(38)
@@ -137,13 +135,14 @@ C---------------------------------------
       MTN  =  IPARG(25)
 
       DO I=LFT,LLT
-        MAT(I)=MAT_PARAM(IABS(IXQ(1,NFT+I)))%MULTIMAT%MID(JMULT)
+        MAT(I)=NINT(PM(20+JMULT,IXQ(1,NFT+I)))
       ENDDO
-
+      
       !------------------------------------------
       !     MULTIMATERIAUX POUCENTAGE DE REMPLISSAGE
       !------------------------------------------
-      CALL BIMAT2(GBUF%VOL, LBUF%FRAC, FILL(1,1), LBUF%VOL, LBUF%OFF, IXQ(1,NF1))
+      CALL BIMAT2(PM     ,MAT    ,GBUF%VOL  ,LBUF%FRAC ,FILL(1,1),
+     .            LBUF%VOL,LBUF%OFF,IXQ(1,NF1))
       !----------------------------------------
       !     INITIALISATION GENERALE
       !----------------------------------------
@@ -179,23 +178,25 @@ C---------------------------------------
 
       NF1=NFT+1
       DO I=LFT,LLT
-        MAT(I)=MAT_PARAM(IABS(IXQ(1,NFT+I)))%MULTIMAT%MID(JMULT)
+        MAT(I)=NINT(PM(20+JMULT,IXQ(1,NFT+I)))
       ENDDO
       !------------------------------------------
       !     MULTIMATERIAUX POUCENTAGE DE REMPLISSAGE
       !------------------------------------------
-      CALL BIMAT2( GBUF%VOL, LBUF%FRAC, FILL(1,2), LBUF%VOL, LBUF%OFF, IXQ(1,NF1) )
+      CALL BIMAT2(PM     ,MAT    ,GBUF%VOL,LBUF%FRAC,FILL(1,2),
+     .            LBUF%VOL,LBUF%OFF,IXQ(1,NF1))
       !----------------------------------------
       !     INITIALISATION GENERALE
       !----------------------------------------
       IP=1
-      CALL MATINI(PM     , IXQ               ,NIXQ      ,X         ,
-     .            GEO    , ALE_CONNECTIVITY  ,DETONATORS,IPARG     ,
-     .            SIGI   , NEL               ,SKEW      ,IGEO      ,
-     .            IPART  , IPARTQ            ,
-     .            MAT    , IPM               ,NSIGS     ,NUMQUAD   ,PTQUAD ,
-     .            IP     , NGL               ,NPF       ,TF        ,BUFMAT ,
-     .            GBUF   , LBUF              ,MBUF      ,ELBUF_STR ,ILOADP ,
+      
+      CALL MATINI(PM     ,IXQ    ,NIXQ      ,X      ,
+     .            GEO    ,ALE_CONNECTIVITY  ,DETONATORS,IPARG     ,
+     .            SIGI   ,NEL    ,SKEW      ,IGEO   ,
+     .            IPART  ,IPARTQ ,
+     .            MAT    ,IPM    ,NSIGS     ,NUMQUAD   ,PTQUAD ,
+     .            IP     ,NGL    ,NPF       ,TF        ,BUFMAT ,
+     .            GBUF   ,LBUF   ,MBUF      ,ELBUF_STR ,ILOADP ,
      .            FACLOAD, DELTAX)
       !----------------------------------------
       !     INITIALISATION DE LA THERMIQUE ET TURBULENCE

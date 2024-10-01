@@ -43,7 +43,6 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD 
       USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,6 +53,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
+#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -158,7 +158,7 @@ C-----------------------------------------------
       DO IMAT=1,4                                                       
        DO I=1,NEL                                                       
         VOLD          = GBUF%VOL(I)*VF(IMAT)                            
-        KK            = M51_N0PHAS + (IMAT-1)*M51_NVPHAS
+        KK            = N0PHAS + (IMAT-1)*NVPHAS                                         
         UVAR(I,1+KK)  = VF(IMAT)                                        
         UVAR(I,2+KK)  = ZERO                                            
         UVAR(I,3+KK)  = ZERO                                            
@@ -184,7 +184,7 @@ C-----------------------------------------------
       ENDDO 
       !particular case of submaterial 4 (burning time to initialize)
       IMAT              = 4
-      KK                = M51_N0PHAS+(IMAT-1)*M51_NVPHAS
+      KK                = N0PHAS+(IMAT-1)*NVPHAS      
       UVAR(1:NEL,15+KK) = UVAR(1:NEL,1) ! Tdet
       !
       DO I=1,NEL

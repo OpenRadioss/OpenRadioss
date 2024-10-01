@@ -38,7 +38,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alemuscl_mod                    ../common_source/modules/ale/alemuscl_mod.F
       !||    elbufdef_mod                    ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod                     ../engine/share/resol/initbuf.F
-      !||    multimat_param_mod              ../common_source/modules/multimat_param_mod.F90
       !||    segvar_mod                      ../engine/share/modules/segvar_mod.F
       !||    trimat_mod                      ../engine/share/modules/trimat.F
       !||====================================================================
@@ -58,11 +57,14 @@ C-----------------------------------------------
       USE TRIMAT_MOD
       USE SEGVAR_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
+C-----------------------------------------------
+C   G l o b a l  P a r a m e t e r s
+C-----------------------------------------------
+#include "mmale51_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -199,7 +201,7 @@ C     ALE ON / OFF
          UVAR => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR
          LFT=1
          DO ITRIMAT = 1, TRIMAT   
-            ADD    = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS ! ADD => SIG(1)
+            ADD    = N0PHAS + (ITRIMAT-1)*NVPHAS ! ADD => SIG(1)
             ADD    = ADD + 11   ! ADD + 11 => VOLUME_Phase
             K      = LLT*(ADD-1) ! VAR(I,ADD) = VAR(K+I) 
             VOLP   =>UVAR(K+1:K+LLT)

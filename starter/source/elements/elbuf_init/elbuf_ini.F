@@ -460,13 +460,13 @@ c---
           ELSEIF (MLW == 20) THEN      ! Bimat  
             DO IL = 1,2
               ILAW(IL) = IPARG(24+IL,NG)
-              MX = MAT_PARAM(IMID)%MULTIMAT%MID(IL)
+              MX = NINT(PM(20+IL,IMID))
               NFAIL = MAT_PARAM(MX)%NFAIL
               NUVAREOS = 0
-              IEOS_TYPE = IPM(4, MX)
+              IEOS_TYPE = IPM(4, NINT(PM(20+IL,IMID)))
               IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR                           
               ELBUF_TAB(NG)%BUFLY(IL)%ILAW = ILAW(IL)
-              ELBUF_TAB(NG)%BUFLY(IL)%IMAT = MX
+              ELBUF_TAB(NG)%BUFLY(IL)%IMAT = NINT(PM(20+IL,IMID))
               ELBUF_TAB(NG)%BUFLY(IL)%IEOS = IEOS        
               ELBUF_TAB(NG)%BUFLY(IL)%IVISC= 0
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO= 0        
@@ -485,12 +485,12 @@ c---
 c---
           ELSEIF (MLW == 151) THEN   !  multiphase 151                                    
             DO IL = 1,NLAY
-              IMAT(IL) = MAT_PARAM(IMID)%MULTIMAT%MID(IL)  ! submaterial MID                         
-              ILAW(IL) = IPM(2,IMAT(IL))                   ! submaterial law type
+              IMAT(IL) = IPM(20+IL,IMID)   ! submaterial MID                         
+              ILAW(IL) = IPM(2,IMAT(IL))  ! submaterial law type
               NUVAR   = MLAW_TAG(IMID)%NUVAR                                
               NVARTMP = MLAW_TAG(IMID)%NVARTMP 
               NUVAREOS = 0  
-              IEOS_TYPE = MAT_PARAM(IMAT(IL))%IEOS
+              IEOS_TYPE = IPM(4,IMAT(IL))                           
               IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR   
               NFAIL = MAT_PARAM(IMAT(IL))%NFAIL
               ELBUF_TAB(NG)%BUFLY(IL)%ILAW = ILAW(IL)
@@ -1263,9 +1263,9 @@ c-----------------------------------------------
           IF (MLW == 151) THEN  ! Multifluid law
             DO IL = 1,NLAY
               ILAW(IL) = MLW
-              IMAT(IL) = MAT_PARAM(IMID)%MULTIMAT%MID(IL)                                    
+              IMAT(IL) = IPM(20+IL,IMID)                                    
               NUVAREOS = 0
-              IEOS_TYPE = MAT_PARAM(IMAT(IL))%IEOS
+              IEOS_TYPE = IPM(4,IMAT(IL))
               IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR              
               ELBUF_TAB(NG)%BUFLY(IL)%ILAW = ILAW(IL)
               ELBUF_TAB(NG)%BUFLY(IL)%IMAT = IMAT(IL)

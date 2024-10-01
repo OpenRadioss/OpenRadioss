@@ -56,10 +56,9 @@
                                 x         , nbsubmat,    kvol,&
                                 elbuf_tab ,  numels8,   xrefs,&
                                 n2d       ,multi_fvm,  sipart, ipart  , &
-                                i15a      ,     i15b,    i15h, sbufmat, bufmat,&
-                                npropmi   ,   nummat,     ipm,  sbufsf, bufsf,&
-                                npropg    ,   numgeo,     geo,   mvsiz, skvol , itab, &
-                                mat_param)
+                                i15a      ,     i15b,    i15h, sbufmat, bufmat, npropm,&
+                                npropmi   ,   nummat,     ipm,      pm, sbufsf, bufsf,&
+                                npropg    ,   numgeo,     geo,   mvsiz, skvol , itab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -68,8 +67,7 @@
       use inivol_def_mod , only : inivol_struct_
       use groupdef_mod , only : surf_
       use elbufdef_mod , only : elbuf_struct_, buf_mat_
-      use multi_fvm_mod , only : multi_fvm_struct
-      use matparam_def_mod , only : matparam_struct_
+      use multi_fvm_mod , only : MULTI_FVM_STRUCT
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -83,7 +81,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: nsurf, num_inivol, n2d, sbufmat, npropg, numgeo, mvsiz,skvol          !< array sizes
       integer, intent(in) :: nixs,nixtg,nixq,numels,numeltg,numelq, numnod, nparg, ngroup, npart  !< array sizes
-      integer,intent(in) :: numels8, nbsubmat, npropmi, nummat, sipart, sbufsf                    !< array sizes
+      integer,intent(in) :: numels8, nbsubmat, npropmi, npropm, nummat, sipart, sbufsf            !< array sizes
       integer, intent(in) :: ixs(nixs,numels), ixtg(nixtg,numeltg), ixq(nixq,numelq)              !< elems node-connectivity
       integer, intent(in) :: iparg(nparg,ngroup)                                                  !< buffer for elem groups
       integer,intent(in) :: i15a,i15b,i15h                                                        !< indexes for ipart array
@@ -95,12 +93,12 @@
       my_real,intent(in) :: bufsf(sbufsf)                                                         !< buffer
       my_real,intent(in) :: bufmat(sbufmat)                                                       !< material buffer
       my_real,intent(in) ::  geo(npropg,numgeo)                                                   !< propery buffer (real parameters)
+      my_real,intent(in) :: pm(npropm,nummat)                                  !< material buffer (parameters)
       type (elbuf_struct_), target, dimension(ngroup), intent(in) :: elbuf_tab                    !< elem buffer
       type (multi_fvm_struct),intent(in) :: multi_fvm                                             !< buffer for colocated scheme (law151)
       type (inivol_struct_), dimension(NUM_INIVOL), intent(inout) :: inivol                       !< inivol data structure
       type (surf_), dimension(nsurf), intent(in) :: igrsurf                                       !< surface buffer
       integer,intent(in) :: itab(numnod)
-      type (matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -181,13 +179,13 @@
               nsegsurf = igrsurf(idsurf)%nseg
               if (igrsurf(idsurf)%type == 0 ) then
                 ! 2D LINE OF SEGMENTS (/SURF/SEG)
-                CALL init_inivol_2d_polygons(   ii        ,      idc,   mat_param  ,          &
+                CALL init_inivol_2d_polygons(   ii        ,      idc,                         &
                                                 num_inivol,   inivol,   nsurf      , igrsurf, &
                                                 nparg     ,   ngroup,   iparg      ,  numnod, &
                                                 numeltg   ,    nixtg,    ixtg      ,          &
                                                 numelq    ,     nixq,     ixq      ,          &
                                                 x         , nbsubmat, kvol_2d_polyg,  nummat, &
-                                                sipart    ,    ipart,                         &
+                                                sipart    ,    ipart,      pm      ,  npropm, &
                                                 i15b      ,    i15h ,    itab      )
               end if
             end do
@@ -434,10 +432,9 @@
             nf1_2d = max(1,min(nf1,numeltg+numelq)) !kvol_2d_polyg  allocated to 1 when n2d=0
             if (.not. required_2d_polygon_clipping) nf1_2d = 1
             call inivol_set( &
-                             mbuf%var  , nuvar      , nel        , kvol(1,nf1)             , mtn                         , &
-                             elbuf_tab , ng         , nbsubmat   , multi_fvm               , required_2d_polygon_clipping, &
-                             idp       , ipart(i15_), nft        , kvol_2d_polyg(1,nf1_2d) , imid                        , &
-                             mat_param    )
+                             mbuf%var  , nuvar      , nel        , kvol(1,nf1) , mtn                         , &
+                             elbuf_tab , ng         , nbsubmat   , multi_fvm   , required_2d_polygon_clipping, &
+                             idp       , ipart(i15_), nft        , kvol_2d_polyg(1,nf1_2d) , pm, npropm ,imid    )
           enddo ! next ng=1,ngroup
 !-------------
 

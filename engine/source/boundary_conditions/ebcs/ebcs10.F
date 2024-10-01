@@ -21,17 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    ebcs10               ../engine/source/boundary_conditions/ebcs/ebcs10.F
+      !||    ebcs10          ../engine/source/boundary_conditions/ebcs/ebcs10.F
       !||--- called by ------------------------------------------------------
-      !||    ebcs_main            ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+      !||    ebcs_main       ../engine/source/boundary_conditions/ebcs/ebcs_main.F
       !||--- uses       -----------------------------------------------------
-      !||    ale_mod              ../common_source/modules/ale/ale_mod.F
-      !||    ebcs_mod             ../common_source/modules/boundary_conditions/ebcs_mod.F
-      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F
-      !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
-      !||    segvar_mod           ../engine/share/modules/segvar_mod.F
-      !||    th_surf_mod          ../common_source/modules/interfaces/th_surf_mod.F
+      !||    ale_mod         ../common_source/modules/ale/ale_mod.F
+      !||    ebcs_mod        ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F
+      !||    segvar_mod      ../engine/share/modules/segvar_mod.F
+      !||    th_surf_mod     ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE EBCS10(NSEG,ISEG,SEGVAR,
      .                 A,V,W,X,
@@ -45,7 +44,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE SEGVAR_MOD
       USE ALE_MOD , only : ALE
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,6 +55,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
+#include      "mmale51_c.inc"
 #include      "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -266,13 +265,13 @@ C-----------------------------------------------
             MBUF => ELBUF_TAB(NGRP)%BUFLY(1)%MAT(1,1,1)
             DO ISUBMAT=1,4
               IPOS = 1                                                                                                       
-              KK = (M51_N0PHAS + (ISUBMAT-1)*M51_NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
+              KK = (N0PHAS + (ISUBMAT-1)*NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
               PHASE_ALPHA(ISUBMAT) = MBUF%VAR(KK)                                     
               IPOS = 9                                                                                                       
-              KK = (M51_N0PHAS + (ISUBMAT-1)*M51_NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
+              KK = (N0PHAS + (ISUBMAT-1)*NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
               PHASE_RHO(ISUBMAT) = MBUF%VAR(KK)
               IPOS = 8                                                                                                       
-              KK = (M51_N0PHAS + (ISUBMAT-1)*M51_NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
+              KK = (N0PHAS + (ISUBMAT-1)*NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
               PHASE_EINT(ISUBMAT) = MBUF%VAR(KK)
             ENDDO!next ITRIMAT                                      
           ELSEIF(MTN == 151)THEN
@@ -314,7 +313,7 @@ C              PP    = Pold + (ROC*(Vnew-Vold)) !+ALPHA*(Pvois+DP0)/(ALPHA + ONE
                   DO ISUBMAT=1,4 
                     ! (1-beta) VF_current + BETA VF_0
                     PHASE_ALPHA(ISUBMAT)=(ONE-BETA)*PHASE_ALPHA(ISUBMAT) 
-     .                                  + BETA*MBUF%VAR((M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS +23-1)* KLT+ILOC+1)
+     .                                  + BETA*MBUF%VAR((N0PHAS+(ISUBMAT-1)*NVPHAS +23-1)* KLT+ILOC+1)
                   ENDDO
                 ELSEIF(MTN == 151)THEN
                 

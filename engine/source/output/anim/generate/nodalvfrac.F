@@ -21,16 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    nodalvfrac           ../engine/source/output/anim/generate/nodalvfrac.F
+      !||    nodalvfrac       ../engine/source/output/anim/generate/nodalvfrac.F
       !||--- called by ------------------------------------------------------
-      !||    genani               ../engine/source/output/anim/generate/genani.F
+      !||    genani           ../engine/source/output/anim/generate/genani.F
       !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22edge_mod          ../common_source/modules/interfaces/cut-cell-buffer_mod.F
-      !||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    initbuf_mod          ../engine/share/resol/initbuf.F
-      !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
+      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22edge_mod      ../common_source/modules/interfaces/cut-cell-buffer_mod.F
+      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    initbuf_mod      ../engine/share/resol/initbuf.F
       !||====================================================================
       SUBROUTINE NODALVFRAC(IFUNC    , WA4, IFLOW, RFLOW, IPARG, 
      .                      ELBUF_TAB, IX , NIX  , ITAB , NV46 )
@@ -53,8 +52,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD  
       USE I22BUFBRIC_MOD   
       USE I22EDGE_MOD    
-      USE I22TRI_MOD
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+      USE I22TRI_MOD           
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,7 +133,7 @@ C-----------------------------------------------
              ELSEIF(MLW==51)THEN
                DO I=1,NEL
                  IPOS             = 1
-                 K1               = M51_N0PHAS + (IPHASE-1)*M51_NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                 K1               = N0PHAS + (IPHASE-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                  K                = K1 * NEL   
                  VF               = MBUF%VAR(K+I) 
                  V                = GBUF%VOL(I)                                                                                                                         
@@ -198,7 +196,7 @@ C-----------------------------------------------
                     ENDDO !next J          
                   ELSEIF(MLW==51)THEN
                     IPOS             = 1
-                    K1               = M51_N0PHAS + (IPHASE-1)*M51_NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
+                    K1               = N0PHAS + (IPHASE-1)*NVPHAS +IPOS-1   ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
                     K                = K1 * NEL   
                     VF               = MBUF%VAR(K+I)  
                     V                = GBUF%VOL(I)                                                                                                                        

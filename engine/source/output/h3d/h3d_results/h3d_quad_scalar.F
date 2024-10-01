@@ -32,25 +32,23 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    h3d_quad_scalar_1_mod        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
       !||    initbuf_mod                  ../engine/share/resol/initbuf.F
-      !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F
-      !||    multimat_param_mod           ../common_source/modules/multimat_param_mod.F90
       !||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
       !||    schlieren_mod                ../engine/share/modules/schlieren_mod.F
       !||    stack_mod                    ../engine/share/modules/stack_mod.F
       !||====================================================================
       SUBROUTINE H3D_QUAD_SCALAR(
-     .                  ELBUF_TAB      ,QUAD_SCALAR,IPARG        ,
-     .                  IXQ            ,PM          ,
-     .                  EHOUR          ,
-     .                  IPM            ,
-     .                  X              ,V           ,W           ,ALE_CONNECT      ,
-     .                  NERCVOIS       ,NESDVOIS    ,LERCVOIS    ,LESDVOIS,
-     .                  ID_ELEM        ,
-     .                  IS_WRITTEN_QUAD,IPARTQ      ,LAYER_INPUT , NPART1,
-     .                  IUVAR_INPUT    ,H3D_PART    ,KEYWORD     ,
-     .                  BUFMAT         ,MULTI_FVM   ,IR_INPUT    ,IS_INPUT    ,IT_INPUT  ,
-     .                  ID             ,MAT_PARAM)
+     .                  ELBUF_TAB   ,QUAD_SCALAR,IPARG        ,
+     .                  IXQ         ,PM          ,
+     .                  EHOUR     ,
+     .                  IPM         ,
+     .                  X         ,V         ,W           ,ALE_CONNECT      ,
+     .                  NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
+     .                  ID_ELEM   , 
+     .                  IS_WRITTEN_QUAD,IPARTQ,LAYER_INPUT , NPART1,
+     .                  IUVAR_INPUT,H3D_PART  ,KEYWORD   ,
+     .                  BUFMAT      ,MULTI_FVM ,IR_INPUT  ,IS_INPUT    ,IT_INPUT  ,
+     .                  ID          )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,8 +60,6 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
       USE h3d_quad_scalar_1_mod, ONLY: H3D_QUAD_SCALAR_1
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
-      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,6 +68,8 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
+!n0phas, nvphas
+#include      "mmale51_c.inc"
 !NGROUP, N2D
 #include      "com01_c.inc"
 !NUMELQ, NUMMAT, NUMNOD
@@ -100,7 +98,6 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       my_real, TARGET :: BUFMAT(*)
       INTEGER, INTENT(in) :: NERCVOIS(*),NESDVOIS(*), LERCVOIS(*),LESDVOIS(*)
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -126,17 +123,17 @@ C
 C-----------
       DO NG=1,NGROUP
         CALL H3D_QUAD_SCALAR_1(.FALSE., NG, 
-     .                  M51_N0PHAS     , M51_NVPHAS,NGROUP, N2D, NUMELQ, NUMMAT, NUMNOD, NPARG, NPROPM, NPROPMI, ISPMD,
-     .                  ELBUF_TAB      ,QUAD_SCALAR, NUMELQ, IPARG        ,
-     .                  IXQ            , NIXQ         ,PM          ,
-     .                  EHOUR          ,
-     .                  IPM            ,
-     .                  X              ,V          ,W           ,ALE_CONNECT      ,
-     .                  ID_ELEM        ,
-     .                  IS_WRITTEN_QUAD,IPARTQ     ,LAYER_INPUT , NPART1,
-     .                  IUVAR_INPUT    ,H3D_PART   ,KEYWORD   ,
-     .                  BUFMAT         ,MULTI_FVM  ,
-     .                  ID             ,MAT_PARAM)
+     .                  N0PHAS, NVPHAS,NGROUP, N2D, NUMELQ, NUMMAT, NUMNOD, NPARG, NPROPM, NPROPMI, ISPMD,
+     .                  ELBUF_TAB   ,QUAD_SCALAR, NUMELQ, IPARG        ,
+     .                  IXQ,       NIXQ         ,PM          ,
+     .                  EHOUR     ,
+     .                  IPM         ,
+     .                  X         ,V         ,W           ,ALE_CONNECT      ,
+     .                  ID_ELEM   , 
+     .                  IS_WRITTEN_QUAD,IPARTQ,LAYER_INPUT , NPART1,
+     .                  IUVAR_INPUT,H3D_PART  ,KEYWORD   ,
+     .                  BUFMAT      ,MULTI_FVM ,
+     .                  ID          )
 
       ENDDO                 
 C-----------------------------------------------

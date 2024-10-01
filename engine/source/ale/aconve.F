@@ -43,7 +43,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    initbuf_mod            ../engine/share/resol/initbuf.F
-      !||    multimat_param_mod     ../common_source/modules/multimat_param_mod.F90
       !||    segvar_mod             ../engine/share/modules/segvar_mod.F
       !||====================================================================
       SUBROUTINE ACONVE(
@@ -63,7 +62,6 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE ALE_MOD
-       USE MULTIMAT_PARAM_MOD , ONLY : M51_NVPHAS, M51_N0PHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -164,7 +162,7 @@ C     ALE ON / OFF
               pVOL => LBUF%VOL(1:LLT)
             ELSE
               !USE PHASIS DATA
-              ADD0 =  M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS                
+              ADD0 =  N0PHAS + (ITRIMAT-1)*NVPHAS                
               ADD  =  ADD0 + 9                                   ! ADD+9 => RHO
               K    =  LLT*(ADD-1)                                ! UVAR(I,ADD) = UVAR(K+I)
               pRHO => MBUF%VAR(K+1:K+LLT)
@@ -192,7 +190,7 @@ C     ALE ON / OFF
               pVOL => LBUF%VOL(1:LLT)
             ELSE
               !USE PHASIS DATA
-              ADD0 =  M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS                
+              ADD0 =  N0PHAS + (ITRIMAT-1)*NVPHAS                
               ADD  =  ADD0 + 8                                   ! ADD+8 => EINT
               K    =  LLT*(ADD-1)                                ! UVAR(I,ADD) = UVAR(K+I)
               pEINT=> MBUF%VAR(K+1:K+LLT)
@@ -511,7 +509,7 @@ C     ALE ON / OFF
                 pRHO => LBUF%RHO(1:LLT)                                                      
               ELSE                                                                           
                 !USE PHASIS DATA                                                             
-                ADD0 =  M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS                                          
+                ADD0 =  N0PHAS + (ITRIMAT-1)*NVPHAS                                          
                 ADD  =  ADD0 + 9                                   ! ADD+9 => RHO            
                 K    =  LLT*(ADD-1)                                ! UVAR(I,ADD) = UVAR(K+I) 
                 pRHO => MBUF%VAR(K+1:K+LLT)                                                  
@@ -525,7 +523,7 @@ C     ALE ON / OFF
                 pEINT=> LBUF%EINT(1:LLT)                                                     
               ELSE                                                                           
                 !USE PHASIS DATA                                                             
-                ADD0 =  M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS                                          
+                ADD0 =  N0PHAS + (ITRIMAT-1)*NVPHAS                                          
                 ADD  =  ADD0 + 8                                   ! ADD+9 => RHO            
                 K    =  LLT*(ADD-1)                                ! UVAR(I,ADD) = UVAR(K+I) 
                 pEINT => MBUF%VAR(K+1:K+LLT)                                                 

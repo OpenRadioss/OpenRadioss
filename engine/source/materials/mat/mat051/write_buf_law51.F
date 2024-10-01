@@ -21,11 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    write_buf_law51      ../engine/source/materials/mat/mat051/write_buf_law51.F
+      !||    write_buf_law51   ../engine/source/materials/mat/mat051/write_buf_law51.F
       !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
+      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    i22bufbric_mod    ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================
       SUBROUTINE WRITE_BUF_LAW51 (
      1     IXS   , NFT     , NUVAR  , NEL    ,  UVAR   ,
@@ -37,8 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD   
-      USE I22BUFBRIC_MOD
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+      USE I22BUFBRIC_MOD       
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,6 +48,8 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "mvsiz_p.inc"
 #include      "inter22.inc"
+#include      "mmale51_c.inc"
+C
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -75,7 +75,7 @@ C-----------------------------------------------
       
       VAR=ZERO
       DO ITRIMAT = 1,TRIMAT                                                
-        KK = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS        
+        KK = N0PHAS + (ITRIMAT-1)*NVPHAS        
         VAR = VAR + UVAR(I,11+KK)
       ENDDO                 
     
@@ -124,7 +124,7 @@ C-----------------------------------------------
         !=====================!                                            
         ! submat_id = ITRIMAT !                                            
         !=====================!                                            
-        KK = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS 
+        KK = N0PHAS + (ITRIMAT-1)*NVPHAS 
         write (*,FMT='(A16,I1)')     "   +-----submat=",ITRIMAT  
         IF(IPRESENT(ITRIMAT)==0)THEN
         write (*,FMT='(A16   )')     "           empty"         

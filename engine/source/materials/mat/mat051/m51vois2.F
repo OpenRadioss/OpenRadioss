@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    multimat_param_mod     ../common_source/modules/multimat_param_mod.F90
       !||====================================================================
       SUBROUTINE M51VOIS2(PM     ,IPARG  ,IXQ    ,ALE_CONNECT ,ELBUF_TAB,V     ,
      2                    X      ,VN     ,W      ,VEL         ,VD2   ,
@@ -40,7 +39,6 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS, M51_IFLG6_SIZE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,6 +54,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
+#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -192,7 +191,7 @@ C-----------------------------------------------
 
           !Submaterial Data
           DO ITRIMAT=1,4
-            KK                          = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
+            KK                          = N0PHAS + (ITRIMAT-1)*NVPHAS
             IADBUF=18 ; PV(ITRIMAT,I)   = MBUF%VAR(NELG*(IADBUF+KK-1)+IS)
             !IADBUF=1  ; AVV(ITRIMAT,I)  = MBUF%VAR(NELG*(IADBUF+KK-1)+IS)
             IADBUF=8  ; EIV(ITRIMAT,I)  = MBUF%VAR(NELG*(IADBUF+KK-1)+IS)
@@ -207,7 +206,7 @@ C-----------------------------------------------
 
           !volue fractions
           DO ITRIMAT=1,4
-            KK                          = M51_N0PHAS + (ISUB_BIJ(ITRIMAT)-1)*M51_NVPHAS
+            KK                          = N0PHAS + (ISUB_BIJ(ITRIMAT)-1)*NVPHAS
             IADBUF=1  ; AVV(ITRIMAT,I)  = MBUF%VAR(NELG*(IADBUF+KK-1)+IS)
           ENDDO
 

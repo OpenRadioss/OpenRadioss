@@ -31,14 +31,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE INIEBCS_NRF_TCAR(EBCS_TAB, 
      .                    X, IXS,IXQ,IXTG,
-     .                    PM, IPM,MAT_PARAM)
+     .                    PM, IPM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD    
       USE INIGRAV 
       USE EBCS_MOD
-      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +57,6 @@ C-----------------------------------------------
       my_real, INTENT(IN)           :: X(3,NUMNOD)
       my_real,INTENT(IN)            :: PM(NPROPM,NUMMAT)
       INTEGER,INTENT(IN)            :: IPM(NPROPMI,NUMMAT)
-      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -102,12 +100,12 @@ C-----------------------------------------------
            SSP0=PM(27,IMAT)
            NBPHASE=MAX(NBPHASE,4)
          ELSEIF(MLN == 151)THEN
-           NBMAT =  MAT_PARAM(IMAT)%MULTIMAT%NB
+           NBMAT = IPM(20,IMAT)
            NBPHASE = MAX(NBPHASE,NBMAT)
-           IMAT_SUB =  MAT_PARAM(IMAT)%MULTIMAT%MID(1)
+           IMAT_SUB = IPM(20+1,IMAT)
            SSP0 = IPM(27,IMAT_SUB)
            DO KK=2,NBMAT
-             IMAT_SUB = MAT_PARAM(IMAT)%MULTIMAT%MID(KK)
+             IMAT_SUB = IPM(20+KK,IMAT)
              SSP0=MAX(SSP0,PM(27,IMAT_SUB))
            ENDDO
          ELSE

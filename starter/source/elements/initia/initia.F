@@ -210,7 +210,6 @@ C-----------------------------------------------
       USE DEFAULTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE ELBUFDEF_MOD
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_LC0MAX, M51_SSP0MAX, M51_TCP_REF, M51_lSET_IFLG6, M51_IFLG6, M51_ILOOP_NRF
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -241,6 +240,7 @@ C-----------------------------------------------
 #include      "userlib.inc"
 #include      "sms_c.inc"
 #include      "boltpr_c.inc"
+#include      "mmale51_c.inc"
 #include      "titr_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
@@ -428,7 +428,7 @@ C                   1 2 3 4 5 6 7 8 9 10
      4              0,0,0,0,0,0,0,0,0,0/
 C=======================================================================
 
-      M51_ILOOP_NRF = 0
+      ILOOP_NRF51 = 0
       NVC = 0
       STAT = 0
 
@@ -959,7 +959,7 @@ C Element types
      .              NPC, IPART, ILOADP,
      .              XREFS, GEO, PM, FACLOAD, PLD, SKEW, SIGI, BUFMAT, X, 
      .              WMA, PARTSAV, MS, V, MSS, MSSF, MSSA, MSNF, MCPS, ERROR_THROWN, DETONATORS,
-     .              DEFAULTS, MAT_PARAM)
+     .              DEFAULTS)
             ELSE
                IF (ISTOT == 1) THEN
                   CALL SGSAVINI(ISOLNOD,X,IXS(1,NFT+1),GBUF%SMSTR,NEL)
@@ -1195,7 +1195,7 @@ C Case total strain
      B              XREFS        ,NPC          ,PLD    ,MSSA       ,STRSGLOB(NF1),
      C              STRAGLOB(NF1),FAIL_INI     ,SPBUF  ,KXSP       ,IPART(I15J),
      D              NOD2SP       ,SOL2SPH      ,IRST   ,ILOADP     ,FACLOAD    , 
-     E              MULTI_FVM, ERROR_THROWN,DETONATORS, MAT_PARAM)
+     E              MULTI_FVM, ERROR_THROWN,DETONATORS)    
             ENDIF
            
             CALL SREFSTA3(
@@ -1259,20 +1259,19 @@ C Case total strain: conf_ref <- XREF
            ELSE  ! JMULT > 0
               IF (MTN == 20) THEN
                  CALL BINIT2(
-     .                ELBUF_TAB(NG),MS        ,IXQ              ,PM           ,X    ,
-     .                DETONATORS   ,VEUL      ,ALE_CONNECTIVITY ,IPARG(1,NG)  ,FILL ,
-     .                SIGI         ,BUFMAT    ,NEL              ,MAT_PARAM    ,
-     .                SKEW         ,MSQ       ,IPART            ,IPART(I15B)  ,
-     .                GEO          ,IGEO      ,IPM              ,
-     .                NSIGS        ,WMA       ,PTQUAD           ,NPC          ,PLD  ,
-     .                IPARG        ,ILOADP    ,FACLOAD          ,PARTSAV      ,V   )
+     .                ELBUF_TAB(NG),MS        ,IXQ        ,PM          ,X  ,   
+     .                DETONATORS   ,VEUL      ,ALE_CONNECTIVITY      ,IPARG(1,NG)  ,FILL,
+     .                SIGI         ,BUFMAT    ,NEL        ,
+     .                SKEW         ,MSQ       ,IPART      ,IPART(I15B),             
+     .                GEO          ,IGEO      ,IPM        ,                         
+     .                NSIGS        ,WMA       ,PTQUAD     ,NPC         ,PLD ,
+     .                IPARG        ,ILOADP    ,FACLOAD    ,PARTSAV     ,V   )
               ELSE IF (MTN == 151) THEN
 C 2D multifluid law
                  CALL MULTIFLUID_INIT2(NEL, NSIGS, 
      .                IPARG, IXQ, IPM, ALE_CONNECTIVITY, IGEO, IPART, IPART(I15B), NPC, 
      .                PTQUAD, ILOADP, X, PM, 
-     .                GEO, SIGI, SKEW, PLD, BUFMAT, FACLOAD, ELBUF_TAB(NG), ERROR_THROWN,DETONATORS,
-     .                MAT_PARAM)
+     .                GEO, SIGI, SKEW, PLD, BUFMAT, FACLOAD, ELBUF_TAB(NG), ERROR_THROWN,DETONATORS) 
               ELSE
                  CALL ARRET(2)
               ENDIF    
@@ -1400,8 +1399,7 @@ C 2D multifluid law
           ELSEIF (MTN == 151 .OR. N2D > 0) THEN
              CALL MULTIFLUID_INIT2T(ELBUF_TAB(NG), NEL, NSIGS, NVC, IPARG, IXTG, ALE_CONNECTIVITY,
      .            IGEO, IPART, IPART(I15H), IPM, PTSH3N, NPC, ILOADP, 
-     .            X, PM, GEO, SIGI, SKEW, PLD, BUFMAT, FACLOAD, MULTI_FVM, ERROR_THROWN, DETONATORS,
-     .            MAT_PARAM)
+     .            X, PM, GEO, SIGI, SKEW, PLD, BUFMAT, FACLOAD, MULTI_FVM, ERROR_THROWN, DETONATORS)
           ELSE
            NULLIFY(ptr_ITAGE)
            IF (SITAGE > 0) ptr_ITAGE => ITAGE(NUMELC+1)  
@@ -1504,9 +1502,9 @@ C
 C-----------
       !loop over material initialisation done.
       !IF NRF outlet, print its automatic characteristic
-       IF(M51_IFLG6==1 .AND. M51_lSET_IFLG6==1)THEN
+       IF(M51_IFLG6==1 .AND. lSET_51_IFLG6==1)THEN
          !first initialization of group whose MAT=51 + iform=6
-         WRITE (IOUT,1001)M51_LC0MAX,M51_SSP0MAX,M51_TCP_REF
+         WRITE (IOUT,1001)LC0MAX,SSP0MAX,TCP_REF
        ENDIF
 
  1001 FORMAT(
@@ -1641,18 +1639,17 @@ C-----------------------------------------------------
 C-----------------------------------------------------
 C Option /INIVOL
 C-----------------------------------------------------
-      CALL INIT_INIVOL(  NUM_INIVOL,  inivol,   nsurf, igrsurf,
+      CALL INIT_INIVOL(  NUM_INIVOL,   inivol,   nsurf, igrsurf,
      .                   nparg    ,   ngroup,   iparg,  numnod, npart,
      .                   numels   ,     nixs,     ixs,
      .                   numeltg  ,    nixtg,    ixtg,
      .                   numelq   ,     nixq,     ixq,
      .                   x        , nbsubmat,    kvol,
      .                   elbuf_tab,  numels8,   xrefs,
-     .                   n2d      ,multi_fvm,  sipart, ipart  ,
-     .                   i15a     ,i15b     ,    i15h, sbufmat,  bufmat,
-     .                   npropmi  ,nummat   ,     ipm,  sbufsf,   bufsf,
-     .                   npropg   ,numgeo   ,     geo, mvsiz  ,   skvol,    itab,
-     .                   mat_param)
+     .                   n2d      ,multi_fvm,  sipart, ipart,
+     .                   i15a     ,i15b     ,    i15h, sbufmat,  bufmat,  npropm,
+     .                   npropmi  ,nummat   ,     ipm ,     pm,  sbufsf,   bufsf,
+     .                   npropg   ,numgeo   ,     geo , mvsiz ,   skvol,   itab)
 C---------------------------------
 C  Gravity (after INIVOL)
 C---------------------------------

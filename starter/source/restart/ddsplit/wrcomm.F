@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    wrcomr               ../starter/source/restart/ddsplit/wrcomm.F
+      !||    wrcomr           ../starter/source/restart/ddsplit/wrcomm.F
       !||--- called by ------------------------------------------------------
-      !||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
+      !||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,MS_ND,P,INTER_PARAMETERS, UNITAB)
@@ -35,7 +35,6 @@ C-----------------------------------------------
       USE ALE_MOD
       USE PARAMETERS_MOD
       USE UNITAB_MOD
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_IFLG6
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,6 +56,7 @@ C-----------------------------------------------
 #include      "sms_c.inc"
 #include      "sphcom.inc"
 #include      "inter22.inc"
+#include      "mmale51_c.inc"
 #include      "thermal_c.inc"
 C-----------------------------------------------
 #include      "tablen_c.inc"

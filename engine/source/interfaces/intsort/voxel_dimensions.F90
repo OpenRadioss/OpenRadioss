@@ -21,24 +21,8 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    voxel_dimensions_mod         ../engine/source/interfaces/intsort/voxel_dimensions.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter7_collision_detection   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
-      !||    inter_prepare_sort           ../engine/source/interfaces/generic/inter_prepare_sort.F
-      !||====================================================================
       module voxel_dimensions_mod
       contains
-      !||====================================================================
-      !||    compute_voxel_dimensions   ../engine/source/interfaces/intsort/voxel_dimensions.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter_prepare_sort         ../engine/source/interfaces/generic/inter_prepare_sort.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod               ../common_source/modules/constant_mod.F
-      !||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
-      !||    my_alloc_mod               ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
         subroutine compute_voxel_dimensions(nrtm,nmn, inter_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

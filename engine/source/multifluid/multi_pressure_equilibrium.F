@@ -29,18 +29,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod                  ../engine/share/resol/initbuf.F
-      !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F
       !||====================================================================
       SUBROUTINE MULTI_PRESSURE_EQUILIBRIUM(TIMESTEP, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
-     .     PM, IPM, MULTI_FVM, CURRENT_TIME, BUFMAT, NPF, TF, NUMMAT,MATPARAM)
+     .     PM, IPM, MULTI_FVM, CURRENT_TIME, BUFMAT, NPF, TF)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD      
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
-      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,14 +55,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !< material buffer
-      INTEGER,INTENT(IN) :: NUMMAT !< number of material law (array size for IPM and PM)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      INTEGER, INTENT(IN) :: IPARG(NPARG, NGROUP)
+      INTEGER, INTENT(IN) :: IPARG(NPARG, *)
       INTEGER, INTENT(IN) :: ITASK ! SMP TASK
       INTEGER, INTENT(IN), TARGET :: IXS(NIXS, *), IXQ(NIXQ, *), IXTG(NIXTG, *)
-      INTEGER, INTENT(IN) :: IPM(NPROPMI, NUMMAT)
-      my_real, INTENT(IN) :: PM(NPROPM, NUMMAT)
+      INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
+      my_real, INTENT(IN) :: PM(NPROPM, *)
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT), TARGET :: MULTI_FVM
       my_real, INTENT(IN) :: CURRENT_TIME, TIMESTEP
       my_real, INTENT(INOUT) :: BUFMAT(*)
@@ -148,8 +144,8 @@ C     Global buffer of the current group
             IF (NBMAT == 1) THEN
                LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1, 1, 1)
                IMAT = 1
-               LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
-               MATLAW = MATPARAM(LOCAL_MATID)%ILAW
+               LOCAL_MATID = IPM(20 + IMAT, IX(1, 1))
+               MATLAW = IPM(2, LOCAL_MATID)
                PRES => MULTI_FVM%PRES(1 + NFT : NEL + NFT)
                SSP  => MULTI_FVM%SOUND_SPEED(1 + NFT : NEL + NFT)
                VOL  => GBUF%VOL
@@ -263,8 +259,8 @@ C     Number of elements that have not converged
                ENDDO
 C     Loop over the fluid layers
                DO IMAT = 1, NBMAT
-                  LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
-                  MATLAW = MATPARAM(LOCAL_MATID)%ILAW
+                  LOCAL_MATID = IPM(20 + IMAT, IX(1, 1))
+                  MATLAW = IPM(2, LOCAL_MATID)
                   PRES => PRESWT(1:NEL, IMAT)
                   SSP  => SSPWT(1:NEL, IMAT)
                   VOL  => VOLWT(1:NEL, IMAT)
@@ -432,8 +428,8 @@ C                           IF (ALPHAWT(II, IMAT) /= ZERO .AND. GRUN(II, IMAT) /
                   ENDIF
 C     Equation of state call
                   DO IMAT = 1, NBMAT
-                     LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
-                     MATLAW = MATPARAM(LOCAL_MATID)%ILAW
+                     LOCAL_MATID = IPM(20 + IMAT, IX(1, 1))
+                     MATLAW = IPM(2, LOCAL_MATID)
                      PRES => PRESWT(1:NEL, IMAT)
                      SSP  => SSPWT(1:NEL, IMAT)
                      VOL  => VOLWT(1:NEL, IMAT)
@@ -481,8 +477,8 @@ C     ----------------------------------------------
 
 C     Loop over the fluid layers
                DO IMAT = 1, NBMAT
-                  LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
-                  MATLAW = MATPARAM(LOCAL_MATID)%ILAW
+                  LOCAL_MATID = IPM(20 + IMAT, IX(1, 1))
+                  MATLAW = IPM(2, LOCAL_MATID)
                   PRES => PRESWT(1:NEL, IMAT)
                   SSP  => SSPWT(1:NEL, IMAT)
                   VOL  => VOLWT(1:NEL, IMAT)
@@ -618,8 +614,8 @@ C     Compute New energies
                         ENDIF
                      ENDDO  ! II = 1, NEL
 C     Call equation of state for the submaterial
-                     LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
-                     MATLAW = MATPARAM(LOCAL_MATID)%ILAW
+                     LOCAL_MATID = IPM(20 + IMAT, IX(1, 1))
+                     MATLAW = IPM(2, LOCAL_MATID)
                      SSP  => SSPWT(1:NEL, IMAT)
                      VOL  => VOLWT(1:NEL, IMAT)
                      LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
@@ -669,8 +665,8 @@ C     Store final values
                   MULTI_FVM%PHASE_RHO(IMAT, 1 + NFT : NEL + NFT) = RHOWT(1:NEL, IMAT)
 C     Pressure
                   MULTI_FVM%PHASE_PRES(IMAT, 1 + NFT : NEL + NFT) = PRESWT(1:NEL, IMAT)
-                  LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
-                  MATLAW = MATPARAM(LOCAL_MATID)%ILAW
+                  LOCAL_MATID = IPM(20 + IMAT, IX(1, 1))
+                  MATLAW = IPM(2, LOCAL_MATID)
 C     Global Pressure: volumic fraction ponderation
                   DO II = 1, NEL
                      I = II + NFT

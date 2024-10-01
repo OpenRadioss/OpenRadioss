@@ -465,7 +465,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    monvol_struct_mod                            ../engine/share/modules/monvol_struct_mod.F
       !||    mpi_tools_mod                                ../engine/share/modules/mpi_tools_mod.F
       !||    multi_fvm_mod                                ../common_source/modules/ale/multi_fvm_mod.F
-      !||    multimat_param_mod                           ../common_source/modules/multimat_param_mod.F90
       !||    names_and_titles_mod                         ../common_source/modules/names_and_titles_mod.F
       !||    nlocal_reg_mod                               ../common_source/modules/nlocal_reg_mod.F
       !||    offset_nproj_mod                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
@@ -672,7 +671,6 @@ C-----------------------------------------------
       USE spmd_mod , only : SPMD_MAX,spmd_allreduce
       USE SKEW_MOD
       USE ELBUFDEF_MOD
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       use init_global_frontier_monvol_mod , only : init_global_frontier_monvol
       use init_monvol_omp_structure_mod , only : init_monvol_omp_structure
       USE inivel_dt2_mod ,   only : inivel_dt2
@@ -1170,9 +1168,9 @@ C /DAMP/VREL
 C----------------------------------------------------------------------------------
 C Type2 output - PCONT2
       INTEGER :: SZ_NPCONT2
-      my_real, DIMENSION(:,:),ALLOCATABLE :: NPCONT2
+      my_real, DIMENSION(:,:),ALLOCATABLE :: NPCONT2  
 C----------------------------------------------------------------------------------
-!  contact w/ offset
+!  contact w/ offset  
       my_real, DIMENSION(:),ALLOCATABLE, TARGET :: XYZ    
       my_real, DIMENSION(:)  , POINTER :: X_C 
       TYPE(sh_offset_)                   :: SH_OFFSET_TAB   
@@ -2056,7 +2054,7 @@ C save the Python functions into the Python interpreter dictionarry
      .          IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,  
      .          X           ,V         ,W           ,ALE_CONNECTIVITY,  
      .          NERCVOIS    ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,  
-     .          M51_N0PHAS, M51_NVPHAS, STACK       ,
+     .          n0phas, nvphas, STACK       ,           
      .          IPART(K3:K4-1),IPART(K1:K2-1),IPART(K8:K9-1), IPART(K2:K3-1), 
      .          D           , MULTI_FVM ,  
      .          MAT_ELEM%MAT_PARAM , FANI_CELL)
@@ -2187,10 +2185,10 @@ c      we constraint all DDLs
         frontier_global_mv(1:nspmd+2) = 0
       endif
       ! Monitored volume : initialization of omp array
-      call init_monvol_omp_structure(ispmd,nspmd,nvolu,nsurf,monvol,
-     .                       nimv,numnod,
+      call init_monvol_omp_structure(ispmd,nspmd,nvolu,nsurf,monvol, 
+     .                       nimv,numnod,    
      .                  fr_mv,t_monvol,igrsurf )
-      ! -----------------
+      ! -----------------       
        I24MAXNSNE=0
        IF (INT24USE == 1)THEN
          ALLOCATE(IAD_I24(NBINTC+1,NSPMD))
@@ -3882,30 +3880,30 @@ C     Init var parallel SMP
            ITYPTSTT = ITYPTST
 C     
            CALL ALEMAIN(
-     1          PM                    ,GEO      ,X             ,A(1,NDTSK)        ,AR(1,NDTSK)               ,V               ,
-     2          MS                    ,WA       ,ELBUF_TAB     ,BUFMAT            ,PARTSAV(IPMTSK)           ,TF              ,
-     3          VAL2                  ,VEUL     ,FV            ,STIFN(NDTSK)      ,FSKY                      ,EANI            ,
-     4          PHI                   ,FILL     ,DFILL         ,ALPH              ,SKEWS%SKEW                ,W               ,
-     5          D                     ,DSAVE    ,ASAVE         ,DT2TT             ,DT2SAVE                   ,XCELL           ,
-     6          IPARG                 ,NPC      ,IXS           ,IXQ               ,IXTG                      ,IADS            ,
-     7          IFILL                 ,NODPOR   ,ICODT         ,ISKEW             ,IMS                       ,IADS(I87B)      ,
-     8          NELTSTT               ,ITYPTSTT ,IPART         ,IPART(K1)         ,IPART(K2)                 ,ITSK            ,
-     A          NODFTSK               ,NODLTSK  ,NBRCVOIS      ,TEMP              ,OUTPUT%TH%TH_SURF%CHANNELS,
-     B          NBSDVOIS              ,LNRCVOIS ,LNSDVOIS      ,NERCVOIS          ,NESDVOIS                  ,LERCVOIS        ,
-     C          LESDVOIS              ,ISIZXV   ,IAD_ELEM      ,FR_ELEM           ,FSKYM                     ,MSNF            ,
-     D          IPARI                 ,SEGVAR   ,ITAB          ,ISKWN             ,DIFFUSION                 ,IRESP           ,
-     E          VOLMON                ,FSAV     ,IGRSURF       ,NELTSA            ,
-     F          ITYPTSA               ,WEIGHT   ,NPSEGCOM      ,LSEGCOM           ,IPM                       ,IGEO            ,
-     G          ITABM1                ,LENQMV   ,NV46          ,A                 ,GRESAV                    ,
-     H          GRTH                  ,IGRTH    ,LGAUGE        ,GAUGE             ,MSSA                      ,
-     I          DMELS                 ,IGAUP    ,NGAUP         ,TABLE             ,MS0                       ,
-     J          XDP                   ,IGRNOD   ,VARNOD        ,FSKYI             ,ISKY                      ,
-     K          INTERFACES%INTBUF_TAB ,IXT      ,IGRV          ,AGRV              ,SENSORS                   ,
-     L          LGRAV                 ,CONDNSKY ,CONDN         ,MS_2D             ,MULTI_FVM                 ,IGRTRUSS        ,
-     M          IGRBRIC               ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS         ,EBCS_TAB                  ,ALE_CONNECTIVITY,
-     N          MAT_ELEM              ,H3D_DATA ,DT            ,OUTPUT            ,NEED_COMM_INTER18         ,IDTMINS         ,
-     O          IDTMIN                ,MAXFUNC  ,IMON_MAT      ,USERL_AVAIL       ,heat_meca                 ,
-     P          impl_s                ,idyna    ,PYTHON        ,MAT_ELEM%MAT_PARAM)
+     1          PM         ,GEO      ,X             ,A(1,NDTSK)   ,AR(1,NDTSK)      ,V               ,
+     2          MS         ,WA       ,ELBUF_TAB     ,BUFMAT       ,PARTSAV(IPMTSK)  ,TF              ,
+     3          VAL2       ,VEUL     ,FV            ,STIFN(NDTSK) ,FSKY             ,EANI            ,
+     4          PHI        ,FILL     ,DFILL         ,ALPH         ,SKEWS%SKEW        ,W               ,
+     5          D          ,DSAVE    ,ASAVE         ,DT2TT        ,DT2SAVE          ,XCELL           ,
+     6          IPARG      ,NPC      ,IXS           ,IXQ          ,IXTG             ,IADS            ,IADS(I87B),
+     7          IFILL      ,NODPOR   ,ICODT         ,ISKEW        ,IMS              ,
+     8          NELTSTT    ,ITYPTSTT ,IPART         ,IPART(K1)    ,IPART(K2)        ,ITSK            ,
+     A          NODFTSK    ,NODLTSK  ,NBRCVOIS      ,TEMP         ,OUTPUT%TH%TH_SURF%CHANNELS,
+     B          NBSDVOIS   ,LNRCVOIS ,LNSDVOIS      ,NERCVOIS     ,NESDVOIS         ,LERCVOIS        ,
+     C          LESDVOIS   ,ISIZXV   ,IAD_ELEM      ,FR_ELEM      ,FSKYM            ,MSNF            ,
+     D          IPARI      ,SEGVAR   ,ITAB          ,ISKWN        ,
+     E          VOLMON     ,FSAV     ,IGRSURF       ,NELTSA       ,
+     F          ITYPTSA    ,WEIGHT   ,NPSEGCOM      ,LSEGCOM      ,IPM              ,IGEO            ,
+     G          ITABM1     ,LENQMV   ,NV46          ,A            ,GRESAV           ,
+     H          GRTH       ,IGRTH    ,LGAUGE        ,GAUGE        ,MSSA             ,
+     I          DMELS      ,IGAUP    ,NGAUP         ,TABLE        ,MS0              ,
+     J          XDP        ,IGRNOD   ,VARNOD                      ,FSKYI            ,ISKY            ,
+     K          INTERFACES%INTBUF_TAB ,IXT      ,IGRV          ,AGRV         ,SENSORS          ,
+     L          LGRAV      ,CONDNSKY ,CONDN         ,MS_2D        ,MULTI_FVM        ,IGRTRUSS        ,
+     M          IGRBRIC    ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS    ,EBCS_TAB         ,ALE_CONNECTIVITY, DIFFUSION,
+     N          MAT_ELEM   ,H3D_DATA,DT , OUTPUT , NEED_COMM_INTER18,IDTMINS,IRESP,
+     O          IDTMIN     ,MAXFUNC ,IMON_MAT        ,USERL_AVAIL      ,heat_meca       ,
+     P          impl_s     , idyna , PYTHON)
 
            IF(INT22 /=0)  call my_barrier !INTER22in input files  - get also IDT_INT22
 #include "lockon.inc"
@@ -5680,7 +5678,7 @@ C===============================================================================
      7         NATIV_SMS,DMINT2,ANIN(NDAMA2+1),NB_FRI2M ,FR_LOCI2M,
      8         DT2T  ,NELTST ,ITYPTST   ,INTERFACES%INTBUF_TAB ,TEMP     ,MCP   ,
      9         FTHE  ,CONDN  ,
-     A         H3D_DATA,T2FAC_SMS,FANI(1,NFNCA2+1),NPCONT2)
+     A         H3D_DATA,T2FAC_SMS,FANI(1,NFNCA2+1),NPCONT2) 
           ENDDO
           IF (IMONM > 0) CALL STOPTIME(28,1)
           IF (IMON>0) THEN
@@ -8235,7 +8233,7 @@ C===============================================================================
      .          IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,  
      .          X           ,V         ,W           ,ALE_CONNECTIVITY,  
      .          NERCVOIS    ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,  
-     .          M51_N0PHAS, M51_NVPHAS, STACK       ,
+     .          N0PHAS, NVPHAS, STACK       ,           
      .          IPART(K3:K4-1),IPART(K1:K2-1) ,IPART(K8:K9-1),IPART(K1:K2-1), 
      .          D           , MULTI_FVM ,  
      .          MAT_ELEM%MAT_PARAM, FANI_CELL)

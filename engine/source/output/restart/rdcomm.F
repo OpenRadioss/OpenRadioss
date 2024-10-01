@@ -1802,17 +1802,16 @@ C--------------------------------------
       RETURN
       END
       !||====================================================================
-      !||    rdcomr               ../engine/source/output/restart/rdcomm.F
+      !||    rdcomr           ../engine/source/output/restart/rdcomm.F
       !||--- called by ------------------------------------------------------
-      !||    rdresb               ../engine/source/output/restart/rdresb.F
+      !||    rdresb           ../engine/source/output/restart/rdresb.F
       !||--- uses       -----------------------------------------------------
-      !||    ale_mod              ../common_source/modules/ale/ale_mod.F
-      !||    anim_mod             ../common_source/modules/output/anim_mod.F
-      !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
-      !||    output_mod           ../common_source/modules/output/output_mod.F90
-      !||    outputs_mod          ../common_source/modules/outputs_mod.F
-      !||    parameters_mod       ../common_source/modules/interfaces/parameters_mod.F
-      !||    state_mod            ../common_source/modules/state_mod.F
+      !||    ale_mod          ../common_source/modules/ale/ale_mod.F
+      !||    anim_mod         ../common_source/modules/output/anim_mod.F
+      !||    output_mod       ../common_source/modules/output/output_mod.F90
+      !||    outputs_mod      ../common_source/modules/outputs_mod.F
+      !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
+      !||    state_mod        ../common_source/modules/state_mod.F
       !||====================================================================
       SUBROUTINE RDCOMR(LMXVREA,TABVREA,DYNAIN_DATA,INTER_PARAMETERS,
      .                  OUTPUT)
@@ -1825,7 +1824,6 @@ C-----------------------------------------------
        USE ALE_MOD
        USE PARAMETERS_MOD
        USE OUTPUT_MOD
-       USE MULTIMAT_PARAM_MOD , ONLY : M51_IFLG6
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1858,6 +1856,7 @@ C-----------------------------------------------
 #include      "sysunit.inc"
 #include      "statr_c.inc"
 #include      "inter22.inc"
+#include      "mmale51_c.inc"
 #include      "thermal_c.inc"
 #include      "itet2_c.inc"
 C-----------------------------------------------

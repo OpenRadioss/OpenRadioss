@@ -49,7 +49,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22bufbric_mod          ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    i22tri_mod              ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    initbuf_mod             ../engine/share/resol/initbuf.F
-      !||    multimat_param_mod      ../common_source/modules/multimat_param_mod.F90
       !||    segvar_mod              ../engine/share/modules/segvar_mod.F
       !||    trimat_mod              ../engine/share/modules/trimat.F
       !||====================================================================
@@ -70,7 +69,6 @@ C-----------------------------------------------
       USE SEGVAR_MOD   
       USE ALE_CONNECTIVITY_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -142,7 +140,7 @@ C     ALE ON / OFF
         VOLG => ELBUF_TAB(NG)%GBUF%VOL
         UVAR => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR
         LFT=1
-        ADD = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS                ! ADD => SIG(1)
+        ADD = N0PHAS + (ITRIMAT-1)*NVPHAS                ! ADD => SIG(1)
         ADD = ADD + 11                                   ! ADD + 11 => VOLUME_Phase
         K = LLT*(ADD-1)                                ! VAR(I,ADD) = VAR(K+I) 
         VOLP => UVAR(K+1:K+LLT)
@@ -209,7 +207,7 @@ C     ALE ON / OFF
             BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(5)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(5)                          
               !===get Vfrac================!
               IPOS                                          = 1                                                                                               
-              K0                                            = ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)             ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}  
+              K0                                            = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)             ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}  
               K1                                            = K0 * LLT_                                                                                       
               Vfrac                                         = MBUF%VAR(K1+IDLOC)                                                                              
               Vfrac                                         = MAX(ZERO,MIN(ONE,Vfrac))                                                                         
@@ -336,7 +334,7 @@ C     ALE ON / OFF
         LFT    =  1
         NF1    =  NFT+1
         UVAR   => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR
-        ADD    = (M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS+12)*LLT
+        ADD    = (N0PHAS + (ITRIMAT-1)*NVPHAS+12)*LLT
         pDDVOL => UVAR(ADD+1:ADD+LLT)
         !DDVOL*DT IS SUM OF INCOMING AND OUTGOING VOLUMES
         !------------------------------!

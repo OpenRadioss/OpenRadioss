@@ -51,7 +51,6 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-      USE MULTIMAT_PARAM_MOD , ONLY : M20_DISCRETE_FILL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,6 +60,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "com01_c.inc"
+#include      "mmale20_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -108,16 +108,7 @@ C     Material proportions
       ENDDO
       PM(20)=NMAT+EM01
       NMULT=MAX(NMULT,NMAT)
-
-      ! Multimaterial data
-      MATPARAM%multimat%nb = 2
-      IF(.NOT.ALLOCATED(MATPARAM%multimat%vfrac))ALLOCATE(MATPARAM%multimat%vfrac(2))
-      IF(.NOT.ALLOCATED(MATPARAM%multimat%mid))  ALLOCATE(MATPARAM%multimat%mid(2))
-      MATPARAM%multimat%nb = 2
-      MATPARAM%multimat%vfrac(1:2) = AMAT(1:2)
-      MATPARAM%multimat%mid(1:2) = MAT(1:2)
-
-      ! output
+C
       WRITE(IOUT, 900) TRIM(TITR),MAT_ID,20
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
@@ -126,7 +117,7 @@ C     Material proportions
         WRITE(IOUT,1300)(MAT(I),AMAT(I),CMAT(I),I=1,NMAT)
       ENDIF
 C
-      IF(CMAT(3)>=ONE)M20_DISCRETE_FILL=.TRUE.
+      IF(CMAT(3)>=ONE)DISCRETE_FILL=.TRUE.
 
       IF(NSPMD > 1) THEN
         CALL ANCMSG(MSGID=755,

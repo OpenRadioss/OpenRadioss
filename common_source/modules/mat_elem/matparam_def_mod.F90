@@ -32,9 +32,6 @@
       !||====================================================================
       !||    matparam_def_mod                    ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||--- called by ------------------------------------------------------
-      !||    alemain                             ../engine/source/ale/alemain.F
-      !||    binit2                              ../starter/source/ale/bimat/binit2.F
-      !||    brest2                              ../engine/source/ale/bimat/brest2.F
       !||    c3grhead                            ../starter/source/elements/sh3n/coque3n/c3grhead.F
       !||    c3grtails                           ../starter/source/elements/sh3n/coque3n/c3grtails.F
       !||    cfailini                            ../starter/source/elements/shell/coque/cfailini.F
@@ -43,28 +40,21 @@
       !||    cgrtails                            ../starter/source/elements/shell/coque/cgrtails.F
       !||    check_mat_elem_prop_compatibility   ../starter/source/materials/mat/check_mat_elem_prop_compatibility.F
       !||    cinit3                              ../starter/source/elements/shell/coque/cinit3.F
-      !||    dfuncc                              ../engine/source/output/anim/generate/dfuncc.F
-      !||    dfuncs                              ../engine/source/output/anim/generate/dfunc6.F
       !||    dometis                             ../starter/source/spmd/domain_decomposition/grid2mat.F
       !||    eig                                 ../engine/stub/eig.F
       !||    eig1                                ../engine/stub/eig1.F
       !||    eigp                                ../engine/stub/eigp.F
       !||    fail_init                           ../starter/source/materials/fail/fail_init.F
       !||    failini                             ../starter/source/elements/solid/solide/failini.F
-      !||    fill_buffer_51                      ../starter/source/materials/mat/mat051/fill_buffer_51.F
       !||    fill_buffer_51_0                    ../starter/source/materials/mat/mat051/fill_buffer_51_0.F
-      !||    fsdcod                              ../starter/source/system/fsdcod.F
       !||    func_comp                           ../starter/source/materials/mat/mat076/law76_upd.F
       !||    funct_python_update_elements        ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    genani                              ../engine/source/output/anim/generate/genani.F
       !||    genh3d                              ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||    h3d_quad_scalar                     ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
-      !||    h3d_quad_scalar_1                   ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
       !||    h3d_shell_scalar                    ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
       !||    h3d_shell_scalar_1                  ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
       !||    h3d_shell_tensor                    ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
       !||    h3d_solid_scalar                    ../engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
-      !||    h3d_solid_scalar_1                  ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
       !||    hist2                               ../engine/source/output/th/hist2.F
       !||    hm_read_eos                         ../starter/source/materials/eos/hm_read_eos.F
       !||    hm_read_fail                        ../starter/source/materials/fail/hm_read_fail.F
@@ -187,19 +177,14 @@
       !||    hm_read_visc                        ../starter/source/materials/visc/hm_read_visc.F
       !||    imp_buck                            ../engine/source/implicit/imp_buck.F
       !||    ini_inimap1d                        ../starter/source/initial_conditions/inimap/ini_inimap1d.F
-      !||    iniebcs_nrf_tcar                    ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
-      !||    iniebcsp0                           ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
       !||    inigrav_eos                         ../starter/source/initial_conditions/inigrav/inigrav_eos.F
       !||    inigrav_load                        ../starter/source/initial_conditions/inigrav/inigrav_load.F
-      !||    init_inivol                         ../starter/source/initial_conditions/inivol/init_inivol.F90
-      !||    init_inivol_2d_polygons             ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
       !||    init_mat_keyword                    ../starter/source/materials/mat/init_mat_keyword.F
       !||    initia                              ../starter/source/elements/initia/initia.F
       !||    initwg                              ../starter/source/spmd/domain_decomposition/initwg.F
       !||    initwg_shell                        ../starter/source/spmd/domain_decomposition/initwg_shell.F
       !||    initwg_solid                        ../starter/source/spmd/domain_decomposition/initwg_solid.F
       !||    initwg_tri                          ../starter/source/spmd/domain_decomposition/initwg_tri.F
-      !||    inivol_set                          ../starter/source/initial_conditions/inivol/inivol_set.F
       !||    law104_upd                          ../starter/source/materials/mat/mat104/law104_upd.F
       !||    law158_upd                          ../starter/source/materials/mat/mat158/law158_upd.F
       !||    law190_upd                          ../starter/source/materials/mat/mat190/law190_upd.F
@@ -212,7 +197,6 @@
       !||    law77_upd                           ../starter/source/materials/mat/mat077/law77_upd.F
       !||    lec_inistate                        ../starter/source/elements/initia/lec_inistate.F
       !||    lech3d                              ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
-      !||    m20dcod                             ../starter/source/system/fsdcod.F
       !||    m25law                              ../engine/source/materials/mat/mat025/m25law.F
       !||    mat25_crasurv_c                     ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
       !||    mat25_crasurv_s                     ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
@@ -220,13 +204,6 @@
       !||    mat25_tsaiwu_s                      ../engine/source/materials/mat/mat025/mat25_tsaiwu_s.F90
       !||    mat_elem_mod                        ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    mulaw                               ../engine/source/materials/mat_share/mulaw.F90
-      !||    multi_muscl_fluxes_computation      ../engine/source/multifluid/multi_muscl_fluxes_computation.F
-      !||    multi_pressure_equilibrium          ../engine/source/multifluid/multi_pressure_equilibrium.F
-      !||    multi_timeevolution                 ../engine/source/multifluid/multi_timeevolution.F
-      !||    multifluid_init2                    ../starter/source/multifluid/multifluid_init2.F
-      !||    multifluid_init2t                   ../starter/source/multifluid/multifluid_init2t.F
-      !||    multifluid_init3                    ../starter/source/multifluid/multifluid_init3.F
-      !||    multifluid_init3t                   ../starter/source/multifluid/multifluid_init3t.F
       !||    pgrtails                            ../starter/source/elements/beam/pgrtails.F
       !||    qgrhead                             ../starter/source/elements/solid_2d/quad/qgrhead.F
       !||    qgrtails                            ../starter/source/elements/solid_2d/quad/qgrtails.F
@@ -262,10 +239,6 @@
       !||    solve_eint                          ../engine/source/multifluid/multi_inlet_ebcs.F
       !||    spgrhead                            ../starter/source/elements/sph/spgrhead.F
       !||    spgrtails                           ../starter/source/elements/sph/spgrtails.F
-      !||    stat_inimap1d_file_spmd             ../engine/source/output/sta/stat_inimap1d_file_spmd.F
-      !||    stat_inimap1d_spmd                  ../engine/source/output/sta/stat_inimap1d_spmd.F
-      !||    stat_inimap2d_file_spmd             ../engine/source/output/sta/stat_inimap2d_file_spmd.F
-      !||    stat_inimap2d_spmd                  ../engine/source/output/sta/stat_inimap2d_spmd.F
       !||    suinit3                             ../starter/source/elements/elbuf_init/suinit3.F
       !||    t3grhead                            ../starter/source/elements/solid_2d/tria/t3grhead.F
       !||    t3grtails                           ../starter/source/elements/solid_2d/tria/t3grtails.F
@@ -276,7 +249,6 @@
       !||    updmat                              ../starter/source/materials/updmat.F
       !||--- uses       -----------------------------------------------------
       !||    fail_param_mod                      ../common_source/modules/mat_elem/fail_param_mod.F90
-      !||    multimat_param_mod                  ../common_source/modules/multimat_param_mod.F90
       !||    names_and_titles_mod                ../common_source/modules/names_and_titles_mod.F
       !||    table4d_mod                         ../common_source/modules/table4d_mod.F
       !||    visc_param_mod                      ../common_source/modules/mat_elem/visc_param_mod.F90
@@ -287,7 +259,6 @@
       use visc_param_mod
       use fail_param_mod
       use names_and_titles_mod
-      use multimat_param_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !     included files
 !----------------------------------------------------------------------- 
@@ -303,8 +274,8 @@
       type matparam_struct_
       
         character(len=nchartitle) :: title  !< material law title
-        integer     :: ilaw                 !< material model (type)
-        integer     :: mat_id               !< user id
+        integer     :: ilaw                 !< material law number (type)    
+        integer     :: mat_id               !< material law id   
         integer     :: nuparam              !< number of real value material paraameters
         integer     :: niparam              !< number of int value material parameters
         integer     :: nfunc                !< number of local functions in material
@@ -312,8 +283,8 @@
         integer     :: nsubmat              !< number of submaterials (multi-mat law51)
         integer     :: nfail                !< number of failure models
         integer     :: ivisc                !< viscosity model number
-        integer     :: ieos                 !< eos model (type)
-        integer     :: heat_flag            !< dissipated energy (heat source) is output by material law
+        integer     :: ieos                 !< eos model number
+        integer     :: heat_flag            !< dissipated energy (heat source) is output by material law                       
         ! -------  material characteristics flags
         integer     :: compressibility      !< "compressible","incompressible","elasto_plastic"
         integer     :: smstr                !< "small_strain", "large_strain"
@@ -346,18 +317,16 @@
         my_real     :: stiff_contact        !< initial contact stiffness 
         my_real     :: stiff_hglass         !< initial hourglass stiffness      
         my_real     :: stiff_tstep          !< initial stiffness for time step stability
-!
+!                        
         my_real                   ,dimension(:) ,allocatable :: uparam !< real value material parameter table (nuparam)
         integer                   ,dimension(:) ,allocatable :: iparam !< integer value material parameter table (niparam)
         type (table_4d_)          ,dimension(:) ,allocatable :: table  !< local function tables
         character(len=nchartitle) ,dimension(:) ,allocatable :: mode   !< damage mode keywords
 !                
         type (fail_param_),dimension(:) ,allocatable :: fail     !< failure models data structure (nfail)
-        type (visc_param_)                           :: visc     !< viscosity model data structure
+        type (visc_param_)                           :: visc     !< viscosity model data structure        
 
-        type (multimat_param_) :: multimat                       !< buffer scpecific to multimaterial laws (51,151) : vfrac and mat internal identifiers
-
-!        type (eos_param_)    :: eos                             !< eos model data structure (to be defined)
+!        type (eos_param_)    :: eos                             !< eos model data structure (to be defined)     
 !        type (therm_param_)  :: therm                           !< thermal model data structure (to be defined)           
 !        type (submat_)  ,dimension(:) ,allocatable :: submat    !< multi material data structure (to be defined) 
 

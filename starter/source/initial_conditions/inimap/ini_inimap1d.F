@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    ini_inimap1d         ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+      !||    ini_inimap1d       ../starter/source/initial_conditions/inimap/ini_inimap1d.F
       !||--- called by ------------------------------------------------------
-      !||    initia               ../starter/source/elements/initia/initia.F
+      !||    initia             ../starter/source/elements/initia/initia.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg               ../starter/source/output/message/message.F
-      !||    solve_eint           ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+      !||    ancmsg             ../starter/source/output/message/message.F
+      !||    solve_eint         ../starter/source/initial_conditions/inimap/ini_inimap1d.F
       !||--- uses       -----------------------------------------------------
-      !||    inimap1d_mod         ../starter/share/modules1/inimap1d_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
+      !||    inimap1d_mod       ../starter/share/modules1/inimap1d_mod.F
+      !||    message_mod        ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INI_INIMAP1D(INIMAP1D ,ELBUF_TAB ,IPART  ,IPARG   ,IPARTS   ,
      .                        IPARTQ   ,XGRID     ,VEL    ,IXS     ,IXQ      ,
@@ -46,7 +46,6 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE MATPARAM_DEF_MOD
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,6 +61,8 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 !     MVSIZ
 #include      "mvsiz_p.inc"
+!     N0PHAS, NVPHAS
+#include      "mmale51_c.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -388,7 +389,7 @@ C     Alpha
                     IF (SHIFT  ==  0) THEN                                                                               
                        RES = PTRy(FIRST)                                                                                 
                        IF (MLW == 51) THEN                                                                               
-                          KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS                                           
+                          KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS                                           
                           ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (1 + KPHASE - 1)) = RES             
                           ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (23 + KPHASE - 1)) = RES            
                        ELSE                                                                                              
@@ -401,7 +402,7 @@ C     Alpha
                        VALUE2 = PTRy(IND)                                                                                
                        RES = (VALUE1 + (VALUE2 - VALUE1) / (RAD2 - RAD1) * (RADIUS - RAD1))                              
                        IF (MLW == 51) THEN                                                                               
-                          KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS                                           
+                          KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS                                           
                           ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (1 + KPHASE - 1)) = RES             
                           ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (23 + KPHASE - 1)) = RES            
                        ELSE                                                                                              
@@ -410,7 +411,7 @@ C     Alpha
                     ELSE                                                                                                 
                        RES = PTRy(FIRST + NPT - 1)                                                                       
                        IF (MLW == 51) THEN                                                                               
-                          KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS                                           
+                          KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS                                           
                           ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (1 + KPHASE - 1)) = RES             
                           ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (23 + KPHASE - 1)) = RES            
                        ELSE                                                                                              
@@ -420,7 +421,7 @@ C     Alpha
                   ELSE
                     RES = ONE                                                                                  
                     IF (MLW == 51) THEN                                                                       
-                       KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS                                   
+                       KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS                                   
                        ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (1 + KPHASE - 1)) = RES     
                        ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (23 + KPHASE - 1)) = RES    
                     ELSE                                                                                      
@@ -453,7 +454,7 @@ C     RHO
                      IF (SHIFT  ==  0) THEN
                         RES = PTRy(FIRST) * INIMAP1D(KK)%FAC_RHO(IMAT)  
                         IF (MLW == 51) THEN
-                           KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
+                           KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (9 + KPHASE - 1)) = RES
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (12 + KPHASE - 1)) = RES
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (20 + KPHASE - 1)) = RES
@@ -467,7 +468,7 @@ C     RHO
                         VALUE2 = PTRy(IND)
                         RES = (VALUE1 + (VALUE2 - VALUE1) / (RAD2 - RAD1) * (RADIUS - RAD1)) * INIMAP1D(KK)%FAC_RHO(IMAT)    
                         IF (MLW == 51) THEN
-                           KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
+                           KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (9 + KPHASE - 1)) = RES
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (12 + KPHASE - 1)) = RES
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (20 + KPHASE - 1)) = RES
@@ -477,7 +478,7 @@ C     RHO
                      ELSE
                         RES = PTRy(FIRST + NPT - 1) * INIMAP1D(KK)%FAC_RHO(IMAT)  
                         IF (MLW == 51) THEN
-                           KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
+                           KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (9 + KPHASE - 1)) = RES
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (12 + KPHASE - 1)) = RES
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (20 + KPHASE - 1)) = RES
@@ -488,7 +489,7 @@ C     RHO
                   ELSE
                      RES = INIMAP1D(KK)%FAC_RHO(IMAT)   
                      IF (MLW == 51) THEN
-                        KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
+                        KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                         ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (9 + KPHASE - 1)) = RES
                         ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (12 + KPHASE - 1)) = RES
                         ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (20 + KPHASE - 1)) = RES
@@ -513,7 +514,7 @@ C     EINT
                         IF (SHIFT  ==  0) THEN
                            RES = PTRy(FIRST) * INIMAP1D(KK)%FAC_PRES_ENER(IMAT)
                            IF (MLW == 51) THEN
-                              KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
+                              KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                               ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (8 + KPHASE - 1)) = RES
                               ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (21 + KPHASE - 1)) = RES
                            ELSE
@@ -526,7 +527,7 @@ C     EINT
                            VALUE2 = PTRy(IND)
                            RES = (VALUE1 + (VALUE2 - VALUE1) / (RAD2 - RAD1) * (RADIUS - RAD1)) * INIMAP1D(KK)%FAC_PRES_ENER(IMAT)
                            IF (MLW == 51) THEN
-                              KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
+                              KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                               ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (8 + KPHASE - 1)) = RES
                               ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (21 + KPHASE - 1)) = RES
                            ELSE
@@ -535,7 +536,7 @@ C     EINT
                         ELSE
                            RES = PTRy(FIRST + NPT - 1) * INIMAP1D(KK)%FAC_PRES_ENER(IMAT)
                            IF (MLW == 51) THEN
-                              KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
+                              KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                               ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (8 + KPHASE - 1)) = RES
                               ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (21 + KPHASE - 1)) = RES
                            ELSE
@@ -545,7 +546,7 @@ C     EINT
                      ELSE
                         RES = INIMAP1D(KK)%FAC_PRES_ENER(IMAT)
                         IF (MLW == 51) THEN
-                           KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
+                           KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (8 + KPHASE - 1)) = RES
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (21 + KPHASE - 1)) = RES
                         ELSE
@@ -606,7 +607,7 @@ C     PRES
                       ELBUF_TAB(NG)%GBUF%SIG(NEL*(2-1)+ELEMID-NFT)=-PRES(ELEMID - NFT, 1)
                       ELBUF_TAB(NG)%GBUF%SIG(NEL*(3-1)+ELEMID-NFT)=-PRES(ELEMID - NFT, 1)
                        IF(MLW==51)THEN
-                         KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
+                         KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                          !ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (2 + KPHASE - 1)) = -PRES(ELEMID - NFT, 1)
                          !ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (3 + KPHASE - 1)) = -PRES(ELEMID - NFT, 1)
                          !ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (4 + KPHASE - 1)) = -PRES(ELEMID - NFT, 1)                                            
@@ -621,10 +622,10 @@ C     PRES
 C     Burn Fraction / Detonation Times
                IF(ELBUF_TAB(NG)%GBUF%G_TB > 0)ELBUF_TAB(NG)%GBUF%TB(ELEMID - NFT) = 1E20
                IF (MLW == 51) THEN                                                                                                        
-                  KPHASE = M51_N0PHAS - 1
+                  KPHASE = N0PHAS - 1
                   ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (KPHASE - 1)) = ONE                                           
                   IF(ELBUF_TAB(NG)%GBUF%G_BFRAC > 0)ELBUF_TAB(NG)%GBUF%BFRAC(ELEMID - NFT) = ONE    
-                  KPHASE = M51_N0PHAS + (4 - 1) * M51_NVPHAS ! JWL is submat 4
+                  KPHASE = N0PHAS + (4 - 1) * NVPHAS ! JWL is submat 4
                   ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1 + NEL * (15 + KPHASE - 1)) = 1E20                                                 
                ELSE                                                                                                                       
                   DO IMAT=1,NBMAT                                                                                                         
@@ -828,7 +829,7 @@ C     CYLINDRICAL
                  ENDDO               
                ELSE
                  DO IMAT=1,NBMAT               
-                   KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
+                   KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                    SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1+NEL*(16+KPHASE-1) : NEL*(16+KPHASE )) 
                  ENDDO
                ENDIF     
@@ -852,11 +853,11 @@ C     Compute EINT from pressure
                ELSE IF (MLW == 151) THEN
                   DO IMAT = 1, NBMAT
                      IF (ITY  ==  1) THEN
-                        MATID = MAT_PARAM(IXS(1, 1 + NFT))%MULTIMAT%MID(IMAT)
+                        MATID = IPM(20 + IMAT, IXS(1, 1 + NFT))
                      ELSEIF (ITY  ==  2) THEN
-                        MATID = MAT_PARAM(IXQ(1, 1 + NFT))%MULTIMAT%MID(IMAT)
+                        MATID = IPM(20 + IMAT, IXQ(1, 1 + NFT))
                      ELSEIF (ITY  ==  7) THEN
-                        MATID = MAT_PARAM(IXTG(1, 1 + NFT))%MULTIMAT%MID(IMAT)
+                        MATID = IPM(20 + IMAT, IXTG(1, 1 + NFT))
                      ENDIF
                      SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%TEMP(1:NEL)
                      EBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1,1,1)
@@ -869,13 +870,13 @@ C     Compute EINT from pressure
                ELSE
                   DO IMAT = 1, NBMAT
                      IF (ITY  ==  1) THEN
-                        MATID = MAT_PARAM(IXS(1, 1 + NFT))%MULTIMAT%MID(IMAT)
+                        MATID = IPM(20 + IMAT, IXS(1, 1 + NFT))
                      ELSEIF (ITY  ==  2) THEN
-                        MATID = MAT_PARAM(IXQ(1, 1 + NFT))%MULTIMAT%MID(IMAT)
+                        MATID = IPM(20 + IMAT, IXQ(1, 1 + NFT))
                      ELSEIF (ITY  ==  7) THEN
-                        MATID = MAT_PARAM(IXTG(1, 1 + NFT))%MULTIMAT%MID(IMAT)
+                        MATID = IPM(20 + IMAT, IXTG(1, 1 + NFT))
                      ENDIF
-                     KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
+                     KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                      SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1+NEL*(16+KPHASE-1) : NEL*(16+KPHASE )) 
                      EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1)
                      NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS                      
@@ -887,7 +888,7 @@ C     Compute EINT from pressure
                      DO II = IFIRST, ILAST
                         ELEMID = ELEM_LIST(II)
                         RES = EINT(ELEMID - NFT, IMAT)
-                        KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
+                        KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                         ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (8 + KPHASE - 1)) = RES
                         ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (21 + KPHASE - 1)) = RES
                      ENDDO
@@ -908,7 +909,7 @@ C     Compute EINT from pressure
                  DO II = 1,NEL   
                    ELBUF_TAB(NG)%GBUF%TEMP(II) = ZERO  
                    DO IMAT=1,NBMAT 
-                     KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS                                                                                                                  
+                     KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS                                                                                                                  
                      DENSFRAC = ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(II + NEL * (12 + KPHASE - 1)) / ELBUF_TAB(NG)%GBUF%RHO(II)                                                                                                  
                      ELBUF_TAB(NG)%GBUF%TEMP(II) = ELBUF_TAB(NG)%GBUF%TEMP(II) + VFRAC(II,IMAT)*DENSFRAC * SUBMAT(IMAT)%TEMP(II)     
                    ENDDO 

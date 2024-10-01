@@ -32,17 +32,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_state_inimap_exch_siz      ../engine/source/output/sta/spmd_state_inimap_exch_siz.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod                    ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    matparam_def_mod                ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    message_mod                     ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod                   ../common_source/modules/ale/multi_fvm_mod.F
-      !||    multimat_param_mod              ../common_source/modules/multimat_param_mod.F90
       !||    state_inimap_mod                ../engine/share/modules/state_inimap_mod.F
       !||====================================================================
       SUBROUTINE STAT_INIMAP2D_SPMD(
-     .                        X        , V        , ITAB  , IPART_STATE, NODTAG   ,
-     .                        IPART    , IPARTS   , IPARTQ, IPARTTG    , MAT_PARAM,
-     .                        IGEO     , IPARG    , IXS   , IXQ        , IXTG     ,
+     .                        X        , V        , ITAB  , IPART_STATE, NODTAG,
+     .                        IPART    , IPARTS   , IPARTQ, IPARTTG    ,
+     .                        IGEO     , IPARG    , IXS   , IXQ        , IXTG  , 
      .                        ELBUF_TAB, MULTI_FVM, BUFMAT, IPM)
+      USE MESSAGE_MOD
+      USE STATE_INIMAP_MOD
 C-----------------------------------------------
 C   Description
 C-----------------------------------------------
@@ -54,13 +54,9 @@ C  User can use the generated file in a second run using #include command in the
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD
-      USE STATE_INIMAP_MOD
       USE ELBUFDEF_MOD 
       USE STATE_INIMAP_MOD
       USE MULTI_FVM_MOD
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
-      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,18 +73,19 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "units_c.inc"
 #include      "chara_c.inc"
+#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: ITAB(NUMNOD), IPART(LIPART1,*),IGEO(NPROPGI,NUMGEO), IXS(NIXS,NUMELS), IPART_STATE(NPART),
-     .                      IPARG(NPARG,*),IXQ(NIXQ,NUMELQ),IXTG(NIXTG,NUMELTG)
-      INTEGER, INTENT(INOUT) :: NODTAG(NUMNOD), IPM(NPROPMI,*)
+     .                        IPARG(NPARG,*),IXQ(NIXQ,NUMELQ),IXTG(NIXTG,NUMELTG)
+      INTEGER, INTENT(INOUT) :: NODTAG(NUMNOD),
+     .                          IPM(NPROPMI,*)
       INTEGER, TARGET :: IPARTS(*),IPARTQ(*),IPARTTG(*)
       my_real,INTENT(IN) :: X(3,NUMNOD),V(3,NUMNOD)
       my_real, INTENT(IN), TARGET :: BUFMAT(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET, INTENT(IN) :: ELBUF_TAB
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
-      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -122,14 +119,17 @@ C-----------------------------------------------
       !IF(NUMELS+NUMELQ+NUMELTG == 0)RETURN
       
       IF(N2D == 0)THEN
+      
         !N2D not yet set when running frestat.F ; check must be done later, here.
         IF(.NOT.IS_STAT_INIMAP_MSG_ALREADY_DISPLAYED)THEN
           IF(ISPMD == 0)THEN
              CALL ANCMSG(MSGID=288,ANMODE=ANINFO)
              IS_STAT_INIMAP_MSG_ALREADY_DISPLAYED = .TRUE.
           ENDIF
-        ENDIF
+        ENDIF 
+             
         RETURN
+        
       ENDIF
    
 C-----------------------------------------------
@@ -420,13 +420,13 @@ C-----------------------------------------------
               N  = I + NFT  
               IPRT=IPART_PTR(N) 
               IMAT =IPART(1,IPRT)  
-              IF(MAT_PARAM(IMAT)%MULTIMAT%MID(ISUBMAT) == 0)EXIT   !submaterial not defined.
+              IF(IPM(20+ISUBMAT,IMAT) == 0)EXIT   !submaterial not defined. 
               NB2=MAX(NB2,IPM(5,IMAT))
               IADBUF = IPM(7,IMAT)                                                                                              
               NPAR = IPM(9,IMAT)                                                                                                
               NUVAR = IPM(8,IMAT)                                                                                               
               UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)             
-              KK = M51_N0PHAS + (UPARAM(276+ISUBMAT)-1)*M51_NVPHAS ! bug in SP if   (UPARAM(276+ISUBMAT)-1)*M51_NVPHAS > 16M
+              KK = N0PHAS + (UPARAM(276+ISUBMAT)-1)*NVPHAS ! bug in SP if   (UPARAM(276+ISUBMAT)-1)*NVPHAS > 16M
               MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)  
               STATE_INIMAP_BUF(1)%SUBMAT(ISUBMAT)%VFRAC(K) = MBUF%VAR(NEL*(01+KK-1)+I)
               STATE_INIMAP_BUF(1)%SUBMAT(ISUBMAT)%RHO(K) = MBUF%VAR(NEL*(12+KK-1)+I)

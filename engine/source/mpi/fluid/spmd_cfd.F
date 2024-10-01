@@ -2119,18 +2119,17 @@ C
       END
       
       !||====================================================================
-      !||    spmd_l51vois         ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_l51vois   ../engine/source/mpi/fluid/spmd_cfd.F
       !||--- called by ------------------------------------------------------
-      !||    alemain              ../engine/source/ale/alemain.F
+      !||    alemain        ../engine/source/ale/alemain.F
       !||--- calls      -----------------------------------------------------
-      !||    spmd_wait            ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_waitany         ../engine/source/mpi/spmd_mod.F90
-      !||    startime             ../engine/source/system/timer.F
-      !||    stoptime             ../engine/source/system/timer.F
+      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
+      !||    startime       ../engine/source/system/timer.F
+      !||    stoptime       ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
-      !||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
+      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
       SUBROUTINE SPMD_L51VOIS(
      1     LBVOIS  ,IPARG    ,ELBUF_TAB ,PM       ,IXS     ,
@@ -2140,8 +2139,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPMD_MOD
-      USE ELBUFDEF_MOD
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS, M51_IFLG6_SIZE
+      USE ELBUFDEF_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2159,6 +2157,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
+#include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2261,7 +2260,7 @@ C-----------------------------------------------
                    !Submaterial Data
                    NELG       = KLT
                    ITRIMAT    = 1
-                   KK         = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS 
+                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS 
                    IADBUF=18 ; WA(II+07) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !PRES
                    IADBUF=1  ; WA(II+08) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !VFRAC
                    IADBUF=8  ; WA(II+09) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !ENER
@@ -2270,7 +2269,7 @@ C-----------------------------------------------
                    IADBUF=14 ; WA(II+12) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !SSP
                    IADBUF=15 ; WA(II+13) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !EPSP
                    ITRIMAT    = 2
-                   KK         = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS 
+                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS 
                    IADBUF=18 ; WA(II+14) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !PRES
                    IADBUF=1  ; WA(II+15) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !VFRAC
                    IADBUF=8  ; WA(II+16) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !ENER
@@ -2279,7 +2278,7 @@ C-----------------------------------------------
                    IADBUF=14 ; WA(II+19) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !SSP
                    IADBUF=15 ; WA(II+20) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !EPSP
                    ITRIMAT    = 3
-                   KK         = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS 
+                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS 
                    IADBUF=18 ; WA(II+21) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !PRES
                    IADBUF=1  ; WA(II+22) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !VFRAC
                    IADBUF=8  ; WA(II+23) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !ENER
@@ -2288,7 +2287,7 @@ C-----------------------------------------------
                    IADBUF=14 ; WA(II+26) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !SSP
                    IADBUF=15 ; WA(II+27) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !EPSP
                    ITRIMAT    = 4
-                   KK         = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS 
+                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS 
                    IADBUF=18 ; WA(II+28) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !PRES
                    IADBUF=1  ; WA(II+29) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !VFRAC
                    IADBUF=8  ; WA(II+30) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !ENER

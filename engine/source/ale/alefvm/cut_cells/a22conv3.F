@@ -21,18 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    a22conv3             ../engine/source/ale/alefvm/cut_cells/a22conv3.F
+      !||    a22conv3         ../engine/source/ale/alefvm/cut_cells/a22conv3.F
       !||--- called by ------------------------------------------------------
-      !||    aconve               ../engine/source/ale/aconve.F
+      !||    aconve           ../engine/source/ale/aconve.F
       !||--- calls      -----------------------------------------------------
-      !||    my_barrier           ../engine/source/system/machine.F
-      !||    nvar                 ../engine/source/input/nvar.F
+      !||    my_barrier       ../engine/source/system/machine.F
+      !||    nvar             ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
-      !||    alefvm_mod           ../common_source/modules/ale/alefvm_mod.F
-      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
+      !||    alefvm_mod       ../common_source/modules/ale/alefvm_mod.F
+      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================
       SUBROUTINE A22CONV3(            PHI  ,  FLUX ,   FLU1,
      .                    IOFF ,  QMV  ,   IFLG,
@@ -64,7 +63,6 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE I22BUFBRIC_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -238,7 +236,7 @@ C-----------------------------------------------
              pRHO => LBUF%RHO(1:LLT_) 
            ELSE
              !USE PHASIS DATA
-             ADD0 =  M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS                
+             ADD0 =  N0PHAS + (ITRIMAT-1)*NVPHAS                
              ADD  =  ADD0 + 9                                   ! ADD+9 => RHO
              K    =  LLT_*(ADD-1)                                ! UVAR(I,ADD) = UVAR(K+I)
              pRHO => MBUF%VAR(K+1:K+LLT_)
@@ -252,7 +250,7 @@ C-----------------------------------------------
              pEINT=> LBUF%EINT(1:LLT_) 
            ELSE
              !USE PHASIS DATA
-             ADD0 =  M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS                
+             ADD0 =  N0PHAS + (ITRIMAT-1)*NVPHAS                
              ADD  =  ADD0 + 8                                   ! ADD+9 => RHO
              K    =  LLT_*(ADD-1)                                ! UVAR(I,ADD) = UVAR(K+I)
              pEINT => MBUF%VAR(K+1:K+LLT_)
@@ -342,7 +340,7 @@ C-----------------------------------------------
                     pRHO => LBUF%RHO(1:LLT_) 
                   ELSE
                     !USE PHASIS DATA
-                    ADD0 =  M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS                
+                    ADD0 =  N0PHAS + (ITRIMAT-1)*NVPHAS                
                     ADD  =  ADD0 + 9                                   ! ADD+9 => RHO
                     K    =  LLT_*(ADD-1)                                ! UVAR(I,ADD) = UVAR(K+I)
                     pRHO => MBUF%VAR(K+1:K+LLT_)

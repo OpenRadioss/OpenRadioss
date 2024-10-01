@@ -21,18 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i22datainit          ../engine/source/interfaces/int22/i22datainit.F
+      !||    i22datainit      ../engine/source/interfaces/int22/i22datainit.F
       !||--- called by ------------------------------------------------------
-      !||    r_bufbric_22         ../engine/source/interfaces/int22/r_bufbric_22.F
+      !||    r_bufbric_22     ../engine/source/interfaces/int22/r_bufbric_22.F
       !||--- uses       -----------------------------------------------------
-      !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
+      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================
       SUBROUTINE I22DATAINIT()
       USE I22TRI_MOD
-      USE I22BUFBRIC_MOD
-      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+      USE I22BUFBRIC_MOD   
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -1092,7 +1090,7 @@ C=======================================================================
       IIAD22(:,:)                                                     = 0                                                                              
       NBCUT_MAX                                                       = 8 + 6  !cut plane in cut cell, maximum reached with 8 tetra (all 8 nodes isolated)  +6 closure surface
       I22_DEGENERATED                                                 = 0                                                                              
-      UVARL(0:NTHREAD-1,1:I22LEN,1:M51_N0PHAS+TRIMAT*M51_NVPHAS+I22LAW37) = ZERO
+      UVARL(0:NTHREAD-1,1:I22LEN,1:N0PHAS+TRIMAT*NVPHAS+I22LAW37)     = ZERO
       SuperCellVOL_L(0:NTHREAD-1,0:TRIMAT+I22LAW37,1:I22LEN)          = ZERO
       EINT_L(0:NTHREAD-1,1:I22LEN)                                    = ZERO
       MOM_L(1:3,0:NTHREAD-1,1:I22LEN)                                 = ZERO

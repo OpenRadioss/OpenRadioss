@@ -25,7 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    binit2   ../starter/source/ale/bimat/binit2.F
       !||====================================================================
-      SUBROUTINE BIMAT2(VOLT,ALPH,FILL,VOL,OFF,IX)
+      SUBROUTINE BIMAT2(PM,MXT,VOLT,ALPH,FILL,
+     .                  VOL,OFF,IX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,17 +43,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IX(NIXQ,MVSIZ)
-      my_real VOLT(MVSIZ),ALPH(MVSIZ),FILL(*),VOL(MVSIZ),OFF(MVSIZ)
+      INTEGER IX(NIXQ,MVSIZ), MXT(MVSIZ)
+      my_real
+     .   PM(NPROPM,*),VOLT(MVSIZ),ALPH(MVSIZ),FILL(*),VOL(MVSIZ),
+     .   OFF(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MT
       INTEGER IX1, IX2, IX3, IX4
-      my_real ALPHN, ALPHD
+      my_real
+     .   ALPHN, ALPHD
+
 C-----------------------------------------------
-C   S o u r c e   C o d e
-C-----------------------------------------------
+C=======================================================================
       DO I=LFT,LLT
         OFF(I)=ONE
         ALPH(I) = ZERO
@@ -61,6 +65,7 @@ C-----------------------------------------------
         IX2 = IX(3, I)
         IX3 = IX(4, I)
         IX4 = IX(5, I)
+        MXT(I)=NINT(PM(20+JMULT,MT))
         ALPHN= MAX(FILL(IX1),ZERO)
      .       + MAX(FILL(IX2),ZERO)
      .       + MAX(FILL(IX3),ZERO)
