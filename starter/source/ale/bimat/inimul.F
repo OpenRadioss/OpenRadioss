@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    inimul   ../starter/source/ale/bimat/inimul.F
+      !||    inimul               ../starter/source/ale/bimat/inimul.F
       !||--- called by ------------------------------------------------------
-      !||    lectur   ../starter/source/starter/lectur.F
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE INIMUL(PM,F,DF)
 C-----------------------------------------------

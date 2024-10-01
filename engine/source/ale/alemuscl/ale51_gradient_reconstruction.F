@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alemuscl_mod                    ../common_source/modules/ale/alemuscl_mod.F
       !||    elbufdef_mod                    ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod                     ../engine/share/resol/initbuf.F
+      !||    multimat_param_mod              ../common_source/modules/multimat_param_mod.F90
       !||    segvar_mod                      ../engine/share/modules/segvar_mod.F
       !||    trimat_mod                      ../engine/share/modules/trimat.F
       !||====================================================================

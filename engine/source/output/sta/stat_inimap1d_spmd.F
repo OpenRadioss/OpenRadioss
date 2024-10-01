@@ -31,8 +31,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_state_inimap_exch_siz      ../engine/source/output/sta/spmd_state_inimap_exch_siz.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod                    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    matparam_def_mod                ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    message_mod                     ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod                   ../common_source/modules/ale/multi_fvm_mod.F
+      !||    multimat_param_mod              ../common_source/modules/multimat_param_mod.F90
       !||    state_inimap_mod                ../engine/share/modules/state_inimap_mod.F
       !||====================================================================
       SUBROUTINE STAT_INIMAP1D_SPMD(

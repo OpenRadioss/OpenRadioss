@@ -32,7 +32,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    h3d_quad_scalar_1_mod        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
       !||    initbuf_mod                  ../engine/share/resol/initbuf.F
+      !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F
+      !||    multimat_param_mod           ../common_source/modules/multimat_param_mod.F90
       !||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
       !||    schlieren_mod                ../engine/share/modules/schlieren_mod.F
       !||    stack_mod                    ../engine/share/modules/stack_mod.F

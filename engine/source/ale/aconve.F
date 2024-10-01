@@ -43,6 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    multimat_param_mod     ../common_source/modules/multimat_param_mod.F90
       !||    segvar_mod             ../engine/share/modules/segvar_mod.F
       !||====================================================================
       SUBROUTINE ACONVE(

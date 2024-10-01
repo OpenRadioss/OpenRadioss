@@ -37,7 +37,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
       !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod                  ../engine/share/resol/initbuf.F
+      !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F
+      !||    multimat_param_mod           ../common_source/modules/multimat_param_mod.F90
       !||    schlieren_mod                ../engine/share/modules/schlieren_mod.F
       !||    stack_mod                    ../engine/share/modules/stack_mod.F
       !||====================================================================

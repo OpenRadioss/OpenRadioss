@@ -2119,17 +2119,18 @@ C
       END
       
       !||====================================================================
-      !||    spmd_l51vois   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_l51vois         ../engine/source/mpi/fluid/spmd_cfd.F
       !||--- called by ------------------------------------------------------
-      !||    alemain        ../engine/source/ale/alemain.F
+      !||    alemain              ../engine/source/ale/alemain.F
       !||--- calls      -----------------------------------------------------
-      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
+      !||    spmd_wait            ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany         ../engine/source/mpi/spmd_mod.F90
+      !||    startime             ../engine/source/system/timer.F
+      !||    stoptime             ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
+      !||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
       SUBROUTINE SPMD_L51VOIS(
      1     LBVOIS  ,IPARG    ,ELBUF_TAB ,PM       ,IXS     ,

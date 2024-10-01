@@ -21,12 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i22datainit      ../engine/source/interfaces/int22/i22datainit.F
+      !||    i22datainit          ../engine/source/interfaces/int22/i22datainit.F
       !||--- called by ------------------------------------------------------
-      !||    r_bufbric_22     ../engine/source/interfaces/int22/r_bufbric_22.F
+      !||    r_bufbric_22         ../engine/source/interfaces/int22/r_bufbric_22.F
       !||--- uses       -----------------------------------------------------
-      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
       !||====================================================================
       SUBROUTINE I22DATAINIT()
       USE I22TRI_MOD

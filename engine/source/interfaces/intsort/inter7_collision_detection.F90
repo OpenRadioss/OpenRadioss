@@ -35,13 +35,15 @@
       !||    ancmsg                       ../engine/source/output/message/message.F
       !||    arret                        ../engine/source/system/arret.F
       !||    inter7_candidate_pairs       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
-      !||    my_barrier                   ../engine/source/system/machine.F
       !||    spmd_oldnumcd                ../engine/source/mpi/interfaces/spmd_i7tool.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod                 ../common_source/modules/constant_mod.F
+      !||    fill_voxel_mod               ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    inter7_candidate_pairs_mod   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+      !||    inter_struct_mod             ../engine/share/modules/inter_struct_mod.F
       !||    message_mod                  ../engine/share/message_module/message_mod.F
       !||    tri7box                      ../engine/share/modules/tri7box.F
+      !||    voxel_dimensions_mod         ../engine/source/interfaces/intsort/voxel_dimensions.F90
       !||====================================================================
         SUBROUTINE INTER7_COLLISION_DETECTION(&
         &X        ,IRECT   ,NSV     ,INACTI   ,CAND_P  ,&

@@ -21,10 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    write_buf_law51   ../engine/source/materials/mat/mat051/write_buf_law51.F
+      !||    write_buf_law51      ../engine/source/materials/mat/mat051/write_buf_law51.F
       !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    i22bufbric_mod    ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
       !||====================================================================
       SUBROUTINE WRITE_BUF_LAW51 (
      1     IXS   , NFT     , NUVAR  , NEL    ,  UVAR   ,

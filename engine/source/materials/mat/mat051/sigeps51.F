@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    multimat_param_mod     ../common_source/modules/multimat_param_mod.F90
       !||====================================================================
       SUBROUTINE SIGEPS51 (
      1     NEL    ,NUPARAM     ,NUVAR   ,NFUNC   ,IFUNC    ,

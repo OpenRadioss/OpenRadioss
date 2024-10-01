@@ -23,6 +23,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    inter_struct_mod               ../engine/share/modules/inter_struct_mod.F
       !||--- called by ------------------------------------------------------
+      !||    compute_voxel_dimensions       ../engine/source/interfaces/intsort/voxel_dimensions.F90
+      !||    fill_voxel_local_partial       ../engine/source/interfaces/intsort/fill_voxel.F90
+      !||    inter7_collision_detection     ../engine/source/interfaces/intsort/inter7_collision_detection.F90
       !||    inter_cell_color               ../engine/source/interfaces/generic/inter_cell_color.F
       !||    inter_check_sort               ../engine/source/interfaces/generic/inter_check_sort.F
       !||    inter_color_voxel              ../engine/source/interfaces/generic/inter_color_voxel.F

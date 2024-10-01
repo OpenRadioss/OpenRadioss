@@ -21,18 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    r_bufbric_22     ../engine/source/interfaces/int22/r_bufbric_22.F
+      !||    r_bufbric_22         ../engine/source/interfaces/int22/r_bufbric_22.F
       !||--- called by ------------------------------------------------------
-      !||    rdresb           ../engine/source/output/restart/rdresb.F
+      !||    rdresb               ../engine/source/output/restart/rdresb.F
       !||--- calls      -----------------------------------------------------
-      !||    arret            ../engine/source/system/arret.F
-      !||    i22datainit      ../engine/source/interfaces/int22/i22datainit.F
-      !||    read_db          ../common_source/tools/input_output/read_db.F
-      !||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||    arret                ../engine/source/system/arret.F
+      !||    i22datainit          ../engine/source/interfaces/int22/i22datainit.F
+      !||    read_db              ../common_source/tools/input_output/read_db.F
+      !||    read_i_c             ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
-      !||    ale_mod          ../common_source/modules/ale/ale_mod.F
-      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    ale_mod              ../common_source/modules/ale/ale_mod.F
+      !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
       !||====================================================================
       SUBROUTINE R_BUFBRIC_22()
 C-----------------------------------------------

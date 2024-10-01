@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    inttri                      ../engine/source/interfaces/intsort/inttri.F
       !||--- calls      -----------------------------------------------------
+      !||    compute_voxel_dimensions    ../engine/source/interfaces/intsort/voxel_dimensions.F90
+      !||    fill_voxel_local_partial    ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    inter_box_creation          ../engine/source/interfaces/generic/inter_box_creation.F
       !||    inter_color_coarse_voxel    ../engine/source/interfaces/generic/inter_color_coarse_voxel.F
       !||    inter_color_voxel           ../engine/source/interfaces/generic/inter_color_voxel.F
@@ -37,8 +39,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_coarse_cell_exchange   ../engine/source/mpi/interfaces/spmd_coarse_cell_exchange.F
       !||    spmd_wait_nb                ../engine/source/mpi/interfaces/spmd_wait_nb.F
       !||--- uses       -----------------------------------------------------
+      !||    command_line_args_mod       ../engine/share/modules/command_line_args.F
+      !||    fill_voxel_mod              ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    inter_sorting_mod           ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod            ../engine/share/modules/inter_struct_mod.F
+      !||    tri7box                     ../engine/share/modules/tri7box.F
+      !||    voxel_dimensions_mod        ../engine/source/interfaces/intsort/voxel_dimensions.F90
       !||====================================================================
         SUBROUTINE INTER_PREPARE_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,ISENDTO,IRECVFROM,
      .                                 IPARI,IAD_ELEM,FR_ELEM,X,V,

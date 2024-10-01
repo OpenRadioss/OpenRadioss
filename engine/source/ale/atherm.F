@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    multimat_param_mod     ../common_source/modules/multimat_param_mod.F90
       !||====================================================================
       SUBROUTINE ATHERM(
      1   IPARG,      PM,         ELBUF_TAB,  FLUX,

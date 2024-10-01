@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    inivol_set      ../starter/source/initial_conditions/inivol/inivol_set.F
+      !||    inivol_set           ../starter/source/initial_conditions/inivol/inivol_set.F
       !||--- called by ------------------------------------------------------
-      !||    init_inivol     ../starter/source/initial_conditions/inivol/init_inivol.F90
+      !||    init_inivol          ../starter/source/initial_conditions/inivol/init_inivol.F90
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
+      !||    message_mod          ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INIVOL_SET(UVAR     , NUVAR , NEL     , KVOL         , MLW                         ,
      .                      ELBUF_TAB, NG    , NBSUBMAT, MULTI_FVM    , REQUIRED_2D_POLYGON_CLIPPING,

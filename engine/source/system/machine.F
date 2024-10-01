@@ -157,7 +157,6 @@ C=======================================================================
       !||    imp_updst                        ../engine/source/implicit/imp_pcg.F
       !||    ini_tmax                         ../engine/source/output/ini_outmax.F
       !||    int18_law151_update              ../engine/source/interfaces/int18/int18_law151_update.F
-      !||    inter7_collision_detection       ../engine/source/interfaces/intsort/inter7_collision_detection.F90
       !||    inter_color_coarse_voxel         ../engine/source/interfaces/generic/inter_color_coarse_voxel.F
       !||    inter_color_voxel                ../engine/source/interfaces/generic/inter_color_voxel.F
       !||    inter_count_node_curv            ../engine/source/interfaces/generic/inter_count_node_curv.F

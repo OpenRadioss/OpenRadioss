@@ -465,6 +465,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    monvol_struct_mod                            ../engine/share/modules/monvol_struct_mod.F
       !||    mpi_tools_mod                                ../engine/share/modules/mpi_tools_mod.F
       !||    multi_fvm_mod                                ../common_source/modules/ale/multi_fvm_mod.F
+      !||    multimat_param_mod                           ../common_source/modules/multimat_param_mod.F90
       !||    names_and_titles_mod                         ../common_source/modules/names_and_titles_mod.F
       !||    nlocal_reg_mod                               ../common_source/modules/nlocal_reg_mod.F
       !||    offset_nproj_mod                             ../engine/source/interfaces/shell_offset/offset_nproj.F90

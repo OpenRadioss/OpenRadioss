@@ -25,6 +25,54 @@
 ! ======================================================================================================================
 !! \brief Here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
+      !||====================================================================
+      !||    multimat_param_mod               ../common_source/modules/multimat_param_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    a22conv3                         ../engine/source/ale/alefvm/cut_cells/a22conv3.F
+      !||    aconve                           ../engine/source/ale/aconve.F
+      !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+      !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+      !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+      !||    ale51_upwind3_int22              ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
+      !||    alemain                          ../engine/source/ale/alemain.F
+      !||    arezon                           ../engine/source/ale/arezon.F
+      !||    atherm                           ../engine/source/ale/atherm.F
+      !||    dfuncc                           ../engine/source/output/anim/generate/dfuncc.F
+      !||    dfuncs                           ../engine/source/output/anim/generate/dfunc6.F
+      !||    ebcs10                           ../engine/source/boundary_conditions/ebcs/ebcs10.F
+      !||    h3d_quad_scalar                  ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+      !||    h3d_shell_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
+      !||    h3d_solid_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+      !||    h3d_sph_scalar                   ../engine/source/output/h3d/h3d_results/h3d_sph_scalar.F
+      !||    hm_read_mat                      ../starter/source/materials/mat/hm_read_mat.F
+      !||    hm_read_mat20                    ../starter/source/materials/mat/mat020/hm_read_mat20.F
+      !||    hm_read_mat51                    ../starter/source/materials/mat/mat051/hm_read_mat51.F
+      !||    i22datainit                      ../engine/source/interfaces/int22/i22datainit.F
+      !||    i22err3                          ../starter/source/interfaces/inter3d1/i22err3.F
+      !||    ini_inimap1d                     ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+      !||    inigrav_m51                      ../starter/source/initial_conditions/inigrav/inigrav_m51.F
+      !||    inimul                           ../starter/source/ale/bimat/inimul.F
+      !||    initia                           ../starter/source/elements/initia/initia.F
+      !||    inivol_set                       ../starter/source/initial_conditions/inivol/inivol_set.F
+      !||    m51init                          ../starter/source/materials/mat/mat051/m51init.F
+      !||    m51vois2                         ../engine/source/materials/mat/mat051/m51vois2.F
+      !||    m51vois3                         ../engine/source/materials/mat/mat051/m51vois3.F
+      !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    nodalvfrac                       ../engine/source/output/anim/generate/nodalvfrac.F
+      !||    nrf51ini                         ../starter/source/materials/mat/mat051/nrf51ini.F
+      !||    r_bufbric_22                     ../engine/source/interfaces/int22/r_bufbric_22.F
+      !||    rdcomr                           ../engine/source/output/restart/rdcomm.F
+      !||    resol                            ../engine/source/engine/resol.F
+      !||    sigeps51                         ../engine/source/materials/mat/mat051/sigeps51.F
+      !||    sinit22_fvm                      ../engine/source/interfaces/int22/sinit22_fvm.F
+      !||    spmd_l51vois                     ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    stat_inimap1d_file_spmd          ../engine/source/output/sta/stat_inimap1d_file_spmd.F
+      !||    stat_inimap1d_spmd               ../engine/source/output/sta/stat_inimap1d_spmd.F
+      !||    stat_inimap2d_file_spmd          ../engine/source/output/sta/stat_inimap2d_file_spmd.F
+      !||    stat_inimap2d_spmd               ../engine/source/output/sta/stat_inimap2d_spmd.F
+      !||    wrcomr                           ../engine/source/output/restart/wrcomm.F
+      !||    write_buf_law51                  ../engine/source/materials/mat/mat051/write_buf_law51.F
+      !||====================================================================
       MODULE MULTIMAT_PARAM_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

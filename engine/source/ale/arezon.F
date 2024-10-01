@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    multimat_param_mod     ../common_source/modules/multimat_param_mod.F90
       !||====================================================================
       SUBROUTINE AREZON(
      1  IPARG   ,ELBUF_STR,FLUX    ,PHI   ,ALE_CONNECT   ,

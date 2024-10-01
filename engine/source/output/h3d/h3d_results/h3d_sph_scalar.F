@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    multimat_param_mod     ../common_source/modules/multimat_param_mod.F90
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||    schlieren_mod          ../engine/share/modules/schlieren_mod.F
       !||    stack_mod              ../engine/share/modules/stack_mod.F

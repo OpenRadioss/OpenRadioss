@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    command_line_args_mod   ../engine/share/modules/command_line_args.F
       !||--- called by ------------------------------------------------------
       !||    execargcheck            ../engine/source/engine/execargcheck.F
+      !||    inter_prepare_sort      ../engine/source/interfaces/generic/inter_prepare_sort.F
       !||    inter_sort              ../engine/source/interfaces/generic/inter_sort.F
       !||    inter_sort_07           ../engine/source/interfaces/int07/inter_sort_07.F
       !||====================================================================

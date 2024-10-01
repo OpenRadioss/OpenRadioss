@@ -39,7 +39,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22tri_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    initbuf_mod                  ../engine/share/resol/initbuf.F
       !||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F
+      !||    multimat_param_mod           ../common_source/modules/multimat_param_mod.F90
       !||    schlieren_mod                ../engine/share/modules/schlieren_mod.F
       !||====================================================================
       SUBROUTINE DFUNCS(ELBUF_TAB  ,FUNC      ,IFUNC     ,IPARG    ,GEO     ,

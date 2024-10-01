@@ -34,7 +34,6 @@
       !||    inter7_candidate_pairs       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||--- called by ------------------------------------------------------
       !||    inter7_collision_detection   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
-      !||    test_candidates              ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||--- calls      -----------------------------------------------------
       !||    inter7_filter_cand           ../engine/source/interfaces/intsort/inter7_filter_cand.F90
       !||--- uses       -----------------------------------------------------
@@ -700,8 +699,6 @@
 !! \brief write the data to a file
       !||====================================================================
       !||    inter7_deserialize   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
-      !||--- called by ------------------------------------------------------
-      !||    test_candidates      ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||====================================================================
         SUBROUTINE INTER7_DESERIALIZE(    filename     ,& 
      &                                    nsn          ,&

@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    wrcomr           ../starter/source/restart/ddsplit/wrcomm.F
+      !||    wrcomr               ../starter/source/restart/ddsplit/wrcomm.F
       !||--- called by ------------------------------------------------------
-      !||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
+      !||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,MS_ND,P,INTER_PARAMETERS, UNITAB)
