@@ -215,7 +215,8 @@ C      Temperature globalization. We must solve later T such as e+p/rho=integral
          DO ILAY = 1, NLAY
             LBUF  => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
             DO II = 1, NEL
-               GBUF%TEMP(II) = GBUF%TEMP(II) + LBUF%TEMP(II) * MAT_PARAM( IXTG(1,II+NFT) )%MULTIMAT%VFRAC(ILAY)*LBUF%RHO(II)/GBUF%RHO(II)   !volfrac*densfrac=massfrac
+               GBUF%TEMP(II) = GBUF%TEMP(II) + LBUF%TEMP(II) * 
+     .             MAT_PARAM( IXTG(1,II+NFT) )%MULTIMAT%VFRAC(ILAY)*LBUF%RHO(II)/GBUF%RHO(II)   !volfrac*densfrac=massfrac
             ENDDO
          ENDDO    
                   
