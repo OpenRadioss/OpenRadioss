@@ -239,6 +239,7 @@ C-----------------------------------------------
            GRTYPE = 0
            CALL FILL_GR( IGRNOD ,NGRNOD,GRTYPE,
      *                 SET(IGS)%SET_ID,SET(IGS)%TITLE,SET(IGS)%NODENS,SET(IGS)%NB_NODENS,SET(IGS)%SET_GRNOD_ID)
+           IGRNOD(SET(IGS)%SET_GRNOD_ID)%SORTED = 1
          ENDIF
 
          IF(DOQA == 0) THEN              ! if qa_print keep SET memory
