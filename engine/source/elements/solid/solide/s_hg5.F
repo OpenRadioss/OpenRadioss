@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      I   FHOUR,PARTSAV,    IPARTS,  NFT,
      J   MTN,     JLAG,    EANI  ,  PID,
      K   IVECTOR ,DT1 ,    MAT,     GEO,
-     L   NEL     ,ISCTL)
+     L   NEL     ,ISCTL,   STI   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -93,7 +93,7 @@ C-----------------------------------------------
      .   F11,F21,F31,F12,F22,F32,
      .   F13,F23,F33,F14,F24,F34,
      .   F15,F25,F35,F16,F26,F36,
-     .   F17,F27,F37,F18,F28,F38
+     .   F17,F27,F37,F18,F28,F38,STI
       my_real, INTENT(IN):: DT1
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -138,12 +138,16 @@ C------recompute modulus for law42,88,90
           C1 = THIRD*E0/(1-TWO*NU)
           G0 = HALF*G0
           LAMG = C1+FOUR_OVER_3*G0
+        CASE (1,62)
+          LAMG = C1+FOUR_OVER_3*G0
         CASE (88)
           C1 = THIRD*E0/(1-TWO*NU)
           LAMG = C1+FOUR_OVER_3*G0
         CASE DEFAULT
+          IF (ISCTL>0) QH = FOURTH*QH ! 2.5 for default
           LAMG = C1+FOUR_OVER_3*G0
       END SELECT
+      IF (QH>ONE) STI(1:NEL) = QH*STI(1:NEL)
       SFAC = 0.038*QH*LAMG
       DO I=1,NEL
          CAQ(I)=SFAC*DT1*OFF(I)
