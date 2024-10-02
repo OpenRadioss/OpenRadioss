@@ -99,7 +99,7 @@ std::string node_parenthesis_to_underscore(const std::string &input)
 std::string parenthesis_to_underscore(const std::string &input)
 {
     std::string result = node_parenthesis_to_underscore(input);
-    return element_parenthesis_to_underscore(input, ELEMENT_KEYWORDS);
+    return element_parenthesis_to_underscore(result, ELEMENT_KEYWORDS);
 }
 
 // Function to extract numbers based on the pattern and fill the global set
@@ -121,6 +121,7 @@ void extract_node_uid(const std::string &input)
 
     for (auto i = begin; i != end; ++i)
     {
+	
         auto match = *i;
         std::string match_str = match.str();
         size_t underscore_pos = match_str.find('_');
@@ -128,7 +129,6 @@ void extract_node_uid(const std::string &input)
         {
             int number = std::stoi(match_str.substr(underscore_pos + 1));
             nodes_uid.insert(number);
-            // std::cout<<"[PYTHON] uid found: "<<number<<std::endl;
         }
     }
 }
@@ -585,9 +585,11 @@ extern "C"
                 // add the null char at the end of the string
                 name[function_name.size()] = '\0';
             }
-            extract_node_uid(tmp_string);
-            //            std::cout << tmp_string << std::endl;  // Print the line (optional)
+
             const std::string s = parenthesis_to_underscore(tmp_string);
+            extract_node_uid(s);
+
+
             extract_element_keywords(s);
             function_code << s << std::endl; // Add the line to the function code
             i++;                             // Move past the null character
