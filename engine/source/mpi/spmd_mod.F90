@@ -1158,6 +1158,9 @@
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
+#else
+          recvbuf(1:buf_count) = sendbuf(1:buf_count)
+
 #endif
         end subroutine spmd_reduce_doubles
 ! ======================================================================================================================
@@ -1191,6 +1194,9 @@
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
+#else
+          recvbuf(1:buf_count) = sendbuf(1:buf_count)
+
 #endif
         end subroutine
 ! ======================================================================================================================
@@ -1224,6 +1230,9 @@
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
+#else
+          recvbuf(1:buf_count) = sendbuf(1:buf_count)
+
 #endif
         end subroutine
 ! ======================================================================================================================
@@ -1257,6 +1266,8 @@
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
+#else
+          recvbuf(1:buf_count) = sendbuf(1:buf_count)
 #endif
         end subroutine
 ! ======================================================================================================================
