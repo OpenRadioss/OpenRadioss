@@ -25,14 +25,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    sigeps02c   ../engine/source/materials/mat/mat002/sigeps02c.F
       !||====================================================================
-      SUBROUTINE M2CPLR(JFT    ,JLT    ,EZZ      ,OFF      ,EPSEQ   ,
+      SUBROUTINE M2CPLR(NEL    ,EZZ    ,OFF      ,EPSEQ    ,
      2                  IPLA   ,TEMP   ,Z3       ,Z4       ,
      3                  IRTY   ,ETSE   ,GS       ,EPSP     ,
      4                  ISRATE ,YLD    ,G        ,A1       ,A2      ,
      5                  NU     ,CA0    ,CB0      ,CN       ,YMAX0   ,
      6                  EPCHK  ,YOUNG  ,CC       ,EPDR     ,ICC     ,
      7                  DPLA   ,TSTAR  ,FISOKIN  ,GAMA_IMP ,SIGNOR  ,
-     8                  HARDM  ,NEL    ,DEPSXX   ,DEPSYY   ,DEPSXY  ,
+     8                  HARDM  ,DEPSXX ,DEPSYY   ,DEPSXY   ,
      9                  DEPSYZ ,DEPSZX ,SIGNXX   ,SIGNYY   ,SIGNXY  ,
      A                  SIGNYZ ,SIGNZX ,SIGBAKXX ,SIGBAKYY ,SIGBAKXY,
      B                  SIGOXX ,SIGOYY ,SIGOXY   ,SIGOYZ   ,SIGOZX  ,
@@ -52,43 +52,31 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, IPLA,IRTY,ISRATE,NEL
-      INTEGER,INTENT(IN) :: VP
-C     REAL
-      my_real
-     .   EZZ(*), OFF(*), EPSEQ(*),TEMP(*),Z3,Z4,
-     .   ETSE(*),GS(*),EPSP(*)
-      my_real
-     .   A1, A2, G, YMAX0, 
-     .   CA0, CB0, CN, YOUNG, YLD(MVSIZ),
-     .   CC, EPDR(MVSIZ), NU, EPCHK(MVSIZ),TSTAR(MVSIZ),
-     .   DPLA(MVSIZ),FISOKIN,GAMA_IMP(*),SIGNOR(MVSIZ,5),
-     .   HARDM(*),DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
-     .   DEPSZX(MVSIZ),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
-     .   SIGNYZ(NEL),SIGNZX(NEL),SIGBAKXX(NEL),SIGBAKYY(NEL),SIGBAKXY(NEL),
-     .   SIGOXX(NEL),SIGOYY(NEL),
-     .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL)
+      my_real, DIMENSION(NEL), INTENT(IN) :: EPSPXX,EPSPYY,EPSPXY,
+     .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,SIGOXX,SIGOYY,SIGOXY,
+     .   SIGOYZ,SIGOZX,GS,TSTAR
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: SIGNXX,SIGNYY,SIGNXY,
+     .   SIGNYZ,SIGNZX,SIGBAKXX,SIGBAKYY,SIGBAKXY,HARDM,EZZ,OFF,
+     .   EPSEQ,ETSE,EPCHK,YLD,EPSP,TEMP,DPLA,GAMA_IMP
+      my_real, DIMENSION(NEL,5), INTENT(INOUT) :: SIGNOR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICC
-      INTEGER I, J, N, NINDX, INDEX(MVSIZ), NMAX,IKFLG
-C     REAL
-      my_real
-     .   A(MVSIZ), B(MVSIZ)  , DPLA_I(MVSIZ), DPLA_J(MVSIZ), DR(MVSIZ),
-     .   H(MVSIZ), NU1(MVSIZ), NU2(MVSIZ)   , P(MVSIZ)     , Q(MVSIZ), 
-     .   SVM(MVSIZ),CA(MVSIZ), CB(MVSIZ)    , YMAX(MVSIZ)  ,
-     .   SVM2(MVSIZ),YLD2(MVSIZ),HI(MVSIZ)  ,HK(MVSIZ)     ,LOGEP(MVSIZ),
-     .   NU11(MVSIZ),NU21(MVSIZ),ANU1(MVSIZ),BNU2(MVSIZ),H2(MVSIZ),
-     .   ERR,F,DF,PLA_I,P2,Q2,R,S1,S2,S3,YLD_I,NNU1,NNU2,
+      INTEGER :: ICC,I,J,N,NINDX,INDEX(NEL),NMAX,IKFLG
+      my_real :: ERR,F,DF,PLA_I,P2,Q2,R,S1,S2,S3,YLD_I,NNU1,NNU2,
      .   NU3,NU4,NU5,NU6,SIGZ,PP,AA,BB,C,S11,S22,S12,S1S2,S122,UMR,
-     .   VM2,QQ,SMALL,MT,TM,BETA,AAA ,HKIN,ALPHA,PLAP1
+     .   VM2,QQ,SMALL,MT,TM,BETA,AAA ,HKIN,ALPHA
+      my_real :: A(NEL), B(NEL)  , DPLA_I(NEL), DPLA_J(NEL), DR(NEL),
+     .   H(NEL), NU1(NEL), NU2(NEL)   , P(NEL)     , Q(NEL), 
+     .   SVM(NEL),CA(NEL), CB(NEL)    , YMAX(NEL)  ,
+     .   SVM2(NEL),YLD2(NEL),HI(NEL)  ,HK(NEL)     ,
+     .   NU11(NEL),NU21(NEL),ANU1(NEL),BNU2(NEL),H2(NEL)
          
       DATA NMAX/3/      
 C------------------------------------------------------------------
       NINDX = 0
       SMALL = EM7
-      DO I=JFT,JLT
+      DO I= 1,NEL
         ETSE(I) = ONE
 c remise aux val. initiales
         CA(I)   = CA0
@@ -105,19 +93,20 @@ c remise aux val. initiales
 C------------------------------------------
 C     ECROUISSAGE CINE
 C------------------------------------------
-      IKFLG=0
       IF (FISOKIN > 0) THEN
-        DO I=JFT,JLT
+        IKFLG = 1
+        DO I = 1,NEL
           SIGNXX(I)=SIGNXX(I)-SIGBAKXX(I)
           SIGNYY(I)=SIGNYY(I)-SIGBAKYY(I)
           SIGNXY(I)=SIGNXY(I)-SIGBAKXY(I)
         ENDDO
-        IKFLG=JLT
+      ELSE
+        IKFLG = 0
       END IF !(FISOKIN(I) > 0) THEN
 C---------------------------
 C     CONTRAINTES ELASTIQUES
 C---------------------------
-      DO I=JFT,JLT
+      DO I= 1,NEL
         SIGNXX(I)=SIGNXX(I)+A1*DEPSXX(I)+A2*DEPSYY(I)
         SIGNYY(I)=SIGNYY(I)+A2*DEPSXX(I)+A1*DEPSYY(I)
         SIGNXY(I)=SIGNXY(I)+G*DEPSXY(I)
@@ -132,6 +121,7 @@ C-------------
 C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
       IF (CC /= ZERO) THEN
+<<<<<<< HEAD
         IF (IRTY == 0) THEN 
           DO I=JFT,JLT
             IF (ISRATE == 0.AND.VP == 2) EPSP(I) = 
@@ -146,6 +136,20 @@ C-------------
               Q(I) = (ONE + CC * LOGEP(I))
             ELSE
               Q(I) = (ONE + CC * LOGEP(I))*(ONE-EXP(MT*LOG(TSTAR(I))))
+=======
+        IF (IRTY == 0) THEN
+#include "vectorize.inc" 
+          DO I= 1,NEL
+            IF (ISRATE == 0 .AND. VP == 2) EPSP(I) = 
+     .           MAX(ABS(EPSPXX(I)),ABS(EPSPYY(I)),HALF*ABS(EPSPXY(I)))
+            EPSP(I) = MAX(EPSP(I),EPDR)
+            MT = MAX(EM20,Z3)
+            IF (TSTAR(I) == ZERO) THEN
+              Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR))
+            ELSE
+              Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR))*
+     .                             (ONE-EXP(MT*LOG(TSTAR(I))))  
+>>>>>>> 6b873ea17 (update sigeps02c)
             ENDIF
             Q(I) = MAX(Q(I),EM20)
             CA(I) = CA(I) * Q(I)
@@ -153,6 +157,7 @@ C-------------
             IF (ICC == 1) YMAX(I) = YMAX(I) * Q(I)
           ENDDO
         ELSEIF (IRTY == 1) THEN   ! Zerilli
+<<<<<<< HEAD
           DO I=JFT,JLT
             IF (ISRATE == 0.AND.VP == 2) EPSP(I) = MAX( ABS(DEPSXX(I)),
      .                   ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
@@ -161,6 +166,13 @@ C-------------
           ENDDO
           DO I=JFT,JLT          
             Q(I) = LOGEP(I)
+=======
+          DO I= 1,NEL
+            IF (ISRATE == 0 .AND.VP == 2) EPSP(I) = 
+     .           MAX(ABS(EPSPXX(I)),ABS(EPSPYY(I)),HALF*ABS(EPSPXY(I)))
+            EPSP(I) = MAX(EPSP(I),EM20)
+            Q(I) = LOG(EPSP(I)/EPDR)
+>>>>>>> 6b873ea17 (update sigeps02c)
             Q(I) = CC*EXP((-Z3+Z4 * Q(I))*TEMP(I))
             IF (ICC == 1) YMAX(I)= YMAX(I) + Q(I)
             CA(I) = CA(I) + Q(I)
@@ -170,7 +182,7 @@ C-------------
 C-----------------------------------
 C     YIELD
 C-----------------------------------
-      DO I=JFT,JLT
+      DO I= 1,NEL
         DPLA(I) = ZERO
         IF (EPSEQ(I) == ZERO) THEN
            YLD(I)= CA(I)
@@ -187,7 +199,7 @@ C------------------------------------------
 C-------------------
 C     CONTRAINTE VM
 C-------------------
-        DO I=JFT,JLT
+        DO I= 1,NEL
           SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .               +SIGNYY(I)*SIGNYY(I)
      .               -SIGNXX(I)*SIGNYY(I)
@@ -195,7 +207,7 @@ C-------------------
         ENDDO
 C projection radiale 
 #include "vectorize.inc" 
-        DO I=JFT,JLT
+        DO I= 1,NEL
           R = MIN(ONE,YLD(I)/(SVM(I)+EM15))
           IF (R < ONE) THEN 
             SIGNXX(I)=SIGNXX(I)*R
@@ -219,7 +231,7 @@ C------------------------------------------------------------------------
 C-------------------------
 C     CRITERE DE VON MISES
 C-------------------------
-        DO  I=JFT,JLT
+        DO  I= 1,NEL
           S1=SIGNXX(I)+SIGNYY(I)
           S2=SIGNXX(I)-SIGNYY(I)
           S3=SIGNXY(I)
@@ -231,7 +243,7 @@ C-------------------------
 C     GATHER PLASTIC FLOW
 C-------------------------
         NINDX=0
-        DO I=JFT,JLT
+        DO I= 1,NEL
           IF (SVM(I) > YLD(I) .AND. OFF(I) == ONE) THEN
             NINDX=NINDX+1
             INDEX(NINDX)=I
@@ -239,14 +251,14 @@ C-------------------------
         ENDDO
         IF (NINDX == 0) THEN
           IF (IKFLG > 0) THEN
-            DO I=JFT,JLT
+            DO I= 1,NEL
               SIGNXX(I)=SIGNXX(I) + SIGBAKXX(I)
               SIGNYY(I)=SIGNYY(I) + SIGBAKYY(I)
               SIGNXY(I)=SIGNXY(I) + SIGBAKXY(I)
             ENDDO
           END IF !(IKFLG > 0) THEN
           IF (IMPL_S > 0.AND.IKT > 0) THEN
-            DO I = JFT,JLT
+            DO I = 1,NEL
              GAMA_IMP(I) = ZERO
             END DO
           END IF !(IMPL_S > 0.AND.IKT > 0) THEN
@@ -367,7 +379,7 @@ C-------------------------
 C-------------------------
 C     CRITERE DE VON MISES
 C-------------------------
-        DO I=JFT,JLT
+        DO I= 1,NEL
           SVM2(I)= SIGNXX(I)*SIGNXX(I)
      .       +SIGNYY(I)*SIGNYY(I)
      .       -SIGNXX(I)*SIGNYY(I)
@@ -378,7 +390,7 @@ C-------------------------
 C     GATHER PLASTIC FLOW
 C-------------------------
         NINDX=0
-        DO I=JFT,JLT
+        DO I= 1,NEL
           YLD2(I)=YLD(I)*YLD(I)
           IF (SVM2(I) > YLD2(I) .AND. OFF(I) == ONE) THEN
             NINDX=NINDX+1
@@ -434,7 +446,7 @@ C     for tangent matrix
 C------------------------------------------
       IF (IMPL_S > 0) THEN
         IF (IKT > 0) THEN
-          DO I = JFT,JLT
+          DO I = 1,NEL
             IF (DPLA(I) > ZERO) THEN
 c ...... Parameter d(gama)
               PLA_I =EPSEQ(I)
@@ -472,7 +484,7 @@ C------YLD, H(I) should not be updated----
             ENDIF
           END DO ! DO J=1,NINDX
         END IF ! (IPLA == 1) THEN
-        DO I=JFT,JLT
+        DO I= 1,NEL
           HKIN = FISOKIN*H(I)
           ALPHA = HKIN*DPLA(I)/YLD(I)
           SIGBAKXX(I) = SIGBAKXX(I) + ALPHA*SIGNXX(I)
@@ -489,7 +501,7 @@ C
 C--------------------------------
 C     HARDENING MODULUS
 C--------------------------------
-      DO I=JFT,JLT
+      DO I= 1,NEL
         HARDM(I) = H(I)
       ENDDO
 C---

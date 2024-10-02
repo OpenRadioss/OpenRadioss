@@ -92,11 +92,10 @@ C-----------------------------------------------
       my_real :: RHOR,RHO0
       INTEGER ICC,ISRAT1,IFLAG,MFLAG
       INTEGER niparam,nuparam,nfunc,ntable
-      my_real :: YOUNG,ANU,CA,CB,CN,EPSM,SIGM,CC,EPS0,G,E0,C0,C1
-      my_real :: E1MN2, EN1N2, SDSP,C3,C4
-      my_real :: FCUT,FISOKIN,CB0,RM,AG,CN0
-      my_real :: RHOCP,TREF,TMELT,TMAX,PMIN,M_EXP
-      my_real :: FAC_DENS,FAC_PRES,EPS0_UNIT,FAC_M,FAC_L,FAC_T,ASRATE
+      my_real
+     .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, CC, EPS0, G, E0, C0, bulk,PMIN,
+     .   E1MN2, EN1N2, SDSP,C3,C4,RHOCP,TREF,TMELT,M_EXP,FCUT,FISOKIN,CB0,RM,AG,CN0,
+     .   FAC_DENS,FAC_PRES,EPS0_UNIT,FAC_M,FAC_L,FAC_T,ASRATE
       CHARACTER PREDEF*16
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -382,7 +381,7 @@ C-----
       G=YOUNG/(TWO*(ONE + ANU))
       E0=ZERO
       C0=ZERO
-      C1=YOUNG/(THREE*(ONE - TWO*ANU))
+      BULK =YOUNG/(THREE*(ONE - TWO*ANU))
       E1MN2=YOUNG/(ONE - ANU**2)
       EN1N2=ANU*E1MN2
       SDSP =SQRT(YOUNG/MAX(RHOR,EM20))       
@@ -394,29 +393,6 @@ C-----
       
       IF (VP == 1) THEN
         ! If plastic strain is chosen, filtering by default
-<<<<<<< HEAD
-        ISRATE    = 1
-        ASRATE    = 10000.0D0*UNITAB%FAC_T_WORK
-        FCUT      = ASRATE
-      ELSE
-        IF (CC == ZERO)THEN
-            EPS0      = ONE
-            ISRATE    = 0
-            ASRATE    = ZERO
-            FCUT      = ASRATE
-        ELSE     
-          IF (ASRATE /= ZERO ) THEN
-            ! If a filtering frequency is given by the user
-            ISRATE    = 1
-            FCUT      = ASRATE
-            ASRATE    = ASRATE*TWO*PI 
-          ELSE
-            ! If no filtering frequency is given but the flag is activated
-            ISRATE    = 1 
-            ASRATE    = EP20
-            FCUT      = ASRATE
-          ENDIF
-=======
         ISRATE = 1
         IF (ASRATE == ZERO) ASRATE = 10000.0D0*UNITAB%FAC_T_WORK
       ELSE
@@ -427,9 +403,9 @@ C-----
         ELSE     
           ISRATE = 1
           IF (ASRATE == ZERO) ASRATE = EP20
->>>>>>> 7cc1d083e (law2 sans parmat)
         ENDIF
       ENDIF
+      EPS0 = MAX(EM20, EPS0)
       FCUT = ASRATE*TWO*PI 
 C-----
       PM(1) =RHOR
@@ -446,7 +422,7 @@ C-----
       PM(29)=-ANU*PM(28)
       PM(30)=ONE/G
       PM(31)=C0
-      PM(32)=C1
+      PM(32)=BULK
       PM(38)=CA
       PM(39)=CB
       PM(40)=CN
@@ -565,9 +541,13 @@ C--------------------------------
       PM(79) = TREF      ! for J-C
       PM(80) = TMELT      
       PM(69) = RHOCP
+C-----------
+C     Formulation for solid elements time step computation.
+!      IPM(252)= 2
+      PM(105) = TWO*G/(BULK+FOUR_OVER_3*G)
 C -----------------     
       PM(55)=FISOKIN
-C      
+C--------------------------------------------------------------      
       IF (FISOKIN>ONE.OR.FISOKIN<ZERO) THEN
         CALL ANCMSG(MSGID=912,
      .              MSGTYPE=MSGERROR,
@@ -638,7 +618,7 @@ C-----------
 
       mat_param%uparam(12)= rhocp      ! pm(53) = 1 / rhocp
       mat_param%uparam(13)= tref       ! pm(79) 
-      else
+      else    ! Johnson-Cook
         niparam = 4
         nuparam = 14
         nfunc   = 0
@@ -672,7 +652,7 @@ C-----------
         mat_param%uparam(10)= rhocp      ! pm(69) 
         mat_param%uparam(11)= tref       ! pm(79) 
         mat_param%uparam(12)= tmelt      ! pm(80) 
-        mat_param%uparam(13)= c3 ! m_exp      ! pm(51) 
+        mat_param%uparam(13)= m_exp      ! pm(51) 
         mat_param%uparam(14)= pmin       ! pm(37)     ! default pressure cut-off for eos
       
       end if
@@ -682,16 +662,9 @@ C-----------
       mat_param%rho   = rhor
       mat_param%rho0  = rho0
       mat_param%young = young
-      mat_param%bulk  = c1 ! bulk
+      mat_param%bulk  = bulk
       mat_param%shear = g
       mat_param%nu    = anu
-
-
-
-C-----------
-C     Formulation for solid elements time step computation.
-      IPM(252)= 2
-      PM(105) = TWO*G/(C1+FOUR_OVER_3*G)
 !
 C---- Definition des variables internes (stockage elementaire)
 c

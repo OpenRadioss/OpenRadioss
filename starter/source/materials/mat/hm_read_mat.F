@@ -1371,13 +1371,17 @@ c
         IPM(216,I) = IMATVIS
         IPM(226,I) = NUMTABL
 c---------------------------------------------------------
-        DO J=1,NFUNC
-          IPM(10+J,I) = IFUNC(J)
-        ENDDO
+        IF (NFUNC > 0) THEN
+          DO J=1,NFUNC
+            IPM(10+J,I) = IFUNC(J)
+          END DO
+        END IF
 c
-        DO J=1,NUMTABL
-          IPM(226+J,I) = ITABLE(J)
-        ENDDO
+        IF (NUMTABL > 0) THEN
+          DO J=1,NUMTABL
+            IPM(226+J,I) = ITABLE(J)
+          END DO
+        END IF
 c---------------------------------------------------------
         ! Fill old UPARAM buffer
 c---------------------------------------------------------
@@ -1409,7 +1413,7 @@ c
         PM(72,I)   = JALE + EM01    
         IPM(217,I) = IUSER_LAW
 c---------------------------------------------------------
-        ! still need double storage used in code outside of material laws :
+        ! still need double storage for params used outside of material law code :
 c---------------------------------------------------------
         IF (MATPARAM%RHO   > ZERO) PM(1 ,I) = MATPARAM%RHO
         IF (MATPARAM%RHO0  > ZERO) PM(89,I) = MATPARAM%RHO0
