@@ -215,7 +215,10 @@ c-----------------------------------------
 c--------------------------
       MATPARAM%RHO   = RHOR
       MATPARAM%RHO0  = RHO0
-      MATPARAM%YOUNG = MAX(E11,E22)
+      MATPARAM%YOUNG = MAX(E11,E22)/DETC
+      MATPARAM%BULK  = C1
+      MATPARAM%NU    = SQRT(N12*N21)
+      MATPARAM%SHEAR = MAX(G12,G23,G31) 
 c --------------------------
       PARMAT(1)  = C1
       PARMAT(2)  = MAX(E11,E22)/DETC
@@ -226,6 +229,7 @@ c
 c---- Definition des variables internes (stockage elementaire)
 c
       MTAG%G_SIGI = 3
+      MTAG%L_STRA = 6
 c
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")

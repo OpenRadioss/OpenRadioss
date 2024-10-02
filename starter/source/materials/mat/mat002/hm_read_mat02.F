@@ -37,11 +37,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_MAT02(
-     .           UPARAM   ,MAXUPARAM ,NUPARAM  ,NUVAR    ,
-     .           PARMAT   ,IFORM      ,
-     .           UNITAB   ,ID        ,TITR     ,LSUBMODEL,MTAG       ,
-     .           PM       ,IPM       ,ISRATE   ,MAT_PARAM) 
+      SUBROUTINE HM_READ_MAT02(MAT_PARAM ,MTAG     ,PARMAT   ,PM        ,IPM   ,
+     .                         NUVAR     ,IFORM    ,NPROPM   ,NPROPMI   ,ID    ,TITR     ,
+     .                         IOUT      ,ISRATE   ,UNITAB   ,LSUBMODEL )     
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -72,22 +70,18 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER, INTENT(IN)    :: ID,MAXUPARAM,IFORM
+      INTEGER, INTENT(IN)    :: ID,IOUT,IFORM
+      INTEGER, INTENT(IN)    :: NPROPM
+      INTEGER, INTENT(IN)    :: NPROPMI
       INTEGER, INTENT(INOUT) :: ISRATE
-      INTEGER, INTENT(INOUT) :: NUPARAM,NUVAR
+      INTEGER, INTENT(INOUT) :: NUVAR
       INTEGER, INTENT(INOUT) :: IPM(NPROPMI)
       my_real, INTENT(INOUT) :: PM(NPROPM)     
       CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
-      TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
-      my_real, DIMENSION(MAXUPARAM), INTENT(INOUT) :: UPARAM
+      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       my_real, INTENT(INOUT) :: PARMAT(100)
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
       TYPE(MATPARAM_STRUCT_),INTENT(INOUT)  :: MAT_PARAM
@@ -98,6 +92,7 @@ C-----------------------------------------------
       INTEGER :: I,VP
       my_real :: RHOR,RHO0
       INTEGER ICC,ISRAT1,IFLAG,MFLAG
+      INTEGER niparam,nuparam,nfunc,ntable
       my_real
      .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, CC, EPS0, G, E0, C0, C1,PMIN,
      .   E1MN2, EN1N2, SDSP,C3,C4,RHOCP,TREF,TMELT,M_EXP,FCUT,FISOKIN,CB0,RM,AG,CN0,
@@ -443,6 +438,7 @@ C-----
 
       PARMAT(4) = ISRATE
       PARMAT(5) = ASRATE
+      PARMAT(16) = 2       ! IPM(252,I) 
       PM(37)= PMIN    ! default pressure cut-off for EOS
 C
       IF (TREF <= ZERO) TREF = THREE100
@@ -581,6 +577,94 @@ C
      .               C1=TITR)
       ENDIF
 C-----------
+!     new mat_param storage
+C-----------
+      if (iform == 1) then
+        niparam = 4
+        nuparam = 13
+        nfunc   = 0
+        ntable  = 0
+        mat_param%niparam = niparam
+        mat_param%nuparam = nuparam
+        mat_param%nfunc   = nfunc
+        mat_param%ntable  = ntable
+        allocate (mat_param%iparam(niparam))
+        allocate (mat_param%uparam(nuparam))
+        allocate (mat_param%table(ntable))
+      
+        mat_param%iparam(1) = iform
+        mat_param%iparam(2) = icc
+        mat_param%iparam(3) = vp
+        mat_param%iparam(4) = israte
+!        
+        mat_param%uparam(1) = ca             ! pm(38)
+        mat_param%uparam(2) = cb             ! pm(39)
+        mat_param%uparam(3) = cn             ! pm(40)
+        mat_param%uparam(4) = epsm           ! pm(41)
+        mat_param%uparam(5) = sigm           ! pm(42)
+        mat_param%uparam(6) = cc             ! pm(43)
+        mat_param%uparam(7) = eps0           ! pm(44)
+        mat_param%uparam(8) = fisokin        ! pm(55)
+
+        mat_param%uparam(9) = asrate         ! pm(9)  !! general pm
+        mat_param%uparam(10)= c3             ! pm(51)
+        mat_param%uparam(11)= c4             ! pm(52)
+
+      ! common with heat mat => will be written in mat_param%therm
+
+      mat_param%uparam(12)= rhocp      ! pm(53) = 1 / rhocp
+      mat_param%uparam(13)= tref       ! pm(79) 
+      else
+        niparam = 4
+        nuparam = 14
+        nfunc   = 0
+        ntable  = 0
+!
+        mat_param%niparam = niparam
+        mat_param%nuparam = nuparam
+        mat_param%nfunc   = nfunc
+        mat_param%ntable  = ntable
+        allocate (mat_param%iparam(niparam))
+        allocate (mat_param%uparam(nuparam))
+        allocate (mat_param%table(ntable))
+!        
+        mat_param%iparam(1) = iform          ! pm(50)
+        mat_param%iparam(2) = icc            ! pm(49) 
+        mat_param%iparam(3) = vp             ! ipm(252)
+        mat_param%iparam(4) = israte         ! ipm(3)  !! general pm
+!        
+        mat_param%uparam(1) = ca             ! pm(38)
+        mat_param%uparam(2) = cb             ! pm(39)
+        mat_param%uparam(3) = cn             ! pm(40)
+        mat_param%uparam(4) = epsm           ! pm(41)
+        mat_param%uparam(5) = sigm           ! pm(42)
+        mat_param%uparam(6) = cc             ! pm(43)
+        mat_param%uparam(7) = eps0           ! pm(44)
+        mat_param%uparam(8) = fisokin        ! pm(55)
+        mat_param%uparam(9) = asrate         ! pm(9)  
+
+        ! common with heat mat => will be written in mat_param%therm
+
+        mat_param%uparam(10)= rhocp      ! pm(69) 
+        mat_param%uparam(11)= tref       ! pm(79) 
+        mat_param%uparam(12)= tmelt      ! pm(80) 
+        mat_param%uparam(13)= c3 ! m_exp      ! pm(51) 
+        mat_param%uparam(14)= pmin       ! pm(37)     ! default pressure cut-off for eos
+      
+      end if
+
+      ! mat_param common parameters
+!      
+      mat_param%rho   = rhor
+      mat_param%rho0  = rho0
+      mat_param%young = young
+      mat_param%bulk  = c1 ! bulk
+      mat_param%shear = g
+      mat_param%nu    = anu
+
+
+
+C-----------
 C     Formulation for solid elements time step computation.
       IPM(252)= 2
       PM(105) = TWO*G/(C1+FOUR_OVER_3*G)
@@ -598,7 +682,7 @@ c
       MTAG%L_SIGB  = 6
       MTAG%L_DMG   = 1
       MTAG%L_TEMP  = 1
-!
+c------------------------- 
       ! activate heat source calculation in material
       MAT_PARAM%HEAT_FLAG = 1
 c------------------------- 

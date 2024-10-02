@@ -64,7 +64,7 @@ c=======================================================================
           Y1 = Y2
           X2 = XI(IDX+1)
           Y2 = YI(IDX+1)
-          DERI  = (Y2 - Y1) / (X2 - X1)
+          DERI  = (Y2 - Y1) / MAX(EM20, (X2 - X1))
         END IF
         YF(IPT) = Y1 + DERI * (XF(IPT) - X1)
       END DO
