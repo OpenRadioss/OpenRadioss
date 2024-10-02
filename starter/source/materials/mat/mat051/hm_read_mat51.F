@@ -263,6 +263,8 @@ C-----------------------------------------------
         IF(IPLA(I) < 0 .OR. IPLA(I) > 2)IPLA(I)=0
       ENDDO
       !----------------!
+      tAV(1:4) = ZERO
+      tMID(1:4)= 0
       SELECT CASE(IFLG)
       !============================!
       ! IFLG == 0                  !
@@ -592,6 +594,7 @@ C-----------------------------------------------
         ENDDO
         UPARAM(09:12) = tMID(1:4)
         UPARAM(13:16) = tAV(1:4)
+        AV(1:4) = tAV(1:4)
         IF(MIP==0)THEN
               chain1='SUBMATERIAL DATA NOT FOUND '
               CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
