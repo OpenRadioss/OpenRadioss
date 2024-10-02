@@ -224,12 +224,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,I11,MAT_ID,UID,ILAW,JALE,JTUR,JTHE,
+      INTEGER I,J,K,IFORM,MAT_ID,UID,ILAW,JALE,JTUR,JTHE,
      .        IMATVIS,ISRATE,IUSER_LAW,NFUNC,NUMTABL,NUPARAM,NUVAR,NVARTMP,
-     .        MAXUPARAM,MAXFUNC,MAXTABL,IUNIT,IFLAGUNIT,K,NSUBMAT
+     .        MAXUPARAM,MAXFUNC,MAXTABL,IUNIT,IFLAGUNIT,IFORMDT
       PARAMETER (MAXUPARAM = 1048576) 
       PARAMETER (MAXFUNC  = 128, MAXTABL = 9)
-      my_real :: RHO,RHO0,RHOR,YOUNG,NU,BULK,G,SSP,ASRATE,RBID,RHO_MAX
+      my_real :: RHO,RHO0,RHOR,YOUNG,NU,BULK,G,ASRATE,RBID
       INTEGER ,DIMENSION(MAXFUNC) :: IFUNC
       INTEGER ,DIMENSION(MAXTABL) :: ITABLE
       my_real ,DIMENSION(:), ALLOCATABLE :: UPARAM
@@ -243,8 +243,7 @@ C
       TYPE(ULAWBUF) :: USERBUF
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
       TYPE(MLAW_TAG_) ,POINTER         :: MTAG
-      TYPE(TTABLE) TABLE(NTABLE)
-      LOGICAL IS_AVAILABLE
+      TYPE(TTABLE) ,DIMENSION(NTABLE)  :: TABLE
 C-----------------------------------------------
       DATA MESS/'MATERIAL DEFINITION                     '/
 
@@ -328,11 +327,16 @@ c               ISRATE = 0 => strain rate computation (for output only), no filt
 c               ISRATE > 0 => strain rate filtering using Fcut and exponential average
 c---------------------------------------------------      
         IMATVIS = 0
+        IFORMDT = 0
         NFUNC   = 0
         NUMTABL = 0
         NUVAR   = 0
         NVARTMP = 0
         NUPARAM = 0
+        YOUNG   = ZERO
+        NU      = ZERO
+        G       = ZERO 
+        BULK    = ZERO
         MTAG => MLAW_TAG(MAT_NUMBER)
         MATPARAM => MAT_PARAM(MAT_NUMBER)
         MATPARAM%TITLE = ' '
@@ -358,28 +362,25 @@ c-------
      .           MATPARAM)
 c-------
           CASE ('LAW2','LAW02','PLAS_JOHNS','JOHNS')
-            ILAW  = 2  
-            CALL HM_READ_MAT02(
-     .                       UPARAM ,MAXUPARAM ,NUPARAM  ,NUVAR     ,
-     .                       PARMAT   ,0         ,
-     .                       UNITAB ,MAT_ID    ,TITR     ,LSUBMODEL ,MTAG    ,
-     .                       PM(1,I),IPM(1,I)  ,ISRATE   ,MATPARAM  )
+            ILAW  = 2
+            IFORM = 0
+            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PARMAT   ,PM(1,I)  ,IPM(1,I) ,
+     .                         NUVAR    ,IFORM    ,NPROPM   ,NPROPMI  ,MAT_ID   ,TITR     ,
+     .                         IOUT     ,ISRATE   ,UNITAB   ,LSUBMODEL)
 c-------
           CASE ('ZERIL','PLAS_ZERIL')
             ILAW  = 2 
-            CALL HM_READ_MAT02(
-     .                       UPARAM ,MAXUPARAM ,NUPARAM  ,NUVAR     ,
-     .                       PARMAT   ,1         ,
-     .                       UNITAB ,MAT_ID    ,TITR     ,LSUBMODEL ,MTAG    ,
-     .                       PM(1,I),IPM(1,I)  ,ISRATE   ,MATPARAM  )
+            IFORM = 1
+            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PARMAT   ,PM(1,I)  ,IPM(1,I) ,
+     .                         NUVAR    ,IFORM    ,NPROPM   ,NPROPMI  ,MAT_ID   ,TITR     ,
+     .                         IOUT     ,ISRATE   ,UNITAB   ,LSUBMODEL)
 c-------
           CASE ('PLAS_PREDEF')
             ILAW  = 2 
-            CALL HM_READ_MAT02(
-     .                       UPARAM ,MAXUPARAM ,NUPARAM  ,NUVAR     ,
-     .                       PARMAT   ,2       ,
-     .                       UNITAB ,MAT_ID    ,TITR     ,LSUBMODEL ,MTAG    ,
-     .                       PM(1,I),IPM(1,I)  ,ISRATE   ,MATPARAM  )
+            IFORM = 2
+            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PARMAT   ,PM(1,I)  ,IPM(1,I) ,
+     .                         NUVAR    ,IFORM    ,NPROPM   ,NPROPMI  ,MAT_ID   ,TITR     ,
+     .                         IOUT     ,ISRATE   ,UNITAB   ,LSUBMODEL)
 c-------
           CASE ('LAW3','LAW03', 'HYDPLA')
             ILAW=3
@@ -1322,9 +1323,13 @@ c-----------------------------------------------------------------------
           WRITE(IOUT,2000) TITR,MAT_ID,IUSER_LAW
         ENDIF
 c--------------------------------------------      
-        ISRATE = MAX(ISRATE, NINT(PARMAT(4)))  ! just in case ...
-        ASRATE = PARMAT(5)*TWO*PI              ! ASRATE = 2*PI*FCUT
-!!        IF (ASRATE == ZERO) ASRATE = EP20
+        ISRATE  = MAX(ISRATE, NINT(PARMAT(4)))  ! just in case ...
+        ASRATE  = PARMAT(5)*TWO*PI              ! ASRATE = 2*PI*FCUT
+        IFORMDT = NINT(PARMAT(16))
+C---------
+C       For solid elements time step computation :
+        IPM(252,I)= IFORMDT            ! IFORMDT = 0,1,2  
+        PM(105,I) = PARMAT(17)         ! GFAC factor
 c--------------------------------------------      
         MATPARAM%ILAW   = ILAW
         MATPARAM%MAT_ID = MAT_ID        
@@ -1333,8 +1338,7 @@ c
         MTAG%NVARTMP = NVARTMP
 c--------------------------------------------      
 c       for user type laws (lecmuser)
-c---------------------------------------------------------
-        
+c---------------------------------------------------------        
         IF (ILAW > 27 .and. ILAW /= 32 .and. ILAW /= 49 
      .     .and. ILAW /= 151 .AND. ILAW /= 999) THEN
           MTAG%L_STRA = 6        ! all user type laws calculate total strain
@@ -1342,63 +1346,49 @@ c
           BULK  = PARMAT(1)
           YOUNG = PARMAT(2)
           NU    = PARMAT(3)
-          G     = HALF*YOUNG/(ONE + NU)
-          IF (ILAW==34) G=PM(22,I)
-          IF (ILAW==42) G=PARMAT(1)
-          IF (ILAW==62) G=PARMAT(2)/(ONE + NU)
-          IF (ILAW==69) G=PARMAT(1)
-          IF (ILAW==82) G=PARMAT(2)/(ONE + NU)
-          PM(20,I) = YOUNG
-          PM(21,I) = NU
-          PM(22,I) = G
+          IF (ILAW==34)  G = PM(22,I)
+          IF (ILAW==42)  G = PARMAT(1)
+          IF (ILAW==62)  G = PARMAT(2)/(ONE + NU)
+          IF (ILAW==69)  G = PARMAT(1)
+          IF (ILAW==82)  G = PARMAT(2)/(ONE + NU)
+          IF (G == ZERO) G = HALF*YOUNG/(ONE + NU)
+          IF (PM(20,I) == ZERO)  PM(20,I) = YOUNG
+          IF (PM(32,I) == ZERO)  PM(32,I) = BULK
+          IF (PM(21,I) == ZERO)  PM(21,I) = NU
+          IF (PM(22,I) == ZERO)  PM(22,I) = G
           PM(24,I) = YOUNG/(ONE - NU**2)
           PM(32,I) = BULK  
           IF (ILAW==71 ) PM(27,I)=SQRT(YOUNG/MAX(PM(1,I),EM20))  ! Sound speed
-C---------
-C         For solid elements time step computation :
-          IPM(252,I)= NINT(PARMAT(16))   ! IFORMDT = 0,1,2  
-          PM(105,I) = PARMAT(17)         ! GFAC factor
-C---------
-!-------         
-          IPM(7,I)   = IADBUF
-          IPM(8,I)   = NUVAR
-          IPM(9,I)   = NUPARAM
-          IPM(10,I)  = NFUNC
-          IPM(216,I) = IMATVIS
-          IPM(226,I) = NUMTABL
-c
-c---------------------------------------------------------
-          DO J=1,NFUNC
-            IPM(10+J,I) = IFUNC(J)
-          ENDDO
-c
-          DO J=1,NUMTABL
-            IPM(226+J,I) = ITABLE(J)
-          ENDDO
-c---------------------------------------------------------
-c         Fill UPARAM buffer
-c---------------------------------------------------------
-          DO J=1,NUPARAM
-            BUFMAT(IADBUF+J-1) = UPARAM(J)
-          ENDDO
-          IADBUF = IADBUF + NUPARAM
-          BUFLEN = BUFLEN + NUPARAM
-c
-        ELSE IF (ILAW == 19) THEN
-          MTAG%L_STRA = 6
-          IPM(7,I) = IADBUF   
-          IPM(8,I) = NUVAR    
-          IPM(9,I) = NUPARAM  
-          DO J=1,NUPARAM
-            BUFMAT(IADBUF+J-1) = UPARAM(J)
-          ENDDO
-          IADBUF = IADBUF + NUPARAM
-          BUFLEN = BUFLEN + NUPARAM
-c           
         ENDIF ! ILAW>=28 
+!-------         
+        IPM(7,I)   = IADBUF
+        IPM(8,I)   = NUVAR
+        IPM(9,I)   = NUPARAM
+        IPM(10,I)  = NFUNC
+        IPM(216,I) = IMATVIS
+        IPM(226,I) = NUMTABL
+c---------------------------------------------------------
+        DO J=1,NFUNC
+          IPM(10+J,I) = IFUNC(J)
+        ENDDO
+c
+        DO J=1,NUMTABL
+          IPM(226+J,I) = ITABLE(J)
+        ENDDO
+c---------------------------------------------------------
+        ! Fill old UPARAM buffer
+c---------------------------------------------------------
+        IF (NUPARAM > 0) THEN
+          DO J=1,NUPARAM
+            BUFMAT(IADBUF+J-1) = UPARAM(J)
+          ENDDO
+          IADBUF = IADBUF + NUPARAM
+          BUFLEN = BUFLEN + NUPARAM
+        END IF
+!
 !------- high stiffness for contact          
-         PM(107,I) = TWO*MAX(PM(32,I),PM(100,I))
-         IF (ILAW==1.OR.ILAW==62) PM(107,I) = HUNDRED*PM(107,I)
+        PM(107,I) = TWO*MAX(PM(32,I),PM(100,I))
+        IF (ILAW==1.OR.ILAW==62) PM(107,I) = HUNDRED*PM(107,I)
 c
         IPM(1,I)   = MAT_ID
         IPM(2,I)   = ILAW
@@ -1412,14 +1402,15 @@ c
         PM(72,I)   = JALE + EM01    
         IPM(217,I) = IUSER_LAW
 c---------------------------------------------------------
-c
+        ! still need double storage used in code outside of material laws :
+c---------------------------------------------------------
         IF (MATPARAM%RHO   > ZERO) PM(1 ,I) = MATPARAM%RHO
         IF (MATPARAM%RHO0  > ZERO) PM(89,I) = MATPARAM%RHO0
 !
-        IF (MATPARAM%YOUNG == ZERO) MATPARAM%YOUNG = PM(20,I)
-        IF (MATPARAM%NU    == ZERO) MATPARAM%NU    = PM(21,I)
-        IF (MATPARAM%SHEAR == ZERO) MATPARAM%SHEAR = PM(22,I)
-        IF (MATPARAM%BULK  == ZERO) MATPARAM%BULK  = PM(32,I)
+        IF (MATPARAM%YOUNG > ZERO) PM(20,I) = MATPARAM%YOUNG
+        IF (MATPARAM%NU    > ZERO) PM(21,I) = MATPARAM%NU   
+        IF (MATPARAM%SHEAR > ZERO) PM(22,I) = MATPARAM%SHEAR
+        IF (MATPARAM%BULK  > ZERO) PM(32,I) = MATPARAM%BULK 
 !
         ! to be defined
         ! IF (MATPARAM%STIFF_CONTACT == ZERO) MATPARAM%STIFF_CONTACT = PM(?,I)
@@ -1512,9 +1503,6 @@ C------------------------------
 
       DEALLOCATE( UPARAM )
 c------------------------------
-      RETURN
- 999  CALL ANCMSG(MSGID=55,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1=KEY0(KCUR),C2=KLINE,C3=LINE)
-         CALL ARRET(2)
       RETURN
 c------------------------------
  2000 FORMAT(//
