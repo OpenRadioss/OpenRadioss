@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_MAT02(MAT_PARAM ,MTAG     ,PARMAT   ,PM        ,IPM   ,
+      SUBROUTINE HM_READ_MAT02(MAT_PARAM ,MTAG     ,PM        ,IPM   ,
      .                         NUVAR     ,IFORM    ,NPROPM   ,NPROPMI   ,ID    ,TITR     ,
      .                         IOUT      ,ISRATE   ,UNITAB   ,LSUBMODEL )     
 C-----------------------------------------------
@@ -82,7 +82,6 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: PM(NPROPM)     
       CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
-      my_real, INTENT(INOUT) :: PARMAT(100)
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
       TYPE(MATPARAM_STRUCT_),INTENT(INOUT)  :: MAT_PARAM
 C-----------------------------------------------
@@ -394,20 +393,17 @@ C-----
         ! If plastic strain is chosen, filtering by default
         ISRATE = 1
         IF (ASRATE == ZERO) ASRATE = 10000.0D0*UNITAB%FAC_T_WORK
-        FCUT   = ASRATE
       ELSE
         IF (CC == ZERO)THEN
           EPS0   = ONE
           ISRATE = 0
           ASRATE = ZERO
-          FCUT   = ASRATE
         ELSE     
           ISRATE = 1
           IF (ASRATE == ZERO) ASRATE = EP20
-          FCUT   = ASRATE
         ENDIF
       ENDIF
-
+      FCUT = ASRATE*TWO*PI 
 C-----
       PM(1) =RHOR
       PM(89)=RHO0      
@@ -436,9 +432,8 @@ C-----
 
       IPM(255) = VP   
 
-      PARMAT(4) = ISRATE
-      PARMAT(5) = ASRATE
-      PARMAT(16) = 2       ! IPM(252,I) 
+
+      PM(9) = FCUT
       PM(37)= PMIN    ! default pressure cut-off for EOS
 C
       IF (TREF <= ZERO) TREF = THREE100
