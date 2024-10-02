@@ -191,7 +191,6 @@ c         MULTIMAT
 c-----------------------------
           NBMAT = MAT_ELEM%MAT_PARAM(MY_MAT)%MULTIMAT%NB
           IF (NBMAT > 0) THEN
-            CALL QAPRINT('** MULTIMAT PARAM',I,0.0_8)
             DO J=1,NBMAT
               MID   = MAT_ELEM%MAT_PARAM(MY_MAT)%MULTIMAT%MID(J)
               TEMP_DOUBLE = MAT_ELEM%MAT_PARAM(MY_MAT)%MULTIMAT%VFRAC(J)
