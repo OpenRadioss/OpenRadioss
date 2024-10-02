@@ -362,23 +362,26 @@ c-------
      .           MATPARAM)
 c-------
           CASE ('LAW2','LAW02','PLAS_JOHNS','JOHNS')
-            ILAW  = 2
-            IFORM = 0
-            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PARMAT   ,PM(1,I)  ,IPM(1,I) ,
+            ILAW    = 2
+            IFORM   = 0
+            IFORMDT = 2
+            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PM(1,I)  ,IPM(1,I) ,
      .                         NUVAR    ,IFORM    ,NPROPM   ,NPROPMI  ,MAT_ID   ,TITR     ,
      .                         IOUT     ,ISRATE   ,UNITAB   ,LSUBMODEL)
 c-------
           CASE ('ZERIL','PLAS_ZERIL')
-            ILAW  = 2 
-            IFORM = 1
-            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PARMAT   ,PM(1,I)  ,IPM(1,I) ,
+            ILAW    = 2 
+            IFORM   = 1
+            IFORMDT = 2
+            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PM(1,I)  ,IPM(1,I) ,
      .                         NUVAR    ,IFORM    ,NPROPM   ,NPROPMI  ,MAT_ID   ,TITR     ,
      .                         IOUT     ,ISRATE   ,UNITAB   ,LSUBMODEL)
 c-------
           CASE ('PLAS_PREDEF')
-            ILAW  = 2 
-            IFORM = 2
-            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PARMAT   ,PM(1,I)  ,IPM(1,I) ,
+            ILAW   = 2 
+            IFORM   = 2
+            IFORMDT = 2
+            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PM(1,I)  ,IPM(1,I) ,
      .                         NUVAR    ,IFORM    ,NPROPM   ,NPROPMI  ,MAT_ID   ,TITR     ,
      .                         IOUT     ,ISRATE   ,UNITAB   ,LSUBMODEL)
 c-------
@@ -1325,7 +1328,7 @@ c-----------------------------------------------------------------------
 c--------------------------------------------      
         ISRATE  = MAX(ISRATE, NINT(PARMAT(4)))  ! just in case ...
         ASRATE  = PARMAT(5)*TWO*PI              ! ASRATE = 2*PI*FCUT
-        IFORMDT = NINT(PARMAT(16))
+        IF (NINT(PARMAT(16)) == 0) IFORMDT = NINT(PARMAT(16))
 C---------
 C       For solid elements time step computation :
         IPM(252,I)= IFORMDT            ! IFORMDT = 0,1,2  
@@ -1394,8 +1397,12 @@ c
         IPM(2,I)   = ILAW
         IPM(3,I)   = ISRATE
 !        
+<<<<<<< HEAD
         PM(8,I)    = ISRATE          ! double stockage - a nettoyer
         IF (PM(9,I) == ZERO.AND.ILAW /=2 ) PM(9,I) = ASRATE    ! old mat laws fill it directly
+=======
+        IF (PM(9,I) == ZERO) PM(9,I) = ASRATE  ! old mat laws fill it directly
+>>>>>>> 7cc1d083e (law2 sans parmat)
         PM(19,I)   = ILAW + EM01     ! double stockage - a nettoyer
         PM(70,I)   = JTUR + EM01
         PM(71,I)   = JTHE + EM01
