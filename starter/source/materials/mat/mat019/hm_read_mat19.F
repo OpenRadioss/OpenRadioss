@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_MAT19(MATPARAM ,MTAG     ,PM       ,PARMAT   ,
+      SUBROUTINE HM_READ_MAT19(MATPARAM ,MTAG     ,PM       ,
      .                         NUVAR    ,MAT_ID   ,TITR     ,
      .                         UNITAB   ,LSUBMODEL,ISRATE   )
 C-----------------------------------------------
@@ -78,7 +78,6 @@ C-----------------------------------------------
       INTEGER ,INTENT(INOUT) :: NUVAR,ISRATE
       INTEGER ,INTENT(IN)    :: MAT_ID
       my_real ,INTENT(INOUT) :: PM(NPROPM)
-      my_real ,INTENT(INOUT) :: PARMAT(100)
       CHARACTER(LEN=NCHARTITLE),INTENT(IN)  :: TITR
       TYPE (UNIT_TYPE_)      ,INTENT(IN)    :: UNITAB 
       TYPE(SUBMODEL_DATA)    ,INTENT(IN)    :: LSUBMODEL((NSUBMOD))
@@ -219,12 +218,6 @@ c--------------------------
       MATPARAM%BULK  = C1
       MATPARAM%NU    = SQRT(N12*N21)
       MATPARAM%SHEAR = MAX(G12,G23,G31) 
-c --------------------------
-      PARMAT(1)  = C1
-      PARMAT(2)  = MAX(E11,E22)/DETC
-      PARMAT(3)  = SQRT(N12*N21)
-      PARMAT(4)  = ISRATE
-      PARMAT(5)  = ZERO ! FCUT
 c
 c---- Definition des variables internes (stockage elementaire)
 c

@@ -477,7 +477,7 @@ c-------
 c-------
           CASE ('LAW19','FABRI')
             ILAW = 19 
-            CALL HM_READ_MAT19(MATPARAM,MTAG  ,PM(1,I)  ,PARMAT   ,
+            CALL HM_READ_MAT19(MATPARAM,MTAG  ,PM(1,I)  ,
      .           NUVAR    ,MAT_ID   ,TITR     ,
      .           UNITAB   ,LSUBMODEL,ISRATE   )
 c-------
