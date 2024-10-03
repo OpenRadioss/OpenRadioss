@@ -86,6 +86,7 @@ C     REAL
      .   UVAR(NUVAR,*),DL0(*)
       DOUBLE PRECISION X1DP(3,*),X2DP(3,*),X3DP(3,*)
       TYPE(TTABLE) TABLE(*)
+      TARGET :: UVAR
 C-----------------------------------------------
 c   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -102,16 +103,19 @@ C     REAL
      .     F_MIN(MVSIZ),F_MAX(MVSIZ),EPLA(MVSIZ)
       my_real
      .     BETA, MU,FMAX, DDX ,VX21,VY21,VZ21,VL21,
-     .     VX32,VY32,VZ32,VL32,NOT_USED
+     .     VX32,VY32,VZ32,VL32,NOT_USED,NOT_USED2(2)
       my_real,
      .        DIMENSION(1) :: XX
       DOUBLE PRECISION EXDP(MVSIZ) ,EYDP(MVSIZ) ,EZDP(MVSIZ),
      .                 EX2DP(MVSIZ),EY2DP(MVSIZ),EZ2DP(MVSIZ),
      .                 AL1DP(MVSIZ),AL2DP(MVSIZ),ALDP(MVSIZ),
      .                 AL0DP(MVSIZ)
+      my_real ,DIMENSION(:), POINTER :: XX_OLD
+      TARGET :: NOT_USED2
 C-----------------------------------------------
 C
       NOT_USED = ZERO
+      NOT_USED2 = ZERO
 C
       DO I=1,NEL
         EPLA(I) = ZERO
@@ -247,6 +251,11 @@ C
         ENDIF
       ENDDO
 C
+      IF (NUVAR > 0) THEN 
+         XX_OLD => UVAR(1,1:NEL) 
+      ELSE 
+         XX_OLD => NOT_USED2
+      ENDIF 
       CALL REDEF3(
      1   F,          XK,         DL,         FEP,
      2   DLOLD,      DPL,        TF,         NPF,
@@ -256,7 +265,7 @@ C
      6   FF,         LSCALE,     EE,         GF3,
      7   IFUNC3,     YIELD,      ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
-     9   IFV,        IFUNC2,     EPLA,       UVAR(1,1),
+     9   IFV,        IFUNC2,     EPLA,       XX_OLD,
      A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
      B   NFT)
       NINDX = 0
