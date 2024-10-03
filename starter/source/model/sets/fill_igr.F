@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE FILL_IGR(SET,
      .                    IGRSURF ,IGRNOD  ,IGRSLIN  ,IGRPART ,IGRBRIC  ,IGRQUAD,   
      .                    IGRSH4N ,IGRSH3N ,IGRTRUSS ,IGRBEAM ,IGRSPRING,BUFSF  ,
-     .                    LISURF1 )
+     .                    LISURF1 ,ROOTNAM ,ROOTLEN  ,INFILE_NAME ,INFILE_NAME_LEN)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE SURF_MOD
       USE QA_OUT_MOD
       USE FILL_SURF_PLANE_MOD
+      USE file_descriptor_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,13 +87,100 @@ C-----------------------------------------------
       TYPE (SET_), DIMENSION(NSETS),INTENT(INOUT) :: SET
       INTEGER, INTENT(IN) :: LISURF1
       MY_REAL, INTENT(INOUT) :: BUFSF(LISURF1*(NSURF+NSETS))
+      INTEGER, INTENT(IN)   ::  ROOTLEN,INFILE_NAME_LEN
+      CHARACTER(LEN=ROOTLEN), INTENT(IN) ::  ROOTNAM
+      CHARACTER(LEN=INFILE_NAME_LEN), INTENT(IN) ::  INFILE_NAME
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IGS,GRTYPE
+      INTEGER I,IGS,GRTYPE,IO_ERR1,IO_ERR2,NB_GRNODE
       LOGICAL IS_USED
-
+      CHARACTER FILNAM*109, KEYA*80
+      CHARACTER(LEN=NCHARLINE) ::CARTE
+      INTEGER :: LEN_TMP_NAME
+      CHARACTER(len=4096) :: TMP_NAME
+      INTEGER , DIMENSION(:), ALLOCATABLE :: GRNODE
 C-----------------------------------------------
+C     READING ENGINE FILE
+C-----------------------------------------------   
+      IO_ERR1 = 0
+      NB_GRNODE = 0
+      DO I = 1, 10000
+        WRITE(FILNAM, '(A, A, I4.4, A)') ROOTNAM(1:ROOTLEN), '_', I-1, '.rad'
+        TMP_NAME = INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))    
+        LEN_TMP_NAME = INFILE_NAME_LEN + LEN_TRIM(FILNAM)
+        OPEN(UNIT=tmp_engine, FILE=TMP_NAME(1:LEN_TMP_NAME),
+     .     ACCESS='SEQUENTIAL', STATUS='OLD', IOSTAT=IO_ERR1)
+C
+        IF (IO_ERR1 == 0) THEN
+C
+          IO_ERR2 = 0
+          DO WHILE (IO_ERR2 == 0)
+            READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) KEYA
+            IF (IO_ERR2 == 0) THEN
+      ! Process the line stored in KEYA here if needed
+              IF(KEYA(1:14) == '/DT/NODA/CST/1' .OR. KEYA(1:8) == '/DYREL/1' .OR. KEYA(1:8) == '/KEREL/1' .OR.
+     .           KEYA(1:14) == '/INIV/AXIS/X/2' .OR. KEYA(1:14) == '/INIV/AXIS/X/2' .OR.
+     .           KEYA(1:14) == '/INIV/AXIS/Z/2')  THEN
+                NB_GRNODE = NB_GRNODE + 1
+              ELSE IF(KEYA(1:6) == '/BEGIN') THEN
+                IO_ERR2 = 1
+              ENDIF
+            END IF
+          END DO
+
+          CLOSE(tmp_engine)
+        ENDIF
+      END DO
+
+      IF (NB_GRNODE > 0) ALLOCATE(GRNODE(NB_GRNODE))
+      NB_GRNODE = 0
+
+      DO I = 1, 10000
+        WRITE(FILNAM, '(A, A, I4.4, A)') ROOTNAM(1:ROOTLEN), '_', I-1, '.rad'
+        TMP_NAME = INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))    
+        LEN_TMP_NAME = INFILE_NAME_LEN + LEN_TRIM(FILNAM)
+        OPEN(UNIT=tmp_engine, FILE=TMP_NAME(1:LEN_TMP_NAME),
+     .     ACCESS='SEQUENTIAL', STATUS='OLD', IOSTAT=IO_ERR1)
+C
+        IF (IO_ERR1 == 0) THEN
+C
+          IO_ERR2 = 0
+          DO WHILE (IO_ERR2 == 0)
+            READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) KEYA
+            IF (IO_ERR2 == 0) THEN
+      ! Process the line stored in KEYA here if needed
+              IF(KEYA(1:14) == '/DT/NODA/CST/1') THEN
+                NB_GRNODE = NB_GRNODE + 1
+                READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                READ(CARTE, FMT=*) GRNODE(NB_GRNODE)
+              ELSEIF(KEYA(1:8) == '/DYREL/1') THEN
+                NB_GRNODE = NB_GRNODE + 1
+                READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                READ(CARTE, FMT=*) GRNODE(NB_GRNODE)
+              ELSEIF(KEYA(1:8) == '/KEREL/1') THEN
+                NB_GRNODE = NB_GRNODE + 1
+                READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                READ(CARTE, FMT=*) GRNODE(NB_GRNODE)
+              ELSEIF(KEYA(1:14) == '/INIV/AXIS/X/2' .OR. KEYA(1:14) == '/INIV/AXIS/Y/2' .OR. 
+     .               KEYA(1:14) == '/INIV/AXIS/Z/2') THEN
+                NB_GRNODE = NB_GRNODE + 1
+                READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                READ(CARTE, FMT=*) GRNODE(NB_GRNODE)
+              ELSE IF(KEYA(1:6) == '/BEGIN') THEN
+                IO_ERR2 = 1
+              ENDIF
+            END IF
+          END DO
+
+          CLOSE(tmp_engine)
+        ENDIF
+      END DO
+
+
 
        DO IGS = 1,NSETS
 
@@ -220,6 +308,15 @@ C-----------------------------------------------
 
          ! Nodes
          CALL HM_GROUP_IS_USED('/GRNOD',6,SET(IGS)%SET_ID,IS_USED)
+
+         IF(.NOT. IS_USED .AND. NB_GRNODE > 0) THEN
+            DO I=1,NB_GRNODE
+              IF(SET(IGS)%SET_ID == GRNODE(I)) THEN
+                IS_USED = .TRUE.
+              ENDIF
+            ENDDO
+         ENDIF
+
          IF((IS_USED .OR. DOQA == 1) .AND. SET(IGS)%NB_ELLIPSE == 0 .AND. SET(IGS)%NB_PLANE == 0
      *                               .AND. SET(IGS)%NB_NODENS == 0 )THEN
            GRTYPE = 0
@@ -293,8 +390,9 @@ C-----------------------------------------------
            IF(ALLOCATED (SET(IGS)%LINE_ELEM ))  DEALLOCATE ( SET(IGS)%LINE_ELEM )
            SET(IGS)%NB_LINE_SEG = 0
          ENDIF
-
        ENDDO
+
+       IF(ALLOCATED(GRNODE))  DEALLOCATE(GRNODE)
 
       END 
 
