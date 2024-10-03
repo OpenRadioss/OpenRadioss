@@ -27,23 +27,24 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||====================================================================
-      SUBROUTINE SIGEPS02G(ELBUF_STR,
-     1                     JFT      ,JLT     ,PM      ,FOR     ,MOM      ,
+      SUBROUTINE SIGEPS02G(ELBUF_STR,MAT_PARAM,
+     1                     JFT      ,JLT     ,FOR     ,MOM      ,
      2                     THK      ,EINT    ,OFF     ,DT1C    ,ISRATE   ,
-     3                     G        ,A1      ,A2      ,VOL0    ,NU       ,
+     3                     ASRATE   ,VOL0    ,
      4                     THK0     ,GS      ,EPSP    ,IOFC    ,KFTS     ,
      5                     NGL      ,INDX    ,IPLA    ,IR      ,IS       ,
-     6                     DEGMB    ,DEGFX   ,DEPSXX  ,DEPSYY  ,MX       ,
+     6                     DEGMB    ,DEGFX   ,DEPSXX  ,DEPSYY  ,
      7                     DEPSXY   ,DEPSYZ  ,DEPSZX  ,DEPBXX  ,DEPBYY   ,
      8                     DEPBXY   ,SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ   ,
      9                     SIGOZX   ,MOMOXX  ,MOMOYY  ,MOMOXY  ,SIGNXX   ,
      A                     SIGNYY   ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,MOMNXX   ,
      B                     MOMNYY   ,MOMNXY  ,ETSE    ,EXZ     ,EYZ      ,
-     C                     NEL     ,IOFF_DUCT,VP      , NUVAR  ,UVAR)
+     C                     NEL     ,IOFF_DUCT,NUVAR  ,UVAR)
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
       USE ELBUFDEF_MOD
+      USE MATPARAM_DEF_MOD
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
@@ -67,15 +68,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
       INTEGER JFT,JLT,IOFC,KFTS,NLAY,IR,IS,NEL
-      INTEGER NGL(MVSIZ),INDX(MVSIZ), 
-     .        IOFF_DUCT(*),MX
-      INTEGER, INTENT(IN) :: NUVAR ,VP
+      INTEGER, INTENT(IN) :: NUVAR
+      INTEGER NGL(MVSIZ),INDX(MVSIZ),IOFF_DUCT(*)
       my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
-
-      my_real
-     .   PM(NPROPM,*),FOR(NEL,5),MOM(NEL,3),EINT(JLT,2),
-     .   OFF(*),DT1C(*),NU(*),G(*),A1(*),A2(*),
-     .   VOL0(*),THK0(*),GS(*),EPSP(*)
+      my_real :: ASRATE
+      my_real :: FOR(NEL,5),MOM(NEL,3),EINT(JLT,2),
+     .   OFF(NEL),DT1C(NEL),VOL0(NEL),THK0(NEL),GS(NEL),EPSP(NEL)
       my_real
      .   DEPSXX(NEL),DEPSYY(NEL),DEPSXY(NEL),
      .   DEPSYZ(NEL),DEPSZX(NEL),
@@ -85,24 +83,23 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   MOMOXX(NEL),MOMOYY(NEL),MOMOXY(NEL),
      .   DEGMB(MVSIZ),DEGFX(MVSIZ),EXZ(*),EYZ(*)
       my_real
-     .    THK(*),
-     .    SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
+     .    THK(NEL),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
      .    MOMNXX(NEL),MOMNYY(NEL),MOMNXY(NEL),
      .    SIGNYZ(NEL),SIGNZX(NEL),
      .    SIGVXX(NEL),SIGVYY(NEL),ETSE(NEL)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      type (matparam_struct_) ,intent(in) :: mat_param
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      INTEGER ICC,IPLA,IRTY,ISRATE,NINDX,INDEX(MVSIZ)
-      INTEGER I,J,N,NMAX
+      INTEGER ICC,IPLA,IFORM,ISRATE,NINDX,INDEX(MVSIZ)
+      INTEGER I,J,N,NMAX,VP
       my_real
      .   F1(MVSIZ),F2(MVSIZ),F3(MVSIZ),F4(MVSIZ),F5(MVSIZ),Z3,Z4,
-     .   M1(MVSIZ),M2(MVSIZ),M3(MVSIZ),T(MVSIZ),EPMX,
-     .   DWELM(MVSIZ),DWELF(MVSIZ),CA(MVSIZ),CB(MVSIZ),CN,
+     .   M1(MVSIZ),M2(MVSIZ),M3(MVSIZ),T(MVSIZ),
+     .   DWELM(MVSIZ),DWELF(MVSIZ),CA(MVSIZ),CB(MVSIZ),
      .   YMAX(MVSIZ),UNSYEQ(MVSIZ),DWPLA(MVSIZ),
-     .   HH(MVSIZ),RR(MVSIZ),C1,C2,C3,CC,EPDR(MVSIZ),CP,  
-     .   YM,EPSPDT(MVSIZ),
+     .   HH(MVSIZ),RR(MVSIZ),EPDR(MVSIZ),EPSPDT(MVSIZ),
      .   S1(MVSIZ),S2(MVSIZ),SVM(MVSIZ),NNU1(MVSIZ),NU1(MVSIZ),
      .   NU2(MVSIZ),NU3(MVSIZ),DPLA_J(MVSIZ),SM1(MVSIZ),SM2(MVSIZ),
      .   AM(MVSIZ),BM(MVSIZ),ANM(MVSIZ),BNM(MVSIZ),QTIER(MVSIZ),
@@ -111,10 +108,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   DEGMB_LOC(MVSIZ),DEGSH_LOC(MVSIZ),DEGFX_LOC(MVSIZ),YLD(MVSIZ),
      .   LOGEP(MVSIZ),PLAP(MVSIZ)
       my_real :: DPLA_I,DR,A,B,F,DF,YLD_I,CP1,CQ1,CP2,CQ2,SM3,FNM,
-     .   DA,DB,A_I,B_I,PN,QN,SN1,SN2,S,MM1,MM2,
-     .   DFNP,DFNQ,DFMP,DFMQ,DFNMP,DFNMQ,XP,XQ,XPG,XQG,
-     .   QNM1,QNM2,FNP,FNQ,FMP,FMQ,FNMP,FNMQ,S3,AA,BB,PLAP1,
-     .   THK12,EZZ,AAA,BBB,CCC,FACT,AUX,EPIF,ASRATE,
+     .   DA,DB,A_I,B_I,PN,QN,SN1,SN2,S,MM1,MM2,YOUNG,SHEAR,NU,RHOCPI,CN,EPMX, 
+     .   DFNP,DFNQ,DFMP,DFMQ,DFNMP,DFNMQ,XP,XQ,XPG,XQG,C1,C2,C3,CC,
+     .   QNM1,QNM2,FNP,FNQ,FMP,FMQ,FNMP,FNMQ,S3,AA,BB,PLAP1,A11,A12,
+     .   THK12,EZZ,AAA,BBB,CCC,FACT,EPS0,
      .   MS,FS,D1,D2,MT,TMELT,TREF,TSTAR,CA_1,CB_1,YMAX_1
       my_real :: DPLA(MVSIZ)
       TYPE(L_BUFEL_) ,POINTER :: LBUF
@@ -123,52 +120,57 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !-----------------------------------------------
       LBUF => ELBUF_STR%BUFLY(1)%LBUF(IR,IS,1)
 !
-      EPIF   = ZERO
-      EPIF   = MAX(EPIF,PM(43,MX))
-      YM     = PM(20,MX)
-      C1     = PM(28,MX)
-      C2     = PM(29,MX)
-      C3     = PM(30,MX)
-      CA_1   = PM(38,MX)
-      CB_1   = PM(39,MX)
-      YMAX_1 = PM(42,MX)
-      CN     = PM(40,MX)
-      EPMX   = PM(41,MX)
-      CC     = PM(43,MX)
-      ICC    = NINT(PM(49,MX))
-      IRTY   = NINT(PM(50,MX))
-      Z3     = PM(51,MX)
-      IF (IRTY == 0) THEN
-        TREF  = PM(79,MX)                    
-        TMELT = PM(80,MX)                    
-        CP    = PM(69,MX)                    
-        IF (CP > ZERO) CP = ONE / CP
+      YOUNG  = MAT_PARAM%YOUNG
+      NU     = MAT_PARAM%NU 
+      SHEAR  = MAT_PARAM%SHEAR 
+  
+      IFORM  = MAT_PARAM%IPARAM(1)
+      ICC    = MAT_PARAM%IPARAM(2)
+      VP     = MAT_PARAM%IPARAM(3)
+!      
+      CA_1   = mat_param%uparam(1)
+      CB_1   = mat_param%uparam(2)
+      CN     = mat_param%uparam(3)
+      EPMX   = mat_param%uparam(4)
+      YMAX_1 = mat_param%uparam(5)
+      CC     = mat_param%uparam(6)
+      EPS0   = mat_param%uparam(7)
+!
+      a11    = young / (one - nu**2) 
+      a12    = a11 *nu
+      C1     = ONE / YOUNG
+      C2     =-NU  / YOUNG
+      C3     = ONE / SHEAR
+!
+      IF (IFORM == 0) THEN
+        RHOCPI = mat_param%uparam(10)                   
+        TREF   = mat_param%uparam(11)                    
+        TMELT  = mat_param%uparam(12)                    
+        Z3     = mat_param%uparam(13)
+        IF (RHOCPI > ZERO) RHOCPI = ONE / RHOCPI
       ELSE
-        Z4    = PM(52,MX)                    
-        CP    = PM(53,MX)                    
-        TREF  = PM(54,MX)                    
+        Z3    = mat_param%uparam(10)
+        Z4    = mat_param%uparam(11)            
+        RHOCPI= mat_param%uparam(12)                
+        TREF  = mat_param%uparam(13)            
       END IF             
 !
       DO I=JFT,JLT
-        ASRATE = MIN(ONE,PM(9,MX)*DT1C(I))
         CA(I)  = CA_1
         CB(I)  = CB_1
         YMAX(I)= YMAX_1
         ETSE(I) = ONE
         EPSPDT(I) = ONE
       ENDDO
-      IF(VP == 1)THEN
+      IF (VP == 1)THEN
         DO I=JFT,JLT
-          AUX    = PM(44,MX)
-          EPDR(I)= MAX(EM20,AUX)
+          EPDR(I)= MAX(EM20,EPS0)
         ENDDO
       ELSE               
         DO I=JFT,JLT
-          AUX    = PM(44,MX)*DT1C(I)
-          EPDR(I)= MAX(EM20,AUX)
+          EPDR(I)= MAX(EM20,EPS0*DT1C(I))
         ENDDO
       ENDIF
-
 !---------------------------
 !     CONTRAINTES ELASTIQUES
 !---------------------------
@@ -177,16 +179,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         DEGMB_LOC(I) = DEGMB(I) - DEGSH_LOC(I) ! (membrane without shear)
         DEGFX_LOC(I) = DEGFX(I) ! bending only
 !
-        F1(I) = SIGOXX(I)+ A1(I)*DEPSXX(I)+A2(I)*DEPSYY(I)
-        F2(I) = SIGOYY(I)+ A1(I)*DEPSYY(I)+A2(I)*DEPSXX(I)
-        F3(I) = SIGOXY(I)+ G(I) *DEPSXY(I)
+        F1(I) = SIGOXX(I)+ A11*DEPSXX(I)+A12*DEPSYY(I)
+        F2(I) = SIGOYY(I)+ A11*DEPSYY(I)+A12*DEPSXX(I)
+        F3(I) = SIGOXY(I)+ SHEAR *DEPSXY(I)
         F4(I) = SIGOYZ(I) + GS(I)*DEPSYZ(I)
         F5(I) = SIGOZX(I) + GS(I)*DEPSZX(I)
 !
         THK12 = THK0(I)*ONE_OVER_12
-        M1(I) = MOMOXX(I) + (A1(I)*DEPBXX(I)+A2(I)*DEPBYY(I))*THK12
-        M2(I) = MOMOYY(I) + (A1(I)*DEPBYY(I)+A2(I)*DEPBXX(I))*THK12
-        M3(I) = MOMOXY(I) + G(I)*DEPBXY(I)*THK12
+        M1(I) = MOMOXX(I) + (A11*DEPBXX(I)+A12*DEPBYY(I))*THK12
+        M2(I) = MOMOYY(I) + (A11*DEPBYY(I)+A12*DEPBXX(I))*THK12
+        M3(I) = MOMOXY(I) + SHEAR*DEPBXY(I)*THK12
 !
         MS = M1(I)+M2(I)
         FS = F1(I)+F2(I)
@@ -197,7 +199,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !-------------
 !     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 !-------------
-      IF (EPIF /= ZERO) THEN
+      IF (CC > ZERO) THEN
 !       e = 1/t integ[1/2 E (eps_m + k z)^2 dz ]
 !       e = 1/2 E eps_eq^2
 !       eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
@@ -224,10 +226,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         ENDIF
         DO I=JFT,JLT
           EPSPDT(I) = LOGEP(I)    
-          T(I) = TREF + CP*(EINT(I,1)+EINT(I,2))/VOL0(I)
+          T(I) = TREF + RHOCPI*(EINT(I,1)+EINT(I,2))/VOL0(I)
         ENDDO
 !
-        IF (IRTY == ZERO) THEN
+        IF (IFORM == ZERO) THEN
           DO I=JFT,JLT
             MT = MAX(EM20,Z3)
             EPSPDT(I) = MAX(ZERO,EPSPDT(I))
@@ -240,15 +242,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             EPSPDT(I) = MAX(EM20,EPSPDT(I))
             IF (ICC == 1) YMAX(I) = YMAX(I)*EPSPDT(I)
           ENDDO
-        ELSEIF (IRTY == 1) THEN
+        ELSEIF (IFORM == 1) THEN
           DO I=JFT,JLT
             EPSPDT(I) = CC*EXP((-Z3+Z4 * EPSPDT(I))*T(I))
             IF (ICC == 1) YMAX(I) = YMAX(I) + EPSPDT(I)
             CA(I) = CA(I) + EPSPDT(I)
             EPSPDT(I) = ONE
           ENDDO
-        ENDIF ! IRTY
-      ENDIF ! IF (EPIF /= ZERO)
+        ENDIF ! IFORM
+      ENDIF ! IF (CC > ZERO)
 !---------------------------
       IF (IPLA == 0) THEN
 !---------------------------
@@ -258,7 +260,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !     CRITERE
 !-------------
         DO I=JFT,JLT
-          YLD(I) = CA(I)+CB(I)*EXP(CN * LOG(LBUF%PLA(I)+ EM30))
+          YLD(I) = CA(I)+CB(I)*EXP(CN * LOG(LBUF%PLA(I)+ EM20))
           YLD(I) = MIN(YLD(I)*EPSPDT(I),YMAX(I))
           RR(I)  = MIN(ONE,YLD(I)*UNSYEQ(I))
         ENDDO
@@ -270,9 +272,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             IF (YLD(I) >= YMAX(I)) THEN
               HH(I) = ZERO
             ELSE
-              HH(I) = CN*CB(I)*EXP((CN-ONE)*LOG(LBUF%PLA(I)+EM30))
+              HH(I) = CN*CB(I)*EXP((CN-ONE)*LOG(LBUF%PLA(I)+EM20))
             ENDIF
-            ETSE(I) = HH(I)/(HH(I)+YM)
+            ETSE(I) = HH(I)/(HH(I)+YOUNG)
           ENDIF
         ENDDO
 !--------------
@@ -315,7 +317,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           AAA  = ABS(DWELM(I)+DWELF(I))
           BBB  = MAX(ZERO,DWPLA(I))
           CCC  = MAX(EM20,AAA+BBB)
-          EZZ = - (DEPSXX(I) + DEPSYY(I)) * (NU(I)*AAA/(ONE-NU(I)) + BBB)/CCC
+          EZZ = - (DEPSXX(I) + DEPSYY(I)) * (NU*AAA/(ONE-NU) + BBB)/CCC
           THK(I) = THK(I) * (ONE + EZZ*OFF(I))
         ENDDO
         IF (VP== 1) THEN
@@ -333,7 +335,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !     CRITERE DE VON MISES
 !-------------------------
         DO I=JFT,JLT
-          YLD(I) = CA(I)+CB(I)*EXP(CN * LOG(LBUF%PLA(I)+ EM30))
+          YLD(I) = CA(I)+CB(I)*EXP(CN * LOG(LBUF%PLA(I)+ EM20))
         ENDDO
 !
         DO I=JFT,JLT
@@ -344,13 +346,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !-------------------------------------------------------------------------
 !     GAMA (L'INVERSE DE GAMA DANS LA FORMULE) 
 !-------------------------------------------------------------------------
-          CCC = EXP(-TWOP6666666667*LBUF%PLA(I)*YM/YLD(I))
+          CCC = EXP(-TWOP6666666667*LBUF%PLA(I)*YOUNG/YLD(I))
           GAMA(I) = TWO/(THREE-CCC)
           GAMA2(I)= GAMA(I)*GAMA(I)
           MM1 = THIRTY6*GAMA2(I)
           MM2 = THREEP4641*GAMA(I)  
           QTIER(I) = THREE*GAMA2(I)
-          NNU1(I) = NU(I)/(ONE-NU(I))
+          NNU1(I) = NU/(ONE-NU)
           S1(I) = (F1(I)+F2(I))*HALF
           S2(I) = (F1(I)-F2(I))*HALF
           S3 = F3(I)
@@ -383,8 +385,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !---------------------------
         DO J=1,NINDX
           I = INDEX(J)
-          NU1(I) = HALF*(ONE + NU(I))
-          NU2(I) = THREE_HALF *(ONE - NU(I))
+          NU1(I) = HALF*(ONE + NU)
+          NU2(I) = THREE_HALF *(ONE - NU)
           NU3(I) = ONE - NNU1(I)
           NUM1(I) = ONE + QTIER(I)
           NUM2(I) = FIVEP5*GAMA2(I)
@@ -394,10 +396,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           IF (YLD(I) >= YMAX(I)) THEN
             HH(I) = ZERO
           ELSE
-            HH(I) = CN*CB(I)*EXP((CN-ONE)*LOG(LBUF%PLA(I)+ EM30))
+            HH(I) = CN*CB(I)*EXP((CN-ONE)*LOG(LBUF%PLA(I) + EM20))
           ENDIF
-          ETSE(I) = HH(I)/(HH(I)+YM)
-          DPLA_J(I) = (SVM(I)-YLD(I))/(THREE*G(I)*QTIER(I)+HH(I))
+          ETSE(I) = HH(I)/(HH(I)+YOUNG)
+          DPLA_J(I) = (SVM(I)-YLD(I))/(THREE*SHEAR*QTIER(I)+HH(I))
         ENDDO
 !-------------------------------
 !     TIENT COMPTE DU COUPLAGE
@@ -407,7 +409,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             I = INDEX(J)
             DPLA_I = DPLA_J(I)
             YLD_I = YLD(I)+HH(I)*DPLA_I
-            DR = A1(I)*DPLA_I/YLD_I
+            DR = A11*DPLA_I/YLD_I
             XP = DR*NU1(I)
             XQ = DR*NU2(I)
             DA = NUM1(I)+NUM2(I)*XP
@@ -446,7 +448,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             XQG = TWO*NU2(I)*DB*B_I
             F   = CP1 +CQ1-YLD_I*YLD_I
             DF  =(CP2*NU1(I)+CQ2*NU2(I)-CP1*XPG-CQ1*XQG)*
-     .           (A1(I)-DR*HH(I))/YLD_I-TWO*HH(I)*YLD_I
+     .           (A11-DR*HH(I))/YLD_I-TWO*HH(I)*YLD_I
             DPLA_J(I) = MAX(ZERO,DPLA_I-F/DF)
           ENDDO
         ENDDO
@@ -458,7 +460,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           LBUF%PLA(I) = LBUF%PLA(I) + DPLA_J(I)
           DPLA_I = DPLA_J(I)
           YLD_I = YLD(I)+HH(I)*DPLA_I
-          DR = A1(I)*DPLA_I/YLD_I
+          DR = A11*DPLA_I/YLD_I
           XP = DR*NU1(I)
           XQ = DR*NU2(I)
           XPG = XP*XP
@@ -491,7 +493,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           F3(I) = S3
           M1(I) = MM1+MM2
           M2(I) = MM1-MM2
-          EZZ = - NU3(I)*DR*SN1/YM
+          EZZ = - NU3(I)*DR*SN1/YOUNG
           THK(I) = THK(I) * (ONE + EZZ*OFF(I))
         ENDDO
 c     update and filter plastic strain rate for VP=1

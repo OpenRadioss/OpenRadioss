@@ -158,7 +158,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IT,MX,IGTYP,IFUNC_ALPHA,IPMAT_IPLY,ILAY,LAYNPT_MAX,NLAY_MAX
+      INTEGER I,J,IT,IMAT,IGTYP,IFUNC_ALPHA,IPMAT_IPLY,ILAY,LAYNPT_MAX,NLAY_MAX
       INTEGER MAT_IPLY(MVSIZ,NPT)
       INTEGER, DIMENSION(:) , ALLOCATABLE :: MATLY   !!  MATLY(MVSIZ*LAY_MAX)
       my_real, DIMENSION(:) , ALLOCATABLE :: THKLY   !!  THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX)
@@ -183,9 +183,9 @@ C-----------------------------------------------
       EXTERNAL FINTER
 C=======================================================================
       GBUF => ELBUF_STR%GBUF
-      IGTYP=IGEO(11,PID(1))
-      MX = MAT(JFT) 
-      DM = GROUP_PARAM%VISC_DM   ! membrane damping
+      IGTYP= IGEO(11,PID(1))
+      IMAT = MAT(JFT) 
+      DM   = GROUP_PARAM%VISC_DM   ! membrane damping
 C--------------------------------------------------
 C     add source terme for law not user
       IF (JTHE > 0 .AND. (MTN < 28 .OR. MTN == 32)) THEN
@@ -201,8 +201,8 @@ c
         TEMPEL0(JFT:JLT) = TEMPEL(JFT:JLT)
 c
         IF (IGTYP /= 11 .AND. IGTYP /= 17 .AND. IGTYP /=51 .AND. IGTYP /= 52) THEN
-          IFUNC_ALPHA = IPM(219, MX) 
-          FSCAL_ALPHA = PM(191, MX)
+          IFUNC_ALPHA = IPM(219, IMAT) 
+          FSCAL_ALPHA = PM(191, IMAT)
           DO I=JFT,JLT 
             ALPHA = FINTER(IFUNC_ALPHA,TEMPEL(I),NPF,TF,DF)
             ALPHA = ALPHA * FSCAL_ALPHA
@@ -215,8 +215,8 @@ c
       ENDIF    
 c-----Tstar computation for Jhonson cook failure : T* = (T-T0)/(TM-T0)----
       IF (JTHE > 0) THEN
-        T0 = PM(79, MX) 
-        TM = PM(80, MX) 
+        T0 = PM(79, IMAT) 
+        TM = PM(80, IMAT) 
         DO I=JFT,JLT   
            TSTAR(I)=MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
         ENDDO
@@ -243,7 +243,7 @@ c----------------------------
         LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)
         ZSHIFT = GEO(199, PID(1))
 c
-        CALL MULAWGLC(ELBUF_STR,
+        CALL MULAWGLC(ELBUF_STR,MAT_ELEM%MAT_PARAM(IMAT),
      1       JFT     ,JLT     ,PM      ,FOR     ,MOM     ,THK     ,
      2       EINT    ,OFF     ,GSTR    ,DIR_A   ,SHF     ,
      3       MAT     ,AREA    ,EXX     ,EYY     ,EXY     ,NEL     ,
