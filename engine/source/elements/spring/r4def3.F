@@ -106,6 +106,7 @@ C     REAL
      .   VZ1(MVSIZ),VZ2(MVSIZ),UVAR(NUVAR,*),DX0(*),DY0(*),DZ0(*),
      .   RX0(*),RY0(*),RZ0(*),FX0(*),FY0(*),FZ0(*),XMOM0(*),YMOM0(*),ZMOM0(*)
       DOUBLE PRECISION ALDP(MVSIZ),AL2DP(MVSIZ)
+      TARGET :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -129,11 +130,14 @@ C     REAL
      .     VX21, VY21, VZ21, RYAVP, RZAVP,EYZP,EXZP,
      .     RYAV, RZAV,DEN, C, CP, EXYP,
      .     X21PHI, Y21PHI, Z21PHI, VX21PHI, VY21PHI, VZ21PHI,
-     .     RYAV1, RZAV1, RYAV1P, RZAV1P,ASRATE,NOT_USED
+     .     RYAV1, RZAV1, RYAV1P, RZAV1P,ASRATE,NOT_USED,NOT_USED2(2)
       DOUBLE PRECISION X0DP(MVSIZ)
+      my_real ,DIMENSION(:), POINTER :: XX_OLD
+      TARGET :: NOT_USED2
 C-----------------------------------------------
 C
       NOT_USED = ZERO
+      NOT_USED2 = ZERO
 C
       DO I=1,NEL
        EPLA(I)=ZERO
@@ -300,6 +304,11 @@ C-------------------------------
         DMN(I)   = GEO(65,MGN(I))
         DMX(I)   = GEO(66,MGN(I))
       ENDDO
+      IF (NUVAR > 0) THEN 
+         XX_OLD => UVAR(1,1:NEL) 
+      ELSE 
+         XX_OLD => NOT_USED2
+      ENDIF 
       CALL REDEF3(
      1   FX,         XK,         DX,         FXEP,
      2   DXOLD,      DPX,        TF,         NPF,
@@ -309,7 +318,7 @@ C-------------------------------
      6   FF,         LSCALE,     EE,         GF3,
      7   IFUNC3,     YIELDX,     ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
-     9   IFV,        IFUNC2,     EPLA,       UVAR(1,1),
+     9   IFV,        IFUNC2,     EPLA,       XX_OLD,
      A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
      B   NFT)
 C
@@ -374,6 +383,7 @@ C
       ENDDO
 C
       KK = 1 + NUMELR * ANIM_FE(11)
+      IF (NUVAR > 0) XX_OLD => UVAR(2,1:NEL)
       CALL REDEF3(
      1   FY,         YK,         DY,         FYEP,
      2   DYOLD,      DPY,        TF,         NPF,
@@ -383,7 +393,7 @@ C
      6   FF,         LSCALE,     EE,         GF3,
      7   IFUNC3,     YIELDY,     ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
-     9   IFV,        IFUNC2,     EPLA,       UVAR(2,1),
+     9   IFV,        IFUNC2,     EPLA,       XX_OLD,
      A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
      B   NFT)
 C
@@ -447,6 +457,7 @@ C
       ENDDO
 C
       KK = 1 + NUMELR * (ANIM_FE(11)+ANIM_FE(12))
+      IF (NUVAR > 0) XX_OLD => UVAR(3,1:NEL)
       CALL REDEF3(
      1   FZ,         ZK,         DZ,         FZEP,
      2   DZOLD,      DPZ,        TF,         NPF,
@@ -456,7 +467,7 @@ C
      6   FF,         LSCALE,     EE,         GF3,
      7   IFUNC3,     YIELDZ,     ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
-     9   IFV,        IFUNC2,     EPLA,       UVAR(3,1),
+     9   IFV,        IFUNC2,     EPLA,       XX_OLD,
      A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
      B   NFT)
 C
@@ -563,6 +574,7 @@ C-------------------------------
         DMN(I)  =GEO(71,MGN(I))
         DMX(I)  =GEO(72,MGN(I))
       ENDDO
+      IF (NUVAR > 0) XX_OLD => UVAR(4,1:NEL)
       CALL REDEF3(
      1   XMOM,     XK,       RX,       XMEP,
      2   DXOLD,    RPX,      TF,       NPF,
@@ -572,7 +584,7 @@ C-------------------------------
      6   FF,       LSCALE,   EE,       GF3,
      7   IFUNC3,   YIELDX2,  ALDP,     AK,
      8   B,        D,        IECROU,   IFUNC,
-     9   IFV,      IFUNC2,   EPLA,     UVAR(4,1),
+     9   IFV,      IFUNC2,   EPLA,     XX_OLD,
      A   NOT_USED, NOT_USED, NOT_USED, NEL,
      B   NFT)
 C
@@ -634,6 +646,7 @@ C
         DMN(I)  =GEO(73,MGN(I))
         DMX(I)  =GEO(74,MGN(I))
       ENDDO
+      IF (NUVAR > 0) XX_OLD => UVAR(5,1:NEL)
       CALL REDEF3(
      1   YMOM,     YK,       RY,       YMEP,
      2   DYOLD,    RPY,      TF,       NPF,
@@ -643,7 +656,7 @@ C
      6   FF,       LSCALE,   EE,       GF3,
      7   IFUNC3,   YIELDY2,  ALDP,     AK,
      8   B,        D,        IECROU,   IFUNC,
-     9   IFV,      IFUNC2,   EPLA,     UVAR(5,1),
+     9   IFV,      IFUNC2,   EPLA,     XX_OLD,
      A   NOT_USED, NOT_USED, NOT_USED, NEL,
      B   NFT)
 C
@@ -705,6 +718,7 @@ C
         DMN(I)  =GEO(75,MGN(I))
         DMX(I)  =GEO(76,MGN(I))
       ENDDO
+      IF (NUVAR > 0) XX_OLD => UVAR(6,1:NEL)
       CALL REDEF3(
      1   ZMOM,     ZK,       RZ,       ZMEP,
      2   DZOLD,    RPZ,      TF,       NPF,
@@ -714,7 +728,7 @@ C
      6   FF,       LSCALE,   EE,       GF3,
      7   IFUNC3,   YIELDZ2,  ALDP,     AK,
      8   B,        D,        IECROU,   IFUNC,
-     9   IFV,      IFUNC2,   EPLA,     UVAR(6,1),
+     9   IFV,      IFUNC2,   EPLA,     XX_OLD,
      A   NOT_USED, NOT_USED, NOT_USED, NEL,
      B   NFT)
 C
