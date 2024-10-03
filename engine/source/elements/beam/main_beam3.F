@@ -170,13 +170,12 @@ c
      .         MAT    ,PID       )
 c
         CASE (2)  ! Johnson-Cook
-          CALL M2LAWP(
-     .         PM     ,FOR        ,MOM      ,EINT      ,GEO      ,        
-     .         OFF    ,ELBUF_STR%GBUF%PLA   ,EXX       ,EXY      ,EXZ      ,
-     .         KXX    ,KYY        ,KZZ      ,AL        ,F1       ,
-     .         F2     ,F3         ,M1       ,M2        ,M3       ,
-     .         NEL    ,MAT        ,PID      ,NGL       ,IPM      ,
-     .         NUMMAT ,NUVAR      ,UVAR     )
+          CALL M2LAWP(MAT_PARAM,ASRATE   ,TIME     ,DTIME    ,NPROPG   ,
+     .                FOR      ,MOM      ,EINT     ,GEO      ,OFF      , 
+     .                ELBUF_STR%GBUF%PLA ,EXX      ,EXY      ,EXZ      ,
+     .                KXX      ,KYY      ,KZZ      ,AL       ,F1       ,
+     .                F2       ,F3       ,M1       ,M2       ,M3       ,
+     .                NEL      ,IPID     ,NGL      ,NUVAR    ,UVAR     )
 c
         CASE (44)  ! Cowper-Symonds
           IADBUF  = IPM(7 ,IMAT)
