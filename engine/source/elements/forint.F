@@ -1197,19 +1197,19 @@ C
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(IPARTT(NF1) ,SUBSET ,IPRI)
 c
-          CALL TFORC3(
-     1   ELBUF_TAB(NG),       JFT,                 JLT,                 PM,
-     2   GEO,                 IXT,                 X,                   A,
-     3   V,                   PARTSAV,             BUFMAT,              DT2T,
-     4   NELTST,              ITYPTST,             STIFN,               FSKY,
-     5   IADT,                OFFSET,              IPARTT(NF1),         TANI(K1),
-     6   FX(1,1),             FX(1,2),             FY(1,1),             FY(1,2),
-     7   FZ(1,1),             FZ(1,2),             NEL,                 GRESAV,
-     8   GRTH,                IGRTH(OFF_IGRTH+NF1),MSTR(NF1),           DMELTR(NF1),
-     9   IPRI,                IPM,                 NPC,                 TF,
-     A   ITASK,               H3D_DATA,            NFT,                 MTN,
-     B   JSMS,                IGRE,                PRELOAD1,            STF_F,
-     C   DT)
+          CALL TFORC3(MAT_ELEM%MAT_PARAM,NUMMAT,
+     1         ELBUF_TAB(NG), JFT,                 JLT,          PM,                
+     2         GEO,           IXT,                 X,            A,                 
+     3         V,             PARTSAV,             BUFMAT,       DT2T,              
+     4         NELTST,        ITYPTST,             STIFN,        FSKY,              
+     5         IADT,          OFFSET,              IPARTT(NF1),  TANI(K1),          
+     6         FX(1,1),       FX(1,2),             FY(1,1),      FY(1,2),           
+     7         FZ(1,1),       FZ(1,2),             NEL,          GRESAV,            
+     8         GRTH,          IGRTH(OFF_IGRTH+NF1),MSTR(NF1),    DMELTR(NF1),       
+     9         IPRI,          IPM,                 NPC,          TF,                
+     A         ITASK,         H3D_DATA,            NFT,          MTN,               
+     B         JSMS,          IGRE,                PRELOAD1,     STF_F,             
+     C         DT)
 C
              IF (NSECT > 0) THEN
               K0=NSTRF(25)

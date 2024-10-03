@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod             ../engine/share/modules/h3d_mod.F
       !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
       !||====================================================================
-      SUBROUTINE TFORC3(
+      SUBROUTINE TFORC3(MAT_PARAM,NUMMAT,   
      1   ELBUF_STR,JFT,      JLT,      PM,
      2   GEO,      NCT,      X,        F,
      3   V,        PARTSAV,  BUFMAT,   DT2T,
@@ -59,6 +59,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      USE MATPARAM_DEF_MOD
       USE H3D_MOD
       USE PRELOAD_AXIAL_MOD
       USE DT_MOD
@@ -82,9 +83,10 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IGRE
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: MTN
+      INTEGER, INTENT(IN) :: NUMMAT
       INTEGER, INTENT(IN) :: JSMS
       INTEGER NCT(*),IADT(2,*),IPARTT(*),OFFSET,
-     .        JFT,JLT,NELTST,ITYPTST,NEL,GRTH(*),IPM(NPROPMI,*),
+     .        JFT,JLT,NELTST,ITYPTST,NEL,GRTH(*),IPM(NPROPMI,NUMMAT),
      .        IGRTH(*),IOUTPRT,NPF(*),ITASK
       my_real DT2T,
      .   BUFMAT(*),PM(*),GEO(NPROPG,*),X(*),F(*),V(*),PARTSAV(*),TF(*),
@@ -93,12 +95,13 @@ C-----------------------------------------------
       my_real, INTENT(IN)          :: PRELD1,STF_F
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
-      TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
+      TYPE (H3D_DATABASE) :: H3D_DATA
       TYPE (DT_), INTENT(IN) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  LCO,NUVAR,NFUNC,IFUNC(100),I
+      INTEGER  I,IMAT,LCO,NUVAR,NFUNC,IFUNC(100)
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),NC1(MVSIZ),NC2(MVSIZ)
       my_real 
      .   STI(MVSIZ),OFF(MVSIZ),
@@ -137,6 +140,8 @@ C-------     activation only in compression in laws
      4   GBUF%G_DT,MAT,      NGL,      AL,
      5   JSMS)
 !
+      IMAT = MAT(1)
+!      
       IF (MTN == 1) THEN
         CALL M1LAWT(
      1   PM,         GEO,        OFF,        GBUF%FOR,
@@ -145,10 +150,10 @@ C-------     activation only in compression in laws
      4   NEL)
 c
       ELSEIF (MTN == 2) THEN
-        CALL M2LAWT(
-     1   PM,         GEO,        OFF,        GBUF%FOR,
+        CALL M2LAWT(MAT_PARAM(IMAT),
+     1   GEO,        OFF,        GBUF%FOR,
      2   GBUF%EINT,  GBUF%AREA,  GBUF%LENGTH,GBUF%PLA,
-     3   STI,        MAT,        PID,        NGL,
+     3   STI,        PID,        NGL,
      4   EPS,        AL,         NEL)
 c
       ELSEIF (MTN == 34) THEN
