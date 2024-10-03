@@ -27,16 +27,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||====================================================================
-      SUBROUTINE M2LAWPI(ELBUF_STR,
-     1                  JFT    ,JLT    ,NPT    ,PM     ,GEO,
-     2                  EINT   ,OFF    ,IMAT,
+      SUBROUTINE M2LAWPI(ELBUF_STR,MAT_PARAM   ,
+     1                  NEL    ,NPT    ,GEO,
+     2                  EINT   ,OFF    ,ASRATE ,TIMESTEP,
      3                  PID    ,EPSP   ,EXX    ,EXY    ,EXZ,
-     4                  KXX    ,KYY    ,KZZ    ,AL     ,NEL,
-     5                  IPM    ,ASRATE ,TIMESTEP,NUMMAT)
+     4                  KXX    ,KYY    ,KZZ    ,AL     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,33 +51,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: IMAT,NUMMAT
-      INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
-      INTEGER JFT,JLT,NPT,NEL
-      INTEGER PID(NEL)
+      INTEGER ,INTENT(IN)  :: NPT,NEL
+      INTEGER ,INTENT(IN)  :: PID(NEL)
       my_real , INTENT(IN) :: TIMESTEP
       my_real , INTENT(IN) :: ASRATE
-C     REAL
-      my_real
-     .   EXX(NEL), EXY(NEL), EXZ(NEL), 
-     .   KXX(NEL), KYY(NEL), KZZ(NEL),
-     .   PM(NPROPM,*), GEO(NPROPG,*), EINT(NEL,2),
-     .   OFF(*),EPSP(*), AL(*)
-C
+      my_real :: EXX(NEL),EXY(NEL),EXZ(NEL),KXX(NEL),KYY(NEL),KZZ(NEL),
+     .   GEO(NPROPG,*), EINT(NEL,2),OFF(NEL),EPSP(NEL),AL(NEL)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IPT,ICC,IRTY,IPY,IPZ,IPA,VP,IR,IS,ILAYER
+      INTEGER :: I,IPT,ICC,IFORM,IPY,IPZ,IPA,VP,IR,IS,ILAYER
       INTEGER :: II(3)
       my_real :: EPMX(NEL),CA(NEL), CB(NEL), CN(NEL), YMAX(NEL),
-     .   T(NEL),Z3(NEL),CC(NEL),EPDR(NEL),
-     .   YLD(NEL),ETSE(NEL),Q(NEL),E(NEL),G(NEL),
+     .   TEMP(NEL),EPDR(NEL),YLD(NEL),ETSE(NEL),Q(NEL),
      .   YPT(NEL),ZPT(NEL),APT(NEL),VOL(NEL),DPLA(NEL),
      .   SIGNXX(NEL),SIGNXY(NEL),SIGNXZ(NEL),LOGEP(NEL),
      .   DEPSXX(NEL),DEPSXY(NEL),DEPSXZ(NEL),PLAP(NEL)
-      my_real :: TREF,TMELT,CP,
-     .   EPIF,SVM1,GS,MT,TSTAR,UMR,R,SHFACT,PLAP1,Z4
+      my_real :: YOUNG,SHEAR,TREF,TMELT,RHOCPI,M_EXP,CC
+      my_real :: SVM1,GS,MT,TSTAR,UMR,R,SHFACT,PLAP1,Z3,Z4
 C
       TYPE(L_BUFEL_) ,POINTER :: LBUF  
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
@@ -85,56 +78,58 @@ C=======================================================================
       IPY  = 200        
       IPZ  = 300        
       IPA  = 400        
-      EPIF = ZERO
       SHFACT = FIVE_OVER_6
 !
       Z4 = ZERO
       DO I=1,3
         II(I) = NEL*(I-1)
       ENDDO
+
+      SHEAR  = MAT_PARAM%SHEAR 
+      YOUNG  = MAT_PARAM%YOUNG 
+
+      IFORM  = MAT_PARAM%IPARAM(1)
+      ICC    = MAT_PARAM%IPARAM(2)
+      VP     = MAT_PARAM%IPARAM(4)
 !
-C---
-      VP   = IPM(255,IMAT) 
-      IRTY = NINT(PM(50,IMAT))
-      IF (IRTY == 0) THEN
-        TREF  = PM(79,IMAT)                    
-        TMELT = PM(80,IMAT)                    
-        CP    = ONE / MAX(EM20,PM(69,IMAT))                  
+      IF (IFORM == 0) THEN
+        RHOCPI = MAT_PARAM%UPARAM(10)
+        IF (RHOCPI > ZERO) RHOCPI = ONE / RHOCPI                
+        TREF  = MAT_PARAM%UPARAM(11)             
+        TMELT = MAT_PARAM%UPARAM(12)
+        M_EXP = MAT_PARAM%UPARAM(13)
+        MT    = MAX(EM20,M_EXP)
       ELSE
-        Z4    = PM(52,IMAT)                    
-        CP    = PM(53,IMAT)                    
-        TREF  = PM(54,IMAT)                    
+        Z3 = MAT_PARAM%UPARAM(10)
+        Z4 = MAT_PARAM%UPARAM(11)
+        RHOCPI    = MAT_PARAM%UPARAM(12)
+        TREF  = MAT_PARAM%UPARAM(13)             
         TMELT = 0
       END IF             
+      CC  = MAT_PARAM%UPARAM(6)
 !
-      ICC  = NINT(PM(49,IMAT))              
-      DO I=JFT,JLT                           
-        E(I)    = PM(20,IMAT)                    
-        G(I)    = PM(22,IMAT)                    
-        CA(I)   = PM(38,IMAT)                    
-        CB(I)   = PM(39,IMAT)                    
-        CN(I)   = PM(40,IMAT)                    
-        EPMX(I) = PM(41,IMAT)                    
-        YMAX(I) = PM(42,IMAT)                    
-        CC(I)   = PM(43,IMAT)    
-        IF(VP == 1)THEN
-          EPDR(I) = MAX(EM20,PM(44,IMAT))
+      DO I = 1,NEL                           
+        CA(I)  = MAT_PARAM%UPARAM(1)
+        CB(I)  = MAT_PARAM%UPARAM(2)
+        CN(I)  = MAT_PARAM%UPARAM(3)
+        EPMX(I)= MAT_PARAM%UPARAM(4)
+        YMAX(I)= MAT_PARAM%UPARAM(5)
+        IF (VP == 1) THEN
+          EPDR(I) = MAX(EM20,MAT_PARAM%UPARAM(7))
         ELSE               
-          EPDR(I) = MAX(EM20,PM(44,IMAT)*DT1)  
+          EPDR(I) = MAX(EM20,MAT_PARAM%UPARAM(7)*DT1)  
         ENDIF
-        EPIF    = MAX(EPIF,CC(I))              
-        Z3(I)   = PM(51,IMAT)                    
         EPSP(I) = MAX(EPSP(I),EPDR(I))
         VOL(I)  = AL(I)*GEO(1,PID(I))            
       ENDDO                                    
 C
-      DO I=JFT,JLT
-        T(I) = TREF + CP*(EINT(I,1)+EINT(I,2))/VOL(I)
+      DO I = 1,NEL
+        TEMP(I) = TREF + RHOCPI*(EINT(I,1)+EINT(I,2))/VOL(I)
       ENDDO   
+      ETSE(:) = ONE
 C-------------------------------------
 C     DEBUT DE BOUCLE SUR POINTS INTEGRATION
 C--------------------------------------
-C        
       DO IPT= 1,NPT
  
         ILAYER=1
@@ -143,18 +138,18 @@ C
         LBUF => ELBUF_STR%BUFLY(ILAYER)%LBUF(IR,IS,IPT)
         BUFLY => ELBUF_STR%BUFLY(ILAYER)
 C---    Coordonnees du point d'integration
-        DO I=JFT,JLT                                 
+        DO I = 1,NEL                                 
           YPT(I) = GEO(IPY+IPT,PID(I))              
           ZPT(I) = GEO(IPZ+IPT,PID(I))           
           APT(I) = GEO(IPA+IPT,PID(I))           
         ENDDO                                        
-        DO I=JFT,JLT
+        DO I = 1,NEL
           SIGNXX(I) = LBUF%SIG(II(1)+I)
           SIGNXY(I) = LBUF%SIG(II(2)+I)
           SIGNXZ(I) = LBUF%SIG(II(3)+I)
        ENDDO        
 C---    Deformations Incrementales
-        DO I= JFT,JLT
+        DO I= 1,NEL
           DEPSXX(I) = EXX(I) - YPT(I)*KZZ(I) + ZPT(I)*KYY(I)
           DEPSXY(I) = EXY(I) + ZPT(I)*KXX(I) 
           DEPSXZ(I) = EXZ(I) - YPT(I)*KXX(I)
@@ -165,7 +160,7 @@ C
 c---    Total strain
 C 
         IF (BUFLY%L_STRA > 0) THEN
-          DO I= JFT,JLT
+          DO I= 1,NEL
             LBUF%STRA(II(1)+I) = LBUF%STRA(II(1)+I) + DEPSXX(I)
             LBUF%STRA(II(2)+I) = LBUF%STRA(II(2)+I) + DEPSXY(I)
             LBUF%STRA(II(3)+I) = LBUF%STRA(II(3)+I) + DEPSXZ(I)
@@ -174,58 +169,50 @@ C
 C
 C---    Contraintes elastiques
 C
-        DO I = JFT,JLT
-          GS = SHFACT*G(I)                         
-          SIGNXX(I) = SIGNXX(I) + E(I)*DEPSXX(I)
+        DO I = 1,NEL
+          GS = SHFACT*SHEAR                         
+          SIGNXX(I) = SIGNXX(I) + YOUNG*DEPSXX(I)
           SIGNXY(I) = SIGNXY(I) + GS*DEPSXY(I)
           SIGNXZ(I) = SIGNXZ(I) + GS*DEPSXZ(I)
-          ETSE(I)   = ONE                        
         ENDDO                                    
-        DO I=JFT,JLT
-          ETSE(I) = ONE
-          CA(I)   = PM(38,IMAT)                  
-          CB(I)   = PM(39,IMAT)                  
-          YMAX(I) = PM(42,IMAT)                  
-        ENDDO
 c---    strain rate dependency
-        IF(VP == 1)THEN
-          DO I= JFT,JLT
+        IF (VP == 1)THEN
+          DO I= 1,NEL
             PLAP(I)  = BUFLY%MAT(IR,IS,IPT)%VAR(I)
             PLAP(I)  = MAX(PLAP(I),EPDR(I) )
             LOGEP(I) = LOG(PLAP(I)/EPDR(I))
           ENDDO      
         ELSE
-          DO I= JFT,JLT
+          DO I= 1,NEL
             LOGEP(I) = LOG(EPSP(I)/EPDR(I))
           ENDDO      
         ENDIF
 C--     Yield 
-        IF (EPIF /= ZERO) THEN
-          IF (IRTY == 0)THEN
-            DO I=JFT,JLT
-              MT      = MAX(EM20,Z3(I))
-              TSTAR   = MAX(ZERO,(T(I)-TREF)/(TMELT-TREF))
+        IF (CC > ZERO) THEN
+          IF (IFORM == 0)THEN
+            DO I = 1,NEL
+              TSTAR = MAX(ZERO,(TEMP(I)-TREF)/(TMELT-TREF))
               IF (TSTAR == ZERO) THEN
-                Q(I) = (ONE + CC(I) * LOGEP(I))
+                Q(I) = (ONE + CC * LOGEP(I))
               ELSE
-                Q(I) = (ONE + CC(I) * LOGEP(I))*(ONE-EXP(MT*LOG(TSTAR)))
+                Q(I) = (ONE + CC * LOGEP(I))*(ONE-EXP(MT*LOG(TSTAR)))
               ENDIF
               Q(I)  = MAX(Q(I),EM20)
               CA(I) = CA(I) * Q(I)
               CB(I) = CB(I) * Q(I)
               IF (ICC== 1) YMAX(I) = YMAX(I) * Q(I)
             ENDDO
-          ELSEIF (IRTY == 1) THEN
-            DO I=JFT,JLT
+          ELSEIF (IFORM == 1) THEN
+            DO I = 1,NEL
               Q(I) = LOGEP(I)
-              Q(I) = CC(I)*EXP((-Z3(I)+Z4 * Q(I))*T(I))
+              Q(I) = CC*EXP((-Z3+Z4 * Q(I))*TEMP(I))
               IF (ICC == 1) YMAX(I)= YMAX(I) + Q(I)
               CA(I) = CA(I) + Q(I)
             ENDDO
           ENDIF
         ENDIF
 C---
-        DO I=JFT,JLT
+        DO I = 1,NEL
           IF(LBUF%PLA(I) == ZERO) THEN
             YLD(I)= CA(I)                                
           ELSE                                           
@@ -236,7 +223,7 @@ C---
 C-------------------
 C       PROJECTION   -   radial return
 C-------------------
-        DO I=JFT,JLT
+        DO I = 1,NEL
           SVM1 = SIGNXX(I)**2 + THREE*(SIGNXY(I)**2 + SIGNXZ(I)**2)
           IF (SVM1 > YLD(I)**2) THEN
             SVM1 = SQRT(SVM1)                                        
@@ -245,13 +232,13 @@ C-------------------
             SIGNXY(I) = SIGNXY(I)*R                                  
             SIGNXZ(I) = SIGNXZ(I)*R                                  
             UMR = ONE - R               
-            DPLA(I) =    SVM1*UMR/(E(I))                           
+            DPLA(I) =    SVM1*UMR/(YOUNG)                           
             LBUF%PLA(I) = LBUF%PLA(I) + OFF(I)* DPLA(I) 
-c            IF (R < ONE) ETSE(I)= H(I)/(H(I)+E(I)) 
+c            IF (R < ONE) ETSE(I)= H(I)/(H(I)+YOUNG) 
           ENDIF                                   
         ENDDO 
         IF (VP == 1) THEN 
-          DO I=JFT,JLT
+          DO I = 1,NEL
             PLAP1   = DPLA(I) / MAX(EM20,TIMESTEP)
             BUFLY%MAT(IR,IS,IPT)%VAR(I) = ASRATE * PLAP1 + (ONE - ASRATE) * PLAP(I)
           ENDDO
@@ -263,14 +250,14 @@ C--------------------------------
 C     TEST DE RUPTURE DUCTILE
 C--------------------------------
 C      
-        DO  I=JFT,JLT
+        DO I = 1,NEL
           IF (LBUF%PLA(I) >= EPMX(I) .AND. OFF(I) == ONE) THEN
             OFF(I)=FOUR_OVER_5
           ENDIF
         ENDDO                                          
 C-----------
 C
-        DO I=JFT,JLT                                                    
+        DO I = 1,NEL                                                    
           LBUF%SIG(II(1)+I) = SIGNXX(I)
           LBUF%SIG(II(2)+I) = SIGNXY(I)
           LBUF%SIG(II(3)+I) = SIGNXZ(I)

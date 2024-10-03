@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MAT_ELEM_MOD
+      USE MATPARAM_DEF_MOD
       USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -170,12 +170,11 @@ c---------------------------
 c     material models
 c---------------------------
       IF (MTN == 2) THEN
-        CALL M2LAWPI(ELBUF_STR,
-     1               1      ,NEL    ,NPT    ,PM     ,GEO     ,
-     2               EINT   ,OFF    ,IMAT    ,
+        CALL M2LAWPI(ELBUF_STR,MAT_PARAM   ,
+     1               NEL    ,NPT    ,GEO    ,
+     2               EINT   ,OFF    ,ASRATE ,DTIME  ,
      3               PID    ,EPSD   ,EXX    ,EXY    ,EXZ     ,
-     4               KXX    ,KYY    ,KZZ    ,AL     ,NEL     ,
-     5               IPM    ,ASRATE ,DTIME  ,NUMMAT )
+     4               KXX    ,KYY    ,KZZ    ,AL     )
 c
       ELSE
 c

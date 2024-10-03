@@ -74,7 +74,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MAT_ELEM_MOD
+      USE MATPARAM_DEF_MOD
       USE H3D_MOD
       USE PRELOAD_AXIAL_MOD
       USE ELBUFDEF_MOD
@@ -204,7 +204,7 @@ C-----------------------------------------------
      8   E3Z,     PID,     NEL)
 C---
       IMAT = MAT(1)
-      NUPARAM = IPM(9,MAT(1))
+      NUPARAM = IPM(9,IMAT)
 C---
       DIE(1:NEL)   = ZERO
       IF (JTHE > 0) THEN 
