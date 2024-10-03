@@ -32,4 +32,5 @@
       !=======================================================================================================================
          integer, parameter :: istdo = 6
          integer, parameter :: iout = 7
+         integer, parameter :: tmp_engine = 4567
       end module file_descriptor_mod

@@ -3669,18 +3669,19 @@ C--------------------------------------------
         WRITE(ISTDO,'(A)')' .. SET'
         ERR_CATEGORY='SET'
 
-        CALL HM_SET(SET      ,LSUBMODEL ,INV_GROUP ,MAP_TABLES,IPART     ,
-     *              IGRSURF  ,IGRNOD    ,IGRSLIN   ,IGRPART  ,IGRBRIC   ,
-     *              IGRQUAD  ,IGRSH4N   ,IGRSH3N   ,IGRTRUSS ,IGRBEAM   ,
-     *              IGRSPRING,IXS       ,IXS10     ,IXC      ,IXTG      ,
-     *              KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC  ,KNOD2ELTG ,
-     *              NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS   ,SH4TREE   ,
-     *              SH3TREE  ,IXQ  ,KNOD2ELQ  ,NOD2ELQ  ,X   ,
-     *              IXT      ,IXP       ,IXR       ,IXX      ,KXX       ,
-     *              KXSP     ,IXS20     ,IXS16     ,GEO      ,ITABM1    ,
-     *              IBOX     ,SKEW      ,IPARTQ    ,IPARTT   ,IPARTP    ,
-     *              IPARTR   ,SUBSETS   ,RBY_MSN   ,ISKWN    ,RTRANS    ,
-     *              UNITAB   ,RWORK     ,SBUFSF    ,SISKWN   ,SSKEW     )
+        CALL HM_SET(SET      ,LSUBMODEL ,INV_GROUP   ,MAP_TABLES ,IPART     ,
+     *              IGRSURF  ,IGRNOD    ,IGRSLIN     ,IGRPART    ,IGRBRIC   ,
+     *              IGRQUAD  ,IGRSH4N   ,IGRSH3N     ,IGRTRUSS   ,IGRBEAM   ,
+     *              IGRSPRING,IXS       ,IXS10       ,IXC        ,IXTG      ,
+     *              KNOD2ELS ,NOD2ELS   ,KNOD2ELC    ,NOD2ELC    ,KNOD2ELTG ,
+     *              NOD2ELTG ,IPARTC    ,IPARTG      ,IPARTS     ,SH4TREE   ,
+     *              SH3TREE  ,IXQ       ,KNOD2ELQ    ,NOD2ELQ    ,X         ,
+     *              IXT      ,IXP       ,IXR         ,IXX        ,KXX       ,
+     *              KXSP     ,IXS20     ,IXS16       ,GEO        ,ITABM1    ,
+     *              IBOX     ,SKEW      ,IPARTQ      ,IPARTT     ,IPARTP    ,
+     *              IPARTR   ,SUBSETS   ,RBY_MSN     ,ISKWN      ,RTRANS    ,
+     *              UNITAB   ,RWORK     ,SBUFSF      ,SISKWN     ,SSKEW     ,
+     *              ROOTNAM  ,ROOTLEN   ,INFILE_NAME ,INFILE_NAME_LEN   )
      
      
 C        IF(ALLOCATED(RBY_MSN)) DEALLOCATE(RBY_MSN)

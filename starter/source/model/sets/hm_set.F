@@ -83,7 +83,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  KXSP     ,IXS20     ,IXS16     ,GEO      ,ITABM1    ,
      .                  IBOX     ,SKEW      ,IPARTQ    ,IPARTT   ,IPARTP    ,
      .                  IPARTR   ,SUBSET    ,RBY_MSN   ,ISKN     ,RTRANS    ,
-     .                  UNITAB   ,BUFSF     ,IAD       ,SISKWN   ,SSKEW     )
+     .                  UNITAB   ,BUFSF     ,IAD       ,SISKWN   ,SSKEW     ,
+     .                  ROOTNAM  ,ROOTLEN   ,INFILE_NAME ,INFILE_NAME_LEN )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -167,6 +168,10 @@ C-----------------------------------------------
      .  X(3,*),GEO(NPROPG,*),SKEW(LSKEW,*)
       INTEGER, INTENT(IN) :: ISKN(LISKN,SISKWN/LISKN)
       MY_REAL, INTENT(IN) :: RTRANS(NTRANSF,NRTRANS)
+
+      INTEGER, INTENT(IN)   ::  ROOTLEN,INFILE_NAME_LEN
+      CHARACTER(LEN=ROOTLEN), INTENT(IN) ::  ROOTNAM
+      CHARACTER(LEN=INFILE_NAME_LEN), INTENT(IN) ::  INFILE_NAME
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -894,9 +899,9 @@ C -----------------------------------------------------
       ! Fill Radioss group, lines surfaces
       !  -----------------------------------------------------
       CALL FILL_IGR(SET,
-     .              IGRSURF ,IGRNOD  ,IGRSLIN  ,IGRPART ,IGRBRIC, IGRQUAD ,   
-     .              IGRSH4N ,IGRSH3N ,IGRTRUSS ,IGRBEAM ,IGRSPRING,BUFSF  ,
-     .              LISURF1 )
+     .              IGRSURF ,IGRNOD  ,IGRSLIN  ,IGRPART     ,IGRBRIC, IGRQUAD ,   
+     .              IGRSH4N ,IGRSH3N ,IGRTRUSS ,IGRBEAM     ,IGRSPRING,BUFSF  ,
+     .              LISURF1 ,ROOTNAM ,ROOTLEN  ,INFILE_NAME ,INFILE_NAME_LEN)
 
 
       END 
