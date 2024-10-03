@@ -89,7 +89,7 @@ C=======================================================================
 
       IFORM  = MAT_PARAM%IPARAM(1)
       ICC    = MAT_PARAM%IPARAM(2)
-      VP     = MAT_PARAM%IPARAM(4)
+      VP     = MAT_PARAM%IPARAM(3)
 !
       IF (IFORM == 0) THEN
         RHOCPI = MAT_PARAM%UPARAM(10)

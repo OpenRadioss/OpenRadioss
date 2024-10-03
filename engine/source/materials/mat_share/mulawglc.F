@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    table_mod      ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE MULAWGLC(ELBUF_STR,
+      SUBROUTINE MULAWGLC(ELBUF_STR,MAT_PARAM,
      1           JFT    ,JLT    ,PM     ,FOR   ,MOM   ,THK   ,
      2           EINT   ,OFF    ,GSTR   ,DIR   ,SHF   ,
      3           MAT    ,AREA   ,EXX    ,EYY   ,EXY   ,NEL   ,
@@ -53,6 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
       USE TABLE_MOD
       USE ELBUFDEF_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,6 +87,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: ZSHIFT
       TYPE(TTABLE) TABLE(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      type (matparam_struct_) ,intent(in) :: mat_param
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -324,20 +326,19 @@ C-------------------------------------------
      6                 SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,MOMNXX  ,
      7                 MOMNYY  ,MOMNXY  )
       ELSEIF (MTN == 2) THEN
-        VP = IPM(255,MX)
-        CALL SIGEPS02G(ELBUF_STR,
+        CALL SIGEPS02G(ELBUF_STR,MAT_PARAM,
      1                 JFT     ,JLT     ,PM      ,FOR     ,MOM     ,
      2                 THKN    ,EINT    ,OFF     ,DT1C    ,ISRATE  ,
-     3                 G       ,A1      ,A2      ,VOL0    ,NU      ,
+     3                 ASRATE  ,VOL0    ,
      4                 THK0    ,GS      ,EPSP    ,IOFC    ,KFTS    ,
      5                 NGL     ,INDX    ,IPLA    ,IR      ,IS      ,
-     6                 DEGMB   ,DEGFX   ,DEPSXX  ,DEPSYY  ,MX      ,
+     6                 DEGMB   ,DEGFX   ,DEPSXX  ,DEPSYY  ,
      7                 DEPSXY  ,DEPSYZ  ,DEPSZX  ,DEPBXX  ,DEPBYY  ,
      8                 DEPBXY  ,SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,
      9                 SIGOZX  ,MOMOXX  ,MOMOYY  ,MOMOXY  ,SIGNXX  ,
      A                 SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,MOMNXX  ,
      B                 MOMNYY  ,MOMNXY  ,ETSE    ,EXZ     ,EYZ     ,
-     C                 NEL    ,IOFF_DUCT,VP      , NUVAR  ,UVAR )
+     C                 NEL    ,IOFF_DUCT,NUVAR  ,UVAR )
       ELSEIF (MTN == 22) THEN
         CALL SIGEPS22G(ELBUF_STR,
      1            JFT     ,JLT     ,PM      ,FOR     ,MOM      ,
