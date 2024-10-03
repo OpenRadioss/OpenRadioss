@@ -147,6 +147,7 @@ C
         SVIS(I,6)= ZERO 
         TSTAR(I) = ZERO        
       ENDDO 
+      IMAT = MAT(1)
 C-----------------------------------------------------------------
       IF (MTN == 1) THEN
         CALL M1LAW8(
@@ -161,7 +162,7 @@ C-----------------------------------------------------------------
      9   DMELS,    BUFLY,    SSP,      ITY,
      A   NPT,      JTUR,     JTHE,     JSMS)
       ELSEIF (MTN == 2) THEN
-        CALL M2LAW8(
+        CALL M2LAW8(MAT_ELEM%MAT_PARAM(IMAT),
      1   PM,       OFF,      GBUF%SIG, GBUF%EINT,
      2   GBUF%RHO, GBUF%QVIS,GBUF%VOL, STIFN,
      3   NEL,      D1,       D2,       D3,

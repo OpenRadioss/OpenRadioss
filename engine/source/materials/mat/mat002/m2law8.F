@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||====================================================================
-      SUBROUTINE M2LAW8(
+      SUBROUTINE M2LAW8(MAT_PARAM,
      1   PM,      OFF,     SIG,     EINT,
      2   RHO,     QOLD,    VOL,     STIFN,
      3   NEL,     D1,      D2,      D3,
@@ -46,6 +46,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD         
+      USE MATPARAM_DEF_MOD         
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,11 +82,12 @@ C     REAL
      .  VD2(MVSIZ) ,  VIS(MVSIZ),GEO(NPROPG,*), DT2T, OFFG(*),
      .  DPLA(*),EPSP(*),TSTAR(*),ETSE(*), MSSA(*), DMELS(*), SSP(MVSIZ)   
       TYPE (BUF_LAY_), TARGET :: BUFLY
+      TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,II,IPT,JPT,NPIF,MX,JJ(6)
-      INTEGER  ICC,IRTY
+      INTEGER  I,J,II,IPT,JPT,NPIF,JJ(6)
+      INTEGER  ICC,IFORM
 C     REAL
       my_real
      .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ),
@@ -94,46 +96,48 @@ C     REAL
      .   G1(MVSIZ)  , G2(MVSIZ), AJ2(MVSIZ), QH(MVSIZ),
      .   DF(MVSIZ)  , AMU(MVSIZ)   , EINC(MVSIZ), EPD(MVSIZ) ,
      .   DPDM(MVSIZ), PNEW(MVSIZ) , AK(MVSIZ),
-     .   CA(MVSIZ),CC, CN, EPXO(MVSIZ),
-     .   EPMX, THETL(MVSIZ), EPDR, T(MVSIZ),
-     .   SIGMX(MVSIZ),
-     .   EPIF,TM,MT, SCALE, DTA, DAV,RHOCPI,
-     .   CA_1,CB_1,SIGMX_1,CMX_1,Z3_1,Z4_1,CP_1,T_1
+     .   CA(MVSIZ),CC, CN, EPMX, EPDR, T(MVSIZ),SIGMX(MVSIZ),
+     .   EPIF,TM,MT, SCALE, DTA, DAV,RHOCP,RHOCPI,
+     .   CA_1,CB_1,SIGMX_1,Z3_1,Z4_1,T_1
       my_real,
      .  DIMENSION(:), POINTER :: SIGP, EPLA
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C=======================================================================
       EPIF = ZERO
       NPIF = 0
-C
-      DTA =HALF*DT1
-      MX=MAT(1)
-      ICC  =NINT(PM(49,MX))
-      C1   =PM(32,MX)
-      CN   =PM(40,MX)
-      EPMX =PM(41,MX)
-      EPDR =PM(44,MX)
-      CC   =PM(43,MX)
+      DTA  = HALF*DT1
+!
+      C1    = MAT_PARAM%BULK
+      IFORM = MAT_PARAM%IPARAM(1)  ! flag : J-C = 0, Zerilli = 1
+      ICC   = MAT_PARAM%IPARAM(2)
+!
+      CA_1   = MAT_PARAM%UPARAM(1)
+      CB_1   = MAT_PARAM%UPARAM(2)
+      CN     = MAT_PARAM%UPARAM(3)
+      EPMX   = MAT_PARAM%UPARAM(4) 
+      SIGMX_1= MAT_PARAM%UPARAM(5)
+      CC     = MAT_PARAM%UPARAM(6)
+      EPDR   = MAT_PARAM%UPARAM(7)
+
       EPIF = MAX(EPIF,CC)
-      IRTY = NINT(PM(50,MX))   ! flag : J-C = 0, Zerilli = 1
-C
-      CA_1   =PM(38,MX)
-      CB_1   =PM(39,MX)
-      SIGMX_1=PM(42,MX)
-      CMX_1  =PM(45,MX)
-      Z3_1   =PM(51,MX)
-      Z4_1   =PM(52,MX)
-      CP_1   = PM(53,MX)
-      RHOCPI = PM(69,MX)
-      IF (RHOCPI > ZERO) RHOCPI = ONE / RHOCPI
-      T_1    = PM(79,MX)
-      TM     = PM(80,MX)
+!
+      IF (IFORM == 1) THEN
+        Z3_1   = MAT_PARAM%UPARAM(10)
+        Z4_1   = MAT_PARAM%UPARAM(11)
+        RHOCPI = MAT_PARAM%UPARAM(12)
+        T_1    = MAT_PARAM%UPARAM(13)
+      ELSE
+        RHOCP  = MAT_PARAM%UPARAM(10)
+        T_1    = MAT_PARAM%UPARAM(11)
+        TM     = MAT_PARAM%UPARAM(12)
+        Z3_1   = MAT_PARAM%UPARAM(13)
+      END IF
 C
       DO I=1,NEL
-       G(I)    =PM(22,MX)*OFF(I)
+       G(I)    = MAT_PARAM%SHEAR * OFF(I)
        CA(I)   =CA_1
        SIGMX(I)=SIGMX_1
-       NPIF    = NPIF+IRTY
+       NPIF    = NPIF+IFORM
        T(I)    = T_1
        ETSE(I) = ONE
       ENDDO
@@ -240,7 +244,7 @@ C-------------
         ENDDO
         IF (NPIF==ZERO)THEN   ! J-C
           MT=MAX(EM15,Z3_1)
-          DO I=1,NEL
+            DO I=1,NEL
              TSTAR(I)=MIN(ONE,MAX(ZERO,(T(I)-T_1)/(TM-T_1)))
              EPD(I)= MAX(ZERO,EPD(I))
              EPD(I)= (ONE + CC * EPD(I))*(ONE - TSTAR(I)**MT)
@@ -252,7 +256,7 @@ C-------------
              EPD(I)= CC*EXP((-Z3_1+Z4_1 * EPD(I))*T(I))
              IF(ICC==1)SIGMX(I)= SIGMX(I) + EPD(I)
              CA(I) = CA(I) + EPD(I)
-             T(I) = T(I) + CP_1*EINT(I)/MAX(EM15,VOL(I))
+             T(I) = T(I) + RHOCPI*EINT(I)/MAX(EM15,VOL(I))
              EPD(I)=ONE
           ENDDO
         ENDIF
