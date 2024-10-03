@@ -31,6 +31,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD
+      USE MULTIMAT_PARAM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IFAIL,NUPARAM,NIPARAM,NFAIL
+      INTEGER I,J,IFAIL,NUPARAM,NIPARAM,NFAIL,IMAT,NBMAT
 C=======================================================================
 c     Copy matparam from standard materials
 c
@@ -52,12 +53,13 @@ c
         NUPARAM = MATPARAM_INI(I)%NUPARAM
         NIPARAM = MATPARAM_INI(I)%NIPARAM
         NFAIL   = MATPARAM_INI(I)%NFAIL
+        NBMAT   = MATPARAM_INI(I)%MULTIMAT%NB
         MATPARAM_TAB(I)%ILAW               = MATPARAM_INI(I)%ILAW
         MATPARAM_TAB(I)%MAT_ID             = MATPARAM_INI(I)%MAT_ID
-        MATPARAM_TAB(I)%NUPARAM            = NUPARAM 
+        MATPARAM_TAB(I)%NUPARAM            = NUPARAM
         MATPARAM_TAB(I)%NIPARAM            = NIPARAM
         MATPARAM_TAB(I)%NFUNC              = MATPARAM_INI(I)%NFUNC
-        MATPARAM_TAB(I)%NTABLE             = MATPARAM_INI(I)%NTABLE  
+        MATPARAM_TAB(I)%NTABLE             = MATPARAM_INI(I)%NTABLE
         MATPARAM_TAB(I)%NSUBMAT            = MATPARAM_INI(I)%NSUBMAT
         MATPARAM_TAB(I)%NFAIL              = NFAIL
         MATPARAM_TAB(I)%IVISC              = MATPARAM_INI(I)%IVISC
@@ -72,12 +74,12 @@ c
         MATPARAM_TAB(I)%IFAILWAVE          = MATPARAM_INI(I)%IFAILWAVE
         MATPARAM_TAB(I)%IXFEM              = MATPARAM_INI(I)%IXFEM
 c
-        MATPARAM_TAB(I)%VISC%ILAW          = MATPARAM_INI(I)%VISC%ILAW   
+        MATPARAM_TAB(I)%VISC%ILAW          = MATPARAM_INI(I)%VISC%ILAW
         MATPARAM_TAB(I)%VISC%NUPARAM       = MATPARAM_INI(I)%VISC%NUPARAM
         MATPARAM_TAB(I)%VISC%NIPARAM       = MATPARAM_INI(I)%VISC%NIPARAM
-        MATPARAM_TAB(I)%VISC%NUVAR         = MATPARAM_INI(I)%VISC%NUVAR  
-        MATPARAM_TAB(I)%VISC%NFUNC         = MATPARAM_INI(I)%VISC%NFUNC  
-        MATPARAM_TAB(I)%VISC%NTABLE        = MATPARAM_INI(I)%VISC%NTABLE 
+        MATPARAM_TAB(I)%VISC%NUVAR         = MATPARAM_INI(I)%VISC%NUVAR
+        MATPARAM_TAB(I)%VISC%NFUNC         = MATPARAM_INI(I)%VISC%NFUNC
+        MATPARAM_TAB(I)%VISC%NTABLE        = MATPARAM_INI(I)%VISC%NTABLE
 c
         MATPARAM_TAB(I)%PROP_SOLID         = MATPARAM_INI(I)%PROP_SOLID
         MATPARAM_TAB(I)%PROP_SHELL         = MATPARAM_INI(I)%PROP_SHELL
@@ -93,8 +95,8 @@ c
         MATPARAM_TAB(I)%BULK               = MATPARAM_INI(I)%BULK
         MATPARAM_TAB(I)%NU                 = MATPARAM_INI(I)%NU
         MATPARAM_TAB(I)%STIFF_CONTACT      = MATPARAM_INI(I)%STIFF_CONTACT
-        MATPARAM_TAB(I)%STIFF_HGLASS       = MATPARAM_INI(I)%STIFF_HGLASS 
-        MATPARAM_TAB(I)%STIFF_TSTEP        = MATPARAM_INI(I)%STIFF_TSTEP  
+        MATPARAM_TAB(I)%STIFF_HGLASS       = MATPARAM_INI(I)%STIFF_HGLASS
+        MATPARAM_TAB(I)%STIFF_TSTEP        = MATPARAM_INI(I)%STIFF_TSTEP
 c
         MATPARAM_TAB(I)%COMPATIBILITY_EOS  = MATPARAM_INI(I)%COMPATIBILITY_EOS
 c
@@ -107,7 +109,7 @@ c
         IF (NIPARAM > 0) THEN
           MATPARAM_TAB(I)%IPARAM(1:NIPARAM) = MATPARAM_INI(I)%IPARAM(1:NIPARAM)
         END IF
-        
+
         ALLOCATE(MATPARAM_TAB(I)%FAIL(NFAIL))
         IF (NFAIL > 0) THEN
           DO IFAIL=1,NFAIL
@@ -139,11 +141,18 @@ c
               MATPARAM_TAB(I)%FAIL(IFAIL)%TABLE(J) = MATPARAM_INI(I)%FAIL(IFAIL)%TABLE(J)
             END DO
           END DO  ! NFAIL
-!
-        ! copy of matparam between subdomains must be completed with further evolution of MATPARAM structure
+        ENDIF
+c
+        ALLOCATE(MATPARAM_TAB(I)%MULTIMAT%MID(NBMAT))
+        ALLOCATE(MATPARAM_TAB(I)%MULTIMAT%VFRAC(NBMAT))
+        IF (NBMAT > 0) THEN
+          DO IMAT=1,NBMAT
+            MATPARAM_TAB(I)%MULTIMAT%MID(IMAT) = MATPARAM_INI(I)%MULTIMAT%MID(IMAT)
+            MATPARAM_TAB(I)%MULTIMAT%VFRAC(IMAT) = MATPARAM_INI(I)%MULTIMAT%VFRAC(IMAT)
+          END DO  ! IMAT
+        ENDIF
 
-        END IF
-        
+        ! copy of matparam between subdomains must be completed with further evolution of MATPARAM structure
       ENDDO
 c
 c     Fill matparam for additional rad2rad void materials
@@ -174,15 +183,17 @@ c
         MATPARAM_TAB(I)%VISC%NIPARAM       = 0
         MATPARAM_TAB(I)%VISC%NUVAR         = 0
         MATPARAM_TAB(I)%VISC%NFUNC         = 0
-        MATPARAM_TAB(I)%VISC%NTABLE        = 0 
+        MATPARAM_TAB(I)%VISC%NTABLE        = 0
 c
         MATPARAM_TAB(I)%PROP_SOLID         = 1
         MATPARAM_TAB(I)%PROP_SHELL         = 1
         MATPARAM_TAB(I)%PROP_BEAM          = 3
         MATPARAM_TAB(I)%PROP_SPRING        = 2
         MATPARAM_TAB(I)%PROP_TRUSS         = 1
-        MATPARAM_TAB(I)%PROP_SPH           = 1 
+        MATPARAM_TAB(I)%PROP_SPH           = 1
         MATPARAM_TAB(I)%COMPATIBILITY_EOS  = 0
+c
+        MATPARAM_TAB(I)%MULTIMAT%NB        = 0
 c
         MATPARAM_TAB(I)%RHO                = ZERO
         MATPARAM_TAB(I)%RHO0               = ZERO
