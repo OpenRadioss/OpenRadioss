@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MAT_ELEM_MOD
+      USE MATPARAM_DEF_MOD
       USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -101,7 +101,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,IPID,IPLA,ISRATE,NUPARAM,NFUNC,IADBUF,IFUNC(100)
-      my_real :: AREA,IYY,IZZ,IXX,ASRATE,EPSDI,FACT
+      my_real :: AREA,ASRATE,IYY,IZZ,IXX,EPSDI,FACT
       my_real ,DIMENSION(NEL) :: DPLA,SVM,PRESSURE,DEGMB,DEGFX,DEGSH
 c=======================================================================
       IPID = PID(1)
