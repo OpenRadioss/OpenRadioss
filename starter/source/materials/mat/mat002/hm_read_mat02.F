@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_MAT02(MAT_PARAM ,MTAG     ,PM        ,IPM   ,
+      SUBROUTINE HM_READ_MAT02(MAT_PARAM ,MTAG     ,PARMAT   ,PM        ,IPM   ,
      .                         NUVAR     ,IFORM    ,NPROPM   ,NPROPMI   ,ID    ,TITR     ,
      .                         IOUT      ,ISRATE   ,UNITAB   ,LSUBMODEL )     
 C-----------------------------------------------
@@ -80,6 +80,7 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT) :: NUVAR
       INTEGER, INTENT(INOUT) :: IPM(NPROPMI)
       my_real, INTENT(INOUT) :: PM(NPROPM)     
+      my_real, INTENT(INOUT) :: PARMAT(128)     
       CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
@@ -93,7 +94,7 @@ C-----------------------------------------------
       INTEGER ICC,ISRAT1,IFLAG,MFLAG
       INTEGER niparam,nuparam,nfunc,ntable
       my_real
-     .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, CC, EPS0, G, E0, C0, bulk,PMIN,
+     .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, CC, EPS0, G, E0, C0, C1,PMIN,
      .   E1MN2, EN1N2, SDSP,C3,C4,RHOCP,TREF,TMELT,M_EXP,FCUT,FISOKIN,CB0,RM,AG,CN0,
      .   FAC_DENS,FAC_PRES,EPS0_UNIT,FAC_M,FAC_L,FAC_T,ASRATE
       CHARACTER PREDEF*16
@@ -381,7 +382,7 @@ C-----
       G=YOUNG/(TWO*(ONE + ANU))
       E0=ZERO
       C0=ZERO
-      BULK =YOUNG/(THREE*(ONE - TWO*ANU))
+      C1=YOUNG/(THREE*(ONE - TWO*ANU))
       E1MN2=YOUNG/(ONE - ANU**2)
       EN1N2=ANU*E1MN2
       SDSP =SQRT(YOUNG/MAX(RHOR,EM20))       
@@ -395,18 +396,20 @@ C-----
         ! If plastic strain is chosen, filtering by default
         ISRATE = 1
         IF (ASRATE == ZERO) ASRATE = 10000.0D0*UNITAB%FAC_T_WORK
+        FCUT   = ASRATE
       ELSE
         IF (CC == ZERO)THEN
           EPS0   = ONE
           ISRATE = 0
           ASRATE = ZERO
+          FCUT   = ASRATE
         ELSE     
           ISRATE = 1
           IF (ASRATE == ZERO) ASRATE = EP20
+          FCUT   = ASRATE
         ENDIF
       ENDIF
-      EPS0 = MAX(EM20, EPS0)
-      FCUT = ASRATE*TWO*PI 
+
 C-----
       PM(1) =RHOR
       PM(89)=RHO0      
@@ -422,7 +425,7 @@ C-----
       PM(29)=-ANU*PM(28)
       PM(30)=ONE/G
       PM(31)=C0
-      PM(32)=BULK
+      PM(32)=C1
       PM(38)=CA
       PM(39)=CB
       PM(40)=CN
@@ -435,8 +438,8 @@ C-----
 
       IPM(255) = VP   
 
-
-      PM(9) = FCUT
+      PARMAT(4) = ISRATE
+      PARMAT(5) = ASRATE
       PM(37)= PMIN    ! default pressure cut-off for EOS
       PM(47)= TMAX    ! like in law4
 C
@@ -541,13 +544,9 @@ C--------------------------------
       PM(79) = TREF      ! for J-C
       PM(80) = TMELT      
       PM(69) = RHOCP
-C-----------
-C     Formulation for solid elements time step computation.
-!      IPM(252)= 2
-      PM(105) = TWO*G/(BULK+FOUR_OVER_3*G)
 C -----------------     
       PM(55)=FISOKIN
-C--------------------------------------------------------------      
+C      
       IF (FISOKIN>ONE.OR.FISOKIN<ZERO) THEN
         CALL ANCMSG(MSGID=912,
      .              MSGTYPE=MSGERROR,
@@ -580,6 +579,11 @@ C
      .               I2=ID,
      .               C1=TITR)
       ENDIF
+C-----------
+C     Formulation for solid elements time step computation.
+      IPM(252)= 2
+      PM(105) = TWO*G/(C1+FOUR_OVER_3*G)
+!
 C-----------
 !     new mat_param storage
 C-----------
@@ -662,7 +666,7 @@ C-----------
       mat_param%rho   = rhor
       mat_param%rho0  = rho0
       mat_param%young = young
-      mat_param%bulk  = bulk
+      mat_param%bulk  = c1
       mat_param%shear = g
       mat_param%nu    = anu
 !
@@ -679,7 +683,7 @@ c
       MTAG%L_SIGB  = 6
       MTAG%L_DMG   = 1
       MTAG%L_TEMP  = 1
-c------------------------- 
+!
       ! activate heat source calculation in material
       MAT_PARAM%HEAT_FLAG = 1
 c------------------------- 
