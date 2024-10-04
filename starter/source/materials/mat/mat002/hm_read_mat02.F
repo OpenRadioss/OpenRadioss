@@ -403,7 +403,7 @@ C
 !
       IF (IFORM == 1) THEN  ! Zerilli
         IF (RHOCP > ZERO) RHOCP = ONE/RHOCP
-      ELSE
+      ELSE                  ! Johnson-Cook
         IF (M_EXP == ZERO) M_EXP = ONE
         IF (TMELT == ZERO) TMELT = EP20
         IF (TMAX  == ZERO) TMAX  = EP20
