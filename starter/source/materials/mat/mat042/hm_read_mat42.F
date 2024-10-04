@@ -38,8 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE HM_READ_MAT42(
      .           MATPARAM ,NUVAR    ,MAXFUNC  ,NFUNC    ,IFUNC    ,
-     .           PARMAT   ,IMATVIS  ,UNITAB   ,LSUBMODEL,ID       ,
-     .           TITR     ,PM       )
+     .           PARMAT   ,IMATVIS  ,UNITAB   ,LSUBMODEL,ID       ,TITR     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,7 +59,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -70,7 +68,6 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT)   :: NFUNC
       INTEGER, INTENT(INOUT)   :: IMATVIS
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM     
       CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT) :: IFUNC
       my_real, DIMENSION(100),INTENT(INOUT) :: PARMAT

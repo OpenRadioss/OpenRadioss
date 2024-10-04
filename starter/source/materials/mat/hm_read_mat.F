@@ -619,8 +619,7 @@ c-------
             ILAW = 42  
             CALL HM_READ_MAT42(
      .           MATPARAM ,NUVAR    ,MAXFUNC  ,NFUNC    ,IFUNC    ,
-     .           PARMAT   ,IMATVIS  ,UNITAB   ,LSUBMODEL,MAT_ID   ,
-     .           TITR     ,PM(1,I)  )
+     .           PARMAT   ,IMATVIS  ,UNITAB   ,LSUBMODEL,MAT_ID   ,TITR     )
 c-------
           CASE ('LAW43','HILL_TAB')
             ILAW = 43
