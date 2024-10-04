@@ -172,7 +172,6 @@
 !
       idev    = vp - 2
       facq0   = one
-      pshift  = pm(88,imat)
 !
       g(:)     = g0*off(:)
       ca(:)    = ca0
@@ -455,6 +454,7 @@
         ! if eos is used, material law calculates only deviatoric stress tensor
         !                 sound speed depends on pressure derivative over volume change
         !                 calculated in eos
+        pshift = pm(88,imat)   ! pressure shift parameter from EOS
         do i = 1, nel
           ssp(i) = sqrt((dpdm(i) + four*g(i)/three)/rho0)
 !

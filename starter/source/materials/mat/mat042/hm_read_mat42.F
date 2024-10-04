@@ -81,7 +81,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       INTEGER :: I,IFORM,IFUNC_BLK,NPRONY,NUPARAM,NIPARAM,NORDER,ILAW
-      my_real :: RHO0,RHOR,BULK,SMAX,GS,MU0,NU,GVMAX,C1,ZEP495,FSCAL,FSCAL_UNIT
+      my_real :: RHO0,RHOR,YOUNG,BULK,SMAX,GS,MU0,NU,GVMAX,C1,ZEP495,FSCAL,FSCAL_UNIT
       my_real, DIMENSION(10)  :: MU,AL
       my_real, DIMENSION(100) :: GI,TAUX
 C=======================================================================
@@ -247,8 +247,9 @@ c
       IFUNC(1) = IFUNC_BLK
 c      
       ! PARMAT table
+      YOUNG     = GS*(ONE+NU)
       PARMAT(1) = GS
-      PARMAT(2) = GS*(ONE+NU)
+      PARMAT(2) = YOUNG
       PARMAT(3) = NU
       PARMAT(6) = BULK
       C1 = THIRD*GS*(ONE + NU)/(ONE - TWO*NU)
@@ -257,9 +258,12 @@ c
 c
       ! PM /matparam common parameters
       
-      MATPARAM%RHO  = RHOR
-      MATPARAM%RHO0 = RHO0
-      PM(100)= BULK      
+      MATPARAM%RHO    = RHOR
+      MATPARAM%RHO0   = RHO0
+      MATPARAM%YOUNG  = YOUNG
+      MATPARAM%NU     = NU
+      MATPARAM%BULK   = BULK
+      MATPARAM%SHEAR  = GS
 c      
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
@@ -269,7 +273,6 @@ c
       CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC")  
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")  
       CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")  
-c
 c--------------------------
 c     Parameters printout
 c--------------------------
