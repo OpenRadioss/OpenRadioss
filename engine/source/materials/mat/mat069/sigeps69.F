@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE SIGEPS69(
      1           NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC   , NPF    ,
      2           TF     , TIME   , TIMESTEP, UPARAM , RHO0    , RHO    ,
-     3           VOLUME , EINT   , IVISC   , NUPARV , UPARVIS ,
+     3           VOLUME , EINT   , 
      4           EPSPXX , EPSPYY , EPSPZZ  , EPSPXY , EPSPYZ  , EPSPZX ,
      5           DEPSXX , DEPSYY , DEPSZZ  , DEPSXY , DEPSYZ  , DEPSZX ,
      6           EPSXX  , EPSYY  , EPSZZ   , EPSXY  , EPSYZ   , EPSZX  ,
@@ -60,9 +60,9 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER :: NEL,NUPARAM,NUVAR,ISMSTR,IHET,NUVARV,NUPARV,IVISC,IEXPAN
+      INTEGER :: NEL,NUPARAM,NUVAR,ISMSTR,IHET,NUVARV,IEXPAN
       my_real
-     .      TIME       , TIMESTEP   , UPARAM(NUPARAM),UPARVIS(NUPARV),
+     .      TIME       , TIMESTEP   , UPARAM(NUPARAM),
      .      RHO   (NEL), RHO0  (NEL), VOLUME(NEL), EINT(NEL),
      .      EPSPXX(NEL), EPSPYY(NEL), EPSPZZ(NEL),
      .      EPSPXY(NEL), EPSPYZ(NEL), EPSPZX(NEL),
@@ -108,8 +108,8 @@ C----------------------------------------------------------------
      .   EVV(MVSIZ,3),EV(MVSIZ,3),EVM1(MVSIZ),EVM2(MVSIZ),EVM3(MVSIZ),P(MVSIZ),
      .   MU(5),AL(5),DWDL(3),T(MVSIZ,3),RV(MVSIZ),AV(MVSIZ,6),DIRPRV(MVSIZ,3,3)
        my_real  
-     .   GI(100),BETA(100),H0(100),H(100),C0(MVSIZ,6),C1(MVSIZ,6),AA,SV(MVSIZ,6),
-     .   CC,FAC,INVDT,FFT(3),P_FAC(NEL),NU_1,AMIN,LAM_AL(3),GTMAX(NEL),GVMAX,ETV
+     .   H0(100),H(100),C0(MVSIZ,6),C1(MVSIZ,6),AA,SV(MVSIZ,6),
+     .   CC,FAC,INVDT,FFT(3),P_FAC(NEL),NU_1,AMIN,LAM_AL(3),GTMAX(NEL)
       my_real, DIMENSION(NEL,3) :: CII
       DOUBLE PRECISION AMAX1
 C----------------------------------------------------------------
@@ -135,21 +135,6 @@ C
       DO I = 1,NORDRE
         GMAX  = GMAX  + MU(I)*AL(I)
       ENDDO
-C
-      GVMAX = ZERO
-      ETV   = ZERO
-C add viscosity using /visc/prony
-      IF (IVISC > 0) THEN 
-         NPRONY = INT(UPARVIS(1))
-c             
-         DO I=1,NPRONY
-          GI(I)    = UPARVIS(1 + I)
-          BETA(I)  = UPARVIS(1 + NPRONY + I)
-          GVMAX = GVMAX + GI(I)
-         ENDDO 
-         ETV = MIN(GVMAX,RBULK)/GMAX
-       ENDIF             
-C
 C
       DO I=1,NEL
         AV(I,1)=EPSXX(I)
@@ -254,7 +239,7 @@ C----THERM STRESS COMPUTATION-----
       ENDDO
 c
       ! For HEPH Hourglass treatment and soundspeed computation
-      GTMAX(1:NEL) = GMAX + GVMAX
+      GTMAX(1:NEL) = GMAX
       ETI(1:NEL) = ZERO
       CII(1:NEL,1:3) = ZERO
       DO II = 1,NORDRE
@@ -273,8 +258,8 @@ c
       DO I = 1,NEL
         AMAX = AMAX1*MAX(CII(I,1),CII(I,2),CII(I,3))
         ETI(I) = MAX(ONE,AMAX) 
-        GTMAX(I) = GMAX*ETI(I) + GVMAX
-        ET(I) = ETI(I)+ETV
+        GTMAX(I) = GMAX*ETI(I)
+        ET(I) = ETI(I)
       ENDDO
       DO I=1,NEL
         DWDL(1) = ZERO                             
@@ -344,84 +329,6 @@ C     transform principal Cauchy stress to global directions
      .            + DIRPRV(I,3,1)*DIRPRV(I,1,1)*T(I,1)
      .            + DIRPRV(I,3,2)*DIRPRV(I,1,2)*T(I,2)
       ENDDO
-C        Viscous model
-      IF(IVISC > 0) THEN
-        DO I=1,NEL 
-C            
-             C0(I,1) = UVAR(I,4)
-             C0(I,2) = UVAR(I,5)
-             C0(I,3) = UVAR(I,6)  
-             C0(I,4) = UVAR(I,7)
-             C0(I,5) = UVAR(I,8)
-             C0(I,6) = UVAR(I,9)
-C              
-              CC = THIRD*(EVM1(I)**2 +  EVM2(I)**2 + EVM3(I)**2)
-              FFT(1) =  EVM1(I)**2 - CC
-              FFT(2) =  EVM2(I)**2 - CC
-              FFT(3) =  EVM3(I)**2 - CC   
-C the strain at t_n and t_n+1 must be in the same frame  (GLOBAL DIRECTIONS)     
-              C1(I,1) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*FFT(1)
-     .              + DIRPRV(I,1,2)*DIRPRV(I,1,2)*FFT(2)
-     .              + DIRPRV(I,1,3)*DIRPRV(I,1,3)*FFT(3)
-c     
-              C1(I,2) = DIRPRV(I,2,2)*DIRPRV(I,2,2)*FFT(2)
-     .              + DIRPRV(I,2,3)*DIRPRV(I,2,3)*FFT(3)
-     .              + DIRPRV(I,2,1)*DIRPRV(I,2,1)*FFT(1)
-c     
-              C1(I,3) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*FFT(3)
-     .              + DIRPRV(I,3,1)*DIRPRV(I,3,1)*FFT(1)
-     .              + DIRPRV(I,3,2)*DIRPRV(I,3,2)*FFT(2)
-c     
-              C1(I,4) = DIRPRV(I,1,1)*DIRPRV(I,2,1)*FFT(1)
-     .              + DIRPRV(I,1,2)*DIRPRV(I,2,2)*FFT(2)
-     .              + DIRPRV(I,1,3)*DIRPRV(I,2,3)*FFT(3)
-c     
-              C1(I,5) = DIRPRV(I,2,2)*DIRPRV(I,3,2)*FFT(2)
-     .              + DIRPRV(I,2,3)*DIRPRV(I,3,3)*FFT(3)
-     .              + DIRPRV(I,2,1)*DIRPRV(I,3,1)*FFT(1)
-c     
-              C1(I,6) = DIRPRV(I,3,3)*DIRPRV(I,1,3)*FFT(3)
-     .              + DIRPRV(I,3,1)*DIRPRV(I,1,1)*FFT(1)
-     .              + DIRPRV(I,3,2)*DIRPRV(I,1,2)*FFT(2)  
-C              
-              UVAR(I,4) = C1(I,1)    
-              UVAR(I,5) = C1(I,2)
-              UVAR(I,6) = C1(I,3) 
-              UVAR(I,7) = C1(I,4)  
-              UVAR(I,8) = C1(I,5)
-              UVAR(I,9) = C1(I,6) 
-        ENDDO   
-C
-C  compute krchoff visco stress
-C              
-        DO J=1,6
-              SV(1:NEL,J) = ZERO
-              DO II= 1,NPRONY 
-                FAC= -TIMESTEP*BETA(II) 
-                DO I=1,NEL
-                     H0(II) = UVARV((II-1)*6*NEL + NEL*(J-1) + I)     
-                     H(II)  = EXP(FAC)*H0(II) +
-     .                  EXP(HALF*FAC)*(C1(I,J) - C0(I,J))
-                     UVARV((II-1)*6*NEL + NEL*(J-1) + I) =  H(II)
-                ENDDO
-              ENDDO                 
-              DO II = 1,NPRONY
-                DO I=1,NEL
-                      SV(I,J) = SV(I,J) + GI(II)*H(II)
-                ENDDO                           
-              ENDDO         
-        ENDDO   
-C *  Add VISCO CAUCHY STRESSES TO GLOBAL DIRECTIONS         
-C
-        DO I=1,NEL              
-            SIGNXX(I) = SIGNXX(I) + SV(I,1)/RV(I)
-            SIGNYY(I) = SIGNYY(I) + SV(I,2)/RV(I)
-            SIGNZZ(I) = SIGNZZ(I) + SV(I,3)/RV(I)
-            SIGNXY(I) = SIGNXY(I) + SV(I,4)/RV(I)
-            SIGNYZ(I) = SIGNYZ(I) + SV(I,5)/RV(I)
-            SIGNZX(I) = SIGNZX(I) + SV(I,6)/RV(I) 
-        ENDDO
-      ENDIF      
 C-----------------------------------------------------------
 C     set sound speed & viscosity
       DO I=1,NEL

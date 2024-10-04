@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                      IXC  , IXTG , MASS ,PM   ,EL2FA,
      .                      NBF  , IADP , NBF_L,EHOUR,ANIM ,
      .                      NBPART,IADG , IPM  ,IGEO ,THKE ,
-     .                      ERR_THK_SH4,ERR_THK_SH3,
+     .                      ERR_THK_SH4,ERR_THK_SH3,MAT_PARAM,
      .                      NBF_PXFEMG ,X, STACK)
 C-----------------------------------------------
 C   M o d u l e s
@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE PLYXFEM_MOD
       USE ELBUFDEF_MOD     
       USE STACK_MOD       
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,6 +78,7 @@ C     REAL
      .   ERR_THK_SH4(*), ERR_THK_SH3(*), X(3,*)
       REAL WAL(NBF_L)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
       TYPE (STACK_PLY) :: STACK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -343,7 +345,7 @@ C +
                      IADR = (N-1)*NEL                       
                       DO I=1,NEL                          
                         MATL   = STACK%IGEO(IPMAT+N,ISUBSTACK)
-                        IF(IPM(222,MATL) > 0 ) IVISC = 1
+                        IF (MAT_PARAM(MATL)%IVISC > 0 ) IVISC = 1
                       END DO                                
                   END DO                                       
                END IF  
@@ -428,7 +430,7 @@ c
                      IADR = (N-1)*NEL                       
                       DO I=1,NEL                          
                         MATL   = STACK%IGEO(IPMAT+N,ISUBSTACK)
-                        IF(IPM(222,MATL) > 0 ) IVISC = 1
+                        IF (MAT_PARAM(MATL)%IVISC > 0 ) IVISC = 1
                       END DO                                
                   END DO                                       
                 END IF  

@@ -427,7 +427,7 @@
           integer :: nuvarr
 
           integer nv46, numel, inloc
-          integer i,npar,nuparam,niparam,nparf,iadbuf,iadvis,nfunc,numtabl,israte,ipg,nptr,npts,&
+          integer i,npar,nuparam,niparam,nparf,iadbuf,nfunc,numtabl,israte,ipg,nptr,npts,&
           &ibid,ibidon1,ibidon2,ibidon3,ibidon4 ,n48,nix,ilaw_user,igtyp,&
           &nvarf,ir,irupt,imat,isvis,ivisc,nuvarv,nuparv,iseq,idev,ntabl_fail,&
           &l_planl,l_epsdnl,l_dmg
@@ -1351,20 +1351,10 @@
             &ipm ,mat ,amu   )
 !
           elseif (mtn == 69) then
-            ivisc  = ipm(222,imat)
-            nuparv = ipm(224,imat)
-            nuvarv = ipm(225,imat)
-            iadvis = ipm(223,imat)
-            if (ivisc > 0) then
-              uparvis => bufmat(iadvis:iadvis+nuparv)
-            else
-              allocate (bufzero(0))
-              uparvis => bufzero
-            end if
 
             call sigeps69(nel  ,npar,nuvar,nfunc,ifunc,npf  ,&
             &tf   ,tt,dt1,uparam0,rho0 ,rho  ,&
-            &voln ,eint,ivisc,nuparv,uparvis ,&
+            &voln ,eint,                      &
             &ep1  ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1  ,de2 ,de3 ,de4  ,de5  ,de6 ,&
             &es1  ,es2 ,es3 ,es4  ,es5  ,es6 ,&
