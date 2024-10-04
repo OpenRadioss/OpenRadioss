@@ -60,6 +60,7 @@
       !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    nodalvfrac                       ../engine/source/output/anim/generate/nodalvfrac.F
       !||    nrf51ini                         ../starter/source/materials/mat/mat051/nrf51ini.F
+      !||    r2r_matparam_copy                ../starter/source/elements/elbuf_init/r2r_matparam_copy.F
       !||    r_bufbric_22                     ../engine/source/interfaces/int22/r_bufbric_22.F
       !||    rdcomr                           ../engine/source/output/restart/rdcomm.F
       !||    resol                            ../engine/source/engine/resol.F

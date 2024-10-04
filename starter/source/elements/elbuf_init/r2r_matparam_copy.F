@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    r2r_matparam_copy   ../starter/source/elements/elbuf_init/r2r_matparam_copy.F
+      !||    r2r_matparam_copy    ../starter/source/elements/elbuf_init/r2r_matparam_copy.F
       !||--- called by ------------------------------------------------------
-      !||    lectur              ../starter/source/starter/lectur.F
+      !||    lectur               ../starter/source/starter/lectur.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE R2R_MATPARAM_COPY(MATPARAM_TAB, MATPARAM_INI, NUMMAT0  ,NUMMAT  )
