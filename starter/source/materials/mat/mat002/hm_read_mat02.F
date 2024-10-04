@@ -88,13 +88,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       INTEGER :: I,VP
+      INTEGER :: ICC,ISRAT1,IFLAG,MFLAG
+      INTEGER :: niparam,nuparam,nfunc,ntable
       my_real :: RHOR,RHO0
-      INTEGER ICC,ISRAT1,IFLAG,MFLAG
-      INTEGER niparam,nuparam,nfunc,ntable
-      my_real
-     .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, CC, EPS0, G, BULK,PMIN,GFAC,
-     .   A11, A12, SDSP,C3,C4,RHOCP,TREF,TMELT,M_EXP,FCUT,FISOKIN,CB0,RM,AG,CN0,
-     .   FAC_DENS,FAC_PRES,EPS0_UNIT,FAC_M,FAC_L,FAC_T,ASRATE
+      my_real :: YOUNG,G,BULK,ANU,A11,A12,GFAC
+      my_real :: CA,CB,CN,C3,C4,EPSM,SIGM,CC,EPS0,ASRATE,FCUT,FISOKIN
+      my_real :: RHOCP,TREF,TMELT,TMAX,PMIN,M_EXP
+      my_real :: SDSP,CB0,RM,AG,CN0
+      my_real :: FAC_DENS,FAC_PRES,EPS0_UNIT,FAC_M,FAC_L,FAC_T
       CHARACTER PREDEF*16
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -114,7 +115,6 @@ C-----------------------------------------------
       CN      = ZERO
       RHOR    = ZERO
       SDSP    = ZERO
-!
       C3      = ZERO
       C4      = ZERO
       M_EXP   = ZERO
@@ -122,7 +122,7 @@ C-----------------------------------------------
       PMIN    = ZERO
       TMELT   = ZERO
       TREF    = ZERO
-!
+      TMAX    = ZERO
       IFLAG   = 0
       MFLAG   = 0
       ICC     = 0
@@ -190,13 +190,14 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV_DIM('RHO_I'      ,FAC_DENS    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       ELSE IF (IFORM==0) THEN  ! Johnson-Cook
         !line-1
-        CALL HM_GET_FLOATV('RHO_I'  ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('RHO_O'  ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('RHO_I'  ,RHO0   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('RHO_O'  ,RHOR   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !line-2
-        CALL HM_GET_FLOATV('E'      ,YOUNG    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('Nu'     ,ANU      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_INTV  ('MAT_VP' ,VP       ,IS_AVAILABLE, LSUBMODEL)
-        CALL HM_GET_INTV  ('Iflag'  ,IFLAG    ,IS_AVAILABLE, LSUBMODEL) 
+        CALL HM_GET_FLOATV('E'      ,YOUNG  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('Nu'     ,ANU    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_INTV  ('MAT_VP' ,VP     ,IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV  ('Iflag'  ,IFLAG  ,IS_AVAILABLE, LSUBMODEL) 
+        CALL HM_GET_FLOATV('Pmin'   ,PMIN   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !line-3
         IF (IFLAG == 1) THEN
           CALL HM_GET_FLOATV('SIG_Y'        ,CA     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -223,11 +224,11 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV('T_melt'         ,TMELT     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('rhoC_p'         ,RHOCP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('T_r'            ,TREF      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('Pmin'           ,PMIN      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('T_max'          ,TMAX      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !units for default values
-        CALL HM_GET_FLOATV_DIM('EPS_DOT_0'  ,EPS0_UNIT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV_DIM('E'          ,FAC_PRES    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV_DIM('RHO_I'      ,FAC_DENS    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV_DIM('EPS_DOT_0'  ,EPS0_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV_DIM('E'          ,FAC_PRES  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV_DIM('RHO_I'      ,FAC_DENS  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       ENDIF
 !
       IF (MFLAG == 0) THEN
@@ -405,6 +406,7 @@ C
       ELSE
         IF (M_EXP == ZERO) M_EXP = ONE
         IF (TMELT == ZERO) TMELT = EP20
+        IF (TMAX  == ZERO) TMAX  = EP20
       END IF
 !-----------------------------------------------------------------------
       G    = YOUNG/(TWO*(ONE + ANU))
@@ -491,7 +493,7 @@ C
           ENDIF
         ENDIF  
         IF(.NOT.IS_ENCRYPTED .AND. IFORM /= 2)THEN
-          WRITE(IOUT,1600)VP,CC,EPS0,ICC,ISRATE,FCUT,M_EXP,TMELT,RHOCP,TREF,PMIN
+          WRITE(IOUT,1600)VP,CC,EPS0,ICC,ISRATE,FCUT,M_EXP,TMELT,RHOCP,TREF,TMAX,PMIN
         ENDIF
       ELSE    ! Zerilli
         IF(.NOT.IS_ENCRYPTED .AND. IFORM /= 2)THEN
@@ -541,7 +543,7 @@ C
       else    ! Johnson-Cook
 !
         niparam = 4
-        nuparam = 14
+        nuparam = 15
         nfunc   = 0
         ntable  = 0
 !
@@ -574,7 +576,8 @@ C
         mat_param%uparam(11)= tref       ! pm(79) 
         mat_param%uparam(12)= tmelt      ! pm(80) 
         mat_param%uparam(13)= m_exp      ! pm(51) 
-        mat_param%uparam(14)= pmin       ! pm(37)     ! default pressure cut-off for eos
+        mat_param%uparam(14)= tmax       
+        mat_param%uparam(15)= pmin       ! pm(37)     ! default pressure cut-off for eos
       
       end if
 
@@ -693,6 +696,7 @@ C-----------
      & 5X,'MELTING TEMPERATURE K . . . . . . . . .=',1PG20.13/,
      & 5X,'SPECIFIC HEAT Rho*Cp. . . . . . . . . .=',1PG20.13/,
      & 5X,'INITIAL TEMPERATURE K . . . . . . . . .=',1PG20.13/,
+     & 5X,'MAXIMAL TEMPERATURE K . . . . . . . . .=',1PG20.13/,
      & 5X,'PRESSURE CUTOFF IN TENSION. . . . . . .=',1PG20.13//)
  1610 FORMAT(
      & 5X,'FLAG FOR STRAIN RATE DEPENDENCY TYPE. .=',I10/,  
