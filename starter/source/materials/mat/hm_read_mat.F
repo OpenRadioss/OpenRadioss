@@ -361,24 +361,24 @@ c-------
             ILAW    = 2
             IFORM   = 0
             IFORMDT = 2
-            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PARMAT   ,PM(1,I)   ,IPM(1,I) ,
-     .                         NUVAR    ,IFORM    ,NPROPM   ,NPROPMI   ,MAT_ID   ,TITR     ,
+            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PARMAT   ,PM(1,I)  ,
+     .                         NUVAR    ,IFORM    ,NPROPM   ,MAT_ID   ,TITR     ,
      .                         IOUT     ,ISRATE   ,UNITAB   ,LSUBMODEL)
 c-------
           CASE ('ZERIL','PLAS_ZERIL')
             ILAW    = 2 
             IFORM   = 1
             IFORMDT = 2
-            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PARMAT   ,PM(1,I)   ,IPM(1,I) ,
-     .                         NUVAR    ,IFORM    ,NPROPM   ,NPROPMI   ,MAT_ID   ,TITR     ,
+            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PARMAT   ,PM(1,I)  ,
+     .                         NUVAR    ,IFORM    ,NPROPM   ,MAT_ID   ,TITR     ,
      .                         IOUT     ,ISRATE   ,UNITAB   ,LSUBMODEL)
 c-------
           CASE ('PLAS_PREDEF')
             ILAW   = 2 
             IFORM   = 2
             IFORMDT = 2
-            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PARMAT   ,PM(1,I)   ,IPM(1,I) ,
-     .                         NUVAR    ,IFORM    ,NPROPM   ,NPROPMI   ,MAT_ID   ,TITR     ,
+            CALL HM_READ_MAT02(MATPARAM ,MTAG     ,PARMAT   ,PM(1,I)  ,
+     .                         NUVAR    ,IFORM    ,NPROPM   ,MAT_ID   ,TITR     ,
      .                         IOUT     ,ISRATE   ,UNITAB   ,LSUBMODEL)
 c-------
           CASE ('LAW3','LAW03', 'HYDPLA')
@@ -1317,32 +1317,28 @@ c-----------------------------------------------------------------------
         IF (MATPARAM%COMPATIBILITY_EOS == 1 .and. PM(37,I) == ZERO) PM(37,I) = -EP20               
 
 c-----------------------------------------------------------------------
-
         IF (ILAW == 99) THEN
           WRITE(IOUT,2000) TITR,MAT_ID,IUSER_LAW
         ENDIF
-c--------------------------------------------      
-        ISRATE = MAX(ISRATE, NINT(PARMAT(4)))  ! just in case ...
-        ASRATE = PARMAT(5)*TWO*PI              ! ASRATE = 2*PI*FCUT
-!!        IF (ASRATE == ZERO) ASRATE = EP20
 c--------------------------------------------      
         MATPARAM%ILAW   = ILAW
         MATPARAM%MAT_ID = MAT_ID        
 c
         MTAG%NUVAR   = NUVAR
         MTAG%NVARTMP = NVARTMP
-
-
+c--------------------------------------------      
+        ISRATE = MAX(ISRATE, NINT(PARMAT(4)))  ! just in case ...
+        ASRATE = PARMAT(5)*TWO*PI              ! ASRATE = 2*PI*FCUT
+c--------------------------------------------      
 C       For solid elements time step computation :
         IPM(252,I)= IFORMDT            ! IFORMDT = 0,1,2  
 c--------------------------------------------      
-c       for user type laws (lecmuser)
-c---------------------------------------------------------
-        
+c       for user type laws
+c---------------------------------------------------------      
         IF (ILAW > 27 .and. ILAW /= 32 .and. ILAW /= 49 
      .     .and. ILAW /= 151 .AND. ILAW /= 999) THEN
-          MTAG%L_STRA = 6        ! all user type laws calculate total strain
 c
+          MTAG%L_STRA = 6        ! all user type laws calculate total strain
           BULK  = PARMAT(1)
           YOUNG = PARMAT(2)
           NU    = PARMAT(3)
@@ -1362,7 +1358,6 @@ C---------
 C         For solid elements time step computation :
           IPM(252,I)= NINT(PARMAT(16))   ! IFORMDT = 0,1,2  
           PM(105,I) = PARMAT(17)         ! GFAC factor
-C---------
 !-------         
           IPM(7,I)   = IADBUF
           IPM(8,I)   = NUVAR
@@ -1370,36 +1365,32 @@ C---------
           IPM(10,I)  = NFUNC
           IPM(216,I) = IMATVIS
           IPM(226,I) = NUMTABL
-c
-c---------------------------------------------------------
+c           
+        ENDIF ! ILAW>=28 
+!---------------------------------------------------------
+        IF (NFUNC > 0) THEN 
           DO J=1,NFUNC
             IPM(10+J,I) = IFUNC(J)
-          ENDDO
-c
+          END DO
+        END IF
+!
+        IF (NUMTABL > 0) THEN 
           DO J=1,NUMTABL
             IPM(226+J,I) = ITABLE(J)
           ENDDO
-c---------------------------------------------------------
-c         Fill UPARAM buffer
-c---------------------------------------------------------
+        END IF
+!---------------------------------------------------------
+!         Fill old UPARAM buffer
+!---------------------------------------------------------
+        IF (NUPARAM > 0) THEN 
           DO J=1,NUPARAM
             BUFMAT(IADBUF+J-1) = UPARAM(J)
           ENDDO
           IADBUF = IADBUF + NUPARAM
           BUFLEN = BUFLEN + NUPARAM
-c
-        ELSE IF (ILAW == 19) THEN
-          MTAG%L_STRA = 6
-          IPM(7,I) = IADBUF   
-          IPM(8,I) = NUVAR    
-          IPM(9,I) = NUPARAM  
-          DO J=1,NUPARAM
-            BUFMAT(IADBUF+J-1) = UPARAM(J)
-          ENDDO
-          IADBUF = IADBUF + NUPARAM
-          BUFLEN = BUFLEN + NUPARAM
-c           
-        ENDIF ! ILAW>=28 
+        END IF
+!---------------------------------------------------------
+!
 !------- high stiffness for contact          
          PM(107,I) = TWO*MAX(PM(32,I),PM(100,I))
          IF (ILAW==1.OR.ILAW==62) PM(107,I) = HUNDRED*PM(107,I)
@@ -1415,15 +1406,16 @@ c
         PM(71,I)   = JTHE + EM01
         PM(72,I)   = JALE + EM01    
         IPM(217,I) = IUSER_LAW
-c---------------------------------------------------------
-c
+!---------------------------------------------------------
+        ! still need too keep old PM storage :
+!---------------------------------------------------------
         IF (MATPARAM%RHO   > ZERO) PM(1 ,I) = MATPARAM%RHO
         IF (MATPARAM%RHO0  > ZERO) PM(89,I) = MATPARAM%RHO0
 !
-        IF (MATPARAM%YOUNG == ZERO) MATPARAM%YOUNG = PM(20,I)
-        IF (MATPARAM%NU    == ZERO) MATPARAM%NU    = PM(21,I)
-        IF (MATPARAM%SHEAR == ZERO) MATPARAM%SHEAR = PM(22,I)
-        IF (MATPARAM%BULK  == ZERO) MATPARAM%BULK  = PM(32,I)
+        IF (MATPARAM%YOUNG > ZERO) PM(20,I) = MATPARAM%YOUNG
+        IF (MATPARAM%NU    > ZERO) PM(21,I) = MATPARAM%NU   
+        IF (MATPARAM%SHEAR > ZERO) PM(22,I) = MATPARAM%SHEAR
+        IF (MATPARAM%BULK  > ZERO) PM(32,I) = MATPARAM%BULK 
 !
         ! to be defined
         ! IF (MATPARAM%STIFF_CONTACT == ZERO) MATPARAM%STIFF_CONTACT = PM(?,I)
