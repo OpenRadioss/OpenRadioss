@@ -100,6 +100,7 @@ C     REAL
      .   RX0(*),RY0(*),RZ0(*),FX0(*),FY0(*),FZ0(*),XMOM0(*),YMOM0(*),ZMOM0(*)
       DOUBLE PRECISION ALDP(MVSIZ),AL2DP(MVSIZ)
       my_real, INTENT(INOUT) :: CRITNEW(NEL)
+      TARGET :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -122,9 +123,11 @@ C     REAL
      .   VX21,VY21,VZ21, EPXY,EPXZ,EYZP,EXZP,RYAV,RZAV,RYAV1,RZAV1,
      .   NOT_USED
       DOUBLE PRECISION X0DP(MVSIZ)
+      my_real ,DIMENSION(:), POINTER :: XX_OLD
 C-----------------------------------------------
 C
       NOT_USED = ZERO
+      NULLIFY(XX_OLD)
 C
       DO I=1,NEL
         EPLA(I)=ZERO
@@ -268,6 +271,7 @@ C---- Tension / Compression
         DMX(I)   = GEO(66,MGN(I))        
       ENDDO
 C
+      IF (NUVAR > 0) XX_OLD => UVAR(1,1:NEL)
       CALL REDEF3(
      1   FX,        XK,        DX,        FXEP,
      2   DXOLD,     DPX,       TF,        NPF,
@@ -277,7 +281,7 @@ C
      6   FF,        LSCALE,    EE,        GF3,
      7   IFUNC3,    YIELDX,    X0DP,      AK,
      8   B,         D,         IECROU,    IFUNC,
-     9   IFV,       IFUNC2,    EPLA,      UVAR(1,1),
+     9   IFV,       IFUNC2,    EPLA,      XX_OLD,
      A   NOT_USED,  NOT_USED,  NOT_USED,  NEL,
      B   NFT)
 C
@@ -356,6 +360,7 @@ C---- Shear
         FR(I) = SQRT(FY(I)**2 + FZ(I)**2)
       ENDDO
       KK = 1 + NUMELR * ANIM_E(11)
+      IF (NUVAR > 0) XX_OLD => UVAR(2,1:NEL)
       CALL REDEF3(
      1   FR,        YK,        DR,        FYEP,
      2   DROLD,     DPY,       TF,        NPF,
@@ -365,7 +370,7 @@ C---- Shear
      6   FF,        LSCALE,    EE,        GF3,
      7   IFUNC3,    YIELDY,    X0DP,      AK,
      8   B,         D,         IECROU,    IFUNC,
-     9   IFV,       IFUNC2,    EPLA,      UVAR(2,1),
+     9   IFV,       IFUNC2,    EPLA,      XX_OLD,
      A   NOT_USED,  NOT_USED,  NOT_USED,  NEL,
      B   NFT)
       DO I=1,NEL
@@ -470,6 +475,7 @@ C
         DMX(I)   = GEO(72,MGN(I))
       ENDDO
 C
+      IF (NUVAR > 0) XX_OLD => UVAR(4,1:NEL)
       CALL REDEF3(
      1   XMOM,     XK,       RX,       XMEP,
      2   DXOLD,    RPX,      TF,       NPF,
@@ -479,7 +485,7 @@ C
      6   FF,       LSCALE,   EE,       GF3,
      7   IFUNC3,   YIELDX2,  X0DP,     AK,
      8   B,        D,        IECROU,   IFUNC,
-     9   IFV,      IFUNC2,   EPLA,     UVAR(4,1),
+     9   IFV,      IFUNC2,   EPLA,     XX_OLD,
      A   NOT_USED, NOT_USED, NOT_USED, NEL,
      B   NFT)
       DO I=1,NEL
@@ -558,6 +564,7 @@ C
         ENDIF
         RMOM(I) = SQRT(YMOM(I)**2 + ZMOM(I)**2)
       ENDDO
+      IF (NUVAR > 0) XX_OLD => UVAR(5,1:NEL)
       CALL REDEF3(
      1   RMOM,     YK,       DR,       RMEP,
      2   DROLD,    RPY,      TF,       NPF,
@@ -567,7 +574,7 @@ C
      6   FF,       LSCALE,   EE,       GF3,
      7   IFUNC3,   YIELDY2,  X0DP,     AK,
      8   B,        D,        IECROU,   IFUNC,
-     9   IFV,      IFUNC2,   EPLA,     UVAR(5,1),
+     9   IFV,      IFUNC2,   EPLA,     XX_OLD,
      A   NOT_USED, NOT_USED, NOT_USED, NEL,
      B   NFT)
       DO I=1,NEL

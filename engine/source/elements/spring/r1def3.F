@@ -71,6 +71,7 @@ C     REAL
      .   AL0_ERR(MVSIZ),YIELD(*),EX(MVSIZ),EY(MVSIZ),EZ(MVSIZ),
      .   XK(MVSIZ),XM(MVSIZ),XC(MVSIZ),AK(MVSIZ),UVAR(NUVAR,*),DL0(*)
       DOUBLE PRECISION X1DP(3,*),X2DP(3,*)
+      TARGET :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -87,9 +88,11 @@ C     REAL
      .   SUM ,VX21,VY21,VZ21,VL21,NOT_USED
       DOUBLE PRECISION EXDP(MVSIZ),EYDP(MVSIZ),EZDP(MVSIZ),
      .                 AL0DP(MVSIZ),ALDP(MVSIZ)
+      my_real ,DIMENSION(:), POINTER :: XX_OLD
 C-----------------------------------------------
 C
       NOT_USED = ZERO
+      NULLIFY(XX_OLD)
 C
       DO I=1,NEL
         EPLA(I)=ZERO
@@ -198,6 +201,7 @@ C
         ENDIF
       ENDDO
 C
+      IF (NUVAR > 0) XX_OLD => UVAR(1,1:NEL)
       CALL REDEF3(
      1   F,          XK,         DL,         FEP,
      2   DLOLD,      DPL,        TF,         NPF,
@@ -207,7 +211,7 @@ C
      6   FF,         LSCALE,     EE,         GF3,
      7   IFUNC3,     YIELD,      ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
-     9   IFV,        IFUNC2,     EPLA,       UVAR(1,1),
+     9   IFV,        IFUNC2,     EPLA,       XX_OLD,
      A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
      B   NFT)
       NINDX = 0
