@@ -1608,11 +1608,23 @@ C----------------110-------------------------
           ENDDO
 C----------------111-------------------------
          CASE(111)
-          DO I=1,3
-          DO J=1,3
-           KTR(I,J)=KK(I,J)
-          ENDDO
-          ENDDO
+           KTR =ZERO
+           IF (IRAD>0) THEN
+            KTR(1,2) = ZS*JR(2)
+            KTR(1,3) =-YS*JR(3)
+            KTR(2,1) =-ZS*JR(1)
+            KTR(2,3) = XS*JR(3)
+            KTR(3,1) = YS*JR(1)
+            KTR(3,2) =-XS*JR(2)
+!--------Nastran's formulation
+           ELSE
+            KTR(1,2) = ZS*JT(1)
+            KTR(1,3) =-YS*JT(1)
+            KTR(2,1) =-ZS*JT(2)
+            KTR(2,3) = XS*JT(2)
+            KTR(3,1) = YS*JT(3)
+            KTR(3,2) =-XS*JT(3)
+           END IF !(IR>0) THEN
        END SELECT
 C
       RETURN

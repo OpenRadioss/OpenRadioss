@@ -62,7 +62,7 @@ C======================================================================|
         ISK = IRBE2(7,N)
         IRAD = IRBE2(11,N)
         NSN_G = IRBE2(12,N)
-          IF (ISK>1) THEN
+        IF (ISK>1) THEN
            CALL RBE2VL1(NSN   ,LRBE2(IAD+1),X     ,A     ,AR    ,
      1                  V     ,VR    ,JT(1,N),JR(1,N),M     ,
      2                  SKEW(1,ISK),IRAD  ,NSN_G)
@@ -900,7 +900,7 @@ C     REAL
       my_real
      .   V1X2, V2X1, V2X3, V3X2, V3X1, V1X3,USDT,DT05,
      .   VX1, VX2, VX3,VRG(3),VRL(3),USDT1(3),KTR(3,3),
-     .   LSM(3),VS(3),AS(3),LSML(3),VSL(3),ASL(3),VRGL(3),UDTJ(3)
+     .   LSM(3),VS(3),AS(3)
 C----we modify A,AR(*,NS) so that V,VR(*,NS) follow the constraint equations     
 C======================================================================|
         USDT = ONE/DT12
@@ -978,24 +978,15 @@ C
          USDT1(J)=USDT
         ENDDO
        END IF
-       IF (IRAD ==0.AND.NSL_G<=2) THEN 
-        UDTJ(1:3) = USDT*JT(1:3)
+       IF (IRAD ==0.AND.NSL_G<=2 .AND.(JT(1)+JT(2)+JT(3))==3) THEN
+! Nastran formulation uses all rot dofs for translation	   
         DO I=1,NSL
          NS = ISL(I)
          LSM(1:3) = X(1:3,NS)-X(1:3,M)
-         LSML(1)  =SKEW(1)*LSM(1)+SKEW(2)*LSM(2)+SKEW(3)*LSM(3)
-         LSML(2)  =SKEW(4)*LSM(1)+SKEW(5)*LSM(2)+SKEW(6)*LSM(3)
-         LSML(3)  =SKEW(7)*LSM(1)+SKEW(8)*LSM(2)+SKEW(9)*LSM(3)
-         VRGL(1)  =(SKEW(1)*VRG(1)+SKEW(2)*VRG(2)+SKEW(3)*VRG(3))*JR(1)
-         VRGL(2)  =(SKEW(4)*VRG(1)+SKEW(5)*VRG(2)+SKEW(6)*VRG(3))*JR(2)
-         VRGL(3)  =(SKEW(7)*VRG(1)+SKEW(8)*VRG(2)+SKEW(9)*VRG(3))*JR(3)
-         CALL VELROT_EXPLICIT(VRGL, LSML,VSL,DT12)
-         ASL(1) = UDTJ(1)*(VSL(1)+DT05*(VRGL(2)*VSL(3)-VRGL(3)*VSL(2)))
-         ASL(2) = UDTJ(2)*(VSL(2)+DT05*(VRGL(3)*VSL(1)-VRGL(1)*VSL(3)))
-         ASL(3) = UDTJ(3)*(VSL(3)+DT05*(VRGL(1)*VSL(2)-VRGL(2)*VSL(1)))
-         AS(1)  = SKEW(1)*ASL(1)+SKEW(4)*ASL(2)+SKEW(7)*ASL(3)
-         AS(2)  = SKEW(2)*ASL(1)+SKEW(5)*ASL(2)+SKEW(8)*ASL(3)
-         AS(3)  = SKEW(3)*ASL(1)+SKEW(6)*ASL(2)+SKEW(9)*ASL(3)
+         CALL VELROT_EXPLICIT(VRG, LSM,VS,DT12)
+         AS(1) = USDT*(VS(1)+DT05*(VRG(2)*VS(3)-VRG(3)*VS(2)))
+         AS(2) = USDT*(VS(2)+DT05*(VRG(3)*VS(1)-VRG(1)*VS(3)))
+         AS(3) = USDT*(VS(3)+DT05*(VRG(1)*VS(2)-VRG(2)*VS(1)))
          A(1:3,NS)= A(1:3,NS)+AS(1:3)
         ENDDO
        ELSE
