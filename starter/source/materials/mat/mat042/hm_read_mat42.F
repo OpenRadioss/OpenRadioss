@@ -229,7 +229,7 @@ c
       MATPARAM%UPARAM(18) = AL(8)   
       MATPARAM%UPARAM(19) = AL(9)   
       MATPARAM%UPARAM(20) = AL(10)  
-      MATPARAM%UPARAM(21) = BULK
+      MATPARAM%UPARAM(21) = BULK  
       MATPARAM%UPARAM(22) = NU
       MATPARAM%UPARAM(23) = SMAX
       MATPARAM%UPARAM(24) = FSCAL
@@ -259,8 +259,8 @@ c
       MATPARAM%RHO0   = RHO0
       MATPARAM%YOUNG  = YOUNG
       MATPARAM%NU     = NU
-      MATPARAM%BULK   = BULK
-      MATPARAM%SHEAR  = GS
+      MATPARAM%BULK   = GS   ! law 42 exception : use GS for time step calculation instead of Bulk
+      MATPARAM%SHEAR  = GS   ! GS = 2*MU0
 c      
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
