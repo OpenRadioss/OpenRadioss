@@ -333,6 +333,9 @@ c---------------------------------------------------
         NUVAR   = 0
         NVARTMP = 0
         NUPARAM = 0
+        IFORMDT = 0
+        ISRATE  = 0
+        ASRATE  = ZERO
         MTAG => MLAW_TAG(MAT_NUMBER)
         MATPARAM => MAT_PARAM(MAT_NUMBER)
         MATPARAM%TITLE = ' '
@@ -1327,10 +1330,10 @@ c
         MTAG%NVARTMP = NVARTMP
 c--------------------------------------------      
         ISRATE = MAX(ISRATE, NINT(PARMAT(4)))  ! just in case ...
-        ASRATE = PARMAT(5)*TWO*PI              ! ASRATE = 2*PI*FCUT
+        IF (ASRATE == ZERO) ASRATE = PARMAT(5)*TWO*PI              ! ASRATE = 2*PI*FCUT
 c--------------------------------------------      
 C       For solid elements time step computation :
-        IPM(252,I)= IFORMDT            ! IFORMDT = 0,1,2  
+        IF (IPM(252,I) == 0) IPM(252,I) = IFORMDT            ! IFORMDT = 0,1,2  
 c--------------------------------------------      
 c       for user type laws
 c---------------------------------------------------------      

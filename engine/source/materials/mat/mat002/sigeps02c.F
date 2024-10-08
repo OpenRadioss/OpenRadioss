@@ -65,9 +65,11 @@ C-----------------------------------------------
      .   EPSPZX,EPSP,DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,SIGOXX,
      .   SIGOYY,SIGOXY,SIGOYZ,SIGOZX,OFF_OLD,DPLANL,GS,THKLYL
       my_real, INTENT(IN) :: ASRATE,DT1
-      my_real, DIMENSION(NEL), INTENT(INOUT) :: SIGNXX,SIGNYY,SIGNXY,SIGNYZ,
-     .   SIGNZX,SIGBAKXX,SIGBAKYY,SIGBAKXY,PLA,DPLA,TSTAR,ETSE,THK, 
-     .   SIGY,OFF,VOL,HARDM,EPCHK,G_IMP,EPSD
+      my_real, DIMENSION(NEL)  , INTENT(INOUT) :: SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
+      my_real, DIMENSION(NEL)  , INTENT(INOUT) :: SIGBAKXX,SIGBAKYY,SIGBAKXY
+      my_real, DIMENSION(NEL)  , INTENT(INOUT) :: PLA,DPLA,ETSE,THK,SIGY,OFF,VOL,HARDM
+      my_real, DIMENSION(NEL)  , INTENT(INOUT) :: EPCHK,G_IMP,EPSD
+      my_real, DIMENSION(NEL)  , INTENT(IN)    :: TSTAR
       my_real, DIMENSION(NEL,5), INTENT(INOUT) :: SIGKSI
       my_real, DIMENSION(NEL,2), INTENT(IN)    :: EINT
       my_real, DIMENSION(NEL)  , INTENT(IN)    :: LOFF
@@ -105,25 +107,22 @@ C-----------------------------------------------
       fisokin= mat_param%uparam(8)         ! pm(55)
 !
       if (iform == 1) then        ! zerilli
-        c3      = mat_param%uparam(10)        ! pm(51)
-        c4      = mat_param%uparam(11)        ! pm(52)
-        rhocpi  = mat_param%uparam(12)        ! pm(53)       
-        tref    = mat_param%uparam(13)
-!        if (jthe == 0) then
-!          do i = 1,nel
-!            tempel(i) = tref + rhocpi*(eint(i,1)+eint(i,2))/vol(i)
-!          end do
-!        end if     
+        c3     = mat_param%uparam(10)        ! pm(51)
+        c4     = mat_param%uparam(11)        ! pm(52)
+        rhocpi = mat_param%uparam(12)           
+        tref   = mat_param%uparam(13)
       else                        ! johnson-cook
         rhocpi = mat_param%uparam(10)
+        tref   = mat_param%uparam(11)               
+        tmelt  = mat_param%uparam(12)               
+        m_exp  = mat_param%uparam(13)
         if (rhocpi > zero) rhocpi = one / rhocpi
-        tref  = mat_param%uparam(11)               
-        tmelt = mat_param%uparam(12)               
-        m_exp = mat_param%uparam(13)
         c3    = m_exp
-        do i = 1,nel
-          tstar(i) = max(zero, (tempel(i)-tref)/(tmelt-tref) )
-        end do
+        
+        ! tstar is still calculated in cmain using values in PM       
+!        do i = 1,nel
+!          tstar(i) = max(zero, (tempel(i)-tref)/(tmelt-tref) )
+!        end do
       end if
 !
       ! Specific strain rate computation
@@ -235,13 +234,13 @@ c------------------------------------
 !---------------------------------------------------------
 !     calculate temperature or thermal load due to plastic work
 !---------------------------------------------------------
-      IF (JTHE == 0 .and. RHOCPI > ZERO) THEN  ! update temperature in adiabatic conditions
-        IF (IFORM /= 1) THEN                   ! Johnson-Cook only
-          DO I=1,NEL       
-            TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) * RHOCPI
-          ENDDO
-        END IF
-      ELSE                                    ! cumulate thermal load due to plastic work for /heat/mat
+      IF (JTHE == 0 .and. RHOCPI > ZERO) THEN  
+        ! update temperature in adiabatic conditions
+        DO I=1,NEL       
+          TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) * RHOCPI
+        ENDDO
+      ELSE IF (JTHE /= 0) THEN
+        ! cumulate thermal load due to plastic work for /heat/mat
         DO I=1,NEL       
           FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
         ENDDO

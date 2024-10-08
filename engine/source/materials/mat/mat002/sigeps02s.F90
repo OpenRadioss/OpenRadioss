@@ -128,7 +128,7 @@
       integer :: indx(nel)
       my_real :: plap1,pold,pshift,p,epmx,sigm0,cc,cn,epdr,m_exp
       my_real :: rho0,bulk,g0,g1,g2
-      my_real :: c3,c4,rhocpi,asrate,scale,dta,mt,ca0,cb
+      my_real :: c3,c4,rhocpi,fcut,asrate,scale,dta,mt,ca0,cb
       my_real :: e1,e2,e3,e4,e5,e6,einc
       my_real :: dsxx,dsyy,dszz,dsxy,dsyz,dszx,alpha,hkin
       my_real :: facq0,fisokin,beta,vm,vm_1,g3,g3h,norm_1
@@ -155,7 +155,8 @@
       cc      = mat_param%uparam(6)         ! pm(43)
       epdr    = mat_param%uparam(7)         ! pm(44)
       fisokin = mat_param%uparam(8)         ! pm(55)
-      asrate  = mat_param%uparam(9)         ! pm(9)
+      fcut    = mat_param%uparam(9)         ! pm(9)
+      asrate  = min(one, fcut*dt1)
 
       if (iform == 1) then        ! zerilli
         c3      = mat_param%uparam(10)        ! pm(51)

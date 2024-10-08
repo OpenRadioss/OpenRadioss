@@ -92,7 +92,7 @@ C-----------------------------------------------
       INTEGER :: niparam,nuparam,nfunc,ntable
       my_real :: RHOR,RHO0
       my_real :: YOUNG,G,BULK,ANU,A11,A12,GFAC
-      my_real :: CA,CB,CN,C3,C4,EPSM,SIGM,CC,EPS0,ASRATE,FCUT,FISOKIN
+      my_real :: CA,CB,CN,C3,C4,EPSM,SIGM,CC,EPS0,FCUT,ASRATE,FISOKIN
       my_real :: RHOCP,TREF,TMELT,TMAX,PMIN,M_EXP
       my_real :: SDSP,CB0,RM,AG,CN0
       my_real :: FAC_DENS,FAC_PRES,EPS0_UNIT,FAC_M,FAC_L,FAC_T
@@ -106,6 +106,7 @@ C-----------------------------------------------
       SIGM    = ZERO
       CC      = ZERO
       EPS0    = ZERO
+      FCUT    = ZERO
       ASRATE  = ZERO
       FISOKIN = ZERO
       YOUNG   = ZERO
@@ -178,7 +179,7 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV('EPS_0'    ,EPS0   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_INTV  ('ICC'      ,ICC    ,IS_AVAILABLE, LSUBMODEL) 
         CALL HM_GET_INTV  ('Fsmooth'  ,ISRATE ,IS_AVAILABLE, LSUBMODEL) 
-        CALL HM_GET_FLOATV('Fcut'     ,ASRATE ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('Fcut'     ,FCUT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !line-5
         CALL HM_GET_FLOATV('C3'       ,C3     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('C4'       ,C4     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -217,7 +218,7 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV('EPS_DOT_0'      ,EPS0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_INTV  ('ICC'            ,ICC       ,IS_AVAILABLE, LSUBMODEL) 
         CALL HM_GET_INTV  ('Fsmooth'        ,ISRATE    ,IS_AVAILABLE, LSUBMODEL) 
-        CALL HM_GET_FLOATV('F_cut'          ,ASRATE    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('F_cut'          ,FCUT      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Chard'          ,FISOKIN   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !line-5
         CALL HM_GET_FLOATV('m'              ,M_EXP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -335,7 +336,7 @@ C-----------------------------------------------
 !-----------------------------------------------------------------------
       ! Invalid values check
 !-----------------------------------------------------------------------
-      IF (CC > ZERO .AND. EPS0 > ZERO .AND. ASRATE == ZERO .AND. VP/=1) THEN
+      IF (CC > ZERO .AND. EPS0 > ZERO .AND. FCUT == ZERO .AND. VP/=1) THEN
            CALL ANCMSG(MSGID=1220, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .                 I1=ID, 
      .                 C1=TITR)
@@ -384,47 +385,45 @@ C
       IF (VP == 1) THEN
         ! If plastic strain is chosen, filtering by default
         ISRATE = 1
-        IF (ASRATE == ZERO) ASRATE = 10000.0D0*UNITAB%FAC_T_WORK
-        FCUT   = ASRATE
+        IF (FCUT == ZERO) FCUT = 10000.0D0*UNITAB%FAC_T_WORK
       ELSE
         IF (CC == ZERO)THEN
           EPS0   = ONE
           ISRATE = 0
-          ASRATE = ZERO
-          FCUT   = ASRATE
+          FCUT   = ZERO
         ELSE     
           ISRATE = 1
-          IF (ASRATE == ZERO) ASRATE = EP20
-          FCUT   = ASRATE
+          IF (FCUT == ZERO) FCUT = EP20
         ENDIF
       ENDIF
 !
       IF (TREF <= ZERO) TREF = THREE100
-!
-      IF (IFORM == 1) THEN  ! Zerilli
-        IF (RHOCP > ZERO) RHOCP = ONE/RHOCP
-      ELSE                  ! Johnson-Cook
+      IF (IFORM == 0) THEN  ! Johnson-Cook
         IF (M_EXP == ZERO) M_EXP = ONE
         IF (TMELT == ZERO) TMELT = EP20
         IF (TMAX  == ZERO) TMAX  = EP20
       END IF
 !-----------------------------------------------------------------------
-      G    = YOUNG/(TWO*(ONE + ANU))
-      BULK = YOUNG/(THREE*(ONE - TWO*ANU))
-      A11  = YOUNG/(ONE - ANU**2)
-      A12  = ANU*A11
-      SDSP = SQRT(YOUNG/MAX(RHOR,EM20))
-      GFAC = TWO*G/(BULK+FOUR_OVER_3*G) ! GFAC : for solid elements time step computation
+      G      = YOUNG/(TWO*(ONE + ANU))
+      BULK   = YOUNG/(THREE*(ONE - TWO*ANU))
+      A11    = YOUNG/(ONE - ANU**2)
+      A12    = ANU*A11
+      SDSP   = SQRT(YOUNG/MAX(RHOR,EM20))
+      GFAC   = TWO*G/(BULK+FOUR_OVER_3*G) ! GFAC : for solid elements time step computation
+      ASRATE = FCUT*TWO*PI
 !-----------------------------------------------------------------------
       ! used in code outside of material laws
       PM(24)  = A11
       PM(25)  = A12
       PM(27)  = SDSP
       PM(37)  = PMIN   ! default pressure cut-off for EOS
+      PM(69)  = RHOCP  
+      PM(79)  = TREF   ! initial temperature - still needed in mating to initialize element buffer
+      PM(80)  = TMELT  ! melting temperature - still used in mmain
       PM(105) = GFAC
 !-----------------------------------------------------------------------
       PARMAT(4) = ISRATE
-      PARMAT(5) = ASRATE
+      PARMAT(5) = FCUT
 !-----------------------------------------------------------------------
       ! Output
 !-----------------------------------------------------------------------      
@@ -535,7 +534,7 @@ C
         mat_param%uparam(11)= c4             ! pm(52)
 
       ! common with heat mat => will be written in mat_param%therm
-
+        if (rhocp > zero) rhocp = one / rhocp
         mat_param%uparam(12)= rhocp      ! pm(53) = 1 / rhocp
         mat_param%uparam(13)= tref       ! pm(79) 
 !
