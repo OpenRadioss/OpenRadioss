@@ -81,12 +81,12 @@ C-----------------------------------------------
       INTEGER I,J,K,NG,NEL,NFT,ITY,NPTT,ILOC,INOD,NNOD,NDEPAR,IMAT,
      .        L_NLOC,POS,NDD,ISOLID,N,NUMELS_NL,IGTYP,NUMELC_NL,NDDMAX,
      .        NUMELTG_NL,NPTR,NPTS,IR,IS,ISOLNOD,IO_ERR1,LEN_TMP_NAME,
-     .        WORK(70000),IDEB,IDEBS,IDEBC,IDEBT,IADBUF,MATSIZE,ERROR
+     .        IDEB,IADBUF,MATSIZE,ERROR,NELEN_MAX,POSN
       INTEGER, DIMENSION(8) :: IDXND,NODE_ID
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGNOD,SOLNOD
       INTEGER, DIMENSION(:),   ALLOCATABLE :: INDX,IDXI,NMAT,NDDL,
-     .                                        POSI,ITRI,INDEX,TAGTET,
-     .                                        TAGPENT,ISLNOD
+     .   POSI,ITRI,INDEX,TAGTET,TAGPENT,ISLNOD,NELEN,ITRIN,IDELEM,
+     .   IADDN
       INTEGER, DIMENSION(:,:), POINTER     :: IADS
       my_real
      .   DENS, DTMIN, LEN, SSPNL,NTH1, NTH2,
@@ -94,9 +94,9 @@ C-----------------------------------------------
      .   DTSCA_AMS,DTSCA_CST_AMS,LE_MAX,SSP,
      .   DTMINI_AMS,DTMINI_CST_AMS,DTMINI
       my_real, DIMENSION(:,:), ALLOCATABLE ::  
-     .   VOLN_S, VOLN_C, VOLN_TG, WARN_LENGHT
+     .   WARN_LENGHT
       my_real, DIMENSION(:)  , ALLOCATABLE ::  
-     .   VOLN, VOLU
+     .   VOLN, VOLU, VOLNOD, VOLSORT
       my_real ,DIMENSION(:)  , POINTER     :: 
      .   VOL, THCK, UPARAM
       TYPE(BUF_NLOC_), POINTER             :: BUFNL
@@ -335,18 +335,16 @@ c
         ALLOCATE( POSI(NUMNOD+1) )
         ALLOCATE( ISLNOD(NUMELS))
         ALLOCATE( SOLNOD(8,NUMELS))
-        ALLOCATE( VOLN_S(8,NUMELS) )
-        ALLOCATE( VOLN_C(4,NUMELC) )
-        ALLOCATE( VOLN_TG(3,NUMELTG) )
-        ALLOCATE( VOLN(NUMNOD) )
-        ALLOCATE( VOLU(NUMELS) )
+        ALLOCATE( VOLU(NUMELS+NUMELC+NUMELTG) )
+        ALLOCATE( VOLNOD(NUMELS+NUMELC+NUMELTG))
         ALLOCATE( TAGTET(NUMELS) )
         ALLOCATE( TAGPENT(NUMELS))
+        ALLOCATE( NELEN(NUMNOD))
         ALLOCATE( INDEX(NUMELS+NUMELC+NUMELTG) )
         ALLOCATE( ITRI(NUMELS+NUMELC+NUMELTG) )
 C
         IF (NSUBDOM > 0) THEN
-C--       multidomains - origianl nummat is used
+C--       multidomains - original nummat is used
           MATSIZE = NUMMAT0
         ELSE
           MATSIZE = NUMMAT
@@ -354,16 +352,14 @@ C--       multidomains - origianl nummat is used
         CALL MY_ALLOC(WARN_LENGHT,MATSIZE,3)
 c   
         ! Initialization of variables  
-        VOLN_S(1:8,1:NUMELS)   = ZERO
-        VOLN_C(1:4,1:NUMELC)   = ZERO
-        VOLN_TG(1:3,1:NUMELTG) = ZERO
-        VOLN(1:NUMNOD)         = ZERO
-        VOLU(1:NUMELS)         = ZERO
+        VOLU(1:NUMELS+NUMELC+NUMELTG) = ZERO
+        VOLNOD(1:NUMELS+NUMELC+NUMELTG) = ZERO
         INDEX(1:NUMELS+NUMELC+NUMELTG) = 0
-        ITRI(1:NUMELS+NUMELC+NUMELTG)  = 0
+        ITRI(1:NUMELS+NUMELC+NUMELTG) = 0
         TAGNOD(1:NUMNOD,1:3) = 0
-        TAGTET(1:NUMELS)     = 0
-        TAGPENT(1:NUMELS)    = 0
+        TAGTET(1:NUMELS)  = 0
+        TAGPENT(1:NUMELS) = 0
+        NELEN(1:NUMNOD) = 0
         NUMELS_NL  = 0
         NUMELC_NL  = 0
         NUMELTG_NL = 0
@@ -422,6 +418,8 @@ c
                     IF (J == 3) K = 7
                     IF (J == 4) K = 6
                     INOD = IXS(K,I+NFT)
+                    ! Count the elements attached to the node
+                    NELEN(INOD) = NELEN(INOD) + 1
                     ! Tag the node as non-local
                     TAGNOD(INOD,1) = 1
                     ! Tag the number of additional d.o.fs
@@ -433,8 +431,8 @@ c
                     ENDIF
                     ! Tag the material law id of the node
                     TAGNOD(INOD,3) = IMAT
-                    ! Computation of the volume associated to the node
-                    VOLN_S(J,I+NFT) = FOURTH * VOL(I)
+                    ! Nodal volume contribution of current element
+                    VOLNOD(I+NFT) = FOURTH*VOL(I)
                   ENDDO      
                 ENDDO
               ! Penta 6 element
@@ -451,6 +449,8 @@ c
                     IF (J == 5) K = 7
                     IF (J == 6) K = 8
                     INOD = IXS(K,I+NFT)  
+                    ! Count the elements attached to the node
+                    NELEN(INOD) = NELEN(INOD) + 1
                     ! Tag the node as non-local
                     TAGNOD(INOD,1) = 1
                     ! Tag the number of additional d.o.fs
@@ -461,9 +461,9 @@ c
      .                   ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))                  
                     ENDIF
                     ! Tag the material law id of the node
-                    TAGNOD(INOD,3) = IMAT 
-                    ! Computation of the volume associated to the node
-                    VOLN_S(J,I+NFT) = ONE_OVER_6 * VOL(I)                    
+                    TAGNOD(INOD,3) = IMAT       
+                    ! Nodal volume contribution of current element
+                    VOLNOD(I+NFT) = ONE_OVER_6*VOL(I)                 
                   ENDDO            
                 ENDDO
               ! Brick element
@@ -497,6 +497,8 @@ c
                   DO J = 1,ISLNOD(I+NFT)
                     ! Number of the nodes
                     INOD = SOLNOD(J,I+NFT)
+                    ! Count the elements attached to the node
+                    NELEN(INOD) = NELEN(INOD) + 1
                     ! Tag the node as non-local
                     TAGNOD(INOD,1) = 1 
                     ! Tag the number of additional d.o.fs
@@ -511,9 +513,9 @@ c
      .                 ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))                  
                     ENDIF
                     ! Tag the material law id of the node
-                    TAGNOD(INOD,3) = IMAT
-                    ! Computation of the volume associated to the node
-                    VOLN_S(J,I+NFT) = (ONE/ISLNOD(I+NFT)) * VOL(I)
+                    TAGNOD(INOD,3) = IMAT  
+                    ! Nodal volume contribution of current element
+                    VOLNOD(I+NFT) = (ONE/ISLNOD(I+NFT))*VOL(I)               
                   ENDDO      
                 ENDDO
               ELSE
@@ -550,6 +552,8 @@ c
                   ! Node number
                   K = J + 1
                   INOD = IXC(K,I+NFT)
+                  ! Count the elements attached to the node
+                  NELEN(INOD) = NELEN(INOD) + 1
                   ! Tag the node as non-local
                   TAGNOD(INOD,1) = 1
                   ! If already written and different => error
@@ -566,8 +570,8 @@ c
                   ENDIF
                   ! Tag the material law ID
                   TAGNOD(INOD,3)  = IMAT
-                  ! Computation of the volume associated to the node
-                  VOLN_C(J,I+NFT) = FOURTH * AREA(NFT+I) * THCK(I)
+                  ! Nodal volume contribution of current element
+                  VOLNOD(IDEB+I+NFT) = FOURTH * AREA(NFT+I) * THCK(I)
                 ENDDO      
               ENDDO  
             ! For 3-nodes shell elements
@@ -599,6 +603,8 @@ c
                   ! Number of the node
                   K = J + 1
                   INOD = IXTG(K,I+NFT)
+                  ! Count the elements attached to the node
+                  NELEN(INOD) = NELEN(INOD) + 1
                   ! Tag the node as non-local
                   TAGNOD(INOD,1) = 1
                   ! If already written and different => error
@@ -615,8 +621,8 @@ c
                   ENDIF
                   ! Tag the material law ID
                   TAGNOD(INOD,3) = IMAT
-                  ! Computation of the volume associated to the node
-                  VOLN_TG(J,I+NFT) = THIRD * AREA(NUMELC+NFT+I) * THCK(I)
+                  ! Nodal volume contribution of current element
+                  VOLNOD(IDEB+I+NFT) = THIRD * AREA(NUMELC+NFT+I) * THCK(I)
                 ENDDO      
               ENDDO
             ! For all other types of elements
@@ -676,6 +682,27 @@ C
         ENDIF
         ! Maximum of the minimal timesteps
         DTMINI = MAX(DTMINI_AMS,DTMINI_CST_AMS)
+C     
+        ! Data on non-local nodes
+        NNOD   = 0 ! Total number of non-local nodes
+        L_NLOC = 0 ! Length of the non-local vectors
+        INDX(1:NUMNOD)   = 0 ! Index of non-local nodes
+        NDDL(1:NUMNOD)   = 0 ! Number of additional d.o.fs for non-local nodes
+        POSI(1:NUMNOD+1) = 0 ! Position of the first degree of freedom for non-local nodes
+        NMAT(1:NUMNOD)   = 0 ! Material of the non-local nodes
+        IDXI(1:NUMNOD)   = 0 ! Inversed of the index table
+        DO I=1,NUMNOD
+          IF (TAGNOD(I,1) == 1) THEN
+            NNOD       = NNOD + 1
+            INDX(NNOD) = I
+            NDDL(NNOD) = TAGNOD(I,2)
+            NMAT(NNOD) = TAGNOD(I,3)
+            POSI(NNOD) = L_NLOC + 1
+            IDXI(I)    = NNOD
+            L_NLOC     = L_NLOC + TAGNOD(I,2)
+          ENDIF
+        ENDDO
+        POSI(NNOD + 1) = L_NLOC + 1 ! Last value of the position
 C
         ! Sorting tables
         !   -> Sorting solid elements
@@ -684,10 +711,27 @@ C
         IF ((NUMELC>0).AND.(NUMELC_NL>0))   CALL QUICKSORT_I2(ITRI, INDEX, NUMELS+1, NUMELS+NUMELC_NL)
         !   -> Sorting triangle elements
         IF ((NUMELTG>0).AND.(NUMELTG_NL>0)) CALL QUICKSORT_I2(ITRI, INDEX, NUMELS+NUMELC+1, NUMELS+NUMELC+NUMELTG_NL)
-        ! Offsets in the DTELEM table
-        IDEBS = MINVAL(IXS(11,1:NUMELS))
-        IDEBC = MINVAL(IXC(7,1:NUMELC))
-        IDEBT = MINVAL(IXTG(6,1:NUMELTG))
+C
+        ! Sorting table for PARITH/ON nodal volume computation
+        ALLOCATE(IADDN(NNOD))
+        IADDN(1:NNOD) = 0
+        POSN = 0
+        ! -> Address of the first element attached to the node
+        DO I = 1,NUMNOD
+          IF (TAGNOD(I,1) == 1) THEN
+            N = IDXI(I) 
+            IADDN(N) = POSN + 1 
+            POSN = POSN + NELEN(I)
+          ENDIF
+        ENDDO 
+        ! -> Size of the element connectivity table
+        NELEN_MAX = SUM(NELEN(1:NUMNOD))
+        ALLOCATE(IDELEM(NELEN_MAX))
+        IDELEM(1:NELEN_MAX) = 0
+        ! -> Reshape the counter table of attached elements
+        IF (ALLOCATED(NELEN)) DEALLOCATE(NELEN)
+        ALLOCATE(NELEN(NNOD))
+        NELEN(1:NNOD) = 0
 C
         ! Assembling the volume per node always in the same order
         ! and automatic computation of the non-local density, and the non-local damping
@@ -705,26 +749,35 @@ C
             IF (TAGTET(I)>0) THEN 
               ! Loop over element nodes
               DO K = 1,4
-                IF (K == 1) N = IXS(2,I)
-                IF (K == 2) N = IXS(4,I)
-                IF (K == 3) N = IXS(7,I)
-                IF (K == 4) N = IXS(6,I)
-                VOLN(N) = VOLN(N) + VOLN_S(K,I)
+                IF (K == 1) N = IDXI(IXS(2,I))
+                IF (K == 2) N = IDXI(IXS(4,I))
+                IF (K == 3) N = IDXI(IXS(7,I))
+                IF (K == 4) N = IDXI(IXS(6,I))
+                ! Update the number of elements attached to the node
+                NELEN(N) = NELEN(N) + 1
+                ! Save the corresponding element internal number
+                IDELEM(IADDN(N)+NELEN(N)-1) = I
               ENDDO 
             ELSEIF (TAGPENT(I)>0) THEN 
               ! Loop over element nodes
               DO K = 1,6
-                N = IXS(K+1,I)
-                IF (K == 4) N = IXS(6,I)
-                IF (K == 5) N = IXS(7,I)
-                IF (K == 6) N = IXS(8,I)
-                VOLN(N) = VOLN(N) + VOLN_S(K,I)
+                N = IDXI(IXS(K+1,I))
+                IF (K == 4) N = IDXI(IXS(6,I))
+                IF (K == 5) N = IDXI(IXS(7,I))
+                IF (K == 6) N = IDXI(IXS(8,I))
+                ! Update the number of elements attached to the node
+                NELEN(N) = NELEN(N) + 1
+                ! Save the corresponding element internal number
+                IDELEM(IADDN(N)+NELEN(N)-1) = I
               ENDDO     
             ELSE
               ! Loop over element nodes
               DO K = 1,ISLNOD(I)
-                N = SOLNOD(K,I)
-                VOLN(N) = VOLN(N) + VOLN_S(K,I)
+                N = IDXI(SOLNOD(K,I))
+                ! Update the number of elements attached to the node
+                NELEN(N) = NELEN(N) + 1
+                ! Save the corresponding element internal number
+                IDELEM(IADDN(N)+NELEN(N)-1) = I
               ENDDO 
             ENDIF
           ! Shell elements
@@ -733,8 +786,11 @@ C
             I = INDEX(NUMELS+J-NUMELS_NL)
             ! Loop over nodes of the element
             DO K = 1,4
-              N = IXC(K+1,I)
-              VOLN(N) = VOLN(N) + VOLN_C(K,I)
+              N = IDXI(IXC(K+1,I))
+              ! Update the number of elements attached to the node
+              NELEN(N) = NELEN(N) + 1
+              ! Save the corresponding element internal number
+              IDELEM(IADDN(N)+NELEN(N)-1) = I
             ENDDO 
             ! Material number
             IMAT   = IXC(1,I)
@@ -748,8 +804,11 @@ C
             I = INDEX(NUMELS+NUMELC+J-NUMELS_NL-NUMELC_NL)
             ! Loop over nodes of the element
             DO K = 1,3
-              N = IXTG(K+1,I)
-              VOLN(N) = VOLN(N) + VOLN_TG(K,I)
+              N = IDXI(IXTG(K+1,I))
+              ! Update the number of elements attached to the node
+              NELEN(N) = NELEN(N) + 1
+              ! Save the corresponding element internal number
+              IDELEM(IADDN(N)+NELEN(N)-1) = I
             ENDDO
             ! Material number
             IMAT   = IXTG(1,I)
@@ -790,6 +849,24 @@ C
           ENDIF
         ENDDO
 c
+        ! Parith/on assembly of the nodal volume
+        ALLOCATE(VOLN(NNOD))
+        VOLN(1:NNOD) = ZERO
+        ALLOCATE(ITRIN(MAXVAL(NELEN(1:NNOD))))
+        ALLOCATE(VOLSORT(MAXVAL(NELEN(1:NNOD))))
+        ! Loop over non-local nodes
+        DO N = 1,NNOD
+          ! Copy element nodal volume contribution of each attached elements
+          VOLSORT(1:NELEN(N)) = VOLNOD(IDELEM(IADDN(N):IADDN(N)+NELEN(N)-1))
+          ! Sort by increasing volume value
+          CALL MYQSORT(NELEN(N),VOLSORT(1:NELEN(N)),ITRIN(1:NELEN(N)),ERROR)
+          ! Loop over attached elements
+          DO K = 1, NELEN(N)
+            ! Add the sorted element nodal volume contribution
+            VOLN(N) = VOLN(N) + VOLSORT(K)
+          ENDDO
+        ENDDO 
+c
         ! Checking non-local length consistency with mesh size
         DO I = 1, MATSIZE
           IF (WARN_LENGHT(I,1) > ZERO) THEN
@@ -806,27 +883,6 @@ c
             WRITE(IOUT,1900) IPM(1,I),NLOC_DMG%LEN(I),NLOC_DMG%LE_MAX(I),NLOC_DMG%DENS(I),NLOC_DMG%DAMP(I)
           ENDIF
         ENDDO
-c        
-        ! Data on non-local nodes
-        NNOD   = 0 ! Total number of non-local nodes
-        L_NLOC = 0 ! Length of the non-local vectors
-        INDX(1:NUMNOD)   = 0 ! Index of non-local nodes
-        NDDL(1:NUMNOD)   = 0 ! Number of additional d.o.fs for non-local nodes
-        POSI(1:NUMNOD+1) = 0 ! Position of the first degree of freedom for non-local nodes
-        NMAT(1:NUMNOD)   = 0 ! Material of the non-local nodes
-        IDXI(1:NUMNOD)   = 0 ! Inversed of the index table
-        DO I=1,NUMNOD
-          IF (TAGNOD(I,1) == 1) THEN
-            NNOD       = NNOD + 1
-            INDX(NNOD) = I
-            NDDL(NNOD) = TAGNOD(I,2)
-            NMAT(NNOD) = TAGNOD(I,3)
-            POSI(NNOD) = L_NLOC + 1
-            IDXI(I)    = NNOD
-            L_NLOC     = L_NLOC + TAGNOD(I,2)
-          ENDIF
-        ENDDO
-        POSI(NNOD + 1) = L_NLOC + 1 ! Last value of the position
 c       
         ! Maximal number of additional d.o.fs
         NDDMAX = MAXVAL(NDDL(1:NNOD))
@@ -877,16 +933,16 @@ c
             ! For brick elements
             IF (ITY == 1) THEN
               IF (NDD > 1) THEN 
-                NLOC_DMG%MASS(J)  = HALF*W_GAUSS(J-POS+1,NDD)*VOLN(INDX(I))*DENS
-                NLOC_DMG%MASS0(J) = HALF*W_GAUSS(J-POS+1,NDD)*VOLN(INDX(I))*DENS
+                NLOC_DMG%MASS(J)  = HALF*W_GAUSS(J-POS+1,NDD)*VOLN(I)*DENS
+                NLOC_DMG%MASS0(J) = HALF*W_GAUSS(J-POS+1,NDD)*VOLN(I)*DENS
               ELSE 
-                NLOC_DMG%MASS(J)  = VOLN(INDX(I))*DENS
-                NLOC_DMG%MASS0(J) = VOLN(INDX(I))*DENS
+                NLOC_DMG%MASS(J)  = VOLN(I)*DENS
+                NLOC_DMG%MASS0(J) = VOLN(I)*DENS
               ENDIF
             ! For shell and triangle elements
             ELSEIF ((ITY == 3).OR.(ITY == 7)) THEN 
-              NLOC_DMG%MASS(J)  = WF1(J-POS+1,NDD)*VOLN(INDX(I))*DENS
-              NLOC_DMG%MASS0(J) = WF1(J-POS+1,NDD)*VOLN(INDX(I))*DENS
+              NLOC_DMG%MASS(J)  = WF1(J-POS+1,NDD)*VOLN(I)*DENS
+              NLOC_DMG%MASS0(J) = WF1(J-POS+1,NDD)*VOLN(I)*DENS
             ENDIF
           ENDDO
         ENDDO
@@ -1004,13 +1060,13 @@ c
         ENDDO
 c
         ! Initialization of non-local fields and variables
-        IF (ISIGI /= 0) THEN 
-          WRITE(ISTDO,'(A)') ' .. NON-LOCAL FIELDS INITIALIZATION'
-          CALL NLOCAL_INIT_STA(ELBUF_TAB,NLOC_DMG ,IPARG    ,IXC      ,
-     .                         IXS      ,IXTG     ,AREA     ,X        ,
-     .                         XREFS    ,XREFC    ,XREFTG   ,IPM      ,
-     .                         BUFMAT   ) 
-        ENDIF
+    !     IF (ISIGI /= 0) THEN 
+    !       WRITE(ISTDO,'(A)') ' .. NON-LOCAL FIELDS INITIALIZATION'
+    !       CALL NLOCAL_INIT_STA(ELBUF_TAB,NLOC_DMG ,IPARG    ,IXC      ,
+    !  .                         IXS      ,IXTG     ,AREA     ,X        ,
+    !  .                         XREFS    ,XREFC    ,XREFTG   ,IPM      ,
+    !  .                         BUFMAT   ) 
+    !     ENDIF
 c
        ENDIF
 c
@@ -1027,12 +1083,16 @@ c
        IF (ALLOCATED(TAGPENT)) DEALLOCATE(TAGPENT)
        IF (ALLOCATED(ISLNOD))  DEALLOCATE(ISLNOD)
        IF (ALLOCATED(SOLNOD))  DEALLOCATE(SOLNOD)
-       IF (ALLOCATED(VOLN_S))  DEALLOCATE(VOLN_S)
-       IF (ALLOCATED(VOLN_C))  DEALLOCATE(VOLN_C)
-       IF (ALLOCATED(VOLN_TG)) DEALLOCATE(VOLN_TG)
        IF (ALLOCATED(VOLN))    DEALLOCATE(VOLN)
        IF (ALLOCATED(VOLU))    DEALLOCATE(VOLU)
        IF (ALLOCATED(WARN_LENGHT))  DEALLOCATE(WARN_LENGHT)
+       IF (ALLOCATED(NELEN))   DEALLOCATE(NELEN)
+       IF (ALLOCATED(IDELEM))  DEALLOCATE(IDELEM)
+       IF (ALLOCATED(IADDN))   DEALLOCATE(IADDN)
+       IF (ALLOCATED(ITRIN))   DEALLOCATE(ITRIN)
+       IF (ALLOCATED(VOLSORT)) DEALLOCATE(VOLSORT)
+       IF (ALLOCATED(VOLNOD))  DEALLOCATE(VOLNOD)
+c
 c-----------
  1800 FORMAT(
      . 5X,' NON-LOCAL PARAMETERS '/
