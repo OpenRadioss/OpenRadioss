@@ -1200,7 +1200,7 @@ C Anti hourglass forces
      I   GBUF%HOURG,PARTSAV,IPARTS, NFT,
      J   MTN,     JLAG,    EANI   , NGEO ,
      K   IVECTOR ,DT1 ,    MXT,     GEO,
-     L   NEL,     ISCTL )
+     L   NEL,     ISCTL,   STI  )
       ELSE
         CALL SHVIS3(
      1   PM,       GBUF%RHO, OFF,      VX1,

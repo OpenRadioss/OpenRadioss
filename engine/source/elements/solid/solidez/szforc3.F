@@ -239,7 +239,7 @@ C
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ)
 C
       my_real
-     .   MUVOID(MVSIZ),FAC_NU,NU_SP,NU0
+     .   MUVOID(MVSIZ),FAC_NU,NU_SP,NU0,DN
 C-----
 C 8-nodes solid connectivities
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
@@ -834,7 +834,8 @@ C Update ET for /VISC/PRONY
         END IF
       END IF
 C
-      IF (ISCTL > 0) THEN
+      IF (ISCTL > 0) THEN 
+         DN = GEO(13,PID)
          CALL SZHOUR_CTL(
      .       PM, GBUF%RHO,     OFF,     VX1,
      .       VX2,     VX3,     VX4,     VX5,
@@ -855,7 +856,7 @@ C
      .  GBUF%HOURG,   MTN,      DT1 ,    MXT,     
      .      CXX, GBUF%EINT ,  NPROPM, NUMMAT,
      .  GBUF%STRHG,   JAC1,     JAC5,   JAC9,
-     .    GBUF%VOL,  NEL )
+     .    GBUF%VOL,   DN  ,     STI ,   NEL )
 C Anti hourglass forces
       ELSEIF (ISORTH>0) THEN
        IF (MTN>=28) THEN

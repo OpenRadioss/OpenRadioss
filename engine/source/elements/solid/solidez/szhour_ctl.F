@@ -47,7 +47,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   FHOUR,   MTN,      DT1 ,    MAT,     
      .   CXX  ,   EINT ,  NPROPM, NUMMAT,
      .   STRHG,    JR  ,      JS,    JT , 
-     .   VOL0 ,   NEL )
+     .   VOL0 ,    DN  ,   STI  ,   NEL )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE SHOUR_CTL_MOD,   ONLY : SHOUR_CTL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,8 +86,8 @@ C-----------------------------------------------
      .   F11,F21,F31,F12,F22,F32,
      .   F13,F23,F33,F14,F24,F34,
      .   F15,F25,F35,F16,F26,F36,
-     .   F17,F27,F37,F18,F28,F38,EINT
-      my_real, INTENT(IN):: DT1
+     .   F17,F27,F37,F18,F28,F38,EINT,STI
+      my_real, INTENT(IN):: DT1,DN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -106,175 +110,55 @@ C     REAL
      .   JR_1(MVSIZ),JS_1(MVSIZ),JT_1(MVSIZ),NU4(MVSIZ),
      .   E0,G0,C1,NU,EHOURT ,QH,LAMG ,STIF ,LL ,FVL,NU1
 C----------------------------------------------- 
-C------recompute modulus for law42,88,90
-      MX = MAT(1)
-      NU=PM(21,MX)
-      G0=PM(22,MX)
-      C1=PM(32,MX)
-      E0=PM(20,MX)
-      QH = TEN
-      SELECT CASE (MTN)
-        CASE (70)
-          E0=PM(24,MX)
-          LAMG = THIRD*(E0/(1-TWO*NU)+TWO*E0/(1+NU))
-          QH = TWELVE
-        CASE (42,69)
-          C1 = THIRD*E0/(1-TWO*NU)
-          G0 = HALF*G0
-          LAMG = C1+FOUR_OVER_3*G0
-        CASE (88)
-          C1 = THIRD*E0/(1-TWO*NU)
-          LAMG = C1+FOUR_OVER_3*G0
-        CASE DEFAULT
-          LAMG = C1+FOUR_OVER_3*G0
-      END SELECT
-      IF (NU>0.48999) QH = ZEP05*QH
-      STIF = 0.038*QH*LAMG       ! factor=1/8/3; QH=10 isn't taken into account for dt
-      FVL = FOURTH*EM01*ZEP00666666667
-      DO I=1,NEL
-         LL = OFF(I)*VOL(I)**THIRD
-         CAQ(I)=STIF*DT1
-         EDT(I)=CAQ(I)*LL
-         FCL(I)=FVL*RHO(I)*CXX(I)*LL*LL
-      ENDDO
        DO I=1,NEL
-C 1 -1 1 -1 1 -1 1 -1
-        G11(I)= ONE-PX1H1(I)
-        G21(I)=-ONE-PX2H1(I)
-        G31(I)= ONE-PX3H1(I)
-        G41(I)=-ONE-PX4H1(I)
-        G51(I)= ONE+PX3H1(I)
-        G61(I)=-ONE+PX4H1(I)
-        G71(I)= ONE+PX1H1(I)
-        G81(I)=-ONE+PX2H1(I)
-        HGX1(I)=
-     &    G11(I)*VX1(I)+G21(I)*VX2(I)+G31(I)*VX3(I)+G41(I)*VX4(I)
-     &   +G51(I)*VX5(I)+G61(I)*VX6(I)+G71(I)*VX7(I)+G81(I)*VX8(I)
-        HGY1(I)=
-     &    G11(I)*VY1(I)+G21(I)*VY2(I)+G31(I)*VY3(I)+G41(I)*VY4(I)
-     &   +G51(I)*VY5(I)+G61(I)*VY6(I)+G71(I)*VY7(I)+G81(I)*VY8(I)
-        HGZ1(I)=
-     &    G11(I)*VZ1(I)+G21(I)*VZ2(I)+G31(I)*VZ3(I)+G41(I)*VZ4(I)
-     &   +G51(I)*VZ5(I)+G61(I)*VZ6(I)+G71(I)*VZ7(I)+G81(I)*VZ8(I)
-       ENDDO
+        F11(I)=zero
+        F12(I)=zero
+        F13(I)=zero
+        F14(I)=zero
+        F15(I)=zero
+        F16(I)=zero
+        F17(I)=zero
+        F18(I)=zero
 C
-       DO I=1,NEL
-C 1 1 -1 -1 -1 -1 1 1
-        G12(I)= ONE-PX1H2(I)
-        G22(I)= ONE-PX2H2(I)
-        G32(I)=-ONE-PX3H2(I)
-        G42(I)=-ONE-PX4H2(I)
-        G52(I)=-ONE+PX3H2(I)
-        G62(I)=-ONE+PX4H2(I)
-        G72(I)= ONE+PX1H2(I)
-        G82(I)= ONE+PX2H2(I)
-        HGX2(I)=
-     &   G12(I)*VX1(I)+G22(I)*VX2(I)+G32(I)*VX3(I)+G42(I)*VX4(I)
-     &  +G52(I)*VX5(I)+G62(I)*VX6(I)+G72(I)*VX7(I)+G82(I)*VX8(I)
-        HGY2(I)=
-     &   G12(I)*VY1(I)+G22(I)*VY2(I)+G32(I)*VY3(I)+G42(I)*VY4(I)
-     &  +G52(I)*VY5(I)+G62(I)*VY6(I)+G72(I)*VY7(I)+G82(I)*VY8(I)
-        HGZ2(I)=
-     &   G12(I)*VZ1(I)+G22(I)*VZ2(I)+G32(I)*VZ3(I)+G42(I)*VZ4(I)
-     &  +G52(I)*VZ5(I)+G62(I)*VZ6(I)+G72(I)*VZ7(I)+G82(I)*VZ8(I)
-       ENDDO
-       DO I=1,NEL
-C 1 -1 -1 1 -1 1 1 -1
-        G13(I)= ONE-PX1H3(I)
-        G23(I)=-ONE-PX2H3(I)
-        G33(I)=-ONE-PX3H3(I)
-        G43(I)= ONE-PX4H3(I)
-        G53(I)=-ONE+PX3H3(I)
-        G63(I)= ONE+PX4H3(I)
-        G73(I)= ONE+PX1H3(I)
-        G83(I)=-ONE+PX2H3(I)
-        HGX3(I)=
-     &   G13(I)*VX1(I)+G23(I)*VX2(I)+G33(I)*VX3(I)+G43(I)*VX4(I)
-     &  +G53(I)*VX5(I)+G63(I)*VX6(I)+G73(I)*VX7(I)+G83(I)*VX8(I)
-        HGY3(I)=
-     &   G13(I)*VY1(I)+G23(I)*VY2(I)+G33(I)*VY3(I)+G43(I)*VY4(I)
-     &  +G53(I)*VY5(I)+G63(I)*VY6(I)+G73(I)*VY7(I)+G83(I)*VY8(I)
-        HGZ3(I)=
-     &   G13(I)*VZ1(I)+G23(I)*VZ2(I)+G33(I)*VZ3(I)+G43(I)*VZ4(I)
-     &  +G53(I)*VZ5(I)+G63(I)*VZ6(I)+G73(I)*VZ7(I)+G83(I)*VZ8(I)
-       ENDDO
-C       
-       DO I=1,NEL
-C 1 -1 1 -1 -1 1 -1 1
-         HGX4(I)=VX1(I)-VX2(I)+VX3(I)-VX4(I)-VX5(I)+VX6(I)-VX7(I)+VX8(I)
-         HGY4(I)=VY1(I)-VY2(I)+VY3(I)-VY4(I)-VY5(I)+VY6(I)-VY7(I)+VY8(I)
-         HGZ4(I)=VZ1(I)-VZ2(I)+VZ3(I)-VZ4(I)-VZ5(I)+VZ6(I)-VZ7(I)+VZ8(I)
-       ENDDO
+        F21(I)=zero
+        F22(I)=zero
+        F23(I)=zero
+        F24(I)=zero
+        F25(I)=zero
+        F26(I)=zero
+        F27(I)=zero
+        F28(I)=zero
 C
-      DO I=1,NEL
-C
-       FHOUR(I,1,1) = FHOUR(I,1,1) + EDT(I)*HGX1(I)
-       FHOUR(I,1,2) = FHOUR(I,1,2) + EDT(I)*HGX2(I)
-       FHOUR(I,1,3) = FHOUR(I,1,3) + EDT(I)*HGX3(I)
-       FHOUR(I,1,4) = FHOUR(I,1,4) + EDT(I)*HGX4(I)
-       FHOUR(I,2,1) = FHOUR(I,2,1) + EDT(I)*HGY1(I)
-       FHOUR(I,2,2) = FHOUR(I,2,2) + EDT(I)*HGY2(I)
-       FHOUR(I,2,3) = FHOUR(I,2,3) + EDT(I)*HGY3(I)
-       FHOUR(I,2,4) = FHOUR(I,2,4) + EDT(I)*HGY4(I)
-       FHOUR(I,3,1) = FHOUR(I,3,1) + EDT(I)*HGZ1(I)
-       FHOUR(I,3,2) = FHOUR(I,3,2) + EDT(I)*HGZ2(I)
-       FHOUR(I,3,3) = FHOUR(I,3,3) + EDT(I)*HGZ3(I)
-       FHOUR(I,3,4) = FHOUR(I,3,4) + EDT(I)*HGZ4(I)
-      ENDDO
-       DO I=1,NEL
-        HX1(I)=FHOUR(I,1,1) +  FCL(I)*HGX1(I)
-        HX2(I)=FHOUR(I,1,2) +  FCL(I)*HGX2(I)
-        HX3(I)=FHOUR(I,1,3) +  FCL(I)*HGX3(I)
-        HX4(I)=FHOUR(I,1,4) +  FCL(I)*HGX4(I)
-        HY1(I)=FHOUR(I,2,1) +  FCL(I)*HGY1(I)
-        HY2(I)=FHOUR(I,2,2) +  FCL(I)*HGY2(I)
-        HY3(I)=FHOUR(I,2,3) +  FCL(I)*HGY3(I)
-        HY4(I)=FHOUR(I,2,4) +  FCL(I)*HGY4(I)
-        HZ1(I)=FHOUR(I,3,1) +  FCL(I)*HGZ1(I)
-        HZ2(I)=FHOUR(I,3,2) +  FCL(I)*HGZ2(I)
-        HZ3(I)=FHOUR(I,3,3) +  FCL(I)*HGZ3(I)
-        HZ4(I)=FHOUR(I,3,4) +  FCL(I)*HGZ4(I)
+        F31(I)=zero
+        F32(I)=zero
+        F33(I)=zero
+        F34(I)=zero
+        F35(I)=zero
+        F36(I)=zero
+        F37(I)=zero
+        F38(I)=zero
        ENDDO
-C
-       DO I=1,NEL
-        F11(I)=-G11(I)*HX1(I)-G12(I)*HX2(I)-G13(I)*HX3(I)-HX4(I)
-        F12(I)=-G21(I)*HX1(I)-G22(I)*HX2(I)-G23(I)*HX3(I)+HX4(I)
-        F13(I)=-G31(I)*HX1(I)-G32(I)*HX2(I)-G33(I)*HX3(I)-HX4(I)
-        F14(I)=-G41(I)*HX1(I)-G42(I)*HX2(I)-G43(I)*HX3(I)+HX4(I)
-        F15(I)=-G51(I)*HX1(I)-G52(I)*HX2(I)-G53(I)*HX3(I)+HX4(I)
-        F16(I)=-G61(I)*HX1(I)-G62(I)*HX2(I)-G63(I)*HX3(I)-HX4(I)
-        F17(I)=-G71(I)*HX1(I)-G72(I)*HX2(I)-G73(I)*HX3(I)+HX4(I)
-        F18(I)=-G81(I)*HX1(I)-G82(I)*HX2(I)-G83(I)*HX3(I)-HX4(I)
-C
-        F21(I)=-G11(I)*HY1(I)-G12(I)*HY2(I)-G13(I)*HY3(I)-HY4(I)
-        F22(I)=-G21(I)*HY1(I)-G22(I)*HY2(I)-G23(I)*HY3(I)+HY4(I)
-        F23(I)=-G31(I)*HY1(I)-G32(I)*HY2(I)-G33(I)*HY3(I)-HY4(I)
-        F24(I)=-G41(I)*HY1(I)-G42(I)*HY2(I)-G43(I)*HY3(I)+HY4(I)
-        F25(I)=-G51(I)*HY1(I)-G52(I)*HY2(I)-G53(I)*HY3(I)+HY4(I)
-        F26(I)=-G61(I)*HY1(I)-G62(I)*HY2(I)-G63(I)*HY3(I)-HY4(I)
-        F27(I)=-G71(I)*HY1(I)-G72(I)*HY2(I)-G73(I)*HY3(I)+HY4(I)
-        F28(I)=-G81(I)*HY1(I)-G82(I)*HY2(I)-G83(I)*HY3(I)-HY4(I)
-C
-        F31(I)=-G11(I)*HZ1(I)-G12(I)*HZ2(I)-G13(I)*HZ3(I)-HZ4(I)
-        F32(I)=-G21(I)*HZ1(I)-G22(I)*HZ2(I)-G23(I)*HZ3(I)+HZ4(I)
-        F33(I)=-G31(I)*HZ1(I)-G32(I)*HZ2(I)-G33(I)*HZ3(I)-HZ4(I)
-        F34(I)=-G41(I)*HZ1(I)-G42(I)*HZ2(I)-G43(I)*HZ3(I)+HZ4(I)
-        F35(I)=-G51(I)*HZ1(I)-G52(I)*HZ2(I)-G53(I)*HZ3(I)+HZ4(I)
-        F36(I)=-G61(I)*HZ1(I)-G62(I)*HZ2(I)-G63(I)*HZ3(I)-HZ4(I)
-        F37(I)=-G71(I)*HZ1(I)-G72(I)*HZ2(I)-G73(I)*HZ3(I)+HZ4(I)
-        F38(I)=-G81(I)*HZ1(I)-G82(I)*HZ2(I)-G83(I)*HZ3(I)-HZ4(I)
-       ENDDO
-c 
-      DO I=1,NEL
-        EINT(I)= EINT(I)+DT1*(
-     &   HZ1(I)*HGZ1(I) + HZ2(I)*HGZ2(I) + 
-     &   HZ3(I)*HGZ3(I) + HZ4(I)*HGZ4(I) + 
-     &   HX1(I)*HGX1(I) + HX2(I)*HGX2(I) + 
-     &   HX3(I)*HGX3(I) + HX4(I)*HGX4(I) + 
-     &   HY1(I)*HGY1(I) + HY2(I)*HGY2(I) + 
-     &   HY3(I)*HGY3(I) + HY4(I)*HGY4(I) )/VOL0(I) 
-      ENDDO
-C      
+         CALL SHOUR_CTL(
+     .       PM,      RHO,     OFF,     VX1,
+     .       VX2,     VX3,     VX4,     VX5,
+     .       VX6,     VX7,     VX8,     VY1,
+     .       VY2,     VY3,     VY4,     VY5,
+     .       VY6,     VY7,     VY8,     VZ1,
+     .       VZ2,     VZ3,     VZ4,     VZ5,
+     .       VZ6,     VZ7,     VZ8,     F11,
+     .       F21,     F31,     F12,     F22,
+     .       F32,     F13,     F23,     F33,
+     .       F14,     F24,     F34,     F15,
+     .       F25,     F35,     F16,     F26,
+     .       F36,     F17,     F27,     F37,
+     .       F18,     F28,     F38,     PX1H1,
+     .       PX1H2,   PX1H3,   PX2H1,   PX2H2,
+     .       PX2H3,   PX3H1,   PX3H2,   PX3H3,
+     .       PX4H1,   PX4H2,   PX4H3,    VOL,
+     .       FHOUR,   MTN,      DT1 ,    MAT,     
+     .      CXX,     EINT,   NPROPM, NUMMAT,
+     .       VOL0,   DN  ,     STI ,   NEL )
+!
       IF(((ANIM_N(IAD_GPS+400+1) == 1) .OR. (ANIM_N(IAD_GPS+400+2) == 1) .OR. 
      .   (ANIM_N(IAD_GPS+400+3) == 1) .OR. (ANIM_N(IAD_GPS+400+4) == 1) .OR. 
      .   (ANIM_N(IAD_GPS+400+5) == 1) .OR. (ANIM_N(IAD_GPS+400+6) == 1)) )THEN
